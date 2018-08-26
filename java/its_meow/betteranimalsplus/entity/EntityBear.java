@@ -6,6 +6,7 @@ import javax.annotation.Nullable;
 
 import com.google.common.base.Predicate;
 
+import its_meow.betteranimalsplus.registry.LootTableRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityCreature;
@@ -28,6 +29,7 @@ import net.minecraft.init.SoundEvents;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.datafix.DataFixer;
 import net.minecraft.util.math.BlockPos;
@@ -67,6 +69,14 @@ public class EntityBear extends EntityMob {
 		this.getEntityAttribute(SharedMonsterAttributes.ATTACK_SPEED).setBaseValue(0.5D);
 	}
 
+	@Override
+	@Nullable
+	protected ResourceLocation getLootTable()
+	{
+		return LootTableRegistry.bear;
+	}
+
+	
 	/**
 	 * Checks if the entity's current position is a valid location to spawn this entity.
 	 */

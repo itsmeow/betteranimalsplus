@@ -3,6 +3,7 @@ package its_meow.betteranimalsplus.entity.model;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
+import net.minecraft.util.math.MathHelper;
 
 /**
  * bear - cybercat5555
@@ -371,13 +372,48 @@ public class ModelBear extends ModelBase {
         this.chest.addChild(this.bodyFur);
         this.neck.addChild(this.head);
     }
-
+    
+    protected double distanceMovedTotal = 0.0D;
+    protected static final double CYCLES_PER_BLOCK = 3.0D;
+    
+    protected void updateDistanceMovedTotal(Entity parEntity) 
+    {
+        distanceMovedTotal += parEntity.getDistance(parEntity.prevPosX, parEntity.prevPosY, parEntity.prevPosZ);
+    }
+        
+    protected double getDistanceMovedTotal(Entity parEntity) 
+    {
+        return (distanceMovedTotal);
+    }
+    
     @Override
     public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) { 
         this.hind.render(f5);
     }
+    
+    
 
-    /**
+    @Override
+	public void setRotationAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw,
+			float headPitch, float scaleFactor, Entity entityIn) {
+		float f = limbSwing;
+		float f1 = limbSwingAmount;
+    	//this.rLeg01.rotateAngleX = limbSwingAmount * (limbSwing / 10 - limbSwing / 8);
+    	//this.lLeg01.rotateAngleX = -limbSwingAmount * (limbSwing / 10 - limbSwing / 8);
+    	//this.rArm01.rotateAngleX = limbSwingAmount * limbSwing / 10;
+    	//this.lArm01.rotateAngleX = -limbSwingAmount * limbSwing / 10;
+    	
+    	this.lArm01.rotateAngleX = MathHelper.cos(f * 0.6662F) * 1.4F * f1;
+        this.rArm01.rotateAngleX = MathHelper.cos(f * 0.6662F + (float)Math.PI) * 1.4F * f1;
+        this.rLeg01.rotateAngleX = MathHelper.cos(f * 0.6662F) * 1.4F * f1;
+        this.lLeg01.rotateAngleX = MathHelper.cos(f * 0.6662F + (float)Math.PI) * 1.4F * f1;
+
+    	
+    	
+		super.setRotationAngles(limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor, entityIn);
+	}
+
+	/**
      * This is a helper function from Tabula to set the rotation of model parts
      */
     public void setRotateAngle(ModelRenderer modelRenderer, float x, float y, float z) {
