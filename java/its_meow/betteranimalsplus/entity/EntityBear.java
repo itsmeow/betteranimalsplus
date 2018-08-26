@@ -43,9 +43,8 @@ public class EntityBear extends EntityMob {
 	{
 		super.initEntityAI();
 		this.tasks.addTask(0, new EntityAISwimming(this));
-		this.targetTasks.addTask(1, new EntityAIFindEntityNearestPlayer(this));
-		this.targetTasks.addTask(2, new EntityAINearestAttackableTarget<EntityPlayer>(this, EntityPlayer.class, true));
-		this.targetTasks.addTask(3, new EntityAIAttackMelee(this, 0.65D, true));
+		this.tasks.addTask(1, new EntityAIAttackMelee(this, 0.65D, true));
+		this.targetTasks.addTask(1, new EntityAINearestAttackableTarget(this, EntityPlayer.class, false));
 		this.tasks.addTask(5, new EntityAIWander(this, 1.0D));
 		this.tasks.addTask(6, new EntityAIWatchClosest(this, EntityPlayer.class, 6.0F));
 		this.tasks.addTask(7, new EntityAILookIdle(this));
@@ -58,7 +57,8 @@ public class EntityBear extends EntityMob {
 		this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(20.0D);
 		this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.25D);
 		this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(6.0D);
-		//this.getEntityAttribute(SharedMonsterAttributes.ATTACK_SPEED).setBaseValue(0.5D);
+		this.getAttributeMap().registerAttribute(SharedMonsterAttributes.ATTACK_SPEED);
+		this.getEntityAttribute(SharedMonsterAttributes.ATTACK_SPEED).setBaseValue(0.5D);
 	}
 
 	/**
@@ -122,11 +122,6 @@ public class EntityBear extends EntityMob {
 	 protected void playStepSound(BlockPos pos, Block blockIn)
 	 {
 		 this.playSound(SoundEvents.ENTITY_POLAR_BEAR_STEP, 0.15F, 1.0F);
-	 }
-
-	 public boolean processInteract(EntityPlayer player, EnumHand hand)
-	 {
-		 return false;
 	 }
 
 	 public boolean isPreventingPlayerRest(EntityPlayer playerIn)
