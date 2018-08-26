@@ -10,7 +10,7 @@
 			"entries": [
 				{
 					"type": "item",
-					"name": "minecraft:salmon",
+					"name": "minecraft:fish",
 					"weight": 1,
 					"functions": [
 						{
@@ -19,6 +19,10 @@
 								"min": 0,
 								"max": 2
 							}
+						},
+						{
+						   "function": "minecraft:set_data",
+						   "data": 1
 						}
 					]
 				}
