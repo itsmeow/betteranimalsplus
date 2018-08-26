@@ -6,3 +6,8 @@
 
 #Blocks
 #tile.block.name=
+
+#Entities
+entity.Brown Bear.name=Brown Bear
+entity.Black Bear.name=Black Bear
+entity.Kermode Bear.name=Kermode Bear
