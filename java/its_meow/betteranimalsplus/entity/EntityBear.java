@@ -34,9 +34,10 @@ import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
 
 public class EntityBear extends EntityMob {
-	
+
+	private int warningSoundTicks;
 	private World world = null;
-	
+
 	public EntityBear(World worldIn) {
 		super(worldIn);
 		this.world = worldIn;
@@ -46,12 +47,12 @@ public class EntityBear extends EntityMob {
 	{
 		super.initEntityAI();
 		this.tasks.addTask(0, new EntityAISwimming(this));
-        this.tasks.addTask(1, new EntityBear.AIMeleeAttack());
-        this.tasks.addTask(5, new EntityAIWander(this, 1.0D));
-        this.tasks.addTask(6, new EntityAIWatchClosest(this, EntityPlayer.class, 6.0F));
-        this.tasks.addTask(7, new EntityAILookIdle(this));
-        this.targetTasks.addTask(1, new EntityBear.AIHurtByTarget());
-        this.targetTasks.addTask(2, new EntityBear.AIAttackPlayer());
+		this.tasks.addTask(1, new EntityBear.AIMeleeAttack());
+		this.tasks.addTask(5, new EntityAIWander(this, 1.0D));
+		this.tasks.addTask(6, new EntityAIWatchClosest(this, EntityPlayer.class, 6.0F));
+		this.tasks.addTask(7, new EntityAILookIdle(this));
+		this.targetTasks.addTask(1, new EntityBear.AIHurtByTarget());
+		this.targetTasks.addTask(2, new EntityBear.AIAttackPlayer());
 	}
 
 	protected void applyEntityAttributes()
@@ -68,146 +69,186 @@ public class EntityBear extends EntityMob {
 	/**
 	 * Checks if the entity's current position is a valid location to spawn this entity.
 	 */
-	 public boolean getCanSpawnHere()
+	public boolean getCanSpawnHere()
 	{
-		 return this.world.getDifficulty() != EnumDifficulty.PEACEFUL;
+		return this.world.getDifficulty() != EnumDifficulty.PEACEFUL;
 	}
 
-	 public static void registerFixesBear(DataFixer fixer)
-	 {
-		 EntityLiving.registerFixesMob(fixer, EntityBear.class);
-	 }
+	public static void registerFixesBear(DataFixer fixer)
+	{
+		EntityLiving.registerFixesMob(fixer, EntityBear.class);
+	}
 
-	 protected void playWarningSound()
-	 {
-		 this.playSound(SoundEvents.ENTITY_POLAR_BEAR_WARNING, 1.0F, 1.0F);
-	 }
-
-	 protected SoundEvent getAmbientSound()
-	 {
-		 return SoundEvents.ENTITY_POLAR_BEAR_AMBIENT;
-	 }
-
-	 protected SoundEvent getHurtSound(DamageSource damageSourceIn)
-	 {
-		 return SoundEvents.ENTITY_POLAR_BEAR_HURT;
-	 }
-
-	 protected SoundEvent getDeathSound()
-	 {
-		 return SoundEvents.ENTITY_POLAR_BEAR_DEATH;
-	 }
-
-	 protected void playStepSound(BlockPos pos, Block blockIn)
-	 {
-		 this.playSound(SoundEvents.ENTITY_POLAR_BEAR_STEP, 0.15F, 1.0F);
-	 }
-
-	 public boolean isPreventingPlayerRest(EntityPlayer playerIn)
-	 {
-		 return this.getAttackingEntity() == playerIn;
-	 }
-	 
-	 public class AIAttackPlayer extends EntityAINearestAttackableTarget<EntityPlayer>
+	/**
+	 * Called when the entity is attacked.
+	 */
+	public boolean attackEntityFrom(DamageSource source, float amount)
+	{
+		if (this.isEntityInvulnerable(source))
 		{
-			public AIAttackPlayer()
+			return false;
+		}
+		else
+		{
+			Entity entity = source.getTrueSource();
+
+			if (entity instanceof EntityPlayer)
 			{
-				super(EntityBear.this, EntityPlayer.class, 20, true, true, (Predicate)null);
+				this.setAttackTarget((EntityPlayer) entity);
+				this.playWarningSound();
 			}
 
-			/**
-			 * Returns whether the EntityAIBase should begin execution.
-			 */
-			public boolean shouldExecute()
-			{
+			return super.attackEntityFrom(source, amount);
+		}
+	}
 
-				if (super.shouldExecute())
-				{
-					return true;
-				}
+	public void onUpdate()
+	{
+		super.onUpdate();
 
-				EntityBear.this.setAttackTarget((EntityLivingBase)null);
-				return false;
 
-			}
+		if (this.warningSoundTicks > 0)
+		{
+			--this.warningSoundTicks;
+		}
+	}
 
-			protected double getTargetDistance()
-			{
-				return super.getTargetDistance() * 0.5D;
-			}
+	protected void playWarningSound()
+	{
+		if (this.warningSoundTicks <= 0)
+		{
+			this.playSound(SoundEvents.ENTITY_POLAR_BEAR_WARNING, 1.0F, 1.0F);
+			this.warningSoundTicks = 40;
+		}
+	}
+
+
+
+	protected SoundEvent getAmbientSound()
+	{
+		return SoundEvents.ENTITY_POLAR_BEAR_AMBIENT;
+	}
+
+	protected SoundEvent getHurtSound(DamageSource damageSourceIn)
+	{
+		return SoundEvents.ENTITY_POLAR_BEAR_HURT;
+	}
+
+	protected SoundEvent getDeathSound()
+	{
+		return SoundEvents.ENTITY_POLAR_BEAR_DEATH;
+	}
+
+	protected void playStepSound(BlockPos pos, Block blockIn)
+	{
+		this.playSound(SoundEvents.ENTITY_POLAR_BEAR_STEP, 0.15F, 1.0F);
+	}
+
+	public boolean isPreventingPlayerRest(EntityPlayer playerIn)
+	{
+		return this.getAttackingEntity() == playerIn;
+	}
+
+	public class AIAttackPlayer extends EntityAINearestAttackableTarget<EntityPlayer>
+	{
+		public AIAttackPlayer()
+		{
+			super(EntityBear.this, EntityPlayer.class, 30, true, true, (Predicate)null);
 		}
 
-		public class AIHurtByTarget extends EntityAIHurtByTarget
+		/**
+		 * Returns whether the EntityAIBase should begin execution.
+		 */
+		public boolean shouldExecute()
 		{
-			public AIHurtByTarget()
+
+			if (super.shouldExecute())
 			{
-				super(EntityBear.this, false);
+				return true;
 			}
 
-			/**
-			 * Execute a one shot task or start executing a continuous task
-			 */
-			public void startExecuting()
-			{
-				super.startExecuting();
+			EntityBear.this.setAttackTarget((EntityLivingBase)null);
+			return false;
 
-			}
-
-			protected void setEntityAttackTarget(EntityCreature creatureIn, EntityLivingBase entityLivingBaseIn)
-			{
-				if (creatureIn instanceof EntityBear)
-				{
-					super.setEntityAttackTarget(creatureIn, entityLivingBaseIn);
-				}
-			}
 		}
 
-		public class AIMeleeAttack extends EntityAIAttackMelee
+		protected double getTargetDistance()
 		{
-			public AIMeleeAttack()
+			return super.getTargetDistance() * 0.5D;
+		}
+	}
+
+	public class AIHurtByTarget extends EntityAIHurtByTarget
+	{
+		public AIHurtByTarget()
+		{
+			super(EntityBear.this, false);
+		}
+
+		/**
+		 * Execute a one shot task or start executing a continuous task
+		 */
+		public void startExecuting()
+		{
+			super.startExecuting();
+
+		}
+
+		protected void setEntityAttackTarget(EntityCreature creatureIn, EntityLivingBase entityLivingBaseIn)
+		{
+			if (creatureIn instanceof EntityBear)
 			{
-				super(EntityBear.this, 1.25D, true);
+				super.setEntityAttackTarget(creatureIn, entityLivingBaseIn);
 			}
+		}
+	}
 
-			protected void checkAndPerformAttack(EntityLivingBase p_190102_1_, double p_190102_2_)
+	public class AIMeleeAttack extends EntityAIAttackMelee
+	{
+		public AIMeleeAttack()
+		{
+			super(EntityBear.this, 1.25D, true);
+		}
+
+		protected void checkAndPerformAttack(EntityLivingBase p_190102_1_, double p_190102_2_)
+		{
+			double d0 = this.getAttackReachSqr(p_190102_1_);
+
+			if (p_190102_2_ <= d0 && this.attackTick <= 0)
 			{
-				double d0 = this.getAttackReachSqr(p_190102_1_);
-
-				if (p_190102_2_ <= d0 && this.attackTick <= 0)
+				this.attackTick = 20;
+				this.attacker.attackEntityAsMob(p_190102_1_);
+			}
+			else if (p_190102_2_ <= d0 * 2.0D)
+			{
+				if (this.attackTick <= 0)
 				{
 					this.attackTick = 20;
-					this.attacker.attackEntityAsMob(p_190102_1_);
 				}
-				else if (p_190102_2_ <= d0 * 2.0D)
-				{
-					if (this.attackTick <= 0)
-					{
-						this.attackTick = 20;
-					}
 
-					if (this.attackTick <= 10)
-					{
-						EntityBear.this.playWarningSound();
-					}
-				}
-				else
+				if (this.attackTick <= 10)
 				{
-					this.attackTick = 20;
+					EntityBear.this.playWarningSound();
 				}
 			}
-
-			/**
-			 * Reset the task's internal state. Called when this task is interrupted by another one
-			 */
-			public void resetTask()
+			else
 			{
-				super.resetTask();
-			}
-
-			protected double getAttackReachSqr(EntityLivingBase attackTarget)
-			{
-				return (double)(4.0F + attackTarget.width);
+				this.attackTick = 20;
 			}
 		}
+
+		/**
+		 * Reset the task's internal state. Called when this task is interrupted by another one
+		 */
+		public void resetTask()
+		{
+			super.resetTask();
+		}
+
+		protected double getAttackReachSqr(EntityLivingBase attackTarget)
+		{
+			return (double)(4.0F + attackTarget.width);
+		}
+	}
 
 }
