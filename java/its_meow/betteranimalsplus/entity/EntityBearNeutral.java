@@ -206,7 +206,7 @@ public class EntityBearNeutral extends EntityBear {
 
 		protected void setEntityAttackTarget(EntityCreature creatureIn, EntityLivingBase entityLivingBaseIn)
 		{
-			if (creatureIn instanceof EntityBear)
+			if (creatureIn instanceof EntityBearNeutral)
 			{
 				super.setEntityAttackTarget(creatureIn, entityLivingBaseIn);
 			}

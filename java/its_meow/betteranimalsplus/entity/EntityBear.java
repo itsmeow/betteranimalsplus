@@ -14,6 +14,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIAttackMelee;
 import net.minecraft.entity.ai.EntityAIFindEntityNearestPlayer;
+import net.minecraft.entity.ai.EntityAIFollowParent;
 import net.minecraft.entity.ai.EntityAIHurtByTarget;
 import net.minecraft.entity.ai.EntityAILookIdle;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
@@ -43,16 +44,16 @@ public class EntityBear extends EntityMob {
 		this.world = worldIn;
 	}
 
-	protected void applyEntityAI()
+	protected void initEntityAI()
 	{
 		super.initEntityAI();
 		this.tasks.addTask(0, new EntityAISwimming(this));
-		this.tasks.addTask(1, new EntityBear.AIMeleeAttack());
-		this.tasks.addTask(5, new EntityAIWander(this, 1.0D));
-		this.tasks.addTask(6, new EntityAIWatchClosest(this, EntityPlayer.class, 6.0F));
-		this.tasks.addTask(7, new EntityAILookIdle(this));
-		this.targetTasks.addTask(1, new EntityBear.AIHurtByTarget());
-		this.targetTasks.addTask(2, new EntityBear.AIAttackPlayer());
+        this.tasks.addTask(1, new EntityBear.AIMeleeAttack());
+        this.tasks.addTask(5, new EntityAIWander(this, 1.0D));
+        this.tasks.addTask(6, new EntityAIWatchClosest(this, EntityPlayer.class, 6.0F));
+        this.tasks.addTask(7, new EntityAILookIdle(this));
+        this.targetTasks.addTask(1, new EntityBear.AIHurtByTarget());
+        this.targetTasks.addTask(2, new EntityBear.AIAttackPlayer());
 	}
 
 	protected void applyEntityAttributes()
@@ -82,6 +83,7 @@ public class EntityBear extends EntityMob {
 	/**
 	 * Called when the entity is attacked.
 	 */
+	/*
 	public boolean attackEntityFrom(DamageSource source, float amount)
 	{
 		if (this.isEntityInvulnerable(source))
@@ -101,6 +103,7 @@ public class EntityBear extends EntityMob {
 			return super.attackEntityFrom(source, amount);
 		}
 	}
+	*/
 
 	public void onUpdate()
 	{
@@ -144,6 +147,11 @@ public class EntityBear extends EntityMob {
 		this.playSound(SoundEvents.ENTITY_POLAR_BEAR_STEP, 0.15F, 1.0F);
 	}
 
+	public boolean processInteract(EntityPlayer player, EnumHand hand)
+	{
+		return false;
+	}
+	
 	public boolean isPreventingPlayerRest(EntityPlayer playerIn)
 	{
 		return this.getAttackingEntity() == playerIn;
@@ -153,7 +161,7 @@ public class EntityBear extends EntityMob {
 	{
 		public AIAttackPlayer()
 		{
-			super(EntityBear.this, EntityPlayer.class, 30, true, true, (Predicate)null);
+			super(EntityBear.this, EntityPlayer.class, 90, true, true, (Predicate)null);
 		}
 
 		/**
