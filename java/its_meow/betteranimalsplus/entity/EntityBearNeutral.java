@@ -13,6 +13,7 @@ import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIFollowParent;
 import net.minecraft.entity.ai.EntityAIHurtByTarget;
 import net.minecraft.entity.ai.EntityAILookIdle;
+import net.minecraft.entity.ai.EntityAIMoveTowardsTarget;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
 import net.minecraft.entity.ai.EntityAISwimming;
 import net.minecraft.entity.ai.EntityAIWander;
@@ -40,9 +41,6 @@ import net.minecraft.world.storage.loot.LootTableList;
 
 public class EntityBearNeutral extends EntityBear {
 
-	private int angerLevel = 0;
-	private UUID targetUUID;
-
 	private World world = null;
 
 	public EntityBearNeutral(World worldIn) {
@@ -50,23 +48,10 @@ public class EntityBearNeutral extends EntityBear {
 		this.world = worldIn;
 	}
 
-
-	public void setTarget(@Nullable EntityLivingBase livingBase)
-	{
-		super.setRevengeTarget(livingBase);
-
-		if (livingBase != null)
-		{
-			this.targetUUID = livingBase.getUniqueID();
-		}
-	}
-
 	protected void applyEntityAI()
 	{
-		super.initEntityAI();
 		this.tasks.addTask(0, new EntityAISwimming(this));
-		this.targetTasks.addTask(1, new EntityBearNeutral.AIHurtByAggressor(this));
-		this.targetTasks.addTask(2, new EntityBearNeutral.AITargetAggressor(this));
+		this.targetTasks.addTask(1, new EntityAIMoveTowardsTarget(this, 0.65D, 10));
 		this.tasks.addTask(5, new EntityAIWander(this, 1.0D));
 		this.tasks.addTask(6, new EntityAIWatchClosest(this, EntityPlayer.class, 6.0F));
 		this.tasks.addTask(7, new EntityAILookIdle(this));
@@ -75,20 +60,6 @@ public class EntityBearNeutral extends EntityBear {
 	protected void applyEntityAttributes()
 	{
 		super.applyEntityAttributes();
-	}
-
-	protected void updateAITasks()
-	{
-
-		if (this.angerLevel > 0 && this.targetUUID != null && this.getRevengeTarget() == null)
-		{
-			EntityPlayer entityplayer = this.world.getPlayerEntityByUUID(this.targetUUID);
-			this.setTarget(entityplayer);
-			this.attackingPlayer = entityplayer;
-			this.recentlyHit = this.getRevengeTimer();
-		}
-
-		super.updateAITasks();
 	}
 
 	/**
@@ -104,46 +75,6 @@ public class EntityBearNeutral extends EntityBear {
 		 EntityLiving.registerFixesMob(fixer, EntityBearNeutral.class);
 	 }
 
-	 /**
-	  * (abstract) Protected helper method to write subclass entity data to NBT.
-	  */
-	 public void writeEntityToNBT(NBTTagCompound compound)
-	 {
-		 super.writeEntityToNBT(compound);
-		 compound.setShort("Anger", (short)this.angerLevel);
-
-		 if (this.targetUUID != null)
-		 {
-			 compound.setString("HurtBy", this.targetUUID.toString());
-		 }
-		 else
-		 {
-			 compound.setString("HurtBy", "");
-		 }
-	 }
-
-	 /**
-	  * (abstract) Protected helper method to read subclass entity data from NBT.
-	  */
-	 public void readEntityFromNBT(NBTTagCompound compound)
-	 {
-		 super.readEntityFromNBT(compound);
-		 this.angerLevel = compound.getShort("Anger");
-		 String s = compound.getString("HurtBy");
-
-		 if (!s.isEmpty())
-		 {
-			 this.targetUUID = UUID.fromString(s);
-			 EntityPlayer entityplayer = this.world.getPlayerEntityByUUID(this.targetUUID);
-			 this.setTarget(entityplayer);
-
-			 if (entityplayer != null)
-			 {
-				 this.attackingPlayer = entityplayer;
-				 this.recentlyHit = this.getRevengeTimer();
-			 }
-		 }
-	 }
 
 	 /**
 	  * Called when the entity is attacked.
@@ -160,7 +91,8 @@ public class EntityBearNeutral extends EntityBear {
 
 			 if (entity instanceof EntityPlayer)
 			 {
-				 this.becomeAngryAt(entity);
+				 this.attackEntityAsMob(entity);
+				 this.playWarningSound();
 			 }
 
 			 return super.attackEntityFrom(source, amount);
@@ -172,24 +104,6 @@ public class EntityBearNeutral extends EntityBear {
 		 this.playSound(SoundEvents.ENTITY_POLAR_BEAR_WARNING, 1.0F, 1.0F);
 	 }
 
-	 /**
-	  * Causes this PigZombie to become angry at the supplied Entity (which will be a player).
-	  */
-	 private void becomeAngryAt(Entity entity)
-	 {
-		 this.angerLevel = 400 + this.rand.nextInt(400);
-		 this.playWarningSound();
-
-		 if (entity instanceof EntityLivingBase)
-		 {
-			 this.setRevengeTarget((EntityLivingBase)entity);
-		 }
-	 }
-
-	 public boolean isAngry()
-	 {
-		 return this.angerLevel > 0;
-	 }
 
 	 protected SoundEvent getAmbientSound()
 	 {
@@ -218,40 +132,6 @@ public class EntityBearNeutral extends EntityBear {
 
 	 public boolean isPreventingPlayerRest(EntityPlayer playerIn)
 	 {
-		 return this.isAngry();
-	 }
-
-	 public static class AIHurtByAggressor extends EntityAIHurtByTarget
-	 {
-		 public AIHurtByAggressor(EntityBear entityBear)
-		 {
-			 super(entityBear, true);
-		 }
-
-		 protected void setEntityAttackTarget(EntityCreature creatureIn, EntityLivingBase entityLivingBaseIn)
-		 {
-			 super.setEntityAttackTarget(creatureIn, entityLivingBaseIn);
-
-			 if (creatureIn instanceof EntityBear)
-			 {
-				 ((EntityBearNeutral)creatureIn).becomeAngryAt(entityLivingBaseIn);
-			 }
-		 }
-	 }
-
-	 public static class AITargetAggressor extends EntityAINearestAttackableTarget<EntityPlayer>
-	 {
-		 public AITargetAggressor(EntityBear entityBear)
-		 {
-			 super(entityBear, EntityPlayer.class, true);
-		 }
-
-		 /**
-		  * Returns whether the EntityAIBase should begin execution.
-		  */
-		 public boolean shouldExecute()
-		 {
-			 return ((EntityBear)this.taskOwner).isAngry() && super.shouldExecute();
-		 }
+		 return this.getAttackTarget() == playerIn;
 	 }
 }
