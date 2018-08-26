@@ -1,0 +1,5 @@
+All bears re-use the BA bear model
+
+Black bear and kermode bear are the same mob, with the kermode bear being a variant like vanilla rabbits/horses/parrots. They are neutral
+
+Brown bear is neutral-agressive and attacks if hit first, or if you get too close
