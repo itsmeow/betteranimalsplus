@@ -95,7 +95,7 @@ public class EntityBearNeutral extends EntityBear {
 
 			 if (entity instanceof EntityPlayer)
 			 {
-				 this.attackEntityAsMob(entity);
+				 this.setAttackTarget((EntityPlayer) entity);
 				 this.playWarningSound();
 			 }
 

@@ -44,6 +44,7 @@ public class EntityBear extends EntityMob {
 		super.initEntityAI();
 		this.tasks.addTask(0, new EntityAISwimming(this));
 		this.targetTasks.addTask(1, new EntityAIFindEntityNearestPlayer(this));
+		this.targetTasks.addTask(2, new EntityAINearestAttackableTarget<EntityPlayer>(this, EntityPlayer.class, true));
 		this.targetTasks.addTask(3, new EntityAIAttackMelee(this, 0.65D, true));
 		this.tasks.addTask(5, new EntityAIWander(this, 1.0D));
 		this.tasks.addTask(6, new EntityAIWatchClosest(this, EntityPlayer.class, 6.0F));
@@ -90,7 +91,7 @@ public class EntityBear extends EntityMob {
 
 			 if (entity instanceof EntityPlayer)
 			 {
-				 this.attackEntityAsMob(entity);
+				 this.setAttackTarget((EntityPlayer) entity);
 				 this.playWarningSound();
 			 }
 
