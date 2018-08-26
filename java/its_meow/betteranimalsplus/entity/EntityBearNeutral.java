@@ -64,7 +64,7 @@ public class EntityBearNeutral extends EntityBear {
         this.tasks.addTask(6, new EntityAIWatchClosest(this, EntityPlayer.class, 6.0F));
         this.tasks.addTask(7, new EntityAILookIdle(this));
         this.targetTasks.addTask(1, new EntityBearNeutral.AIHurtByTarget());
-        this.targetTasks.addTask(2, new EntityBearNeutral.AIAttackPlayer());
+        //this.targetTasks.addTask(2, new EntityBearNeutral.AIAttackPlayer());
     }
 
 	protected void applyEntityAttributes()
@@ -159,7 +159,7 @@ public class EntityBearNeutral extends EntityBear {
 		return this.getAttackTarget() == playerIn;
 	}
 
-	class AIAttackPlayer extends EntityAINearestAttackableTarget<EntityPlayer>
+	public class AIAttackPlayer extends EntityAINearestAttackableTarget<EntityPlayer>
 	{
 		public AIAttackPlayer()
 		{
@@ -206,7 +206,7 @@ public class EntityBearNeutral extends EntityBear {
 
 		protected void setEntityAttackTarget(EntityCreature creatureIn, EntityLivingBase entityLivingBaseIn)
 		{
-			if (creatureIn instanceof EntityPolarBear && !creatureIn.isChild())
+			if (creatureIn instanceof EntityBear)
 			{
 				super.setEntityAttackTarget(creatureIn, entityLivingBaseIn);
 			}

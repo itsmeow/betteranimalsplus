@@ -4,6 +4,8 @@ import java.util.UUID;
 
 import javax.annotation.Nullable;
 
+import com.google.common.base.Predicate;
+
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityCreature;
@@ -19,6 +21,7 @@ import net.minecraft.entity.ai.EntityAISwimming;
 import net.minecraft.entity.ai.EntityAIWander;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.monster.EntityMob;
+import net.minecraft.entity.monster.EntityPolarBear;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.nbt.NBTTagCompound;
@@ -43,11 +46,12 @@ public class EntityBear extends EntityMob {
 	{
 		super.initEntityAI();
 		this.tasks.addTask(0, new EntityAISwimming(this));
-		this.tasks.addTask(1, new EntityAIAttackMelee(this, 0.65D, true));
-		this.targetTasks.addTask(1, new EntityAINearestAttackableTarget(this, EntityPlayer.class, false));
-		this.tasks.addTask(5, new EntityAIWander(this, 1.0D));
-		this.tasks.addTask(6, new EntityAIWatchClosest(this, EntityPlayer.class, 6.0F));
-		this.tasks.addTask(7, new EntityAILookIdle(this));
+        this.tasks.addTask(1, new EntityBear.AIMeleeAttack());
+        this.tasks.addTask(5, new EntityAIWander(this, 1.0D));
+        this.tasks.addTask(6, new EntityAIWatchClosest(this, EntityPlayer.class, 6.0F));
+        this.tasks.addTask(7, new EntityAILookIdle(this));
+        this.targetTasks.addTask(1, new EntityBear.AIHurtByTarget());
+        this.targetTasks.addTask(2, new EntityBear.AIAttackPlayer());
 	}
 
 	protected void applyEntityAttributes()
@@ -72,31 +76,6 @@ public class EntityBear extends EntityMob {
 	 public static void registerFixesBear(DataFixer fixer)
 	 {
 		 EntityLiving.registerFixesMob(fixer, EntityBear.class);
-	 }
-
-
-
-	 /**
-	  * Called when the entity is attacked.
-	  */
-	 public boolean attackEntityFrom(DamageSource source, float amount)
-	 {
-		 if (this.isEntityInvulnerable(source))
-		 {
-			 return false;
-		 }
-		 else
-		 {
-			 Entity entity = source.getTrueSource();
-
-			 if (entity instanceof EntityPlayer)
-			 {
-				 this.setAttackTarget((EntityPlayer) entity);
-				 this.playWarningSound();
-			 }
-
-			 return super.attackEntityFrom(source, amount);
-		 }
 	 }
 
 	 protected void playWarningSound()
@@ -128,5 +107,107 @@ public class EntityBear extends EntityMob {
 	 {
 		 return this.getAttackingEntity() == playerIn;
 	 }
+	 
+	 public class AIAttackPlayer extends EntityAINearestAttackableTarget<EntityPlayer>
+		{
+			public AIAttackPlayer()
+			{
+				super(EntityBear.this, EntityPlayer.class, 20, true, true, (Predicate)null);
+			}
+
+			/**
+			 * Returns whether the EntityAIBase should begin execution.
+			 */
+			public boolean shouldExecute()
+			{
+
+				if (super.shouldExecute())
+				{
+					return true;
+				}
+
+				EntityBear.this.setAttackTarget((EntityLivingBase)null);
+				return false;
+
+			}
+
+			protected double getTargetDistance()
+			{
+				return super.getTargetDistance() * 0.5D;
+			}
+		}
+
+		public class AIHurtByTarget extends EntityAIHurtByTarget
+		{
+			public AIHurtByTarget()
+			{
+				super(EntityBear.this, false);
+			}
+
+			/**
+			 * Execute a one shot task or start executing a continuous task
+			 */
+			public void startExecuting()
+			{
+				super.startExecuting();
+
+			}
+
+			protected void setEntityAttackTarget(EntityCreature creatureIn, EntityLivingBase entityLivingBaseIn)
+			{
+				if (creatureIn instanceof EntityBear)
+				{
+					super.setEntityAttackTarget(creatureIn, entityLivingBaseIn);
+				}
+			}
+		}
+
+		public class AIMeleeAttack extends EntityAIAttackMelee
+		{
+			public AIMeleeAttack()
+			{
+				super(EntityBear.this, 1.25D, true);
+			}
+
+			protected void checkAndPerformAttack(EntityLivingBase p_190102_1_, double p_190102_2_)
+			{
+				double d0 = this.getAttackReachSqr(p_190102_1_);
+
+				if (p_190102_2_ <= d0 && this.attackTick <= 0)
+				{
+					this.attackTick = 20;
+					this.attacker.attackEntityAsMob(p_190102_1_);
+				}
+				else if (p_190102_2_ <= d0 * 2.0D)
+				{
+					if (this.attackTick <= 0)
+					{
+						this.attackTick = 20;
+					}
+
+					if (this.attackTick <= 10)
+					{
+						EntityBear.this.playWarningSound();
+					}
+				}
+				else
+				{
+					this.attackTick = 20;
+				}
+			}
+
+			/**
+			 * Reset the task's internal state. Called when this task is interrupted by another one
+			 */
+			public void resetTask()
+			{
+				super.resetTask();
+			}
+
+			protected double getAttackReachSqr(EntityLivingBase attackTarget)
+			{
+				return (double)(4.0F + attackTarget.width);
+			}
+		}
 
 }
