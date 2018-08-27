@@ -1,8 +1,10 @@
 package its_meow.betteranimalsplus.entity.model;
 
+import its_meow.betteranimalsplus.entity.EntityDeer;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
+import net.minecraft.util.math.MathHelper;
 
 /**
  * deer2 - cybercat5555
@@ -437,8 +439,38 @@ public class ModelDeer extends ModelBase {
 
     @Override
     public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) { 
-        this.body.render(f5);
+        if(entity instanceof EntityDeer) {
+        	EntityDeer deer = (EntityDeer) entity;
+        	if(deer.isEating()) {
+        		int eatTimer = deer.eatGrassAI.getEatingGrassTimer();
+        		this.neck.rotateAngleX = 65;
+        		if(eatTimer > 20) {
+        			this.lowerJaw.rotateAngleX = eatTimer % 20;
+        		} else {
+        			this.lowerJaw.rotateAngleX = 20 - (eatTimer % 20);
+        		}
+        	} else {
+        		this.lowerJaw.rotateAngleX = 0;
+        	}
+        }
+    	
+    	
+    	this.body.render(f5);
     }
+    
+    @Override
+	public void setRotationAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw,
+			float headPitch, float scaleFactor, Entity entityIn) {
+		float f = limbSwing;
+		float f1 = limbSwingAmount;
+    	
+    	this.lForeleg01.rotateAngleX = MathHelper.cos(f * 0.6662F + (float)Math.PI) * 1.4F * f1;
+        this.rForeleg01.rotateAngleX = MathHelper.cos(f * 0.6662F + (float)Math.PI) * 1.4F * f1;
+        this.rHindLeg01.rotateAngleX = MathHelper.cos(f * 0.6662F) * 1.4F * f1;
+        this.lHindLeg01.rotateAngleX = MathHelper.cos(f * 0.6662F) * 1.4F * f1;
+    	
+		super.setRotationAngles(limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor, entityIn);
+	}
 
     /**
      * This is a helper function from Tabula to set the rotation of model parts
