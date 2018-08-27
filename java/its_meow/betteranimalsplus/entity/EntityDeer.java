@@ -15,7 +15,10 @@ import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class EntityDeer extends EntityAnimal {
 
@@ -23,6 +26,7 @@ public class EntityDeer extends EntityAnimal {
 	public int eatTime2 = 0;
 	private World world = null;
 	public EntityAIEatGrass eatGrassAI;
+	private int sheepTimer;
 
 	public EntityDeer(World worldIn) {
 		super(worldIn);
@@ -42,6 +46,14 @@ public class EntityDeer extends EntityAnimal {
 		this.tasks.addTask(6, new EntityAILookIdle(this));
 	}
 
+	protected void updateAITasks()
+	{
+		if(this.eatGrassAI != null) {
+			this.sheepTimer = this.eatGrassAI.getEatingGrassTimer();
+		}
+		super.updateAITasks();
+	}
+
 	protected void applyEntityAttributes()
 	{
 		super.applyEntityAttributes();
@@ -53,15 +65,42 @@ public class EntityDeer extends EntityAnimal {
 
 	@Override
 	public void onLivingUpdate() {
-		if(eatGrassAI != null) {
-			if(eatGrassAI.getEatingGrassTimer() == 38) {
-				eatTime2 = 80;
-			}
-			if(eatTime2 > 0) {
-				eatTime2--;
-			}
+		if (this.world.isRemote)
+		{
+			this.sheepTimer = Math.max(0, this.sheepTimer - 1);
 		}
 		super.onLivingUpdate();
+	}
+
+	@SideOnly(Side.CLIENT)
+	public float getHeadRotationPointY(float p_70894_1_)
+	{
+		if (this.sheepTimer <= 0)
+		{
+			return 0.0F;
+		}
+		else if (this.sheepTimer >= 4 && this.sheepTimer <= 36)
+		{
+			return 1.0F;
+		}
+		else
+		{
+			return this.sheepTimer < 4 ? ((float)this.sheepTimer - p_70894_1_) / 4.0F : -((float)(this.sheepTimer - 40) - p_70894_1_) / 4.0F;
+		}
+	}
+
+	@SideOnly(Side.CLIENT)
+	public float getHeadRotationAngleX(float p_70890_1_)
+	{
+		if (this.sheepTimer > 4 && this.sheepTimer <= 36)
+		{
+			float f = ((float)(this.sheepTimer - 4) - p_70890_1_) / 32.0F;
+			return ((float)Math.PI / 5F) + ((float)Math.PI * 7F / 100F) * MathHelper.sin(f * 28.7F);
+		}
+		else
+		{
+			return this.sheepTimer > 0 ? ((float)Math.PI / 5F) : this.rotationPitch * 0.017453292F;
+		}
 	}
 
 	@Override
