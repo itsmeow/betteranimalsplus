@@ -6,9 +6,11 @@ import its_meow.betteranimalsplus.entity.EntityBear;
 import its_meow.betteranimalsplus.entity.model.ModelBear;
 import its_meow.betteranimalsplus.registry.TextureRegistry;
 import net.minecraft.client.model.ModelBase;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraft.entity.monster.EntityPolarBear;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
 
@@ -40,5 +42,15 @@ public class RenderBrownBear extends RenderLiving<EntityBear> {
 		}
 		
 	}
+	
+	/**
+     * Allows the render to do state modifications necessary before the model is rendered.
+     */
+    protected void preRenderCallback(EntityBear entitylivingbaseIn, float partialTickTime)
+    {
+    	float scale = 1.3F;
+        GlStateManager.scale(scale, scale, scale);
+        super.preRenderCallback(entitylivingbaseIn, partialTickTime);
+    }
 
 }
