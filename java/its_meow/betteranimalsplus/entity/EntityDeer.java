@@ -25,8 +25,6 @@ public class EntityDeer extends EntityAnimal {
 	public EntityDeer(World worldIn) {
 		super(worldIn);
 		this.world = worldIn;
-		this.eatGrassAI = new EntityAIEatGrass(this);
-		
 	}
 	
 	protected void initEntityAI()
@@ -36,6 +34,7 @@ public class EntityDeer extends EntityAnimal {
         this.tasks.addTask(1, new EntityAIPanic(this, 1.7D));
         this.tasks.addTask(2, new EntityAIAvoidEntity<EntityPlayer>(this, EntityPlayer.class, 20, 1.2D, 1.5D));
         this.tasks.addTask(3, new EntityAIWander(this, 1.0D));
+        this.eatGrassAI = new EntityAIEatGrass(this);
         this.tasks.addTask(4, eatGrassAI);
         this.tasks.addTask(5, new EntityAILookIdle(this));
 	}
