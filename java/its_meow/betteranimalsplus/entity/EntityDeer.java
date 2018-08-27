@@ -22,7 +22,7 @@ public class EntityDeer extends EntityAnimal {
 
 	public int eatTime2 = 0;
 	private World world = null;
-	public EntityAIEatGrass eatGrassAI = null;
+	public EntityAIEatGrass eatGrassAI;
 
 	public EntityDeer(World worldIn) {
 		super(worldIn);
@@ -33,12 +33,12 @@ public class EntityDeer extends EntityAnimal {
 	protected void initEntityAI()
 	{
 		super.initEntityAI();
+		this.eatGrassAI = new EntityAIEatGrass(this);
 		this.tasks.addTask(0, new EntityAISwimming(this));
 		this.tasks.addTask(2, new EntityAIPanic(this, 0.65D));
 		this.tasks.addTask(3, new EntityAIAvoidEntity<EntityPlayer>(this, EntityPlayer.class, 20, 0.55D, 0.7D));
 		this.tasks.addTask(4, new EntityAIWander(this, 0.45D));
-		this.eatGrassAI = new EntityAIEatGrass(this);
-		this.tasks.addTask(5, eatGrassAI);
+		this.tasks.addTask(5, this.eatGrassAI);
 		this.tasks.addTask(6, new EntityAILookIdle(this));
 	}
 
@@ -54,8 +54,7 @@ public class EntityDeer extends EntityAnimal {
 	@Override
 	public void onLivingUpdate() {
 		if(eatGrassAI != null) {
-			System.out.println(eatGrassAI.getEatingGrassTimer());
-			if(eatGrassAI.getEatingGrassTimer() == 1) {
+			if(eatGrassAI.getEatingGrassTimer() == 38) {
 				eatTime2 = 80;
 			}
 			if(eatTime2 > 0) {

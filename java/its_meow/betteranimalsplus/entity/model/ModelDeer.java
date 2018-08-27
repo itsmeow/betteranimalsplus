@@ -451,8 +451,8 @@ public class ModelDeer extends ModelBase {
 
 		if(entityIn instanceof EntityDeer) {
 			EntityDeer deer = (EntityDeer) entityIn;
-			if(deer.eatTime2 > 0) {
-				int eatTime2 = deer.eatTime2;
+			if(deer.eatGrassAI.getEatingGrassTimer() > 0) {
+				int eatTime2 = deer.eatGrassAI.getEatingGrassTimer() * 2;
 				this.neck.rotateAngleX = 65;
 				if(eatTime2 > 20) {
 					this.lowerJaw.rotateAngleX = eatTime2 % 20;
