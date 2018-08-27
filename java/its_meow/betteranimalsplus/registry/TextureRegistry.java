@@ -17,10 +17,10 @@ public class TextureRegistry {
 			new ResourceLocation(entitytex + "bear_kermode.png");
 	
 	//Deer Variants
-	public static final ResourceLocation deer_01 = 
-			new ResourceLocation(entitytex + "deer_01.png");
-	public static final ResourceLocation deer_02 = 
-			new ResourceLocation(entitytex + "deer_02.png");
+	public static final ResourceLocation deer_1 = 
+			new ResourceLocation(entitytex + "deer_1.png");
+	public static final ResourceLocation deer_2 = 
+			new ResourceLocation(entitytex + "deer_2.png");
 	
 	
 }

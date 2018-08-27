@@ -439,8 +439,17 @@ public class ModelDeer extends ModelBase {
 
     @Override
     public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) { 
-        if(entity instanceof EntityDeer) {
-        	EntityDeer deer = (EntityDeer) entity;
+    	this.body.render(f5);
+    }
+    
+    @Override
+	public void setRotationAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw,
+			float headPitch, float scaleFactor, Entity entityIn) {
+		float f = limbSwing;
+		float f1 = limbSwingAmount;
+    	
+		if(entityIn instanceof EntityDeer) {
+        	EntityDeer deer = (EntityDeer) entityIn;
         	if(deer.isEating()) {
         		int eatTimer = deer.eatGrassAI.getEatingGrassTimer();
         		this.neck.rotateAngleX = 65;
@@ -453,17 +462,7 @@ public class ModelDeer extends ModelBase {
         		this.lowerJaw.rotateAngleX = 0;
         	}
         }
-    	
-    	
-    	this.body.render(f5);
-    }
-    
-    @Override
-	public void setRotationAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw,
-			float headPitch, float scaleFactor, Entity entityIn) {
-		float f = limbSwing;
-		float f1 = limbSwingAmount;
-    	
+		
     	this.lForeleg01.rotateAngleX = MathHelper.cos(f * 0.6662F + (float)Math.PI) * 1.4F * f1;
         this.rForeleg01.rotateAngleX = MathHelper.cos(f * 0.6662F + (float)Math.PI) * 1.4F * f1;
         this.rHindLeg01.rotateAngleX = MathHelper.cos(f * 0.6662F) * 1.4F * f1;

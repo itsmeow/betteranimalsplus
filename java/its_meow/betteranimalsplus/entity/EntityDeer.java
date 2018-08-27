@@ -25,15 +25,16 @@ public class EntityDeer extends EntityAnimal {
 	public EntityDeer(World worldIn) {
 		super(worldIn);
 		this.world = worldIn;
+		this.setSize(1F, 2.5F);
 	}
 	
 	protected void initEntityAI()
 	{
 		super.initEntityAI();
 		this.tasks.addTask(0, new EntityAISwimming(this));
-        this.tasks.addTask(1, new EntityAIPanic(this, 1.7D));
-        this.tasks.addTask(2, new EntityAIAvoidEntity<EntityPlayer>(this, EntityPlayer.class, 20, 1.2D, 1.5D));
-        this.tasks.addTask(3, new EntityAIWander(this, 1.0D));
+        this.tasks.addTask(1, new EntityAIPanic(this, 0.8D));
+        this.tasks.addTask(2, new EntityAIAvoidEntity<EntityPlayer>(this, EntityPlayer.class, 20, 0.6D, 0.7D));
+        this.tasks.addTask(3, new EntityAIWander(this, 0.45D));
         this.eatGrassAI = new EntityAIEatGrass(this);
         this.tasks.addTask(4, eatGrassAI);
         this.tasks.addTask(5, new EntityAILookIdle(this));
@@ -43,11 +44,14 @@ public class EntityDeer extends EntityAnimal {
 	{
 		super.applyEntityAttributes();
 		this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(15.0D);
-		this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(1.0D);
+		this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.45D);
 	}
 	
 	public boolean isEating() {
-		return eatGrassAI.getEatingGrassTimer() > 0;
+		if(eatGrassAI != null) {
+			return eatGrassAI.getEatingGrassTimer() > 0;
+		}
+		return false;
 	}
 
 	@Override

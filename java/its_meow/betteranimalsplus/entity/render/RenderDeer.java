@@ -29,7 +29,7 @@ public class RenderDeer extends RenderLiving<EntityDeer> {
 	@Override
 	@Nonnull
 	protected ResourceLocation getEntityTexture(@Nonnull EntityDeer entity) {
-		return TextureRegistry.deer_01;
+		return TextureRegistry.deer_2;
 	}
 	
 	public static class Factory implements IRenderFactory<EntityDeer> {
