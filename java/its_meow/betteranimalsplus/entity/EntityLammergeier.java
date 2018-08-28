@@ -1,12 +1,17 @@
 package its_meow.betteranimalsplus.entity;
 
 import java.awt.Point;
+import java.util.Collections;
+import java.util.List;
 import java.util.Random;
 
 import javax.annotation.Nullable;
 
+import com.google.common.base.Predicate;
+
 import its_meow.betteranimalsplus.util.PolarVector3D;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.EntityCreature;
@@ -19,20 +24,29 @@ import its_meow.betteranimalsplus.entity.EntityAIAttackMelee;
 import net.minecraft.entity.ai.EntityAIBase;
 import net.minecraft.entity.ai.EntityAIFindEntityNearest;
 import net.minecraft.entity.ai.EntityAIFindEntityNearestPlayer;
+import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
+import net.minecraft.entity.ai.EntityAITarget;
 import net.minecraft.entity.ai.EntityMoveHelper;
+import net.minecraft.entity.ai.attributes.IAttributeInstance;
 import net.minecraft.entity.monster.EntityGhast;
 import net.minecraft.entity.monster.EntitySkeleton;
+import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.passive.EntityBat;
 import net.minecraft.entity.passive.EntityTameable;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.pathfinding.Path;
+import net.minecraft.util.DamageSource;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
 import paulscode.sound.Vector3D;
@@ -47,7 +61,7 @@ public class EntityLammergeier extends EntityFlying {
 
 	public EntityLammergeier(World worldIn) {
 		super(worldIn);
-		this.setSize(0.5F, 0.3F);
+		this.setSize(1F, 1F);
 		this.moveHelperL = new EntityLammergeier.LammerMoveHelper(this);
 		this.moveHelper = this.moveHelperL;
 	}
@@ -58,7 +72,7 @@ public class EntityLammergeier extends EntityFlying {
 		this.tasks.addTask(2, new EntityLammergeier.AIMoveToTarget(this, 50F));
 		this.tasks.addTask(5, new EntityLammergeier.AIRandomFly(this));
 		this.tasks.addTask(7, new EntityLammergeier.AILookAround(this));
-		this.targetTasks.addTask(1, new EntityAIFindEntityNearest(this, EntitySkeleton.class));
+		this.targetTasks.addTask(1, new EntityLammergeier.EntityAIFindEntityNearestFlying(this, EntitySkeleton.class));
 	}
 
 	protected void entityInit()
@@ -72,6 +86,60 @@ public class EntityLammergeier extends EntityFlying {
 	{
 		return false;
 	}
+	
+	@Override
+	public boolean attackEntityAsMob(Entity entityIn)
+    {
+        float f = (float)this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getAttributeValue();
+        int i = 0;
+
+        if (entityIn instanceof EntityLivingBase)
+        {
+            f += EnchantmentHelper.getModifierForCreature(this.getHeldItemMainhand(), ((EntityLivingBase)entityIn).getCreatureAttribute());
+            i += EnchantmentHelper.getKnockbackModifier(this);
+        }
+
+        boolean flag = entityIn.attackEntityFrom(DamageSource.causeMobDamage(this), f);
+
+        if (flag)
+        {
+            if (i > 0 && entityIn instanceof EntityLivingBase)
+            {
+                ((EntityLivingBase)entityIn).knockBack(this, (float)i * 0.5F, (double)MathHelper.sin(this.rotationYaw * 0.017453292F), (double)(-MathHelper.cos(this.rotationYaw * 0.017453292F)));
+                this.motionX *= 0.6D;
+                this.motionZ *= 0.6D;
+            }
+
+            int j = EnchantmentHelper.getFireAspectModifier(this);
+
+            if (j > 0)
+            {
+                entityIn.setFire(j * 4);
+            }
+
+            if (entityIn instanceof EntityPlayer)
+            {
+                EntityPlayer entityplayer = (EntityPlayer)entityIn;
+                ItemStack itemstack = this.getHeldItemMainhand();
+                ItemStack itemstack1 = entityplayer.isHandActive() ? entityplayer.getActiveItemStack() : ItemStack.EMPTY;
+
+                if (!itemstack.isEmpty() && !itemstack1.isEmpty() && itemstack.getItem().canDisableShield(itemstack, itemstack1, entityplayer, this) && itemstack1.getItem().isShield(itemstack1, entityplayer))
+                {
+                    float f1 = 0.25F + (float)EnchantmentHelper.getEfficiencyModifier(this) * 0.05F;
+
+                    if (this.rand.nextFloat() < f1)
+                    {
+                        entityplayer.getCooldownTracker().setCooldown(itemstack1.getItem(), 100);
+                        this.world.setEntityState(entityplayer, (byte)30);
+                    }
+                }
+            }
+
+            this.applyEnchantments(this, entityIn);
+        }
+
+        return flag;
+    }
 
 	protected void collideWithEntity(Entity entityIn)
 	{
@@ -101,7 +169,11 @@ public class EntityLammergeier extends EntityFlying {
 	{
 		super.applyEntityAttributes();
 		this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(6.0D);
-		this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(50D);
+		this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(50.0D);
+		this.getAttributeMap().registerAttribute(SharedMonsterAttributes.ATTACK_DAMAGE);
+		//this.getAttributeMap().registerAttribute(SharedMonsterAttributes.ATTACK_SPEED);
+		this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(2.0D);
+		//this.getEntityAttribute(SharedMonsterAttributes.ATTACK_SPEED).setBaseValue(1.0D);
 	}
 
 	public boolean getFlying()
@@ -131,7 +203,7 @@ public class EntityLammergeier extends EntityFlying {
 
 		if (!this.getFlying())
 		{
-			if (this.world.getBlockState(blockpos1).isNormalCube())
+			if (this.world.getBlockState(blockpos1).isNormalCube() && this.getAttackTarget() == null)
 			{
 				this.setFlying(false);
 				if(this.rand.nextInt(100) == 0) {
@@ -275,7 +347,17 @@ public class EntityLammergeier extends EntityFlying {
 
 
 
-
+	@Override
+	public void updatePassenger(Entity passenger)
+    {
+        if (this.isPassenger(passenger))
+        {
+            float f1 = (float)((this.isDead ? 0.009999999776482582D : this.getMountedYOffset()) + passenger.getYOffset());
+          
+            passenger.setPosition(this.posX, this.posY - passenger.height - 0.05, this.posZ);
+            this.applyOrientationToEntity(passenger);
+        }
+    }
 
 
 
@@ -325,7 +407,7 @@ public class EntityLammergeier extends EntityFlying {
 			this.world = lam.getEntityWorld();
 			this.setMutexBits(2);
 		}
-		
+		double liftY = 0;
 		
 		@Override
 		/**
@@ -341,7 +423,13 @@ public class EntityLammergeier extends EntityFlying {
 			else
 			{
 				EntityLivingBase entitylivingbase = this.parentEntity.getAttackTarget();
-
+				
+				if(!entitylivingbase.isEntityAlive()) {
+					this.parentEntity.setAttackTarget(null);
+					return;
+				}
+ 				
+				
 				if (entitylivingbase.getDistanceSq(this.parentEntity) < 4096.0D)
 				{
 					double d1 = entitylivingbase.posX - this.parentEntity.posX;
@@ -352,7 +440,8 @@ public class EntityLammergeier extends EntityFlying {
 
 
 				//this.attacker.getLookHelper().setLookPositionWithEntity(entitylivingbase, 30.0F, 30.0F);
-				double d0 = this.attacker.getDistanceSq(entitylivingbase.posX, entitylivingbase.getEntityBoundingBox().minY, entitylivingbase.posZ);
+				double d0 = this.attacker.getDistanceSq(entitylivingbase.posX, entitylivingbase.posY, entitylivingbase.posZ);
+				
 				--this.delayCounter;
 
 				if ((this.longMemory || this.attacker.getEntitySenses().canSee(entitylivingbase)) && this.delayCounter <= 0 && (this.targetX == 0.0D && this.targetY == 0.0D && this.targetZ == 0.0D || entitylivingbase.getDistanceSq(this.targetX, this.targetY, this.targetZ) >= 1.0D || this.attacker.getRNG().nextFloat() < 0.05F))
@@ -395,7 +484,31 @@ public class EntityLammergeier extends EntityFlying {
 				}
 
 				this.attackTick = Math.max(this.attackTick - 1, 0);
-				this.checkAndPerformAttack(entitylivingbase, d0);
+
+				
+				double d2 = this.getAttackReachSqr(entitylivingbase);
+
+		        if (d0 <= d2 && this.attackTick <= 0)
+		        {
+		            this.attackTick = 20;
+		            //this.attacker.attackEntityAsMob(entitylivingbase);
+		            
+		            
+		            
+		        }
+		        if(entitylivingbase.isRiding()) {
+		        	this.attacker.getMoveHelper().setMoveTo(targetX, liftY + 15, targetZ, 5.0D);
+		        }
+		        if(attackTick == 20 && !entitylivingbase.isRiding()) {
+		        	this.attacker.setPosition(attacker.posX, attacker.posY + entitylivingbase.height, attacker.posZ);
+		        	entitylivingbase.startRiding(this.attacker, true);
+		        	liftY = entitylivingbase.posY;
+		        	this.attacker.getMoveHelper().setMoveTo(targetX, liftY + 15, targetZ, 5.0D);
+	            } else if(attacker.posY - liftY <= 1 && entitylivingbase.isRiding()) {
+	            	entitylivingbase.dismountRidingEntity();
+	            }
+		        
+				//this.checkAndPerformAttack(entitylivingbase, d0);
 
 
 
@@ -474,7 +587,7 @@ public class EntityLammergeier extends EntityFlying {
 				double d1 = entitymovehelper.getY() - this.parentEntity.posY;
 				double d2 = entitymovehelper.getZ() - this.parentEntity.posZ;
 				double d3 = d0 * d0 + d1 * d1 + d2 * d2;
-				return d3 < 1.0D || d3 > 3600.0D;
+				return d3 < 1.0D || d3 > 3600.0D && this.parentEntity.getAttackTarget() == null;
 			}
 		}
 
@@ -543,8 +656,119 @@ public class EntityLammergeier extends EntityFlying {
 		public void startExecuting()
 		{
 			EntityLivingBase target = this.parentEntity.getAttackTarget();
-			this.parentEntity.getMoveHelper().setMoveTo(target.posX, target.posY, target.posZ, 1.0D);
+			this.parentEntity.getMoveHelper().setMoveTo(target.getPosition().getX(), target.getPosition().getY(), target.getPosition().getZ(), 1.0D);
 		}
+	}
+	
+	static class EntityAIFindEntityNearestFlying extends EntityAIBase {
+		
+		private final EntityLiving mob;
+		private final Predicate<EntityLivingBase> predicate;
+	    private final EntityAINearestAttackableTarget.Sorter sorter;
+	    private EntityLivingBase target;
+	    private final Class <? extends EntityLivingBase > classToCheck;
+		
+		public EntityAIFindEntityNearestFlying(EntityLiving mobIn, Class<? extends EntityLivingBase> p_i45884_2_) {
+			//super(mobIn, p_i45884_2_);
+			this.mob = mobIn;
+	        this.classToCheck = p_i45884_2_;
+	        this.predicate = new Predicate<EntityLivingBase>()
+	        {
+	            public boolean apply(@Nullable EntityLivingBase p_apply_1_)
+	            {
+	                double d0 = EntityAIFindEntityNearestFlying.this.getFollowRange();
+
+	                if (p_apply_1_.isSneaking())
+	                {
+	                    d0 *= 0.800000011920929D;
+	                }
+
+	                if (p_apply_1_.isInvisible())
+	                {
+	                    return false;
+	                }
+	                else
+	                {
+	                    return (double)p_apply_1_.getDistance(EntityAIFindEntityNearestFlying.this.mob) > d0 ? false : EntityAITarget.isSuitableTarget(EntityAIFindEntityNearestFlying.this.mob, p_apply_1_, false, true);
+	                }
+	            }
+	        };
+	        
+	        this.sorter = new EntityAINearestAttackableTarget.Sorter(mobIn);
+		}
+		
+		@Override
+		public boolean shouldExecute()
+	    {
+	        double d0 = this.getFollowRange();
+	        List<EntityLivingBase> list = this.mob.world.<EntityLivingBase>getEntitiesWithinAABB(this.classToCheck, this.mob.getEntityBoundingBox().grow(d0, d0, d0), this.predicate);
+	        Collections.sort(list, this.sorter);
+
+	        if (list.isEmpty())
+	        {
+	            return false;
+	        }
+	        else
+	        {
+	            this.target = list.get(0);
+	            return true;
+	        }
+	    }
+		
+		/**
+	     * Returns whether an in-progress EntityAIBase should continue executing
+	     */
+	    public boolean shouldContinueExecuting()
+	    {
+	        EntityLivingBase entitylivingbase = this.mob.getAttackTarget();
+
+	        if (entitylivingbase == null)
+	        {
+	            return false;
+	        }
+	        else if (!entitylivingbase.isEntityAlive())
+	        {
+	            return false;
+	        }
+	        else
+	        {
+	            double d0 = this.getFollowRange();
+
+	            if (this.mob.getDistanceSq(entitylivingbase) > d0 * d0)
+	            {
+	                return false;
+	            }
+	            else
+	            {
+	                return !(entitylivingbase instanceof EntityPlayerMP) || !((EntityPlayerMP)entitylivingbase).interactionManager.isCreative();
+	            }
+	        }
+	    }
+
+	    /**
+	     * Execute a one shot task or start executing a continuous task
+	     */
+	    public void startExecuting()
+	    {
+	        this.mob.setAttackTarget(this.target);
+	        super.startExecuting();
+	    }
+
+	    /**
+	     * Reset the task's internal state. Called when this task is interrupted by another one
+	     */
+	    public void resetTask()
+	    {
+	        this.mob.setAttackTarget((EntityLivingBase)null);
+	        super.startExecuting();
+	    }
+
+	    protected double getFollowRange()
+	    {
+	        IAttributeInstance iattributeinstance = this.mob.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE);
+	        return iattributeinstance == null ? 16.0D : iattributeinstance.getAttributeValue();
+	    }
+		
 	}
 
 	static class LammerMoveHelper extends EntityMoveHelper

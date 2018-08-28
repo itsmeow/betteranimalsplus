@@ -18,7 +18,7 @@ public class RenderLammergeier extends RenderLiving<EntityLammergeier> {
 
 
 	public RenderLammergeier(RenderManager rendermanagerIn) {
-		super(rendermanagerIn, new ModelLammergeier(), 1F);
+		super(rendermanagerIn, new ModelLammergeier(), 0.3F);
 	}
 
 
