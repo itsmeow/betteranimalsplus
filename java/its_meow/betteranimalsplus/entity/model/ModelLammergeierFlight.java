@@ -8,59 +8,7 @@ import net.minecraft.entity.Entity;
  * lammergeierflight - cybercat5555
  * Created using Tabula 5.1.0
  */
-public class ModelLammergeierFlight extends ModelBase {
-    public ModelRenderer body;
-    public ModelRenderer chest;
-    public ModelRenderer tail01;
-    public ModelRenderer lLeg01;
-    public ModelRenderer rLeg01;
-    public ModelRenderer lWing01;
-    public ModelRenderer rWing01;
-    public ModelRenderer neck;
-    public ModelRenderer neckFeather02;
-    public ModelRenderer head;
-    public ModelRenderer neckFeather01;
-    public ModelRenderer neckFeather03;
-    public ModelRenderer upperJaw01;
-    public ModelRenderer muzzle;
-    public ModelRenderer lowerJaw01;
-    public ModelRenderer headFeathers;
-    public ModelRenderer upperJawL;
-    public ModelRenderer upperJawR;
-    public ModelRenderer upperJawBeak;
-    public ModelRenderer lowerJawBeak;
-    public ModelRenderer beard;
-    public ModelRenderer lowerJaw02;
-    public ModelRenderer tail02;
-    public ModelRenderer lTailFeather01;
-    public ModelRenderer lTailFeather02;
-    public ModelRenderer lTailFeather03;
-    public ModelRenderer lTailFeather04;
-    public ModelRenderer rTailFeather01;
-    public ModelRenderer rTailFeather02;
-    public ModelRenderer rTailFeather03;
-    public ModelRenderer rTailFeather04;
-    public ModelRenderer lLeg02;
-    public ModelRenderer lLegFeathers;
-    public ModelRenderer lFoot;
-    public ModelRenderer lToe01;
-    public ModelRenderer lToe02;
-    public ModelRenderer lToe03;
-    public ModelRenderer lToe04;
-    public ModelRenderer rLeg02;
-    public ModelRenderer rLegFeathers;
-    public ModelRenderer rFoot;
-    public ModelRenderer rToe01;
-    public ModelRenderer rToe02;
-    public ModelRenderer rToe03;
-    public ModelRenderer rToe04;
-    public ModelRenderer lWing02;
-    public ModelRenderer lWingFeathers01;
-    public ModelRenderer lWingFeathers02;
-    public ModelRenderer rWing02;
-    public ModelRenderer rWingFeathers01;
-    public ModelRenderer rWingFeathers02;
-
+public class ModelLammergeierFlight extends ModelLammergeier {
     public ModelLammergeierFlight() {
         this.textureWidth = 64;
         this.textureHeight = 64;

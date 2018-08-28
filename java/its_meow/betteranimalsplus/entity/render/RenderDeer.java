@@ -11,6 +11,7 @@ import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
+import scala.util.Random;
 
 public class RenderDeer extends RenderLiving<EntityDeer> {
 
@@ -27,8 +28,11 @@ public class RenderDeer extends RenderLiving<EntityDeer> {
 
 
 	@Override
-	@Nonnull
-	protected ResourceLocation getEntityTexture(@Nonnull EntityDeer entity) {
+	protected ResourceLocation getEntityTexture(EntityDeer entity) {
+		int type = entity.getTypeNumber();
+		if(type == 1) {
+			return TextureRegistry.deer_1;
+		}
 		return TextureRegistry.deer_2;
 	}
 	

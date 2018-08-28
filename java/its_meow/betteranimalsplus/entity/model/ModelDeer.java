@@ -5,13 +5,15 @@ import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.passive.EntitySheep;
 import net.minecraft.util.math.MathHelper;
 
 /**
  * deer2 - cybercat5555
  * Created using Tabula 5.1.0
  */
-public class ModelDeer extends ModelBase {
+public class ModelDeer extends ModelBetterAnimals {
 	public ModelRenderer body;
 	public ModelRenderer ass;
 	public ModelRenderer chest;
@@ -442,30 +444,15 @@ public class ModelDeer extends ModelBase {
 	public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) { 
 		this.body.render(f5);
 	}
-
+	
 	@Override
 	public void setRotationAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw,
 			float headPitch, float scaleFactor, Entity entityIn) {
 		float f = limbSwing;
 		float f1 = limbSwingAmount;
 
-		if(entityIn instanceof EntityDeer) {
-			EntityDeer deer = (EntityDeer) entityIn;
-			if(deer.eatGrassAI != null && deer.eatGrassAI.getEatingGrassTimer() > 0) {
-				int eatTime2 = deer.eatGrassAI.getEatingGrassTimer() * 2;
-				this.neck.rotateAngleX = 65;
-				if(eatTime2 > 20) {
-					this.lowerJaw.rotateAngleX = eatTime2 % 20;
-				} else {
-					this.lowerJaw.rotateAngleX = 20 - (eatTime2 % 20);
-				}
-			} else {
-				this.lowerJaw.rotateAngleX = 0;
-			}
-		}
-
-
-		if(entityIn.motionX + entityIn.motionZ >= 0.5) {
+		
+		if(limbSwingAmount >= 0.65) {
 			this.lForeleg01.rotateAngleX = MathHelper.cos(f * 0.6662F + (float)Math.PI) * 1.4F * f1;
 			this.rForeleg01.rotateAngleX = MathHelper.cos(f * 0.6662F + (float)Math.PI) * 1.4F * f1;
 			this.rHindLeg01.rotateAngleX = MathHelper.cos(f * 0.6662F) * 1.4F * f1;
@@ -477,6 +464,11 @@ public class ModelDeer extends ModelBase {
 			this.lHindLeg01.rotateAngleX = MathHelper.cos(f * 0.6662F + (float)Math.PI) * 1.4F * f1;
 		}
 		
+		if(entityIn instanceof EntityLiving) {
+			this.chest.rotateAngleX = this.getHeadPitch((EntityLiving)entityIn) * 0.017453292F - 13;
+			this.chest.rotateAngleY = this.getHeadYaw((EntityLiving) entityIn) * 0.017453292F * 0.5F;
+		}
+
 		super.setRotationAngles(limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor, entityIn);
 	}
 
