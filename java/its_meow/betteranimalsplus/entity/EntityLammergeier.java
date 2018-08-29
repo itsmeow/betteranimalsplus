@@ -218,19 +218,7 @@ public class EntityLammergeier extends EntityFlying {
 		}
 		else
 		{
-			if (this.spawnPosition != null && (!this.world.isAirBlock(this.spawnPosition) || this.spawnPosition.getY() < 1))
-			{
-				this.spawnPosition = null;
-			}
-
-			if (this.spawnPosition == null || this.rand.nextInt(30) == 0 || this.spawnPosition.distanceSq((double)((int)this.posX), (double)((int)this.posY), (double)((int)this.posZ)) < 4.0D)
-			{
-				this.spawnPosition = new BlockPos((int)this.posX + this.rand.nextInt(7) - this.rand.nextInt(7), (int)this.posY + this.rand.nextInt(6) - 2, (int)this.posZ + this.rand.nextInt(7) - this.rand.nextInt(7));
-			}
-
-
-
-			if (this.rand.nextInt(100) == 0 && this.world.getBlockState(blockpos1).isNormalCube())
+			if (this.rand.nextInt(20) == 0 && this.world.getBlockState(blockpos1).isNormalCube())
 			{
 				this.setFlying(false);
 			}
@@ -491,7 +479,9 @@ public class EntityLammergeier extends EntityFlying {
 		        if (d0 <= d2 && this.attackTick <= 0)
 		        {
 		            this.attackTick = 20;
-		            //this.attacker.attackEntityAsMob(entitylivingbase);
+		            if(!entitylivingbase.isRiding()) {
+		            	this.attacker.attackEntityAsMob(entitylivingbase);
+		            }
 		            
 		            
 		            
@@ -639,7 +629,12 @@ public class EntityLammergeier extends EntityFlying {
 		public boolean shouldExecute()
 		{
 			EntityLivingBase targetEntity = parentEntity.getAttackTarget();
-			return targetEntity != null && !this.parentEntity.getMoveHelper().isUpdating(); //&& targetEntity.getDistanceSq(this.parentEntity) > (double)(this.maxTargetDistance * this.maxTargetDistance);
+			LammerMoveHelper entitymovehelper = this.parentEntity.getMoveHelper();
+			double d0 = entitymovehelper.getX() - this.parentEntity.posX;
+			double d1 = entitymovehelper.getY() - this.parentEntity.posY;
+			double d2 = entitymovehelper.getZ() - this.parentEntity.posZ;
+			double d3 = d0 * d0 + d1 * d1 + d2 * d2;
+			return targetEntity != null && (!this.parentEntity.getMoveHelper().isUpdating() || (d3 < 1.0D || d3 > 3600.0D)); //&& targetEntity.getDistanceSq(this.parentEntity) > (double)(this.maxTargetDistance * this.maxTargetDistance);
 		}
 
 		/**
@@ -797,7 +792,7 @@ public class EntityLammergeier extends EntityFlying {
 				double d2 = this.posZ - this.parentEntity.posZ;
 				double d3 = d0 * d0 + d1 * d1 + d2 * d2;
 
-				if (this.courseChangeCooldown-- <= 0)
+				//if (this.courseChangeCooldown-- <= 0)
 				{
 					this.courseChangeCooldown += this.parentEntity.getRNG().nextInt(5) + 2;
 					d3 = (double)MathHelper.sqrt(d3);
