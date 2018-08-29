@@ -1,6 +1,7 @@
 {
     "pools": [
         {
+            "name": "deer",
             "rolls": 1,
             "entries": [
                 {
