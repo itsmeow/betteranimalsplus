@@ -483,7 +483,7 @@ public class EntityLammergeier extends EntityFlying {
 					}
 				}
 
-				this.attackTick = Math.max(this.attackTick - 1, 0);
+				attackTick--;
 
 				
 				double d2 = this.getAttackReachSqr(entitylivingbase);
@@ -504,8 +504,9 @@ public class EntityLammergeier extends EntityFlying {
 		        	entitylivingbase.startRiding(this.attacker, true);
 		        	liftY = entitylivingbase.posY;
 		        	this.attacker.getMoveHelper().setMoveTo(targetX, liftY + 15, targetZ, 5.0D);
-	            } else if(attacker.posY - liftY <= 1 && entitylivingbase.isRiding()) {
-	            	entitylivingbase.dismountRidingEntity();
+	            }
+		        if(Math.abs(attacker.posY - (liftY + 15)) <= 3 && entitylivingbase.isRiding() || !this.attacker.getMoveHelper().isUpdating()) {
+	            	entitylivingbase.dismountRidingEntity(); //Math.abs(attacker.posY - liftY) <= 1
 	            }
 		        
 				//this.checkAndPerformAttack(entitylivingbase, d0);
@@ -606,7 +607,7 @@ public class EntityLammergeier extends EntityFlying {
 		{
 			Random random = this.parentEntity.getRNG();
 			
-			BlockPos rPos = this.parentEntity.fromPolarCoordinates(new PolarVector3D(random.nextInt(360), random.nextInt(40) - 20, random.nextInt(10) + 1 + random.nextFloat()));
+			BlockPos rPos = this.parentEntity.fromPolarCoordinates(new PolarVector3D(this.parentEntity.rotationYaw + (random.nextInt(40) - 20), random.nextInt(40) - 20, random.nextInt(15) + 1 + random.nextFloat()));
 			BlockPos pos = this.parentEntity.getPosition();
 			rPos = rPos.add(pos);
 			/*
@@ -638,8 +639,7 @@ public class EntityLammergeier extends EntityFlying {
 		public boolean shouldExecute()
 		{
 			EntityLivingBase targetEntity = parentEntity.getAttackTarget();
-			return targetEntity != null && !this.parentEntity.getMoveHelper().isUpdating();/* &&
-					targetEntity.getDistanceSq(this.parentEntity) > (double)(this.maxTargetDistance * this.maxTargetDistance);*/
+			return targetEntity != null && !this.parentEntity.getMoveHelper().isUpdating(); //&& targetEntity.getDistanceSq(this.parentEntity) > (double)(this.maxTargetDistance * this.maxTargetDistance);
 		}
 
 		/**
@@ -804,6 +804,10 @@ public class EntityLammergeier extends EntityFlying {
 
 					if (this.isNotColliding(this.posX, this.posY, this.posZ, d3))
 					{
+						if(Math.abs(d0) >= 1 && Math.abs(d1) >= 1 && Math.abs(d2) >= 1) {
+							this.action = EntityMoveHelper.Action.WAIT;
+							return;
+						}
 						this.parentEntity.motionX += d0 / d3 * 0.1D;
 						this.parentEntity.motionY += d1 / d3 * 0.1D;
 						this.parentEntity.motionZ += d2 / d3 * 0.1D;
