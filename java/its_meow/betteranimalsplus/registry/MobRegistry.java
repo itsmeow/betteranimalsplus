@@ -1,6 +1,7 @@
 package its_meow.betteranimalsplus.registry;
 
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.Set;
 
 import its_meow.betteranimalsplus.BetterAnimalsPlusMod;
@@ -78,9 +79,9 @@ public class MobRegistry {
     }
 	
 	public static void registerCreatureSpawn(Class EntityClass, int prob, int min, int max, Set<Biome>... biomes) {
-		Set<Biome> biomesetAdd = Collections.EMPTY_SET;
+		Set<Biome> biomesetAdd = new HashSet<>();
 		for(Set<Biome> biomeset : biomes) {
-			biomeset.addAll(biomesetAdd);
+			biomesetAdd.addAll(biomeset);
 		}
 		Biome[] biomesArray = {};
 		try {
@@ -92,9 +93,9 @@ public class MobRegistry {
 	}
 	
 	public static void registerMobSpawn(Class EntityClass, int prob, int min, int max, Set<Biome>... biomes) {
-		Set<Biome> biomesetAdd = Collections.EMPTY_SET;
+		Set<Biome> biomesetAdd = new HashSet<>();
 		for(Set<Biome> biomeset : biomes) {
-			biomeset.addAll(biomesetAdd);
+			biomesetAdd.addAll(biomeset);
 		}
 		Biome[] biomesArray = {};
 		try {
