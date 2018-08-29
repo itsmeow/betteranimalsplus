@@ -1,5 +1,6 @@
 package its_meow.betteranimalsplus.proxy;
 
+import its_meow.betteranimalsplus.registry.CraftingRegistry;
 import its_meow.betteranimalsplus.registry.MobRegistry;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
@@ -13,7 +14,7 @@ public class CommonProxy {
 	}
 
 	public void init(FMLInitializationEvent e) {
-		
+		CraftingRegistry.register(); 
 	}
 	
 	public void postInit(FMLPostInitializationEvent e) {

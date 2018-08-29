@@ -3,6 +3,8 @@
 
 #Items
 #item.itemname.name=
+item.venisonraw.name=Raw Venison
+item.venisoncooked.name=Cooked Venison
 
 #Blocks
 #tile.block.name=
