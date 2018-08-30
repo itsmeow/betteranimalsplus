@@ -49,6 +49,11 @@ public class LammerMoveHelper extends EntityMoveHelper
 					else
 					{
 						this.parentEntity.motionY += 0.05;
+						if(this.parentEntity.getEntityWorld().getBlockState(this.parentEntity.getPosition().up()).isFullBlock()) {
+							this.parentEntity.motionX += d0 / d3 * 0.1D;
+							this.parentEntity.motionY -= 0.05;
+							this.parentEntity.motionZ += d2 / d3 * 0.1D;
+						}
 						this.action = EntityMoveHelper.Action.WAIT;
 					}
 				}
