@@ -496,6 +496,11 @@ public class EntityLammergeier extends EntityFlying {
 		        	this.attacker.setPosition(attacker.posX, attacker.posY + entitylivingbase.height, attacker.posZ);
 		        	entitylivingbase.startRiding(this.attacker, true);
 		        	liftY = entitylivingbase.posY;
+		        	if(entitylivingbase instanceof EntitySkeleton) {
+		        		EntitySkeleton elv = (EntitySkeleton) entitylivingbase;
+		        		elv.setAttackTarget(null); // Block Skeleton from attacking because it gets confused
+		        		elv.setRevengeTarget(null);
+		        	}
 		        	this.attacker.getMoveHelper().setMoveTo(targetX, liftY + 15, targetZ, 5.0D);
 	            }
 		        if(Math.abs(attacker.posY - (liftY + 15)) <= 3 && entitylivingbase.isRiding() || !this.attacker.getMoveHelper().isUpdating()) {

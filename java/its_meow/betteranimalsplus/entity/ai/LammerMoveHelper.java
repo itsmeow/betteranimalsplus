@@ -23,7 +23,7 @@ public class LammerMoveHelper extends EntityMoveHelper
 		@Override
 		public void onUpdateMoveHelper()
 		{	
-			System.out.println("A: " + (this.action == EntityMoveHelper.Action.MOVE_TO));
+			//System.out.println("A: " + (this.action == EntityMoveHelper.Action.MOVE_TO));
 			if (this.action == EntityMoveHelper.Action.MOVE_TO)
 			{
 				double d0 = this.posX - this.parentEntity.posX;
@@ -33,10 +33,10 @@ public class LammerMoveHelper extends EntityMoveHelper
 
 				//if (this.courseChangeCooldown-- <= 0)
 				{
-					this.courseChangeCooldown += this.parentEntity.getRNG().nextInt(5) + 2;
+					//this.courseChangeCooldown += this.parentEntity.getRNG().nextInt(5) + 2;
 					d3 = (double)MathHelper.sqrt(d3);
-					System.out.println("B: " + (this.isNotColliding(this.posX, this.posY + 1, this.posZ, d3)));
-					if (this.isNotColliding(this.posX, this.posY + 1, this.posZ, d3))
+					//System.out.println("B: " + (this.isNotColliding(this.posX, this.posY + 1, this.posZ, d3)));
+					if (this.isNotColliding(this.posX, this.posY, this.posZ, d3))
 					{
 						/*if(Math.abs(d0) >= 1 && Math.abs(d1) >= 1 && Math.abs(d2) >= 1) {
 							this.action = EntityMoveHelper.Action.WAIT;
@@ -48,8 +48,8 @@ public class LammerMoveHelper extends EntityMoveHelper
 					}
 					else
 					{
-						
-						//this.action = EntityMoveHelper.Action.WAIT;
+						this.parentEntity.motionY += 0.5;
+						this.action = EntityMoveHelper.Action.WAIT;
 					}
 				}
 			}
