@@ -1,5 +1,6 @@
 package its_meow.betteranimalsplus.entity.model;
 
+import its_meow.betteranimalsplus.entity.EntityLammergeier;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
@@ -391,10 +392,10 @@ public class ModelLammergeier extends ModelBase {
 		this.tail01.setRotationPoint(0.0F, -0.5F, 4.8F);
 		this.setRotateAngle(tail01, -0.18203784098300857F, 0.0F, 0.0F);
 		this.rWing01.mirror = true;
-		
+
 		this.setRotateAngle(rWing01, 0, 0, 0);
 		this.setRotateAngle(lWing01, 0, 0, 0);
-		
+
 		this.rWing01.setRotationPoint(-3.0F, -1.7F, -1.7F);
 		this.rToe03.mirror = true;
 		this.rToe03.setRotationPoint(0.5F, 0.1F, -1.2F);
@@ -457,7 +458,7 @@ public class ModelLammergeier extends ModelBase {
 		this.setRotateAngle(chest, -0.091106186954104F, 0.0F, 0.0F);
 		this.lWingFeathers02.setRotationPoint(0.0F, 0.0F, 1.2F);
 	}
-	
+
 	public void switchToWalk() {
 		this.rTailFeather04.mirror = true;
 		this.rTailFeather04.setRotationPoint(0.0F, 0.55F, 5.2F);
@@ -586,37 +587,56 @@ public class ModelLammergeier extends ModelBase {
 	@Override
 	public void setRotationAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw,
 			float headPitch, float scaleFactor, Entity entityIn) {
+
+
+		EntityLammergeier lammergeier = (EntityLammergeier)entityIn;
+		this.rLeg01.offsetY = 0.0F;
+		this.lLeg01.offsetY = 0.0F;
 		this.isFlying = !entityIn.getEntityWorld().isBlockFullCube(entityIn.getPosition().down());
-		if(isFlying) {
-			if(lastFlying == false) {
-				this.switchToFlight();
+		if(!lammergeier.isSitting()) {
+			if(isFlying) {
+				if(lastFlying == false) {
+					this.switchToFlight();
+				}
+				this.rWing01.rotateAngleZ = MathHelper.cos(ageInTicks * 0.3F) * (float)Math.PI * 0.25F;
+				this.lWing01.rotateAngleZ = -this.rWing01.rotateAngleZ;
+				this.rWing02.rotateAngleZ = this.rWing01.rotateAngleZ * 0.5F;
+				this.lWing02.rotateAngleZ = -this.rWing01.rotateAngleZ * 0.5F;
+			} else {
+				if(lastFlying == true) {
+					this.switchToWalk();
+				}
+				boolean flag = entityIn instanceof EntityLivingBase && ((EntityLivingBase)entityIn).getTicksElytraFlying() > 4;
+				float f = 1.0F;
+
+				if (flag)
+				{
+					f = (float)(entityIn.motionX * entityIn.motionX + entityIn.motionY * entityIn.motionY + entityIn.motionZ * entityIn.motionZ);
+					f = f / 0.2F;
+					f = f * f * f;
+				}
+
+				if (f < 1.0F)
+				{
+					f = 1.0F;
+				}
+
+				this.rLeg01.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount / f;
+				this.lLeg01.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F + (float)Math.PI) * 1.4F * limbSwingAmount / f;
 			}
-			this.rWing01.rotateAngleZ = MathHelper.cos(ageInTicks * 0.3F) * (float)Math.PI * 0.25F;
-			this.lWing01.rotateAngleZ = -this.rWing01.rotateAngleZ;
-			this.rWing02.rotateAngleZ = this.rWing01.rotateAngleZ * 0.5F;
-			this.lWing02.rotateAngleZ = -this.rWing01.rotateAngleZ * 0.5F;
 		} else {
-			if(lastFlying == true) {
+			if(this.isFlying && this.lastFlying) {
 				this.switchToWalk();
-			}
-			boolean flag = entityIn instanceof EntityLivingBase && ((EntityLivingBase)entityIn).getTicksElytraFlying() > 4;
-			float f = 1.0F;
-
-			if (flag)
-			{
-				f = (float)(entityIn.motionX * entityIn.motionX + entityIn.motionY * entityIn.motionY + entityIn.motionZ * entityIn.motionZ);
-				f = f / 0.2F;
-				f = f * f * f;
-			}
-
-			if (f < 1.0F)
-			{
-				f = 1.0F;
+				this.isFlying = false;
 			}
 			
-			this.rLeg01.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount / f;
-			this.lLeg01.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F + (float)Math.PI) * 1.4F * limbSwingAmount / f;
+			this.rLeg01.offsetY = 5.0F;
+			this.lLeg01.offsetY = 5.0F;
+			
 		}
+
+
+
 		lastFlying = isFlying;
 		super.setRotationAngles(limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor, entityIn);
 	}

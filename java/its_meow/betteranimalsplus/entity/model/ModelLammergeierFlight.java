@@ -9,6 +9,10 @@ import net.minecraft.entity.Entity;
  * Created using Tabula 5.1.0
  */
 public class ModelLammergeierFlight extends ModelLammergeier {
+	
+	/* This class does not have any use, it is simply holding the positions that I copied
+	 *  into the switchToFlight function on the main model */
+	
     public ModelLammergeierFlight() {
         this.textureWidth = 64;
         this.textureHeight = 64;

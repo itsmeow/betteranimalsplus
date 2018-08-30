@@ -26,7 +26,7 @@ public class LammerMoveHelper extends EntityMoveHelper
 		public void onUpdateMoveHelper()
 		{	
 			//System.out.println("A: " + (this.action == EntityMoveHelper.Action.MOVE_TO));
-			if (this.action == EntityMoveHelper.Action.MOVE_TO)
+			if (this.action == EntityMoveHelper.Action.MOVE_TO && !parentEntity.isSitting())
 			{
 				double d0 = this.posX - this.parentEntity.posX;
 				double d1 = this.posY - this.parentEntity.posY;
