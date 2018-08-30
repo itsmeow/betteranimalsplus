@@ -77,18 +77,18 @@ public class EntityLammergeier extends EntityTameableFlying {
 
 	public LammerMoveHelper moveHelperL;
 
-	protected PathNavigateFlying navigator;
-
 	public EntityLammergeier(World worldIn) {
 		super(worldIn);
 		this.setSize(1F, 1F);
 		this.moveHelperL = new LammerMoveHelper(this);
 		this.moveHelper = this.moveHelperL;
-		this.navigator = new PathNavigateFlying(this, worldIn);
 	}
-	
-	public PathNavigateFlying getNavigator() {
-		return this.navigator;
+
+
+
+	@Override
+	protected PathNavigate createNavigator(World worldIn) {
+		return new PathNavigateFlying(this, worldIn);
 	}
 
 	protected void initEntityAI()
@@ -97,7 +97,7 @@ public class EntityLammergeier extends EntityTameableFlying {
 		this.tasks.addTask(1, this.aiSit);
 		this.tasks.addTask(2, new EntityLammergeier.AIMeleeAttack(this, true));
 		this.tasks.addTask(2, new EntityLammergeier.AIMoveToTarget(this, 50F));
-		this.tasks.addTask(3, new EntityAIFollowOwnerFlying(this, 0.5D, 3.0F, 40.0F));
+		this.tasks.addTask(3, new EntityAIFollowOwnerFlying(this, 0.5D, 10.0F, 50.0F));
 		this.tasks.addTask(5, new EntityLammergeier.AIRandomFly(this));
 		this.tasks.addTask(7, new EntityLammergeier.AILookAround(this));
 		this.targetTasks.addTask(1, new EntityAIOwnerHurtByTarget(this));
@@ -164,7 +164,6 @@ public class EntityLammergeier extends EntityTameableFlying {
 	public void setTamed(boolean tamed)
 	{
 		super.setTamed(tamed);
-
 		if (tamed)
 		{
 			this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(15.0D);
@@ -201,14 +200,13 @@ public class EntityLammergeier extends EntityTameableFlying {
 					}
 				}
 			}
-
-			if (this.isOwner(player) && !this.world.isRemote && !(itemstack.getItem() == Items.BONE) && !(itemstack.getItem() == Items.MUTTON))
+			
+			if (this.isOwner(player) && !this.world.isRemote && (itemstack.getItem() != Items.MUTTON))
 			{
 				this.getMoveHelper().action = Action.WAIT;
 				this.setSitting(!this.isSitting());
 				this.navigator.clearPath();	
 				this.setAttackTarget((EntityLivingBase)null);
-				return true;
 			}
 		}
 		else if (itemstack.getItem() == Items.BONE)
@@ -223,6 +221,7 @@ public class EntityLammergeier extends EntityTameableFlying {
 				if (!net.minecraftforge.event.ForgeEventFactory.onAnimalTame(this, player))
 				{
 					this.setTamedBy(player);
+					this.setOwnerId(player.getUniqueID());
 					this.navigator.clearPath();
 					this.getMoveHelper().action = Action.WAIT;
 					this.setAttackTarget((EntityLivingBase)null);
@@ -760,8 +759,23 @@ public class EntityLammergeier extends EntityTameableFlying {
 		{
 			if (this.parentEntity.getAttackTarget() == null)
 			{
-				this.parentEntity.rotationYaw = -((float)MathHelper.atan2(this.parentEntity.motionX, this.parentEntity.motionZ)) * (180F / (float)Math.PI);
-				this.parentEntity.renderYawOffset = this.parentEntity.rotationYaw;
+				if(!this.parentEntity.isTamed()) {
+					this.parentEntity.rotationYaw = -((float)MathHelper.atan2(this.parentEntity.motionX, this.parentEntity.motionZ)) * (180F / (float)Math.PI);
+					this.parentEntity.renderYawOffset = this.parentEntity.rotationYaw;
+				} else {
+					EntityLivingBase entitylivingbase = this.parentEntity.getOwner();
+					if(entitylivingbase != null) {
+						double d0 = 64.0D;
+
+						if (entitylivingbase.getDistanceSq(this.parentEntity) < 4096.0D)
+						{
+							double d1 = entitylivingbase.posX - this.parentEntity.posX;
+							double d2 = entitylivingbase.posZ - this.parentEntity.posZ;
+							this.parentEntity.rotationYaw = -((float)MathHelper.atan2(d1, d2)) * (180F / (float)Math.PI);
+							this.parentEntity.renderYawOffset = this.parentEntity.rotationYaw;
+						}
+					}
+				}
 			}
 			else
 			{
@@ -795,7 +809,7 @@ public class EntityLammergeier extends EntityTameableFlying {
 		public boolean shouldExecute()
 		{
 			LammerMoveHelper entitymovehelper = this.parentEntity.getMoveHelper();
-			
+
 			if(parentEntity.isTamed()) {
 				return false;
 			}
@@ -888,13 +902,13 @@ public class EntityLammergeier extends EntityTameableFlying {
 
 	static class EntityAIFindEntityNearestFlying extends EntityAIBase {
 
-		private final EntityLiving mob;
+		private final EntityLammergeier mob;
 		private final Predicate<EntityLivingBase> predicate;
 		private final EntityAINearestAttackableTarget.Sorter sorter;
 		private EntityLivingBase target;
 		private final Class <? extends EntityLivingBase > classToCheck;
 
-		public EntityAIFindEntityNearestFlying(EntityLiving mobIn, Class<? extends EntityLivingBase> p_i45884_2_) {
+		public EntityAIFindEntityNearestFlying(EntityLammergeier mobIn, Class<? extends EntityLivingBase> p_i45884_2_) {
 			//super(mobIn, p_i45884_2_);
 			this.mob = mobIn;
 			this.classToCheck = p_i45884_2_;
@@ -926,6 +940,10 @@ public class EntityLammergeier extends EntityTameableFlying {
 		@Override
 		public boolean shouldExecute()
 		{
+			if(this.mob.isTamed()) {
+				return false;
+			}
+			
 			double d0 = this.getFollowRange();
 			List<EntityLivingBase> list = this.mob.world.<EntityLivingBase>getEntitiesWithinAABB(this.classToCheck, this.mob.getEntityBoundingBox().grow(d0, d0, d0), this.predicate);
 			Collections.sort(list, this.sorter);

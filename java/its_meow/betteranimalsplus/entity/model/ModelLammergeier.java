@@ -625,13 +625,13 @@ public class ModelLammergeier extends ModelBase {
 				this.lLeg01.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F + (float)Math.PI) * 1.4F * limbSwingAmount / f;
 			}
 		} else {
-			if(this.isFlying && this.lastFlying) {
+			if(!this.isFlying && this.lastFlying) {
 				this.switchToWalk();
-				this.isFlying = false;
 			}
 			
-			this.rLeg01.offsetY = 5.0F;
-			this.lLeg01.offsetY = 5.0F;
+			this.rLeg01.offsetY = -0.1F;
+			this.lLeg01.offsetY = -0.1F;
+			this.body.offsetY = 0.1F;
 			
 		}
 

@@ -16,7 +16,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 
-public class EntityAIFollowOwnerFlying extends net.minecraft.entity.ai.EntityAIFollowOwnerFlying
+public class EntityAIFollowOwnerFlying extends EntityAIBase
 {
     private final EntityLammergeier tameable;
     private EntityLivingBase owner;
@@ -30,7 +30,7 @@ public class EntityAIFollowOwnerFlying extends net.minecraft.entity.ai.EntityAIF
 
     public EntityAIFollowOwnerFlying(EntityLammergeier tameableIn, double followSpeedIn, float minDistIn, float maxDistIn)
     {
-    	super(tameableIn, followSpeedIn, minDistIn, maxDistIn);
+    	//super(tameableIn, followSpeedIn, minDistIn, maxDistIn);
         this.tameable = tameableIn;
         this.world = tameableIn.world;
         this.followSpeed = followSpeedIn;
@@ -62,6 +62,8 @@ public class EntityAIFollowOwnerFlying extends net.minecraft.entity.ai.EntityAIF
         else if (this.tameable.getDistanceSq(entitylivingbase) < (double)(this.minDist * this.minDist))
         {
             return false;
+        } else if(this.tameable.getAttackTarget() != null) {
+        	return false;
         }
         else
         {
