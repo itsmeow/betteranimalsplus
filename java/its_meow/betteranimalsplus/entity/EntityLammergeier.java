@@ -482,7 +482,7 @@ public class EntityLammergeier extends EntityFlying {
 		        if (d0 <= d2 && this.attackTick <= 0)
 		        {
 		            this.attackTick = 20;
-		            if(!entitylivingbase.isRiding()) {
+		            if(!entitylivingbase.isRidingOrBeingRiddenBy(attacker)) {
 		            	this.attacker.attackEntityAsMob(entitylivingbase);
 		            }
 		            
@@ -732,6 +732,10 @@ public class EntityLammergeier extends EntityFlying {
 	        else if (!entitylivingbase.isEntityAlive())
 	        {
 	            return false;
+	        } 
+	        else if(entitylivingbase.isRiding())
+	        {
+	        	return false;
 	        }
 	        else
 	        {

@@ -48,7 +48,7 @@ public class LammerMoveHelper extends EntityMoveHelper
 					}
 					else
 					{
-						this.parentEntity.motionY += 0.5;
+						this.parentEntity.motionY += 0.05;
 						this.action = EntityMoveHelper.Action.WAIT;
 					}
 				}
