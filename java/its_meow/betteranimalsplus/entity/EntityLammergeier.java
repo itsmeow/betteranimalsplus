@@ -503,6 +503,15 @@ public class EntityLammergeier extends EntityFlying {
 		        	}
 		        	this.attacker.getMoveHelper().setMoveTo(targetX, liftY + 15, targetZ, 5.0D);
 	            }
+		        if(entitylivingbase.isRiding() && attacker.getEntityWorld().getBlockState(attacker.getPosition().up()).isFullCube()) {
+		        	entitylivingbase.dismountRidingEntity();
+		        	this.attacker.setAttackTarget(null);
+		        	Random random = this.attacker.getRNG();
+		        	BlockPos rPos = this.parentEntity.fromPolarCoordinates(new PolarVector3D(this.parentEntity.rotationYaw + (random.nextInt(40) - 20), random.nextInt(40) - 20, random.nextInt(15) + 1 + random.nextFloat()));
+					BlockPos pos = this.parentEntity.getPosition();
+					rPos = rPos.add(pos);
+					this.parentEntity.getMoveHelper().setMoveTo(rPos.getX(), rPos.getY(), rPos.getZ(), 1.0D);
+		        }
 		        if(Math.abs(attacker.posY - (liftY + 15)) <= 3 && entitylivingbase.isRiding() || !this.attacker.getMoveHelper().isUpdating()) {
 	            	entitylivingbase.dismountRidingEntity(); //Math.abs(attacker.posY - liftY) <= 1
 	            }
