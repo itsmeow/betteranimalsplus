@@ -21,6 +21,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.SharedMonsterAttributes;
 import its_meow.betteranimalsplus.entity.EntityAIAttackMelee;
+import its_meow.betteranimalsplus.entity.ai.LammerMoveHelper;
 import net.minecraft.entity.ai.EntityAIBase;
 import net.minecraft.entity.ai.EntityAIFindEntityNearest;
 import net.minecraft.entity.ai.EntityAIFindEntityNearestPlayer;
@@ -62,7 +63,7 @@ public class EntityLammergeier extends EntityFlying {
 	public EntityLammergeier(World worldIn) {
 		super(worldIn);
 		this.setSize(1F, 1F);
-		this.moveHelperL = new EntityLammergeier.LammerMoveHelper(this);
+		this.moveHelperL = new LammerMoveHelper(this);
 		this.moveHelper = this.moveHelperL;
 	}
 
@@ -425,7 +426,7 @@ public class EntityLammergeier extends EntityFlying {
 					this.parentEntity.rotationYaw = -((float)MathHelper.atan2(d1, d2)) * (180F / (float)Math.PI);
 					this.parentEntity.renderYawOffset = this.parentEntity.rotationYaw;
 				}
-
+				attacker.getMoveHelper().setMoveTo(entitylivingbase.posX, entitylivingbase.posY, entitylivingbase.posZ, 1.0D);
 
 				//this.attacker.getLookHelper().setLookPositionWithEntity(entitylivingbase, 30.0F, 30.0F);
 				double d0 = this.attacker.getDistanceSq(entitylivingbase.posX, entitylivingbase.posY, entitylivingbase.posZ);
@@ -464,7 +465,9 @@ public class EntityLammergeier extends EntityFlying {
 					{
 						this.delayCounter += 5;
 					}
-					attacker.getMoveHelper().setMoveTo(targetX, targetY, targetZ, 0.5D);
+					if(!attacker.getMoveHelper().isUpdating()) {
+						attacker.getMoveHelper().setMoveTo(targetX, targetY, targetZ, 1.0D);
+					}
 					if (!this.attacker.getNavigator().tryMoveToEntityLiving(entitylivingbase, this.speedTowardsTarget))
 					{
 						this.delayCounter += 15;
@@ -731,7 +734,8 @@ public class EntityLammergeier extends EntityFlying {
 
 	            if (this.mob.getDistanceSq(entitylivingbase) > d0 * d0)
 	            {
-	                return false;
+	                this.mob.setAttackTarget(null);
+	            	return false;
 	            }
 	            else
 	            {
@@ -764,79 +768,6 @@ public class EntityLammergeier extends EntityFlying {
 	        return iattributeinstance == null ? 16.0D : iattributeinstance.getAttributeValue();
 	    }
 		
-	}
-
-	static class LammerMoveHelper extends EntityMoveHelper
-	{
-		private final EntityLammergeier parentEntity;
-		private int courseChangeCooldown;
-
-		public LammerMoveHelper(EntityLammergeier lam)
-		{
-			super(lam);
-			this.parentEntity = lam;
-		}
-		
-		public boolean isUpdating()
-	    {
-	        return this.action == EntityMoveHelper.Action.MOVE_TO;
-	    }
-		
-		@Override
-		public void onUpdateMoveHelper()
-		{
-			if (this.action == EntityMoveHelper.Action.MOVE_TO)
-			{
-				double d0 = this.posX - this.parentEntity.posX;
-				double d1 = this.posY - this.parentEntity.posY;
-				double d2 = this.posZ - this.parentEntity.posZ;
-				double d3 = d0 * d0 + d1 * d1 + d2 * d2;
-
-				//if (this.courseChangeCooldown-- <= 0)
-				{
-					this.courseChangeCooldown += this.parentEntity.getRNG().nextInt(5) + 2;
-					d3 = (double)MathHelper.sqrt(d3);
-
-					if (this.isNotColliding(this.posX, this.posY, this.posZ, d3))
-					{
-						if(Math.abs(d0) >= 1 && Math.abs(d1) >= 1 && Math.abs(d2) >= 1) {
-							this.action = EntityMoveHelper.Action.WAIT;
-							return;
-						}
-						this.parentEntity.motionX += d0 / d3 * 0.1D;
-						this.parentEntity.motionY += d1 / d3 * 0.1D;
-						this.parentEntity.motionZ += d2 / d3 * 0.1D;
-					}
-					else
-					{
-						this.action = EntityMoveHelper.Action.WAIT;
-					}
-				}
-			}
-		}
-
-		/**
-		 * Checks if entity bounding box is not colliding with terrain
-		 */
-		private boolean isNotColliding(double x, double y, double z, double p_179926_7_)
-		{
-			double d0 = (x - this.parentEntity.posX) / p_179926_7_;
-			double d1 = (y - this.parentEntity.posY) / p_179926_7_;
-			double d2 = (z - this.parentEntity.posZ) / p_179926_7_;
-			AxisAlignedBB axisalignedbb = this.parentEntity.getEntityBoundingBox();
-
-			for (int i = 1; (double)i < p_179926_7_; ++i)
-			{
-				axisalignedbb = axisalignedbb.offset(d0, d1, d2);
-
-				if (!this.parentEntity.world.getCollisionBoxes(this.parentEntity, axisalignedbb).isEmpty())
-				{
-					return false;
-				}
-			}
-
-			return true;
-		}
 	}
 
 }

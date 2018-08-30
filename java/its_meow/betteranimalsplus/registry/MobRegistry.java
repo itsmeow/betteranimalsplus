@@ -41,8 +41,8 @@ public class MobRegistry {
 		regMob(EntityBear.class, "Brown Bear", 0x4F2900, 0x8E500E, 3, 1, 1, BiomeDictionary.getBiomes(Type.FOREST));
 		regMob(EntityBearNeutral.class, "Black Bear", 0x000000, 0x333333, 2, 1, 1, BiomeDictionary.getBiomes(Type.FOREST));
 		regMob(EntityBearNeutralKermode.class, "Kermode Bear", 0xe8e8e8, 0xf7dabe, 1, 1, 1, BiomeDictionary.getBiomes(Type.FOREST));
-		regCre(EntityDeer.class, "Deer", 0x8e510b, 0xc6863b, 10, 1, 2,  BiomeDictionary.getBiomes(Type.FOREST), BiomeDictionary.getBiomes(Type.MAGICAL));
-		regCre(EntityLammergeier.class, "Lammergeier", 0xd8d8d8, 0xd82b11, 20, 1, 2, BiomeDictionary.getBiomes(Type.HILLS), BiomeDictionary.getBiomes(Type.MOUNTAIN));
+		regMob(EntityDeer.class, "Deer", 0x8e510b, 0xc6863b, 8, 1, 2,  BiomeDictionary.getBiomes(Type.FOREST), BiomeDictionary.getBiomes(Type.MAGICAL));
+		regMob(EntityLammergeier.class, "Lammergeier", 0xd8d8d8, 0xd82b11, 5, 1, 2, BiomeDictionary.getBiomes(Type.HILLS), BiomeDictionary.getBiomes(Type.MOUNTAIN));
 	}
 	
 	@SideOnly(Side.CLIENT)
