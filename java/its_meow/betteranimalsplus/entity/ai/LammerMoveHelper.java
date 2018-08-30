@@ -58,7 +58,7 @@ public class LammerMoveHelper extends EntityMoveHelper
 						}
 						if(this.parentEntity.posX == this.parentEntity.lastTickPosX && this.parentEntity.posY == this.parentEntity.lastTickPosY && this.parentEntity.posZ == this.parentEntity.lastTickPosZ) {
 							Random rand = this.parentEntity.getRNG();
-							this.setMoveTo(this.parentEntity.posX + rand.nextInt(2) - 1, this.parentEntity.posY + rand.nextInt(3) - 1, this.parentEntity.posZ  + rand.nextInt(3) - 1, 0.5D);
+							this.setMoveTo(this.parentEntity.posX + rand.nextInt(2) - 1, this.parentEntity.posY + rand.nextInt(2) - 1, this.parentEntity.posZ  + rand.nextInt(2) - 1, 0.5D);
 						}
 						this.action = EntityMoveHelper.Action.WAIT;
 					}
