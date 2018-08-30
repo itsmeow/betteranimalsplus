@@ -1,5 +1,9 @@
 package its_meow.betteranimalsplus.entity;
 
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.annotation.Nullable;
 
 import com.google.common.base.Predicate;
@@ -22,12 +26,15 @@ import net.minecraft.entity.ai.EntityAILookIdle;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
 import net.minecraft.entity.ai.EntityAIPanic;
 import net.minecraft.entity.ai.EntityAISwimming;
+import net.minecraft.entity.ai.EntityAITempt;
 import net.minecraft.entity.ai.EntityAIWander;
 import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.passive.EntityRabbit;
 import net.minecraft.entity.passive.EntityWolf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
+import net.minecraft.item.Item;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
@@ -132,8 +139,15 @@ public class EntityDeer extends EntityAnimal {
 		super.initEntityAI();
 		this.tasks.addTask(0, new EntityAISwimming(this));
 		this.tasks.addTask(2, new EntityAIPanic(this, 0.65D));
-		this.tasks.addTask(3, new EntityAIAvoidEntity<EntityPlayer>(this, EntityPlayer.class, 20, 0.55D, 0.7D));
-		this.tasks.addTask(4, new EntityAIWander(this, 0.45D));
+		Set<Item> temptItems = new HashSet<Item>();
+		temptItems.add(Items.APPLE);
+		temptItems.add(Items.GOLDEN_APPLE);
+		temptItems.add(Items.CARROT);
+		temptItems.add(Items.CARROT_ON_A_STICK);
+		temptItems.add(Items.GOLDEN_CARROT);
+		this.tasks.addTask(3, new EntityAITempt(this, 0.45D, false, temptItems));
+		this.tasks.addTask(4, new EntityAIAvoidEntity<EntityPlayer>(this, EntityPlayer.class, 20, 0.55D, 0.7D));
+		this.tasks.addTask(5, new EntityAIWander(this, 0.45D));
 		this.tasks.addTask(6, new EntityAILookIdle(this));
 	}
 
