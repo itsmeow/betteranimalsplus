@@ -1,4 +1,6 @@
 package its_meow.betteranimalsplus.entity.ai;
+import java.util.Random;
+
 import its_meow.betteranimalsplus.entity.EntityLammergeier;
 import net.minecraft.entity.ai.EntityMoveHelper;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -53,6 +55,10 @@ public class LammerMoveHelper extends EntityMoveHelper
 							this.parentEntity.motionX += d0 / d3 * 0.1D;
 							this.parentEntity.motionY -= 0.05;
 							this.parentEntity.motionZ += d2 / d3 * 0.1D;
+						}
+						if(this.parentEntity.posX == this.parentEntity.lastTickPosX && this.parentEntity.posY == this.parentEntity.lastTickPosY && this.parentEntity.posZ == this.parentEntity.lastTickPosZ) {
+							Random rand = this.parentEntity.getRNG();
+							this.setMoveTo(this.parentEntity.posX + rand.nextInt(2) - 1, this.parentEntity.posY + rand.nextInt(3) - 1, this.parentEntity.posZ  + rand.nextInt(3) - 1, 0.5D);
 						}
 						this.action = EntityMoveHelper.Action.WAIT;
 					}
