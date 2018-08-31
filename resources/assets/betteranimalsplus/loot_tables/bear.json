@@ -23,7 +23,14 @@
 						{
 						   "function": "minecraft:set_data",
 						   "data": 1
-						}
+						},
+						{
+                            "function": "looting_enchant",
+                            "count": {
+                                "min": 0,
+                                "max": 1
+                            }
+                        }
 					]
 				}
 			]

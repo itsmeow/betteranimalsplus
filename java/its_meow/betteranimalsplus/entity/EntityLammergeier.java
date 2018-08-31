@@ -4,12 +4,17 @@ import java.awt.Point;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
+import java.util.UUID;
 
 import javax.annotation.Nullable;
 
+import org.apache.logging.log4j.Level;
+
+import com.google.common.base.Optional;
 import com.google.common.base.Predicate;
 
 import its_meow.betteranimalsplus.util.PolarVector3D;
+import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
@@ -20,9 +25,11 @@ import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.SharedMonsterAttributes;
+import its_meow.betteranimalsplus.BetterAnimalsPlusMod;
 import its_meow.betteranimalsplus.entity.EntityAIAttackMelee;
 import its_meow.betteranimalsplus.entity.ai.EntityAIFollowOwnerFlying;
 import its_meow.betteranimalsplus.entity.ai.LammerMoveHelper;
+import its_meow.betteranimalsplus.registry.LootTableRegistry;
 import net.minecraft.entity.ai.EntityAIBase;
 import net.minecraft.entity.ai.EntityAIFindEntityNearest;
 import net.minecraft.entity.ai.EntityAIFindEntityNearestPlayer;
@@ -57,8 +64,10 @@ import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.pathfinding.Path;
 import net.minecraft.pathfinding.PathNavigate;
 import net.minecraft.pathfinding.PathNavigateFlying;
+import net.minecraft.server.management.PreYggdrasilConverter;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
@@ -68,11 +77,11 @@ import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
 import paulscode.sound.Vector3D;
 
-public class EntityLammergeier extends EntityTameableFlying {
+public class EntityLammergeier extends EntityTameable {
 
 	private static final DataParameter<Byte> FLYING = EntityDataManager.<Byte>createKey(EntityLammergeier.class, DataSerializers.BYTE);
 	private static final DataParameter<Float> DATA_HEALTH_ID = EntityDataManager.<Float>createKey(EntityWolf.class, DataSerializers.FLOAT);
-
+	
 	private BlockPos spawnPosition;
 
 	public LammerMoveHelper moveHelperL;
@@ -83,6 +92,24 @@ public class EntityLammergeier extends EntityTameableFlying {
 		this.moveHelperL = new LammerMoveHelper(this);
 		this.moveHelper = this.moveHelperL;
 	}
+	
+	/**
+     * Returns true if this entity should move as if it were on a ladder (either because it's actually on a ladder, or
+     * for AI reasons)
+     */
+    public boolean isOnLadder()
+    {
+        return false;
+    }
+	
+
+
+	@Override
+	protected ResourceLocation getLootTable() {
+		return LootTableRegistry.lammergeier;
+	}
+
+
 
 
 
@@ -97,7 +124,7 @@ public class EntityLammergeier extends EntityTameableFlying {
 		this.tasks.addTask(1, this.aiSit);
 		this.tasks.addTask(2, new EntityLammergeier.AIMeleeAttack(this, true));
 		this.tasks.addTask(2, new EntityLammergeier.AIMoveToTarget(this, 50F));
-		this.tasks.addTask(3, new EntityAIFollowOwnerFlying(this, 0.5D, 10.0F, 50.0F));
+		this.tasks.addTask(3, new EntityAIFollowOwnerFlying(this, 0.5D, 8.0F, 20.0F));
 		this.tasks.addTask(5, new EntityLammergeier.AIRandomFly(this));
 		this.tasks.addTask(7, new EntityLammergeier.AILookAround(this));
 		this.targetTasks.addTask(1, new EntityAIOwnerHurtByTarget(this));
@@ -161,20 +188,8 @@ public class EntityLammergeier extends EntityTameableFlying {
 		}
 	}
 
-	public void setTamed(boolean tamed)
-	{
-		super.setTamed(tamed);
-		if (tamed)
-		{
-			this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(15.0D);
-		}
-		else
-		{
-			this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(6.0D);
-		}
 
-	}
-
+	private int lastTick = 0;
 
 	public boolean processInteract(EntityPlayer player, EnumHand hand)
 	{
@@ -201,12 +216,17 @@ public class EntityLammergeier extends EntityTameableFlying {
 				}
 			}
 			
-			if (this.isOwner(player) && !this.world.isRemote && (itemstack.getItem() != Items.MUTTON))
+			if (this.isOwner(player) && !this.world.isRemote && this.ticksExisted - lastTick > 13 && ( itemstack.getItem() == null  || (itemstack.getItem() != Items.MUTTON)))
 			{
-				this.getMoveHelper().action = Action.WAIT;
+				if(!this.isSitting() == false) {
+					this.getMoveHelper().action = Action.WAIT;
+					this.setAttackTarget((EntityLivingBase)null);
+				}
+				
 				this.setSitting(!this.isSitting());
+				//BetterAnimalsPlusMod.logger.log(Level.INFO, this.isSitting());
 				this.navigator.clearPath();	
-				this.setAttackTarget((EntityLivingBase)null);
+				lastTick = this.ticksExisted;
 			}
 		}
 		else if (itemstack.getItem() == Items.BONE)
@@ -221,7 +241,7 @@ public class EntityLammergeier extends EntityTameableFlying {
 				if (!net.minecraftforge.event.ForgeEventFactory.onAnimalTame(this, player))
 				{
 					this.setTamedBy(player);
-					this.setOwnerId(player.getUniqueID());
+					//this.setOwnerId(player.getUniqueID());
 					this.navigator.clearPath();
 					this.getMoveHelper().action = Action.WAIT;
 					this.setAttackTarget((EntityLivingBase)null);
@@ -279,20 +299,6 @@ public class EntityLammergeier extends EntityTameableFlying {
 		{
 			return false;
 		}
-	}
-
-	@Override
-	public void setSitting(boolean shouldSit) {
-		if(shouldSit) {
-			int x, y, z;
-			BlockPos pos = world.getTopSolidOrLiquidBlock(this.getPosition());
-			x = pos.getX();
-			y = pos.getY();
-			z = pos.getZ();
-			this.getMoveHelper().setMoveTo(x, y, z, 1.0D);
-		}
-		super.setSitting(shouldSit);
-		this.aiSit.setSitting(shouldSit);
 	}
 
 	@Override
@@ -502,6 +508,23 @@ public class EntityLammergeier extends EntityTameableFlying {
 		this.setLammerType(compound.getInteger("TypeNumber"));
 		this.dataManager.set(FLYING, Byte.valueOf(compound.getByte("LammerFlying")));
 	}
+
+    public void setTamed(boolean tamed)
+    {
+        super.setTamed(tamed);
+        if (tamed)
+		{
+			this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(15.0D);
+		}
+		else
+		{
+			this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(6.0D);
+		}
+
+    }
+
+
+    
 
 	/**
 	 * Called only once on an entity when first time spawned, via egg, mob spawner, natural spawning etc, but not called
@@ -1018,6 +1041,20 @@ public class EntityLammergeier extends EntityTameableFlying {
 			return iattributeinstance == null ? 16.0D : iattributeinstance.getAttributeValue();
 		}
 
+	}
+
+
+
+
+
+
+
+
+
+
+	@Override
+	public EntityAgeable createChild(EntityAgeable ageable) {
+		return null;
 	}
 
 }

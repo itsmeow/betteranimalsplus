@@ -1,8 +1,11 @@
 package its_meow.betteranimalsplus;
 
+import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import its_meow.betteranimalsplus.proxy.CommonProxy;
+import net.minecraft.client.Minecraft;
+import net.minecraftforge.fml.common.FMLLog;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.Mod.Instance;
@@ -29,6 +32,7 @@ public class BetterAnimalsPlusMod {
 	public void preInit(FMLPreInitializationEvent event) {
 		System.out.println("Pre-Init");
 		proxy.preInit(event);
+		logger = LogManager.getLogger("betteranimalsplus");
 	}
 
 	@EventHandler

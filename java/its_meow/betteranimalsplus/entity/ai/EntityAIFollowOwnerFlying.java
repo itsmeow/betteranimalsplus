@@ -77,6 +77,9 @@ public class EntityAIFollowOwnerFlying extends EntityAIBase
      */
     public boolean shouldContinueExecuting()
     {
+    	if(this.tameable.getAttackTarget() != null) {
+    		return false;
+    	}
         return !this.petPathfinder.noPath() && this.tameable.getDistanceSq(this.owner) > (double)(this.maxDist * this.maxDist) && !this.tameable.isSitting();
     }
 
