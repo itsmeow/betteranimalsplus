@@ -14,6 +14,7 @@ import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIAttackMelee;
+import net.minecraft.entity.ai.EntityAIFindEntityNearest;
 import net.minecraft.entity.ai.EntityAIFindEntityNearestPlayer;
 import net.minecraft.entity.ai.EntityAIFollowParent;
 import net.minecraft.entity.ai.EntityAIHurtByTarget;
@@ -24,6 +25,9 @@ import net.minecraft.entity.ai.EntityAIWander;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.monster.EntityPolarBear;
+import net.minecraft.entity.passive.EntityChicken;
+import net.minecraft.entity.passive.EntityPig;
+import net.minecraft.entity.passive.EntityRabbit;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.nbt.NBTTagCompound;
@@ -57,6 +61,11 @@ public class EntityBear extends EntityMob {
         this.tasks.addTask(7, new EntityAILookIdle(this));
         this.targetTasks.addTask(1, new EntityBear.AIHurtByTarget());
         this.targetTasks.addTask(2, new EntityBear.AIAttackPlayer());
+        this.targetTasks.addTask(3, new EntityAINearestAttackableTarget(this, EntityRabbit.class, true));
+        this.targetTasks.addTask(3, new EntityAINearestAttackableTarget(this, EntityDeer.class, true));
+        this.targetTasks.addTask(3, new EntityAINearestAttackableTarget(this, EntityPig.class, true));
+        this.targetTasks.addTask(3, new EntityAINearestAttackableTarget(this, EntityChicken.class, true));
+        //TODO: Once foxes and pheasants are added target them
 	}
 
 	protected void applyEntityAttributes()
