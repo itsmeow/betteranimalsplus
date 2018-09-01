@@ -45,7 +45,7 @@ public class LammerMoveHelper extends EntityMoveHelper
 							return;
 						}*/
 						this.parentEntity.motionX += d0 / d3 * 0.1D;
-						this.parentEntity.motionY += d1 / d3 * 0.1D;
+						this.parentEntity.motionY += d1 / d3 * 0.1D + (parentEntity.getAttackTarget() == null ? 0.0D : parentEntity.getAttackTarget().isRidingOrBeingRiddenBy(parentEntity) ? 0.1D : 0D);
 						this.parentEntity.motionZ += d2 / d3 * 0.1D;
 					}
 					else
@@ -53,7 +53,7 @@ public class LammerMoveHelper extends EntityMoveHelper
 						this.parentEntity.motionY += 0.05;
 						if(this.parentEntity.getEntityWorld().getBlockState(this.parentEntity.getPosition().up()).isFullBlock()) {
 							this.parentEntity.motionX += d0 / d3 * 0.1D;
-							this.parentEntity.motionY -= 0.05;
+							this.parentEntity.motionY -= 0.05 + (parentEntity.getAttackTarget() == null ? 0.0D : parentEntity.getAttackTarget().isRidingOrBeingRiddenBy(parentEntity) ? 0.1D : 0D);
 							this.parentEntity.motionZ += d2 / d3 * 0.1D;
 						}
 						if(this.parentEntity.posX == this.parentEntity.lastTickPosX && this.parentEntity.posY == this.parentEntity.lastTickPosY && this.parentEntity.posZ == this.parentEntity.lastTickPosZ) {

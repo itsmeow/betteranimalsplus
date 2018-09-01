@@ -593,47 +593,44 @@ public class ModelLammergeier extends ModelBase {
 		this.rLeg01.offsetY = 0.0F;
 		this.lLeg01.offsetY = 0.0F;
 		this.isFlying = !entityIn.getEntityWorld().isBlockFullCube(entityIn.getPosition().down());
-		if(!lammergeier.isSitting()) {
-			if(isFlying) {
-				if(lastFlying == false) {
-					this.switchToFlight();
-				}
-				this.rWing01.rotateAngleZ = MathHelper.cos(ageInTicks * 0.3F) * (float)Math.PI * 0.25F;
-				this.lWing01.rotateAngleZ = -this.rWing01.rotateAngleZ;
-				this.rWing02.rotateAngleZ = this.rWing01.rotateAngleZ * 0.5F;
-				this.lWing02.rotateAngleZ = -this.rWing01.rotateAngleZ * 0.5F;
-			} else {
-				if(lastFlying == true) {
-					this.switchToWalk();
-				}
-				boolean flag = entityIn instanceof EntityLivingBase && ((EntityLivingBase)entityIn).getTicksElytraFlying() > 4;
-				float f = 1.0F;
 
-				if (flag)
-				{
-					f = (float)(entityIn.motionX * entityIn.motionX + entityIn.motionY * entityIn.motionY + entityIn.motionZ * entityIn.motionZ);
-					f = f / 0.2F;
-					f = f * f * f;
-				}
-
-				if (f < 1.0F)
-				{
-					f = 1.0F;
-				}
-
-				this.rLeg01.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount / f;
-				this.lLeg01.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F + (float)Math.PI) * 1.4F * limbSwingAmount / f;
+		if(isFlying) {
+			if(lastFlying == false) {
+				this.switchToFlight();
 			}
+			this.rWing01.rotateAngleZ = MathHelper.cos(ageInTicks * 0.3F) * (float)Math.PI * 0.25F;
+			this.lWing01.rotateAngleZ = -this.rWing01.rotateAngleZ;
+			this.rWing02.rotateAngleZ = this.rWing01.rotateAngleZ * 0.5F;
+			this.lWing02.rotateAngleZ = -this.rWing01.rotateAngleZ * 0.5F;
 		} else {
-			if(!this.isFlying && this.lastFlying) {
+			if(lastFlying == true) {
 				this.switchToWalk();
 			}
+			boolean flag = entityIn instanceof EntityLivingBase && ((EntityLivingBase)entityIn).getTicksElytraFlying() > 4;
+			float f = 1.0F;
+
+			if (flag)
+			{
+				f = (float)(entityIn.motionX * entityIn.motionX + entityIn.motionY * entityIn.motionY + entityIn.motionZ * entityIn.motionZ);
+				f = f / 0.2F;
+				f = f * f * f;
+			}
+
+			if (f < 1.0F)
+			{
+				f = 1.0F;
+			}
+
+			this.rLeg01.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount / f;
+			this.lLeg01.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F + (float)Math.PI) * 1.4F * limbSwingAmount / f;
 			
-			this.rLeg01.offsetY = -0.1F;
-			this.lLeg01.offsetY = -0.1F;
-			this.body.offsetY = 0.1F;
-			
+			if(lammergeier.isSitting()) {
+				this.body.rotateAngleX = 45;
+			} else {
+				this.body.rotateAngleX = 0;
+			}
 		}
+
 
 
 

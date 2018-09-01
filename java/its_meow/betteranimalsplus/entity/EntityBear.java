@@ -6,6 +6,7 @@ import javax.annotation.Nullable;
 
 import com.google.common.base.Predicate;
 
+import its_meow.betteranimalsplus.entity.ai.EntityAINearestAttackableTargetBear;
 import its_meow.betteranimalsplus.registry.LootTableRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
@@ -50,21 +51,23 @@ public class EntityBear extends EntityMob {
 		this.world = worldIn;
 		this.setSize(2F, 2F);
 	}
-
+	
+	@Override
 	protected void initEntityAI()
 	{
-		super.initEntityAI();
+		//super.initEntityAI();
 		this.tasks.addTask(0, new EntityAISwimming(this));
         this.tasks.addTask(1, new EntityBear.AIMeleeAttack());
         this.tasks.addTask(5, new EntityAIWander(this, 1.0D));
         this.tasks.addTask(6, new EntityAIWatchClosest(this, EntityPlayer.class, 6.0F));
         this.tasks.addTask(7, new EntityAILookIdle(this));
         this.targetTasks.addTask(1, new EntityBear.AIHurtByTarget());
-        this.targetTasks.addTask(2, new EntityBear.AIAttackPlayer());
-        this.targetTasks.addTask(3, new EntityAINearestAttackableTarget(this, EntityRabbit.class, true));
-        this.targetTasks.addTask(3, new EntityAINearestAttackableTarget(this, EntityDeer.class, true));
-        this.targetTasks.addTask(3, new EntityAINearestAttackableTarget(this, EntityPig.class, true));
-        this.targetTasks.addTask(3, new EntityAINearestAttackableTarget(this, EntityChicken.class, true));
+        //this.targetTasks.addTask(3, new EntityBear.AIAttackPlayer());
+        //this.targetTasks.addTask(2, new EntityAINearestAttackableTargetBear<EntityPlayer>(this, EntityPlayer.class, 90, true, true, (Predicate) null));
+        this.targetTasks.addTask(3, new EntityAINearestAttackableTargetBear<EntityDeer>(this, EntityDeer.class, 90, true, true, (Predicate)null));
+        this.targetTasks.addTask(4, new EntityAINearestAttackableTargetBear<EntityPig>(this, EntityPig.class, 90, true, true, (Predicate)null));
+        this.targetTasks.addTask(5, new EntityAINearestAttackableTargetBear<EntityChicken>(this, EntityChicken.class, 90, true, true, (Predicate)null));
+        this.targetTasks.addTask(6, new EntityAINearestAttackableTargetBear<EntityRabbit>(this, EntityRabbit.class, 90, true, true, (Predicate)null));
         //TODO: Once foxes and pheasants are added target them
 	}
 
@@ -76,7 +79,7 @@ public class EntityBear extends EntityMob {
 		this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.3D);
 		this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(6.0D);
 		this.getAttributeMap().registerAttribute(SharedMonsterAttributes.ATTACK_SPEED);
-		this.getEntityAttribute(SharedMonsterAttributes.ATTACK_SPEED).setBaseValue(0.5D);
+		this.getEntityAttribute(SharedMonsterAttributes.ATTACK_SPEED).setBaseValue(1D);
 	}
 
 	@Override
@@ -103,7 +106,6 @@ public class EntityBear extends EntityMob {
 	/**
 	 * Called when the entity is attacked.
 	 */
-	/*
 	public boolean attackEntityFrom(DamageSource source, float amount)
 	{
 		if (this.isEntityInvulnerable(source))
@@ -123,7 +125,6 @@ public class EntityBear extends EntityMob {
 			return super.attackEntityFrom(source, amount);
 		}
 	}
-	*/
 
 	public void onUpdate()
 	{
@@ -189,13 +190,16 @@ public class EntityBear extends EntityMob {
 		 */
 		public boolean shouldExecute()
 		{
-
+			
 			if (super.shouldExecute())
 			{
+				if(EntityBear.this.getAttackTarget() != null && this.targetEntity.getIsInvulnerable() || this.targetEntity.isInvisible()) {
+					return false;
+				}
 				return true;
 			}
 
-			EntityBear.this.setAttackTarget((EntityLivingBase)null);
+			//EntityBear.this.setAttackTarget((EntityLivingBase)null);
 			return false;
 
 		}
@@ -230,7 +234,7 @@ public class EntityBear extends EntityMob {
 			}
 		}
 	}
-
+	
 	public class AIMeleeAttack extends EntityAIAttackMelee
 	{
 		public AIMeleeAttack()
@@ -275,8 +279,8 @@ public class EntityBear extends EntityMob {
 
 		protected double getAttackReachSqr(EntityLivingBase attackTarget)
 		{
-			return (double)(4.0F + attackTarget.width);
+			return (double)(10.0F + attackTarget.width);
 		}
 	}
-
+	
 }

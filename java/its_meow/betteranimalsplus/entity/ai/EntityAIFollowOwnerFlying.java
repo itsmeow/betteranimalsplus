@@ -117,7 +117,7 @@ public class EntityAIFollowOwnerFlying extends EntityAIBase
                 this.timeToRecalcPath = 10;
                 
                 //Attempt to find a path
-                if (!this.petPathfinder.tryMoveToEntityLiving(this.owner, this.followSpeed))
+                if (!this.petPathfinder.tryMoveToXYZ(this.owner.posX, this.owner.posY + 2, this.owner.posZ, this.followSpeed))
                 {
                 	//Failed to find path
                     if (!this.tameable.getLeashed() && !this.tameable.isRiding())
