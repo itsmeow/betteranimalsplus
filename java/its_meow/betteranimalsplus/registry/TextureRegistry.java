@@ -32,5 +32,15 @@ public class TextureRegistry {
 	public static final ResourceLocation lam_yellow = 
 			new ResourceLocation(entitytex + "lammergeier_yellow.png");
 	
+	//Wolf Variants
+	public static final ResourceLocation wolf_black = 
+			new ResourceLocation(entitytex + "feral_wolf_black.png");
+	public static final ResourceLocation wolf_snowy = 
+			new ResourceLocation(entitytex + "feral_wolf_snowy.png");
+	public static final ResourceLocation wolf_timber = 
+			new ResourceLocation(entitytex + "feral_wolf_timber.png");
+	public static final ResourceLocation wolf_eyes = 
+			new ResourceLocation(entitytex + "feral_wolf_eyes.png");
+	
 	
 }

@@ -1,4 +1,4 @@
-package its_meow.betteranimalsplus.entity;
+package its_meow.betteranimalsplus.entity.ai;
 
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.EntityLiving;
