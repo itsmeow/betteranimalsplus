@@ -264,6 +264,7 @@ public class EntityFeralWolf extends EntityTameable implements IMob {
 	{
 		super.entityInit();
 		this.dataManager.register(DATA_HEALTH_ID, Float.valueOf(this.getHealth()));
+		this.dataManager.register(TYPE_NUMBER, Integer.valueOf(0));
 	}
 
 	protected void playStepSound(BlockPos pos, Block blockIn)

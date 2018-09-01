@@ -21,7 +21,7 @@ public class LayerWolfEyes implements LayerRenderer<EntityFeralWolf>
 
     public void doRenderLayer(EntityFeralWolf entitylivingbaseIn, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch, float scale)
     {
-        if (entitylivingbaseIn.isTamed() && !entitylivingbaseIn.isInvisible())
+        if (!entitylivingbaseIn.isTamed() && !entitylivingbaseIn.isInvisible())
         {
             this.wolfRenderer.bindTexture(TextureRegistry.wolf_eyes);
             float f = entitylivingbaseIn.getBrightness() * 1.5F;
