@@ -10,9 +10,9 @@ item.venisoncooked.name=Cooked Venison
 #tile.block.name=
 
 #Entities
-entity.Brown Bear.name=Brown Bear
-entity.Black Bear.name=Black Bear
-entity.Kermode Bear.name=Kermode Bear
+entity.BrownBear.name=Brown Bear
+entity.BlackBear.name=Black Bear
+entity.KermodeBear.name=Kermode Bear
 entity.Deer.name=Deer
 entity.Lammergeier.name=Lammergeier
-entity.Feral Wolf.name=Feral Wolf
+entity.FeralWolf.name=Feral Wolf

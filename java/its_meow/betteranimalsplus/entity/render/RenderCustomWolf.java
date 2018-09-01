@@ -2,6 +2,9 @@ package its_meow.betteranimalsplus.entity.render;
 
 import javax.annotation.Nonnull;
 
+import org.lwjgl.opengl.GL11;
+
+import its_meow.betteranimalsplus.entity.EntityBear;
 import its_meow.betteranimalsplus.entity.EntityBearNeutralKermode;
 import its_meow.betteranimalsplus.entity.EntityFeralWolf;
 import its_meow.betteranimalsplus.entity.model.ModelCustomWolf;
@@ -24,6 +27,7 @@ public class RenderCustomWolf extends RenderLiving<EntityFeralWolf> {
 		super(manager, new ModelCustomWolf(), 0.5F);
 		this.addLayer(new LayerWolfEyes(this));
 	}
+
 
 	/**
 	 * Defines what float the third param in setRotationAngles of ModelBase is
@@ -55,15 +59,15 @@ public class RenderCustomWolf extends RenderLiving<EntityFeralWolf> {
 		int typeNumber = entity.getTypeNumber();
 		ResourceLocation result = null;
 		switch(typeNumber) {
-			case 1:
-				result = TextureRegistry.wolf_black;
-				break;
-			case 2:
-				result = TextureRegistry.wolf_snowy;
-				break;
-			case 3:
-				result = TextureRegistry.wolf_timber;
-				break;
+		case 1:
+			result = TextureRegistry.wolf_black;
+			break;
+		case 2:
+			result = TextureRegistry.wolf_snowy;
+			break;
+		case 3:
+			result = TextureRegistry.wolf_timber;
+			break;
 		}
 		return result;
 	}

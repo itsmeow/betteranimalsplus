@@ -40,12 +40,12 @@ public class MobRegistry {
 	
 	public static void init(){
 		//regCre(Entity.class, "name", 0xFF052E (egg base), 0x14FFFC (egg spot), 25 (percent spawn), 1 (min amt), 3 (max amt), Biomes.PLAINS);
-		regMob(EntityBear.class, "Brown Bear", 0x4F2900, 0x8E500E, 3, 1, 1, BiomeDictionary.getBiomes(Type.FOREST));
-		regMob(EntityBearNeutral.class, "Black Bear", 0x000000, 0x333333, 2, 1, 1, BiomeDictionary.getBiomes(Type.FOREST));
-		regMob(EntityBearNeutralKermode.class, "Kermode Bear", 0xe8e8e8, 0xf7dabe, 1, 1, 1, BiomeDictionary.getBiomes(Type.FOREST));
+		regMob(EntityBear.class, "BrownBear", 0x4F2900, 0x8E500E, 3, 1, 1, BiomeDictionary.getBiomes(Type.FOREST));
+		regMob(EntityBearNeutral.class, "BlackBear", 0x000000, 0x333333, 2, 1, 1, BiomeDictionary.getBiomes(Type.FOREST));
+		regMob(EntityBearNeutralKermode.class, "KermodeBear", 0xe8e8e8, 0xf7dabe, 1, 1, 1, BiomeDictionary.getBiomes(Type.FOREST));
 		regMob(EntityDeer.class, "Deer", 0x8e510b, 0xc6863b, 8, 1, 2,  BiomeDictionary.getBiomes(Type.FOREST), BiomeDictionary.getBiomes(Type.MAGICAL));
 		regMob(EntityLammergeier.class, "Lammergeier", 0xd8d8d8, 0xd82b11, 5, 1, 2, BiomeDictionary.getBiomes(Type.HILLS), BiomeDictionary.getBiomes(Type.MOUNTAIN));
-		regMob(EntityFeralWolf.class, "Feral Wolf", 0xbababa, 0x232323, 4, 1, 6, BiomeDictionary.getBiomes(Type.FOREST), BiomeDictionary.getBiomes(Type.MAGICAL), BiomeDictionary.getBiomes(Type.SPOOKY));
+		regMob(EntityFeralWolf.class, "FeralWolf", 0xbababa, 0x232323, 4, 1, 6, BiomeDictionary.getBiomes(Type.FOREST), BiomeDictionary.getBiomes(Type.MAGICAL), BiomeDictionary.getBiomes(Type.SPOOKY));
 	}
 	
 	@SideOnly(Side.CLIENT)

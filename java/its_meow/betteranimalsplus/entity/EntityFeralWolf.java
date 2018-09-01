@@ -53,6 +53,7 @@ import net.minecraft.entity.player.EnumPlayerModelParts;
 import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
+import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemFood;
@@ -97,6 +98,8 @@ public class EntityFeralWolf extends EntityTameable implements IMob {
 	public EntityFeralWolf(World worldIn) {
 		super(worldIn);
 		this.world = worldIn;
+		this.setSize(0.6F, 0.85F);
+        this.setTamed(false);
 	}
 
 	protected void initEntityAI()
@@ -107,7 +110,6 @@ public class EntityFeralWolf extends EntityTameable implements IMob {
 		this.tasks.addTask(4, new EntityAILeapAtTarget(this, 0.4F));
 		this.tasks.addTask(5, new EntityAIAttackMelee(this, 1.0D, true));
 		this.tasks.addTask(6, new EntityAIFollowOwner(this, 1.0D, 10.0F, 2.0F));
-		this.tasks.addTask(7, new EntityAIMate(this, 1.0D));
 		this.tasks.addTask(8, new EntityAIWanderAvoidWater(this, 1.0D));
 		this.tasks.addTask(10, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
 		this.tasks.addTask(10, new EntityAILookIdle(this));
@@ -173,7 +175,7 @@ public class EntityFeralWolf extends EntityTameable implements IMob {
 	public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, @Nullable IEntityLivingData livingdata)
 	{
 		livingdata = super.onInitialSpawn(difficulty, livingdata);
-		int i = (new Random()).nextInt(4) + 1;
+		int i = (new Random()).nextInt(3) + 1;
 
 		if (livingdata instanceof EntityFeralWolf.TypeData)
 		{
@@ -522,7 +524,7 @@ public class EntityFeralWolf extends EntityTameable implements IMob {
 				}
 			}
 
-			if (this.isOwner(player) && !this.world.isRemote && !this.isBreedingItem(itemstack))
+			if (this.isOwner(player) && !this.world.isRemote && !this.isBreedingItem(itemstack) && (!(itemstack.getItem() instanceof ItemFood) || !((ItemFood)itemstack.getItem()).isWolfsFavoriteMeat()))
 			{
 				this.aiSit.setSitting(!this.isSitting());
 				this.isJumping = false;
@@ -532,13 +534,11 @@ public class EntityFeralWolf extends EntityTameable implements IMob {
 		}
 		else if (itemstack.getItem() == Items.BONE )
 		{
-			Set<ItemStack> armorItemStacks = Sets.newHashSet(player.getArmorInventoryList());
 			boolean wearingPowerHead = false;
-			for(ItemStack stack : armorItemStacks) {
-				if(itemstack.getItem() == Items.SKULL) {
-					if(itemstack.getMetadata() == 5) { // 5 = "dragon"
-						wearingPowerHead = true;
-					}
+			ItemStack stack = player.getItemStackFromSlot(EntityEquipmentSlot.HEAD);
+			if(stack.getItem() == Items.SKULL) {
+				if(stack.getMetadata() == 5) { // 5 = "dragon"
+					wearingPowerHead = true;
 				}
 			}
 
@@ -573,7 +573,7 @@ public class EntityFeralWolf extends EntityTameable implements IMob {
 				return true;
 			} else {
 				if(!world.isRemote) {
-					player.sendMessage(new TextComponentString("You cannot tame feral wolves without proving your prowess. Discover a mighty enemy, defeat it, and wear its head. Feral Wolves only bow to the protector of the forests.s"));
+					player.sendMessage(new TextComponentString("You cannot tame feral wolves without proving your prowess. Discover a mighty enemy, defeat it, and wear its head. Feral Wolves only bow to the protector of the forests."));
 				}
 			}
 		}
@@ -634,35 +634,7 @@ public class EntityFeralWolf extends EntityTameable implements IMob {
 	 */
 	public boolean canMateWith(EntityAnimal otherAnimal)
 	{
-		if (otherAnimal == this)
-		{
-			return false;
-		}
-		else if (!this.isTamed())
-		{
-			return false;
-		}
-		else if (!(otherAnimal instanceof EntityFeralWolf))
-		{
-			return false;
-		}
-		else
-		{
-			EntityFeralWolf entityferalwolf = (EntityFeralWolf)otherAnimal;
-
-			if (!entityferalwolf.isTamed())
-			{
-				return false;
-			}
-			else if (entityferalwolf.isSitting())
-			{
-				return false;
-			}
-			else
-			{
-				return this.isInLove() && entityferalwolf.isInLove();
-			}
-		}
+		return false;
 	}
 
 
@@ -703,16 +675,7 @@ public class EntityFeralWolf extends EntityTameable implements IMob {
 
 	public EntityFeralWolf createChild(EntityAgeable ageable)
 	{
-		EntityFeralWolf entitywolf = new EntityFeralWolf(this.world);
-		UUID uuid = this.getOwnerId();
-
-		if (uuid != null)
-		{
-			entitywolf.setOwnerId(uuid);
-			entitywolf.setTamed(true);
-		}
-
-		return entitywolf;
+		return null;
 	}
 
 }
