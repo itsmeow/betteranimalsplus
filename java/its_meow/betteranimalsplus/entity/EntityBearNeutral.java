@@ -165,35 +165,6 @@ public class EntityBearNeutral extends EntityBear {
 		return this.getAttackTarget() == playerIn;
 	}
 
-	public class AIAttackPlayer extends EntityAINearestAttackableTarget<EntityPlayer>
-	{
-		public AIAttackPlayer()
-		{
-			super(EntityBearNeutral.this, EntityPlayer.class, 20, true, true, (Predicate)null);
-		}
-
-		/**
-		 * Returns whether the EntityAIBase should begin execution.
-		 */
-		public boolean shouldExecute()
-		{
-
-			if (super.shouldExecute())
-			{
-				return true;
-			}
-
-			EntityBearNeutral.this.setAttackTarget((EntityLivingBase)null);
-			return false;
-
-		}
-
-		protected double getTargetDistance()
-		{
-			return super.getTargetDistance() * 0.5D;
-		}
-	}
-
 	public class AIHurtByTarget extends EntityAIHurtByTarget
 	{
 		public AIHurtByTarget()

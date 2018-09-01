@@ -63,11 +63,11 @@ public class EntityBear extends EntityMob {
         this.tasks.addTask(7, new EntityAILookIdle(this));
         this.targetTasks.addTask(1, new EntityBear.AIHurtByTarget());
         //this.targetTasks.addTask(3, new EntityBear.AIAttackPlayer());
-        //this.targetTasks.addTask(2, new EntityAINearestAttackableTargetBear<EntityPlayer>(this, EntityPlayer.class, 90, true, true, (Predicate) null));
-        this.targetTasks.addTask(3, new EntityAINearestAttackableTargetBear<EntityDeer>(this, EntityDeer.class, 90, true, true, (Predicate)null));
-        this.targetTasks.addTask(4, new EntityAINearestAttackableTargetBear<EntityPig>(this, EntityPig.class, 90, true, true, (Predicate)null));
-        this.targetTasks.addTask(5, new EntityAINearestAttackableTargetBear<EntityChicken>(this, EntityChicken.class, 90, true, true, (Predicate)null));
-        this.targetTasks.addTask(6, new EntityAINearestAttackableTargetBear<EntityRabbit>(this, EntityRabbit.class, 90, true, true, (Predicate)null));
+        this.targetTasks.addTask(2, new EntityAINearestAttackableTarget<EntityPlayer>(this, EntityPlayer.class, 90, true, true, (Predicate) null));
+        this.targetTasks.addTask(3, new EntityAINearestAttackableTarget<EntityDeer>(this, EntityDeer.class, 90, true, true, (Predicate)null));
+        this.targetTasks.addTask(4, new EntityAINearestAttackableTarget<EntityPig>(this, EntityPig.class, 90, true, true, (Predicate)null));
+        this.targetTasks.addTask(5, new EntityAINearestAttackableTarget<EntityChicken>(this, EntityChicken.class, 90, true, true, (Predicate)null));
+        this.targetTasks.addTask(6, new EntityAINearestAttackableTarget<EntityRabbit>(this, EntityRabbit.class, 90, true, true, (Predicate)null));
         //TODO: Once foxes and pheasants are added target them
 	}
 
@@ -178,37 +178,6 @@ public class EntityBear extends EntityMob {
 		return this.getAttackingEntity() == playerIn;
 	}
 
-	public class AIAttackPlayer extends EntityAINearestAttackableTarget<EntityPlayer>
-	{
-		public AIAttackPlayer()
-		{
-			super(EntityBear.this, EntityPlayer.class, 90, true, true, (Predicate)null);
-		}
-
-		/**
-		 * Returns whether the EntityAIBase should begin execution.
-		 */
-		public boolean shouldExecute()
-		{
-			
-			if (super.shouldExecute())
-			{
-				if(EntityBear.this.getAttackTarget() != null && this.targetEntity.getIsInvulnerable() || this.targetEntity.isInvisible()) {
-					return false;
-				}
-				return true;
-			}
-
-			//EntityBear.this.setAttackTarget((EntityLivingBase)null);
-			return false;
-
-		}
-
-		protected double getTargetDistance()
-		{
-			return super.getTargetDistance() * 0.5D;
-		}
-	}
 
 	public class AIHurtByTarget extends EntityAIHurtByTarget
 	{
