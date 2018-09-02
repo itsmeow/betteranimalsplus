@@ -1,14 +1,18 @@
 package its_meow.betteranimalsplus.entity.model;
 
+import its_meow.betteranimalsplus.entity.EntityFox;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.util.math.MathHelper;
 
 /**
  * fox - cybercat5555
  * Created using Tabula 5.1.0
  */
-public class ModelFox extends ModelBase {
+public class ModelFox extends ModelBetterAnimals {
     public ModelRenderer body;
     public ModelRenderer rear;
     public ModelRenderer lArm01;
@@ -297,6 +301,101 @@ public class ModelFox extends ModelBase {
     public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) { 
         this.body.render(f5);
     }
+    
+    /**
+	 * Used for easily adding entity-dependent animations. The second and third float params here are the same second
+	 * and third as in the setRotationAngles method.
+	 */
+	public void setLivingAnimations(EntityLivingBase entitylivingbaseIn, float limbSwing, float limbSwingAmount, float partialTickTime)
+	{
+		EntityFox entityfox = (EntityFox)entitylivingbaseIn;
+
+		if (!entityfox.isTamed())
+		{
+			this.tail01.rotateAngleY = 0.0F;
+		}
+		else
+		{
+			this.tail01.rotateAngleY = MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount;
+		}
+
+
+
+		/*if (entityfox.isSitting())
+        {
+            this.neck.setRotationPoint(-1.0F, 16.0F, -3.0F);
+            this.neck.rotateAngleX = ((float)Math.PI * 2F / 5F);
+            this.neck.rotateAngleY = 0.0F;
+            this.body.setRotationPoint(0.0F, 18.0F, 0.0F);
+            this.body.rotateAngleX = ((float)Math.PI / 4F);
+            this.tail01.setRotationPoint(-1.0F, 21.0F, 6.0F);
+            this.lArm01.setRotationPoint(-2.5F, 22.0F, 2.0F);
+            this.lArm01.rotateAngleX = ((float)Math.PI * 3F / 2F);
+            this.rArm01.setRotationPoint(0.5F, 22.0F, 2.0F);
+            this.rArm01.rotateAngleX = ((float)Math.PI * 3F / 2F);
+            this.lHindLeg01.rotateAngleX = 5.811947F;
+            this.lHindLeg01.setRotationPoint(-2.49F, 17.0F, -4.0F);
+            this.rHindLeg01.rotateAngleX = 5.811947F;
+            this.rHindLeg01.setRotationPoint(0.51F, 17.0F, -4.0F);
+        }
+        else
+        {
+            this.body.setRotationPoint(0.0F, 14.0F, 2.0F);
+            this.body.rotateAngleX = ((float)Math.PI / 2F);
+            this.neck.setRotationPoint(-1.0F, 14.0F, -3.0F);
+            this.neck.rotateAngleX = this.body.rotateAngleX;
+            this.tail01.setRotationPoint(-1.0F, 12.0F, 8.0F);
+            this.lArm01.setRotationPoint(-2.5F, 16.0F, 7.0F);
+            this.rArm01.setRotationPoint(0.5F, 16.0F, 7.0F);
+            this.lHindLeg01.setRotationPoint(-2.5F, 16.0F, -4.0F);
+            this.rHindLeg01.setRotationPoint(0.5F, 16.0F, -4.0F);
+            this.lArm01.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount;
+            this.rArm01.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F + (float)Math.PI) * 1.4F * limbSwingAmount;
+            this.lHindLeg01.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F + (float)Math.PI) * 1.4F * limbSwingAmount;
+            this.rHindLeg02.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount;
+        }*/
+
+
+
+		this.head.rotateAngleZ = entityfox.getInterestedAngle(partialTickTime) + entityfox.getShakeAngle(partialTickTime, 0.0F);
+		this.neck.rotateAngleZ = entityfox.getShakeAngle(partialTickTime, -0.08F);
+		this.rear.rotateAngleZ = entityfox.getShakeAngle(partialTickTime, -0.16F);
+		this.tail01.rotateAngleZ = entityfox.getShakeAngle(partialTickTime, -0.2F);
+	}
+
+
+	@Override
+	public void setRotationAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor, Entity entity) {
+		float swingModifier = 0.9f;
+		float partialTicks = Minecraft.getMinecraft().getRenderPartialTicks();
+		if (entity instanceof EntityLivingBase) {
+			EntityLivingBase living = (EntityLivingBase) entity;
+			limbSwing = limbSwing + this.getSwingProgressPrev(living);
+			//this.head.rotateAngleZ = this.head.rotateAngleY;
+			lHindLeg01.rotateAngleX = MathHelper.sin(limbSwing * 0.8665F + (float) Math.PI) * swingModifier * limbSwingAmount;
+			rHindLeg01.rotateAngleX = MathHelper.cos(limbSwing * 0.8665F) * swingModifier * limbSwingAmount;
+			lArm01.rotateAngleX = MathHelper.sin(limbSwing * 0.8665F) * swingModifier * limbSwingAmount;
+			rArm01.rotateAngleX = MathHelper.cos(limbSwing * 0.8665F + (float) Math.PI) * swingModifier * limbSwingAmount;
+			this.neck.rotateAngleX = -0.6F;
+		}
+
+		this.head.rotateAngleX = (float) Math.toRadians(this.getHeadPitch((EntityLivingBase) entity)) + 0.6f;
+		this.head.rotateAngleY = netHeadYaw * 0.017453292F;
+
+		if(entity instanceof EntityFox) {
+			EntityFox fox = (EntityFox) entity;
+			if(fox.isSitting()) {
+				this.rear.rotateAngleX = -1F;
+				this.tail01.rotateAngleX = 0F;
+				this.body.rotateAngleX = -0.3F;
+			}else {
+				this.rear.rotateAngleX = 0;
+				this.body.rotateAngleX = 0;
+			}
+		}
+
+
+	}
 
     /**
      * This is a helper function from Tabula to set the rotation of model parts

@@ -68,5 +68,16 @@ public class TextureRegistry {
 	public static final ResourceLocation trillium2 = 
 			new ResourceLocation(entitytex + "flora/trillium_2.png");
 	
+	//Fox Variants
+	public static final ResourceLocation fox_1 = 
+			new ResourceLocation(entitytex + "fox_1.png");
+	public static final ResourceLocation fox_2 = 
+			new ResourceLocation(entitytex + "fox_2.png");
+	public static final ResourceLocation fox_3 = 
+			new ResourceLocation(entitytex + "fox_3.png");
+	public static final ResourceLocation fox_4 = 
+			new ResourceLocation(entitytex + "fox_4.png");
+	
+	
 	
 }

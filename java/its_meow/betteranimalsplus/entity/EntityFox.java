@@ -80,10 +80,10 @@ import net.minecraft.world.storage.loot.LootTableList;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class EntityFeralWolf extends EntityTameable implements IMob {
+public class EntityFox extends EntityTameable {
 	
-	protected static final DataParameter<Float> DATA_HEALTH_ID = EntityDataManager.<Float>createKey(EntityFeralWolf.class, DataSerializers.FLOAT);
-	protected static final DataParameter<Integer> TYPE_NUMBER = EntityDataManager.<Integer>createKey(EntityFeralWolf.class, DataSerializers.VARINT);
+	protected static final DataParameter<Float> DATA_HEALTH_ID = EntityDataManager.<Float>createKey(EntityFox.class, DataSerializers.FLOAT);
+	protected static final DataParameter<Integer> TYPE_NUMBER = EntityDataManager.<Integer>createKey(EntityFox.class, DataSerializers.VARINT);
 	/** Float used to smooth the rotation of the wolf head */
     protected float headRotationCourse;
     protected float headRotationCourseOld;
@@ -95,7 +95,7 @@ public class EntityFeralWolf extends EntityTameable implements IMob {
     protected float timeWolfIsShaking;
     protected float prevTimeWolfIsShaking;
 	
-	public EntityFeralWolf(World worldIn) {
+	public EntityFox(World worldIn) {
 		super(worldIn);
 		this.world = worldIn;
 		this.setSize(0.6F, 0.85F);
@@ -116,29 +116,9 @@ public class EntityFeralWolf extends EntityTameable implements IMob {
 		this.targetTasks.addTask(1, new EntityAIOwnerHurtByTarget(this));
 		this.targetTasks.addTask(2, new EntityAIOwnerHurtTarget(this));
 		this.targetTasks.addTask(3, new EntityAIHurtByTarget(this, true, new Class[0]));
-		this.targetTasks.addTask(4, new EntityAITargetNonTamed(this, EntityPlayer.class, false, (Predicate) null));
-		this.targetTasks.addTask(4, new EntityAITargetNonTamed(this, EntityAnimal.class, false, new Predicate<Entity>()
-		{
-			public boolean apply(@Nullable Entity p_apply_1_)
-			{
-				return p_apply_1_ instanceof EntitySheep || p_apply_1_ instanceof EntityRabbit;
-			}
-		}));
-		this.targetTasks.addTask(4, new EntityAITargetNonTamed(this, EntityVillager.class, false, (Predicate) null));
-		this.targetTasks.addTask(4, new EntityAITargetNonTamed(this, AbstractIllager.class, false, (Predicate) null));
+		this.targetTasks.addTask(4, new EntityAITargetNonTamed(this, EntityRabbit.class, false, (Predicate) null));
 		this.targetTasks.addTask(4, new EntityAITargetNonTamed(this, EntityChicken.class, false, (Predicate) null));
-		this.targetTasks.addTask(5, new EntityAINearestAttackableTarget(this, AbstractSkeleton.class, false));
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 
 	public int getTypeNumber() {
 		return ((Integer)this.dataManager.get(TYPE_NUMBER)).intValue();
@@ -175,15 +155,15 @@ public class EntityFeralWolf extends EntityTameable implements IMob {
 	public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, @Nullable IEntityLivingData livingdata)
 	{
 		livingdata = super.onInitialSpawn(difficulty, livingdata);
-		int i = (new Random()).nextInt(3) + 1;
+		int i = (new Random()).nextInt(4) + 1;
 
-		if (livingdata instanceof EntityFeralWolf.TypeData)
+		if (livingdata instanceof EntityFox.TypeData)
 		{
-			i = ((EntityFeralWolf.TypeData)livingdata).typeData;
+			i = ((EntityFox.TypeData)livingdata).typeData;
 		}
 		else
 		{
-			livingdata = new EntityFeralWolf.TypeData(i);
+			livingdata = new EntityFox.TypeData(i);
 		}
 
 		this.setType(i);
@@ -254,7 +234,7 @@ public class EntityFeralWolf extends EntityTameable implements IMob {
 			this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(8.0D);
 		}
 
-		this.getAttributeMap().registerAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(5.0D);
+		this.getAttributeMap().registerAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(4.0D);
 	}
 
 	protected void updateAITasks()
@@ -274,9 +254,9 @@ public class EntityFeralWolf extends EntityTameable implements IMob {
 		this.playSound(SoundEvents.ENTITY_WOLF_STEP, 0.15F, 1.0F);
 	}
 
-	public static void registerFixesFeralWolf(DataFixer fixer)
+	public static void registerFixesFox(DataFixer fixer)
 	{
-		EntityLiving.registerFixesMob(fixer, EntityFeralWolf.class);
+		EntityLiving.registerFixesMob(fixer, EntityFox.class);
 	}
 
 
@@ -496,7 +476,7 @@ public class EntityFeralWolf extends EntityTameable implements IMob {
 			this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(8.0D);
 		}
 
-		this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(5.0D);
+		this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(4.0D);
 	}
 
 	public boolean processInteract(EntityPlayer player, EnumHand hand)
@@ -532,20 +512,8 @@ public class EntityFeralWolf extends EntityTameable implements IMob {
 				this.setAttackTarget((EntityLivingBase)null);
 			}
 		}
-		else if (itemstack.getItem() == Items.BONE )
+		else if (itemstack.getItem() == Items.RABBIT || itemstack.getItem() == Items.CHICKEN)
 		{
-			boolean wearingPowerHead = false;
-			ItemStack stack = player.getItemStackFromSlot(EntityEquipmentSlot.HEAD);
-			if(stack.getItem() == Items.SKULL) {
-				if(stack.getMetadata() == 5) { // 5 = "dragon"
-					wearingPowerHead = true;
-				}
-			}
-
-
-			if(wearingPowerHead) { //player.isWearing(part)) TODO: Once hirschgeist added put check for its head
-
-
 				if (!player.capabilities.isCreativeMode)
 				{
 					itemstack.shrink(1);
@@ -571,11 +539,6 @@ public class EntityFeralWolf extends EntityTameable implements IMob {
 				}
 
 				return true;
-			} else {
-				if(!world.isRemote) {
-					player.sendMessage(new TextComponentString("You cannot tame feral wolves without proving your prowess. Discover a mighty enemy, defeat it, and wear its head. Feral Wolves only bow to the protector of the forests."));
-				}
-			}
 		}
 
 		return super.processInteract(player, hand);
@@ -642,11 +605,11 @@ public class EntityFeralWolf extends EntityTameable implements IMob {
 	{
 		if (!(target instanceof EntityCreeper) && !(target instanceof EntityGhast))
 		{
-			if (target instanceof EntityFeralWolf)
+			if (target instanceof EntityFox)
 			{
-				EntityFeralWolf entityferalwolf = (EntityFeralWolf)target;
+				EntityFox entityfox = (EntityFox)target;
 
-				if (entityferalwolf.isTamed() && entityferalwolf.getOwner() == owner)
+				if (entityfox.isTamed() && entityfox.getOwner() == owner)
 				{
 					return false;
 				}
@@ -673,7 +636,7 @@ public class EntityFeralWolf extends EntityTameable implements IMob {
 	}
 
 
-	public EntityFeralWolf createChild(EntityAgeable ageable)
+	public EntityFox createChild(EntityAgeable ageable)
 	{
 		return null;
 	}

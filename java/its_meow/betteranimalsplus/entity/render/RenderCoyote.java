@@ -32,7 +32,7 @@ public class RenderCoyote extends RenderLiving<EntityCoyote> {
 	/**
 	 * Defines what float the third param in setRotationAngles of ModelBase is
 	 */
-	protected float handleRotationFloat(EntityWolf livingBase, float partialTicks)
+	protected float handleRotationFloat(EntityCoyote livingBase, float partialTicks)
 	{
 		return livingBase.getTailRotation();
 	}

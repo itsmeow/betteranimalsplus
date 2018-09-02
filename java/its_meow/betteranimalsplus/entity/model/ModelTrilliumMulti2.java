@@ -499,6 +499,11 @@ public class ModelTrilliumMulti2 extends ModelBase {
         this.stem05_2.render(f5);
         GlStateManager.popMatrix();
     }
+    
+    @Override
+   	public void setRotationAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor, Entity entity) {
+       	this.stem01.rotateAngleY = entity.rotationYaw;
+    }
 
     /**
      * This is a helper function from Tabula to set the rotation of model parts
