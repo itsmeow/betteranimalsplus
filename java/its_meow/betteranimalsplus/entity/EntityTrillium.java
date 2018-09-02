@@ -92,7 +92,7 @@ public class EntityTrillium extends EntityLiving {
 	public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, @Nullable IEntityLivingData livingdata)
 	{
 		livingdata = super.onInitialSpawn(difficulty, livingdata);
-		int i = (new Random()).nextInt(2) + 1;
+		int i = (new Random()).nextInt(8) + 1;
 
 		if (livingdata instanceof EntityTrillium.TypeData)
 		{

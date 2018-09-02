@@ -42,7 +42,7 @@ public class RenderTrillium extends RenderLiving<EntityTrillium> {
 	@Override
 	@Nonnull
 	protected ResourceLocation getEntityTexture(@Nonnull EntityTrillium entity) {
-		return entity.getTypeNumber() == 1 ? TextureRegistry.trillium : TextureRegistry.trillium2;
+		return entity.getTypeNumber() == 1 ? TextureRegistry.trillium2 : TextureRegistry.trillium;
 	}
 	
 	public static class Factory implements IRenderFactory<EntityTrillium> {
