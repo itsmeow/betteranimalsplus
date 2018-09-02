@@ -5,6 +5,8 @@ import javax.annotation.Nullable;
 import com.google.common.base.Predicate;
 
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityAgeable;
+import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.EntityAIAttackMelee;
 import net.minecraft.entity.ai.EntityAIFollowOwner;
@@ -34,6 +36,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemFood;
+import net.minecraft.item.ItemMonsterPlacer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.text.TextComponentString;
@@ -84,8 +87,10 @@ public class EntityCoyote extends EntityFeralWolf {
 	public void setAttackTarget(EntityLivingBase entitylivingbaseIn) {
 		if(!this.isDaytime()) { 
 			super.setAttackTarget(entitylivingbaseIn);
-		} else {
+		} else if(!this.isTamed()) {
 			super.setAttackTarget(null);
+		} else {
+			super.setAttackTarget(entitylivingbaseIn);
 		}
 	}
 	
@@ -155,16 +160,53 @@ public class EntityCoyote extends EntityFeralWolf {
 			} else {
 				if(!world.isRemote) {
 					player.sendMessage(new TextComponentString("This coyote is currently hostile. Perhaps it could be tamed outside of its hunting hours?"));
+					
 				}
+				return true;
 			}
 		}
+		
 
-		return ((EntityTameable)this).processInteract(player, hand);
+		if (itemstack.getItem() == Items.SPAWN_EGG)
+        {
+            if (!this.world.isRemote)
+            {
+                Class <? extends Entity > oclass = EntityList.getClass(ItemMonsterPlacer.getNamedIdFrom(itemstack));
+
+                if (oclass != null && this.getClass() == oclass)
+                {
+                    EntityAgeable entityageable = this.createChild(this);
+
+                    if (entityageable != null)
+                    {
+                        entityageable.setGrowingAge(-24000);
+                        entityageable.setLocationAndAngles(this.posX, this.posY, this.posZ, 0.0F, 0.0F);
+                        this.world.spawnEntity(entityageable);
+
+                        if (itemstack.hasDisplayName())
+                        {
+                            entityageable.setCustomNameTag(itemstack.getDisplayName());
+                        }
+
+                        if (!player.capabilities.isCreativeMode)
+                        {
+                            itemstack.shrink(1);
+                        }
+                    }
+                }
+            }
+
+            return true;
+        }
+        else
+        {
+            return false;
+        }
 	}
 	
 	public boolean shouldAttackEntity(EntityLivingBase target, EntityLivingBase owner)
 	{
-		if (!(target instanceof EntityCreeper) && !(target instanceof EntityGhast) && !this.isDaytime())
+		if (!(target instanceof EntityCreeper) && !(target instanceof EntityGhast) && (this.isTamed() || !this.isDaytime()))
 		{
 			if (target instanceof EntityCoyote)
 			{

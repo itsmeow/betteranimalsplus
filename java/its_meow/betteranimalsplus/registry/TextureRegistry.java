@@ -62,5 +62,11 @@ public class TextureRegistry {
 	public static final ResourceLocation coyote_eyes = 
 			new ResourceLocation(entitytex + "coyote_hostile_eyes.png");
 	
+	//Trillium Variants
+	public static final ResourceLocation trillium = 
+			new ResourceLocation(entitytex + "flora/trillium.png");
+	public static final ResourceLocation trillium2 = 
+			new ResourceLocation(entitytex + "flora/trillium_2.png");
+	
 	
 }

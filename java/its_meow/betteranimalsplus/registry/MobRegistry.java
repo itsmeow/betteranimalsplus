@@ -14,6 +14,7 @@ import its_meow.betteranimalsplus.entity.EntityCoyote;
 import its_meow.betteranimalsplus.entity.EntityDeer;
 import its_meow.betteranimalsplus.entity.EntityFeralWolf;
 import its_meow.betteranimalsplus.entity.EntityLammergeier;
+import its_meow.betteranimalsplus.entity.EntityTrillium;
 import its_meow.betteranimalsplus.entity.render.RenderBlackBear;
 import its_meow.betteranimalsplus.entity.render.RenderBrownBear;
 import its_meow.betteranimalsplus.entity.render.RenderCoyote;
@@ -21,6 +22,7 @@ import its_meow.betteranimalsplus.entity.render.RenderCustomWolf;
 import its_meow.betteranimalsplus.entity.render.RenderDeer;
 import its_meow.betteranimalsplus.entity.render.RenderKermodeBear;
 import its_meow.betteranimalsplus.entity.render.RenderLammergeier;
+import its_meow.betteranimalsplus.entity.render.RenderTrillium;
 import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.init.Biomes;
 import net.minecraft.util.ResourceLocation;
@@ -50,6 +52,7 @@ public class MobRegistry {
 		regMob(EntityLammergeier.class, "Lammergeier", 0xd8d8d8, 0xd82b11, 5, 1, 2, BiomeDictionary.getBiomes(Type.HILLS), BiomeDictionary.getBiomes(Type.MOUNTAIN));
 		regMob(EntityFeralWolf.class, "FeralWolf", 0xbababa, 0x232323, 4, 1, 6, BiomeDictionary.getBiomes(Type.FOREST), BiomeDictionary.getBiomes(Type.MAGICAL), BiomeDictionary.getBiomes(Type.SPOOKY));
 		regMob(EntityCoyote.class, "Coyote", 0x866a31, 0xb69762, 6, 1, 6, BiomeDictionary.getBiomes(Type.SANDY), BiomeDictionary.getBiomes(Type.PLAINS));
+		regMob(EntityTrillium.class, "Trillium", 0x00a053, 0xcc33ff, 40, 5, 15, BiomeDictionary.getBiomes(Type.SWAMP), BiomeDictionary.getBiomes(Type.WET));
 	}
 	
 	@SideOnly(Side.CLIENT)
@@ -61,6 +64,7 @@ public class MobRegistry {
 		registerRender(EntityLammergeier.class, RenderLammergeier.FACTORY);
 		registerRender(EntityFeralWolf.class, RenderCustomWolf.FACTORY);
 		registerRender(EntityCoyote.class, RenderCoyote.FACTORY);
+		registerRender(EntityTrillium.class, RenderTrillium.FACTORY);
 	}
 	
 	@SideOnly(Side.CLIENT)

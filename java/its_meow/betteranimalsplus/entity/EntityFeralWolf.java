@@ -82,8 +82,8 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class EntityFeralWolf extends EntityTameable implements IMob {
 	
-	protected static final DataParameter<Float> DATA_HEALTH_ID = EntityDataManager.<Float>createKey(EntityWolf.class, DataSerializers.FLOAT);
-	protected static final DataParameter<Integer> TYPE_NUMBER = EntityDataManager.<Integer>createKey(EntityLammergeier.class, DataSerializers.VARINT);
+	protected static final DataParameter<Float> DATA_HEALTH_ID = EntityDataManager.<Float>createKey(EntityFeralWolf.class, DataSerializers.FLOAT);
+	protected static final DataParameter<Integer> TYPE_NUMBER = EntityDataManager.<Integer>createKey(EntityFeralWolf.class, DataSerializers.VARINT);
 	/** Float used to smooth the rotation of the wolf head */
     protected float headRotationCourse;
     protected float headRotationCourseOld;
