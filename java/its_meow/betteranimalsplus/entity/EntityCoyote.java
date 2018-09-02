@@ -28,6 +28,7 @@ import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.passive.EntityChicken;
 import net.minecraft.entity.passive.EntityRabbit;
 import net.minecraft.entity.passive.EntitySheep;
+import net.minecraft.entity.passive.EntityTameable;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
@@ -76,7 +77,7 @@ public class EntityCoyote extends EntityFeralWolf {
 	}
 	
 	public boolean isDaytime() {
-		return world.getWorldTime() >= 13000 && world.getWorldTime() <= 23000;
+		return !(world.getWorldTime() >= 13000 && world.getWorldTime() <= 23000);
 	}
 	
 	@Override
@@ -158,7 +159,7 @@ public class EntityCoyote extends EntityFeralWolf {
 			}
 		}
 
-		return super.processInteract(player, hand);
+		return ((EntityTameable)this).processInteract(player, hand);
 	}
 	
 	public boolean shouldAttackEntity(EntityLivingBase target, EntityLivingBase owner)
