@@ -27,7 +27,7 @@ public class LayerCoyoteEyes implements LayerRenderer<EntityCoyote>
 
 	public void doRenderLayer(EntityCoyote entitylivingbaseIn, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch, float scale)
 	{
-		if((entitylivingbaseIn instanceof EntityCoyote) && !entitylivingbaseIn.world.isDaytime()) {
+		if(!entitylivingbaseIn.isDaytime()) {
 			if (!entitylivingbaseIn.isTamed() && !entitylivingbaseIn.isInvisible() && !entitylivingbaseIn.isChild())
 			{
 				this.wolfRenderer.bindTexture(TextureRegistry.coyote_eyes);

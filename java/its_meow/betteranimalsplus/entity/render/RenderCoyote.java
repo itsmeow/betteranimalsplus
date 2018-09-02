@@ -56,13 +56,13 @@ public class RenderCoyote extends RenderLiving<EntityCoyote> {
 	 */
 	protected ResourceLocation getEntityTexture(EntityCoyote entity)
 	{
-		return this.getCoyoteTexture(entity.getTypeNumber(), entity);
+		return this.getCoyoteTexture(entity);
 	}
 	
-	private ResourceLocation getCoyoteTexture(int typeNumber, EntityCoyote entity) {	
+	private ResourceLocation getCoyoteTexture(EntityCoyote entity) {	
 		if(entity.isTamed()) {
 			return TextureRegistry.coyote_neutral;
-		} else if(entity.world.isDaytime()) {
+		} else if(entity.isDaytime()) {
 			return TextureRegistry.coyote_neutral;
 		} else {
 			return TextureRegistry.coyote_hostile;

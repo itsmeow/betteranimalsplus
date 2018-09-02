@@ -74,10 +74,14 @@ public class EntityCoyote extends EntityFeralWolf {
 		this.targetTasks.addTask(4, new EntityAITargetNonTamed(this, EntityChicken.class, false, (Predicate) null));
 		this.targetTasks.addTask(5, new EntityAINearestAttackableTarget(this, AbstractSkeleton.class, false));
 	}
-
+	
+	public boolean isDaytime() {
+		return world.getWorldTime() >= 13000 && world.getWorldTime() <= 23000;
+	}
+	
 	@Override
 	public void setAttackTarget(EntityLivingBase entitylivingbaseIn) {
-		if(!world.isDaytime()) { 
+		if(!this.isDaytime()) { 
 			super.setAttackTarget(entitylivingbaseIn);
 		} else {
 			super.setAttackTarget(null);
@@ -119,7 +123,7 @@ public class EntityCoyote extends EntityFeralWolf {
 		}
 		else if (itemstack.getItem() == Items.RABBIT )
 		{
-			if(world.isDaytime()) {
+			if(this.isDaytime()) {
 
 
 				if (!player.capabilities.isCreativeMode)
@@ -159,7 +163,7 @@ public class EntityCoyote extends EntityFeralWolf {
 	
 	public boolean shouldAttackEntity(EntityLivingBase target, EntityLivingBase owner)
 	{
-		if (!(target instanceof EntityCreeper) && !(target instanceof EntityGhast) && !world.isDaytime())
+		if (!(target instanceof EntityCreeper) && !(target instanceof EntityGhast) && !this.isDaytime())
 		{
 			if (target instanceof EntityCoyote)
 			{
