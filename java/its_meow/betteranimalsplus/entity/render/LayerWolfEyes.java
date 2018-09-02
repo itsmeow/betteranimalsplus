@@ -3,6 +3,7 @@ package its_meow.betteranimalsplus.entity.render;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL14;
 
+import its_meow.betteranimalsplus.entity.EntityCoyote;
 import its_meow.betteranimalsplus.entity.EntityFeralWolf;
 import its_meow.betteranimalsplus.registry.TextureRegistry;
 import net.minecraft.client.Minecraft;

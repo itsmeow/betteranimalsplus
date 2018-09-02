@@ -1,5 +1,6 @@
 package its_meow.betteranimalsplus.registry;
 
+import java.sql.Types;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
@@ -9,11 +10,13 @@ import its_meow.betteranimalsplus.Ref;
 import its_meow.betteranimalsplus.entity.EntityBear;
 import its_meow.betteranimalsplus.entity.EntityBearNeutral;
 import its_meow.betteranimalsplus.entity.EntityBearNeutralKermode;
+import its_meow.betteranimalsplus.entity.EntityCoyote;
 import its_meow.betteranimalsplus.entity.EntityDeer;
 import its_meow.betteranimalsplus.entity.EntityFeralWolf;
 import its_meow.betteranimalsplus.entity.EntityLammergeier;
 import its_meow.betteranimalsplus.entity.render.RenderBlackBear;
 import its_meow.betteranimalsplus.entity.render.RenderBrownBear;
+import its_meow.betteranimalsplus.entity.render.RenderCoyote;
 import its_meow.betteranimalsplus.entity.render.RenderCustomWolf;
 import its_meow.betteranimalsplus.entity.render.RenderDeer;
 import its_meow.betteranimalsplus.entity.render.RenderKermodeBear;
@@ -46,6 +49,7 @@ public class MobRegistry {
 		regMob(EntityDeer.class, "Deer", 0x8e510b, 0xc6863b, 8, 1, 2,  BiomeDictionary.getBiomes(Type.FOREST), BiomeDictionary.getBiomes(Type.MAGICAL));
 		regMob(EntityLammergeier.class, "Lammergeier", 0xd8d8d8, 0xd82b11, 5, 1, 2, BiomeDictionary.getBiomes(Type.HILLS), BiomeDictionary.getBiomes(Type.MOUNTAIN));
 		regMob(EntityFeralWolf.class, "FeralWolf", 0xbababa, 0x232323, 4, 1, 6, BiomeDictionary.getBiomes(Type.FOREST), BiomeDictionary.getBiomes(Type.MAGICAL), BiomeDictionary.getBiomes(Type.SPOOKY));
+		regMob(EntityCoyote.class, "Coyote", 0x866a31, 0xb69762, 6, 1, 6, BiomeDictionary.getBiomes(Type.SANDY), BiomeDictionary.getBiomes(Type.PLAINS));
 	}
 	
 	@SideOnly(Side.CLIENT)
@@ -56,6 +60,7 @@ public class MobRegistry {
 		registerRender(EntityDeer.class, RenderDeer.FACTORY);
 		registerRender(EntityLammergeier.class, RenderLammergeier.FACTORY);
 		registerRender(EntityFeralWolf.class, RenderCustomWolf.FACTORY);
+		registerRender(EntityCoyote.class, RenderCoyote.FACTORY);
 	}
 	
 	@SideOnly(Side.CLIENT)

@@ -82,18 +82,18 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class EntityFeralWolf extends EntityTameable implements IMob {
 	
-	private static final DataParameter<Float> DATA_HEALTH_ID = EntityDataManager.<Float>createKey(EntityWolf.class, DataSerializers.FLOAT);
-	private static final DataParameter<Integer> TYPE_NUMBER = EntityDataManager.<Integer>createKey(EntityLammergeier.class, DataSerializers.VARINT);
+	protected static final DataParameter<Float> DATA_HEALTH_ID = EntityDataManager.<Float>createKey(EntityWolf.class, DataSerializers.FLOAT);
+	protected static final DataParameter<Integer> TYPE_NUMBER = EntityDataManager.<Integer>createKey(EntityLammergeier.class, DataSerializers.VARINT);
 	/** Float used to smooth the rotation of the wolf head */
-    private float headRotationCourse;
-    private float headRotationCourseOld;
+    protected float headRotationCourse;
+    protected float headRotationCourseOld;
     /** true is the wolf is wet else false */
-    private boolean isWet;
+    protected boolean isWet;
     /** True if the wolf is shaking else False */
-    private boolean isShaking;
+    protected boolean isShaking;
     /** This time increases while wolf is shaking and emitting water particles. */
-    private float timeWolfIsShaking;
-    private float prevTimeWolfIsShaking;
+    protected float timeWolfIsShaking;
+    protected float prevTimeWolfIsShaking;
 	
 	public EntityFeralWolf(World worldIn) {
 		super(worldIn);
@@ -254,7 +254,7 @@ public class EntityFeralWolf extends EntityTameable implements IMob {
 			this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(8.0D);
 		}
 
-		this.getAttributeMap().registerAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(2.0D);
+		this.getAttributeMap().registerAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(4.0D);
 	}
 
 	protected void updateAITasks()
