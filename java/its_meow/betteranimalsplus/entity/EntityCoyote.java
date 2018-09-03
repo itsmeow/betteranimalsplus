@@ -34,11 +34,13 @@ import net.minecraft.entity.passive.EntityTameable;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemMonsterPlacer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.SoundEvent;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 
@@ -91,6 +93,21 @@ public class EntityCoyote extends EntityFeralWolf {
 			super.setAttackTarget(null);
 		} else {
 			super.setAttackTarget(entitylivingbaseIn);
+		}
+	}
+	
+	@Override
+	protected SoundEvent getAmbientSound()
+	{
+		if(!this.isDaytime()) {
+			return SoundEvents.ENTITY_WOLF_GROWL;
+		} else if (this.rand.nextInt(3) == 0)
+		{
+			return this.isTamed() && ((Float)this.dataManager.get(DATA_HEALTH_ID)).floatValue() < 10.0F ? SoundEvents.ENTITY_WOLF_WHINE : SoundEvents.ENTITY_WOLF_PANT;
+		}
+		else
+		{
+			return SoundEvents.ENTITY_WOLF_AMBIENT;
 		}
 	}
 	
