@@ -384,6 +384,7 @@ public class ModelFox extends ModelBetterAnimals {
 
 		if(entity instanceof EntityFox) {
 			EntityFox fox = (EntityFox) entity;
+			this.tail01.rotateAngleX = ageInTicks;
 			if(fox.isSitting()) {
 				this.rear.rotateAngleX = -1F;
 				this.tail01.rotateAngleX = 0F;

@@ -625,9 +625,9 @@ public class ModelLammergeier extends ModelBase {
 			this.lLeg01.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F + (float)Math.PI) * 1.4F * limbSwingAmount / f;
 			
 			if(lammergeier.isSitting()) {
-				this.body.rotateAngleX = 45;
+				this.head.rotateAngleX = 30;
 			} else {
-				this.body.rotateAngleX = 0;
+				this.head.rotateAngleX = 0;
 			}
 		}
 

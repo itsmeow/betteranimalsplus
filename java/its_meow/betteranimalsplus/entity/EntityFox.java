@@ -517,7 +517,7 @@ public class EntityFox extends EntityTameable {
 
 				if (!this.world.isRemote)
 				{
-					if (this.rand.nextInt(100) <= 14 && !net.minecraftforge.event.ForgeEventFactory.onAnimalTame(this, player))
+					if (this.rand.nextInt(3) == 0 && !net.minecraftforge.event.ForgeEventFactory.onAnimalTame(this, player))
 					{
 						this.setTamedBy(player);
 						this.navigator.clearPath();
@@ -563,11 +563,11 @@ public class EntityFox extends EntityTameable {
 	{
 		if (!this.isTamed())
 		{
-			return 1.5393804F;
+			return -0.15F;
 		}
 		else
 		{
-			return this.isTamed() ? (0.55F - (this.getMaxHealth() - ((Float)this.dataManager.get(DATA_HEALTH_ID)).floatValue()) * 0.02F) * (float)Math.PI : ((float)Math.PI / 5F);
+			return this.isTamed() ? (0.25F - (this.getMaxHealth() - ((Float)this.dataManager.get(DATA_HEALTH_ID)).floatValue()) * 0.04F) : -0.85F;
 		}
 	}
 
