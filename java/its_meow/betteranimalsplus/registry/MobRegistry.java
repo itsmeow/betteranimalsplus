@@ -3,6 +3,7 @@ package its_meow.betteranimalsplus.registry;
 import java.sql.Types;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import its_meow.betteranimalsplus.BetterAnimalsPlusMod;
@@ -34,6 +35,7 @@ import net.minecraft.init.Biomes;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.BiomeForest;
+import net.minecraft.world.biome.Biome.SpawnListEntry;
 import net.minecraft.world.storage.loot.LootTableList;
 import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.BiomeDictionary.Type;
@@ -51,15 +53,15 @@ public class MobRegistry {
 	
 	public static void init(){
 		//regCre(Entity.class, "name", 0xFF052E (egg base), 0x14FFFC (egg spot), 25 (percent spawn), 1 (min amt), 3 (max amt), Biomes.PLAINS);
-		regMob(EntityBear.class, "BrownBear", 0x4F2900, 0x8E500E, 3, 1, 1, BiomeDictionary.getBiomes(Type.FOREST));
-		regMob(EntityBearNeutral.class, "BlackBear", 0x000000, 0x333333, 2, 1, 1, BiomeDictionary.getBiomes(Type.FOREST));
-		regMob(EntityBearNeutralKermode.class, "KermodeBear", 0xe8e8e8, 0xf7dabe, 1, 1, 1, BiomeDictionary.getBiomes(Type.FOREST));
-		regMob(EntityDeer.class, "Deer", 0x8e510b, 0xc6863b, 8, 1, 2,  BiomeDictionary.getBiomes(Type.FOREST), BiomeDictionary.getBiomes(Type.MAGICAL));
-		regMob(EntityLammergeier.class, "Lammergeier", 0xd8d8d8, 0xd82b11, 5, 1, 2, BiomeDictionary.getBiomes(Type.HILLS), BiomeDictionary.getBiomes(Type.MOUNTAIN));
-		regMob(EntityFeralWolf.class, "FeralWolf", 0xbababa, 0x232323, 4, 1, 6, BiomeDictionary.getBiomes(Type.FOREST), BiomeDictionary.getBiomes(Type.MAGICAL), BiomeDictionary.getBiomes(Type.SPOOKY));
+		regMob(EntityBear.class, "BrownBear", 0x4F2900, 0x8E500E, 4, 1, 1, BiomeDictionary.getBiomes(Type.FOREST));
+		regMob(EntityBearNeutral.class, "BlackBear", 0x000000, 0x333333, 4, 1, 1, BiomeDictionary.getBiomes(Type.FOREST));
+		regMob(EntityBearNeutralKermode.class, "KermodeBear", 0xe8e8e8, 0xf7dabe, 2, 1, 1, BiomeDictionary.getBiomes(Type.FOREST));
+		regMob(EntityDeer.class, "Deer", 0x8e510b, 0xc6863b, 10, 1, 2,  BiomeDictionary.getBiomes(Type.FOREST), BiomeDictionary.getBiomes(Type.MAGICAL));
+		regMob(EntityLammergeier.class, "Lammergeier", 0xd8d8d8, 0xd82b11, 7, 1, 2, BiomeDictionary.getBiomes(Type.HILLS), BiomeDictionary.getBiomes(Type.MOUNTAIN));
+		regMob(EntityFeralWolf.class, "FeralWolf", 0xbababa, 0x232323, 5, 1, 6, BiomeDictionary.getBiomes(Type.FOREST), BiomeDictionary.getBiomes(Type.MAGICAL), BiomeDictionary.getBiomes(Type.SPOOKY));
 		regMob(EntityCoyote.class, "Coyote", 0x866a31, 0xb69762, 6, 1, 6, BiomeDictionary.getBiomes(Type.SANDY), BiomeDictionary.getBiomes(Type.PLAINS));
 		//regMob(EntityTrillium.class, "Trillium", 0x00a053, 0xcc33ff, 40, 5, 15, BiomeDictionary.getBiomes(Type.SWAMP), BiomeDictionary.getBiomes(Type.WET));
-		regMob(EntityFox.class, "Fox", 0xe87422, 0x3f210c, 7, 1, 6, BiomeDictionary.getBiomes(Type.FOREST), BiomeDictionary.getBiomes(Type.MAGICAL));
+		regMob(EntityFox.class, "Fox", 0xe87422, 0x3f210c, 8, 1, 6, BiomeDictionary.getBiomes(Type.FOREST), BiomeDictionary.getBiomes(Type.MAGICAL));
 		registerNoEgg(EntityTarantulaHair.class, "tarantulahair");
 		regMob(EntityTarantula.class, "Tarantula", 0x1e1e1e, 0x8c0c0c, 6, 1, 3, BiomeDictionary.getBiomes(Type.SANDY));
 	}
@@ -118,6 +120,43 @@ public class MobRegistry {
 		} catch(NullPointerException e) {
 			biomesArray = new Biome[0];
 		}
+		
+		/*for(Biome biome : biomesArray) {
+			List<SpawnListEntry> list = biome.getSpawnableList(EnumCreatureType.CREATURE);
+			
+			int totalValue = 0;
+			int totalAmount = 0;
+
+			
+			for(SpawnListEntry entry : list) {
+				totalValue += entry.itemWeight;
+				totalAmount++;
+			}
+			int prob2 = 0;
+			if(totalAmount != 0) {
+				prob2 = prob * ((totalValue) / totalAmount);
+			} else {
+				prob2 = prob;
+			}
+			
+            boolean found = false;
+			for(SpawnListEntry entry : list) {
+				if (entry.entityClass == EntityClass)
+                {
+                    entry.itemWeight = prob2;
+                    entry.minGroupCount = min;
+                    entry.maxGroupCount = max;
+                    found = true;
+                    break;
+                }
+			}
+			
+			
+            if (!found) {
+                list.add(new SpawnListEntry(EntityClass, prob2, min, max));
+            }
+			
+		}*/
 		EntityRegistry.addSpawn(EntityClass, prob, min, max, EnumCreatureType.CREATURE, biomesArray);
 	}
 	
@@ -132,6 +171,46 @@ public class MobRegistry {
 		} catch(NullPointerException e) {
 			biomesArray = new Biome[0];
 		}
+		
+		
+		/*for(Biome biome : biomesArray) {
+			List<SpawnListEntry> list = biome.getSpawnableList(EnumCreatureType.MONSTER);
+			
+			int totalValue = 0;
+			int totalAmount = 0;
+
+			
+			for(SpawnListEntry entry : list) {
+				totalValue += entry.itemWeight;
+				totalAmount++;
+			}
+			
+			int prob2 = 0;
+			if(totalAmount != 0) {
+				prob2 = prob * ((totalValue) / totalAmount);
+			} else {
+				prob2 = prob;
+			}
+			
+			
+            boolean found = false;
+			for(SpawnListEntry entry : list) {
+				if (entry.entityClass == EntityClass)
+                {
+                    entry.itemWeight = prob2;
+                    entry.minGroupCount = min;
+                    entry.maxGroupCount = max;
+                    found = true;
+                    break;
+                }
+			}
+			
+			
+            if (!found) {
+                list.add(new SpawnListEntry(EntityClass, prob2, min, max));
+            }
+			
+		}*/
 		EntityRegistry.addSpawn(EntityClass, prob, min, max, EnumCreatureType.MONSTER, biomesArray);
 	}
 	
