@@ -90,5 +90,9 @@ public class TextureRegistry {
 	public static final ResourceLocation tarantula = 
 			new ResourceLocation(entitytex + "tarantula.png");
 	
+	//Hirschgeist
+	public static final ResourceLocation hirschgeist = 
+			new ResourceLocation(entitytex + "hirschgeist.png");
+	
 	
 }

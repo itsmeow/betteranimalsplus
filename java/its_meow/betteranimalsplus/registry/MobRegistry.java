@@ -18,6 +18,7 @@ import its_meow.betteranimalsplus.entity.EntityFox;
 import its_meow.betteranimalsplus.entity.EntityLammergeier;
 import its_meow.betteranimalsplus.entity.EntityTarantula;
 import its_meow.betteranimalsplus.entity.EntityTrillium;
+import its_meow.betteranimalsplus.entity.miniboss.hirschgeist.EntityHirschgeist;
 import its_meow.betteranimalsplus.entity.projectile.EntityTarantulaHair;
 import its_meow.betteranimalsplus.entity.render.RenderBlackBear;
 import its_meow.betteranimalsplus.entity.render.RenderBrownBear;
@@ -64,6 +65,7 @@ public class MobRegistry {
 		regMob(EntityFox.class, "Fox", 0xe87422, 0x3f210c, 8, 1, 6, BiomeDictionary.getBiomes(Type.FOREST), BiomeDictionary.getBiomes(Type.MAGICAL));
 		registerNoEgg(EntityTarantulaHair.class, "tarantulahair");
 		regMob(EntityTarantula.class, "Tarantula", 0x1e1e1e, 0x8c0c0c, 6, 1, 3, BiomeDictionary.getBiomes(Type.SANDY));
+		regMob(EntityHirschgeist.class, "Hirschgeist", 0xfffff, 0x00000, 1, 1, 1, BiomeDictionary.getBiomes(Type.FOREST));
 	}
 	
 	@SideOnly(Side.CLIENT)

@@ -1,14 +1,18 @@
 package its_meow.betteranimalsplus.entity.model;
 
+import its_meow.betteranimalsplus.entity.miniboss.hirschgeist.EntityHirschgeist;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLiving;
+import net.minecraft.util.math.MathHelper;
 
 /**
  * deerbeast2 - cybercat5555
  * Created using Tabula 5.1.0
  */
-public class ModelHirschgeist extends ModelBase {
+public class ModelHirschgeist extends ModelBetterAnimals {
     public ModelRenderer spine04;
     public ModelRenderer spine05a;
     public ModelRenderer lHip01;
@@ -1189,9 +1193,54 @@ public class ModelHirschgeist extends ModelBase {
 
     @Override
     public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) { 
+        GlStateManager.pushMatrix();
+        if(entity instanceof EntityHirschgeist) {
+        	EntityHirschgeist hg = (EntityHirschgeist) entity;
+        	if(hg.isDaytime()) {
+        		GlStateManager.enableAlpha();
+        		GlStateManager.color(1F, 1F, 1F, 0.5F);
+        	}
+        }
+        
         this.spine04.render(f5);
+        GlStateManager.popMatrix();
+        
     }
+    
+    @Override
+	public void setRotationAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw,
+			float headPitch, float scaleFactor, Entity entityIn) {
+		float f = limbSwing;
+		float f1 = limbSwingAmount;
 
+		
+		if(limbSwingAmount >= 0.65) {
+			this.lArm01.rotateAngleX = MathHelper.cos(f * 0.6662F + (float)Math.PI) * 1.4F * f1;
+			this.rArm01.rotateAngleX = MathHelper.cos(f * 0.6662F + (float)Math.PI) * 1.4F * f1;
+			this.lLeg01.rotateAngleX = MathHelper.cos(f * 0.6662F) * 1.4F * f1;
+			this.lLeg01.rotateAngleX = MathHelper.cos(f * 0.6662F) * 1.4F * f1;
+		} else {
+			this.lArm01.rotateAngleX = MathHelper.cos(f * 0.6662F) * 1.4F * f1;
+			this.rArm01.rotateAngleX = MathHelper.cos(f * 0.6662F + (float)Math.PI) * 1.4F * f1;
+			this.lLeg01.rotateAngleX = MathHelper.cos(f * 0.6662F) * 1.4F * f1;
+			this.lLeg01.rotateAngleX = MathHelper.cos(f * 0.6662F + (float)Math.PI) * 1.4F * f1;
+		}
+		
+		if(entityIn instanceof EntityLiving) {
+			if(entityIn instanceof EntityHirschgeist) {
+				EntityHirschgeist hg = (EntityHirschgeist) entityIn;
+				if(hg.getAttackTarget() != null && !hg.isDaytime() && hg.ticksExisted - hg.getLastAttackedEntityTime() == 20) {
+					this.neck01.rotateAngleX = (float) Math.toRadians(-45F);
+				} else {
+					this.neck01.rotateAngleX = this.getHeadPitch((EntityLiving)entityIn) * 0.017453292F - 13;
+				}
+			}
+			this.neck01.rotateAngleY = ((EntityLiving) entityIn).rotationYawHead;
+		}
+
+		super.setRotationAngles(limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor, entityIn);
+	}
+    
     /**
      * This is a helper function from Tabula to set the rotation of model parts
      */
