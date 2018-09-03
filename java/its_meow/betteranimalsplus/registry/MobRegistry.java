@@ -26,6 +26,7 @@ import its_meow.betteranimalsplus.entity.render.RenderCoyote;
 import its_meow.betteranimalsplus.entity.render.RenderCustomWolf;
 import its_meow.betteranimalsplus.entity.render.RenderDeer;
 import its_meow.betteranimalsplus.entity.render.RenderFox;
+import its_meow.betteranimalsplus.entity.render.RenderHirschgeist;
 import its_meow.betteranimalsplus.entity.render.RenderKermodeBear;
 import its_meow.betteranimalsplus.entity.render.RenderLammergeier;
 import its_meow.betteranimalsplus.entity.render.RenderTarantula;
@@ -81,6 +82,7 @@ public class MobRegistry {
 		registerRender(EntityFox.class, RenderFox.FACTORY);
 		registerRender(EntityTarantulaHair.class, RenderTarantulaHair.FACTORY);
 		registerRender(EntityTarantula.class, RenderTarantula.FACTORY);
+		registerRender(EntityHirschgeist.class, RenderHirschgeist.FACTORY);
 	}
 	
 	@SideOnly(Side.CLIENT)
