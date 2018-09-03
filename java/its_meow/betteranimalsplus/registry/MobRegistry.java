@@ -15,7 +15,9 @@ import its_meow.betteranimalsplus.entity.EntityDeer;
 import its_meow.betteranimalsplus.entity.EntityFeralWolf;
 import its_meow.betteranimalsplus.entity.EntityFox;
 import its_meow.betteranimalsplus.entity.EntityLammergeier;
+import its_meow.betteranimalsplus.entity.EntityTarantula;
 import its_meow.betteranimalsplus.entity.EntityTrillium;
+import its_meow.betteranimalsplus.entity.projectile.EntityTarantulaHair;
 import its_meow.betteranimalsplus.entity.render.RenderBlackBear;
 import its_meow.betteranimalsplus.entity.render.RenderBrownBear;
 import its_meow.betteranimalsplus.entity.render.RenderCoyote;
@@ -24,6 +26,8 @@ import its_meow.betteranimalsplus.entity.render.RenderDeer;
 import its_meow.betteranimalsplus.entity.render.RenderFox;
 import its_meow.betteranimalsplus.entity.render.RenderKermodeBear;
 import its_meow.betteranimalsplus.entity.render.RenderLammergeier;
+import its_meow.betteranimalsplus.entity.render.RenderTarantula;
+import its_meow.betteranimalsplus.entity.render.RenderTarantulaHair;
 import its_meow.betteranimalsplus.entity.render.RenderTrillium;
 import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.init.Biomes;
@@ -56,6 +60,8 @@ public class MobRegistry {
 		regMob(EntityCoyote.class, "Coyote", 0x866a31, 0xb69762, 6, 1, 6, BiomeDictionary.getBiomes(Type.SANDY), BiomeDictionary.getBiomes(Type.PLAINS));
 		//regMob(EntityTrillium.class, "Trillium", 0x00a053, 0xcc33ff, 40, 5, 15, BiomeDictionary.getBiomes(Type.SWAMP), BiomeDictionary.getBiomes(Type.WET));
 		regMob(EntityFox.class, "Fox", 0xe87422, 0x3f210c, 7, 1, 6, BiomeDictionary.getBiomes(Type.FOREST), BiomeDictionary.getBiomes(Type.MAGICAL));
+		registerNoEgg(EntityTarantulaHair.class, "tarantulahair");
+		regMob(EntityTarantula.class, "Tarantula", 0x1e1e1e, 0x8c0c0c, 6, 1, 3, BiomeDictionary.getBiomes(Type.SANDY));
 	}
 	
 	@SideOnly(Side.CLIENT)
@@ -69,6 +75,8 @@ public class MobRegistry {
 		registerRender(EntityCoyote.class, RenderCoyote.FACTORY);
 		//registerRender(EntityTrillium.class, RenderTrillium.FACTORY);
 		registerRender(EntityFox.class, RenderFox.FACTORY);
+		registerRender(EntityTarantulaHair.class, RenderTarantulaHair.FACTORY);
+		registerRender(EntityTarantula.class, RenderTarantula.FACTORY);
 	}
 	
 	@SideOnly(Side.CLIENT)
@@ -92,7 +100,11 @@ public class MobRegistry {
 	}
 	
 	public static void register(Class EntityClass, String entityNameIn, int solidColorIn, int spotColorIn){
-		EntityRegistry.registerModEntity(new ResourceLocation(Ref.MOD_ID + ":" + entityNameIn + "loc"), EntityClass, entityNameIn, ++modEntities, BetterAnimalsPlusMod.mod, 64, 1, true, solidColorIn, spotColorIn);
+		EntityRegistry.registerModEntity(new ResourceLocation(Ref.MOD_ID + ":" + entityNameIn), EntityClass, entityNameIn, ++modEntities, BetterAnimalsPlusMod.mod, 64, 1, true, solidColorIn, spotColorIn);
+    }
+	
+	public static void registerNoEgg(Class EntityClass, String entityNameIn){
+		EntityRegistry.registerModEntity(new ResourceLocation(Ref.MOD_ID + ":" + entityNameIn), EntityClass, entityNameIn, ++modEntities, BetterAnimalsPlusMod.mod, 64, 1, true);
     }
 	
 	public static void registerCreatureSpawn(Class EntityClass, int prob, int min, int max, Set<Biome>... biomes) {

@@ -78,6 +78,17 @@ public class TextureRegistry {
 	public static final ResourceLocation fox_4 = 
 			new ResourceLocation(entitytex + "fox_4.png");
 	
+	//Tarantula Hair
+	public static final ResourceLocation tarantula_hair = 
+			new ResourceLocation(entitytex + "projectile/tarantula_hair.png");
+	
+	//Tarantula Eyes
+	public static final ResourceLocation tarantula_eyes = 
+			new ResourceLocation(entitytex + "tarantula_eyes.png");
+	
+	//Tarantula
+	public static final ResourceLocation tarantula = 
+			new ResourceLocation(entitytex + "tarantula.png");
 	
 	
 }

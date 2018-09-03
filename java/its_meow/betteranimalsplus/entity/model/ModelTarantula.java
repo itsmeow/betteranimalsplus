@@ -1,14 +1,17 @@
 package its_meow.betteranimalsplus.entity.model;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.util.math.MathHelper;
 
 /**
  * tarantula - cybercat5555
  * Created using Tabula 5.1.0
  */
-public class ModelTarantula extends ModelBase {
+public class ModelTarantula extends ModelBetterAnimals {
     public ModelRenderer bodyBase;
     public ModelRenderer abdomen;
     public ModelRenderer thorax;
@@ -428,6 +431,86 @@ public class ModelTarantula extends ModelBase {
     public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) { 
         this.bodyBase.render(f5);
     }
+    
+    
+    /**
+     * Sets the model's various rotation angles. For bipeds, par1 and par2 are used for animating the movement of arms
+     * and legs, where par1 represents the time(so that arms and legs swing back and forth) and par2 represents how
+     * "far" arms and legs can swing at most.
+     */
+    @Override
+	public void setRotationAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor, Entity entity) {
+		float swingModifier = 0.9f;
+		float partialTicks = Minecraft.getMinecraft().getRenderPartialTicks();
+		if (entity instanceof EntityLivingBase) {
+			EntityLivingBase living = (EntityLivingBase) entity;
+			limbSwing = limbSwing + this.getSwingProgressPrev(living);
+			
+			this.head.rotateAngleY = this.getHeadYaw(living) * 0.017453292F;
+			this.head.rotateAngleX = (float) Math.toRadians(this.getHeadPitch(living)) * 0.017453292F;
+			float f = ((float) Math.PI / 4F);
+			this.rLeg01a.rotateAngleZ = -((float) Math.PI / 4F);
+			this.lLeg01a.rotateAngleZ = ((float) Math.PI / 4F);
+
+			this.rLeg02a.rotateAngleZ = -0.78119464F;
+			this.lLeg02a.rotateAngleZ = 0.78119464F;
+
+			this.rLeg03a.rotateAngleZ = -0.78119464F;
+			this.lLeg03a.rotateAngleZ = 0.78119464F;
+
+			this.rLeg04a.rotateAngleZ = -((float) Math.PI / 4F) - 0.3F;
+			this.rLeg04a.rotateAngleX = -((float) Math.PI / 4F) + 0.3F;
+
+			this.lLeg04a.rotateAngleZ = ((float) Math.PI / 4F) + 0.3F;
+			this.lLeg04a.rotateAngleX = ((float) Math.PI / 4F) - 1.3F;
+
+			float f1 = -0.0F;
+			float f2 = 0.3926991F;
+
+			this.rLeg01a.rotateAngleY = ((float) Math.PI / 16F);
+			this.lLeg01a.rotateAngleY = -((float) Math.PI / 16F);
+
+			this.rLeg02a.rotateAngleY = 0.1926991F;
+			this.lLeg02a.rotateAngleY = -0.1926991F;
+
+			this.rLeg03a.rotateAngleY = 0.1926991F;
+			this.lLeg03a.rotateAngleY = -0.1926991F;
+
+			this.rLeg04a.rotateAngleY = -((float) Math.PI / 12F) + 0.4F;
+			this.lLeg04a.rotateAngleY = ((float) Math.PI / 12F) - 0.4F;
+
+			float f3 = -(MathHelper.cos(limbSwing * 0.6662F * 2.0F + 0.0F) * 0.4F) * limbSwingAmount;
+			float f4 = -(MathHelper.cos(limbSwing * 0.6662F * 2.0F + (float) Math.PI) * 0.4F) * limbSwingAmount;
+			float f5 = -(MathHelper.cos(limbSwing * 0.6662F * 2.0F + ((float) Math.PI / 2F)) * 0.4F) * limbSwingAmount;
+			float f6 = -(MathHelper.cos(limbSwing * 0.6662F * 2.0F + ((float) Math.PI * 3F / 2F)) * 0.4F) * limbSwingAmount;
+			float f7 = Math.abs(MathHelper.sin(limbSwing * 0.6662F + 0.0F) * 0.4F) * limbSwingAmount;
+			float f8 = Math.abs(MathHelper.sin(limbSwing * 0.6662F + (float) Math.PI) * 0.4F) * limbSwingAmount;
+			float f9 = Math.abs(MathHelper.sin(limbSwing * 0.6662F + ((float) Math.PI / 2F)) * 0.4F) * limbSwingAmount;
+			float f10 = Math.abs(MathHelper.sin(limbSwing * 0.6662F + ((float) Math.PI * 3F / 2F)) * 0.4F) * limbSwingAmount;
+
+			this.rLeg01a.rotateAngleY += f3;
+			this.lLeg01a.rotateAngleY += -f3;
+			this.rLeg02a.rotateAngleY += f4;
+			this.lLeg02a.rotateAngleY += -f4;
+			this.rLeg03a.rotateAngleY += f5;
+			this.lLeg03a.rotateAngleY += -f5;
+			this.rLeg04a.rotateAngleY += f6;
+			this.lLeg04a.rotateAngleY += -f6;
+			this.rLeg01a.rotateAngleZ += f7;
+			this.lLeg01a.rotateAngleZ += -f7;
+			this.rLeg02a.rotateAngleZ += f8;
+			this.lLeg02a.rotateAngleZ += -f8;
+			this.rLeg03a.rotateAngleZ += f9;
+			this.lLeg03a.rotateAngleZ += -f9;
+			this.rLeg04a.rotateAngleZ += f10;
+			this.lLeg04a.rotateAngleZ += -f10;
+			this.rLeg04a.rotateAngleZ += f10;
+			this.lLeg04a.rotateAngleZ += -f10;
+		}
+}
+    
+    
+    
 
     /**
      * This is a helper function from Tabula to set the rotation of model parts

@@ -1,5 +1,0 @@
-All canids here re-use the Better Animals wolf model
-
-All feral wolves are the same mob but with texture variants, like vanilla rabbits and horses
-
-Feral wolves and coyotes (only when hostile) have glowing eyes.
