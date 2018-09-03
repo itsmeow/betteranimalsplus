@@ -318,12 +318,41 @@ public class ModelCustomWolf extends ModelBetterAnimals {
 		if(entity instanceof EntityFeralWolf) {
 			EntityFeralWolf wolf = (EntityFeralWolf) entity;
 			if(wolf.isSitting()) {
-				this.body.rotateAngleX = -1F;
+				/*this.body.rotateAngleX = -1F;
 				this.tail01.rotateAngleX = 0F;
-				this.chest.rotateAngleX = -0.3F;
+				this.chest.rotateAngleX = -0.3F;*/
+				this.setRotateAngle(neck, 30, 0, 0);
+				this.setRotateAngle(chest, -40, 0, 0);
+				this.setRotateAngle(body, -40, 0, 0);
+				this.setRotateAngle(tail01, 90, 0, 0);
+				this.setRotateAngle(lArm01, 36, 0, -5);
+				this.setRotateAngle(lArm01_1, -26, 0, 5);
+				this.setRotateAngle(lForepaw, 28, 0, 0);
+				this.setRotateAngle(rArm01, 36, 0, 5);
+				this.setRotateAngle(rArm01_1, -26, 0, -5);
+				this.setRotateAngle(rForepaw, 28, 0, 0);
+				this.setRotateAngle(lHindLeg01, -13, 0, -16);
+				this.setRotateAngle(lHindLeg02, 80, 0, 0);
+				this.setRotateAngle(lHindpaw, 90, 0, 0);
+				this.setRotateAngle(rHindLeg01, -13, 0, 16);
+				this.setRotateAngle(rHindLeg02, 80, 0, 0);
+				this.setRotateAngle(rHindpaw, 90, 0, 0);
 			}else {
 				this.body.rotateAngleX = 0;
 				this.chest.rotateAngleX = 0;
+				this.neck.rotateAngleX = 0;
+				this.lHindpaw.rotateAngleX = 0;
+				this.rHindpaw.rotateAngleX = 0;
+				this.rHindLeg02.rotateAngleX = 0;
+				this.lHindLeg02.rotateAngleX = 0;
+				this.rArm01_1.rotateAngleX = 0;
+				this.lArm01_1.rotateAngleX = 0;
+				this.rArm01_1.rotateAngleZ = 0;
+				this.lArm01_1.rotateAngleZ = 0;
+				this.rHindLeg02.rotateAngleZ = 0;
+				this.lHindLeg02.rotateAngleZ = 0;
+				this.rArm01.rotateAngleZ = 0;
+				this.lArm01.rotateAngleZ = 0;
 			}
 		}
 
