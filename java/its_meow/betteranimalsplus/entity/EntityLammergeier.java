@@ -16,6 +16,7 @@ import com.google.common.base.Predicate;
 import its_meow.betteranimalsplus.util.PolarVector3D;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.Minecraft;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityAgeable;
@@ -586,7 +587,9 @@ public class EntityLammergeier extends EntityTameableFlying {
 			if(passenger instanceof EntityLivingBase && (this.getAttackTarget() == null || this.getAttackTarget() != passenger)) {
 				this.setAttackTarget((EntityLivingBase) passenger);
 			}
-			this.applyOrientationToEntity(passenger);
+			if(this.world.isRemote) {
+				this.applyOrientationToEntity(passenger);
+			}
 		}
 	}
 

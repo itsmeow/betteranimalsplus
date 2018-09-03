@@ -317,42 +317,46 @@ public class ModelCustomWolf extends ModelBetterAnimals {
 
 		if(entity instanceof EntityFeralWolf) {
 			EntityFeralWolf wolf = (EntityFeralWolf) entity;
+			this.tail01.rotateAngleX = ageInTicks;
 			if(wolf.isSitting()) {
-				/*this.body.rotateAngleX = -1F;
-				this.tail01.rotateAngleX = 0F;
-				this.chest.rotateAngleX = -0.3F;*/
-				this.setRotateAngle(neck, 30, 0, 0);
-				this.setRotateAngle(chest, -40, 0, 0);
-				this.setRotateAngle(body, -40, 0, 0);
-				this.setRotateAngle(tail01, 90, 0, 0);
-				this.setRotateAngle(lArm01, 36, 0, -5);
-				this.setRotateAngle(lArm01_1, -26, 0, 5);
-				this.setRotateAngle(lForepaw, 28, 0, 0);
-				this.setRotateAngle(rArm01, 36, 0, 5);
-				this.setRotateAngle(rArm01_1, -26, 0, -5);
-				this.setRotateAngle(rForepaw, 28, 0, 0);
-				this.setRotateAngle(lHindLeg01, -13, 0, -16);
-				this.setRotateAngle(lHindLeg02, 80, 0, 0);
-				this.setRotateAngle(lHindpaw, 90, 0, 0);
-				this.setRotateAngle(rHindLeg01, -13, 0, 16);
-				this.setRotateAngle(rHindLeg02, 80, 0, 0);
-				this.setRotateAngle(rHindpaw, 90, 0, 0);
-			}else {
-				this.body.rotateAngleX = 0;
-				this.chest.rotateAngleX = 0;
-				this.neck.rotateAngleX = 0;
-				this.lHindpaw.rotateAngleX = 0;
-				this.rHindpaw.rotateAngleX = 0;
-				this.rHindLeg02.rotateAngleX = 0;
-				this.lHindLeg02.rotateAngleX = 0;
-				this.rArm01_1.rotateAngleX = 0;
-				this.lArm01_1.rotateAngleX = 0;
-				this.rArm01_1.rotateAngleZ = 0;
-				this.lArm01_1.rotateAngleZ = 0;
-				this.rHindLeg02.rotateAngleZ = 0;
-				this.lHindLeg02.rotateAngleZ = 0;
-				this.rArm01.rotateAngleZ = 0;
-				this.lArm01.rotateAngleZ = 0;
+				this.setRotateAngle360(neck, 30, 0, 0);
+				this.setRotateAngle360(chest, -40, 0, 0);
+				this.setRotateAngle360(body, -40, 0, 0);
+				this.setRotateAngle360(tail01, 90, 0, 0);
+				this.setRotateAngle360(lArm01, 36, 0, -5);
+				this.setRotateAngle360(lArm01_1, -26, 0, 5);
+				this.setRotateAngle360(lForepaw, 28, 0, 0);
+				this.setRotateAngle360(rArm01, 36, 0, 5);
+				this.setRotateAngle360(rArm01_1, -26, 0, -5);
+				this.setRotateAngle360(rForepaw, 28, 0, 0);
+				this.setRotateAngle360(lHindLeg01, -13, 0, -16);
+				this.setRotateAngle(lHindLeg02, 0.8996066167365371F, 0.0F, 0.0F);
+				this.setRotateAngle360(lHindpaw, 90, 0, 0);
+				this.setRotateAngle360(rHindLeg01, -13, 0, 16);
+				this.setRotateAngle(rHindLeg02, 0.8996066167365371F, 0.0F, 0.0F);
+				this.setRotateAngle360(rHindpaw, 90, 0, 0);
+				this.head.rotateAngleX -= Math.toRadians(20);
+				this.chest.setRotationPoint(0F, 16.8F, -0.8F);
+			} else {
+				//this.setRotateAngle(rHindLeg01, -0.18203784098300857F, 0.0F, 0.0F);
+				this.setRotateAngle(rHindLeg02, 0.8196066167365371F, 0.0F, 0.0F);
+				//this.setRotateAngle(lHindLeg01, -0.18203784098300857F, 0.0F, 0.0F);
+				this.setRotateAngle(lHindLeg02, 0.8196066167365371F, 0.0F, 0.0F);
+				this.lArm01.rotateAngleZ = -0.091106186954104F;
+				this.setRotateAngle(lArm01_1, -0.22759093446006054F, 0.0F, 0.091106186954104F);
+				this.rArm01.rotateAngleZ = 0.091106186954104F;
+				this.setRotateAngle(rArm01_1, -0.22759093446006054F, 0.0F, -0.091106186954104F);
+				this.lHindLeg01.rotateAngleZ = 0;
+				this.rHindLeg01.rotateAngleZ = 0;
+				this.setRotateAngle(rHindpaw, 0, 0, 0);
+				this.setRotateAngle(lHindpaw, 0, 0, 0);
+				//this.head.rotateAngleX = 0.36425021489121656F;
+				//this.setRotateAngle(neck, -0.36425021489121656F, 0.0F, 0.0F);
+				this.body.rotateAngleX = -0.091106186954104F;
+				this.setRotateAngle(chest, 0, 0, 0);
+				this.setRotateAngle(lForepaw, 0, 0, 0);
+				this.setRotateAngle(rForepaw, 0, 0, 0);
+				this.chest.setRotationPoint(0F, 12.8F, -0.8F);
 			}
 		}
 
@@ -367,5 +371,11 @@ public class ModelCustomWolf extends ModelBetterAnimals {
 		modelRenderer.rotateAngleX = x;
 		modelRenderer.rotateAngleY = y;
 		modelRenderer.rotateAngleZ = z;
+	}
+	
+	public void setRotateAngle360(ModelRenderer modelRenderer, float x, float y, float z) {
+		modelRenderer.rotateAngleX = (float) Math.toRadians(x);
+		modelRenderer.rotateAngleY = (float) Math.toRadians(y);
+		modelRenderer.rotateAngleZ = (float) Math.toRadians(z);
 	}
 }

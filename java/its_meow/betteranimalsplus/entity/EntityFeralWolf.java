@@ -604,11 +604,11 @@ public class EntityFeralWolf extends EntityTameable implements IMob {
 	{
 		if (!this.isTamed())
 		{
-			return 1.5393804F;
+			return -0.15F;
 		}
 		else
 		{
-			return this.isTamed() ? (0.55F - (this.getMaxHealth() - ((Float)this.dataManager.get(DATA_HEALTH_ID)).floatValue()) * 0.02F) * (float)Math.PI : ((float)Math.PI / 5F);
+			return this.isTamed() ? (0.25F - (this.getMaxHealth() - ((Float)this.dataManager.get(DATA_HEALTH_ID)).floatValue()) * 0.04F) : -0.85F;
 		}
 	}
 
