@@ -20,9 +20,21 @@ public class RenderHirschgeist extends RenderLiving<EntityHirschgeist> {
 
 
 	public RenderHirschgeist(RenderManager rendermanagerIn) {
-		super(rendermanagerIn, new ModelHirschgeist(), 1F);
+		super(rendermanagerIn, new ModelHirschgeist(), 1.3F);
 	}
 
+
+	/**
+	 * Allows the render to do state modifications necessary before the model is rendered.
+	 */
+	protected void preRenderCallback(EntityHirschgeist entitylivingbaseIn, float partialTickTime)
+	{
+		if(!entitylivingbaseIn.isDaytime()) {
+			float scale = 2F;
+			GlStateManager.scale(scale, scale, scale);
+		}
+		super.preRenderCallback(entitylivingbaseIn, partialTickTime);
+	}
 
 
 	public static final Factory FACTORY = new Factory();
@@ -30,56 +42,34 @@ public class RenderHirschgeist extends RenderLiving<EntityHirschgeist> {
 	@Override
 	public void doRender(EntityHirschgeist entity, double x, double y, double z, float f, float partialTicks) {
 		int sF = 2;
-		if(!entity.isDaytime()) {
-			GlStateManager.pushMatrix();
-			
-			GlStateManager.scale(sF, sF, sF);
-			GlStateManager.translate(0, 1.5F - (1.5F * sF), z);
-			
-			GlStateManager.enableBlend();
-			GlStateManager.enableAlpha();
+		GlStateManager.pushMatrix();
 
-			GlStateManager.blendFunc(GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ONE);
+		GlStateManager.enableBlend();
+		GlStateManager.enableAlpha();
+
+		GlStateManager.blendFunc(GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ONE);
 
 
-			GlStateManager.depthMask(true);
+		GlStateManager.depthMask(true);
 
-			int i = 61680;
-			int j = i % 65536;
-			int k = i / 65536;
-			OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, (float)j, (float)k);
-			GlStateManager.color(1.0F, 1.0F, 1.0F, 0.5F);
-			Minecraft.getMinecraft().entityRenderer.setupFogColor(true);
-			super.doRender(entity, x, y, z, f, partialTicks);
-			Minecraft.getMinecraft().entityRenderer.setupFogColor(false);
-			i = entity.getBrightnessForRender();
-			j = i % 65536;
-			k = i / 65536;
-			OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, (float)j, (float)k);
-			this.setLightmap(entity);
-			GlStateManager.color(1.0F, 1.0F, 1.0F, 1F);
-			GlStateManager.disableBlend();
-			GlStateManager.disableAlpha();
+		int i = 61680;
+		int j = i % 65536;
+		int k = i / 65536;
+		OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, (float)j, (float)k);
+		GlStateManager.color(1.0F, 1.0F, 1.0F, entity.isDaytime() ? 0.35F : 0.5F);
+		Minecraft.getMinecraft().entityRenderer.setupFogColor(true);
+		super.doRender(entity, x, y, z, f, partialTicks);
+		Minecraft.getMinecraft().entityRenderer.setupFogColor(false);
+		i = entity.getBrightnessForRender();
+		j = i % 65536;
+		k = i / 65536;
+		OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, (float)j, (float)k);
+		this.setLightmap(entity);
+		GlStateManager.color(1.0F, 1.0F, 1.0F, 1F);
+		GlStateManager.disableBlend();
+		GlStateManager.disableAlpha();
 
-			GlStateManager.popMatrix();
-		} else {
-			GlStateManager.pushMatrix();
-			
-			GlStateManager.scale(sF, sF, sF);
-			GlStateManager.translate(0, 1.5F - (1.5F * sF), z);
-			
-			GlStateManager.enableAlpha();
-			
-			GlStateManager.color(1.0F, 1.0F, 1.0F, 0.5F);
-			
-			super.doRender(entity, x, y, z, f, partialTicks);
-			
-			GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-			
-			GlStateManager.disableAlpha();
-			
-			GlStateManager.popMatrix();
-		}
+		GlStateManager.popMatrix();
 	}
 
 

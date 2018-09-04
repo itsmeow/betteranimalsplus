@@ -26,13 +26,14 @@ public class EntityHirschgeist extends EntityLiving implements IMob {
 
 	public EntityHirschgeist(World worldIn) {
 		super(worldIn);
+		this.setSize(3, 4);
 	}
 
 	@Override
 	public void initEntityAI() {
 		super.initEntityAI();
 		this.tasks.addTask(1, new EntityAISwimming(this));
-		this.tasks.addTask(2, new HirschgeistAIAttackMelee(this, 1.2D));
+		this.tasks.addTask(2, new HirschgeistAIAttackMelee(this, 0.7D));
 		this.tasks.addTask(2, new HirschgeistAIFlameAttack(this));
 		this.tasks.addTask(3, new EntityAIWatchClosest(this, EntityPlayer.class, 15F));
 		this.targetTasks.addTask(1, new EntityAIFindEntityNearestPlayer(this));

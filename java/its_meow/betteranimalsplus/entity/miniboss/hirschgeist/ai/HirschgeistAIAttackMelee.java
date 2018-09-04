@@ -204,14 +204,14 @@ public class HirschgeistAIAttackMelee extends EntityAIBase {
             this.attackTick = 20;
             this.attacker.swingArm(EnumHand.MAIN_HAND);
             this.attacker.attackEntityAsMob(target);
-            target.knockBack(target, 5, attacker.posX - target.posX, attacker.posZ - target.posZ);
+            target.knockBack(target, 1, attacker.posX - target.posX, attacker.posZ - target.posZ);
             target.setFire(5);
         }
     }
 
     protected double getAttackReachSqr(EntityLivingBase attackTarget)
     {
-        return (double)(this.attacker.width * 2.0F * this.attacker.width * 2.0F + attackTarget.width);
+        return 12D;
     } 
     
 }

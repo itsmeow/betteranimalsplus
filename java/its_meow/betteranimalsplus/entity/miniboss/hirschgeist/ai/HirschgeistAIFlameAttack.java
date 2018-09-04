@@ -28,7 +28,7 @@ public class HirschgeistAIFlameAttack extends EntityAIBase {
 	    {
 	        this.attacker = creature;
 	        this.world = creature.world;
-	        this.setMutexBits(3);
+	        this.setMutexBits(4);
 	    }
 	
 	
@@ -58,10 +58,10 @@ public class HirschgeistAIFlameAttack extends EntityAIBase {
 	@Override
 	public void updateTask() {
 		++this.flameTicks;
-
-        if (this.flameTicks == 10)
+		EntityLivingBase target = attacker.getAttackTarget();
+        if (this.flameTicks == 10 && target.getDistanceSq(attacker) <= 100)
         {
-            EntityLivingBase target = attacker.getAttackTarget();
+            
         	
             double x = target.posX;
             double y = target.posY;
@@ -70,7 +70,7 @@ public class HirschgeistAIFlameAttack extends EntityAIBase {
             
             this.areaEffectCloud = new EntityAreaEffectCloud(target.world, x, y, z);
             this.areaEffectCloud.setOwner(this.attacker);
-            this.areaEffectCloud.setRadius(5.0F);
+            this.areaEffectCloud.setRadius(3.0F);
             this.areaEffectCloud.setDuration(2000);
             this.areaEffectCloud.setParticle(EnumParticleTypes.FLAME);
             this.areaEffectCloud.addEffect(new PotionEffect(MobEffects.INSTANT_DAMAGE));

@@ -1229,7 +1229,7 @@ public class ModelHirschgeist extends ModelBetterAnimals {
 		if(entityIn instanceof EntityLiving) {
 			if(entityIn instanceof EntityHirschgeist) {
 				EntityHirschgeist hg = (EntityHirschgeist) entityIn;
-				if(hg.getAttackTarget() != null && !hg.isDaytime() && limbSwingAmount > 0.8) {
+				if(hg.getAttackTarget() != null && !hg.isDaytime() && !hg.getNavigator().noPath()) {
 					this.neck01.rotateAngleX = (float) Math.toRadians(45F);
 				} else {
 					this.neck01.rotateAngleX = this.getHeadPitch((EntityLiving)entityIn) * 0.017453292F - 13;
