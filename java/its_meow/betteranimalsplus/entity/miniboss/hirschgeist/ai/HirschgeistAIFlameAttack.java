@@ -4,9 +4,11 @@ import its_meow.betteranimalsplus.entity.miniboss.hirschgeist.EntityHirschgeist;
 import net.minecraft.block.BlockFire;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityAreaEffectCloud;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.EntityAIBase;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.MobEffects;
+import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.math.BlockPos;
@@ -59,28 +61,23 @@ public class HirschgeistAIFlameAttack extends EntityAIBase {
 
         if (this.flameTicks == 10)
         {
-            float f = 5.0F;
-            double d0 = this.attacker.posX + 0 * 5.0D / 2.0D;
-            double d1 = this.attacker.posZ + 0* 5.0D / 2.0D;
-            double d2 = this.attacker.posY + (double)(this.attacker.height / 2.0F);
-            BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos(MathHelper.floor(d0), MathHelper.floor(d2), MathHelper.floor(d1));
-
-            while (this.attacker.world.isAirBlock(blockpos$mutableblockpos) && d2 >= 0) //Forge: Fix infinite loop if ground is missing.
-            {
-                --d2;
-                blockpos$mutableblockpos.setPos(MathHelper.floor(d0), MathHelper.floor(d2), MathHelper.floor(d1));
-            }
-
-            d2 = (double)(MathHelper.floor(d2) + 1);
-            this.areaEffectCloud = new EntityAreaEffectCloud(this.attacker.world, d0, d2, d1);
+            EntityLivingBase target = attacker.getAttackTarget();
+        	
+            double x = target.posX;
+            double y = target.posY;
+            double z = target.posZ;
+            BlockPos tPos = new BlockPos(x, y, z);
+            
+            this.areaEffectCloud = new EntityAreaEffectCloud(target.world, x, y, z);
             this.areaEffectCloud.setOwner(this.attacker);
             this.areaEffectCloud.setRadius(5.0F);
-            this.areaEffectCloud.setDuration(200);
+            this.areaEffectCloud.setDuration(2000);
             this.areaEffectCloud.setParticle(EnumParticleTypes.FLAME);
-            IBlockState blockstate = this.world.getBlockState(new BlockPos(d0, d2, d1));
+            this.areaEffectCloud.addEffect(new PotionEffect(MobEffects.INSTANT_DAMAGE));
+            IBlockState blockstate = this.world.getBlockState(tPos);
             if(blockstate.getBlock() == Blocks.AIR) {
             	IBlockState fire = Blocks.FIRE.getDefaultState();
-            	world.setBlockState(new BlockPos(d0, d2, d1), fire);
+            	world.setBlockState(tPos, fire);
             }
             this.attacker.world.spawnEntity(this.areaEffectCloud);
         }
@@ -95,11 +92,12 @@ public class HirschgeistAIFlameAttack extends EntityAIBase {
     {
         if (this.flameTicks % 2 == 0 && this.flameTicks < 10 && attacker.getAttackTarget() != null)
         {
+        	EntityLivingBase target = attacker.getAttackTarget();
             Vec3d vec3d = this.attacker.getHeadLookVec(1.0F).normalize();
             vec3d.rotateYaw(-((float)Math.PI / 4F));
-            double d0 = this.attacker.posX;
-            double d1 = this.attacker.posY + (double)(this.attacker.height / 2.0F);
-            double d2 = this.attacker.posZ;
+            double d0 = target.posX;
+            double d1 = target.posY;
+            double d2 = target.posZ;
 
             for (int i = 0; i < 8; ++i)
             {

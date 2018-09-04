@@ -1195,6 +1195,7 @@ public class ModelHirschgeist extends ModelBetterAnimals {
     public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) { 
         
         this.spine04.render(f5);
+        this.lRib000a.render(f5);
         
     }
     
@@ -1206,27 +1207,35 @@ public class ModelHirschgeist extends ModelBetterAnimals {
 
 		
 		if(limbSwingAmount >= 0.65) {
-			this.lArm01.rotateAngleX = MathHelper.cos(f * 0.6662F + (float)Math.PI) * 1.4F * f1;
-			this.rArm01.rotateAngleX = MathHelper.cos(f * 0.6662F + (float)Math.PI) * 1.4F * f1;
-			this.lLeg01.rotateAngleX = MathHelper.cos(f * 0.6662F) * 1.4F * f1;
-			this.rLeg01.rotateAngleX = MathHelper.cos(f * 0.6662F) * 1.4F * f1;
+			this.setRotateAngle(lArm01, 0.5462880558742251F, -0.045553093477052F, 0.27314402793711257F);
+			this.lArm01.rotateAngleX += MathHelper.cos(f * 0.6662F + (float)Math.PI) * 1.4F * f1;
+			this.setRotateAngle(rArm01, 0.5462880558742251F, 0.045553093477052F, -0.27314402793711257F);
+			this.rArm01.rotateAngleX += MathHelper.cos(f * 0.6662F + (float)Math.PI) * 1.4F * f1;
+			this.setRotateAngle(rLeg01, 0.9560913642424937F, 0.0F, 0.136659280431156F);
+			this.rLeg01.rotateAngleX += MathHelper.cos(f * 0.6662F) * 1.4F * f1;
+			this.setRotateAngle(lLeg01, 0.9560913642424937F, 0.0F, -0.136659280431156F);
+			this.lLeg01.rotateAngleX += MathHelper.cos(f * 0.6662F) * 1.4F * f1;
 		} else {
-			this.lArm01.rotateAngleX = MathHelper.cos(f * 0.6662F) * 1.4F * f1;
-			this.rArm01.rotateAngleX = MathHelper.cos(f * 0.6662F + (float)Math.PI) * 1.4F * f1;
-			this.lLeg01.rotateAngleX = MathHelper.cos(f * 0.6662F) * 1.4F * f1;
-			this.rLeg01.rotateAngleX = MathHelper.cos(f * 0.6662F + (float)Math.PI) * 1.4F * f1;
+			this.setRotateAngle(lArm01, 0.5462880558742251F, -0.045553093477052F, 0.27314402793711257F);
+			this.lArm01.rotateAngleX += MathHelper.cos(f * 0.6662F) * 1.4F * f1;
+			this.setRotateAngle(rArm01, 0.5462880558742251F, 0.045553093477052F, -0.27314402793711257F);
+			this.rArm01.rotateAngleX += MathHelper.cos(f * 0.6662F + (float)Math.PI) * 1.4F * f1;
+			this.setRotateAngle(rLeg01, 0.9560913642424937F, 0.0F, 0.136659280431156F);
+			this.rLeg01.rotateAngleX += MathHelper.cos(f * 0.6662F) * 1.4F * f1;
+			this.setRotateAngle(lLeg01, 0.9560913642424937F, 0.0F, -0.136659280431156F);
+			this.lLeg01.rotateAngleX += MathHelper.cos(f * 0.6662F + (float)Math.PI) * 1.4F * f1;
 		}
 		
 		if(entityIn instanceof EntityLiving) {
 			if(entityIn instanceof EntityHirschgeist) {
 				EntityHirschgeist hg = (EntityHirschgeist) entityIn;
-				if(hg.getAttackTarget() != null && !hg.isDaytime() && hg.ticksExisted - hg.getLastAttackedEntityTime() == 20) {
-					this.neck01.rotateAngleX = (float) Math.toRadians(-45F);
+				if(hg.getAttackTarget() != null && !hg.isDaytime() && limbSwingAmount > 0.8) {
+					this.neck01.rotateAngleX = (float) Math.toRadians(45F);
 				} else {
 					this.neck01.rotateAngleX = this.getHeadPitch((EntityLiving)entityIn) * 0.017453292F - 13;
 				}
 			}
-			this.neck01.rotateAngleY = ((EntityLiving) entityIn).rotationYawHead;
+			this.neck02.rotateAngleY = this.getHeadYaw((EntityLiving) entityIn) * 0.017453292F * 0.5F;
 		}
 
 		super.setRotationAngles(limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor, entityIn);
