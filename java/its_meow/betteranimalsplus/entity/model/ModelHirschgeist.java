@@ -1193,17 +1193,8 @@ public class ModelHirschgeist extends ModelBetterAnimals {
 
     @Override
     public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) { 
-        GlStateManager.pushMatrix();
-        if(entity instanceof EntityHirschgeist) {
-        	EntityHirschgeist hg = (EntityHirschgeist) entity;
-        	if(hg.isDaytime()) {
-        		GlStateManager.enableAlpha();
-        		GlStateManager.color(1F, 1F, 1F, 0.5F);
-        	}
-        }
         
         this.spine04.render(f5);
-        GlStateManager.popMatrix();
         
     }
     
@@ -1218,12 +1209,12 @@ public class ModelHirschgeist extends ModelBetterAnimals {
 			this.lArm01.rotateAngleX = MathHelper.cos(f * 0.6662F + (float)Math.PI) * 1.4F * f1;
 			this.rArm01.rotateAngleX = MathHelper.cos(f * 0.6662F + (float)Math.PI) * 1.4F * f1;
 			this.lLeg01.rotateAngleX = MathHelper.cos(f * 0.6662F) * 1.4F * f1;
-			this.lLeg01.rotateAngleX = MathHelper.cos(f * 0.6662F) * 1.4F * f1;
+			this.rLeg01.rotateAngleX = MathHelper.cos(f * 0.6662F) * 1.4F * f1;
 		} else {
 			this.lArm01.rotateAngleX = MathHelper.cos(f * 0.6662F) * 1.4F * f1;
 			this.rArm01.rotateAngleX = MathHelper.cos(f * 0.6662F + (float)Math.PI) * 1.4F * f1;
 			this.lLeg01.rotateAngleX = MathHelper.cos(f * 0.6662F) * 1.4F * f1;
-			this.lLeg01.rotateAngleX = MathHelper.cos(f * 0.6662F + (float)Math.PI) * 1.4F * f1;
+			this.rLeg01.rotateAngleX = MathHelper.cos(f * 0.6662F + (float)Math.PI) * 1.4F * f1;
 		}
 		
 		if(entityIn instanceof EntityLiving) {

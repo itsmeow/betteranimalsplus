@@ -4,7 +4,6 @@ import com.google.common.base.Predicate;
 
 import its_meow.betteranimalsplus.entity.miniboss.hirschgeist.ai.HirschgeistAIAttackMelee;
 import its_meow.betteranimalsplus.entity.miniboss.hirschgeist.ai.HirschgeistAIFlameAttack;
-import its_meow.betteranimalsplus.entity.miniboss.hirschgeist.ai.HirschgeistAIWanderAvoidWater;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -36,7 +35,6 @@ public class EntityHirschgeist extends EntityLiving implements IMob {
 		this.tasks.addTask(2, new HirschgeistAIAttackMelee(this, 1.2D));
 		this.tasks.addTask(2, new HirschgeistAIFlameAttack(this));
 		this.tasks.addTask(3, new EntityAIWatchClosest(this, EntityPlayer.class, 15F));
-		this.tasks.addTask(4, new HirschgeistAIWanderAvoidWater(this, 0.65D));
 		this.targetTasks.addTask(1, new EntityAIFindEntityNearestPlayer(this));
 	}
 	
