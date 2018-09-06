@@ -49,6 +49,8 @@ public class HirschgeistAIFlameAttack extends EntityAIBase {
 	public boolean shouldContinueExecuting() {
 		if(flameTicks > 200) {
 			return false;
+		} else if(attacker.getAttackTarget() == null) {
+			return false;
 		} else {
 			return true;
 		}
@@ -59,7 +61,7 @@ public class HirschgeistAIFlameAttack extends EntityAIBase {
 	public void updateTask() {
 		++this.flameTicks;
 		EntityLivingBase target = attacker.getAttackTarget();
-        if (this.flameTicks == 10 && target.getDistanceSq(attacker) <= 100)
+        if (this.flameTicks == 10 && target != null && target.getDistanceSq(attacker) <= 100)
         {
             
         	
@@ -74,11 +76,11 @@ public class HirschgeistAIFlameAttack extends EntityAIBase {
             this.areaEffectCloud.setDuration(2000);
             this.areaEffectCloud.setParticle(EnumParticleTypes.FLAME);
             this.areaEffectCloud.addEffect(new PotionEffect(MobEffects.INSTANT_DAMAGE));
-            IBlockState blockstate = this.world.getBlockState(tPos);
+            /*IBlockState blockstate = this.world.getBlockState(tPos);
             if(blockstate.getBlock() == Blocks.AIR) {
             	IBlockState fire = Blocks.FIRE.getDefaultState();
             	world.setBlockState(tPos, fire);
-            }
+            }*/
             this.attacker.world.spawnEntity(this.areaEffectCloud);
         }
         

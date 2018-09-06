@@ -4,6 +4,7 @@ import javax.annotation.Nonnull;
 
 import its_meow.betteranimalsplus.entity.miniboss.hirschgeist.EntityHirschgeist;
 import its_meow.betteranimalsplus.entity.model.ModelHirschgeist;
+import its_meow.betteranimalsplus.entity.model.ModelHirschgeistMain;
 import its_meow.betteranimalsplus.registry.TextureRegistry;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelBase;
@@ -17,10 +18,13 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
 
 public class RenderHirschgeist extends RenderLiving<EntityHirschgeist> {
-
+	
+	//LayerHirschgeistGhost layerRenderer;
 
 	public RenderHirschgeist(RenderManager rendermanagerIn) {
-		super(rendermanagerIn, new ModelHirschgeist(), 1.3F);
+		super(rendermanagerIn, new ModelHirschgeistMain(true), 1F);
+		this.addLayer(new LayerHirschgeistGhost(this));
+		//layerRenderer = new LayerHirschgeistGhost(this);
 	}
 
 
@@ -40,36 +44,8 @@ public class RenderHirschgeist extends RenderLiving<EntityHirschgeist> {
 	public static final Factory FACTORY = new Factory();
 
 	@Override
-	public void doRender(EntityHirschgeist entity, double x, double y, double z, float f, float partialTicks) {
-		int sF = 2;
-		GlStateManager.pushMatrix();
-
-		GlStateManager.enableBlend();
-		GlStateManager.enableAlpha();
-
-		GlStateManager.blendFunc(GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ONE);
-
-
-		GlStateManager.depthMask(true);
-
-		int i = 61680;
-		int j = i % 65536;
-		int k = i / 65536;
-		OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, (float)j, (float)k);
-		GlStateManager.color(1.0F, 1.0F, 1.0F, entity.isDaytime() ? 0.35F : 0.5F);
-		Minecraft.getMinecraft().entityRenderer.setupFogColor(true);
+	public void doRender(EntityHirschgeist entity, double x, double y, double z, float f, float partialTicks) {	
 		super.doRender(entity, x, y, z, f, partialTicks);
-		Minecraft.getMinecraft().entityRenderer.setupFogColor(false);
-		i = entity.getBrightnessForRender();
-		j = i % 65536;
-		k = i / 65536;
-		OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, (float)j, (float)k);
-		this.setLightmap(entity);
-		GlStateManager.color(1.0F, 1.0F, 1.0F, 1F);
-		GlStateManager.disableBlend();
-		GlStateManager.disableAlpha();
-
-		GlStateManager.popMatrix();
 	}
 
 

@@ -11,6 +11,7 @@ import net.minecraft.entity.boss.dragon.phase.PhaseSittingFlaming;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.MobEffects;
 import net.minecraft.pathfinding.Path;
+import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.EnumParticleTypes;
@@ -204,7 +205,7 @@ public class HirschgeistAIAttackMelee extends EntityAIBase {
             this.attackTick = 20;
             this.attacker.swingArm(EnumHand.MAIN_HAND);
             this.attacker.attackEntityAsMob(target);
-            target.knockBack(target, 1, attacker.posX - target.posX, attacker.posZ - target.posZ);
+            target.knockBack(target, 3, attacker.posX - target.posX, attacker.posZ - target.posZ);
             target.setFire(5);
         }
     }

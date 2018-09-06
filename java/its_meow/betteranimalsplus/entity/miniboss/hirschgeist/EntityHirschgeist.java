@@ -16,6 +16,7 @@ import net.minecraft.entity.boss.dragon.phase.IPhase;
 import net.minecraft.entity.boss.dragon.phase.PhaseList;
 import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
@@ -26,7 +27,7 @@ public class EntityHirschgeist extends EntityLiving implements IMob {
 
 	public EntityHirschgeist(World worldIn) {
 		super(worldIn);
-		this.setSize(3, 4);
+		//this.setSize(3, 4);
 	}
 
 	@Override
@@ -53,6 +54,30 @@ public class EntityHirschgeist extends EntityLiving implements IMob {
 		return !(world.getWorldTime() >= 13000 && world.getWorldTime() <= 23000);
 	}
 	
+	@Override
+	public void onLivingUpdate() {
+		super.onLivingUpdate();
+		if(this.isDaytime()) {
+			this.setSize(1,2);
+		} else {
+			this.setSize(3, 4);
+		}
+	}
+	
+	
+	
+	@Override
+	public boolean attackable() {
+		return !this.isDaytime();
+	}
+	
+	
+
+	@Override
+	public boolean attackEntityFrom(DamageSource source, float amount) {
+		return this.isDaytime() ? false : super.attackEntityFrom(source, amount);
+	}
+
 	@Override
 	public void setAttackTarget(EntityLivingBase entityIn) {
 		super.setAttackTarget(this.isDaytime() ? null : entityIn);
