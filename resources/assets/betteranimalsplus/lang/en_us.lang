@@ -7,7 +7,7 @@ item.venisonraw.name=Raw Venison
 item.venisoncooked.name=Cooked Venison
 
 #Blocks
-#tile.block.name=
+tile.trillium.name=Trillium
 
 #Entities
 entity.BrownBear.name=Brown Bear

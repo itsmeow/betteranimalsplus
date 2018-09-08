@@ -20,11 +20,9 @@ import net.minecraft.world.World;
 public class EntityTrillium extends Entity {
 	
 	protected static final DataParameter<Integer> TYPE_NUMBER = EntityDataManager.<Integer>createKey(EntityTrillium.class, DataSerializers.VARINT);
-	private int defaultRotate;
 	
 	public EntityTrillium(World worldIn) {
 		super(worldIn);
-		this.defaultRotate = (new Random()).nextInt(180);
 	}
 	
 	
@@ -39,29 +37,11 @@ public class EntityTrillium extends Entity {
 			return false;
 		}
  	}
-
-
-
-	@Override
-	public void onUpdate() {
-		super.onUpdate();
-		this.rotationYaw = this.defaultRotate;
-	}
-	
-	@Override
-	protected void setRotation(float yaw, float pitch) {
-
-	}
 	
 	@Override
 	public boolean canBePushed()
 	{
 		return false;
-	}
-	
-	@Override
-	public void move(MoverType type, double x, double y, double z) {
-
 	}
 
 	@Override

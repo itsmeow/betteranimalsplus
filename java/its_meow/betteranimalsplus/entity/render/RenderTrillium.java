@@ -11,32 +11,43 @@ import its_meow.betteranimalsplus.entity.model.ModelTrilliumMulti;
 import its_meow.betteranimalsplus.entity.model.ModelTrilliumMulti2;
 import its_meow.betteranimalsplus.registry.TextureRegistry;
 import net.minecraft.client.model.ModelBase;
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.MathHelper;
+import net.minecraftforge.client.event.EntityViewRenderEvent;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
 
-public class RenderTrillium extends RenderLiving<EntityTrillium> {
+public class RenderTrillium extends Render<EntityTrillium> {
 	
 	
-	
+	ModelTrilliumMulti mainModel;
 
 	public RenderTrillium(RenderManager rendermanagerIn) {
-		super(rendermanagerIn, new ModelTrilliumMulti(), 0.8F);
-		
+		super(rendermanagerIn);
+		mainModel = new ModelTrilliumMulti();
 		//super(rendermanagerIn, ((new Random()).nextInt(3)) > 0 ? ((new Random()).nextInt(2) == 0 ? new ModelTrilliumMulti() : new ModelTrilliumMulti2())  : new ModelTrillium() , 1F);
 		// Comment comment   //I'm really sorry, but super constructor calls have to be on the first line...
 	}
 
 
-
+	
+	public void doRender(EntityTrillium entity, double x, double y, double z, float entityYaw, float partialTicks)
+    {
+		this.mainModel.render(entity, (float) x, (float) y, (float) z, entityYaw, partialTicks, 1.0F);
+        super.doRender(entity, x, y, z, entityYaw, partialTicks);
+    }
+	
+	
 	public static final Factory FACTORY = new Factory();
-
-
 
 
 	@Override
