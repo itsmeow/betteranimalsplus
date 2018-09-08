@@ -27,7 +27,6 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.SharedMonsterAttributes;
 import its_meow.betteranimalsplus.BetterAnimalsPlusMod;
-import its_meow.betteranimalsplus.entity.ai.EntityAIAttackMelee;
 import its_meow.betteranimalsplus.entity.ai.EntityAIFollowOwnerFlying;
 import its_meow.betteranimalsplus.entity.ai.LammerMoveHelper;
 import its_meow.betteranimalsplus.registry.LootTableRegistry;
@@ -609,7 +608,7 @@ public class EntityLammergeier extends EntityTameableFlying {
 
 
 
-	static class AIMeleeAttack extends EntityAIAttackMelee
+	static class AIMeleeAttack extends net.minecraft.entity.ai.EntityAIAttackMelee
 	{
 
 

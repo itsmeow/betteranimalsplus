@@ -13,10 +13,11 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
+import net.minecraft.util.DamageSource;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
 
-public class EntityTrillium extends EntityLiving {
+public class EntityTrillium extends Entity {
 	
 	protected static final DataParameter<Integer> TYPE_NUMBER = EntityDataManager.<Integer>createKey(EntityTrillium.class, DataSerializers.VARINT);
 	private int defaultRotate;
@@ -26,6 +27,21 @@ public class EntityTrillium extends EntityLiving {
 		this.defaultRotate = (new Random()).nextInt(180);
 	}
 	
+	
+	
+	@Override
+	public boolean attackEntityFrom(DamageSource source, float amount) {
+		if(super.attackEntityFrom(source, amount)) {
+			this.setDead();
+			//this.dropItem(new ItemTrilliumSpawner(this.getTypeNumber()), 1);
+			return true;
+		} else {
+			return false;
+		}
+ 	}
+
+
+
 	@Override
 	public void onUpdate() {
 		super.onUpdate();
@@ -55,7 +71,6 @@ public class EntityTrillium extends EntityLiving {
 	
 	protected void entityInit()
 	{
-		super.entityInit();
 		this.dataManager.register(TYPE_NUMBER, Integer.valueOf(0));
 	}
 
@@ -84,6 +99,8 @@ public class EntityTrillium extends EntityLiving {
 		this.setType(compound.getInteger("TypeNumber"));
 	}
 	
+	
+	
 	/**
 	 * Called only once on an entity when first time spawned, via egg, mob spawner, natural spawning etc, but not called
 	 * when entity is reloaded from nbt. Mainly used for initializing attributes and inventory
@@ -91,7 +108,6 @@ public class EntityTrillium extends EntityLiving {
 	@Nullable
 	public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, @Nullable IEntityLivingData livingdata)
 	{
-		livingdata = super.onInitialSpawn(difficulty, livingdata);
 		int i = (new Random()).nextInt(8) + 1;
 
 		if (livingdata instanceof EntityTrillium.TypeData)

@@ -6,7 +6,6 @@ import javax.annotation.Nullable;
 
 import com.google.common.base.Predicate;
 
-import its_meow.betteranimalsplus.entity.ai.EntityAINearestAttackableTargetBear;
 import its_meow.betteranimalsplus.registry.LootTableRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
