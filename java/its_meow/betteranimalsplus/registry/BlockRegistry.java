@@ -8,6 +8,8 @@ import com.google.common.base.Preconditions;
 import its_meow.betteranimalsplus.Ref;
 import its_meow.betteranimalsplus.block.BlockHirschgeistSkull;
 import its_meow.betteranimalsplus.block.BlockTrillium;
+import its_meow.betteranimalsplus.block.TileEntityTrillium;
+import its_meow.betteranimalsplus.block.render.RenderBlockTrillium;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.Item;
@@ -17,6 +19,7 @@ import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.client.model.obj.OBJLoader;
 import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
@@ -51,7 +54,7 @@ public class BlockRegistry {
 
 			registry.registerAll(blocks);
 
-			
+			GameRegistry.registerTileEntity(TileEntityTrillium.class, new ResourceLocation(Ref.MOD_ID + ":" + trillium.getRegistryName()));
 		}
 
 
@@ -79,9 +82,10 @@ public class BlockRegistry {
 		
 		@SubscribeEvent
 		public static void registerItemBlockModels(final ModelRegistryEvent event) {
-			OBJLoader.INSTANCE.addDomain(Ref.MOD_ID);
-			initModelOBJ(trillium, 0);
+			//OBJLoader.INSTANCE.addDomain(Ref.MOD_ID);
+			//initModelOBJ(trillium, 0);
 			//initModel(hirschgeistskull, 0);
+			ClientRegistry.bindTileEntitySpecialRenderer(TileEntityTrillium.class, new RenderBlockTrillium());
 		}
 		
 		

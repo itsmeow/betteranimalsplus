@@ -40,10 +40,14 @@ public class RenderTrillium extends Render<EntityTrillium> {
 
 
 	
-	public void doRender(EntityTrillium entity, double x, double y, double z, float entityYaw, float partialTicks)
-    {
-		this.mainModel.render(entity, (float) x, (float) y, (float) z, entityYaw, partialTicks, 1.0F);
-        super.doRender(entity, x, y, z, entityYaw, partialTicks);
+	@Override
+    public void doRender(EntityTrillium entity, double x, double y, double z, float entityYaw, float partialTicks) {
+        GlStateManager.pushMatrix();
+        GlStateManager.translate(x,y,z);
+        this.bindEntityTexture(entity);
+        this.mainModel.render(entity,(float)0,(float)0,(float)0,(float) 0,partialTicks,1F);
+        GlStateManager.popMatrix();
+        super.doRender(entity,x, y, z, entityYaw, partialTicks);
     }
 	
 	

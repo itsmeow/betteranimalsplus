@@ -1,14 +1,10 @@
 {
   "forge_marker": 1,
   "defaults": {
-    "model": "betteranimalsplus:trillium.obj"
+    "model": "cube"
   },
   "variants": {
     "normal": [{}],
-    "inventory": [
-        {
-            "transform": "forge:default-block"
-        }
-    ]
+    "inventory": [{}]
   }
 }

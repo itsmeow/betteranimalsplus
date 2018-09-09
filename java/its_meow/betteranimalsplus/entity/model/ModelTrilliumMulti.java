@@ -3,6 +3,7 @@ package its_meow.betteranimalsplus.entity.model;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.client.renderer.GlStateManager;
 import org.lwjgl.opengl.GL11;
 
@@ -340,11 +341,6 @@ public class ModelTrilliumMulti extends ModelBase {
         GlStateManager.translate(-this.stem03_1.rotationPointX * f5, -this.stem03_1.rotationPointY * f5, -this.stem03_1.rotationPointZ * f5);
         this.stem03_1.render(f5);
         GlStateManager.popMatrix();
-    }
-    
-    @Override
-	public void setRotationAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor, Entity entity) {
-    	this.stem01.rotateAngleY = entity.rotationYaw;
     }
 
     /**
