@@ -5,6 +5,8 @@ import java.util.Set;
 
 import com.google.common.base.Preconditions;
 
+import its_meow.betteranimalsplus.Ref;
+import its_meow.betteranimalsplus.block.BlockHirschgeistSkull;
 import its_meow.betteranimalsplus.block.BlockTrillium;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
@@ -13,6 +15,7 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.model.ModelLoader;
+import net.minecraftforge.client.model.obj.OBJLoader;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -26,6 +29,7 @@ import net.minecraftforge.registries.IForgeRegistry;
 public class BlockRegistry {
 	
 	public static final BlockTrillium trillium = new BlockTrillium();
+	public static final BlockHirschgeistSkull hirschgeistskull = new BlockHirschgeistSkull();
 	
 	@Mod.EventBusSubscriber
 	public static class RegistrationHandler {
@@ -42,6 +46,7 @@ public class BlockRegistry {
 
 			final Block[] blocks = {
 					trillium,
+					//hirschgeistskull,
 			};
 
 			registry.registerAll(blocks);
@@ -59,6 +64,7 @@ public class BlockRegistry {
 		public static void registerItemBlocks(final RegistryEvent.Register<Item> event) {
 			final ItemBlock[] items = {
 					new ItemBlock(trillium),
+					//new ItemBlock(hirschgeistskull),
 			};
 
 			final IForgeRegistry<Item> registry = event.getRegistry();
@@ -73,12 +79,18 @@ public class BlockRegistry {
 		
 		@SubscribeEvent
 		public static void registerItemBlockModels(final ModelRegistryEvent event) {
-			initModel(trillium, 0);
+			OBJLoader.INSTANCE.addDomain(Ref.MOD_ID);
+			initModelOBJ(trillium, 0);
+			//initModel(hirschgeistskull, 0);
 		}
 		
 		
 	    public static void initModel(Block block, int meta) {
 	        ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(block), meta, new ModelResourceLocation(block.getRegistryName(), "inventory"));
+	    }
+	    
+	    public static void initModelOBJ(Block block, int meta) {
+	        ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(block), meta, new ModelResourceLocation(block.getRegistryName() + ".obj", "inventory"));
 	    }
 	}
 }

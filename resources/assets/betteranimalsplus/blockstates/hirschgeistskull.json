@@ -1,0 +1,14 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+    "model": "betteranimalsplus:hirschgeistskull"
+  },
+  "variants": {
+    "normal": [{}],
+    "inventory": [
+        {
+            "transform": "forge:default-block"
+        }
+    ]
+  }
+}

@@ -8,6 +8,7 @@ item.venisoncooked.name=Cooked Venison
 
 #Blocks
 tile.trillium.name=Trillium
+tile.hirschgeistskull.name=Hirschgeist Skull
 
 #Entities
 entity.BrownBear.name=Brown Bear
