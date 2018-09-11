@@ -85,7 +85,6 @@ public class BlockRegistry {
 			//OBJLoader.INSTANCE.addDomain(Ref.MOD_ID);
 			//initModelOBJ(trillium, 0);
 			//initModel(hirschgeistskull, 0);
-			ClientRegistry.bindTileEntitySpecialRenderer(TileEntityTrillium.class, new RenderBlockTrillium());
 		}
 		
 		

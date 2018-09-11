@@ -12,7 +12,9 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class BlockTrillium extends Block {
-
+	
+	private TileEntity te;
+	
 	public BlockTrillium() {
 		super(Material.PLANTS);
 		this.setRegistryName("trillium");
@@ -34,12 +36,16 @@ public class BlockTrillium extends Block {
 
 	@Override
 	public TileEntity createTileEntity(World world, IBlockState state) {
-		return new TileEntityTrillium(world, state);
+		return te = new TileEntityTrillium(world, state);
 	}
 	
 	@Override
-    public boolean isOpaqueCube(IBlockState state) { return false; }
+    public boolean isOpaqueCube(IBlockState state) { 
+		return false; 
+	}
 
     @Override
-    public boolean isFullCube(IBlockState state) { return false; }
+    public boolean isFullCube(IBlockState state) { 
+    	return false; 
+    }
 }

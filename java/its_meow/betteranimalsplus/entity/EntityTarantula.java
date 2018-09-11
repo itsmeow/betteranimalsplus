@@ -21,8 +21,10 @@ import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.entity.projectile.EntitySnowball;
 import net.minecraft.entity.projectile.EntityTippedArrow;
 import net.minecraft.init.SoundEvents;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
+import net.minecraft.world.storage.loot.LootTableList;
 
 public class EntityTarantula extends EntitySpider implements IRangedAttackMob {
 	
@@ -70,5 +72,12 @@ public class EntityTarantula extends EntitySpider implements IRangedAttackMob {
 	public void setSwingingArms(boolean swingingArms) {
 		
 	}
+
+	@Override
+	protected ResourceLocation getLootTable() {
+		return LootTableList.ENTITIES_SPIDER;
+	}
+	
+	
 
 }

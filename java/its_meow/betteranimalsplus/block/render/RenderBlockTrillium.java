@@ -35,13 +35,14 @@ public class RenderBlockTrillium extends TileEntitySpecialRenderer<TileEntityTri
 	@Override
     public void render(TileEntityTrillium tileentity, double x, double y, double z, float partialTicks, int destroyStage, float alpha) {
         super.render(tileentity, x, y, z, partialTicks, destroyStage, alpha);
-		//GlStateManager.pushMatrix();
-        //GlStateManager.translate(x,y,z);
+		GlStateManager.pushMatrix();
+        GlStateManager.translate(x,y,z);
+        GlStateManager.rotate(180, 0, 0, 1);
         ResourceLocation loc1 = new ResourceLocation(Ref.MOD_ID, "textures/entities/flora/trillium.png");
         ResourceLocation loc2 = new ResourceLocation(Ref.MOD_ID, "textures/entities/flora/trillium.png");
         this.bindTexture((new Random()).nextBoolean() ? loc1 : loc2);
-        this.mainModel.render((Entity) null, 0F, 0F, 0F, 0F, 0F, 0.0625F);
-        //GlStateManager.popMatrix();
+        this.mainModel.render((Entity) null, 0F, 0F, 0F, 0F, 0F, 0.125F);
+        GlStateManager.popMatrix();
     }
 
 
