@@ -52,7 +52,7 @@ public class MobRegistry {
 	public static int modEntities;
 	
 	
-	
+	//Need to be using registry events. This will break in the near future.
 	public static void init(){
 		//regCre(Entity.class, "name", 0xFF052E (egg base), 0x14FFFC (egg spot), 25 (percent spawn), 1 (min amt), 3 (max amt), Biomes.PLAINS);
 		regMob(EntityBear.class, "BrownBear", 0x4F2900, 0x8E500E, 4, 1, 1, BiomeDictionary.getBiomes(Type.FOREST));
