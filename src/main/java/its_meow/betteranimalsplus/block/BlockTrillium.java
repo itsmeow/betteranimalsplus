@@ -13,8 +13,6 @@ import net.minecraft.world.World;
 
 public class BlockTrillium extends Block {
 	
-	private TileEntity te;
-	
 	public BlockTrillium() {
 		super(Material.PLANTS);
 		this.setRegistryName("trillium");
@@ -36,7 +34,7 @@ public class BlockTrillium extends Block {
 
 	@Override
 	public TileEntity createTileEntity(World world, IBlockState state) {
-		return te = new TileEntityTrillium(world, state);
+		return new TileEntityTrillium(world, state);
 	}
 	
 	@Override
