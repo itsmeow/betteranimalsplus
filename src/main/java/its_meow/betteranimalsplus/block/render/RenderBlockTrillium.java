@@ -26,6 +26,9 @@ public class RenderBlockTrillium extends TileEntitySpecialRenderer<TileEntityTri
 	
 	ModelTrilliumMulti mainModel;
 
+    public static final ResourceLocation loc1 = new ResourceLocation(Ref.MOD_ID, "textures/entities/flora/trillium.png");
+    public static final ResourceLocation loc2 = new ResourceLocation(Ref.MOD_ID, "textures/entities/flora/trillium.png");
+
 	public RenderBlockTrillium() {
 		mainModel = new ModelTrilliumMulti();
 	}
@@ -38,8 +41,6 @@ public class RenderBlockTrillium extends TileEntitySpecialRenderer<TileEntityTri
 		GlStateManager.pushMatrix();
         GlStateManager.translate(x,y,z);
         GlStateManager.rotate(180, 0, 0, 1);
-        ResourceLocation loc1 = new ResourceLocation(Ref.MOD_ID, "textures/entities/flora/trillium.png");
-        ResourceLocation loc2 = new ResourceLocation(Ref.MOD_ID, "textures/entities/flora/trillium.png");
         this.bindTexture((new Random()).nextBoolean() ? loc1 : loc2);
         this.mainModel.render((Entity) null, 0F, 0F, 0F, 0F, 0F, 0.125F);
         GlStateManager.popMatrix();
