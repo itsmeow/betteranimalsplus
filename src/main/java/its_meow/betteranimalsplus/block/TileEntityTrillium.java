@@ -1,14 +1,11 @@
 package its_meow.betteranimalsplus.block;
 
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.world.World;
 
 public class TileEntityTrillium extends TileEntity {
 
-	public TileEntityTrillium(World world, IBlockState state) {
-		this.world = world;
-		this.blockType = state.getBlock();
+	public TileEntityTrillium() {
+	    //Don't set the world instance or block type in the constructor. The tile entity already has a world instance. If you need block information get it from the world and this tile entities coordinates.
 	}
 
 }
