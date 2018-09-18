@@ -1,23 +1,12 @@
 package its_meow.betteranimalsplus.block.render;
 
-import java.util.Random;
-
-import javax.annotation.Nonnull;
-
 import its_meow.betteranimalsplus.Ref;
-import its_meow.betteranimalsplus.block.BlockTrillium;
 import its_meow.betteranimalsplus.block.TileEntityTrillium;
-import its_meow.betteranimalsplus.entity.EntityTrillium;
 import its_meow.betteranimalsplus.entity.model.ModelTrilliumMulti;
-import its_meow.betteranimalsplus.entity.render.RenderTrillium.Factory;
-import its_meow.betteranimalsplus.registry.TextureRegistry;
-import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.client.model.animation.FastTESR;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -40,7 +29,11 @@ public class RenderBlockTrillium extends TileEntitySpecialRenderer<TileEntityTri
 		GlStateManager.pushMatrix();
         GlStateManager.translate(x+ 0.5F,y + 3.0F, z + 0.5F);
         GlStateManager.rotate(180, 0, 0, 1);
-        this.bindTexture((new Random()).nextBoolean() ? loc1 : loc2);
+        //If you want to randomly choose the color of this plant, do it via the Tile Entity instance.
+        //Save it there via NBT Tag and get the type from it. Even constructing something as simple as a 
+        //new Random instance will hog tons of memory, because you're creating that instance X amount of 
+        //times per second, where X is the refresh rate of your display.
+        this.bindTexture(loc1);
         this.mainModel.render((Entity) null, 0F, 0F, 0F, 0F, 0F, 0.125F);
         GlStateManager.popMatrix();
     }
