@@ -1,6 +1,8 @@
 package its_meow.betteranimalsplus.proxy;
 
+import its_meow.betteranimalsplus.block.TileEntityHirschgeistSkull;
 import its_meow.betteranimalsplus.block.TileEntityTrillium;
+import its_meow.betteranimalsplus.block.render.RenderBlockHirschgeistSkull;
 import its_meow.betteranimalsplus.block.render.RenderBlockTrillium;
 import its_meow.betteranimalsplus.registry.MobRegistry;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
@@ -17,6 +19,7 @@ public class ClientProxy extends CommonProxy {
 	public void init(FMLInitializationEvent event) {
 		super.init(event);
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityTrillium.class, new RenderBlockTrillium());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityHirschgeistSkull.class, new RenderBlockHirschgeistSkull());
 	}
 	
 }

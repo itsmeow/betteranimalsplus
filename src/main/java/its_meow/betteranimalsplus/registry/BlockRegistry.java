@@ -8,6 +8,7 @@ import com.google.common.base.Preconditions;
 import its_meow.betteranimalsplus.Ref;
 import its_meow.betteranimalsplus.block.BlockHirschgeistSkull;
 import its_meow.betteranimalsplus.block.BlockTrillium;
+import its_meow.betteranimalsplus.block.TileEntityHirschgeistSkull;
 import its_meow.betteranimalsplus.block.TileEntityTrillium;
 import its_meow.betteranimalsplus.block.render.RenderBlockTrillium;
 import net.minecraft.block.Block;
@@ -49,12 +50,13 @@ public class BlockRegistry {
 
 			final Block[] blocks = {
 					trillium,
-					//hirschgeistskull,
+					hirschgeistskull,
 			};
 
 			registry.registerAll(blocks);
 
 			GameRegistry.registerTileEntity(TileEntityTrillium.class, new ResourceLocation(Ref.MOD_ID + ":" + trillium.getRegistryName()));
+			GameRegistry.registerTileEntity(TileEntityHirschgeistSkull.class, Ref.MOD_ID + ":" + hirschgeistskull.getRegistryName());
 		}
 
 
@@ -67,7 +69,7 @@ public class BlockRegistry {
 		public static void registerItemBlocks(final RegistryEvent.Register<Item> event) {
 			final ItemBlock[] items = {
 					new ItemBlock(trillium),
-					//new ItemBlock(hirschgeistskull),
+					new ItemBlock(hirschgeistskull),
 			};
 
 			final IForgeRegistry<Item> registry = event.getRegistry();
