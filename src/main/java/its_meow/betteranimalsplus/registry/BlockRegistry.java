@@ -69,7 +69,7 @@ public class BlockRegistry {
 		public static void registerItemBlocks(final RegistryEvent.Register<Item> event) {
 			final ItemBlock[] items = {
 					new ItemBlock(trillium),
-					new ItemBlock(hirschgeistskull),
+					hirschgeistskull.getItemBlock(),
 			};
 
 			final IForgeRegistry<Item> registry = event.getRegistry();
@@ -86,7 +86,7 @@ public class BlockRegistry {
 		public static void registerItemBlockModels(final ModelRegistryEvent event) {
 			//OBJLoader.INSTANCE.addDomain(Ref.MOD_ID);
 			initModel(trillium, 0);
-			//initModel(hirschgeistskull, 0);
+			initModel(hirschgeistskull, 0);
 		}
 		
 		
