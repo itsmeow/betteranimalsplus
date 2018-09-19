@@ -85,7 +85,7 @@ public class BlockRegistry {
 		@SubscribeEvent
 		public static void registerItemBlockModels(final ModelRegistryEvent event) {
 			//OBJLoader.INSTANCE.addDomain(Ref.MOD_ID);
-			//initModelOBJ(trillium, 0);
+			initModel(trillium, 0);
 			//initModel(hirschgeistskull, 0);
 		}
 		

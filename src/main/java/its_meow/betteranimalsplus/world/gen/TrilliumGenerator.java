@@ -2,7 +2,7 @@ package its_meow.betteranimalsplus.world.gen;
 
 import java.util.Random;
 
-import net.minecraft.block.BlockFlower;
+import its_meow.betteranimalsplus.block.BlockTrillium;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -13,17 +13,17 @@ import net.minecraftforge.fml.common.IWorldGenerator;
 
 public class TrilliumGenerator implements IWorldGenerator {
 	
-	private BlockFlower flower;
+	private BlockTrillium trillium;
 	private IBlockState state;
 	
-	public TrilliumGenerator(BlockFlower flowerIn) {
-		setGeneratedBlock(flowerIn);
+	public TrilliumGenerator(BlockTrillium trilliumIn) {
+		setGeneratedBlock(trilliumIn);
 	}
 
-	public void setGeneratedBlock(BlockFlower flowerIn)
+	public void setGeneratedBlock(BlockTrillium trilliumIn)
     {
-        this.flower = flowerIn;
-        this.state = flowerIn.getDefaultState();
+        this.trillium = trilliumIn;
+        this.state = trilliumIn.getDefaultState();
     }
 	
 	@Override
@@ -36,7 +36,7 @@ public class TrilliumGenerator implements IWorldGenerator {
             int z = (chunkZ * 16) + random.nextInt(8);
             BlockPos blockpos = new BlockPos(x, i, z);
 
-            if (world.isAirBlock(blockpos) && (!world.provider.isNether() || blockpos.getY() < 255) && this.flower.canBlockStay(world, blockpos, this.state))
+            if (world.isAirBlock(blockpos) && (!world.provider.isNether() || blockpos.getY() < 255) && this.trillium.canBlockStay(world, blockpos, this.state))
             {
                 world.setBlockState(blockpos, this.state, 2);
             }
@@ -49,7 +49,7 @@ public class TrilliumGenerator implements IWorldGenerator {
         {
             BlockPos blockpos = position.add(rand.nextInt(8) - rand.nextInt(8), rand.nextInt(4) - rand.nextInt(4), rand.nextInt(8) - rand.nextInt(8));
 
-            if (worldIn.isAirBlock(blockpos) && (!worldIn.provider.isNether() || blockpos.getY() < 255) && this.flower.canBlockStay(worldIn, blockpos, this.state))
+            if (worldIn.isAirBlock(blockpos) && (!worldIn.provider.isNether() || blockpos.getY() < 255) && this.trillium.canBlockStay(worldIn, blockpos, this.state))
             {
                 worldIn.setBlockState(blockpos, this.state, 2);
             }

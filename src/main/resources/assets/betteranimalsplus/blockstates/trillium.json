@@ -1,9 +1,17 @@
 
 {
     "forge_marker": 1,
+    "Defaults": {
+       "textures": {
+          "all": "blocks/catcus" 
+       }
+    },
     "variants": {
         "normal": [{
            "model": "cube"
+        }],
+        "inventory": [{
+           "model": "betteranimalsplus:item/trillium"
         }]
     }
 }
