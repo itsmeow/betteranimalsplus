@@ -12,6 +12,8 @@ import its_meow.betteranimalsplus.block.TileEntityHirschgeistSkull;
 import its_meow.betteranimalsplus.block.TileEntityTrillium;
 import its_meow.betteranimalsplus.block.render.RenderBlockTrillium;
 import net.minecraft.block.Block;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.ItemModelMesher;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
@@ -86,7 +88,7 @@ public class BlockRegistry {
 		public static void registerItemBlockModels(final ModelRegistryEvent event) {
 			//OBJLoader.INSTANCE.addDomain(Ref.MOD_ID);
 			initModel(trillium, 0);
-			initModel(hirschgeistskull, 0);
+			//initModel(hirschgeistskull, 0);
 		}
 		
 		
@@ -97,5 +99,6 @@ public class BlockRegistry {
 	    public static void initModelOBJ(Block block, int meta) {
 	        ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(block), meta, new ModelResourceLocation(block.getRegistryName() + ".obj", "inventory"));
 	    }
+	    
 	}
 }
