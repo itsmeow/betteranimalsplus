@@ -91,6 +91,7 @@ public class TileEntityHandOfFate extends TileEntity {
 	
 	private void spawnHirschgeist() {
 		EntityHirschgeist hg = new EntityHirschgeist(world);
+		hg.setLocationAndAngles(this.pos.getX(), this.pos.getY() + 1.5F, this.pos.getZ(), 0, 0);
 		world.spawnEntity(hg);
 	}
 
@@ -161,13 +162,6 @@ public class TileEntityHandOfFate extends TileEntity {
 	@Override
 	public void handleUpdateTag(NBTTagCompound tag) {
 		this.readFromNBT(tag);
-	}
-
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public AxisAlignedBB getRenderBoundingBox() {
-		return new AxisAlignedBB(getPos().add(-2, -4, -2), getPos().add(2, 4, 2));
 	}
 	
 }

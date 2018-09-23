@@ -7,6 +7,10 @@
         }],
         "inventory": [{
            "model": "betteranimalsplus:item/handoffate"
-        }]
+        }],
+        "facing=north": { "model": "minecraft:soul_sand" },
+        "facing=east": { "model": "minecraft:soul_sand" },
+        "facing=south": { "model": "minecraft:soul_sand" },
+        "facing=west": { "model": "minecraft:soul_sand" }
     }
 }
