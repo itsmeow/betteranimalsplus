@@ -2,6 +2,7 @@ package its_meow.betteranimalsplus.block;
 
 import java.util.Random;
 
+import its_meow.betteranimalsplus.BetterAnimalsPlusMod;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockBush;
 import net.minecraft.block.BlockFlower;
@@ -25,7 +26,7 @@ public class BlockTrillium extends BlockBush implements ITileEntityProvider {
 		this.setUnlocalizedName("trillium");
 		this.translucent = true;
 		this.fullBlock = false;
-		this.setCreativeTab(CreativeTabs.DECORATIONS);
+		this.setCreativeTab(BetterAnimalsPlusMod.tab);
 	}
 	
 	

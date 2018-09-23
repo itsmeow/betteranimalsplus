@@ -34,7 +34,7 @@ public class BetterAnimalsPlusMod {
 	@SidedProxy(clientSide = Ref.CLIENT_PROXY_C, serverSide = Ref.SERVER_PROXY_C)
 	public static CommonProxy proxy;
 
-	//public static CreativeTab tab_betteranimalsplus = new CreativeTab("Better Animals+");
+	public static CreativeTab tab = new CreativeTab("Better Animals+");
 
 	public static Logger logger;
 	

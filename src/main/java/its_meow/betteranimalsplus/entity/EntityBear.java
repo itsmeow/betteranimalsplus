@@ -67,7 +67,8 @@ public class EntityBear extends EntityMob {
         this.targetTasks.addTask(4, new EntityAINearestAttackableTarget<EntityPig>(this, EntityPig.class, 90, true, true, (Predicate)null));
         this.targetTasks.addTask(5, new EntityAINearestAttackableTarget<EntityChicken>(this, EntityChicken.class, 90, true, true, (Predicate)null));
         this.targetTasks.addTask(6, new EntityAINearestAttackableTarget<EntityRabbit>(this, EntityRabbit.class, 90, true, true, (Predicate)null));
-        //TODO: Once foxes and pheasants are added target them
+        this.targetTasks.addTask(3, new EntityAINearestAttackableTarget<EntityFox>(this, EntityFox.class, 90, true, true, (Predicate)null));
+        //TODO: Once pheasants are added target them
 	}
 
 	protected void applyEntityAttributes()

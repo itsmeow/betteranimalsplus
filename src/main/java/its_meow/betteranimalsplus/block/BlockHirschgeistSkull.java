@@ -2,8 +2,10 @@ package its_meow.betteranimalsplus.block;
 
 import java.awt.List;
 
+import its_meow.betteranimalsplus.BetterAnimalsPlusMod;
 import its_meow.betteranimalsplus.item.ItemHirschgeistSkull;
 import its_meow.betteranimalsplus.registry.BlockRegistry;
+import its_meow.betteranimalsplus.registry.ItemRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockSkull;
 import net.minecraft.block.ITileEntityProvider;
@@ -32,7 +34,7 @@ public class BlockHirschgeistSkull extends BlockSkull implements ITileEntityProv
 		this.setUnlocalizedName("hirschgeistskull");
 		this.translucent = true;
 		this.fullBlock = false;
-		this.setCreativeTab(CreativeTabs.DECORATIONS);
+		this.setCreativeTab(BetterAnimalsPlusMod.tab);
 	}
 
 	@Override
@@ -74,8 +76,8 @@ public class BlockHirschgeistSkull extends BlockSkull implements ITileEntityProv
 		return new TileEntityHirschgeistSkull();
 	}
 
-	public ItemBlock getItemBlock() {
-		return new ItemHirschgeistSkull(this);
+	public static ItemBlock getItemBlock() {
+		return ItemRegistry.itemHirschgeistSkull;
 	}
 
 }

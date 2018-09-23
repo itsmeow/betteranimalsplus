@@ -1,5 +1,8 @@
 package its_meow.betteranimalsplus.item;
 
+import java.util.List;
+
+import its_meow.betteranimalsplus.BetterAnimalsPlusMod;
 import its_meow.betteranimalsplus.Ref;
 import its_meow.betteranimalsplus.block.TileEntityHirschgeistSkull;
 import its_meow.betteranimalsplus.entity.model.ModelHirschgeistSkull;
@@ -10,9 +13,11 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockSkull;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.model.ModelBiped;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemArmor;
@@ -40,7 +45,6 @@ public class ItemHirschgeistSkull extends ItemBlockParentHirschgeistSkull {
 		this.setUnlocalizedName("hirschgeistskull");
 		//this.setRegistryName("hirschgeistskullitem");
 		this.block = block;
-		ItemArmor armor;
 	}
 	
 	@Override
@@ -65,7 +69,7 @@ public class ItemHirschgeistSkull extends ItemBlockParentHirschgeistSkull {
 		}
 	}
 
-
+	
 
 	protected void populateTile(ItemStack stack, EnumFacing side, EntityPlayer player, TileEntity tile) {
 		if (tile instanceof TileEntityHirschgeistSkull) {
@@ -78,23 +82,13 @@ public class ItemHirschgeistSkull extends ItemBlockParentHirschgeistSkull {
 	}
 
 	@Override
-	public boolean isValidArmor(ItemStack stack, EntityEquipmentSlot armorType, Entity entity) {
-		return armorType == EntityEquipmentSlot.HEAD;
+	public void addInformation(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
+		tooltip.add("It can be worn via placing it into an empty crafting table");
+		super.addInformation(stack, worldIn, tooltip, flagIn);
 	}
-
-	@Override
-	public String getArmorTexture(ItemStack stack, Entity entity, EntityEquipmentSlot slot, String type)
-	{
-		return Ref.MOD_ID + ":textures/entites/hirschgeist.png";
-	}
-
-	@Override 	
-	@SideOnly(Side.CLIENT)
-	public ModelBiped getArmorModel(EntityLivingBase entityLiving, ItemStack itemStack, EntityEquipmentSlot armorSlot,
-			ModelBiped defaultModel) {
-		return ClientProxy.helmetModel;
-	}
-
+	
+	
+	
 
 
 }

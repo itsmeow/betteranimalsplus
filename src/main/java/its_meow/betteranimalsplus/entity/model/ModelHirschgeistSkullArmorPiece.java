@@ -2,42 +2,43 @@ package its_meow.betteranimalsplus.entity.model;
 
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.model.ModelRenderer;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.Entity;
 
 public class ModelHirschgeistSkullArmorPiece extends ModelBiped {
 
-	public ModelRenderer head01;
-	public ModelRenderer muzzle;
-	public ModelRenderer lowerJaw01;
-	public ModelRenderer lAnter01;
-	public ModelRenderer rAnter01;
-	public ModelRenderer lowerJaw02;
-	public ModelRenderer lAnter02a;
-	public ModelRenderer lAnter02b;
-	public ModelRenderer lAnter02c;
-	public ModelRenderer lAnter02d;
-	public ModelRenderer lAnter03;
-	public ModelRenderer lAnter04;
-	public ModelRenderer lAnter05a;
-	public ModelRenderer lAnter06a;
-	public ModelRenderer lAnter07a;
-	public ModelRenderer lAnter05b;
-	public ModelRenderer lAnter06b;
-	public ModelRenderer lAnter06c;
-	public ModelRenderer lAnter07b;
-	public ModelRenderer rAnter02a;
-	public ModelRenderer rAnter02b;
-	public ModelRenderer rAnter02c;
-	public ModelRenderer rAnter02d;
-	public ModelRenderer rAnter03;
-	public ModelRenderer rAnter04;
-	public ModelRenderer rAnter05a;
-	public ModelRenderer rAnter06a;
-	public ModelRenderer rAnter07a;
-	public ModelRenderer rAnter05b;
-	public ModelRenderer rAnter06b;
-	public ModelRenderer rAnter06c;
-	public ModelRenderer rAnter07b;
+	private ModelRenderer head01;
+	private ModelRenderer muzzle;
+	private ModelRenderer lowerJaw01;
+	private ModelRenderer lAnter01;
+	private ModelRenderer rAnter01;
+	private ModelRenderer lowerJaw02;
+	private ModelRenderer lAnter02a;
+	private ModelRenderer lAnter02b;
+	private ModelRenderer lAnter02c;
+	private ModelRenderer lAnter02d;
+	private ModelRenderer lAnter03;
+	private ModelRenderer lAnter04;
+	private ModelRenderer lAnter05a;
+	private ModelRenderer lAnter06a;
+	private ModelRenderer lAnter07a;
+	private ModelRenderer lAnter05b;
+	private ModelRenderer lAnter06b;
+	private ModelRenderer lAnter06c;
+	private ModelRenderer lAnter07b;
+	private ModelRenderer rAnter02a;
+	private ModelRenderer rAnter02b;
+	private ModelRenderer rAnter02c;
+	private ModelRenderer rAnter02d;
+	private ModelRenderer rAnter03;
+	private ModelRenderer rAnter04;
+	private ModelRenderer rAnter05a;
+	private ModelRenderer rAnter06a;
+	private ModelRenderer rAnter07a;
+	private ModelRenderer rAnter05b;
+	private ModelRenderer rAnter06b;
+	private ModelRenderer rAnter06c;
+	private ModelRenderer rAnter07b;
 
 	public ModelHirschgeistSkullArmorPiece(float scale) {
 		super(scale, 0, 128, 128);
@@ -158,7 +159,8 @@ public class ModelHirschgeistSkullArmorPiece extends ModelBiped {
 		this.rAnter01.addBox(-1.0F, -1.0F, -2.0F, 2, 2, 2, 0.0F);
 		this.setRotateAngle(rAnter01, -0.5918411493512771F, 0.5462880558742251F, 0.0F);
 		this.head01 = new ModelRenderer(this, 25, 8);
-		this.head01.setRotationPoint(0.0F, 23.9F, 1.0F);
+		//this.head01.setRotationPoint(0.0F, 23.9F, 1.0F);
+		this.head01.setRotationPoint(0F, 0F, 2.0F);
 		this.head01.addBox(-2.5F, -1.8F, -4.0F, 5, 6, 4, 0.0F);
 		this.setRotateAngle(head01, -1.5707963267948966F, 0.0F, 0.0F);
 		this.rAnter07a = new ModelRenderer(this, 2, 34);
@@ -208,14 +210,28 @@ public class ModelHirschgeistSkullArmorPiece extends ModelBiped {
 		this.rAnter06a.addChild(this.rAnter06b);
 		this.lAnter02a.addChild(this.lAnter02c);
 		this.head01.addChild(this.lAnter01);
+		
+		
+		
+		//this.bipedHead.addChild(this.head01);
 	}
 
 	@Override
 	public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) {
+		this.bipedHead.showModel = true;
+		this.bipedHeadwear.showModel = false;
 		super.render(entity, f, f1, f2, f3, f4, f5);
 		setRotationAngles(f, f1, f2, f3, f4, f5, entity);
-		this.head01.render(f5);
-		this.head01.rotateAngleY = (float) Math.toRadians(-90F);
+		
+		this.head01.rotationPointX = this.bipedHead.rotationPointX;
+		this.head01.rotationPointY = this.bipedHead.rotationPointY;
+		this.head01.rotationPointZ = this.bipedHead.rotationPointZ + 1F; // Back 1
+		this.head01.rotateAngleX = (this.bipedHead.rotateAngleX / 2) - 1.5707963267948966F;
+		this.head01.rotateAngleY = this.bipedHead.rotateAngleY / 2;
+		this.head01.rotateAngleZ = this.bipedHead.rotateAngleZ;
+		this.head01.showModel = this.bipedHead.showModel;
+		this.head01.render(0.125F);
+		
 	}
 
 	/**

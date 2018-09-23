@@ -1,0 +1,18 @@
+{
+    "_comment": [
+	    "Convert a placeable skull to a wearable skull"
+	],
+	"type": "minecraft:crafting_shapeless",
+	"group": "betteranimalsplus:hirschgeistskull",
+	"ingredients": [
+	    {
+	        "item": "betteranimalsplus:hirschgeistskull",
+			"data": 0
+	    }
+	],
+	"result": {
+	    "item": "betteranimalsplus:hirschgeistskullwearable",
+		"data": 0,
+		"count": 1
+	}
+}

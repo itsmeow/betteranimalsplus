@@ -10,6 +10,7 @@ import javax.annotation.Nullable;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Sets;
 
+import its_meow.betteranimalsplus.registry.ItemRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityAgeable;
@@ -541,9 +542,12 @@ public class EntityFeralWolf extends EntityTameable implements IMob {
 					wearingPowerHead = true;
 				}
 			}
+			if(stack.getItem() == ItemRegistry.itemHirschgeistSkullWearable) {
+				wearingPowerHead = true;
+			}
 
 
-			if(wearingPowerHead) { //player.isWearing(part)) TODO: Once hirschgeist added put check for its head
+			if(wearingPowerHead) { //player.isWearing(part))
 
 
 				if (!player.capabilities.isCreativeMode)

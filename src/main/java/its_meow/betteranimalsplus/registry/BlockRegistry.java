@@ -6,6 +6,7 @@ import java.util.Set;
 import com.google.common.base.Preconditions;
 
 import its_meow.betteranimalsplus.Ref;
+import its_meow.betteranimalsplus.block.BlockHandOfFate;
 import its_meow.betteranimalsplus.block.BlockHirschgeistSkull;
 import its_meow.betteranimalsplus.block.BlockTrillium;
 import its_meow.betteranimalsplus.block.TileEntityHirschgeistSkull;
@@ -36,6 +37,7 @@ public class BlockRegistry {
 	
 	public static final BlockTrillium trillium = new BlockTrillium();
 	public static final BlockHirschgeistSkull hirschgeistskull = new BlockHirschgeistSkull();
+	public static final BlockHandOfFate handoffate = new BlockHandOfFate();
 	
 	@Mod.EventBusSubscriber
 	public static class RegistrationHandler {
@@ -53,6 +55,7 @@ public class BlockRegistry {
 			final Block[] blocks = {
 					trillium,
 					hirschgeistskull,
+					handoffate,
 			};
 
 			registry.registerAll(blocks);
@@ -72,6 +75,7 @@ public class BlockRegistry {
 			final ItemBlock[] items = {
 					new ItemBlock(trillium),
 					hirschgeistskull.getItemBlock(),
+					handoffate.getItemBlock(),
 			};
 
 			final IForgeRegistry<Item> registry = event.getRegistry();
@@ -88,7 +92,8 @@ public class BlockRegistry {
 		public static void registerItemBlockModels(final ModelRegistryEvent event) {
 			//OBJLoader.INSTANCE.addDomain(Ref.MOD_ID);
 			initModel(trillium, 0);
-			//initModel(hirschgeistskull, 0);
+			initModel(hirschgeistskull, 0);
+			initModel(handoffate, 0);
 		}
 		
 		

@@ -3,6 +3,10 @@ package its_meow.betteranimalsplus.registry;
 import java.util.HashSet;
 import java.util.Set;
 
+import its_meow.betteranimalsplus.item.ItemAntler;
+import its_meow.betteranimalsplus.item.ItemHandOfFate;
+import its_meow.betteranimalsplus.item.ItemHirschgeistSkull;
+import its_meow.betteranimalsplus.item.ItemHirschgeistSkullWearable;
 import its_meow.betteranimalsplus.item.ItemVenisonCooked;
 import its_meow.betteranimalsplus.item.ItemVenisonRaw;
 import net.minecraft.block.Block;
@@ -22,14 +26,10 @@ public class ItemRegistry {
 	
 	public static final ItemVenisonRaw venisonRaw = new ItemVenisonRaw(4, true);
 	public static final ItemVenisonCooked venisonCooked = new ItemVenisonCooked(8, true);
-
-
-	@SideOnly(Side.CLIENT)
-	public static void initModels(){
-		venisonRaw.initModel();
-		venisonCooked.initModel();
-	}
-
+	public static final ItemHirschgeistSkull itemHirschgeistSkull = new ItemHirschgeistSkull(BlockRegistry.hirschgeistskull);
+	public static final ItemHirschgeistSkullWearable itemHirschgeistSkullWearable = new ItemHirschgeistSkullWearable();
+	public static final ItemAntler antler = new ItemAntler();
+	public static final ItemHandOfFate itemHandOfFate = new ItemHandOfFate(BlockRegistry.handoffate);
 
 
 	@Mod.EventBusSubscriber
@@ -46,6 +46,8 @@ public class ItemRegistry {
 			Item[] items = {
 					venisonRaw,
 					venisonCooked,
+					itemHirschgeistSkullWearable,
+					antler,
 			};
 			final IForgeRegistry<Item> registry = event.getRegistry();
 
@@ -59,6 +61,8 @@ public class ItemRegistry {
 		public static void registerItemBlockModels(final ModelRegistryEvent event) {
 			initModel(venisonRaw, 0);
 			initModel(venisonCooked, 0);
+			initModel(itemHirschgeistSkullWearable, 0);
+			initModel(antler, 0);
 		}
 
 

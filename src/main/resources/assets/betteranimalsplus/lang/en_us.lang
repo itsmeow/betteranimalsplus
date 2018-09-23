@@ -6,6 +6,8 @@
 item.venisonraw.name=Raw Venison
 item.venisoncooked.name=Cooked Venison
 item.hirschgeistskull.name=Hirschgeist Skull (Item)
+item.hirschgeistskullwearable.name=Wearable Hirschgeist Skull
+item.antler.name=Antler
 
 #Blocks
 tile.trillium.name=Trillium

@@ -94,9 +94,9 @@ public class TextureRegistry {
 	public static final ResourceLocation hirschgeist = 
 			new ResourceLocation(entitytex + "hirschgeist.png");
 	
-	//Hirschgeist Skull
-	public static final ResourceLocation hirschgeistskull =
-			new ResourceLocation(Ref.MOD_ID + ":textures/blocks/hirschgeistskull.png");
+	//Hand Of Fate
+	public static final ResourceLocation handoffate =
+			new ResourceLocation(Ref.MOD_ID + ":textures/blocks/handoffate.png");
 	
 	
 }

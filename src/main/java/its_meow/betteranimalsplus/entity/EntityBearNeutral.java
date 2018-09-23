@@ -70,7 +70,7 @@ public class EntityBearNeutral extends EntityBear {
         this.tasks.addTask(7, new EntityAILookIdle(this));
         this.targetTasks.addTask(2, new EntityAINearestAttackableTarget<EntityChicken>(this, EntityChicken.class, true));
         this.targetTasks.addTask(3, new EntityAINearestAttackableTarget<EntityRabbit>(this, EntityRabbit.class, true));
-        //TODO: Target pheasant
+        //TODO: Once pheasants are added target them
     }
 
 	protected void applyEntityAttributes()

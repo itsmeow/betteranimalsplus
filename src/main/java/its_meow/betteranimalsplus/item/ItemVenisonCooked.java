@@ -1,5 +1,6 @@
 package its_meow.betteranimalsplus.item;
 
+import its_meow.betteranimalsplus.BetterAnimalsPlusMod;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.ItemFood;
@@ -27,6 +28,7 @@ public class ItemVenisonCooked extends ItemFood {
         this.healAmount = 3;
         this.isWolfsFavoriteMeat = false;
         this.alwaysEdible = false;
+        this.setCreativeTab(BetterAnimalsPlusMod.tab);
 	}
 	
     /**
