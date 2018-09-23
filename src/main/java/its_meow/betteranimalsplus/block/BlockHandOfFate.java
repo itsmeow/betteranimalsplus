@@ -50,7 +50,7 @@ public class BlockHandOfFate extends Block implements ITileEntityProvider {
 	
 	@Override
 	public TileEntity createNewTileEntity(World worldIn, int meta) {
-		return null;
+		return new TileEntityHandOfFate();
 	}
 	
 	public static ItemBlock getItemBlock() {
