@@ -10,7 +10,8 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class TileEntityHandOfFate extends TileEntity {
 	
-	private boolean onFire = false;
+	private boolean onFire;
+	private final String keyOnFire = "OnFire";
 	
 	
 	public TileEntityHandOfFate() {
@@ -30,7 +31,9 @@ public class TileEntityHandOfFate extends TileEntity {
 	@Override
 	public void readFromNBT(NBTTagCompound compound) {
 		super.readFromNBT(compound);
-		this.onFire = compound.getBoolean("OnFire");
+		if(compound.hasKey(keyOnFire)) {
+			this.onFire = compound.getBoolean(keyOnFire);
+		}
 	}
 
 
@@ -38,7 +41,7 @@ public class TileEntityHandOfFate extends TileEntity {
 	@Override
 	public NBTTagCompound writeToNBT(NBTTagCompound compound) {
 		super.writeToNBT(compound);
-		compound.setBoolean("OnFire", this.onFire);
+		compound.setBoolean(keyOnFire, this.onFire);
 		return compound;
 	}
 
@@ -60,6 +63,20 @@ public class TileEntityHandOfFate extends TileEntity {
 	
 	
 	
+	@Override
+	public NBTTagCompound getUpdateTag() {
+		NBTTagCompound tag = new NBTTagCompound();
+        this.writeToNBT(tag);
+        return tag;
+	}
+
+
+	@Override
+	public void handleUpdateTag(NBTTagCompound tag) {
+		this.readFromNBT(tag);
+	}
+
+
 	@Override
 	@SideOnly(Side.CLIENT)
 	public AxisAlignedBB getRenderBoundingBox() {

@@ -4,6 +4,7 @@ import com.google.common.base.Predicate;
 
 import its_meow.betteranimalsplus.entity.miniboss.hirschgeist.ai.HirschgeistAIAttackMelee;
 import its_meow.betteranimalsplus.entity.miniboss.hirschgeist.ai.HirschgeistAIFlameAttack;
+import its_meow.betteranimalsplus.registry.LootTableRegistry;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -17,6 +18,7 @@ import net.minecraft.entity.boss.dragon.phase.PhaseList;
 import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
@@ -66,6 +68,11 @@ public class EntityHirschgeist extends EntityLiving implements IMob {
 	
 	
 	
+	@Override
+	protected ResourceLocation getLootTable() {
+		return LootTableRegistry.hirschgeist;
+	}
+
 	@Override
 	public boolean attackable() {
 		return !this.isDaytime();

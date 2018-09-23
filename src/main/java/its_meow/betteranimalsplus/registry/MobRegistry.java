@@ -74,6 +74,7 @@ public class MobRegistry {
 		registerRender(EntityDeer.class, RenderDeer.FACTORY);
 		registerRender(EntityLammergeier.class, RenderLammergeier.FACTORY);
 		registerRender(EntityFeralWolf.class, RenderCustomWolf.FACTORY);
+		registerRender(EntityCoyote.class, RenderCoyote.FACTORY);
 		registerRender(EntityFox.class, RenderFox.FACTORY);
 		registerRender(EntityTarantulaHair.class, RenderTarantulaHair.FACTORY);
 		registerRender(EntityTarantula.class, RenderTarantula.FACTORY);

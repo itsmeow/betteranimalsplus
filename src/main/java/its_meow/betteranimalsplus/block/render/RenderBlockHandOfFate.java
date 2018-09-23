@@ -35,7 +35,6 @@ public class RenderBlockHandOfFate extends TileEntitySpecialRenderer<TileEntityH
         this.mainModel.render((Entity) null,(float) x + 0.5F,(float) y + 1.5F,(float) z + 0.5F, 0F, 0F, 0.0625F);
         
         if(tileentity.isOnFire() && i % 5 == 0) {
-        	System.out.println("render fire");
         	tileentity.getWorld().spawnParticle(EnumParticleTypes.FLAME, tileentity.getPos().getX() + ((rand.nextFloat() + 0.5F) / 2), tileentity.getPos().getY() + 1.5F, tileentity.getPos().getZ() + ((rand.nextFloat() + 0.5F) / 2), 0, 0.02F, 0);
         }
         

@@ -99,7 +99,14 @@ public class EntityLammergeier extends EntityTameableFlying {
         return false;
     }
 	
+    
 
+	@Override
+	public void setAttackTarget(EntityLivingBase entitylivingbaseIn) {
+		if(entitylivingbaseIn.height <= 3) {
+			super.setAttackTarget(entitylivingbaseIn);
+		}
+	}
 
 	@Override
 	protected ResourceLocation getLootTable() {
@@ -120,7 +127,7 @@ public class EntityLammergeier extends EntityTameableFlying {
 		this.aiSit = new EntityAISit(this);
 		this.tasks.addTask(1, this.aiSit);
 		this.tasks.addTask(2, new EntityLammergeier.AIMeleeAttack(this, true));
-		this.tasks.addTask(2, new EntityLammergeier.AIMoveToTarget(this, 50F));
+		//this.tasks.addTask(2, new EntityLammergeier.AIMoveToTarget(this, 50F));
 		this.tasks.addTask(3, new EntityAIFollowOwnerFlying(this, 0.5D, 10.0F, 50.0F));
 		this.tasks.addTask(5, new EntityLammergeier.AIRandomFly(this));
 		this.tasks.addTask(7, new EntityLammergeier.AILookAround(this));
