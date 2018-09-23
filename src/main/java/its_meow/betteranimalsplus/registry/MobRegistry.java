@@ -58,7 +58,7 @@ public class MobRegistry {
 		regMob(EntityBearNeutralKermode.class, "KermodeBear", 0xe8e8e8, 0xf7dabe, 2, 1, 1, BiomeDictionary.getBiomes(Type.FOREST));
 		regMob(EntityDeer.class, "Deer", 0x8e510b, 0xc6863b, 10, 1, 2,  BiomeDictionary.getBiomes(Type.FOREST), BiomeDictionary.getBiomes(Type.MAGICAL));
 		regMob(EntityLammergeier.class, "Lammergeier", 0xd8d8d8, 0xd82b11, 7, 1, 2, BiomeDictionary.getBiomes(Type.HILLS), BiomeDictionary.getBiomes(Type.MOUNTAIN));
-		regMob(EntityFeralWolf.class, "FeralWolf", 0xbababa, 0x232323, 5, 1, 6, BiomeDictionary.getBiomes(Type.FOREST), BiomeDictionary.getBiomes(Type.MAGICAL), BiomeDictionary.getBiomes(Type.SPOOKY));
+		regMob(EntityFeralWolf.class, "FeralWolf", 0xbababa, 0x232323, 6, 1, 6, BiomeDictionary.getBiomes(Type.FOREST), BiomeDictionary.getBiomes(Type.MAGICAL), BiomeDictionary.getBiomes(Type.SPOOKY));
 		regMob(EntityCoyote.class, "Coyote", 0x866a31, 0xb69762, 6, 1, 6, BiomeDictionary.getBiomes(Type.SANDY), BiomeDictionary.getBiomes(Type.PLAINS));
 		regMob(EntityFox.class, "Fox", 0xe87422, 0x3f210c, 8, 1, 6, BiomeDictionary.getBiomes(Type.FOREST), BiomeDictionary.getBiomes(Type.MAGICAL));
 		registerNoEgg(EntityTarantulaHair.class, "tarantulahair");
