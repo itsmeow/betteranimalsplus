@@ -100,7 +100,7 @@ public class EntityLammergeier extends EntityTameableFlying {
     }
 	
     
-
+    /*
 	@Override
 	public void setAttackTarget(EntityLivingBase entitylivingbaseIn) {
 		if(entitylivingbaseIn != null && entitylivingbaseIn.height <= 3) {
@@ -109,6 +109,7 @@ public class EntityLammergeier extends EntityTameableFlying {
 			super.setAttackTarget(entitylivingbaseIn);
 		}
 	}
+	*/
 
 	@Override
 	protected ResourceLocation getLootTable() {
@@ -726,7 +727,7 @@ public class EntityLammergeier extends EntityTameableFlying {
 				if(entitylivingbase.isRiding()) {
 					this.attacker.getMoveHelper().setMoveTo(targetX, liftY + 15, targetZ, 5.0D);
 				}
-				if(attackTick == 20 && !entitylivingbase.isRiding()) {
+				if(attackTick == 20 && !entitylivingbase.isRiding() && entitylivingbase.height <= 3) {
 					this.attacker.setLocationAndAngles(attacker.posX, attacker.posY + entitylivingbase.height + 2, attacker.posZ, attacker.rotationYaw, attacker.rotationPitch);
 					entitylivingbase.startRiding(this.attacker, true);
 					liftY = entitylivingbase.posY;
