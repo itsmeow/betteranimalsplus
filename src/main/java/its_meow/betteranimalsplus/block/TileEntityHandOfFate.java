@@ -18,26 +18,26 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class TileEntityHandOfFate extends TileEntity {
-	
+
 	private boolean onFire;
 	private final String keyOnFire = "OnFire";
-	
+
 	private boolean hasNetherWart;
 	private final String keyNetherWart = "HasNetherWart";
-	
+
 	private boolean hasAntler;
 	private final String keyAntler = "HasAntler";
-	
+
 	private boolean hasVenison;
 	private final String keyVenison = "HasVenison";
-	
+
 	public TileEntityHandOfFate() {}
-	
+
 	public TileEntityHandOfFate(World worldIn) {
 		this.world = worldIn;
 	}
-	
-	
+
+
 	public void setOnFire(boolean b) {
 		this.onFire = b;
 		if(world.isRemote) {
@@ -47,11 +47,11 @@ public class TileEntityHandOfFate extends TileEntity {
 		}
 		this.markDirty();
 	}
-	
+
 	public boolean isOnFire() {
 		return onFire;
 	}
-	
+
 	public boolean hasNetherWart() {
 		return hasNetherWart;
 	}
@@ -85,9 +85,9 @@ public class TileEntityHandOfFate extends TileEntity {
 		this.markDirty();
 		this.checkHasAllThree();
 	}
-	
-	
-	
+
+
+
 	private void checkHasAllThree() {
 		if(hasVenison && hasAntler && hasNetherWart && this.isOnFire()) {
 			this.setHasVenison(false);
@@ -97,20 +97,23 @@ public class TileEntityHandOfFate extends TileEntity {
 			this.spawnHirschgeist();
 		}
 	}
-	
-	
-	
-	
+
+
+
+
 	private void spawnHirschgeist() {
-		EntityHirschgeist hg = new EntityHirschgeist(world);
-		hg.setLocationAndAngles(this.pos.getX(), this.pos.getY() + 1.5F, this.pos.getZ(), 0, 0);
-		world.spawnEntity(hg);
+		if(!world.isRemote) {
+			EntityHirschgeist hg = new EntityHirschgeist(world);
+			hg.setLocationAndAngles(this.pos.getX(), this.pos.getY() + 1F, this.pos.getZ(), 0, 0);
+			hg.setNoAI(false);
+			world.spawnEntity(hg);
+		}
 	}
 
 
 	private void fireBurst() {
 		Random rand = new Random();
-		for(int i = 0; i < 20; i++) {
+		for(int i = 0; i < 100; i++) {
 			world.spawnParticle(EnumParticleTypes.SPELL_INSTANT, this.getPos().getX() + ((rand.nextFloat() + 0.5F) / 2), this.getPos().getY() + 1.5F, this.getPos().getZ() + ((rand.nextFloat() + 0.5F) / 2), 0, 0.5F, 0);
 		}
 	}
@@ -158,16 +161,16 @@ public class TileEntityHandOfFate extends TileEntity {
 		readFromNBT(packet.getNbtCompound());
 		world.scheduleUpdate(this.pos, this.blockType, 100);
 	}
-	
-	
-	
-	
-	
+
+
+
+
+
 	@Override
 	public NBTTagCompound getUpdateTag() {
 		NBTTagCompound tag = new NBTTagCompound();
-        this.writeToNBT(tag);
-        return tag;
+		this.writeToNBT(tag);
+		return tag;
 	}
 
 
@@ -194,5 +197,5 @@ public class TileEntityHandOfFate extends TileEntity {
 		}
 		return 0F;
 	}
-	
+
 }

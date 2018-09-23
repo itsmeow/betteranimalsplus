@@ -134,7 +134,9 @@ public class BlockHandOfFate extends Block implements ITileEntityProvider {
 			EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
 		ItemStack held = playerIn.getHeldItem(hand);
 		if(held.getItem() == Items.FLINT_AND_STEEL) {
-			held.damageItem(1, playerIn);
+			if(!playerIn.isCreative()) {
+				held.damageItem(1, playerIn);
+			}
 			TileEntity te = worldIn.getTileEntity(pos);
 			if(te instanceof TileEntityHandOfFate) {
 				TileEntityHandOfFate tehof = (TileEntityHandOfFate) te;
@@ -153,7 +155,9 @@ public class BlockHandOfFate extends Block implements ITileEntityProvider {
 			if(te instanceof TileEntityHandOfFate) {
 				TileEntityHandOfFate tehof = (TileEntityHandOfFate) te;
 				if(!tehof.hasNetherWart() && tehof.isOnFire()) {
-					held.shrink(1);
+					if(!playerIn.isCreative()) {
+						held.shrink(1);
+					}
 					tehof.setHasNetherWart(true);
 					return true;
 				}
@@ -163,7 +167,9 @@ public class BlockHandOfFate extends Block implements ITileEntityProvider {
 			if(te instanceof TileEntityHandOfFate) {
 				TileEntityHandOfFate tehof = (TileEntityHandOfFate) te;
 				if(!tehof.hasAntler() && tehof.isOnFire()) {
-					held.shrink(1);
+					if(!playerIn.isCreative()) {
+						held.shrink(1);
+					}
 					tehof.setHasAntler(true);
 					return true;
 				}
@@ -173,7 +179,9 @@ public class BlockHandOfFate extends Block implements ITileEntityProvider {
 			if(te instanceof TileEntityHandOfFate) {
 				TileEntityHandOfFate tehof = (TileEntityHandOfFate) te;
 				if(!tehof.hasVenison() && tehof.isOnFire()) {
-					held.shrink(1);
+					if(!playerIn.isCreative()) {
+						held.shrink(1);
+					}
 					tehof.setHasVenison(true);
 					return true;
 				}
