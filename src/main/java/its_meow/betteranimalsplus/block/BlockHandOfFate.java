@@ -17,7 +17,7 @@ public class BlockHandOfFate extends Block implements ITileEntityProvider {
 		super(Material.IRON);
 		this.translucent = true;
 		this.fullBlock = false;
-		this.setRegistryName("handofofate");
+		this.setRegistryName("handoffate");
 		this.setUnlocalizedName("handoffate");
 		this.setCreativeTab(BetterAnimalsPlusMod.tab);
 	}
