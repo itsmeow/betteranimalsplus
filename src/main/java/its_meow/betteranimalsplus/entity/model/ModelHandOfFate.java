@@ -422,6 +422,7 @@ public class ModelHandOfFate extends ModelBase {
 
     @Override
     public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) { 
+    	GlStateManager.rotate(f3, 0, 1, 0); // Yaw
         this.metal02a.render(f5);
         this.metal08a.render(f5);
         this.metal03a.render(f5);

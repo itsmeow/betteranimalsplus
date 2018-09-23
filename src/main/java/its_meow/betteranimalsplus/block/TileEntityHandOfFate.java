@@ -3,12 +3,17 @@ package its_meow.betteranimalsplus.block;
 import java.util.Random;
 
 import its_meow.betteranimalsplus.entity.miniboss.hirschgeist.EntityHirschgeist;
+import net.minecraft.block.BlockHorizontal;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -26,13 +31,20 @@ public class TileEntityHandOfFate extends TileEntity {
 	private boolean hasVenison;
 	private final String keyVenison = "HasVenison";
 	
+	public TileEntityHandOfFate() {}
 	
-	public TileEntityHandOfFate() {
+	public TileEntityHandOfFate(World worldIn) {
+		this.world = worldIn;
 	}
 	
 	
 	public void setOnFire(boolean b) {
 		this.onFire = b;
+		if(world.isRemote) {
+			world.scheduleUpdate(this.pos, this.getBlockType(), 0);
+			world.notifyBlockUpdate(pos, world.getBlockState(pos), world.getBlockState(pos), 0);
+			world.markBlockRangeForRenderUpdate(getPos().down(5).west(5).north(5), getPos().up(5).east(5).south(5));
+		}
 		this.markDirty();
 	}
 	
@@ -162,6 +174,25 @@ public class TileEntityHandOfFate extends TileEntity {
 	@Override
 	public void handleUpdateTag(NBTTagCompound tag) {
 		this.readFromNBT(tag);
+	}
+
+
+	public float getRotation() {
+		IBlockState state = world.getBlockState(this.pos);
+		EnumFacing facing = state.getValue(BlockHorizontal.FACING).getOpposite();
+		if(facing == EnumFacing.NORTH) {
+			return 0F;
+		}
+		if(facing == EnumFacing.EAST) {
+			return 90F;
+		}
+		if(facing == EnumFacing.SOUTH) {
+			return 180F;
+		}
+		if(facing == EnumFacing.WEST) {
+			return 270F;
+		}
+		return 0F;
 	}
 	
 }

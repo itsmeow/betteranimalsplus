@@ -36,6 +36,16 @@ public class BlockHirschgeistSkull extends BlockSkull implements ITileEntityProv
 		this.fullBlock = false;
 		this.setCreativeTab(BetterAnimalsPlusMod.tab);
 	}
+	
+	
+
+	@Override
+	public ItemStack getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos pos,
+			EntityPlayer player) {
+		return new ItemStack(ItemRegistry.itemHirschgeistSkull, 1);
+	}
+
+
 
 	@Override
 	public boolean hasTileEntity() {

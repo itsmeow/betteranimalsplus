@@ -4,6 +4,8 @@ import com.google.common.base.Predicate;
 
 import its_meow.betteranimalsplus.entity.miniboss.hirschgeist.ai.HirschgeistAIAttackMelee;
 import its_meow.betteranimalsplus.entity.miniboss.hirschgeist.ai.HirschgeistAIFlameAttack;
+import its_meow.betteranimalsplus.entity.render.LayerHirschgeistGhost;
+import its_meow.betteranimalsplus.entity.render.RenderHirschgeist;
 import its_meow.betteranimalsplus.registry.LootTableRegistry;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
@@ -24,9 +26,11 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenEndPodium;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class EntityHirschgeist extends EntityLiving implements IMob {
-
+	
 	public EntityHirschgeist(World worldIn) {
 		super(worldIn);
 		//this.setSize(3, 4);
