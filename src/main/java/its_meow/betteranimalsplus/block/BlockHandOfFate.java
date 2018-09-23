@@ -7,7 +7,9 @@ import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -40,6 +42,43 @@ public class BlockHandOfFate extends Block implements ITileEntityProvider {
 				TileEntityHandOfFate tehof = (TileEntityHandOfFate) te;
 				tehof.setOnFire(true);
 				return true;
+			}
+		} else if (held.getItem() == Item.getItemFromBlock(Blocks.SAND) || held.getItem() == Items.WATER_BUCKET) {
+			TileEntity te = worldIn.getTileEntity(pos);
+			if(te instanceof TileEntityHandOfFate) {
+				TileEntityHandOfFate tehof = (TileEntityHandOfFate) te;
+				tehof.setOnFire(false);
+				return true;
+			}
+		} else if(held.getItem() == Items.NETHER_WART) {
+			TileEntity te = worldIn.getTileEntity(pos);
+			if(te instanceof TileEntityHandOfFate) {
+				TileEntityHandOfFate tehof = (TileEntityHandOfFate) te;
+				if(!tehof.hasNetherWart() && tehof.isOnFire()) {
+					held.shrink(1);
+					tehof.setHasNetherWart(true);
+					return true;
+				}
+			}
+		} else if(held.getItem() == ItemRegistry.antler) {
+			TileEntity te = worldIn.getTileEntity(pos);
+			if(te instanceof TileEntityHandOfFate) {
+				TileEntityHandOfFate tehof = (TileEntityHandOfFate) te;
+				if(!tehof.hasAntler() && tehof.isOnFire()) {
+					held.shrink(1);
+					tehof.setHasAntler(true);
+					return true;
+				}
+			}
+		} else if(held.getItem() == ItemRegistry.venisonRaw || held.getItem() == ItemRegistry.venisonCooked) {
+			TileEntity te = worldIn.getTileEntity(pos);
+			if(te instanceof TileEntityHandOfFate) {
+				TileEntityHandOfFate tehof = (TileEntityHandOfFate) te;
+				if(!tehof.hasVenison() && tehof.isOnFire()) {
+					held.shrink(1);
+					tehof.setHasVenison(true);
+					return true;
+				}
 			}
 		}
 		return false;

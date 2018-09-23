@@ -1,9 +1,13 @@
 package its_meow.betteranimalsplus.block;
 
+import java.util.Random;
+
+import its_meow.betteranimalsplus.entity.miniboss.hirschgeist.EntityHirschgeist;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -12,6 +16,15 @@ public class TileEntityHandOfFate extends TileEntity {
 	
 	private boolean onFire;
 	private final String keyOnFire = "OnFire";
+	
+	private boolean hasNetherWart;
+	private final String keyNetherWart = "HasNetherWart";
+	
+	private boolean hasAntler;
+	private final String keyAntler = "HasAntler";
+	
+	private boolean hasVenison;
+	private final String keyVenison = "HasVenison";
 	
 	
 	public TileEntityHandOfFate() {
@@ -27,12 +40,83 @@ public class TileEntityHandOfFate extends TileEntity {
 		return onFire;
 	}
 	
+	public boolean hasNetherWart() {
+		return hasNetherWart;
+	}
+
+
+	public void setHasNetherWart(boolean hasNetherWart) {
+		this.hasNetherWart = hasNetherWart;
+		this.markDirty();
+		this.checkHasAllThree();
+	}
+
+	public boolean hasAntler() {
+		return hasAntler;
+	}
+
+
+	public void setHasAntler(boolean hasAntler) {
+		this.hasAntler = hasAntler;
+		this.markDirty();
+		this.checkHasAllThree();
+	}
+
+
+	public boolean hasVenison() {
+		return hasVenison;
+	}
+
+
+	public void setHasVenison(boolean hasVenison) {
+		this.hasVenison = hasVenison;
+		this.markDirty();
+		this.checkHasAllThree();
+	}
 	
+	
+	
+	private void checkHasAllThree() {
+		if(hasVenison && hasAntler && hasNetherWart && this.isOnFire()) {
+			this.setHasVenison(false);
+			this.setHasAntler(false);
+			this.setHasNetherWart(false);
+			this.fireBurst();
+			this.spawnHirschgeist();
+		}
+	}
+	
+	
+	
+	
+	private void spawnHirschgeist() {
+		EntityHirschgeist hg = new EntityHirschgeist(world);
+		world.spawnEntity(hg);
+	}
+
+
+	private void fireBurst() {
+		Random rand = new Random();
+		for(int i = 0; i < 20; i++) {
+			world.spawnParticle(EnumParticleTypes.SPELL_INSTANT, this.getPos().getX() + ((rand.nextFloat() + 0.5F) / 2), this.getPos().getY() + 1.5F, this.getPos().getZ() + ((rand.nextFloat() + 0.5F) / 2), 0, 0.5F, 0);
+		}
+	}
+
+
 	@Override
 	public void readFromNBT(NBTTagCompound compound) {
 		super.readFromNBT(compound);
 		if(compound.hasKey(keyOnFire)) {
 			this.onFire = compound.getBoolean(keyOnFire);
+		}
+		if(compound.hasKey(keyNetherWart)) {
+			this.hasNetherWart = compound.getBoolean(keyNetherWart);
+		}
+		if(compound.hasKey(keyAntler)) {
+			this.hasAntler = compound.getBoolean(keyAntler);
+		}
+		if(compound.hasKey(keyVenison)) {
+			this.hasVenison = compound.getBoolean(keyVenison);
 		}
 	}
 
@@ -42,6 +126,9 @@ public class TileEntityHandOfFate extends TileEntity {
 	public NBTTagCompound writeToNBT(NBTTagCompound compound) {
 		super.writeToNBT(compound);
 		compound.setBoolean(keyOnFire, this.onFire);
+		compound.setBoolean(keyAntler, hasAntler);
+		compound.setBoolean(keyNetherWart, hasNetherWart);
+		compound.setBoolean(keyVenison, hasVenison);
 		return compound;
 	}
 
