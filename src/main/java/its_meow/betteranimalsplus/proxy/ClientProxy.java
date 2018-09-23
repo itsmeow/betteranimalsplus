@@ -1,8 +1,10 @@
 package its_meow.betteranimalsplus.proxy;
 
 import its_meow.betteranimalsplus.Ref;
+import its_meow.betteranimalsplus.block.TileEntityHandOfFate;
 import its_meow.betteranimalsplus.block.TileEntityHirschgeistSkull;
 import its_meow.betteranimalsplus.block.TileEntityTrillium;
+import its_meow.betteranimalsplus.block.render.RenderBlockHandOfFate;
 import its_meow.betteranimalsplus.block.render.RenderBlockHirschgeistSkull;
 import its_meow.betteranimalsplus.block.render.RenderBlockTrillium;
 import its_meow.betteranimalsplus.entity.model.ModelHirschgeistSkullArmorPiece;
@@ -31,6 +33,7 @@ public class ClientProxy extends CommonProxy {
 		super.init(event);
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityTrillium.class, new RenderBlockTrillium());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityHirschgeistSkull.class, new RenderBlockHirschgeistSkull());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityHandOfFate.class, new RenderBlockHandOfFate());
 	}
     
 	public static ModelBiped getArmorModel(){

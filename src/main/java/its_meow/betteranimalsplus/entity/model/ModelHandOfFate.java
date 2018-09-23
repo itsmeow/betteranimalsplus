@@ -422,6 +422,9 @@ public class ModelHandOfFate extends ModelBase {
 
     @Override
     public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) { 
+        GlStateManager.pushMatrix();
+    	GlStateManager.translate(f, f1, f2);
+        GlStateManager.rotate(180, 0, 0, 1);
         this.metal02a.render(f5);
         this.metal08a.render(f5);
         this.metal03a.render(f5);
@@ -429,7 +432,6 @@ public class ModelHandOfFate extends ModelBase {
         this.bowlStand01.render(f5);
         this.metal05a.render(f5);
         this.metal06a.render(f5);
-        GlStateManager.pushMatrix();
         GlStateManager.translate(this.bowlStandRivit.offsetX, this.bowlStandRivit.offsetY, this.bowlStandRivit.offsetZ);
         GlStateManager.translate(this.bowlStandRivit.rotationPointX * f5, this.bowlStandRivit.rotationPointY * f5, this.bowlStandRivit.rotationPointZ * f5);
         GlStateManager.scale(1.1D, 1.0D, 1.1D);

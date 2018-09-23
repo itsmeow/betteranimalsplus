@@ -13,6 +13,7 @@ item.antler.name=Antler
 #Blocks
 tile.trillium.name=Trillium
 tile.hirschgeistskull.name=Hirschgeist Skull
+tile.handoffate.name=Hand Of Fate
 
 #Entities
 entity.BrownBear.name=Brown Bear

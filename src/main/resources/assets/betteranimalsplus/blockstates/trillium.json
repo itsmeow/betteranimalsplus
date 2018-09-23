@@ -1,14 +1,9 @@
 
 {
     "forge_marker": 1,
-    "Defaults": {
-       "textures": {
-          "all": "blocks/catcus" 
-       }
-    },
     "variants": {
         "normal": [{
-           "model": "cube"
+           "model": "minecraft:cactus"
         }],
         "inventory": [{
            "model": "betteranimalsplus:item/trillium"
