@@ -9,6 +9,7 @@ import its_meow.betteranimalsplus.Ref;
 import its_meow.betteranimalsplus.block.BlockHandOfFate;
 import its_meow.betteranimalsplus.block.BlockHirschgeistSkull;
 import its_meow.betteranimalsplus.block.BlockTrillium;
+import its_meow.betteranimalsplus.block.TileEntityHandOfFate;
 import its_meow.betteranimalsplus.block.TileEntityHirschgeistSkull;
 import its_meow.betteranimalsplus.block.TileEntityTrillium;
 import its_meow.betteranimalsplus.block.render.RenderBlockTrillium;
@@ -62,6 +63,7 @@ public class BlockRegistry {
 
 			GameRegistry.registerTileEntity(TileEntityTrillium.class, new ResourceLocation(Ref.MOD_ID + ":" + trillium.getRegistryName()));
 			GameRegistry.registerTileEntity(TileEntityHirschgeistSkull.class, Ref.MOD_ID + ":" + hirschgeistskull.getRegistryName());
+			GameRegistry.registerTileEntity(TileEntityHandOfFate.class, new ResourceLocation(Ref.MOD_ID + ":" + handoffate.getRegistryName()));
 		}
 
 

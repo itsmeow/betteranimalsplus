@@ -422,9 +422,6 @@ public class ModelHandOfFate extends ModelBase {
 
     @Override
     public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) { 
-        GlStateManager.pushMatrix();
-    	GlStateManager.translate(f, f1, f2);
-        GlStateManager.rotate(180, 0, 0, 1);
         this.metal02a.render(f5);
         this.metal08a.render(f5);
         this.metal03a.render(f5);
@@ -432,25 +429,28 @@ public class ModelHandOfFate extends ModelBase {
         this.bowlStand01.render(f5);
         this.metal05a.render(f5);
         this.metal06a.render(f5);
+        //GlStateManager.pushMatrix();
         GlStateManager.translate(this.bowlStandRivit.offsetX, this.bowlStandRivit.offsetY, this.bowlStandRivit.offsetZ);
         GlStateManager.translate(this.bowlStandRivit.rotationPointX * f5, this.bowlStandRivit.rotationPointY * f5, this.bowlStandRivit.rotationPointZ * f5);
         GlStateManager.scale(1.1D, 1.0D, 1.1D);
         GlStateManager.translate(-this.bowlStandRivit.offsetX, -this.bowlStandRivit.offsetY, -this.bowlStandRivit.offsetZ);
         GlStateManager.translate(-this.bowlStandRivit.rotationPointX * f5, -this.bowlStandRivit.rotationPointY * f5, -this.bowlStandRivit.rotationPointZ * f5);
         this.bowlStandRivit.render(f5);
-        GlStateManager.popMatrix();
+        GlStateManager.scale(1D, 1D, 1D);
+        //GlStateManager.popMatrix();
         this.bowlStand02.render(f5);
         this.metal04a.render(f5);
         this.metal01a.render(f5);
         this.bowlWall01.render(f5);
-        GlStateManager.pushMatrix();
+       // GlStateManager.pushMatrix();
         GlStateManager.translate(this.bowlBase.offsetX, this.bowlBase.offsetY, this.bowlBase.offsetZ);
         GlStateManager.translate(this.bowlBase.rotationPointX * f5, this.bowlBase.rotationPointY * f5, this.bowlBase.rotationPointZ * f5);
         GlStateManager.scale(1.05D, 1.0D, 1.0D);
         GlStateManager.translate(-this.bowlBase.offsetX, -this.bowlBase.offsetY, -this.bowlBase.offsetZ);
         GlStateManager.translate(-this.bowlBase.rotationPointX * f5, -this.bowlBase.rotationPointY * f5, -this.bowlBase.rotationPointZ * f5);
         this.bowlBase.render(f5);
-        GlStateManager.popMatrix();
+        GlStateManager.scale(1D, 1D, 1D);
+        //GlStateManager.popMatrix();
         this.metal07a.render(f5);
     }
 
