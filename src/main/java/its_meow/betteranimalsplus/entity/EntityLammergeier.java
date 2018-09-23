@@ -103,7 +103,9 @@ public class EntityLammergeier extends EntityTameableFlying {
 
 	@Override
 	public void setAttackTarget(EntityLivingBase entitylivingbaseIn) {
-		if(entitylivingbaseIn.height <= 3) {
+		if(entitylivingbaseIn != null && entitylivingbaseIn.height <= 3) {
+			super.setAttackTarget(entitylivingbaseIn);
+		} else if(entitylivingbaseIn == null) {
 			super.setAttackTarget(entitylivingbaseIn);
 		}
 	}
