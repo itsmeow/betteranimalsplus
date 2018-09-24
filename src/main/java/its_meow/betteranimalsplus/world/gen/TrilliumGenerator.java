@@ -31,16 +31,17 @@ public class TrilliumGenerator implements IWorldGenerator {
 	public void generate(Random random, int chunkX, int chunkZ, World world, IChunkGenerator chunkGenerator,
 			IChunkProvider chunkProvider)
 	{
-
-		for (int i = 0; i < 64; ++i)
-		{
-			int x = (chunkX * 16) + random.nextInt(8);
-			int z = (chunkZ * 16) + random.nextInt(8);
-			BlockPos blockpos = new BlockPos(x, i, z);
-
-			if (world.isAirBlock(blockpos) && (!world.provider.isNether() || blockpos.getY() < 255) && this.trillium.canBlockStay(world, blockpos, this.state))
+		int x = (chunkX * 16) + 8 + (random.nextInt(16) - 8);
+		int z = (chunkZ * 16) + 8 + (random.nextInt(16) - 8);
+		int y = 64;
+		BlockPos blockpos = new BlockPos(x, y, z);
+		if(world.getBiome(blockpos) == Biomes.SWAMPLAND || world.getBiome(blockpos) == Biomes.MUTATED_SWAMPLAND) {
+			for (int i = 0; i < 64; ++i)
 			{
-				if(world.getBiome(blockpos) == Biomes.SWAMPLAND || world.getBiome(blockpos) == Biomes.MUTATED_SWAMPLAND) {
+				blockpos = new BlockPos(x, i, z);
+
+				if (world.isAirBlock(blockpos) && this.trillium.canBlockStay(world, blockpos, this.state))
+				{
 					world.setBlockState(blockpos, this.state, 2);
 				}
 			}
