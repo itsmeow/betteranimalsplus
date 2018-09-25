@@ -3,7 +3,6 @@ package its_meow.betteranimalsplus.entity.render;
 import javax.annotation.Nonnull;
 
 import its_meow.betteranimalsplus.entity.miniboss.hirschgeist.EntityHirschgeist;
-import its_meow.betteranimalsplus.entity.model.ModelHirschgeist;
 import its_meow.betteranimalsplus.entity.model.ModelHirschgeistMain;
 import its_meow.betteranimalsplus.registry.TextureRegistry;
 import net.minecraft.client.Minecraft;

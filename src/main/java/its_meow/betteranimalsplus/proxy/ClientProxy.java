@@ -1,5 +1,6 @@
 package its_meow.betteranimalsplus.proxy;
 
+import its_meow.betteranimalsplus.EventHandlerClient;
 import its_meow.betteranimalsplus.Ref;
 import its_meow.betteranimalsplus.block.TileEntityHandOfFate;
 import its_meow.betteranimalsplus.block.TileEntityHirschgeistSkull;
@@ -16,6 +17,7 @@ import net.minecraft.client.renderer.ItemModelMesher;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.Item;
 import net.minecraftforge.client.model.ModelLoader;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
@@ -26,6 +28,7 @@ public class ClientProxy extends CommonProxy {
 	
 	public void preInit(FMLPreInitializationEvent event) {
 		super.preInit(event);
+		MinecraftForge.EVENT_BUS.register(new EventHandlerClient());
 		MobRegistry.initModels();
 	}
 

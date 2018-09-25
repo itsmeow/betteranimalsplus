@@ -63,7 +63,7 @@ public class BlockRegistry {
 
 			GameRegistry.registerTileEntity(TileEntityTrillium.class, new ResourceLocation(Ref.MOD_ID + ":" + trillium.getRegistryName()));
 			GameRegistry.registerTileEntity(TileEntityHirschgeistSkull.class, Ref.MOD_ID + ":" + hirschgeistskull.getRegistryName());
-			GameRegistry.registerTileEntity(TileEntityHandOfFate.class, new ResourceLocation(Ref.MOD_ID + ":" + handoffate.getRegistryName()));
+			GameRegistry.registerTileEntity(TileEntityHandOfFate.class, Ref.MOD_ID + ":" + handoffate.getRegistryName());
 		}
 
 

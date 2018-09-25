@@ -98,5 +98,15 @@ public class TextureRegistry {
 	public static final ResourceLocation handoffate =
 			new ResourceLocation(Ref.MOD_ID + ":textures/blocks/handoffate.png");
 	
+	//Particles
+	public static final ResourceLocation sparks = 
+			new ResourceLocation(Ref.MOD_ID + ":particles/sparks");
+	public static final ResourceLocation ember_left = 
+			new ResourceLocation(Ref.MOD_ID + ":particles/deerbeast_ember_1");
+	public static final ResourceLocation ember_mid = 
+			new ResourceLocation(Ref.MOD_ID + ":particles/deerbeast_ember_2");
+	public static final ResourceLocation ember_right = 
+			new ResourceLocation(Ref.MOD_ID + ":particles/deerbeast_ember_3");
+	
 	
 }
