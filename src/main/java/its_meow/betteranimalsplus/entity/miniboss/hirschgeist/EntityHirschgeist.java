@@ -1,36 +1,28 @@
 package its_meow.betteranimalsplus.entity.miniboss.hirschgeist;
 
-import com.google.common.base.Predicate;
-
 import its_meow.betteranimalsplus.entity.miniboss.hirschgeist.ai.HirschgeistAIAttackMelee;
 import its_meow.betteranimalsplus.entity.miniboss.hirschgeist.ai.HirschgeistAIFlameAttack;
-import its_meow.betteranimalsplus.entity.render.LayerHirschgeistGhost;
-import its_meow.betteranimalsplus.entity.render.RenderHirschgeist;
 import its_meow.betteranimalsplus.registry.LootTableRegistry;
+import net.minecraft.block.Block;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIFindEntityNearestPlayer;
-import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
 import net.minecraft.entity.ai.EntityAISwimming;
-import net.minecraft.entity.ai.EntityAIWanderAvoidWater;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
-import net.minecraft.entity.boss.dragon.phase.IPhase;
-import net.minecraft.entity.boss.dragon.phase.PhaseList;
 import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-import net.minecraft.world.gen.feature.WorldGenEndPodium;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class EntityHirschgeist extends EntityLiving implements IMob {
-	
+
 	public EntityHirschgeist(World worldIn) {
 		super(worldIn);
 		//this.setSize(3, 4);
@@ -45,7 +37,8 @@ public class EntityHirschgeist extends EntityLiving implements IMob {
 		this.tasks.addTask(3, new EntityAIWatchClosest(this, EntityPlayer.class, 15F));
 		this.targetTasks.addTask(1, new EntityAIFindEntityNearestPlayer(this));
 	}
-	
+
+	@Override
 	protected void applyEntityAttributes()
 	{
 		super.applyEntityAttributes();
@@ -59,7 +52,7 @@ public class EntityHirschgeist extends EntityLiving implements IMob {
 	public boolean isDaytime() {
 		return !(world.getWorldTime() >= 13000 && world.getWorldTime() <= 23000);
 	}
-	
+
 	@Override
 	public void onLivingUpdate() {
 		super.onLivingUpdate();
@@ -73,6 +66,23 @@ public class EntityHirschgeist extends EntityLiving implements IMob {
 	
 	
 	@Override
+	protected SoundEvent getAmbientSound() {
+		return SoundEvents.ENTITY_SKELETON_HORSE_AMBIENT;
+	}
+
+	@Override
+	protected float getSoundPitch() {
+		return 0.3F; // Lower pitch of skeleton horse sound
+	}
+
+	@Override
+	protected void playStepSound(BlockPos pos, Block blockIn)
+	{
+		this.playSound(SoundEvents.ENTITY_SHEEP_STEP, 0.5F, 0.6F);
+	}
+
+
+	@Override
 	protected ResourceLocation getLootTable() {
 		return LootTableRegistry.hirschgeist;
 	}
@@ -81,8 +91,8 @@ public class EntityHirschgeist extends EntityLiving implements IMob {
 	public boolean attackable() {
 		return !this.isDaytime();
 	}
-	
-	
+
+
 
 	@Override
 	public boolean attackEntityFrom(DamageSource source, float amount) {

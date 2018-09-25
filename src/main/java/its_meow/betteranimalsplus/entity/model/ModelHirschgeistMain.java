@@ -1,8 +1,11 @@
 package its_meow.betteranimalsplus.entity.model;
 
 import its_meow.betteranimalsplus.entity.miniboss.hirschgeist.EntityHirschgeist;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.util.math.MathHelper;
@@ -204,7 +207,7 @@ public class ModelHirschgeistMain extends ModelBase {
 	public ModelRenderer rArm02Ecto;
 	public ModelRenderer rArm03Ecto;
 	public ModelRenderer rForeHoofEcto;
-	
+
 	public void setBones() {
 		this.neck02Vertibrates = new ModelRenderer(this, 21, 49);
 		this.neck02Vertibrates.setRotationPoint(0.0F, 0.0F, -3.3F);
@@ -1065,7 +1068,7 @@ public class ModelHirschgeistMain extends ModelBase {
 		this.spine02.addChild(this.lRib03a);
 		this.head01.addChild(this.lowerJaw01);
 	}
-	
+
 	public void setEcto() {
 		this.ectoplasmTail = new ModelRenderer(this, 92, 72);
 		this.ectoplasmTail.setRotationPoint(0.0F, -4.0F, 7.2F);
@@ -1209,27 +1212,47 @@ public class ModelHirschgeistMain extends ModelBase {
 		this.lArm01Ecto.addChild(this.lArm03Ecto);
 		this.ectoplasm02.addChild(this.rLeg01Ecto);
 	}
-	
-	
-	public ModelHirschgeistMain(boolean isBones) {
+
+
+	public ModelHirschgeistMain() {
 		this.textureWidth = 128;
 		this.textureHeight = 128;
-		if(isBones) {
-			setBones();
-		} else {
-			setEcto();
-		}
+		this.setBones();
+		this.setEcto();
 	}
 
 	@Override
 	public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) { 
-		if(this.spine01 != null) {
-			this.spine01.render(f5);
-		}
+		this.spine01.render(f5);
 
-		if(this.ectoplasm01 != null)  {
-			this.ectoplasm01.render(f5);
+		GlStateManager.pushMatrix();
+
+		GlStateManager.enableBlend();
+		GlStateManager.enableAlpha();
+
+		GlStateManager.blendFunc(GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ONE);
+
+
+		GlStateManager.depthMask(true);
+
+		int i = 61680;
+		int j = i % 65536;
+		int k = i / 65536;
+		OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, (float)j, (float)k);
+		if(entity instanceof EntityHirschgeist) {
+			GlStateManager.color(1.0F, 1.0F, 1.0F, ((EntityHirschgeist)entity).isDaytime() ? 0.15F : 1.0F);
 		}
+		Minecraft.getMinecraft().entityRenderer.setupFogColor(true);
+		this.ectoplasm01.render(f5);
+		Minecraft.getMinecraft().entityRenderer.setupFogColor(false);
+		i = entity.getBrightnessForRender();
+		j = i % 65536;
+		k = i / 65536;
+		OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, (float)j, (float)k);
+		GlStateManager.color(1.0F, 1.0F, 1.0F, 1F);
+		GlStateManager.disableBlend();
+		GlStateManager.disableAlpha();
+		GlStateManager.popMatrix();
 
 		this.setRotationAngles(f, f1, f2, f3, f4, f5, entity);
 	}
@@ -1240,60 +1263,51 @@ public class ModelHirschgeistMain extends ModelBase {
 		float f = limbSwing;
 		float f1 = limbSwingAmount;
 
-		if(this.lArm01 != null) {
-			if(limbSwingAmount >= 0.65) {
-				this.setRotateAngle(lArm01, 0.5462880558742251F, -0.045553093477052F, 0.27314402793711257F);
-				this.lArm01.rotateAngleX += MathHelper.cos(f * 0.6662F + (float)Math.PI) * 1.4F * f1;
-				this.setRotateAngle(rArm01, 0.5462880558742251F, -0.045553093477052F, -0.27314402793711257F);
-				this.rArm01.rotateAngleX += MathHelper.cos(f * 0.6662F + (float)Math.PI) * 1.4F * f1;
-				this.setRotateAngle(rLeg01, 0.9560913642424937F, 0.0F, 0.136659280431156F);
-				this.rLeg01.rotateAngleX += MathHelper.cos(f * 0.6662F) * 1.4F * f1;
-				this.setRotateAngle(lLeg01, 0.9560913642424937F, 0.0F, -0.136659280431156F);
-				this.lLeg01.rotateAngleX += MathHelper.cos(f * 0.6662F) * 1.4F * f1;
-			} else {
-				this.setRotateAngle(lArm01, 0.5462880558742251F, -0.045553093477052F, 0.27314402793711257F);
-				this.lArm01.rotateAngleX += MathHelper.cos(f * 0.6662F) * 1.4F * f1;
-				this.setRotateAngle(rArm01, 0.5462880558742251F, -0.045553093477052F, -0.27314402793711257F);
-				this.rArm01.rotateAngleX += MathHelper.cos(f * 0.6662F + (float)Math.PI) * 1.4F * f1;
-				this.setRotateAngle(rLeg01, 0.9560913642424937F, 0.0F, 0.136659280431156F);
-				this.rLeg01.rotateAngleX += MathHelper.cos(f * 0.6662F) * 1.4F * f1;
-				this.setRotateAngle(lLeg01, 0.9560913642424937F, 0.0F, -0.136659280431156F);
-				this.lLeg01.rotateAngleX += MathHelper.cos(f * 0.6662F + (float)Math.PI) * 1.4F * f1;
-			}
-		} else if(this.lLeg01Ecto != null) {
-			if(limbSwingAmount >= 0.65) {
-				this.setRotateAngle(lArm01Ecto, 0.0F, 0.0F, -0.045553093477052F);
-				this.lArm01Ecto.rotateAngleX += MathHelper.cos(f * 0.6662F + (float)Math.PI) * 1.4F * f1;
-				this.setRotateAngle(rArm01Ecto, 0.0F, 0.0F, 0.045553093477052F);
-				this.rArm01Ecto.rotateAngleX += MathHelper.cos(f * 0.6662F + (float)Math.PI) * 1.4F * f1;
-				this.setRotateAngle(rLeg01Ecto, 1.1838568316277536F, 0.0F, 0.136659280431156F);
-				this.rLeg01Ecto.rotateAngleX += MathHelper.cos(f * 0.6662F) * 1.4F * f1;
-				this.setRotateAngle(lLeg01Ecto, 1.1838568316277536F, 0.0F, -0.136659280431156F);
-				this.lLeg01Ecto.rotateAngleX += MathHelper.cos(f * 0.6662F) * 1.4F * f1;
-			} else {
-				this.setRotateAngle(lArm01Ecto, 0.0F, 0.0F, -0.045553093477052F);
-				this.lArm01Ecto.rotateAngleX += MathHelper.cos(f * 0.6662F) * 1.4F * f1;
-				this.setRotateAngle(rArm01Ecto, 0.0F, 0.0F, 0.045553093477052F);
-				this.rArm01Ecto.rotateAngleX += MathHelper.cos(f * 0.6662F + (float)Math.PI) * 1.4F * f1;
-				this.setRotateAngle(rLeg01Ecto, 1.1838568316277536F, 0.0F, 0.136659280431156F);
-				this.rLeg01Ecto.rotateAngleX += MathHelper.cos(f * 0.6662F) * 1.4F * f1;
-				this.setRotateAngle(lLeg01Ecto, 1.1838568316277536F, 0.0F, -0.136659280431156F);
-				this.lLeg01Ecto.rotateAngleX += MathHelper.cos(f * 0.6662F + (float)Math.PI) * 1.4F * f1;
-			}
+		if(limbSwingAmount >= 0.65) {
+			this.setRotateAngle(lArm01, 0.5462880558742251F, -0.045553093477052F, 0.27314402793711257F);
+			this.lArm01.rotateAngleX += MathHelper.cos(f * 0.6662F + (float)Math.PI) * 1.4F * f1;
+			this.setRotateAngle(rArm01, 0.5462880558742251F, -0.045553093477052F, -0.27314402793711257F);
+			this.rArm01.rotateAngleX += MathHelper.cos(f * 0.6662F + (float)Math.PI) * 1.4F * f1;
+			this.setRotateAngle(rLeg01, 0.9560913642424937F, 0.0F, 0.136659280431156F);
+			this.rLeg01.rotateAngleX += MathHelper.cos(f * 0.6662F) * 1.4F * f1;
+			this.setRotateAngle(lLeg01, 0.9560913642424937F, 0.0F, -0.136659280431156F);
+			this.lLeg01.rotateAngleX += MathHelper.cos(f * 0.6662F) * 1.4F * f1;
+		} else {
+			this.setRotateAngle(lArm01, 0.5462880558742251F, -0.045553093477052F, 0.27314402793711257F);
+			this.lArm01.rotateAngleX += MathHelper.cos(f * 0.6662F) * 1.4F * f1;
+			this.setRotateAngle(rArm01, 0.5462880558742251F, -0.045553093477052F, -0.27314402793711257F);
+			this.rArm01.rotateAngleX += MathHelper.cos(f * 0.6662F + (float)Math.PI) * 1.4F * f1;
+			this.setRotateAngle(rLeg01, 0.9560913642424937F, 0.0F, 0.136659280431156F);
+			this.rLeg01.rotateAngleX += MathHelper.cos(f * 0.6662F) * 1.4F * f1;
+			this.setRotateAngle(lLeg01, 0.9560913642424937F, 0.0F, -0.136659280431156F);
+			this.lLeg01.rotateAngleX += MathHelper.cos(f * 0.6662F + (float)Math.PI) * 1.4F * f1;
 		}
-		if(entityIn instanceof EntityLiving && neck01 != null) {
-			if(entityIn instanceof EntityHirschgeist) {
-				EntityHirschgeist hg = (EntityHirschgeist) entityIn;
-				if(hg.getAttackTarget() != null && !hg.isDaytime() && !hg.getNavigator().noPath()) {
-					this.neck01.rotateAngleX = (float) Math.toRadians(45F);
-				}
-			}
-		} else if(this.neckEctoplasm01 != null) {
-			if(entityIn instanceof EntityHirschgeist) {
-				EntityHirschgeist hg = (EntityHirschgeist) entityIn;
-				if(hg.getAttackTarget() != null && !hg.isDaytime() && !hg.getNavigator().noPath()) {
-					this.neckEctoplasm01.rotateAngleX = (float) Math.toRadians(45F);
-				}
+
+		if(limbSwingAmount >= 0.65) {
+			this.setRotateAngle(lArm01Ecto, 0.0F, 0.0F, -0.045553093477052F);
+			this.lArm01Ecto.rotateAngleX += MathHelper.cos(f * 0.6662F + (float)Math.PI) * 1.4F * f1;
+			this.setRotateAngle(rArm01Ecto, 0.0F, 0.0F, 0.045553093477052F);
+			this.rArm01Ecto.rotateAngleX += MathHelper.cos(f * 0.6662F + (float)Math.PI) * 1.4F * f1;
+			this.setRotateAngle(rLeg01Ecto, 1.1838568316277536F, 0.0F, 0.136659280431156F);
+			this.rLeg01Ecto.rotateAngleX += MathHelper.cos(f * 0.6662F) * 1.4F * f1;
+			this.setRotateAngle(lLeg01Ecto, 1.1838568316277536F, 0.0F, -0.136659280431156F);
+			this.lLeg01Ecto.rotateAngleX += MathHelper.cos(f * 0.6662F) * 1.4F * f1;
+		} else {
+			this.setRotateAngle(lArm01Ecto, 0.0F, 0.0F, -0.045553093477052F);
+			this.lArm01Ecto.rotateAngleX += MathHelper.cos(f * 0.6662F) * 1.4F * f1;
+			this.setRotateAngle(rArm01Ecto, 0.0F, 0.0F, 0.045553093477052F);
+			this.rArm01Ecto.rotateAngleX += MathHelper.cos(f * 0.6662F + (float)Math.PI) * 1.4F * f1;
+			this.setRotateAngle(rLeg01Ecto, 1.1838568316277536F, 0.0F, 0.136659280431156F);
+			this.rLeg01Ecto.rotateAngleX += MathHelper.cos(f * 0.6662F) * 1.4F * f1;
+			this.setRotateAngle(lLeg01Ecto, 1.1838568316277536F, 0.0F, -0.136659280431156F);
+			this.lLeg01Ecto.rotateAngleX += MathHelper.cos(f * 0.6662F + (float)Math.PI) * 1.4F * f1;
+		}
+
+		if(entityIn instanceof EntityHirschgeist) {
+			EntityHirschgeist hg = (EntityHirschgeist) entityIn;
+			if(hg.getAttackTarget() != null && !hg.isDaytime() && !hg.getNavigator().noPath()) {
+				this.neck01.rotateAngleX = (float) Math.toRadians(45F);
+				this.neckEctoplasm01.rotateAngleX = (float) Math.toRadians(45F);
 			}
 		}
 

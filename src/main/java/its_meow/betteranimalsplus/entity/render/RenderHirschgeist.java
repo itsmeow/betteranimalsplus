@@ -18,13 +18,9 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
 
 public class RenderHirschgeist extends RenderLiving<EntityHirschgeist> {
-	
-	//LayerHirschgeistGhost layerRenderer;
 
 	public RenderHirschgeist(RenderManager rendermanagerIn) {
-		super(rendermanagerIn, new ModelHirschgeistMain(true), 1F);
-		this.addLayer(new LayerHirschgeistGhost(this));
-		//layerRenderer = new LayerHirschgeistGhost(this);
+		super(rendermanagerIn, new ModelHirschgeistMain(), 1F);
 	}
 
 
