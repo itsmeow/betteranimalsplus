@@ -22,7 +22,7 @@ public class CraftingRegistry {
 	public static final void register() {
 		GameRegistry.addSmelting(new ItemStack(ItemRegistry.venisonRaw), new ItemStack(ItemRegistry.venisonCooked), 0.0F);
 		for(ItemStack stack : OreDictionary.getOres("stone")) {
-			GameRegistry.addShapedRecipe(new ResourceLocation("handoffate"), new ResourceLocation(Ref.MOD_ID), new ItemStack(ItemRegistry.itemHandOfFate, 1), new Object[]{
+			GameRegistry.addShapedRecipe(new ResourceLocation(Ref.MOD_ID + ":handoffaterecipe"), new ResourceLocation(Ref.MOD_ID), new ItemStack(ItemRegistry.itemHandOfFate, 1), new Object[]{
 					"ibi",
 					" i ",
 					"sss",
