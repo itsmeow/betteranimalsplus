@@ -30,7 +30,7 @@ public class CraftingRegistry {
 					Character.valueOf('b'), Items.BLAZE_POWDER, 
 					Character.valueOf('s'), stack});
 		}
-		OreDictionary.registerOre(new ItemStack(ItemRegistry.venisonRaw), "listAllmeatraw");
-		OreDictionary.registerOre(new ItemStack(ItemRegistry.venisonCooked), "listAllmeatcooked");
+		OreDictionary.registerOre("listAllmeatraw", ItemRegistry.venisonRaw);
+		OreDictionary.registerOre("listAllmeatcooked", ItemRegistry.venisonCooked);
 	}
 }
