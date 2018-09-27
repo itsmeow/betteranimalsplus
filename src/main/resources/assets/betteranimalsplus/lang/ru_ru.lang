@@ -1,0 +1,29 @@
+#Creative Tabs
+#itemGroup.group=
+itemGroup.Better Animals+=Better Animals+
+
+#Items
+#item.itemname.name=
+item.venisonraw.name=Сырая оленина
+item.venisoncooked.name=Приготовленная оленина
+item.hirschgeistskull.name=Череп Хиршгейста (предмет)
+item.hirschgeistskullwearable.name=Носимый череп хиршгейста
+item.antler.name=Рога
+
+#Blocks
+tile.trillium.name=Триллиум
+tile.hirschgeistskull.name=Череп Хиршгейста
+tile.handoffate.name=Рука судьбы
+
+#Entities
+entity.BrownBear.name=Бурый медведь
+entity.BlackBear.name=Черный медведь
+entity.KermodeBear.name=Кермодский медведь
+entity.Deer.name=Олень
+entity.Lammergeier.name=Бородач
+entity.FeralWolf.name=Дикий волк
+entity.Coyote.name=Койот
+entity.Trillium.name=Триллиум
+entity.Fox.name=Лиса
+entity.Tarantula.name=Тарантул
+entity.Hirschgeist.name=Хиршгейст
