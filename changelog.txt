@@ -1,0 +1,8 @@
+1.1.0
+- Added venisons to OreDictionary (listAllmeatraw and listAllmeatcooked)
+- Fix hirschgeist bones sometimes moving out of the ghost part
+- Added sound for hirschgeist and footstep sounds
+- Added Russian Translation (Thank you to kellixon!)
+- Fix invalid domain errors (May reset model of trillium and burning status of hand of fate)
+- Added particle system (not used)
+- Removed misc unused code (reduce filesize, cleanup)
