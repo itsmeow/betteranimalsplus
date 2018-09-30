@@ -10,3 +10,5 @@
 - Made some hostile mobs spawn in peaceful but are unable to attack
 - Added rotation to trillium (rotate different placement directions like a chest)
 - Fix bug where mobs that check for daytime (hirschgeist, coyote) would not always register daytime/nighttime
+- Fix hirschgeist spawning in groups of more than one
+- Add logo to mcmod.info

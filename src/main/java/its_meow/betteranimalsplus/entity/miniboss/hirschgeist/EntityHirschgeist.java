@@ -67,6 +67,15 @@ public class EntityHirschgeist extends EntityLiving implements IMob {
 	
 	
 	@Override
+	public boolean getCanSpawnHere() {
+		if(this.world.getEntitiesWithinAABB(EntityHirschgeist.class, this.getEntityBoundingBox().grow(150)).size() == 1) {
+			return false;
+		} else {
+			return false;
+		}
+	}
+
+	@Override
 	protected SoundEvent getAmbientSound() {
 		return SoundEvents.ENTITY_SKELETON_HORSE_AMBIENT;
 	}
