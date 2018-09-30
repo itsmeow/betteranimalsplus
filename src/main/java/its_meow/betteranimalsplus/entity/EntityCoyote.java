@@ -83,7 +83,8 @@ public class EntityCoyote extends EntityFeralWolf {
 	}
 	
 	public boolean isDaytime() {
-		return !(world.getWorldTime() >= 13000 && world.getWorldTime() <= 23000);
+		long time = world.getWorldTime() % 24000L; // Time can go over values of 24000, so divide and take the remainder
+		return !(time >= 13000L && time <= 23000L);
 	}
 	
 	@Override
