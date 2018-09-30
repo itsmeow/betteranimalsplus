@@ -30,7 +30,8 @@ public class RenderBlockTrillium extends TileEntitySpecialRenderer<TileEntityTri
         GlStateManager.rotate(180, 0, 0, 1);
         this.bindTexture(tileentity.getTexture());
         mainModel = tileentity.getModel();
-        this.mainModel.render((Entity) null, 0F, 0F, 0F, 0F, 0F, 0.0625F);
+        float rotate = tileentity.getRotation();
+        this.mainModel.render((Entity) null, 0F, 0F, 0F, rotate, 0F, 0.0625F);
         GlStateManager.popMatrix();
     }
 

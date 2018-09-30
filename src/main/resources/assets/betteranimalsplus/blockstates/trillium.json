@@ -7,6 +7,10 @@
         }],
         "inventory": [{
            "model": "betteranimalsplus:item/trillium"
-        }]
+        }],
+        "facing=north": { "model": "minecraft:cactus" },
+        "facing=east": { "model": "minecraft:cactus" },
+        "facing=south": { "model": "minecraft:cactus" },
+        "facing=west": { "model": "minecraft:cactus" }
     }
 }

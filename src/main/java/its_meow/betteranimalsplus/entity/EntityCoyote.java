@@ -42,6 +42,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.text.TextComponentString;
+import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
 
 public class EntityCoyote extends EntityFeralWolf {
@@ -93,6 +94,9 @@ public class EntityCoyote extends EntityFeralWolf {
 			super.setAttackTarget(null);
 		} else {
 			super.setAttackTarget(entitylivingbaseIn);
+		}
+		if(world.getDifficulty() == EnumDifficulty.PEACEFUL) {
+			super.setAttackTarget(null);
 		}
 	}
 	

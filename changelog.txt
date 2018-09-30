@@ -6,3 +6,6 @@
 - Fix invalid domain errors (May reset model of trillium and burning status of hand of fate)
 - Added particle system (not used)
 - Removed misc unused code (reduce filesize, cleanup)
+- Added lammergeier landing to make taming easier
+- Made some hostile mobs spawn in peaceful but are unable to attack
+- Added rotation to trillium (rotate different placement directions like a chest)

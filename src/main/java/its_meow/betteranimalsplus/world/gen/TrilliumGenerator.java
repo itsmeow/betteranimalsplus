@@ -3,8 +3,11 @@ package its_meow.betteranimalsplus.world.gen;
 import java.util.Random;
 
 import its_meow.betteranimalsplus.block.BlockTrillium;
+import net.minecraft.block.BlockHorizontal;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Biomes;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.Rotation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.IChunkProvider;
@@ -42,7 +45,8 @@ public class TrilliumGenerator implements IWorldGenerator {
 
 				if (world.isAirBlock(blockpos) && this.trillium.canBlockStay(world, blockpos, this.state))
 				{
-					world.setBlockState(blockpos, this.state, 2);
+					EnumFacing face = EnumFacing.HORIZONTALS[random.nextInt(4)];
+					world.setBlockState(blockpos, this.state.withProperty(BlockHorizontal.FACING, face));
 				}
 			}
 		}

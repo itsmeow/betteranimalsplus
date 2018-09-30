@@ -77,7 +77,16 @@ public class EntityBearNeutral extends EntityBear {
 	{
 		super.applyEntityAttributes();
 	}
-
+	
+	@Override
+	public void setAttackTarget(EntityLivingBase entitylivingbaseIn) {
+		if(world.getDifficulty() == EnumDifficulty.PEACEFUL) {
+			super.setAttackTarget(null);
+		} else {
+			super.setAttackTarget(entitylivingbaseIn);
+		}
+	}
+	
 	/**
 	 * Checks if the entity's current position is a valid location to spawn this entity.
 	 */
@@ -162,7 +171,7 @@ public class EntityBearNeutral extends EntityBear {
 
 	public boolean isPreventingPlayerRest(EntityPlayer playerIn)
 	{
-		return this.getAttackTarget() == playerIn;
+		return world.getDifficulty() != EnumDifficulty.PEACEFUL && this.getAttackTarget() == playerIn;
 	}
 
 	public class AIHurtByTarget extends EntityAIHurtByTarget

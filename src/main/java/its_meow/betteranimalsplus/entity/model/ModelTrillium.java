@@ -146,7 +146,8 @@ public class ModelTrillium extends ModelBase {
     }
 
     @Override
-    public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) { 
+    public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) {
+    	GlStateManager.rotate(f3, 0, 1, 0); // Yaw
         GlStateManager.pushMatrix();
         GlStateManager.translate(this.stem05.offsetX, this.stem05.offsetY, this.stem05.offsetZ);
         GlStateManager.translate(this.stem05.rotationPointX * f5, this.stem05.rotationPointY * f5, this.stem05.rotationPointZ * f5);

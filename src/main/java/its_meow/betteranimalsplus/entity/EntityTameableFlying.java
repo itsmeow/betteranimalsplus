@@ -13,14 +13,6 @@ public class EntityTameableFlying extends EntityTameable {
 	public EntityTameableFlying(World worldIn) {
 		super(worldIn);
 	}
-	
-	public void fall(float distance, float damageMultiplier)
-    {
-    }
-
-    protected void updateFallState(double y, boolean onGroundIn, IBlockState state, BlockPos pos)
-    {
-    }
 
     public void travel(float strafe, float vertical, float forward)
     {

@@ -180,45 +180,6 @@ public class EntityFox extends EntityTameable {
 			this.typeData = type;
 		}
 	}
-	
-	public boolean isPreventingPlayerRest(EntityPlayer playerIn)
-	{
-		return !this.isTamed() && this.getAttackTarget() != null && playerIn.getDistanceSq(this) <= 50D;
-	}
-
-
-
-	/**
-	 * Checks if the entity's current position is a valid location to spawn this entity.
-	 */
-	public boolean getCanSpawnHere()
-	{
-		return this.world.getDifficulty() != EnumDifficulty.PEACEFUL && this.isValidLightLevel() && super.getCanSpawnHere();
-	}
-
-	protected boolean isValidLightLevel()
-	{
-		BlockPos blockpos = new BlockPos(this.posX, this.getEntityBoundingBox().minY, this.posZ);
-
-		if (this.world.getLightFor(EnumSkyBlock.SKY, blockpos) > this.rand.nextInt(32))
-		{
-			return false;
-		}
-		else
-		{
-			int i = this.world.getLightFromNeighbors(blockpos);
-
-			if (this.world.isThundering())
-			{
-				int j = this.world.getSkylightSubtracted();
-				this.world.setSkylightSubtracted(10);
-				i = this.world.getLightFromNeighbors(blockpos);
-				this.world.setSkylightSubtracted(j);
-			}
-
-			return i <= this.rand.nextInt(8);
-		}
-	}
 
 	protected void applyEntityAttributes()
 	{
@@ -247,6 +208,15 @@ public class EntityFox extends EntityTameable {
 		super.entityInit();
 		this.dataManager.register(DATA_HEALTH_ID, Float.valueOf(this.getHealth()));
 		this.dataManager.register(TYPE_NUMBER, Integer.valueOf(0));
+	}
+	
+	@Override
+	public void setAttackTarget(EntityLivingBase entitylivingbaseIn) {
+		if(world.getDifficulty() == EnumDifficulty.PEACEFUL) {
+			super.setAttackTarget(null);
+		} else {
+			super.setAttackTarget(entitylivingbaseIn);
+		}
 	}
 
 	protected void playStepSound(BlockPos pos, Block blockIn)

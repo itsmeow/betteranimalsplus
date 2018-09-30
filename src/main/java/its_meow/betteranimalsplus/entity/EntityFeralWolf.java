@@ -204,7 +204,7 @@ public class EntityFeralWolf extends EntityTameable implements IMob {
 	
 	public boolean isPreventingPlayerRest(EntityPlayer playerIn)
 	{
-		return !this.isTamed() && this.getAttackTarget() != null && playerIn.getDistanceSq(this) <= 50D;
+		return this.world.getDifficulty() != EnumDifficulty.PEACEFUL && !this.isTamed() && this.getAttackTarget() != null && playerIn.getDistanceSq(this) <= 50D;
 	}
 
 
@@ -214,7 +214,7 @@ public class EntityFeralWolf extends EntityTameable implements IMob {
 	 */
 	public boolean getCanSpawnHere()
 	{
-		return this.world.getDifficulty() != EnumDifficulty.PEACEFUL && this.isValidLightLevel() && super.getCanSpawnHere();
+		return this.isValidLightLevel() && super.getCanSpawnHere();
 	}
 
 	protected boolean isValidLightLevel()

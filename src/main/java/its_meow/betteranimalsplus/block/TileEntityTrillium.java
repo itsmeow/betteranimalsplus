@@ -7,11 +7,14 @@ import its_meow.betteranimalsplus.entity.model.ModelTrillium;
 import its_meow.betteranimalsplus.entity.model.ModelTrilliumMulti;
 import its_meow.betteranimalsplus.entity.model.ModelTrilliumMulti2;
 import its_meow.betteranimalsplus.registry.TextureRegistry;
+import net.minecraft.block.BlockHorizontal;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 
 public class TileEntityTrillium extends TileEntity {
@@ -133,7 +136,23 @@ public class TileEntityTrillium extends TileEntity {
 		this.readFromNBT(tag);
 	}
 
-
+	public float getRotation() {
+		IBlockState state = world.getBlockState(this.pos);
+		EnumFacing facing = state.getValue(BlockHorizontal.FACING).getOpposite();
+		if(facing == EnumFacing.NORTH) {
+			return 0F;
+		}
+		if(facing == EnumFacing.EAST) {
+			return 90F;
+		}
+		if(facing == EnumFacing.SOUTH) {
+			return 180F;
+		}
+		if(facing == EnumFacing.WEST) {
+			return 270F;
+		}
+		return 0F;
+	}
 
 
 }
