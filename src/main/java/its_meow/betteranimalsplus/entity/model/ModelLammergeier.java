@@ -624,15 +624,15 @@ public class ModelLammergeier extends ModelBase {
 			this.rLeg01.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount / f;
 			this.lLeg01.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F + (float)Math.PI) * 1.4F * limbSwingAmount / f;
 			
-			if(lammergeier.isSitting()) {
-				this.head.rotateAngleX = 30;
-			} else {
-				this.head.rotateAngleX = 0;
-			}
+			
 		}
 
 
-
+		if(lammergeier.isSitting()) {
+			this.head.rotateAngleX = 0;
+		} else {
+			this.head.rotateAngleX = -0.81F;
+		}
 
 		lastFlying = isFlying;
 		super.setRotationAngles(limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor, entityIn);

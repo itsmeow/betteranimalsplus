@@ -12,3 +12,5 @@
 - Fix bug where mobs that check for daytime (hirschgeist, coyote) would not always register daytime/nighttime
 - Fix hirschgeist spawning in groups of more than one
 - Add logo to mcmod.info
+- Lammergeier now puts its head down while sitting (midair)
+- Buffed feral wolf health (now more than normal wolves)
