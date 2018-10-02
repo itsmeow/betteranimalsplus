@@ -207,38 +207,9 @@ public class EntityFeralWolf extends EntityTameable implements IMob {
 		return this.world.getDifficulty() != EnumDifficulty.PEACEFUL && !this.isTamed() && this.getAttackTarget() != null && playerIn.getDistanceSq(this) <= 50D;
 	}
 
-
-
-	/**
-	 * Checks if the entity's current position is a valid location to spawn this entity.
-	 */
-	public boolean getCanSpawnHere()
-	{
-		return this.isValidLightLevel() && super.getCanSpawnHere();
-	}
-
 	protected boolean isValidLightLevel()
 	{
-		BlockPos blockpos = new BlockPos(this.posX, this.getEntityBoundingBox().minY, this.posZ);
-
-		if (this.world.getLightFor(EnumSkyBlock.SKY, blockpos) > this.rand.nextInt(32))
-		{
-			return false;
-		}
-		else
-		{
-			int i = this.world.getLightFromNeighbors(blockpos);
-
-			if (this.world.isThundering())
-			{
-				int j = this.world.getSkylightSubtracted();
-				this.world.setSkylightSubtracted(10);
-				i = this.world.getLightFromNeighbors(blockpos);
-				this.world.setSkylightSubtracted(j);
-			}
-
-			return i <= this.rand.nextInt(8);
-		}
+		return true;
 	}
 
 	protected void applyEntityAttributes()

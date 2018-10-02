@@ -41,20 +41,17 @@ public class BetterAnimalsPlusMod {
 	
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
-		System.out.println("Pre-Init");
-		proxy.preInit(event);
 		logger = LogManager.getLogger("betteranimalsplus");
+		proxy.preInit(event);
 	}
 
 	@EventHandler
 	public void init(FMLInitializationEvent e) {
-		System.out.println("Init");
 		proxy.init(e);
 	}
 	
 	@EventHandler
 	public void postInit(FMLPostInitializationEvent e) {
-		System.out.println("Post-Init");
 		proxy.postInit(e);
 	}
 }
