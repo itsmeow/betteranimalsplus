@@ -13,6 +13,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraft.world.gen.IChunkGenerator;
 import net.minecraft.world.gen.feature.WorldGenerator;
+import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.fml.common.IWorldGenerator;
 
 public class TrilliumGenerator implements IWorldGenerator {
@@ -38,7 +39,7 @@ public class TrilliumGenerator implements IWorldGenerator {
 		int z = (chunkZ * 16) + 8 + (random.nextInt(16) - 8);
 		int y = 64;
 		BlockPos blockpos = new BlockPos(x, y, z);
-		if(world.getBiome(blockpos) == Biomes.SWAMPLAND || world.getBiome(blockpos) == Biomes.MUTATED_SWAMPLAND) {
+		if(BiomeDictionary.hasType(world.getBiome(blockpos), BiomeDictionary.Type.SWAMP)) {
 			for (int i = 0; i < 64; ++i)
 			{
 				blockpos = new BlockPos(x, i, z);

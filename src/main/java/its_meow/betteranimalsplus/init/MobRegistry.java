@@ -1,9 +1,7 @@
 package its_meow.betteranimalsplus.init;
 
-import java.sql.Types;
-import java.util.Collections;
 import java.util.HashSet;
-import java.util.List;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 import its_meow.betteranimalsplus.BetterAnimalsPlusMod;
@@ -39,77 +37,50 @@ import net.minecraft.world.biome.Biome.SpawnListEntry;
 import net.minecraft.world.storage.loot.LootTableList;
 import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.BiomeDictionary.Type;
+import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
+import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.registry.EntityEntry;
+import net.minecraftforge.fml.common.registry.EntityEntryBuilder;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.registries.IForgeRegistry;
 
 
 public class MobRegistry {
 	public static int modEntities;
 	
+	public static LinkedHashSet<EntityEntry> entrySet = new LinkedHashSet<EntityEntry>();
 	
-	//Need to be using registry events. This will break in the near future.
-	public static void init(){
-		//regCre(Entity.class, "name", 0xFF052E (egg base), 0x14FFFC (egg spot), 25 (percent spawn), 1 (min amt), 3 (max amt), Biomes.PLAINS);
-		regMob(EntityBear.class, "BrownBear", 0x4F2900, 0x8E500E, 4, 1, 1, BiomeDictionary.getBiomes(Type.FOREST));
-		regMob(EntityBearNeutral.class, "BlackBear", 0x000000, 0x333333, 4, 1, 1, BiomeDictionary.getBiomes(Type.FOREST));
-		regMob(EntityBearNeutralKermode.class, "KermodeBear", 0xe8e8e8, 0xf7dabe, 2, 1, 1, BiomeDictionary.getBiomes(Type.FOREST));
-		regMob(EntityDeer.class, "Deer", 0x8e510b, 0xc6863b, 10, 1, 2,  BiomeDictionary.getBiomes(Type.FOREST), BiomeDictionary.getBiomes(Type.MAGICAL));
-		regMob(EntityLammergeier.class, "Lammergeier", 0xd8d8d8, 0xd82b11, 7, 1, 2, BiomeDictionary.getBiomes(Type.HILLS), BiomeDictionary.getBiomes(Type.MOUNTAIN));
-		regMob(EntityFeralWolf.class, "FeralWolf", 0xbababa, 0x232323, 6, 1, 6, BiomeDictionary.getBiomes(Type.FOREST), BiomeDictionary.getBiomes(Type.MAGICAL), BiomeDictionary.getBiomes(Type.SPOOKY));
-		regMob(EntityCoyote.class, "Coyote", 0x866a31, 0xb69762, 20, 1, 6, BiomeDictionary.getBiomes(Type.SANDY), BiomeDictionary.getBiomes(Type.PLAINS));
-		regMob(EntityFox.class, "Fox", 0xe87422, 0x3f210c, 8, 1, 6, BiomeDictionary.getBiomes(Type.FOREST), BiomeDictionary.getBiomes(Type.MAGICAL));
-		registerNoEgg(EntityTarantulaHair.class, "tarantulahair");
+	public static void addEntitiesToSet(){
+		regCre(EntityBear.class, "BrownBear", 0x4F2900, 0x8E500E, 4, 1, 1, BiomeDictionary.getBiomes(Type.FOREST));
+		regCre(EntityBearNeutral.class, "BlackBear", 0x000000, 0x333333, 4, 1, 1, BiomeDictionary.getBiomes(Type.FOREST));
+		regCre(EntityBearNeutralKermode.class, "KermodeBear", 0xe8e8e8, 0xf7dabe, 2, 1, 1, BiomeDictionary.getBiomes(Type.FOREST));
+		regCre(EntityDeer.class, "Deer", 0x8e510b, 0xc6863b, 13, 1, 4,  BiomeDictionary.getBiomes(Type.FOREST), BiomeDictionary.getBiomes(Type.MAGICAL));
+		regCre(EntityLammergeier.class, "Lammergeier", 0xd8d8d8, 0xd82b11, 5, 1, 2, BiomeDictionary.getBiomes(Type.HILLS), BiomeDictionary.getBiomes(Type.MOUNTAIN));
+		regCre(EntityFeralWolf.class, "FeralWolf", 0xbababa, 0x232323, 6, 1, 6, BiomeDictionary.getBiomes(Type.FOREST), BiomeDictionary.getBiomes(Type.MAGICAL), BiomeDictionary.getBiomes(Type.SPOOKY));
+		regCre(EntityCoyote.class, "Coyote", 0x866a31, 0xb69762, 20, 1, 6, BiomeDictionary.getBiomes(Type.SANDY), BiomeDictionary.getBiomes(Type.PLAINS));
+		regCre(EntityFox.class, "Fox", 0xe87422, 0x3f210c, 8, 1, 6, BiomeDictionary.getBiomes(Type.FOREST), BiomeDictionary.getBiomes(Type.MAGICAL));
+		registerNoEggOrSpawn(EntityTarantulaHair.class, "tarantulahair");
 		regMob(EntityTarantula.class, "Tarantula", 0x1e1e1e, 0x8c0c0c, 20, 1, 3, BiomeDictionary.getBiomes(Type.SANDY));
-		regMob(EntityHirschgeist.class, "Hirschgeist", 0xfffff, 0x00000, 1, 1, 1, BiomeDictionary.getBiomes(Type.FOREST));
-	}
-	
-	@SideOnly(Side.CLIENT)
-	public static void initModels() {
-		registerRender(EntityBear.class, RenderBrownBear.FACTORY);
-		registerRender(EntityBearNeutral.class, RenderBlackBear.FACTORY);
-		registerRender(EntityBearNeutralKermode.class, RenderKermodeBear.FACTORY);
-		registerRender(EntityDeer.class, RenderDeer.FACTORY);
-		registerRender(EntityLammergeier.class, RenderLammergeier.FACTORY);
-		registerRender(EntityFeralWolf.class, RenderCustomWolf.FACTORY);
-		registerRender(EntityCoyote.class, RenderCoyote.FACTORY);
-		registerRender(EntityFox.class, RenderFox.FACTORY);
-		registerRender(EntityTarantulaHair.class, RenderTarantulaHair.FACTORY);
-		registerRender(EntityTarantula.class, RenderTarantula.FACTORY);
-		registerRender(EntityHirschgeist.class, RenderHirschgeist.FACTORY);
-	}
-	
-	@SideOnly(Side.CLIENT)
-	public static void initModel(Class EntityClass, IRenderFactory FACTORY){
-		registerRender(EntityClass, FACTORY);
+		regCre(EntityHirschgeist.class, "Hirschgeist", 0xfffff, 0x00000, 1, 1, 1, BiomeDictionary.getBiomes(Type.FOREST));
 	}
 	
 	
 	//#################################################################################
 	
 	public static void regCre(Class EntityClass, String entityNameIn, int solidColorIn, int spotColorIn, int prob, int min, int max, Set<Biome>... biomes){
-		register(EntityClass, entityNameIn, solidColorIn, spotColorIn);
-		registerCreatureSpawn(EntityClass, prob, min, max, biomes);
-		//initModel(EntityClass, FACTORY);
+		registerWithSpawnAndEgg(EntityClass, entityNameIn, solidColorIn, spotColorIn, EnumCreatureType.CREATURE, biomes);
 	}
 	
 	public static void regMob(Class EntityClass, String entityNameIn, int solidColorIn, int spotColorIn, int prob, int min, int max, Set<Biome>... biomes){
-		register(EntityClass, entityNameIn, solidColorIn, spotColorIn);
-		registerMobSpawn(EntityClass, prob, min, max, biomes);
-		//initModel(EntityClass, FACTORY);
+		registerWithSpawnAndEgg(EntityClass, entityNameIn, solidColorIn, spotColorIn, EnumCreatureType.MONSTER, biomes);
 	}
 	
-	public static void register(Class EntityClass, String entityNameIn, int solidColorIn, int spotColorIn){
-		EntityRegistry.registerModEntity(new ResourceLocation(Ref.MOD_ID + ":" + entityNameIn), EntityClass, entityNameIn, ++modEntities, BetterAnimalsPlusMod.mod, 64, 1, true, solidColorIn, spotColorIn);
-    }
-	
-	public static void registerNoEgg(Class EntityClass, String entityNameIn){
-		EntityRegistry.registerModEntity(new ResourceLocation(Ref.MOD_ID + ":" + entityNameIn), EntityClass, entityNameIn, ++modEntities, BetterAnimalsPlusMod.mod, 64, 1, true);
-    }
-	
-	public static void registerCreatureSpawn(Class EntityClass, int prob, int min, int max, Set<Biome>... biomes) {
+	public static void registerWithSpawnAndEgg(Class EntityClass, String entityNameIn, int solidColorIn, int spotColorIn, EnumCreatureType typeIn, Set<Biome>... biomes){
 		Set<Biome> biomesetAdd = new HashSet<>();
 		for(Set<Biome> biomeset : biomes) {
 			biomesetAdd.addAll(biomeset);
@@ -121,107 +92,55 @@ public class MobRegistry {
 			biomesArray = new Biome[0];
 		}
 		
-		/*for(Biome biome : biomesArray) {
-			List<SpawnListEntry> list = biome.getSpawnableList(EnumCreatureType.CREATURE);
-			
-			int totalValue = 0;
-			int totalAmount = 0;
-
-			
-			for(SpawnListEntry entry : list) {
-				totalValue += entry.itemWeight;
-				totalAmount++;
-			}
-			int prob2 = 0;
-			if(totalAmount != 0) {
-				prob2 = prob * ((totalValue) / totalAmount);
-			} else {
-				prob2 = prob;
-			}
-			
-            boolean found = false;
-			for(SpawnListEntry entry : list) {
-				if (entry.entityClass == EntityClass)
-                {
-                    entry.itemWeight = prob2;
-                    entry.minGroupCount = min;
-                    entry.maxGroupCount = max;
-                    found = true;
-                    break;
-                }
-			}
-			
-			
-            if (!found) {
-                list.add(new SpawnListEntry(EntityClass, prob2, min, max));
-            }
-			
-		}*/
-		EntityRegistry.addSpawn(EntityClass, prob, min, max, EnumCreatureType.CREATURE, biomesArray);
-	}
-	
-	public static void registerMobSpawn(Class EntityClass, int prob, int min, int max, Set<Biome>... biomes) {
-		Set<Biome> biomesetAdd = new HashSet<>();
-		for(Set<Biome> biomeset : biomes) {
-			biomesetAdd.addAll(biomeset);
-		}
-		Biome[] biomesArray = {};
-		try {
-		biomesArray = biomesetAdd.toArray(biomesArray);
-		} catch(NullPointerException e) {
-			biomesArray = new Biome[0];
-		}
+		EntityEntry entry = EntityEntryBuilder.create()
+        .entity(EntityClass)
+        .id(new ResourceLocation(Ref.MOD_ID, entityNameIn), modEntities++)
+        .name(entityNameIn)
+        .tracker(64, 1, true)
+        .egg(solidColorIn, spotColorIn)
+        .spawn(typeIn, 4, 1, 1, biomesArray)
+        .build();
 		
-		
-		/*for(Biome biome : biomesArray) {
-			List<SpawnListEntry> list = biome.getSpawnableList(EnumCreatureType.MONSTER);
-			
-			int totalValue = 0;
-			int totalAmount = 0;
-
-			
-			for(SpawnListEntry entry : list) {
-				totalValue += entry.itemWeight;
-				totalAmount++;
-			}
-			
-			int prob2 = 0;
-			if(totalAmount != 0) {
-				prob2 = prob * ((totalValue) / totalAmount);
-			} else {
-				prob2 = prob;
-			}
-			
-			
-            boolean found = false;
-			for(SpawnListEntry entry : list) {
-				if (entry.entityClass == EntityClass)
-                {
-                    entry.itemWeight = prob2;
-                    entry.minGroupCount = min;
-                    entry.maxGroupCount = max;
-                    found = true;
-                    break;
-                }
-			}
-			
-			
-            if (!found) {
-                list.add(new SpawnListEntry(EntityClass, prob2, min, max));
-            }
-			
-		}*/
-		EntityRegistry.addSpawn(EntityClass, prob, min, max, EnumCreatureType.MONSTER, biomesArray);
-	}
+		entrySet.add(entry);
+    }
 	
-	@SideOnly(Side.CLIENT)
-	public static void registerRender(Class EntityClass, IRenderFactory RenderFactory){
-		RenderingRegistry.registerEntityRenderingHandler(EntityClass, RenderFactory);
-	}
+	public static void registerNoEggOrSpawn(Class EntityClass, String entityNameIn){
+		EntityEntry entry = EntityEntryBuilder.create()
+        .entity(EntityClass)
+        .id(new ResourceLocation(Ref.MOD_ID, entityNameIn), modEntities++)
+        .name(entityNameIn)
+        .tracker(64, 1, true)
+        .build();
+		
+		entrySet.add(entry);
+    }
+	
+
 	
 	//####################################################################################
 	
-
+	@EventBusSubscriber(modid = Ref.MOD_ID)
+    public static class RegistrationHandler
+    {
+        /**
+         * Register this mod's {@link EntityEntry}s.
+         *
+         * @param event The event
+         */
+        @SubscribeEvent
+        public static void onEvent(final RegistryEvent.Register<EntityEntry> event)
+        {
+            final IForgeRegistry<EntityEntry> registry = event.getRegistry();
+            
+            MobRegistry.addEntitiesToSet();
+            
+            for (final EntityEntry entityEntry : entrySet)
+            {
+            	System.out.println("Registering entity: " + entityEntry.getName() + "   " + entityEntry.getRegistryName());
+                registry.register(entityEntry);
+            }
+        }
+}
 	
 	
 }

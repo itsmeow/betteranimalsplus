@@ -20,7 +20,7 @@ public class CommonProxy {
 	
 
 	public void preInit(FMLPreInitializationEvent event) {
-		MobRegistry.init();
+
 	}
 
 	public void init(FMLInitializationEvent e) {

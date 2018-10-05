@@ -6,6 +6,7 @@ import its_meow.betteranimalsplus.client.model.ModelHirschgeistSkullArmorPiece;
 import its_meow.betteranimalsplus.client.renderer.TESR.RenderBlockHandOfFate;
 import its_meow.betteranimalsplus.client.renderer.TESR.RenderBlockHirschgeistSkull;
 import its_meow.betteranimalsplus.client.renderer.TESR.RenderBlockTrillium;
+import its_meow.betteranimalsplus.client.renderer.entity.EntityRendererRegistry;
 import its_meow.betteranimalsplus.common.tileentity.TileEntityHandOfFate;
 import its_meow.betteranimalsplus.common.tileentity.TileEntityHirschgeistSkull;
 import its_meow.betteranimalsplus.common.tileentity.TileEntityTrillium;
@@ -29,7 +30,7 @@ public class ClientProxy extends CommonProxy {
 	public void preInit(FMLPreInitializationEvent event) {
 		super.preInit(event);
 		MinecraftForge.EVENT_BUS.register(new EventHandlerClient());
-		MobRegistry.initModels();
+		EntityRendererRegistry.registerEntityRenderers();
 	}
 
 	public void init(FMLInitializationEvent event) {
