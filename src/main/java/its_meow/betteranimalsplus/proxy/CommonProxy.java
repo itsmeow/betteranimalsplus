@@ -1,10 +1,10 @@
 package its_meow.betteranimalsplus.proxy;
 
 import its_meow.betteranimalsplus.Ref;
-import its_meow.betteranimalsplus.registry.BlockRegistry;
-import its_meow.betteranimalsplus.registry.CraftingRegistry;
-import its_meow.betteranimalsplus.registry.MobRegistry;
-import its_meow.betteranimalsplus.world.gen.TrilliumGenerator;
+import its_meow.betteranimalsplus.common.world.gen.TrilliumGenerator;
+import its_meow.betteranimalsplus.init.BlockRegistry;
+import its_meow.betteranimalsplus.init.CraftingRegistry;
+import its_meow.betteranimalsplus.init.MobRegistry;
 import net.minecraft.block.BlockFlowerPot.EnumFlowerType;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ItemModelMesher;

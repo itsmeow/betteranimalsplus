@@ -1,16 +1,16 @@
 package its_meow.betteranimalsplus.proxy;
 
-import its_meow.betteranimalsplus.EventHandlerClient;
 import its_meow.betteranimalsplus.Ref;
-import its_meow.betteranimalsplus.block.TileEntityHandOfFate;
-import its_meow.betteranimalsplus.block.TileEntityHirschgeistSkull;
-import its_meow.betteranimalsplus.block.TileEntityTrillium;
-import its_meow.betteranimalsplus.block.render.RenderBlockHandOfFate;
-import its_meow.betteranimalsplus.block.render.RenderBlockHirschgeistSkull;
-import its_meow.betteranimalsplus.block.render.RenderBlockTrillium;
-import its_meow.betteranimalsplus.entity.model.ModelHirschgeistSkullArmorPiece;
-import its_meow.betteranimalsplus.registry.BlockRegistry;
-import its_meow.betteranimalsplus.registry.MobRegistry;
+import its_meow.betteranimalsplus.client.EventHandlerClient;
+import its_meow.betteranimalsplus.client.model.ModelHirschgeistSkullArmorPiece;
+import its_meow.betteranimalsplus.client.renderer.TESR.RenderBlockHandOfFate;
+import its_meow.betteranimalsplus.client.renderer.TESR.RenderBlockHirschgeistSkull;
+import its_meow.betteranimalsplus.client.renderer.TESR.RenderBlockTrillium;
+import its_meow.betteranimalsplus.common.tileentity.TileEntityHandOfFate;
+import its_meow.betteranimalsplus.common.tileentity.TileEntityHirschgeistSkull;
+import its_meow.betteranimalsplus.common.tileentity.TileEntityTrillium;
+import its_meow.betteranimalsplus.init.BlockRegistry;
+import its_meow.betteranimalsplus.init.MobRegistry;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.renderer.ItemModelMesher;

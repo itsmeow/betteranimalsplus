@@ -1,6 +1,6 @@
 package its_meow.betteranimalsplus;
 
-import its_meow.betteranimalsplus.registry.ItemRegistry;
+import its_meow.betteranimalsplus.init.ItemRegistry;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
