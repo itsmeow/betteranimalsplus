@@ -136,7 +136,7 @@ public class MobRegistry {
             
             for (final EntityEntry entityEntry : entrySet)
             {
-            	System.out.println("Registering entity: " + entityEntry.getName() + "   " + entityEntry.getRegistryName());
+            	//System.out.println("Registering entity: " + entityEntry.getName() + "   " + entityEntry.getRegistryName());
                 registry.register(entityEntry);
             }
         }
