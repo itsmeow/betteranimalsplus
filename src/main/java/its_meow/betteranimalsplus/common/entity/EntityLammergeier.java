@@ -115,6 +115,11 @@ public class EntityLammergeier extends EntityTameableFlying {
 
 
 	@Override
+	public int getMaxSpawnedInChunk() {
+		return 4;
+	}
+
+	@Override
 	protected PathNavigate createNavigator(World worldIn) {
 		PathNavigateFlying pathnavigateflying = new PathNavigateFlying(this, worldIn);
 		pathnavigateflying.setCanOpenDoors(false);

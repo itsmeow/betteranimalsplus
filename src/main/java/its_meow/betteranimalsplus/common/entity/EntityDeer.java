@@ -66,6 +66,11 @@ public class EntityDeer extends EntityAnimal {
         this.dataManager.register(TYPE_NUMBER, Integer.valueOf(0));
     }
 	
+	@Override
+	public int getMaxSpawnedInChunk() {
+		return 4;
+	}
+	
 	private static final DataParameter<Integer> TYPE_NUMBER = EntityDataManager.<Integer>createKey(EntityDeer.class, DataSerializers.VARINT);
 	
 	public int getTypeNumber() {
