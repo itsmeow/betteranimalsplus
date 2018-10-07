@@ -33,7 +33,9 @@ public class CommonProxy {
 
 	public void init(FMLInitializationEvent e) {
 		CraftingRegistry.register(); 
-		GameRegistry.registerWorldGenerator(new TrilliumGenerator(BlockRegistry.trillium), 1);
+		if(BetterAnimalsPlusConfig.spawnTrillium) {
+			GameRegistry.registerWorldGenerator(new TrilliumGenerator(BlockRegistry.trillium), 1);
+		}
 	}
 	
 	public void postInit(FMLPostInitializationEvent e) {

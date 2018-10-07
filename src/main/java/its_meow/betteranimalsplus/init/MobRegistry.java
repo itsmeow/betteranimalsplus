@@ -53,34 +53,45 @@ import its_meow.betteranimalsplus.common.config.BetterAnimalsPlusConfig;
 
 public class MobRegistry {
 	public static int modEntities;
-	
+
 	public static LinkedHashSet<EntityEntry> entrySet = new LinkedHashSet<EntityEntry>();
-	
+
 	public static void addEntitiesToSet(){
-		regCre(EntityBear.class, "BrownBear", 0x4F2900, 0x8E500E, BetterAnimalsPlusConfig.brownBearWeight, 1, 1, BiomeDictionary.getBiomes(Type.FOREST));
-		regCre(EntityBearNeutral.class, "BlackBear", 0x000000, 0x333333, BetterAnimalsPlusConfig.blackBearWeight, 1, 1, BiomeDictionary.getBiomes(Type.FOREST));
-		regCre(EntityBearNeutralKermode.class, "KermodeBear", 0xe8e8e8, 0xf7dabe, BetterAnimalsPlusConfig.kermodeBearWeight, 1, 1, BiomeDictionary.getBiomes(Type.FOREST));
-		regCre(EntityDeer.class, "Deer", 0x8e510b, 0xc6863b, BetterAnimalsPlusConfig.deerWeight, 1, 4,  BiomeDictionary.getBiomes(Type.FOREST), BiomeDictionary.getBiomes(Type.MAGICAL));
-		regCre(EntityLammergeier.class, "Lammergeier", 0xd8d8d8, 0xd82b11, BetterAnimalsPlusConfig.lammergeierWeight, 1, 2, BiomeDictionary.getBiomes(Type.HILLS), BiomeDictionary.getBiomes(Type.MOUNTAIN));
-		regCre(EntityFeralWolf.class, "FeralWolf", 0xbababa, 0x232323, BetterAnimalsPlusConfig.feralWolfWeight, 1, 6, BiomeDictionary.getBiomes(Type.FOREST), BiomeDictionary.getBiomes(Type.MAGICAL), BiomeDictionary.getBiomes(Type.SPOOKY));
-		regCre(EntityCoyote.class, "Coyote", 0x866a31, 0xb69762, BetterAnimalsPlusConfig.coyoteWeight, 1, 6, BiomeDictionary.getBiomes(Type.SANDY), BiomeDictionary.getBiomes(Type.PLAINS));
-		regCre(EntityFox.class, "Fox", 0xe87422, 0x3f210c, BetterAnimalsPlusConfig.foxWeight, 1, 6, BiomeDictionary.getBiomes(Type.FOREST), BiomeDictionary.getBiomes(Type.MAGICAL));
-		registerNoEggOrSpawn(EntityTarantulaHair.class, "tarantulahair");
-		regMob(EntityTarantula.class, "Tarantula", 0x1e1e1e, 0x8c0c0c, BetterAnimalsPlusConfig.tarantulaWeight, 1, 3, BiomeDictionary.getBiomes(Type.SANDY));
-		regCre(EntityHirschgeist.class, "Hirschgeist", 0xfffff, 0x00000, BetterAnimalsPlusConfig.hirschgeistWeight, 1, 1, BiomeDictionary.getBiomes(Type.FOREST));
+		if(BetterAnimalsPlusConfig.spawnBrownBear)
+			regCre(EntityBear.class, "BrownBear", 0x4F2900, 0x8E500E, BetterAnimalsPlusConfig.brownBearWeight, 1, 1, BiomeDictionary.getBiomes(Type.FOREST));
+		if(BetterAnimalsPlusConfig.spawnBlackBear)
+			regCre(EntityBearNeutral.class, "BlackBear", 0x000000, 0x333333, BetterAnimalsPlusConfig.blackBearWeight, 1, 1, BiomeDictionary.getBiomes(Type.FOREST));
+		if(BetterAnimalsPlusConfig.spawnKermodeBear)
+			regCre(EntityBearNeutralKermode.class, "KermodeBear", 0xe8e8e8, 0xf7dabe, BetterAnimalsPlusConfig.kermodeBearWeight, 1, 1, BiomeDictionary.getBiomes(Type.FOREST));
+		if(BetterAnimalsPlusConfig.spawnDeer)
+			regCre(EntityDeer.class, "Deer", 0x8e510b, 0xc6863b, BetterAnimalsPlusConfig.deerWeight, 1, 4,  BiomeDictionary.getBiomes(Type.FOREST), BiomeDictionary.getBiomes(Type.MAGICAL));
+		if(BetterAnimalsPlusConfig.spawnLammergeier)
+			regCre(EntityLammergeier.class, "Lammergeier", 0xd8d8d8, 0xd82b11, BetterAnimalsPlusConfig.lammergeierWeight, 1, 2, BiomeDictionary.getBiomes(Type.HILLS), BiomeDictionary.getBiomes(Type.MOUNTAIN));
+		if(BetterAnimalsPlusConfig.spawnFeralWolf)
+			regCre(EntityFeralWolf.class, "FeralWolf", 0xbababa, 0x232323, BetterAnimalsPlusConfig.feralWolfWeight, 1, 6, BiomeDictionary.getBiomes(Type.FOREST), BiomeDictionary.getBiomes(Type.MAGICAL), BiomeDictionary.getBiomes(Type.SPOOKY));
+		if(BetterAnimalsPlusConfig.spawnCoyote)
+			regCre(EntityCoyote.class, "Coyote", 0x866a31, 0xb69762, BetterAnimalsPlusConfig.coyoteWeight, 1, 6, BiomeDictionary.getBiomes(Type.SANDY), BiomeDictionary.getBiomes(Type.PLAINS));
+		if(BetterAnimalsPlusConfig.spawnFox)
+			regCre(EntityFox.class, "Fox", 0xe87422, 0x3f210c, BetterAnimalsPlusConfig.foxWeight, 1, 6, BiomeDictionary.getBiomes(Type.FOREST), BiomeDictionary.getBiomes(Type.MAGICAL));
+		if(BetterAnimalsPlusConfig.spawnTarantula)
+			registerNoEggOrSpawn(EntityTarantulaHair.class, "tarantulahair");
+		if(BetterAnimalsPlusConfig.spawnTarantula)
+			regMob(EntityTarantula.class, "Tarantula", 0x1e1e1e, 0x8c0c0c, BetterAnimalsPlusConfig.tarantulaWeight, 1, 3, BiomeDictionary.getBiomes(Type.SANDY));
+		if(BetterAnimalsPlusConfig.spawnHirschgeist)
+			regCre(EntityHirschgeist.class, "Hirschgeist", 0xfffff, 0x00000, BetterAnimalsPlusConfig.hirschgeistWeight, 1, 1, BiomeDictionary.getBiomes(Type.FOREST));
 	}
-	
-	
+
+
 	//#################################################################################
-	
+
 	public static void regCre(Class EntityClass, String entityNameIn, int solidColorIn, int spotColorIn, int prob, int min, int max, Set<Biome>... biomes){
 		registerWithSpawnAndEgg(EntityClass, entityNameIn, solidColorIn, spotColorIn, EnumCreatureType.CREATURE, biomes);
 	}
-	
+
 	public static void regMob(Class EntityClass, String entityNameIn, int solidColorIn, int spotColorIn, int prob, int min, int max, Set<Biome>... biomes){
 		registerWithSpawnAndEgg(EntityClass, entityNameIn, solidColorIn, spotColorIn, EnumCreatureType.MONSTER, biomes);
 	}
-	
+
 	public static void registerWithSpawnAndEgg(Class EntityClass, String entityNameIn, int solidColorIn, int spotColorIn, EnumCreatureType typeIn, Set<Biome>... biomes){
 		Set<Biome> biomesetAdd = new HashSet<>();
 		for(Set<Biome> biomeset : biomes) {
@@ -88,60 +99,61 @@ public class MobRegistry {
 		}
 		Biome[] biomesArray = {};
 		try {
-		biomesArray = biomesetAdd.toArray(biomesArray);
+			biomesArray = biomesetAdd.toArray(biomesArray);
 		} catch(NullPointerException e) {
 			biomesArray = new Biome[0];
 		}
-		
+
 		EntityEntry entry = EntityEntryBuilder.create()
-        .entity(EntityClass)
-        .id(new ResourceLocation(Ref.MOD_ID, entityNameIn), modEntities++)
-        .name(entityNameIn)
-        .tracker(64, 1, true)
-        .egg(solidColorIn, spotColorIn)
-        .spawn(typeIn, 4, 1, 1, biomesArray)
-        .build();
-		
+				.entity(EntityClass)
+				.id(new ResourceLocation(Ref.MOD_ID, entityNameIn), modEntities++)
+				.name(entityNameIn)
+				.tracker(64, 1, true)
+				.egg(solidColorIn, spotColorIn)
+				.spawn(typeIn, 4, 1, 1, biomesArray)
+				.build();
+
 		entrySet.add(entry);
-    }
-	
+	}
+
 	public static void registerNoEggOrSpawn(Class EntityClass, String entityNameIn){
 		EntityEntry entry = EntityEntryBuilder.create()
-        .entity(EntityClass)
-        .id(new ResourceLocation(Ref.MOD_ID, entityNameIn), modEntities++)
-        .name(entityNameIn)
-        .tracker(64, 1, true)
-        .build();
-		
-		entrySet.add(entry);
-    }
-	
+				.entity(EntityClass)
+				.id(new ResourceLocation(Ref.MOD_ID, entityNameIn), modEntities++)
+				.name(entityNameIn)
+				.tracker(64, 1, true)
+				.build();
 
-	
+		entrySet.add(entry);
+	}
+
+
+
 	//####################################################################################
-	
+
 	@EventBusSubscriber(modid = Ref.MOD_ID)
-    public static class RegistrationHandler
-    {
-        /**
-         * Register this mod's {@link EntityEntry}s.
-         *
-         * @param event The event
-         */
-        @SubscribeEvent
-        public static void onEvent(final RegistryEvent.Register<EntityEntry> event)
-        {
-            final IForgeRegistry<EntityEntry> registry = event.getRegistry();
-            
-            MobRegistry.addEntitiesToSet();
-            
-            for (final EntityEntry entityEntry : entrySet)
-            {
-            	//System.out.println("Registering entity: " + entityEntry.getName() + "   " + entityEntry.getRegistryName());
-                registry.register(entityEntry);
-            }
-        }
-}
-	
-	
+	public static class RegistrationHandler
+	{
+		/**
+		 * Register this mod's {@link EntityEntry}s.
+		 *
+		 * @param event The event
+		 */
+		@SubscribeEvent
+		public static void onEvent(final RegistryEvent.Register<EntityEntry> event)
+		{
+			final IForgeRegistry<EntityEntry> registry = event.getRegistry();
+
+			MobRegistry.addEntitiesToSet();
+			if(!entrySet.isEmpty()) {
+				for (final EntityEntry entityEntry : entrySet)
+				{
+					//System.out.println("Registering entity: " + entityEntry.getName() + "   " + entityEntry.getRegistryName());
+					registry.register(entityEntry);
+				}
+			}
+		}
+	}
+
+
 }
