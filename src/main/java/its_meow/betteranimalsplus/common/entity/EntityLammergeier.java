@@ -116,7 +116,7 @@ public class EntityLammergeier extends EntityTameableFlying {
 
 	@Override
 	public int getMaxSpawnedInChunk() {
-		return 4;
+		return 2;
 	}
 
 	@Override

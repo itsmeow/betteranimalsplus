@@ -48,6 +48,7 @@ import net.minecraftforge.fml.common.registry.EntityRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.registries.IForgeRegistry;
+import its_meow.betteranimalsplus.common.config.BetterAnimalsPlusConfig;
 
 
 public class MobRegistry {
@@ -56,17 +57,17 @@ public class MobRegistry {
 	public static LinkedHashSet<EntityEntry> entrySet = new LinkedHashSet<EntityEntry>();
 	
 	public static void addEntitiesToSet(){
-		regCre(EntityBear.class, "BrownBear", 0x4F2900, 0x8E500E, 4, 1, 1, BiomeDictionary.getBiomes(Type.FOREST));
-		regCre(EntityBearNeutral.class, "BlackBear", 0x000000, 0x333333, 4, 1, 1, BiomeDictionary.getBiomes(Type.FOREST));
-		regCre(EntityBearNeutralKermode.class, "KermodeBear", 0xe8e8e8, 0xf7dabe, 2, 1, 1, BiomeDictionary.getBiomes(Type.FOREST));
-		regCre(EntityDeer.class, "Deer", 0x8e510b, 0xc6863b, 13, 1, 4,  BiomeDictionary.getBiomes(Type.FOREST), BiomeDictionary.getBiomes(Type.MAGICAL));
-		regCre(EntityLammergeier.class, "Lammergeier", 0xd8d8d8, 0xd82b11, 5, 1, 2, BiomeDictionary.getBiomes(Type.HILLS), BiomeDictionary.getBiomes(Type.MOUNTAIN));
-		regCre(EntityFeralWolf.class, "FeralWolf", 0xbababa, 0x232323, 6, 1, 6, BiomeDictionary.getBiomes(Type.FOREST), BiomeDictionary.getBiomes(Type.MAGICAL), BiomeDictionary.getBiomes(Type.SPOOKY));
-		regCre(EntityCoyote.class, "Coyote", 0x866a31, 0xb69762, 20, 1, 6, BiomeDictionary.getBiomes(Type.SANDY), BiomeDictionary.getBiomes(Type.PLAINS));
-		regCre(EntityFox.class, "Fox", 0xe87422, 0x3f210c, 8, 1, 6, BiomeDictionary.getBiomes(Type.FOREST), BiomeDictionary.getBiomes(Type.MAGICAL));
+		regCre(EntityBear.class, "BrownBear", 0x4F2900, 0x8E500E, BetterAnimalsPlusConfig.brownBearWeight, 1, 1, BiomeDictionary.getBiomes(Type.FOREST));
+		regCre(EntityBearNeutral.class, "BlackBear", 0x000000, 0x333333, BetterAnimalsPlusConfig.blackBearWeight, 1, 1, BiomeDictionary.getBiomes(Type.FOREST));
+		regCre(EntityBearNeutralKermode.class, "KermodeBear", 0xe8e8e8, 0xf7dabe, BetterAnimalsPlusConfig.kermodeBearWeight, 1, 1, BiomeDictionary.getBiomes(Type.FOREST));
+		regCre(EntityDeer.class, "Deer", 0x8e510b, 0xc6863b, BetterAnimalsPlusConfig.deerWeight, 1, 4,  BiomeDictionary.getBiomes(Type.FOREST), BiomeDictionary.getBiomes(Type.MAGICAL));
+		regCre(EntityLammergeier.class, "Lammergeier", 0xd8d8d8, 0xd82b11, BetterAnimalsPlusConfig.lammergeierWeight, 1, 2, BiomeDictionary.getBiomes(Type.HILLS), BiomeDictionary.getBiomes(Type.MOUNTAIN));
+		regCre(EntityFeralWolf.class, "FeralWolf", 0xbababa, 0x232323, BetterAnimalsPlusConfig.feralWolfWeight, 1, 6, BiomeDictionary.getBiomes(Type.FOREST), BiomeDictionary.getBiomes(Type.MAGICAL), BiomeDictionary.getBiomes(Type.SPOOKY));
+		regCre(EntityCoyote.class, "Coyote", 0x866a31, 0xb69762, BetterAnimalsPlusConfig.coyoteWeight, 1, 6, BiomeDictionary.getBiomes(Type.SANDY), BiomeDictionary.getBiomes(Type.PLAINS));
+		regCre(EntityFox.class, "Fox", 0xe87422, 0x3f210c, BetterAnimalsPlusConfig.foxWeight, 1, 6, BiomeDictionary.getBiomes(Type.FOREST), BiomeDictionary.getBiomes(Type.MAGICAL));
 		registerNoEggOrSpawn(EntityTarantulaHair.class, "tarantulahair");
-		regMob(EntityTarantula.class, "Tarantula", 0x1e1e1e, 0x8c0c0c, 20, 1, 3, BiomeDictionary.getBiomes(Type.SANDY));
-		regCre(EntityHirschgeist.class, "Hirschgeist", 0xfffff, 0x00000, 1, 1, 1, BiomeDictionary.getBiomes(Type.FOREST));
+		regMob(EntityTarantula.class, "Tarantula", 0x1e1e1e, 0x8c0c0c, BetterAnimalsPlusConfig.tarantulaWeight, 1, 3, BiomeDictionary.getBiomes(Type.SANDY));
+		regCre(EntityHirschgeist.class, "Hirschgeist", 0xfffff, 0x00000, BetterAnimalsPlusConfig.hirschgeistWeight, 1, 1, BiomeDictionary.getBiomes(Type.FOREST));
 	}
 	
 	
