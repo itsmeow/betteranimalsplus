@@ -1,3 +1,17 @@
+1.1.3
+- Fixed fatal server crash
+- Added config options to disable spawning of mobs/generation of trillium
+
+1.1.2
+- Reorganized internal codebase
+- Fixed bug where some users would experience overspawning
+- Updated to new entity registry system (the fix for spawning)
+- Added configurable spawning weights (in mod config)
+- Update mcmod.info to include proper update/project/site links and fix typo
+
+1.1.1
+- Added antler drop for deer (My bad)
+
 1.1.0
 - Added venisons to OreDictionary (listAllmeatraw and listAllmeatcooked)
 - Fix hirschgeist bones sometimes moving out of the ghost part
