@@ -1,0 +1,29 @@
+#Creative Tabs
+#itemGroup.group=
+itemGroup.Better Animals+=Pli Bonaj Bestoj+
+
+#Items
+#item.itemname.name=
+item.venisonraw.name=Kruda Cervaĵo
+item.venisoncooked.name=Kuirita Cervaĵo
+item.hirschgeistskull.name=Kranio de Hirschgeisto
+item.hirschgeistskullwearable.name=Surhavipova Kranio de Hirschgeisto
+item.antler.name=Kornbranĉo
+
+#Blocks
+tile.trillium.name=Trilliumo
+tile.hirschgeistskull.name=Kranio de Hirschgeisto
+tile.handoffate.name=Mano de Sorto
+
+#Entities
+entity.BrownBear.name=Bruna Urso
+entity.BlackBear.name=Nigra Urso
+entity.KermodeBear.name=Kermoda Urso
+entity.Deer.name=Cervo
+entity.Lammergeier.name=Ŝafgrifo
+entity.FeralWolf.name=Sovaĝa Lupo
+entity.Coyote.name=Kojoto
+entity.Trillium.name=Trilliumo
+entity.Fox.name=Vulpo
+entity.Tarantula.name=Tarantulo
+entity.Hirschgeist.name=Hirschgeisto
