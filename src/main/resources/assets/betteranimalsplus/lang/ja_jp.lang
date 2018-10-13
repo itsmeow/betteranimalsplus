@@ -1,0 +1,29 @@
+﻿#Creative Tabs
+#itemGroup.group=
+itemGroup.Better Animals+=Better Animals+
+
+#Items
+#item.itemname.name=
+item.venisonraw.name=生の鹿肉
+item.venisoncooked.name=焼いた鹿肉
+item.hirschgeistskull.name=ヒルシュガイストの頭蓋骨（設置）
+item.hirschgeistskullwearable.name=ヒルシュガイストの頭蓋骨（着用）
+item.antler.name=枝角
+
+#Blocks
+tile.trillium.name=エンレイソウ
+tile.hirschgeistskull.name=ヒルシュガイストの頭蓋骨
+tile.handoffate.name=悲運の腕
+
+#Entities
+entity.BrownBear.name=ヒグマ
+entity.BlackBear.name=クロクマ
+entity.KermodeBear.name=スピリットベア
+entity.Deer.name=シカ
+entity.Lammergeier.name=ヒゲワシ
+entity.FeralWolf.name=野良オオカミ
+entity.Coyote.name=コヨーテ
+entity.Trillium.name=エンレイソウ
+entity.Fox.name=キツネ
+entity.Tarantula.name=タランチュラ
+entity.Hirschgeist.name=ヒルシュガイスト
