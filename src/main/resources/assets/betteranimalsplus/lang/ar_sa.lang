@@ -6,13 +6,13 @@ itemGroup.Better Animals+=حيوانات أفضل+
 #item.itemname.name=
 item.venisonraw.name=لحم غزال خام
 item.venisoncooked.name=لحم غزال مطبوخ
-item.hirschgeistskull.name=Hirschgeist Skull (Item)
-item.hirschgeistskullwearable.name=Hirschgeist Skull قابلة للأرتداء
+item.hirschgeistskull.name=جمجمة غزال شبح (قطعة)
+item.hirschgeistskullwearable.name=جمجمة غزال شبح قابلة للأرتداء
 item.antler.name=قرن الوعل
 
 #Blocks
 tile.trillium.name=تريليوم
-tile.hirschgeistskull.name=Hirschgeist Skull
+tile.hirschgeistskull.name=جمجمة غزال شبح
 tile.handoffate.name=يد المصير
 
 #Entities
@@ -26,4 +26,4 @@ entity.Coyote.name=قيوط
 entity.Trillium.name=تريليوم
 entity.Fox.name=ثعلب
 entity.Tarantula.name=رتيلاء
-entity.Hirschgeist.name=Hirschgeist
+entity.Hirschgeist.name=غزال شبح
