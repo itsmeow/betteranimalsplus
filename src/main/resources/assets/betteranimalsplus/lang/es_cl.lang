@@ -1,14 +1,12 @@
 #Creative Tabs
-#itemGroup.group=
 itemGroup.Better Animals+=Más Animales Épicos
 
 #Items
-#item.itemname.name=
 item.venisonraw.name=Venado Crudo
 item.venisoncooked.name=Venado Cocido
 item.hirschgeistskull.name=Cráneo de la Hirschgeist
 item.hirschgeistskullwearable.name=Cráneo Usable de la Hirschgeist
-item.antler.name=Antler
+item.antler.name=Cornamenta
 
 #Blocks
 tile.trillium.name=Trilio
@@ -16,14 +14,13 @@ tile.hirschgeistskull.name=Cráneo de la Hirschgeist
 tile.handoffate.name=Mano del Destino
 
 #Entities
-entity.BrownBear.name=Oso Café
+entity.BrownBear.name=Oso Pardo
 entity.BlackBear.name=Oso Negro
 entity.KermodeBear.name=Oso Kermode
 entity.Deer.name=Ciervo
 entity.Lammergeier.name=Quebrantahuesos
 entity.FeralWolf.name=Lobo Salvaje
 entity.Coyote.name=Coyote
-entity.Trillium.name=Trillio
 entity.Fox.name=Zorro
 entity.Tarantula.name=Tarántula
 entity.Hirschgeist.name=Hirschgeist
