@@ -1,0 +1,29 @@
+#Creative Tabs
+#itemGroup.group=
+itemGroup.Better Animals+=Meilleurs animaux+
+
+#Items
+#item.itemname.name=
+item.venisonraw.name=Chevreuil cru
+item.venisoncooked.name=Chevreuil cuit
+item.hirschgeistskull.name=Crâne d'Hirschgeist (article)
+item.hirschgeistskullwearable.name=Crâne d'Hirschgeist portable
+item.antler.name=Bois
+
+#Blocks
+tile.trillium.name=Trillium
+tile.hirschgeistskull.name=Crâne d'Hirschgeist
+tile.handoffate.name=Main du destin
+
+#Entities
+entity.BrownBear.name=Ours brun
+entity.BlackBear.name=Ours noir
+entity.KermodeBear.name=Ours Kermode
+entity.Deer.name=Cerf
+entity.Lammergeier.name=Gypaète
+entity.FeralWolf.name=Loup farouche
+entity.Coyote.name=Coyote
+entity.Trillium.name=Trillium
+entity.Fox.name=Renard
+entity.Tarantula.name=Tarentule
+entity.Hirschgeist.name=Hirschgeist

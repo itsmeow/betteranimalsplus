@@ -1,0 +1,29 @@
+#Creative Tabs
+#itemGroup.group=
+itemGroup.Better Animals+=Bessere Tiere+
+
+#Items
+#item.itemname.name=
+item.venisonraw.name=Rohes Wild
+item.venisoncooked.name=Gekochtes Wild
+item.hirschgeistskull.name=Hirschgeist Schädel (Gegenstand)
+item.hirschgeistskullwearable.name=Tragbarer Hirschgeist Schädel
+item.antler.name=Geweih
+
+#Blocks
+tile.trillium.name=Trillium
+tile.hirschgeistskull.name=Hirschgeist Schädel
+tile.handoffate.name=Schicksalshand
+
+#Entities
+entity.BrownBear.name=Braunbär
+entity.BlackBear.name=Schwarzbär
+entity.KermodeBear.name=Geisterbär
+entity.Deer.name=Hirsch
+entity.Lammergeier.name=Bartgeier
+entity.FeralWolf.name=Wilder Wolf
+entity.Coyote.name=Präriehund
+entity.Trillium.name=Trillium
+entity.Fox.name=Fuchs
+entity.Tarantula.name=Vogelspinne
+entity.Hirschgeist.name=Hirschgeist
