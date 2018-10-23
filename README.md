@@ -6,3 +6,5 @@ Including: Bears, Deer, Lammergeiers, Feral Wolves, Coyotes, Foxes, Trillium (Pl
 Credits:
  - Cybercat5555: Art, Modeling, Texturing, Design
  - its_meow: Programming, AI, Functionality
+
+Our discord: https://discord.gg/qjhznSF
