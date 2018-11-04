@@ -13,7 +13,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class RenderBlockTrillium extends TileEntitySpecialRenderer<TileEntityTrillium> {
-	
+
 	ModelBase mainModel;
 
 
@@ -24,20 +24,20 @@ public class RenderBlockTrillium extends TileEntitySpecialRenderer<TileEntityTri
 
 
 	@Override
-    public void render(TileEntityTrillium tileentity, double x, double y, double z, float partialTicks, int destroyStage, float alpha) {
+	public void render(TileEntityTrillium tileentity, double x, double y, double z, float partialTicks, int destroyStage, float alpha) {
 		GlStateManager.pushMatrix();
-        GlStateManager.translate(x+ 0.5F,y + 1.5F, z + 0.5F);
-        GlStateManager.rotate(180, 0, 0, 1);
-        this.bindTexture(tileentity.getTexture());
-        mainModel = tileentity.getModel();
-	float rotate = 0F;
-	if(!tileentity.getWorld().isAirBlock(tileentity.getPos())) {
-        	rotate = tileentity.getRotation();
+		GlStateManager.translate(x+ 0.5F,y + 1.5F, z + 0.5F);
+		GlStateManager.rotate(180, 0, 0, 1);
+		this.bindTexture(tileentity.getTexture());
+		mainModel = tileentity.getModel();
+		float rotate = 0F;
+		if(!tileentity.getWorld().isAirBlock(tileentity.getPos())) {
+			rotate = tileentity.getRotation();
+		}
+		this.mainModel.render((Entity) null, 0F, 0F, 0F, rotate, 0F, 0.0625F);
+		GlStateManager.popMatrix();
 	}
-        this.mainModel.render((Entity) null, 0F, 0F, 0F, rotate, 0F, 0.0625F);
-        GlStateManager.popMatrix();
-    }
 
 
-	
+
 }
