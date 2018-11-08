@@ -92,6 +92,10 @@ public class EntityGoat extends EntityAnimal {
 	public boolean isAttacking() {
 		return this.getAttackTarget() != null;
 	}
+	
+	public float getHeadPitch() {
+		return this.isAttacking() ? -0.398F: -0.698F;
+	}
 
 	protected void initEntityAI()
 	{
@@ -115,6 +119,7 @@ public class EntityGoat extends EntityAnimal {
 		super.applyEntityAttributes();
 		this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(7.0D);
 		this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.3D);
+		this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(0.8D);
 	}
 
 
@@ -292,5 +297,4 @@ public class EntityGoat extends EntityAnimal {
 		}
 
 	}
-
 }
