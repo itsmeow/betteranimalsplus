@@ -9,5 +9,6 @@ public class LootTableRegistry {
 	public static final ResourceLocation deer = new ResourceLocation(Ref.MOD_ID, "deer");
 	public static final ResourceLocation lammergeier = new ResourceLocation(Ref.MOD_ID, "lammergeier");
 	public static final ResourceLocation hirschgeist = new ResourceLocation(Ref.MOD_ID, "hirschgeist");
+	public static final ResourceLocation goat = new ResourceLocation(Ref.MOD_ID, "goat");
 	
 }

@@ -5,6 +5,7 @@ import javax.annotation.Nonnull;
 import its_meow.betteranimalsplus.client.model.ModelGoat;
 import its_meow.betteranimalsplus.common.entity.EntityGoat;
 import its_meow.betteranimalsplus.init.TextureRegistry;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.client.renderer.entity.RenderManager;
@@ -13,11 +14,19 @@ import net.minecraftforge.fml.client.registry.IRenderFactory;
 
 public class RenderGoat extends RenderLiving<EntityGoat> {
 
-
 	public RenderGoat(RenderManager rendermanagerIn) {
 		super(rendermanagerIn, new ModelGoat(), 0.5F);
 	}
-
+	
+	@Override
+	protected void preRenderCallback(EntityGoat entitylivingbaseIn, float partialTickTime) {
+		if (getMainModel().isChild) {
+			GlStateManager.scale(0.5D, 0.5D, 0.5D);
+		} else {
+			GlStateManager.scale(1.0D, 1.0D, 1.0D);
+		}
+}
+	
 
 	public static final Factory FACTORY = new Factory();
 

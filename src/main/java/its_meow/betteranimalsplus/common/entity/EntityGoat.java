@@ -5,6 +5,7 @@ import java.util.Set;
 
 import javax.annotation.Nullable;
 
+import its_meow.betteranimalsplus.init.LootTableRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityAgeable;
@@ -41,23 +42,26 @@ import net.minecraft.world.World;
 import scala.util.Random;
 
 public class EntityGoat extends EntityAnimal {
-	
+
 	public EntityPlayer friend = null;
 	public boolean hasBeenFed = false;
-	private Set<Item> temptItems = new HashSet<Item>();
-	
+	private HashSet<Item> temptItems = null;
+
 	public EntityGoat(World worldIn) {
 		super(worldIn);
 		this.world = worldIn;
 		this.setSize(1.2F, 1.6F);
+		addTemptItems();
+	}
+
+	private void addTemptItems() {
+		temptItems = new HashSet<Item>();
 		temptItems.add(Items.WHEAT);
 		temptItems.add(Items.POTATO);
 		temptItems.add(Items.CARROT);
 		temptItems.add(Items.CARROT_ON_A_STICK);
 		temptItems.add(Items.BEETROOT);
 	}
-
-	
 
 	@Override
 	public boolean attackEntityFrom(DamageSource source, float amount) {
@@ -67,24 +71,24 @@ public class EntityGoat extends EntityAnimal {
 		return super.attackEntityFrom(source, amount);
 	}
 
-	
+
 
 	@Override
 	public boolean attackEntityAsMob(Entity entityIn) {
 		Vec3d pos = this.getPositionVector();
 		Vec3d targetPos = entityIn.getPositionVector();
-		this.knockBack(entityIn, 1.2F, pos.x - targetPos.x, pos.z - targetPos.z);
+		((EntityLivingBase) entityIn).knockBack(entityIn, 1.2F, pos.x - targetPos.x, pos.z - targetPos.z);
 		return super.attackEntityAsMob(entityIn);
 	}
 
 
 
 	@Override
-    protected void playStepSound(BlockPos pos, Block blockIn)
-    {
-        this.playSound(SoundEvents.ENTITY_SHEEP_STEP, 0.15F, 1.0F);
-    }
-    
+	protected void playStepSound(BlockPos pos, Block blockIn)
+	{
+		this.playSound(SoundEvents.ENTITY_SHEEP_STEP, 0.15F, 1.0F);
+	}
+
 	public boolean isAttacking() {
 		return this.getAttackTarget() != null;
 	}
@@ -96,8 +100,11 @@ public class EntityGoat extends EntityAnimal {
 		this.tasks.addTask(1, new EntityAIPanic(this, 0.5D));
 		this.tasks.addTask(2, new EntityAIMate(this, 1.0D));
 		this.tasks.addTask(2, new EntityAIAttackMelee(this, 0.45D, true));
+		if(temptItems == null) {
+			addTemptItems();
+		}
 		this.tasks.addTask(3, new EntityAITempt(this, 0.45D, false, temptItems));
-        this.tasks.addTask(4, new EntityAIFollowParent(this, 0.4D));
+		this.tasks.addTask(4, new EntityAIFollowParent(this, 0.4D));
 		this.tasks.addTask(5, new EntityAIWander(this, 0.3D));
 		this.tasks.addTask(6, new EntityAILookIdle(this));
 		this.targetTasks.addTask(1, new GoatAIAttackForFriend(this));
@@ -109,62 +116,68 @@ public class EntityGoat extends EntityAnimal {
 		this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(7.0D);
 		this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.3D);
 	}
-	
-	
+
+
 
 	protected SoundEvent getAmbientSound()
-    {
-        return SoundEvents.ENTITY_SHEEP_AMBIENT;
-    }
+	{
+		return SoundEvents.ENTITY_SHEEP_AMBIENT;
+	}
 
-    protected SoundEvent getHurtSound(DamageSource damageSourceIn)
-    {
-        return SoundEvents.ENTITY_SHEEP_HURT;
-    }
+	protected SoundEvent getHurtSound(DamageSource damageSourceIn)
+	{
+		return SoundEvents.ENTITY_SHEEP_HURT;
+	}
 
-    protected SoundEvent getDeathSound()
-    {
-        return SoundEvents.ENTITY_SHEEP_DEATH;
-    }
-    
-    public boolean processInteract(EntityPlayer player, EnumHand hand)
-    {
-        ItemStack itemstack = player.getHeldItem(hand);
+	protected SoundEvent getDeathSound()
+	{
+		return SoundEvents.ENTITY_SHEEP_DEATH;
+	}
 
-        if (itemstack.getItem() == Items.BUCKET && !player.capabilities.isCreativeMode && !this.isChild())
-        {
-            player.playSound(SoundEvents.ENTITY_COW_MILK, 1.0F, 1.0F);
-            itemstack.shrink(1);
+	public boolean processInteract(EntityPlayer player, EnumHand hand)
+	{
+		ItemStack itemstack = player.getHeldItem(hand);
 
-            if (itemstack.isEmpty())
-            {
-                player.setHeldItem(hand, new ItemStack(Items.MILK_BUCKET));
-            }
-            else if (!player.inventory.addItemStackToInventory(new ItemStack(Items.MILK_BUCKET)))
-            {
-                player.dropItem(new ItemStack(Items.MILK_BUCKET), false);
-            }
+		if (itemstack.getItem() == Items.BUCKET && !player.capabilities.isCreativeMode && !this.isChild())
+		{
+			player.playSound(SoundEvents.ENTITY_COW_MILK, 1.0F, 1.0F);
+			itemstack.shrink(1);
 
-            return true;
-        } else if(temptItems.contains(itemstack.getItem())) {
-        	this.hasBeenFed = true;
-        	this.friend = player;
-        	return true;
-        } else {
-            return super.processInteract(player, hand);
-        }
-    }
-    
-    public float getEyeHeight()
-    {
-        return this.isChild() ? this.height : 0.5F;
-    }
+			if (itemstack.isEmpty())
+			{
+				player.setHeldItem(hand, new ItemStack(Items.MILK_BUCKET));
+			}
+			else if (!player.inventory.addItemStackToInventory(new ItemStack(Items.MILK_BUCKET)))
+			{
+				player.dropItem(new ItemStack(Items.MILK_BUCKET), false);
+			}
+
+			return true;
+		} else if(temptItems.contains(itemstack.getItem()) && !this.isChild()) {
+			this.hasBeenFed = true;
+			this.friend = player;
+			if(itemstack.getItem() == Items.WHEAT) {
+				this.setInLove(player);
+				if(!player.capabilities.isCreativeMode) {
+					itemstack.shrink(1);
+				}
+			}
+			return true;
+		} else {
+			return super.processInteract(player, hand);
+		}
+	}
+
+	public float getEyeHeight()
+	{
+		return this.isChild() ? this.height : 0.5F;
+	}
 
 	@Override
 	@Nullable
 	protected ResourceLocation getLootTable()
 	{
-		return null; // TODO
+		return LootTableRegistry.goat;
 	}
 
 	protected void entityInit()
@@ -254,30 +267,30 @@ public class EntityGoat extends EntityAnimal {
 		goat.setType(this.getTypeNumber());
 		return goat;
 	}
-	
-	
+
+
 	public static class GoatAIAttackForFriend extends EntityAIBase {
 		EntityGoat goat = null;
-		
+
 		public GoatAIAttackForFriend(EntityGoat entity) {
 			goat = entity;
 		}
-		
+
 		@Override
 		public boolean shouldExecute() {
 			return goat.hasBeenFed && goat.friend != null && goat.friend.getAttackingEntity() != null;
 		}
-		
+
 		@Override
 		public void startExecuting() {
 			goat.setAttackTarget(goat.friend.getAttackingEntity());
 		}
-		
+
 		@Override
 		public boolean shouldContinueExecuting() {
 			return false;
 		}
-		
+
 	}
 
 }
