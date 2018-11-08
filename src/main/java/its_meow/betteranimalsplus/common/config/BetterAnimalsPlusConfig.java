@@ -19,6 +19,7 @@ public class BetterAnimalsPlusConfig {
 	public static int foxWeight = 8;
 	public static int tarantulaWeight = 10;
 	public static int hirschgeistWeight = 1;
+	public static int goatWeight = 9;
 	
 	public static boolean spawnTrillium = true;
 	public static boolean spawnBrownBear = true;
@@ -31,6 +32,7 @@ public class BetterAnimalsPlusConfig {
 	public static boolean spawnFox = true;
 	public static boolean spawnTarantula = true;
 	public static boolean spawnHirschgeist = true;
+	public static boolean spawnGoat = true;
 	
 	public static void readConfig(){
 		Configuration cfg = CommonProxy.config;
@@ -59,7 +61,8 @@ public class BetterAnimalsPlusConfig {
 		coyoteWeight = cfg.getInt("coyoteweight", cS, coyoteWeight, 1, 100, "");
 		foxWeight = cfg.getInt("foxweight", cS, foxWeight, 1, 100, "");
 		tarantulaWeight = cfg.getInt("tarantulaweight", cS, tarantulaWeight, 1, 100, "");
-		hirschgeistWeight = cfg.getInt("weight", cS, hirschgeistWeight, 1, 100, "");
+		hirschgeistWeight = cfg.getInt("hirschgeistweight", cS, hirschgeistWeight, 1, 100, "");
+		goatWeight = cfg.getInt("goatweight", cS, goatWeight, 1, 100, "");
 		
 		spawnTrillium = cfg.getBoolean("generatetrillium", cDS, true, "Does not remove item, prevents world gen");
 		
@@ -73,6 +76,7 @@ public class BetterAnimalsPlusConfig {
 		spawnFox = cfg.getBoolean("enablefox", cDS, true, "If set to false, removes from game!");
 		spawnTarantula = cfg.getBoolean("enabletarantula", cDS, true, "If set to false, removes from game!");
 		spawnHirschgeist = cfg.getBoolean("enablehirschgeist", cDS, true, "If set to false, removes from game!");
+		spawnGoat = cfg.getBoolean("enablegoat", cDS, true, "If set to false, removes from game!");
 	}
 
 }

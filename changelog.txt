@@ -1,3 +1,12 @@
+1.2.0
+- Add goat
+- Add goat cheese
+- Add goat milk
+- Add wolf head (includes coyote)
+- Add deer head
+- Fix server crash with loading and unloading Trillium on servers
+- Fix error in configuration where Hirschgeist spawn weight was named "weight"
+
 1.1.4
 - New Languages:
     Arabic (by MicroDroid)

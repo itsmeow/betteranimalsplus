@@ -9,11 +9,15 @@ item.venisoncooked.name=Cooked Venison
 item.hirschgeistskull.name=Hirschgeist Skull (Item)
 item.hirschgeistskullwearable.name=Wearable Hirschgeist Skull
 item.antler.name=Antler
+item.goatmilk.name=Goat Milk
+item.goatcheese.name=Goat Cheese
 
 #Blocks
 tile.trillium.name=Trillium
 tile.hirschgeistskull.name=Hirschgeist Skull
 tile.handoffate.name=Hand Of Fate
+tile.wolfhead.name=Wolf Head
+tile.deerhead.name=Deer Head
 
 #Entities
 entity.BrownBear.name=Brown Bear
@@ -27,3 +31,4 @@ entity.Trillium.name=Trillium
 entity.Fox.name=Fox
 entity.Tarantula.name=Tarantula
 entity.Hirschgeist.name=Hirschgeist
+entity.Goat.name=Goat

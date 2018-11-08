@@ -24,6 +24,7 @@ import its_meow.betteranimalsplus.common.entity.EntityCoyote;
 import its_meow.betteranimalsplus.common.entity.EntityDeer;
 import its_meow.betteranimalsplus.common.entity.EntityFeralWolf;
 import its_meow.betteranimalsplus.common.entity.EntityFox;
+import its_meow.betteranimalsplus.common.entity.EntityGoat;
 import its_meow.betteranimalsplus.common.entity.EntityLammergeier;
 import its_meow.betteranimalsplus.common.entity.EntityTarantula;
 import its_meow.betteranimalsplus.common.entity.miniboss.hirschgeist.EntityHirschgeist;
@@ -79,6 +80,8 @@ public class MobRegistry {
 			regMob(EntityTarantula.class, "Tarantula", 0x1e1e1e, 0x8c0c0c, BetterAnimalsPlusConfig.tarantulaWeight, 1, 3, BiomeDictionary.getBiomes(Type.SANDY));
 		if(BetterAnimalsPlusConfig.spawnHirschgeist)
 			regCre(EntityHirschgeist.class, "Hirschgeist", 0xfffff, 0x00000, BetterAnimalsPlusConfig.hirschgeistWeight, 1, 1, BiomeDictionary.getBiomes(Type.FOREST));
+		if(BetterAnimalsPlusConfig.spawnGoat)
+			regCre(EntityGoat.class, "Goat", 0xffffff, 0xeeeeee, BetterAnimalsPlusConfig.goatWeight, 1, 4, BiomeDictionary.getBiomes(Type.HILLS), BiomeDictionary.getBiomes(Type.MOUNTAIN), BiomeDictionary.getBiomes(Type.SAVANNA), BiomeDictionary.getBiomes(Type.PLAINS), BiomeDictionary.getBiomes(Type.FOREST));
 	}
 
 
