@@ -6,6 +6,7 @@ import java.util.Set;
 import javax.annotation.Nullable;
 
 import net.minecraft.block.Block;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.IEntityLivingData;
@@ -34,6 +35,7 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
 import scala.util.Random;
@@ -63,6 +65,16 @@ public class EntityGoat extends EntityAnimal {
 			this.setAttackTarget((EntityLivingBase) source.getTrueSource());
 		}
 		return super.attackEntityFrom(source, amount);
+	}
+
+	
+
+	@Override
+	public boolean attackEntityAsMob(Entity entityIn) {
+		Vec3d pos = this.getPositionVector();
+		Vec3d targetPos = entityIn.getPositionVector();
+		this.knockBack(entityIn, 1.2F, pos.x - targetPos.x, pos.z - targetPos.z);
+		return super.attackEntityAsMob(entityIn);
 	}
 
 
