@@ -9,11 +9,15 @@ item.venisoncooked.name=Kuirita Cervaĵo
 item.hirschgeistskull.name=Kranio de Hirschgeisto
 item.hirschgeistskullwearable.name=Surhavipova Kranio de Hirschgeisto
 item.antler.name=Kornbranĉo
+item.goatmilk.name=Kapra Lakto
+item.goatcheese.name=Kapra Fromaĝo
 
 #Blocks
 tile.trillium.name=Trilliumo
 tile.hirschgeistskull.name=Kranio de Hirschgeisto
 tile.handoffate.name=Mano de Sorto
+tile.wolfhead.name=Kapo de Lupo
+tile.deerhead.name=Kapo de Cervo
 
 #Entities
 entity.BrownBear.name=Bruna Urso
@@ -27,3 +31,4 @@ entity.Trillium.name=Trilliumo
 entity.Fox.name=Vulpo
 entity.Tarantula.name=Tarantulo
 entity.Hirschgeist.name=Hirschgeisto
+entity.Goat.name=Goat

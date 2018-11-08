@@ -7,11 +7,15 @@ item.venisoncooked.name=Venado Cocido
 item.hirschgeistskull.name=Cráneo de la Hirschgeist
 item.hirschgeistskullwearable.name=Cráneo Usable de la Hirschgeist
 item.antler.name=Cornamenta
+item.goatmilk.name=Leche de Cabra
+item.goatcheese.name=Queso de Cabra
 
 #Blocks
 tile.trillium.name=Trilio
 tile.hirschgeistskull.name=Cráneo de la Hirschgeist
 tile.handoffate.name=Mano del Destino
+tile.wolfhead.name=Cabeza de Lobo
+tile.deerhead.name=Cabeza de Ciervo
 
 #Entities
 entity.BrownBear.name=Oso Pardo
@@ -24,3 +28,4 @@ entity.Coyote.name=Coyote
 entity.Fox.name=Zorro
 entity.Tarantula.name=Tarántula
 entity.Hirschgeist.name=Hirschgeist
+entity.Goat.name=Cabra
