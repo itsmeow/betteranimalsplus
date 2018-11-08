@@ -20,7 +20,7 @@ public class ModelWolfHead extends ModelBase {
     public ModelRenderer rEar02;
     public ModelRenderer rEar03;
 
-    public WolfHead() {
+    public ModelWolfHead() {
         this.textureWidth = 64;
         this.textureHeight = 64;
         this.head = new ModelRenderer(this, 45, 24);
