@@ -1,20 +1,22 @@
 package its_meow.betteranimalsplus.common.entity;
 
 import java.util.HashSet;
-import java.util.Set;
 
 import javax.annotation.Nullable;
 
 import its_meow.betteranimalsplus.init.LootTableRegistry;
 import net.minecraft.block.Block;
+import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityAgeable;
+import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIAttackMelee;
 import net.minecraft.entity.ai.EntityAIBase;
 import net.minecraft.entity.ai.EntityAIFollowParent;
+import net.minecraft.entity.ai.EntityAIHurtByTarget;
 import net.minecraft.entity.ai.EntityAILookIdle;
 import net.minecraft.entity.ai.EntityAIMate;
 import net.minecraft.entity.ai.EntityAIPanic;
@@ -36,6 +38,7 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
@@ -64,21 +67,62 @@ public class EntityGoat extends EntityAnimal {
 	}
 
 	@Override
-	public boolean attackEntityFrom(DamageSource source, float amount) {
-		if(source.getTrueSource() != null && source.getImmediateSource() == source.getTrueSource()) { // Only retrieve if directly attacked, aka "dumb" mode
-			this.setAttackTarget((EntityLivingBase) source.getTrueSource());
-		}
-		return super.attackEntityFrom(source, amount);
-	}
-
-
-
-	@Override
 	public boolean attackEntityAsMob(Entity entityIn) {
 		Vec3d pos = this.getPositionVector();
 		Vec3d targetPos = entityIn.getPositionVector();
-		((EntityLivingBase) entityIn).knockBack(entityIn, 1.2F, pos.x - targetPos.x, pos.z - targetPos.z);
-		return super.attackEntityAsMob(entityIn);
+		((EntityLivingBase) entityIn).knockBack(entityIn, 0.8F, pos.x - targetPos.x, pos.z - targetPos.z);
+		
+		// Vanilla attack code for mobs
+		
+        float f = (float)this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getAttributeValue();
+        int i = 0;
+
+        if (entityIn instanceof EntityLivingBase)
+        {
+            f += EnchantmentHelper.getModifierForCreature(this.getHeldItemMainhand(), ((EntityLivingBase)entityIn).getCreatureAttribute());
+            i += EnchantmentHelper.getKnockbackModifier(this);
+        }
+
+        boolean flag = entityIn.attackEntityFrom(DamageSource.causeMobDamage(this), f);
+
+        if (flag)
+        {
+            if (i > 0 && entityIn instanceof EntityLivingBase)
+            {
+                ((EntityLivingBase)entityIn).knockBack(this, (float)i * 0.5F, (double)MathHelper.sin(this.rotationYaw * 0.017453292F), (double)(-MathHelper.cos(this.rotationYaw * 0.017453292F)));
+                this.motionX *= 0.6D;
+                this.motionZ *= 0.6D;
+            }
+
+            int j = EnchantmentHelper.getFireAspectModifier(this);
+
+            if (j > 0)
+            {
+                entityIn.setFire(j * 4);
+            }
+
+            if (entityIn instanceof EntityPlayer)
+            {
+                EntityPlayer entityplayer = (EntityPlayer)entityIn;
+                ItemStack itemstack = this.getHeldItemMainhand();
+                ItemStack itemstack1 = entityplayer.isHandActive() ? entityplayer.getActiveItemStack() : ItemStack.EMPTY;
+
+                if (!itemstack.isEmpty() && !itemstack1.isEmpty() && itemstack.getItem().canDisableShield(itemstack, itemstack1, entityplayer, this) && itemstack1.getItem().isShield(itemstack1, entityplayer))
+                {
+                    float f1 = 0.25F + (float)EnchantmentHelper.getEfficiencyModifier(this) * 0.05F;
+
+                    if (this.rand.nextFloat() < f1)
+                    {
+                        entityplayer.getCooldownTracker().setCooldown(itemstack1.getItem(), 100);
+                        this.world.setEntityState(entityplayer, (byte)30);
+                    }
+                }
+            }
+
+            this.applyEnchantments(this, entityIn);
+        }
+
+		return flag;
 	}
 
 
@@ -101,17 +145,18 @@ public class EntityGoat extends EntityAnimal {
 	{
 		super.initEntityAI();
 		this.tasks.addTask(0, new EntityAISwimming(this));
-		this.tasks.addTask(1, new EntityAIPanic(this, 0.5D));
+		this.tasks.addTask(1, new EntityAIPanic(this, 0.8D));
 		this.tasks.addTask(2, new EntityAIMate(this, 1.0D));
-		this.tasks.addTask(2, new EntityAIAttackMelee(this, 0.45D, true));
+		this.tasks.addTask(2, new EntityAIAttackMelee(this, 0.6D, true));
 		if(temptItems == null) {
 			addTemptItems();
 		}
-		this.tasks.addTask(3, new EntityAITempt(this, 0.45D, false, temptItems));
-		this.tasks.addTask(4, new EntityAIFollowParent(this, 0.4D));
-		this.tasks.addTask(5, new EntityAIWander(this, 0.3D));
+		this.tasks.addTask(3, new EntityAITempt(this, 0.6D, false, temptItems));
+		this.tasks.addTask(4, new EntityAIFollowParent(this, 0.6D));
+		this.tasks.addTask(5, new EntityAIWander(this, 0.6D));
 		this.tasks.addTask(6, new EntityAILookIdle(this));
 		this.targetTasks.addTask(1, new GoatAIAttackForFriend(this));
+		this.targetTasks.addTask(1, new AIHurtByTarget());
 	}
 
 	protected void applyEntityAttributes()
@@ -298,4 +343,34 @@ public class EntityGoat extends EntityAnimal {
 		}
 
 	}
+	
+	class AIHurtByTarget extends EntityAIHurtByTarget
+    {
+        public AIHurtByTarget()
+        {
+            super(EntityGoat.this, false);
+        }
+
+        /**
+         * Execute a one shot task or start executing a continuous task
+         */
+        public void startExecuting()
+        {
+            super.startExecuting();
+
+            if (EntityGoat.this.isChild())
+            {
+                this.alertOthers();
+                this.resetTask();
+            }
+        }
+
+        protected void setEntityAttackTarget(EntityCreature creatureIn, EntityLivingBase entityLivingBaseIn)
+        {
+            if (creatureIn instanceof EntityGoat && !creatureIn.isChild())
+            {
+                super.setEntityAttackTarget(creatureIn, entityLivingBaseIn);
+            }
+        }
+    }
 }

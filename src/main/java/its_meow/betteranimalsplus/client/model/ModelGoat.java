@@ -369,7 +369,7 @@ public class ModelGoat extends ModelBase {
 		float f = limbSwing;
 		float f1 = limbSwingAmount;
 
-		float swingModifier = 0.9F;
+		float swingModifier = 2F;
 		this.lLeg01.rotateAngleX = MathHelper.sin(limbSwing * 0.8665F + (float) Math.PI) * swingModifier * limbSwingAmount;
 		this.rLeg01.rotateAngleX = MathHelper.cos(limbSwing * 0.8665F) * swingModifier * limbSwingAmount;
 		this.lArm01.rotateAngleX = MathHelper.sin(limbSwing * 0.8665F) * swingModifier * limbSwingAmount;
