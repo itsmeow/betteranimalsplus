@@ -7,8 +7,11 @@ import javax.annotation.Nullable;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityAgeable;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.EntityAIAttackMelee;
+import net.minecraft.entity.ai.EntityAIBase;
 import net.minecraft.entity.ai.EntityAIFollowParent;
 import net.minecraft.entity.ai.EntityAILookIdle;
 import net.minecraft.entity.ai.EntityAIMate;
@@ -36,36 +39,56 @@ import net.minecraft.world.World;
 import scala.util.Random;
 
 public class EntityGoat extends EntityAnimal {
-
+	
+	public EntityPlayer friend = null;
+	public boolean hasBeenFed = false;
+	private Set<Item> temptItems = new HashSet<Item>();
+	
 	public EntityGoat(World worldIn) {
 		super(worldIn);
 		this.world = worldIn;
 		this.setSize(1.2F, 1.6F);
+		temptItems.add(Items.WHEAT);
+		temptItems.add(Items.POTATO);
+		temptItems.add(Items.CARROT);
+		temptItems.add(Items.CARROT_ON_A_STICK);
+		temptItems.add(Items.BEETROOT);
 	}
+
 	
+
+	@Override
+	public boolean attackEntityFrom(DamageSource source, float amount) {
+		if(source.getTrueSource() != null && source.getImmediateSource() == source.getTrueSource()) { // Only retrieve if directly attacked, aka "dumb" mode
+			this.setAttackTarget((EntityLivingBase) source.getTrueSource());
+		}
+		return super.attackEntityFrom(source, amount);
+	}
+
+
+
 	@Override
     protected void playStepSound(BlockPos pos, Block blockIn)
     {
         this.playSound(SoundEvents.ENTITY_SHEEP_STEP, 0.15F, 1.0F);
     }
     
+	public boolean isAttacking() {
+		return this.getAttackTarget() != null;
+	}
 
 	protected void initEntityAI()
 	{
 		super.initEntityAI();
 		this.tasks.addTask(0, new EntityAISwimming(this));
 		this.tasks.addTask(1, new EntityAIPanic(this, 0.5D));
-		Set<Item> temptItems = new HashSet<Item>();
-		temptItems.add(Items.WHEAT);
-		temptItems.add(Items.POTATO);
-		temptItems.add(Items.CARROT);
-		temptItems.add(Items.CARROT_ON_A_STICK);
-		temptItems.add(Items.BEETROOT);
 		this.tasks.addTask(2, new EntityAIMate(this, 1.0D));
+		this.tasks.addTask(2, new EntityAIAttackMelee(this, 0.45D, true));
 		this.tasks.addTask(3, new EntityAITempt(this, 0.45D, false, temptItems));
         this.tasks.addTask(4, new EntityAIFollowParent(this, 0.4D));
 		this.tasks.addTask(5, new EntityAIWander(this, 0.3D));
 		this.tasks.addTask(6, new EntityAILookIdle(this));
+		this.targetTasks.addTask(1, new GoatAIAttackForFriend(this));
 	}
 
 	protected void applyEntityAttributes()
@@ -111,9 +134,11 @@ public class EntityGoat extends EntityAnimal {
             }
 
             return true;
-        }
-        else
-        {
+        } else if(temptItems.contains(itemstack.getItem())) {
+        	this.hasBeenFed = true;
+        	this.friend = player;
+        	return true;
+        } else {
             return super.processInteract(player, hand);
         }
     }
@@ -216,6 +241,31 @@ public class EntityGoat extends EntityAnimal {
 		}
 		goat.setType(this.getTypeNumber());
 		return goat;
+	}
+	
+	
+	public static class GoatAIAttackForFriend extends EntityAIBase {
+		EntityGoat goat = null;
+		
+		public GoatAIAttackForFriend(EntityGoat entity) {
+			goat = entity;
+		}
+		
+		@Override
+		public boolean shouldExecute() {
+			return goat.hasBeenFed && goat.friend != null && goat.friend.getAttackingEntity() != null;
+		}
+		
+		@Override
+		public void startExecuting() {
+			goat.setAttackTarget(goat.friend.getAttackingEntity());
+		}
+		
+		@Override
+		public boolean shouldContinueExecuting() {
+			return false;
+		}
+		
 	}
 
 }

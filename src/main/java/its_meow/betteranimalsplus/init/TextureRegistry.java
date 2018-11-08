@@ -108,5 +108,20 @@ public class TextureRegistry {
 	public static final ResourceLocation ember_right = 
 			new ResourceLocation(Ref.MOD_ID + ":particles/deerbeast_ember_3");
 	
+	//Goat Variants
+	public static final ResourceLocation goat_1 = 
+			new ResourceLocation(entitytex + "goat_1.png");
+	public static final ResourceLocation goat_2 = 
+			new ResourceLocation(entitytex + "goat_2.png");
+	public static final ResourceLocation goat_3 = 
+			new ResourceLocation(entitytex + "goat_3.png");
+	public static final ResourceLocation goat_4 = 
+			new ResourceLocation(entitytex + "goat_4.png");
+	public static final ResourceLocation goat_5 = 
+			new ResourceLocation(entitytex + "goat_5.png");
+	public static final ResourceLocation goat_6 = 
+			new ResourceLocation(entitytex + "goat_6.png");
+	public static final ResourceLocation goat_7 = 
+			new ResourceLocation(entitytex + "goat_7.png");
 	
 }
