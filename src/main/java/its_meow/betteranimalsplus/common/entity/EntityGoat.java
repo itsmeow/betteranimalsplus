@@ -65,6 +65,16 @@ public class EntityGoat extends EntityAnimal {
 		temptItems.add(Items.CARROT_ON_A_STICK);
 		temptItems.add(Items.BEETROOT);
 	}
+	
+	
+	
+	@Override
+	public void onLivingUpdate() {
+		super.onLivingUpdate();
+		if(!world.isRemote && (this.getAttackTarget() == null || this.getAttackTarget().isDead)) {
+			this.setAttackingOnClient(false);
+		}
+	}
 
 	@Override
 	public boolean attackEntityAsMob(Entity entityIn) {
@@ -125,20 +135,32 @@ public class EntityGoat extends EntityAnimal {
 		return flag;
 	}
 
+	
 
+	@Override
+	public void setAttackTarget(EntityLivingBase entitylivingbaseIn) {
+		this.setAttackingOnClient(entitylivingbaseIn != null);
+		super.setAttackTarget(entitylivingbaseIn);
+	}
 
 	@Override
 	protected void playStepSound(BlockPos pos, Block blockIn)
 	{
 		this.playSound(SoundEvents.ENTITY_SHEEP_STEP, 0.15F, 1.0F);
 	}
+	
+	private static final DataParameter<Boolean> ATTACKING = EntityDataManager.<Boolean>createKey(EntityGoat.class, DataSerializers.BOOLEAN);
 
-	public boolean isAttacking() {
-		return this.getAttackTarget() != null;
+	public boolean isAttackingFromServer() {
+		return this.dataManager.get(ATTACKING).booleanValue();
+	}
+
+	public void setAttackingOnClient(boolean in){
+		this.dataManager.set(ATTACKING, Boolean.valueOf(in));
 	}
 	
 	public float getHeadPitch() {
-		return this.isAttacking() ? -0.398F: -0.698F;
+		return this.isAttackingFromServer() ? 0.15F: -0.698F;
 	}
 
 	protected void initEntityAI()
@@ -147,7 +169,7 @@ public class EntityGoat extends EntityAnimal {
 		this.tasks.addTask(0, new EntityAISwimming(this));
 		this.tasks.addTask(1, new EntityAIPanic(this, 0.8D));
 		this.tasks.addTask(2, new EntityAIMate(this, 1.0D));
-		this.tasks.addTask(2, new EntityAIAttackMelee(this, 0.6D, true));
+		this.tasks.addTask(2, new EntityAIAttackMelee(this, 0.7D, true));
 		if(temptItems == null) {
 			addTemptItems();
 		}
@@ -163,7 +185,7 @@ public class EntityGoat extends EntityAnimal {
 	{
 		super.applyEntityAttributes();
 		this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(7.0D);
-		this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.3D);
+		this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.5D);
 		this.getAttributeMap().registerAttribute(SharedMonsterAttributes.ATTACK_DAMAGE);
 		this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(0.8D);
 	}
@@ -235,9 +257,10 @@ public class EntityGoat extends EntityAnimal {
 	{
 		super.entityInit();
 		this.dataManager.register(TYPE_NUMBER, Integer.valueOf(0));
+		this.dataManager.register(ATTACKING, Boolean.valueOf(false));
 	}
 
-	private static final DataParameter<Integer> TYPE_NUMBER = EntityDataManager.<Integer>createKey(EntityDeer.class, DataSerializers.VARINT);
+	private static final DataParameter<Integer> TYPE_NUMBER = EntityDataManager.<Integer>createKey(EntityGoat.class, DataSerializers.VARINT);
 
 	public int getTypeNumber() {
 		return ((Integer)this.dataManager.get(TYPE_NUMBER)).intValue();
@@ -255,6 +278,7 @@ public class EntityGoat extends EntityAnimal {
 	{
 		super.writeEntityToNBT(compound);
 		compound.setInteger("TypeNumber", this.getTypeNumber());
+		compound.setBoolean("AttackSync", this.isAttackingFromServer());
 	}
 
 	/**
@@ -264,6 +288,7 @@ public class EntityGoat extends EntityAnimal {
 	{
 		super.readEntityFromNBT(compound);
 		this.setType(compound.getInteger("TypeNumber"));
+		this.setAttackingOnClient(compound.getBoolean("AttackSync"));
 	}
 
 	/**
@@ -278,14 +303,14 @@ public class EntityGoat extends EntityAnimal {
 			int i = (new Random()).nextInt(7) + 1; // Values 1 to 7
 			boolean flag = false;
 
-			if (livingdata instanceof EntityDeer.DeerTypeData)
+			if (livingdata instanceof TypeData)
 			{
-				i = ((EntityDeer.DeerTypeData)livingdata).typeData;
+				i = ((TypeData)livingdata).typeData;
 				flag = true;
 			}
 			else
 			{
-				livingdata = new EntityDeer.DeerTypeData(i);
+				livingdata = new TypeData(i);
 			}
 
 			this.setType(i);
@@ -295,14 +320,15 @@ public class EntityGoat extends EntityAnimal {
 				this.setGrowingAge(-24000);
 			}
 		}
+		this.setAttackingOnClient(false);
 		return livingdata;
 	}
 
-	public static class DeerTypeData implements IEntityLivingData
+	public static class TypeData implements IEntityLivingData
 	{
 		public int typeData;
 
-		public DeerTypeData(int type)
+		public TypeData(int type)
 		{
 			this.typeData = type;
 		}

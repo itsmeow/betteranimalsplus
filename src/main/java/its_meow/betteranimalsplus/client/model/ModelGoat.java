@@ -377,6 +377,7 @@ public class ModelGoat extends ModelBase {
 
 		if(entityIn instanceof EntityGoat) {
 			EntityGoat goat = (EntityGoat) entityIn;
+			System.out.println(goat.getHeadPitch());
 			this.neck.rotateAngleX = goat.getHeadPitch(); // Ram attack
 		}
 
