@@ -9,11 +9,15 @@ item.venisoncooked.name=Приготовленная оленина
 item.hirschgeistskull.name=Череп Хиршгейста (предмет)
 item.hirschgeistskullwearable.name=Носимый череп хиршгейста
 item.antler.name=Рога
+item.goatmilk.name=Козье молоко
+item.goatcheese.name=Козий сыр
 
 #Blocks
 tile.trillium.name=Триллиум
 tile.hirschgeistskull.name=Череп Хиршгейста
 tile.handoffate.name=Рука судьбы
+tile.wolfhead.name=Голова волка
+tile.deerhead.name=Голова оленя
 
 #Entities
 entity.BrownBear.name=Бурый медведь
@@ -27,4 +31,4 @@ entity.Trillium.name=Триллиум
 entity.Fox.name=Лиса
 entity.Tarantula.name=Тарантул
 entity.Hirschgeist.name=Хиршгейст
-entity.Pheasant.name=Фазан
+entity.Goat.name=Коза
