@@ -9,11 +9,15 @@ item.venisoncooked.name=焼いた鹿肉
 item.hirschgeistskull.name=ヒルシュガイストの頭蓋骨（設置）
 item.hirschgeistskullwearable.name=ヒルシュガイストの頭蓋骨（着用）
 item.antler.name=枝角
+item.goatmilk.name=ヤギのミルク
+item.goatcheese.name=ヤギのチーズ
 
 #Blocks
 tile.trillium.name=エンレイソウ
 tile.hirschgeistskull.name=ヒルシュガイストの頭蓋骨
 tile.handoffate.name=悲運の腕
+tile.wolfhead.name=オオカミの頭
+tile.deerhead.name=シカの頭
 
 #Entities
 entity.BrownBear.name=ヒグマ
@@ -27,3 +31,4 @@ entity.Trillium.name=エンレイソウ
 entity.Fox.name=キツネ
 entity.Tarantula.name=タランチュラ
 entity.Hirschgeist.name=ヒルシュガイスト
+entity.Goat.name=ヤギ
