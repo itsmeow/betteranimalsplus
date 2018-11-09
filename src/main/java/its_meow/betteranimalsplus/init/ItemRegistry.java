@@ -5,33 +5,32 @@ import java.util.Set;
 
 import its_meow.betteranimalsplus.common.item.ItemAntler;
 import its_meow.betteranimalsplus.common.item.ItemDeerHead;
+import its_meow.betteranimalsplus.common.item.ItemGoatCheese;
+import its_meow.betteranimalsplus.common.item.ItemGoatMilk;
 import its_meow.betteranimalsplus.common.item.ItemHandOfFate;
 import its_meow.betteranimalsplus.common.item.ItemHirschgeistSkull;
 import its_meow.betteranimalsplus.common.item.ItemHirschgeistSkullWearable;
 import its_meow.betteranimalsplus.common.item.ItemVenisonCooked;
 import its_meow.betteranimalsplus.common.item.ItemVenisonRaw;
 import its_meow.betteranimalsplus.common.item.ItemWolfHead;
-import net.minecraft.block.Block;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemBlock;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.registry.GameRegistry;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.registries.IForgeRegistry;
 
 public class ItemRegistry {
-	
+
 	public static final ItemVenisonRaw venisonRaw = new ItemVenisonRaw(4, true);
 	public static final ItemVenisonCooked venisonCooked = new ItemVenisonCooked(8, true);
 	public static final ItemHirschgeistSkullWearable itemHirschgeistSkullWearable = new ItemHirschgeistSkullWearable();
 	public static final ItemAntler antler = new ItemAntler();
 	public static final ItemHandOfFate itemHandOfFate = new ItemHandOfFate(BlockRegistry.handoffate);
+	public static final ItemGoatMilk goatmilk = new ItemGoatMilk();
+	public static final ItemGoatCheese goatcheese = new ItemGoatCheese();
 
 	// These are not registered
 	public static final ItemHirschgeistSkull itemHirschgeistSkull = new ItemHirschgeistSkull(BlockRegistry.hirschgeistskull);
@@ -55,6 +54,8 @@ public class ItemRegistry {
 					venisonCooked,
 					itemHirschgeistSkullWearable,
 					antler,
+					goatmilk,
+					goatcheese,
 			};
 			final IForgeRegistry<Item> registry = event.getRegistry();
 
@@ -70,6 +71,8 @@ public class ItemRegistry {
 			initModel(venisonCooked, 0);
 			initModel(itemHirschgeistSkullWearable, 0);
 			initModel(antler, 0);
+			initModel(goatmilk, 0);
+			initModel(goatcheese, 0);
 		}
 
 
@@ -77,5 +80,5 @@ public class ItemRegistry {
 			ModelLoader.setCustomModelResourceLocation(item, meta, new ModelResourceLocation(item.getRegistryName(), "inventory"));
 		}
 	}
-	
+
 }

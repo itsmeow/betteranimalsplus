@@ -1,0 +1,6 @@
+{
+    "parent": "minecraft:item/milk_bucket",
+    "textures": {
+        "layer0": "minecraft:items/bucket_milk"
+    }
+}

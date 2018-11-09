@@ -4,6 +4,7 @@ import java.util.HashSet;
 
 import javax.annotation.Nullable;
 
+import its_meow.betteranimalsplus.init.ItemRegistry;
 import its_meow.betteranimalsplus.init.LootTableRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -218,11 +219,11 @@ public class EntityGoat extends EntityAnimal {
 
 			if (itemstack.isEmpty())
 			{
-				player.setHeldItem(hand, new ItemStack(Items.MILK_BUCKET));
+				player.setHeldItem(hand, new ItemStack(ItemRegistry.goatmilk));
 			}
-			else if (!player.inventory.addItemStackToInventory(new ItemStack(Items.MILK_BUCKET)))
+			else if (!player.inventory.addItemStackToInventory(new ItemStack(ItemRegistry.goatmilk)))
 			{
-				player.dropItem(new ItemStack(Items.MILK_BUCKET), false);
+				player.dropItem(new ItemStack(ItemRegistry.goatmilk), false);
 			}
 
 			return true;
