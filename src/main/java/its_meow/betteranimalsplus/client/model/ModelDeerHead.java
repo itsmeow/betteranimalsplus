@@ -75,7 +75,7 @@ public class ModelDeerHead extends ModelBase {
         this.rAntler02.addBox(-0.5F, -1.5F, -0.5F, 1, 2, 1, 0.0F);
         this.setRotateAngle(rAntler02, 0.136659280431156F, 0.18203784098300857F, 0.0F);
         this.chest = new ModelRenderer(this, 0, 0);
-        this.chest.setRotationPoint(0.0F, 0.8F, 2.4F);
+        this.chest.setRotationPoint(0.0F, 23.9F, 0F);
         this.chest.addBox(-3.5F, -3.0F, -5.0F, 7, 6, 5, 0.0F);
         this.mane05 = new ModelRenderer(this, 0, 58);
         this.mane05.setRotationPoint(0.0F, -1.5F, -3.7F);
@@ -315,6 +315,8 @@ public class ModelDeerHead extends ModelBase {
     @Override
     public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) { 
         this.chest.render(f5);
+        this.chest.rotateAngleY = (float) Math.toRadians(f);
+        this.chest.rotateAngleX = (float) Math.toRadians(f1);
     }
 
     /**

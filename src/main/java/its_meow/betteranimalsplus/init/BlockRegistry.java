@@ -6,11 +6,12 @@ import java.util.Set;
 import com.google.common.base.Preconditions;
 
 import its_meow.betteranimalsplus.Ref;
+import its_meow.betteranimalsplus.common.block.BlockDeerHead;
 import its_meow.betteranimalsplus.common.block.BlockHandOfFate;
 import its_meow.betteranimalsplus.common.block.BlockHirschgeistSkull;
 import its_meow.betteranimalsplus.common.block.BlockTrillium;
 import its_meow.betteranimalsplus.common.tileentity.TileEntityHandOfFate;
-import its_meow.betteranimalsplus.common.tileentity.TileEntityHirschgeistSkull;
+import its_meow.betteranimalsplus.common.tileentity.TileEntityHead;
 import its_meow.betteranimalsplus.common.tileentity.TileEntityTrillium;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
@@ -39,6 +40,8 @@ public class BlockRegistry {
 	public static final BlockHirschgeistSkull hirschgeistskull = new BlockHirschgeistSkull();
 	public static final BlockHandOfFate handoffate = new BlockHandOfFate();
 	
+	public static final BlockDeerHead deerhead = new BlockDeerHead();
+	
 	@Mod.EventBusSubscriber
 	public static class RegistrationHandler {
 		public static final Set<ItemBlock> ITEM_BLOCKS = new HashSet<>();
@@ -56,12 +59,13 @@ public class BlockRegistry {
 					trillium,
 					hirschgeistskull,
 					handoffate,
+					deerhead,
 			};
 
 			registry.registerAll(blocks);
 
 			GameRegistry.registerTileEntity(TileEntityTrillium.class, new ResourceLocation(trillium.getRegistryName() +  "tileentity"));
-			GameRegistry.registerTileEntity(TileEntityHirschgeistSkull.class, new ResourceLocation(hirschgeistskull.getRegistryName() +  "tileentity"));
+			GameRegistry.registerTileEntity(TileEntityHead.class, new ResourceLocation(hirschgeistskull.getRegistryName() +  "tileentity"));
 			GameRegistry.registerTileEntity(TileEntityHandOfFate.class,  new ResourceLocation(handoffate.getRegistryName() +  "tileentity"));
 		}
 
@@ -77,6 +81,7 @@ public class BlockRegistry {
 					new ItemBlock(trillium),
 					hirschgeistskull.getItemBlock(),
 					handoffate.getItemBlock(),
+					deerhead.getItemBlock(),
 			};
 
 			final IForgeRegistry<Item> registry = event.getRegistry();
@@ -95,6 +100,7 @@ public class BlockRegistry {
 			initModel(trillium, 0);
 			initModel(hirschgeistskull, 0);
 			initModel(handoffate, 0);
+			initModel(deerhead, 0);
 		}
 		
 		

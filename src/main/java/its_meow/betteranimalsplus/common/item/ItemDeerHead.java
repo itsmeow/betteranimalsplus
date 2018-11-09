@@ -17,16 +17,15 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 
-public class ItemHirschgeistSkull extends ItemBlockSkull {
+public class ItemDeerHead extends ItemBlockSkull {
 
 	//Is non static!
 	private Block block;
 
-	public ItemHirschgeistSkull(Block block) {
+	public ItemDeerHead(Block block) {
 		super(block);
 		setMaxDamage(0);
-		this.setUnlocalizedName("hirschgeistskull");
-		//this.setRegistryName("hirschgeistskullitem");
+		this.setUnlocalizedName("deerhead");
 		this.block = block;
 	}
 	
@@ -34,7 +33,7 @@ public class ItemHirschgeistSkull extends ItemBlockSkull {
 	public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand,
 			EnumFacing side, float hitX, float hitY, float hitZ) {
 		ItemStack stack = player.getHeldItem(hand);
-		if (side == EnumFacing.DOWN) {
+		if (side == EnumFacing.DOWN || side == EnumFacing.UP) {
 			return EnumActionResult.FAIL;
 		} else {
 			BlockPos clickedPos = pos.offset(side);
@@ -55,8 +54,6 @@ public class ItemHirschgeistSkull extends ItemBlockSkull {
 		}
 	}
 
-	
-
 	protected void populateTile(ItemStack stack, EnumFacing side, EntityPlayer player, TileEntity tile) {
 		if (tile instanceof TileEntityHead) {
 			TileEntityHead tileSkull = (TileEntityHead) tile;
@@ -66,15 +63,5 @@ public class ItemHirschgeistSkull extends ItemBlockSkull {
 			tileSkull.setSkullRotation(rotation);
 		}
 	}
-
-	@Override
-	public void addInformation(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
-		tooltip.add("It can be worn via placing it into an empty crafting table");
-		super.addInformation(stack, worldIn, tooltip, flagIn);
-	}
-	
-	
-	
-
 
 }

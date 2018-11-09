@@ -1,35 +1,31 @@
 package its_meow.betteranimalsplus.client.renderer.TESR;
 
-import org.lwjgl.opengl.GL11;
-
 import com.mojang.authlib.GameProfile;
 
 import its_meow.betteranimalsplus.client.model.ModelHirschgeistSkull;
-import its_meow.betteranimalsplus.common.tileentity.TileEntityHirschgeistSkull;
+import its_meow.betteranimalsplus.common.tileentity.TileEntityHead;
 import its_meow.betteranimalsplus.init.TextureRegistry;
-import net.minecraft.block.BlockDirectional;
+import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.entity.Entity;
-import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class RenderBlockHirschgeistSkull extends TileEntitySpecialRenderer<TileEntityHirschgeistSkull> {
+public class RenderBlockHirschgeistSkull extends TileEntitySpecialRenderer<TileEntityHead> {
 
 	ModelHirschgeistSkull model;
 
 	@Override
-	public void render(TileEntityHirschgeistSkull tile, double x, double y, double z, float partialTickTime, int destroyStage, float alpha) {
-		renderHead((float) x, (float) y, (float) z, tile.getBlockMetadata() & 7, tile.getSkullRotation() * 360 / 16.0F, tile.getPlayerProfile(), tile.getModel(), destroyStage);
+	public void render(TileEntityHead tile, double x, double y, double z, float partialTickTime, int destroyStage, float alpha) {
+		renderHead((float) x, (float) y, (float) z, tile.getBlockMetadata() & 7, tile.getSkullRotation() * 360 / 16.0F, tile.getPlayerProfile(), tile.getModel(), destroyStage, tile.texture);
 	}
 
-	private void renderHead(float x, float y, float z, int meta, float skullRotation, GameProfile profile, ModelHirschgeistSkull model, int destroyStage) {
+	private void renderHead(float x, float y, float z, int meta, float skullRotation, GameProfile profile, ModelBase model, int destroyStage, ResourceLocation texture) {
 
-		this.bindTexture(TextureRegistry.hirschgeist);
+		this.bindTexture(texture);
 
 		GlStateManager.pushMatrix();
 

@@ -8,7 +8,7 @@ import its_meow.betteranimalsplus.client.renderer.TESR.RenderBlockHirschgeistSku
 import its_meow.betteranimalsplus.client.renderer.TESR.RenderBlockTrillium;
 import its_meow.betteranimalsplus.client.renderer.entity.EntityRendererRegistry;
 import its_meow.betteranimalsplus.common.tileentity.TileEntityHandOfFate;
-import its_meow.betteranimalsplus.common.tileentity.TileEntityHirschgeistSkull;
+import its_meow.betteranimalsplus.common.tileentity.TileEntityHead;
 import its_meow.betteranimalsplus.common.tileentity.TileEntityTrillium;
 import its_meow.betteranimalsplus.init.BlockRegistry;
 import its_meow.betteranimalsplus.init.MobRegistry;
@@ -36,7 +36,7 @@ public class ClientProxy extends CommonProxy {
 	public void init(FMLInitializationEvent event) {
 		super.init(event);
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityTrillium.class, new RenderBlockTrillium());
-		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityHirschgeistSkull.class, new RenderBlockHirschgeistSkull());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityHead.class, new RenderBlockHirschgeistSkull());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityHandOfFate.class, new RenderBlockHandOfFate());
 	}
     

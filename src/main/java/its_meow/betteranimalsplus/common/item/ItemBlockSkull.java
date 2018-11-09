@@ -18,41 +18,11 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class ItemBlockParentHirschgeistSkull extends ItemBlock {
+public class ItemBlockSkull extends ItemBlock {
 
-	public ItemBlockParentHirschgeistSkull(Block block) {
+	public ItemBlockSkull(Block block) {
 		super(block);
 	}
-
-
-
-	@Override
-	public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand,
-			EnumFacing side, float hitX, float hitY, float hitZ) {
-		IBlockState state = world.getBlockState(pos);
-		Block block = state.getBlock();
-		ItemStack stack = player.getHeldItem(hand);
-
-		if (!block.isReplaceable(world, pos))
-			pos = pos.offset(side);
-
-		if (stack.isEmpty())
-			return EnumActionResult.FAIL;
-		else if (!player.canPlayerEdit(pos, side, stack))
-			return EnumActionResult.FAIL;
-		else if (canBlockBePlaced(world, this.block, pos, false, side, null, stack)) {
-			if (placeBlockAt(stack, player, world, pos, side, hitX, hitY, hitZ, state)) {
-				SoundType soundtype = this.block.getSoundType();
-				world.playSound(player, pos, soundtype.getPlaceSound(), SoundCategory.BLOCKS, (soundtype.getVolume() + 1.0F) / 2.0F, soundtype.getPitch() * 0.8F);
-				stack.shrink(1);
-			}
-
-			return EnumActionResult.SUCCESS;
-		} else
-			return EnumActionResult.FAIL;
-	}
-
-
 
 	@Override
 	@SideOnly(Side.CLIENT)

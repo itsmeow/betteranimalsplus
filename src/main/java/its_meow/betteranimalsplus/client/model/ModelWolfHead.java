@@ -75,6 +75,8 @@ public class ModelWolfHead extends ModelBase {
     @Override
     public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) { 
         this.head.render(f5);
+        this.head.rotateAngleY = (float) Math.toRadians(f);
+        this.head.rotateAngleX = (float) Math.toRadians(f1);
     }
 
     /**

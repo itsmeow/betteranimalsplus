@@ -1,6 +1,6 @@
 package its_meow.betteranimalsplus.common.block;
 
-import its_meow.betteranimalsplus.client.model.ModelHirschgeistSkull;
+import its_meow.betteranimalsplus.client.model.ModelDeerHead;
 import its_meow.betteranimalsplus.common.tileentity.TileEntityHead;
 import its_meow.betteranimalsplus.init.ItemRegistry;
 import its_meow.betteranimalsplus.init.TextureRegistry;
@@ -10,24 +10,24 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
-public class BlockHirschgeistSkull extends BlockAnimalSkull implements ITileEntityProvider {
+public class BlockDeerHead extends BlockAnimalSkull implements ITileEntityProvider {
 
-	public BlockHirschgeistSkull() {
+	public BlockDeerHead() {
 		super();
-		this.setRegistryName("hirschgeistskull");
-		this.setUnlocalizedName("hirschgeistskull");
+		this.setRegistryName("deerhead");
+		this.setUnlocalizedName("deerhead");
 	}
 
 
 	@Override
 	public TileEntity createNewTileEntity(World worldIn, int meta)
 	{
-		return new TileEntityHead(ModelHirschgeistSkull.class.asSubclass(ModelBase.class), TextureRegistry.hirschgeist);
+		return new TileEntityHead(ModelDeerHead.class.asSubclass(ModelBase.class), TextureRegistry.deer_2);
 	}
 	
 	@Override
 	public ItemBlock getItemBlock() {
-		return ItemRegistry.itemHirschgeistSkull;
+		return ItemRegistry.itemDeerHead;
 	}
 
 }
