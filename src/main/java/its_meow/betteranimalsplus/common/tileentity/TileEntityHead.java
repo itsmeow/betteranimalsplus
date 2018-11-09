@@ -1,8 +1,7 @@
 package its_meow.betteranimalsplus.common.tileentity;
 
-import its_meow.betteranimalsplus.client.model.ModelHirschgeistSkull;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.model.ModelBase;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntitySkull;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;

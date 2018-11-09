@@ -24,7 +24,7 @@ public class ModelWolfHead extends ModelBase {
         this.textureWidth = 64;
         this.textureHeight = 64;
         this.head = new ModelRenderer(this, 45, 24);
-        this.head.setRotationPoint(0.0F, 21.0F, 2.0F);
+        this.head.setRotationPoint(0.0F, 23.9F, 0.0F);
         this.head.addBox(-2.5F, -2.0F, -3.5F, 5, 5, 4, 0.0F);
         this.snout = new ModelRenderer(this, 28, 55);
         this.snout.setRotationPoint(0.0F, 0.7F, -3.3F);

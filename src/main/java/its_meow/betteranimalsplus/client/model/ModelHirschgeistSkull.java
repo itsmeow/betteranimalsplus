@@ -159,7 +159,7 @@ public class ModelHirschgeistSkull extends ModelBase {
         this.rAnter01.addBox(-1.0F, -1.0F, -2.0F, 2, 2, 2, 0.0F);
         this.setRotateAngle(rAnter01, -0.5918411493512771F, 0.5462880558742251F, 0.0F);
         this.head01 = new ModelRenderer(this, 25, 8);
-        this.head01.setRotationPoint(0.0F, 23.9F, 1.0F);
+        this.head01.setRotationPoint(0.0F, 23.9F, 0.0F);
         this.head01.addBox(-2.5F, -1.8F, -4.0F, 5, 6, 4, 0.0F);
         this.setRotateAngle(head01, -1.5707963267948966F, 0.0F, 0.0F);
         this.rAnter07a = new ModelRenderer(this, 2, 34);

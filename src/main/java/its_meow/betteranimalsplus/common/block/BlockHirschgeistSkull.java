@@ -2,6 +2,7 @@ package its_meow.betteranimalsplus.common.block;
 
 import its_meow.betteranimalsplus.client.model.ModelHirschgeistSkull;
 import its_meow.betteranimalsplus.common.tileentity.TileEntityHead;
+import its_meow.betteranimalsplus.common.tileentity.TileEntityHirschgeistSkull;
 import its_meow.betteranimalsplus.init.ItemRegistry;
 import its_meow.betteranimalsplus.init.TextureRegistry;
 import net.minecraft.block.ITileEntityProvider;
@@ -22,7 +23,7 @@ public class BlockHirschgeistSkull extends BlockAnimalSkull implements ITileEnti
 	@Override
 	public TileEntity createNewTileEntity(World worldIn, int meta)
 	{
-		return new TileEntityHead(ModelHirschgeistSkull.class.asSubclass(ModelBase.class), TextureRegistry.hirschgeist);
+		return new TileEntityHirschgeistSkull();
 	}
 	
 	@Override

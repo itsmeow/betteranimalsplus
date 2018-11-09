@@ -3,6 +3,7 @@ package its_meow.betteranimalsplus.common.block;
 import java.util.Random;
 
 import its_meow.betteranimalsplus.BetterAnimalsPlusMod;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockSkull;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.SoundType;
@@ -26,6 +27,19 @@ public class BlockAnimalSkull extends BlockSkull implements ITileEntityProvider 
 		this.fullBlock = false;
 		this.setCreativeTab(BetterAnimalsPlusMod.tab);
 	}
+	/**
+     * Called before the Block is set to air in the world. Called regardless of if the player's tool can actually
+     * collect this block
+     */
+    public void onBlockHarvested(World worldIn, BlockPos pos, IBlockState state, EntityPlayer player)
+    {
+        if (!player.capabilities.isCreativeMode)
+        {
+            Block.spawnAsEntity(worldIn, pos, new ItemStack(this.getItemBlock(), 1));
+        }
+
+        super.onBlockHarvested(worldIn, pos, state, player);
+    }
 
 	@Override
 	public boolean hasTileEntity() {
@@ -71,13 +85,9 @@ public class BlockAnimalSkull extends BlockSkull implements ITileEntityProvider 
 		return new ItemStack(this.getItemBlock(), 1);
 	}
 
-
+	@Override
 	public void getDrops(net.minecraft.util.NonNullList<ItemStack> drops, IBlockAccess worldIn, BlockPos pos, IBlockState state, int fortune)
 	{
-		if (!((Boolean)state.getValue(NODROP)).booleanValue())
-		{
-			drops.add(new ItemStack(this.getItemBlock(), 1));
-		}
 	}
 
 	/**

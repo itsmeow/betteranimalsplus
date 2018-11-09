@@ -14,9 +14,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class RenderBlockHirschgeistSkull extends TileEntitySpecialRenderer<TileEntityHead> {
-
-	ModelHirschgeistSkull model;
+public class RenderGenericHead extends TileEntitySpecialRenderer<TileEntityHead> {
 
 	@Override
 	public void render(TileEntityHead tile, double x, double y, double z, float partialTickTime, int destroyStage, float alpha) {
@@ -81,35 +79,5 @@ public class RenderBlockHirschgeistSkull extends TileEntitySpecialRenderer<TileE
 		}
 		return -90F;
 	}
-
-
-
-
-
-	/*
-	@Override
-    public void render(TileEntityHirschgeistSkull tileentity, double x, double y, double z, float partialTicks, int destroyStage, float alpha) {
-		GlStateManager.pushMatrix();
-        GlStateManager.translate(x+ 0.5F,y + 1.5F, z + 0.5F);
-        GlStateManager.rotate(180, 0, 0, 1);
-        World world = tileentity.getWorld();
-        Comparable facing = world.getBlockState(tileentity.getPos()).getProperties().get(BlockDirectional.FACING);
-        if(facing == EnumFacing.NORTH) {
-        	GlStateManager.rotate(90, 0, 1, 0);
-        }
-        if(facing == EnumFacing.EAST) {
-
-        }
-        if(facing == EnumFacing.WEST) {
-
-        }
-        if(facing == EnumFacing.SOUTH) {
-
-        }
-        this.bindTexture(TextureRegistry.hirschgeist);
-        this.mainModel.render((Entity) null, 0F, 0F, 0F, 0F, 0F, 0.0625F);
-        GlStateManager.popMatrix();
-    }
-	 */
 
 }

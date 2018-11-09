@@ -6,6 +6,13 @@
 - Add deer head
 - Fix server crash with loading and unloading Trillium on servers
 - Fix error in configuration where Hirschgeist spawn weight was named "weight"
+- Fix pesky off center-ness with Hirschgeist skull
+- Updated translations with new content:
+    English
+    Spanish
+    Russian
+    Japanese
+    Esperanto
 
 1.1.4
 - New Languages:

@@ -4,12 +4,14 @@ import its_meow.betteranimalsplus.Ref;
 import its_meow.betteranimalsplus.client.EventHandlerClient;
 import its_meow.betteranimalsplus.client.model.ModelHirschgeistSkullArmorPiece;
 import its_meow.betteranimalsplus.client.renderer.TESR.RenderBlockHandOfFate;
-import its_meow.betteranimalsplus.client.renderer.TESR.RenderBlockHirschgeistSkull;
+import its_meow.betteranimalsplus.client.renderer.TESR.RenderGenericHead;
+import its_meow.betteranimalsplus.client.renderer.TESR.RenderWolfHead;
 import its_meow.betteranimalsplus.client.renderer.TESR.RenderBlockTrillium;
 import its_meow.betteranimalsplus.client.renderer.entity.EntityRendererRegistry;
 import its_meow.betteranimalsplus.common.tileentity.TileEntityHandOfFate;
 import its_meow.betteranimalsplus.common.tileentity.TileEntityHead;
 import its_meow.betteranimalsplus.common.tileentity.TileEntityTrillium;
+import its_meow.betteranimalsplus.common.tileentity.TileEntityWolfHead;
 import its_meow.betteranimalsplus.init.BlockRegistry;
 import its_meow.betteranimalsplus.init.MobRegistry;
 import net.minecraft.client.Minecraft;
@@ -36,8 +38,9 @@ public class ClientProxy extends CommonProxy {
 	public void init(FMLInitializationEvent event) {
 		super.init(event);
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityTrillium.class, new RenderBlockTrillium());
-		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityHead.class, new RenderBlockHirschgeistSkull());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityHead.class, new RenderGenericHead());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityHandOfFate.class, new RenderBlockHandOfFate());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityWolfHead.class, new RenderWolfHead());
 	}
     
 	public static ModelBiped getArmorModel(){

@@ -10,6 +10,7 @@ import its_meow.betteranimalsplus.common.item.ItemHirschgeistSkull;
 import its_meow.betteranimalsplus.common.item.ItemHirschgeistSkullWearable;
 import its_meow.betteranimalsplus.common.item.ItemVenisonCooked;
 import its_meow.betteranimalsplus.common.item.ItemVenisonRaw;
+import its_meow.betteranimalsplus.common.item.ItemWolfHead;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.Item;
@@ -35,6 +36,7 @@ public class ItemRegistry {
 	// These are not registered
 	public static final ItemHirschgeistSkull itemHirschgeistSkull = new ItemHirschgeistSkull(BlockRegistry.hirschgeistskull);
 	public static final ItemDeerHead itemDeerHead = new ItemDeerHead(BlockRegistry.deerhead);
+	public static final ItemWolfHead itemWolfHead = new ItemWolfHead(BlockRegistry.wolfhead);
 
 
 	@Mod.EventBusSubscriber

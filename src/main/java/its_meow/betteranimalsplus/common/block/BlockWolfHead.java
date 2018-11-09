@@ -1,30 +1,30 @@
 package its_meow.betteranimalsplus.common.block;
 
-import its_meow.betteranimalsplus.common.tileentity.TileEntityDeerHead;
+import its_meow.betteranimalsplus.common.tileentity.TileEntityWolfHead;
 import its_meow.betteranimalsplus.init.ItemRegistry;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
-public class BlockDeerHead extends BlockAnimalSkull implements ITileEntityProvider {
+public class BlockWolfHead extends BlockAnimalSkull implements ITileEntityProvider {
 
-	public BlockDeerHead() {
+	public BlockWolfHead() {
 		super();
-		this.setRegistryName("deerhead");
-		this.setUnlocalizedName("deerhead");
+		this.setRegistryName("wolfhead");
+		this.setUnlocalizedName("wolfhead");
 	}
 
 
 	@Override
 	public TileEntity createNewTileEntity(World worldIn, int meta)
 	{
-		return new TileEntityDeerHead();
+		return new TileEntityWolfHead();
 	}
 
 	@Override
 	public ItemBlock getItemBlock() {
-		return ItemRegistry.itemDeerHead;
+		return ItemRegistry.itemWolfHead;
 	}
 
 }
