@@ -7,7 +7,7 @@
                 {
                     "type": "item",
                     "name": "betteranimalsplus:venisonraw",
-                    "weight": 2,
+                    "weight": 4,
                     "functions": [
                         {
                             "function": "set_count",
@@ -40,13 +40,27 @@
                 {
                     "type": "item",
                     "name": "betteranimalsplus:antler",
-                    "weight": 1,
+                    "weight": 2,
                     "functions": [
                         {
                             "function": "set_count",
                             "count": {
                                 "min": 2,
                                 "max": 2
+                            }
+                        }
+                    ]
+                },
+                {
+                    "type": "item",
+                    "name": "betteranimalsplus:deerhead",
+                    "weight": 1,
+                    "functions": [
+                        {
+                            "function": "set_count",
+                            "count": {
+                                "min": 1,
+                                "max": 1
                             }
                         }
                     ]

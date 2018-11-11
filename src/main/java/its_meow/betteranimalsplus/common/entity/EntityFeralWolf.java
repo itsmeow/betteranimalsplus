@@ -11,6 +11,7 @@ import com.google.common.base.Predicate;
 import com.google.common.collect.Sets;
 
 import its_meow.betteranimalsplus.init.ItemRegistry;
+import its_meow.betteranimalsplus.init.LootTableRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityAgeable;
@@ -135,7 +136,12 @@ public class EntityFeralWolf extends EntityTameable implements IMob {
 	
 	
 	
-	
+	@Override
+	@Nullable
+	protected ResourceLocation getLootTable()
+	{
+		return LootTableRegistry.canid;
+	}
 	
 	
 	
@@ -285,12 +291,6 @@ public class EntityFeralWolf extends EntityTameable implements IMob {
 	protected float getSoundVolume()
 	{
 		return 0.4F;
-	}
-
-	@Nullable
-	protected ResourceLocation getLootTable()
-	{
-		return LootTableList.ENTITIES_WOLF;
 	}
 
 	/**
