@@ -1,4 +1,4 @@
-1.2.0
+2.0.0
 - Add goat
 - Add goat cheese
 - Add goat milk
