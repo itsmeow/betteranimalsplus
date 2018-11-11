@@ -7,6 +7,10 @@
 - Fix server crash with loading and unloading Trillium on servers
 - Fix error in configuration where Hirschgeist spawn weight was named "weight"
 - Fix pesky off center-ness with Hirschgeist skull
+- Feral Wolves attack goats
+- Fixed some loot tables for mobs
+- Fixed large deer hitbox
+- Increased size of Wolf/Coyote/Fox hitbox
 - Updated translations with new content:
     English
     Spanish

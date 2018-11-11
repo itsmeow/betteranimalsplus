@@ -11,7 +11,7 @@ import net.minecraft.util.math.MathHelper;
  * goat - cybercat5555
  * Created using Tabula 5.1.0
  */
-public class ModelGoat extends ModelBase {
+public class ModelGoat extends ModelBetterAnimals {
 	public ModelRenderer chest;
 	public ModelRenderer neck;
 	public ModelRenderer stomach;
@@ -369,7 +369,7 @@ public class ModelGoat extends ModelBase {
 		float f = limbSwing;
 		float f1 = limbSwingAmount;
 
-		float swingModifier = 2F;
+		float swingModifier = 1.5F;
 		this.lLeg01.rotateAngleX = MathHelper.sin(limbSwing * 0.8665F + (float) Math.PI) * swingModifier * limbSwingAmount;
 		this.rLeg01.rotateAngleX = MathHelper.cos(limbSwing * 0.8665F) * swingModifier * limbSwingAmount;
 		this.lArm01.rotateAngleX = MathHelper.sin(limbSwing * 0.8665F) * swingModifier * limbSwingAmount;
@@ -378,6 +378,9 @@ public class ModelGoat extends ModelBase {
 		if(entityIn instanceof EntityGoat) {
 			EntityGoat goat = (EntityGoat) entityIn;
 			this.neck.rotateAngleX = goat.getHeadPitch(); // Ram attack
+		}
+		if(entityIn instanceof EntityLiving) {
+			this.neck.rotateAngleY = this.getHeadYaw((EntityLiving) entityIn) * 0.017453292F * 0.5F;
 		}
 
 		super.setRotationAngles(limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor, entityIn);

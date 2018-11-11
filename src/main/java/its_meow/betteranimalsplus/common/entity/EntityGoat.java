@@ -54,7 +54,7 @@ public class EntityGoat extends EntityAnimal {
 	public EntityGoat(World worldIn) {
 		super(worldIn);
 		this.world = worldIn;
-		this.setSize(1.2F, 1.6F);
+		this.setSize(1.2F, 1.2F);
 		addTemptItems();
 	}
 

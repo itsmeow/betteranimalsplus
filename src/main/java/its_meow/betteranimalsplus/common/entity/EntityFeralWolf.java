@@ -99,7 +99,7 @@ public class EntityFeralWolf extends EntityTameable implements IMob {
 	public EntityFeralWolf(World worldIn) {
 		super(worldIn);
 		this.world = worldIn;
-		this.setSize(0.6F, 0.85F);
+		this.setSize(0.8F, 0.9F);
         this.setTamed(false);
 	}
 
@@ -128,6 +128,7 @@ public class EntityFeralWolf extends EntityTameable implements IMob {
 		this.targetTasks.addTask(4, new EntityAITargetNonTamed(this, EntityVillager.class, false, (Predicate) null));
 		this.targetTasks.addTask(4, new EntityAITargetNonTamed(this, AbstractIllager.class, false, (Predicate) null));
 		this.targetTasks.addTask(4, new EntityAITargetNonTamed(this, EntityChicken.class, false, (Predicate) null));
+		this.targetTasks.addTask(4, new EntityAITargetNonTamed(this, EntityGoat.class, false, (Predicate) null));
 		this.targetTasks.addTask(5, new EntityAINearestAttackableTarget(this, AbstractSkeleton.class, false));
 	}
 	

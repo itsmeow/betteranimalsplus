@@ -43,7 +43,7 @@ public class RenderWolfHead extends TileEntitySpecialRenderer<TileEntityWolfHead
 	private void translateHead(float x, float y, float z, int meta, float yOffset) {
 		switch (meta) {
 		case 1:
-			GlStateManager.translate(x + 0.5F, y + yOffset, z + 0.5F);
+			GlStateManager.translate(x + 0.5F, y + yOffset + 0.15F, z + 0.5F);
 			break;
 		case 2:
 			GlStateManager.translate(x + 0.5F, y + 0.25F + yOffset + 0.3F, z + 0.74F + 0.25F);
@@ -63,6 +63,7 @@ public class RenderWolfHead extends TileEntitySpecialRenderer<TileEntityWolfHead
 	private float adjustRotation(int meta, float rotation) {
 		switch (meta) {
 		case 1:
+			return rotation;
 		case 2:
 			return rotation;
 		case 3:
@@ -78,7 +79,7 @@ public class RenderWolfHead extends TileEntitySpecialRenderer<TileEntityWolfHead
 		if(meta != 1) {
 			return 0.0F;
 		}
-		return -90F;
+		return 0.0F;
 	}
 
 }

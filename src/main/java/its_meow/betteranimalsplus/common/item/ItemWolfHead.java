@@ -7,6 +7,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.tileentity.TileEntitySkull;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
@@ -30,7 +31,7 @@ public class ItemWolfHead extends ItemBlockSkull {
 	public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand,
 			EnumFacing side, float hitX, float hitY, float hitZ) {
 		ItemStack stack = player.getHeldItem(hand);
-		if (side == EnumFacing.DOWN || side == EnumFacing.UP) {
+		if (side == EnumFacing.DOWN) {
 			return EnumActionResult.FAIL;
 		} else {
 			BlockPos clickedPos = pos.offset(side);
@@ -52,8 +53,8 @@ public class ItemWolfHead extends ItemBlockSkull {
 	}
 
 	protected void populateTile(ItemStack stack, EnumFacing side, EntityPlayer player, TileEntity tile) {
-		if (tile instanceof TileEntityHead) {
-			TileEntityHead tileSkull = (TileEntityHead) tile;
+		if (tile instanceof TileEntitySkull) {
+			TileEntitySkull tileSkull = (TileEntitySkull) tile;
 			int rotation = 0;
 			if (side == EnumFacing.UP)
 				rotation = MathHelper.floor(player.rotationYaw * 16.0F / 360.0F + 0.5D) & 15;

@@ -98,7 +98,7 @@ public class EntityFox extends EntityTameable {
 	public EntityFox(World worldIn) {
 		super(worldIn);
 		this.world = worldIn;
-		this.setSize(0.6F, 0.85F);
+		this.setSize(0.8F, 0.9F);
         this.setTamed(false);
 	}
 
