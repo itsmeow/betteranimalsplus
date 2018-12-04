@@ -124,4 +124,18 @@ public class TextureRegistry {
 	public static final ResourceLocation goat_7 = 
 			new ResourceLocation(entitytex + "goat_7.png");
 	
+	//Jellyfish Variants
+		public static final ResourceLocation jellyfish_1 = 
+				new ResourceLocation(entitytex + "jellyfish_1.png");
+		public static final ResourceLocation jellyfish_2 = 
+				new ResourceLocation(entitytex + "jellyfish_2.png");
+		public static final ResourceLocation jellyfish_3 = 
+				new ResourceLocation(entitytex + "jellyfish_3.png");
+		public static final ResourceLocation jellyfish_4 = 
+				new ResourceLocation(entitytex + "jellyfish_4.png");
+		public static final ResourceLocation jellyfish_5 = 
+				new ResourceLocation(entitytex + "jellyfish_5.png");
+		public static final ResourceLocation jellyfish_6 = 
+				new ResourceLocation(entitytex + "jellyfish_6.png");
+	
 }
