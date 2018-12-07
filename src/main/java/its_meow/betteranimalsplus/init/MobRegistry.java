@@ -4,19 +4,8 @@ import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
-import its_meow.betteranimalsplus.BetterAnimalsPlusMod;
 import its_meow.betteranimalsplus.Ref;
-import its_meow.betteranimalsplus.client.renderer.entity.RenderBlackBear;
-import its_meow.betteranimalsplus.client.renderer.entity.RenderBrownBear;
-import its_meow.betteranimalsplus.client.renderer.entity.RenderCoyote;
-import its_meow.betteranimalsplus.client.renderer.entity.RenderCustomWolf;
-import its_meow.betteranimalsplus.client.renderer.entity.RenderDeer;
-import its_meow.betteranimalsplus.client.renderer.entity.RenderFox;
-import its_meow.betteranimalsplus.client.renderer.entity.RenderHirschgeist;
-import its_meow.betteranimalsplus.client.renderer.entity.RenderKermodeBear;
-import its_meow.betteranimalsplus.client.renderer.entity.RenderLammergeier;
-import its_meow.betteranimalsplus.client.renderer.entity.RenderTarantula;
-import its_meow.betteranimalsplus.client.renderer.entity.RenderTarantulaHair;
+import its_meow.betteranimalsplus.common.config.BetterAnimalsPlusConfig;
 import its_meow.betteranimalsplus.common.entity.EntityBear;
 import its_meow.betteranimalsplus.common.entity.EntityBearNeutral;
 import its_meow.betteranimalsplus.common.entity.EntityBearNeutralKermode;
@@ -27,30 +16,21 @@ import its_meow.betteranimalsplus.common.entity.EntityFox;
 import its_meow.betteranimalsplus.common.entity.EntityGoat;
 import its_meow.betteranimalsplus.common.entity.EntityJellyfish;
 import its_meow.betteranimalsplus.common.entity.EntityLammergeier;
+import its_meow.betteranimalsplus.common.entity.EntityPheasant;
 import its_meow.betteranimalsplus.common.entity.EntityTarantula;
 import its_meow.betteranimalsplus.common.entity.miniboss.hirschgeist.EntityHirschgeist;
 import its_meow.betteranimalsplus.common.entity.projectile.EntityTarantulaHair;
 import net.minecraft.entity.EnumCreatureType;
-import net.minecraft.init.Biomes;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.biome.Biome;
-import net.minecraft.world.biome.BiomeForest;
-import net.minecraft.world.biome.Biome.SpawnListEntry;
-import net.minecraft.world.storage.loot.LootTableList;
 import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.BiomeDictionary.Type;
 import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.fml.client.registry.IRenderFactory;
-import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.EntityEntry;
 import net.minecraftforge.fml.common.registry.EntityEntryBuilder;
-import net.minecraftforge.fml.common.registry.EntityRegistry;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.registries.IForgeRegistry;
-import its_meow.betteranimalsplus.common.config.BetterAnimalsPlusConfig;
 
 
 public class MobRegistry {
@@ -85,6 +65,8 @@ public class MobRegistry {
 			regCre(EntityGoat.class, "Goat", 0xffffff, 0xeeeeee, BetterAnimalsPlusConfig.goatWeight, 1, 4, BiomeDictionary.getBiomes(Type.HILLS), BiomeDictionary.getBiomes(Type.MOUNTAIN), BiomeDictionary.getBiomes(Type.SAVANNA), BiomeDictionary.getBiomes(Type.PLAINS), BiomeDictionary.getBiomes(Type.FOREST));
 		if(BetterAnimalsPlusConfig.spawnJellyfish)
 			regCre(EntityJellyfish.class, "Jellyfish", 0x226fe2, 0xf2b3b3, BetterAnimalsPlusConfig.jellyFishWeight, 1, 1, BiomeDictionary.getBiomes(Type.WATER), BiomeDictionary.getBiomes(Type.OCEAN));
+		if(BetterAnimalsPlusConfig.spawnPheasant)
+			regCre(EntityPheasant.class, "Pheasant", 0x8e6b0b, 0xd8af3c, BetterAnimalsPlusConfig.pheasantWeight, 1, 3, BiomeDictionary.getBiomes(Type.FOREST), BiomeDictionary.getBiomes(Type.PLAINS), BiomeDictionary.getBiomes(Type.SAVANNA));
 	}
 
 

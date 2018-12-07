@@ -272,17 +272,21 @@ public class ModelPheasant extends ModelBase {
     public void setRotationAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor, Entity entityIn) {
         if(entityIn instanceof EntityPheasant) {
         	EntityPheasant ent = (EntityPheasant) entityIn;
-        	if(ent.getPeckTime() <= 800) {
-        		this.neck01.rotateAngleX = (float) Math.toRadians((float) ent.getPeckTime() % 45F);
+        	float peckTime = (float) ent.getPeckTime();
+        	if(peckTime <= 60) {
+        		this.neck01.rotateAngleX = (float) Math.toRadians((peckTime % (60F / peckTime))) * 6F + (float) Math.toRadians(30);
+        	} else {
+        		this.neck01.rotateAngleX = -0.9075712110370513F;
         	}
         }
     	this.head.rotateAngleX = headPitch * 0.017453292F;
         this.head.rotateAngleY = netHeadYaw * 0.017453292F;
-        this.body.rotateAngleX = ((float)Math.PI / 2F);
         this.rLeg01.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount;
         this.lLeg01.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F + (float)Math.PI) * 1.4F * limbSwingAmount;
         this.rWing01.rotateAngleZ = ageInTicks;
         this.lWing01.rotateAngleZ = -ageInTicks;
+        this.rWing01.rotateAngleY = ageInTicks == 0 ? 1.2217304763960306F : (float) Math.toRadians(47);
+    	this.lWing01.rotateAngleY = -this.rWing01.rotateAngleY;
     }
 
     /**

@@ -6,6 +6,7 @@ import its_meow.betteranimalsplus.init.LootTableRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.IEntityLivingData;
+import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIFollowParent;
 import net.minecraft.entity.ai.EntityAILookIdle;
 import net.minecraft.entity.ai.EntityAIMate;
@@ -38,12 +39,13 @@ public class EntityPheasant extends EntityAnimal {
 	public float destPos;
 	public float oFlapSpeed;
 	public float oFlap;
-	public float wingRotDelta = 1.0F;
+	public float wingRotDelta = 0.3F;
 
 	public EntityPheasant(World worldIn) {
 		super(worldIn);
-		this.setPeckTime(this.rand.nextInt(6000) + 6000);
+		this.setPeckTime(getNewPeck());
 		this.setPathPriority(PathNodeType.WATER, 0.0F);
+		this.setSize(1F, this.isChild() ? 0.8F : 1F);
 	}
 	
 	@Override
@@ -57,6 +59,17 @@ public class EntityPheasant extends EntityAnimal {
 		this.tasks.addTask(6, new EntityAIWatchClosest(this, EntityPlayer.class, 6.0F));
 		this.tasks.addTask(7, new EntityAILookIdle(this));
 	}
+	
+    protected void applyEntityAttributes()
+    {
+        super.applyEntityAttributes();
+        this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(4.0D);
+        this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.25D);
+    }
+    
+    private int getNewPeck() {
+    	return this.rand.nextInt(600) + 30;
+    }
 	
 	@Override
 	public float getEyeHeight() {
@@ -72,7 +85,7 @@ public class EntityPheasant extends EntityAnimal {
         this.destPos = MathHelper.clamp(this.destPos, 0.0F, 1.0F);
 
         if (!this.onGround && this.wingRotDelta < 1.0F) {
-            this.wingRotDelta = 1.0F;
+            this.wingRotDelta = 0.3F;
         }
 
         this.wingRotDelta = (float)((double)this.wingRotDelta * 0.9D);
@@ -82,9 +95,15 @@ public class EntityPheasant extends EntityAnimal {
         }
 
         this.wingRotation += this.wingRotDelta * 2.0F;
-
+        
+        if(!this.onGround || this.getMoveHelper().isUpdating()) {
+        	if(this.getPeckTime() <= 61) {
+        		this.setPeckTime(80);
+        	}
+        }
+        
         if (!this.world.isRemote && this.setPeckTime(this.getPeckTime() - 1) <= 0) {
-            this.setPeckTime(this.rand.nextInt(6000) + 6000);
+            this.setPeckTime(getNewPeck());
         }
     }
 	
