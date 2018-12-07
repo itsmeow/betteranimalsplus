@@ -1,8 +1,10 @@
 package its_meow.betteranimalsplus.client.model;
 
+import its_meow.betteranimalsplus.common.entity.EntityPheasant;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
+import net.minecraft.util.math.MathHelper;
 
 /**
  * pheasant - cybercat5555
@@ -264,6 +266,23 @@ public class ModelPheasant extends ModelBase {
     @Override
     public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) { 
         this.body.render(f5);
+    }
+    
+    @Override
+    public void setRotationAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor, Entity entityIn) {
+        if(entityIn instanceof EntityPheasant) {
+        	EntityPheasant ent = (EntityPheasant) entityIn;
+        	if(ent.getPeckTime() <= 800) {
+        		this.neck01.rotateAngleX = (float) Math.toRadians((float) ent.getPeckTime() % 45F);
+        	}
+        }
+    	this.head.rotateAngleX = headPitch * 0.017453292F;
+        this.head.rotateAngleY = netHeadYaw * 0.017453292F;
+        this.body.rotateAngleX = ((float)Math.PI / 2F);
+        this.rLeg01.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount;
+        this.lLeg01.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F + (float)Math.PI) * 1.4F * limbSwingAmount;
+        this.rWing01.rotateAngleZ = ageInTicks;
+        this.lWing01.rotateAngleZ = -ageInTicks;
     }
 
     /**
