@@ -219,11 +219,11 @@ public class EntityGoat extends EntityAnimal {
 
 			if (itemstack.isEmpty())
 			{
-				player.setHeldItem(hand, new ItemStack(ItemRegistry.goatmilk));
+				player.setHeldItem(hand, new ItemStack(ItemRegistry.goatMilk));
 			}
-			else if (!player.inventory.addItemStackToInventory(new ItemStack(ItemRegistry.goatmilk)))
+			else if (!player.inventory.addItemStackToInventory(new ItemStack(ItemRegistry.goatMilk)))
 			{
-				player.dropItem(new ItemStack(ItemRegistry.goatmilk), false);
+				player.dropItem(new ItemStack(ItemRegistry.goatMilk), false);
 			}
 
 			return true;

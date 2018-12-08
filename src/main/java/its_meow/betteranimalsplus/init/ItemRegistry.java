@@ -10,6 +10,8 @@ import its_meow.betteranimalsplus.common.item.ItemGoatMilk;
 import its_meow.betteranimalsplus.common.item.ItemHandOfFate;
 import its_meow.betteranimalsplus.common.item.ItemHirschgeistSkull;
 import its_meow.betteranimalsplus.common.item.ItemHirschgeistSkullWearable;
+import its_meow.betteranimalsplus.common.item.ItemPheasantCooked;
+import its_meow.betteranimalsplus.common.item.ItemPheasantRaw;
 import its_meow.betteranimalsplus.common.item.ItemVenisonCooked;
 import its_meow.betteranimalsplus.common.item.ItemVenisonRaw;
 import its_meow.betteranimalsplus.common.item.ItemWolfHead;
@@ -29,8 +31,10 @@ public class ItemRegistry {
 	public static final ItemHirschgeistSkullWearable itemHirschgeistSkullWearable = new ItemHirschgeistSkullWearable();
 	public static final ItemAntler antler = new ItemAntler();
 	public static final ItemHandOfFate itemHandOfFate = new ItemHandOfFate(BlockRegistry.handoffate);
-	public static final ItemGoatMilk goatmilk = new ItemGoatMilk();
-	public static final ItemGoatCheese goatcheese = new ItemGoatCheese();
+	public static final ItemGoatMilk goatMilk = new ItemGoatMilk();
+	public static final ItemGoatCheese goatCheese = new ItemGoatCheese();
+	public static final ItemPheasantRaw pheasantRaw = new ItemPheasantRaw(3, true);
+	public static final ItemPheasantCooked pheasantCooked = new ItemPheasantCooked(7, true);
 
 	// These are not registered
 	public static final ItemHirschgeistSkull itemHirschgeistSkull = new ItemHirschgeistSkull(BlockRegistry.hirschgeistskull);
@@ -54,8 +58,10 @@ public class ItemRegistry {
 					venisonCooked,
 					itemHirschgeistSkullWearable,
 					antler,
-					goatmilk,
-					goatcheese,
+					goatMilk,
+					goatCheese,
+					pheasantRaw,
+					pheasantCooked,
 			};
 			final IForgeRegistry<Item> registry = event.getRegistry();
 
@@ -71,8 +77,10 @@ public class ItemRegistry {
 			initModel(venisonCooked, 0);
 			initModel(itemHirschgeistSkullWearable, 0);
 			initModel(antler, 0);
-			initModel(goatmilk, 0);
-			initModel(goatcheese, 0);
+			initModel(goatMilk, 0);
+			initModel(goatCheese, 0);
+			initModel(pheasantRaw, 0);
+			initModel(pheasantCooked, 0);
 		}
 
 

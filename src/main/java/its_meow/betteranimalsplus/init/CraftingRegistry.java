@@ -20,7 +20,11 @@ import net.minecraftforge.oredict.ShapelessOreRecipe;
 public class CraftingRegistry {
 
 	public static final void register() {
+		//Smelting
 		GameRegistry.addSmelting(new ItemStack(ItemRegistry.venisonRaw), new ItemStack(ItemRegistry.venisonCooked), 0.0F);
+		GameRegistry.addSmelting(new ItemStack(ItemRegistry.pheasantRaw), new ItemStack(ItemRegistry.pheasantCooked), 0.0F);
+		
+		//Recipe with OreDict
 		for(ItemStack stack : OreDictionary.getOres("stone")) {
 			GameRegistry.addShapedRecipe(new ResourceLocation(Ref.MOD_ID + ":handoffaterecipe"), new ResourceLocation(Ref.MOD_ID), new ItemStack(ItemRegistry.itemHandOfFate, 1), new Object[]{
 					"ibi",
@@ -30,7 +34,11 @@ public class CraftingRegistry {
 					Character.valueOf('b'), Items.BLAZE_POWDER, 
 					Character.valueOf('s'), stack});
 		}
+		
+		//Register oredict
 		OreDictionary.registerOre("listAllmeatraw", ItemRegistry.venisonRaw);
 		OreDictionary.registerOre("listAllmeatcooked", ItemRegistry.venisonCooked);
+		OreDictionary.registerOre("listAllmeatraw", ItemRegistry.pheasantRaw);
+		OreDictionary.registerOre("listAllmeatcooked", ItemRegistry.pheasantCooked);
 	}
 }

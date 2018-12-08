@@ -283,9 +283,9 @@ public class ModelPheasant extends ModelBase {
         this.head.rotateAngleY = netHeadYaw * 0.017453292F;
         this.rLeg01.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount;
         this.lLeg01.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F + (float)Math.PI) * 1.4F * limbSwingAmount;
-        this.rWing01.rotateAngleZ = ageInTicks;
-        this.lWing01.rotateAngleZ = -ageInTicks;
-        this.rWing01.rotateAngleY = ageInTicks == 0 ? 1.2217304763960306F : (float) Math.toRadians(90);
+        this.rWing01.rotateAngleZ = ageInTicks - 0.4F;
+        this.lWing01.rotateAngleZ = -ageInTicks + 0.4F;
+        this.rWing01.rotateAngleY = ageInTicks == 0 ? 1.2217304763960306F : 0;
     	this.lWing01.rotateAngleY = -this.rWing01.rotateAngleY;
     }
 

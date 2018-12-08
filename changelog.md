@@ -1,4 +1,13 @@
+3.0.0
+-
+- Added jellyfish
+- Added pheasant
+- Fixed cooked venison healing the same amount
+- Added pheasant meat
+- Fixed bug where bucket would not be returned when making goat cheese
+
 2.0.0
+-
 - Add goat
 - Add goat cheese
 - Add goat milk
@@ -19,6 +28,7 @@
     Esperanto
 
 1.1.4
+-
 - New Languages:
     Arabic (by MicroDroid)
     German (by ekrempel)
@@ -35,10 +45,12 @@
 
 
 1.1.3
+-
 - Fixed fatal server crash
 - Added config options to disable spawning of mobs/generation of trillium
 
 1.1.2
+-
 - Reorganized internal codebase
 - Fixed bug where some users would experience overspawning
 - Updated to new entity registry system (the fix for spawning)
@@ -46,9 +58,11 @@
 - Update mcmod.info to include proper update/project/site links and fix typo
 
 1.1.1
+-
 - Added antler drop for deer (My bad)
 
 1.1.0
+-
 - Added venisons to OreDictionary (listAllmeatraw and listAllmeatcooked)
 - Fix hirschgeist bones sometimes moving out of the ghost part
 - Added sound for hirschgeist and footstep sounds

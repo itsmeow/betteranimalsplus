@@ -11,6 +11,8 @@ item.hirschgeistskullwearable.name=Wearable Hirschgeist Skull
 item.antler.name=Antler
 item.goatmilk.name=Goat Milk
 item.goatcheese.name=Goat Cheese
+item.pheasantraw.name=Raw Pheasant
+item.pheasantcooked.name=Cooked Pheasant
 
 #Blocks
 tile.trillium.name=Trillium
