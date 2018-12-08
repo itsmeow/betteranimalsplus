@@ -64,7 +64,7 @@ public class MobRegistry {
 		if(BetterAnimalsPlusConfig.spawnGoat)
 			regCre(EntityGoat.class, "Goat", 0xffffff, 0xeeeeee, BetterAnimalsPlusConfig.goatWeight, 1, 4, BiomeDictionary.getBiomes(Type.HILLS), BiomeDictionary.getBiomes(Type.MOUNTAIN), BiomeDictionary.getBiomes(Type.SAVANNA), BiomeDictionary.getBiomes(Type.PLAINS), BiomeDictionary.getBiomes(Type.FOREST));
 		if(BetterAnimalsPlusConfig.spawnJellyfish)
-			regCre(EntityJellyfish.class, "Jellyfish", 0x226fe2, 0xf2b3b3, BetterAnimalsPlusConfig.jellyFishWeight, 1, 1, BiomeDictionary.getBiomes(Type.WATER), BiomeDictionary.getBiomes(Type.OCEAN));
+			regWater(EntityJellyfish.class, "Jellyfish", 0x226fe2, 0xf2b3b3, BetterAnimalsPlusConfig.jellyFishWeight, 1, 1, BiomeDictionary.getBiomes(Type.WATER), BiomeDictionary.getBiomes(Type.OCEAN));
 		if(BetterAnimalsPlusConfig.spawnPheasant)
 			regCre(EntityPheasant.class, "Pheasant", 0x8e6b0b, 0xd8af3c, BetterAnimalsPlusConfig.pheasantWeight, 1, 3, BiomeDictionary.getBiomes(Type.FOREST), BiomeDictionary.getBiomes(Type.PLAINS), BiomeDictionary.getBiomes(Type.SAVANNA));
 	}
@@ -78,6 +78,10 @@ public class MobRegistry {
 
 	public static void regMob(Class EntityClass, String entityNameIn, int solidColorIn, int spotColorIn, int prob, int min, int max, Set<Biome>... biomes){
 		registerWithSpawnAndEgg(EntityClass, entityNameIn, solidColorIn, spotColorIn, EnumCreatureType.MONSTER, biomes);
+	}
+	
+	public static void regWater(Class EntityClass, String entityNameIn, int solidColorIn, int spotColorIn, int prob, int min, int max, Set<Biome>... biomes){
+		registerWithSpawnAndEgg(EntityClass, entityNameIn, solidColorIn, spotColorIn, EnumCreatureType.WATER_CREATURE, biomes);
 	}
 
 	public static void registerWithSpawnAndEgg(Class EntityClass, String entityNameIn, int solidColorIn, int spotColorIn, EnumCreatureType typeIn, Set<Biome>... biomes){
