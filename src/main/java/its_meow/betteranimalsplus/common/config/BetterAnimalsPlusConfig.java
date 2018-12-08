@@ -9,19 +9,19 @@ public class BetterAnimalsPlusConfig {
 	private static final String cS = "spawning";
 	private static final String cDS = "dospawning";
 
-	public static int brownBearWeight = 5;
+	public static int brownBearWeight = 7;
 	public static int blackBearWeight = 5;
-	public static int kermodeBearWeight = 3;
-	public static int deerWeight = 14;
+	public static int kermodeBearWeight = 4;
+	public static int deerWeight = 16;
 	public static int lammergeierWeight = 7;
-	public static int feralWolfWeight = 7;
-	public static int coyoteWeight = 7;
-	public static int foxWeight = 9;
-	public static int tarantulaWeight = 11;
-	public static int hirschgeistWeight = 1;
+	public static int feralWolfWeight = 8;
+	public static int coyoteWeight = 6;
+	public static int foxWeight = 10;
+	public static int tarantulaWeight = 13;
+	public static int hirschgeistWeight = 2;
 	public static int goatWeight = 10;
-	public static int jellyFishWeight = 7;
-	public static int pheasantWeight = 7;
+	public static int jellyFishWeight = 30;
+	public static int pheasantWeight = 10;
 	
 	public static boolean spawnTrillium = true;
 	public static boolean spawnBrownBear = true;

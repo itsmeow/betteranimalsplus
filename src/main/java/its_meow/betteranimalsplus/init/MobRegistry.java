@@ -20,6 +20,8 @@ import its_meow.betteranimalsplus.common.entity.EntityPheasant;
 import its_meow.betteranimalsplus.common.entity.EntityTarantula;
 import its_meow.betteranimalsplus.common.entity.miniboss.hirschgeist.EntityHirschgeist;
 import its_meow.betteranimalsplus.common.entity.projectile.EntityTarantulaHair;
+import net.minecraft.entity.EntityLiving.SpawnPlacementType;
+import net.minecraft.entity.EntitySpawnPlacementRegistry;
 import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.biome.Biome;
@@ -64,7 +66,7 @@ public class MobRegistry {
 		if(BetterAnimalsPlusConfig.spawnGoat)
 			regCre(EntityGoat.class, "Goat", 0xffffff, 0xeeeeee, BetterAnimalsPlusConfig.goatWeight, 1, 4, BiomeDictionary.getBiomes(Type.HILLS), BiomeDictionary.getBiomes(Type.MOUNTAIN), BiomeDictionary.getBiomes(Type.SAVANNA), BiomeDictionary.getBiomes(Type.PLAINS), BiomeDictionary.getBiomes(Type.FOREST));
 		if(BetterAnimalsPlusConfig.spawnJellyfish)
-			regWater(EntityJellyfish.class, "Jellyfish", 0x226fe2, 0xf2b3b3, BetterAnimalsPlusConfig.jellyFishWeight, 1, 1, BiomeDictionary.getBiomes(Type.WATER), BiomeDictionary.getBiomes(Type.OCEAN));
+			regWater(EntityJellyfish.class, "Jellyfish", 0x226fe2, 0xf2b3b3, BetterAnimalsPlusConfig.jellyFishWeight, 1, 3, BiomeDictionary.getBiomes(Type.OCEAN));
 		if(BetterAnimalsPlusConfig.spawnPheasant)
 			regCre(EntityPheasant.class, "Pheasant", 0x8e6b0b, 0xd8af3c, BetterAnimalsPlusConfig.pheasantWeight, 1, 3, BiomeDictionary.getBiomes(Type.FOREST), BiomeDictionary.getBiomes(Type.PLAINS), BiomeDictionary.getBiomes(Type.SAVANNA));
 	}
@@ -73,18 +75,18 @@ public class MobRegistry {
 	//#################################################################################
 
 	public static void regCre(Class EntityClass, String entityNameIn, int solidColorIn, int spotColorIn, int prob, int min, int max, Set<Biome>... biomes){
-		registerWithSpawnAndEgg(EntityClass, entityNameIn, solidColorIn, spotColorIn, EnumCreatureType.CREATURE, biomes);
+		registerWithSpawnAndEgg(EntityClass, entityNameIn, solidColorIn, spotColorIn, EnumCreatureType.CREATURE, prob, min, max, biomes);
 	}
 
 	public static void regMob(Class EntityClass, String entityNameIn, int solidColorIn, int spotColorIn, int prob, int min, int max, Set<Biome>... biomes){
-		registerWithSpawnAndEgg(EntityClass, entityNameIn, solidColorIn, spotColorIn, EnumCreatureType.MONSTER, biomes);
+		registerWithSpawnAndEgg(EntityClass, entityNameIn, solidColorIn, spotColorIn, EnumCreatureType.MONSTER, prob, min, max, biomes);
 	}
 	
 	public static void regWater(Class EntityClass, String entityNameIn, int solidColorIn, int spotColorIn, int prob, int min, int max, Set<Biome>... biomes){
-		registerWithSpawnAndEgg(EntityClass, entityNameIn, solidColorIn, spotColorIn, EnumCreatureType.WATER_CREATURE, biomes);
+		registerWithSpawnAndEgg(EntityClass, entityNameIn, solidColorIn, spotColorIn, EnumCreatureType.WATER_CREATURE, prob, min, max, biomes);
 	}
 
-	public static void registerWithSpawnAndEgg(Class EntityClass, String entityNameIn, int solidColorIn, int spotColorIn, EnumCreatureType typeIn, Set<Biome>... biomes){
+	public static void registerWithSpawnAndEgg(Class EntityClass, String entityNameIn, int solidColorIn, int spotColorIn, EnumCreatureType typeIn, int prob, int min, int max, Set<Biome>... biomes){
 		Set<Biome> biomesetAdd = new HashSet<>();
 		for(Set<Biome> biomeset : biomes) {
 			biomesetAdd.addAll(biomeset);
@@ -102,9 +104,11 @@ public class MobRegistry {
 				.name(entityNameIn)
 				.tracker(64, 1, true)
 				.egg(solidColorIn, spotColorIn)
-				.spawn(typeIn, 4, 1, 1, biomesArray)
+				.spawn(typeIn, prob, min, max, biomesArray)
 				.build();
-
+		if(typeIn == EnumCreatureType.WATER_CREATURE) {
+			EntitySpawnPlacementRegistry.setPlacementType(EntityClass, SpawnPlacementType.IN_WATER);
+		}
 		entrySet.add(entry);
 	}
 
