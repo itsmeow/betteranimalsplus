@@ -20,7 +20,7 @@ public class BetterAnimalsPlusConfig {
 	public static int tarantulaWeight = 13;
 	public static int hirschgeistWeight = 2;
 	public static int goatWeight = 10;
-	public static int jellyFishWeight = 30;
+	public static int jellyFishWeight = 10;
 	public static int pheasantWeight = 10;
 	
 	public static boolean spawnTrillium = true;

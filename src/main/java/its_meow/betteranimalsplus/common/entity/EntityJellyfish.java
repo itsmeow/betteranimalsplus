@@ -40,8 +40,8 @@ public class EntityJellyfish extends EntitySquid {
 		super.onCollideWithPlayer(entity);
 		if(!entity.capabilities.isCreativeMode && this.attackCooldown == 0) {
 			entity.attackEntityFrom(DamageSource.causeMobDamage(this), 2.0F);
-			entity.addPotionEffect(new PotionEffect(Potion.getPotionFromResourceLocation("poison"), 200, 1, false, false));
-			entity.addPotionEffect(new PotionEffect(Potion.getPotionFromResourceLocation("blindness"), 90, 3, false, false));
+			entity.addPotionEffect(new PotionEffect(Potion.getPotionFromResourceLocation("poison"), 200, 0, false, false));
+			entity.addPotionEffect(new PotionEffect(Potion.getPotionFromResourceLocation("blindness"), 90, 2, false, false));
 			this.attackCooldown = 80;
 		}
 	}
@@ -121,7 +121,7 @@ public class EntityJellyfish extends EntitySquid {
 		livingdata = super.onInitialSpawn(difficulty, livingdata);
 		if(!this.isChild()) {
 			int i = (new Random()).nextInt(6) + 1; // Values 1 to 6
-			float rand = (float) ((new Random()).nextInt(50) + 10F) / 50F;
+			float rand = (float) ((new Random()).nextInt(50) + 1F) / 50F;
 			
 			if (livingdata instanceof JellyfishData)
 			{

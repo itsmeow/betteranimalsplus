@@ -49,8 +49,10 @@ public class MobRegistry {
 			regCre(EntityBearNeutralKermode.class, "KermodeBear", 0xe8e8e8, 0xf7dabe, BetterAnimalsPlusConfig.kermodeBearWeight, 1, 1, BiomeDictionary.getBiomes(Type.FOREST));
 		if(BetterAnimalsPlusConfig.spawnDeer)
 			regCre(EntityDeer.class, "Deer", 0x8e510b, 0xc6863b, BetterAnimalsPlusConfig.deerWeight, 1, 4,  BiomeDictionary.getBiomes(Type.FOREST), BiomeDictionary.getBiomes(Type.MAGICAL));
-		if(BetterAnimalsPlusConfig.spawnLammergeier)
+		if(BetterAnimalsPlusConfig.spawnLammergeier) {
 			regCre(EntityLammergeier.class, "Lammergeier", 0xd8d8d8, 0xd82b11, BetterAnimalsPlusConfig.lammergeierWeight, 1, 2, BiomeDictionary.getBiomes(Type.HILLS), BiomeDictionary.getBiomes(Type.MOUNTAIN));
+			EntitySpawnPlacementRegistry.setPlacementType(EntityLammergeier.class, SpawnPlacementType.IN_AIR);
+		}
 		if(BetterAnimalsPlusConfig.spawnFeralWolf)
 			regCre(EntityFeralWolf.class, "FeralWolf", 0xbababa, 0x232323, BetterAnimalsPlusConfig.feralWolfWeight, 1, 6, BiomeDictionary.getBiomes(Type.FOREST), BiomeDictionary.getBiomes(Type.MAGICAL), BiomeDictionary.getBiomes(Type.SPOOKY));
 		if(BetterAnimalsPlusConfig.spawnCoyote)
@@ -66,7 +68,7 @@ public class MobRegistry {
 		if(BetterAnimalsPlusConfig.spawnGoat)
 			regCre(EntityGoat.class, "Goat", 0xffffff, 0xeeeeee, BetterAnimalsPlusConfig.goatWeight, 1, 4, BiomeDictionary.getBiomes(Type.HILLS), BiomeDictionary.getBiomes(Type.MOUNTAIN), BiomeDictionary.getBiomes(Type.SAVANNA), BiomeDictionary.getBiomes(Type.PLAINS), BiomeDictionary.getBiomes(Type.FOREST));
 		if(BetterAnimalsPlusConfig.spawnJellyfish)
-			regWater(EntityJellyfish.class, "Jellyfish", 0x226fe2, 0xf2b3b3, BetterAnimalsPlusConfig.jellyFishWeight, 1, 3, BiomeDictionary.getBiomes(Type.OCEAN));
+			regWater(EntityJellyfish.class, "Jellyfish", 0x226fe2, 0xf2b3b3, BetterAnimalsPlusConfig.jellyFishWeight, 1, 1, BiomeDictionary.getBiomes(Type.OCEAN));
 		if(BetterAnimalsPlusConfig.spawnPheasant)
 			regCre(EntityPheasant.class, "Pheasant", 0x8e6b0b, 0xd8af3c, BetterAnimalsPlusConfig.pheasantWeight, 1, 3, BiomeDictionary.getBiomes(Type.FOREST), BiomeDictionary.getBiomes(Type.PLAINS), BiomeDictionary.getBiomes(Type.SAVANNA));
 	}
