@@ -2,7 +2,6 @@
 -
 - Added jellyfish
 - Added pheasant
-- Fixed cooked venison healing the same amount
 - Added pheasant meat
 - Fixed bug where bucket would not be returned when making goat cheese
 - Adjusted spawn rates, fixed BIG spawning bug

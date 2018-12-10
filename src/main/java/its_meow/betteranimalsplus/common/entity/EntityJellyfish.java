@@ -3,6 +3,7 @@ package its_meow.betteranimalsplus.common.entity;
 import javax.annotation.Nullable;
 
 import net.minecraft.entity.IEntityLivingData;
+import net.minecraft.entity.ai.EntityAIBase;
 import net.minecraft.entity.passive.EntitySquid;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
@@ -15,6 +16,7 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
 import scala.util.Random;
@@ -26,6 +28,10 @@ public class EntityJellyfish extends EntitySquid {
 	public EntityJellyfish(World worldIn) {
 		super(worldIn);
 	}
+	
+	protected void initEntityAI() {
+        this.tasks.addTask(0, new EntityJellyfish.AIMoveRandom(this));
+    }
 
 	@Override
 	public void onUpdate() {
@@ -150,5 +156,44 @@ public class EntityJellyfish extends EntitySquid {
 			this.size = size;
 		}
 	}
+	
+	static class AIMoveRandom extends EntityAIBase
+    {
+        private final EntityJellyfish entity;
+
+        public AIMoveRandom(EntityJellyfish entityIn)
+        {
+            this.entity = entityIn;
+        }
+
+        /**
+         * Returns whether the EntityAIBase should begin execution.
+         */
+        public boolean shouldExecute()
+        {
+            return true;
+        }
+
+        /**
+         * Keep ticking a continuous task that has already been started
+         */
+        public void updateTask()
+        {
+            int i = this.entity.getIdleTime();
+
+            if (i > 100)
+            {
+                this.entity.setMovementVector(0.0F, 0.0F, 0.0F);
+            }
+            else if (this.entity.getRNG().nextInt(50) == 0 || !this.entity.inWater || !this.entity.hasMovementVector())
+            {
+                float f = this.entity.getRNG().nextFloat() * ((float)Math.PI * 2F);
+                float f1 = MathHelper.cos(f) * 0.2F;
+                float f2 = -0.1F + this.entity.getRNG().nextFloat() * 0.2F;
+                float f3 = MathHelper.sin(f) * 0.2F;
+                this.entity.setMovementVector(f1 / 3, f2 / 3, f3 / 3);
+            }
+        }
+    }
 
 }

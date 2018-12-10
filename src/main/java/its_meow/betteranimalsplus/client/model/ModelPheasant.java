@@ -276,11 +276,10 @@ public class ModelPheasant extends ModelBase {
         	if(peckTime <= 60) {
         		this.neck01.rotateAngleX = (float) Math.toRadians((peckTime % (60F / peckTime))) * 6F + (float) Math.toRadians(30);
         	} else {
-        		this.neck01.rotateAngleX = -0.9075712110370513F;
+        		this.neck01.rotateAngleX = headPitch * 0.017453292F - 0.9075712110370513F;
         	}
         }
-    	this.head.rotateAngleX = headPitch * 0.017453292F;
-        this.head.rotateAngleY = netHeadYaw * 0.017453292F;
+        this.neck01.rotateAngleY = netHeadYaw * 0.017453292F;
         this.rLeg01.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount;
         this.lLeg01.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F + (float)Math.PI) * 1.4F * limbSwingAmount;
         this.rWing01.rotateAngleZ = ageInTicks - 0.4F;
