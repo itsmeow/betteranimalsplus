@@ -14,6 +14,7 @@ import its_meow.betteranimalsplus.common.entity.EntityPheasant;
 import its_meow.betteranimalsplus.common.entity.EntityTarantula;
 import its_meow.betteranimalsplus.common.entity.miniboss.hirschgeist.EntityHirschgeist;
 import its_meow.betteranimalsplus.common.entity.projectile.EntityTarantulaHair;
+import net.minecraft.entity.Entity;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.relauncher.Side;
@@ -42,7 +43,7 @@ public class EntityRendererRegistry {
     }
     
 	@SideOnly(Side.CLIENT)
-	public static void registerEntityRenderer(Class EntityClass, IRenderFactory RenderFactory){
+	public static void registerEntityRenderer(Class<? extends Entity> EntityClass, IRenderFactory RenderFactory){
 		RenderingRegistry.registerEntityRenderingHandler(EntityClass, RenderFactory);
 	}
 

@@ -1,39 +1,23 @@
 package its_meow.betteranimalsplus.common.entity;
 
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
 import javax.annotation.Nullable;
 
-import com.google.common.base.Predicate;
-import com.google.common.base.Predicates;
-
 import its_meow.betteranimalsplus.init.LootTableRegistry;
-import its_meow.betteranimalsplus.init.TextureRegistry;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockTallGrass;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.block.state.pattern.BlockStateMatcher;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityAgeable;
-import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIAvoidEntity;
-import net.minecraft.entity.ai.EntityAIEatGrass;
-import net.minecraft.entity.ai.EntityAIHurtByTarget;
 import net.minecraft.entity.ai.EntityAILookIdle;
-import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
 import net.minecraft.entity.ai.EntityAIPanic;
 import net.minecraft.entity.ai.EntityAISwimming;
 import net.minecraft.entity.ai.EntityAITempt;
 import net.minecraft.entity.ai.EntityAIWander;
 import net.minecraft.entity.passive.EntityAnimal;
-import net.minecraft.entity.passive.EntityRabbit;
-import net.minecraft.entity.passive.EntityWolf;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.Item;
@@ -43,7 +27,6 @@ import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
 import scala.util.Random;

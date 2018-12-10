@@ -20,6 +20,7 @@ import its_meow.betteranimalsplus.common.entity.EntityPheasant;
 import its_meow.betteranimalsplus.common.entity.EntityTarantula;
 import its_meow.betteranimalsplus.common.entity.miniboss.hirschgeist.EntityHirschgeist;
 import its_meow.betteranimalsplus.common.entity.projectile.EntityTarantulaHair;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving.SpawnPlacementType;
 import net.minecraft.entity.EntitySpawnPlacementRegistry;
 import net.minecraft.entity.EnumCreatureType;
@@ -75,20 +76,24 @@ public class MobRegistry {
 
 
 	//#################################################################################
-
-	public static void regCre(Class EntityClass, String entityNameIn, int solidColorIn, int spotColorIn, int prob, int min, int max, Set<Biome>... biomes){
+	
+	@SafeVarargs
+	public static void regCre(Class<? extends Entity> EntityClass, String entityNameIn, int solidColorIn, int spotColorIn, int prob, int min, int max, Set<Biome>... biomes){
 		registerWithSpawnAndEgg(EntityClass, entityNameIn, solidColorIn, spotColorIn, EnumCreatureType.CREATURE, prob, min, max, biomes);
 	}
 
-	public static void regMob(Class EntityClass, String entityNameIn, int solidColorIn, int spotColorIn, int prob, int min, int max, Set<Biome>... biomes){
+	@SafeVarargs
+	public static void regMob(Class<? extends Entity> EntityClass, String entityNameIn, int solidColorIn, int spotColorIn, int prob, int min, int max, Set<Biome>... biomes){
 		registerWithSpawnAndEgg(EntityClass, entityNameIn, solidColorIn, spotColorIn, EnumCreatureType.MONSTER, prob, min, max, biomes);
 	}
 	
-	public static void regWater(Class EntityClass, String entityNameIn, int solidColorIn, int spotColorIn, int prob, int min, int max, Set<Biome>... biomes){
+	@SafeVarargs
+	public static void regWater(Class<? extends Entity> EntityClass, String entityNameIn, int solidColorIn, int spotColorIn, int prob, int min, int max, Set<Biome>... biomes){
 		registerWithSpawnAndEgg(EntityClass, entityNameIn, solidColorIn, spotColorIn, EnumCreatureType.WATER_CREATURE, prob, min, max, biomes);
 	}
 
-	public static void registerWithSpawnAndEgg(Class EntityClass, String entityNameIn, int solidColorIn, int spotColorIn, EnumCreatureType typeIn, int prob, int min, int max, Set<Biome>... biomes){
+	@SafeVarargs
+	public static void registerWithSpawnAndEgg(Class<? extends Entity> EntityClass, String entityNameIn, int solidColorIn, int spotColorIn, EnumCreatureType typeIn, int prob, int min, int max, Set<Biome>... biomes){
 		Set<Biome> biomesetAdd = new HashSet<>();
 		for(Set<Biome> biomeset : biomes) {
 			biomesetAdd.addAll(biomeset);
@@ -114,7 +119,7 @@ public class MobRegistry {
 		entrySet.add(entry);
 	}
 
-	public static void registerNoEggOrSpawn(Class EntityClass, String entityNameIn){
+	public static void registerNoEggOrSpawn(Class<? extends Entity> EntityClass, String entityNameIn){
 		EntityEntry entry = EntityEntryBuilder.create()
 				.entity(EntityClass)
 				.id(new ResourceLocation(Ref.MOD_ID, entityNameIn), modEntities++)
