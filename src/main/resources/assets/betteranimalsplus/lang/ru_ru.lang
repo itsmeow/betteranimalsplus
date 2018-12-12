@@ -11,6 +11,8 @@ item.hirschgeistskullwearable.name=Носимый череп хиршгейст�
 item.antler.name=Рога
 item.goatmilk.name=Козье молоко
 item.goatcheese.name=Козий сыр
+item.pheasantraw.name=Сырая фазанина
+item.pheasantcooked.name=Приготовленная фазанина
 
 #Blocks
 tile.trillium.name=Триллиум
@@ -32,3 +34,5 @@ entity.Fox.name=Лиса
 entity.Tarantula.name=Тарантул
 entity.Hirschgeist.name=Хиршгейст
 entity.Goat.name=Коза
+entity.Jellyfish.name=Медуза
+entity.Pheasant.name=Фазан
