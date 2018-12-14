@@ -1,4 +1,4 @@
-﻿#Creative Tabs
+#Creative Tabs
 #itemGroup.group=
 itemGroup.Better Animals+=Better Animals+
 
@@ -11,6 +11,8 @@ item.hirschgeistskullwearable.name=ヒルシュガイストの頭蓋骨（着用
 item.antler.name=枝角
 item.goatmilk.name=ヤギのミルク
 item.goatcheese.name=ヤギのチーズ
+item.pheasantraw.name=生のキジ肉
+item.pheasantcooked.name=焼きキジ
 
 #Blocks
 tile.trillium.name=エンレイソウ
@@ -18,6 +20,8 @@ tile.hirschgeistskull.name=ヒルシュガイストの頭蓋骨
 tile.handoffate.name=悲運の腕
 tile.wolfhead.name=オオカミの頭
 tile.deerhead.name=シカの頭
+entity.Jellyfish.name=クラゲ
+entity.Pheasant.name=キジ
 
 #Entities
 entity.BrownBear.name=ヒグマ
