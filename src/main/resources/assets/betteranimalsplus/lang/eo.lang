@@ -11,6 +11,8 @@ item.hirschgeistskullwearable.name=Surhavipova Kranio de Hirschgeisto
 item.antler.name=Kornbranĉo
 item.goatmilk.name=Kapra Lakto
 item.goatcheese.name=Kapra Fromaĝo
+item.pheasantraw.name=Kruda Fazanaĵo
+item.pheasantcooked.name=Kuirita Fazanaĵo
 
 #Blocks
 tile.trillium.name=Trilliumo
@@ -32,3 +34,5 @@ entity.Fox.name=Vulpo
 entity.Tarantula.name=Tarantulo
 entity.Hirschgeist.name=Hirschgeisto
 entity.Goat.name=Goat
+entity.Jellyfish.name=Meduzo
+entity.Pheasant.name=Fazano
