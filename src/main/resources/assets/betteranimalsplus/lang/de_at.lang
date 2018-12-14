@@ -1,5 +1,4 @@
 #Creative Tabs
-#itemGroup.group=
 itemGroup.Better Animals+=Bessere Tiere+
 
 #Items
@@ -9,11 +8,17 @@ item.venisoncooked.name=Gekochtes Wild
 item.hirschgeistskull.name=Hirschgeist Schädel (Gegenstand)
 item.hirschgeistskullwearable.name=Tragbarer Hirschgeist Schädel
 item.antler.name=Geweih
+item.goatmilk.name=Ziegenmilch
+item.goatcheese.name=Ziegenkäse
+item.pheasantraw.name=Roher Fasan
+item.pheasantcooked.name=Gekochter Fasan
 
 #Blocks
 tile.trillium.name=Trillium
 tile.hirschgeistskull.name=Hirschgeist Schädel
 tile.handoffate.name=Schicksalshand
+tile.wolfhead.name=Wolfskopf
+tile.deerhead.name=Rehkopf
 
 #Entities
 entity.BrownBear.name=Braunbär
@@ -27,3 +32,6 @@ entity.Trillium.name=Trillium
 entity.Fox.name=Fuchs
 entity.Tarantula.name=Vogelspinne
 entity.Hirschgeist.name=Hirschgeist
+entity.Goat.name=Ziege
+entity.Jellyfish.name=Qualle
+entity.Pheasant.name=Fasan
