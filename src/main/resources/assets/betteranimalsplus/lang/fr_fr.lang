@@ -18,6 +18,8 @@ item.pheasantcooked.name=Faisan cuit
 tile.trillium.name=Trillium
 tile.hirschgeistskull.name=Crâne d'Hirschgeist
 tile.handoffate.name=Main du destin
+tile.wolfhead.name=Tête de Loup
+tile.deerhead.name=Tête de Cerf
 
 #Entities
 entity.BrownBear.name=Ours brun
