@@ -9,6 +9,10 @@ item.venisoncooked.name=Chevreuil cuit
 item.hirschgeistskull.name=Crâne d'Hirschgeist (article)
 item.hirschgeistskullwearable.name=Crâne d'Hirschgeist portable
 item.antler.name=Bois
+item.goatmilk.name=Lait de Chèvre
+item.goatcheese.name=Fromage de Chèvre
+item.pheasantraw.name=Faisan cru
+item.pheasantcooked.name=Faisan cuit
 
 #Blocks
 tile.trillium.name=Trillium
@@ -27,3 +31,6 @@ entity.Trillium.name=Trillium
 entity.Fox.name=Renard
 entity.Tarantula.name=Tarentule
 entity.Hirschgeist.name=Hirschgeist
+entity.Goat.name=Chèvre
+entity.Jellyfish.name=Méduse
+entity.Pheasant.name=Faisan
