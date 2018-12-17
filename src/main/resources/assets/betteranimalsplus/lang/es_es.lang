@@ -9,6 +9,8 @@ item.hirschgeistskullwearable.name=Cráneo Usable de la Hirschgeist
 item.antler.name=Cornamenta
 item.goatmilk.name=Leche de Cabra
 item.goatcheese.name=Queso de Cabra
+item.pheasantraw.name=Faisán crudo
+item.pheasantcooked.name=Faisán Cocido
 
 #Blocks
 tile.trillium.name=Trilio
@@ -29,3 +31,5 @@ entity.Fox.name=Zorro
 entity.Tarantula.name=Tarántula
 entity.Hirschgeist.name=Hirschgeist
 entity.Goat.name=Cabra
+entity.Jellyfish.name=Medusa
+entity.Pheasant.name=Faisán
