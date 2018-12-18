@@ -1,3 +1,17 @@
+3.0.1
+-
+- Fixed Hand of Fate breaking bug
+- Added a secret :D
+- Updated Translations:
+    German
+    Esperanto
+    English
+    Spanish
+    French
+    Japanese
+    Portuguese
+    Russian
+
 3.0.0
 -
 - Added jellyfish
@@ -16,6 +30,7 @@
 - Fix server crash with loading and unloading Trillium on servers
 - Fix error in configuration where Hirschgeist spawn weight was named "weight"
 - Fix pesky off center-ness with Hirschgeist skull
+- Fixed drops and placement being wrong for Hirschgeist skull
 - Feral Wolves attack goats
 - Fixed some loot tables for mobs
 - Fixed large deer hitbox
