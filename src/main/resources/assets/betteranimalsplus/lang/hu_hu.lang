@@ -1,0 +1,38 @@
+#Creative Tabs
+#itemGroup.group=
+itemGroup.Better Animals+=Better Animals+
+
+#Items
+#item.itemname.name=
+item.venisonraw.name=Nyers Õzhús
+item.venisoncooked.name=Sült Õzhús
+item.hirschgeistskull.name=Szarvaslélek Koponya (Tárgy)
+item.hirschgeistskullwearable.name=Viselhetõ Szarvaslélek Koponya
+item.antler.name=Agancsok
+item.goatmilk.name=Kecsketej
+item.goatcheese.name=Kecskesajt
+item.pheasantraw.name=Nyers Fácán
+item.pheasantcooked.name=Sült Fácán
+
+#Blocks
+tile.trillium.name=Hármasszirom
+tile.hirschgeistskull.name=Szarvaslélek Koponya
+tile.handoffate.name=A Sors Keze
+tile.wolfhead.name=Farkasfej
+tile.deerhead.name=Õzfej
+
+#Entities
+entity.BrownBear.name=Barnamedve
+entity.BlackBear.name=Feketemedve
+entity.KermodeBear.name=Szellem Medve
+entity.Deer.name=Õz
+entity.Lammergeier.name=Szakállas Saskeselyû
+entity.FeralWolf.name=Vad Farkas
+entity.Coyote.name=Prérifarkas
+entity.Trillium.name=Hármasszirom
+entity.Fox.name=Rókafej
+entity.Tarantula.name=Tarantula
+entity.Hirschgeist.name=Szarvaslélek
+entity.Goat.name=Kecske
+entity.Jellyfish.name=Medúza
+entity.Pheasant.name=Fácán
