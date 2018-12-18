@@ -17,6 +17,7 @@ import its_meow.betteranimalsplus.common.entity.EntityGoat;
 import its_meow.betteranimalsplus.common.entity.EntityJellyfish;
 import its_meow.betteranimalsplus.common.entity.EntityLammergeier;
 import its_meow.betteranimalsplus.common.entity.EntityPheasant;
+import its_meow.betteranimalsplus.common.entity.EntityReindeer;
 import its_meow.betteranimalsplus.common.entity.EntityTarantula;
 import its_meow.betteranimalsplus.common.entity.miniboss.hirschgeist.EntityHirschgeist;
 import its_meow.betteranimalsplus.common.entity.projectile.EntityTarantulaHair;
@@ -72,6 +73,8 @@ public class MobRegistry {
 			regWater(EntityJellyfish.class, "Jellyfish", 0x226fe2, 0xf2b3b3, BetterAnimalsPlusConfig.jellyFishWeight, 1, 1, BiomeDictionary.getBiomes(Type.OCEAN));
 		if(BetterAnimalsPlusConfig.spawnPheasant)
 			regCre(EntityPheasant.class, "Pheasant", 0x8e6b0b, 0xd8af3c, BetterAnimalsPlusConfig.pheasantWeight, 1, 3, BiomeDictionary.getBiomes(Type.FOREST), BiomeDictionary.getBiomes(Type.PLAINS), BiomeDictionary.getBiomes(Type.SAVANNA));
+		if(BetterAnimalsPlusConfig.spawnReindeer)
+			regCre(EntityReindeer.class, "Reindeer", 0x8e510b, 0x017700, BetterAnimalsPlusConfig.reindeerWeight, 1, 4, BiomeDictionary.getBiomes(Type.SNOWY));
 	}
 
 
