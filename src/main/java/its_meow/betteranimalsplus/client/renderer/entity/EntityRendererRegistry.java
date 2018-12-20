@@ -11,6 +11,7 @@ import its_meow.betteranimalsplus.common.entity.EntityGoat;
 import its_meow.betteranimalsplus.common.entity.EntityJellyfish;
 import its_meow.betteranimalsplus.common.entity.EntityLammergeier;
 import its_meow.betteranimalsplus.common.entity.EntityPheasant;
+import its_meow.betteranimalsplus.common.entity.EntityReindeer;
 import its_meow.betteranimalsplus.common.entity.EntityTarantula;
 import its_meow.betteranimalsplus.common.entity.miniboss.hirschgeist.EntityHirschgeist;
 import its_meow.betteranimalsplus.common.entity.projectile.EntityTarantulaHair;
@@ -40,6 +41,7 @@ public class EntityRendererRegistry {
 		registerEntityRenderer(EntityGoat.class, RenderGoat.FACTORY);
 		registerEntityRenderer(EntityJellyfish.class, RenderJellyfish.FACTORY);
 		registerEntityRenderer(EntityPheasant.class, RenderPheasant.FACTORY);
+		registerEntityRenderer(EntityReindeer.class, RenderReindeer.FACTORY);
     }
     
 	@SideOnly(Side.CLIENT)

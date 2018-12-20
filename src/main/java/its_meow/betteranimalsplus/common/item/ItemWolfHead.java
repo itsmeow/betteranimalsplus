@@ -17,49 +17,9 @@ import net.minecraft.world.World;
 
 public class ItemWolfHead extends ItemBlockSkull {
 
-	//Is non static!
-	private Block block;
-
 	public ItemWolfHead(Block block) {
 		super(block);
 		setMaxDamage(0);
-		this.setUnlocalizedName("wolfhead");
-		this.block = block;
-	}
-
-	@Override
-	public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand,
-			EnumFacing side, float hitX, float hitY, float hitZ) {
-		ItemStack stack = player.getHeldItem(hand);
-		if (side == EnumFacing.DOWN) {
-			return EnumActionResult.FAIL;
-		} else {
-			BlockPos clickedPos = pos.offset(side);
-			IBlockState clickedState = world.getBlockState(clickedPos);
-			if(!clickedState.getBlock().isReplaceable(world, clickedPos)) {
-				return EnumActionResult.FAIL;
-			}
-			if (!world.isRemote) {
-				world.setBlockState(clickedPos, block.getDefaultState().withProperty(BlockSkull.FACING, side), 3);
-
-				TileEntity tile = world.getTileEntity(clickedPos);
-				populateTile(stack, side, player, tile);
-			}
-			if(!player.capabilities.isCreativeMode) {
-				stack.shrink(1);
-			}
-			return EnumActionResult.SUCCESS;
-		}
-	}
-
-	protected void populateTile(ItemStack stack, EnumFacing side, EntityPlayer player, TileEntity tile) {
-		if (tile instanceof TileEntitySkull) {
-			TileEntitySkull tileSkull = (TileEntitySkull) tile;
-			int rotation = 0;
-			if (side == EnumFacing.UP)
-				rotation = MathHelper.floor(player.rotationYaw * 16.0F / 360.0F + 0.5D) & 15;
-			tileSkull.setSkullRotation(rotation);
-		}
 	}
 
 }

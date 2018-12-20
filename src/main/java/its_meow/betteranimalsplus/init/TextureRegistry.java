@@ -147,4 +147,23 @@ public class TextureRegistry {
 			new ResourceLocation(entitytex + "pheasant_1.png");
 	public static final ResourceLocation pheasant_2 = 
 			new ResourceLocation(entitytex + "pheasant_2.png");
+	
+	//Reindeer Variants
+	public static final ResourceLocation reindeer_1 = 
+			new ResourceLocation(entitytex + "reindeer_1.png");
+	public static final ResourceLocation reindeer_2 = 
+			new ResourceLocation(entitytex + "reindeer_2.png");
+	public static final ResourceLocation reindeer_3 = 
+			new ResourceLocation(entitytex + "reindeer_3.png");
+	public static final ResourceLocation reindeer_4 = 
+			new ResourceLocation(entitytex + "reindeer_4.png");
+	public static final ResourceLocation reindeer_1_christmas = 
+			new ResourceLocation(entitytex + "reindeer_1_christmas.png");
+	public static final ResourceLocation reindeer_2_christmas = 
+			new ResourceLocation(entitytex + "reindeer_2_christmas.png");
+	public static final ResourceLocation reindeer_3_christmas = 
+			new ResourceLocation(entitytex + "reindeer_3_christmas.png");
+	public static final ResourceLocation reindeer_4_christmas = 
+			new ResourceLocation(entitytex + "reindeer_4_christmas.png");
+	
 }
