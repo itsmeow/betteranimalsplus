@@ -5,7 +5,7 @@
 - Fix bug where wolf skulls didn't save their type
 - Add both variants of deer head
 - Add Translation: Hungarian
-- Translations now out of date
+- Translations now out of date 
 
 3.0.1
 -
