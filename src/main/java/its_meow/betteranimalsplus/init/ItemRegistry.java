@@ -4,7 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import its_meow.betteranimalsplus.common.item.ItemAntler;
-import its_meow.betteranimalsplus.common.item.ItemDeerHead;
+import its_meow.betteranimalsplus.common.item.ItemBlockSkull;
 import its_meow.betteranimalsplus.common.item.ItemGoatCheese;
 import its_meow.betteranimalsplus.common.item.ItemGoatMilk;
 import its_meow.betteranimalsplus.common.item.ItemHandOfFate;
@@ -14,7 +14,6 @@ import its_meow.betteranimalsplus.common.item.ItemPheasantCooked;
 import its_meow.betteranimalsplus.common.item.ItemPheasantRaw;
 import its_meow.betteranimalsplus.common.item.ItemVenisonCooked;
 import its_meow.betteranimalsplus.common.item.ItemVenisonRaw;
-import its_meow.betteranimalsplus.common.item.ItemWolfHead;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.Item;
 import net.minecraftforge.client.event.ModelRegistryEvent;
@@ -38,8 +37,8 @@ public class ItemRegistry {
 
 	// These are not registered
 	public static final ItemHirschgeistSkull itemHirschgeistSkull = new ItemHirschgeistSkull(BlockRegistry.hirschgeistskull);
-	public static final ItemDeerHead itemDeerHead = new ItemDeerHead(BlockRegistry.deerhead);
-	public static final ItemWolfHead itemWolfHead = new ItemWolfHead(BlockRegistry.wolfhead);
+	public static final ItemBlockSkull itemDeerHead = new ItemBlockSkull(BlockRegistry.deerhead);
+	public static final ItemBlockSkull itemWolfHead = new ItemBlockSkull(BlockRegistry.wolfhead);
 
 
 	@Mod.EventBusSubscriber

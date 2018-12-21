@@ -2,10 +2,7 @@ package its_meow.betteranimalsplus.client.renderer.TESR;
 
 import com.mojang.authlib.GameProfile;
 
-import its_meow.betteranimalsplus.client.model.ModelHirschgeistSkull;
-import its_meow.betteranimalsplus.common.tileentity.TileEntityHead;
 import its_meow.betteranimalsplus.common.tileentity.TileEntityWolfHead;
-import its_meow.betteranimalsplus.init.TextureRegistry;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
@@ -19,7 +16,7 @@ public class RenderWolfHead extends TileEntitySpecialRenderer<TileEntityWolfHead
 
 	@Override
 	public void render(TileEntityWolfHead tile, double x, double y, double z, float partialTickTime, int destroyStage, float alpha) {
-		renderHead((float) x, (float) y, (float) z, tile.getBlockMetadata() & 7, tile.getSkullRotation() * 360 / 16.0F, tile.getPlayerProfile(), tile.getModel(), destroyStage, tile.texture);
+		renderHead((float) x, (float) y, (float) z, tile.getBlockMetadata() & 7, tile.getSkullRotation() * 360 / 16.0F, tile.getPlayerProfile(), tile.getModel(), destroyStage, tile.getTexture());
 	}
 
 	private void renderHead(float x, float y, float z, int meta, float skullRotation, GameProfile profile, ModelBase model, int destroyStage, ResourceLocation texture) {

@@ -5,11 +5,10 @@ import java.util.Set;
 
 import com.google.common.base.Preconditions;
 
-import its_meow.betteranimalsplus.common.block.BlockDeerHead;
+import its_meow.betteranimalsplus.common.block.BlockGenericSkull;
 import its_meow.betteranimalsplus.common.block.BlockHandOfFate;
 import its_meow.betteranimalsplus.common.block.BlockHirschgeistSkull;
 import its_meow.betteranimalsplus.common.block.BlockTrillium;
-import its_meow.betteranimalsplus.common.block.BlockWolfHead;
 import its_meow.betteranimalsplus.common.tileentity.TileEntityDeerHead;
 import its_meow.betteranimalsplus.common.tileentity.TileEntityHandOfFate;
 import its_meow.betteranimalsplus.common.tileentity.TileEntityHirschgeistSkull;
@@ -36,8 +35,8 @@ public class BlockRegistry {
 	public static final BlockHirschgeistSkull hirschgeistskull = new BlockHirschgeistSkull();
 	public static final BlockHandOfFate handoffate = new BlockHandOfFate();
 
-	public static final BlockDeerHead deerhead = new BlockDeerHead();
-	public static final BlockWolfHead wolfhead = new BlockWolfHead();
+	public static final BlockGenericSkull deerhead = new BlockGenericSkull(TileEntityDeerHead.class, "deerhead");
+	public static final BlockGenericSkull wolfhead = new BlockGenericSkull(TileEntityWolfHead.class, "wolfhead");
 
 	@Mod.EventBusSubscriber
 	public static class RegistrationHandler {

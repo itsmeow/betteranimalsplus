@@ -19,7 +19,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class ItemHirschgeistSkullWearable extends ItemArmor {
 	
 	public ItemHirschgeistSkullWearable() {
-		super(ArmorMaterial.LEATHER, 0, EntityEquipmentSlot.HEAD);
+		super(ArmorMaterial.CHAIN, -1, EntityEquipmentSlot.HEAD);
 		this.setUnlocalizedName("hirschgeistskullwearable");
 		this.setRegistryName("hirschgeistskullwearable");
 		this.setCreativeTab(BetterAnimalsPlusMod.tab);
@@ -33,7 +33,7 @@ public class ItemHirschgeistSkullWearable extends ItemArmor {
 	@Override
 	public String getArmorTexture(ItemStack stack, Entity entity, EntityEquipmentSlot slot, String type)
 	{
-		return Ref.MOD_ID + ":textures/entities/hirschgeist.png";
+		return null;
 	}
 
 	@Override 	
@@ -44,17 +44,7 @@ public class ItemHirschgeistSkullWearable extends ItemArmor {
 			if (itemStack.getItem() instanceof ItemArmor) {
 
 				EntityEquipmentSlot type = ((ItemArmor) itemStack.getItem()).armorType;
-				ModelBiped armorModel = null;
-				switch (type) {
-				case HEAD:
-					armorModel = ClientProxy.getArmorModel();
-				case LEGS:
-				case FEET:
-				case CHEST:
-				default:
-					break;
-				}
-
+				ModelBiped armorModel = ClientProxy.getArmorModel();
 				armorModel.bipedHead.showModel = armorSlot == EntityEquipmentSlot.HEAD;
 				armorModel.bipedHeadwear.showModel = armorSlot == EntityEquipmentSlot.HEAD;
 				armorModel.bipedBody.showModel = (armorSlot == EntityEquipmentSlot.CHEST)

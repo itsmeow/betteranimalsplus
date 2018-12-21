@@ -18,7 +18,7 @@ public class RenderGenericHead extends TileEntitySpecialRenderer<TileEntityHead>
 
 	@Override
 	public void render(TileEntityHead tile, double x, double y, double z, float partialTickTime, int destroyStage, float alpha) {
-		renderHead((float) x, (float) y, (float) z, tile.getBlockMetadata() & 7, tile.getSkullRotation() * 360 / 16.0F, tile.getPlayerProfile(), tile.getModel(), destroyStage, tile.texture);
+		renderHead((float) x, (float) y, (float) z, tile.getBlockMetadata() & 7, tile.getSkullRotation() * 360 / 16.0F, tile.getPlayerProfile(), tile.getModel(), destroyStage, tile.getTexture());
 	}
 
 	private void renderHead(float x, float y, float z, int meta, float skullRotation, GameProfile profile, ModelBase model, int destroyStage, ResourceLocation texture) {
