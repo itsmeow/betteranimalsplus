@@ -7,7 +7,6 @@
 - Add Translation: Hungarian
 - Translations now out of date
 
-
 3.0.1
 -
 - Fixed Hand of Fate breaking bug
