@@ -1,3 +1,13 @@
+4.0.0
+-
+- Add reindeer
+- Add reindeer head
+- Fix bug where wolf skulls didn't save their type
+- Add both variants of deer head
+- Add Translation: Hungarian
+- Translations now out of date
+
+
 3.0.1
 -
 - Fixed Hand of Fate breaking bug
