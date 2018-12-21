@@ -218,8 +218,7 @@ public class ModelHirschgeistSkullArmorPiece extends ModelBiped {
 
 	@Override
 	public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) {
-		this.bipedHead.showModel = true;
-		this.bipedHeadwear.showModel = false;
+		this.bipedHead.showModel = false;
 		super.render(entity, f, f1, f2, f3, f4, f5);
 		setRotationAngles(f, f1, f2, f3, f4, f5, entity);
 		
@@ -229,7 +228,6 @@ public class ModelHirschgeistSkullArmorPiece extends ModelBiped {
 		this.head01.rotateAngleX = (this.bipedHead.rotateAngleX / 2) - 1.5707963267948966F;
 		this.head01.rotateAngleY = this.bipedHead.rotateAngleY / 2;
 		this.head01.rotateAngleZ = this.bipedHead.rotateAngleZ;
-		this.head01.showModel = this.bipedHead.showModel;
 		this.head01.render(0.125F);
 		
 	}
