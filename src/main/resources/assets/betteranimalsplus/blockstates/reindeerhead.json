@@ -1,0 +1,17 @@
+{
+    "variants": {
+        "facing=east,nodrop=false":  { "model": "minecraft:soul_sand" },
+        "facing=west,nodrop=false":  { "model": "minecraft:soul_sand" },
+        "facing=north,nodrop=false":  { "model": "minecraft:soul_sand" },
+        "facing=south,nodrop=false":  { "model": "minecraft:soul_sand" },
+        "facing=up,nodrop=false":  { "model": "minecraft:soul_sand" },
+        "facing=down,nodrop=false":  { "model": "minecraft:soul_sand" },
+        "facing=east,nodrop=true":  { "model": "minecraft:soul_sand" },
+        "facing=west,nodrop=true":  { "model": "minecraft:soul_sand" },
+        "facing=north,nodrop=true":  { "model": "minecraft:soul_sand" },
+        "facing=south,nodrop=true":  { "model": "minecraft:soul_sand" },
+        "facing=up,nodrop=true":  { "model": "minecraft:soul_sand" },
+        "facing=down,nodrop=true":  { "model": "minecraft:soul_sand" },
+        "inventory": { "model": "betteranimalsplus:items/reindeerhead" }
+    }
+}

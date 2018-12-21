@@ -1,6 +1,8 @@
 package its_meow.betteranimalsplus.common.block;
 
 import its_meow.betteranimalsplus.common.item.ItemBlockSkull;
+import its_meow.betteranimalsplus.init.BlockRegistry;
+import its_meow.betteranimalsplus.init.ItemRegistry;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.tileentity.TileEntity;
@@ -8,13 +10,15 @@ import net.minecraft.world.World;
 
 public class BlockGenericSkull extends BlockAnimalSkull implements ITileEntityProvider {
 	
-	private Class<? extends TileEntity> teClass;
+	public final boolean allowFloor;
+	public final Class<? extends TileEntity> teClass;
 	
-	public BlockGenericSkull(Class<? extends TileEntity> teClass, String name) {
+	public BlockGenericSkull(Class<? extends TileEntity> teClass, String name, boolean allowFloor) {
 		super();
 		this.setRegistryName(name);
 		this.setUnlocalizedName(name);
 		this.teClass = teClass;
+		this.allowFloor = allowFloor;
 	}
 
 
@@ -33,7 +37,7 @@ public class BlockGenericSkull extends BlockAnimalSkull implements ITileEntityPr
 
 	@Override
 	public ItemBlock getItemBlock() {
-		return new ItemBlockSkull(this);
+		return BlockRegistry.getSkullItemForBlock(this);
 	}
 
 }

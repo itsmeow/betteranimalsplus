@@ -1,12 +1,9 @@
 #Creative Tabs
-#itemGroup.group=
 itemGroup.Better Animals+=Better Animals+
 
 #Items
-#item.itemname.name=
 item.venisonraw.name=Raw Venison
 item.venisoncooked.name=Cooked Venison
-item.hirschgeistskull.name=Hirschgeist Skull (Item)
 item.hirschgeistskullwearable.name=Wearable Hirschgeist Skull
 item.antler.name=Antler
 item.goatmilk.name=Goat Milk
@@ -20,6 +17,7 @@ tile.hirschgeistskull.name=Hirschgeist Skull
 tile.handoffate.name=Hand Of Fate
 tile.wolfhead.name=Wolf Head
 tile.deerhead.name=Deer Head
+tile.reindeerhead.name=Reindeer Head
 
 #Entities
 entity.BrownBear.name=Brown Bear

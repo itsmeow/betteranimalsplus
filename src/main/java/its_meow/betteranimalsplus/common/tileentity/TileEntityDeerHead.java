@@ -8,7 +8,7 @@ import net.minecraft.util.ResourceLocation;
 public class TileEntityDeerHead extends TileEntityHead {
 
 	public TileEntityDeerHead() {
-		super(ModelDeerHead.class.asSubclass(ModelBase.class), TextureRegistry.deer_2);
+		super(ModelDeerHead.class.asSubclass(ModelBase.class), TextureRegistry.deer_1, TextureRegistry.deer_2);
 	}
 
 }

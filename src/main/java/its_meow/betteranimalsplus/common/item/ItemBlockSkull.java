@@ -23,9 +23,12 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ItemBlockSkull extends ItemBlock {
-
-	public ItemBlockSkull(Block block) {
+	
+	private boolean allowFloor = true;
+	
+	public ItemBlockSkull(Block block, boolean allowFloor) {
 		super(block);
+		this.allowFloor = allowFloor;
 	}
 
 	@Override
@@ -54,7 +57,7 @@ public class ItemBlockSkull extends ItemBlock {
 	public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand,
 			EnumFacing side, float hitX, float hitY, float hitZ) {
 		ItemStack stack = player.getHeldItem(hand);
-		if (side == EnumFacing.DOWN || side == EnumFacing.UP) {
+		if (side == EnumFacing.DOWN || (side == EnumFacing.UP && !allowFloor)) {
 			return EnumActionResult.FAIL;
 		} else {
 			BlockPos clickedPos = pos.offset(side);

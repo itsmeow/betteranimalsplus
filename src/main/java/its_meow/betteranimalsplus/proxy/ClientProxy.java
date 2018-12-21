@@ -10,6 +10,7 @@ import its_meow.betteranimalsplus.client.renderer.TESR.RenderBlockTrillium;
 import its_meow.betteranimalsplus.client.renderer.entity.EntityRendererRegistry;
 import its_meow.betteranimalsplus.common.tileentity.TileEntityHandOfFate;
 import its_meow.betteranimalsplus.common.tileentity.TileEntityHead;
+import its_meow.betteranimalsplus.common.tileentity.TileEntityReindeerHead;
 import its_meow.betteranimalsplus.common.tileentity.TileEntityTrillium;
 import its_meow.betteranimalsplus.common.tileentity.TileEntityWolfHead;
 import its_meow.betteranimalsplus.init.BlockRegistry;
@@ -41,6 +42,7 @@ public class ClientProxy extends CommonProxy {
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityHead.class, new RenderGenericHead());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityHandOfFate.class, new RenderBlockHandOfFate());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityWolfHead.class, new RenderWolfHead());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityReindeerHead.class, new RenderGenericHead());
 	}
     
 	public static ModelBiped getArmorModel(){
