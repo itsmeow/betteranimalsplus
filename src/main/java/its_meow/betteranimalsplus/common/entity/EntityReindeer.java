@@ -523,6 +523,10 @@ public class EntityReindeer extends EntityAnimal implements IJumpingMount {
 			f = 2.0F;
 			i = 20;
 			j = 3;
+			if(!this.isChild() && !this.isInLove()) {
+				flag = true;
+				this.setInLove(player);
+			}
 		}
 		else if (item == Items.SUGAR)
 		{
@@ -1213,11 +1217,6 @@ public class EntityReindeer extends EntityAnimal implements IJumpingMount {
 			{
 				this.setGrowingAge(-24000);
 			}
-		}
-
-		if (this.rand.nextInt(5) == 0)
-		{
-			this.setGrowingAge(-24000);
 		}
 		return livingdata;
 	}

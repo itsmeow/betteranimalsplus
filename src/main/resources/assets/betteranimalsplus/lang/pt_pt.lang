@@ -2,10 +2,8 @@
 itemGroup.Better Animals+=Better Animals+
 
 #Items
-#item.itemname.name=
 item.venisonraw.name=Carne de Veado Crua
 item.venisoncooked.name=Carne de Veado Cozida
-item.hirschgeistskull.name=Crânio de Hirschgeist (Item)
 item.hirschgeistskullwearable.name=Crânio de Hirschgeist Vestível
 item.antler.name=Chifre de Veado
 item.goatmilk.name=Liete de Cabra
@@ -19,6 +17,7 @@ tile.hirschgeistskull.name=Crânio de Hirschgeist
 tile.handoffate.name=Mão do Destino
 tile.wolfhead.name=Cabeça de Lobo
 tile.deerhead.name=Cabeça de Veado
+tile.reindeerhead.name=Cabeça de Rena
 
 #Entities
 entity.BrownBear.name=Urso Pardo
@@ -35,3 +34,4 @@ entity.Hirschgeist.name=Hirschgeist
 entity.Goat.name=Cabra
 entity.Jellyfish.name=Medusa
 entity.Pheasant.name=Faisão
+entity.Reindeer.name=Rena

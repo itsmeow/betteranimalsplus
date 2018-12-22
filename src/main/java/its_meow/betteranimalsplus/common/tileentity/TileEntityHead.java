@@ -1,10 +1,10 @@
 package its_meow.betteranimalsplus.common.tileentity;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Random;
 
-import its_meow.betteranimalsplus.init.TextureRegistry;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
@@ -19,7 +19,9 @@ public class TileEntityHead extends TileEntitySkull {
 	
 	private Class<? extends ModelBase> modelT = null;
 	private ModelBase model = null;
-	private int typeNum = 0;
+	protected int typeNum = 0;
+	private boolean useFunc = false;
+	private Method textureFunction;
 	
 	public HashMap<Integer, ResourceLocation> textures;
 	
@@ -57,7 +59,16 @@ public class TileEntityHead extends TileEntitySkull {
 	}
 	
 	public ResourceLocation getTexture() {
-		return textures.get(typeNum);
+		if(useFunc) {
+			try {
+				return (ResourceLocation) textureFunction.invoke(typeNum);
+			} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+				e.printStackTrace();
+			}
+		} else {
+			return textures.get(typeNum);
+		}
+		return null;
 	}
 	
 	public void setType(int i) {

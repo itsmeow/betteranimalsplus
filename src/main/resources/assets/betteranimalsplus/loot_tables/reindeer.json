@@ -53,7 +53,7 @@
                 },
                 {
                     "type": "item",
-                    "name": "betteranimalsplus:leather",
+                    "name": "minecraft:leather",
                     "weight": 2,
                     "functions": [
                         {

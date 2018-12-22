@@ -2,18 +2,15 @@ package its_meow.betteranimalsplus.client.renderer.entity;
 
 import java.util.Calendar;
 
-import javax.annotation.Nonnull;
-
 import its_meow.betteranimalsplus.client.model.ModelDeer;
 import its_meow.betteranimalsplus.common.entity.EntityDeer;
 import its_meow.betteranimalsplus.init.TextureRegistry;
-import net.minecraft.client.model.ModelBase;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
-import scala.util.Random;
 
 public class RenderDeer extends RenderLiving<EntityDeer> {
 
@@ -28,6 +25,15 @@ public class RenderDeer extends RenderLiving<EntityDeer> {
 			this.isChristmas = true;
 		}
 	}
+	
+	@Override
+	protected void preRenderCallback(EntityDeer entitylivingbaseIn, float partialTickTime) {
+		if (getMainModel().isChild) {
+			GlStateManager.scale(0.6D, 0.6D, 0.6D);
+		} else {
+			GlStateManager.scale(1.0D, 1.0D, 1.0D);
+		}
+	}
 
 
 
@@ -40,11 +46,17 @@ public class RenderDeer extends RenderLiving<EntityDeer> {
 	protected ResourceLocation getEntityTexture(EntityDeer entity) {
 		int type = entity.getTypeNumber();
 		if(!isChristmas) {
+			if(getMainModel().isChild) {
+				return TextureRegistry.deer_1;
+			}
 			if(type == 1) {
 				return TextureRegistry.deer_1;
 			}
 			return TextureRegistry.deer_2;
 		} else {
+			if(getMainModel().isChild) {
+				return TextureRegistry.deer_1_christmas;
+			}
 			if(type == 1) {
 				return TextureRegistry.deer_1_christmas;
 			}

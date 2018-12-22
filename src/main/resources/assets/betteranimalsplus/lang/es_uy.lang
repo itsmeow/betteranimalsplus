@@ -4,7 +4,6 @@ itemGroup.Better Animals+=Más Animales Épicos
 #Items
 item.venisonraw.name=Venado Crudo
 item.venisoncooked.name=Venado Cocido
-item.hirschgeistskull.name=Cráneo de la Hirschgeist
 item.hirschgeistskullwearable.name=Cráneo Usable de la Hirschgeist
 item.antler.name=Cornamenta
 item.goatmilk.name=Leche de Cabra
@@ -18,6 +17,7 @@ tile.hirschgeistskull.name=Cráneo de la Hirschgeist
 tile.handoffate.name=Mano del Destino
 tile.wolfhead.name=Cabeza de Lobo
 tile.deerhead.name=Cabeza de Ciervo
+tile.reindeerhead.name=Cabeza de Reno
 
 #Entities
 entity.BrownBear.name=Oso Pardo
@@ -33,3 +33,4 @@ entity.Hirschgeist.name=Hirschgeist
 entity.Goat.name=Cabra
 entity.Jellyfish.name=Medusa
 entity.Pheasant.name=Faisán
+entity.Reindeer.name=Reno

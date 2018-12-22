@@ -1,11 +1,19 @@
 4.0.0
 -
-- Add reindeer
-- Add reindeer head
-- Fix bug where wolf skulls didn't save their type
-- Add both variants of deer head
-- Add Translation: Hungarian
-- Translations now out of date
+- Added reindeer
+- Added reindeer head
+- Fixed bug where wolf skulls didn't save their type
+- Added both antler variants to the deer head
+- Added baby deer
+- Added Translation: Hungarian
+- Updated Translations:
+    German
+    Esperanto
+    English
+    Spanish
+    French
+    Portuguese
+    Russian
 
 3.0.1
 -

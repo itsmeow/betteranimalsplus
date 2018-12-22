@@ -20,6 +20,7 @@ tile.hirschgeistskull.name=Kranio de Hirschgeisto
 tile.handoffate.name=Mano de Sorto
 tile.wolfhead.name=Kapo de Lupo
 tile.deerhead.name=Kapo de Cervo
+tile.reindeerhead.name=Kapo de Norda Cervo
 
 #Entities
 entity.BrownBear.name=Bruna Urso
@@ -36,3 +37,4 @@ entity.Hirschgeist.name=Hirschgeisto
 entity.Goat.name=Goat
 entity.Jellyfish.name=Meduzo
 entity.Pheasant.name=Fazano
+entity.Reindeer.name=Norda Cervo

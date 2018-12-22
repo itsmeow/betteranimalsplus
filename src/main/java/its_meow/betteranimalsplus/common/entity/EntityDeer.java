@@ -21,10 +21,12 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.DifficultyInstance;
@@ -49,6 +51,21 @@ public class EntityDeer extends EntityAnimal {
         this.dataManager.register(TYPE_NUMBER, Integer.valueOf(0));
     }
 	
+	
+	
+	@Override
+	public boolean processInteract(EntityPlayer player, EnumHand hand) {
+		ItemStack stack = player.getHeldItem(hand);
+		boolean isEmpty = stack.isEmpty();
+		if(!isEmpty) {
+			if(stack.getItem() == Items.WHEAT || stack.getItem() == Items.CARROT) {
+				this.setInLove(player);
+			}
+		}
+		
+		return super.processInteract(player, hand);
+	}
+
 	@Override
 	public int getMaxSpawnedInChunk() {
 		return 4;
@@ -103,9 +120,11 @@ public class EntityDeer extends EntityAnimal {
         {
             livingdata = new EntityDeer.DeerTypeData(i);
         }
-
-        this.setDeerType(i);
-
+        
+        if(!this.isChild()) {
+        	this.setDeerType(i);
+        }
+        
         if (flag)
         {
             this.setGrowingAge(-24000);
@@ -169,7 +188,9 @@ public class EntityDeer extends EntityAnimal {
 
 	@Override
 	public EntityAgeable createChild(EntityAgeable ageable) {
-		return null;
+		EntityDeer child = new EntityDeer(this.world);
+		child.setDeerType(this.getTypeNumber());
+		return child;
 	}
 	
 	 

@@ -1,12 +1,9 @@
 #Creative Tabs
-#itemGroup.group=
 itemGroup.Better Animals+=Better Animals+
 
 #Items
-#item.itemname.name=
 item.venisonraw.name=Nyers Õzhús
 item.venisoncooked.name=Sült Õzhús
-item.hirschgeistskull.name=Szarvaslélek Koponya (Tárgy)
 item.hirschgeistskullwearable.name=Viselhetõ Szarvaslélek Koponya
 item.antler.name=Agancsok
 item.goatmilk.name=Kecsketej
@@ -20,6 +17,7 @@ tile.hirschgeistskull.name=Szarvaslélek Koponya
 tile.handoffate.name=A Sors Keze
 tile.wolfhead.name=Farkasfej
 tile.deerhead.name=Õzfej
+tile.reindeerhead.name=Rénszarvasfej
 
 #Entities
 entity.BrownBear.name=Barnamedve
@@ -36,3 +34,4 @@ entity.Hirschgeist.name=Szarvaslélek
 entity.Goat.name=Kecske
 entity.Jellyfish.name=Medúza
 entity.Pheasant.name=Fácán
+entity.Reindeer.name=Rénszarvas

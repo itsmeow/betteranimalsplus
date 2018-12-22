@@ -17,7 +17,7 @@ public class RenderGoat extends RenderLiving<EntityGoat> {
 	public RenderGoat(RenderManager rendermanagerIn) {
 		super(rendermanagerIn, new ModelGoat(), 0.5F);
 	}
-	
+
 	@Override
 	protected void preRenderCallback(EntityGoat entitylivingbaseIn, float partialTickTime) {
 		if (getMainModel().isChild) {
@@ -25,8 +25,8 @@ public class RenderGoat extends RenderLiving<EntityGoat> {
 		} else {
 			GlStateManager.scale(1.0D, 1.0D, 1.0D);
 		}
-}
-	
+	}
+
 
 	public static final Factory FACTORY = new Factory();
 

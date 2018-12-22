@@ -1,9 +1,7 @@
 #Creative Tabs
-#itemGroup.group=
 itemGroup.Better Animals+=Meilleurs animaux+
 
 #Items
-#item.itemname.name=
 item.venisonraw.name=Chevreuil cru
 item.venisoncooked.name=Chevreuil cuit
 item.hirschgeistskull.name=Crâne d'Hirschgeist (article)
@@ -20,6 +18,7 @@ tile.hirschgeistskull.name=Crâne d'Hirschgeist
 tile.handoffate.name=Main du destin
 tile.wolfhead.name=Tête de Loup
 tile.deerhead.name=Tête de Cerf
+tile.reindeerhead.name=Tête de Renne
 
 #Entities
 entity.BrownBear.name=Ours brun
@@ -36,3 +35,4 @@ entity.Hirschgeist.name=Hirschgeist
 entity.Goat.name=Chèvre
 entity.Jellyfish.name=Méduse
 entity.Pheasant.name=Faisan
+entity.Reindeer.name=Renne

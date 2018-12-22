@@ -1,9 +1,7 @@
 #Creative Tabs
-#itemGroup.group=
 itemGroup.Better Animals+=Better Animals+
 
 #Items
-#item.itemname.name=
 item.venisonraw.name=Сырая оленина
 item.venisoncooked.name=Приготовленная оленина
 item.hirschgeistskull.name=Череп Хиршгейста (предмет)
@@ -20,6 +18,7 @@ tile.hirschgeistskull.name=Череп Хиршгейста
 tile.handoffate.name=Рука судьбы
 tile.wolfhead.name=Голова волка
 tile.deerhead.name=Голова оленя
+tile.reindeerhead.name=Голова северного оленя
 
 #Entities
 entity.BrownBear.name=Бурый медведь
@@ -36,3 +35,4 @@ entity.Hirschgeist.name=Хиршгейст
 entity.Goat.name=Коза
 entity.Jellyfish.name=Медуза
 entity.Pheasant.name=Фазан
+entity.Reindeer.name=Cеверный олень
