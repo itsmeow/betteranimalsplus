@@ -7,27 +7,28 @@
 - Added baby deer
 - Added Translation: Hungarian
 - Updated Translations:
-    German
-    Esperanto
-    English
-    Spanish
-    French
-    Portuguese
-    Russian
+ -  German
+ -  Esperanto
+ -  English
+ -  Spanish
+ -  French
+ -  Japanese
+ -  Portuguese
+ -  Russian
 
 3.0.1
 -
 - Fixed Hand of Fate breaking bug
 - Added a secret :D
 - Updated Translations:
-    German
-    Esperanto
-    English
-    Spanish
-    French
-    Japanese
-    Portuguese
-    Russian
+ -  German
+ -  Esperanto
+ -  English
+ -  Spanish
+ -  French
+ -  Japanese
+ -  Portuguese
+ -  Russian
 
 3.0.0
 -
@@ -53,26 +54,26 @@
 - Fixed large deer hitbox
 - Increased size of Wolf/Coyote/Fox hitbox
 - Updated translations with new content:
-    English
-    Spanish
-    Russian
-    Japanese
-    Esperanto
+  - English
+  - Spanish
+  - Russian
+  - Japanese
+  - Esperanto
 
 1.1.4
 -
 - New Languages:
-    Arabic (by MicroDroid)
-    German (by ekrempel)
-    Esperanto (by its_meow)
-    English (by its_meow)
-    Spanish (by its_meow and ikerleon02)
-    French (by slabruyere)
-    Japanese (by B_Wither)
-    Portuguese (by alexaldr)
-    Russian (by kellixon)
-    Chinese (Traditional) (by han880805)
-    Chinese (Simplified) (by han880805)
+  - Arabic (by MicroDroid)
+  - German (by ekrempel)
+  - Esperanto (by its_meow)
+  - English (by its_meow)
+  - Spanish (by its_meow and ikerleon02)
+  - French (by slabruyere)
+  - Japanese (by B_Wither)
+  - Portuguese (by alexaldr)
+  - Russian (by kellixon)
+  - Chinese (Traditional) (by han880805)
+  - Chinese (Simplified) (by han880805)
 
 
 

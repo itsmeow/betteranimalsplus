@@ -1,12 +1,9 @@
 #Creative Tabs
-#itemGroup.group=
 itemGroup.Better Animals+=Better Animals+
 
 #Items
-#item.itemname.name=
 item.venisonraw.name=生の鹿肉
 item.venisoncooked.name=焼いた鹿肉
-item.hirschgeistskull.name=ヒルシュガイストの頭蓋骨（設置）
 item.hirschgeistskullwearable.name=ヒルシュガイストの頭蓋骨（着用）
 item.antler.name=枝角
 item.goatmilk.name=ヤギのミルク
@@ -20,8 +17,7 @@ tile.hirschgeistskull.name=ヒルシュガイストの頭蓋骨
 tile.handoffate.name=悲運の腕
 tile.wolfhead.name=オオカミの頭
 tile.deerhead.name=シカの頭
-entity.Jellyfish.name=クラゲ
-entity.Pheasant.name=キジ
+tile.reindeerhead.name=トナカイの頭
 
 #Entities
 entity.BrownBear.name=ヒグマ
@@ -36,3 +32,6 @@ entity.Fox.name=キツネ
 entity.Tarantula.name=タランチュラ
 entity.Hirschgeist.name=ヒルシュガイスト
 entity.Goat.name=ヤギ
+entity.Jellyfish.name=クラゲ
+entity.Pheasant.name=キジ
+entity.Reindeer.name=トナカイ
