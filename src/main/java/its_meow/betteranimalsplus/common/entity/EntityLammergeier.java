@@ -555,7 +555,7 @@ public class EntityLammergeier extends EntityTameableFlying {
 	public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, @Nullable IEntityLivingData livingdata)
 	{
 		livingdata = super.onInitialSpawn(difficulty, livingdata);
-		int i = (new Random()).nextInt(4) + 1;
+		int i = this.rand.nextInt(4) + 1;
 
 		if (livingdata instanceof EntityLammergeier.LammerTypeData)
 		{

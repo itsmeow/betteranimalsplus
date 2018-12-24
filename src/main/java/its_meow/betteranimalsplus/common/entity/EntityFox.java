@@ -1,7 +1,6 @@
 package its_meow.betteranimalsplus.common.entity;
 
 import java.util.HashSet;
-import java.util.Random;
 import java.util.Set;
 import java.util.UUID;
 
@@ -155,7 +154,7 @@ public class EntityFox extends EntityTameable {
 	public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, @Nullable IEntityLivingData livingdata)
 	{
 		livingdata = super.onInitialSpawn(difficulty, livingdata);
-		int i = (new Random()).nextInt(4) + 1;
+		int i = this.rand.nextInt(4) + 1;
 
 		if (livingdata instanceof EntityFox.TypeData)
 		{

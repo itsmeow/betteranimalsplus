@@ -34,7 +34,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
-import scala.util.Random;
 
 public class EntityPheasant extends EntityAnimal {
 
@@ -208,7 +207,7 @@ public class EntityPheasant extends EntityAnimal {
 	 {
 		 livingdata = super.onInitialSpawn(difficulty, livingdata);
 		 if(!this.isChild()) {
-			 int i = (new Random()).nextInt(2) + 1; // Values 1 to 2
+			 int i = this.rand.nextInt(2) + 1; // Values 1 to 2
 			 boolean flag = false;
 
 			 if (livingdata instanceof TypeData)

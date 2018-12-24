@@ -19,7 +19,7 @@ import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
-import scala.util.Random;
+
 
 public class EntityJellyfish extends EntitySquid {
 
@@ -126,8 +126,8 @@ public class EntityJellyfish extends EntitySquid {
 	{
 		livingdata = super.onInitialSpawn(difficulty, livingdata);
 		if(!this.isChild()) {
-			int i = (new Random()).nextInt(6) + 1; // Values 1 to 6
-			float rand = (float) ((new Random()).nextInt(50) + 1F) / 50F;
+			int i = this.rand.nextInt(6) + 1; // Values 1 to 6
+			float rand = (float) (this.rand.nextInt(50) + 1F) / 50F;
 			
 			if (livingdata instanceof JellyfishData)
 			{

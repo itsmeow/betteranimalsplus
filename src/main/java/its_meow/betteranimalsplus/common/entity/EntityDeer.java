@@ -31,7 +31,6 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
-import scala.util.Random;
 
 public class EntityDeer extends EntityAnimal {
 	
@@ -108,7 +107,7 @@ public class EntityDeer extends EntityAnimal {
     public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, @Nullable IEntityLivingData livingdata)
     {
         livingdata = super.onInitialSpawn(difficulty, livingdata);
-        int i = (new Random()).nextInt(2) + 1;
+        int i = this.rand.nextInt(2) + 1;
         boolean flag = false;
 
         if (livingdata instanceof EntityDeer.DeerTypeData)

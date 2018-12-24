@@ -1,7 +1,6 @@
 package its_meow.betteranimalsplus.common.entity;
 
 import java.util.HashSet;
-import java.util.Random;
 import java.util.Set;
 import java.util.UUID;
 
@@ -183,7 +182,7 @@ public class EntityFeralWolf extends EntityTameable implements IMob {
 	public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, @Nullable IEntityLivingData livingdata)
 	{
 		livingdata = super.onInitialSpawn(difficulty, livingdata);
-		int i = (new Random()).nextInt(3) + 1;
+		int i = this.rand.nextInt(3) + 1;
 
 		if (livingdata instanceof EntityFeralWolf.TypeData)
 		{
