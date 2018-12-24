@@ -7,7 +7,7 @@ public class ItemHandOfFate extends ItemBlock {
 	
 	public ItemHandOfFate(Block block) {
 		super(block);
-		this.setUnlocalizedName("handoffate");
+		this.setUnlocalizedName("betteranimalsplus.handoffate");
 	}
 
 }

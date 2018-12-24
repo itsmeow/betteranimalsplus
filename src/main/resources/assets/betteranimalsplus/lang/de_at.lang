@@ -1,37 +1,37 @@
-#Creative Tabs
+﻿#Creative Tabs
 itemGroup.Better Animals+=Bessere Tiere+
 
 #Items
-item.venisonraw.name=Rohes Wild
-item.venisoncooked.name=Gekochtes Wild
-item.hirschgeistskullwearable.name=Tragbarer Hirschgeist Schädel
-item.antler.name=Geweih
-item.goatmilk.name=Ziegenmilch
-item.goatcheese.name=Ziegenkäse
-item.pheasantraw.name=Roher Fasan
-item.pheasantcooked.name=Gekochter Fasan
+item.betteranimalsplus.venisonraw.name=Rohes Wild
+item.betteranimalsplus.venisoncooked.name=Gekochtes Wild
+item.betteranimalsplus.hirschgeistskullwearable.name=Tragbarer Hirschgeist Schädel
+item.betteranimalsplus.antler.name=Geweih
+item.betteranimalsplus.goatmilk.name=Ziegenmilch
+item.betteranimalsplus.goatcheese.name=Ziegenkäse
+item.betteranimalsplus.pheasantraw.name=Roher Fasan
+item.betteranimalsplus.pheasantcooked.name=Gekochter Fasan
 
 #Blocks
-tile.trillium.name=Trillium
-tile.hirschgeistskull.name=Hirschgeist Schädel
-tile.handoffate.name=Schicksalshand
-tile.wolfhead.name=Wolfskopf
-tile.deerhead.name=Rehkopf
-tile.reindeerhead.name=Rentierkopf
+tile.betteranimalsplus.trillium.name=Trillium
+tile.betteranimalsplus.hirschgeistskull.name=Hirschgeist Schädel
+tile.betteranimalsplus.handoffate.name=Schicksalshand
+tile.betteranimalsplus.wolfhead.name=Wolfskopf
+tile.betteranimalsplus.deerhead.name=Rehkopf
+tile.betteranimalsplus.reindeerhead.name=Rentierkopf
 
 #Entities
-entity.BrownBear.name=Braunbär
-entity.BlackBear.name=Schwarzbär
-entity.KermodeBear.name=Geisterbär
-entity.Deer.name=Hirsch
-entity.Lammergeier.name=Bartgeier
-entity.FeralWolf.name=Wilder Wolf
-entity.Coyote.name=Präriehund
-entity.Trillium.name=Trillium
-entity.Fox.name=Fuchs
-entity.Tarantula.name=Vogelspinne
-entity.Hirschgeist.name=Hirschgeist
-entity.Goat.name=Ziege
-entity.Jellyfish.name=Qualle
-entity.Pheasant.name=Fasan
-entity.Reindeer.name=Rentier
+entity.betteranimalsplus.BrownBear.name=Braunbär
+entity.betteranimalsplus.BlackBear.name=Schwarzbär
+entity.betteranimalsplus.KermodeBear.name=Geisterbär
+entity.betteranimalsplus.Deer.name=Hirsch
+entity.betteranimalsplus.Lammergeier.name=Bartgeier
+entity.betteranimalsplus.FeralWolf.name=Wilder Wolf
+entity.betteranimalsplus.Coyote.name=Präriehund
+entity.betteranimalsplus.Trillium.name=Trillium
+entity.betteranimalsplus.Fox.name=Fuchs
+entity.betteranimalsplus.Tarantula.name=Vogelspinne
+entity.betteranimalsplus.Hirschgeist.name=Hirschgeist
+entity.betteranimalsplus.Goat.name=Ziege
+entity.betteranimalsplus.Jellyfish.name=Qualle
+entity.betteranimalsplus.Pheasant.name=Fasan
+entity.betteranimalsplus.Reindeer.name=Rentier

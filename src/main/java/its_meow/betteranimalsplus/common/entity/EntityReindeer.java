@@ -91,6 +91,7 @@ public class EntityReindeer extends EntityAnimal implements IJumpingMount {
 	protected boolean canGallop = true;
 	/** Used to determine the sound that the reindeer should make when it steps */
 	protected int gallopTime;
+	public boolean parentRudolph = false;
 
 	public EntityReindeer(World worldIn) {
 		super(worldIn);
@@ -199,12 +200,16 @@ public class EntityReindeer extends EntityAnimal implements IJumpingMount {
 		this.setOffspringAttributes(ageable, reindeer);
 		if(ageable instanceof EntityReindeer) {
 			EntityReindeer other = (EntityReindeer) ageable;
-			if(other.getTypeNumber() > 4) {
+			if(other.getTypeNumber() > 4) { // if one of them is red-nosed make that one take dominance
 				reindeer.setType(other.getTypeNumber());
-			} else {
+			} else { // none are red-nosed, just use this one's type
 				reindeer.setType(this.getTypeNumber());
 			}
-		} else {
+			
+			if(other.getCustomNameTag().equalsIgnoreCase("rudolph") || this.getCustomNameTag().equalsIgnoreCase("rudolph")) {
+				reindeer.parentRudolph = true;
+			}
+		} else { // same as above
 			reindeer.setType(this.getTypeNumber());
 		}
 		return reindeer;
@@ -930,6 +935,20 @@ public class EntityReindeer extends EntityAnimal implements IJumpingMount {
 			super.travel(strafe, vertical, forward);
 		}
 	}
+	
+	
+
+	@Override
+	public void setCustomNameTag(String name) {
+		if(name.toLowerCase().equals("rudolph")) {
+			if(this.getTypeNumber() <= 4) {
+				this.setType(this.getTypeNumber() + 4);
+			}
+		}
+		super.setCustomNameTag(name);
+	}
+
+
 
 	private static final DataParameter<Integer> TYPE_NUMBER = EntityDataManager.<Integer>createKey(EntityReindeer.class, DataSerializers.VARINT);
 
@@ -953,6 +972,7 @@ public class EntityReindeer extends EntityAnimal implements IJumpingMount {
 		compound.setInteger("Temper", this.getTemper());
 
 		compound.setInteger("TypeNumber", this.getTypeNumber());
+		compound.setBoolean("IsParentRudolph", parentRudolph );
 	}
 
 	/**
@@ -964,7 +984,7 @@ public class EntityReindeer extends EntityAnimal implements IJumpingMount {
 		this.setEatingHaystack(compound.getBoolean("EatingHaystack"));
 		this.setBreeding(compound.getBoolean("Bred"));
 		this.setTemper(compound.getInteger("Temper"));
-
+		parentRudolph = compound.getBoolean("IsParentRudolph");
 
 		IAttributeInstance iattributeinstance = this.getAttributeMap().getAttributeInstanceByName("Speed");
 
@@ -976,7 +996,7 @@ public class EntityReindeer extends EntityAnimal implements IJumpingMount {
 
 		this.setType(compound.getInteger("TypeNumber"));
 		Calendar calendar = Calendar.getInstance();
-		if(this.getTypeNumber() > 4 && !(calendar.get(2) + 1 == 12 && calendar.get(5) >= 22 && calendar.get(5) <= 28)) {
+		if(this.getTypeNumber() > 4 && !(calendar.get(2) + 1 == 12 && calendar.get(5) >= 22 && calendar.get(5) <= 28) && !(this.getCustomNameTag().toLowerCase().equals("rudolph") || parentRudolph)) {
 			this.setType(this.getTypeNumber() - 4); // Remove red noses after Christmas season after loading entity
 		}
 	}
@@ -1198,7 +1218,8 @@ public class EntityReindeer extends EntityAnimal implements IJumpingMount {
 		if(!this.isChild()) {
 			Calendar calendar = Calendar.getInstance();
 			boolean isChristmasSeason = calendar.get(2) + 1 == 12 && calendar.get(5) >= 22 && calendar.get(5) <= 28;
-			int i = this.rand.nextInt(isChristmasSeason && this.rand.nextInt(9) == 0 ? 8 : 4) + 1; // Values 1 to 4 or 1 to 8 (with 1/9 chance and only during christmas)
+			boolean redNosed = this.rand.nextInt(9) == 0;
+			int i = this.rand.nextInt(4) + (isChristmasSeason && redNosed ? 5 : 1); // Values 1 to 4 or 1 to 8 (with 1/9 chance and only during christmas)
 			boolean flag = false;
 
 			if (livingdata instanceof TypeData)

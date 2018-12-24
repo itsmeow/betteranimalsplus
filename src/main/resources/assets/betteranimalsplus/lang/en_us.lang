@@ -1,37 +1,37 @@
-#Creative Tabs
+﻿#Creative Tabs
 itemGroup.Better Animals+=Better Animals+
 
 #Items
-item.venisonraw.name=Raw Venison
-item.venisoncooked.name=Cooked Venison
-item.hirschgeistskullwearable.name=Wearable Hirschgeist Skull
-item.antler.name=Antler
-item.goatmilk.name=Goat Milk
-item.goatcheese.name=Goat Cheese
-item.pheasantraw.name=Raw Pheasant
-item.pheasantcooked.name=Cooked Pheasant
+item.betteranimalsplus.venisonraw.name=Raw Venison
+item.betteranimalsplus.venisoncooked.name=Cooked Venison
+item.betteranimalsplus.hirschgeistskullwearable.name=Wearable Hirschgeist Skull
+item.betteranimalsplus.antler.name=Antler
+item.betteranimalsplus.goatmilk.name=Goat Milk
+item.betteranimalsplus.goatcheese.name=Goat Cheese
+item.betteranimalsplus.pheasantraw.name=Raw Pheasant
+item.betteranimalsplus.pheasantcooked.name=Cooked Pheasant
 
 #Blocks
-tile.trillium.name=Trillium
-tile.hirschgeistskull.name=Hirschgeist Skull
-tile.handoffate.name=Hand Of Fate
-tile.wolfhead.name=Wolf Head
-tile.deerhead.name=Deer Head
-tile.reindeerhead.name=Reindeer Head
+tile.betteranimalsplus.trillium.name=Trillium
+tile.betteranimalsplus.hirschgeistskull.name=Hirschgeist Skull
+tile.betteranimalsplus.handoffate.name=Hand Of Fate
+tile.betteranimalsplus.wolfhead.name=Wolf Head
+tile.betteranimalsplus.deerhead.name=Deer Head
+tile.betteranimalsplus.reindeerhead.name=Reindeer Head
 
 #Entities
-entity.BrownBear.name=Brown Bear
-entity.BlackBear.name=Black Bear
-entity.KermodeBear.name=Kermode Bear
-entity.Deer.name=Deer
-entity.Lammergeier.name=Lammergeier
-entity.FeralWolf.name=Feral Wolf
-entity.Coyote.name=Coyote
-entity.Trillium.name=Trillium
-entity.Fox.name=Fox
-entity.Tarantula.name=Tarantula
-entity.Hirschgeist.name=Hirschgeist
-entity.Goat.name=Goat
-entity.Jellyfish.name=Jellyfish
-entity.Pheasant.name=Pheasant
-entity.Reindeer.name=Reindeer
+entity.betteranimalsplus.BrownBear.name=Brown Bear
+entity.betteranimalsplus.BlackBear.name=Black Bear
+entity.betteranimalsplus.KermodeBear.name=Kermode Bear
+entity.betteranimalsplus.Deer.name=Deer
+entity.betteranimalsplus.Lammergeier.name=Lammergeier
+entity.betteranimalsplus.FeralWolf.name=Feral Wolf
+entity.betteranimalsplus.Coyote.name=Coyote
+entity.betteranimalsplus.Trillium.name=Trillium
+entity.betteranimalsplus.Fox.name=Fox
+entity.betteranimalsplus.Tarantula.name=Tarantula
+entity.betteranimalsplus.Hirschgeist.name=Hirschgeist
+entity.betteranimalsplus.Goat.name=Goat
+entity.betteranimalsplus.Jellyfish.name=Jellyfish
+entity.betteranimalsplus.Pheasant.name=Pheasant
+entity.betteranimalsplus.Reindeer.name=Reindeer

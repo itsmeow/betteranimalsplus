@@ -20,7 +20,7 @@ public class ItemHirschgeistSkullWearable extends ItemArmor {
 	
 	public ItemHirschgeistSkullWearable() {
 		super(ArmorMaterial.CHAIN, -1, EntityEquipmentSlot.HEAD);
-		this.setUnlocalizedName("hirschgeistskullwearable");
+		this.setUnlocalizedName("betteranimalsplus.hirschgeistskullwearable");
 		this.setRegistryName("hirschgeistskullwearable");
 		this.setCreativeTab(BetterAnimalsPlusMod.tab);
 	}

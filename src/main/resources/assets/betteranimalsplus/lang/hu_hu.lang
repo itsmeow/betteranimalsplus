@@ -1,37 +1,37 @@
-#Creative Tabs
+ï»¿#Creative Tabs
 itemGroup.Better Animals+=Better Animals+
 
 #Items
-item.venisonraw.name=Nyers Õzhús
-item.venisoncooked.name=Sült Õzhús
-item.hirschgeistskullwearable.name=Viselhetõ Szarvaslélek Koponya
-item.antler.name=Agancsok
-item.goatmilk.name=Kecsketej
-item.goatcheese.name=Kecskesajt
-item.pheasantraw.name=Nyers Fácán
-item.pheasantcooked.name=Sült Fácán
+item.betteranimalsplus.venisonraw.name=Nyers Ã•zhÃºs
+item.betteranimalsplus.venisoncooked.name=SÃ¼lt Ã•zhÃºs
+item.betteranimalsplus.hirschgeistskullwearable.name=ViselhetÃµ SzarvaslÃ©lek Koponya
+item.betteranimalsplus.antler.name=Agancsok
+item.betteranimalsplus.goatmilk.name=Kecsketej
+item.betteranimalsplus.goatcheese.name=Kecskesajt
+item.betteranimalsplus.pheasantraw.name=Nyers FÃ¡cÃ¡n
+item.betteranimalsplus.pheasantcooked.name=SÃ¼lt FÃ¡cÃ¡n
 
 #Blocks
-tile.trillium.name=Hármasszirom
-tile.hirschgeistskull.name=Szarvaslélek Koponya
-tile.handoffate.name=A Sors Keze
-tile.wolfhead.name=Farkasfej
-tile.deerhead.name=Õzfej
-tile.reindeerhead.name=Rénszarvasfej
+tile.betteranimalsplus.trillium.name=HÃ¡rmasszirom
+tile.betteranimalsplus.hirschgeistskull.name=SzarvaslÃ©lek Koponya
+tile.betteranimalsplus.handoffate.name=A Sors Keze
+tile.betteranimalsplus.wolfhead.name=Farkasfej
+tile.betteranimalsplus.deerhead.name=Ã•zfej
+tile.betteranimalsplus.reindeerhead.name=RÃ©nszarvasfej
 
 #Entities
-entity.BrownBear.name=Barnamedve
-entity.BlackBear.name=Feketemedve
-entity.KermodeBear.name=Szellem Medve
-entity.Deer.name=Õz
-entity.Lammergeier.name=Szakállas Saskeselyû
-entity.FeralWolf.name=Vad Farkas
-entity.Coyote.name=Prérifarkas
-entity.Trillium.name=Hármasszirom
-entity.Fox.name=Rókafej
-entity.Tarantula.name=Tarantula
-entity.Hirschgeist.name=Szarvaslélek
-entity.Goat.name=Kecske
-entity.Jellyfish.name=Medúza
-entity.Pheasant.name=Fácán
-entity.Reindeer.name=Rénszarvas
+entity.betteranimalsplus.BrownBear.name=Barnamedve
+entity.betteranimalsplus.BlackBear.name=Feketemedve
+entity.betteranimalsplus.KermodeBear.name=Szellem Medve
+entity.betteranimalsplus.Deer.name=Ã•z
+entity.betteranimalsplus.Lammergeier.name=SzakÃ¡llas SaskeselyÃ»
+entity.betteranimalsplus.FeralWolf.name=Vad Farkas
+entity.betteranimalsplus.Coyote.name=PrÃ©rifarkas
+entity.betteranimalsplus.Trillium.name=HÃ¡rmasszirom
+entity.betteranimalsplus.Fox.name=RÃ³kafej
+entity.betteranimalsplus.Tarantula.name=TarantellapÃ³k
+entity.betteranimalsplus.Hirschgeist.name=SzarvaslÃ©lek
+entity.betteranimalsplus.Goat.name=Kecske
+entity.betteranimalsplus.Jellyfish.name=MedÃºza
+entity.betteranimalsplus.Pheasant.name=FÃ¡cÃ¡n
+entity.betteranimalsplus.Reindeer.name=RÃ©nszarvas

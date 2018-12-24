@@ -23,7 +23,7 @@ public class ItemVenisonCooked extends ItemFood {
 	public ItemVenisonCooked(int amount, boolean isWolfFood) {
 		super(amount, isWolfFood);
 		this.setRegistryName("venisoncooked");
-		this.setUnlocalizedName("venisoncooked");
+		this.setUnlocalizedName("betteranimalsplus.venisoncooked");
         this.itemUseDuration = 32;
         this.healAmount = 3;
         this.isWolfsFavoriteMeat = false;

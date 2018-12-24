@@ -1,29 +1,26 @@
-#Creative Tabs
-#itemGroup.group=
+﻿#Creative Tabs
 itemGroup.Better Animals+=動物優化+
 
 #Items
-#item.itemname.name=
-item.venisonraw.name=生鹿肉
-item.venisoncooked.name=熟鹿肉
-item.hirschgeistskull.name=菲森蓋斯特的骷髏 (物品)
-item.hirschgeistskullwearable.name=菲森蓋斯特的骷髏 (衣物)
-item.antler.name=鹿角
+item.betteranimalsplus.venisonraw.name=生鹿肉
+item.betteranimalsplus.venisoncooked.name=熟鹿肉
+item.betteranimalsplus.hirschgeistskullwearable.name=菲森蓋斯特的骷髏 (衣物)
+item.betteranimalsplus.antler.name=鹿角
 
 #Blocks
-tile.trillium.name=延齡草
-tile.hirschgeistskull.name=菲森蓋斯特的骷髏
-tile.handoffate.name=宿命之手
+tile.betteranimalsplus.trillium.name=延齡草
+tile.betteranimalsplus.hirschgeistskull.name=菲森蓋斯特的骷髏
+tile.betteranimalsplus.handoffate.name=宿命之手
 
 #Entities
-entity.BrownBear.name=棕熊
-entity.BlackBear.name=黑熊
-entity.KermodeBear.name=柯莫德熊
-entity.Deer.name=鹿
-entity.Lammergeier.name=胡兀鷲
-entity.FeralWolf.name=野狼
-entity.Coyote.name=郊狼
-entity.Trillium.name=延齡草
-entity.Fox.name=狐狸
-entity.Tarantula.name=捕鳥蛛
-entity.Hirschgeist.name=菲森蓋斯特
+entity.betteranimalsplus.BrownBear.name=棕熊
+entity.betteranimalsplus.BlackBear.name=黑熊
+entity.betteranimalsplus.KermodeBear.name=柯莫德熊
+entity.betteranimalsplus.Deer.name=鹿
+entity.betteranimalsplus.Lammergeier.name=胡兀鷲
+entity.betteranimalsplus.FeralWolf.name=野狼
+entity.betteranimalsplus.Coyote.name=郊狼
+entity.betteranimalsplus.Trillium.name=延齡草
+entity.betteranimalsplus.Fox.name=狐狸
+entity.betteranimalsplus.Tarantula.name=捕鳥蛛
+entity.betteranimalsplus.Hirschgeist.name=菲森蓋斯特

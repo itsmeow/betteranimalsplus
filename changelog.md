@@ -1,3 +1,9 @@
+4.0.1
+-
+- Added naming a reindeer "Rudolph" and fixed spawning logic for red-nosed versions
+- Fixed crash with Wings, Horns, and Hooves (chaning internal lang layout)
+- Fixed all the translations (big oops)
+
 4.0.0
 -
 - Added reindeer

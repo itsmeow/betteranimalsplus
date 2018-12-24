@@ -34,7 +34,7 @@ public class BlockTrillium extends BlockBush implements ITileEntityProvider {
 	public BlockTrillium() {
 		super(Material.PLANTS);
 		this.setRegistryName("trillium");
-		this.setUnlocalizedName("trillium");
+		this.setUnlocalizedName("betteranimalsplus.trillium");
 		this.translucent = true;
 		this.fullBlock = false;
 		this.setCreativeTab(BetterAnimalsPlusMod.tab);

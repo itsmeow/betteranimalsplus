@@ -22,7 +22,7 @@ public class ItemHirschgeistSkull extends ItemBlockSkull {
 	public ItemHirschgeistSkull(Block block) {
 		super(block, true);
 		setMaxDamage(0);
-		this.setUnlocalizedName("hirschgeistskull");
+		this.setUnlocalizedName("betteranimalsplus.hirschgeistskull");
 	}
 
 	@Override

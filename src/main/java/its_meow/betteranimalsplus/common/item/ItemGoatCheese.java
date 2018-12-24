@@ -22,7 +22,7 @@ public class ItemGoatCheese extends ItemFood {
 	public ItemGoatCheese() {
 		super(3, false);
 		this.setRegistryName("goatcheese");
-		this.setUnlocalizedName("goatcheese");
+		this.setUnlocalizedName("betteranimalsplus.goatcheese");
         this.itemUseDuration = 15;
         this.healAmount = 3;
         this.setCreativeTab(BetterAnimalsPlusMod.tab);

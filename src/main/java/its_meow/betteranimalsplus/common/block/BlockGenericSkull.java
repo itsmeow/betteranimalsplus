@@ -16,7 +16,7 @@ public class BlockGenericSkull extends BlockAnimalSkull implements ITileEntityPr
 	public BlockGenericSkull(Class<? extends TileEntity> teClass, String name, boolean allowFloor) {
 		super();
 		this.setRegistryName(name);
-		this.setUnlocalizedName(name);
+		this.setUnlocalizedName("betteranimalsplus." + name);
 		this.teClass = teClass;
 		this.allowFloor = allowFloor;
 	}

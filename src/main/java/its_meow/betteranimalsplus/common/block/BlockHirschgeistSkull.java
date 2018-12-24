@@ -16,7 +16,7 @@ public class BlockHirschgeistSkull extends BlockAnimalSkull implements ITileEnti
 	public BlockHirschgeistSkull() {
 		super();
 		this.setRegistryName("hirschgeistskull");
-		this.setUnlocalizedName("hirschgeistskull");
+		this.setUnlocalizedName("betteranimalsplus.hirschgeistskull");
 	}
 
 

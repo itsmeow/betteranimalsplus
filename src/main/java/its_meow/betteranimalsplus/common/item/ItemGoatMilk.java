@@ -8,7 +8,7 @@ public class ItemGoatMilk extends ItemBucketMilk {
 	public ItemGoatMilk() {
 		super();
 		this.setRegistryName("goatmilk");
-		this.setUnlocalizedName("goatmilk");
+		this.setUnlocalizedName("betteranimalsplus.goatmilk");
 		this.setContainerItem(Items.BUCKET);
 	}
 	

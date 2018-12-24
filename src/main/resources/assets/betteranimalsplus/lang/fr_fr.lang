@@ -1,38 +1,38 @@
-#Creative Tabs
+﻿#Creative Tabs
 itemGroup.Better Animals+=Meilleurs animaux+
 
 #Items
-item.venisonraw.name=Chevreuil cru
-item.venisoncooked.name=Chevreuil cuit
-item.hirschgeistskull.name=Crâne d'Hirschgeist (article)
-item.hirschgeistskullwearable.name=Crâne d'Hirschgeist portable
-item.antler.name=Bois
-item.goatmilk.name=Lait de Chèvre
-item.goatcheese.name=Fromage de Chèvre
-item.pheasantraw.name=Faisan cru
-item.pheasantcooked.name=Faisan cuit
+item.betteranimalsplus.venisonraw.name=Chevreuil cru
+item.betteranimalsplus.venisoncooked.name=Chevreuil cuit
+item.betteranimalsplus.hirschgeistskull.name=Crâne d'Hirschgeist (article)
+item.betteranimalsplus.hirschgeistskullwearable.name=Crâne d'Hirschgeist portable
+item.betteranimalsplus.antler.name=Bois
+item.betteranimalsplus.goatmilk.name=Lait de Chèvre
+item.betteranimalsplus.goatcheese.name=Fromage de Chèvre
+item.betteranimalsplus.pheasantraw.name=Faisan cru
+item.betteranimalsplus.pheasantcooked.name=Faisan cuit
 
 #Blocks
-tile.trillium.name=Trillium
-tile.hirschgeistskull.name=Crâne d'Hirschgeist
-tile.handoffate.name=Main du destin
-tile.wolfhead.name=Tête de Loup
-tile.deerhead.name=Tête de Cerf
-tile.reindeerhead.name=Tête de Renne
+tile.betteranimalsplus.trillium.name=Trillium
+tile.betteranimalsplus.hirschgeistskull.name=Crâne d'Hirschgeist
+tile.betteranimalsplus.handoffate.name=Main du destin
+tile.betteranimalsplus.wolfhead.name=Tête de Loup
+tile.betteranimalsplus.deerhead.name=Tête de Cerf
+tile.betteranimalsplus.reindeerhead.name=Tête de Renne
 
 #Entities
-entity.BrownBear.name=Ours brun
-entity.BlackBear.name=Ours noir
-entity.KermodeBear.name=Ours Kermode
-entity.Deer.name=Cerf
-entity.Lammergeier.name=Gypaète
-entity.FeralWolf.name=Loup farouche
-entity.Coyote.name=Coyote
-entity.Trillium.name=Trillium
-entity.Fox.name=Renard
-entity.Tarantula.name=Tarentule
-entity.Hirschgeist.name=Hirschgeist
-entity.Goat.name=Chèvre
-entity.Jellyfish.name=Méduse
-entity.Pheasant.name=Faisan
-entity.Reindeer.name=Renne
+entity.betteranimalsplus.BrownBear.name=Ours brun
+entity.betteranimalsplus.BlackBear.name=Ours noir
+entity.betteranimalsplus.KermodeBear.name=Ours Kermode
+entity.betteranimalsplus.Deer.name=Cerf
+entity.betteranimalsplus.Lammergeier.name=Gypaète
+entity.betteranimalsplus.FeralWolf.name=Loup farouche
+entity.betteranimalsplus.Coyote.name=Coyote
+entity.betteranimalsplus.Trillium.name=Trillium
+entity.betteranimalsplus.Fox.name=Renard
+entity.betteranimalsplus.Tarantula.name=Tarentule
+entity.betteranimalsplus.Hirschgeist.name=Hirschgeist
+entity.betteranimalsplus.Goat.name=Chèvre
+entity.betteranimalsplus.Jellyfish.name=Méduse
+entity.betteranimalsplus.Pheasant.name=Faisan
+entity.betteranimalsplus.Reindeer.name=Renne

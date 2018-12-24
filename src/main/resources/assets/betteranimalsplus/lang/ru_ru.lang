@@ -1,38 +1,38 @@
-#Creative Tabs
+﻿#Creative Tabs
 itemGroup.Better Animals+=Better Animals+
 
 #Items
-item.venisonraw.name=Сырая оленина
-item.venisoncooked.name=Приготовленная оленина
-item.hirschgeistskull.name=Череп Хиршгейста (предмет)
-item.hirschgeistskullwearable.name=Носимый череп хиршгейста
-item.antler.name=Рога
-item.goatmilk.name=Козье молоко
-item.goatcheese.name=Козий сыр
-item.pheasantraw.name=Сырая фазанина
-item.pheasantcooked.name=Приготовленная фазанина
+item.betteranimalsplus.venisonraw.name=Сырая оленина
+item.betteranimalsplus.venisoncooked.name=Приготовленная оленина
+item.betteranimalsplus.hirschgeistskull.name=Череп Хиршгейста (предмет)
+item.betteranimalsplus.hirschgeistskullwearable.name=Носимый череп хиршгейста
+item.betteranimalsplus.antler.name=Рога
+item.betteranimalsplus.goatmilk.name=Козье молоко
+item.betteranimalsplus.goatcheese.name=Козий сыр
+item.betteranimalsplus.pheasantraw.name=Сырая фазанина
+item.betteranimalsplus.pheasantcooked.name=Приготовленная фазанина
 
 #Blocks
-tile.trillium.name=Триллиум
-tile.hirschgeistskull.name=Череп Хиршгейста
-tile.handoffate.name=Рука судьбы
-tile.wolfhead.name=Голова волка
-tile.deerhead.name=Голова оленя
-tile.reindeerhead.name=Голова северного оленя
+tile.betteranimalsplus.trillium.name=Триллиум
+tile.betteranimalsplus.hirschgeistskull.name=Череп Хиршгейста
+tile.betteranimalsplus.handoffate.name=Рука судьбы
+tile.betteranimalsplus.wolfhead.name=Голова волка
+tile.betteranimalsplus.deerhead.name=Голова оленя
+tile.betteranimalsplus.reindeerhead.name=Голова северного оленя
 
 #Entities
-entity.BrownBear.name=Бурый медведь
-entity.BlackBear.name=Черный медведь
-entity.KermodeBear.name=Кермодский медведь
-entity.Deer.name=Олень
-entity.Lammergeier.name=Бородач
-entity.FeralWolf.name=Дикий волк
-entity.Coyote.name=Койот
-entity.Trillium.name=Триллиум
-entity.Fox.name=Лиса
-entity.Tarantula.name=Тарантул
-entity.Hirschgeist.name=Хиршгейст
-entity.Goat.name=Коза
-entity.Jellyfish.name=Медуза
-entity.Pheasant.name=Фазан
-entity.Reindeer.name=Cеверный олень
+entity.betteranimalsplus.BrownBear.name=Бурый медведь
+entity.betteranimalsplus.BlackBear.name=Черный медведь
+entity.betteranimalsplus.KermodeBear.name=Кермодский медведь
+entity.betteranimalsplus.Deer.name=Олень
+entity.betteranimalsplus.Lammergeier.name=Бородач
+entity.betteranimalsplus.FeralWolf.name=Дикий волк
+entity.betteranimalsplus.Coyote.name=Койот
+entity.betteranimalsplus.Trillium.name=Триллиум
+entity.betteranimalsplus.Fox.name=Лиса
+entity.betteranimalsplus.Tarantula.name=Тарантул
+entity.betteranimalsplus.Hirschgeist.name=Хиршгейст
+entity.betteranimalsplus.Goat.name=Коза
+entity.betteranimalsplus.Jellyfish.name=Медуза
+entity.betteranimalsplus.Pheasant.name=Фазан
+entity.betteranimalsplus.Reindeer.name=Cеверный олень

@@ -41,6 +41,8 @@ public class MobRegistry {
 	public static int modEntities;
 
 	public static LinkedHashSet<EntityEntry> entrySet = new LinkedHashSet<EntityEntry>();
+	
+	private static final String LOCALIZE_PREFIX = Ref.MOD_ID + ".";
 
 	public static void addEntitiesToSet(){
 		if(BetterAnimalsPlusConfig.spawnBrownBear)
@@ -111,7 +113,7 @@ public class MobRegistry {
 		EntityEntry entry = EntityEntryBuilder.create()
 				.entity(EntityClass)
 				.id(new ResourceLocation(Ref.MOD_ID, entityNameIn), modEntities++)
-				.name(entityNameIn)
+				.name(LOCALIZE_PREFIX + entityNameIn)
 				.tracker(64, 1, true)
 				.egg(solidColorIn, spotColorIn)
 				.spawn(typeIn, prob, min, max, biomesArray)
@@ -126,7 +128,7 @@ public class MobRegistry {
 		EntityEntry entry = EntityEntryBuilder.create()
 				.entity(EntityClass)
 				.id(new ResourceLocation(Ref.MOD_ID, entityNameIn), modEntities++)
-				.name(entityNameIn)
+				.name(LOCALIZE_PREFIX + entityNameIn)
 				.tracker(64, 1, true)
 				.build();
 
