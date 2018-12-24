@@ -43,7 +43,6 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
-import scala.util.Random;
 
 public class EntityGoat extends EntityAnimal {
 
@@ -301,7 +300,7 @@ public class EntityGoat extends EntityAnimal {
 	{
 		livingdata = super.onInitialSpawn(difficulty, livingdata);
 		if(!this.isChild()) {
-			int i = (new Random()).nextInt(7) + 1; // Values 1 to 7
+			int i = this.rand.nextInt(7) + 1; // Values 1 to 7
 			boolean flag = false;
 
 			if (livingdata instanceof TypeData)
