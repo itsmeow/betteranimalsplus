@@ -2,7 +2,6 @@ package its_meow.betteranimalsplus.common.tileentity;
 
 import java.util.Random;
 
-import its_meow.betteranimalsplus.Ref;
 import its_meow.betteranimalsplus.client.model.ModelTrillium;
 import its_meow.betteranimalsplus.client.model.ModelTrilliumMulti;
 import its_meow.betteranimalsplus.client.model.ModelTrilliumMulti2;

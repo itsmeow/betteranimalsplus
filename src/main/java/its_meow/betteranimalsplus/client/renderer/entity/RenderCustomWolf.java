@@ -1,23 +1,13 @@
 package its_meow.betteranimalsplus.client.renderer.entity;
 
-import javax.annotation.Nonnull;
-
-import org.lwjgl.opengl.GL11;
-
 import its_meow.betteranimalsplus.client.model.ModelCustomWolf;
-import its_meow.betteranimalsplus.client.renderer.entity.RenderKermodeBear.Factory;
 import its_meow.betteranimalsplus.client.renderer.entity.layers.LayerWolfEyes;
-import its_meow.betteranimalsplus.common.entity.EntityBear;
-import its_meow.betteranimalsplus.common.entity.EntityBearNeutralKermode;
 import its_meow.betteranimalsplus.common.entity.EntityFeralWolf;
 import its_meow.betteranimalsplus.init.TextureRegistry;
-import net.minecraft.client.model.ModelWolf;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.client.renderer.entity.RenderManager;
-import net.minecraft.client.renderer.entity.layers.LayerWolfCollar;
-import net.minecraft.entity.passive.EntityWolf;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
 
@@ -31,7 +21,7 @@ public class RenderCustomWolf extends RenderLiving<EntityFeralWolf> {
 
 
 	/**
-	 * Defines what float the third param in setRotationAngles of ModelBase is
+	 * Defines wwhat float the third param in setRotationAngles of ModelBase is
 	 */
 	protected float handleRotationFloat(EntityFeralWolf livingBase, float partialTicks)
 	{

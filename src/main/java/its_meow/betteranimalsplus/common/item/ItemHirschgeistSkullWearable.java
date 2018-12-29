@@ -43,7 +43,6 @@ public class ItemHirschgeistSkullWearable extends ItemArmor {
 		if (itemStack != null) {
 			if (itemStack.getItem() instanceof ItemArmor) {
 
-				EntityEquipmentSlot type = ((ItemArmor) itemStack.getItem()).armorType;
 				ModelBiped armorModel = ClientProxy.getArmorModel();
 				armorModel.bipedHead.showModel = armorSlot == EntityEquipmentSlot.HEAD;
 				armorModel.bipedHeadwear.showModel = armorSlot == EntityEquipmentSlot.HEAD;

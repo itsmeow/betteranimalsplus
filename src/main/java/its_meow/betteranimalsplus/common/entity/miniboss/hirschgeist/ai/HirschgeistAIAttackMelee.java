@@ -1,23 +1,11 @@
 package its_meow.betteranimalsplus.common.entity.miniboss.hirschgeist.ai;
 
 import its_meow.betteranimalsplus.common.entity.miniboss.hirschgeist.EntityHirschgeist;
-import net.minecraft.entity.EntityAreaEffectCloud;
-import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.EntityAIBase;
-import net.minecraft.entity.boss.EntityDragon;
-import net.minecraft.entity.boss.dragon.phase.PhaseList;
-import net.minecraft.entity.boss.dragon.phase.PhaseSittingFlaming;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.MobEffects;
 import net.minecraft.pathfinding.Path;
-import net.minecraft.potion.Potion;
-import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.EnumHand;
-import net.minecraft.util.EnumParticleTypes;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 public class HirschgeistAIAttackMelee extends EntityAIBase {

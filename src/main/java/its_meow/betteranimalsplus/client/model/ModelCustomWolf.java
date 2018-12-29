@@ -1,15 +1,9 @@
 package its_meow.betteranimalsplus.client.model;
 
-import org.lwjgl.opengl.GL11;
-
 import its_meow.betteranimalsplus.common.entity.EntityFeralWolf;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
-import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.passive.EntityWolf;
 import net.minecraft.util.math.MathHelper;
 
 /**
@@ -300,10 +294,9 @@ public class ModelCustomWolf extends ModelBetterAnimals {
 	@Override
 	public void setRotationAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor, Entity entity) {
 		float swingModifier = 0.9f;
-		float partialTicks = Minecraft.getMinecraft().getRenderPartialTicks();
 		if (entity instanceof EntityLivingBase) {
 			EntityLivingBase living = (EntityLivingBase) entity;
-			limbSwing = limbSwing + this.getSwingProgressPrev(living);
+			limbSwing = limbSwing + ModelBetterAnimals.getSwingProgressPrev(living);
 			//this.head.rotateAngleZ = this.head.rotateAngleY;
 			lHindLeg01.rotateAngleX = MathHelper.sin(limbSwing * 0.8665F + (float) Math.PI) * swingModifier * limbSwingAmount;
 			rHindLeg01.rotateAngleX = MathHelper.cos(limbSwing * 0.8665F) * swingModifier * limbSwingAmount;
@@ -312,7 +305,7 @@ public class ModelCustomWolf extends ModelBetterAnimals {
 			this.neck.rotateAngleX = -0.6F;
 		}
 
-		this.head.rotateAngleX = (float) Math.toRadians(this.getHeadPitch((EntityLivingBase) entity)) + 0.6f;
+		this.head.rotateAngleX = (float) Math.toRadians(ModelBetterAnimals.getHeadPitch((EntityLivingBase) entity)) + 0.6f;
 		this.head.rotateAngleY = netHeadYaw * 0.017453292F;
 
 		if(entity instanceof EntityFeralWolf) {

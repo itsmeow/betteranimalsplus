@@ -1,25 +1,18 @@
 package its_meow.betteranimalsplus.common.entity.miniboss.hirschgeist.ai;
 
 import its_meow.betteranimalsplus.common.entity.miniboss.hirschgeist.EntityHirschgeist;
-import net.minecraft.block.BlockFire;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityAreaEffectCloud;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.EntityAIBase;
-import net.minecraft.init.Blocks;
 import net.minecraft.init.MobEffects;
-import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.EnumParticleTypes;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 public class HirschgeistAIFlameAttack extends EntityAIBase {
 	
 	 private int flameTicks;
-	 private int flameCount;
 	 private EntityAreaEffectCloud areaEffectCloud;
 	 private EntityHirschgeist attacker;
 	 private World world;
@@ -68,7 +61,6 @@ public class HirschgeistAIFlameAttack extends EntityAIBase {
             double x = target.posX;
             double y = target.posY;
             double z = target.posZ;
-            BlockPos tPos = new BlockPos(x, y, z);
             
             this.areaEffectCloud = new EntityAreaEffectCloud(target.world, x, y, z);
             this.areaEffectCloud.setOwner(this.attacker);
@@ -124,7 +116,6 @@ public class HirschgeistAIFlameAttack extends EntityAIBase {
     public void startExecuting()
     {
         this.flameTicks = 0;
-        ++this.flameCount;
     }
 
     public void removeAreaEffect()
@@ -134,11 +125,6 @@ public class HirschgeistAIFlameAttack extends EntityAIBase {
             this.areaEffectCloud.setDead();
             this.areaEffectCloud = null;
         }
-    }
-
-    public void resetTask()
-    {
-        this.flameCount = 0;
     }
 	
 	

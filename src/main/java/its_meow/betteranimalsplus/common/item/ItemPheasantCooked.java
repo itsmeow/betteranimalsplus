@@ -17,8 +17,6 @@ public class ItemPheasantCooked extends ItemFood {
     private final int healAmount;
     /** Whether wolves like this food (true for raw and cooked porkchop). */
     private final boolean isWolfsFavoriteMeat;
-    /** If this field is true, the food can be consumed even if the player don't need to eat. */
-    private boolean alwaysEdible;
 	
 	public ItemPheasantCooked(int amount, boolean isWolfFood) {
 		super(amount, isWolfFood);
@@ -27,7 +25,6 @@ public class ItemPheasantCooked extends ItemFood {
         this.itemUseDuration = 32;
         this.healAmount = 5;
         this.isWolfsFavoriteMeat = false;
-        this.alwaysEdible = false;
         this.setCreativeTab(BetterAnimalsPlusMod.tab);
 	}
 	
@@ -36,8 +33,18 @@ public class ItemPheasantCooked extends ItemFood {
      */
     public int getMaxItemUseDuration(ItemStack stack)
     {
-        return 32;
+        return this.itemUseDuration;
     }
+    
+    @Override
+	public int getHealAmount(ItemStack stack) {
+		return this.healAmount;
+	}
+
+	@Override
+	public boolean isWolfsFavoriteMeat() {
+		return this.isWolfsFavoriteMeat;
+	}
 
     /**
      * returns the action that specifies what animation to play when the items is being used

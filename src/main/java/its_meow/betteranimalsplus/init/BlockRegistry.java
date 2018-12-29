@@ -14,9 +14,9 @@ import its_meow.betteranimalsplus.common.item.ItemBlockSkull;
 import its_meow.betteranimalsplus.common.tileentity.TileEntityDeerHead;
 import its_meow.betteranimalsplus.common.tileentity.TileEntityHandOfFate;
 import its_meow.betteranimalsplus.common.tileentity.TileEntityHirschgeistSkull;
+import its_meow.betteranimalsplus.common.tileentity.TileEntityReindeerHead;
 import its_meow.betteranimalsplus.common.tileentity.TileEntityTrillium;
 import its_meow.betteranimalsplus.common.tileentity.TileEntityWolfHead;
-import its_meow.betteranimalsplus.common.tileentity.TileEntityReindeerHead;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.Item;
@@ -103,7 +103,7 @@ public class BlockRegistry {
 			final ItemBlock[] items = {
 					new ItemBlock(trillium),
 					hirschgeistskull.getItemBlock(),
-					handoffate.getItemBlock(),
+					BlockHandOfFate.getItemBlock(),
 			};
 
 			final IForgeRegistry<Item> registry = event.getRegistry();

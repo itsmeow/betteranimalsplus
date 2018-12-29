@@ -1,8 +1,6 @@
 package its_meow.betteranimalsplus.common.block;
 
-import its_meow.betteranimalsplus.common.item.ItemBlockSkull;
 import its_meow.betteranimalsplus.init.BlockRegistry;
-import its_meow.betteranimalsplus.init.ItemRegistry;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.tileentity.TileEntity;

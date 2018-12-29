@@ -1,12 +1,8 @@
 package its_meow.betteranimalsplus.client.model;
 
-import its_meow.betteranimalsplus.common.entity.EntityDeer;
-import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.passive.EntitySheep;
 import net.minecraft.util.math.MathHelper;
 
 /**
@@ -465,8 +461,8 @@ public class ModelDeer extends ModelBetterAnimals {
 		}
 		
 		if(entityIn instanceof EntityLiving) {
-			this.chest.rotateAngleX = this.getHeadPitch((EntityLiving)entityIn) * 0.017453292F - 13;
-			this.chest.rotateAngleY = this.getHeadYaw((EntityLiving) entityIn) * 0.017453292F * 0.5F;
+			this.chest.rotateAngleX = ModelBetterAnimals.getHeadPitch((EntityLiving)entityIn) * 0.017453292F - 13;
+			this.chest.rotateAngleY = ModelBetterAnimals.getHeadYaw((EntityLiving) entityIn) * 0.017453292F * 0.5F;
 		}
 
 		super.setRotationAngles(limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor, entityIn);

@@ -2,9 +2,7 @@ package its_meow.betteranimalsplus.client.renderer.TESR;
 
 import com.mojang.authlib.GameProfile;
 
-import its_meow.betteranimalsplus.client.model.ModelHirschgeistSkull;
 import its_meow.betteranimalsplus.common.tileentity.TileEntityHead;
-import its_meow.betteranimalsplus.init.TextureRegistry;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;

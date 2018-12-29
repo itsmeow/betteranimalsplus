@@ -4,7 +4,6 @@ import java.util.Calendar;
 
 import its_meow.betteranimalsplus.client.model.ModelDeerHead;
 import its_meow.betteranimalsplus.init.TextureRegistry;
-import net.minecraft.client.model.ModelBase;
 import net.minecraft.util.ResourceLocation;
 
 public class TileEntityDeerHead extends TileEntityHead {

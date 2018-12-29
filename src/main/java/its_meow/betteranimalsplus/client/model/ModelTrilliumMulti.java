@@ -2,10 +2,8 @@ package its_meow.betteranimalsplus.client.model;
 
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
-import net.minecraft.entity.Entity;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.client.renderer.GlStateManager;
-import org.lwjgl.opengl.GL11;
+import net.minecraft.entity.Entity;
 
 /**
  * trilliummulti - cybercat5555

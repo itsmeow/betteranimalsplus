@@ -1,13 +1,11 @@
 package its_meow.betteranimalsplus.client.renderer.TESR;
 
-import its_meow.betteranimalsplus.Ref;
 import its_meow.betteranimalsplus.client.model.ModelTrilliumMulti;
 import its_meow.betteranimalsplus.common.tileentity.TileEntityTrillium;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.entity.Entity;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 

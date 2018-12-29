@@ -17,7 +17,6 @@ public class ItemGoatCheese extends ItemFood {
     private final int healAmount;
     
     private final boolean isWolfsFavoriteMeat = false;
-    private boolean alwaysEdible = false;
 	
 	public ItemGoatCheese() {
 		super(3, false);
@@ -33,10 +32,22 @@ public class ItemGoatCheese extends ItemFood {
      */
     public int getMaxItemUseDuration(ItemStack stack)
     {
-        return 15;
+        return this.itemUseDuration;
     }
+    
+    
 
-    /**
+    @Override
+	public int getHealAmount(ItemStack stack) {
+		return this.healAmount;
+	}
+
+	@Override
+	public boolean isWolfsFavoriteMeat() {
+		return this.isWolfsFavoriteMeat;
+	}
+
+	/**
      * returns the action that specifies what animation to play when the items is being used
      */
     public EnumAction getItemUseAction(ItemStack stack)

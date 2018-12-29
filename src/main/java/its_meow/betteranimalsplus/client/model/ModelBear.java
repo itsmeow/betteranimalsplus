@@ -1,14 +1,8 @@
 package its_meow.betteranimalsplus.client.model;
 
-import org.lwjgl.opengl.GL11;
-
-import its_meow.betteranimalsplus.common.entity.EntityBear;
-import its_meow.betteranimalsplus.common.entity.EntityBearNeutral;
-import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.monster.EntityPolarBear;
 import net.minecraft.util.math.MathHelper;
 
 /**
@@ -409,8 +403,8 @@ public class ModelBear extends ModelBetterAnimals {
 		this.lLeg01.rotateAngleX = MathHelper.cos(f * 0.6662F + (float)Math.PI) * 1.4F * f1;
 
 		if(entityIn instanceof EntityLiving) {
-			this.neck.rotateAngleX = this.getHeadPitch((EntityLiving)entityIn) * 0.017453292F;
-			this.neck.rotateAngleY = this.getHeadYaw((EntityLiving) entityIn) * 0.017453292F;
+			this.neck.rotateAngleX = ModelBetterAnimals.getHeadPitch((EntityLiving)entityIn) * 0.017453292F;
+			this.neck.rotateAngleY = ModelBetterAnimals.getHeadYaw((EntityLiving) entityIn) * 0.017453292F;
 		}
 
 		//this.neck.rotateAngleX = -0.6F;

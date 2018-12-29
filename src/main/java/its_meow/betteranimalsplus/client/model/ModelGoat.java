@@ -1,7 +1,6 @@
 package its_meow.betteranimalsplus.client.model;
 
 import its_meow.betteranimalsplus.common.entity.EntityGoat;
-import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
@@ -366,9 +365,6 @@ public class ModelGoat extends ModelBetterAnimals {
 	@Override
 	public void setRotationAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw,
 			float headPitch, float scaleFactor, Entity entityIn) {
-		float f = limbSwing;
-		float f1 = limbSwingAmount;
-
 		float swingModifier = 1.5F;
 		this.lLeg01.rotateAngleX = MathHelper.sin(limbSwing * 0.8665F + (float) Math.PI) * swingModifier * limbSwingAmount;
 		this.rLeg01.rotateAngleX = MathHelper.cos(limbSwing * 0.8665F) * swingModifier * limbSwingAmount;
@@ -380,7 +376,7 @@ public class ModelGoat extends ModelBetterAnimals {
 			this.neck.rotateAngleX = goat.getHeadPitch(); // Ram attack
 		}
 		if(entityIn instanceof EntityLiving) {
-			this.neck.rotateAngleY = this.getHeadYaw((EntityLiving) entityIn) * 0.017453292F * 0.5F;
+			this.neck.rotateAngleY = ModelBetterAnimals.getHeadYaw((EntityLiving) entityIn) * 0.017453292F * 0.5F;
 		}
 
 		super.setRotationAngles(limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor, entityIn);

@@ -1,9 +1,5 @@
 package its_meow.betteranimalsplus.client.renderer.entity;
 
-import javax.annotation.Nonnull;
-
-import org.lwjgl.opengl.GL11;
-
 import its_meow.betteranimalsplus.client.model.ModelFox;
 import its_meow.betteranimalsplus.common.entity.EntityFox;
 import its_meow.betteranimalsplus.init.TextureRegistry;

@@ -1,44 +1,31 @@
 package its_meow.betteranimalsplus.common.entity;
 
-import java.awt.Point;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
-import java.util.UUID;
 
 import javax.annotation.Nullable;
 
-import org.apache.logging.log4j.Level;
-
-import com.google.common.base.Optional;
 import com.google.common.base.Predicate;
 
-import net.minecraft.advancements.CriteriaTriggers;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.Minecraft;
-import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityAgeable;
-import net.minecraft.entity.EntityCreature;
-import net.minecraft.entity.EntityFlying;
-import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.IEntityLivingData;
-import net.minecraft.entity.SharedMonsterAttributes;
-import its_meow.betteranimalsplus.BetterAnimalsPlusMod;
 import its_meow.betteranimalsplus.common.entity.ai.EntityAIFollowOwnerFlying;
 import its_meow.betteranimalsplus.common.entity.ai.LammerMoveHelper;
 import its_meow.betteranimalsplus.common.util.PolarVector3D;
 import its_meow.betteranimalsplus.init.LootTableRegistry;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityAgeable;
+import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.IEntityLivingData;
+import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIBase;
-import net.minecraft.entity.ai.EntityAIFindEntityNearest;
-import net.minecraft.entity.ai.EntityAIFindEntityNearestPlayer;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
 import net.minecraft.entity.ai.EntityAIOwnerHurtByTarget;
 import net.minecraft.entity.ai.EntityAIOwnerHurtTarget;
 import net.minecraft.entity.ai.EntityAISit;
 import net.minecraft.entity.ai.EntityAITarget;
-import net.minecraft.entity.ai.EntityFlyHelper;
 import net.minecraft.entity.ai.EntityMoveHelper;
 import net.minecraft.entity.ai.EntityMoveHelper.Action;
 import net.minecraft.entity.ai.attributes.IAttributeInstance;
@@ -46,16 +33,12 @@ import net.minecraft.entity.monster.EntityCreeper;
 import net.minecraft.entity.monster.EntityGhast;
 import net.minecraft.entity.monster.EntitySkeleton;
 import net.minecraft.entity.passive.AbstractHorse;
-import net.minecraft.entity.passive.EntityAnimal;
-import net.minecraft.entity.passive.EntityBat;
-import net.minecraft.entity.passive.EntityTameable;
 import net.minecraft.entity.passive.EntityWolf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
-import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -65,18 +48,14 @@ import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.pathfinding.Path;
 import net.minecraft.pathfinding.PathNavigate;
 import net.minecraft.pathfinding.PathNavigateFlying;
-import net.minecraft.server.management.PreYggdrasilConverter;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
-import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
-import paulscode.sound.Vector3D;
 
 public class EntityLammergeier extends EntityTameableFlying {
 
@@ -84,8 +63,6 @@ public class EntityLammergeier extends EntityTameableFlying {
 	private static final DataParameter<Float> DATA_HEALTH_ID = EntityDataManager.<Float>createKey(EntityWolf.class, DataSerializers.FLOAT);
 
 	public boolean landedLast = false;
-
-	private BlockPos spawnPosition;
 	
 	//Forgive me for this godawful mess.
 	
@@ -133,7 +110,6 @@ public class EntityLammergeier extends EntityTameableFlying {
 		this.aiSit = new EntityAISit(this);
 		this.tasks.addTask(1, this.aiSit);
 		this.tasks.addTask(2, new EntityLammergeier.AIMeleeAttack(this, true));
-		//this.tasks.addTask(2, new EntityLammergeier.AIMoveToTarget(this, 50F));
 		this.tasks.addTask(3, new EntityAIFollowOwnerFlying(this, 0.5D, 10.0F, 50.0F));
 		this.tasks.addTask(5, new EntityLammergeier.AIRandomFly(this));
 		this.tasks.addTask(7, new EntityLammergeier.AILookAround(this));
@@ -595,8 +571,6 @@ public class EntityLammergeier extends EntityTameableFlying {
 	{
 		if (this.isPassenger(passenger))
 		{
-			float f1 = (float)((this.isDead ? 0.009999999776482582D : this.getMountedYOffset()) + passenger.getYOffset());
-
 			passenger.setPosition(this.posX + this.motionX, this.posY - passenger.height - 0.05 + this.motionY, this.posZ + this.motionZ);
 			this.motionY += Math.abs(passenger.motionY);
 			if(passenger instanceof EntityLivingBase && (this.getAttackTarget() == null || this.getAttackTarget() != passenger)) {
@@ -632,8 +606,6 @@ public class EntityLammergeier extends EntityTameableFlying {
 		private double targetY;
 		private double targetZ;
 		protected final int attackInterval = 20;
-		private int failedPathFindingPenalty = 0;
-		private boolean canPenalize = false;
 
 		private final EntityLammergeier parentEntity;
 
@@ -785,7 +757,6 @@ public class EntityLammergeier extends EntityTameableFlying {
 				} else {
 					EntityLivingBase entitylivingbase = this.parentEntity.getOwner();
 					if(entitylivingbase != null) {
-						double d0 = 64.0D;
 
 						if (entitylivingbase.getDistanceSq(this.parentEntity) < 4096.0D)
 						{
@@ -800,7 +771,6 @@ public class EntityLammergeier extends EntityTameableFlying {
 			else
 			{
 				EntityLivingBase entitylivingbase = this.parentEntity.getAttackTarget();
-				double d0 = 64.0D;
 
 				if (entitylivingbase.getDistanceSq(this.parentEntity) < 4096.0D)
 				{
@@ -898,51 +868,6 @@ public class EntityLammergeier extends EntityTameableFlying {
 			BlockPos pos = new BlockPos(x, y, z);
 
 			return pos;
-		}
-	}
-
-
-	static class AIMoveToTarget extends EntityAIBase
-	{
-		private final EntityLammergeier parentEntity;
-		private final float maxTargetDistance;
-
-		public AIMoveToTarget(EntityLammergeier lam, float maxTargetDistance)
-		{
-			this.parentEntity = lam;
-			this.maxTargetDistance = maxTargetDistance;
-			this.setMutexBits(1);
-		}
-
-		/**
-		 * Returns whether the EntityAIBase should begin execution.
-		 */
-		public boolean shouldExecute()
-		{
-			EntityLivingBase targetEntity = parentEntity.getAttackTarget();
-			EntityMoveHelper entitymovehelper = this.parentEntity.getMoveHelper();
-			double d0 = entitymovehelper.getX() - this.parentEntity.posX;
-			double d1 = entitymovehelper.getY() - this.parentEntity.posY;
-			double d2 = entitymovehelper.getZ() - this.parentEntity.posZ;
-			double d3 = d0 * d0 + d1 * d1 + d2 * d2;
-			return targetEntity != null && (!this.parentEntity.getMoveHelper().isUpdating() || (d3 < 1.0D || d3 > 3600.0D)); //&& targetEntity.getDistanceSq(this.parentEntity) > (double)(this.maxTargetDistance * this.maxTargetDistance);
-		}
-
-		/**
-		 * Returns whether an in-progress EntityAIBase should continue executing
-		 */
-		public boolean shouldContinueExecuting()
-		{
-			return false;
-		}
-
-		/**
-		 * Execute a one shot task or start executing a continuous task
-		 */
-		public void startExecuting()
-		{
-			EntityLivingBase target = this.parentEntity.getAttackTarget();
-			this.parentEntity.getMoveHelper().setMoveTo(target.getPosition().getX(), target.getPosition().getY(), target.getPosition().getZ(), 1.0D);
 		}
 	}
 

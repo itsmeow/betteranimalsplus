@@ -122,7 +122,6 @@ public class EntityHirschgeist extends EntityLiving implements IMob {
 			float f = Math.max(MathHelper.sqrt(this.getDistanceSqToCenter(blockpos)) / 4.0F, 1.0F);
 			float f1 = 6.0F / f;
 			float f2 = this.rotationPitch;
-			float f3 = 1.5F;
 			this.rotationPitch = -f1 * 1.5F * 5.0F;
 			vec3d = this.getLook(p_184665_1_);
 			this.rotationPitch = f2;

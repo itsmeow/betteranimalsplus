@@ -3,9 +3,7 @@ package its_meow.betteranimalsplus.init;
 import java.util.HashSet;
 import java.util.Set;
 
-import its_meow.betteranimalsplus.common.block.BlockGenericSkull;
 import its_meow.betteranimalsplus.common.item.ItemAntler;
-import its_meow.betteranimalsplus.common.item.ItemBlockSkull;
 import its_meow.betteranimalsplus.common.item.ItemGoatCheese;
 import its_meow.betteranimalsplus.common.item.ItemGoatMilk;
 import its_meow.betteranimalsplus.common.item.ItemHandOfFate;
@@ -17,8 +15,6 @@ import its_meow.betteranimalsplus.common.item.ItemVenisonCooked;
 import its_meow.betteranimalsplus.common.item.ItemVenisonRaw;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemBlock;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.event.RegistryEvent;

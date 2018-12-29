@@ -30,12 +30,10 @@ import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.passive.EntityChicken;
 import net.minecraft.entity.passive.EntityRabbit;
 import net.minecraft.entity.passive.EntitySheep;
-import net.minecraft.entity.passive.EntityTameable;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
-import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemMonsterPlacer;
 import net.minecraft.item.ItemStack;
@@ -68,18 +66,18 @@ public class EntityCoyote extends EntityFeralWolf {
 		this.targetTasks.addTask(1, new EntityAIOwnerHurtByTarget(this));
 		this.targetTasks.addTask(2, new EntityAIOwnerHurtTarget(this));
 		this.targetTasks.addTask(3, new EntityAIHurtByTarget(this, true, new Class[0]));
-		this.targetTasks.addTask(4, new EntityAITargetNonTamed(this, EntityPlayer.class, false, (Predicate) null));
-		this.targetTasks.addTask(4, new EntityAITargetNonTamed(this, EntityAnimal.class, false, new Predicate<Entity>()
+		this.targetTasks.addTask(4, new EntityAITargetNonTamed<EntityPlayer>(this, EntityPlayer.class, false, new NullPredicate()));
+		this.targetTasks.addTask(4, new EntityAITargetNonTamed<EntityAnimal>(this, EntityAnimal.class, false, new Predicate<Entity>()
 		{
 			public boolean apply(@Nullable Entity p_apply_1_)
 			{
 				return p_apply_1_ instanceof EntitySheep || p_apply_1_ instanceof EntityRabbit;
 			}
 		}));
-		this.targetTasks.addTask(4, new EntityAITargetNonTamed(this, EntityVillager.class, false, (Predicate) null));
-		this.targetTasks.addTask(4, new EntityAITargetNonTamed(this, AbstractIllager.class, false, (Predicate) null));
-		this.targetTasks.addTask(4, new EntityAITargetNonTamed(this, EntityChicken.class, false, (Predicate) null));
-		this.targetTasks.addTask(5, new EntityAINearestAttackableTarget(this, AbstractSkeleton.class, false));
+		this.targetTasks.addTask(4, new EntityAITargetNonTamed<EntityVillager>(this, EntityVillager.class, false, new NullPredicate()));
+		this.targetTasks.addTask(4, new EntityAITargetNonTamed<AbstractIllager>(this, AbstractIllager.class, false, new NullPredicate()));
+		this.targetTasks.addTask(4, new EntityAITargetNonTamed<EntityChicken>(this, EntityChicken.class, false, new NullPredicate()));
+		this.targetTasks.addTask(5, new EntityAINearestAttackableTarget<AbstractSkeleton>(this, AbstractSkeleton.class, false));
 	}
 	
 	public boolean isDaytime() {

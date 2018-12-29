@@ -354,13 +354,13 @@ public class EntityReindeer extends EntityAnimal implements IJumpingMount {
 					entity.attackEntityFrom(DamageSource.FALL, (float)i);
 				}
 			}
-
-			IBlockState iblockstate = this.world.getBlockState(new BlockPos(this.posX, this.posY - 0.2D - (double)this.prevRotationYaw, this.posZ));
+			BlockPos pos = new BlockPos(this.posX, this.posY - 0.2D - (double)this.prevRotationYaw, this.posZ);
+			IBlockState iblockstate = this.world.getBlockState(pos);
 			Block block = iblockstate.getBlock();
 
 			if (iblockstate.getMaterial() != Material.AIR && !this.isSilent())
 			{
-				SoundType soundtype = block.getSoundType();
+				SoundType soundtype = block.getSoundType(block.getDefaultState(), world, pos, this);
 				this.world.playSound((EntityPlayer)null, this.posX, this.posY, this.posZ, soundtype.getStepSound(), this.getSoundCategory(), soundtype.getVolume() * 0.5F, soundtype.getPitch() * 0.75F);
 			}
 		}
@@ -437,11 +437,11 @@ public class EntityReindeer extends EntityAnimal implements IJumpingMount {
 	{
 		if (!blockIn.getDefaultState().getMaterial().isLiquid())
 		{
-			SoundType soundtype = blockIn.getSoundType();
+			SoundType soundtype = blockIn.getSoundType(blockIn.getDefaultState(), world, pos, this);
 
 			if (this.world.getBlockState(pos.up()).getBlock() == Blocks.SNOW_LAYER)
 			{
-				soundtype = Blocks.SNOW_LAYER.getSoundType();
+				soundtype = Blocks.SNOW_LAYER.getSoundType(Blocks.SNOW_LAYER.getDefaultState(), world, pos, this);
 			}
 
 			if (this.isBeingRidden() && this.canGallop)

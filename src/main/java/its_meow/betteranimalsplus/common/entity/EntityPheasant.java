@@ -2,7 +2,6 @@ package its_meow.betteranimalsplus.common.entity;
 
 import javax.annotation.Nullable;
 
-import its_meow.betteranimalsplus.init.ItemRegistry;
 import its_meow.betteranimalsplus.init.LootTableRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityAgeable;

@@ -1,6 +1,5 @@
 package its_meow.betteranimalsplus.common.tileentity;
 
-import its_meow.betteranimalsplus.client.model.ModelDeerHead;
 import its_meow.betteranimalsplus.client.model.ModelReindeerHead;
 import its_meow.betteranimalsplus.init.TextureRegistry;
 import net.minecraft.client.model.ModelBase;

@@ -2,30 +2,21 @@ package its_meow.betteranimalsplus.client.renderer.entity;
 
 import javax.annotation.Nonnull;
 
-import its_meow.betteranimalsplus.client.model.ModelTarantulaHair;
 import its_meow.betteranimalsplus.common.entity.projectile.EntityTarantulaHair;
 import its_meow.betteranimalsplus.init.TextureRegistry;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
-import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
-import net.minecraft.entity.Entity;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
 
 public class RenderTarantulaHair extends Render<EntityTarantulaHair> {
 	
-	private ModelTarantulaHair model = null;
-	
 	protected RenderTarantulaHair(RenderManager renderManager) {
 		super(renderManager);
-		model = new ModelTarantulaHair();
 	}
 	
 	@Override
@@ -40,16 +31,6 @@ public class RenderTarantulaHair extends Render<EntityTarantulaHair> {
         GlStateManager.rotate(entity.prevRotationPitch + (entity.rotationPitch - entity.prevRotationPitch) * partialTicks, 0.0F, 0.0F, 1.0F);
         Tessellator tessellator = Tessellator.getInstance();
         BufferBuilder bufferbuilder = tessellator.getBuffer();
-        int i = 0;
-        float f = 0.0F;
-        float f1 = 0.5F;
-        float f2 = 0.0F;
-        float f3 = 0.15625F;
-        float f4 = 0.0F;
-        float f5 = 0.15625F;
-        float f6 = 0.15625F;
-        float f7 = 0.3125F;
-        float f8 = 0.05625F;
         GlStateManager.enableRescaleNormal();
 
         GlStateManager.rotate(45.0F, 1.0F, 0.0F, 0.0F);
