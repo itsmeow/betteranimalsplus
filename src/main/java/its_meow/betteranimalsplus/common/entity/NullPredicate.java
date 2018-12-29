@@ -6,7 +6,7 @@ public class NullPredicate implements com.google.common.base.Predicate<Entity> {
 
 	@Override
 	public boolean apply(Entity input) {
-		return false;
+		return true;
 	}
 
 }

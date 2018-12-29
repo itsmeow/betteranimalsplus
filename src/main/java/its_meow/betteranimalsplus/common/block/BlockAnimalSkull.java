@@ -37,7 +37,6 @@ public class BlockAnimalSkull extends BlockSkull implements ITileEntityProvider 
         {
             Block.spawnAsEntity(worldIn, pos, new ItemStack(this.getItemBlock(), 1));
         }
-
         super.onBlockHarvested(worldIn, pos, state, player);
     }
 
@@ -88,6 +87,7 @@ public class BlockAnimalSkull extends BlockSkull implements ITileEntityProvider 
 	@Override
 	public void getDrops(net.minecraft.util.NonNullList<ItemStack> drops, IBlockAccess worldIn, BlockPos pos, IBlockState state, int fortune)
 	{
+		drops.add(new ItemStack(this.getItemBlock(), 1));
 	}
 
 	/**

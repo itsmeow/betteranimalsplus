@@ -4,6 +4,7 @@ import its_meow.betteranimalsplus.common.entity.miniboss.hirschgeist.ai.Hirschge
 import its_meow.betteranimalsplus.common.entity.miniboss.hirschgeist.ai.HirschgeistAIFlameAttack;
 import its_meow.betteranimalsplus.init.LootTableRegistry;
 import net.minecraft.block.Block;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -19,7 +20,10 @@ import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.relauncher.Side;
 
 public class EntityHirschgeist extends EntityLiving implements IMob {
 
@@ -106,6 +110,12 @@ public class EntityHirschgeist extends EntityLiving implements IMob {
 
 	@Override
 	public boolean attackEntityFrom(DamageSource source, float amount) {
+		if(this.isDaytime() && FMLCommonHandler.instance().getSide() == Side.CLIENT && FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT) {
+			if(source.getTrueSource() instanceof EntityPlayer) {
+				EntityPlayer player = (EntityPlayer) source.getTrueSource();
+				player.sendMessage(new TextComponentString("The " + I18n.format("entity.betteranimalsplus.Hirschgeist.name") + " is immortal in the daytime. Try fighting it later."));
+			}
+		}
 		return this.isDaytime() ? false : super.attackEntityFrom(source, amount);
 	}
 
