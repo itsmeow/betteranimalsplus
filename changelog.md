@@ -8,6 +8,8 @@
 - Coyotes no longer growl while tamed (unless attacking) and don't bark
 - Tamed feral wolves will growl when attacking
 - Foxes will not bark
+- Fixed bug where HOF recipe was stuck on last oredict for stone
+- The wearable Hirschgeist skull can now be repaired with bones and antlers
 
 4.0.1
 -

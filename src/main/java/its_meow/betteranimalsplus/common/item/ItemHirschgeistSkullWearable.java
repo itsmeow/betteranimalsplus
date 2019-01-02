@@ -4,25 +4,30 @@ import java.util.List;
 
 import its_meow.betteranimalsplus.BetterAnimalsPlusMod;
 import its_meow.betteranimalsplus.Ref;
+import its_meow.betteranimalsplus.init.ItemRegistry;
 import its_meow.betteranimalsplus.proxy.ClientProxy;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.init.Items;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ItemHirschgeistSkullWearable extends ItemArmor {
 	
 	public ItemHirschgeistSkullWearable() {
-		super(ArmorMaterial.CHAIN, -1, EntityEquipmentSlot.HEAD);
+		super(EnumHelper.addArmorMaterial("bone", "betteranimalsplus:hirschgeist", 15, new int[] {1,4,5,2}, 12, SoundEvents.ITEM_ARMOR_EQUIP_GENERIC, 0.1F), -1, EntityEquipmentSlot.HEAD);
 		this.setUnlocalizedName("betteranimalsplus.hirschgeistskullwearable");
 		this.setRegistryName("hirschgeistskullwearable");
 		this.setCreativeTab(BetterAnimalsPlusMod.tab);
+		this.canRepair = true;
 	}
 
 	@Override
@@ -72,5 +77,12 @@ public class ItemHirschgeistSkullWearable extends ItemArmor {
 		tooltip.add("It can be placed via placing it into an empty crafting table");
 		super.addInformation(stack, worldIn, tooltip, flagIn);
 	}
+
+	@Override
+	public boolean getIsRepairable(ItemStack toRepair, ItemStack repair) {
+		return repair.getItem() == Items.BONE || repair.getItem() == ItemRegistry.antler;
+	}
+	
+	
 	
 }

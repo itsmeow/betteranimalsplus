@@ -1,0 +1,36 @@
+{
+    "_comment": [
+	    "Creates a Hand of Fate"
+	],
+    "type": "minecraft:crafting_shaped",
+    "pattern":
+    [
+        "ibi",
+        " i ",
+        "sss"
+    ],
+    "key":
+    {
+        "s":
+        {
+            "type": "forge:ore_dict",
+            "ore": "stone"
+        },
+        "b":
+        {
+            "item": "minecraft:blaze_powder",
+            "data": 0
+        },
+        "i":
+        {
+        	"item": "minecraft:iron_bars",
+        	"data": 0
+        }
+    },
+    "result":
+    {
+        "item": "betteranimalsplus:handoffate",
+        "count": 1,
+        "data": 0
+    }
+}
