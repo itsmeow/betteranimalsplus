@@ -41,7 +41,7 @@ public class EntityDeer extends EntityAnimal {
 	public EntityDeer(World worldIn) {
 		super(worldIn);
 		this.world = worldIn;
-		this.setSize(1F, 1.6F);
+		this.setSize(1.2F, 1.6F);
 	}
 
 	protected void entityInit()

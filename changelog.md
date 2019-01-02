@@ -2,6 +2,8 @@
 -
 - Fixed bug where animal heads would not drop their item after being broken by external sources (like water)
 - Added config options to disable natural spawning instead of removing entities alltogether
+- Rewrote configuration / entity registration system to add more options (min, max) and categorize entities
+- Lowered Coyote and Goat spawnrates slightly
 
 4.0.1
 -
