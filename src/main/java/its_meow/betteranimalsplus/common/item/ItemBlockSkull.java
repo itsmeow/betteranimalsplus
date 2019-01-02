@@ -1,9 +1,12 @@
 package its_meow.betteranimalsplus.common.item;
 
+import java.util.List;
+
 import its_meow.betteranimalsplus.common.tileentity.TileEntityHead;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockSkull;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -83,7 +86,20 @@ public class ItemBlockSkull extends ItemBlock {
 			if (side == EnumFacing.UP)
 				rotation = MathHelper.floor(player.rotationYaw * 16.0F / 360.0F + 0.5D) & 15;
 			tileSkull.setSkullRotation(rotation);
+			if(stack.hasTagCompound() && stack.getTagCompound().hasKey("TYPENUM")) {
+				tileSkull.setType(stack.getTagCompound().getInteger("TYPENUM"));
+			}
 		}
 	}
+
+	@Override
+	public void addInformation(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
+		if(stack.hasTagCompound() && stack.getTagCompound().hasKey("TYPENUM")) {
+			tooltip.add("Variant " + stack.getTagCompound().getInteger("TYPENUM"));
+		}
+		super.addInformation(stack, worldIn, tooltip, flagIn);
+	}
+	
+	
 
 }
