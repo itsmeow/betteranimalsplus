@@ -1,3 +1,8 @@
+4.1.0
+-
+- Fixed bug where animal heads would not drop their item after being broken by external sources (like water)
+- Added config options to disable natural spawning instead of removing entities alltogether
+
 4.0.1
 -
 - Added naming a reindeer "Rudolph" and fixed spawning logic for red-nosed versions
