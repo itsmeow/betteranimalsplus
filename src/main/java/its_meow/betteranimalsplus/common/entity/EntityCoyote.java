@@ -102,16 +102,14 @@ public class EntityCoyote extends EntityFeralWolf {
 	@Override
 	protected SoundEvent getAmbientSound()
 	{
-		if(!this.isDaytime()) {
+		if(!this.isDaytime() && !this.isTamed()) {
 			return SoundEvents.ENTITY_WOLF_GROWL;
-		} else if (this.rand.nextInt(3) == 0)
-		{
+		} else if (this.rand.nextInt(3) == 0) {
 			return this.isTamed() && ((Float)this.dataManager.get(DATA_HEALTH_ID)).floatValue() < 10.0F ? SoundEvents.ENTITY_WOLF_WHINE : SoundEvents.ENTITY_WOLF_PANT;
+		} else if(this.getAttackTarget() != null) {
+				return SoundEvents.ENTITY_WOLF_GROWL;
 		}
-		else
-		{
-			return SoundEvents.ENTITY_WOLF_AMBIENT;
-		}
+			return null;
 	}
 	
 	public boolean processInteract(EntityPlayer player, EnumHand hand)

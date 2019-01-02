@@ -4,6 +4,10 @@
 - Added config options to disable natural spawning instead of removing entities alltogether
 - Rewrote configuration / entity registration system to add more options (min, max) and categorize entities
 - Lowered Coyote and Goat spawnrates slightly
+- Increase size of deer hitbox by 0.2 blocks
+- Coyotes no longer growl while tamed (unless attacking) and don't bark
+- Tamed feral wolves will growl when attacking
+- Foxes will not bark
 
 4.0.1
 -

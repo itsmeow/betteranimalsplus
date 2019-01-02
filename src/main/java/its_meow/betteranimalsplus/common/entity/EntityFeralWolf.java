@@ -243,7 +243,7 @@ public class EntityFeralWolf extends EntityTameable implements IMob {
 
 	protected SoundEvent getAmbientSound()
 	{
-		if (!this.isTamed())
+		if (!this.isTamed() || this.getAttackTarget() != null)
 		{
 			return SoundEvents.ENTITY_WOLF_GROWL;
 		}

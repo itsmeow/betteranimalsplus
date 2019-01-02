@@ -209,10 +209,7 @@ public class EntityFox extends EntityTameable {
 		{
 			return this.isTamed() && ((Float)this.dataManager.get(DATA_HEALTH_ID)).floatValue() < 10.0F ? SoundEvents.ENTITY_WOLF_WHINE : SoundEvents.ENTITY_WOLF_PANT;
 		}
-		else
-		{
-			return SoundEvents.ENTITY_WOLF_AMBIENT;
-		}
+		return null;
 	}
 
 	protected SoundEvent getHurtSound(DamageSource damageSourceIn)
