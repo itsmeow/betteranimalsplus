@@ -5,6 +5,7 @@ import java.util.Set;
 
 import javax.annotation.Nullable;
 
+import its_meow.betteranimalsplus.init.BlockRegistry;
 import its_meow.betteranimalsplus.init.LootTableRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityAgeable;
@@ -26,6 +27,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
@@ -173,10 +175,17 @@ public class EntityDeer extends EntityAnimal {
 		this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.45D);
 	}
 
-
-
-
-
+	@Override
+	public void onDeath(DamageSource cause) {
+		if(cause.getTrueSource() instanceof EntityPlayer && !this.isChild()) {
+			if(this.rand.nextInt(15) == 0) {
+				ItemStack stack = new ItemStack(BlockRegistry.deerhead.getItemBlock());
+				stack.setTagCompound(new NBTTagCompound());
+				stack.getTagCompound().setInteger("TYPENUM", this.getTypeNumber());
+				this.entityDropItem(stack, 0.5F);
+			}
+		}
+	}
 
 	@Override
 	@Nullable

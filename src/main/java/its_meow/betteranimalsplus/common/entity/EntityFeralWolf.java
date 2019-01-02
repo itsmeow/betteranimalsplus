@@ -4,8 +4,8 @@ import javax.annotation.Nullable;
 
 import com.google.common.base.Predicate;
 
+import its_meow.betteranimalsplus.init.BlockRegistry;
 import its_meow.betteranimalsplus.init.ItemRegistry;
-import its_meow.betteranimalsplus.init.LootTableRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityAgeable;
@@ -52,7 +52,6 @@ import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.EnumParticleTypes;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.datafix.DataFixer;
 import net.minecraft.util.math.BlockPos;
@@ -113,22 +112,20 @@ public class EntityFeralWolf extends EntityTameable implements IMob {
 		this.targetTasks.addTask(4, new EntityAITargetNonTamed<EntityChicken>(this, EntityChicken.class, false, new NullPredicate()));
 		this.targetTasks.addTask(4, new EntityAITargetNonTamed<EntityGoat>(this, EntityGoat.class, false, new NullPredicate()));
 		this.targetTasks.addTask(5, new EntityAINearestAttackableTarget<AbstractSkeleton>(this, AbstractSkeleton.class, false));
-	}
+	}	
 	
-	
-	
-	
+
 	@Override
-	@Nullable
-	protected ResourceLocation getLootTable()
-	{
-		return LootTableRegistry.canid;
+	public void onDeath(DamageSource cause) {
+		if(cause.getTrueSource() instanceof EntityPlayer && !this.isChild()) {
+			if(this.rand.nextInt(15) == 0) {
+				ItemStack stack = new ItemStack(BlockRegistry.wolfhead.getItemBlock());
+				stack.setTagCompound(new NBTTagCompound());
+				stack.getTagCompound().setInteger("TYPENUM", this.getTypeNumber());
+				this.entityDropItem(stack, 0.5F);
+			}
+		}
 	}
-	
-	
-	
-	
-	
 
 	public int getTypeNumber() {
 		return ((Integer)this.dataManager.get(TYPE_NUMBER)).intValue();

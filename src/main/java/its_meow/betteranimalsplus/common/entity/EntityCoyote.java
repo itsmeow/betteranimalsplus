@@ -4,6 +4,7 @@ import javax.annotation.Nullable;
 
 import com.google.common.base.Predicate;
 
+import its_meow.betteranimalsplus.init.BlockRegistry;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.EntityList;
@@ -37,6 +38,8 @@ import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemMonsterPlacer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.text.TextComponentString;
@@ -110,6 +113,18 @@ public class EntityCoyote extends EntityFeralWolf {
 				return SoundEvents.ENTITY_WOLF_GROWL;
 		}
 			return null;
+	}
+	
+	@Override
+	public void onDeath(DamageSource cause) {
+		if(cause.getTrueSource() instanceof EntityPlayer && !this.isChild()) {
+			if(this.rand.nextInt(15) == 0) {
+				ItemStack stack = new ItemStack(BlockRegistry.wolfhead.getItemBlock());
+				stack.setTagCompound(new NBTTagCompound());
+				stack.getTagCompound().setInteger("TYPENUM", 4); // 4 is the coyote value for wolfheads
+				this.entityDropItem(stack, 0.5F);
+			}
+		}
 	}
 	
 	public boolean processInteract(EntityPlayer player, EnumHand hand)
