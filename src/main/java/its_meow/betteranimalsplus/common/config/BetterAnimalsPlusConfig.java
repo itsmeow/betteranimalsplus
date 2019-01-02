@@ -3,6 +3,7 @@ package its_meow.betteranimalsplus.common.config;
 import java.util.HashMap;
 
 import its_meow.betteranimalsplus.BetterAnimalsPlusMod;
+import its_meow.betteranimalsplus.Ref;
 import its_meow.betteranimalsplus.init.EntityContainer;
 import its_meow.betteranimalsplus.init.MobRegistry;
 import its_meow.betteranimalsplus.proxy.CommonProxy;
@@ -15,14 +16,14 @@ public class BetterAnimalsPlusConfig {
 	public static int kermodeBearWeight = 4;
 	public static int deerWeight = 16;
 	public static int lammergeierWeight = 7;
-	public static int feralWolfWeight = 8;
-	public static int coyoteWeight = 6;
+	public static int feralWolfWeight = 7;
+	public static int coyoteWeight = 5;
 	public static int foxWeight = 10;
 	public static int tarantulaWeight = 13;
 	public static int hirschgeistWeight = 2;
-	public static int goatWeight = 10;
+	public static int goatWeight = 9;
 	public static int jellyFishWeight = 10;
-	public static int pheasantWeight = 10;
+	public static int pheasantWeight = 12;
 	public static int reindeerWeight = 10;
 
 	public static boolean spawnTrillium = true;
@@ -35,7 +36,7 @@ public class BetterAnimalsPlusConfig {
 			cfg.load();
 			initConfig(cfg);
 		} catch (Exception e1) {
-			BetterAnimalsPlusMod.logger.log(org.apache.logging.log4j.Level.ERROR, "Problem Loading Config!!", e1);
+			BetterAnimalsPlusMod.logger.log(org.apache.logging.log4j.Level.ERROR, "Mod " + Ref.MOD_ID + " failed to load configuration. Report this here: http://github.com/itsmeow/betteranimalsplus/issues/new/choose", e1);
 		} finally {
 			if(cfg.hasChanged()){
 				cfg.save();
@@ -44,6 +45,8 @@ public class BetterAnimalsPlusConfig {
 	}
 
 	public static void initConfig(Configuration cfg) {
+		cfg.addCustomCategoryComment("spawning", "THIS IS OBSOLETE. DO NOT USE THIS SECTION. Use the per-entity sections.");
+		cfg.addCustomCategoryComment("dospawning", "THIS IS OBSOLETE. DO NOT USE THIS SECTION. Use the per-entity sections.");
 		spawnTrillium = cfg.getBoolean("generatetrillium", "generation", true, "Does not remove item, prevents world gen");
 		for(EntityContainer container : MobRegistry.entityList) {
 			EntityConfigurationSection configSection = new EntityConfigurationSection(container.entityClazz, container.minGroup, container.maxGroup, container.weight);
