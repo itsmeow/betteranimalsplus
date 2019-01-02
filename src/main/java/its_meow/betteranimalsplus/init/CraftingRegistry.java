@@ -16,8 +16,10 @@ public class CraftingRegistry {
 		GameRegistry.addSmelting(new ItemStack(ItemRegistry.pheasantRaw), new ItemStack(ItemRegistry.pheasantCooked), 0.0F);
 		
 		//Recipe with OreDict
+		int i = 0;
 		for(ItemStack stack : OreDictionary.getOres("stone")) {
-			GameRegistry.addShapedRecipe(new ResourceLocation(Ref.MOD_ID + ":handoffaterecipe"), new ResourceLocation(Ref.MOD_ID), new ItemStack(ItemRegistry.itemHandOfFate, 1), new Object[]{
+			i++;
+			GameRegistry.addShapedRecipe(new ResourceLocation(Ref.MOD_ID + ":handoffate" + i), new ResourceLocation(Ref.MOD_ID), new ItemStack(ItemRegistry.itemHandOfFate, 1), new Object[]{
 					"ibi",
 					" i ",
 					"sss",
