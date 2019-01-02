@@ -117,8 +117,8 @@ public class EntityCoyote extends EntityFeralWolf {
 	
 	@Override
 	public void onDeath(DamageSource cause) {
-		if(cause.getTrueSource() instanceof EntityPlayer && !this.isChild()) {
-			if(this.rand.nextInt(15) == 0) {
+		if(!this.isChild()) {
+			if(this.rand.nextInt(12) == 0) {
 				ItemStack stack = new ItemStack(BlockRegistry.wolfhead.getItemBlock());
 				stack.setTagCompound(new NBTTagCompound());
 				stack.getTagCompound().setInteger("TYPENUM", 4); // 4 is the coyote value for wolfheads

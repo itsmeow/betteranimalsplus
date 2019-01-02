@@ -39,7 +39,6 @@ public class BlockGenericSkull extends BlockAnimalSkull implements ITileEntityPr
 				if(te != null && te instanceof TileEntityHead) {
 					TileEntityHead teH = (TileEntityHead) te;
 					stack.setTagCompound(new NBTTagCompound());
-					System.out.println(teH.typeValue());
 					stack.getTagCompound().setInteger("TYPENUM", teH.typeValue());
 				}
 

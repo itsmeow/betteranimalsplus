@@ -117,8 +117,8 @@ public class EntityFeralWolf extends EntityTameable implements IMob {
 
 	@Override
 	public void onDeath(DamageSource cause) {
-		if(cause.getTrueSource() instanceof EntityPlayer && !this.isChild()) {
-			if(this.rand.nextInt(15) == 0) {
+		if(!this.isChild()) {
+			if(this.rand.nextInt(12) == 0) {
 				ItemStack stack = new ItemStack(BlockRegistry.wolfhead.getItemBlock());
 				stack.setTagCompound(new NBTTagCompound());
 				stack.getTagCompound().setInteger("TYPENUM", this.getTypeNumber());

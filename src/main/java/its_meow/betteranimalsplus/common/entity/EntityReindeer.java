@@ -8,6 +8,7 @@ import javax.annotation.Nullable;
 import com.google.common.base.Optional;
 import com.google.common.base.Predicate;
 
+import its_meow.betteranimalsplus.init.BlockRegistry;
 import its_meow.betteranimalsplus.init.LootTableRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
@@ -604,6 +605,18 @@ public class EntityReindeer extends EntityAnimal implements IJumpingMount {
 		}
 
 		return flag;
+	}
+	
+	@Override
+	public void onDeath(DamageSource cause) {
+		if(!this.isChild()) {
+			if(this.rand.nextInt(12) == 0) {
+				ItemStack stack = new ItemStack(BlockRegistry.reindeerhead.getItemBlock());
+				stack.setTagCompound(new NBTTagCompound());
+				stack.getTagCompound().setInteger("TYPENUM", this.getTypeNumber());
+				this.entityDropItem(stack, 0.5F);
+			}
+		}
 	}
 	
 	@Override

@@ -10,6 +10,9 @@
 - Foxes will not bark
 - Fixed bug where HOF recipe was stuck on last oredict for stone
 - The wearable Hirschgeist skull can now be repaired with bones and antlers
+- Breaking and replacing wolf, deer, or reindeer skull will no longer pick a new variant, but instead persists through the item
+- Wolves, deer, and reindeer will drop heads that match their skins
+- Drop rate of heads greatly reduced
 
 4.0.1
 -
