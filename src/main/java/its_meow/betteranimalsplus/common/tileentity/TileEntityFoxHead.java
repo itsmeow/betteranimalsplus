@@ -7,7 +7,7 @@ import net.minecraft.client.model.ModelBase;
 public class TileEntityFoxHead extends TileEntityHead {
 
 	public TileEntityFoxHead() {
-		super(ModelFoxHead.class.asSubclass(ModelBase.class), -0.05F, TextureRegistry.fox_1, TextureRegistry.fox_2, TextureRegistry.fox_3, TextureRegistry.fox_4);
+		super(ModelFoxHead.class.asSubclass(ModelBase.class), -0.1F, TextureRegistry.fox_1, TextureRegistry.fox_2, TextureRegistry.fox_3, TextureRegistry.fox_4);
 	}
 
 }
