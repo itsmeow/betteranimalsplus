@@ -1,0 +1,135 @@
+package its_meow.betteranimalsplus.client.model;
+
+import net.minecraft.client.model.ModelBase;
+import net.minecraft.client.model.ModelRenderer;
+import net.minecraft.entity.Entity;
+
+/**
+ * foxhead - cybercat5555
+ * Created using Tabula 5.1.0
+ */
+public class ModelFoxHead extends ModelBase {
+    public ModelRenderer head;
+    public ModelRenderer snoot;
+    public ModelRenderer lowerJawA;
+    public ModelRenderer upperJaw;
+    public ModelRenderer lEar01;
+    public ModelRenderer rEar01;
+    public ModelRenderer lCheekFur01;
+    public ModelRenderer rCheekFur01;
+    public ModelRenderer lowerJawB;
+    public ModelRenderer lEar02;
+    public ModelRenderer lEar03;
+    public ModelRenderer lEar04;
+    public ModelRenderer rEar02;
+    public ModelRenderer rEar03;
+    public ModelRenderer rEar04;
+    public ModelRenderer lCheekFur02;
+    public ModelRenderer rCheekFur02;
+
+    public ModelFoxHead() {
+        this.textureWidth = 64;
+        this.textureHeight = 64;
+        this.head = new ModelRenderer(this, 17, 34);
+        this.head.setRotationPoint(0.0F, 23.9F, 0.0F);
+        this.head.addBox(-2.5F, -3.0F, -4.0F, 5, 4, 4, 0.0F);
+        this.rCheekFur02 = new ModelRenderer(this, 0, 5);
+        this.rCheekFur02.mirror = true;
+        this.rCheekFur02.setRotationPoint(0.2F, 0.7F, -0.4F);
+        this.rCheekFur02.addBox(-2.1F, -1.4F, -1.0F, 3, 3, 1, 0.0F);
+        this.setRotateAngle(rCheekFur02, 0.0F, 0.045553093477052F, -0.22759093446006054F);
+        this.upperJaw = new ModelRenderer(this, 34, 43);
+        this.upperJaw.setRotationPoint(0.0F, 0.0F, -4.1F);
+        this.upperJaw.addBox(-1.5F, -1.0F, -2.6F, 3, 1, 3, 0.0F);
+        this.lowerJawA = new ModelRenderer(this, 23, 48);
+        this.lowerJawA.setRotationPoint(0.0F, 0.6F, -3.9F);
+        this.lowerJawA.addBox(-1.2F, -0.6F, -2.6F, 2, 1, 3, 0.0F);
+        this.setRotateAngle(lowerJawA, -0.091106186954104F, 0.0F, 0.0F);
+        this.rCheekFur01 = new ModelRenderer(this, 0, 0);
+        this.rCheekFur01.mirror = true;
+        this.rCheekFur01.setRotationPoint(-1.9F, -1.0F, -0.6F);
+        this.rCheekFur01.addBox(-1.4F, -1.0F, -1.0F, 2, 3, 1, 0.0F);
+        this.setRotateAngle(rCheekFur01, 0.0F, 0.40980330836826856F, -0.27314402793711257F);
+        this.snoot = new ModelRenderer(this, 23, 43);
+        this.snoot.setRotationPoint(0.0F, -1.0F, -4.2F);
+        this.snoot.addBox(-1.0F, -1.0F, -2.6F, 2, 1, 3, 0.0F);
+        this.setRotateAngle(snoot, 0.22759093446006054F, 0.0F, 0.0F);
+        this.lEar02 = new ModelRenderer(this, 21, 5);
+        this.lEar02.setRotationPoint(0.5F, -1.7F, 0.0F);
+        this.lEar02.addBox(-0.5F, -1.0F, -0.5F, 1, 1, 1, 0.0F);
+        this.setRotateAngle(lEar02, 0.0F, 0.0F, -0.40980330836826856F);
+        this.lCheekFur02 = new ModelRenderer(this, 0, 5);
+        this.lCheekFur02.setRotationPoint(-0.2F, 0.7F, -0.4F);
+        this.lCheekFur02.addBox(-0.9F, -1.4F, -1.0F, 3, 3, 1, 0.0F);
+        this.setRotateAngle(lCheekFur02, 0.0F, -0.045553093477052F, 0.22759093446006054F);
+        this.lCheekFur01 = new ModelRenderer(this, 0, 0);
+        this.lCheekFur01.setRotationPoint(1.9F, -1.0F, -0.6F);
+        this.lCheekFur01.addBox(-0.6F, -1.0F, -1.0F, 2, 3, 1, 0.0F);
+        this.setRotateAngle(lCheekFur01, 0.0F, -0.40980330836826856F, 0.27314402793711257F);
+        this.lEar03 = new ModelRenderer(this, 29, 0);
+        this.lEar03.setRotationPoint(0.0F, 0.5F, 0.8F);
+        this.lEar03.addBox(-0.5F, -3.7F, -0.5F, 1, 3, 1, 0.0F);
+        this.setRotateAngle(lEar03, 0.22759093446006054F, 0.0F, 0.0F);
+        this.rEar02 = new ModelRenderer(this, 21, 5);
+        this.rEar02.mirror = true;
+        this.rEar02.setRotationPoint(-0.5F, -1.7F, 0.0F);
+        this.rEar02.addBox(-0.5F, -1.0F, -0.5F, 1, 1, 1, 0.0F);
+        this.setRotateAngle(rEar02, 0.0F, 0.0F, 0.40980330836826856F);
+        this.rEar01 = new ModelRenderer(this, 21, 0);
+        this.rEar01.mirror = true;
+        this.rEar01.setRotationPoint(-1.6F, -2.4F, -1.5F);
+        this.rEar01.addBox(-1.0F, -1.9F, -0.5F, 2, 2, 1, 0.0F);
+        this.setRotateAngle(rEar01, 0.0F, 0.40980330836826856F, -0.27314402793711257F);
+        this.lowerJawB = new ModelRenderer(this, 34, 48);
+        this.lowerJawB.setRotationPoint(0.0F, 0.0F, 0.0F);
+        this.lowerJawB.addBox(0.2F, -0.6F, -2.6F, 1, 1, 3, 0.0F);
+        this.lEar01 = new ModelRenderer(this, 21, 0);
+        this.lEar01.setRotationPoint(1.6F, -2.4F, -1.5F);
+        this.lEar01.addBox(-1.0F, -1.9F, -0.5F, 2, 2, 1, 0.0F);
+        this.setRotateAngle(lEar01, 0.0F, -0.40980330836826856F, 0.27314402793711257F);
+        this.rEar03 = new ModelRenderer(this, 29, 0);
+        this.rEar03.mirror = true;
+        this.rEar03.setRotationPoint(0.0F, 0.5F, 0.8F);
+        this.rEar03.addBox(-0.5F, -3.7F, -0.5F, 1, 3, 1, 0.0F);
+        this.setRotateAngle(rEar03, 0.22759093446006054F, 0.0F, 0.0F);
+        this.lEar04 = new ModelRenderer(this, 21, 5);
+        this.lEar04.mirror = true;
+        this.lEar04.setRotationPoint(-0.5F, -1.7F, 0.0F);
+        this.lEar04.addBox(-0.5F, -1.0F, -0.5F, 1, 1, 1, 0.0F);
+        this.setRotateAngle(lEar04, 0.0F, 0.0F, 0.40980330836826856F);
+        this.rEar04 = new ModelRenderer(this, 21, 5);
+        this.rEar04.setRotationPoint(0.5F, -1.7F, 0.0F);
+        this.rEar04.addBox(-0.5F, -1.0F, -0.5F, 1, 1, 1, 0.0F);
+        this.setRotateAngle(rEar04, 0.0F, 0.0F, -0.40980330836826856F);
+        this.rCheekFur01.addChild(this.rCheekFur02);
+        this.head.addChild(this.upperJaw);
+        this.head.addChild(this.lowerJawA);
+        this.head.addChild(this.rCheekFur01);
+        this.head.addChild(this.snoot);
+        this.lEar01.addChild(this.lEar02);
+        this.lCheekFur01.addChild(this.lCheekFur02);
+        this.head.addChild(this.lCheekFur01);
+        this.lEar01.addChild(this.lEar03);
+        this.rEar01.addChild(this.rEar02);
+        this.head.addChild(this.rEar01);
+        this.lowerJawA.addChild(this.lowerJawB);
+        this.head.addChild(this.lEar01);
+        this.rEar01.addChild(this.rEar03);
+        this.lEar01.addChild(this.lEar04);
+        this.rEar01.addChild(this.rEar04);
+    }
+
+    @Override
+    public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) { 
+        this.head.render(f5);
+    }
+
+    /**
+     * This is a helper function from Tabula to set the rotation of model parts
+     */
+    public void setRotateAngle(ModelRenderer modelRenderer, float x, float y, float z) {
+        modelRenderer.rotateAngleX = x;
+        modelRenderer.rotateAngleY = y;
+        modelRenderer.rotateAngleZ = z;
+    }
+}

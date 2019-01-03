@@ -23,7 +23,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class ItemHirschgeistSkullWearable extends ItemArmor {
 	
 	public ItemHirschgeistSkullWearable() {
-		super(EnumHelper.addArmorMaterial("bone", "betteranimalsplus:hirschgeist", 15, new int[] {1,4,5,2}, 12, SoundEvents.ITEM_ARMOR_EQUIP_GENERIC, 0.1F), -1, EntityEquipmentSlot.HEAD);
+		super(EnumHelper.addArmorMaterial("bone", "betteranimalsplus:hirschgeistskull", 15, new int[] {1,4,5,2}, 12, SoundEvents.ITEM_ARMOR_EQUIP_GENERIC, 0.1F), -1, EntityEquipmentSlot.HEAD);
 		this.setUnlocalizedName("betteranimalsplus.hirschgeistskullwearable");
 		this.setRegistryName("hirschgeistskullwearable");
 		this.setCreativeTab(BetterAnimalsPlusMod.tab);
@@ -38,7 +38,7 @@ public class ItemHirschgeistSkullWearable extends ItemArmor {
 	@Override
 	public String getArmorTexture(ItemStack stack, Entity entity, EntityEquipmentSlot slot, String type)
 	{
-		return Ref.MOD_ID + ":textures/entities/hirschgeist.png";
+		return Ref.MOD_ID + ":textures/models/armor/hirschgeistskull.png";
 	}
 
 	@Override 	
