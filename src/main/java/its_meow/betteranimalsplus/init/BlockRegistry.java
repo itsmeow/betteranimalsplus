@@ -11,12 +11,7 @@ import its_meow.betteranimalsplus.common.block.BlockHandOfFate;
 import its_meow.betteranimalsplus.common.block.BlockHirschgeistSkull;
 import its_meow.betteranimalsplus.common.block.BlockTrillium;
 import its_meow.betteranimalsplus.common.item.ItemBlockSkull;
-import its_meow.betteranimalsplus.common.tileentity.TileEntityDeerHead;
-import its_meow.betteranimalsplus.common.tileentity.TileEntityHandOfFate;
-import its_meow.betteranimalsplus.common.tileentity.TileEntityHirschgeistSkull;
-import its_meow.betteranimalsplus.common.tileentity.TileEntityReindeerHead;
-import its_meow.betteranimalsplus.common.tileentity.TileEntityTrillium;
-import its_meow.betteranimalsplus.common.tileentity.TileEntityWolfHead;
+import its_meow.betteranimalsplus.common.tileentity.*;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.Item;
@@ -42,8 +37,9 @@ public class BlockRegistry {
 	public static final BlockGenericSkull deerhead = new BlockGenericSkull(TileEntityDeerHead.class, "deerhead", false);
 	public static final BlockGenericSkull wolfhead = new BlockGenericSkull(TileEntityWolfHead.class, "wolfhead", true);
 	public static final BlockGenericSkull reindeerhead = new BlockGenericSkull(TileEntityReindeerHead.class, "reindeerhead", false);
+	public static final BlockGenericSkull foxhead = new BlockGenericSkull(TileEntityFoxHead.class, "foxhead", true);
 	
-	private static HashMap<BlockGenericSkull, ItemBlockSkull> genericskulls = new HashMap<BlockGenericSkull, ItemBlockSkull>();
+	public static HashMap<BlockGenericSkull, ItemBlockSkull> genericskulls = new HashMap<BlockGenericSkull, ItemBlockSkull>();
 	
 	public static void addGenericSkull(BlockGenericSkull block) {
 		genericskulls.put(block, new ItemBlockSkull(block, block.allowFloor));
@@ -66,12 +62,10 @@ public class BlockRegistry {
 		public static void registerBlocks(final RegistryEvent.Register<Block> event) {
 			final IForgeRegistry<Block> registry = event.getRegistry();
 			
-			BlockGenericSkull deerhead = new BlockGenericSkull(TileEntityDeerHead.class, "deerhead", false);
-			BlockGenericSkull wolfhead = new BlockGenericSkull(TileEntityWolfHead.class, "wolfhead", true);
-			BlockGenericSkull reindeerhead = new BlockGenericSkull(TileEntityReindeerHead.class, "reindeerhead", false);
-			BlockRegistry.addGenericSkull(deerhead);
-			BlockRegistry.addGenericSkull(wolfhead);
-			BlockRegistry.addGenericSkull(reindeerhead);
+			BlockRegistry.addGenericSkull(BlockRegistry.deerhead);
+			BlockRegistry.addGenericSkull(BlockRegistry.wolfhead);
+			BlockRegistry.addGenericSkull(BlockRegistry.reindeerhead);
+			BlockRegistry.addGenericSkull(BlockRegistry.foxhead);
 
 			final Block[] blocks = {
 					trillium,

@@ -13,6 +13,7 @@
 - Breaking and replacing wolf, deer, or reindeer skull will no longer pick a new variant, but instead persists through the item
 - Wolves, deer, and reindeer will drop heads that match their skins
 - Drop rate of heads greatly reduced
+- Increased goat health
 
 4.0.1
 -

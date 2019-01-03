@@ -2,7 +2,7 @@ package its_meow.betteranimalsplus.client.renderer.TESR;
 
 import com.mojang.authlib.GameProfile;
 
-import its_meow.betteranimalsplus.common.tileentity.TileEntityWolfHead;
+import its_meow.betteranimalsplus.common.tileentity.TileEntityHead;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
@@ -12,20 +12,20 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class RenderWolfHead extends TileEntitySpecialRenderer<TileEntityWolfHead> {
+public class RenderGenericHeadFloor extends TileEntitySpecialRenderer<TileEntityHead> {
 
 	@Override
-	public void render(TileEntityWolfHead tile, double x, double y, double z, float partialTickTime, int destroyStage, float alpha) {
-		renderHead((float) x, (float) y, (float) z, tile.getBlockMetadata() & 7, tile.getSkullRotation() * 360 / 16.0F, tile.getPlayerProfile(), tile.getModel(), destroyStage, tile.getTexture());
+	public void render(TileEntityHead tile, double x, double y, double z, float partialTickTime, int destroyStage, float alpha) {
+		renderHead((float) x, (float) y, (float) z, tile.getBlockMetadata() & 7, tile.getSkullRotation() * 360 / 16.0F, tile.getPlayerProfile(), tile.getModel(), destroyStage, tile.getTexture(), tile.getOffset());
 	}
 
-	private void renderHead(float x, float y, float z, int meta, float skullRotation, GameProfile profile, ModelBase model, int destroyStage, ResourceLocation texture) {
+	private void renderHead(float x, float y, float z, int meta, float skullRotation, GameProfile profile, ModelBase model, int destroyStage, ResourceLocation texture, float offset) {
 
 		this.bindTexture(texture);
 
 		GlStateManager.pushMatrix();
 
-		this.translateHead(x, y, z, meta, 1.5F);
+		this.translateHead(x, y, z, meta, 1.5F + offset);
 
 		skullRotation = adjustRotation(meta, skullRotation);
 		float skullRotationX = adjustRotationX(meta);

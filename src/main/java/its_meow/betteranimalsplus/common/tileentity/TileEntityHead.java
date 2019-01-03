@@ -22,10 +22,11 @@ public class TileEntityHead extends TileEntitySkull {
 	protected int typeNum = 0;
 	private boolean useFunc = false;
 	private Method textureFunction;
+	private float offset;
 	
 	public HashMap<Integer, ResourceLocation> textures;
 	
-	public TileEntityHead(Class<? extends ModelBase> modelType, ResourceLocation... textureList) {
+	public TileEntityHead(Class<? extends ModelBase> modelType, float yOffset, ResourceLocation... textureList) {
 		modelT = modelType;
 		this.textures = new HashMap<Integer, ResourceLocation>();
 		int i = 1;
@@ -37,6 +38,7 @@ public class TileEntityHead extends TileEntitySkull {
 			this.setType(new Random().nextInt(textures.size()) + 1);
 			this.markDirty();
 		}
+		this.offset = yOffset;
 	}
 	
 	public ModelBase getModel() {
@@ -119,6 +121,10 @@ public class TileEntityHead extends TileEntitySkull {
 	@Override
 	public void handleUpdateTag(NBTTagCompound tag) {
 		this.readFromNBT(tag);
+	}
+	
+	public float getOffset() {
+		return this.offset;
 	}
 
 }

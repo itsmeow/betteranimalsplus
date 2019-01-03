@@ -8,7 +8,7 @@ import net.minecraft.util.ResourceLocation;
 public class TileEntityReindeerHead extends TileEntityHead {
 	
 	public TileEntityReindeerHead() {
-		super(ModelReindeerHead.class.asSubclass(ModelBase.class), TextureRegistry.reindeer_1, TextureRegistry.reindeer_2, TextureRegistry.reindeer_3, TextureRegistry.reindeer_4);
+		super(ModelReindeerHead.class.asSubclass(ModelBase.class), 0F, TextureRegistry.reindeer_1, TextureRegistry.reindeer_2, TextureRegistry.reindeer_3, TextureRegistry.reindeer_4);
 	}
 	
 	public ResourceLocation getTexture() {
