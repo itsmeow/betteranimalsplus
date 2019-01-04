@@ -35,11 +35,11 @@ public class ItemHirschgeistSkullWearable extends ItemArmor {
 		return armorType == EntityEquipmentSlot.HEAD;
 	}
 
-	@Override
+	/*@Override
 	public String getArmorTexture(ItemStack stack, Entity entity, EntityEquipmentSlot slot, String type)
 	{
 		return Ref.MOD_ID + ":textures/models/armor/hirschgeistskull.png";
-	}
+	}*/
 
 	@Override 	
 	@SideOnly(Side.CLIENT)
