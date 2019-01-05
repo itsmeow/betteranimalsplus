@@ -3,7 +3,6 @@ package its_meow.betteranimalsplus.common.item;
 import java.util.List;
 
 import its_meow.betteranimalsplus.BetterAnimalsPlusMod;
-import its_meow.betteranimalsplus.Ref;
 import its_meow.betteranimalsplus.init.ItemRegistry;
 import its_meow.betteranimalsplus.proxy.ClientProxy;
 import net.minecraft.client.model.ModelBiped;
