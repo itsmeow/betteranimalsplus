@@ -38,9 +38,9 @@ public class ModelHirschgeistHelmet extends ModelBiped {
     public ModelRenderer rAnter07b;
 
     public ModelHirschgeistHelmet() {
-    	super(0,0,128,64);
+    	super(0,0,128,128);
         this.textureWidth = 128;
-        this.textureHeight = 64;
+        this.textureHeight = 128;
         this.lowerJaw02 = new ModelRenderer(this, 94, 9);
         this.lowerJaw02.setRotationPoint(0.0F, 0.0F, 0.0F);
         this.lowerJaw02.addBox(-3.8F, 0.0F, 0.0F, 1, 5, 2, 0.0F);
