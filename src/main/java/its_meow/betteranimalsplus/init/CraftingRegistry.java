@@ -16,5 +16,9 @@ public class CraftingRegistry {
 		OreDictionary.registerOre("listAllmeatcooked", ItemRegistry.venisonCooked);
 		OreDictionary.registerOre("listAllmeatraw", ItemRegistry.pheasantRaw);
 		OreDictionary.registerOre("listAllmeatcooked", ItemRegistry.pheasantCooked);
+		OreDictionary.registerOre("listAllvenisonraw", ItemRegistry.venisonRaw);
+		OreDictionary.registerOre("listAllvenisoncooked", ItemRegistry.venisonCooked);
+		OreDictionary.registerOre("foodVenisonraw", ItemRegistry.venisonRaw);
+		OreDictionary.registerOre("foodVenisoncooked", ItemRegistry.venisonCooked);
 	}
 }
