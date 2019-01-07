@@ -18,6 +18,7 @@ tile.betteranimalsplus.handoffate.name=A Sors Keze
 tile.betteranimalsplus.wolfhead.name=Farkasfej
 tile.betteranimalsplus.deerhead.name=Õzfej
 tile.betteranimalsplus.reindeerhead.name=Rénszarvasfej
+tile.betteranimalsplus.foxhead.name=Rókafej
 
 #Entities
 entity.betteranimalsplus.BrownBear.name=Barnamedve
@@ -28,7 +29,7 @@ entity.betteranimalsplus.Lammergeier.name=Szakállas Saskeselyû
 entity.betteranimalsplus.FeralWolf.name=Vad Farkas
 entity.betteranimalsplus.Coyote.name=Prérifarkas
 entity.betteranimalsplus.Trillium.name=Hármasszirom
-entity.betteranimalsplus.Fox.name=Rókafej
+entity.betteranimalsplus.Fox.name=Róka
 entity.betteranimalsplus.Tarantula.name=Tarantellapók
 entity.betteranimalsplus.Hirschgeist.name=Szarvaslélek
 entity.betteranimalsplus.Goat.name=Kecske
