@@ -16,6 +16,9 @@
 - Increased goat health
 - Lammergeier now accepts any food for healing
 - Fixed incorrect translation for "fox" in Hungarian
+- Added more oredictionary values for venison (listAllvenisonraw/cooked, foodVenisonraw/cooked) (Pam's HarvestCraft)
+- Added fox head (also drops correctly and such)
+- Updated all translations for new content except Arabic and Chinese
 
 4.0.1
 -
