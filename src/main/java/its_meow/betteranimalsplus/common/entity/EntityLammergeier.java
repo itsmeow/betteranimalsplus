@@ -190,7 +190,7 @@ public class EntityLammergeier extends EntityTameableFlying {
 				{
 					ItemFood itemfood = (ItemFood)itemstack.getItem();
 
-					if (itemfood == Items.MUTTON && ((Float)this.dataManager.get(DATA_HEALTH_ID)).floatValue() < 20.0F)
+					if (((Float)this.dataManager.get(DATA_HEALTH_ID)).floatValue() < 20.0F)
 					{
 						if (!player.capabilities.isCreativeMode)
 						{

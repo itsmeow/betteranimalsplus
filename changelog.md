@@ -14,6 +14,8 @@
 - Wolves, deer, and reindeer will drop heads that match their skins
 - Drop rate of heads greatly reduced
 - Increased goat health
+- Lammergeier now accepts any food for healing
+- Fixed incorrect translation for "fox" in Hungarian
 
 4.0.1
 -
