@@ -1,5 +1,6 @@
 package its_meow.betteranimalsplus.client.renderer.entity;
 
+import its_meow.betteranimalsplus.Ref;
 import its_meow.betteranimalsplus.common.entity.EntityBear;
 import its_meow.betteranimalsplus.common.entity.EntityBearNeutral;
 import its_meow.betteranimalsplus.common.entity.EntityBearNeutralKermode;
@@ -15,31 +16,36 @@ import its_meow.betteranimalsplus.common.entity.EntityReindeer;
 import its_meow.betteranimalsplus.common.entity.EntityTarantula;
 import its_meow.betteranimalsplus.common.entity.miniboss.hirschgeist.EntityHirschgeist;
 import its_meow.betteranimalsplus.common.entity.projectile.EntityTarantulaHair;
+import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
+@Mod.EventBusSubscriber(modid = Ref.MOD_ID, value = Side.CLIENT)
 public class EntityRendererRegistry {
    
 	@SideOnly(Side.CLIENT)
-    public static void registerEntityRenderers()
+	@SubscribeEvent
+    public static void registerEntityRenderers(ModelRegistryEvent event)
     {
-		RenderingRegistry.registerEntityRenderingHandler(EntityBear.class, RenderBrownBear.FACTORY);
-		RenderingRegistry.registerEntityRenderingHandler(EntityBearNeutral.class, RenderBlackBear.FACTORY);
-		RenderingRegistry.registerEntityRenderingHandler(EntityBearNeutralKermode.class, RenderKermodeBear.FACTORY);
-		RenderingRegistry.registerEntityRenderingHandler(EntityDeer.class, RenderDeer.FACTORY);
-		RenderingRegistry.registerEntityRenderingHandler(EntityLammergeier.class, RenderLammergeier.FACTORY);
-		RenderingRegistry.registerEntityRenderingHandler(EntityFeralWolf.class, RenderCustomWolf.FACTORY);
-		RenderingRegistry.registerEntityRenderingHandler(EntityCoyote.class, RenderCoyote.FACTORY);
-		RenderingRegistry.registerEntityRenderingHandler(EntityFox.class, RenderFox.FACTORY);
-		RenderingRegistry.registerEntityRenderingHandler(EntityTarantulaHair.class, RenderTarantulaHair.FACTORY);
-		RenderingRegistry.registerEntityRenderingHandler(EntityTarantula.class, RenderTarantula.FACTORY);
-		RenderingRegistry.registerEntityRenderingHandler(EntityHirschgeist.class, RenderHirschgeist.FACTORY);
-		RenderingRegistry.registerEntityRenderingHandler(EntityGoat.class, RenderGoat.FACTORY);
-		RenderingRegistry.registerEntityRenderingHandler(EntityJellyfish.class, RenderJellyfish.FACTORY);
-		RenderingRegistry.registerEntityRenderingHandler(EntityPheasant.class, RenderPheasant.FACTORY);
-		RenderingRegistry.registerEntityRenderingHandler(EntityReindeer.class, RenderReindeer.FACTORY);
+		RenderingRegistry.registerEntityRenderingHandler(EntityBear.class, m -> new RenderBrownBear(m));
+		RenderingRegistry.registerEntityRenderingHandler(EntityBearNeutral.class, m -> new RenderBlackBear(m));
+		RenderingRegistry.registerEntityRenderingHandler(EntityBearNeutralKermode.class, m -> new RenderKermodeBear(m));
+		RenderingRegistry.registerEntityRenderingHandler(EntityDeer.class, m -> new RenderDeer(m));
+		RenderingRegistry.registerEntityRenderingHandler(EntityLammergeier.class, m -> new RenderLammergeier(m));
+		RenderingRegistry.registerEntityRenderingHandler(EntityFeralWolf.class, m -> new RenderCustomWolf(m));
+		RenderingRegistry.registerEntityRenderingHandler(EntityCoyote.class, m -> new RenderCoyote(m));
+		RenderingRegistry.registerEntityRenderingHandler(EntityFox.class, m -> new RenderFox(m));
+		RenderingRegistry.registerEntityRenderingHandler(EntityTarantulaHair.class, m -> new RenderTarantulaHair(m));
+		RenderingRegistry.registerEntityRenderingHandler(EntityTarantula.class, m -> new RenderTarantula(m));
+		RenderingRegistry.registerEntityRenderingHandler(EntityHirschgeist.class, m -> new RenderHirschgeist(m));
+		RenderingRegistry.registerEntityRenderingHandler(EntityGoat.class, m -> new RenderGoat(m));
+		RenderingRegistry.registerEntityRenderingHandler(EntityJellyfish.class, m -> new RenderJellyfish(m));
+		RenderingRegistry.registerEntityRenderingHandler(EntityPheasant.class, m -> new RenderPheasant(m));
+		RenderingRegistry.registerEntityRenderingHandler(EntityReindeer.class, m -> new RenderReindeer(m));
     }
 
 }

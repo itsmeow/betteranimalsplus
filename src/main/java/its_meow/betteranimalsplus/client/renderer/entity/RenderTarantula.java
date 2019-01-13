@@ -17,26 +17,10 @@ public class RenderTarantula extends RenderLiving<EntityTarantula> {
 		super(rendermanagerIn, new ModelTarantula(), 1F);
 		this.addLayer(new LayerTarantulaEyes(this));
 	}
-	
-	
-	
-	
-	public static final Factory FACTORY = new Factory();
 
-	
-	
 	@Override
 	protected ResourceLocation getEntityTexture(EntityTarantula entity) {
 		return TextureRegistry.tarantula;
-	}
-	
-	public static class Factory implements IRenderFactory<EntityTarantula> {
-		
-		@Override
-		public Render<? super EntityTarantula> createRenderFor(RenderManager manager) {
-			return new RenderTarantula(manager);
-		}
-		
 	}
 
 }

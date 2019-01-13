@@ -88,16 +88,4 @@ public class RenderTarantulaHair extends Render<EntityTarantulaHair> {
 		return TextureRegistry.tarantula_hair;
 	}
     
-    
-    public static final Factory FACTORY = new Factory();
-
-	
-	public static class Factory implements IRenderFactory<EntityTarantulaHair> {
-		
-		@Override
-		public Render<? super EntityTarantulaHair> createRenderFor(RenderManager manager) {
-			return new RenderTarantulaHair(manager);
-		}
-		
-	}
 }

@@ -31,9 +31,6 @@ public class RenderHirschgeist extends RenderLiving<EntityHirschgeist> {
 		super.preRenderCallback(entitylivingbaseIn, partialTickTime);
 	}
 
-
-	public static final Factory FACTORY = new Factory();
-
 	@Override
 	public void doRender(EntityHirschgeist entity, double x, double y, double z, float f, float partialTicks) {	
 		super.doRender(entity, x, y, z, f, partialTicks);
@@ -47,12 +44,4 @@ public class RenderHirschgeist extends RenderLiving<EntityHirschgeist> {
 		return TextureRegistry.hirschgeist;
 	}
 
-	public static class Factory implements IRenderFactory<EntityHirschgeist> {
-
-		@Override
-		public Render<? super EntityHirschgeist> createRenderFor(RenderManager manager) {
-			return new RenderHirschgeist(manager);
-		}
-
-	}
 }

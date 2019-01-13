@@ -68,17 +68,4 @@ public class RenderFox extends RenderLiving<EntityFox> {
 		return result;
 	}
 
-	public static final Factory FACTORY = new Factory();
-
-	public static class Factory implements IRenderFactory<EntityFox> {
-
-		@Override
-		public Render<? super EntityFox> createRenderFor(RenderManager manager) {
-			return new RenderFox(manager);
-		}
-
-	}
-
-
-
 }

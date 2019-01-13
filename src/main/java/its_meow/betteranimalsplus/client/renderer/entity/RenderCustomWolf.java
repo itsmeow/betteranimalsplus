@@ -82,17 +82,4 @@ public class RenderCustomWolf extends RenderLiving<EntityFeralWolf> {
 		return result;
 	}
 
-	public static final Factory FACTORY = new Factory();
-
-	public static class Factory implements IRenderFactory<EntityFeralWolf> {
-
-		@Override
-		public Render<? super EntityFeralWolf> createRenderFor(RenderManager manager) {
-			return new RenderCustomWolf(manager);
-		}
-
-	}
-
-
-
 }

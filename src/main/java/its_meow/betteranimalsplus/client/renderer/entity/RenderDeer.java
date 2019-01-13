@@ -36,12 +36,6 @@ public class RenderDeer extends RenderLiving<EntityDeer> {
 	}
 
 
-
-	public static final Factory FACTORY = new Factory();
-
-
-
-
 	@Override
 	protected ResourceLocation getEntityTexture(EntityDeer entity) {
 		int type = entity.getTypeNumber();
@@ -62,15 +56,6 @@ public class RenderDeer extends RenderLiving<EntityDeer> {
 			}
 			return TextureRegistry.deer_2_christmas;
 		}
-	}
-
-	public static class Factory implements IRenderFactory<EntityDeer> {
-
-		@Override
-		public Render<? super EntityDeer> createRenderFor(RenderManager manager) {
-			return new RenderDeer(manager);
-		}
-
 	}
 
 }

@@ -24,8 +24,6 @@ public class RenderJellyfish extends RenderLiving<EntityJellyfish> {
 		GlStateManager.scale(s,s,s);
 	}
 
-	public static final Factory FACTORY = new Factory();
-
 
 	@Override
 	@Nonnull
@@ -42,15 +40,6 @@ public class RenderJellyfish extends RenderLiving<EntityJellyfish> {
 		default:res = TextureRegistry.jellyfish_1; break;
 		}
 		return res;
-	}
-
-	public static class Factory implements IRenderFactory<EntityJellyfish> {
-
-		@Override
-		public Render<? super EntityJellyfish> createRenderFor(RenderManager manager) {
-			return new RenderJellyfish(manager);
-		}
-
 	}
 
 }

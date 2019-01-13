@@ -18,13 +18,6 @@ public class RenderLammergeier extends RenderLiving<EntityLammergeier> {
 		super(rendermanagerIn, new ModelLammergeier(), 0.3F);
 	}
 
-
-
-	public static final Factory FACTORY = new Factory();
-
-
-
-
 	@Override
 	@Nonnull
 	protected ResourceLocation getEntityTexture(@Nonnull EntityLammergeier entity) {
@@ -45,15 +38,6 @@ public class RenderLammergeier extends RenderLiving<EntityLammergeier> {
 				break;
 		}
 		return result;
-		
-	}
-	
-	public static class Factory implements IRenderFactory<EntityLammergeier> {
-		
-		@Override
-		public Render<? super EntityLammergeier> createRenderFor(RenderManager manager) {
-			return new RenderLammergeier(manager);
-		}
 		
 	}
 

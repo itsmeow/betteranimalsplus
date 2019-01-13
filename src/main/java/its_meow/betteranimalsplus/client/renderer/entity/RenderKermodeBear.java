@@ -18,26 +18,11 @@ public class RenderKermodeBear extends RenderLiving<EntityBearNeutralKermode> {
 		super(rendermanagerIn, new ModelBear(), 1F);
 	}
 
-
-
-	public static final Factory FACTORY = new Factory();
-
-
-
-
 	@Override
 	@Nonnull
 	protected ResourceLocation getEntityTexture(@Nonnull EntityBearNeutralKermode entity) {
 		return TextureRegistry.bear_kermode;
 	}
 	
-	public static class Factory implements IRenderFactory<EntityBearNeutralKermode> {
-		
-		@Override
-		public Render<? super EntityBearNeutralKermode> createRenderFor(RenderManager manager) {
-			return new RenderKermodeBear(manager);
-		}
-		
-	}
 
 }

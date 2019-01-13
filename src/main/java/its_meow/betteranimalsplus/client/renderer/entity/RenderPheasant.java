@@ -36,8 +36,6 @@ public class RenderPheasant extends RenderLiving<EntityPheasant> {
 		return (MathHelper.sin(f) + 1.0F) * f1;
 	}
 
-	public static final Factory FACTORY = new Factory();
-
 
 	@Override
 	@Nonnull
@@ -50,15 +48,6 @@ public class RenderPheasant extends RenderLiving<EntityPheasant> {
 		default:res = TextureRegistry.pheasant_1; break;
 		}
 		return res;
-	}
-
-	public static class Factory implements IRenderFactory<EntityPheasant> {
-
-		@Override
-		public Render<? super EntityPheasant> createRenderFor(RenderManager manager) {
-			return new RenderPheasant(manager);
-		}
-
 	}
 
 }

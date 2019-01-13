@@ -60,17 +60,4 @@ public class RenderCoyote extends RenderLiving<EntityCoyote> {
 		}
 	}
 
-	public static final Factory FACTORY = new Factory();
-
-	public static class Factory implements IRenderFactory<EntityCoyote> {
-
-		@Override
-		public Render<? super EntityCoyote> createRenderFor(RenderManager manager) {
-			return new RenderCoyote(manager);
-		}
-
-	}
-
-
-
 }

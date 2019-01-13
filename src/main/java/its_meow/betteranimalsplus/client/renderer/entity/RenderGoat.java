@@ -28,9 +28,6 @@ public class RenderGoat extends RenderLiving<EntityGoat> {
 	}
 
 
-	public static final Factory FACTORY = new Factory();
-
-
 	@Override
 	@Nonnull
 	protected ResourceLocation getEntityTexture(@Nonnull EntityGoat entity) {
@@ -47,15 +44,6 @@ public class RenderGoat extends RenderLiving<EntityGoat> {
 		default:res = TextureRegistry.goat_1; break;
 		}
 		return res;
-	}
-
-	public static class Factory implements IRenderFactory<EntityGoat> {
-
-		@Override
-		public Render<? super EntityGoat> createRenderFor(RenderManager manager) {
-			return new RenderGoat(manager);
-		}
-
 	}
 
 }

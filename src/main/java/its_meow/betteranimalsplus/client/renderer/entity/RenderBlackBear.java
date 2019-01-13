@@ -18,26 +18,10 @@ public class RenderBlackBear extends RenderLiving<EntityBearNeutral> {
 		super(rendermanagerIn, new ModelBear(), 1F);
 	}
 
-
-
-	public static final Factory FACTORY = new Factory();
-
-
-
-
 	@Override
 	@Nonnull
 	protected ResourceLocation getEntityTexture(@Nonnull EntityBearNeutral entity) {
 		return TextureRegistry.bear_black;
-	}
-	
-	public static class Factory implements IRenderFactory<EntityBearNeutral> {
-		
-		@Override
-		public Render<? super EntityBearNeutral> createRenderFor(RenderManager manager) {
-			return new RenderBlackBear(manager);
-		}
-		
 	}
 
 }
