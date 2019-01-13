@@ -1,10 +1,10 @@
 package its_meow.betteranimalsplus.proxy;
 
 import its_meow.betteranimalsplus.client.model.ModelHirschgeistHelmet;
-import its_meow.betteranimalsplus.client.renderer.TESR.RenderBlockHandOfFate;
-import its_meow.betteranimalsplus.client.renderer.TESR.RenderBlockTrillium;
-import its_meow.betteranimalsplus.client.renderer.TESR.RenderGenericHead;
-import its_meow.betteranimalsplus.client.renderer.TESR.RenderGenericHeadFloor;
+import its_meow.betteranimalsplus.client.renderer.tileentity.RenderBlockHandOfFate;
+import its_meow.betteranimalsplus.client.renderer.tileentity.RenderBlockTrillium;
+import its_meow.betteranimalsplus.client.renderer.tileentity.RenderGenericHead;
+import its_meow.betteranimalsplus.client.renderer.tileentity.RenderGenericHeadFloor;
 import its_meow.betteranimalsplus.common.block.BlockGenericSkull;
 import its_meow.betteranimalsplus.common.tileentity.TileEntityHandOfFate;
 import its_meow.betteranimalsplus.common.tileentity.TileEntityHead;

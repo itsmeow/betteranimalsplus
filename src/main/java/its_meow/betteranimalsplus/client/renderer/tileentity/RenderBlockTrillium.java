@@ -1,4 +1,4 @@
-package its_meow.betteranimalsplus.client.renderer.TESR;
+package its_meow.betteranimalsplus.client.renderer.tileentity;
 
 import its_meow.betteranimalsplus.client.model.ModelTrilliumMulti;
 import its_meow.betteranimalsplus.common.tileentity.TileEntityTrillium;

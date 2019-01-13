@@ -1,4 +1,4 @@
-package its_meow.betteranimalsplus.client.renderer.TESR;
+package its_meow.betteranimalsplus.client.renderer.tileentity;
 
 import java.util.Random;
 
