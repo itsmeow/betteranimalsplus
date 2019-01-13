@@ -45,7 +45,7 @@ public class HirschgeistAIAttackMelee extends EntityAIBase {
         if (entitylivingbase == null)
         {
             return false;
-        } else if(attacker.isDaytime()) {
+        } else if(this.attacker.isDaytime()) {
         	return false;
         }
         else if (!entitylivingbase.isEntityAlive())
@@ -54,7 +54,7 @@ public class HirschgeistAIAttackMelee extends EntityAIBase {
         }
         else
         {
-            if (canPenalize)
+            if (this.canPenalize)
             {
                 if (--this.delayCounter <= 0)
                 {
@@ -90,7 +90,7 @@ public class HirschgeistAIAttackMelee extends EntityAIBase {
         if (entitylivingbase == null)
         {
             return false;
-        } else if(attacker.isDaytime()) {
+        } else if(this.attacker.isDaytime()) {
         	return false;
         }
         else if (!entitylivingbase.isEntityAlive())
@@ -150,18 +150,18 @@ public class HirschgeistAIAttackMelee extends EntityAIBase {
 
             if (this.canPenalize)
             {
-                this.delayCounter += failedPathFindingPenalty;
+                this.delayCounter += this.failedPathFindingPenalty;
                 if (this.attacker.getNavigator().getPath() != null)
                 {
                     net.minecraft.pathfinding.PathPoint finalPathPoint = this.attacker.getNavigator().getPath().getFinalPathPoint();
                     if (finalPathPoint != null && entitylivingbase.getDistanceSq(finalPathPoint.x, finalPathPoint.y, finalPathPoint.z) < 1)
-                        failedPathFindingPenalty = 0;
+                        this.failedPathFindingPenalty = 0;
                     else
-                        failedPathFindingPenalty += 10;
+                        this.failedPathFindingPenalty += 10;
                 }
                 else
                 {
-                    failedPathFindingPenalty += 10;
+                    this.failedPathFindingPenalty += 10;
                 }
             }
 
@@ -193,7 +193,7 @@ public class HirschgeistAIAttackMelee extends EntityAIBase {
             this.attackTick = 20;
             this.attacker.swingArm(EnumHand.MAIN_HAND);
             this.attacker.attackEntityAsMob(target);
-            target.knockBack(target, 3, attacker.posX - target.posX, attacker.posZ - target.posZ);
+            target.knockBack(target, 3, this.attacker.posX - target.posX, this.attacker.posZ - target.posZ);
             target.setFire(5);
         }
     }

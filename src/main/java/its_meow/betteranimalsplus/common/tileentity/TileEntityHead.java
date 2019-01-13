@@ -27,31 +27,31 @@ public class TileEntityHead extends TileEntitySkull {
 	public HashMap<Integer, ResourceLocation> textures;
 	
 	public TileEntityHead(Class<? extends ModelBase> modelType, float yOffset, ResourceLocation... textureList) {
-		modelT = modelType;
+		this.modelT = modelType;
 		this.textures = new HashMap<Integer, ResourceLocation>();
 		int i = 1;
 		for(ResourceLocation texture : textureList) {
-			textures.put(i, texture);
+			this.textures.put(i, texture);
 			i++;
 		}
 		if(!this.getTileData().hasKey("TYPENUM")) {
-			this.setType(new Random().nextInt(textures.size()) + 1);
+			this.setType(new Random().nextInt(this.textures.size()) + 1);
 			this.markDirty();
 		}
 		this.offset = yOffset;
 	}
 	
 	public ModelBase getModel() {
-		if(model == null) {
+		if(this.model == null) {
 			try {
-				model = modelT.newInstance();
+				this.model = this.modelT.newInstance();
 			} catch (InstantiationException e) {
 				e.printStackTrace();
 			} catch (IllegalAccessException e) {
 				e.printStackTrace();
 			}
 		}
-		return model;
+		return this.model;
 	}
 	
 	@Override
@@ -61,14 +61,14 @@ public class TileEntityHead extends TileEntitySkull {
 	}
 	
 	public ResourceLocation getTexture() {
-		if(useFunc) {
+		if(this.useFunc) {
 			try {
-				return (ResourceLocation) textureFunction.invoke(typeNum);
+				return (ResourceLocation) this.textureFunction.invoke(this.typeNum);
 			} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
 				e.printStackTrace();
 			}
 		} else {
-			return textures.get(typeNum);
+			return this.textures.get(this.typeNum);
 		}
 		return null;
 	}
@@ -79,7 +79,7 @@ public class TileEntityHead extends TileEntitySkull {
 	}
 	
 	public int typeValue() {
-		return typeNum;
+		return this.typeNum;
 	}
 	
 	@Override
@@ -88,7 +88,7 @@ public class TileEntityHead extends TileEntitySkull {
 		if(compound.hasKey("TYPENUM")) {
 			this.typeNum = compound.getInteger("TYPENUM");
 		} else {
-			this.setType(new Random().nextInt(textures.size()) + 1);
+			this.setType(new Random().nextInt(this.textures.size()) + 1);
 		}
 	}
 
@@ -103,13 +103,13 @@ public class TileEntityHead extends TileEntitySkull {
 	public SPacketUpdateTileEntity getUpdatePacket() {
 		NBTTagCompound tag = new NBTTagCompound();
 		this.writeToNBT(tag);
-		return new SPacketUpdateTileEntity(pos, 1, tag);
+		return new SPacketUpdateTileEntity(this.pos, 1, tag);
 	}
 
 	@Override
 	public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity packet) {
 		readFromNBT(packet.getNbtCompound());
-		world.scheduleUpdate(this.pos, this.blockType, 100);
+		this.world.scheduleUpdate(this.pos, this.blockType, 100);
 	}
 	
 	@Override

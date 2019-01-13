@@ -185,7 +185,7 @@ public class EntityFox extends EntityTameable {
 	
 	@Override
 	public void setAttackTarget(EntityLivingBase entitylivingbaseIn) {
-		if(world.getDifficulty() == EnumDifficulty.PEACEFUL) {
+		if(this.world.getDifficulty() == EnumDifficulty.PEACEFUL) {
 			super.setAttackTarget(null);
 		} else {
 			super.setAttackTarget(entitylivingbaseIn);

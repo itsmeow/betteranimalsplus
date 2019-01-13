@@ -84,7 +84,7 @@ public class EntityCoyote extends EntityFeralWolf {
 	}
 	
 	public boolean isDaytime() {
-		long time = world.getWorldTime() % 24000L; // Time can go over values of 24000, so divide and take the remainder
+		long time = this.world.getWorldTime() % 24000L; // Time can go over values of 24000, so divide and take the remainder
 		return !(time >= 13000L && time <= 23000L);
 	}
 	
@@ -97,7 +97,7 @@ public class EntityCoyote extends EntityFeralWolf {
 		} else {
 			super.setAttackTarget(entitylivingbaseIn);
 		}
-		if(world.getDifficulty() == EnumDifficulty.PEACEFUL) {
+		if(this.world.getDifficulty() == EnumDifficulty.PEACEFUL) {
 			super.setAttackTarget(null);
 		}
 	}
@@ -191,7 +191,7 @@ public class EntityCoyote extends EntityFeralWolf {
 
 				return true;
 			} else {
-				if(!world.isRemote) {
+				if(!this.world.isRemote) {
 					player.sendMessage(new TextComponentString("This coyote is currently hostile. Perhaps it could be tamed outside of its hunting hours?"));
 					
 				}

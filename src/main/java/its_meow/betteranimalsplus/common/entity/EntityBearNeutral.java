@@ -58,7 +58,7 @@ public class EntityBearNeutral extends EntityBear {
 	
 	@Override
 	public void setAttackTarget(EntityLivingBase entitylivingbaseIn) {
-		if(world.getDifficulty() == EnumDifficulty.PEACEFUL) {
+		if(this.world.getDifficulty() == EnumDifficulty.PEACEFUL) {
 			super.setAttackTarget(null);
 		} else {
 			super.setAttackTarget(entitylivingbaseIn);
@@ -149,7 +149,7 @@ public class EntityBearNeutral extends EntityBear {
 
 	public boolean isPreventingPlayerRest(EntityPlayer playerIn)
 	{
-		return world.getDifficulty() != EnumDifficulty.PEACEFUL && this.getAttackTarget() == playerIn;
+		return this.world.getDifficulty() != EnumDifficulty.PEACEFUL && this.getAttackTarget() == playerIn;
 	}
 
 	public class AIHurtByTarget extends EntityAIHurtByTarget

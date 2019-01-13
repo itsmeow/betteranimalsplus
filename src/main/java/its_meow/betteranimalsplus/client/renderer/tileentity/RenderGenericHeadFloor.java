@@ -27,12 +27,12 @@ public class RenderGenericHeadFloor extends TileEntitySpecialRenderer<TileEntity
 
 		this.translateHead(x, y, z, meta, 1.5F + offset);
 
-		skullRotation = adjustRotation(meta, skullRotation);
+		float newRotation = adjustRotation(meta, skullRotation);
 		float skullRotationX = adjustRotationX(meta);
 
 		GlStateManager.scale(-1.0F, -1.0F, 1.0F);
 
-		model.render((Entity) null, skullRotation, skullRotationX, 0, 0, 0, 0.0625F);
+		model.render((Entity) null, newRotation, skullRotationX, 0, 0, 0, 0.0625F);
 
 		GlStateManager.popMatrix();
 	}

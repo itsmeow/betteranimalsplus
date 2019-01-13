@@ -58,7 +58,7 @@ public class ItemBlockSkull extends ItemBlock {
 	public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand,
 			EnumFacing side, float hitX, float hitY, float hitZ) {
 		ItemStack stack = player.getHeldItem(hand);
-		if (side == EnumFacing.DOWN || (side == EnumFacing.UP && !allowFloor)) {
+		if (side == EnumFacing.DOWN || (side == EnumFacing.UP && !this.allowFloor)) {
 			return EnumActionResult.FAIL;
 		} else {
 			BlockPos clickedPos = pos.offset(side);
@@ -67,7 +67,7 @@ public class ItemBlockSkull extends ItemBlock {
 				return EnumActionResult.FAIL;
 			}
 			if (!world.isRemote) {
-				world.setBlockState(clickedPos, block.getDefaultState().withProperty(BlockSkull.FACING, side), 3);
+				world.setBlockState(clickedPos, this.block.getDefaultState().withProperty(BlockSkull.FACING, side), 3);
 
 				TileEntity tile = world.getTileEntity(clickedPos);
 				populateTile(stack, side, player, tile);

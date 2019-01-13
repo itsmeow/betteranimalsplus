@@ -28,10 +28,10 @@ public class TileEntityTrillium extends TileEntity {
 	
 
 	public TileEntityTrillium() {
-		if(!this.getTileData().hasKey(keyType)) {
+		if(!this.getTileData().hasKey(this.keyType)) {
 			this.setType(new Random().nextInt(5));
 		}
-		if(!this.getTileData().hasKey(keyModel)) {
+		if(!this.getTileData().hasKey(this.keyModel)) {
 			this.modelNum = new Random().nextInt(3);
 			this.markDirty();
 			this.setModelWithNum();
@@ -40,7 +40,7 @@ public class TileEntityTrillium extends TileEntity {
 
 
 	public ResourceLocation getTexture() {
-		return typeNum == 0 ? TextureRegistry.trillium2 : TextureRegistry.trillium; // 1/5 chance of yellow trillium
+		return this.typeNum == 0 ? TextureRegistry.trillium2 : TextureRegistry.trillium; // 1/5 chance of yellow trillium
 	}
 	
 	
@@ -51,20 +51,20 @@ public class TileEntityTrillium extends TileEntity {
 	}
 	
 	public int typeValue() {
-		return typeNum;
+		return this.typeNum;
 	}
 	
 	
 	@Override
 	public void readFromNBT(NBTTagCompound compound) {
 		super.readFromNBT(compound);
-		if(compound.hasKey(keyType)) {
-			this.typeNum = compound.getInteger(keyType);
+		if(compound.hasKey(this.keyType)) {
+			this.typeNum = compound.getInteger(this.keyType);
 		} else {
 			this.setType(new Random().nextInt(5)); // 1/5 chance
 		}
-		if(compound.hasKey(keyModel)) {
-			this.modelNum = compound.getInteger(keyModel);
+		if(compound.hasKey(this.keyModel)) {
+			this.modelNum = compound.getInteger(this.keyModel);
 			this.setModelWithNum();
 		} else {
 			this.setModelNum(new Random().nextInt(3));
@@ -76,8 +76,8 @@ public class TileEntityTrillium extends TileEntity {
 	@Override
 	public NBTTagCompound writeToNBT(NBTTagCompound compound) {
 		super.writeToNBT(compound);
-		compound.setInteger(keyType, this.typeNum);
-		compound.setInteger(keyModel, this.modelNum);
+		compound.setInteger(this.keyType, this.typeNum);
+		compound.setInteger(this.keyModel, this.modelNum);
 		return compound;
 	}
 
@@ -85,14 +85,14 @@ public class TileEntityTrillium extends TileEntity {
 	public SPacketUpdateTileEntity getUpdatePacket() {
 		NBTTagCompound tag = new NBTTagCompound();
 		this.writeToNBT(tag);
-		return new SPacketUpdateTileEntity(pos, 1, tag);
+		return new SPacketUpdateTileEntity(this.pos, 1, tag);
 	}
 
 
 	@Override
 	public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity packet) {
 		readFromNBT(packet.getNbtCompound());
-		world.scheduleUpdate(this.pos, this.blockType, 100);
+		this.world.scheduleUpdate(this.pos, this.blockType, 100);
 	}
 	
 	
@@ -107,7 +107,7 @@ public class TileEntityTrillium extends TileEntity {
 	}
 	
 	public ModelBase getModel() {	
-		return model;
+		return this.model;
 	}
 	
 	public void setModelNum(int i) {
@@ -136,7 +136,7 @@ public class TileEntityTrillium extends TileEntity {
 	}
 
 	public float getRotation() {
-		IBlockState state = world.getBlockState(this.pos);
+		IBlockState state = this.world.getBlockState(this.pos);
 		EnumFacing facing = state.getValue(BlockHorizontal.FACING).getOpposite();
 		if(facing == EnumFacing.NORTH) {
 			return 0F;

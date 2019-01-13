@@ -108,18 +108,18 @@ public class EntityDeer extends EntityAnimal {
 	@Nullable
 	public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, @Nullable IEntityLivingData livingdata)
 	{
-		livingdata = super.onInitialSpawn(difficulty, livingdata);
+		IEntityLivingData data = super.onInitialSpawn(difficulty, livingdata);
 		int i = this.rand.nextInt(2) + 1;
 		boolean flag = false;
 
-		if (livingdata instanceof EntityDeer.DeerTypeData)
+		if (data instanceof EntityDeer.DeerTypeData)
 		{
 			i = ((EntityDeer.DeerTypeData)livingdata).typeData;
 			flag = true;
 		}
 		else
 		{
-			livingdata = new EntityDeer.DeerTypeData(i);
+			data = new EntityDeer.DeerTypeData(i);
 		}
 
 		if(!this.isChild()) {
@@ -131,7 +131,7 @@ public class EntityDeer extends EntityAnimal {
 			this.setGrowingAge(-24000);
 		}
 
-		return livingdata;
+		return data;
 	}
 
 	public static class DeerTypeData implements IEntityLivingData

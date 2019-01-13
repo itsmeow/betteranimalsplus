@@ -40,9 +40,9 @@ public class EntityContainer {
 			biomesetAdd.addAll(biomeset);
 		}
 		try {
-			spawnBiomes = biomesetAdd.toArray(spawnBiomes);
+			this.spawnBiomes = biomesetAdd.toArray(this.spawnBiomes);
 		} catch(NullPointerException e) {
-			spawnBiomes = new Biome[0];
+			this.spawnBiomes = new Biome[0];
 		}
 	}
 	

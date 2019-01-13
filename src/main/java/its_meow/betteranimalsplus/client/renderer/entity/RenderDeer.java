@@ -6,11 +6,9 @@ import its_meow.betteranimalsplus.client.model.ModelDeer;
 import its_meow.betteranimalsplus.common.entity.EntityDeer;
 import its_meow.betteranimalsplus.init.TextureRegistry;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.client.registry.IRenderFactory;
 
 public class RenderDeer extends RenderLiving<EntityDeer> {
 
@@ -39,7 +37,7 @@ public class RenderDeer extends RenderLiving<EntityDeer> {
 	@Override
 	protected ResourceLocation getEntityTexture(EntityDeer entity) {
 		int type = entity.getTypeNumber();
-		if(!isChristmas) {
+		if(!this.isChristmas) {
 			if(getMainModel().isChild) {
 				return TextureRegistry.deer_1;
 			}

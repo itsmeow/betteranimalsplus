@@ -51,7 +51,7 @@ public class BlockGenericSkull extends BlockAnimalSkull implements ITileEntityPr
 	public TileEntity createNewTileEntity(World worldIn, int meta)
 	{
 		try {
-			return teClass.newInstance();
+			return this.teClass.newInstance();
 		} catch (InstantiationException e) {
 			e.printStackTrace();
 		} catch (IllegalAccessException e) {

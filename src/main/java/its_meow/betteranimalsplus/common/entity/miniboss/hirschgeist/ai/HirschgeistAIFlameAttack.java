@@ -27,11 +27,11 @@ public class HirschgeistAIFlameAttack extends EntityAIBase {
 	
 	@Override
 	public boolean shouldExecute() {
-		if(attacker.getAttackTarget() == null) {
+		if(this.attacker.getAttackTarget() == null) {
 			return false;
-		} else if(attacker.isDaytime()) {
+		} else if(this.attacker.isDaytime()) {
 			return false;
-		} else if(attacker.getAttackTarget().isDead) {
+		} else if(this.attacker.getAttackTarget().isDead) {
 			return false;
 		} else {
 			return true;
@@ -40,9 +40,9 @@ public class HirschgeistAIFlameAttack extends EntityAIBase {
 	
 	@Override
 	public boolean shouldContinueExecuting() {
-		if(flameTicks > 200) {
+		if(this.flameTicks > 200) {
 			return false;
-		} else if(attacker.getAttackTarget() == null) {
+		} else if(this.attacker.getAttackTarget() == null) {
 			return false;
 		} else {
 			return true;
@@ -53,8 +53,8 @@ public class HirschgeistAIFlameAttack extends EntityAIBase {
 	@Override
 	public void updateTask() {
 		++this.flameTicks;
-		EntityLivingBase target = attacker.getAttackTarget();
-        if (this.flameTicks == 10 && target != null && target.getDistanceSq(attacker) <= 100)
+		EntityLivingBase target = this.attacker.getAttackTarget();
+        if (this.flameTicks == 10 && target != null && target.getDistanceSq(this.attacker) <= 100)
         {
             
         	
@@ -76,7 +76,7 @@ public class HirschgeistAIFlameAttack extends EntityAIBase {
             this.attacker.world.spawnEntity(this.areaEffectCloud);
         }
         
-        if(world.isRemote) {
+        if(this.world.isRemote) {
         	this.doClientRenderEffects();
         }
 	}
@@ -84,9 +84,9 @@ public class HirschgeistAIFlameAttack extends EntityAIBase {
 	
     public void doClientRenderEffects()
     {
-        if (this.flameTicks % 2 == 0 && this.flameTicks < 10 && attacker.getAttackTarget() != null)
+        if (this.flameTicks % 2 == 0 && this.flameTicks < 10 && this.attacker.getAttackTarget() != null)
         {
-        	EntityLivingBase target = attacker.getAttackTarget();
+        	EntityLivingBase target = this.attacker.getAttackTarget();
             Vec3d vec3d = this.attacker.getHeadLookVec(1.0F).normalize();
             vec3d.rotateYaw(-((float)Math.PI / 4F));
             double d0 = target.posX;

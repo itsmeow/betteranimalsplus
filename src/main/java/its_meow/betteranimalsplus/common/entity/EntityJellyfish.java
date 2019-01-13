@@ -36,7 +36,7 @@ public class EntityJellyfish extends EntitySquid {
 	@Override
 	public void onUpdate() {
 		super.onUpdate();
-		if(attackCooldown > 0) { 
+		if(this.attackCooldown > 0) { 
 			this.attackCooldown--;
 		}
 	}

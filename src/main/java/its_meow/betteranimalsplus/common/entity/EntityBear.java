@@ -165,7 +165,7 @@ public class EntityBear extends EntityMob {
 	
 	public boolean isPreventingPlayerRest(EntityPlayer playerIn)
 	{
-		return world.getDifficulty() != EnumDifficulty.PEACEFUL && this.getAttackingEntity() == playerIn;
+		return this.world.getDifficulty() != EnumDifficulty.PEACEFUL && this.getAttackingEntity() == playerIn;
 	}
 
 

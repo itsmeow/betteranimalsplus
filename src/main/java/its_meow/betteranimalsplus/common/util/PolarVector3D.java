@@ -13,7 +13,7 @@ public class PolarVector3D {
 		}
 
 		public double getThetaX() {
-			return thetaX;
+			return this.thetaX;
 		}
 
 		public void setThetaX(double thetaX) {
@@ -21,7 +21,7 @@ public class PolarVector3D {
 		}
 
 		public double getThetaY() {
-			return thetaY;
+			return this.thetaY;
 		}
 
 		public void setThetaY(double thetaY) {
@@ -29,7 +29,7 @@ public class PolarVector3D {
 		}
 
 		public double getR() {
-			return r;
+			return this.r;
 		}
 
 		public void setR(double r) {

@@ -29,7 +29,7 @@ public class ModelWolfHead extends ModelBase {
         this.snout = new ModelRenderer(this, 28, 55);
         this.snout.setRotationPoint(0.0F, 0.7F, -3.3F);
         this.snout.addBox(-1.0F, -0.7F, -3.1F, 2, 1, 3, 0.0F);
-        this.setRotateAngle(snout, 0.136659280431156F, 0.0F, 0.0F);
+        this.setRotateAngle(this.snout, 0.136659280431156F, 0.0F, 0.0F);
         this.muzzleUpper = new ModelRenderer(this, 0, 55);
         this.muzzleUpper.setRotationPoint(0.0F, 1.7F, -3.3F);
         this.muzzleUpper.addBox(-1.5F, -0.7F, -3.0F, 3, 1, 3, 0.0F);
@@ -37,7 +37,7 @@ public class ModelWolfHead extends ModelBase {
         this.rEar01.mirror = true;
         this.rEar01.setRotationPoint(-1.7F, -1.0F, -2.5F);
         this.rEar01.addBox(-1.0F, -2.2F, 0.0F, 2, 2, 1, 0.0F);
-        this.setRotateAngle(rEar01, 0.18203784098300857F, 0.35168384427685734F, -0.18203784098300857F);
+        this.setRotateAngle(this.rEar01, 0.18203784098300857F, 0.35168384427685734F, -0.18203784098300857F);
         this.lEar02 = new ModelRenderer(this, 0, 0);
         this.lEar02.setRotationPoint(0.0F, 0.0F, 0.0F);
         this.lEar02.addBox(-0.5F, -3.2F, 0.0F, 1, 1, 1, 0.0F);
@@ -47,7 +47,7 @@ public class ModelWolfHead extends ModelBase {
         this.lEar03 = new ModelRenderer(this, 21, 0);
         this.lEar03.setRotationPoint(0.0F, -0.1F, 1.3F);
         this.lEar03.addBox(-0.5F, -2.6F, -0.4F, 1, 3, 1, 0.0F);
-        this.setRotateAngle(lEar03, 0.27314402793711257F, 0.0F, 0.0F);
+        this.setRotateAngle(this.lEar03, 0.27314402793711257F, 0.0F, 0.0F);
         this.rEar02 = new ModelRenderer(this, 0, 0);
         this.rEar02.mirror = true;
         this.rEar02.setRotationPoint(0.0F, 0.0F, 0.0F);
@@ -55,12 +55,12 @@ public class ModelWolfHead extends ModelBase {
         this.lEar01 = new ModelRenderer(this, 0, 4);
         this.lEar01.setRotationPoint(1.7F, -1.0F, -2.5F);
         this.lEar01.addBox(-1.0F, -2.2F, 0.0F, 2, 2, 1, 0.0F);
-        this.setRotateAngle(lEar01, 0.18203784098300857F, -0.35168384427685734F, 0.18203784098300857F);
+        this.setRotateAngle(this.lEar01, 0.18203784098300857F, -0.35168384427685734F, 0.18203784098300857F);
         this.rEar03 = new ModelRenderer(this, 21, 0);
         this.rEar03.mirror = true;
         this.rEar03.setRotationPoint(0.0F, -0.1F, 1.3F);
         this.rEar03.addBox(-0.5F, -2.6F, -0.4F, 1, 3, 1, 0.0F);
-        this.setRotateAngle(rEar03, 0.27314402793711257F, 0.0F, 0.0F);
+        this.setRotateAngle(this.rEar03, 0.27314402793711257F, 0.0F, 0.0F);
         this.head.addChild(this.snout);
         this.head.addChild(this.muzzleUpper);
         this.head.addChild(this.rEar01);

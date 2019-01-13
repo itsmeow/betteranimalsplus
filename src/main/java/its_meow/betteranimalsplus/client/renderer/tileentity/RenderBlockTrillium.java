@@ -16,7 +16,7 @@ public class RenderBlockTrillium extends TileEntitySpecialRenderer<TileEntityTri
 
 
 	public RenderBlockTrillium() {
-		mainModel = new ModelTrilliumMulti();
+		this.mainModel = new ModelTrilliumMulti();
 	}
 
 
@@ -27,7 +27,7 @@ public class RenderBlockTrillium extends TileEntitySpecialRenderer<TileEntityTri
 		GlStateManager.translate(x+ 0.5F,y + 1.5F, z + 0.5F);
 		GlStateManager.rotate(180, 0, 0, 1);
 		this.bindTexture(tileentity.getTexture());
-		mainModel = tileentity.getModel();
+		this.mainModel = tileentity.getModel();
 		float rotate = 0F;
 		if(!tileentity.getWorld().isAirBlock(tileentity.getPos())) {
 			rotate = tileentity.getRotation();

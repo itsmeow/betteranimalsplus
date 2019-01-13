@@ -12,10 +12,10 @@ public class TileEntityReindeerHead extends TileEntityHead {
 	}
 	
 	public ResourceLocation getTexture() {
-		if(typeNum <= 4) {
-			return textures.get(typeNum);
+		if(this.typeNum <= 4) {
+			return this.textures.get(this.typeNum);
 		} else {
-			return getEntityTexture(typeNum);
+			return getEntityTexture(this.typeNum);
 		}
 	}
 	

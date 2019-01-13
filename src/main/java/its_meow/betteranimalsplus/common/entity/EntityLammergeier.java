@@ -203,7 +203,7 @@ public class EntityLammergeier extends EntityTameableFlying {
 				}
 			}
 
-			if (this.isOwner(player) && !this.isBeingRidden() && !this.world.isRemote && this.ticksExisted - lastTick > 13 && ( itemstack.getItem() == null  || (itemstack.getItem() != Items.MUTTON)))
+			if (this.isOwner(player) && !this.isBeingRidden() && !this.world.isRemote && this.ticksExisted - this.lastTick > 13 && ( itemstack.getItem() == null  || (itemstack.getItem() != Items.MUTTON)))
 			{
 				if(!this.isSitting() == false) {
 					this.getMoveHelper().action = Action.WAIT;
@@ -213,7 +213,7 @@ public class EntityLammergeier extends EntityTameableFlying {
 				this.setSitting(!this.isSitting());
 				//BetterAnimalsPlusMod.logger.log(Level.INFO, this.isSitting());
 				this.navigator.clearPath();	
-				lastTick = this.ticksExisted;
+				this.lastTick = this.ticksExisted;
 			}
 		}
 		else if (itemstack.getItem() == Items.BONE && !this.isTamed())
@@ -671,12 +671,12 @@ public class EntityLammergeier extends EntityTameableFlying {
 					{
 						this.delayCounter += 5;
 					}
-					if(!attacker.getMoveHelper().isUpdating() && !entitylivingbase.isRiding()) {
-						attacker.getMoveHelper().setMoveTo(targetX, targetY, targetZ, 1.0D);
+					if(!this.attacker.getMoveHelper().isUpdating() && !entitylivingbase.isRiding()) {
+						this.attacker.getMoveHelper().setMoveTo(this.targetX, this.targetY, this.targetZ, 1.0D);
 					}
 				}
 
-				attackTick--;
+				this.attackTick--;
 
 
 				double d2 = this.getAttackReachSqr(entitylivingbase);
@@ -684,7 +684,7 @@ public class EntityLammergeier extends EntityTameableFlying {
 				if (d0 <= d2 && this.attackTick <= 0)
 				{
 					this.attackTick = 20;
-					if(!entitylivingbase.isRidingOrBeingRiddenBy(attacker)) {
+					if(!entitylivingbase.isRidingOrBeingRiddenBy(this.attacker)) {
 						this.attacker.attackEntityAsMob(entitylivingbase);
 					}
 
@@ -692,20 +692,20 @@ public class EntityLammergeier extends EntityTameableFlying {
 
 				}
 				if(entitylivingbase.isRiding()) {
-					this.attacker.getMoveHelper().setMoveTo(targetX, liftY + 15, targetZ, 5.0D);
+					this.attacker.getMoveHelper().setMoveTo(this.targetX, this.liftY + 15, this.targetZ, 5.0D);
 				}
-				if(attackTick == 20 && !entitylivingbase.isRiding() && entitylivingbase.height <= 3) {
-					this.attacker.setLocationAndAngles(attacker.posX, attacker.posY + entitylivingbase.height + 2, attacker.posZ, attacker.rotationYaw, attacker.rotationPitch);
+				if(this.attackTick == 20 && !entitylivingbase.isRiding() && entitylivingbase.height <= 3) {
+					this.attacker.setLocationAndAngles(this.attacker.posX, this.attacker.posY + entitylivingbase.height + 2, this.attacker.posZ, this.attacker.rotationYaw, this.attacker.rotationPitch);
 					entitylivingbase.startRiding(this.attacker, true);
-					liftY = entitylivingbase.posY;
+					this.liftY = entitylivingbase.posY;
 					if(entitylivingbase instanceof EntityLiving) {
 						EntityLiving el = (EntityLiving) entitylivingbase;
 						el.setAttackTarget(null);
 						el.setRevengeTarget(null);
 					}
-					this.attacker.getMoveHelper().setMoveTo(targetX, liftY + 15, targetZ, 5.0D);
+					this.attacker.getMoveHelper().setMoveTo(this.targetX, this.liftY + 15, this.targetZ, 5.0D);
 				}
-				if(entitylivingbase.isRiding() && attacker.getEntityWorld().getBlockState(attacker.getPosition().up()).isFullCube()) {
+				if(entitylivingbase.isRiding() && this.attacker.getEntityWorld().getBlockState(this.attacker.getPosition().up()).isFullCube()) {
 					entitylivingbase.dismountRidingEntity();
 					this.attacker.setAttackTarget(null);
 					Random random = this.attacker.getRNG();
@@ -714,7 +714,7 @@ public class EntityLammergeier extends EntityTameableFlying {
 					rPos = rPos.add(pos);
 					this.parentEntity.getMoveHelper().setMoveTo(rPos.getX(), rPos.getY(), rPos.getZ(), 1.0D);
 				}
-				if(Math.abs(attacker.posY - (liftY + 15)) <= 3 && entitylivingbase.isRiding() || !this.attacker.getMoveHelper().isUpdating()) {
+				if(Math.abs(this.attacker.posY - (this.liftY + 15)) <= 3 && entitylivingbase.isRiding() || !this.attacker.getMoveHelper().isUpdating()) {
 					entitylivingbase.dismountRidingEntity(); //Math.abs(attacker.posY - liftY) <= 1
 				}
 
@@ -741,7 +741,7 @@ public class EntityLammergeier extends EntityTameableFlying {
 		 */
 		public boolean shouldExecute()
 		{
-			return parentEntity.getFlying();
+			return this.parentEntity.getFlying();
 		}
 
 		/**
@@ -800,7 +800,7 @@ public class EntityLammergeier extends EntityTameableFlying {
 		{
 			EntityMoveHelper entitymovehelper = this.parentEntity.getMoveHelper();
 
-			if(parentEntity.isTamed()) {
+			if(this.parentEntity.isTamed()) {
 				return false;
 			}
 			if (!entitymovehelper.isUpdating())
@@ -831,7 +831,7 @@ public class EntityLammergeier extends EntityTameableFlying {
 		public void startExecuting()
 		{
 			Random random = this.parentEntity.getRNG();
-			if(random.nextInt(30) != 1 && !parentEntity.landedLast) {
+			if(random.nextInt(30) != 1 && !this.parentEntity.landedLast) {
 				this.parentEntity.setFlying(true);
 				BlockPos rPos = this.parentEntity.fromPolarCoordinates(new PolarVector3D(this.parentEntity.rotationYaw + (random.nextInt(20) - 10), random.nextInt(20) - 10, random.nextInt(15) + 1 + random.nextFloat()));
 				BlockPos pos = this.parentEntity.getPosition();
@@ -843,16 +843,16 @@ public class EntityLammergeier extends EntityTameableFlying {
 			this.parentEntity.getMoveHelper().setMoveTo(d0, d1, d2, 1.0D);
 				 */
 				this.parentEntity.getMoveHelper().setMoveTo(rPos.getX(), rPos.getY(), rPos.getZ(), 1.0D);
-			} else if(!parentEntity.landedLast && parentEntity.posY > 65 && parentEntity.getFlying()) {
+			} else if(!this.parentEntity.landedLast && this.parentEntity.posY > 65 && this.parentEntity.getFlying()) {
 				BlockPos rPos = this.findLandingPosition();
-				parentEntity.landedLast = true;
+				this.parentEntity.landedLast = true;
 				this.parentEntity.getMoveHelper().setMoveTo(rPos.getX(), rPos.getY(), rPos.getZ(), 1.1D);
 			} else {
-				parentEntity.ticksForFly++;
-				if(parentEntity.ticksForFly == 120) {
+				this.parentEntity.ticksForFly++;
+				if(this.parentEntity.ticksForFly == 120) {
 					this.parentEntity.setFlying(false);
-					parentEntity.landedLast = false;
-					parentEntity.ticksForFly = 0;
+					this.parentEntity.landedLast = false;
+					this.parentEntity.ticksForFly = 0;
 				}
 			}
 		}

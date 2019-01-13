@@ -58,12 +58,12 @@ public class EntityGoat extends EntityAnimal {
 	}
 
 	private void addTemptItems() {
-		temptItems = new HashSet<Item>();
-		temptItems.add(Items.WHEAT);
-		temptItems.add(Items.POTATO);
-		temptItems.add(Items.CARROT);
-		temptItems.add(Items.CARROT_ON_A_STICK);
-		temptItems.add(Items.BEETROOT);
+		this.temptItems = new HashSet<Item>();
+		this.temptItems.add(Items.WHEAT);
+		this.temptItems.add(Items.POTATO);
+		this.temptItems.add(Items.CARROT);
+		this.temptItems.add(Items.CARROT_ON_A_STICK);
+		this.temptItems.add(Items.BEETROOT);
 	}
 	
 	
@@ -71,7 +71,7 @@ public class EntityGoat extends EntityAnimal {
 	@Override
 	public void onLivingUpdate() {
 		super.onLivingUpdate();
-		if(!world.isRemote && (this.getAttackTarget() == null || this.getAttackTarget().isDead)) {
+		if(!this.world.isRemote && (this.getAttackTarget() == null || this.getAttackTarget().isDead)) {
 			this.setAttackingOnClient(false);
 		}
 	}
@@ -170,10 +170,10 @@ public class EntityGoat extends EntityAnimal {
 		this.tasks.addTask(1, new EntityAIPanic(this, 0.8D));
 		this.tasks.addTask(2, new EntityAIMate(this, 1.0D));
 		this.tasks.addTask(2, new EntityAIAttackMelee(this, 0.7D, true));
-		if(temptItems == null) {
+		if(this.temptItems == null) {
 			addTemptItems();
 		}
-		this.tasks.addTask(3, new EntityAITempt(this, 0.6D, false, temptItems));
+		this.tasks.addTask(3, new EntityAITempt(this, 0.6D, false, this.temptItems));
 		this.tasks.addTask(4, new EntityAIFollowParent(this, 0.6D));
 		this.tasks.addTask(5, new EntityAIWander(this, 0.6D));
 		this.tasks.addTask(6, new EntityAILookIdle(this));
@@ -226,7 +226,7 @@ public class EntityGoat extends EntityAnimal {
 			}
 
 			return true;
-		} else if(temptItems.contains(itemstack.getItem()) && !this.isChild()) {
+		} else if(this.temptItems.contains(itemstack.getItem()) && !this.isChild()) {
 			this.hasBeenFed = true;
 			this.friend = player;
 			if(itemstack.getItem() == Items.WHEAT) {
@@ -350,17 +350,17 @@ public class EntityGoat extends EntityAnimal {
 		EntityGoat goat = null;
 
 		public GoatAIAttackForFriend(EntityGoat entity) {
-			goat = entity;
+			this.goat = entity;
 		}
 
 		@Override
 		public boolean shouldExecute() {
-			return goat.hasBeenFed && goat.friend != null && goat.friend.getAttackingEntity() != null;
+			return this.goat.hasBeenFed && this.goat.friend != null && this.goat.friend.getAttackingEntity() != null;
 		}
 
 		@Override
 		public void startExecuting() {
-			goat.setAttackTarget(goat.friend.getAttackingEntity());
+			this.goat.setAttackTarget(this.goat.friend.getAttackingEntity());
 		}
 
 		@Override

@@ -36,20 +36,20 @@ public class TileEntityHandOfFate extends TileEntity {
 
 	public void setOnFire(boolean b) {
 		this.onFire = b;
-		if(world.isRemote) {
-			world.scheduleUpdate(this.pos, this.getBlockType(), 0);
-			world.notifyBlockUpdate(pos, world.getBlockState(pos), world.getBlockState(pos), 0);
-			world.markBlockRangeForRenderUpdate(getPos().down(5).west(5).north(5), getPos().up(5).east(5).south(5));
+		if(this.world.isRemote) {
+			this.world.scheduleUpdate(this.pos, this.getBlockType(), 0);
+			this.world.notifyBlockUpdate(this.pos, this.world.getBlockState(this.pos), this.world.getBlockState(this.pos), 0);
+			this.world.markBlockRangeForRenderUpdate(getPos().down(5).west(5).north(5), getPos().up(5).east(5).south(5));
 		}
 		this.markDirty();
 	}
 
 	public boolean isOnFire() {
-		return onFire;
+		return this.onFire;
 	}
 
 	public boolean hasNetherWart() {
-		return hasNetherWart;
+		return this.hasNetherWart;
 	}
 
 
@@ -60,7 +60,7 @@ public class TileEntityHandOfFate extends TileEntity {
 	}
 
 	public boolean hasAntler() {
-		return hasAntler;
+		return this.hasAntler;
 	}
 
 
@@ -72,7 +72,7 @@ public class TileEntityHandOfFate extends TileEntity {
 
 
 	public boolean hasVenison() {
-		return hasVenison;
+		return this.hasVenison;
 	}
 
 
@@ -85,7 +85,7 @@ public class TileEntityHandOfFate extends TileEntity {
 
 
 	private void checkHasAllThree() {
-		if(hasVenison && hasAntler && hasNetherWart && this.isOnFire()) {
+		if(this.hasVenison && this.hasAntler && this.hasNetherWart && this.isOnFire()) {
 			this.setHasVenison(false);
 			this.setHasAntler(false);
 			this.setHasNetherWart(false);
@@ -98,11 +98,11 @@ public class TileEntityHandOfFate extends TileEntity {
 
 
 	private void spawnHirschgeist() {
-		if(!world.isRemote) {
-			EntityHirschgeist hg = new EntityHirschgeist(world);
+		if(!this.world.isRemote) {
+			EntityHirschgeist hg = new EntityHirschgeist(this.world);
 			hg.setLocationAndAngles(this.pos.getX(), this.pos.getY() + 1F, this.pos.getZ(), 0, 0);
 			hg.setNoAI(false);
-			world.spawnEntity(hg);
+			this.world.spawnEntity(hg);
 		}
 	}
 
@@ -110,7 +110,7 @@ public class TileEntityHandOfFate extends TileEntity {
 	private void fireBurst() {
 		Random rand = new Random();
 		for(int i = 0; i < 100; i++) {
-			world.spawnParticle(EnumParticleTypes.SPELL_INSTANT, this.getPos().getX() + ((rand.nextFloat() + 0.5F) / 2), this.getPos().getY() + 1.5F, this.getPos().getZ() + ((rand.nextFloat() + 0.5F) / 2), 0, 0.5F, 0);
+			this.world.spawnParticle(EnumParticleTypes.SPELL_INSTANT, this.getPos().getX() + ((rand.nextFloat() + 0.5F) / 2), this.getPos().getY() + 1.5F, this.getPos().getZ() + ((rand.nextFloat() + 0.5F) / 2), 0, 0.5F, 0);
 		}
 	}
 
@@ -118,17 +118,17 @@ public class TileEntityHandOfFate extends TileEntity {
 	@Override
 	public void readFromNBT(NBTTagCompound compound) {
 		super.readFromNBT(compound);
-		if(compound.hasKey(keyOnFire)) {
-			this.onFire = compound.getBoolean(keyOnFire);
+		if(compound.hasKey(this.keyOnFire)) {
+			this.onFire = compound.getBoolean(this.keyOnFire);
 		}
-		if(compound.hasKey(keyNetherWart)) {
-			this.hasNetherWart = compound.getBoolean(keyNetherWart);
+		if(compound.hasKey(this.keyNetherWart)) {
+			this.hasNetherWart = compound.getBoolean(this.keyNetherWart);
 		}
-		if(compound.hasKey(keyAntler)) {
-			this.hasAntler = compound.getBoolean(keyAntler);
+		if(compound.hasKey(this.keyAntler)) {
+			this.hasAntler = compound.getBoolean(this.keyAntler);
 		}
-		if(compound.hasKey(keyVenison)) {
-			this.hasVenison = compound.getBoolean(keyVenison);
+		if(compound.hasKey(this.keyVenison)) {
+			this.hasVenison = compound.getBoolean(this.keyVenison);
 		}
 	}
 
@@ -137,10 +137,10 @@ public class TileEntityHandOfFate extends TileEntity {
 	@Override
 	public NBTTagCompound writeToNBT(NBTTagCompound compound) {
 		super.writeToNBT(compound);
-		compound.setBoolean(keyOnFire, this.onFire);
-		compound.setBoolean(keyAntler, hasAntler);
-		compound.setBoolean(keyNetherWart, hasNetherWart);
-		compound.setBoolean(keyVenison, hasVenison);
+		compound.setBoolean(this.keyOnFire, this.onFire);
+		compound.setBoolean(this.keyAntler, this.hasAntler);
+		compound.setBoolean(this.keyNetherWart, this.hasNetherWart);
+		compound.setBoolean(this.keyVenison, this.hasVenison);
 		return compound;
 	}
 
@@ -148,14 +148,14 @@ public class TileEntityHandOfFate extends TileEntity {
 	public SPacketUpdateTileEntity getUpdatePacket() {
 		NBTTagCompound tag = new NBTTagCompound();
 		this.writeToNBT(tag);
-		return new SPacketUpdateTileEntity(pos, 1, tag);
+		return new SPacketUpdateTileEntity(this.pos, 1, tag);
 	}
 
 
 	@Override
 	public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity packet) {
 		readFromNBT(packet.getNbtCompound());
-		world.scheduleUpdate(this.pos, this.blockType, 100);
+		this.world.scheduleUpdate(this.pos, this.blockType, 100);
 	}
 
 
@@ -177,7 +177,7 @@ public class TileEntityHandOfFate extends TileEntity {
 
 
 	public float getRotation() {
-		IBlockState state = world.getBlockState(this.pos);
+		IBlockState state = this.world.getBlockState(this.pos);
 		EnumFacing facing = state.getValue(BlockHorizontal.FACING).getOpposite();
 		if(facing == EnumFacing.NORTH) {
 			return 0F;

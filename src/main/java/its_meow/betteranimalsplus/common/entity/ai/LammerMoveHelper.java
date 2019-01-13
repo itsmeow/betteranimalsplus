@@ -24,7 +24,7 @@ public class LammerMoveHelper extends EntityMoveHelper
 	@Override
 	public void onUpdateMoveHelper()
 	{	
-		if (this.action == EntityMoveHelper.Action.MOVE_TO && !parentEntity.isSitting())
+		if (this.action == EntityMoveHelper.Action.MOVE_TO && !this.parentEntity.isSitting())
 		{
 			double d0 = this.posX - this.parentEntity.posX;
 			double d1 = this.posY - this.parentEntity.posY;
@@ -34,7 +34,7 @@ public class LammerMoveHelper extends EntityMoveHelper
 			if (this.isNotColliding(this.posX, this.posY, this.posZ, d3))
 			{
 				this.parentEntity.motionX += d0 / d3 * 0.1D;
-				this.parentEntity.motionY += d1 / d3 * 0.1D + (parentEntity.getAttackTarget() == null ? 0.0D : parentEntity.getAttackTarget().isRidingOrBeingRiddenBy(parentEntity) ? 0.1D : 0D);
+				this.parentEntity.motionY += d1 / d3 * 0.1D + (this.parentEntity.getAttackTarget() == null ? 0.0D : this.parentEntity.getAttackTarget().isRidingOrBeingRiddenBy(this.parentEntity) ? 0.1D : 0D);
 				this.parentEntity.motionZ += d2 / d3 * 0.1D;
 			}
 			else
@@ -42,7 +42,7 @@ public class LammerMoveHelper extends EntityMoveHelper
 				this.parentEntity.motionY += 0.05;
 				if(this.parentEntity.getEntityWorld().getBlockState(this.parentEntity.getPosition().up()).isFullBlock()) {
 					this.parentEntity.motionX += d0 / d3 * 0.1D;
-					this.parentEntity.motionY -= 0.05 + (parentEntity.getAttackTarget() == null ? 0.0D : parentEntity.getAttackTarget().isRidingOrBeingRiddenBy(parentEntity) ? 0.1D : 0D);
+					this.parentEntity.motionY -= 0.05 + (this.parentEntity.getAttackTarget() == null ? 0.0D : this.parentEntity.getAttackTarget().isRidingOrBeingRiddenBy(this.parentEntity) ? 0.1D : 0D);
 					this.parentEntity.motionZ += d2 / d3 * 0.1D;
 				}
 				if(this.parentEntity.posX == this.parentEntity.lastTickPosX && this.parentEntity.posY == this.parentEntity.lastTickPosY && this.parentEntity.posZ == this.parentEntity.lastTickPosZ) {

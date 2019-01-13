@@ -22,13 +22,13 @@ public class TileEntityDeerHead extends TileEntityHead {
 
 	@Override
 	public ResourceLocation getTexture() {
-		if(!isChristmas) {
-			if(typeNum == 1) {
+		if(!this.isChristmas) {
+			if(this.typeNum == 1) {
 				return TextureRegistry.deer_1;
 			}
 			return TextureRegistry.deer_2;
 		} else {
-			if(typeNum == 1) {
+			if(this.typeNum == 1) {
 				return TextureRegistry.deer_1_christmas;
 			}
 			return TextureRegistry.deer_2_christmas;

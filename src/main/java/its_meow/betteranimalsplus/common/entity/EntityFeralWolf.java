@@ -527,7 +527,7 @@ public class EntityFeralWolf extends EntityTameable implements IMob {
 
 				return true;
 			} else {
-				if(!world.isRemote) {
+				if(!this.world.isRemote) {
 					player.sendMessage(new TextComponentString("You cannot tame feral wolves without proving your prowess. Discover a mighty enemy, defeat it, and wear its head. Feral Wolves only bow to the protector of the forests."));
 				}
 			}

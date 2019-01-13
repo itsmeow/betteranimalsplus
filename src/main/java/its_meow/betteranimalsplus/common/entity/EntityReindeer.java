@@ -192,7 +192,7 @@ public class EntityReindeer extends EntityAnimal implements IJumpingMount {
 
 	public EntityAgeable createChild(EntityAgeable ageable)
 	{
-		EntityReindeer reindeer = new EntityReindeer(world);
+		EntityReindeer reindeer = new EntityReindeer(this.world);
 		this.setOffspringAttributes(ageable, reindeer);
 		if(ageable instanceof EntityReindeer) {
 			EntityReindeer other = (EntityReindeer) ageable;
@@ -361,7 +361,7 @@ public class EntityReindeer extends EntityAnimal implements IJumpingMount {
 
 			if (iblockstate.getMaterial() != Material.AIR && !this.isSilent())
 			{
-				SoundType soundtype = block.getSoundType(block.getDefaultState(), world, pos, this);
+				SoundType soundtype = block.getSoundType(block.getDefaultState(), this.world, pos, this);
 				this.world.playSound((EntityPlayer)null, this.posX, this.posY, this.posZ, soundtype.getStepSound(), this.getSoundCategory(), soundtype.getVolume() * 0.5F, soundtype.getPitch() * 0.75F);
 			}
 		}
@@ -438,11 +438,11 @@ public class EntityReindeer extends EntityAnimal implements IJumpingMount {
 	{
 		if (!blockIn.getDefaultState().getMaterial().isLiquid())
 		{
-			SoundType soundtype = blockIn.getSoundType(blockIn.getDefaultState(), world, pos, this);
+			SoundType soundtype = blockIn.getSoundType(blockIn.getDefaultState(), this.world, pos, this);
 
 			if (this.world.getBlockState(pos.up()).getBlock() == Blocks.SNOW_LAYER)
 			{
-				soundtype = Blocks.SNOW_LAYER.getSoundType(Blocks.SNOW_LAYER.getDefaultState(), world, pos, this);
+				soundtype = Blocks.SNOW_LAYER.getSoundType(Blocks.SNOW_LAYER.getDefaultState(), this.world, pos, this);
 			}
 
 			if (this.isBeingRidden() && this.canGallop)
@@ -674,7 +674,7 @@ public class EntityReindeer extends EntityAnimal implements IJumpingMount {
 
 		super.onLivingUpdate();
 		if(this.rand.nextInt(10) == 0) {
-			world.spawnParticle(EnumParticleTypes.SNOW_SHOVEL, this.posX + this.rand.nextInt(4) - 2F, this.posY + this.rand.nextInt(4), this.posZ + this.rand.nextInt(4) - 2F, 0F, -0.005F, 0F);
+			this.world.spawnParticle(EnumParticleTypes.SNOW_SHOVEL, this.posX + this.rand.nextInt(4) - 2F, this.posY + this.rand.nextInt(4), this.posZ + this.rand.nextInt(4) - 2F, 0F, -0.005F, 0F);
 		}
 		if (!this.world.isRemote)
 		{
@@ -980,7 +980,7 @@ public class EntityReindeer extends EntityAnimal implements IJumpingMount {
 		compound.setInteger("Temper", this.getTemper());
 
 		compound.setInteger("TypeNumber", this.getTypeNumber());
-		compound.setBoolean("IsParentRudolph", parentRudolph );
+		compound.setBoolean("IsParentRudolph", this.parentRudolph );
 	}
 
 	/**
@@ -992,7 +992,7 @@ public class EntityReindeer extends EntityAnimal implements IJumpingMount {
 		this.setEatingHaystack(compound.getBoolean("EatingHaystack"));
 		this.setBreeding(compound.getBoolean("Bred"));
 		this.setTemper(compound.getInteger("Temper"));
-		parentRudolph = compound.getBoolean("IsParentRudolph");
+		this.parentRudolph = compound.getBoolean("IsParentRudolph");
 
 		IAttributeInstance iattributeinstance = this.getAttributeMap().getAttributeInstanceByName("Speed");
 
@@ -1004,7 +1004,7 @@ public class EntityReindeer extends EntityAnimal implements IJumpingMount {
 
 		this.setType(compound.getInteger("TypeNumber"));
 		Calendar calendar = Calendar.getInstance();
-		if(this.getTypeNumber() > 4 && !(calendar.get(2) + 1 == 12 && calendar.get(5) >= 22 && calendar.get(5) <= 28) && !(this.getCustomNameTag().toLowerCase().equals("rudolph") || parentRudolph)) {
+		if(this.getTypeNumber() > 4 && !(calendar.get(2) + 1 == 12 && calendar.get(5) >= 22 && calendar.get(5) <= 28) && !(this.getCustomNameTag().toLowerCase().equals("rudolph") || this.parentRudolph)) {
 			this.setType(this.getTypeNumber() - 4); // Remove red noses after Christmas season after loading entity
 		}
 	}
