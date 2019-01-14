@@ -1,7 +1,16 @@
 {
     "parent": "builtin/generated",
-    "textures": {
-        "layer0": "betteranimalsplus:items/reindeerhead"
+    "variants": {
+    	"normal": {
+    		"textures": {
+        		"layer0": "betteranimalsplus:items/reindeerhead"
+    		}
+    	},
+    	"inventory": {
+    		"textures": {
+        		"layer0": "betteranimalsplus:items/reindeerhead"
+    		}
+    	}
     },
     "display": {
         "thirdperson": {

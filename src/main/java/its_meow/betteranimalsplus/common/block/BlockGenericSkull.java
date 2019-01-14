@@ -19,13 +19,15 @@ public class BlockGenericSkull extends BlockAnimalSkull implements ITileEntityPr
 
 	public final boolean allowFloor;
 	public final Class<? extends TileEntity> teClass;
+	public final int texCount;
 
-	public BlockGenericSkull(Class<? extends TileEntity> teClass, String name, boolean allowFloor) {
+	public BlockGenericSkull(Class<? extends TileEntity> teClass, String name, boolean allowFloor, int textureCount) {
 		super();
 		this.setRegistryName(name);
 		this.setUnlocalizedName("betteranimalsplus." + name);
 		this.teClass = teClass;
 		this.allowFloor = allowFloor;
+		this.texCount = textureCount;
 	}
 
 

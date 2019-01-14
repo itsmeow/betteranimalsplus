@@ -1,16 +1,7 @@
 {
     "parent": "builtin/generated",
-    "variants": {
-    	"normal": {
-    		"textures": {
-        		"layer0": "betteranimalsplus:items/hirschgeistskull"
-    		}
-    	},
-    	"inventory": {
-    		"textures": {
-        		"layer0": "betteranimalsplus:items/hirschgeistskull"
-    		}
-    	}
+    "textures" : {
+    	"layer0": ""
     },
     "display": {
         "thirdperson": {

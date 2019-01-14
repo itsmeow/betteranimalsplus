@@ -166,4 +166,14 @@ public class TextureRegistry {
 	public static final ResourceLocation reindeer_4_christmas = 
 			new ResourceLocation(entitytex + "reindeer_4_christmas.png");
 	
+	//Boar Variants
+	public static final ResourceLocation boar_1 = 
+			new ResourceLocation(entitytex + "boar_1.png");
+	public static final ResourceLocation boar_2 = 
+			new ResourceLocation(entitytex + "boar_2.png");
+	public static final ResourceLocation boar_3 = 
+			new ResourceLocation(entitytex + "boar_3.png");
+	public static final ResourceLocation boar_4 = 
+			new ResourceLocation(entitytex + "boar_4.png");
+	
 }

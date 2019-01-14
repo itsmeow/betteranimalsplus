@@ -1,7 +1,16 @@
 {
     "parent": "builtin/generated",
-    "textures": {
-        "layer0": "betteranimalsplus:items/wolfhead"
+    "variants": {
+    	"normal": {
+    		"textures": {
+        		"layer0": "betteranimalsplus:items/wolfhead"
+    		}
+    	},
+    	"inventory": {
+    		"textures": {
+        		"layer0": "betteranimalsplus:items/wolfhead"
+    		}
+    	}
     },
     "display": {
         "thirdperson": {
