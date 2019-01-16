@@ -31,21 +31,21 @@ public class EntityRendererRegistry {
 	@SubscribeEvent
     public static void registerEntityRenderers(ModelRegistryEvent event)
     {
-		RenderingRegistry.registerEntityRenderingHandler(EntityBear.class, m -> new RenderBrownBear(m));
-		RenderingRegistry.registerEntityRenderingHandler(EntityBearNeutral.class, m -> new RenderBlackBear(m));
-		RenderingRegistry.registerEntityRenderingHandler(EntityBearNeutralKermode.class, m -> new RenderKermodeBear(m));
-		RenderingRegistry.registerEntityRenderingHandler(EntityDeer.class, m -> new RenderDeer(m));
-		RenderingRegistry.registerEntityRenderingHandler(EntityLammergeier.class, m -> new RenderLammergeier(m));
-		RenderingRegistry.registerEntityRenderingHandler(EntityFeralWolf.class, m -> new RenderCustomWolf(m));
-		RenderingRegistry.registerEntityRenderingHandler(EntityCoyote.class, m -> new RenderCoyote(m));
-		RenderingRegistry.registerEntityRenderingHandler(EntityFox.class, m -> new RenderFox(m));
-		RenderingRegistry.registerEntityRenderingHandler(EntityTarantulaHair.class, m -> new RenderTarantulaHair(m));
-		RenderingRegistry.registerEntityRenderingHandler(EntityTarantula.class, m -> new RenderTarantula(m));
-		RenderingRegistry.registerEntityRenderingHandler(EntityHirschgeist.class, m -> new RenderHirschgeist(m));
-		RenderingRegistry.registerEntityRenderingHandler(EntityGoat.class, m -> new RenderGoat(m));
-		RenderingRegistry.registerEntityRenderingHandler(EntityJellyfish.class, m -> new RenderJellyfish(m));
-		RenderingRegistry.registerEntityRenderingHandler(EntityPheasant.class, m -> new RenderPheasant(m));
-		RenderingRegistry.registerEntityRenderingHandler(EntityReindeer.class, m -> new RenderReindeer(m));
+		RenderingRegistry.registerEntityRenderingHandler(EntityBear.class, RenderBrownBear::new);
+		RenderingRegistry.registerEntityRenderingHandler(EntityBearNeutral.class, RenderBlackBear::new);
+		RenderingRegistry.registerEntityRenderingHandler(EntityBearNeutralKermode.class, RenderKermodeBear::new);
+		RenderingRegistry.registerEntityRenderingHandler(EntityDeer.class, RenderDeer::new);
+		RenderingRegistry.registerEntityRenderingHandler(EntityLammergeier.class, RenderLammergeier::new);
+		RenderingRegistry.registerEntityRenderingHandler(EntityFeralWolf.class, RenderCustomWolf::new);
+		RenderingRegistry.registerEntityRenderingHandler(EntityCoyote.class, RenderCoyote::new);
+		RenderingRegistry.registerEntityRenderingHandler(EntityFox.class, RenderFox::new);
+		RenderingRegistry.registerEntityRenderingHandler(EntityTarantulaHair.class, RenderTarantulaHair::new);
+		RenderingRegistry.registerEntityRenderingHandler(EntityTarantula.class, RenderTarantula::new);
+		RenderingRegistry.registerEntityRenderingHandler(EntityHirschgeist.class, RenderHirschgeist::new);
+		RenderingRegistry.registerEntityRenderingHandler(EntityGoat.class, RenderGoat::new);
+		RenderingRegistry.registerEntityRenderingHandler(EntityJellyfish.class, RenderJellyfish::new);
+		RenderingRegistry.registerEntityRenderingHandler(EntityPheasant.class, RenderPheasant::new);
+		RenderingRegistry.registerEntityRenderingHandler(EntityReindeer.class, RenderReindeer::new);
     }
 
 }
