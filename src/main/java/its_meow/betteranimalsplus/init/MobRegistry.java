@@ -7,6 +7,7 @@ import its_meow.betteranimalsplus.common.config.BetterAnimalsPlusConfig;
 import its_meow.betteranimalsplus.common.entity.EntityBear;
 import its_meow.betteranimalsplus.common.entity.EntityBearNeutral;
 import its_meow.betteranimalsplus.common.entity.EntityBearNeutralKermode;
+import its_meow.betteranimalsplus.common.entity.EntityBoar;
 import its_meow.betteranimalsplus.common.entity.EntityCoyote;
 import its_meow.betteranimalsplus.common.entity.EntityDeer;
 import its_meow.betteranimalsplus.common.entity.EntityFeralWolf;
@@ -58,6 +59,7 @@ public class MobRegistry {
 		entityList.add(new EntityContainer(EntityJellyfish.class, "Jellyfish", EnumCreatureType.WATER_CREATURE, 0x226fe2, 0xf2b3b3, BetterAnimalsPlusConfig.jellyFishWeight, 1, 1, BiomeDictionary.getBiomes(Type.OCEAN)));
 		entityList.add(new EntityContainer(EntityPheasant.class, "Pheasant", EnumCreatureType.CREATURE, 0x8e6b0b, 0xd8af3c, BetterAnimalsPlusConfig.pheasantWeight, 1, 3, BiomeDictionary.getBiomes(Type.FOREST), BiomeDictionary.getBiomes(Type.PLAINS), BiomeDictionary.getBiomes(Type.SAVANNA)));
 		entityList.add(new EntityContainer(EntityReindeer.class, "Reindeer", EnumCreatureType.CREATURE, 0x8e510b, 0x017700, BetterAnimalsPlusConfig.reindeerWeight, 1, 4, BiomeDictionary.getBiomes(Type.SNOWY)));
+		entityList.add(new EntityContainer(EntityBoar.class, "Boar", EnumCreatureType.CREATURE, 0x3d3c3b, 0xbca895, BetterAnimalsPlusConfig.boarWeight, 1, 4, BiomeDictionary.getBiomes(Type.FOREST), BiomeDictionary.getBiomes(Type.JUNGLE), BiomeDictionary.getBiomes(Type.PLAINS), BiomeDictionary.getBiomes(Type.SAVANNA)));
 	}
 
 	//#################################################################################

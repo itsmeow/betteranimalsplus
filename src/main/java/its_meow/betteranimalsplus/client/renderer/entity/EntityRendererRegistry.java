@@ -1,19 +1,7 @@
 package its_meow.betteranimalsplus.client.renderer.entity;
 
 import its_meow.betteranimalsplus.Ref;
-import its_meow.betteranimalsplus.common.entity.EntityBear;
-import its_meow.betteranimalsplus.common.entity.EntityBearNeutral;
-import its_meow.betteranimalsplus.common.entity.EntityBearNeutralKermode;
-import its_meow.betteranimalsplus.common.entity.EntityCoyote;
-import its_meow.betteranimalsplus.common.entity.EntityDeer;
-import its_meow.betteranimalsplus.common.entity.EntityFeralWolf;
-import its_meow.betteranimalsplus.common.entity.EntityFox;
-import its_meow.betteranimalsplus.common.entity.EntityGoat;
-import its_meow.betteranimalsplus.common.entity.EntityJellyfish;
-import its_meow.betteranimalsplus.common.entity.EntityLammergeier;
-import its_meow.betteranimalsplus.common.entity.EntityPheasant;
-import its_meow.betteranimalsplus.common.entity.EntityReindeer;
-import its_meow.betteranimalsplus.common.entity.EntityTarantula;
+import its_meow.betteranimalsplus.common.entity.*;
 import its_meow.betteranimalsplus.common.entity.miniboss.hirschgeist.EntityHirschgeist;
 import its_meow.betteranimalsplus.common.entity.projectile.EntityTarantulaHair;
 import net.minecraftforge.client.event.ModelRegistryEvent;
@@ -46,6 +34,7 @@ public class EntityRendererRegistry {
 		RenderingRegistry.registerEntityRenderingHandler(EntityJellyfish.class, RenderJellyfish::new);
 		RenderingRegistry.registerEntityRenderingHandler(EntityPheasant.class, RenderPheasant::new);
 		RenderingRegistry.registerEntityRenderingHandler(EntityReindeer.class, RenderReindeer::new);
+		RenderingRegistry.registerEntityRenderingHandler(EntityBoar.class, RenderBoar::new);
     }
 
 }

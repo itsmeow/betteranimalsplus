@@ -19,6 +19,7 @@ tile.betteranimalsplus.wolfhead.name=Cabeça de Lobo
 tile.betteranimalsplus.deerhead.name=Cabeça de Veado
 tile.betteranimalsplus.reindeerhead.name=Cabeça de Rena
 tile.betteranimalsplus.foxhead.name=Cabeça de Raposa
+tile.betteranimalsplus.boarhead.name=Cabeça de Javali
 
 #Entities
 entity.betteranimalsplus.BrownBear.name=Urso Pardo
@@ -36,3 +37,4 @@ entity.betteranimalsplus.Goat.name=Cabra
 entity.betteranimalsplus.Jellyfish.name=Medusa
 entity.betteranimalsplus.Pheasant.name=Faisão
 entity.betteranimalsplus.Reindeer.name=Rena
+entity.betteranimalsplus.Boar.name=Javali

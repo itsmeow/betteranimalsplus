@@ -4,7 +4,6 @@ itemGroup.Better Animals+=Meilleurs animaux+
 #Items
 item.betteranimalsplus.venisonraw.name=Chevreuil cru
 item.betteranimalsplus.venisoncooked.name=Chevreuil cuit
-item.betteranimalsplus.hirschgeistskull.name=Crâne d'Hirschgeist (article)
 item.betteranimalsplus.hirschgeistskullwearable.name=Crâne d'Hirschgeist portable
 item.betteranimalsplus.antler.name=Bois
 item.betteranimalsplus.goatmilk.name=Lait de Chèvre
@@ -20,6 +19,7 @@ tile.betteranimalsplus.wolfhead.name=Tête de Loup
 tile.betteranimalsplus.deerhead.name=Tête de Cerf
 tile.betteranimalsplus.reindeerhead.name=Tête de Renne
 tile.betteranimalsplus.foxhead.name=Tête de Renard
+tile.betteranimalsplus.boarhead.name=Tête de Sanglier
 
 #Entities
 entity.betteranimalsplus.BrownBear.name=Ours brun
@@ -37,3 +37,4 @@ entity.betteranimalsplus.Goat.name=Chèvre
 entity.betteranimalsplus.Jellyfish.name=Méduse
 entity.betteranimalsplus.Pheasant.name=Faisan
 entity.betteranimalsplus.Reindeer.name=Renne
+entity.betteranimalsplus.Boar.name=Sanglier

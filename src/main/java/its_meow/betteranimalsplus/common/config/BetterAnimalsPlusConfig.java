@@ -25,6 +25,7 @@ public class BetterAnimalsPlusConfig {
 	public static int jellyFishWeight = 10;
 	public static int pheasantWeight = 12;
 	public static int reindeerWeight = 10;
+	public static int boarWeight = 9;
 
 	public static boolean spawnTrillium = true;
 	
@@ -45,8 +46,6 @@ public class BetterAnimalsPlusConfig {
 	}
 
 	public static void initConfig(Configuration cfg) {
-		cfg.addCustomCategoryComment("spawning", "THIS IS OBSOLETE. DO NOT USE THIS SECTION. Use the per-entity sections.");
-		cfg.addCustomCategoryComment("dospawning", "THIS IS OBSOLETE. DO NOT USE THIS SECTION. Use the per-entity sections.");
 		spawnTrillium = cfg.getBoolean("generatetrillium", "generation", true, "Does not remove item, prevents world gen");
 		for(EntityContainer container : MobRegistry.entityList) {
 			EntityConfigurationSection configSection = new EntityConfigurationSection(container.entityClazz, container.minGroup, container.maxGroup, container.weight);

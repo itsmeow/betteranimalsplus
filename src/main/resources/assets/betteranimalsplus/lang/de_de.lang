@@ -19,6 +19,7 @@ tile.betteranimalsplus.wolfhead.name=Wolfskopf
 tile.betteranimalsplus.deerhead.name=Rehkopf
 tile.betteranimalsplus.reindeerhead.name=Rentierkopf
 tile.betteranimalsplus.foxhead.name=Fuchskopf
+tile.betteranimalsplus.boarhead.name=Eberkopf
 
 #Entities
 entity.betteranimalsplus.BrownBear.name=Braunbär
@@ -36,3 +37,4 @@ entity.betteranimalsplus.Goat.name=Ziege
 entity.betteranimalsplus.Jellyfish.name=Qualle
 entity.betteranimalsplus.Pheasant.name=Fasan
 entity.betteranimalsplus.Reindeer.name=Rentier
+entity.betteranimalsplus.Boar.name=Eber

@@ -19,6 +19,7 @@ tile.betteranimalsplus.wolfhead.name=Kapo de Lupo
 tile.betteranimalsplus.deerhead.name=Kapo de Cervo
 tile.betteranimalsplus.reindeerhead.name=Kapo de Norda Cervo
 tile.betteranimalsplus.foxhead.name=Kapo de Vulpo
+tile.betteranimalsplus.boarhead.name=Kapo de Porkviro
 
 #Entities
 entity.betteranimalsplus.BrownBear.name=Bruna Urso
@@ -36,3 +37,4 @@ entity.betteranimalsplus.Goat.name=Goat
 entity.betteranimalsplus.Jellyfish.name=Meduzo
 entity.betteranimalsplus.Pheasant.name=Fazano
 entity.betteranimalsplus.Reindeer.name=Norda Cervo
+entity.betteranimalsplus.Boar.name=Porkviro

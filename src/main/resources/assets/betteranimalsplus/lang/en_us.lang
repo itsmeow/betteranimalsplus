@@ -19,6 +19,7 @@ tile.betteranimalsplus.wolfhead.name=Wolf Head
 tile.betteranimalsplus.deerhead.name=Deer Head
 tile.betteranimalsplus.reindeerhead.name=Reindeer Head
 tile.betteranimalsplus.foxhead.name=Fox Head
+tile.betteranimalsplus.boarhead.name=Boar Head
 
 #Entities
 entity.betteranimalsplus.BrownBear.name=Brown Bear
@@ -36,3 +37,4 @@ entity.betteranimalsplus.Goat.name=Goat
 entity.betteranimalsplus.Jellyfish.name=Jellyfish
 entity.betteranimalsplus.Pheasant.name=Pheasant
 entity.betteranimalsplus.Reindeer.name=Reindeer
+entity.betteranimalsplus.Boar.name=Boar

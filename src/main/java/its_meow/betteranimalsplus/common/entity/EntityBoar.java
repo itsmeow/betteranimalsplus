@@ -1,33 +1,33 @@
 package its_meow.betteranimalsplus.common.entity;
 
-import java.util.Set;
-
 import javax.annotation.Nullable;
 
-import com.google.common.collect.Sets;
+import com.google.common.base.Predicate;
 
 import its_meow.betteranimalsplus.init.BlockRegistry;
 import net.minecraft.block.Block;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.EntityAIAttackMelee;
 import net.minecraft.entity.ai.EntityAIFollowParent;
 import net.minecraft.entity.ai.EntityAILookIdle;
 import net.minecraft.entity.ai.EntityAIMate;
-import net.minecraft.entity.ai.EntityAIPanic;
+import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
 import net.minecraft.entity.ai.EntityAISwimming;
-import net.minecraft.entity.ai.EntityAITempt;
 import net.minecraft.entity.ai.EntityAIWanderAvoidWater;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.entity.monster.EntityPigZombie;
 import net.minecraft.entity.passive.EntityAnimal;
+import net.minecraft.entity.passive.EntityChicken;
 import net.minecraft.entity.passive.EntityPig;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.EntityEquipmentSlot;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
@@ -41,9 +41,8 @@ import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
 import net.minecraft.world.storage.loot.LootTableList;
 
-public class EntityBoar extends EntityPig {
+public class EntityBoar extends EntityAnimal {
 	
-    private static final Set<Item> TEMPTATION_ITEMS = Sets.newHashSet(Items.CARROT, Items.POTATO, Items.BEETROOT);
     protected static final DataParameter<Integer> TYPE_NUMBER = EntityDataManager.<Integer>createKey(EntityBoar.class, DataSerializers.VARINT);
 
     public EntityBoar(World worldIn)
@@ -55,21 +54,28 @@ public class EntityBoar extends EntityPig {
     protected void initEntityAI()
     {
         this.tasks.addTask(0, new EntityAISwimming(this));
-        this.tasks.addTask(1, new EntityAIPanic(this, 1.25D));
+        //this.tasks.addTask(1, new EntityAIPanic(this, 1.25D));
+        this.tasks.addTask(2, new EntityAIAttackMelee(this, 0.5D, false));
         this.tasks.addTask(3, new EntityAIMate(this, 1.0D));
-        this.tasks.addTask(4, new EntityAITempt(this, 1.2D, Items.CARROT_ON_A_STICK, false));
-        this.tasks.addTask(4, new EntityAITempt(this, 1.2D, false, TEMPTATION_ITEMS));
         this.tasks.addTask(5, new EntityAIFollowParent(this, 1.1D));
         this.tasks.addTask(6, new EntityAIWanderAvoidWater(this, 1.0D));
         this.tasks.addTask(7, new EntityAIWatchClosest(this, EntityPlayer.class, 6.0F));
         this.tasks.addTask(8, new EntityAILookIdle(this));
+        this.targetTasks.addTask(1, new EntityAINearestAttackableTarget<EntityAnimal>(this, EntityAnimal.class, 90, true, true, new Predicate<Entity>() {
+        	public boolean apply(@Nullable Entity in)
+			{
+				return in instanceof EntityChicken || in instanceof EntityPheasant || (in instanceof EntityAnimal && ((EntityAnimal) in).isChild() );
+			}
+        }));
     }
 
     protected void applyEntityAttributes()
     {
         super.applyEntityAttributes();
-        this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(10.0D);
-        this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.25D);
+        this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(12.0D);
+        this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.38D);
+        this.getAttributeMap().registerAttribute(SharedMonsterAttributes.ATTACK_DAMAGE);
+        this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(1.0D);
     }
 
     protected SoundEvent getAmbientSound()
@@ -102,7 +108,8 @@ public class EntityBoar extends EntityPig {
         if(!this.isChild()) {
 			if(this.rand.nextInt(12) == 0) {
 				ItemStack stack = new ItemStack(BlockRegistry.boarhead.getItemBlock());
-				stack.setItemDamage(this.getTypeNumber());
+				stack.setTagCompound(new NBTTagCompound());
+				stack.getTagCompound().setInteger("TYPENUM", this.getTypeNumber());
 				this.entityDropItem(stack, 0.5F);
 			}
 		}
@@ -136,9 +143,32 @@ public class EntityBoar extends EntityPig {
             this.setDead();
         }
     }
+    
+    
+    @Override
+    public void onUpdate() {
+    	super.onUpdate();
+    	if(this.rand.nextInt(200) == 0) {
+    		if(this.world.getBlockState(this.getPosition()).getBlock() == Blocks.WHEAT) {
+    			this.world.setBlockToAir(this.getPosition());
+    			this.setInLove(null);
+    		}
+    	}
+    	if(this.getAttackTarget() != null && this.getAttackTarget().isDead) {
+    		this.setInLove(null);
+    	}
+    }
+    
+    @Override
+	public boolean attackEntityFrom(DamageSource source, float amount) {
+		if(source.getImmediateSource() instanceof EntityPlayer) {
+			this.setAttackTarget((EntityPlayer) source.getImmediateSource()); 
+		}
+		return super.attackEntityFrom(source, amount);
+	}
 
-
-    public EntityPig createChild(EntityAgeable ageable)
+	@Override
+    public EntityAnimal createChild(EntityAgeable ageable)
     {
     	if(ageable instanceof EntityBoar) {
     		EntityBoar boar = new EntityBoar(this.world);
@@ -164,7 +194,7 @@ public class EntityBoar extends EntityPig {
      */
     public boolean isBreedingItem(ItemStack stack)
     {
-        return TEMPTATION_ITEMS.contains(stack.getItem());
+        return false;
     }
     
     
