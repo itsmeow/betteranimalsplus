@@ -135,7 +135,7 @@ public class BlockRegistry {
 				HeadItemMeshDefinition meshDefinition = new HeadItemMeshDefinition(skull);
 				ItemBlockSkull item = (ItemBlockSkull) skull.getItemBlock();
 				ModelBakery.registerItemVariants(item, meshDefinition.defaultModelResourceLocation);
-				for (int i = 0; i < skull.texCount; i++)
+				for (int i = 1; i <= skull.texCount; i++)
 				{
 					ItemStack stack = new ItemStack(item);
 					stack.setTagCompound(new NBTTagCompound());

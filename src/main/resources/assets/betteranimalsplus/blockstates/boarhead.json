@@ -11,7 +11,6 @@
         "facing=north,nodrop=true":  { "model": "minecraft:soul_sand" },
         "facing=south,nodrop=true":  { "model": "minecraft:soul_sand" },
         "facing=up,nodrop=true":  { "model": "minecraft:soul_sand" },
-        "facing=down,nodrop=true":  { "model": "minecraft:soul_sand" },
-        "inventory": { "model": "betteranimalsplus:items/boarhead" }
+        "facing=down,nodrop=true":  { "model": "minecraft:soul_sand" }
     }
 }

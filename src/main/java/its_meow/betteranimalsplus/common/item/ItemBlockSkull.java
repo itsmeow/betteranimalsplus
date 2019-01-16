@@ -2,20 +2,24 @@ package its_meow.betteranimalsplus.common.item;
 
 import java.util.List;
 
+import its_meow.betteranimalsplus.common.block.BlockGenericSkull;
 import its_meow.betteranimalsplus.common.tileentity.TileEntityHead;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockSkull;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.util.ITooltipFlag;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
@@ -24,13 +28,32 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ItemBlockSkull extends ItemBlock {
-	
+
 	private boolean allowFloor = true;
-	
+
 	public ItemBlockSkull(Block block, boolean allowFloor) {
 		super(block);
 		this.allowFloor = allowFloor;
 	}
+
+
+
+	@Override
+	public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> items) {
+		if(this.block instanceof BlockGenericSkull) {
+			BlockGenericSkull blockG = (BlockGenericSkull) block;
+			for(int data = 1; data <= blockG.texCount; data++) {
+				ItemStack stack = new ItemStack(blockG.getItemBlock(), 1);
+				stack.setTagCompound(new NBTTagCompound());
+				stack.getTagCompound().setInteger("TYPENUM", data);
+				items.add(stack);
+			}
+		} else {
+			super.getSubItems(tab, items);
+		}
+	}
+
+
 
 	@Override
 	@SideOnly(Side.CLIENT)
@@ -53,7 +76,7 @@ public class ItemBlockSkull extends ItemBlock {
 			return false;
 		return block.isReplaceable(world, pos) && blockToPlace.canPlaceBlockAt(world, pos);
 	}
-	
+
 	@Override
 	public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand,
 			EnumFacing side, float hitX, float hitY, float hitZ) {
@@ -99,7 +122,7 @@ public class ItemBlockSkull extends ItemBlock {
 		}
 		super.addInformation(stack, worldIn, tooltip, flagIn);
 	}
-	
-	
+
+
 
 }

@@ -1,5 +1,6 @@
 package its_meow.betteranimalsplus.client;
 
+import its_meow.betteranimalsplus.Ref;
 import its_meow.betteranimalsplus.common.block.BlockGenericSkull;
 import its_meow.betteranimalsplus.common.item.ItemBlockSkull;
 import net.minecraft.client.renderer.ItemMeshDefinition;
@@ -20,7 +21,7 @@ public class HeadItemMeshDefinition implements ItemMeshDefinition
     {
         if(stack != null && stack.getItem() instanceof ItemBlockSkull && stack.hasTagCompound())
         {
-            return new ModelResourceLocation(this.defaultModelResourceLocation.getResourcePath() + "_" + stack.getTagCompound().getInteger("TYPENUM"), "inventory");
+            return new ModelResourceLocation(Ref.MOD_ID + ":" + this.defaultModelResourceLocation.getResourcePath() + "_" + stack.getTagCompound().getInteger("TYPENUM"), "inventory");
         }
         return this.defaultModelResourceLocation;
     }
