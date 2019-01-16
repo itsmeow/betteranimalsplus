@@ -20,7 +20,7 @@ public class HeadItemMeshDefinition implements ItemMeshDefinition
     {
         if(stack != null && stack.getItem() instanceof ItemBlockSkull && stack.hasTagCompound())
         {
-            return new ModelResourceLocation(this.defaultModelResourceLocation.getResourcePath(), "type=" + stack.getTagCompound().getInteger("TYPENUM"));
+            return new ModelResourceLocation(this.defaultModelResourceLocation.getResourcePath() + "_" + stack.getTagCompound().getInteger("TYPENUM"), "inventory");
         }
         return this.defaultModelResourceLocation;
     }
