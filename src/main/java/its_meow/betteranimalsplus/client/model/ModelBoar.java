@@ -3,6 +3,8 @@ package its_meow.betteranimalsplus.client.model;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLiving;
+import net.minecraft.util.math.MathHelper;
 
 /**
  * boar - cybercat5555
@@ -322,6 +324,25 @@ public class ModelBoar extends ModelBase {
     public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) { 
         this.body.render(f5);
     }
+    
+    @Override
+	public void setRotationAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw,
+			float headPitch, float scaleFactor, Entity entityIn) {
+		float f = limbSwing;
+		float f1 = limbSwingAmount;
+
+		this.lArm01.rotateAngleX = MathHelper.cos(f * 0.6662F) * 1.4F * f1;
+		this.rArm01.rotateAngleX = MathHelper.cos(f * 0.6662F + (float)Math.PI) * 1.4F * f1;
+		this.rLeg01.rotateAngleX = MathHelper.cos(f * 0.6662F) * 1.4F * f1;
+		this.lLeg01.rotateAngleX = MathHelper.cos(f * 0.6662F + (float)Math.PI) * 1.4F * f1;
+
+		if(entityIn instanceof EntityLiving) {
+			this.neck.rotateAngleX = ModelBetterAnimals.getHeadPitch((EntityLiving)entityIn) * 0.017453292F;
+			this.neck.rotateAngleY = ModelBetterAnimals.getHeadYaw((EntityLiving) entityIn) * 0.017453292F;
+		}
+
+		super.setRotationAngles(limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor, entityIn);
+	}
 
     /**
      * This is a helper function from Tabula to set the rotation of model parts

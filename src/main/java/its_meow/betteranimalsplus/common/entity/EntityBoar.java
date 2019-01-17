@@ -199,6 +199,12 @@ public class EntityBoar extends EntityAnimal {
     
     
     
+    protected void entityInit()
+	{
+		super.entityInit();
+		this.dataManager.register(TYPE_NUMBER, Integer.valueOf(0));
+	}
+    
 	public int getTypeNumber() {
 		return ((Integer)this.dataManager.get(TYPE_NUMBER)).intValue();
 	}
