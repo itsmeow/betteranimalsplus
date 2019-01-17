@@ -19,6 +19,7 @@ tile.betteranimalsplus.wolfhead.name=Farkasfej
 tile.betteranimalsplus.deerhead.name=Õzfej
 tile.betteranimalsplus.reindeerhead.name=Rénszarvasfej
 tile.betteranimalsplus.foxhead.name=Rókafej
+tile.betteranimalsplus.boarhead.name=Vaddisznófej
 
 #Entities
 entity.betteranimalsplus.BrownBear.name=Barnamedve
@@ -36,3 +37,4 @@ entity.betteranimalsplus.Goat.name=Kecske
 entity.betteranimalsplus.Jellyfish.name=Medúza
 entity.betteranimalsplus.Pheasant.name=Fácán
 entity.betteranimalsplus.Reindeer.name=Rénszarvas
+entity.betteranimalsplus.Boar.name=Vaddisznó

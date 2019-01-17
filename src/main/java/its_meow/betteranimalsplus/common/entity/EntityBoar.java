@@ -36,6 +36,7 @@ import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
@@ -46,70 +47,75 @@ import net.minecraft.world.World;
 import net.minecraft.world.storage.loot.LootTableList;
 
 public class EntityBoar extends EntityAnimal {
-	
-    protected static final DataParameter<Integer> TYPE_NUMBER = EntityDataManager.<Integer>createKey(EntityBoar.class, DataSerializers.VARINT);
 
-    public EntityBoar(World worldIn)
-    {
-        super(worldIn);
-        this.setSize(0.9F, 0.9F);
-    }
+	protected static final DataParameter<Integer> TYPE_NUMBER = EntityDataManager.<Integer>createKey(EntityBoar.class, DataSerializers.VARINT);
 
-    protected void initEntityAI()
-    {
-        this.tasks.addTask(0, new EntityAISwimming(this));
-        //this.tasks.addTask(1, new EntityAIPanic(this, 1.25D));
-        this.tasks.addTask(2, new EntityAIAttackMelee(this, 0.5D, false));
-        this.tasks.addTask(3, new EntityAIMate(this, 1.0D));
-        this.tasks.addTask(5, new EntityAIFollowParent(this, 1.1D));
-        this.tasks.addTask(6, new EntityAIWanderAvoidWater(this, 1.0D));
-        this.tasks.addTask(7, new EntityAIWatchClosest(this, EntityPlayer.class, 6.0F));
-        this.tasks.addTask(8, new EntityAILookIdle(this));
-        this.targetTasks.addTask(1, new EntityAINearestAttackableTarget<EntityAnimal>(this, EntityAnimal.class, 90, true, true, new Predicate<Entity>() {
-        	public boolean apply(@Nullable Entity in)
-			{
-				return in instanceof EntityChicken || in instanceof EntityPheasant || (in instanceof EntityAnimal && ((EntityAnimal) in).isChild() );
-			}
-        }));
-    }
+	public EntityBoar(World worldIn)
+	{
+		super(worldIn);
+		this.setSize(0.9F, 0.9F);
+	}
 
-    protected void applyEntityAttributes()
-    {
-        super.applyEntityAttributes();
-        this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(12.0D);
-        this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.38D);
-        this.getAttributeMap().registerAttribute(SharedMonsterAttributes.ATTACK_DAMAGE);
-        this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(1.0D);
-    }
+	protected void initEntityAI()
+	{
+		this.tasks.addTask(0, new EntityAISwimming(this));
+		if(!this.isChild()) {
+			this.tasks.addTask(2, new EntityAIAttackMelee(this, 0.5D, false));
+		}
+		this.tasks.addTask(3, new EntityAIMate(this, 1.0D));
+		this.tasks.addTask(5, new EntityAIFollowParent(this, 1.1D));
+		this.tasks.addTask(6, new EntityAIWanderAvoidWater(this, 1.0D));
+		this.tasks.addTask(7, new EntityAIWatchClosest(this, EntityPlayer.class, 6.0F));
+		this.tasks.addTask(8, new EntityAILookIdle(this));
+		if(!this.isChild()) {
+			this.targetTasks.addTask(1, new EntityAINearestAttackableTarget<EntityAnimal>(this, EntityAnimal.class, 90, true, true, new Predicate<Entity>() {
+				public boolean apply(@Nullable Entity in)
+				{
+					return in instanceof EntityChicken || in instanceof EntityPheasant || (in instanceof EntityAnimal && ((EntityAnimal) in).isChild() && !(in instanceof EntityBoar));
+				}
+			}));
+		}
+	}
 
-    protected SoundEvent getAmbientSound()
-    {
-        return SoundEvents.ENTITY_PIG_AMBIENT;
-    }
+	protected void applyEntityAttributes()
+	{
+		super.applyEntityAttributes();
+		this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(12.0D);
+		this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.38D);
+		this.getAttributeMap().registerAttribute(SharedMonsterAttributes.ATTACK_DAMAGE);
+		this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(1.0D);
+	}
 
-    protected SoundEvent getHurtSound(DamageSource damageSourceIn)
-    {
-        return SoundEvents.ENTITY_PIG_HURT;
-    }
 
-    protected SoundEvent getDeathSound()
-    {
-        return SoundEvents.ENTITY_PIG_DEATH;
-    }
 
-    protected void playStepSound(BlockPos pos, Block blockIn)
-    {
-        this.playSound(SoundEvents.ENTITY_PIG_STEP, 0.15F, 1.0F);
-    }
+	protected SoundEvent getAmbientSound()
+	{
+		return SoundEvents.ENTITY_PIG_AMBIENT;
+	}
 
-    /**
-     * Called when the mob's health reaches 0.
-     */
-    public void onDeath(DamageSource cause)
-    {
-        super.onDeath(cause);
+	protected SoundEvent getHurtSound(DamageSource damageSourceIn)
+	{
+		return SoundEvents.ENTITY_PIG_HURT;
+	}
 
-        if(!this.isChild()) {
+	protected SoundEvent getDeathSound()
+	{
+		return SoundEvents.ENTITY_PIG_DEATH;
+	}
+
+	protected void playStepSound(BlockPos pos, Block blockIn)
+	{
+		this.playSound(SoundEvents.ENTITY_PIG_STEP, 0.15F, 1.0F);
+	}
+
+	/**
+	 * Called when the mob's health reaches 0.
+	 */
+	public void onDeath(DamageSource cause)
+	{
+		super.onDeath(cause);
+
+		if(!this.isChild()) {
 			if(this.rand.nextInt(12) == 0) {
 				ItemStack stack = new ItemStack(BlockRegistry.boarhead.getItemBlock());
 				stack.setTagCompound(new NBTTagCompound());
@@ -117,112 +123,110 @@ public class EntityBoar extends EntityAnimal {
 				this.entityDropItem(stack, 0.5F);
 			}
 		}
-    }
+	}
 
-    @Nullable
-    protected ResourceLocation getLootTable()
-    {
-        return LootTableList.ENTITIES_PIG;
-    }
-    
-    @Override
+	@Nullable
+	protected ResourceLocation getLootTable()
+	{
+		return LootTableList.ENTITIES_PIG;
+	}
+
+	@Override
 	public boolean attackEntityAsMob(Entity entityIn) {
 		Vec3d pos = this.getPositionVector();
 		Vec3d targetPos = entityIn.getPositionVector();
 		((EntityLivingBase) entityIn).knockBack(entityIn, 0.8F, pos.x - targetPos.x, pos.z - targetPos.z);
-		
+
 		// Vanilla attack code for mobs
-		
-        float f = (float)this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getAttributeValue();
-        int i = 0;
 
-        if (entityIn instanceof EntityLivingBase)
-        {
-            f += EnchantmentHelper.getModifierForCreature(this.getHeldItemMainhand(), ((EntityLivingBase)entityIn).getCreatureAttribute());
-            i += EnchantmentHelper.getKnockbackModifier(this);
-        }
+		float f = (float)this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getAttributeValue();
+		int i = 0;
 
-        boolean flag = entityIn.attackEntityFrom(DamageSource.causeMobDamage(this), f);
+		if (entityIn instanceof EntityLivingBase)
+		{
+			f += EnchantmentHelper.getModifierForCreature(this.getHeldItemMainhand(), ((EntityLivingBase)entityIn).getCreatureAttribute());
+			i += EnchantmentHelper.getKnockbackModifier(this);
+		}
 
-        if (flag)
-        {
-            if (i > 0 && entityIn instanceof EntityLivingBase)
-            {
-                ((EntityLivingBase)entityIn).knockBack(this, (float)i * 0.5F, (double)MathHelper.sin(this.rotationYaw * 0.017453292F), (double)(-MathHelper.cos(this.rotationYaw * 0.017453292F)));
-                this.motionX *= 0.6D;
-                this.motionZ *= 0.6D;
-            }
+		boolean flag = entityIn.attackEntityFrom(DamageSource.causeMobDamage(this), f);
 
-            int j = EnchantmentHelper.getFireAspectModifier(this);
+		if (flag)
+		{
+			if (i > 0 && entityIn instanceof EntityLivingBase)
+			{
+				((EntityLivingBase)entityIn).knockBack(this, (float)i * 0.5F, (double)MathHelper.sin(this.rotationYaw * 0.017453292F), (double)(-MathHelper.cos(this.rotationYaw * 0.017453292F)));
+				this.motionX *= 0.6D;
+				this.motionZ *= 0.6D;
+			}
 
-            if (j > 0)
-            {
-                entityIn.setFire(j * 4);
-            }
+			int j = EnchantmentHelper.getFireAspectModifier(this);
 
-            if (entityIn instanceof EntityPlayer)
-            {
-                EntityPlayer entityplayer = (EntityPlayer)entityIn;
-                ItemStack itemstack = this.getHeldItemMainhand();
-                ItemStack itemstack1 = entityplayer.isHandActive() ? entityplayer.getActiveItemStack() : ItemStack.EMPTY;
+			if (j > 0)
+			{
+				entityIn.setFire(j * 4);
+			}
 
-                if (!itemstack.isEmpty() && !itemstack1.isEmpty() && itemstack.getItem().canDisableShield(itemstack, itemstack1, entityplayer, this) && itemstack1.getItem().isShield(itemstack1, entityplayer))
-                {
-                    float f1 = 0.25F + (float)EnchantmentHelper.getEfficiencyModifier(this) * 0.05F;
+			if (entityIn instanceof EntityPlayer)
+			{
+				EntityPlayer entityplayer = (EntityPlayer)entityIn;
+				ItemStack itemstack = this.getHeldItemMainhand();
+				ItemStack itemstack1 = entityplayer.isHandActive() ? entityplayer.getActiveItemStack() : ItemStack.EMPTY;
 
-                    if (this.rand.nextFloat() < f1)
-                    {
-                        entityplayer.getCooldownTracker().setCooldown(itemstack1.getItem(), 100);
-                        this.world.setEntityState(entityplayer, (byte)30);
-                    }
-                }
-            }
+				if (!itemstack.isEmpty() && !itemstack1.isEmpty() && itemstack.getItem().canDisableShield(itemstack, itemstack1, entityplayer, this) && itemstack1.getItem().isShield(itemstack1, entityplayer))
+				{
+					float f1 = 0.25F + (float)EnchantmentHelper.getEfficiencyModifier(this) * 0.05F;
 
-            this.applyEnchantments(this, entityIn);
-        }
+					if (this.rand.nextFloat() < f1)
+					{
+						entityplayer.getCooldownTracker().setCooldown(itemstack1.getItem(), 100);
+						this.world.setEntityState(entityplayer, (byte)30);
+					}
+				}
+			}
+
+			this.applyEnchantments(this, entityIn);
+		}
 
 		return flag;
 	}
 
-    /**
-     * Called when a lightning bolt hits the entity.
-     */
-    public void onStruckByLightning(EntityLightningBolt lightningBolt)
-    {
-        if (!this.world.isRemote && !this.isDead)
-        {
-            EntityPigZombie entitypigzombie = new EntityPigZombie(this.world);
-            entitypigzombie.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, new ItemStack(Items.GOLDEN_SWORD));
-            entitypigzombie.setLocationAndAngles(this.posX, this.posY, this.posZ, this.rotationYaw, this.rotationPitch);
-            entitypigzombie.setNoAI(this.isAIDisabled());
+	/**
+	 * Called when a lightning bolt hits the entity.
+	 */
+	public void onStruckByLightning(EntityLightningBolt lightningBolt)
+	{
+		if (!this.world.isRemote && !this.isDead)
+		{
+			EntityPigZombie entitypigzombie = new EntityPigZombie(this.world);
+			entitypigzombie.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, new ItemStack(Items.GOLDEN_SWORD));
+			entitypigzombie.setLocationAndAngles(this.posX, this.posY, this.posZ, this.rotationYaw, this.rotationPitch);
+			entitypigzombie.setNoAI(this.isAIDisabled());
 
-            if (this.hasCustomName())
-            {
-                entitypigzombie.setCustomNameTag(this.getCustomNameTag());
-                entitypigzombie.setAlwaysRenderNameTag(this.getAlwaysRenderNameTag());
-            }
+			if (this.hasCustomName())
+			{
+				entitypigzombie.setCustomNameTag(this.getCustomNameTag());
+				entitypigzombie.setAlwaysRenderNameTag(this.getAlwaysRenderNameTag());
+			}
 
-            this.world.spawnEntity(entitypigzombie);
-            this.setDead();
-        }
-    }
-    
-    
-    @Override
-    public void onUpdate() {
-    	super.onUpdate();
-    	if(this.rand.nextInt(200) == 0) {
-    		if(this.world.getBlockState(this.getPosition()).getBlock() == Blocks.WHEAT) {
-    			this.world.setBlockToAir(this.getPosition());
-    			this.setInLove(null);
-    		}
-    	}
-    	if(this.getAttackTarget() != null && this.getAttackTarget().isDead) {
-    		this.setInLove(null);
-    	}
-    }
-    
-    @Override
+			this.world.spawnEntity(entitypigzombie);
+			this.setDead();
+		}
+	}
+
+
+	@Override
+	public void onUpdate() {
+		super.onUpdate();
+		if(this.rand.nextInt(200) == 0) {
+			if(this.world.getBlockState(this.getPosition()).getBlock() == Blocks.WHEAT) {
+				this.world.setBlockToAir(this.getPosition());
+				this.setInLove(null);
+				this.world.spawnParticle(EnumParticleTypes.HEART, this.posX, this.posY, this.posZ, 0.0F, 0.05F, 0.0F);
+			}
+		}
+	}
+
+	@Override
 	public boolean attackEntityFrom(DamageSource source, float amount) {
 		if(source.getImmediateSource() instanceof EntityPlayer) {
 			this.setAttackTarget((EntityPlayer) source.getImmediateSource()); 
@@ -231,43 +235,46 @@ public class EntityBoar extends EntityAnimal {
 	}
 
 	@Override
-    public EntityAnimal createChild(EntityAgeable ageable)
-    {
-    	if(ageable instanceof EntityBoar) {
-    		EntityBoar boar = new EntityBoar(this.world);
-    		boar.setType(this.getTypeNumber());
-    		return boar;
-    	} else if(ageable instanceof EntityPig) {
-    		return this.rand.nextBoolean() ? new EntityPig(this.world) : new EntityBoar(this.world);
-    	} else {
-    		return new EntityBoar(this.world);
-    	}
-    }
-    
-    
+	public EntityAgeable createChild(EntityAgeable ageable)
+	{
+		if(ageable instanceof EntityBoar) {
+			EntityBoar boar = new EntityBoar(this.world);
+			boar.setType(this.getTypeNumber());
+			return boar;
+		} else if(ageable instanceof EntityPig) {
+			EntityPig pig = new EntityPig(this.world);
+			EntityBoar boar = new EntityBoar(this.world);
+			boar.setType(this.getTypeNumber());
+			return this.rand.nextBoolean() ? pig : boar;
+		} else {
+			return null;
+		}
+	}
 
-    @Override
+
+
+	@Override
 	public boolean canMateWith(EntityAnimal otherAnimal) {
 		return otherAnimal instanceof EntityBoar || otherAnimal instanceof EntityPig;
 	}
 
 	/**
-     * Checks if the parameter is an item which this animal can be fed to breed it (wheat, carrots or seeds depending on
-     * the animal type)
-     */
-    public boolean isBreedingItem(ItemStack stack)
-    {
-        return false;
-    }
-    
-    
-    
-    protected void entityInit()
+	 * Checks if the parameter is an item which this animal can be fed to breed it (wheat, carrots or seeds depending on
+	 * the animal type)
+	 */
+	public boolean isBreedingItem(ItemStack stack)
+	{
+		return stack.getItem() == Items.CARROT || stack.getItem() == Items.GOLDEN_CARROT;
+	}
+
+
+
+	protected void entityInit()
 	{
 		super.entityInit();
 		this.dataManager.register(TYPE_NUMBER, Integer.valueOf(0));
 	}
-    
+
 	public int getTypeNumber() {
 		return ((Integer)this.dataManager.get(TYPE_NUMBER)).intValue();
 	}
@@ -294,7 +301,7 @@ public class EntityBoar extends EntityAnimal {
 		super.readEntityFromNBT(compound);
 		this.setType(compound.getInteger("TypeNumber"));
 	}
-	
+
 	/**
 	 * Called only once on an entity when first time spawned, via egg, mob spawner, natural spawning etc, but not called
 	 * when entity is reloaded from nbt. Mainly used for initializing attributes and inventory
