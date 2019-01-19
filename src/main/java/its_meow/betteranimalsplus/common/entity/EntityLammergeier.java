@@ -60,7 +60,7 @@ import net.minecraft.world.World;
 public class EntityLammergeier extends EntityTameableFlying {
 
 	private static final DataParameter<Byte> FLYING = EntityDataManager.<Byte>createKey(EntityLammergeier.class, DataSerializers.BYTE);
-	private static final DataParameter<Float> DATA_HEALTH_ID = EntityDataManager.<Float>createKey(EntityWolf.class, DataSerializers.FLOAT);
+	private static final DataParameter<Float> DATA_HEALTH_ID = EntityDataManager.<Float>createKey(EntityLammergeier.class, DataSerializers.FLOAT);
 
 	public boolean landedLast = false;
 	
