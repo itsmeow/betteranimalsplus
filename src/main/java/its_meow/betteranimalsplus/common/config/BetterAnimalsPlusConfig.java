@@ -6,7 +6,6 @@ import its_meow.betteranimalsplus.BetterAnimalsPlusMod;
 import its_meow.betteranimalsplus.Ref;
 import its_meow.betteranimalsplus.init.EntityContainer;
 import its_meow.betteranimalsplus.init.MobRegistry;
-import its_meow.betteranimalsplus.proxy.CommonProxy;
 import net.minecraftforge.common.config.Configuration;
 
 public class BetterAnimalsPlusConfig {
@@ -32,7 +31,7 @@ public class BetterAnimalsPlusConfig {
 	public static HashMap<EntityContainer, EntityConfigurationSection> sections = new HashMap<EntityContainer, EntityConfigurationSection>();
 
 	public static void readConfig(){
-		Configuration cfg = CommonProxy.config;
+		Configuration cfg = BetterAnimalsPlusMod.config;
 		try {
 			cfg.load();
 			initConfig(cfg);

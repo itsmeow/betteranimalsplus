@@ -1,6 +1,7 @@
 package its_meow.betteranimalsplus.common.config;
 
-import its_meow.betteranimalsplus.proxy.CommonProxy;
+import static its_meow.betteranimalsplus.BetterAnimalsPlusMod.config;
+
 import net.minecraft.entity.Entity;
 
 public class EntityConfigurationSection {
@@ -15,7 +16,7 @@ public class EntityConfigurationSection {
 	
 	public EntityConfigurationSection(Class<? extends Entity> entity, int min, int max, int weight) {
 		this.categoryName = entity.getName();
-		CommonProxy.config.addCustomCategoryComment(this.categoryName, "");
+		config.addCustomCategoryComment(this.categoryName, "");
 		this.entityClazz = entity;
 		this.loadRegister();
 		this.loadSpawning();
@@ -23,17 +24,17 @@ public class EntityConfigurationSection {
 	}
 	
 	public void loadRegister() {
-		this.doRegister = CommonProxy.config.getBoolean("doRegistration", this.categoryName, true, "If set to false, the entity is removed (will remove from existing worlds!)");
+		this.doRegister = config.getBoolean("doRegistration", this.categoryName, true, "If set to false, the entity is removed (will remove from existing worlds!)");
 	}
 	
 	public void loadSpawning() {
-		this.doSpawning = CommonProxy.config.getBoolean("doSpawning", this.categoryName, true, "Disables natural spawning");
+		this.doSpawning = config.getBoolean("doSpawning", this.categoryName, true, "Disables natural spawning");
 	}
 	
 	public void loadSpawnValues(int weight, int min, int max) {
-		this.weight = CommonProxy.config.getInt("weight", this.categoryName, weight, 1, 9999, "The spawn chance compared to other animals (typically between 6-20)");
-		this.min = CommonProxy.config.getInt("minGroup", this.categoryName, min, 1, 9999, "Must be greater than 0");
-		this.max = CommonProxy.config.getInt("maxGroup", this.categoryName, max, 1, 9999, "Must be greater or equal to min value!");
+		this.weight = config.getInt("weight", this.categoryName, weight, 1, 9999, "The spawn chance compared to other animals (typically between 6-20)");
+		this.min = config.getInt("minGroup", this.categoryName, min, 1, 9999, "Must be greater than 0");
+		this.max = config.getInt("maxGroup", this.categoryName, max, 1, 9999, "Must be greater or equal to min value!");
 	}
 	
 }

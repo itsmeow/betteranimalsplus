@@ -6,23 +6,23 @@ import java.util.Set;
 
 import com.google.common.base.Preconditions;
 
-import its_meow.betteranimalsplus.client.HeadItemMeshDefinition;
 import its_meow.betteranimalsplus.common.block.BlockGenericSkull;
 import its_meow.betteranimalsplus.common.block.BlockHandOfFate;
 import its_meow.betteranimalsplus.common.block.BlockHirschgeistSkull;
 import its_meow.betteranimalsplus.common.block.BlockTrillium;
 import its_meow.betteranimalsplus.common.item.ItemBlockSkull;
-import its_meow.betteranimalsplus.common.tileentity.*;
+import its_meow.betteranimalsplus.common.tileentity.TileEntityBoarHead;
+import its_meow.betteranimalsplus.common.tileentity.TileEntityDeerHead;
+import its_meow.betteranimalsplus.common.tileentity.TileEntityFoxHead;
+import its_meow.betteranimalsplus.common.tileentity.TileEntityHandOfFate;
+import its_meow.betteranimalsplus.common.tileentity.TileEntityHirschgeistSkull;
+import its_meow.betteranimalsplus.common.tileentity.TileEntityReindeerHead;
+import its_meow.betteranimalsplus.common.tileentity.TileEntityTrillium;
+import its_meow.betteranimalsplus.common.tileentity.TileEntityWolfHead;
 import net.minecraft.block.Block;
-import net.minecraft.client.renderer.block.model.ModelBakery;
-import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.client.event.ModelRegistryEvent;
-import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -121,42 +121,6 @@ public class BlockRegistry {
 				registry.register(item.setRegistryName(registryName));
 				ITEM_BLOCKS.add(item);
 			}
-		}
-
-		@SubscribeEvent
-		public static void registerItemBlockModels(final ModelRegistryEvent event) {
-			//OBJLoader.INSTANCE.addDomain(Ref.MOD_ID);
-			initModel(trillium, 0);
-			initModel(hirschgeistskull, 0);
-			initModel(handoffate, 0);
-
-			// generics
-			for(BlockGenericSkull skull : genericskulls.keySet()) {
-				HeadItemMeshDefinition meshDefinition = new HeadItemMeshDefinition(skull);
-				ItemBlockSkull item = (ItemBlockSkull) skull.getItemBlock();
-				ModelBakery.registerItemVariants(item, meshDefinition.defaultModelResourceLocation);
-				for (int i = 1; i <= skull.texCount; i++)
-				{
-					ItemStack stack = new ItemStack(item);
-					stack.setTagCompound(new NBTTagCompound());
-					stack.getTagCompound().setInteger("TYPENUM", i);
-					ModelBakery.registerItemVariants(item, meshDefinition.getModelLocation(stack));
-				}
-				ModelLoader.setCustomMeshDefinition(item, meshDefinition);
-			}
-		}
-
-
-		public static void initModelMeta(Block block, int meta) {
-			ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(block), meta, new ModelResourceLocation(block.getRegistryName(), "type=" + meta));
-		}
-
-		public static void initModel(Block block, int meta) {
-			ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(block), meta, new ModelResourceLocation(block.getRegistryName(), "inventory"));
-		}
-
-		public static void initModelOBJ(Block block, int meta) {
-			ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(block), meta, new ModelResourceLocation(block.getRegistryName() + ".obj", "inventory"));
 		}
 
 	}

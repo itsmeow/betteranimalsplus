@@ -13,10 +13,7 @@ import its_meow.betteranimalsplus.common.item.ItemPheasantCooked;
 import its_meow.betteranimalsplus.common.item.ItemPheasantRaw;
 import its_meow.betteranimalsplus.common.item.ItemVenisonCooked;
 import its_meow.betteranimalsplus.common.item.ItemVenisonRaw;
-import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.Item;
-import net.minecraftforge.client.event.ModelRegistryEvent;
-import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -82,23 +79,6 @@ public class ItemRegistry {
 				registry.register(item);
 				ITEMS.add(item);
 			}
-		}
-
-		@SubscribeEvent
-		public static void registerItemBlockModels(final ModelRegistryEvent event) {
-			initModel(venisonRaw, 0);
-			initModel(venisonCooked, 0);
-			initModel(itemHirschgeistSkullWearable, 0);
-			initModel(antler, 0);
-			initModel(goatMilk, 0);
-			initModel(goatCheese, 0);
-			initModel(pheasantRaw, 0);
-			initModel(pheasantCooked, 0);
-		}
-
-
-		public static void initModel(Item item, int meta) {
-			ModelLoader.setCustomModelResourceLocation(item, meta, new ModelResourceLocation(item.getRegistryName(), "inventory"));
 		}
 	}
 

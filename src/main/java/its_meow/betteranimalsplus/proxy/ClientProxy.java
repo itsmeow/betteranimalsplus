@@ -13,19 +13,18 @@ import its_meow.betteranimalsplus.init.BlockRegistry;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
-public class ClientProxy extends CommonProxy {
+public class ClientProxy implements ISidedProxy {
 
 	public static final ModelHirschgeistHelmet armorModel = new ModelHirschgeistHelmet();
 
 	public void preInit(FMLPreInitializationEvent event) {
-		super.preInit(event);
-		//MinecraftForge.EVENT_BUS.register(new EventHandlerClient());
+		
 	}
 
 	public void init(FMLInitializationEvent event) {
-		super.init(event);
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityTrillium.class, new RenderBlockTrillium());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityHandOfFate.class, new RenderBlockHandOfFate());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityHead.class, new RenderGenericHead());
@@ -34,6 +33,11 @@ public class ClientProxy extends CommonProxy {
 				ClientRegistry.bindTileEntitySpecialRenderer(block.teClass.asSubclass(TileEntityHead.class), new RenderGenericHeadFloor());
 			}
 		}
+	}
+	
+	@Override
+	public void postInit(FMLPostInitializationEvent e) {
+		
 	}
 
 	public static ModelBiped getArmorModel(){
