@@ -40,18 +40,21 @@ public class ItemBlockSkull extends ItemBlock {
 
 	@Override
 	public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> items) {
-		if(this.block instanceof BlockGenericSkull) {
-			BlockGenericSkull blockG = (BlockGenericSkull) block;
-			for(int data = 1; data <= blockG.texCount; data++) {
-				ItemStack stack = new ItemStack(blockG.getItemBlock(), 1);
-				stack.setTagCompound(new NBTTagCompound());
-				stack.getTagCompound().setInteger("TYPENUM", data);
-				items.add(stack);
+		if(this.isInCreativeTab(tab)) {
+			if(this.block instanceof BlockGenericSkull) {
+				BlockGenericSkull blockG = (BlockGenericSkull) block;
+				for(int data = 1; data <= blockG.texCount; data++) {
+					ItemStack stack = new ItemStack(blockG.getItemBlock(), 1);
+					stack.setTagCompound(new NBTTagCompound());
+					stack.getTagCompound().setInteger("TYPENUM", data);
+					items.add(stack);
+				}
+			} else {
+				super.getSubItems(tab, items);
 			}
-		} else {
-			super.getSubItems(tab, items);
 		}
 	}
+
 
 
 
