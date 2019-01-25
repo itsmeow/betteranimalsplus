@@ -65,6 +65,6 @@ public class BetterAnimalsPlusMod {
 		if(config.hasChanged()){
 			config.save();
 		}
-		logger.log(Level.INFO, "IT'S A HIRSCHGEIST! RUN!!!!");
+		logger.log(Level.INFO, "Crazy bird creation complete.");
 	}
 }
