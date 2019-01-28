@@ -1,5 +1,6 @@
 package its_meow.betteranimalsplus.client.model;
 
+import its_meow.betteranimalsplus.common.entity.EntitySquirrel;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
@@ -255,10 +256,15 @@ public class ModelSquirrel extends ModelBase {
 		this.rArm01.rotateAngleX = MathHelper.cos(f * 0.6662F + (float)Math.PI) * 1.4F * f1;
 		this.rLeg01.rotateAngleX = MathHelper.cos(f * 0.6662F) * 1.4F * f1;
 		this.lLeg01.rotateAngleX = MathHelper.cos(f * 0.6662F + (float)Math.PI) * 1.4F * f1;
+		this.tail01.rotateAngleX = MathHelper.sin(f * 0.2F) * f1;
 
 		if(entityIn instanceof EntityLiving) {
 			this.neck.rotateAngleX = ModelBetterAnimals.getHeadPitch((EntityLiving)entityIn) * 0.017453292F - 13;
 			this.neck.rotateAngleY = ModelBetterAnimals.getHeadYaw((EntityLiving) entityIn) * 0.017453292F * 0.5F;
+			if(entityIn instanceof EntitySquirrel) {
+				EntitySquirrel ent = (EntitySquirrel) entityIn;
+				this.stomach.rotateAngleX = ent.isBesideClimbableBlock() ? (float) Math.toRadians(-90) : -0.6283185307179586F;
+			}
 		}
 
 		super.setRotationAngles(limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor, entityIn);

@@ -35,6 +35,7 @@ public class EntityRendererRegistry {
 		RenderingRegistry.registerEntityRenderingHandler(EntityPheasant.class, RenderPheasant::new);
 		RenderingRegistry.registerEntityRenderingHandler(EntityReindeer.class, RenderReindeer::new);
 		RenderingRegistry.registerEntityRenderingHandler(EntityBoar.class, RenderBoar::new);
+		RenderingRegistry.registerEntityRenderingHandler(EntitySquirrel.class, RenderSquirrel::new);
     }
 
 }

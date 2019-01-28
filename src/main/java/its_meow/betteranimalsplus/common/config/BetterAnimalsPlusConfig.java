@@ -25,6 +25,7 @@ public class BetterAnimalsPlusConfig {
 	public static int pheasantWeight = 12;
 	public static int reindeerWeight = 10;
 	public static int boarWeight = 9;
+	public static int squirrelWeight = 8;
 
 	public static boolean spawnTrillium = true;
 	
