@@ -38,7 +38,7 @@ import net.minecraftforge.registries.IForgeRegistry;
 
 
 public class MobRegistry {
-	public static int modEntities;
+	public static int modEntities = 0;
 
 	public static LinkedHashSet<EntityEntry> entrySet = new LinkedHashSet<EntityEntry>();
 	public static LinkedHashSet<EntityContainer> entityList = new LinkedHashSet<EntityContainer>();

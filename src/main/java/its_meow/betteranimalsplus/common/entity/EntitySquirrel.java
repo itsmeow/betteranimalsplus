@@ -3,9 +3,10 @@ package its_meow.betteranimalsplus.common.entity;
 import javax.annotation.Nullable;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.IEntityLivingData;
+import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.EntityAIAvoidEntity;
 import net.minecraft.entity.ai.EntityAILookIdle;
 import net.minecraft.entity.ai.EntityAIMate;
 import net.minecraft.entity.ai.EntityAIPanic;
@@ -33,20 +34,31 @@ public class EntitySquirrel extends EntityAnimal {
 	private static final DataParameter<Byte> CLIMBING = EntityDataManager.<Byte>createKey(EntitySquirrel.class, DataSerializers.BYTE);
 	private static final DataParameter<Integer> TYPE_NUMBER = EntityDataManager.<Integer>createKey(EntitySquirrel.class, DataSerializers.VARINT);
 	
+	private int climbTimeWithoutLog = 0;
+	
 	public EntitySquirrel(World worldIn) {
 		super(worldIn);
 		this.setSize(1F, 1F);
+		
 	}
 	
 	@Override
 	protected void initEntityAI() {
 		this.tasks.addTask(1, new EntityAISwimming(this));
-		this.tasks.addTask(2, new EntityAIPanic(this, 1.2D));
-		this.tasks.addTask(3, new EntityAIMate(this, 1.0D));
-		this.tasks.addTask(4, new EntityAITempt(this, 1.0D, Items.WHEAT_SEEDS, false));
-        this.tasks.addTask(5, new EntityAIWanderAvoidWater(this, 0.8D));
-        this.tasks.addTask(6, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
-        this.tasks.addTask(7, new EntityAILookIdle(this));
+		this.tasks.addTask(2, new EntityAIPanic(this, 0.72D));
+		this.tasks.addTask(3, new EntityAIMate(this, 0.5D));
+		this.tasks.addTask(4, new EntityAITempt(this, 0.5D, Items.WHEAT_SEEDS, false));
+		this.tasks.addTask(5, new EntityAIAvoidEntity<EntityPlayer>(this, EntityPlayer.class, 10F, 0.5D, 0.7D));
+        this.tasks.addTask(6, new EntityAIWanderAvoidWater(this, 0.5D));
+        this.tasks.addTask(7, new EntityAIWatchClosest(this, EntityPlayer.class, 15.0F));
+        this.tasks.addTask(8, new EntityAILookIdle(this));
+	}
+	
+	protected void applyEntityAttributes()
+	{
+		super.applyEntityAttributes();
+		this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(4.5D);
+		this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.5D);
 	}
 	
 	protected void entityInit()
@@ -93,7 +105,9 @@ public class EntitySquirrel extends EntityAnimal {
 		livingdata = super.onInitialSpawn(difficulty, livingdata);
 		if(!this.isChild()) {
 			int i = this.rand.nextInt(3) + 1; // Values 1 to 3
-			
+			if(i == 3 && this.rand.nextInt(4) != 0) { // 1/4 chance it remains white (overall 1/12 chance of white)
+				i = this.rand.nextInt(2) + 1; // 1 - 2
+			}
 			if (livingdata instanceof TypeData)
 			{
 				i = ((TypeData)livingdata).typeData;
@@ -128,14 +142,19 @@ public class EntitySquirrel extends EntityAnimal {
         if (!this.world.isRemote)
         {
         	boolean nearLog = false;
-        	for(EnumFacing facing : EnumFacing.HORIZONTALS) {
+        	for(EnumFacing facing : EnumFacing.values()) {
         		BlockPos pos = this.getPosition().offset(facing);
         		Block block = this.world.getBlockState(pos).getBlock();
         		if(block == Blocks.LOG || block == Blocks.LOG2) {
         			nearLog = true;
         		}
         	}
-            this.setBesideClimbableBlock(this.collidedHorizontally && nearLog);
+            this.setBesideClimbableBlock((this.collidedHorizontally && nearLog) || (this.collidedHorizontally && climbTimeWithoutLog < 15));
+            if(this.collidedHorizontally && !nearLog) {
+            	climbTimeWithoutLog++;
+            } else if(climbTimeWithoutLog > 0 || (this.collidedHorizontally && nearLog)) {
+            	climbTimeWithoutLog = 0;
+            }
         }
     }
 
