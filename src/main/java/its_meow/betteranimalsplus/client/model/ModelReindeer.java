@@ -475,10 +475,10 @@ public class ModelReindeer extends ModelBase {
 		this.body.rotateAngleX = 0.0F;
 		float f16 = f3 * 0.017453292F;
 		this.body.rotateAngleX = (f6 * -((float)Math.PI / 4F) + f7 * this.body.rotateAngleX) * 0.65F;
-		this.neck.rotateAngleX = f6 * (0.2617994F + f4) + f5 * 2.1816616F + (1.0F - Math.max(f6, f5)) * (0.5235988F + f4) - (float) Math.toRadians(55);
+		this.chest.rotateAngleX = f6 * (0.2617994F + f4) + f5 * 2.1816616F + (1.0F - Math.max(f6, f5)) * (0.5235988F + f4) - (float) Math.toRadians(55);
 		this.snout.rotateAngleX = -0.09424778F * f8;
 		this.lowerJaw.rotateAngleX = 0.15707964F * f8;
-		this.neck.rotateAngleY = f6 * f3 * 0.017453292F + (1.0F - Math.max(f6, f5)) * f16;
+		this.chest.rotateAngleY = f6 * f3 * 0.017453292F + (1.0F - Math.max(f6, f5)) * f16;
 		
         float f9 = (float)entitylivingbaseIn.ticksExisted + partialTickTime;
         float f10 = MathHelper.cos(limbSwing * 0.6662F + (float)Math.PI);
