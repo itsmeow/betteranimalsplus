@@ -1,3 +1,18 @@
+5.0.0
+-
+- Added Boars
+- Added Boar heads
+- Added Squirrels
+- Animal head items now match their block (and show up seperately in the creative menu)
+- Spawn eggs now show in the BA+ tab as well as misc
+- Fixed jellyfish floating
+- Fixed reindeer neck moving along the wrong part
+- Redo render factory system (use method references)
+- Fix Esperanto translation
+- Fixed some random crashes with Entity datamanager (may still afflict old worlds with older entities)
+- Removed the useless "Common Proxy"
+
+
 4.1.0
 -
 - Fixed bug where animal heads would not drop their item after being broken by external sources (like water)
