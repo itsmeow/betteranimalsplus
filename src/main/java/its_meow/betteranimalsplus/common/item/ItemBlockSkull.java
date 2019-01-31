@@ -42,7 +42,7 @@ public class ItemBlockSkull extends ItemBlock {
 	public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> items) {
 		if(this.isInCreativeTab(tab)) {
 			if(this.block instanceof BlockGenericSkull) {
-				BlockGenericSkull blockG = (BlockGenericSkull) block;
+				BlockGenericSkull blockG = (BlockGenericSkull) this.block;
 				for(int data = 1; data <= blockG.texCount; data++) {
 					ItemStack stack = new ItemStack(blockG.getItemBlock(), 1);
 					stack.setTagCompound(new NBTTagCompound());

@@ -1,6 +1,7 @@
 package its_meow.betteranimalsplus.common.entity.ai;
 
 import its_meow.betteranimalsplus.common.entity.EntityLammergeier;
+import its_meow.betteranimalsplus.common.util.SimpleTeleporter;
 import net.minecraft.block.state.BlockFaceShape;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
@@ -59,7 +60,7 @@ public class EntityAIFollowOwnerFlying extends EntityAIBase
         else if (this.tameable.getDistanceSq(entitylivingbase) < (double)(this.minDist * this.minDist))
         {
             return false;
-        } else if(this.tameable.getAttackTarget() != null) {
+        } else if(this.tameable.getAttackTarget() != null && this.tameable.getAttackTarget().isEntityAlive()) {
         	return false;
         }
         else
@@ -120,7 +121,7 @@ public class EntityAIFollowOwnerFlying extends EntityAIBase
                     if (!this.tameable.getLeashed() && !this.tameable.isRiding())
                     {
                     	//Distance too large, teleport!
-                        if (this.tameable.getDistanceSq(this.owner) >= 144.0D)
+                        if (this.tameable.getDistanceSq(this.owner) >= 144.0D || this.tameable.getEntityWorld() != this.owner.getEntityWorld())
                         {
                             int i = MathHelper.floor(this.owner.posX) - 2;
                             int j = MathHelper.floor(this.owner.posZ) - 2;
@@ -132,6 +133,9 @@ public class EntityAIFollowOwnerFlying extends EntityAIBase
                                 {
                                     if ((l < 1 || i1 < 1 || l > 3 || i1 > 3) && this.isTeleportFriendlyBlock(i, j, k, l, i1))
                                     {
+                                    	if(this.tameable.getEntityWorld() != this.owner.getEntityWorld()) {
+                                    		this.tameable.changeDimension(this.owner.getEntityWorld().provider.getDimension(), new SimpleTeleporter());
+                                    	}
                                         this.tameable.setLocationAndAngles((double)((float)(i + l) + 0.5F), (double)k, (double)((float)(j + i1) + 0.5F), this.tameable.rotationYaw, this.tameable.rotationPitch);
                                         this.petPathfinder.clearPath();
                                         return;

@@ -30,6 +30,9 @@ public class LammerMoveHelper extends EntityMoveHelper
 			double d1 = this.posY - this.parentEntity.posY;
 			double d2 = this.posZ - this.parentEntity.posZ;
 			double d3 = d0 * d0 + d1 * d1 + d2 * d2;
+			if(d3 <= 1.0D || d3 >= 3600.0D || this.posY > 500.0D) {
+				this.action = EntityMoveHelper.Action.WAIT;
+			}
 			d3 = (double)MathHelper.sqrt(d3);
 			if (this.isNotColliding(this.posX, this.posY, this.posZ, d3))
 			{

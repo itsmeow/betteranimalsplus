@@ -149,11 +149,11 @@ public class EntitySquirrel extends EntityAnimal {
         			nearLog = true;
         		}
         	}
-            this.setBesideClimbableBlock((this.collidedHorizontally && nearLog) || (this.collidedHorizontally && climbTimeWithoutLog < 15));
+            this.setBesideClimbableBlock((this.collidedHorizontally && nearLog) || (this.collidedHorizontally && this.climbTimeWithoutLog < 15));
             if(this.collidedHorizontally && !nearLog) {
-            	climbTimeWithoutLog++;
-            } else if(climbTimeWithoutLog > 0 || (this.collidedHorizontally && nearLog)) {
-            	climbTimeWithoutLog = 0;
+            	this.climbTimeWithoutLog++;
+            } else if(this.climbTimeWithoutLog > 0 || (this.collidedHorizontally && nearLog)) {
+            	this.climbTimeWithoutLog = 0;
             }
         }
     }

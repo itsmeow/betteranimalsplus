@@ -62,9 +62,9 @@ public class EntityLammergeier extends EntityTameableFlying {
 	private static final DataParameter<Float> DATA_HEALTH_ID = EntityDataManager.<Float>createKey(EntityLammergeier.class, DataSerializers.FLOAT);
 
 	public boolean landedLast = false;
-	
+
 	//Forgive me for this godawful mess.
-	
+
 	public EntityLammergeier(World worldIn) {
 		super(worldIn);
 		this.setSize(1F, 1F);
@@ -102,13 +102,13 @@ public class EntityLammergeier extends EntityTameableFlying {
 		pathnavigateflying.setCanFloat(true);
 		pathnavigateflying.setCanEnterDoors(true);
 		return pathnavigateflying;
-}
+	}
 
 	protected void initEntityAI()
 	{
 		this.aiSit = new EntityAISit(this);
 		this.tasks.addTask(1, this.aiSit);
-		this.tasks.addTask(2, new EntityLammergeier.AIMeleeAttack(this, true));
+		this.tasks.addTask(2, new EntityLammergeier.AIMeleeAttack(this));
 		this.tasks.addTask(3, new EntityAIFollowOwnerFlying(this, 0.5D, 10.0F, 50.0F));
 		this.tasks.addTask(5, new EntityLammergeier.AIRandomFly(this));
 		this.tasks.addTask(7, new EntityLammergeier.AILookAround(this));
@@ -445,8 +445,8 @@ public class EntityLammergeier extends EntityTameableFlying {
 
 	public BlockPos fromPolarCoordinates(PolarVector3D polar) {
 		double r = polar.getR();
-		double lat = polar.getThetaY();
-		double lon = polar.getThetaX();
+		double lat = polar.getThetaY() / 360;
+		double lon = polar.getThetaX() / 360;
 		double x = r * Math.sin(lat) * Math.cos(lon);
 		double y = r * Math.sin(lat) * Math.sin(lon);
 		double z = r * Math.cos(lat);
@@ -590,33 +590,82 @@ public class EntityLammergeier extends EntityTameableFlying {
 	{
 
 
-		World world;
+		protected World world;
 		protected EntityLammergeier attacker;
 		/** An amount of decrementing ticks that allows the entity to attack once the tick reaches 0. */
 		protected int attackTick;
 		/** The speed with which the mob will approach the target */
 		double speedTowardsTarget;
-		/** When true, the mob will continue chasing its target, even if it can't find a path to them right now. */
-		boolean longMemory;
 		/** The PathEntity of our entity. */
 		Path path;
-		private int delayCounter;
-		private double targetX;
-		private double targetY;
-		private double targetZ;
 		protected final int attackInterval = 20;
+		protected double liftY = 0;
 
-		private final EntityLammergeier parentEntity;
-
-		public AIMeleeAttack(EntityLammergeier lam, boolean useLongMemory)
+		public AIMeleeAttack(EntityLammergeier lam)
 		{
 			super(lam, 0.5D, false);
-			this.parentEntity = lam;
 			this.attacker = lam;
 			this.world = lam.getEntityWorld();
 			this.setMutexBits(2);
 		}
-		double liftY = 0;
+
+		/**
+		 * Returns whether the EntityAIBase should begin execution.
+		 */
+		@Override
+		public boolean shouldExecute()
+		{
+			EntityLivingBase entitylivingbase = this.attacker.getAttackTarget();
+
+			if (entitylivingbase == null) {
+				return false;
+			} else if (!entitylivingbase.isEntityAlive()) {
+				return false;
+			}
+
+			return true;
+		}
+
+		/**
+		 * Returns whether an in-progress EntityAIBase should continue executing
+		 */
+		@Override
+		public boolean shouldContinueExecuting()
+		{
+			EntityLivingBase entitylivingbase = this.attacker.getAttackTarget();
+
+			if (entitylivingbase == null) {
+				return false;
+			}
+			else if (!entitylivingbase.isEntityAlive()) {
+				return false;
+			} else {
+				return !(entitylivingbase instanceof EntityPlayer) || !((EntityPlayer)entitylivingbase).isSpectator() && !((EntityPlayer)entitylivingbase).isCreative();
+			}
+		}
+
+		/**
+		 * Execute a one shot task or start executing a continuous task
+		 */
+		@Override
+		public void startExecuting() {
+			
+		}
+
+		/**
+		 * Reset the task's internal state. Called when this task is interrupted by another one
+		 */
+		@Override
+		public void resetTask()
+		{
+			EntityLivingBase entitylivingbase = this.attacker.getAttackTarget();
+
+			if (entitylivingbase instanceof EntityPlayer && (((EntityPlayer)entitylivingbase).isSpectator() || ((EntityPlayer)entitylivingbase).isCreative()))
+			{
+				this.attacker.setAttackTarget((EntityLivingBase)null);
+			}
+		}
+
 
 		@Override
 		/**
@@ -624,104 +673,83 @@ public class EntityLammergeier extends EntityTameableFlying {
 		 */
 		public void updateTask()
 		{
-			if (this.parentEntity.getAttackTarget() == null)
+			EntityLivingBase entitylivingbase = this.attacker.getAttackTarget();
+
+			double targetX = entitylivingbase.posX;
+			double targetY = entitylivingbase.posY;
+			double targetZ = entitylivingbase.posZ;
+
+			if (entitylivingbase.getDistanceSq(this.attacker) < 4096.0D) // If the distance is less than 4096 square blocks rotate towards them
 			{
-				this.parentEntity.rotationYaw = -((float)MathHelper.atan2(this.parentEntity.motionX, this.parentEntity.motionZ)) * (180F / (float)Math.PI);
-				this.parentEntity.renderYawOffset = this.parentEntity.rotationYaw;
+				double d1 = entitylivingbase.posX - this.attacker.posX;
+				double d2 = entitylivingbase.posZ - this.attacker.posZ;
+				this.attacker.rotationYaw = -((float)MathHelper.atan2(d1, d2)) * (180F / (float)Math.PI);
+				this.attacker.renderYawOffset = this.attacker.rotationYaw;
 			}
-			else
+
+			double distanceToTarget = this.attacker.getDistanceSq(entitylivingbase.posX, entitylivingbase.posY, entitylivingbase.posZ);
+
+			// Reduce time till attack
+			this.attackTick--;
+
+
+			double reachToTarget = this.getAttackReachSqr(entitylivingbase);
+
+			// If the entity can reach its target and it's time to attack, reset the timer and attack if the entity is not grabbed
+			if (distanceToTarget <= reachToTarget && this.attackTick <= 0)
 			{
-				EntityLivingBase entitylivingbase = this.parentEntity.getAttackTarget();
-
-				if(!entitylivingbase.isEntityAlive()) {
-					this.parentEntity.setAttackTarget(null);
-					return;
+				this.attackTick = 20;
+				if(!entitylivingbase.isRidingOrBeingRiddenBy(this.attacker)) {
+					this.attacker.attackEntityAsMob(entitylivingbase);
 				}
-
-
-				if (entitylivingbase.getDistanceSq(this.parentEntity) < 4096.0D)
-				{
-					double d1 = entitylivingbase.posX - this.parentEntity.posX;
-					double d2 = entitylivingbase.posZ - this.parentEntity.posZ;
-					this.parentEntity.rotationYaw = -((float)MathHelper.atan2(d1, d2)) * (180F / (float)Math.PI);
-					this.parentEntity.renderYawOffset = this.parentEntity.rotationYaw;
-				}
-				//attacker.getMoveHelper().setMoveTo(entitylivingbase.posX, entitylivingbase.posY, entitylivingbase.posZ, 1.0D);
-
-				//this.attacker.getLookHelper().setLookPositionWithEntity(entitylivingbase, 30.0F, 30.0F);
-				double d0 = this.attacker.getDistanceSq(entitylivingbase.posX, entitylivingbase.posY, entitylivingbase.posZ);
-
-				--this.delayCounter;
-
-				if ((this.longMemory || this.attacker.getEntitySenses().canSee(entitylivingbase)) && this.delayCounter <= 0 && (this.targetX == 0.0D && this.targetY == 0.0D && this.targetZ == 0.0D || entitylivingbase.getDistanceSq(this.targetX, this.targetY, this.targetZ) >= 1.0D || this.attacker.getRNG().nextFloat() < 0.05F))
-				{
-					this.targetX = entitylivingbase.posX;
-					this.targetY = entitylivingbase.getEntityBoundingBox().minY;
-					this.targetZ = entitylivingbase.posZ;
-					this.delayCounter = 4 + this.attacker.getRNG().nextInt(7);
-
-
-
-					if (d0 > 1024.0D)
-					{
-						this.delayCounter += 10;
-					}
-					else if (d0 > 256.0D)
-					{
-						this.delayCounter += 5;
-					}
-					if(!this.attacker.getMoveHelper().isUpdating() && !entitylivingbase.isRiding()) {
-						this.attacker.getMoveHelper().setMoveTo(this.targetX, this.targetY, this.targetZ, 1.0D);
-					}
-				}
-
-				this.attackTick--;
-
-
-				double d2 = this.getAttackReachSqr(entitylivingbase);
-
-				if (d0 <= d2 && this.attackTick <= 0)
-				{
-					this.attackTick = 20;
-					if(!entitylivingbase.isRidingOrBeingRiddenBy(this.attacker)) {
-						this.attacker.attackEntityAsMob(entitylivingbase);
-					}
-
-
-
-				}
-				if(entitylivingbase.isRiding()) {
-					this.attacker.getMoveHelper().setMoveTo(this.targetX, this.liftY + 15, this.targetZ, 5.0D);
-				}
-				if(this.attackTick == 20 && !entitylivingbase.isRiding() && entitylivingbase.height <= 3) {
-					this.attacker.setLocationAndAngles(this.attacker.posX, this.attacker.posY + entitylivingbase.height + 2, this.attacker.posZ, this.attacker.rotationYaw, this.attacker.rotationPitch);
-					entitylivingbase.startRiding(this.attacker, true);
-					this.liftY = entitylivingbase.posY;
-					if(entitylivingbase instanceof EntityLiving) {
-						EntityLiving el = (EntityLiving) entitylivingbase;
-						el.setAttackTarget(null);
-						el.setRevengeTarget(null);
-					}
-					this.attacker.getMoveHelper().setMoveTo(this.targetX, this.liftY + 15, this.targetZ, 5.0D);
-				}
-				if(entitylivingbase.isRiding() && this.attacker.getEntityWorld().getBlockState(this.attacker.getPosition().up()).isFullCube()) {
-					entitylivingbase.dismountRidingEntity();
-					this.attacker.setAttackTarget(null);
-					Random random = this.attacker.getRNG();
-					BlockPos rPos = this.parentEntity.fromPolarCoordinates(new PolarVector3D(this.parentEntity.rotationYaw + (random.nextInt(40) - 20), random.nextInt(40) - 20, random.nextInt(15) + 1 + random.nextFloat()));
-					BlockPos pos = this.parentEntity.getPosition();
-					rPos = rPos.add(pos);
-					this.parentEntity.getMoveHelper().setMoveTo(rPos.getX(), rPos.getY(), rPos.getZ(), 1.0D);
-				}
-				if(Math.abs(this.attacker.posY - (this.liftY + 15)) <= 3 && entitylivingbase.isRiding() || !this.attacker.getMoveHelper().isUpdating()) {
-					entitylivingbase.dismountRidingEntity(); //Math.abs(attacker.posY - liftY) <= 1
-				}
-
-				//this.checkAndPerformAttack(entitylivingbase, d0);
-
-
-
 			}
+
+			// If the entity is not grabbing a target, set it to move to its target
+
+			if(!entitylivingbase.isRiding()) {
+				this.attacker.getMoveHelper().setMoveTo(targetX, targetY, targetZ, 1.0D);
+			} else { // If the entity is grabbing a target, set it to move upwards
+				this.attacker.getMoveHelper().setMoveTo(targetX, this.liftY + 15, targetZ, 5.0D);
+			}
+
+			// If the entity is in range and entity is not grabbing a target and the target's height is less than 3 blocks
+			if(distanceToTarget <= reachToTarget && !entitylivingbase.isRiding() && entitylivingbase.height <= 3 && this.attackTick == 20) {
+				// Move the entity upwards to avoid being stuck in the ground
+				this.attacker.setLocationAndAngles(this.attacker.posX, this.attacker.posY + entitylivingbase.height + 2, this.attacker.posZ, this.attacker.rotationYaw, this.attacker.rotationPitch);
+				// Grab the target
+				entitylivingbase.startRiding(this.attacker, true);
+				// Set liftY so entity can continue moving up from the spot
+				this.liftY = entitylivingbase.posY;
+				// Remove targets of the entity (to avoid something stupid like a skeleton shooting while being eaten by a bird)
+				if(entitylivingbase instanceof EntityLiving) {
+					EntityLiving el = (EntityLiving) entitylivingbase;
+					el.setAttackTarget(null);
+					el.setRevengeTarget(null);
+				}
+				// Move upwards
+				this.attacker.getMoveHelper().setMoveTo(targetX, this.liftY + 15, targetZ, 5.0D);
+			}
+
+			// If the entity is grabbing a target and the block above is solid (stuck)
+			if(entitylivingbase.isRiding() && this.attacker.getEntityWorld().getBlockState(this.attacker.getPosition().up()).isFullCube()) {
+				// Release target
+				entitylivingbase.dismountRidingEntity();
+				// Remove target
+				this.attacker.setAttackTarget(null);
+				// Create a random target position
+				Random random = this.attacker.getRNG();
+				BlockPos rPos = this.attacker.fromPolarCoordinates(new PolarVector3D(this.attacker.rotationYaw + (random.nextInt(40) - 20), random.nextInt(40) - 20, random.nextInt(15) + 1 + random.nextFloat()));
+				BlockPos pos = this.attacker.getPosition();
+				rPos = rPos.add(pos);
+				// Move to random target position
+				this.attacker.getMoveHelper().setMoveTo(rPos.getX(), rPos.getY(), rPos.getZ(), 1.0D);
+			}
+
+			// If we've about reached the target lifting point and have a target grabbed, or have completed movement, drop the entity
+			if((Math.abs(this.attacker.posY - (this.liftY + 15)) <= 3 && entitylivingbase.isRiding()) || !this.attacker.getMoveHelper().isUpdating()) {
+				entitylivingbase.dismountRidingEntity();
+			}
+
 		}
 	}
 
@@ -802,7 +830,7 @@ public class EntityLammergeier extends EntityTameableFlying {
 			if(this.parentEntity.isTamed()) {
 				return false;
 			}
-			if (!entitymovehelper.isUpdating())
+			if (this.parentEntity.getAttackTarget() == null)
 			{
 				return true;
 			}
@@ -812,7 +840,7 @@ public class EntityLammergeier extends EntityTameableFlying {
 				double d1 = entitymovehelper.getY() - this.parentEntity.posY;
 				double d2 = entitymovehelper.getZ() - this.parentEntity.posZ;
 				double d3 = d0 * d0 + d1 * d1 + d2 * d2;
-				return d3 < 1.0D || d3 > 3600.0D && this.parentEntity.getAttackTarget() == null;
+				return d3 < 1.0D || d3 > 3600.0D;
 			}
 		}
 
