@@ -80,7 +80,6 @@ public class BlockAnimalSkull extends BlockSkull implements ITileEntityProvider 
 	@Override
 	public void getDrops(NonNullList<ItemStack> drops, IBlockAccess world, BlockPos pos, IBlockState state, int fortune) {
 		if (!((Boolean)state.getValue(NODROP)).booleanValue()) {
-			System.out.println("drop 1");
 			Item item = this.getItemBlock();
 			if (item != null && item != Items.AIR) {
 				drops.add(new ItemStack(item));
