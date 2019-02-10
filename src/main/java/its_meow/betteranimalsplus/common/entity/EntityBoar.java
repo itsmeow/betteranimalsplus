@@ -36,13 +36,13 @@ import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.DifficultyInstance;
+import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
 import net.minecraft.world.storage.loot.LootTableList;
 
@@ -59,19 +59,25 @@ public class EntityBoar extends EntityAnimal {
 	protected void initEntityAI()
 	{
 		this.tasks.addTask(0, new EntityAISwimming(this));
-		if(!this.isChild()) {
-			this.tasks.addTask(2, new EntityAIAttackMelee(this, 0.5D, false));
+		if(!this.isChild() && this.getEntityWorld().getDifficulty() != EnumDifficulty.PEACEFUL) {
+			this.tasks.addTask(2, new EntityAIAttackMelee(this, 1.2D, false));
 		}
 		this.tasks.addTask(3, new EntityAIMate(this, 1.0D));
 		this.tasks.addTask(5, new EntityAIFollowParent(this, 1.1D));
 		this.tasks.addTask(6, new EntityAIWanderAvoidWater(this, 1.0D));
 		this.tasks.addTask(7, new EntityAIWatchClosest(this, EntityPlayer.class, 6.0F));
 		this.tasks.addTask(8, new EntityAILookIdle(this));
-		if(!this.isChild()) {
+		if(!this.isChild() && this.getEntityWorld().getDifficulty() != EnumDifficulty.PEACEFUL) {
 			this.targetTasks.addTask(1, new EntityAINearestAttackableTarget<EntityAnimal>(this, EntityAnimal.class, 90, true, true, new Predicate<Entity>() {
 				public boolean apply(@Nullable Entity in)
 				{
-					return in instanceof EntityChicken || in instanceof EntityPheasant || (in instanceof EntityAnimal && ((EntityAnimal) in).isChild() && !(in instanceof EntityBoar));
+					return in instanceof EntityChicken || in instanceof EntityPheasant || (in instanceof EntityAnimal && ((EntityAnimal) in).isChild() && !(in instanceof EntityBoar || in instanceof EntityPig));
+				}
+			}));
+			this.targetTasks.addTask(2, new EntityAINearestAttackableTarget<EntityLivingBase>(this, EntityLivingBase.class, 50, true, true, new Predicate<Entity>() {
+				public boolean apply(@Nullable Entity in)
+				{
+					return (in instanceof EntityAnimal && !(in instanceof EntityBoar || in instanceof EntityPig)) || in instanceof EntityPlayer;
 				}
 			}));
 		}
@@ -83,7 +89,7 @@ public class EntityBoar extends EntityAnimal {
 		this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(12.0D);
 		this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.38D);
 		this.getAttributeMap().registerAttribute(SharedMonsterAttributes.ATTACK_DAMAGE);
-		this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(1.0D);
+		this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(3.5D);
 	}
 
 
@@ -217,11 +223,13 @@ public class EntityBoar extends EntityAnimal {
 	@Override
 	public void onUpdate() {
 		super.onUpdate();
-		if(this.rand.nextInt(200) == 0) {
-			if(this.world.getBlockState(this.getPosition()).getBlock() == Blocks.WHEAT) {
-				this.world.setBlockToAir(this.getPosition());
-				this.setInLove(null);
-				this.world.spawnParticle(EnumParticleTypes.HEART, this.posX, this.posY, this.posZ, 0.0F, 0.05F, 0.0F);
+		if(this.world.getGameRules().getBoolean("mobGriefing")) {
+			if(this.rand.nextInt(200) == 0) {
+				Block block = this.world.getBlockState(this.getPosition()).getBlock();
+				if(block == Blocks.WHEAT || block == Blocks.CARROTS || block == Blocks.POTATOES || block == Blocks.BEETROOTS) {
+					this.world.setBlockToAir(this.getPosition());
+					this.setInLove(null);
+				}
 			}
 		}
 	}
@@ -255,7 +263,15 @@ public class EntityBoar extends EntityAnimal {
 
 	@Override
 	public boolean canMateWith(EntityAnimal otherAnimal) {
-		return otherAnimal instanceof EntityBoar || otherAnimal instanceof EntityPig;
+		if (otherAnimal != this) {
+			if(otherAnimal instanceof EntityBoar || otherAnimal instanceof EntityPig) {
+				if(otherAnimal.isInLove() && this.isInLove()) {
+					return true;
+				}
+			}
+        }
+		
+		return false;
 	}
 
 	/**
