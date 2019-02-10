@@ -375,14 +375,7 @@ public class ModelBear extends ModelBetterAnimals {
 
 	@Override
 	public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) { 
-		/* if(entity instanceof EntityBear && !(entity instanceof EntityBearNeutral)) {
-        	GL11.glPushMatrix();
-        	GL11.glScalef(2F, 2F, 2F);
-        	this.hind.render(f5);
-        	GL11.glPopMatrix();
-        } else {*/
 		this.hind.render(f5);
-		//}
 	}
 
 
@@ -392,23 +385,16 @@ public class ModelBear extends ModelBetterAnimals {
 			float headPitch, float scaleFactor, Entity entityIn) {
 		float f = limbSwing;
 		float f1 = limbSwingAmount;
-		//this.rLeg01.rotateAngleX = limbSwingAmount * (limbSwing / 10 - limbSwing / 8);
-		//this.lLeg01.rotateAngleX = -limbSwingAmount * (limbSwing / 10 - limbSwing / 8);
-		//this.rArm01.rotateAngleX = limbSwingAmount * limbSwing / 10;
-		//this.lArm01.rotateAngleX = -limbSwingAmount * limbSwing / 10;
 
-		this.lArm01.rotateAngleX = MathHelper.cos(f * 0.6662F) * 1.4F * f1;
-		this.rArm01.rotateAngleX = MathHelper.cos(f * 0.6662F + (float)Math.PI) * 1.4F * f1;
-		this.rLeg01.rotateAngleX = MathHelper.cos(f * 0.6662F) * 1.4F * f1;
-		this.lLeg01.rotateAngleX = MathHelper.cos(f * 0.6662F + (float)Math.PI) * 1.4F * f1;
+		this.lArm01.rotateAngleX = MathHelper.cos(f * 0.6662F) * 1.4F * f1 + 0.18203784098300857F;
+		this.rArm01.rotateAngleX = MathHelper.cos(f * 0.6662F + (float)Math.PI) * 1.4F * f1 + 0.18203784098300857F;
+		this.rLeg01.rotateAngleX = MathHelper.cos(f * 0.6662F) * 1.4F * f1 - 0.136659280431156F;
+		this.lLeg01.rotateAngleX = MathHelper.cos(f * 0.6662F + (float)Math.PI) * 1.4F * f1 - 0.136659280431156F;
 
 		if(entityIn instanceof EntityLiving) {
 			this.neck.rotateAngleX = ModelBetterAnimals.getHeadPitch((EntityLiving)entityIn) * 0.017453292F;
 			this.neck.rotateAngleY = ModelBetterAnimals.getHeadYaw((EntityLiving) entityIn) * 0.017453292F;
 		}
-
-		//this.neck.rotateAngleX = -0.6F;
-		//this.head.rotateAngleX = -0.6F;
 
 		super.setRotationAngles(limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor, entityIn);
 	}

@@ -449,15 +449,15 @@ public class ModelDeer extends ModelBetterAnimals {
 
 		
 		if(limbSwingAmount >= 0.65) {
-			this.lForeleg01.rotateAngleX = MathHelper.cos(f * 0.6662F + (float)Math.PI) * 1.4F * f1;
-			this.rForeleg01.rotateAngleX = MathHelper.cos(f * 0.6662F + (float)Math.PI) * 1.4F * f1;
-			this.rHindLeg01.rotateAngleX = MathHelper.cos(f * 0.6662F) * 1.4F * f1;
-			this.lHindLeg01.rotateAngleX = MathHelper.cos(f * 0.6662F) * 1.4F * f1;
+			this.lForeleg01.rotateAngleX = MathHelper.cos(f * 0.6662F + (float)Math.PI) * 1.4F * f1 + 0.136659280431156F;
+			this.rForeleg01.rotateAngleX = MathHelper.cos(f * 0.6662F + (float)Math.PI) * 1.4F * f1 + 0.136659280431156F;
+			this.rHindLeg01.rotateAngleX = MathHelper.cos(f * 0.6662F) * 1.4F * f1 - 0.22759093446006054F;
+			this.lHindLeg01.rotateAngleX = MathHelper.cos(f * 0.6662F) * 1.4F * f1 - 0.22759093446006054F;
 		} else {
-			this.lForeleg01.rotateAngleX = MathHelper.cos(f * 0.6662F) * 1.4F * f1;
-			this.rForeleg01.rotateAngleX = MathHelper.cos(f * 0.6662F + (float)Math.PI) * 1.4F * f1;
-			this.rHindLeg01.rotateAngleX = MathHelper.cos(f * 0.6662F) * 1.4F * f1;
-			this.lHindLeg01.rotateAngleX = MathHelper.cos(f * 0.6662F + (float)Math.PI) * 1.4F * f1;
+			this.lForeleg01.rotateAngleX = MathHelper.cos(f * 0.6662F) * 1.4F * f1 + 0.136659280431156F;
+			this.rForeleg01.rotateAngleX = MathHelper.cos(f * 0.6662F + (float)Math.PI) * 1.4F * f1 + 0.136659280431156F;
+			this.rHindLeg01.rotateAngleX = MathHelper.cos(f * 0.6662F) * 1.4F * f1 - 0.22759093446006054F;
+			this.lHindLeg01.rotateAngleX = MathHelper.cos(f * 0.6662F + (float)Math.PI) * 1.4F * f1 - 0.22759093446006054F;
 		}
 		
 		if(entityIn instanceof EntityLiving) {
