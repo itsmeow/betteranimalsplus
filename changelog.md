@@ -3,7 +3,7 @@
 - Added Boars
 - Added Boar heads
 - Added Squirrels
-- Animal head items now match their block (and show up seperately in the creative menu)
+- Animal head items now match their block texture wise (and show up seperately in the creative menu)
 - Spawn eggs now show in the BA+ tab as well as misc
 - Fixed jellyfish floating
 - Fixed reindeer neck moving along the wrong part
@@ -11,7 +11,7 @@
 - Fix Esperanto translation
 - Fixed some random crashes with Entity datamanager (may still afflict old worlds with older entities)
 - Removed the useless "Common Proxy"
-
+- Fixed lammergeiers derping before attacking ("hesitating")
 
 4.1.0
 -
