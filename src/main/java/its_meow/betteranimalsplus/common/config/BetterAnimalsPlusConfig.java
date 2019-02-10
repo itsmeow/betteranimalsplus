@@ -1,11 +1,15 @@
 package its_meow.betteranimalsplus.common.config;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import its_meow.betteranimalsplus.BetterAnimalsPlusMod;
 import its_meow.betteranimalsplus.Ref;
 import its_meow.betteranimalsplus.init.EntityContainer;
 import its_meow.betteranimalsplus.init.MobRegistry;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.biome.Biome;
 import net.minecraftforge.common.config.Configuration;
 
 public class BetterAnimalsPlusConfig {
@@ -48,7 +52,11 @@ public class BetterAnimalsPlusConfig {
 	public static void initConfig(Configuration cfg) {
 		spawnTrillium = cfg.getBoolean("generatetrillium", "generation", true, "Does not remove item, prevents world gen");
 		for(EntityContainer container : MobRegistry.entityList) {
-			EntityConfigurationSection configSection = new EntityConfigurationSection(container.entityClazz, container.minGroup, container.maxGroup, container.weight);
+			String[] biomeStrings = new String[container.spawnBiomes.length];
+			for(int i = 0; i < container.spawnBiomes.length; i++) {
+				biomeStrings[i] = container.spawnBiomes[i].getRegistryName().toString();
+			}
+			EntityConfigurationSection configSection = new EntityConfigurationSection(container.entityClazz, container.minGroup, container.maxGroup, container.weight, biomeStrings);
 			sections.put(container, configSection);
 		}
 		for(EntityContainer container : sections.keySet()) {
@@ -58,6 +66,25 @@ public class BetterAnimalsPlusConfig {
 			container.weight = section.weight;
 			container.doRegister = section.doRegister;
 			container.doSpawning = section.doSpawning;
+			
+			// Parse biomes
+			List<Biome> biomesList = new ArrayList<Biome>();
+			for(String biomeID : section.biomesList) {
+				Biome biome = Biome.REGISTRY.getObject(new ResourceLocation(biomeID));
+				if(biome == null) { // Could not get biome with ID
+					BetterAnimalsPlusMod.logger.error("Invalid biome configuration entered for entity \"" + container.entityName + "\" (biome was mistyped or a biome mod was removed?): " + biomeID);
+				} else { // Valid biome
+					biomesList.add(biome);
+				}
+			}
+			// Get as array
+			Biome[] biomes = new Biome[biomesList.size()];
+            for (int i = 0; i < biomesList.size(); i++)
+            {
+                biomes[i] = biomesList.get(i);
+            }
+            
+            container.spawnBiomes = biomes;
 		}
 	}
 
