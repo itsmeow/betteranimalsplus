@@ -12,6 +12,7 @@
 - Fixed some random crashes with Entity datamanager (may still afflict old worlds with older entities)
 - Removed the useless "Common Proxy"
 - Fixed lammergeiers derping before attacking ("hesitating")
+- Fixed minor offsets on resting leg models (should prevent feet half clipping into the ground or being angled)
 
 4.1.0
 -
