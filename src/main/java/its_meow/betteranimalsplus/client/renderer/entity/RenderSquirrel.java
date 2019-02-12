@@ -13,15 +13,15 @@ import net.minecraft.util.ResourceLocation;
 public class RenderSquirrel extends RenderLiving<EntitySquirrel> {
 
 	public RenderSquirrel(RenderManager rendermanagerIn) {
-		super(rendermanagerIn, new ModelSquirrel(), 0.5F);
+		super(rendermanagerIn, new ModelSquirrel(), 0.3F);
 	}
 
 	@Override
 	protected void preRenderCallback(EntitySquirrel entitylivingbaseIn, float partialTickTime) {
 		if (getMainModel().isChild) {
-			GlStateManager.scale(0.55D, 0.55D, 0.55D);
+			GlStateManager.scale(0.35D, 0.35D, 0.35D);
 		} else {
-			GlStateManager.scale(1.0D, 1.0D, 1.0D);
+			GlStateManager.scale(0.5D, 0.5D, 0.5D);
 		}
 	}
 

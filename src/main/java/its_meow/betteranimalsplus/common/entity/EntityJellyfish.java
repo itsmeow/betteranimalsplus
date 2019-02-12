@@ -127,7 +127,7 @@ public class EntityJellyfish extends EntitySquid {
 		livingdata = super.onInitialSpawn(difficulty, livingdata);
 		if(!this.isChild()) {
 			int i = this.rand.nextInt(6) + 1; // Values 1 to 6
-			float rand = (float) (this.rand.nextInt(50) + 1F) / 50F;
+			float rand = (float) (this.rand.nextInt(30) + 1F) / 50F + 0.05F;
 			
 			if (livingdata instanceof JellyfishData)
 			{

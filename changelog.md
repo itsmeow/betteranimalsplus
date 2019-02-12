@@ -1,18 +1,19 @@
 5.0.0
 -
 - Added Boars
-- Added Boar heads
 - Added Squirrels
-- Animal head items now match their block texture wise (and show up seperately in the creative menu)
-- Spawn eggs now show in the BA+ tab as well as misc
-- Fixed jellyfish floating
-- Fixed reindeer neck moving along the wrong part
-- Redo render factory system (use method references)
-- Fix Esperanto translation
-- Fixed some random crashes with Entity datamanager (may still afflict old worlds with older entities)
-- Removed the useless "Common Proxy"
+- Added Boar heads
+- Animal head items have textures for each variant
+- Spawn eggs now show in the Better Animals Plus tab
+- Fixed jellyfish floating/being too large
+- Fixed reindeer neck rotating strangely when eating
 - Fixed lammergeiers derping before attacking ("hesitating")
 - Fixed minor offsets on resting leg models (should prevent feet half clipping into the ground or being angled)
+- Fixed Esperanto translation
+- Fixed some random crashes with Entity datamanager (may still afflict old worlds with older entities, try removing mod, loading world, and re-adding mod)
+- Redo render factory system (use method references)
+- Removed the useless "Common Proxy"
+
 
 4.1.0
 -

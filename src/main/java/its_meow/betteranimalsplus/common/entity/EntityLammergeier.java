@@ -860,7 +860,7 @@ public class EntityLammergeier extends EntityTameableFlying {
 			Random random = this.parentEntity.getRNG();
 			if(random.nextInt(30) != 1 && !this.parentEntity.landedLast) {
 				this.parentEntity.setFlying(true);
-				BlockPos rPos = this.parentEntity.fromPolarCoordinates(new PolarVector3D(this.parentEntity.rotationYaw + (random.nextInt(20) - 10), random.nextInt(20) - 10, random.nextInt(15) + 1 + random.nextFloat()));
+				BlockPos rPos = this.parentEntity.fromPolarCoordinates(new PolarVector3D(this.parentEntity.rotationYaw + (random.nextInt(50) - 25), random.nextInt(30) - 10, random.nextInt(50) + 1 + random.nextFloat()));
 				BlockPos pos = this.parentEntity.getPosition();
 				rPos = rPos.add(pos);
 				/*
