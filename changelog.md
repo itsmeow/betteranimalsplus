@@ -5,6 +5,7 @@
 - Added Boar heads
 - Animal head items have textures for each variant
 - Spawn eggs now show in the Better Animals Plus tab
+- Added biomes configuration for spawning
 - Fixed jellyfish floating/being too large
 - Fixed reindeer neck rotating strangely when eating
 - Fixed lammergeiers derping before attacking ("hesitating")
