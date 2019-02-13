@@ -5,6 +5,7 @@ import java.util.Random;
 import its_meow.betteranimalsplus.client.model.ModelTrillium;
 import its_meow.betteranimalsplus.client.model.ModelTrilliumMulti;
 import its_meow.betteranimalsplus.client.model.ModelTrilliumMulti2;
+import its_meow.betteranimalsplus.init.BlockRegistry;
 import its_meow.betteranimalsplus.init.TextureRegistry;
 import net.minecraft.block.BlockHorizontal;
 import net.minecraft.block.state.IBlockState;
@@ -15,17 +16,19 @@ import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class TileEntityTrillium extends TileEntity {
 
 	private int typeNum;
 	private final String keyType = "trilliumType";
-	
+
 	private ModelBase model;
-	
+
 	private int modelNum;
 	private final String keyModel = "trilliumModel";
-	
+
 
 	public TileEntityTrillium() {
 		if(!this.getTileData().hasKey(this.keyType)) {
@@ -42,19 +45,19 @@ public class TileEntityTrillium extends TileEntity {
 	public ResourceLocation getTexture() {
 		return this.typeNum == 0 ? TextureRegistry.trillium2 : TextureRegistry.trillium; // 1/5 chance of yellow trillium
 	}
-	
-	
-	
+
+
+
 	public void setType(int i) {
 		this.typeNum = i;
 		this.markDirty();
 	}
-	
+
 	public int typeValue() {
 		return this.typeNum;
 	}
-	
-	
+
+
 	@Override
 	public void readFromNBT(NBTTagCompound compound) {
 		super.readFromNBT(compound);
@@ -94,32 +97,32 @@ public class TileEntityTrillium extends TileEntity {
 		readFromNBT(packet.getNbtCompound());
 		this.world.scheduleUpdate(this.pos, this.blockType, 100);
 	}
-	
-	
-	
-	
-	
+
+
+
+
+
 	@Override
 	public NBTTagCompound getUpdateTag() {
 		NBTTagCompound tag = new NBTTagCompound();
-        this.writeToNBT(tag);
-        return tag;
+		this.writeToNBT(tag);
+		return tag;
 	}
-	
+
 	public ModelBase getModel() {	
 		return this.model;
 	}
-	
+
 	public void setModelNum(int i) {
 		this.modelNum = i;
 		this.setModelWithNum();
 		this.markDirty();
 	}
-	
+
 	private void setModel(ModelBase m) {
 		this.model = m;
 	}
-	
+
 	public void setModelWithNum() {
 		if(this.modelNum == 0) {
 			this.setModel(new ModelTrilliumMulti());
@@ -134,21 +137,24 @@ public class TileEntityTrillium extends TileEntity {
 	public void handleUpdateTag(NBTTagCompound tag) {
 		this.readFromNBT(tag);
 	}
-
+	
+	@SideOnly(Side.CLIENT)
 	public float getRotation() {
 		IBlockState state = this.world.getBlockState(this.pos);
-		EnumFacing facing = state.getValue(BlockHorizontal.FACING).getOpposite();
-		if(facing == EnumFacing.NORTH) {
-			return 0F;
-		}
-		if(facing == EnumFacing.EAST) {
-			return 90F;
-		}
-		if(facing == EnumFacing.SOUTH) {
-			return 180F;
-		}
-		if(facing == EnumFacing.WEST) {
-			return 270F;
+		if(state.getBlock() == BlockRegistry.trillium) {
+			EnumFacing facing = state.getValue(BlockHorizontal.FACING).getOpposite();
+			if(facing == EnumFacing.NORTH) {
+				return 0F;
+			}
+			if(facing == EnumFacing.EAST) {
+				return 90F;
+			}
+			if(facing == EnumFacing.SOUTH) {
+				return 180F;
+			}
+			if(facing == EnumFacing.WEST) {
+				return 270F;
+			}
 		}
 		return 0F;
 	}

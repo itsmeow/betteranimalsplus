@@ -1,3 +1,7 @@
+5.0.1
+-
+- Fix random crash on client when loading chunks with Trillium or Hand of Fate, where the TE loads before the block.
+
 5.0.0
 -
 - Added Boars

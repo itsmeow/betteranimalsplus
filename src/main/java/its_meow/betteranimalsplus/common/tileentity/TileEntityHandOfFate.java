@@ -3,6 +3,7 @@ package its_meow.betteranimalsplus.common.tileentity;
 import java.util.Random;
 
 import its_meow.betteranimalsplus.common.entity.miniboss.hirschgeist.EntityHirschgeist;
+import its_meow.betteranimalsplus.init.BlockRegistry;
 import net.minecraft.block.BlockHorizontal;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.nbt.NBTTagCompound;
@@ -12,6 +13,8 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class TileEntityHandOfFate extends TileEntity {
 
@@ -175,21 +178,23 @@ public class TileEntityHandOfFate extends TileEntity {
 		this.readFromNBT(tag);
 	}
 
-
+	@SideOnly(Side.CLIENT)
 	public float getRotation() {
 		IBlockState state = this.world.getBlockState(this.pos);
-		EnumFacing facing = state.getValue(BlockHorizontal.FACING).getOpposite();
-		if(facing == EnumFacing.NORTH) {
-			return 0F;
-		}
-		if(facing == EnumFacing.EAST) {
-			return 90F;
-		}
-		if(facing == EnumFacing.SOUTH) {
-			return 180F;
-		}
-		if(facing == EnumFacing.WEST) {
-			return 270F;
+		if(state.getBlock() == BlockRegistry.handoffate) {
+			EnumFacing facing = state.getValue(BlockHorizontal.FACING).getOpposite();
+			if(facing == EnumFacing.NORTH) {
+				return 0F;
+			}
+			if(facing == EnumFacing.EAST) {
+				return 90F;
+			}
+			if(facing == EnumFacing.SOUTH) {
+				return 180F;
+			}
+			if(facing == EnumFacing.WEST) {
+				return 270F;
+			}
 		}
 		return 0F;
 	}
