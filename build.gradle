@@ -12,7 +12,7 @@ apply plugin: 'net.minecraftforge.gradle'
 //Only edit below this line, the above code adds and enables the necessary things for Forge to be setup.
 apply plugin: 'eclipse'
 
-version = '1.0'
+version = '5.0.0'
 group = 'its_meow.betteranimalsplus'
 archivesBaseName = 'betteranimalsplus'
 
@@ -38,7 +38,7 @@ minecraft {
 }
 
 dependencies {
-
+	minecraft 'net.minecraftforge:forge:1.13.2-25.0.10'
 }
 
 tasks.withType(JavaCompile) {
@@ -51,11 +51,11 @@ tasks.withType(JavaCompile) {
 
 jar {
     manifest {
-        attributes(["Specification-Title": "Better Animals+",
+        attributes(["Specification-Title": archivesBaseName,
                     "Specification-Vendor": "its_meow",
-                    "Specification-Version": "5.0.0",
-                    "Implementation-Title": betteranimalsplus,
-                    "Implementation-Version": "${version}",
+                    "Specification-Version": version,
+                    "Implementation-Title": archivesBaseName,
+                    "Implementation-Version": version,
                     "Implementation-Vendor" :"its_meow",
                     "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")],)
     }
