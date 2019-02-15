@@ -7,13 +7,16 @@ import net.minecraft.block.BlockHorizontal;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraft.world.gen.IChunkGenerator;
+import net.minecraft.world.gen.feature.Feature;
+import net.minecraft.world.gen.feature.IFeatureConfig;
 import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.fml.common.IWorldGenerator;
 
-public class TrilliumGenerator implements IWorldGenerator {
+public class TrilliumGenerator extends Feature {
 
 	private BlockTrillium trillium;
 	private IBlockState state;
@@ -50,20 +53,11 @@ public class TrilliumGenerator implements IWorldGenerator {
 		}
 	}
 
-	/*
-	public boolean generate(World worldIn, Random rand, BlockPos position) {
-		for (int i = 0; i < 64; ++i)
-        {
-            BlockPos blockpos = position.add(rand.nextInt(8) - rand.nextInt(8), rand.nextInt(4) - rand.nextInt(4), rand.nextInt(8) - rand.nextInt(8));
-
-            if (worldIn.isAirBlock(blockpos) && (!worldIn.provider.isNether() || blockpos.getY() < 255) && this.trillium.canBlockStay(worldIn, blockpos, this.state))
-            {
-                worldIn.setBlockState(blockpos, this.state, 2);
-            }
-        }
-
-        return true;
+	@Override
+	public boolean func_212245_a(IWorld world, IChunkGenerator generator, Random rand,
+			BlockPos pos, IFeatureConfig config) {
+		// TODO Auto-generated method stub
+		return false;
 	}
-	 */
 
 }
