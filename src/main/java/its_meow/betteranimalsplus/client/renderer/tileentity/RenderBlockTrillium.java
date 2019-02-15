@@ -2,15 +2,15 @@ package its_meow.betteranimalsplus.client.renderer.tileentity;
 
 import its_meow.betteranimalsplus.client.model.ModelTrilliumMulti;
 import its_meow.betteranimalsplus.common.tileentity.TileEntityTrillium;
-import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
+import net.minecraft.client.renderer.entity.model.ModelBase;
+import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
 import net.minecraft.entity.Entity;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
-@SideOnly(Side.CLIENT)
-public class RenderBlockTrillium extends TileEntitySpecialRenderer<TileEntityTrillium> {
+@OnlyIn(value = Dist.CLIENT)
+public class RenderBlockTrillium extends TileEntityRenderer<TileEntityTrillium> {
 
 	ModelBase mainModel;
 
@@ -22,10 +22,10 @@ public class RenderBlockTrillium extends TileEntitySpecialRenderer<TileEntityTri
 
 
 	@Override
-	public void render(TileEntityTrillium tileentity, double x, double y, double z, float partialTicks, int destroyStage, float alpha) {
+	public void render(TileEntityTrillium tileentity, double x, double y, double z, float partialTicks, int destroyStage) {
 		GlStateManager.pushMatrix();
-		GlStateManager.translate(x+ 0.5F,y + 1.5F, z + 0.5F);
-		GlStateManager.rotate(180, 0, 0, 1);
+		GlStateManager.translated(x+ 0.5F,y + 1.5F, z + 0.5F);
+		GlStateManager.rotatef(180, 0, 0, 1);
 		this.bindTexture(tileentity.getTexture());
 		this.mainModel = tileentity.getModel();
 		float rotate = 0F;

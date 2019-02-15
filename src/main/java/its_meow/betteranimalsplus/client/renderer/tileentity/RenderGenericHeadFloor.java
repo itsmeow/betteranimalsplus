@@ -3,19 +3,19 @@ package its_meow.betteranimalsplus.client.renderer.tileentity;
 import com.mojang.authlib.GameProfile;
 
 import its_meow.betteranimalsplus.common.tileentity.TileEntityHead;
-import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
+import net.minecraft.client.renderer.entity.model.ModelBase;
+import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
-@SideOnly(Side.CLIENT)
-public class RenderGenericHeadFloor extends TileEntitySpecialRenderer<TileEntityHead> {
+@OnlyIn(Dist.CLIENT)
+public class RenderGenericHeadFloor extends TileEntityRenderer<TileEntityHead> {
 
 	@Override
-	public void render(TileEntityHead tile, double x, double y, double z, float partialTickTime, int destroyStage, float alpha) {
+	public void render(TileEntityHead tile, double x, double y, double z, float partialTickTime, int destroyStage) {
 		renderHead((float) x, (float) y, (float) z, tile.getBlockMetadata() & 7, tile.getSkullRotation() * 360 / 16.0F, tile.getPlayerProfile(), tile.getModel(), destroyStage, tile.getTexture(), tile.getOffset());
 	}
 
@@ -30,7 +30,7 @@ public class RenderGenericHeadFloor extends TileEntitySpecialRenderer<TileEntity
 		float newRotation = adjustRotation(meta, skullRotation);
 		float skullRotationX = adjustRotationX(meta);
 
-		GlStateManager.scale(-1.0F, -1.0F, 1.0F);
+		GlStateManager.scalef(-1.0F, -1.0F, 1.0F);
 
 		model.render((Entity) null, newRotation, skullRotationX, 0, 0, 0, 0.0625F);
 
@@ -40,19 +40,19 @@ public class RenderGenericHeadFloor extends TileEntitySpecialRenderer<TileEntity
 	private void translateHead(float x, float y, float z, int meta, float yOffset) {
 		switch (meta) {
 		case 1:
-			GlStateManager.translate(x + 0.5F, y + yOffset + 0.15F, z + 0.5F);
+			GlStateManager.translatef(x + 0.5F, y + yOffset + 0.15F, z + 0.5F);
 			break;
 		case 2:
-			GlStateManager.translate(x + 0.5F, y + 0.25F + yOffset + 0.3F, z + 0.74F + 0.25F);
+			GlStateManager.translatef(x + 0.5F, y + 0.25F + yOffset + 0.3F, z + 0.74F + 0.25F);
 			break;
 		case 3:
-			GlStateManager.translate(x + 0.5F, y + 0.25F + yOffset + 0.3F, z + 0.26F - 0.25F);
+			GlStateManager.translatef(x + 0.5F, y + 0.25F + yOffset + 0.3F, z + 0.26F - 0.25F);
 			break;
 		case 4:
-			GlStateManager.translate(x + 0.74F + 0.25F, y + 0.25F + yOffset + 0.3F, z + 0.5F);
+			GlStateManager.translatef(x + 0.74F + 0.25F, y + 0.25F + yOffset + 0.3F, z + 0.5F);
 			break;
 		default:
-			GlStateManager.translate(x + 0.26F - 0.25F, y + 0.25F + yOffset + 0.3F, z + 0.5F);
+			GlStateManager.translatef(x + 0.26F - 0.25F, y + 0.25F + yOffset + 0.3F, z + 0.5F);
 			break;
 		}
 	}

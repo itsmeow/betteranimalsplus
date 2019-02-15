@@ -13,7 +13,9 @@ import its_meow.betteranimalsplus.common.world.gen.TrilliumGenerator;
 import its_meow.betteranimalsplus.init.BlockRegistry;
 import its_meow.betteranimalsplus.init.CraftingRegistry;
 import its_meow.betteranimalsplus.init.MobRegistry;
+import its_meow.betteranimalsplus.proxy.ClientProxy;
 import its_meow.betteranimalsplus.proxy.ISidedProxy;
+import its_meow.betteranimalsplus.proxy.ServerProxy;
 import net.minecraft.init.Biomes;
 import net.minecraft.world.biome.Biome;
 import net.minecraftforge.common.BiomeDictionary;
@@ -53,10 +55,7 @@ public class BetterAnimalsPlusMod {
         logger.log(Level.INFO, "Injecting super coyotes...");
 	}
 	
-	@Instance(Ref.MOD_ID) 
-	public static BetterAnimalsPlusMod mod;
-	
-	public static ISidedProxy proxy = DistExecutor.runForDist(() -> ClientProxy::new, () -> ServerProxy::new);
+	public static ISidedProxy proxy = DistExecutor.runForDist(() -> () -> new ClientProxy(), () -> () -> new ServerProxy());
 
 	public static CreativeTab tab = new CreativeTab("Better Animals+");
 

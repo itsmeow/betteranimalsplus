@@ -22,16 +22,17 @@ import its_meow.betteranimalsplus.common.entity.EntityTarantula;
 import its_meow.betteranimalsplus.common.entity.miniboss.hirschgeist.EntityHirschgeist;
 import its_meow.betteranimalsplus.common.entity.projectile.EntityTarantulaHair;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLiving.SpawnPlacementType;
 import net.minecraft.entity.EntitySpawnPlacementRegistry;
+import net.minecraft.entity.EntitySpawnPlacementRegistry.SpawnPlacementType;
+import net.minecraft.entity.EntityType;
 import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.biome.Biome;
 import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.BiomeDictionary.Type;
 import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.EntityEntry;
 import net.minecraftforge.fml.common.registry.EntityEntryBuilder;
 import net.minecraftforge.registries.IForgeRegistry;
@@ -40,7 +41,7 @@ import net.minecraftforge.registries.IForgeRegistry;
 public class MobRegistry {
 	public static int modEntities = 0;
 
-	public static LinkedHashSet<EntityEntry> entrySet = new LinkedHashSet<EntityEntry>();
+	public static LinkedHashSet<EntityType<? extends Entity>> entrySet = new LinkedHashSet<EntityType<? extends Entity>>();
 	public static LinkedHashSet<EntityContainer> entityList = new LinkedHashSet<EntityContainer>();
 
 	private static final String LOCALIZE_PREFIX = Ref.MOD_ID + ".";
@@ -75,7 +76,7 @@ public class MobRegistry {
 	}
 
 	public static void registerWithSpawnAndEgg(Class<? extends Entity> EntityClass, String entityNameIn, int solidColorIn, int spotColorIn, EnumCreatureType typeIn, int prob, int min, int max, Biome[] biomes){
-		EntityEntry entry = EntityEntryBuilder.create()
+		EntityType<? extends Entity> entry = EntityEntryBuilder.create()
 				.entity(EntityClass)
 				.id(new ResourceLocation(Ref.MOD_ID, entityNameIn), modEntities++)
 				.name(LOCALIZE_PREFIX + entityNameIn)
@@ -90,7 +91,7 @@ public class MobRegistry {
 	}
 
 	public static void registerWithEgg(Class<? extends Entity> EntityClass, String entityNameIn, int solidColorIn, int spotColorIn){
-		EntityEntry entry = EntityEntryBuilder.create()
+		EntityType<? extends Entity> entry = EntityType.Builder.create(entityClassIn, factoryIn)
 				.entity(EntityClass)
 				.id(new ResourceLocation(Ref.MOD_ID, entityNameIn), modEntities++)
 				.name(LOCALIZE_PREFIX + entityNameIn)
@@ -101,7 +102,7 @@ public class MobRegistry {
 	}
 
 	public static void register(Class<? extends Entity> EntityClass, String entityNameIn){
-		EntityEntry entry = EntityEntryBuilder.create()
+		EntityType<? extends Entity> entry = EntityEntryBuilder.create()
 				.entity(EntityClass)
 				.id(new ResourceLocation(Ref.MOD_ID, entityNameIn), modEntities++)
 				.name(LOCALIZE_PREFIX + entityNameIn)
@@ -124,9 +125,9 @@ public class MobRegistry {
 		 * @param event The event
 		 */
 		@SubscribeEvent
-		public static void onEvent(final RegistryEvent.Register<EntityEntry> event)
+		public static void onEvent(final RegistryEvent.Register<EntityType<? extends Entity>> event)
 		{
-			final IForgeRegistry<EntityEntry> registry = event.getRegistry();
+			final IForgeRegistry<EntityType<? extends Entity>> registry = event.getRegistry();
 
 			for(EntityContainer container : entityList) {
 				if(container.doRegister)
@@ -136,7 +137,7 @@ public class MobRegistry {
 			register(EntityTarantulaHair.class, "tarantulahair");
 			
 			if(!entrySet.isEmpty()) {
-				for (final EntityEntry entityEntry : entrySet)
+				for (final EntityType<? extends Entity> entityEntry : entrySet)
 				{
 					//System.out.println("Registering entity: " + entityEntry.getName() + "   " + entityEntry.getRegistryName());
 					registry.register(entityEntry);

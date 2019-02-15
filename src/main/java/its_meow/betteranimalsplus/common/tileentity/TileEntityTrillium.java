@@ -9,15 +9,16 @@ import its_meow.betteranimalsplus.init.BlockRegistry;
 import its_meow.betteranimalsplus.init.TextureRegistry;
 import net.minecraft.block.BlockHorizontal;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.model.ModelBase;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.entity.model.ModelBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 public class TileEntityTrillium extends TileEntity {
 
@@ -59,15 +60,15 @@ public class TileEntityTrillium extends TileEntity {
 
 
 	@Override
-	public void readFromNBT(NBTTagCompound compound) {
-		super.readFromNBT(compound);
+	public void read(NBTTagCompound compound) {
+		super.read(compound);
 		if(compound.hasKey(this.keyType)) {
-			this.typeNum = compound.getInteger(this.keyType);
+			this.typeNum = compound.getInt(this.keyType);
 		} else {
 			this.setType(new Random().nextInt(5)); // 1/5 chance
 		}
 		if(compound.hasKey(this.keyModel)) {
-			this.modelNum = compound.getInteger(this.keyModel);
+			this.modelNum = compound.getInt(this.keyModel);
 			this.setModelWithNum();
 		} else {
 			this.setModelNum(new Random().nextInt(3));
@@ -77,25 +78,25 @@ public class TileEntityTrillium extends TileEntity {
 
 
 	@Override
-	public NBTTagCompound writeToNBT(NBTTagCompound compound) {
-		super.writeToNBT(compound);
-		compound.setInteger(this.keyType, this.typeNum);
-		compound.setInteger(this.keyModel, this.modelNum);
+	public NBTTagCompound write(NBTTagCompound compound) {
+		super.write(compound);
+		compound.setInt(this.keyType, this.typeNum);
+		compound.setInt(this.keyModel, this.modelNum);
 		return compound;
 	}
 
 	@Override
 	public SPacketUpdateTileEntity getUpdatePacket() {
 		NBTTagCompound tag = new NBTTagCompound();
-		this.writeToNBT(tag);
+		this.write(tag);
 		return new SPacketUpdateTileEntity(this.pos, 1, tag);
 	}
 
 
 	@Override
 	public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity packet) {
-		readFromNBT(packet.getNbtCompound());
-		this.world.scheduleUpdate(this.pos, this.blockType, 100);
+		read(packet.getNbtCompound());
+		world.getPendingBlockTicks().scheduleTick(this.pos, this.getBlockState().getBlock(), 100);
 	}
 
 
@@ -105,7 +106,7 @@ public class TileEntityTrillium extends TileEntity {
 	@Override
 	public NBTTagCompound getUpdateTag() {
 		NBTTagCompound tag = new NBTTagCompound();
-		this.writeToNBT(tag);
+		this.write(tag);
 		return tag;
 	}
 
@@ -138,11 +139,11 @@ public class TileEntityTrillium extends TileEntity {
 		this.readFromNBT(tag);
 	}
 	
-	@SideOnly(Side.CLIENT)
+	@OnlyIn(Dist.CLIENT)
 	public float getRotation() {
 		IBlockState state = this.world.getBlockState(this.pos);
 		if(state.getBlock() == BlockRegistry.trillium) {
-			EnumFacing facing = state.getValue(BlockHorizontal.FACING).getOpposite();
+			EnumFacing facing = state.get(BlockHorizontal.HORIZONTAL_FACING).getOpposite();
 			if(facing == EnumFacing.NORTH) {
 				return 0F;
 			}

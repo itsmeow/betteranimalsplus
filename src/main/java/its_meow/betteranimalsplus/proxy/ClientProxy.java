@@ -10,21 +10,14 @@ import its_meow.betteranimalsplus.common.tileentity.TileEntityHandOfFate;
 import its_meow.betteranimalsplus.common.tileentity.TileEntityHead;
 import its_meow.betteranimalsplus.common.tileentity.TileEntityTrillium;
 import its_meow.betteranimalsplus.init.BlockRegistry;
-import net.minecraft.client.model.ModelBiped;
+import net.minecraft.client.renderer.entity.model.ModelBiped;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
 public class ClientProxy implements ISidedProxy {
 
 	public static final ModelHirschgeistHelmet armorModel = new ModelHirschgeistHelmet();
 
-	public void preInit(FMLPreInitializationEvent event) {
-		
-	}
-
-	public void init(FMLInitializationEvent event) {
+	public void setup() {
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityTrillium.class, new RenderBlockTrillium());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityHandOfFate.class, new RenderBlockHandOfFate());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityHead.class, new RenderGenericHead());
@@ -33,11 +26,6 @@ public class ClientProxy implements ISidedProxy {
 				ClientRegistry.bindTileEntitySpecialRenderer(block.teClass.asSubclass(TileEntityHead.class), new RenderGenericHeadFloor());
 			}
 		}
-	}
-	
-	@Override
-	public void postInit(FMLPostInitializationEvent e) {
-		
 	}
 
 	public static ModelBiped getArmorModel(){
