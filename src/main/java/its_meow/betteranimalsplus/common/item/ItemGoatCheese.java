@@ -24,7 +24,7 @@ public class ItemGoatCheese extends ItemFood {
 		this.setUnlocalizedName("betteranimalsplus.goatcheese");
         this.itemUseDuration = 15;
         this.healAmount = 3;
-        this.setCreativeTab(BetterAnimalsPlusMod.tab);
+        this.setCreativeTab(BetterAnimalsPlusMod.group);
 	}
 	
     /**

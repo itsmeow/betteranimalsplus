@@ -2,14 +2,17 @@ package its_meow.betteranimalsplus.init;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.function.Function;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EnumCreatureType;
+import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 
 public class EntityContainer {
 	
 	public Class<? extends Entity> entityClazz;
+	public Function<? super World, ? extends Entity> entityFunction;
 	public String entityName;
 	public EnumCreatureType type;
 	public int eggColorSolid;
@@ -22,8 +25,9 @@ public class EntityContainer {
 	public boolean doSpawning = true;
 	
 	@SafeVarargs
-	public EntityContainer(Class<? extends Entity> EntityClass, String entityNameIn, EnumCreatureType type, int solidColorIn, int spotColorIn, int prob, int min, int max, Set<Biome>... biomes) {
+	public EntityContainer(Class<? extends Entity> EntityClass, Function<? super World, ? extends Entity> func, String entityNameIn, EnumCreatureType type, int solidColorIn, int spotColorIn, int prob, int min, int max, Set<Biome>... biomes) {
 		this.entityClazz = EntityClass;
+		this.entityFunction = func;
 		this.entityName = entityNameIn;
 		this.eggColorSolid = solidColorIn;
 		this.eggColorSpot = spotColorIn;

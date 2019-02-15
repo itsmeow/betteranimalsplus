@@ -3,9 +3,11 @@ package its_meow.betteranimalsplus.init;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import com.google.common.base.Preconditions;
 
+import its_meow.betteranimalsplus.BetterAnimalsPlusMod;
 import its_meow.betteranimalsplus.common.block.BlockGenericSkull;
 import its_meow.betteranimalsplus.common.block.BlockHandOfFate;
 import its_meow.betteranimalsplus.common.block.BlockHirschgeistSkull;
@@ -21,12 +23,14 @@ import its_meow.betteranimalsplus.common.tileentity.TileEntityTrillium;
 import its_meow.betteranimalsplus.common.tileentity.TileEntityWolfHead;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
+import net.minecraft.item.Item.Properties;
 import net.minecraft.item.ItemBlock;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.ObjectHolder;
 
@@ -38,16 +42,18 @@ public class BlockRegistry {
 	public static final BlockHandOfFate handoffate = new BlockHandOfFate();
 
 	// Generic Skulls
-	public static final BlockGenericSkull deerhead = new BlockGenericSkull(TileEntityDeerHead.class, "deerhead", false, 2);
-	public static final BlockGenericSkull wolfhead = new BlockGenericSkull(TileEntityWolfHead.class, "wolfhead", true, 4);
-	public static final BlockGenericSkull reindeerhead = new BlockGenericSkull(TileEntityReindeerHead.class, "reindeerhead", false, 4);
-	public static final BlockGenericSkull foxhead = new BlockGenericSkull(TileEntityFoxHead.class, "foxhead", true, 4);
-	public static final BlockGenericSkull boarhead = new BlockGenericSkull(TileEntityBoarHead.class, "boarhead", false, 4);
+	public static final BlockGenericSkull deerhead = new BlockGenericSkull(TileEntityDeerHead.class, "deerhead", false, 2, TileEntityDeerHead::new);
+	public static final BlockGenericSkull wolfhead = new BlockGenericSkull(TileEntityWolfHead.class, "wolfhead", true, 4, TileEntityWolfHead::new);
+	public static final BlockGenericSkull reindeerhead = new BlockGenericSkull(TileEntityReindeerHead.class, "reindeerhead", false, 4, TileEntityReindeerHead::new);
+	public static final BlockGenericSkull foxhead = new BlockGenericSkull(TileEntityFoxHead.class, "foxhead", true, 4, TileEntityFoxHead::new);
+	public static final BlockGenericSkull boarhead = new BlockGenericSkull(TileEntityBoarHead.class, "boarhead", false, 4, TileEntityBoarHead::new);
 
 	public static HashMap<BlockGenericSkull, ItemBlockSkull> genericskulls = new HashMap<BlockGenericSkull, ItemBlockSkull>();
 
 	public static void addGenericSkull(BlockGenericSkull block) {
-		genericskulls.put(block, new ItemBlockSkull(block, block.allowFloor));
+		for(int i = 0; i < block.texCount; i++) {
+			genericskulls.put(block, new ItemBlockSkull(block, block.allowFloor, i));
+		}
 	}
 
 	public static ItemBlockSkull getSkullItemForBlock(BlockGenericSkull block) {
@@ -82,14 +88,6 @@ public class BlockRegistry {
 			registry.registerAll(blocks);
 
 			genericskulls.keySet().forEach(b -> registry.register(b));
-
-			GameRegistry.registerTileEntity(TileEntityTrillium.class, new ResourceLocation(trillium.getRegistryName() +  "tileentity"));
-			GameRegistry.registerTileEntity(TileEntityHirschgeistSkull.class, new ResourceLocation(hirschgeistskull.getRegistryName() +  "tileentity"));
-			GameRegistry.registerTileEntity(TileEntityHandOfFate.class,  new ResourceLocation(handoffate.getRegistryName() +  "tileentity"));
-
-			for(BlockGenericSkull block : genericskulls.keySet()) {
-				GameRegistry.registerTileEntity(block.teClass, new ResourceLocation(block.getRegistryName() + "tileentity"));
-			}
 		}
 
 
@@ -101,7 +99,7 @@ public class BlockRegistry {
 		@SubscribeEvent
 		public static void registerItemBlocks(final RegistryEvent.Register<Item> event) {
 			final ItemBlock[] items = {
-					new ItemBlock(trillium),
+					new ItemBlock(trillium, new Properties().group(BetterAnimalsPlusMod.group)),
 					hirschgeistskull.getItemBlock(),
 					BlockHandOfFate.getItemBlock(),
 			};
@@ -121,6 +119,22 @@ public class BlockRegistry {
 				registry.register(item.setRegistryName(registryName));
 				ITEM_BLOCKS.add(item);
 			}
+		}
+
+		@SubscribeEvent
+		public static void registerTileEntities(final RegistryEvent.Register<TileEntityType<?>> event) {
+			final IForgeRegistry<TileEntityType<?>> reg = event.getRegistry();
+			reg(reg, TileEntityTrillium::new);
+			reg(reg, TileEntityHandOfFate::new);
+			reg(reg, TileEntityHirschgeistSkull::new);
+
+			for(BlockGenericSkull block : genericskulls.keySet()) {
+				reg(reg, block.teSupplier);
+			}
+		}
+
+		private static void reg(IForgeRegistry<TileEntityType<?>> reg, Supplier<? extends TileEntity> factory) {
+			reg.register(TileEntityType.Builder.create(factory).build(null));
 		}
 
 	}

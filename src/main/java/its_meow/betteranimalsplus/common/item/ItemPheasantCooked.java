@@ -25,7 +25,7 @@ public class ItemPheasantCooked extends ItemFood {
         this.itemUseDuration = 32;
         this.healAmount = 5;
         this.isWolfsFavoriteMeat = false;
-        this.setCreativeTab(BetterAnimalsPlusMod.tab);
+        this.setCreativeTab(BetterAnimalsPlusMod.group);
 	}
 	
     /**

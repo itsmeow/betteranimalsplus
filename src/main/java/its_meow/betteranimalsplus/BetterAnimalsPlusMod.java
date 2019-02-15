@@ -47,17 +47,13 @@ public class BetterAnimalsPlusMod {
         // Register ourselves for server, registry and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);
         
-        
-		if(BetterAnimalsPlusConfig.spawnTrillium) {
-			GameRegistry.registerWorldGenerator(new TrilliumGenerator(BlockRegistry.trillium), 1);
-		}
 		MobRegistry.fillContainers();
         logger.log(Level.INFO, "Injecting super coyotes...");
 	}
 	
 	public static ISidedProxy proxy = DistExecutor.runForDist(() -> () -> new ClientProxy(), () -> () -> new ServerProxy());
 
-	public static CreativeTab tab = new CreativeTab("Better Animals+");
+	public static BetterAnimalsItemGroup group = new BetterAnimalsItemGroup("Better Animals+");
 
     private static final Logger logger = LogManager.getLogger();
 	

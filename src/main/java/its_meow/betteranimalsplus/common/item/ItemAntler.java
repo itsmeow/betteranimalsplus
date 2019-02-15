@@ -8,7 +8,7 @@ public class ItemAntler extends Item {
 	public ItemAntler() {
 		this.setRegistryName("antler");
 		this.setUnlocalizedName("betteranimalsplus.antler");
-		this.setCreativeTab(BetterAnimalsPlusMod.tab);
+		this.setCreativeTab(BetterAnimalsPlusMod.group);
 	}
 	
 }

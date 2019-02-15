@@ -25,7 +25,7 @@ public class ItemPheasantRaw extends ItemFood {
         this.itemUseDuration = 32;
         this.healAmount = 3;
         this.isWolfsFavoriteMeat = false;
-        this.setCreativeTab(BetterAnimalsPlusMod.tab);
+        this.setCreativeTab(BetterAnimalsPlusMod.group);
 	}
 	
     @Override

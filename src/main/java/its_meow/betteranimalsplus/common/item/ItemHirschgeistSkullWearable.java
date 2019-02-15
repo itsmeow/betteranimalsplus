@@ -25,7 +25,7 @@ public class ItemHirschgeistSkullWearable extends ItemArmor {
 		super(EnumHelper.addArmorMaterial("bone", "betteranimalsplus:hirschgeistskull", 15, new int[] {1,4,5,2}, 12, SoundEvents.ITEM_ARMOR_EQUIP_GENERIC, 0.1F), -1, EntityEquipmentSlot.HEAD);
 		this.setUnlocalizedName("betteranimalsplus.hirschgeistskullwearable");
 		this.setRegistryName("hirschgeistskullwearable");
-		this.setCreativeTab(BetterAnimalsPlusMod.tab);
+		this.setCreativeTab(BetterAnimalsPlusMod.group);
 		this.canRepair = true;
 	}
 

@@ -30,7 +30,7 @@ public class BlockTrillium extends BlockBush implements ITileEntityProvider {
 		this.setUnlocalizedName("betteranimalsplus.trillium");
 		this.translucent = true;
 		this.fullBlock = false;
-		this.setCreativeTab(BetterAnimalsPlusMod.tab);
+		//this.setCreativeTab(BetterAnimalsPlusMod.group);
 	}
 	
 	

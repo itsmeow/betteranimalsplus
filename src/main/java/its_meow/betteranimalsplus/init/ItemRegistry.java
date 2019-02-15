@@ -33,24 +33,6 @@ public class ItemRegistry {
 
 	// These are not registered
 	public static final ItemHirschgeistSkull itemHirschgeistSkull = new ItemHirschgeistSkull(BlockRegistry.hirschgeistskull);
-	/*public static final ItemBlockSkull wolfhead = new ItemBlockSkull(BlockRegistry.wolfhead, true);
-	public static final ItemBlockSkull deerhead = new ItemBlockSkull(BlockRegistry.deerhead, true);
-	public static final ItemBlockSkull reindeerhead = new ItemBlockSkull(BlockRegistry.reindeerhead, true);
-	
-	
-	public static ItemBlock getItemFor(BlockGenericSkull blockGenericSkull) {
-		String regName = blockGenericSkull.getRegistryName().getResourcePath();
-		if(regName == "wolfhead") {
-			return wolfhead;
-		}
-		if(regName == "deerhead") {
-			return deerhead;
-		}
-		if(regName == "reindeerhead") {
-			return reindeerhead;
-		}
-		return null;
-	}*/
 	
 	@Mod.EventBusSubscriber
 	public static class RegistrationHandler {

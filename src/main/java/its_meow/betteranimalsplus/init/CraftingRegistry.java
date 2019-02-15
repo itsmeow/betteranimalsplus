@@ -1,12 +1,8 @@
 package its_meow.betteranimalsplus.init;
 
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.fml.common.registry.GameRegistry;
-import net.minecraftforge.oredict.OreDictionary;
-
 public class CraftingRegistry {
 
-	public static final void register() {
+	/*public static final void register() {
 		//Smelting
 		GameRegistry.addSmelting(new ItemStack(ItemRegistry.venisonRaw), new ItemStack(ItemRegistry.venisonCooked), 0.0F);
 		GameRegistry.addSmelting(new ItemStack(ItemRegistry.pheasantRaw), new ItemStack(ItemRegistry.pheasantCooked), 0.0F);
@@ -20,5 +16,5 @@ public class CraftingRegistry {
 		OreDictionary.registerOre("listAllvenisoncooked", ItemRegistry.venisonCooked);
 		OreDictionary.registerOre("foodVenisonraw", ItemRegistry.venisonRaw);
 		OreDictionary.registerOre("foodVenisoncooked", ItemRegistry.venisonCooked);
-	}
+	}*/
 }

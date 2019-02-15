@@ -2,7 +2,10 @@ package its_meow.betteranimalsplus.common.entity;
 
 import javax.annotation.Nullable;
 
+import com.mojang.datafixers.DataFixer;
+
 import its_meow.betteranimalsplus.init.LootTableRegistry;
+import its_meow.betteranimalsplus.init.MobRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityCreature;
@@ -26,7 +29,6 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
-import net.minecraft.util.datafix.DataFixer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
@@ -37,7 +39,7 @@ public class EntityBear extends EntityMob {
 	private World world = null;
 
 	public EntityBear(World worldIn) {
-		super(worldIn);
+		super(MobRegistry.getType(EntityBear.class), worldIn);
 		this.world = worldIn;
 		this.setSize(2F, 2F);
 	}
@@ -83,14 +85,10 @@ public class EntityBear extends EntityMob {
 	/**
 	 * Checks if the entity's current position is a valid location to spawn this entity.
 	 */
+	@Override
 	public boolean getCanSpawnHere()
 	{
 		return this.world.getDifficulty() != EnumDifficulty.PEACEFUL;
-	}
-
-	public static void registerFixesBear(DataFixer fixer)
-	{
-		EntityLiving.registerFixesMob(fixer, EntityBear.class);
 	}
 
 	/**
@@ -98,7 +96,7 @@ public class EntityBear extends EntityMob {
 	 */
 	public boolean attackEntityFrom(DamageSource source, float amount)
 	{
-		if (this.isEntityInvulnerable(source))
+		if (this.isInvulnerableTo(source))
 		{
 			return false;
 		}
@@ -115,10 +113,11 @@ public class EntityBear extends EntityMob {
 			return super.attackEntityFrom(source, amount);
 		}
 	}
-
-	public void onUpdate()
+	
+	@Override
+	public void tick()
 	{
-		super.onUpdate();
+		super.tick();
 
 
 		if (this.warningSoundTicks > 0)

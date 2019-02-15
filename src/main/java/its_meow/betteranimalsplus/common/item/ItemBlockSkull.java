@@ -2,6 +2,7 @@ package its_meow.betteranimalsplus.common.item;
 
 import java.util.List;
 
+import its_meow.betteranimalsplus.BetterAnimalsPlusMod;
 import its_meow.betteranimalsplus.common.block.BlockGenericSkull;
 import its_meow.betteranimalsplus.common.tileentity.TileEntityHead;
 import net.minecraft.block.Block;
@@ -31,8 +32,8 @@ public class ItemBlockSkull extends ItemBlock {
 
 	private boolean allowFloor = true;
 
-	public ItemBlockSkull(Block block, boolean allowFloor) {
-		super(block);
+	public ItemBlockSkull(Block block, boolean allowFloor, int i) {
+		super(block, new Properties(BetterAnimalsPlusMod.group));
 		this.allowFloor = allowFloor;
 	}
 
