@@ -1,12 +1,13 @@
 package its_meow.betteranimalsplus.common.entity;
 
-import java.util.HashSet;
+import java.util.ArrayList;
 
 import javax.annotation.Nullable;
 
 import its_meow.betteranimalsplus.init.ItemRegistry;
 import its_meow.betteranimalsplus.init.LootTableRegistry;
-import net.minecraft.block.Block;
+import its_meow.betteranimalsplus.init.MobRegistry;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityAgeable;
@@ -30,12 +31,14 @@ import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.IItemProvider;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
@@ -48,17 +51,17 @@ public class EntityGoat extends EntityAnimal {
 
 	public EntityPlayer friend = null;
 	public boolean hasBeenFed = false;
-	private HashSet<Item> temptItems = null;
+	private ArrayList<Item> temptItems = null;
 
 	public EntityGoat(World worldIn) {
-		super(worldIn);
+		super(MobRegistry.getType(EntityGoat.class), worldIn);
 		this.world = worldIn;
 		this.setSize(1.2F, 1.2F);
 		addTemptItems();
 	}
 
 	private void addTemptItems() {
-		this.temptItems = new HashSet<Item>();
+		this.temptItems = new ArrayList<Item>();
 		this.temptItems.add(Items.WHEAT);
 		this.temptItems.add(Items.POTATO);
 		this.temptItems.add(Items.CARROT);
@@ -69,9 +72,9 @@ public class EntityGoat extends EntityAnimal {
 	
 	
 	@Override
-	public void onLivingUpdate() {
-		super.onLivingUpdate();
-		if(!this.world.isRemote && (this.getAttackTarget() == null || this.getAttackTarget().isDead)) {
+	public void livingTick() {
+		super.livingTick();
+		if(!this.world.isRemote && (this.getAttackTarget() == null || !this.getAttackTarget().isAlive())) {
 			this.setAttackingOnClient(false);
 		}
 	}
@@ -84,7 +87,7 @@ public class EntityGoat extends EntityAnimal {
 		
 		// Vanilla attack code for mobs
 		
-        float f = (float)this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getAttributeValue();
+        float f = (float)this.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getValue();
         int i = 0;
 
         if (entityIn instanceof EntityLivingBase)
@@ -144,7 +147,7 @@ public class EntityGoat extends EntityAnimal {
 	}
 
 	@Override
-	protected void playStepSound(BlockPos pos, Block blockIn)
+	protected void playStepSound(BlockPos pos, IBlockState state)
 	{
 		this.playSound(SoundEvents.ENTITY_SHEEP_STEP, 0.15F, 1.0F);
 	}
@@ -173,7 +176,11 @@ public class EntityGoat extends EntityAnimal {
 		if(this.temptItems == null) {
 			addTemptItems();
 		}
-		this.tasks.addTask(3, new EntityAITempt(this, 0.6D, false, this.temptItems));
+		IItemProvider[] tempts = new IItemProvider[this.temptItems.size()];
+		for(int i = 0; i < this.temptItems.size(); i++) {
+			tempts[i]  = this.temptItems.get(i);
+		}
+		this.tasks.addTask(3, new EntityAITempt(this, 0.6D, false, Ingredient.fromItems(tempts)));
 		this.tasks.addTask(4, new EntityAIFollowParent(this, 0.6D));
 		this.tasks.addTask(5, new EntityAIWander(this, 0.6D));
 		this.tasks.addTask(6, new EntityAILookIdle(this));
@@ -181,13 +188,13 @@ public class EntityGoat extends EntityAnimal {
 		this.targetTasks.addTask(1, new AIHurtByTarget());
 	}
 
-	protected void applyEntityAttributes()
+	protected void registerAttributes()
 	{
-		super.applyEntityAttributes();
-		this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(14.0D);
-		this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.5D);
+		super.registerAttributes();
+		this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(14.0D);
+		this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.5D);
 		this.getAttributeMap().registerAttribute(SharedMonsterAttributes.ATTACK_DAMAGE);
-		this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(0.8D);
+		this.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(0.8D);
 	}
 
 
@@ -211,7 +218,7 @@ public class EntityGoat extends EntityAnimal {
 	{
 		ItemStack itemstack = player.getHeldItem(hand);
 
-		if (itemstack.getItem() == Items.BUCKET && !player.capabilities.isCreativeMode && !this.isChild())
+		if (itemstack.getItem() == Items.BUCKET && !player.isCreative() && !this.isChild())
 		{
 			player.playSound(SoundEvents.ENTITY_COW_MILK, 1.0F, 1.0F);
 			itemstack.shrink(1);
@@ -231,7 +238,7 @@ public class EntityGoat extends EntityAnimal {
 			this.friend = player;
 			if(itemstack.getItem() == Items.WHEAT) {
 				this.setInLove(player);
-				if(!player.capabilities.isCreativeMode) {
+				if(!player.isCreative()) {
 					itemstack.shrink(1);
 				}
 			}
@@ -253,9 +260,9 @@ public class EntityGoat extends EntityAnimal {
 		return LootTableRegistry.goat;
 	}
 
-	protected void entityInit()
+	protected void registerData()
 	{
-		super.entityInit();
+		super.registerData();
 		this.dataManager.register(TYPE_NUMBER, Integer.valueOf(0));
 		this.dataManager.register(ATTACKING, Boolean.valueOf(false));
 	}
@@ -271,23 +278,17 @@ public class EntityGoat extends EntityAnimal {
 		this.dataManager.set(TYPE_NUMBER, Integer.valueOf(typeId));
 	}
 
-	/**
-	 * (abstract) Protected helper method to write subclass entity data to NBT.
-	 */
-	public void writeEntityToNBT(NBTTagCompound compound)
+	public boolean writeUnlessRemoved(NBTTagCompound compound)
 	{
-		super.writeEntityToNBT(compound);
-		compound.setInteger("TypeNumber", this.getTypeNumber());
+		compound.setInt("TypeNumber", this.getTypeNumber());
 		compound.setBoolean("AttackSync", this.isAttackingFromServer());
+		return super.writeUnlessRemoved(compound);
 	}
 
-	/**
-	 * (abstract) Protected helper method to read subclass entity data from NBT.
-	 */
-	public void readEntityFromNBT(NBTTagCompound compound)
+	public void read(NBTTagCompound compound)
 	{
-		super.readEntityFromNBT(compound);
-		this.setType(compound.getInteger("TypeNumber"));
+		super.read(compound);
+		this.setType(compound.getInt("TypeNumber"));
 		this.setAttackingOnClient(compound.getBoolean("AttackSync"));
 	}
 
@@ -296,9 +297,9 @@ public class EntityGoat extends EntityAnimal {
 	 * when entity is reloaded from nbt. Mainly used for initializing attributes and inventory
 	 */
 	@Nullable
-	public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, @Nullable IEntityLivingData livingdata)
+	public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, @Nullable IEntityLivingData livingdata, NBTTagCompound compound)
 	{
-		livingdata = super.onInitialSpawn(difficulty, livingdata);
+		livingdata = super.onInitialSpawn(difficulty, livingdata, compound);
 		if(!this.isChild()) {
 			int i = this.rand.nextInt(7) + 1; // Values 1 to 7
 			boolean flag = false;
@@ -339,7 +340,7 @@ public class EntityGoat extends EntityAnimal {
 		EntityGoat goat = new EntityGoat(ageable.world);
 		goat.setLocationAndAngles(ageable.posX, ageable.posY, ageable.posZ, 0, 0);
 		if(ageable.hasCustomName()) {
-			goat.setCustomNameTag(ageable.getCustomNameTag());
+			goat.setCustomName(ageable.getCustomName());
 		}
 		goat.setType(this.getTypeNumber());
 		return goat;

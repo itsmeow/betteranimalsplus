@@ -31,7 +31,7 @@ public class HirschgeistAIFlameAttack extends EntityAIBase {
 			return false;
 		} else if(this.attacker.isDaytime()) {
 			return false;
-		} else if(this.attacker.getAttackTarget().isDead) {
+		} else if(this.attacker.getAttackTarget().dead) {
 			return false;
 		} else {
 			return true;
@@ -51,7 +51,7 @@ public class HirschgeistAIFlameAttack extends EntityAIBase {
 	
 	
 	@Override
-	public void updateTask() {
+	public void tick() {
 		++this.flameTicks;
 		EntityLivingBase target = this.attacker.getAttackTarget();
         if (this.flameTicks == 10 && target != null && target.getDistanceSq(this.attacker) <= 100)

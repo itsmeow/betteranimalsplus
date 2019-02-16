@@ -43,14 +43,14 @@ public class EntityHirschgeist extends EntityLiving implements IMob {
 	}
 
 	@Override
-	protected void applyEntityAttributes()
+	protected void registerAttributes()
 	{
-		super.applyEntityAttributes();
-		this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(150.0D);
-		this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(50.0D);
-		this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.65D);
+		super.registerAttributes();
+		this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(150.0D);
+		this.getAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(50.0D);
+		this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.65D);
 		this.getAttributeMap().registerAttribute(SharedMonsterAttributes.ATTACK_DAMAGE);
-		this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(6.0D);
+		this.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(6.0D);
 	}
 
 	public boolean isDaytime() {
@@ -59,8 +59,8 @@ public class EntityHirschgeist extends EntityLiving implements IMob {
 	}
 
 	@Override
-	public void onLivingUpdate() {
-		super.onLivingUpdate();
+	public void livingTick() {
+		super.livingTick();
 		if(this.isDaytime()) {
 			this.setSize(1,2);
 		} else {
@@ -72,7 +72,7 @@ public class EntityHirschgeist extends EntityLiving implements IMob {
 	
 	@Override
 	public boolean getCanSpawnHere() {
-		if(this.world.getEntitiesWithinAABB(EntityHirschgeist.class, this.getEntityBoundingBox().grow(150)).size() == 1) {
+		if(this.world.getEntitiesWithinAABB(EntityHirschgeist.class, this.getBoundingBox().grow(150)).size() == 1) {
 			return false;
 		} else {
 			return false;

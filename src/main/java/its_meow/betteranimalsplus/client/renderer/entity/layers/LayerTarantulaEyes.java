@@ -10,7 +10,7 @@ import net.minecraft.client.renderer.entity.layers.LayerRenderer;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-@SideOnly(Side.CLIENT)
+@OnlyIn(Dist.CLIENT)
 public class LayerTarantulaEyes implements LayerRenderer<EntityTarantula>
 {
 	private final RenderTarantula tarantulaRenderer;

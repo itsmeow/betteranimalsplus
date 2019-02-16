@@ -178,7 +178,7 @@ public class TileEntityHandOfFate extends TileEntity {
 		this.readFromNBT(tag);
 	}
 
-	@SideOnly(Side.CLIENT)
+	@OnlyIn(Dist.CLIENT)
 	public float getRotation() {
 		IBlockState state = this.world.getBlockState(this.pos);
 		if(state.getBlock() == BlockRegistry.handoffate) {

@@ -60,7 +60,7 @@ public class ItemBlockSkull extends ItemBlock {
 
 
 	@Override
-	@SideOnly(Side.CLIENT)
+	@OnlyIn(Dist.CLIENT)
 	public boolean canPlaceBlockOnSide(World world, BlockPos pos, EnumFacing side, EntityPlayer player, ItemStack stack) {
 		Block block = world.getBlockState(pos).getBlock();
 
@@ -99,7 +99,7 @@ public class ItemBlockSkull extends ItemBlock {
 				TileEntity tile = world.getTileEntity(clickedPos);
 				populateTile(stack, side, player, tile);
 			}
-			if(!player.capabilities.isCreativeMode) {
+			if(!player.isCreative()) {
 				stack.shrink(1);
 			}
 			return EnumActionResult.SUCCESS;

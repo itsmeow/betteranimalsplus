@@ -41,7 +41,7 @@ public class ItemHirschgeistSkullWearable extends ItemArmor {
 	}*/
 
 	@Override 	
-	@SideOnly(Side.CLIENT)
+	@OnlyIn(Dist.CLIENT)
 	public ModelBiped getArmorModel(EntityLivingBase entityLiving, ItemStack itemStack, EntityEquipmentSlot armorSlot,
 			ModelBiped defaultModel) {
 		if (itemStack != null) {

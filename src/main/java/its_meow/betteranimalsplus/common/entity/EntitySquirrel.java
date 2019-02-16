@@ -53,16 +53,16 @@ public class EntitySquirrel extends EntityAnimal {
 		this.tasks.addTask(7, new EntityAILookIdle(this));
 	}
 
-	protected void applyEntityAttributes()
+	protected void registerAttributes()
 	{
-		super.applyEntityAttributes();
-		this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(4.5D);
-		this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.5D);
+		super.registerAttributes();
+		this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(4.5D);
+		this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.5D);
 	}
 
-	protected void entityInit()
+	protected void registerData()
 	{
-		super.entityInit();
+		super.registerData();
 		this.dataManager.register(CLIMBING, Byte.valueOf((byte)0));
 		this.dataManager.register(TYPE_NUMBER, Integer.valueOf(0));
 	}
@@ -79,19 +79,19 @@ public class EntitySquirrel extends EntityAnimal {
 	/**
 	 * (abstract) Protected helper method to write subclass entity data to NBT.
 	 */
-	public void writeEntityToNBT(NBTTagCompound compound)
+	public boolean writeUnlessRemoved(NBTTagCompound compound)
 	{
-		super.writeEntityToNBT(compound);
-		compound.setInteger("TypeNumber", this.getTypeNumber());
+		super.writeUnlessRemoved(compound);
+		compound.setInt("TypeNumber", this.getTypeNumber());
 	}
 
 	/**
 	 * (abstract) Protected helper method to read subclass entity data from NBT.
 	 */
-	public void readEntityFromNBT(NBTTagCompound compound)
+	public void read(NBTTagCompound compound)
 	{
-		super.readEntityFromNBT(compound);
-		this.setType(compound.getInteger("TypeNumber"));
+		super.read(compound);
+		this.setType(compound.getInt("TypeNumber"));
 	}
 
 	/**
@@ -99,9 +99,9 @@ public class EntitySquirrel extends EntityAnimal {
 	 * when entity is reloaded from nbt. Mainly used for initializing attributes and inventory
 	 */
 	@Nullable
-	public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, @Nullable IEntityLivingData livingdata)
+	public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, @Nullable IEntityLivingData livingdata, NBTTagCompound compound)
 	{
-		livingdata = super.onInitialSpawn(difficulty, livingdata);
+		livingdata = super.onInitialSpawn(difficulty, livingdata, compound);
 		if(!this.isChild()) {
 			int i = this.rand.nextInt(3) + 1; // Values 1 to 3
 			if(i == 3 && this.rand.nextInt(4) != 0) { // 1/4 chance it remains white (overall 1/12 chance of white)
@@ -134,9 +134,9 @@ public class EntitySquirrel extends EntityAnimal {
 	/**
 	 * Called to update the entity's position/logic.
 	 */
-	public void onUpdate()
+	public void tick()
 	{
-		super.onUpdate();
+		super.tick();
 
 		if (!this.world.isRemote)
 		{
@@ -173,7 +173,7 @@ public class EntitySquirrel extends EntityAnimal {
 	}
 
 	/**
-	 * Updates the WatchableObject (Byte) created in entityInit(), setting it to 0x01 if par1 is true or 0x00 if it is
+	 * Updates the WatchableObject (Byte) created in registerData(), setting it to 0x01 if par1 is true or 0x00 if it is
 	 * false.
 	 */
 	public void setBesideClimbableBlock(boolean climbing)

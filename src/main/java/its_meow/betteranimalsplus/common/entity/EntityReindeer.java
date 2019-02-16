@@ -10,6 +10,7 @@ import com.google.common.base.Predicate;
 
 import its_meow.betteranimalsplus.init.BlockRegistry;
 import its_meow.betteranimalsplus.init.LootTableRegistry;
+import its_meow.betteranimalsplus.init.MobRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
@@ -39,6 +40,7 @@ import net.minecraft.init.Items;
 import net.minecraft.init.MobEffects;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemSpawnEgg;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
@@ -67,7 +69,6 @@ public class EntityReindeer extends EntityAnimal implements IJumpingMount {
 	};
 	protected static final IAttribute JUMP_STRENGTH = (new RangedAttribute((IAttribute)null, "reindeer.jumpStrength", 0.7D, 0.0D, 2.0D)).setDescription("Jump Strength").setShouldWatch(true);
 	private static final DataParameter<Byte> STATUS = EntityDataManager.<Byte>createKey(EntityReindeer.class, DataSerializers.BYTE);
-	private static final DataParameter<Optional<UUID>> OWNER_UNIQUE_ID = EntityDataManager.<Optional<UUID>>createKey(EntityReindeer.class, DataSerializers.OPTIONAL_UNIQUE_ID);
 	private int eatingCounter;
 	private int openMouthCounter;
 	private int jumpRearingCounter;
@@ -90,7 +91,7 @@ public class EntityReindeer extends EntityAnimal implements IJumpingMount {
 	public boolean parentRudolph = false;
 
 	public EntityReindeer(World worldIn) {
-		super(worldIn);
+		super(MobRegistry.getType(EntityReindeer.class), worldIn);
 		this.setSize(1.3964844F, 1.8F);
 		this.stepHeight = 1.0F;
 	}
@@ -106,11 +107,10 @@ public class EntityReindeer extends EntityAnimal implements IJumpingMount {
 		this.tasks.addTask(8, new EntityAILookIdle(this));
 	}
 
-	protected void entityInit()
+	protected void registerData()
 	{
-		super.entityInit();
+		super.registerData();
 		this.dataManager.register(STATUS, Byte.valueOf((byte)0));
-		this.dataManager.register(OWNER_UNIQUE_ID, Optional.absent());
 		this.dataManager.register(TYPE_NUMBER, Integer.valueOf(0));
 	}
 
@@ -121,7 +121,7 @@ public class EntityReindeer extends EntityAnimal implements IJumpingMount {
 		ItemStack itemstack = player.getHeldItem(hand);
 		boolean flag = !itemstack.isEmpty();
 
-		if (flag && itemstack.getItem() == Items.SPAWN_EGG)
+		if (flag && itemstack.getItem() instanceof ItemSpawnEgg)
 		{
 			return super.processInteract(player, hand);
 		}
@@ -144,7 +144,7 @@ public class EntityReindeer extends EntityAnimal implements IJumpingMount {
 			{
 				if (this.handleEating(player, itemstack))
 				{
-					if (!player.capabilities.isCreativeMode)
+					if (!player.isCreative())
 					{
 						itemstack.shrink(1);
 					}
@@ -374,7 +374,7 @@ public class EntityReindeer extends EntityAnimal implements IJumpingMount {
 		double d0 = Double.MAX_VALUE;
 		Entity entity = null;
 
-		for (Entity entity1 : this.world.getEntitiesInAABBexcluding(entityIn, entityIn.getEntityBoundingBox().expand(distance, distance, distance), IS_REINDEER_BREEDING))
+		for (Entity entity1 : this.world.getEntitiesInAABBexcluding(entityIn, entityIn.getBoundingBox().expand(distance, distance, distance), IS_REINDEER_BREEDING))
 		{
 			double d1 = entity1.getDistanceSq(entityIn.posX, entityIn.posY, entityIn.posZ);
 
@@ -390,7 +390,7 @@ public class EntityReindeer extends EntityAnimal implements IJumpingMount {
 
 	public double getReindeerJumpStrength()
 	{
-		return this.getEntityAttribute(JUMP_STRENGTH).getAttributeValue();
+		return this.getAttribute(JUMP_STRENGTH).getValue();
 	}
 
 	@Nullable
@@ -474,12 +474,12 @@ public class EntityReindeer extends EntityAnimal implements IJumpingMount {
 		this.playSound(SoundEvents.ENTITY_HORSE_GALLOP, p_190680_1_.getVolume() * 0.15F, p_190680_1_.getPitch());
 	}
 
-	protected void applyEntityAttributes()
+	protected void registerAttributes()
 	{
-		super.applyEntityAttributes();
+		super.registerAttributes();
 		this.getAttributeMap().registerAttribute(JUMP_STRENGTH);
-		this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(53.0D);
-		this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.22499999403953552D);
+		this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(53.0D);
+		this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.22499999403953552D);
 	}
 
 	/**
@@ -665,14 +665,14 @@ public class EntityReindeer extends EntityAnimal implements IJumpingMount {
 	 * Called frequently so the entity can update its state every tick as required. For example, zombies and skeletons
 	 * use this to react to sunlight and start to burn.
 	 */
-	public void onLivingUpdate()
+	public void livingTick()
 	{
 		if (this.rand.nextInt(200) == 0)
 		{
 			this.moveTail();
 		}
 
-		super.onLivingUpdate();
+		super.livingTick();
 		if(this.rand.nextInt(10) == 0) {
 			this.world.spawnParticle(EnumParticleTypes.SNOW_SHOVEL, this.posX + this.rand.nextInt(4) - 2F, this.posY + this.rand.nextInt(4), this.posZ + this.rand.nextInt(4) - 2F, 0F, -0.005F, 0F);
 		}
@@ -723,9 +723,9 @@ public class EntityReindeer extends EntityAnimal implements IJumpingMount {
 	/**
 	 * Called to update the entity's position/logic.
 	 */
-	public void onUpdate()
+	public void tick()
 	{
-		super.onUpdate();
+		super.tick();
 
 		if (this.openMouthCounter > 0 && ++this.openMouthCounter > 30)
 		{
@@ -908,7 +908,7 @@ public class EntityReindeer extends EntityAnimal implements IJumpingMount {
 
 			if (this.canPassengerSteer())
 			{
-				this.setAIMoveSpeed((float)this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).getAttributeValue());
+				this.setAIMoveSpeed((float)this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).getValue());
 				super.travel(strafe, vertical, forward);
 			}
 			else if (entitylivingbase instanceof EntityPlayer)
@@ -972,37 +972,37 @@ public class EntityReindeer extends EntityAnimal implements IJumpingMount {
 	/**
 	 * (abstract) Protected helper method to write subclass entity data to NBT.
 	 */
-	public void writeEntityToNBT(NBTTagCompound compound)
+	public boolean writeUnlessRemoved(NBTTagCompound compound)
 	{
-		super.writeEntityToNBT(compound);
+		super.writeUnlessRemoved(compound);
 		compound.setBoolean("EatingHaystack", this.isEatingHaystack());
 		compound.setBoolean("Bred", this.isBreeding());
-		compound.setInteger("Temper", this.getTemper());
+		compound.setInt("Temper", this.getTemper());
 
-		compound.setInteger("TypeNumber", this.getTypeNumber());
+		compound.setInt("TypeNumber", this.getTypeNumber());
 		compound.setBoolean("IsParentRudolph", this.parentRudolph );
 	}
 
 	/**
 	 * (abstract) Protected helper method to read subclass entity data from NBT.
 	 */
-	public void readEntityFromNBT(NBTTagCompound compound)
+	public void read(NBTTagCompound compound)
 	{
-		super.readEntityFromNBT(compound);
+		super.read(compound);
 		this.setEatingHaystack(compound.getBoolean("EatingHaystack"));
 		this.setBreeding(compound.getBoolean("Bred"));
-		this.setTemper(compound.getInteger("Temper"));
+		this.setTemper(compound.getInt("Temper"));
 		this.parentRudolph = compound.getBoolean("IsParentRudolph");
 
 		IAttributeInstance iattributeinstance = this.getAttributeMap().getAttributeInstanceByName("Speed");
 
 		if (iattributeinstance != null)
 		{
-			this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(iattributeinstance.getBaseValue() * 0.25D);
+			this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(iattributeinstance.getBaseValue() * 0.25D);
 		}
 
 
-		this.setType(compound.getInteger("TypeNumber"));
+		this.setType(compound.getInt("TypeNumber"));
 		Calendar calendar = Calendar.getInstance();
 		if(this.getTypeNumber() > 4 && !(calendar.get(2) + 1 == 12 && calendar.get(5) >= 22 && calendar.get(5) <= 28) && !(this.getCustomNameTag().toLowerCase().equals("rudolph") || this.parentRudolph)) {
 			this.setType(this.getTypeNumber() - 4); // Remove red noses after Christmas season after loading entity
@@ -1021,12 +1021,12 @@ public class EntityReindeer extends EntityAnimal implements IJumpingMount {
 
 	protected void setOffspringAttributes(EntityAgeable p_190681_1_, EntityReindeer p_190681_2_)
 	{
-		double d0 = this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).getBaseValue() + p_190681_1_.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).getBaseValue() + (double)this.getModifiedMaxHealth();
-		p_190681_2_.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(d0 / 3.0D);
-		double d1 = this.getEntityAttribute(JUMP_STRENGTH).getBaseValue() + p_190681_1_.getEntityAttribute(JUMP_STRENGTH).getBaseValue() + this.getModifiedJumpStrength();
-		p_190681_2_.getEntityAttribute(JUMP_STRENGTH).setBaseValue(d1 / 3.0D);
-		double d2 = this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).getBaseValue() + p_190681_1_.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).getBaseValue() + this.getModifiedMovementSpeed();
-		p_190681_2_.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(d2 / 3.0D);
+		double d0 = this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).getBaseValue() + p_190681_1_.getAttribute(SharedMonsterAttributes.MAX_HEALTH).getBaseValue() + (double)this.getModifiedMaxHealth();
+		p_190681_2_.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(d0 / 3.0D);
+		double d1 = this.getAttribute(JUMP_STRENGTH).getBaseValue() + p_190681_1_.getAttribute(JUMP_STRENGTH).getBaseValue() + this.getModifiedJumpStrength();
+		p_190681_2_.getAttribute(JUMP_STRENGTH).setBaseValue(d1 / 3.0D);
+		double d2 = this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).getBaseValue() + p_190681_1_.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).getBaseValue() + this.getModifiedMovementSpeed();
+		p_190681_2_.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(d2 / 3.0D);
 	}
 
 	/**
@@ -1038,25 +1038,25 @@ public class EntityReindeer extends EntityAnimal implements IJumpingMount {
 		return this.getControllingPassenger() instanceof EntityLivingBase;
 	}
 
-	@SideOnly(Side.CLIENT)
+	@OnlyIn(Dist.CLIENT)
 	public float getGrassEatingAmount(float p_110258_1_)
 	{
 		return this.prevHeadLean + (this.headLean - this.prevHeadLean) * p_110258_1_;
 	}
 
-	@SideOnly(Side.CLIENT)
+	@OnlyIn(Dist.CLIENT)
 	public float getRearingAmount(float p_110223_1_)
 	{
 		return this.prevRearingAmount + (this.rearingAmount - this.prevRearingAmount) * p_110223_1_;
 	}
 
-	@SideOnly(Side.CLIENT)
+	@OnlyIn(Dist.CLIENT)
 	public float getMouthOpennessAngle(float p_110201_1_)
 	{
 		return this.prevMouthOpenness + (this.mouthOpenness - this.prevMouthOpenness) * p_110201_1_;
 	}
 
-	@SideOnly(Side.CLIENT)
+	@OnlyIn(Dist.CLIENT)
 	public void setJumpPower(int jumpPowerIn)
 	{
 		if (jumpPowerIn < 0)
@@ -1097,7 +1097,7 @@ public class EntityReindeer extends EntityAnimal implements IJumpingMount {
 	/**
 	 * "Spawns particles for the reindeer entity. par1 tells whether to spawn hearts. If it is false, it spawns smoke."
 	 */
-	@SideOnly(Side.CLIENT)
+	@OnlyIn(Dist.CLIENT)
 	protected void spawnReindeerParticles(boolean p_110216_1_)
 	{
 		EnumParticleTypes enumparticletypes = p_110216_1_ ? EnumParticleTypes.HEART : EnumParticleTypes.SMOKE_NORMAL;
@@ -1114,7 +1114,7 @@ public class EntityReindeer extends EntityAnimal implements IJumpingMount {
 	/**
 	 * Handler for {@link World#setEntityState}
 	 */
-	@SideOnly(Side.CLIENT)
+	@OnlyIn(Dist.CLIENT)
 	public void handleStatusUpdate(byte id)
 	{
 		if (id == 7)
@@ -1219,9 +1219,9 @@ public class EntityReindeer extends EntityAnimal implements IJumpingMount {
 	 * when entity is reloaded from nbt. Mainly used for initializing attributes and inventory
 	 */
 	@Nullable
-	public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, @Nullable IEntityLivingData livingdata)
+	public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, @Nullable IEntityLivingData livingdata, NBTTagCompound compound)
 	{
-		livingdata = super.onInitialSpawn(difficulty, livingdata);
+		livingdata = super.onInitialSpawn(difficulty, livingdata, compound);
 
 		if(!this.isChild()) {
 			Calendar calendar = Calendar.getInstance();

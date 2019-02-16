@@ -38,7 +38,7 @@ public class EntityTameableFlying extends EntityTameable {
 
             if (this.onGround)
             {
-                BlockPos underPos = new BlockPos(MathHelper.floor(this.posX), MathHelper.floor(this.getEntityBoundingBox().minY) - 1, MathHelper.floor(this.posZ));
+                BlockPos underPos = new BlockPos(MathHelper.floor(this.posX), MathHelper.floor(this.getBoundingBox().minY) - 1, MathHelper.floor(this.posZ));
                 IBlockState underState = this.world.getBlockState(underPos);
                 f = underState.getBlock().getSlipperiness(underState, this.world, underPos, this) * 0.91F;
             }
@@ -49,7 +49,7 @@ public class EntityTameableFlying extends EntityTameable {
 
             if (this.onGround)
             {
-                BlockPos underPos = new BlockPos(MathHelper.floor(this.posX), MathHelper.floor(this.getEntityBoundingBox().minY) - 1, MathHelper.floor(this.posZ));
+                BlockPos underPos = new BlockPos(MathHelper.floor(this.posX), MathHelper.floor(this.getBoundingBox().minY) - 1, MathHelper.floor(this.posZ));
                 IBlockState underState = this.world.getBlockState(underPos);
                 f = underState.getBlock().getSlipperiness(underState, this.world, underPos, this) * 0.91F;
             }

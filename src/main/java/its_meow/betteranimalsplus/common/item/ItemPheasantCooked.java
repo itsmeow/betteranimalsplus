@@ -16,7 +16,7 @@ public class ItemPheasantCooked extends ItemFood {
     /** The amount this food item heals the player. */
     private final int healAmount;
     /** Whether wolves like this food (true for raw and cooked porkchop). */
-    private final boolean isWolfsFavoriteMeat;
+    private final boolean isMeat;
 	
 	public ItemPheasantCooked(int amount, boolean isWolfFood) {
 		super(amount, isWolfFood);
@@ -24,7 +24,7 @@ public class ItemPheasantCooked extends ItemFood {
 		this.setUnlocalizedName("betteranimalsplus.pheasantcooked");
         this.itemUseDuration = 32;
         this.healAmount = 5;
-        this.isWolfsFavoriteMeat = false;
+        this.isMeat = false;
         this.setCreativeTab(BetterAnimalsPlusMod.group);
 	}
 	
@@ -42,8 +42,8 @@ public class ItemPheasantCooked extends ItemFood {
 	}
 
 	@Override
-	public boolean isWolfsFavoriteMeat() {
-		return this.isWolfsFavoriteMeat;
+	public boolean isMeat() {
+		return this.isMeat;
 	}
 
     /**
@@ -54,7 +54,7 @@ public class ItemPheasantCooked extends ItemFood {
         return EnumAction.EAT;
     }
 
-	@SideOnly(Side.CLIENT)
+	@OnlyIn(Dist.CLIENT)
 	public void initModel(){
 		ModelLoader.setCustomModelResourceLocation(this, 0, new ModelResourceLocation(getRegistryName(), "inventory"));
 	}

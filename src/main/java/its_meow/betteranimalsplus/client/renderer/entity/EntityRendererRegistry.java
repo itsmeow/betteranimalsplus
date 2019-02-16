@@ -11,11 +11,11 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-@SideOnly(Side.CLIENT)
+@OnlyIn(Dist.CLIENT)
 @Mod.EventBusSubscriber(modid = Ref.MOD_ID, value = Side.CLIENT)
 public class EntityRendererRegistry {
    
-	@SideOnly(Side.CLIENT)
+	@OnlyIn(Dist.CLIENT)
 	@SubscribeEvent
     public static void registerEntityRenderers(ModelRegistryEvent event)
     {

@@ -6,11 +6,12 @@ import com.google.common.base.Predicate;
 
 import its_meow.betteranimalsplus.init.BlockRegistry;
 import its_meow.betteranimalsplus.init.ItemRegistry;
+import its_meow.betteranimalsplus.init.MobRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityAgeable;
-import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.EntityType;
 import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIAttackMelee;
@@ -41,6 +42,7 @@ import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.init.Items;
+import net.minecraft.init.Particles;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemFood;
@@ -51,17 +53,15 @@ import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumHand;
-import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.SoundEvent;
-import net.minecraft.util.datafix.DataFixer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 public class EntityFeralWolf extends EntityTameable implements IMob {
 	
@@ -79,10 +79,17 @@ public class EntityFeralWolf extends EntityTameable implements IMob {
     protected float prevTimeWolfIsShaking;
 	
 	public EntityFeralWolf(World worldIn) {
-		super(worldIn);
+		super(MobRegistry.getType(EntityFeralWolf.class), worldIn);
 		this.world = worldIn;
 		this.setSize(0.8F, 0.9F);
         this.setTamed(false);
+	}
+
+	public EntityFeralWolf(EntityType<? extends Entity> type, World worldIn) {
+		super(type, worldIn);
+		this.world = worldIn;
+		this.setSize(0.8F, 0.9F);
+		this.setTamed(false);
 	}
 
 	protected void initEntityAI()
@@ -120,8 +127,8 @@ public class EntityFeralWolf extends EntityTameable implements IMob {
 		if(!this.isChild()) {
 			if(this.rand.nextInt(12) == 0) {
 				ItemStack stack = new ItemStack(BlockRegistry.wolfhead.getItemBlock());
-				stack.setTagCompound(new NBTTagCompound());
-				stack.getTagCompound().setInteger("TYPENUM", this.getTypeNumber());
+				//stack.setTagCompound(new NBTTagCompound());
+				//stack.getTagCompound().setInteger("TYPENUM", this.getTypeNumber());
 				this.entityDropItem(stack, 0.5F);
 			}
 		}
@@ -136,22 +143,14 @@ public class EntityFeralWolf extends EntityTameable implements IMob {
 		this.dataManager.set(TYPE_NUMBER, Integer.valueOf(typeId));
 	}
 
-	/**
-	 * (abstract) Protected helper method to write subclass entity data to NBT.
-	 */
-	public void writeEntityToNBT(NBTTagCompound compound)
-	{
-		super.writeEntityToNBT(compound);
-		compound.setInteger("TypeNumber", this.getTypeNumber());
+	public boolean writeUnlessRemoved(NBTTagCompound compound) {
+		compound.setInt("TypeNumber", this.getTypeNumber());
+		return super.writeUnlessRemoved(compound);
 	}
-
-	/**
-	 * (abstract) Protected helper method to read subclass entity data from NBT.
-	 */
-	public void readEntityFromNBT(NBTTagCompound compound)
-	{
-		super.readEntityFromNBT(compound);
-		this.setType(compound.getInteger("TypeNumber"));
+	
+	public void read(NBTTagCompound compound) {
+		super.read(compound);
+		this.setType(compound.getInt("TypeNumber"));
 	}
 	
 	/**
@@ -159,9 +158,9 @@ public class EntityFeralWolf extends EntityTameable implements IMob {
 	 * when entity is reloaded from nbt. Mainly used for initializing attributes and inventory
 	 */
 	@Nullable
-	public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, @Nullable IEntityLivingData livingdata)
+	public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, @Nullable IEntityLivingData livingdata, NBTTagCompound compound)
 	{
-		livingdata = super.onInitialSpawn(difficulty, livingdata);
+		livingdata = super.onInitialSpawn(difficulty, livingdata, compound);
 		int i = this.rand.nextInt(3) + 1;
 
 		if (livingdata instanceof EntityFeralWolf.TypeData)
@@ -198,18 +197,18 @@ public class EntityFeralWolf extends EntityTameable implements IMob {
 		return true;
 	}
 
-	protected void applyEntityAttributes()
+	protected void registerAttributes()
 	{
-		super.applyEntityAttributes();
-		this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.30000001192092896D);
+		super.registerAttributes();
+		this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.30000001192092896D);
 
 		if (this.isTamed())
 		{
-			this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(30.0D);
+			this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(30.0D);
 		}
 		else
 		{
-			this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(10.0D);
+			this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(10.0D);
 		}
 
 		this.getAttributeMap().registerAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(5.0D);
@@ -220,9 +219,9 @@ public class EntityFeralWolf extends EntityTameable implements IMob {
 		this.dataManager.set(DATA_HEALTH_ID, Float.valueOf(this.getHealth()));
 	}
 
-	protected void entityInit()
+	protected void registerData()
 	{
-		super.entityInit();
+		super.registerData();
 		this.dataManager.register(DATA_HEALTH_ID, Float.valueOf(this.getHealth()));
 		this.dataManager.register(TYPE_NUMBER, Integer.valueOf(0));
 	}
@@ -230,11 +229,6 @@ public class EntityFeralWolf extends EntityTameable implements IMob {
 	protected void playStepSound(BlockPos pos, Block blockIn)
 	{
 		this.playSound(SoundEvents.ENTITY_WOLF_STEP, 0.15F, 1.0F);
-	}
-
-	public static void registerFixesFeralWolf(DataFixer fixer)
-	{
-		EntityLiving.registerFixesMob(fixer, EntityFeralWolf.class);
 	}
 
 
@@ -276,9 +270,9 @@ public class EntityFeralWolf extends EntityTameable implements IMob {
 	 * Called frequently so the entity can update its state every tick as required. For example, zombies and skeletons
 	 * use this to react to sunlight and start to burn.
 	 */
-	public void onLivingUpdate()
+	public void livingTick()
 	{
-		super.onLivingUpdate();
+		super.livingTick();
 
 		if (!this.world.isRemote && this.isWet && !this.isShaking && !this.hasPath() && this.onGround)
 		{
@@ -292,9 +286,9 @@ public class EntityFeralWolf extends EntityTameable implements IMob {
 	/**
 	 * Called to update the entity's position/logic.
 	 */
-	public void onUpdate()
+	public void tick()
 	{
-		super.onUpdate();
+		super.tick();
 		this.headRotationCourseOld = this.headRotationCourse;
 
 
@@ -328,14 +322,14 @@ public class EntityFeralWolf extends EntityTameable implements IMob {
 
 			if (this.timeWolfIsShaking > 0.4F)
 			{
-				float f = (float)this.getEntityBoundingBox().minY;
+				float f = (float)this.getBoundingBox().minY;
 				int i = (int)(MathHelper.sin((this.timeWolfIsShaking - 0.4F) * (float)Math.PI) * 7.0F);
 
 				for (int j = 0; j < i; ++j)
 				{
 					float f1 = (this.rand.nextFloat() * 2.0F - 1.0F) * this.width * 0.5F;
 					float f2 = (this.rand.nextFloat() * 2.0F - 1.0F) * this.width * 0.5F;
-					this.world.spawnParticle(EnumParticleTypes.WATER_SPLASH, this.posX + (double)f1, (double)(f + 0.8F), this.posZ + (double)f2, this.motionX, this.motionY, this.motionZ);
+					this.world.spawnParticle(Particles.SPLASH, this.posX + (double)f1, (double)(f + 0.8F), this.posZ + (double)f2, this.motionX, this.motionY, this.motionZ);
 				}
 			}
 		}
@@ -344,7 +338,7 @@ public class EntityFeralWolf extends EntityTameable implements IMob {
 	/**
 	 * True if the wolf is wet
 	 */
-	@SideOnly(Side.CLIENT)
+	@OnlyIn(Dist.CLIENT)
 	public boolean isWolfWet()
 	{
 		return this.isWet;
@@ -353,13 +347,13 @@ public class EntityFeralWolf extends EntityTameable implements IMob {
 	/**
 	 * Used when calculating the amount of shading to apply while the wolf is wet.
 	 */
-	@SideOnly(Side.CLIENT)
+	@OnlyIn(Dist.CLIENT)
 	public float getShadingWhileWet(float p_70915_1_)
 	{
 		return 0.75F + (this.prevTimeWolfIsShaking + (this.timeWolfIsShaking - this.prevTimeWolfIsShaking) * p_70915_1_) / 2.0F * 0.25F;
 	}
 
-	@SideOnly(Side.CLIENT)
+	@OnlyIn(Dist.CLIENT)
 	public float getShakeAngle(float p_70923_1_, float p_70923_2_)
 	{
 		float f = (this.prevTimeWolfIsShaking + (this.timeWolfIsShaking - this.prevTimeWolfIsShaking) * p_70923_1_ + p_70923_2_) / 1.8F;
@@ -376,7 +370,7 @@ public class EntityFeralWolf extends EntityTameable implements IMob {
 		return MathHelper.sin(f * (float)Math.PI) * MathHelper.sin(f * (float)Math.PI * 11.0F) * 0.15F * (float)Math.PI;
 	}
 
-	@SideOnly(Side.CLIENT)
+	@OnlyIn(Dist.CLIENT)
 	public float getInterestedAngle(float p_70917_1_)
 	{
 		return (this.headRotationCourseOld + (this.headRotationCourse - this.headRotationCourseOld) * p_70917_1_) * 0.15F * (float)Math.PI;
@@ -401,7 +395,7 @@ public class EntityFeralWolf extends EntityTameable implements IMob {
 	 */
 	public boolean attackEntityFrom(DamageSource source, float amount)
 	{
-		if (this.isEntityInvulnerable(source))
+		if (this.isInvulnerableTo(source))
 		{
 			return false;
 		}
@@ -425,7 +419,7 @@ public class EntityFeralWolf extends EntityTameable implements IMob {
 
 	public boolean attackEntityAsMob(Entity entityIn)
 	{
-		boolean flag = entityIn.attackEntityFrom(DamageSource.causeMobDamage(this), (float)((int)this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getAttributeValue()));
+		boolean flag = entityIn.attackEntityFrom(DamageSource.causeMobDamage(this), (float)((int)this.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getValue()));
 
 		if (flag)
 		{
@@ -441,14 +435,14 @@ public class EntityFeralWolf extends EntityTameable implements IMob {
 
 		if (tamed)
 		{
-			this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(30.0D);
+			this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(30.0D);
 		}
 		else
 		{
-			this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(10.0D);
+			this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(10.0D);
 		}
 
-		this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(5.0D);
+		this.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(5.0D);
 	}
 
 	public boolean processInteract(EntityPlayer player, EnumHand hand)
@@ -463,9 +457,9 @@ public class EntityFeralWolf extends EntityTameable implements IMob {
 				{
 					ItemFood itemfood = (ItemFood)itemstack.getItem();
 
-					if (itemfood.isWolfsFavoriteMeat() && ((Float)this.dataManager.get(DATA_HEALTH_ID)).floatValue() < 20.0F)
+					if (itemfood.isMeat() && ((Float)this.dataManager.get(DATA_HEALTH_ID)).floatValue() < 20.0F)
 					{
-						if (!player.capabilities.isCreativeMode)
+						if (!player.isCreative())
 						{
 							itemstack.shrink(1);
 						}
@@ -476,7 +470,7 @@ public class EntityFeralWolf extends EntityTameable implements IMob {
 				}
 			}
 
-			if (this.isOwner(player) && !this.world.isRemote && !this.isBreedingItem(itemstack) && (!(itemstack.getItem() instanceof ItemFood) || !((ItemFood)itemstack.getItem()).isWolfsFavoriteMeat()))
+			if (this.isOwner(player) && !this.world.isRemote && !this.isBreedingItem(itemstack) && (!(itemstack.getItem() instanceof ItemFood) || !((ItemFood)itemstack.getItem()).isMeat()))
 			{
 				this.aiSit.setSitting(!this.isSitting());
 				this.isJumping = false;
@@ -488,10 +482,8 @@ public class EntityFeralWolf extends EntityTameable implements IMob {
 		{
 			boolean wearingPowerHead = false;
 			ItemStack stack = player.getItemStackFromSlot(EntityEquipmentSlot.HEAD);
-			if(stack.getItem() == Items.SKULL) {
-				if(stack.getMetadata() == 5) { // 5 = "dragon"
-					wearingPowerHead = true;
-				}
+			if(stack.getItem() == Items.DRAGON_HEAD) {
+				wearingPowerHead = true;
 			}
 			if(stack.getItem() == ItemRegistry.itemHirschgeistSkullWearable) {
 				wearingPowerHead = true;
@@ -501,7 +493,7 @@ public class EntityFeralWolf extends EntityTameable implements IMob {
 			if(wearingPowerHead) { //player.isWearing(part))
 
 
-				if (!player.capabilities.isCreativeMode)
+				if (!player.isCreative())
 				{
 					itemstack.shrink(1);
 				}
@@ -539,7 +531,7 @@ public class EntityFeralWolf extends EntityTameable implements IMob {
 	/**
 	 * Handler for {@link World#setEntityState}
 	 */
-	@SideOnly(Side.CLIENT)
+	@OnlyIn(Dist.CLIENT)
 	public void handleStatusUpdate(byte id)
 	{
 		if (id == 8)
@@ -554,7 +546,7 @@ public class EntityFeralWolf extends EntityTameable implements IMob {
 		}
 	}
 
-	@SideOnly(Side.CLIENT)
+	@OnlyIn(Dist.CLIENT)
 	public float getTailRotation()
 	{
 		if (!this.isTamed())
@@ -573,7 +565,7 @@ public class EntityFeralWolf extends EntityTameable implements IMob {
 	 */
 	public boolean isBreedingItem(ItemStack stack)
 	{
-		return stack.getItem() instanceof ItemFood && ((ItemFood)stack.getItem()).isWolfsFavoriteMeat();
+		return stack.getItem() instanceof ItemFood && ((ItemFood)stack.getItem()).isMeat();
 	}
 
 	/**

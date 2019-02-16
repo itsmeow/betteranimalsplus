@@ -3,7 +3,8 @@ package its_meow.betteranimalsplus.common.entity;
 import javax.annotation.Nullable;
 
 import its_meow.betteranimalsplus.init.LootTableRegistry;
-import net.minecraft.block.Block;
+import its_meow.betteranimalsplus.init.MobRegistry;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -20,6 +21,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
@@ -43,7 +45,7 @@ public class EntityPheasant extends EntityAnimal {
 	public float wingRotDelta = 0.3F;
 
 	public EntityPheasant(World worldIn) {
-		super(worldIn);
+		super(MobRegistry.getType(EntityPheasant.class), worldIn);
 		this.setPeckTime(getNewPeck());
 		this.setPathPriority(PathNodeType.WATER, 0.0F);
 		this.setSize(1F, this.isChild() ? 0.8F : 1F);
@@ -54,18 +56,18 @@ public class EntityPheasant extends EntityAnimal {
 		this.tasks.addTask(0, new EntityAISwimming(this));
 		this.tasks.addTask(1, new EntityAIPanic(this, 1.4D));
 		this.tasks.addTask(2, new EntityAIMate(this, 1.0D));
-		this.tasks.addTask(3, new EntityAITempt(this, 1.0D, Items.PUMPKIN_SEEDS, false));
+		this.tasks.addTask(3, new EntityAITempt(this, 1.0D, Ingredient.fromItems(Items.PUMPKIN_SEEDS), false));
 		this.tasks.addTask(4, new EntityAIFollowParent(this, 1.1D));
 		this.tasks.addTask(5, new EntityAIWanderAvoidWater(this, 1.0D));
 		this.tasks.addTask(6, new EntityAIWatchClosest(this, EntityPlayer.class, 6.0F));
 		this.tasks.addTask(7, new EntityAILookIdle(this));
 	}
 
-	protected void applyEntityAttributes()
+	protected void registerAttributes()
 	{
-		super.applyEntityAttributes();
-		this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(4.0D);
-		this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.25D);
+		super.registerAttributes();
+		this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(4.0D);
+		this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.25D);
 	}
 
 	private int getNewPeck() {
@@ -78,8 +80,8 @@ public class EntityPheasant extends EntityAnimal {
 	}
 
 	@Override
-	public void onLivingUpdate() {
-		super.onLivingUpdate();
+	public void livingTick() {
+		super.livingTick();
 		this.oFlap = this.wingRotation;
 		this.oFlapSpeed = this.destPos;
 		this.destPos = (float)((double)this.destPos + (double)(this.onGround ? -1 : 4) * 0.3D);
@@ -114,7 +116,7 @@ public class EntityPheasant extends EntityAnimal {
 
 		if(itemstack.getItem() == Items.PUMPKIN_SEEDS && !this.isChild()) {
 			this.setInLove(player);
-			if(!player.capabilities.isCreativeMode) {
+			if(!player.isCreative()) {
 				itemstack.shrink(1);
 			}
 			return true;
@@ -139,7 +141,7 @@ public class EntityPheasant extends EntityAnimal {
 	}
 
 	@Override
-	protected void playStepSound(BlockPos pos, Block blockIn)
+	protected void playStepSound(BlockPos pos, IBlockState state)
 	{
 		this.playSound(SoundEvents.ENTITY_CHICKEN_STEP, 0.15F, 1.0F);
 	}
@@ -150,9 +152,9 @@ public class EntityPheasant extends EntityAnimal {
 		return LootTableRegistry.pheasant;
 	}
 
-	protected void entityInit()
+	protected void registerData()
 	{
-		super.entityInit();
+		super.registerData();
 		this.dataManager.register(TYPE_NUMBER, Integer.valueOf(0));
 		this.dataManager.register(PECK_TIME, Integer.valueOf(0));
 	}
@@ -184,17 +186,17 @@ public class EntityPheasant extends EntityAnimal {
 	 */
 	 public void writeEntityToNBT(NBTTagCompound compound)
 	{
-		super.writeEntityToNBT(compound);
-		compound.setInteger("TypeNumber", this.getTypeNumber());
+		super.writeUnlessRemoved(compound);
+		compound.setInt("TypeNumber", this.getTypeNumber());
 	}
 
 	/**
 	 * (abstract) Protected helper method to read subclass entity data from NBT.
 	 */
-	 public void readEntityFromNBT(NBTTagCompound compound)
+	 public void read(NBTTagCompound compound)
 	 {
-		 super.readEntityFromNBT(compound);
-		 this.setType(compound.getInteger("TypeNumber"));
+		 super.read(compound);
+		 this.setType(compound.getInt("TypeNumber"));
 	 }
 
 	 /**
@@ -202,9 +204,9 @@ public class EntityPheasant extends EntityAnimal {
 	  * when entity is reloaded from nbt. Mainly used for initializing attributes and inventory
 	  */
 	 @Nullable
-	 public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, @Nullable IEntityLivingData livingdata)
+	 public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, @Nullable IEntityLivingData livingdata, NBTTagCompound compound)
 	 {
-		 livingdata = super.onInitialSpawn(difficulty, livingdata);
+		 livingdata = super.onInitialSpawn(difficulty, livingdata, compound);
 		 if(!this.isChild()) {
 			 int i = this.rand.nextInt(2) + 1; // Values 1 to 2
 			 boolean flag = false;
@@ -244,7 +246,7 @@ public class EntityPheasant extends EntityAnimal {
 		 EntityPheasant child = new EntityPheasant(ageable.world);
 		 child.setLocationAndAngles(ageable.posX, ageable.posY, ageable.posZ, 0, 0);
 		 if(ageable.hasCustomName()) {
-			 child.setCustomNameTag(ageable.getCustomNameTag());
+			 child.setCustomName(ageable.getCustomName());
 		 }
 		 child.setType(this.rand.nextInt(2) + 1);
 		 return child;

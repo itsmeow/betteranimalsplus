@@ -55,7 +55,7 @@ public class TileEntityHead extends TileEntitySkull {
 	}
 	
 	@Override
-	@SideOnly(Side.CLIENT)
+	@OnlyIn(Dist.CLIENT)
 	public AxisAlignedBB getRenderBoundingBox() {
 		return new AxisAlignedBB(getPos().add(-1, -1, -1), getPos().add(2, 2, 2));
 	}
@@ -86,7 +86,7 @@ public class TileEntityHead extends TileEntitySkull {
 	public void readFromNBT(NBTTagCompound compound) {
 		super.readFromNBT(compound);
 		if(compound.hasKey("TYPENUM")) {
-			this.typeNum = compound.getInteger("TYPENUM");
+			this.typeNum = compound.getInt("TYPENUM");
 		} else {
 			this.setType(new Random().nextInt(this.textures.size()) + 1);
 		}
@@ -95,7 +95,7 @@ public class TileEntityHead extends TileEntitySkull {
 	@Override
 	public NBTTagCompound writeToNBT(NBTTagCompound compound) {
 		super.writeToNBT(compound);
-		compound.setInteger("TYPENUM", this.typeNum);
+		compound.setInt("TYPENUM", this.typeNum);
 		return compound;
 	}
 

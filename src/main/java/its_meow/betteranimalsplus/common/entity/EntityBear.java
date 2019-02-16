@@ -2,14 +2,11 @@ package its_meow.betteranimalsplus.common.entity;
 
 import javax.annotation.Nullable;
 
-import com.mojang.datafixers.DataFixer;
-
 import its_meow.betteranimalsplus.init.LootTableRegistry;
 import its_meow.betteranimalsplus.init.MobRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityCreature;
-import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIAttackMelee;
@@ -31,6 +28,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.EnumDifficulty;
+import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 
 public class EntityBear extends EntityMob {
@@ -63,15 +61,15 @@ public class EntityBear extends EntityMob {
         this.targetTasks.addTask(5, new EntityAINearestAttackableTarget<EntityPheasant>(this, EntityPheasant.class, 90, true, true, new NullPredicate()));
 	}
 
-	protected void applyEntityAttributes()
+	protected void registerAttributes()
 	{
-		super.applyEntityAttributes();
-		this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(30.0D);
-		this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(20.0D);
-		this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.3D);
-		this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(6.0D);
+		super.registerAttributes();
+		this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(30.0D);
+		this.getAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(20.0D);
+		this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.3D);
+		this.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(6.0D);
 		this.getAttributeMap().registerAttribute(SharedMonsterAttributes.ATTACK_SPEED);
-		this.getEntityAttribute(SharedMonsterAttributes.ATTACK_SPEED).setBaseValue(1D);
+		this.getAttribute(SharedMonsterAttributes.ATTACK_SPEED).setBaseValue(1D);
 	}
 
 	@Override
@@ -86,10 +84,12 @@ public class EntityBear extends EntityMob {
 	 * Checks if the entity's current position is a valid location to spawn this entity.
 	 */
 	@Override
-	public boolean getCanSpawnHere()
+	public boolean canSpawn(IWorld world, boolean b)
 	{
 		return this.world.getDifficulty() != EnumDifficulty.PEACEFUL;
 	}
+	
+	
 
 	/**
 	 * Called when the entity is attacked.

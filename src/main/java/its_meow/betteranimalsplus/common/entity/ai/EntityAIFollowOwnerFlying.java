@@ -104,7 +104,7 @@ public class EntityAIFollowOwnerFlying extends EntityAIBase
     /**
      * Keep ticking a continuous task that has already been started
      */
-    public void updateTask()
+    public void tick()
     {
         this.tameable.getLookHelper().setLookPositionWithEntity(this.owner, 10.0F, 20);
 
@@ -125,7 +125,7 @@ public class EntityAIFollowOwnerFlying extends EntityAIBase
                         {
                             int i = MathHelper.floor(this.owner.posX) - 2;
                             int j = MathHelper.floor(this.owner.posZ) - 2;
-                            int k = MathHelper.floor(this.owner.getEntityBoundingBox().minY);
+                            int k = MathHelper.floor(this.owner.getBoundingBox().minY);
 
                             for (int l = 0; l <= 4; ++l)
                             {

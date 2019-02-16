@@ -16,7 +16,7 @@ public class ItemGoatCheese extends ItemFood {
     /** The amount this food item heals the player. */
     private final int healAmount;
     
-    private final boolean isWolfsFavoriteMeat = false;
+    private final boolean isMeat = false;
 	
 	public ItemGoatCheese() {
 		super(3, false);
@@ -43,8 +43,8 @@ public class ItemGoatCheese extends ItemFood {
 	}
 
 	@Override
-	public boolean isWolfsFavoriteMeat() {
-		return this.isWolfsFavoriteMeat;
+	public boolean isMeat() {
+		return this.isMeat;
 	}
 
 	/**
@@ -55,7 +55,7 @@ public class ItemGoatCheese extends ItemFood {
         return EnumAction.EAT;
     }
 
-	@SideOnly(Side.CLIENT)
+	@OnlyIn(Dist.CLIENT)
 	public void initModel(){
 		ModelLoader.setCustomModelResourceLocation(this, 0, new ModelResourceLocation(getRegistryName(), "inventory"));
 	}
