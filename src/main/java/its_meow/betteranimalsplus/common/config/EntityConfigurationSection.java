@@ -1,12 +1,12 @@
 package its_meow.betteranimalsplus.common.config;
 
-import static its_meow.betteranimalsplus.BetterAnimalsPlusMod.config;
+/*import static its_meow.betteranimalsplus.BetterAnimalsPlusMod.config;
 
 import net.minecraft.entity.Entity;
-
+*/
 public class EntityConfigurationSection {
 	
-	public Class<? extends Entity> entityClazz;
+	/*public Class<? extends Entity> entityClazz;
 	public String categoryName;
 	public boolean doRegister;
 	public boolean doSpawning;
@@ -38,5 +38,5 @@ public class EntityConfigurationSection {
 		this.max = config.getInt("maxGroup", this.categoryName, max, 1, 9999, "Must be greater or equal to min value!");
 		this.biomesList = config.getStringList("spawnBiomes", this.categoryName, biomesList, "Enter biome Resource Locations. Supports modded biomes.");
 	}
-	
+	*/
 }

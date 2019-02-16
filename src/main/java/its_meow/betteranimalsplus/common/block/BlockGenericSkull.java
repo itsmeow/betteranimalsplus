@@ -2,14 +2,10 @@ package its_meow.betteranimalsplus.common.block;
 
 import java.util.function.Supplier;
 
-import its_meow.betteranimalsplus.common.tileentity.TileEntityHead;
 import its_meow.betteranimalsplus.init.BlockRegistry;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.init.Items;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
@@ -35,20 +31,7 @@ public class BlockGenericSkull extends BlockAnimalSkull {
 
 	@Override
 	public void getDrops(IBlockState state, NonNullList<ItemStack> drops, World world, BlockPos pos, int fortune) {
-		if (!((Boolean)state.getValue(NODROP)).booleanValue()) {
-			Item item = this.getItemBlock();
-			if (item != null && item != Items.AIR) {
-				ItemStack stack = new ItemStack(item);
-				TileEntity te = world.getTileEntity(pos);
-				if(te != null && te instanceof TileEntityHead) {
-					TileEntityHead teH = (TileEntityHead) te;
-					stack.setTagCompound(new NBTTagCompound());
-					stack.getTagCompound().setInteger("TYPENUM", teH.typeValue());
-				}
-
-				drops.add(stack);
-			}
-		}
+		super.getDrops(state, drops, world, pos, fortune);
 	}
 
 	@Override
@@ -66,7 +49,11 @@ public class BlockGenericSkull extends BlockAnimalSkull {
 
 	@Override
 	public ItemBlock getItemBlock() {
-		return BlockRegistry.getSkullItemForBlock(this);
+		return BlockRegistry.getSkullItemForBlock(this, 1);
+	}
+	
+	public ItemBlock getItemBlock(int texID) {
+		return BlockRegistry.getSkullItemForBlock(this, texID);
 	}
 
 }

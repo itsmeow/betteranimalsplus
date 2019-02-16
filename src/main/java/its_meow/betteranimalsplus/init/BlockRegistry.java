@@ -48,16 +48,16 @@ public class BlockRegistry {
 	public static final BlockGenericSkull foxhead = new BlockGenericSkull(TileEntityFoxHead.class, "foxhead", true, 4, TileEntityFoxHead::new);
 	public static final BlockGenericSkull boarhead = new BlockGenericSkull(TileEntityBoarHead.class, "boarhead", false, 4, TileEntityBoarHead::new);
 
-	public static HashMap<BlockGenericSkull, ItemBlockSkull> genericskulls = new HashMap<BlockGenericSkull, ItemBlockSkull>();
+	public static HashMap<BlockGenericSkull, HashMap<Integer, ItemBlockSkull>> genericskulls = new HashMap<BlockGenericSkull, HashMap<Integer, ItemBlockSkull>>();
 
 	public static void addGenericSkull(BlockGenericSkull block) {
-		for(int i = 0; i < block.texCount; i++) {
-			genericskulls.put(block, new ItemBlockSkull(block, block.allowFloor, i));
+		for(int i = 1; i <= block.texCount; i++) {
+			genericskulls.get(block).put(i, new ItemBlockSkull(block, block.allowFloor, i));
 		}
 	}
 
-	public static ItemBlockSkull getSkullItemForBlock(BlockGenericSkull block) {
-		return genericskulls.get(block);
+	public static ItemBlockSkull getSkullItemForBlock(BlockGenericSkull block, int texID) {
+		return genericskulls.get(block).get(texID);
 	}
 
 	@Mod.EventBusSubscriber
@@ -113,11 +113,11 @@ public class BlockRegistry {
 				ITEM_BLOCKS.add(item);
 			}
 
-			for (final ItemBlock item : genericskulls.values()) {
-				final Block block = item.getBlock();
-				final ResourceLocation registryName = Preconditions.checkNotNull(block.getRegistryName(), "Block %s has null registry name", block);
-				registry.register(item.setRegistryName(registryName));
-				ITEM_BLOCKS.add(item);
+			for(BlockGenericSkull block : genericskulls.keySet()) {
+				for(ItemBlockSkull skull : genericskulls.get(block).values()) {
+					final ResourceLocation registryName = Preconditions.checkNotNull(block.getRegistryName(), "Block %s has null registry name", block);
+					registry.register(skull.setRegistryName(registryName));
+				}
 			}
 		}
 
@@ -137,5 +137,9 @@ public class BlockRegistry {
 			reg.register(TileEntityType.Builder.create(factory).build(null));
 		}
 
+	}
+
+	public static int getTypeForItem(ResourceLocation registryName) {
+		return Integer.valueOf(registryName.getNamespace().substring(registryName.getNamespace().lastIndexOf('_'), registryName.getNamespace().length()));
 	}
 }

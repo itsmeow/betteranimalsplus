@@ -2,6 +2,7 @@ package its_meow.betteranimalsplus.common.block;
 
 import javax.annotation.Nullable;
 
+import its_meow.betteranimalsplus.common.tileentity.TileEntityHead;
 import net.minecraft.block.BlockSkull;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
@@ -29,7 +30,7 @@ public class BlockAnimalSkull extends BlockSkull {
 	public boolean hasTileEntity() {
 		return true;
 	}
-	
+
 	@Override
 	public boolean hasTileEntity(IBlockState state) {
 		return true;
@@ -56,22 +57,40 @@ public class BlockAnimalSkull extends BlockSkull {
 	@Override
 	public ItemStack getPickBlock(IBlockState state, RayTraceResult target, IBlockReader world, BlockPos pos,
 			EntityPlayer player) {
-		return new ItemStack(this.getItemBlock(), 1);
+		TileEntity te2 = world.getTileEntity(pos);
+		if(te2 instanceof TileEntityHead) {
+			TileEntityHead te = (TileEntityHead) te2;
+			return new ItemStack(this.getItemBlock(te.typeValue()));
+		}
+		return null;
 	}
 
 	@Override
 	public ItemStack getItem(IBlockReader worldIn, BlockPos pos, IBlockState state) {
-		return new ItemStack(this.getItemBlock(), 1);
+		TileEntity te2 = worldIn.getTileEntity(pos);
+		if(te2 instanceof TileEntityHead) {
+			TileEntityHead te = (TileEntityHead) te2;
+			return new ItemStack(this.getItemBlock(te.typeValue()));
+		}
+		return null;
 	}
 
 	@Override
 	public void getDrops(IBlockState state, NonNullList<ItemStack> drops, World world, BlockPos pos, int fortune) {
-		if (true) {
-			Item item = this.getItemBlock();
-			if (item != null && item != Items.AIR) {
-				drops.add(new ItemStack(item));
+		if(!world.isRemote) {
+			TileEntity te2 = world.getTileEntity(pos);
+			if(te2 instanceof TileEntityHead) {
+				TileEntityHead te = (TileEntityHead) te2;
+				Item item = this.getItemBlock(te.typeValue());
+				if (item != null && item != Items.AIR) {
+					drops.add(new ItemStack(item));
+				}
 			}
 		}
+	}
+
+	public ItemBlock getItemBlock(int typeValue) {
+		return null;
 	}
 
 	/**
@@ -89,7 +108,12 @@ public class BlockAnimalSkull extends BlockSkull {
 	@Override
 	public Item getItemDropped(IBlockState state, World world, BlockPos pos, int fortune)
 	{
-		return this.getItemBlock();
+		TileEntity te2 = world.getTileEntity(pos);
+		if(te2 instanceof TileEntityHead) {
+			TileEntityHead te = (TileEntityHead) te2;
+			return this.getItemBlock(te.typeValue());
+		}
+		return null;
 	}
 
 

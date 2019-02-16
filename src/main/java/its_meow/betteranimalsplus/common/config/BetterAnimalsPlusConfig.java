@@ -32,7 +32,7 @@ public class BetterAnimalsPlusConfig {
 
 	public static boolean spawnTrillium = true;
 	
-	public static HashMap<EntityContainer, EntityConfigurationSection> sections = new HashMap<EntityContainer, EntityConfigurationSection>();
+	/*public static HashMap<EntityContainer, EntityConfigurationSection> sections = new HashMap<EntityContainer, EntityConfigurationSection>();
 
 	public static void readConfig(){
 		Configuration cfg = BetterAnimalsPlusMod.config;
@@ -85,6 +85,6 @@ public class BetterAnimalsPlusConfig {
             
             container.spawnBiomes = biomes;
 		}
-	}
+	}*/
 
 }

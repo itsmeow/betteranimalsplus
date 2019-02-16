@@ -37,7 +37,7 @@ public class EventHandlerClient {
 		
 		//OBJLoader.INSTANCE.addDomain(Ref.MOD_ID);
 		
-		initModel(BlockRegistry.trillium, 0);
+		/*initModel(BlockRegistry.trillium, 0);
 		initModel(BlockRegistry.hirschgeistskull, 0);
 		initModel(BlockRegistry.handoffate, 0);
 
@@ -55,10 +55,10 @@ public class EventHandlerClient {
 		initModel(ItemRegistry.goatMilk, 0);
 		initModel(ItemRegistry.goatCheese, 0);
 		initModel(ItemRegistry.pheasantRaw, 0);
-		initModel(ItemRegistry.pheasantCooked, 0);
+		initModel(ItemRegistry.pheasantCooked, 0);*/
 	}
 	
-	public static void initModel(Item item, int meta) {
+	/*public static void initModel(Item item, int meta) {
 		ModelLoader.setCustomModelResourceLocation(item, meta, new ModelResourceLocation(item.getRegistryName(), "inventory"));
 	}
 
@@ -68,6 +68,6 @@ public class EventHandlerClient {
 
 	public static void initModelOBJ(Block block, int meta) {
 		ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(block), meta, new ModelResourceLocation(block.getRegistryName() + ".obj", "inventory"));
-	}
+	}*/
 	
 }

@@ -5,11 +5,13 @@ import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Random;
 
+import net.minecraft.block.BlockSkull;
 import net.minecraft.client.renderer.entity.model.ModelBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntitySkull;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraftforge.api.distmarker.Dist;
@@ -23,6 +25,7 @@ public class TileEntityHead extends TileEntitySkull {
 	private boolean useFunc = false;
 	private Method textureFunction;
 	private float offset;
+	private float rotation;
 	
 	public HashMap<Integer, ResourceLocation> textures;
 	
@@ -125,6 +128,23 @@ public class TileEntityHead extends TileEntitySkull {
 	
 	public float getOffset() {
 		return this.offset;
+	}
+
+	public void setRotation(float rotation) {
+		this.rotation = rotation;
+	}
+
+	public float getSkullRotation() {
+		return this.rotation;
+	}
+	
+	public float getRotationX() {
+		return this.getBlockState().get(BlockSkull.ROTATION);
+	}
+
+	public EnumFacing getBlockFacing() {
+		return EnumFacing.NORTH;
+		//return this.getBlockState().get(BlockSkull.ROTATION);
 	}
 
 }

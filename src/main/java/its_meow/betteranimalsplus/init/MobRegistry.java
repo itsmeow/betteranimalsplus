@@ -138,9 +138,9 @@ public class MobRegistry {
 		 * @param event The event
 		 */
 		@SubscribeEvent
-		public static void onEvent(final RegistryEvent.Register<EntityType<? extends Entity>> event)
+		public static void onEvent(final RegistryEvent.Register<EntityType<?>> event)
 		{
-			final IForgeRegistry<EntityType<? extends Entity>> registry = event.getRegistry();
+			final IForgeRegistry<EntityType<?>> registry = event.getRegistry();
 
 			for(EntityContainer container : entityList) {
 				if(container.doRegister)

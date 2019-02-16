@@ -1,13 +1,9 @@
 package its_meow.betteranimalsplus.common.item;
 
 import its_meow.betteranimalsplus.BetterAnimalsPlusMod;
-import net.minecraft.client.renderer.model.ModelResourceLocation;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.model.ModelLoader;
 
 public class ItemPheasantRaw extends ItemFood {
 	
@@ -19,13 +15,11 @@ public class ItemPheasantRaw extends ItemFood {
     private final boolean isMeat;
 	
 	public ItemPheasantRaw(int amount, boolean isWolfFood) {
-		super(amount, isWolfFood);
+		super(amount, 1, isWolfFood, new Properties().group(BetterAnimalsPlusMod.group));
 		this.setRegistryName("pheasantraw");
-		this.setUnlocalizedName("betteranimalsplus.pheasantraw");
         this.itemUseDuration = 32;
         this.healAmount = 3;
         this.isMeat = false;
-        this.setCreativeTab(BetterAnimalsPlusMod.group);
 	}
 	
     @Override
@@ -53,11 +47,5 @@ public class ItemPheasantRaw extends ItemFood {
     {
         return EnumAction.EAT;
     }
-
-	@OnlyIn(Dist.CLIENT)
-	public void initModel(){
-		ModelLoader.setCustomModelResourceLocation(this, 0, new ModelResourceLocation(getRegistryName(), "inventory"));
-	}
-	
 	
 }
