@@ -1,13 +1,9 @@
 package its_meow.betteranimalsplus.common.item;
 
 import its_meow.betteranimalsplus.BetterAnimalsPlusMod;
-import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.client.model.ModelLoader;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ItemGoatCheese extends ItemFood {
 
@@ -19,12 +15,10 @@ public class ItemGoatCheese extends ItemFood {
     private final boolean isMeat = false;
 	
 	public ItemGoatCheese() {
-		super(3, false);
+		super(3, 1, false, new Properties().group(BetterAnimalsPlusMod.group));
 		this.setRegistryName("goatcheese");
-		this.setUnlocalizedName("betteranimalsplus.goatcheese");
         this.itemUseDuration = 15;
         this.healAmount = 3;
-        this.setCreativeTab(BetterAnimalsPlusMod.group);
 	}
 	
     /**
@@ -54,10 +48,5 @@ public class ItemGoatCheese extends ItemFood {
     {
         return EnumAction.EAT;
     }
-
-	@OnlyIn(Dist.CLIENT)
-	public void initModel(){
-		ModelLoader.setCustomModelResourceLocation(this, 0, new ModelResourceLocation(getRegistryName(), "inventory"));
-	}
 
 }

@@ -9,12 +9,12 @@ import its_meow.betteranimalsplus.init.BlockRegistry;
 import its_meow.betteranimalsplus.init.TextureRegistry;
 import net.minecraft.block.BlockHorizontal;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.model.ModelBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
@@ -22,6 +22,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 public class TileEntityTrillium extends TileEntity {
 
+	public static final TileEntityType<TileEntityTrillium> TRILLIUM_TYPE = TileEntityType.Builder.create(TileEntityTrillium::new).build(null);
 	private int typeNum;
 	private final String keyType = "trilliumType";
 
@@ -32,6 +33,7 @@ public class TileEntityTrillium extends TileEntity {
 
 
 	public TileEntityTrillium() {
+		super(TRILLIUM_TYPE);
 		if(!this.getTileData().hasKey(this.keyType)) {
 			this.setType(new Random().nextInt(5));
 		}
@@ -136,7 +138,7 @@ public class TileEntityTrillium extends TileEntity {
 
 	@Override
 	public void handleUpdateTag(NBTTagCompound tag) {
-		this.readFromNBT(tag);
+		this.read(tag);
 	}
 	
 	@OnlyIn(Dist.CLIENT)

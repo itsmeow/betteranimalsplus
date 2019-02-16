@@ -10,7 +10,6 @@ import its_meow.betteranimalsplus.init.EntityContainer;
 import its_meow.betteranimalsplus.init.MobRegistry;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.biome.Biome;
-import net.minecraftforge.common.config.Configuration;
 
 public class BetterAnimalsPlusConfig {
 

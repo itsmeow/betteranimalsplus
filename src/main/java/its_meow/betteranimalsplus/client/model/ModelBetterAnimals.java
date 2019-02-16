@@ -2,8 +2,8 @@ package its_meow.betteranimalsplus.client.model;
 
 import its_meow.betteranimalsplus.common.util.ModMathHelper;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.model.ModelBase;
-import net.minecraft.client.model.ModelRenderer;
+import net.minecraft.client.renderer.entity.model.ModelBase;
+import net.minecraft.client.renderer.entity.model.ModelRenderer;
 import net.minecraft.entity.EntityLivingBase;
 
 /**
@@ -28,7 +28,7 @@ public class ModelBetterAnimals extends ModelBase {
 	 * @return TicksExisted + partialTicks of the entity.
 	 */
 	public static float getIdleProgress(EntityLivingBase base) {
-		return base.ticksExisted + Minecraft.getMinecraft().getRenderPartialTicks();
+		return base.ticksExisted + Minecraft.getInstance().getRenderPartialTicks();
 	}
 
 	/**
@@ -39,7 +39,7 @@ public class ModelBetterAnimals extends ModelBase {
 	 * @return How far along the entity is from completing its swing.
 	 */
 	public static float getSwingProgress(EntityLivingBase base) {
-		return base.limbSwing - base.limbSwingAmount * (1.0F - Minecraft.getMinecraft().getRenderPartialTicks());
+		return base.limbSwing - base.limbSwingAmount * (1.0F - Minecraft.getInstance().getRenderPartialTicks());
 	}
 
 	/**
@@ -50,7 +50,7 @@ public class ModelBetterAnimals extends ModelBase {
 	 * @return The time since the last limb swing of the entity was completed.
 	 */
 	public static float getSwingProgressPrev(EntityLivingBase base) {
-		return base.prevLimbSwingAmount + (base.limbSwingAmount - base.prevLimbSwingAmount) * Minecraft.getMinecraft().getRenderPartialTicks();
+		return base.prevLimbSwingAmount + (base.limbSwingAmount - base.prevLimbSwingAmount) * Minecraft.getInstance().getRenderPartialTicks();
 	}
 
 	/**
@@ -61,8 +61,8 @@ public class ModelBetterAnimals extends ModelBase {
 	 * @return The value of the yaw rotation the head is at.
 	 */
 	public static float getHeadYaw(EntityLivingBase base) {
-		float yawOffset = ModMathHelper.interpolateRotation(base.prevRenderYawOffset, base.renderYawOffset, Minecraft.getMinecraft().getRenderPartialTicks());
-		float yawHead = ModMathHelper.interpolateRotation(base.prevRotationYawHead, base.rotationYawHead, Minecraft.getMinecraft().getRenderPartialTicks());
+		float yawOffset = ModMathHelper.interpolateRotation(base.prevRenderYawOffset, base.renderYawOffset, Minecraft.getInstance().getRenderPartialTicks());
+		float yawHead = ModMathHelper.interpolateRotation(base.prevRotationYawHead, base.rotationYawHead, Minecraft.getInstance().getRenderPartialTicks());
 		return yawHead - yawOffset;
 	}
 
@@ -74,7 +74,7 @@ public class ModelBetterAnimals extends ModelBase {
 	 * @return The value of the pitch rotation the head is at.
 	 */
 	public static float getHeadPitch(EntityLivingBase base) {
-		return (base.prevRotationPitch + (base.rotationPitch - base.prevRotationPitch) * Minecraft.getMinecraft().getRenderPartialTicks());
+		return (base.prevRotationPitch + (base.rotationPitch - base.prevRotationPitch) * Minecraft.getInstance().getRenderPartialTicks());
 	}
 
 	/**

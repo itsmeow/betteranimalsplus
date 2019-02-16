@@ -19,8 +19,8 @@ public class RenderJellyfish extends RenderLiving<EntityJellyfish> {
 	@Override
 	protected void preRenderCallback(EntityJellyfish entitylivingbaseIn, float partialTickTime) {
 		float s = entitylivingbaseIn.getSize();
-		GlStateManager.scale(s,s,s);
-		GlStateManager.translate(0, 1F, 0);
+		GlStateManager.scalef(s,s,s);
+		GlStateManager.translatef(0, 1F, 0);
 	}
 
 

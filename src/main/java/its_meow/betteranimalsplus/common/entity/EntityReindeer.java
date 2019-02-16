@@ -1,11 +1,9 @@
 package its_meow.betteranimalsplus.common.entity;
 
 import java.util.Calendar;
-import java.util.UUID;
 
 import javax.annotation.Nullable;
 
-import com.google.common.base.Optional;
 import com.google.common.base.Predicate;
 
 import its_meow.betteranimalsplus.init.BlockRegistry;
@@ -19,7 +17,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.EnumCreatureAttribute;
 import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.IJumpingMount;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -38,6 +35,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.init.MobEffects;
+import net.minecraft.init.Particles;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemSpawnEgg;
@@ -46,17 +44,18 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
+import net.minecraft.particles.BasicParticleType;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumHand;
-import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 public class EntityReindeer extends EntityAnimal implements IJumpingMount {
 
@@ -202,7 +201,7 @@ public class EntityReindeer extends EntityAnimal implements IJumpingMount {
 				reindeer.setType(this.getTypeNumber());
 			}
 			
-			if(other.getCustomNameTag().equalsIgnoreCase("rudolph") || this.getCustomNameTag().equalsIgnoreCase("rudolph")) {
+			if(other.getCustomName().getString().equalsIgnoreCase("rudolph") || this.getCustomName().getString().equalsIgnoreCase("rudolph")) {
 				reindeer.parentRudolph = true;
 			}
 		} else { // same as above
@@ -260,7 +259,7 @@ public class EntityReindeer extends EntityAnimal implements IJumpingMount {
 
 	public boolean canBeLeashedTo(EntityPlayer player)
 	{
-		return super.canBeLeashedTo(player) && this.getCreatureAttribute() != EnumCreatureAttribute.UNDEAD;
+		return super.canBeLeashedTo(player);
 	}
 
 	protected void onLeashDistance(float p_142017_1_)
@@ -440,9 +439,9 @@ public class EntityReindeer extends EntityAnimal implements IJumpingMount {
 		{
 			SoundType soundtype = blockIn.getSoundType(blockIn.getDefaultState(), this.world, pos, this);
 
-			if (this.world.getBlockState(pos.up()).getBlock() == Blocks.SNOW_LAYER)
+			if (this.world.getBlockState(pos.up()).getBlock() == Blocks.SNOW)
 			{
-				soundtype = Blocks.SNOW_LAYER.getSoundType(Blocks.SNOW_LAYER.getDefaultState(), this.world, pos, this);
+				soundtype = Blocks.SNOW.getSoundType(Blocks.SNOW.getDefaultState(), this.world, pos, this);
 			}
 
 			if (this.isBeingRidden() && this.canGallop)
@@ -535,7 +534,7 @@ public class EntityReindeer extends EntityAnimal implements IJumpingMount {
 			i = 30;
 			j = 3;
 		}
-		else if (item == Item.getItemFromBlock(Blocks.HAY_BLOCK))
+		else if (item == Blocks.HAY_BLOCK.asItem())
 		{
 			f = 20.0F;
 			i = 180;
@@ -579,7 +578,7 @@ public class EntityReindeer extends EntityAnimal implements IJumpingMount {
 
 		if (this.isChild() && i > 0)
 		{
-			this.world.spawnParticle(EnumParticleTypes.VILLAGER_HAPPY, this.posX + (double)(this.rand.nextFloat() * this.width * 2.0F) - (double)this.width, this.posY + 0.5D + (double)(this.rand.nextFloat() * this.height), this.posZ + (double)(this.rand.nextFloat() * this.width * 2.0F) - (double)this.width, 0.0D, 0.0D, 0.0D);
+			this.world.spawnParticle(Particles.HAPPY_VILLAGER, this.posX + (double)(this.rand.nextFloat() * this.width * 2.0F) - (double)this.width, this.posY + 0.5D + (double)(this.rand.nextFloat() * this.height), this.posZ + (double)(this.rand.nextFloat() * this.width * 2.0F) - (double)this.width, 0.0D, 0.0D, 0.0D);
 
 			if (!this.world.isRemote)
 			{
@@ -612,8 +611,8 @@ public class EntityReindeer extends EntityAnimal implements IJumpingMount {
 		if(!this.isChild()) {
 			if(this.rand.nextInt(12) == 0) {
 				ItemStack stack = new ItemStack(BlockRegistry.reindeerhead.getItemBlock());
-				stack.setTagCompound(new NBTTagCompound());
-				stack.getTagCompound().setInteger("TYPENUM", this.getTypeNumber());
+				// stack.setTagCompound(new NBTTagCompound());
+				// stack.getTagCompound().setInteger("TYPENUM", this.getTypeNumber());
 				this.entityDropItem(stack, 0.5F);
 			}
 		}
@@ -674,7 +673,7 @@ public class EntityReindeer extends EntityAnimal implements IJumpingMount {
 
 		super.livingTick();
 		if(this.rand.nextInt(10) == 0) {
-			this.world.spawnParticle(EnumParticleTypes.SNOW_SHOVEL, this.posX + this.rand.nextInt(4) - 2F, this.posY + this.rand.nextInt(4), this.posZ + this.rand.nextInt(4) - 2F, 0F, -0.005F, 0F);
+			this.world.spawnParticle(Particles.ITEM_SNOWBALL, this.posX + this.rand.nextInt(4) - 2F, this.posY + this.rand.nextInt(4), this.posZ + this.rand.nextInt(4) - 2F, 0F, -0.005F, 0F);
 		}
 		if (!this.world.isRemote)
 		{
@@ -947,13 +946,13 @@ public class EntityReindeer extends EntityAnimal implements IJumpingMount {
 	
 
 	@Override
-	public void setCustomNameTag(String name) {
-		if(name.toLowerCase().equals("rudolph")) {
+	public void setCustomName(ITextComponent comp) {
+		if(comp.getString().toLowerCase().equals("rudolph")) {
 			if(this.getTypeNumber() <= 4) {
 				this.setType(this.getTypeNumber() + 4);
 			}
 		}
-		super.setCustomNameTag(name);
+		super.setCustomName(comp);
 	}
 
 
@@ -974,13 +973,13 @@ public class EntityReindeer extends EntityAnimal implements IJumpingMount {
 	 */
 	public boolean writeUnlessRemoved(NBTTagCompound compound)
 	{
-		super.writeUnlessRemoved(compound);
 		compound.setBoolean("EatingHaystack", this.isEatingHaystack());
 		compound.setBoolean("Bred", this.isBreeding());
 		compound.setInt("Temper", this.getTemper());
 
 		compound.setInt("TypeNumber", this.getTypeNumber());
-		compound.setBoolean("IsParentRudolph", this.parentRudolph );
+		compound.setBoolean("IsParentRudolph", this.parentRudolph);
+		return super.writeUnlessRemoved(compound);
 	}
 
 	/**
@@ -1004,7 +1003,7 @@ public class EntityReindeer extends EntityAnimal implements IJumpingMount {
 
 		this.setType(compound.getInt("TypeNumber"));
 		Calendar calendar = Calendar.getInstance();
-		if(this.getTypeNumber() > 4 && !(calendar.get(2) + 1 == 12 && calendar.get(5) >= 22 && calendar.get(5) <= 28) && !(this.getCustomNameTag().toLowerCase().equals("rudolph") || this.parentRudolph)) {
+		if(this.getTypeNumber() > 4 && !(calendar.get(2) + 1 == 12 && calendar.get(5) >= 22 && calendar.get(5) <= 28) && !(this.getCustomName().getString().toLowerCase().equals("rudolph") || this.parentRudolph)) {
 			this.setType(this.getTypeNumber() - 4); // Remove red noses after Christmas season after loading entity
 		}
 	}
@@ -1015,7 +1014,7 @@ public class EntityReindeer extends EntityAnimal implements IJumpingMount {
 	 */
 	protected boolean canMate()
 	{
-		return !this.isBeingRidden() && !this.isRiding() && !this.isChild() && this.getHealth() >= this.getMaxHealth() && this.isInLove();
+		return !this.isBeingRidden() && this.getRidingEntity() == null && !this.isChild() && this.getHealth() >= this.getMaxHealth() && this.isInLove();
 	}
 
 
@@ -1100,7 +1099,7 @@ public class EntityReindeer extends EntityAnimal implements IJumpingMount {
 	@OnlyIn(Dist.CLIENT)
 	protected void spawnReindeerParticles(boolean p_110216_1_)
 	{
-		EnumParticleTypes enumparticletypes = p_110216_1_ ? EnumParticleTypes.HEART : EnumParticleTypes.SMOKE_NORMAL;
+		BasicParticleType enumparticletypes = p_110216_1_ ? Particles.HEART : Particles.SMOKE;
 
 		for (int i = 0; i < 7; ++i)
 		{

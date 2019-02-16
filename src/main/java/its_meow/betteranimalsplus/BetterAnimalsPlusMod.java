@@ -1,29 +1,21 @@
 package its_meow.betteranimalsplus;
 
-import java.io.File;
-
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.google.common.graph.ElementOrder.Type;
-
-import its_meow.betteranimalsplus.common.config.BetterAnimalsPlusConfig;
 import its_meow.betteranimalsplus.common.world.gen.TrilliumGenerator;
-import its_meow.betteranimalsplus.init.BlockRegistry;
-import its_meow.betteranimalsplus.init.CraftingRegistry;
 import its_meow.betteranimalsplus.init.MobRegistry;
 import its_meow.betteranimalsplus.proxy.ClientProxy;
 import its_meow.betteranimalsplus.proxy.ISidedProxy;
 import its_meow.betteranimalsplus.proxy.ServerProxy;
-import net.minecraft.init.Biomes;
 import net.minecraft.world.biome.Biome;
+import net.minecraft.world.gen.feature.NoFeatureConfig;
+import net.minecraft.world.gen.placement.FrequencyConfig;
 import net.minecraftforge.common.BiomeDictionary;
-import net.minecraftforge.common.BiomeManager;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
@@ -59,7 +51,7 @@ public class BetterAnimalsPlusMod {
 	
 	
     private void setup(final FMLCommonSetupEvent event) {
-    	BiomeDictionary.getBiomes(BiomeDictionary.Type.SWAMP).forEach(biome -> biome.addFeature(generationStage, Biome.createCompositeFeature(new TrilliumGenerator(BlockRegistry.trillium), defaultConfig, defaultPlacement, defaultPlacementConfig)));
+    	BiomeDictionary.getBiomes(BiomeDictionary.Type.SWAMP).forEach(biome -> biome.addFeature(net.minecraft.world.gen.GenerationStage.Decoration.VEGETAL_DECORATION, Biome.createCompositeFeature(new TrilliumGenerator(), new NoFeatureConfig(), Biome.TOP_SOLID, new FrequencyConfig(3))));
 		logger.log(Level.INFO, "Overspawning lammergeiers...");
     }
 

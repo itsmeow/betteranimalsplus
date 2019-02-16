@@ -147,7 +147,7 @@ public class MobRegistry {
 					reg(container);
 			}
 			//EntitySpawnPlacementRegistry.setPlacementType(EntityLammergeier.class, SpawnPlacementType.IN_AIR);
-			register(EntityTarantulaHair.class, EntityTarantulaHair::new, "tarantulahair", null);
+			registry.register(EntityTarantulaHair.HAIR_TYPE);
 
 			if(!entrySet.isEmpty()) {
 				for (final EntityType<? extends Entity> entityEntry : entrySet) {

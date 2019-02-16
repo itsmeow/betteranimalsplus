@@ -48,7 +48,7 @@ public class HirschgeistAIAttackMelee extends EntityAIBase {
         } else if(this.attacker.isDaytime()) {
         	return false;
         }
-        else if (!entitylivingbase.isEntityAlive())
+        else if (!entitylivingbase.isAlive())
         {
             return false;
         }
@@ -93,7 +93,7 @@ public class HirschgeistAIAttackMelee extends EntityAIBase {
         } else if(this.attacker.isDaytime()) {
         	return false;
         }
-        else if (!entitylivingbase.isEntityAlive())
+        else if (!entitylivingbase.isAlive())
         {
             return false;
         }

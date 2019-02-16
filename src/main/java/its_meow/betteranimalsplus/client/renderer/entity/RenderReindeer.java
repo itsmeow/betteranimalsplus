@@ -17,9 +17,9 @@ public class RenderReindeer extends RenderLiving<EntityReindeer> {
 	@Override
 	protected void preRenderCallback(EntityReindeer entitylivingbaseIn, float partialTickTime) {
 		if (getMainModel().isChild) {
-			GlStateManager.scale(0.7D, 0.7D, 0.7D);
+			GlStateManager.scaled(0.7D, 0.7D, 0.7D);
 		} else {
-			GlStateManager.scale(1.3D, 1.3D, 1.3D);
+			GlStateManager.scaled(1.3D, 1.3D, 1.3D);
 		}
 	}
 

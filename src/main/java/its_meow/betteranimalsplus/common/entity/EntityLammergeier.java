@@ -12,6 +12,7 @@ import its_meow.betteranimalsplus.common.entity.ai.EntityAIFollowOwnerFlying;
 import its_meow.betteranimalsplus.common.entity.ai.LammerMoveHelper;
 import its_meow.betteranimalsplus.common.util.PolarVector3D;
 import its_meow.betteranimalsplus.init.LootTableRegistry;
+import its_meow.betteranimalsplus.init.MobRegistry;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
@@ -66,7 +67,7 @@ public class EntityLammergeier extends EntityTameableFlying {
 	//Forgive me for this godawful mess.
 
 	public EntityLammergeier(World worldIn) {
-		super(worldIn);
+		super(MobRegistry.getType(EntityLammergeier.class), worldIn);
 		this.setSize(1F, 1F);
 		//this.moveHelper = new EntityFlyHelper(this);
 		this.moveHelper = new LammerMoveHelper(this);

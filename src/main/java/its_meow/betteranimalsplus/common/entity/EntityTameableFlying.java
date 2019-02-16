@@ -2,6 +2,7 @@ package its_meow.betteranimalsplus.common.entity;
 
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityAgeable;
+import net.minecraft.entity.EntityType;
 import net.minecraft.entity.MoverType;
 import net.minecraft.entity.passive.EntityTameable;
 import net.minecraft.util.math.BlockPos;
@@ -10,8 +11,8 @@ import net.minecraft.world.World;
 
 public class EntityTameableFlying extends EntityTameable {
 
-	public EntityTameableFlying(World worldIn) {
-		super(worldIn);
+	public EntityTameableFlying(EntityType<?> type, World worldIn) {
+		super(type, worldIn);
 	}
 
     public void travel(float strafe, float vertical, float forward)
@@ -85,7 +86,7 @@ public class EntityTameableFlying extends EntityTameable {
 
 	@Override
 	public EntityAgeable createChild(EntityAgeable ageable) {
-		return new EntityTameableFlying(ageable.world);
+		return null;
 	}
 
 }

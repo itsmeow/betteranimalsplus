@@ -19,9 +19,9 @@ public class RenderSquirrel extends RenderLiving<EntitySquirrel> {
 	@Override
 	protected void preRenderCallback(EntitySquirrel entitylivingbaseIn, float partialTickTime) {
 		if (getMainModel().isChild) {
-			GlStateManager.scale(0.35D, 0.35D, 0.35D);
+			GlStateManager.scaled(0.35D, 0.35D, 0.35D);
 		} else {
-			GlStateManager.scale(0.5D, 0.5D, 0.5D);
+			GlStateManager.scaled(0.5D, 0.5D, 0.5D);
 		}
 	}
 

@@ -5,15 +5,15 @@ import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Random;
 
-import net.minecraft.client.model.ModelBase;
+import net.minecraft.client.renderer.entity.model.ModelBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntitySkull;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 public class TileEntityHead extends TileEntitySkull {
 	
@@ -83,8 +83,8 @@ public class TileEntityHead extends TileEntitySkull {
 	}
 	
 	@Override
-	public void readFromNBT(NBTTagCompound compound) {
-		super.readFromNBT(compound);
+	public void read(NBTTagCompound compound) {
+		super.read(compound);
 		if(compound.hasKey("TYPENUM")) {
 			this.typeNum = compound.getInt("TYPENUM");
 		} else {
@@ -93,8 +93,8 @@ public class TileEntityHead extends TileEntitySkull {
 	}
 
 	@Override
-	public NBTTagCompound writeToNBT(NBTTagCompound compound) {
-		super.writeToNBT(compound);
+	public NBTTagCompound write(NBTTagCompound compound) {
+		super.write(compound);
 		compound.setInt("TYPENUM", this.typeNum);
 		return compound;
 	}
@@ -102,25 +102,25 @@ public class TileEntityHead extends TileEntitySkull {
 	@Override
 	public SPacketUpdateTileEntity getUpdatePacket() {
 		NBTTagCompound tag = new NBTTagCompound();
-		this.writeToNBT(tag);
+		this.write(tag);
 		return new SPacketUpdateTileEntity(this.pos, 1, tag);
 	}
 
 	@Override
 	public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity packet) {
-		readFromNBT(packet.getNbtCompound());
-		this.world.scheduleUpdate(this.pos, this.blockType, 100);
+		read(packet.getNbtCompound());
+		this.world.getPendingBlockTicks().scheduleTick(pos, this.getBlockState().getBlock(), 100);
 	}
 	
 	@Override
 	public NBTTagCompound getUpdateTag() {
 		NBTTagCompound tag = new NBTTagCompound();
-        this.writeToNBT(tag);
+        this.write(tag);
         return tag;
 	}
 	@Override
 	public void handleUpdateTag(NBTTagCompound tag) {
-		this.readFromNBT(tag);
+		this.read(tag);
 	}
 	
 	public float getOffset() {

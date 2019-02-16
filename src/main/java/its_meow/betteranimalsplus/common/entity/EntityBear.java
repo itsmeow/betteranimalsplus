@@ -8,6 +8,7 @@ import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIAttackMelee;
 import net.minecraft.entity.ai.EntityAIHurtByTarget;
@@ -38,6 +39,12 @@ public class EntityBear extends EntityMob {
 
 	public EntityBear(World worldIn) {
 		super(MobRegistry.getType(EntityBear.class), worldIn);
+		this.world = worldIn;
+		this.setSize(2F, 2F);
+	}
+	
+	public EntityBear(EntityType<?> type, World worldIn) {
+		super(type, worldIn);
 		this.world = worldIn;
 		this.setSize(2F, 2F);
 	}

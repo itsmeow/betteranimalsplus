@@ -2,10 +2,10 @@ package its_meow.betteranimalsplus.client.model;
 
 import its_meow.betteranimalsplus.common.entity.miniboss.hirschgeist.EntityHirschgeist;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.model.ModelBase;
-import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.OpenGlHelper;
+import net.minecraft.client.renderer.entity.model.ModelBase;
+import net.minecraft.client.renderer.entity.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.MathHelper;
 
@@ -1227,7 +1227,7 @@ public class ModelHirschgeistMain extends ModelBase {
 		GlStateManager.pushMatrix();
 
 		GlStateManager.enableBlend();
-		GlStateManager.enableAlpha();
+		GlStateManager.enableAlphaTest();
 
 		GlStateManager.blendFunc(GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ONE);
 
@@ -1237,20 +1237,20 @@ public class ModelHirschgeistMain extends ModelBase {
 		int i = 61680;
 		int j = i % 65536;
 		int k = i / 65536;
-		OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, (float)j, (float)k);
+		OpenGlHelper.glMultiTexCoord2f(OpenGlHelper.GL_TEXTURE1, (float)j, (float)k);
 		if(entity instanceof EntityHirschgeist) {
-			GlStateManager.color(1.0F, 1.0F, 1.0F, ((EntityHirschgeist)entity).isDaytime() ? 0.15F : 1.0F);
+			GlStateManager.color4f(1.0F, 1.0F, 1.0F, ((EntityHirschgeist)entity).isDaytime() ? 0.15F : 1.0F);
 		}
-		Minecraft.getMinecraft().entityRenderer.setupFogColor(true);
+		Minecraft.getInstance().entityRenderer.setupFogColor(true);
 		this.ectoplasm01.render(f5);
-		Minecraft.getMinecraft().entityRenderer.setupFogColor(false);
+		Minecraft.getInstance().entityRenderer.setupFogColor(false);
 		i = entity.getBrightnessForRender();
 		j = i % 65536;
 		k = i / 65536;
-		OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, (float)j, (float)k);
-		GlStateManager.color(1.0F, 1.0F, 1.0F, 1F);
+		OpenGlHelper.glMultiTexCoord2f(OpenGlHelper.GL_TEXTURE1, (float)j, (float)k);
+		GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1F);
 		GlStateManager.disableBlend();
-		GlStateManager.disableAlpha();
+		GlStateManager.disableAlphaTest();
 		GlStateManager.popMatrix();
 
 		this.setRotationAngles(f, f1, f2, f3, f4, f5, entity);

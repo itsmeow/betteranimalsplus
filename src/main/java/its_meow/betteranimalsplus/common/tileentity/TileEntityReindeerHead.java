@@ -2,7 +2,7 @@ package its_meow.betteranimalsplus.common.tileentity;
 
 import its_meow.betteranimalsplus.client.model.ModelReindeerHead;
 import its_meow.betteranimalsplus.init.TextureRegistry;
-import net.minecraft.client.model.ModelBase;
+import net.minecraft.client.renderer.entity.model.ModelBase;
 import net.minecraft.util.ResourceLocation;
 
 public class TileEntityReindeerHead extends TileEntityHead {

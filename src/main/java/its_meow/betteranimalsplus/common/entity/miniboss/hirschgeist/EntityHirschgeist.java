@@ -3,7 +3,8 @@ package its_meow.betteranimalsplus.common.entity.miniboss.hirschgeist;
 import its_meow.betteranimalsplus.common.entity.miniboss.hirschgeist.ai.HirschgeistAIAttackMelee;
 import its_meow.betteranimalsplus.common.entity.miniboss.hirschgeist.ai.HirschgeistAIFlameAttack;
 import its_meow.betteranimalsplus.init.LootTableRegistry;
-import net.minecraft.block.Block;
+import its_meow.betteranimalsplus.init.MobRegistry;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
@@ -21,14 +22,16 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.text.TextComponentString;
+import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.FMLCommonHandler;
-import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.fml.common.thread.SidedThreadGroups;
+import net.minecraftforge.fml.loading.FMLEnvironment;
 
 public class EntityHirschgeist extends EntityLiving implements IMob {
 
 	public EntityHirschgeist(World worldIn) {
-		super(worldIn);
+		super(MobRegistry.getType(EntityHirschgeist.class), worldIn);
 		//this.setSize(3, 4);
 	}
 
@@ -54,7 +57,7 @@ public class EntityHirschgeist extends EntityLiving implements IMob {
 	}
 
 	public boolean isDaytime() {
-		long time = this.world.getWorldTime() % 24000L; // Time can go over values of 24000, so divide and take the remainder
+		long time = this.world.getDayTime() % 24000L; // Time can go over values of 24000, so divide and take the remainder
 		return !(time >= 13000L && time <= 23000L);
 	}
 
@@ -71,7 +74,7 @@ public class EntityHirschgeist extends EntityLiving implements IMob {
 	
 	
 	@Override
-	public boolean getCanSpawnHere() {
+	public boolean canSpawn(IWorld world, boolean b) {
 		if(this.world.getEntitiesWithinAABB(EntityHirschgeist.class, this.getBoundingBox().grow(150)).size() == 1) {
 			return false;
 		} else {
@@ -90,7 +93,7 @@ public class EntityHirschgeist extends EntityLiving implements IMob {
 	}
 
 	@Override
-	protected void playStepSound(BlockPos pos, Block blockIn)
+	protected void playStepSound(BlockPos pos, IBlockState state)
 	{
 		this.playSound(SoundEvents.ENTITY_SHEEP_STEP, 0.5F, 0.6F);
 	}
@@ -110,10 +113,10 @@ public class EntityHirschgeist extends EntityLiving implements IMob {
 
 	@Override
 	public boolean attackEntityFrom(DamageSource source, float amount) {
-		if(this.isDaytime() && FMLCommonHandler.instance().getSide() == Side.CLIENT && FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT) {
+		if(this.isDaytime() && FMLEnvironment.dist == Dist.CLIENT && Thread.currentThread().getThreadGroup() == SidedThreadGroups.CLIENT) {
 			if(source.getTrueSource() instanceof EntityPlayer) {
 				EntityPlayer player = (EntityPlayer) source.getTrueSource();
-				player.sendMessage(new TextComponentString("The " + I18n.format("entity.betteranimalsplus.Hirschgeist.name") + " is immortal in the daytime. Try fighting it later."));
+				player.sendMessage(new TextComponentString("The " + I18n.format("entity.betteranimalsplus.Hirschgeist") + " is immortal in the daytime. Try fighting it later."));
 			}
 		}
 		return this.isDaytime() ? false : super.attackEntityFrom(source, amount);

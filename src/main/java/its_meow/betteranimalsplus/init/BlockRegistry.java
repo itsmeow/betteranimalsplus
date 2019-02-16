@@ -124,9 +124,9 @@ public class BlockRegistry {
 		@SubscribeEvent
 		public static void registerTileEntities(final RegistryEvent.Register<TileEntityType<?>> event) {
 			final IForgeRegistry<TileEntityType<?>> reg = event.getRegistry();
-			reg(reg, TileEntityTrillium::new);
-			reg(reg, TileEntityHandOfFate::new);
-			reg(reg, TileEntityHirschgeistSkull::new);
+			reg.register(TileEntityTrillium.TRILLIUM_TYPE);
+			reg.register(TileEntityHandOfFate.HAND_OF_FATE_TYPE);
+			reg.register(TileEntityHirschgeistSkull.HIRSCHGEIST_SKULL_TYPE);
 
 			for(BlockGenericSkull block : genericskulls.keySet()) {
 				reg(reg, block.teSupplier);

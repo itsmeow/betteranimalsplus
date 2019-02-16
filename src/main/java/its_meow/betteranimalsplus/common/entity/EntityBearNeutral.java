@@ -1,9 +1,11 @@
 package its_meow.betteranimalsplus.common.entity;
 
+import its_meow.betteranimalsplus.init.MobRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ai.EntityAIAttackMelee;
 import net.minecraft.entity.ai.EntityAIHurtByTarget;
 import net.minecraft.entity.ai.EntityAILookIdle;
@@ -29,7 +31,13 @@ public class EntityBearNeutral extends EntityBear {
 	private World world = null;
 
 	public EntityBearNeutral(World worldIn) {
-		super(worldIn);
+		super(MobRegistry.getType(EntityBearNeutral.class), worldIn);
+		this.world = worldIn;
+		this.setSize(2F, 1.5F);
+	}
+	
+	public EntityBearNeutral(EntityType<?> type, World worldIn) {
+		super(type, worldIn);
 		this.world = worldIn;
 		this.setSize(2F, 1.5F);
 	}

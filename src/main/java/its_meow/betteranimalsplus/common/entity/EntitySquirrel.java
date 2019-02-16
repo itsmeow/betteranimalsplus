@@ -2,6 +2,7 @@ package its_meow.betteranimalsplus.common.entity;
 
 import javax.annotation.Nullable;
 
+import its_meow.betteranimalsplus.init.MobRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.IEntityLivingData;
@@ -18,6 +19,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
@@ -37,7 +39,7 @@ public class EntitySquirrel extends EntityAnimal {
 	private int climbTimeWithoutLog = 0;
 
 	public EntitySquirrel(World worldIn) {
-		super(worldIn);
+		super(MobRegistry.getType(EntitySquirrel.class), worldIn);
 		this.setSize(0.5F, 0.5F);
 
 	}
@@ -47,7 +49,7 @@ public class EntitySquirrel extends EntityAnimal {
 		this.tasks.addTask(1, new EntityAISwimming(this));
 		this.tasks.addTask(2, new EntityAIPanic(this, 0.72D));
 		this.tasks.addTask(3, new EntityAIMate(this, 0.5D));
-		this.tasks.addTask(4, new EntityAITempt(this, 0.5D, Items.WHEAT_SEEDS, false));
+		this.tasks.addTask(4, new EntityAITempt(this, 0.5D, Ingredient.fromItems(Items.WHEAT_SEEDS), false));
 		this.tasks.addTask(5, new EntityAIAvoidEntity<EntityPlayer>(this, EntityPlayer.class, 10F, 0.5D, 0.7D));
 		this.tasks.addTask(6, new EntityAIWanderAvoidWater(this, 0.5D));
 		this.tasks.addTask(7, new EntityAILookIdle(this));
@@ -81,8 +83,8 @@ public class EntitySquirrel extends EntityAnimal {
 	 */
 	public boolean writeUnlessRemoved(NBTTagCompound compound)
 	{
-		super.writeUnlessRemoved(compound);
 		compound.setInt("TypeNumber", this.getTypeNumber());
+		return super.writeUnlessRemoved(compound);
 	}
 
 	/**
@@ -144,7 +146,7 @@ public class EntitySquirrel extends EntityAnimal {
 			for(EnumFacing facing : EnumFacing.values()) {
 				BlockPos pos = this.getPosition().offset(facing);
 				Block block = this.world.getBlockState(pos).getBlock();
-				if(block == Blocks.LOG || block == Blocks.LOG2) {
+				if(block == Blocks.ACACIA_LOG || block == Blocks.BIRCH_LOG || block == Blocks.DARK_OAK_LOG || block == Blocks.JUNGLE_LOG || block == Blocks.OAK_LOG || block == Blocks.SPRUCE_LOG) {
 					nearLog = true;
 				}
 			}

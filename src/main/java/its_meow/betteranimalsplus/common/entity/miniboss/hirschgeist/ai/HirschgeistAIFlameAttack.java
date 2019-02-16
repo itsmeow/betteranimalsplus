@@ -5,8 +5,8 @@ import net.minecraft.entity.EntityAreaEffectCloud;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.EntityAIBase;
 import net.minecraft.init.MobEffects;
+import net.minecraft.init.Particles;
 import net.minecraft.potion.PotionEffect;
-import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
@@ -31,7 +31,7 @@ public class HirschgeistAIFlameAttack extends EntityAIBase {
 			return false;
 		} else if(this.attacker.isDaytime()) {
 			return false;
-		} else if(this.attacker.getAttackTarget().dead) {
+		} else if(!this.attacker.getAttackTarget().isAlive()) {
 			return false;
 		} else {
 			return true;
@@ -66,7 +66,7 @@ public class HirschgeistAIFlameAttack extends EntityAIBase {
             this.areaEffectCloud.setOwner(this.attacker);
             this.areaEffectCloud.setRadius(3.0F);
             this.areaEffectCloud.setDuration(2000);
-            this.areaEffectCloud.setParticle(EnumParticleTypes.FLAME);
+            this.areaEffectCloud.func_195059_a(Particles.FLAME);
             this.areaEffectCloud.addEffect(new PotionEffect(MobEffects.INSTANT_DAMAGE));
             /*IBlockState blockstate = this.world.getBlockState(tPos);
             if(blockstate.getBlock() == Blocks.AIR) {
@@ -101,7 +101,7 @@ public class HirschgeistAIFlameAttack extends EntityAIBase {
 
                 for (int j = 0; j < 6; ++j)
                 {
-                    this.attacker.world.spawnParticle(EnumParticleTypes.FLAME, d3, d4, d5, -vec3d.x * 0.07999999821186066D * (double)j, -vec3d.y * 0.6000000238418579D, -vec3d.z * 0.07999999821186066D * (double)j);
+                    this.attacker.world.spawnParticle(Particles.FLAME, d3, d4, d5, -vec3d.x * 0.07999999821186066D * (double)j, -vec3d.y * 0.6000000238418579D, -vec3d.z * 0.07999999821186066D * (double)j);
                 }
 
                 vec3d.rotateYaw(0.19634955F);
@@ -122,7 +122,7 @@ public class HirschgeistAIFlameAttack extends EntityAIBase {
     {
         if (this.areaEffectCloud != null)
         {
-            this.areaEffectCloud.setDead();
+            this.areaEffectCloud.remove();;
             this.areaEffectCloud = null;
         }
     }

@@ -2,6 +2,8 @@ package its_meow.betteranimalsplus.common.entity;
 
 import javax.annotation.Nullable;
 
+import its_meow.betteranimalsplus.init.MobRegistry;
+import net.minecraft.entity.EntityType;
 import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.ai.EntityAIBase;
 import net.minecraft.entity.passive.EntitySquid;
@@ -27,6 +29,10 @@ public class EntityJellyfish extends EntitySquid {
 
 	public EntityJellyfish(World worldIn) {
 		super(worldIn);
+	}
+	
+	public EntityType<?> getType() {
+		return MobRegistry.getType(EntityJellyfish.class);
 	}
 	
 	protected void initEntityAI() {
