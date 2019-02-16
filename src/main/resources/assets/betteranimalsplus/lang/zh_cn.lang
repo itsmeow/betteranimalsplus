@@ -1,4 +1,4 @@
-﻿#Creative Tabs
+#Creative Tabs
 itemGroup.Better Animals+=动物优化+
 
 #Items
@@ -6,11 +6,20 @@ item.betteranimalsplus.venisonraw.name=生鹿肉
 item.betteranimalsplus.venisoncooked.name=熟鹿肉
 item.betteranimalsplus.hirschgeistskullwearable.name=菲森盖斯特的骷髅 (衣物)
 item.betteranimalsplus.antler.name=鹿角
+item.betteranimalsplus.goatmilk.name=山羊奶
+item.betteranimalsplus.goatcheese.name=山羊奶酪
+item.betteranimalsplus.pheasantraw.name=生野鸡
+item.betteranimalsplus.pheasantcooked.name=熟野鸡
 
 #Blocks
 tile.betteranimalsplus.trillium.name=延龄草
 tile.betteranimalsplus.hirschgeistskull.name=菲森盖斯特的骷髅
 tile.betteranimalsplus.handoffate.name=宿命之手
+tile.betteranimalsplus.wolfhead.name=野狼的头
+tile.betteranimalsplus.deerhead.name=鹿的头
+tile.betteranimalsplus.reindeerhead.name=驯鹿的头
+tile.betteranimalsplus.foxhead.name=狐狸的头
+tile.betteranimalsplus.boarhead.name=野猪的头
 
 #Entities
 entity.betteranimalsplus.BrownBear.name=棕熊
@@ -24,3 +33,9 @@ entity.betteranimalsplus.Trillium.name=延龄草
 entity.betteranimalsplus.Fox.name=狐狸
 entity.betteranimalsplus.Tarantula.name=捕鸟蛛
 entity.betteranimalsplus.Hirschgeist.name=菲森盖斯特
+entity.betteranimalsplus.Goat.name=山羊
+entity.betteranimalsplus.Jellyfish.name=水母
+entity.betteranimalsplus.Pheasant.name=野鸡
+entity.betteranimalsplus.Reindeer.name=驯鹿
+entity.betteranimalsplus.Boar.name=野猪
+entity.betteranimalsplus.Squirrel.name=松鼠
