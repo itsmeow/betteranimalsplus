@@ -18,9 +18,11 @@ archivesBaseName = 'betteranimalsplus'
 
 sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
 
+sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
+
 minecraft {
     mappings channel: 'snapshot', version: '20180921-1.13'
-
+	
     runs {
         client = {
             properties 'forge.logging.markers': 'SCAN,REGISTRIES,REGISTRYDUMP'
@@ -38,7 +40,7 @@ minecraft {
 }
 
 dependencies {
-	minecraft 'net.minecraftforge:forge:1.13.2-25.0.13'
+    minecraft 'net.minecraftforge:forge:1.13.2-25.0.13'
 }
 
 tasks.withType(JavaCompile) {
