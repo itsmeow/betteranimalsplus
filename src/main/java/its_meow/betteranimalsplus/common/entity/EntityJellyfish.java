@@ -2,16 +2,18 @@ package its_meow.betteranimalsplus.common.entity;
 
 import javax.annotation.Nullable;
 
+import its_meow.betteranimalsplus.init.MobRegistry;
+import net.minecraft.entity.EntityType;
 import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.ai.EntityAIBase;
 import net.minecraft.entity.passive.EntitySquid;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.MobEffects;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
@@ -29,13 +31,17 @@ public class EntityJellyfish extends EntitySquid {
 		super(worldIn);
 	}
 	
+	public EntityType<?> getType() {
+		return MobRegistry.getType(EntityJellyfish.class);
+	}
+	
 	protected void initEntityAI() {
         this.tasks.addTask(0, new EntityJellyfish.AIMoveRandom(this));
     }
 
 	@Override
-	public void onUpdate() {
-		super.onUpdate();
+	public void tick() {
+		super.tick();
 		if(this.attackCooldown > 0) { 
 			this.attackCooldown--;
 		}
@@ -44,10 +50,10 @@ public class EntityJellyfish extends EntitySquid {
 	@Override
 	public void onCollideWithPlayer(EntityPlayer entity) {
 		super.onCollideWithPlayer(entity);
-		if(!entity.capabilities.isCreativeMode && this.attackCooldown == 0) {
+		if(!entity.isCreative() && this.attackCooldown == 0) {
 			entity.attackEntityFrom(DamageSource.causeMobDamage(this), 2.0F);
-			entity.addPotionEffect(new PotionEffect(Potion.getPotionFromResourceLocation("poison"), 200, 0, false, false));
-			entity.addPotionEffect(new PotionEffect(Potion.getPotionFromResourceLocation("blindness"), 90, 2, false, false));
+			entity.addPotionEffect(new PotionEffect(MobEffects.POISON, 200, 0, false, false));
+			entity.addPotionEffect(new PotionEffect(MobEffects.BLINDNESS, 90, 2, false, false));
 			this.attackCooldown = 80;
 		}
 	}
@@ -67,9 +73,9 @@ public class EntityJellyfish extends EntitySquid {
 
 	/* NBT AND TYPE CODE: */
 
-	protected void entityInit()
+	protected void registerData()
 	{
-		super.entityInit();
+		super.registerData();
 		this.dataManager.register(TYPE_NUMBER, Integer.valueOf(0));
 		this.dataManager.register(SIZE, Float.valueOf(1));
 	}
@@ -96,23 +102,17 @@ public class EntityJellyfish extends EntitySquid {
 		super.setSize(width, height);
 	}
 	
-	/**
-	 * (abstract) Protected helper method to write subclass entity data to NBT.
-	 */
-	public void writeEntityToNBT(NBTTagCompound compound)
+	public boolean writeUnlessRemoved(NBTTagCompound compound)
 	{
-		super.writeEntityToNBT(compound);
-		compound.setInteger("TypeNumber", this.getTypeNumber());
+		compound.setInt("TypeNumber", this.getTypeNumber());
 		compound.setFloat("Size", this.getSize());
+		return super.writeUnlessRemoved(compound);
 	}
 
-	/**
-	 * (abstract) Protected helper method to read subclass entity data from NBT.
-	 */
-	public void readEntityFromNBT(NBTTagCompound compound)
+	public void read(NBTTagCompound compound)
 	{
-		super.readEntityFromNBT(compound);
-		this.setType(compound.getInteger("TypeNumber"));
+		super.read(compound);
+		this.setType(compound.getInt("TypeNumber"));
 		float size = compound.getFloat("Size");
 		this.setSize(size, size);
 	}
@@ -122,9 +122,9 @@ public class EntityJellyfish extends EntitySquid {
 	 * when entity is reloaded from nbt. Mainly used for initializing attributes and inventory
 	 */
 	@Nullable
-	public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, @Nullable IEntityLivingData livingdata)
+	public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, @Nullable IEntityLivingData livingdata, NBTTagCompound compound)
 	{
-		livingdata = super.onInitialSpawn(difficulty, livingdata);
+		livingdata = super.onInitialSpawn(difficulty, livingdata, compound);
 		if(!this.isChild()) {
 			int i = this.rand.nextInt(6) + 1; // Values 1 to 6
 			float rand = (float) (this.rand.nextInt(30) + 1F) / 50F + 0.05F;
@@ -177,7 +177,7 @@ public class EntityJellyfish extends EntitySquid {
         /**
          * Keep ticking a continuous task that has already been started
          */
-        public void updateTask()
+        public void tick()
         {
             int i = this.entity.getIdleTime();
 

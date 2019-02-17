@@ -1,10 +1,11 @@
 package its_meow.betteranimalsplus.common.entity;
 
+import its_meow.betteranimalsplus.init.MobRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityCreature;
-import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ai.EntityAIAttackMelee;
 import net.minecraft.entity.ai.EntityAIHurtByTarget;
 import net.minecraft.entity.ai.EntityAILookIdle;
@@ -19,7 +20,6 @@ import net.minecraft.init.SoundEvents;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.SoundEvent;
-import net.minecraft.util.datafix.DataFixer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
@@ -31,7 +31,13 @@ public class EntityBearNeutral extends EntityBear {
 	private World world = null;
 
 	public EntityBearNeutral(World worldIn) {
-		super(worldIn);
+		super(MobRegistry.getType(EntityBearNeutral.class), worldIn);
+		this.world = worldIn;
+		this.setSize(2F, 1.5F);
+	}
+	
+	public EntityBearNeutral(EntityType<?> type, World worldIn) {
+		super(type, worldIn);
 		this.world = worldIn;
 		this.setSize(2F, 1.5F);
 	}
@@ -50,10 +56,11 @@ public class EntityBearNeutral extends EntityBear {
         this.targetTasks.addTask(3, new EntityAINearestAttackableTarget<EntityRabbit>(this, EntityRabbit.class, true));
         this.targetTasks.addTask(4, new EntityAINearestAttackableTarget<EntityPheasant>(this, EntityPheasant.class, 90, true, true, new NullPredicate()));
     }
-
-	protected void applyEntityAttributes()
+	
+	@Override
+	protected void registerAttributes()
 	{
-		super.applyEntityAttributes();
+		super.registerAttributes();
 	}
 	
 	@Override
@@ -73,18 +80,13 @@ public class EntityBearNeutral extends EntityBear {
 		return this.world.getDifficulty() != EnumDifficulty.PEACEFUL;
 	}
 
-	public static void registerFixesBearNeutral(DataFixer fixer)
-	{
-		EntityLiving.registerFixesMob(fixer, EntityBearNeutral.class);
-	}
-
 
 	/**
 	 * Called when the entity is attacked.
 	 */
 	public boolean attackEntityFrom(DamageSource source, float amount)
 	{
-		if (this.isEntityInvulnerable(source))
+		if (this.isInvulnerableTo(source))
 		{
 			return false;
 		}
@@ -102,9 +104,10 @@ public class EntityBearNeutral extends EntityBear {
 		}
 	}
 	
-	public void onUpdate()
+	@Override
+	public void tick()
     {
-        super.onUpdate();
+        super.tick();
 
 
         if (this.warningSoundTicks > 0)

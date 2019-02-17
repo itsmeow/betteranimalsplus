@@ -10,7 +10,6 @@ import its_meow.betteranimalsplus.init.EntityContainer;
 import its_meow.betteranimalsplus.init.MobRegistry;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.biome.Biome;
-import net.minecraftforge.common.config.Configuration;
 
 public class BetterAnimalsPlusConfig {
 
@@ -33,7 +32,7 @@ public class BetterAnimalsPlusConfig {
 
 	public static boolean spawnTrillium = true;
 	
-	public static HashMap<EntityContainer, EntityConfigurationSection> sections = new HashMap<EntityContainer, EntityConfigurationSection>();
+	/*public static HashMap<EntityContainer, EntityConfigurationSection> sections = new HashMap<EntityContainer, EntityConfigurationSection>();
 
 	public static void readConfig(){
 		Configuration cfg = BetterAnimalsPlusMod.config;
@@ -86,6 +85,6 @@ public class BetterAnimalsPlusConfig {
             
             container.spawnBiomes = biomes;
 		}
-	}
+	}*/
 
 }

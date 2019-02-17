@@ -60,7 +60,7 @@ public class EntityAIFollowOwnerFlying extends EntityAIBase
         else if (this.tameable.getDistanceSq(entitylivingbase) < (double)(this.minDist * this.minDist))
         {
             return false;
-        } else if(this.tameable.getAttackTarget() != null && this.tameable.getAttackTarget().isEntityAlive()) {
+        } else if(this.tameable.getAttackTarget() != null && this.tameable.getAttackTarget().isAlive()) {
         	return false;
         }
         else
@@ -104,7 +104,7 @@ public class EntityAIFollowOwnerFlying extends EntityAIBase
     /**
      * Keep ticking a continuous task that has already been started
      */
-    public void updateTask()
+    public void tick()
     {
         this.tameable.getLookHelper().setLookPositionWithEntity(this.owner, 10.0F, 20);
 
@@ -118,14 +118,14 @@ public class EntityAIFollowOwnerFlying extends EntityAIBase
                 if (!this.petPathfinder.tryMoveToXYZ(this.owner.posX, this.owner.posY + 2, this.owner.posZ, this.followSpeed))
                 {
                 	//Failed to find path
-                    if (!this.tameable.getLeashed() && !this.tameable.isRiding())
+                    if (!this.tameable.getLeashed() && this.tameable.getRidingEntity() == null)
                     {
                     	//Distance too large, teleport!
                         if (this.tameable.getDistanceSq(this.owner) >= 144.0D || this.tameable.getEntityWorld() != this.owner.getEntityWorld())
                         {
                             int i = MathHelper.floor(this.owner.posX) - 2;
                             int j = MathHelper.floor(this.owner.posZ) - 2;
-                            int k = MathHelper.floor(this.owner.getEntityBoundingBox().minY);
+                            int k = MathHelper.floor(this.owner.getBoundingBox().minY);
 
                             for (int l = 0; l <= 4; ++l)
                             {
@@ -134,7 +134,7 @@ public class EntityAIFollowOwnerFlying extends EntityAIBase
                                     if ((l < 1 || i1 < 1 || l > 3 || i1 > 3) && this.isTeleportFriendlyBlock(i, j, k, l, i1))
                                     {
                                     	if(this.tameable.getEntityWorld() != this.owner.getEntityWorld()) {
-                                    		this.tameable.changeDimension(this.owner.getEntityWorld().provider.getDimension(), new SimpleTeleporter());
+                                    		this.tameable.changeDimension(this.owner.getEntityWorld().getDimension().getType(), new SimpleTeleporter());
                                     	}
                                         this.tameable.setLocationAndAngles((double)((float)(i + l) + 0.5F), (double)k, (double)((float)(j + i1) + 0.5F), this.tameable.rotationYaw, this.tameable.rotationPitch);
                                         this.petPathfinder.clearPath();

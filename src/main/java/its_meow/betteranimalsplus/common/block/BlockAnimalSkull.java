@@ -1,36 +1,29 @@
 package its_meow.betteranimalsplus.common.block;
 
-import java.util.Random;
-
 import javax.annotation.Nullable;
 
-import its_meow.betteranimalsplus.BetterAnimalsPlusMod;
+import its_meow.betteranimalsplus.common.tileentity.TileEntityHead;
 import net.minecraft.block.BlockSkull;
-import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.SoundType;
+import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
-import net.minecraft.stats.StatList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 
-public class BlockAnimalSkull extends BlockSkull implements ITileEntityProvider {
+public class BlockAnimalSkull extends BlockSkull {
 
 	public BlockAnimalSkull() {
-		this.setHardness(0.8F);
-		this.setSoundType(SoundType.STONE);
-		this.translucent = true;
-		this.fullBlock = false;
-		this.setCreativeTab(BetterAnimalsPlusMod.tab);
+		super(null, Properties.create(Material.CLOTH).sound(SoundType.STONE).hardnessAndResistance(0.8F));
 	}
 
 	@Override
@@ -39,8 +32,8 @@ public class BlockAnimalSkull extends BlockSkull implements ITileEntityProvider 
 	}
 
 	@Override
-	public boolean isOpaqueCube(IBlockState state) { 
-		return false; 
+	public boolean hasTileEntity(IBlockState state) {
+		return true;
 	}
 
 	@Override
@@ -54,11 +47,6 @@ public class BlockAnimalSkull extends BlockSkull implements ITileEntityProvider 
 	}
 
 	@Override
-	public boolean canDispenserPlace(World world, BlockPos pos, ItemStack stack) {
-		return false;
-	}
-
-	@Override
 	public EnumBlockRenderType getRenderType(IBlockState state)
 	{
 		return EnumBlockRenderType.INVISIBLE;
@@ -67,24 +55,42 @@ public class BlockAnimalSkull extends BlockSkull implements ITileEntityProvider 
 
 
 	@Override
-	public ItemStack getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos pos,
+	public ItemStack getPickBlock(IBlockState state, RayTraceResult target, IBlockReader world, BlockPos pos,
 			EntityPlayer player) {
-		return new ItemStack(this.getItemBlock(), 1);
+		TileEntity te2 = world.getTileEntity(pos);
+		if(te2 instanceof TileEntityHead) {
+			TileEntityHead te = (TileEntityHead) te2;
+			return new ItemStack(this.getItemBlock(te.typeValue()));
+		}
+		return null;
 	}
 
 	@Override
-	public ItemStack getItem(World worldIn, BlockPos pos, IBlockState state) {
-		return new ItemStack(this.getItemBlock(), 1);
+	public ItemStack getItem(IBlockReader worldIn, BlockPos pos, IBlockState state) {
+		TileEntity te2 = worldIn.getTileEntity(pos);
+		if(te2 instanceof TileEntityHead) {
+			TileEntityHead te = (TileEntityHead) te2;
+			return new ItemStack(this.getItemBlock(te.typeValue()));
+		}
+		return null;
 	}
 
 	@Override
-	public void getDrops(NonNullList<ItemStack> drops, IBlockAccess world, BlockPos pos, IBlockState state, int fortune) {
-		if (!((Boolean)state.getValue(NODROP)).booleanValue()) {
-			Item item = this.getItemBlock();
-			if (item != null && item != Items.AIR) {
-				drops.add(new ItemStack(item));
+	public void getDrops(IBlockState state, NonNullList<ItemStack> drops, World world, BlockPos pos, int fortune) {
+		if(!world.isRemote) {
+			TileEntity te2 = world.getTileEntity(pos);
+			if(te2 instanceof TileEntityHead) {
+				TileEntityHead te = (TileEntityHead) te2;
+				Item item = this.getItemBlock(te.typeValue());
+				if (item != null && item != Items.AIR) {
+					drops.add(new ItemStack(item));
+				}
 			}
 		}
+	}
+
+	public ItemBlock getItemBlock(int typeValue) {
+		return null;
 	}
 
 	/**
@@ -93,7 +99,6 @@ public class BlockAnimalSkull extends BlockSkull implements ITileEntityProvider 
 	 */
 	public void harvestBlock(World worldIn, EntityPlayer player, BlockPos pos, IBlockState state, @Nullable TileEntity te, ItemStack stack)
 	{
-		player.addStat(StatList.getBlockStats(this));
 		player.addExhaustion(0.005F);
 	}
 
@@ -101,9 +106,14 @@ public class BlockAnimalSkull extends BlockSkull implements ITileEntityProvider 
 	 * Get the Item that this Block should drop when harvested.
 	 */
 	@Override
-	public Item getItemDropped(IBlockState state, Random rand, int fortune)
+	public Item getItemDropped(IBlockState state, World world, BlockPos pos, int fortune)
 	{
-		return this.getItemBlock();
+		TileEntity te2 = world.getTileEntity(pos);
+		if(te2 instanceof TileEntityHead) {
+			TileEntityHead te = (TileEntityHead) te2;
+			return this.getItemBlock(te.typeValue());
+		}
+		return null;
 	}
 
 

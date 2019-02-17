@@ -48,7 +48,7 @@ public class HirschgeistAIAttackMelee extends EntityAIBase {
         } else if(this.attacker.isDaytime()) {
         	return false;
         }
-        else if (!entitylivingbase.isEntityAlive())
+        else if (!entitylivingbase.isAlive())
         {
             return false;
         }
@@ -75,7 +75,7 @@ public class HirschgeistAIAttackMelee extends EntityAIBase {
             }
             else
             {
-                return this.getAttackReachSqr(entitylivingbase) >= this.attacker.getDistanceSq(entitylivingbase.posX, entitylivingbase.getEntityBoundingBox().minY, entitylivingbase.posZ);
+                return this.getAttackReachSqr(entitylivingbase) >= this.attacker.getDistanceSq(entitylivingbase.posX, entitylivingbase.getBoundingBox().minY, entitylivingbase.posZ);
             }
         }
     }
@@ -93,7 +93,7 @@ public class HirschgeistAIAttackMelee extends EntityAIBase {
         } else if(this.attacker.isDaytime()) {
         	return false;
         }
-        else if (!entitylivingbase.isEntityAlive())
+        else if (!entitylivingbase.isAlive())
         {
             return false;
         }
@@ -134,17 +134,17 @@ public class HirschgeistAIAttackMelee extends EntityAIBase {
     /**
      * Keep ticking a continuous task that has already been started
      */
-    public void updateTask()
+    public void tick()
     {
         EntityLivingBase entitylivingbase = this.attacker.getAttackTarget();
         this.attacker.getLookHelper().setLookPositionWithEntity(entitylivingbase, 30.0F, 30.0F);
-        double d0 = this.attacker.getDistanceSq(entitylivingbase.posX, entitylivingbase.getEntityBoundingBox().minY, entitylivingbase.posZ);
+        double d0 = this.attacker.getDistanceSq(entitylivingbase.posX, entitylivingbase.getBoundingBox().minY, entitylivingbase.posZ);
         --this.delayCounter;
 
         if ((this.longMemory || this.attacker.getEntitySenses().canSee(entitylivingbase)) && this.delayCounter <= 0 && (this.targetX == 0.0D && this.targetY == 0.0D && this.targetZ == 0.0D || entitylivingbase.getDistanceSq(this.targetX, this.targetY, this.targetZ) >= 1.0D || this.attacker.getRNG().nextFloat() < 0.05F))
         {
             this.targetX = entitylivingbase.posX;
-            this.targetY = entitylivingbase.getEntityBoundingBox().minY;
+            this.targetY = entitylivingbase.getBoundingBox().minY;
             this.targetZ = entitylivingbase.posZ;
             this.delayCounter = 4 + this.attacker.getRNG().nextInt(7);
 

@@ -29,7 +29,7 @@ public class RenderBrownBear extends RenderLiving<EntityBear> {
     protected void preRenderCallback(EntityBear entitylivingbaseIn, float partialTickTime)
     {
     	float scale = 1.3F;
-        GlStateManager.scale(scale, scale, scale);
+        GlStateManager.scalef(scale, scale, scale);
         super.preRenderCallback(entitylivingbaseIn, partialTickTime);
     }
 

@@ -1,13 +1,9 @@
 package its_meow.betteranimalsplus.common.item;
 
 import its_meow.betteranimalsplus.BetterAnimalsPlusMod;
-import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.client.model.ModelLoader;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ItemPheasantCooked extends ItemFood {
 
@@ -16,16 +12,14 @@ public class ItemPheasantCooked extends ItemFood {
     /** The amount this food item heals the player. */
     private final int healAmount;
     /** Whether wolves like this food (true for raw and cooked porkchop). */
-    private final boolean isWolfsFavoriteMeat;
+    private final boolean isMeat;
 	
 	public ItemPheasantCooked(int amount, boolean isWolfFood) {
-		super(amount, isWolfFood);
+		super(amount, 3, isWolfFood, new Properties().group(BetterAnimalsPlusMod.group));
 		this.setRegistryName("pheasantcooked");
-		this.setUnlocalizedName("betteranimalsplus.pheasantcooked");
         this.itemUseDuration = 32;
         this.healAmount = 5;
-        this.isWolfsFavoriteMeat = false;
-        this.setCreativeTab(BetterAnimalsPlusMod.tab);
+        this.isMeat = false;
 	}
 	
     /**
@@ -42,8 +36,8 @@ public class ItemPheasantCooked extends ItemFood {
 	}
 
 	@Override
-	public boolean isWolfsFavoriteMeat() {
-		return this.isWolfsFavoriteMeat;
+	public boolean isMeat() {
+		return this.isMeat;
 	}
 
     /**
@@ -53,10 +47,5 @@ public class ItemPheasantCooked extends ItemFood {
     {
         return EnumAction.EAT;
     }
-
-	@SideOnly(Side.CLIENT)
-	public void initModel(){
-		ModelLoader.setCustomModelResourceLocation(this, 0, new ModelResourceLocation(getRegistryName(), "inventory"));
-	}
 
 }

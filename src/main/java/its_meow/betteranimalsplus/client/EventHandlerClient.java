@@ -6,18 +6,18 @@ import its_meow.betteranimalsplus.common.item.ItemBlockSkull;
 import its_meow.betteranimalsplus.init.BlockRegistry;
 import its_meow.betteranimalsplus.init.ItemRegistry;
 import net.minecraft.block.Block;
-import net.minecraft.client.renderer.block.model.ModelBakery;
-import net.minecraft.client.renderer.block.model.ModelResourceLocation;
+import net.minecraft.client.renderer.model.ModelBakery;
+import net.minecraft.client.renderer.model.ModelResourceLocation;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.model.ModelLoader;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.relauncher.Side;
 
-@Mod.EventBusSubscriber(modid = Ref.MOD_ID, value = Side.CLIENT)
+@Mod.EventBusSubscriber(modid = Ref.MOD_ID, value = Dist.CLIENT)
 public class EventHandlerClient {
 	
 	/*
@@ -37,23 +37,13 @@ public class EventHandlerClient {
 		
 		//OBJLoader.INSTANCE.addDomain(Ref.MOD_ID);
 		
-		initModel(BlockRegistry.trillium, 0);
+		/*initModel(BlockRegistry.trillium, 0);
 		initModel(BlockRegistry.hirschgeistskull, 0);
 		initModel(BlockRegistry.handoffate, 0);
 
 		// generics
 		for(BlockGenericSkull skull : BlockRegistry.genericskulls.keySet()) {
-			HeadItemMeshDefinition meshDefinition = new HeadItemMeshDefinition(skull);
-			ItemBlockSkull item = (ItemBlockSkull) skull.getItemBlock();
-			ModelBakery.registerItemVariants(item, meshDefinition.defaultModelResourceLocation);
-			for (int i = 1; i <= skull.texCount; i++)
-			{
-				ItemStack stack = new ItemStack(item);
-				stack.setTagCompound(new NBTTagCompound());
-				stack.getTagCompound().setInteger("TYPENUM", i);
-				ModelBakery.registerItemVariants(item, meshDefinition.getModelLocation(stack));
-			}
-			ModelLoader.setCustomMeshDefinition(item, meshDefinition);
+			
 		}
 		
 		//Items
@@ -65,10 +55,10 @@ public class EventHandlerClient {
 		initModel(ItemRegistry.goatMilk, 0);
 		initModel(ItemRegistry.goatCheese, 0);
 		initModel(ItemRegistry.pheasantRaw, 0);
-		initModel(ItemRegistry.pheasantCooked, 0);
+		initModel(ItemRegistry.pheasantCooked, 0);*/
 	}
 	
-	public static void initModel(Item item, int meta) {
+	/*public static void initModel(Item item, int meta) {
 		ModelLoader.setCustomModelResourceLocation(item, meta, new ModelResourceLocation(item.getRegistryName(), "inventory"));
 	}
 
@@ -78,6 +68,6 @@ public class EventHandlerClient {
 
 	public static void initModelOBJ(Block block, int meta) {
 		ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(block), meta, new ModelResourceLocation(block.getRegistryName() + ".obj", "inventory"));
-	}
+	}*/
 	
 }

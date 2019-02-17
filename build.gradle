@@ -1,33 +1,46 @@
 buildscript {
     repositories {
+        maven { url = 'https://files.minecraftforge.net/maven' }
         jcenter()
-        maven { url = "http://files.minecraftforge.net/maven" }
+        mavenCentral()
     }
     dependencies {
-        classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
+        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '3.+', changing: true
     }
 }
-apply plugin: 'net.minecraftforge.gradle.forge'
+apply plugin: 'net.minecraftforge.gradle'
 //Only edit below this line, the above code adds and enables the necessary things for Forge to be setup.
+apply plugin: 'eclipse'
 
+version = '5.0.0'
+group = 'its_meow.betteranimalsplus'
+archivesBaseName = 'betteranimalsplus'
 
-version = "5.0.1"
-group = "its_meow.betteranimalsplus"
-archivesBaseName = "betteranimalsplus"
+sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
 
-sourceCompatibility = targetCompatibility = '1.8'
-compileJava {
-    sourceCompatibility = targetCompatibility = '1.8'
-}
+sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
 
 minecraft {
-    version = "1.12.2-14.23.4.2705"
-    runDir = "run"
-    mappings = "snapshot_20171003"
+    mappings channel: 'snapshot', version: '20180921-1.13'
+	
+    runs {
+        client = {
+            properties 'forge.logging.markers': 'SCAN,REGISTRIES,REGISTRYDUMP'
+            properties 'forge.logging.console.level': 'debug'
+            workingDirectory project.file('run').canonicalPath
+            source sourceSets.main
+        }
+        server = {
+            properties 'forge.logging.markers': 'SCAN,REGISTRIES,REGISTRYDUMP'
+            properties 'forge.logging.console.level': 'debug'
+            workingDirectory project.file('run').canonicalPath
+            source sourceSets.main
+        }
+    }
 }
 
 dependencies {
-    
+    minecraft 'net.minecraftforge:forge:1.13.2-25.0.13'
 }
 
 tasks.withType(JavaCompile) {
@@ -38,18 +51,14 @@ tasks.withType(JavaCompile) {
   ]
 }
 
-processResources {
-    inputs.property "version", project.version
-    inputs.property "mcversion", project.minecraft.version
-
-    from(sourceSets.main.resources.srcDirs) {
-        include 'mcmod.info'
-                
-        expand 'version':project.version, 'mcversion':project.minecraft.version
-    }
-        
-  
-    from(sourceSets.main.resources.srcDirs) {
-        exclude 'mcmod.info'
+jar {
+    manifest {
+        attributes(["Specification-Title": archivesBaseName,
+                    "Specification-Vendor": "its_meow",
+                    "Specification-Version": version,
+                    "Implementation-Title": archivesBaseName,
+                    "Implementation-Version": version,
+                    "Implementation-Vendor" :"its_meow",
+                    "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")],)
     }
 }

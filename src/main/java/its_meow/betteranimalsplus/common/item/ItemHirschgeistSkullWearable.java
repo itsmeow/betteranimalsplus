@@ -3,45 +3,31 @@ package its_meow.betteranimalsplus.common.item;
 import java.util.List;
 
 import its_meow.betteranimalsplus.BetterAnimalsPlusMod;
+import its_meow.betteranimalsplus.common.util.ArmorMaterialBone;
 import its_meow.betteranimalsplus.init.ItemRegistry;
 import its_meow.betteranimalsplus.proxy.ClientProxy;
-import net.minecraft.client.model.ModelBiped;
+import net.minecraft.client.renderer.entity.model.ModelBiped;
 import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Items;
-import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.EnumHelper;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 public class ItemHirschgeistSkullWearable extends ItemArmor {
 	
 	public ItemHirschgeistSkullWearable() {
-		super(EnumHelper.addArmorMaterial("bone", "betteranimalsplus:hirschgeistskull", 15, new int[] {1,4,5,2}, 12, SoundEvents.ITEM_ARMOR_EQUIP_GENERIC, 0.1F), -1, EntityEquipmentSlot.HEAD);
-		this.setUnlocalizedName("betteranimalsplus.hirschgeistskullwearable");
+		super(new ArmorMaterialBone(), EntityEquipmentSlot.HEAD, new Properties().group(BetterAnimalsPlusMod.group));
 		this.setRegistryName("hirschgeistskullwearable");
-		this.setCreativeTab(BetterAnimalsPlusMod.tab);
-		this.canRepair = true;
 	}
-
-	@Override
-	public boolean isValidArmor(ItemStack stack, EntityEquipmentSlot armorType, Entity entity) {
-		return armorType == EntityEquipmentSlot.HEAD;
-	}
-
-	/*@Override
-	public String getArmorTexture(ItemStack stack, Entity entity, EntityEquipmentSlot slot, String type)
-	{
-		return Ref.MOD_ID + ":textures/models/armor/hirschgeistskull.png";
-	}*/
 
 	@Override 	
-	@SideOnly(Side.CLIENT)
+	@OnlyIn(Dist.CLIENT)
 	public ModelBiped getArmorModel(EntityLivingBase entityLiving, ItemStack itemStack, EntityEquipmentSlot armorSlot,
 			ModelBiped defaultModel) {
 		if (itemStack != null) {
@@ -72,8 +58,8 @@ public class ItemHirschgeistSkullWearable extends ItemArmor {
 	}
 	
 	@Override
-	public void addInformation(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
-		tooltip.add("It can be placed via placing it into an empty crafting table");
+	public void addInformation(ItemStack stack, World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
+		tooltip.add(new TextComponentString("It can be placed via placing it into an empty crafting table"));
 		super.addInformation(stack, worldIn, tooltip, flagIn);
 	}
 
@@ -81,7 +67,5 @@ public class ItemHirschgeistSkullWearable extends ItemArmor {
 	public boolean getIsRepairable(ItemStack toRepair, ItemStack repair) {
 		return repair.getItem() == Items.BONE || repair.getItem() == ItemRegistry.antler;
 	}
-	
-	
 	
 }

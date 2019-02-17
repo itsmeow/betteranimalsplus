@@ -1,6 +1,7 @@
 package its_meow.betteranimalsplus.common.entity;
 
 import its_meow.betteranimalsplus.common.entity.projectile.EntityTarantulaHair;
+import its_meow.betteranimalsplus.init.MobRegistry;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.IRangedAttackMob;
 import net.minecraft.entity.ai.EntityAIAttackMelee;
@@ -26,7 +27,7 @@ public class EntityTarantula extends EntitySpider implements IRangedAttackMob {
 	protected World world;
 	
 	public EntityTarantula(World worldIn) {
-		super(worldIn);
+		super(MobRegistry.getType(EntityTarantula.class), worldIn);
 		this.world = worldIn;
 	}
 	
@@ -58,7 +59,7 @@ public class EntityTarantula extends EntitySpider implements IRangedAttackMob {
         double d3 = target.posZ - this.posZ;
         float f = MathHelper.sqrt(d1 * d1 + d3 * d3) * 0.2F;
         entityhair.shoot(d1, d2 + (double)f, d3, 1.5F, 8.0F);
-        this.playSound(SoundEvents.BLOCK_CLOTH_PLACE, 1.0F, 1.0F / (this.getRNG().nextFloat() * 0.4F + 0.8F));
+        this.playSound(SoundEvents.BLOCK_WOOL_PLACE, 1.0F, 1.0F / (this.getRNG().nextFloat() * 0.4F + 0.8F));
         this.world.spawnEntity(entityhair);
 		
 	}

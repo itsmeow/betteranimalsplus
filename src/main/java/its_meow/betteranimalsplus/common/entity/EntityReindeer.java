@@ -1,15 +1,14 @@
 package its_meow.betteranimalsplus.common.entity;
 
 import java.util.Calendar;
-import java.util.UUID;
 
 import javax.annotation.Nullable;
 
-import com.google.common.base.Optional;
 import com.google.common.base.Predicate;
 
 import its_meow.betteranimalsplus.init.BlockRegistry;
 import its_meow.betteranimalsplus.init.LootTableRegistry;
+import its_meow.betteranimalsplus.init.MobRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
@@ -18,7 +17,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.EnumCreatureAttribute;
 import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.IJumpingMount;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -37,24 +35,27 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.init.MobEffects;
+import net.minecraft.init.Particles;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemSpawnEgg;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
+import net.minecraft.particles.BasicParticleType;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumHand;
-import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 public class EntityReindeer extends EntityAnimal implements IJumpingMount {
 
@@ -67,7 +68,6 @@ public class EntityReindeer extends EntityAnimal implements IJumpingMount {
 	};
 	protected static final IAttribute JUMP_STRENGTH = (new RangedAttribute((IAttribute)null, "reindeer.jumpStrength", 0.7D, 0.0D, 2.0D)).setDescription("Jump Strength").setShouldWatch(true);
 	private static final DataParameter<Byte> STATUS = EntityDataManager.<Byte>createKey(EntityReindeer.class, DataSerializers.BYTE);
-	private static final DataParameter<Optional<UUID>> OWNER_UNIQUE_ID = EntityDataManager.<Optional<UUID>>createKey(EntityReindeer.class, DataSerializers.OPTIONAL_UNIQUE_ID);
 	private int eatingCounter;
 	private int openMouthCounter;
 	private int jumpRearingCounter;
@@ -90,7 +90,7 @@ public class EntityReindeer extends EntityAnimal implements IJumpingMount {
 	public boolean parentRudolph = false;
 
 	public EntityReindeer(World worldIn) {
-		super(worldIn);
+		super(MobRegistry.getType(EntityReindeer.class), worldIn);
 		this.setSize(1.3964844F, 1.8F);
 		this.stepHeight = 1.0F;
 	}
@@ -106,11 +106,10 @@ public class EntityReindeer extends EntityAnimal implements IJumpingMount {
 		this.tasks.addTask(8, new EntityAILookIdle(this));
 	}
 
-	protected void entityInit()
+	protected void registerData()
 	{
-		super.entityInit();
+		super.registerData();
 		this.dataManager.register(STATUS, Byte.valueOf((byte)0));
-		this.dataManager.register(OWNER_UNIQUE_ID, Optional.absent());
 		this.dataManager.register(TYPE_NUMBER, Integer.valueOf(0));
 	}
 
@@ -121,7 +120,7 @@ public class EntityReindeer extends EntityAnimal implements IJumpingMount {
 		ItemStack itemstack = player.getHeldItem(hand);
 		boolean flag = !itemstack.isEmpty();
 
-		if (flag && itemstack.getItem() == Items.SPAWN_EGG)
+		if (flag && itemstack.getItem() instanceof ItemSpawnEgg)
 		{
 			return super.processInteract(player, hand);
 		}
@@ -144,7 +143,7 @@ public class EntityReindeer extends EntityAnimal implements IJumpingMount {
 			{
 				if (this.handleEating(player, itemstack))
 				{
-					if (!player.capabilities.isCreativeMode)
+					if (!player.isCreative())
 					{
 						itemstack.shrink(1);
 					}
@@ -202,7 +201,7 @@ public class EntityReindeer extends EntityAnimal implements IJumpingMount {
 				reindeer.setType(this.getTypeNumber());
 			}
 			
-			if(other.getCustomNameTag().equalsIgnoreCase("rudolph") || this.getCustomNameTag().equalsIgnoreCase("rudolph")) {
+			if(other.getCustomName().getString().equalsIgnoreCase("rudolph") || this.getCustomName().getString().equalsIgnoreCase("rudolph")) {
 				reindeer.parentRudolph = true;
 			}
 		} else { // same as above
@@ -260,7 +259,7 @@ public class EntityReindeer extends EntityAnimal implements IJumpingMount {
 
 	public boolean canBeLeashedTo(EntityPlayer player)
 	{
-		return super.canBeLeashedTo(player) && this.getCreatureAttribute() != EnumCreatureAttribute.UNDEAD;
+		return super.canBeLeashedTo(player);
 	}
 
 	protected void onLeashDistance(float p_142017_1_)
@@ -374,7 +373,7 @@ public class EntityReindeer extends EntityAnimal implements IJumpingMount {
 		double d0 = Double.MAX_VALUE;
 		Entity entity = null;
 
-		for (Entity entity1 : this.world.getEntitiesInAABBexcluding(entityIn, entityIn.getEntityBoundingBox().expand(distance, distance, distance), IS_REINDEER_BREEDING))
+		for (Entity entity1 : this.world.getEntitiesInAABBexcluding(entityIn, entityIn.getBoundingBox().expand(distance, distance, distance), IS_REINDEER_BREEDING))
 		{
 			double d1 = entity1.getDistanceSq(entityIn.posX, entityIn.posY, entityIn.posZ);
 
@@ -390,7 +389,7 @@ public class EntityReindeer extends EntityAnimal implements IJumpingMount {
 
 	public double getReindeerJumpStrength()
 	{
-		return this.getEntityAttribute(JUMP_STRENGTH).getAttributeValue();
+		return this.getAttribute(JUMP_STRENGTH).getValue();
 	}
 
 	@Nullable
@@ -440,9 +439,9 @@ public class EntityReindeer extends EntityAnimal implements IJumpingMount {
 		{
 			SoundType soundtype = blockIn.getSoundType(blockIn.getDefaultState(), this.world, pos, this);
 
-			if (this.world.getBlockState(pos.up()).getBlock() == Blocks.SNOW_LAYER)
+			if (this.world.getBlockState(pos.up()).getBlock() == Blocks.SNOW)
 			{
-				soundtype = Blocks.SNOW_LAYER.getSoundType(Blocks.SNOW_LAYER.getDefaultState(), this.world, pos, this);
+				soundtype = Blocks.SNOW.getSoundType(Blocks.SNOW.getDefaultState(), this.world, pos, this);
 			}
 
 			if (this.isBeingRidden() && this.canGallop)
@@ -474,12 +473,12 @@ public class EntityReindeer extends EntityAnimal implements IJumpingMount {
 		this.playSound(SoundEvents.ENTITY_HORSE_GALLOP, p_190680_1_.getVolume() * 0.15F, p_190680_1_.getPitch());
 	}
 
-	protected void applyEntityAttributes()
+	protected void registerAttributes()
 	{
-		super.applyEntityAttributes();
+		super.registerAttributes();
 		this.getAttributeMap().registerAttribute(JUMP_STRENGTH);
-		this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(53.0D);
-		this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.22499999403953552D);
+		this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(53.0D);
+		this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.22499999403953552D);
 	}
 
 	/**
@@ -535,7 +534,7 @@ public class EntityReindeer extends EntityAnimal implements IJumpingMount {
 			i = 30;
 			j = 3;
 		}
-		else if (item == Item.getItemFromBlock(Blocks.HAY_BLOCK))
+		else if (item == Blocks.HAY_BLOCK.asItem())
 		{
 			f = 20.0F;
 			i = 180;
@@ -579,7 +578,7 @@ public class EntityReindeer extends EntityAnimal implements IJumpingMount {
 
 		if (this.isChild() && i > 0)
 		{
-			this.world.spawnParticle(EnumParticleTypes.VILLAGER_HAPPY, this.posX + (double)(this.rand.nextFloat() * this.width * 2.0F) - (double)this.width, this.posY + 0.5D + (double)(this.rand.nextFloat() * this.height), this.posZ + (double)(this.rand.nextFloat() * this.width * 2.0F) - (double)this.width, 0.0D, 0.0D, 0.0D);
+			this.world.spawnParticle(Particles.HAPPY_VILLAGER, this.posX + (double)(this.rand.nextFloat() * this.width * 2.0F) - (double)this.width, this.posY + 0.5D + (double)(this.rand.nextFloat() * this.height), this.posZ + (double)(this.rand.nextFloat() * this.width * 2.0F) - (double)this.width, 0.0D, 0.0D, 0.0D);
 
 			if (!this.world.isRemote)
 			{
@@ -612,8 +611,8 @@ public class EntityReindeer extends EntityAnimal implements IJumpingMount {
 		if(!this.isChild()) {
 			if(this.rand.nextInt(12) == 0) {
 				ItemStack stack = new ItemStack(BlockRegistry.reindeerhead.getItemBlock());
-				stack.setTagCompound(new NBTTagCompound());
-				stack.getTagCompound().setInteger("TYPENUM", this.getTypeNumber());
+				// stack.setTagCompound(new NBTTagCompound());
+				// stack.getTagCompound().setInteger("TYPENUM", this.getTypeNumber());
 				this.entityDropItem(stack, 0.5F);
 			}
 		}
@@ -665,16 +664,16 @@ public class EntityReindeer extends EntityAnimal implements IJumpingMount {
 	 * Called frequently so the entity can update its state every tick as required. For example, zombies and skeletons
 	 * use this to react to sunlight and start to burn.
 	 */
-	public void onLivingUpdate()
+	public void livingTick()
 	{
 		if (this.rand.nextInt(200) == 0)
 		{
 			this.moveTail();
 		}
 
-		super.onLivingUpdate();
+		super.livingTick();
 		if(this.rand.nextInt(10) == 0) {
-			this.world.spawnParticle(EnumParticleTypes.SNOW_SHOVEL, this.posX + this.rand.nextInt(4) - 2F, this.posY + this.rand.nextInt(4), this.posZ + this.rand.nextInt(4) - 2F, 0F, -0.005F, 0F);
+			this.world.spawnParticle(Particles.ITEM_SNOWBALL, this.posX + this.rand.nextInt(4) - 2F, this.posY + this.rand.nextInt(4), this.posZ + this.rand.nextInt(4) - 2F, 0F, -0.005F, 0F);
 		}
 		if (!this.world.isRemote)
 		{
@@ -723,9 +722,9 @@ public class EntityReindeer extends EntityAnimal implements IJumpingMount {
 	/**
 	 * Called to update the entity's position/logic.
 	 */
-	public void onUpdate()
+	public void tick()
 	{
-		super.onUpdate();
+		super.tick();
 
 		if (this.openMouthCounter > 0 && ++this.openMouthCounter > 30)
 		{
@@ -908,7 +907,7 @@ public class EntityReindeer extends EntityAnimal implements IJumpingMount {
 
 			if (this.canPassengerSteer())
 			{
-				this.setAIMoveSpeed((float)this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).getAttributeValue());
+				this.setAIMoveSpeed((float)this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).getValue());
 				super.travel(strafe, vertical, forward);
 			}
 			else if (entitylivingbase instanceof EntityPlayer)
@@ -947,13 +946,13 @@ public class EntityReindeer extends EntityAnimal implements IJumpingMount {
 	
 
 	@Override
-	public void setCustomNameTag(String name) {
-		if(name.toLowerCase().equals("rudolph")) {
+	public void setCustomName(ITextComponent comp) {
+		if(comp.getString().toLowerCase().equals("rudolph")) {
 			if(this.getTypeNumber() <= 4) {
 				this.setType(this.getTypeNumber() + 4);
 			}
 		}
-		super.setCustomNameTag(name);
+		super.setCustomName(comp);
 	}
 
 
@@ -972,39 +971,39 @@ public class EntityReindeer extends EntityAnimal implements IJumpingMount {
 	/**
 	 * (abstract) Protected helper method to write subclass entity data to NBT.
 	 */
-	public void writeEntityToNBT(NBTTagCompound compound)
+	public boolean writeUnlessRemoved(NBTTagCompound compound)
 	{
-		super.writeEntityToNBT(compound);
 		compound.setBoolean("EatingHaystack", this.isEatingHaystack());
 		compound.setBoolean("Bred", this.isBreeding());
-		compound.setInteger("Temper", this.getTemper());
+		compound.setInt("Temper", this.getTemper());
 
-		compound.setInteger("TypeNumber", this.getTypeNumber());
-		compound.setBoolean("IsParentRudolph", this.parentRudolph );
+		compound.setInt("TypeNumber", this.getTypeNumber());
+		compound.setBoolean("IsParentRudolph", this.parentRudolph);
+		return super.writeUnlessRemoved(compound);
 	}
 
 	/**
 	 * (abstract) Protected helper method to read subclass entity data from NBT.
 	 */
-	public void readEntityFromNBT(NBTTagCompound compound)
+	public void read(NBTTagCompound compound)
 	{
-		super.readEntityFromNBT(compound);
+		super.read(compound);
 		this.setEatingHaystack(compound.getBoolean("EatingHaystack"));
 		this.setBreeding(compound.getBoolean("Bred"));
-		this.setTemper(compound.getInteger("Temper"));
+		this.setTemper(compound.getInt("Temper"));
 		this.parentRudolph = compound.getBoolean("IsParentRudolph");
 
 		IAttributeInstance iattributeinstance = this.getAttributeMap().getAttributeInstanceByName("Speed");
 
 		if (iattributeinstance != null)
 		{
-			this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(iattributeinstance.getBaseValue() * 0.25D);
+			this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(iattributeinstance.getBaseValue() * 0.25D);
 		}
 
 
-		this.setType(compound.getInteger("TypeNumber"));
+		this.setType(compound.getInt("TypeNumber"));
 		Calendar calendar = Calendar.getInstance();
-		if(this.getTypeNumber() > 4 && !(calendar.get(2) + 1 == 12 && calendar.get(5) >= 22 && calendar.get(5) <= 28) && !(this.getCustomNameTag().toLowerCase().equals("rudolph") || this.parentRudolph)) {
+		if(this.getTypeNumber() > 4 && !(calendar.get(2) + 1 == 12 && calendar.get(5) >= 22 && calendar.get(5) <= 28) && !(this.getCustomName().getString().toLowerCase().equals("rudolph") || this.parentRudolph)) {
 			this.setType(this.getTypeNumber() - 4); // Remove red noses after Christmas season after loading entity
 		}
 	}
@@ -1015,18 +1014,18 @@ public class EntityReindeer extends EntityAnimal implements IJumpingMount {
 	 */
 	protected boolean canMate()
 	{
-		return !this.isBeingRidden() && !this.isRiding() && !this.isChild() && this.getHealth() >= this.getMaxHealth() && this.isInLove();
+		return !this.isBeingRidden() && this.getRidingEntity() == null && !this.isChild() && this.getHealth() >= this.getMaxHealth() && this.isInLove();
 	}
 
 
 	protected void setOffspringAttributes(EntityAgeable p_190681_1_, EntityReindeer p_190681_2_)
 	{
-		double d0 = this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).getBaseValue() + p_190681_1_.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).getBaseValue() + (double)this.getModifiedMaxHealth();
-		p_190681_2_.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(d0 / 3.0D);
-		double d1 = this.getEntityAttribute(JUMP_STRENGTH).getBaseValue() + p_190681_1_.getEntityAttribute(JUMP_STRENGTH).getBaseValue() + this.getModifiedJumpStrength();
-		p_190681_2_.getEntityAttribute(JUMP_STRENGTH).setBaseValue(d1 / 3.0D);
-		double d2 = this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).getBaseValue() + p_190681_1_.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).getBaseValue() + this.getModifiedMovementSpeed();
-		p_190681_2_.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(d2 / 3.0D);
+		double d0 = this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).getBaseValue() + p_190681_1_.getAttribute(SharedMonsterAttributes.MAX_HEALTH).getBaseValue() + (double)this.getModifiedMaxHealth();
+		p_190681_2_.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(d0 / 3.0D);
+		double d1 = this.getAttribute(JUMP_STRENGTH).getBaseValue() + p_190681_1_.getAttribute(JUMP_STRENGTH).getBaseValue() + this.getModifiedJumpStrength();
+		p_190681_2_.getAttribute(JUMP_STRENGTH).setBaseValue(d1 / 3.0D);
+		double d2 = this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).getBaseValue() + p_190681_1_.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).getBaseValue() + this.getModifiedMovementSpeed();
+		p_190681_2_.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(d2 / 3.0D);
 	}
 
 	/**
@@ -1038,25 +1037,25 @@ public class EntityReindeer extends EntityAnimal implements IJumpingMount {
 		return this.getControllingPassenger() instanceof EntityLivingBase;
 	}
 
-	@SideOnly(Side.CLIENT)
+	@OnlyIn(Dist.CLIENT)
 	public float getGrassEatingAmount(float p_110258_1_)
 	{
 		return this.prevHeadLean + (this.headLean - this.prevHeadLean) * p_110258_1_;
 	}
 
-	@SideOnly(Side.CLIENT)
+	@OnlyIn(Dist.CLIENT)
 	public float getRearingAmount(float p_110223_1_)
 	{
 		return this.prevRearingAmount + (this.rearingAmount - this.prevRearingAmount) * p_110223_1_;
 	}
 
-	@SideOnly(Side.CLIENT)
+	@OnlyIn(Dist.CLIENT)
 	public float getMouthOpennessAngle(float p_110201_1_)
 	{
 		return this.prevMouthOpenness + (this.mouthOpenness - this.prevMouthOpenness) * p_110201_1_;
 	}
 
-	@SideOnly(Side.CLIENT)
+	@OnlyIn(Dist.CLIENT)
 	public void setJumpPower(int jumpPowerIn)
 	{
 		if (jumpPowerIn < 0)
@@ -1097,10 +1096,10 @@ public class EntityReindeer extends EntityAnimal implements IJumpingMount {
 	/**
 	 * "Spawns particles for the reindeer entity. par1 tells whether to spawn hearts. If it is false, it spawns smoke."
 	 */
-	@SideOnly(Side.CLIENT)
+	@OnlyIn(Dist.CLIENT)
 	protected void spawnReindeerParticles(boolean p_110216_1_)
 	{
-		EnumParticleTypes enumparticletypes = p_110216_1_ ? EnumParticleTypes.HEART : EnumParticleTypes.SMOKE_NORMAL;
+		BasicParticleType enumparticletypes = p_110216_1_ ? Particles.HEART : Particles.SMOKE;
 
 		for (int i = 0; i < 7; ++i)
 		{
@@ -1114,7 +1113,7 @@ public class EntityReindeer extends EntityAnimal implements IJumpingMount {
 	/**
 	 * Handler for {@link World#setEntityState}
 	 */
-	@SideOnly(Side.CLIENT)
+	@OnlyIn(Dist.CLIENT)
 	public void handleStatusUpdate(byte id)
 	{
 		if (id == 7)
@@ -1219,9 +1218,9 @@ public class EntityReindeer extends EntityAnimal implements IJumpingMount {
 	 * when entity is reloaded from nbt. Mainly used for initializing attributes and inventory
 	 */
 	@Nullable
-	public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, @Nullable IEntityLivingData livingdata)
+	public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, @Nullable IEntityLivingData livingdata, NBTTagCompound compound)
 	{
-		livingdata = super.onInitialSpawn(difficulty, livingdata);
+		livingdata = super.onInitialSpawn(difficulty, livingdata, compound);
 
 		if(!this.isChild()) {
 			Calendar calendar = Calendar.getInstance();

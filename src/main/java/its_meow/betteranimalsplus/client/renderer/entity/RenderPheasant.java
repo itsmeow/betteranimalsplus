@@ -20,9 +20,9 @@ public class RenderPheasant extends RenderLiving<EntityPheasant> {
 	@Override
 	protected void preRenderCallback(EntityPheasant entitylivingbaseIn, float partialTickTime) {
 		if (getMainModel().isChild) {
-			GlStateManager.scale(0.5D, 0.5D, 0.5D);
+			GlStateManager.scaled(0.5D, 0.5D, 0.5D);
 		} else {
-			GlStateManager.scale(1.0D, 1.0D, 1.0D);
+			GlStateManager.scaled(1.0D, 1.0D, 1.0D);
 		}
 	}
 	

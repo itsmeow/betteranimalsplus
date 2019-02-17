@@ -5,9 +5,8 @@ import javax.annotation.Nullable;
 import com.google.common.base.Predicate;
 
 import its_meow.betteranimalsplus.init.BlockRegistry;
+import its_meow.betteranimalsplus.init.MobRegistry;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityAgeable;
-import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.EntityAIAttackMelee;
 import net.minecraft.entity.ai.EntityAIFollowOwner;
@@ -36,9 +35,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemFood;
-import net.minecraft.item.ItemMonsterPlacer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.SoundEvent;
@@ -49,7 +46,7 @@ import net.minecraft.world.World;
 public class EntityCoyote extends EntityFeralWolf {
 	
 	public EntityCoyote(World worldIn) {
-		super(worldIn);
+		super(MobRegistry.getType(EntityCoyote.class), worldIn);
 		this.world = worldIn;
 		this.setSize(0.8F, 0.9F);
         this.setTamed(false);
@@ -84,7 +81,7 @@ public class EntityCoyote extends EntityFeralWolf {
 	}
 	
 	public boolean isDaytime() {
-		long time = this.world.getWorldTime() % 24000L; // Time can go over values of 24000, so divide and take the remainder
+		long time = this.world.getDayTime() % 24000L; // Time can go over values of 24000, so divide and take the remainder
 		return !(time >= 13000L && time <= 23000L);
 	}
 	
@@ -120,8 +117,8 @@ public class EntityCoyote extends EntityFeralWolf {
 		if(!this.isChild()) {
 			if(this.rand.nextInt(12) == 0) {
 				ItemStack stack = new ItemStack(BlockRegistry.wolfhead.getItemBlock());
-				stack.setTagCompound(new NBTTagCompound());
-				stack.getTagCompound().setInteger("TYPENUM", 4); // 4 is the coyote value for wolfheads
+				//stack.setTagCompound(new NBTTagCompound());
+				//stack.getTagCompound().setInteger("TYPENUM", 4); // 4 is the coyote value for wolfheads
 				this.entityDropItem(stack, 0.5F);
 			}
 		}
@@ -139,9 +136,9 @@ public class EntityCoyote extends EntityFeralWolf {
 				{
 					ItemFood itemfood = (ItemFood)itemstack.getItem();
 
-					if (itemfood.isWolfsFavoriteMeat() && ((Float)this.dataManager.get(DATA_HEALTH_ID)).floatValue() < 20.0F)
+					if (itemfood.isMeat() && ((Float)this.dataManager.get(DATA_HEALTH_ID)).floatValue() < 20.0F)
 					{
-						if (!player.capabilities.isCreativeMode)
+						if (!player.isCreative())
 						{
 							itemstack.shrink(1);
 						}
@@ -152,7 +149,7 @@ public class EntityCoyote extends EntityFeralWolf {
 				}
 			}
 
-			if (this.isOwner(player) && !this.world.isRemote && !this.isBreedingItem(itemstack) && (!(itemstack.getItem() instanceof ItemFood) || !((ItemFood)itemstack.getItem()).isWolfsFavoriteMeat()))
+			if (this.isOwner(player) && !this.world.isRemote && !this.isBreedingItem(itemstack) && (!(itemstack.getItem() instanceof ItemFood) || !((ItemFood)itemstack.getItem()).isMeat()))
 			{
 				this.aiSit.setSitting(!this.isSitting());
 				this.isJumping = false;
@@ -165,7 +162,7 @@ public class EntityCoyote extends EntityFeralWolf {
 			if(this.isDaytime()) {
 
 
-				if (!player.capabilities.isCreativeMode)
+				if (!player.isCreative())
 				{
 					itemstack.shrink(1);
 				}
@@ -200,43 +197,10 @@ public class EntityCoyote extends EntityFeralWolf {
 		}
 		
 
-		if (itemstack.getItem() == Items.SPAWN_EGG)
-        {
-            if (!this.world.isRemote)
-            {
-                Class <? extends Entity > oclass = EntityList.getClass(ItemMonsterPlacer.getNamedIdFrom(itemstack));
-
-                if (oclass != null && this.getClass() == oclass)
-                {
-                    EntityAgeable entityageable = this.createChild(this);
-
-                    if (entityageable != null)
-                    {
-                        entityageable.setGrowingAge(-24000);
-                        entityageable.setLocationAndAngles(this.posX, this.posY, this.posZ, 0.0F, 0.0F);
-                        this.world.spawnEntity(entityageable);
-
-                        if (itemstack.hasDisplayName())
-                        {
-                            entityageable.setCustomNameTag(itemstack.getDisplayName());
-                        }
-
-                        if (!player.capabilities.isCreativeMode)
-                        {
-                            itemstack.shrink(1);
-                        }
-                    }
-                }
-            }
-
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+		return false;
 	}
 	
+	@Override
 	public boolean shouldAttackEntity(EntityLivingBase target, EntityLivingBase owner)
 	{
 		if (!(target instanceof EntityCreeper) && !(target instanceof EntityGhast) && (this.isTamed() || !this.isDaytime()))

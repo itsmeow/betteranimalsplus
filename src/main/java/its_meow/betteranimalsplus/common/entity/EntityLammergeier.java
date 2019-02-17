@@ -12,6 +12,7 @@ import its_meow.betteranimalsplus.common.entity.ai.EntityAIFollowOwnerFlying;
 import its_meow.betteranimalsplus.common.entity.ai.LammerMoveHelper;
 import its_meow.betteranimalsplus.common.util.PolarVector3D;
 import its_meow.betteranimalsplus.init.LootTableRegistry;
+import its_meow.betteranimalsplus.init.MobRegistry;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
@@ -66,7 +67,7 @@ public class EntityLammergeier extends EntityTameableFlying {
 	//Forgive me for this godawful mess.
 
 	public EntityLammergeier(World worldIn) {
-		super(worldIn);
+		super(MobRegistry.getType(EntityLammergeier.class), worldIn);
 		this.setSize(1F, 1F);
 		//this.moveHelper = new EntityFlyHelper(this);
 		this.moveHelper = new LammerMoveHelper(this);
@@ -99,7 +100,7 @@ public class EntityLammergeier extends EntityTameableFlying {
 	protected PathNavigate createNavigator(World worldIn) {
 		PathNavigateFlying pathnavigateflying = new PathNavigateFlying(this, worldIn);
 		pathnavigateflying.setCanOpenDoors(false);
-		pathnavigateflying.setCanFloat(true);
+		pathnavigateflying.setCanSwim(true);
 		pathnavigateflying.setCanEnterDoors(true);
 		return pathnavigateflying;
 	}
@@ -117,9 +118,9 @@ public class EntityLammergeier extends EntityTameableFlying {
 		this.targetTasks.addTask(3, new EntityLammergeier.EntityAIFindEntityNearestFlying(this, EntitySkeleton.class));
 	}
 
-	protected void entityInit()
+	protected void registerData()
 	{
-		super.entityInit();
+		super.registerData();
 		this.dataManager.register(FLYING, Byte.valueOf((byte)0));
 		this.dataManager.register(TYPE_NUMBER, Integer.valueOf(0));
 		this.dataManager.register(DATA_HEALTH_ID, Float.valueOf(this.getHealth()));
@@ -151,7 +152,7 @@ public class EntityLammergeier extends EntityTameableFlying {
 	 */
 	public boolean attackEntityFrom(DamageSource source, float amount)
 	{
-		if (this.isEntityInvulnerable(source))
+		if (this.isInvulnerableTo(source))
 		{
 			return false;
 		}
@@ -191,7 +192,7 @@ public class EntityLammergeier extends EntityTameableFlying {
 
 					if (((Float)this.dataManager.get(DATA_HEALTH_ID)).floatValue() < 20.0F)
 					{
-						if (!player.capabilities.isCreativeMode)
+						if (!player.isCreative())
 						{
 							itemstack.shrink(1);
 						}
@@ -205,7 +206,7 @@ public class EntityLammergeier extends EntityTameableFlying {
 			if (this.isOwner(player) && !this.isBeingRidden() && !this.world.isRemote && this.ticksExisted - this.lastTick > 13 && ( itemstack.getItem() == null  || (itemstack.getItem() != Items.MUTTON)))
 			{
 				if(!this.isSitting() == false) {
-					this.getMoveHelper().action = Action.WAIT;
+					((LammerMoveHelper) this.getMoveHelper()).action = Action.WAIT;
 					this.setAttackTarget((EntityLivingBase)null);
 				}
 
@@ -217,7 +218,7 @@ public class EntityLammergeier extends EntityTameableFlying {
 		}
 		else if (itemstack.getItem() == Items.BONE && !this.isTamed())
 		{
-			if (!player.capabilities.isCreativeMode)
+			if (!player.isCreative())
 			{
 				itemstack.shrink(1);
 			}
@@ -229,7 +230,7 @@ public class EntityLammergeier extends EntityTameableFlying {
 					this.setTamedBy(player);
 					//this.setOwnerId(player.getUniqueID());
 					this.navigator.clearPath();
-					this.getMoveHelper().action = Action.WAIT;
+					((LammerMoveHelper) this.getMoveHelper()).action = Action.WAIT;
 					this.setAttackTarget((EntityLivingBase)null);
 					this.setSitting(true);
 					this.setHealth(20.0F);
@@ -290,7 +291,7 @@ public class EntityLammergeier extends EntityTameableFlying {
 	@Override
 	public boolean attackEntityAsMob(Entity entityIn)
 	{
-		float f = (float)this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getAttributeValue();
+		float f = (float)this.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getValue();
 		int i = 0;
 
 		if (entityIn instanceof EntityLivingBase)
@@ -377,17 +378,17 @@ public class EntityLammergeier extends EntityTameableFlying {
 		return !this.getFlying();
 	}
 
-	protected void applyEntityAttributes()
+	protected void registerAttributes()
 	{
-		super.applyEntityAttributes();
+		super.registerAttributes();
 		this.getAttributeMap().registerAttribute(SharedMonsterAttributes.ATTACK_SPEED);
 		this.getAttributeMap().registerAttribute(SharedMonsterAttributes.ATTACK_DAMAGE);
 		this.getAttributeMap().registerAttribute(SharedMonsterAttributes.FLYING_SPEED);
-		this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(this.isTamed() ? 15.0D : 6.0D);
-		this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(50.0D);
-		this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(2.0D);
-		this.getEntityAttribute(SharedMonsterAttributes.ATTACK_SPEED).setBaseValue(1.0D);
-		this.getEntityAttribute(SharedMonsterAttributes.FLYING_SPEED).setBaseValue(5.0D);
+		this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(this.isTamed() ? 15.0D : 6.0D);
+		this.getAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(50.0D);
+		this.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(2.0D);
+		this.getAttribute(SharedMonsterAttributes.ATTACK_SPEED).setBaseValue(1.0D);
+		this.getAttribute(SharedMonsterAttributes.FLYING_SPEED).setBaseValue(5.0D);
 	}
 
 	public boolean getFlying()
@@ -488,20 +489,20 @@ public class EntityLammergeier extends EntityTameableFlying {
 	/**
 	 * (abstract) Protected helper method to write subclass entity data to NBT.
 	 */
-	public void writeEntityToNBT(NBTTagCompound compound)
+	public boolean writeUnlessRemoved(NBTTagCompound compound)
 	{
-		super.writeEntityToNBT(compound);
-		compound.setInteger("TypeNumber", this.getTypeNumber());
+		compound.setInt("TypeNumber", this.getTypeNumber());
 		compound.setByte("LammerFlying", ((Byte)this.dataManager.get(FLYING)).byteValue());
+		return super.writeUnlessRemoved(compound);
 	}
 
 	/**
 	 * (abstract) Protected helper method to read subclass entity data from NBT.
 	 */
-	public void readEntityFromNBT(NBTTagCompound compound)
+	public void read(NBTTagCompound compound)
 	{
-		super.readEntityFromNBT(compound);
-		this.setLammerType(compound.getInteger("TypeNumber"));
+		super.read(compound);
+		this.setLammerType(compound.getInt("TypeNumber"));
 		this.dataManager.set(FLYING, Byte.valueOf(compound.getByte("LammerFlying")));
 	}
 
@@ -510,11 +511,11 @@ public class EntityLammergeier extends EntityTameableFlying {
 		super.setTamed(tamed);
 		if (tamed)
 		{
-			this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(15.0D);
+			this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(15.0D);
 		}
 		else
 		{
-			this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(6.0D);
+			this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(6.0D);
 		}
 
 	}
@@ -527,9 +528,9 @@ public class EntityLammergeier extends EntityTameableFlying {
 	 * when entity is reloaded from nbt. Mainly used for initializing attributes and inventory
 	 */
 	@Nullable
-	public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, @Nullable IEntityLivingData livingdata)
+	public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, @Nullable IEntityLivingData livingdata, NBTTagCompound compound)
 	{
-		livingdata = super.onInitialSpawn(difficulty, livingdata);
+		livingdata = super.onInitialSpawn(difficulty, livingdata, compound);
 		int i = this.rand.nextInt(4) + 1;
 
 		if (livingdata instanceof EntityLammergeier.LammerTypeData)
@@ -619,7 +620,7 @@ public class EntityLammergeier extends EntityTameableFlying {
 
 			if (entitylivingbase == null) {
 				return false;
-			} else if (!entitylivingbase.isEntityAlive()) {
+			} else if (!entitylivingbase.isAlive()) {
 				return false;
 			}
 
@@ -637,7 +638,7 @@ public class EntityLammergeier extends EntityTameableFlying {
 			if (entitylivingbase == null) {
 				return false;
 			}
-			else if (!entitylivingbase.isEntityAlive()) {
+			else if (!entitylivingbase.isAlive()) {
 				return false;
 			} else {
 				return !(entitylivingbase instanceof EntityPlayer) || !((EntityPlayer)entitylivingbase).isSpectator() && !((EntityPlayer)entitylivingbase).isCreative();
@@ -671,7 +672,7 @@ public class EntityLammergeier extends EntityTameableFlying {
 		/**
 		 * Keep ticking a continuous task that has already been started
 		 */
-		public void updateTask()
+		public void tick()
 		{
 			EntityLivingBase entitylivingbase = this.attacker.getAttackTarget();
 
@@ -706,14 +707,14 @@ public class EntityLammergeier extends EntityTameableFlying {
 
 			// If the entity is not grabbing a target, set it to move to its target
 
-			if(!entitylivingbase.isRiding()) {
+			if(entitylivingbase.getRidingEntity() == null) {
 				this.attacker.getMoveHelper().setMoveTo(targetX, targetY, targetZ, 1.0D);
 			} else { // If the entity is grabbing a target, set it to move upwards
 				this.attacker.getMoveHelper().setMoveTo(targetX, this.liftY + 15, targetZ, 5.0D);
 			}
 
 			// If the entity is in range and entity is not grabbing a target and the target's height is less than 3 blocks
-			if(distanceToTarget <= reachToTarget && !entitylivingbase.isRiding() && entitylivingbase.height <= 3 && this.attackTick == 20) {
+			if(distanceToTarget <= reachToTarget && entitylivingbase.getRidingEntity() == null && entitylivingbase.height <= 3 && this.attackTick == 20) {
 				// Move the entity upwards to avoid being stuck in the ground
 				this.attacker.setLocationAndAngles(this.attacker.posX, this.attacker.posY + entitylivingbase.height + 2, this.attacker.posZ, this.attacker.rotationYaw, this.attacker.rotationPitch);
 				// Grab the target
@@ -731,9 +732,9 @@ public class EntityLammergeier extends EntityTameableFlying {
 			}
 
 			// If the entity is grabbing a target and the block above is solid (stuck)
-			if(entitylivingbase.isRiding() && this.attacker.getEntityWorld().getBlockState(this.attacker.getPosition().up()).isFullCube()) {
+			if(entitylivingbase.getRidingEntity() != null && this.attacker.getEntityWorld().getBlockState(this.attacker.getPosition().up()).isFullCube()) {
 				// Release target
-				entitylivingbase.dismountRidingEntity();
+				entitylivingbase.dismountEntity(attacker);
 				// Remove target
 				this.attacker.setAttackTarget(null);
 				// Create a random target position
@@ -746,8 +747,8 @@ public class EntityLammergeier extends EntityTameableFlying {
 			}
 
 			// If we've about reached the target lifting point and have a target grabbed, or have completed movement, drop the entity
-			if((Math.abs(this.attacker.posY - (this.liftY + 15)) <= 3 && entitylivingbase.isRiding()) || !this.attacker.getMoveHelper().isUpdating()) {
-				entitylivingbase.dismountRidingEntity();
+			if((Math.abs(this.attacker.posY - (this.liftY + 15)) <= 3 && entitylivingbase.getRidingEntity() != null) || !this.attacker.getMoveHelper().isUpdating()) {
+				entitylivingbase.dismountEntity(attacker);
 			}
 
 		}
@@ -774,7 +775,7 @@ public class EntityLammergeier extends EntityTameableFlying {
 		/**
 		 * Keep ticking a continuous task that has already been started
 		 */
-		public void updateTask()
+		public void tick()
 		{
 			if (this.parentEntity.getAttackTarget() == null)
 			{
@@ -890,11 +891,22 @@ public class EntityLammergeier extends EntityTameableFlying {
 			float x = ((int) this.parentEntity.posX) + random.nextInt(16) - 8F + 0.5F;
 			float z = ((int) this.parentEntity.posZ) + random.nextInt(16) - 8F + 0.5F;
 
-			float y = world.getTopSolidOrLiquidBlock(new BlockPos(x, 0, z)).getY();
+			float y = getTopSolidOrLiquidBlock(world, new BlockPos(x, 0, z)).getY();
 
 			BlockPos pos = new BlockPos(x, y, z);
 
 			return pos;
+		}
+		
+		private static BlockPos getTopSolidOrLiquidBlock(World world, BlockPos pos) {
+			for(int i = world.getHeight(); i > world.getSeaLevel(); i--) {
+				BlockPos pos2 = new BlockPos(pos.getX(), i, pos.getZ());
+				IBlockState state = world.getBlockState(pos2.down());
+				if(world.isAirBlock(pos2) && state.isTopSolid() && world.canSeeSky(pos2)) {
+					return pos2;
+				}
+			}
+			return new BlockPos(pos.getX(), world.getSeaLevel() + 40, pos.getZ());
 		}
 	}
 
@@ -943,7 +955,7 @@ public class EntityLammergeier extends EntityTameableFlying {
 			}
 
 			double d0 = this.getFollowRange();
-			List<EntityLivingBase> list = this.mob.world.<EntityLivingBase>getEntitiesWithinAABB(this.classToCheck, this.mob.getEntityBoundingBox().grow(d0, d0, d0), this.predicate);
+			List<EntityLivingBase> list = this.mob.world.<EntityLivingBase>getEntitiesWithinAABB(this.classToCheck, this.mob.getBoundingBox().grow(d0, d0, d0), this.predicate);
 			Collections.sort(list, this.sorter);
 
 			if (list.isEmpty())
@@ -968,11 +980,11 @@ public class EntityLammergeier extends EntityTameableFlying {
 			{
 				return false;
 			}
-			else if (!entitylivingbase.isEntityAlive())
+			else if (!entitylivingbase.isAlive())
 			{
 				return false;
 			} 
-			else if(entitylivingbase.isRiding())
+			else if(entitylivingbase.getRidingEntity() != null)
 			{
 				return false;
 			}
@@ -1012,8 +1024,8 @@ public class EntityLammergeier extends EntityTameableFlying {
 
 		protected double getFollowRange()
 		{
-			IAttributeInstance iattributeinstance = this.mob.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE);
-			return iattributeinstance == null ? 16.0D : iattributeinstance.getAttributeValue();
+			IAttributeInstance iattributeinstance = this.mob.getAttribute(SharedMonsterAttributes.FOLLOW_RANGE);
+			return iattributeinstance == null ? 16.0D : iattributeinstance.getValue();
 		}
 
 	}

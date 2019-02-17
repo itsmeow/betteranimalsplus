@@ -17,9 +17,9 @@ public class RenderBoar extends RenderLiving<EntityBoar> {
 	@Override
 	protected void preRenderCallback(EntityBoar entitylivingbaseIn, float partialTickTime) {
 		if (getMainModel().isChild) {
-			GlStateManager.scale(0.6D, 0.6D, 0.6D);
+			GlStateManager.scaled(0.6D, 0.6D, 0.6D);
 		} else {
-			GlStateManager.scale(1.0D, 1.0D, 1.0D);
+			GlStateManager.scaled(1.0D, 1.0D, 1.0D);
 		}
 	}
 

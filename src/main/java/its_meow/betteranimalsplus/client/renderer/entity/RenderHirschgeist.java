@@ -24,7 +24,7 @@ public class RenderHirschgeist extends RenderLiving<EntityHirschgeist> {
 	{
 		if(!entitylivingbaseIn.isDaytime()) {
 			float scale = 2F;
-			GlStateManager.scale(scale, scale, scale);
+			GlStateManager.scalef(scale, scale, scale);
 		}
 		super.preRenderCallback(entitylivingbaseIn, partialTickTime);
 	}

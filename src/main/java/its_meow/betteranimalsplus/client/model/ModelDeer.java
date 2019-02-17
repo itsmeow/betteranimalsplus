@@ -1,6 +1,6 @@
 package its_meow.betteranimalsplus.client.model;
 
-import net.minecraft.client.model.ModelRenderer;
+import net.minecraft.client.renderer.entity.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.util.math.MathHelper;

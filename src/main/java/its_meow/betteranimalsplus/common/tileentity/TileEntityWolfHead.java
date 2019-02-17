@@ -2,7 +2,7 @@ package its_meow.betteranimalsplus.common.tileentity;
 
 import its_meow.betteranimalsplus.client.model.ModelWolfHead;
 import its_meow.betteranimalsplus.init.TextureRegistry;
-import net.minecraft.client.model.ModelBase;
+import net.minecraft.client.renderer.entity.model.ModelBase;
 
 public class TileEntityWolfHead extends TileEntityHead {
 	

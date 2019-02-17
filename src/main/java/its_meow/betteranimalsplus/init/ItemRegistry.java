@@ -15,8 +15,8 @@ import its_meow.betteranimalsplus.common.item.ItemVenisonCooked;
 import its_meow.betteranimalsplus.common.item.ItemVenisonRaw;
 import net.minecraft.item.Item;
 import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.registries.IForgeRegistry;
 
 public class ItemRegistry {
@@ -33,24 +33,6 @@ public class ItemRegistry {
 
 	// These are not registered
 	public static final ItemHirschgeistSkull itemHirschgeistSkull = new ItemHirschgeistSkull(BlockRegistry.hirschgeistskull);
-	/*public static final ItemBlockSkull wolfhead = new ItemBlockSkull(BlockRegistry.wolfhead, true);
-	public static final ItemBlockSkull deerhead = new ItemBlockSkull(BlockRegistry.deerhead, true);
-	public static final ItemBlockSkull reindeerhead = new ItemBlockSkull(BlockRegistry.reindeerhead, true);
-	
-	
-	public static ItemBlock getItemFor(BlockGenericSkull blockGenericSkull) {
-		String regName = blockGenericSkull.getRegistryName().getResourcePath();
-		if(regName == "wolfhead") {
-			return wolfhead;
-		}
-		if(regName == "deerhead") {
-			return deerhead;
-		}
-		if(regName == "reindeerhead") {
-			return reindeerhead;
-		}
-		return null;
-	}*/
 	
 	@Mod.EventBusSubscriber
 	public static class RegistrationHandler {

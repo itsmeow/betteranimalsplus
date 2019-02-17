@@ -6,9 +6,8 @@ import net.minecraft.item.Item;
 public class ItemAntler extends Item {
 	
 	public ItemAntler() {
+		super(new Properties().group(BetterAnimalsPlusMod.group));
 		this.setRegistryName("antler");
-		this.setUnlocalizedName("betteranimalsplus.antler");
-		this.setCreativeTab(BetterAnimalsPlusMod.tab);
 	}
 	
 }

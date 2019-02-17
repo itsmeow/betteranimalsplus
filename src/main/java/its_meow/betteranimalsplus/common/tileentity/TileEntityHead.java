@@ -5,15 +5,17 @@ import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Random;
 
-import net.minecraft.client.model.ModelBase;
+import net.minecraft.block.BlockSkull;
+import net.minecraft.client.renderer.entity.model.ModelBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntitySkull;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 public class TileEntityHead extends TileEntitySkull {
 	
@@ -23,6 +25,7 @@ public class TileEntityHead extends TileEntitySkull {
 	private boolean useFunc = false;
 	private Method textureFunction;
 	private float offset;
+	private float rotation;
 	
 	public HashMap<Integer, ResourceLocation> textures;
 	
@@ -55,7 +58,7 @@ public class TileEntityHead extends TileEntitySkull {
 	}
 	
 	@Override
-	@SideOnly(Side.CLIENT)
+	@OnlyIn(Dist.CLIENT)
 	public AxisAlignedBB getRenderBoundingBox() {
 		return new AxisAlignedBB(getPos().add(-1, -1, -1), getPos().add(2, 2, 2));
 	}
@@ -83,48 +86,65 @@ public class TileEntityHead extends TileEntitySkull {
 	}
 	
 	@Override
-	public void readFromNBT(NBTTagCompound compound) {
-		super.readFromNBT(compound);
+	public void read(NBTTagCompound compound) {
+		super.read(compound);
 		if(compound.hasKey("TYPENUM")) {
-			this.typeNum = compound.getInteger("TYPENUM");
+			this.typeNum = compound.getInt("TYPENUM");
 		} else {
 			this.setType(new Random().nextInt(this.textures.size()) + 1);
 		}
 	}
 
 	@Override
-	public NBTTagCompound writeToNBT(NBTTagCompound compound) {
-		super.writeToNBT(compound);
-		compound.setInteger("TYPENUM", this.typeNum);
+	public NBTTagCompound write(NBTTagCompound compound) {
+		super.write(compound);
+		compound.setInt("TYPENUM", this.typeNum);
 		return compound;
 	}
 
 	@Override
 	public SPacketUpdateTileEntity getUpdatePacket() {
 		NBTTagCompound tag = new NBTTagCompound();
-		this.writeToNBT(tag);
+		this.write(tag);
 		return new SPacketUpdateTileEntity(this.pos, 1, tag);
 	}
 
 	@Override
 	public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity packet) {
-		readFromNBT(packet.getNbtCompound());
-		this.world.scheduleUpdate(this.pos, this.blockType, 100);
+		read(packet.getNbtCompound());
+		this.world.getPendingBlockTicks().scheduleTick(pos, this.getBlockState().getBlock(), 100);
 	}
 	
 	@Override
 	public NBTTagCompound getUpdateTag() {
 		NBTTagCompound tag = new NBTTagCompound();
-        this.writeToNBT(tag);
+        this.write(tag);
         return tag;
 	}
 	@Override
 	public void handleUpdateTag(NBTTagCompound tag) {
-		this.readFromNBT(tag);
+		this.read(tag);
 	}
 	
 	public float getOffset() {
 		return this.offset;
+	}
+
+	public void setRotation(float rotation) {
+		this.rotation = rotation;
+	}
+
+	public float getSkullRotation() {
+		return this.rotation;
+	}
+	
+	public float getRotationX() {
+		return this.getBlockState().get(BlockSkull.ROTATION);
+	}
+
+	public EnumFacing getBlockFacing() {
+		return EnumFacing.NORTH;
+		//return this.getBlockState().get(BlockSkull.ROTATION);
 	}
 
 }

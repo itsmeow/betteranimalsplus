@@ -6,18 +6,20 @@ import its_meow.betteranimalsplus.common.entity.miniboss.hirschgeist.EntityHirsc
 import its_meow.betteranimalsplus.init.BlockRegistry;
 import net.minecraft.block.BlockHorizontal;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.init.Particles;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 public class TileEntityHandOfFate extends TileEntity {
 
+	public static final TileEntityType<TileEntityHandOfFate> HAND_OF_FATE_TYPE = TileEntityType.Builder.create(TileEntityHandOfFate::new).build(null);
 	private boolean onFire;
 	private final String keyOnFire = "OnFire";
 
@@ -30,9 +32,12 @@ public class TileEntityHandOfFate extends TileEntity {
 	private boolean hasVenison;
 	private final String keyVenison = "HasVenison";
 
-	public TileEntityHandOfFate() {}
+	public TileEntityHandOfFate() {
+		super(HAND_OF_FATE_TYPE);
+	}
 
 	public TileEntityHandOfFate(World worldIn) {
+		super(HAND_OF_FATE_TYPE);
 		this.world = worldIn;
 	}
 
@@ -40,7 +45,7 @@ public class TileEntityHandOfFate extends TileEntity {
 	public void setOnFire(boolean b) {
 		this.onFire = b;
 		if(this.world.isRemote) {
-			this.world.scheduleUpdate(this.pos, this.getBlockType(), 0);
+			this.world.getPendingBlockTicks().scheduleTick(pos, this.getBlockState().getBlock(), 100);
 			this.world.notifyBlockUpdate(this.pos, this.world.getBlockState(this.pos), this.world.getBlockState(this.pos), 0);
 			this.world.markBlockRangeForRenderUpdate(getPos().down(5).west(5).north(5), getPos().up(5).east(5).south(5));
 		}
@@ -113,14 +118,14 @@ public class TileEntityHandOfFate extends TileEntity {
 	private void fireBurst() {
 		Random rand = new Random();
 		for(int i = 0; i < 100; i++) {
-			this.world.spawnParticle(EnumParticleTypes.SPELL_INSTANT, this.getPos().getX() + ((rand.nextFloat() + 0.5F) / 2), this.getPos().getY() + 1.5F, this.getPos().getZ() + ((rand.nextFloat() + 0.5F) / 2), 0, 0.5F, 0);
+			this.world.spawnParticle(Particles.FLAME, this.getPos().getX() + ((rand.nextFloat() + 0.5F) / 2), this.getPos().getY() + 1.5F, this.getPos().getZ() + ((rand.nextFloat() + 0.5F) / 2), 0, 0.5F, 0);
 		}
 	}
 
 
 	@Override
-	public void readFromNBT(NBTTagCompound compound) {
-		super.readFromNBT(compound);
+	public void read(NBTTagCompound compound) {
+		super.read(compound);
 		if(compound.hasKey(this.keyOnFire)) {
 			this.onFire = compound.getBoolean(this.keyOnFire);
 		}
@@ -138,8 +143,8 @@ public class TileEntityHandOfFate extends TileEntity {
 
 
 	@Override
-	public NBTTagCompound writeToNBT(NBTTagCompound compound) {
-		super.writeToNBT(compound);
+	public NBTTagCompound write(NBTTagCompound compound) {
+		super.write(compound);
 		compound.setBoolean(this.keyOnFire, this.onFire);
 		compound.setBoolean(this.keyAntler, this.hasAntler);
 		compound.setBoolean(this.keyNetherWart, this.hasNetherWart);
@@ -150,15 +155,15 @@ public class TileEntityHandOfFate extends TileEntity {
 	@Override
 	public SPacketUpdateTileEntity getUpdatePacket() {
 		NBTTagCompound tag = new NBTTagCompound();
-		this.writeToNBT(tag);
+		this.write(tag);
 		return new SPacketUpdateTileEntity(this.pos, 1, tag);
 	}
 
 
 	@Override
 	public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity packet) {
-		readFromNBT(packet.getNbtCompound());
-		this.world.scheduleUpdate(this.pos, this.blockType, 100);
+		read(packet.getNbtCompound());
+		this.world.getPendingBlockTicks().scheduleTick(pos, this.getBlockState().getBlock(), 100);
 	}
 
 
@@ -168,21 +173,21 @@ public class TileEntityHandOfFate extends TileEntity {
 	@Override
 	public NBTTagCompound getUpdateTag() {
 		NBTTagCompound tag = new NBTTagCompound();
-		this.writeToNBT(tag);
+		this.write(tag);
 		return tag;
 	}
 
 
 	@Override
 	public void handleUpdateTag(NBTTagCompound tag) {
-		this.readFromNBT(tag);
+		this.read(tag);
 	}
 
-	@SideOnly(Side.CLIENT)
+	@OnlyIn(Dist.CLIENT)
 	public float getRotation() {
 		IBlockState state = this.world.getBlockState(this.pos);
 		if(state.getBlock() == BlockRegistry.handoffate) {
-			EnumFacing facing = state.getValue(BlockHorizontal.FACING).getOpposite();
+			EnumFacing facing = state.get(BlockHorizontal.HORIZONTAL_FACING).getOpposite();
 			if(facing == EnumFacing.NORTH) {
 				return 0F;
 			}

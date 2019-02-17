@@ -1,8 +1,8 @@
 package its_meow.betteranimalsplus.client.model;
 
-import net.minecraft.client.model.ModelBase;
-import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.entity.model.ModelBase;
+import net.minecraft.client.renderer.entity.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 
 /**
@@ -146,37 +146,37 @@ public class ModelTrillium extends ModelBase {
 
     @Override
     public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) {
-    	GlStateManager.rotate(f3, 0, 1, 0); // Yaw
+    	GlStateManager.rotatef(f3, 0, 1, 0); // Yaw
         GlStateManager.pushMatrix();
-        GlStateManager.translate(this.stem05.offsetX, this.stem05.offsetY, this.stem05.offsetZ);
-        GlStateManager.translate(this.stem05.rotationPointX * f5, this.stem05.rotationPointY * f5, this.stem05.rotationPointZ * f5);
-        GlStateManager.scale(0.4D, 0.7D, 0.4D);
-        GlStateManager.translate(-this.stem05.offsetX, -this.stem05.offsetY, -this.stem05.offsetZ);
-        GlStateManager.translate(-this.stem05.rotationPointX * f5, -this.stem05.rotationPointY * f5, -this.stem05.rotationPointZ * f5);
+        GlStateManager.translatef(this.stem05.offsetX, this.stem05.offsetY, this.stem05.offsetZ);
+        GlStateManager.translatef(this.stem05.rotationPointX * f5, this.stem05.rotationPointY * f5, this.stem05.rotationPointZ * f5);
+        GlStateManager.scaled(0.4D, 0.7D, 0.4D);
+        GlStateManager.translatef(-this.stem05.offsetX, -this.stem05.offsetY, -this.stem05.offsetZ);
+        GlStateManager.translatef(-this.stem05.rotationPointX * f5, -this.stem05.rotationPointY * f5, -this.stem05.rotationPointZ * f5);
         this.stem05.render(f5);
         GlStateManager.popMatrix();
         GlStateManager.pushMatrix();
-        GlStateManager.translate(this.stem01.offsetX, this.stem01.offsetY, this.stem01.offsetZ);
-        GlStateManager.translate(this.stem01.rotationPointX * f5, this.stem01.rotationPointY * f5, this.stem01.rotationPointZ * f5);
-        GlStateManager.scale(0.8D, 1.0D, 0.8D);
-        GlStateManager.translate(-this.stem01.offsetX, -this.stem01.offsetY, -this.stem01.offsetZ);
-        GlStateManager.translate(-this.stem01.rotationPointX * f5, -this.stem01.rotationPointY * f5, -this.stem01.rotationPointZ * f5);
+        GlStateManager.translatef(this.stem01.offsetX, this.stem01.offsetY, this.stem01.offsetZ);
+        GlStateManager.translatef(this.stem01.rotationPointX * f5, this.stem01.rotationPointY * f5, this.stem01.rotationPointZ * f5);
+        GlStateManager.scaled(0.8D, 1.0D, 0.8D);
+        GlStateManager.translatef(-this.stem01.offsetX, -this.stem01.offsetY, -this.stem01.offsetZ);
+        GlStateManager.translatef(-this.stem01.rotationPointX * f5, -this.stem01.rotationPointY * f5, -this.stem01.rotationPointZ * f5);
         this.stem01.render(f5);
         GlStateManager.popMatrix();
         GlStateManager.pushMatrix();
-        GlStateManager.translate(this.stem02.offsetX, this.stem02.offsetY, this.stem02.offsetZ);
-        GlStateManager.translate(this.stem02.rotationPointX * f5, this.stem02.rotationPointY * f5, this.stem02.rotationPointZ * f5);
-        GlStateManager.scale(0.7D, 1.0D, 0.7D);
-        GlStateManager.translate(-this.stem02.offsetX, -this.stem02.offsetY, -this.stem02.offsetZ);
-        GlStateManager.translate(-this.stem02.rotationPointX * f5, -this.stem02.rotationPointY * f5, -this.stem02.rotationPointZ * f5);
+        GlStateManager.translatef(this.stem02.offsetX, this.stem02.offsetY, this.stem02.offsetZ);
+        GlStateManager.translatef(this.stem02.rotationPointX * f5, this.stem02.rotationPointY * f5, this.stem02.rotationPointZ * f5);
+        GlStateManager.scaled(0.7D, 1.0D, 0.7D);
+        GlStateManager.translatef(-this.stem02.offsetX, -this.stem02.offsetY, -this.stem02.offsetZ);
+        GlStateManager.translatef(-this.stem02.rotationPointX * f5, -this.stem02.rotationPointY * f5, -this.stem02.rotationPointZ * f5);
         this.stem02.render(f5);
         GlStateManager.popMatrix();
         GlStateManager.pushMatrix();
-        GlStateManager.translate(this.stem04.offsetX, this.stem04.offsetY, this.stem04.offsetZ);
-        GlStateManager.translate(this.stem04.rotationPointX * f5, this.stem04.rotationPointY * f5, this.stem04.rotationPointZ * f5);
-        GlStateManager.scale(0.8D, 1.0D, 0.8D);
-        GlStateManager.translate(-this.stem04.offsetX, -this.stem04.offsetY, -this.stem04.offsetZ);
-        GlStateManager.translate(-this.stem04.rotationPointX * f5, -this.stem04.rotationPointY * f5, -this.stem04.rotationPointZ * f5);
+        GlStateManager.translatef(this.stem04.offsetX, this.stem04.offsetY, this.stem04.offsetZ);
+        GlStateManager.translatef(this.stem04.rotationPointX * f5, this.stem04.rotationPointY * f5, this.stem04.rotationPointZ * f5);
+        GlStateManager.scaled(0.8D, 1.0D, 0.8D);
+        GlStateManager.translatef(-this.stem04.offsetX, -this.stem04.offsetY, -this.stem04.offsetZ);
+        GlStateManager.translatef(-this.stem04.rotationPointX * f5, -this.stem04.rotationPointY * f5, -this.stem04.rotationPointZ * f5);
         this.stem04.render(f5);
         GlStateManager.popMatrix();
         this.stem03.render(f5);
