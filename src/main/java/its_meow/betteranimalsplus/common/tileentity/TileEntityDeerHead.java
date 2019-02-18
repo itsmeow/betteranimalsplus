@@ -11,7 +11,7 @@ public class TileEntityDeerHead extends TileEntityHead {
 	private boolean isChristmas = false;
 	
 	public TileEntityDeerHead() {
-		super(ModelDeerHead.class, 0F, TextureRegistry.deer_1, TextureRegistry.deer_2);
+		super(ModelDeerHead.class, TileEntityDeerHead.class, 0F, TextureRegistry.deer_1, TextureRegistry.deer_2);
 		Calendar calendar = Calendar.getInstance();
 
 		if (calendar.get(2) + 1 == 12 && calendar.get(5) >= 24 && calendar.get(5) <= 26)

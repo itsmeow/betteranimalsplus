@@ -5,19 +5,20 @@ import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Random;
 
+import its_meow.betteranimalsplus.init.BlockRegistry;
 import net.minecraft.block.BlockSkull;
 import net.minecraft.client.renderer.entity.model.ModelBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
-import net.minecraft.tileentity.TileEntitySkull;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
-public class TileEntityHead extends TileEntitySkull {
+public class TileEntityHead extends TileEntity {
 	
 	private Class<? extends ModelBase> modelT = null;
 	private ModelBase model = null;
@@ -29,7 +30,8 @@ public class TileEntityHead extends TileEntitySkull {
 	
 	public HashMap<Integer, ResourceLocation> textures;
 	
-	public TileEntityHead(Class<? extends ModelBase> modelType, float yOffset, ResourceLocation... textureList) {
+	public TileEntityHead(Class<? extends ModelBase> modelType, Class<? extends TileEntityHead> type, float yOffset, ResourceLocation... textureList) {
+		super(BlockRegistry.getTileEntityType(type));
 		this.modelT = modelType;
 		this.textures = new HashMap<Integer, ResourceLocation>();
 		int i = 1;

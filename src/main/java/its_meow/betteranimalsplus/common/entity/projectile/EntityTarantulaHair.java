@@ -1,5 +1,6 @@
 package its_meow.betteranimalsplus.common.entity.projectile;
 
+import its_meow.betteranimalsplus.Ref;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.EntityType;
@@ -14,7 +15,7 @@ import net.minecraft.world.World;
 
 public class EntityTarantulaHair extends EntityThrowable {
 	
-	public static final EntityType<? extends Entity> HAIR_TYPE = EntityType.Builder.create(EntityTarantulaHair.class, EntityTarantulaHair::new).tracker(64, 1, true).build(null);;
+	public static final EntityType<? extends Entity> HAIR_TYPE = EntityType.Builder.create(EntityTarantulaHair.class, EntityTarantulaHair::new).tracker(64, 1, true).build("tarantulahair").setRegistryName(Ref.MOD_ID, "tarantulahair");
 
 	public EntityTarantulaHair(World worldIn) {
 		super(HAIR_TYPE, worldIn);

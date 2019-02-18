@@ -7,7 +7,7 @@ credits="Cybercat5555: Design, Modeling, Texturing, Ideas; its_meow: Programming
 authors="cybercat5555, its_meow (hiotewdew)" #optional
 [[mods]] #mandatory
 modId="betteranimalsplus" #mandatory
-version="${version}" #mandatory
+version="5.0.1" #mandatory
 displayName="Better Animals+" #mandatory
 updateJSONURL="http://modmanagement.net16.net/updateJSON5.json" #optional
 # The description text for the mod (multi line!) (#mandatory)

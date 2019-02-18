@@ -1,7 +1,5 @@
 package its_meow.betteranimalsplus.client.renderer.tileentity;
 
-import com.mojang.authlib.GameProfile;
-
 import its_meow.betteranimalsplus.common.tileentity.TileEntityHead;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.model.ModelBase;
@@ -16,10 +14,10 @@ public class RenderGenericHeadFloor extends TileEntityRenderer<TileEntityHead> {
 
 	@Override
 	public void render(TileEntityHead tile, double x, double y, double z, float partialTickTime, int destroyStage) {
-		renderHead((float) x, (float) y, (float) z, tile.getRotationX(), tile.getSkullRotation() * 360 / 16.0F, tile.getPlayerProfile(), tile.getModel(), destroyStage, tile.getTexture(), tile.getOffset());
+		renderHead((float) x, (float) y, (float) z, tile.getRotationX(), tile.getSkullRotation() * 360 / 16.0F, tile.getModel(), destroyStage, tile.getTexture(), tile.getOffset());
 	}
 
-	private void renderHead(float x, float y, float z, float meta, float skullRotation, GameProfile profile, ModelBase model, int destroyStage, ResourceLocation texture, float offset) {
+	private void renderHead(float x, float y, float z, float meta, float skullRotation, ModelBase model, int destroyStage, ResourceLocation texture, float offset) {
 
 		this.bindTexture(texture);
 

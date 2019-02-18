@@ -2,6 +2,7 @@ package its_meow.betteranimalsplus.common.tileentity;
 
 import java.util.Random;
 
+import its_meow.betteranimalsplus.Ref;
 import its_meow.betteranimalsplus.client.model.ModelTrillium;
 import its_meow.betteranimalsplus.client.model.ModelTrilliumMulti;
 import its_meow.betteranimalsplus.client.model.ModelTrilliumMulti2;
@@ -22,7 +23,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 public class TileEntityTrillium extends TileEntity {
 
-	public static final TileEntityType<TileEntityTrillium> TRILLIUM_TYPE = TileEntityType.Builder.create(TileEntityTrillium::new).build(null);
+	public static final TileEntityType<?> TRILLIUM_TYPE = TileEntityType.Builder.create(TileEntityTrillium::new).build(null).setRegistryName(Ref.MOD_ID, "trilliumtilentity");
 	private int typeNum;
 	private final String keyType = "trilliumType";
 

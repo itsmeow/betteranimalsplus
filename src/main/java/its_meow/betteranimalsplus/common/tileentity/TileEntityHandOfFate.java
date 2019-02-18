@@ -2,6 +2,7 @@ package its_meow.betteranimalsplus.common.tileentity;
 
 import java.util.Random;
 
+import its_meow.betteranimalsplus.Ref;
 import its_meow.betteranimalsplus.common.entity.miniboss.hirschgeist.EntityHirschgeist;
 import its_meow.betteranimalsplus.init.BlockRegistry;
 import net.minecraft.block.BlockHorizontal;
@@ -19,7 +20,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 public class TileEntityHandOfFate extends TileEntity {
 
-	public static final TileEntityType<TileEntityHandOfFate> HAND_OF_FATE_TYPE = TileEntityType.Builder.create(TileEntityHandOfFate::new).build(null);
+	public static final TileEntityType<?> HAND_OF_FATE_TYPE = TileEntityType.Builder.create(TileEntityHandOfFate::new).build(null).setRegistryName(Ref.MOD_ID, "handoffatetilentity");
 	private boolean onFire;
 	private final String keyOnFire = "OnFire";
 

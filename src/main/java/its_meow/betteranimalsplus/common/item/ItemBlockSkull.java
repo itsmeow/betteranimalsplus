@@ -56,8 +56,7 @@ public class ItemBlockSkull extends ItemBlock {
 	@Override
 	public EnumActionResult onItemUse(ItemUseContext ctx) {
 		EntityPlayer player = ctx.getPlayer();
-		EnumHand hand = ctx.getPlayer().getActiveHand();
-		ItemStack stack = player.getHeldItem(hand);
+		ItemStack stack = ctx.getItem();
 		EnumFacing side = ctx.getFace();
 		BlockPos pos = ctx.getPos();
 		World world = ctx.getWorld();

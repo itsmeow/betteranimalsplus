@@ -2,6 +2,7 @@ package its_meow.betteranimalsplus.common.block;
 
 import its_meow.betteranimalsplus.common.tileentity.TileEntityHandOfFate;
 import its_meow.betteranimalsplus.init.ItemRegistry;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockHorizontal;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -10,6 +11,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
+import net.minecraft.state.StateContainer.Builder;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumFacing;
@@ -47,10 +49,11 @@ public class BlockHandOfFate extends BlockHorizontal {
 		}
 		return super.getLightValue(state, world, pos);
 	}
-	
-	
 
-
+	@Override
+	protected void fillStateContainer(Builder<Block, IBlockState> builder) {
+		builder.add(BlockHorizontal.HORIZONTAL_FACING);
+	}
 
 
 	@Override

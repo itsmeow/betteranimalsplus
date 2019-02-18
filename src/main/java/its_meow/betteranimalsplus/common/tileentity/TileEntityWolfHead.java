@@ -7,7 +7,7 @@ import net.minecraft.client.renderer.entity.model.ModelBase;
 public class TileEntityWolfHead extends TileEntityHead {
 	
 	public TileEntityWolfHead() {
-		super(ModelWolfHead.class.asSubclass(ModelBase.class), 0F,
+		super(ModelWolfHead.class.asSubclass(ModelBase.class), TileEntityWolfHead.class, 0F,
 				TextureRegistry.wolf_black,      // 1
 				TextureRegistry.wolf_snowy,      // 2
 				TextureRegistry.wolf_timber,     // 3

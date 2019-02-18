@@ -3,6 +3,7 @@ package its_meow.betteranimalsplus.init;
 import java.util.HashSet;
 import java.util.Set;
 
+import its_meow.betteranimalsplus.Ref;
 import its_meow.betteranimalsplus.common.item.ItemAntler;
 import its_meow.betteranimalsplus.common.item.ItemGoatCheese;
 import its_meow.betteranimalsplus.common.item.ItemGoatMilk;
@@ -34,7 +35,7 @@ public class ItemRegistry {
 	// These are not registered
 	public static final ItemHirschgeistSkull itemHirschgeistSkull = new ItemHirschgeistSkull(BlockRegistry.hirschgeistskull);
 	
-	@Mod.EventBusSubscriber
+	@Mod.EventBusSubscriber(modid = Ref.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 	public static class RegistrationHandler {
 		public static final Set<Item> ITEMS = new HashSet<>();
 

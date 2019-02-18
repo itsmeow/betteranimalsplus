@@ -2,7 +2,6 @@ package its_meow.betteranimalsplus.common.world.gen;
 
 import java.util.Random;
 
-import its_meow.betteranimalsplus.common.block.BlockTrillium;
 import its_meow.betteranimalsplus.init.BlockRegistry;
 import net.minecraft.block.BlockHorizontal;
 import net.minecraft.block.state.IBlockState;

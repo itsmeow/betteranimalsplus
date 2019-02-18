@@ -1,13 +1,12 @@
 package its_meow.betteranimalsplus.init;
 
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.function.Supplier;
 
 import com.google.common.base.Preconditions;
 
 import its_meow.betteranimalsplus.BetterAnimalsPlusMod;
+import its_meow.betteranimalsplus.Ref;
 import its_meow.betteranimalsplus.common.block.BlockGenericSkull;
 import its_meow.betteranimalsplus.common.block.BlockHandOfFate;
 import its_meow.betteranimalsplus.common.block.BlockHirschgeistSkull;
@@ -49,8 +48,10 @@ public class BlockRegistry {
 	public static final BlockGenericSkull boarhead = new BlockGenericSkull(TileEntityBoarHead.class, "boarhead", false, 4, TileEntityBoarHead::new);
 
 	public static HashMap<BlockGenericSkull, HashMap<Integer, ItemBlockSkull>> genericskulls = new HashMap<BlockGenericSkull, HashMap<Integer, ItemBlockSkull>>();
-
+	public static HashMap<Class<? extends TileEntity>, TileEntityType<?>> types = new HashMap<Class<? extends TileEntity>, TileEntityType<?>>();
+	
 	public static void addGenericSkull(BlockGenericSkull block) {
+		genericskulls.put(block, new HashMap<Integer, ItemBlockSkull>());
 		for(int i = 1; i <= block.texCount; i++) {
 			genericskulls.get(block).put(i, new ItemBlockSkull(block, block.allowFloor, i));
 		}
@@ -60,9 +61,8 @@ public class BlockRegistry {
 		return genericskulls.get(block).get(texID);
 	}
 
-	@Mod.EventBusSubscriber
+	@Mod.EventBusSubscriber(modid = Ref.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 	public static class RegistrationHandler {
-		public static final Set<ItemBlock> ITEM_BLOCKS = new HashSet<>();
 
 		/**
 		 * Register this mod's {@link Block}s.
@@ -107,16 +107,19 @@ public class BlockRegistry {
 			final IForgeRegistry<Item> registry = event.getRegistry();
 
 			for (final ItemBlock item : items) {
-				final Block block = item.getBlock();
-				final ResourceLocation registryName = Preconditions.checkNotNull(block.getRegistryName(), "Block %s has null registry name", block);
-				registry.register(item.setRegistryName(registryName));
-				ITEM_BLOCKS.add(item);
+				Block block = item.getBlock();
+				ResourceLocation loc = item.getRegistryName();
+				if(item.getRegistryName() == null) {
+					loc = Preconditions.checkNotNull(block.getRegistryName(), "Block %s has null registry name", block);
+					item.setRegistryName(loc);
+				}
+				registry.register(item);
 			}
 
 			for(BlockGenericSkull block : genericskulls.keySet()) {
 				for(ItemBlockSkull skull : genericskulls.get(block).values()) {
-					final ResourceLocation registryName = Preconditions.checkNotNull(block.getRegistryName(), "Block %s has null registry name", block);
-					registry.register(skull.setRegistryName(registryName));
+					Preconditions.checkNotNull(block.getRegistryName(), "Block %s has null registry name", block);
+					registry.register(skull);
 				}
 			}
 		}
@@ -129,17 +132,24 @@ public class BlockRegistry {
 			reg.register(TileEntityHirschgeistSkull.HIRSCHGEIST_SKULL_TYPE);
 
 			for(BlockGenericSkull block : genericskulls.keySet()) {
-				reg(reg, block.teSupplier);
+				reg(reg, block.teSupplier, block, block.teClass);
 			}
 		}
 
-		private static void reg(IForgeRegistry<TileEntityType<?>> reg, Supplier<? extends TileEntity> factory) {
-			reg.register(TileEntityType.Builder.create(factory).build(null));
+		private static void reg(IForgeRegistry<TileEntityType<?>> reg, Supplier<? extends TileEntity> factory, BlockGenericSkull block, Class<? extends TileEntity> teClass) {
+			TileEntityType<?> type = TileEntityType.Builder.create(factory).build(null).setRegistryName(Ref.MOD_ID, block.getRegistryName().getPath() + "tileentity");
+			reg.register(type);
+			types.put(teClass, type);
 		}
 
 	}
 
 	public static int getTypeForItem(ResourceLocation registryName) {
-		return Integer.valueOf(registryName.getNamespace().substring(registryName.getNamespace().lastIndexOf('_'), registryName.getNamespace().length()));
+		return Integer.valueOf(registryName.getPath().substring(registryName.getPath().lastIndexOf('_') + 1, registryName.getPath().length()));
 	}
+
+	public static TileEntityType<?> getTileEntityType(Class<? extends TileEntity> type) {
+		return types.get(type);
+	}
+	
 }

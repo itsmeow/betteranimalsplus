@@ -98,7 +98,7 @@ public class MobRegistry {
 
 	@SuppressWarnings("unchecked")
 	public static void registerWithSpawn(Class<? extends Entity> EntityClass, Function<? super World, ? extends Entity> func, String entityNameIn, EnumCreatureType typeIn, int prob, int min, int max, Biome[] biomes, EntityContainer container){
-		EntityType<? extends Entity> entry = EntityType.Builder.create(EntityClass, func).tracker(64, 1, true).build(entityNameIn);
+		EntityType<? extends Entity> entry = EntityType.Builder.create(EntityClass, func).tracker(64, 1, true).build(entityNameIn.toLowerCase()).setRegistryName(Ref.MOD_ID, entityNameIn.toLowerCase());
 		if(typeIn == EnumCreatureType.WATER_CREATURE) {
 			EntitySpawnPlacementRegistry.register(entry, SpawnPlacementType.IN_WATER, Heightmap.Type.OCEAN_FLOOR, null);
 		}
@@ -117,7 +117,7 @@ public class MobRegistry {
 	}
 
 	public static void register(Class<? extends Entity> EntityClass, Function<? super World, ? extends Entity> func, String entityNameIn, EntityContainer container){
-		EntityType<? extends Entity> entry = EntityType.Builder.create(EntityClass, func).tracker(64, 1, true).build(entityNameIn);
+		EntityType<? extends Entity> entry = EntityType.Builder.create(EntityClass, func).tracker(64, 1, true).build(entityNameIn.toLowerCase()).setRegistryName(Ref.MOD_ID, entityNameIn.toLowerCase());
 
 		if(container != null) {
 			entryMap.put(container, entry);
@@ -129,7 +129,7 @@ public class MobRegistry {
 
 	//####################################################################################
 
-	@EventBusSubscriber(modid = Ref.MOD_ID)
+	@EventBusSubscriber(modid = Ref.MOD_ID, bus = EventBusSubscriber.Bus.MOD)
 	public static class RegistrationHandler
 	{
 		/**
@@ -138,7 +138,7 @@ public class MobRegistry {
 		 * @param event The event
 		 */
 		@SubscribeEvent
-		public static void onEvent(final RegistryEvent.Register<EntityType<?>> event)
+		public static void registerEntities(final RegistryEvent.Register<EntityType<?>> event)
 		{
 			final IForgeRegistry<EntityType<?>> registry = event.getRegistry();
 

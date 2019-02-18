@@ -1,19 +1,8 @@
 package its_meow.betteranimalsplus.client;
 
 import its_meow.betteranimalsplus.Ref;
-import its_meow.betteranimalsplus.common.block.BlockGenericSkull;
-import its_meow.betteranimalsplus.common.item.ItemBlockSkull;
-import its_meow.betteranimalsplus.init.BlockRegistry;
-import its_meow.betteranimalsplus.init.ItemRegistry;
-import net.minecraft.block.Block;
-import net.minecraft.client.renderer.model.ModelBakery;
-import net.minecraft.client.renderer.model.ModelResourceLocation;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.ModelRegistryEvent;
-import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
