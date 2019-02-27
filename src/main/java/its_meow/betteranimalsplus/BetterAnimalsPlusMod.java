@@ -28,7 +28,6 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 @Mod(value = Ref.MOD_ID)
 public class BetterAnimalsPlusMod {
 
-
 	public BetterAnimalsPlusMod() {
 		// Register the setup method for modloading
 		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
