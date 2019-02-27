@@ -32,7 +32,7 @@ public class EntityHirschgeist extends EntityLiving implements IMob {
 
 	public EntityHirschgeist(World worldIn) {
 		super(MobRegistry.getType(EntityHirschgeist.class), worldIn);
-		//this.setSize(3, 4);
+		// this.setSize(3, 4);
 	}
 
 	@Override
@@ -46,8 +46,7 @@ public class EntityHirschgeist extends EntityLiving implements IMob {
 	}
 
 	@Override
-	protected void registerAttributes()
-	{
+	protected void registerAttributes() {
 		super.registerAttributes();
 		this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(150.0D);
 		this.getAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(50.0D);
@@ -57,7 +56,10 @@ public class EntityHirschgeist extends EntityLiving implements IMob {
 	}
 
 	public boolean isDaytime() {
-		long time = this.world.getDayTime() % 24000L; // Time can go over values of 24000, so divide and take the remainder
+		long time = this.world.getDayTime() % 24000L; // Time can go over values
+														// of 24000, so divide
+														// and take the
+														// remainder
 		return !(time >= 13000L && time <= 23000L);
 	}
 
@@ -65,14 +67,13 @@ public class EntityHirschgeist extends EntityLiving implements IMob {
 	public void livingTick() {
 		super.livingTick();
 		if(this.isDaytime()) {
-			this.setSize(1,2);
+			this.setSize(1, 2);
 		} else {
 			this.setSize(3, 4);
 		}
 	}
-	
-	
-	
+
+
 	@Override
 	public boolean canSpawn(IWorld world, boolean b) {
 		if(this.world.getEntitiesWithinAABB(EntityHirschgeist.class, this.getBoundingBox().grow(150)).size() == 1) {
@@ -93,8 +94,7 @@ public class EntityHirschgeist extends EntityLiving implements IMob {
 	}
 
 	@Override
-	protected void playStepSound(BlockPos pos, IBlockState state)
-	{
+	protected void playStepSound(BlockPos pos, IBlockState state) {
 		this.playSound(SoundEvents.ENTITY_SHEEP_STEP, 0.5F, 0.6F);
 	}
 
@@ -110,13 +110,14 @@ public class EntityHirschgeist extends EntityLiving implements IMob {
 	}
 
 
-
 	@Override
 	public boolean attackEntityFrom(DamageSource source, float amount) {
-		if(this.isDaytime() && FMLEnvironment.dist == Dist.CLIENT && Thread.currentThread().getThreadGroup() == SidedThreadGroups.CLIENT) {
+		if(this.isDaytime() && FMLEnvironment.dist == Dist.CLIENT
+				&& Thread.currentThread().getThreadGroup() == SidedThreadGroups.CLIENT) {
 			if(source.getTrueSource() instanceof EntityPlayer) {
 				EntityPlayer player = (EntityPlayer) source.getTrueSource();
-				player.sendMessage(new TextComponentString("The " + I18n.format("entity.betteranimalsplus.Hirschgeist") + " is immortal in the daytime. Try fighting it later."));
+				player.sendMessage(new TextComponentString("The " + I18n.format("entity.betteranimalsplus.Hirschgeist")
+						+ " is immortal in the daytime. Try fighting it later."));
 			}
 		}
 		return this.isDaytime() ? false : super.attackEntityFrom(source, amount);
@@ -127,8 +128,7 @@ public class EntityHirschgeist extends EntityLiving implements IMob {
 		super.setAttackTarget(this.isDaytime() ? null : entityIn);
 	}
 
-	public Vec3d getHeadLookVec(float p_184665_1_)
-	{
+	public Vec3d getHeadLookVec(float p_184665_1_) {
 		Vec3d vec3d;
 		if(this.getAttackTarget() != null) {
 			BlockPos blockpos = this.getAttackTarget().getPosition();

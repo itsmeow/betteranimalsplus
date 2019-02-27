@@ -19,7 +19,8 @@ public class BlockGenericSkull extends BlockAnimalSkull {
 	public final int texCount;
 	public Supplier<? extends TileEntity> teSupplier;
 
-	public BlockGenericSkull(Class<? extends TileEntity> teClass, String name, boolean allowFloor, int textureCount, Supplier<? extends TileEntity> teSupplier) {
+	public BlockGenericSkull(Class<? extends TileEntity> teClass, String name, boolean allowFloor, int textureCount,
+			Supplier<? extends TileEntity> teSupplier) {
 		super();
 		this.setRegistryName(name);
 		this.teClass = teClass;
@@ -35,13 +36,12 @@ public class BlockGenericSkull extends BlockAnimalSkull {
 	}
 
 	@Override
-	public TileEntity createNewTileEntity(IBlockReader reader)
-	{
+	public TileEntity createNewTileEntity(IBlockReader reader) {
 		try {
 			return this.teClass.newInstance();
-		} catch (InstantiationException e) {
+		} catch(InstantiationException e) {
 			e.printStackTrace();
-		} catch (IllegalAccessException e) {
+		} catch(IllegalAccessException e) {
 			e.printStackTrace();
 		}
 		return null;
@@ -51,7 +51,8 @@ public class BlockGenericSkull extends BlockAnimalSkull {
 	public ItemBlock getItemBlock() {
 		return BlockRegistry.getSkullItemForBlock(this, 1);
 	}
-	
+
+	@Override
 	public ItemBlock getItemBlock(int texID) {
 		return BlockRegistry.getSkullItemForBlock(this, texID);
 	}

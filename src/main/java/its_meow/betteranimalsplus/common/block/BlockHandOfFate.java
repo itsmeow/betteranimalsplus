@@ -23,21 +23,19 @@ import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
 
 public class BlockHandOfFate extends BlockHorizontal {
-	
-    protected static final AxisAlignedBB NORTH_AABB = new AxisAlignedBB(0.0625D, 0.0D, 0.0D, 0.9375D, 0.875D, 0.9375D);
-    protected static final AxisAlignedBB SOUTH_AABB = new AxisAlignedBB(0.0625D, 0.0D, 0.0625D, 0.9375D, 0.875D, 1.0D);
-    protected static final AxisAlignedBB WES_AABB = new AxisAlignedBB(0.0D, 0.0D, 0.0625D, 0.9375D, 0.875D, 0.9375D);
-    protected static final AxisAlignedBB EAST_AABB = new AxisAlignedBB(0.0625D, 0.0D, 0.0625D, 1.0D, 0.875D, 0.9375D);
-	
+
+	protected static final AxisAlignedBB NORTH_AABB = new AxisAlignedBB(0.0625D, 0.0D, 0.0D, 0.9375D, 0.875D, 0.9375D);
+	protected static final AxisAlignedBB SOUTH_AABB = new AxisAlignedBB(0.0625D, 0.0D, 0.0625D, 0.9375D, 0.875D, 1.0D);
+	protected static final AxisAlignedBB WES_AABB = new AxisAlignedBB(0.0D, 0.0D, 0.0625D, 0.9375D, 0.875D, 0.9375D);
+	protected static final AxisAlignedBB EAST_AABB = new AxisAlignedBB(0.0625D, 0.0D, 0.0625D, 1.0D, 0.875D, 0.9375D);
+
 	public BlockHandOfFate() {
 		super(Properties.create(Material.IRON).hardnessAndResistance(3.0F, 2.0F));
 		this.setRegistryName("handoffate");
-		this.setDefaultState(this.getDefaultState().with(HORIZONTAL_FACING, EnumFacing.NORTH));
+		this.setDefaultState(this.getDefaultState().with(BlockHorizontal.HORIZONTAL_FACING, EnumFacing.NORTH));
 	}
-	
-	
-	
-	
+
+
 	@Override
 	public int getLightValue(IBlockState state, IWorldReader world, BlockPos pos) {
 		TileEntity te = world.getTileEntity(pos);
@@ -76,7 +74,7 @@ public class BlockHandOfFate extends BlockHorizontal {
 				tehof.setOnFire(true);
 				return true;
 			}
-		} else if (held.getItem() == Blocks.SAND.asItem() || held.getItem() == Items.WATER_BUCKET) {
+		} else if(held.getItem() == Blocks.SAND.asItem() || held.getItem() == Items.WATER_BUCKET) {
 			TileEntity te = worldIn.getTileEntity(pos);
 			if(te instanceof TileEntityHandOfFate) {
 				TileEntityHandOfFate tehof = (TileEntityHandOfFate) te;
@@ -123,32 +121,31 @@ public class BlockHandOfFate extends BlockHorizontal {
 		return false;
 	}
 
-    @Override
-    public boolean isFullCube(IBlockState state) { 
-    	return false; 
-    }
-    
-    @Override
-    public boolean isTopSolid(IBlockState state) {
-    	return false;
-    }
+	@Override
+	public boolean isFullCube(IBlockState state) {
+		return false;
+	}
 
-    @Override
-    public EnumBlockRenderType getRenderType(IBlockState state)
-    {
-        return EnumBlockRenderType.INVISIBLE;
-    }
+	@Override
+	public boolean isTopSolid(IBlockState state) {
+		return false;
+	}
+
+	@Override
+	public EnumBlockRenderType getRenderType(IBlockState state) {
+		return EnumBlockRenderType.INVISIBLE;
+	}
 
 	@Override
 	public boolean hasTileEntity() {
 		return true;
 	}
-	
+
 	@Override
 	public TileEntity createTileEntity(IBlockState state, IBlockReader worldIn) {
 		return new TileEntityHandOfFate();
 	}
-	
+
 	public static ItemBlock getItemBlock() {
 		return ItemRegistry.itemHandOfFate;
 	}

@@ -13,40 +13,40 @@ public class ModMathHelper {
 	public static double[] SIN_TABLE = new double[65536];
 
 	static {
-		for (int i = 0; i < 65536; ++i) {
-			SIN_TABLE[i] = Math.sin(i / 65536D * 2 * ModMathHelper.PI);
+		for(int i = 0; i < 65536; ++i) {
+			ModMathHelper.SIN_TABLE[i] = Math.sin(i / 65536D * 2 * ModMathHelper.PI);
 		}
 
-		SIN_TABLE[0] = 0;
-		SIN_TABLE[16384] = 1;
-		SIN_TABLE[32768] = 0;
-		SIN_TABLE[49152] = 1;
+		ModMathHelper.SIN_TABLE[0] = 0;
+		ModMathHelper.SIN_TABLE[16384] = 1;
+		ModMathHelper.SIN_TABLE[32768] = 0;
+		ModMathHelper.SIN_TABLE[49152] = 1;
 	}
 
 	public static double sin(double d) {
-		return SIN_TABLE[(int) ((float) d * 10430.378F) & 65535];
+		return ModMathHelper.SIN_TABLE[(int) ((float) d * 10430.378F) & 65535];
 	}
 
 	public static double cos(double d) {
-		return SIN_TABLE[(int) ((float) d * 10430.378F + 16384.0F) & 65535];
+		return ModMathHelper.SIN_TABLE[(int) ((float) d * 10430.378F + 16384.0F) & 65535];
 	}
 
 	public static float approachLinear(float a, float b, float max) {
-		return (a > b) ? (a - b < max ? b : a - max) : (b - a < max ? b : a + max);
+		return a > b ? a - b < max ? b : a - max : b - a < max ? b : a + max;
 	}
 
 	public static double approachLinear(double a, double b, double max) {
-		return (a > b) ? (a - b < max ? b : a - max) : (b - a < max ? b : a + max);
+		return a > b ? a - b < max ? b : a - max : b - a < max ? b : a + max;
 	}
 
 	public static float wrapAngle(float a1, float a2, float delta) {
 		float angle = MathHelper.wrapDegrees(a2 - a1);
 
-		if (angle > delta) {
+		if(angle > delta) {
 			angle = delta;
 		}
 
-		if (angle < -delta) {
+		if(angle < -delta) {
 			angle = -delta;
 		}
 
@@ -59,15 +59,17 @@ public class ModMathHelper {
 	 * @param a2
 	 *            - The second angle.
 	 * @param p
-	 *            - A float between 0.0 and 1.0 that determines the progress between the two angles.
-	 * @return a rotation angle that is between two other rotation angles. 'a1' and 'a2' are the angles between which to interpolate.
+	 *            - A float between 0.0 and 1.0 that determines the progress
+	 *            between the two angles.
+	 * @return a rotation angle that is between two other rotation angles. 'a1'
+	 *         and 'a2' are the angles between which to interpolate.
 	 * 
 	 *         Example: angle1 = 30, angle2 = 50, progress = 0.5, return = 40
 	 */
 	public static float interpolateRotation(float a1, float a2, float p) {
 		float angle = a2 - a1;
 		angle = angle < -180F ? angle += 360F : angle;
-		return a1 + (p * (angle = angle >= 180F ? angle -= 360F : angle));
+		return a1 + p * (angle = angle >= 180F ? angle -= 360F : angle);
 	}
 
 	public static float interpolate(float a, float b, float d) {
@@ -85,7 +87,7 @@ public class ModMathHelper {
 	public static double approachExp(double a, double b, double ratio, double cap) {
 		double d = (b - a) * ratio;
 
-		if (Math.abs(d) > cap) {
+		if(Math.abs(d) > cap) {
 			d = Math.signum(d) * cap;
 		}
 
@@ -95,7 +97,7 @@ public class ModMathHelper {
 	public static double retreatExp(double a, double b, double c, double ratio, double kick) {
 		double d = (Math.abs(c - a) + kick) * ratio;
 
-		if (d > Math.abs(b - a)) {
+		if(d > Math.abs(b - a)) {
 			return b;
 		}
 
@@ -103,11 +105,11 @@ public class ModMathHelper {
 	}
 
 	public static double clip(double value, double min, double max) {
-		if (value > max) {
+		if(value > max) {
 			value = max;
 		}
 
-		if (value < min) {
+		if(value < min) {
 			value = min;
 		}
 
@@ -119,20 +121,20 @@ public class ModMathHelper {
 	}
 
 	public static int approachExpI(int a, int b, double ratio) {
-		int r = (int) Math.round(approachExp(a, b, ratio));
+		int r = (int) Math.round(ModMathHelper.approachExp(a, b, ratio));
 
 		return r == a ? b : r;
 	}
 
 	public static int retreatExpI(int a, int b, int c, double ratio, int kick) {
-		int r = (int) Math.round(retreatExp(a, b, c, ratio, kick));
+		int r = (int) Math.round(ModMathHelper.retreatExp(a, b, c, ratio, kick));
 
 		return r == a ? b : r;
 	}
 
 	public static int floor(double d) {
 		int i = (int) d;
-		return d < (double) i ? i - 1 : i;
+		return d < i ? i - 1 : i;
 	}
 
 	public static int roundAway(double d) {

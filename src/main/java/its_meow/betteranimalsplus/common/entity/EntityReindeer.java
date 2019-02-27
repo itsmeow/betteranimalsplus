@@ -59,22 +59,23 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 public class EntityReindeer extends EntityAnimal implements IJumpingMount {
 
-	private static final Predicate<Entity> IS_REINDEER_BREEDING = new Predicate<Entity>()
-	{
-		public boolean apply(@Nullable Entity p_apply_1_)
-		{
-			return p_apply_1_ instanceof EntityReindeer && ((EntityReindeer)p_apply_1_).isBreeding();
-		}
-	};
-	protected static final IAttribute JUMP_STRENGTH = (new RangedAttribute((IAttribute)null, "reindeer.jumpStrength", 0.7D, 0.0D, 2.0D)).setDescription("Jump Strength").setShouldWatch(true);
-	private static final DataParameter<Byte> STATUS = EntityDataManager.<Byte>createKey(EntityReindeer.class, DataSerializers.BYTE);
+	private static final Predicate<Entity> IS_REINDEER_BREEDING = (
+			@Nullable Entity p_apply_1_) -> p_apply_1_ instanceof EntityReindeer
+					&& ((EntityReindeer) p_apply_1_).isBreeding();
+	protected static final IAttribute JUMP_STRENGTH = new RangedAttribute((IAttribute) null, "reindeer.jumpStrength",
+			0.7D, 0.0D, 2.0D).setDescription("Jump Strength").setShouldWatch(true);
+	private static final DataParameter<Byte> STATUS = EntityDataManager.<Byte>createKey(EntityReindeer.class,
+			DataSerializers.BYTE);
 	private int eatingCounter;
 	private int openMouthCounter;
 	private int jumpRearingCounter;
 	public int tailCounter;
 	public int sprintCounter;
 	protected boolean reindeerJumping;
-	/** "The higher this value, the more likely the reindeer is to be tamed next time a player rides it." */
+	/**
+	 * "The higher this value, the more likely the reindeer is to be tamed next
+	 * time a player rides it."
+	 */
 	protected int temper;
 	protected float jumpPower;
 	private boolean allowStandSliding;
@@ -85,7 +86,9 @@ public class EntityReindeer extends EntityAnimal implements IJumpingMount {
 	private float mouthOpenness;
 	private float prevMouthOpenness;
 	protected boolean canGallop = true;
-	/** Used to determine the sound that the reindeer should make when it steps */
+	/**
+	 * Used to determine the sound that the reindeer should make when it steps
+	 */
 	protected int gallopTime;
 	public boolean parentRudolph = false;
 
@@ -95,8 +98,8 @@ public class EntityReindeer extends EntityAnimal implements IJumpingMount {
 		this.stepHeight = 1.0F;
 	}
 
-	protected void initEntityAI()
-	{
+	@Override
+	protected void initEntityAI() {
 		this.tasks.addTask(0, new EntityAISwimming(this));
 		this.tasks.addTask(1, new EntityAIPanic(this, 1.2D));
 		this.tasks.addTask(2, new EntityAIMate(this, 1.0D, EntityReindeer.class));
@@ -106,64 +109,51 @@ public class EntityReindeer extends EntityAnimal implements IJumpingMount {
 		this.tasks.addTask(8, new EntityAILookIdle(this));
 	}
 
-	protected void registerData()
-	{
+	@Override
+	protected void registerData() {
 		super.registerData();
-		this.dataManager.register(STATUS, Byte.valueOf((byte)0));
-		this.dataManager.register(TYPE_NUMBER, Integer.valueOf(0));
+		this.dataManager.register(EntityReindeer.STATUS, Byte.valueOf((byte) 0));
+		this.dataManager.register(EntityReindeer.TYPE_NUMBER, Integer.valueOf(0));
 	}
 
 
 	// Implementation
-	public boolean processInteract(EntityPlayer player, EnumHand hand)
-	{
+	@Override
+	public boolean processInteract(EntityPlayer player, EnumHand hand) {
 		ItemStack itemstack = player.getHeldItem(hand);
 		boolean flag = !itemstack.isEmpty();
 
-		if (flag && itemstack.getItem() instanceof ItemSpawnEgg)
-		{
+		if(flag && itemstack.getItem() instanceof ItemSpawnEgg) {
 			return super.processInteract(player, hand);
-		}
-		else
-		{
-			if (!this.isChild())
-			{
-				if (player.isSneaking())
-				{
+		} else {
+			if(!this.isChild()) {
+				if(player.isSneaking()) {
 					return false;
 				}
 
-				if (this.isBeingRidden())
-				{
+				if(this.isBeingRidden()) {
 					return super.processInteract(player, hand);
 				}
 			}
 
-			if (flag)
-			{
-				if (this.handleEating(player, itemstack))
-				{
-					if (!player.isCreative())
-					{
+			if(flag) {
+				if(this.handleEating(player, itemstack)) {
+					if(!player.isCreative()) {
 						itemstack.shrink(1);
 					}
 
 					return true;
 				}
 
-				if (itemstack.interactWithEntity(player, this, hand))
-				{
+				if(itemstack.interactWithEntity(player, this, hand)) {
 					return true;
 				}
 
 			}
 
-			if (this.isChild())
-			{
+			if(this.isChild()) {
 				return super.processInteract(player, hand);
-			}
-			else
-			{
+			} else {
 				this.mountTo(player);
 				return true;
 			}
@@ -173,35 +163,32 @@ public class EntityReindeer extends EntityAnimal implements IJumpingMount {
 	/**
 	 * Returns true if the mob is currently able to mate with the specified mob.
 	 */
-	public boolean canMateWith(EntityAnimal otherAnimal)
-	{
-		if (otherAnimal == this)
-		{
+	@Override
+	public boolean canMateWith(EntityAnimal otherAnimal) {
+		if(otherAnimal == this) {
 			return false;
-		}
-		else if (!(otherAnimal instanceof EntityReindeer))
-		{
+		} else if(!(otherAnimal instanceof EntityReindeer)) {
 			return false;
-		}
-		else
-		{
-			return this.canMate() && ((EntityReindeer)otherAnimal).canMate();
+		} else {
+			return this.canMate() && ((EntityReindeer) otherAnimal).canMate();
 		}
 	}
 
-	public EntityAgeable createChild(EntityAgeable ageable)
-	{
+	@Override
+	public EntityAgeable createChild(EntityAgeable ageable) {
 		EntityReindeer reindeer = new EntityReindeer(this.world);
 		this.setOffspringAttributes(ageable, reindeer);
 		if(ageable instanceof EntityReindeer) {
 			EntityReindeer other = (EntityReindeer) ageable;
-			if(other.getTypeNumber() > 4) { // if one of them is red-nosed make that one take dominance
+			if(other.getTypeNumber() > 4) { // if one of them is red-nosed make
+											// that one take dominance
 				reindeer.setType(other.getTypeNumber());
 			} else { // none are red-nosed, just use this one's type
 				reindeer.setType(this.getTypeNumber());
 			}
-			
-			if(other.getCustomName().getString().equalsIgnoreCase("rudolph") || this.getCustomName().getString().equalsIgnoreCase("rudolph")) {
+
+			if(other.getCustomName().getString().equalsIgnoreCase("rudolph")
+					|| this.getCustomName().getString().equalsIgnoreCase("rudolph")) {
 				reindeer.parentRudolph = true;
 			}
 		} else { // same as above
@@ -211,97 +198,81 @@ public class EntityReindeer extends EntityAnimal implements IJumpingMount {
 	}
 
 
-
 	// Abstract Reindeer
 
-	protected boolean getReindeerWatchableBoolean(int p_110233_1_)
-	{
-		return (((Byte)this.dataManager.get(STATUS)).byteValue() & p_110233_1_) != 0;
+	protected boolean getReindeerWatchableBoolean(int p_110233_1_) {
+		return (this.dataManager.get(EntityReindeer.STATUS).byteValue() & p_110233_1_) != 0;
 	}
 
-	protected void setReindeerWatchableBoolean(int p_110208_1_, boolean p_110208_2_)
-	{
-		byte b0 = ((Byte)this.dataManager.get(STATUS)).byteValue();
+	protected void setReindeerWatchableBoolean(int p_110208_1_, boolean p_110208_2_) {
+		byte b0 = this.dataManager.get(EntityReindeer.STATUS).byteValue();
 
-		if (p_110208_2_)
-		{
-			this.dataManager.set(STATUS, Byte.valueOf((byte)(b0 | p_110208_1_)));
-		}
-		else
-		{
-			this.dataManager.set(STATUS, Byte.valueOf((byte)(b0 & ~p_110208_1_)));
+		if(p_110208_2_) {
+			this.dataManager.set(EntityReindeer.STATUS, Byte.valueOf((byte) (b0 | p_110208_1_)));
+		} else {
+			this.dataManager.set(EntityReindeer.STATUS, Byte.valueOf((byte) (b0 & ~p_110208_1_)));
 		}
 	}
 
-	public float getReindeerSize()
-	{
+	public float getReindeerSize() {
 		return 0.5F;
 	}
 
 	/**
-	 * "Sets the scale for an ageable entity according to the boolean parameter, which says if it's a child."
+	 * "Sets the scale for an ageable entity according to the boolean parameter,
+	 * which says if it's a child."
 	 */
-	public void setScaleForAge(boolean child)
-	{
+	@Override
+	public void setScaleForAge(boolean child) {
 		this.setScale(child ? this.getReindeerSize() : 1.0F);
 	}
 
-	public boolean isReindeerJumping()
-	{
+	public boolean isReindeerJumping() {
 		return this.reindeerJumping;
 	}
 
 
-	public void setReindeerJumping(boolean jumping)
-	{
+	public void setReindeerJumping(boolean jumping) {
 		this.reindeerJumping = jumping;
 	}
 
-	public boolean canBeLeashedTo(EntityPlayer player)
-	{
+	@Override
+	public boolean canBeLeashedTo(EntityPlayer player) {
 		return super.canBeLeashedTo(player);
 	}
 
-	protected void onLeashDistance(float p_142017_1_)
-	{
-		if (p_142017_1_ > 6.0F && this.isEatingHaystack())
-		{
+	@Override
+	protected void onLeashDistance(float p_142017_1_) {
+		if(p_142017_1_ > 6.0F && this.isEatingHaystack()) {
 			this.setEatingHaystack(false);
 		}
 	}
 
-	public boolean isEatingHaystack()
-	{
+	public boolean isEatingHaystack() {
 		return this.getReindeerWatchableBoolean(16);
 	}
 
-	public boolean isRearing()
-	{
+	public boolean isRearing() {
 		return this.getReindeerWatchableBoolean(32);
 	}
 
-	public boolean isBreeding()
-	{
+	public boolean isBreeding() {
 		return this.getReindeerWatchableBoolean(8);
 	}
 
-	public void setBreeding(boolean breeding)
-	{
+	public void setBreeding(boolean breeding) {
 		this.setReindeerWatchableBoolean(8, breeding);
 	}
 
-	public int getTemper()
-	{
+	public int getTemper() {
 		return this.temper;
 	}
 
-	public void setTemper(int temperIn)
-	{
+	public void setTemper(int temperIn) {
 		this.temper = temperIn;
 	}
 
-	public int increaseTemper(int p_110198_1_)
-	{
+	public int increaseTemper(int p_110198_1_) {
 		int i = MathHelper.clamp(this.getTemper() + p_110198_1_, 0, this.getMaxTemper());
 		this.setTemper(i);
 		return i;
@@ -310,102 +281,107 @@ public class EntityReindeer extends EntityAnimal implements IJumpingMount {
 	/**
 	 * Called when the entity is attacked.
 	 */
-	public boolean attackEntityFrom(DamageSource source, float amount)
-	{
+	@Override
+	public boolean attackEntityFrom(DamageSource source, float amount) {
 		Entity entity = source.getTrueSource();
-		return this.isBeingRidden() && entity != null && this.isRidingOrBeingRiddenBy(entity) ? false : super.attackEntityFrom(source, amount);
+		return this.isBeingRidden() && entity != null && this.isRidingOrBeingRiddenBy(entity) ? false
+				: super.attackEntityFrom(source, amount);
 	}
 
 	/**
-	 * Returns true if this entity should push and be pushed by other entities when colliding.
+	 * Returns true if this entity should push and be pushed by other entities
+	 * when colliding.
 	 */
-	public boolean canBePushed()
-	{
+	@Override
+	public boolean canBePushed() {
 		return !this.isBeingRidden();
 	}
 
-	private void eatingReindeer()
-	{
+	private void eatingReindeer() {
 		this.openReindeerMouth();
 
-		if (!this.isSilent())
-		{
-			this.world.playSound((EntityPlayer)null, this.posX, this.posY, this.posZ, SoundEvents.ENTITY_HORSE_EAT, this.getSoundCategory(), 1.0F, 1.0F + (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F);
+		if(!this.isSilent()) {
+			this.world.playSound((EntityPlayer) null, this.posX, this.posY, this.posZ, SoundEvents.ENTITY_HORSE_EAT,
+					this.getSoundCategory(), 1.0F, 1.0F + (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F);
 		}
 	}
 
-	public void fall(float distance, float damageMultiplier)
-	{
-		if (distance > 1.0F)
-		{
+	@Override
+	public void fall(float distance, float damageMultiplier) {
+		if(distance > 1.0F) {
 			this.playSound(SoundEvents.ENTITY_HORSE_LAND, 0.4F, 1.0F);
 		}
 
 		int i = MathHelper.ceil((distance * 0.5F - 3.0F) * damageMultiplier);
 
-		if (i > 0)
-		{
-			this.attackEntityFrom(DamageSource.FALL, (float)i);
+		if(i > 0) {
+			this.attackEntityFrom(DamageSource.FALL, i);
 
-			if (this.isBeingRidden())
-			{
-				for (Entity entity : this.getRecursivePassengers())
-				{
-					entity.attackEntityFrom(DamageSource.FALL, (float)i);
+			if(this.isBeingRidden()) {
+				for(Entity entity : this.getRecursivePassengers()) {
+					entity.attackEntityFrom(DamageSource.FALL, i);
 				}
 			}
-			BlockPos pos = new BlockPos(this.posX, this.posY - 0.2D - (double)this.prevRotationYaw, this.posZ);
+			BlockPos pos = new BlockPos(this.posX, this.posY - 0.2D - this.prevRotationYaw, this.posZ);
 			IBlockState iblockstate = this.world.getBlockState(pos);
 			Block block = iblockstate.getBlock();
 
-			if (iblockstate.getMaterial() != Material.AIR && !this.isSilent())
-			{
+			if(iblockstate.getMaterial() != Material.AIR && !this.isSilent()) {
 				SoundType soundtype = block.getSoundType(block.getDefaultState(), this.world, pos, this);
-				this.world.playSound((EntityPlayer)null, this.posX, this.posY, this.posZ, soundtype.getStepSound(), this.getSoundCategory(), soundtype.getVolume() * 0.5F, soundtype.getPitch() * 0.75F);
+				this.world.playSound((EntityPlayer) null, this.posX, this.posY, this.posZ, soundtype.getStepSound(),
+						this.getSoundCategory(), soundtype.getVolume() * 0.5F, soundtype.getPitch() * 0.75F);
 			}
 		}
 	}
 
 
 	@Nullable
-	protected EntityReindeer getClosestReindeer(Entity entityIn, double distance)
-	{
+	protected EntityReindeer getClosestReindeer(Entity entityIn, double distance) {
 		double d0 = Double.MAX_VALUE;
 		Entity entity = null;
 
-		for (Entity entity1 : this.world.getEntitiesInAABBexcluding(entityIn, entityIn.getBoundingBox().expand(distance, distance, distance), IS_REINDEER_BREEDING))
-		{
+		for(Entity entity1 : this.world.getEntitiesInAABBexcluding(entityIn,
+				entityIn.getBoundingBox().expand(distance, distance, distance), EntityReindeer.IS_REINDEER_BREEDING)) {
 			double d1 = entity1.getDistanceSq(entityIn.posX, entityIn.posY, entityIn.posZ);
 
-			if (d1 < d0)
-			{
+			if(d1 < d0) {
 				entity = entity1;
 				d0 = d1;
 			}
 		}
 
-		return (EntityReindeer)entity;
+		return (EntityReindeer) entity;
 	}
 
-	public double getReindeerJumpStrength()
-	{
-		return this.getAttribute(JUMP_STRENGTH).getValue();
+	public double getReindeerJumpStrength() {
+		return this.getAttribute(EntityReindeer.JUMP_STRENGTH).getValue();
 	}
 
+	@Override
 	@Nullable
-	protected SoundEvent getDeathSound()
-	{
+	protected SoundEvent getDeathSound() {
 		this.openReindeerMouth();
 		return null;
 	}
 
+	@Override
 	@Nullable
-	protected SoundEvent getHurtSound(DamageSource damageSourceIn)
-	{
+	protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
 		this.openReindeerMouth();
 
-		if (this.rand.nextInt(3) == 0)
-		{
+		if(this.rand.nextInt(3) == 0) {
+			this.makeReindeerRear();
+		}
+
+		return null;
+	}
+
+	@Override
+	@Nullable
+	protected SoundEvent getAmbientSound() {
+		this.openReindeerMouth();
+
+		if(this.rand.nextInt(10) == 0 && !this.isMovementBlocked()) {
 			this.makeReindeerRear();
 		}
 
@@ -413,70 +389,45 @@ public class EntityReindeer extends EntityAnimal implements IJumpingMount {
 	}
 
 	@Nullable
-	protected SoundEvent getAmbientSound()
-	{
-		this.openReindeerMouth();
-
-		if (this.rand.nextInt(10) == 0 && !this.isMovementBlocked())
-		{
-			this.makeReindeerRear();
-		}
-
-		return null;
-	}
-
-	@Nullable
-	protected SoundEvent getAngrySound()
-	{
+	protected SoundEvent getAngrySound() {
 		this.openReindeerMouth();
 		this.makeReindeerRear();
 		return null;
 	}
 
-	protected void playStepSound(BlockPos pos, Block blockIn)
-	{
-		if (!blockIn.getDefaultState().getMaterial().isLiquid())
-		{
+	protected void playStepSound(BlockPos pos, Block blockIn) {
+		if(!blockIn.getDefaultState().getMaterial().isLiquid()) {
 			SoundType soundtype = blockIn.getSoundType(blockIn.getDefaultState(), this.world, pos, this);
 
-			if (this.world.getBlockState(pos.up()).getBlock() == Blocks.SNOW)
-			{
+			if(this.world.getBlockState(pos.up()).getBlock() == Blocks.SNOW) {
 				soundtype = Blocks.SNOW.getSoundType(Blocks.SNOW.getDefaultState(), this.world, pos, this);
 			}
 
-			if (this.isBeingRidden() && this.canGallop)
-			{
+			if(this.isBeingRidden() && this.canGallop) {
 				++this.gallopTime;
 
-				if (this.gallopTime > 5 && this.gallopTime % 3 == 0)
-				{
+				if(this.gallopTime > 5 && this.gallopTime % 3 == 0) {
 					this.playGallopSound(soundtype);
+				} else if(this.gallopTime <= 5) {
+					this.playSound(SoundEvents.ENTITY_HORSE_STEP_WOOD, soundtype.getVolume() * 0.15F,
+							soundtype.getPitch());
 				}
-				else if (this.gallopTime <= 5)
-				{
-					this.playSound(SoundEvents.ENTITY_HORSE_STEP_WOOD, soundtype.getVolume() * 0.15F, soundtype.getPitch());
-				}
-			}
-			else if (soundtype == SoundType.WOOD)
-			{
+			} else if(soundtype == SoundType.WOOD) {
 				this.playSound(SoundEvents.ENTITY_HORSE_STEP_WOOD, soundtype.getVolume() * 0.15F, soundtype.getPitch());
-			}
-			else
-			{
+			} else {
 				this.playSound(SoundEvents.ENTITY_HORSE_STEP, soundtype.getVolume() * 0.15F, soundtype.getPitch());
 			}
 		}
 	}
 
-	protected void playGallopSound(SoundType p_190680_1_)
-	{
+	protected void playGallopSound(SoundType p_190680_1_) {
 		this.playSound(SoundEvents.ENTITY_HORSE_GALLOP, p_190680_1_.getVolume() * 0.15F, p_190680_1_.getPitch());
 	}
 
-	protected void registerAttributes()
-	{
+	@Override
+	protected void registerAttributes() {
 		super.registerAttributes();
-		this.getAttributeMap().registerAttribute(JUMP_STRENGTH);
+		this.getAttributeMap().registerAttribute(EntityReindeer.JUMP_STRENGTH);
 		this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(53.0D);
 		this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.22499999403953552D);
 	}
@@ -484,42 +435,40 @@ public class EntityReindeer extends EntityAnimal implements IJumpingMount {
 	/**
 	 * Will return how many at most can spawn in a chunk at once.
 	 */
-	public int getMaxSpawnedInChunk()
-	{
+	@Override
+	public int getMaxSpawnedInChunk() {
 		return 6;
 	}
 
-	public int getMaxTemper()
-	{
+	public int getMaxTemper() {
 		return 100;
 	}
 
 	/**
 	 * Returns the volume for the sounds this mob makes.
 	 */
-	protected float getSoundVolume()
-	{
+	@Override
+	protected float getSoundVolume() {
 		return 0.8F;
 	}
 
 	/**
-	 * Get number of ticks, at least during which the living entity will be silent.
+	 * Get number of ticks, at least during which the living entity will be
+	 * silent.
 	 */
-	public int getTalkInterval()
-	{
+	@Override
+	public int getTalkInterval() {
 		return 400;
 	}
 
-	protected boolean handleEating(EntityPlayer player, ItemStack stack)
-	{
+	protected boolean handleEating(EntityPlayer player, ItemStack stack) {
 		boolean flag = false;
 		float f = 0.0F;
 		int i = 0;
 		int j = 0;
 		Item item = stack.getItem();
 
-		if (item == Items.WHEAT || item == Items.CARROT)
-		{
+		if(item == Items.WHEAT || item == Items.CARROT) {
 			f = 2.0F;
 			i = 20;
 			j = 3;
@@ -527,113 +476,96 @@ public class EntityReindeer extends EntityAnimal implements IJumpingMount {
 				flag = true;
 				this.setInLove(player);
 			}
-		}
-		else if (item == Items.SUGAR)
-		{
+		} else if(item == Items.SUGAR) {
 			f = 1.0F;
 			i = 30;
 			j = 3;
-		}
-		else if (item == Blocks.HAY_BLOCK.asItem())
-		{
+		} else if(item == Blocks.HAY_BLOCK.asItem()) {
 			f = 20.0F;
 			i = 180;
-		}
-		else if (item == Items.APPLE)
-		{
+		} else if(item == Items.APPLE) {
 			f = 3.0F;
 			i = 60;
 			j = 3;
-		}
-		else if (item == Items.GOLDEN_CARROT)
-		{
+		} else if(item == Items.GOLDEN_CARROT) {
 			f = 4.0F;
 			i = 60;
 			j = 5;
 
-			if (this.getGrowingAge() == 0 && !this.isInLove())
-			{
+			if(this.getGrowingAge() == 0 && !this.isInLove()) {
 				flag = true;
 				this.setInLove(player);
 			}
-		}
-		else if (item == Items.GOLDEN_APPLE)
-		{
+		} else if(item == Items.GOLDEN_APPLE) {
 			f = 10.0F;
 			i = 240;
 			j = 10;
 
-			if (this.getGrowingAge() == 0 && !this.isInLove())
-			{
+			if(this.getGrowingAge() == 0 && !this.isInLove()) {
 				flag = true;
 				this.setInLove(player);
 			}
 		}
 
-		if (this.getHealth() < this.getMaxHealth() && f > 0.0F)
-		{
+		if(this.getHealth() < this.getMaxHealth() && f > 0.0F) {
 			this.heal(f);
 			flag = true;
 		}
 
-		if (this.isChild() && i > 0)
-		{
-			this.world.spawnParticle(Particles.HAPPY_VILLAGER, this.posX + (double)(this.rand.nextFloat() * this.width * 2.0F) - (double)this.width, this.posY + 0.5D + (double)(this.rand.nextFloat() * this.height), this.posZ + (double)(this.rand.nextFloat() * this.width * 2.0F) - (double)this.width, 0.0D, 0.0D, 0.0D);
+		if(this.isChild() && i > 0) {
+			this.world.spawnParticle(Particles.HAPPY_VILLAGER,
+					this.posX + this.rand.nextFloat() * this.width * 2.0F - this.width,
+					this.posY + 0.5D + this.rand.nextFloat() * this.height,
+					this.posZ + this.rand.nextFloat() * this.width * 2.0F - this.width, 0.0D, 0.0D, 0.0D);
 
-			if (!this.world.isRemote)
-			{
+			if(!this.world.isRemote) {
 				this.addGrowth(i);
 			}
 
 			flag = true;
 		}
 
-		if (j > 0 && (flag) && this.getTemper() < this.getMaxTemper())
-		{
+		if(j > 0 && flag && this.getTemper() < this.getMaxTemper()) {
 			flag = true;
 
-			if (!this.world.isRemote)
-			{
+			if(!this.world.isRemote) {
 				this.increaseTemper(j);
 			}
 		}
 
-		if (flag)
-		{
+		if(flag) {
 			this.eatingReindeer();
 		}
 
 		return flag;
 	}
-	
+
 	@Override
 	public void onDeath(DamageSource cause) {
 		if(!this.isChild()) {
 			if(this.rand.nextInt(12) == 0) {
 				ItemStack stack = new ItemStack(BlockRegistry.reindeerhead.getItemBlock());
 				// stack.setTagCompound(new NBTTagCompound());
-				// stack.getTagCompound().setInteger("TYPENUM", this.getTypeNumber());
+				// stack.getTagCompound().setInteger("TYPENUM",
+				// this.getTypeNumber());
 				this.entityDropItem(stack, 0.5F);
 			}
 		}
 	}
-	
+
 	@Override
 	@Nullable
-	protected ResourceLocation getLootTable()
-	{
+	protected ResourceLocation getLootTable() {
 		return LootTableRegistry.reindeer;
 	}
 
-	protected void mountTo(EntityPlayer player)
-	{
+	protected void mountTo(EntityPlayer player) {
 		player.rotationYaw = this.rotationYaw;
 		player.rotationPitch = this.rotationPitch;
 		this.setEatingHaystack(false);
 		this.setRearing(false);
 
-		if (!this.world.isRemote)
-		{
+		if(!this.world.isRemote) {
 			player.startRiding(this);
 		}
 	}
@@ -641,56 +573,55 @@ public class EntityReindeer extends EntityAnimal implements IJumpingMount {
 	/**
 	 * Dead and sleeping entities cannot move
 	 */
-	protected boolean isMovementBlocked()
-	{
+	@Override
+	protected boolean isMovementBlocked() {
 		return super.isMovementBlocked() && this.isBeingRidden() && true || this.isEatingHaystack() || this.isRearing();
 	}
 
 	/**
-	 * Checks if the parameter is an item which this animal can be fed to breed it (wheat, carrots or seeds depending on
-	 * the animal type)
+	 * Checks if the parameter is an item which this animal can be fed to breed
+	 * it (wheat, carrots or seeds depending on the animal type)
 	 */
-	public boolean isBreedingItem(ItemStack stack)
-	{
+	@Override
+	public boolean isBreedingItem(ItemStack stack) {
 		return false;
 	}
 
-	private void moveTail()
-	{
+	private void moveTail() {
 		this.tailCounter = 1;
 	}
 
 	/**
-	 * Called frequently so the entity can update its state every tick as required. For example, zombies and skeletons
-	 * use this to react to sunlight and start to burn.
+	 * Called frequently so the entity can update its state every tick as
+	 * required. For example, zombies and skeletons use this to react to
+	 * sunlight and start to burn.
 	 */
-	public void livingTick()
-	{
-		if (this.rand.nextInt(200) == 0)
-		{
+	@Override
+	public void livingTick() {
+		if(this.rand.nextInt(200) == 0) {
 			this.moveTail();
 		}
 
 		super.livingTick();
 		if(this.rand.nextInt(10) == 0) {
-			this.world.spawnParticle(Particles.ITEM_SNOWBALL, this.posX + this.rand.nextInt(4) - 2F, this.posY + this.rand.nextInt(4), this.posZ + this.rand.nextInt(4) - 2F, 0F, -0.005F, 0F);
+			this.world.spawnParticle(Particles.ITEM_SNOWBALL, this.posX + this.rand.nextInt(4) - 2F,
+					this.posY + this.rand.nextInt(4), this.posZ + this.rand.nextInt(4) - 2F, 0F, -0.005F, 0F);
 		}
-		if (!this.world.isRemote)
-		{
-			if (this.rand.nextInt(900) == 0 && this.deathTime == 0)
-			{
+		if(!this.world.isRemote) {
+			if(this.rand.nextInt(900) == 0 && this.deathTime == 0) {
 				this.heal(1.0F);
 			}
 
-			if (this.canEatGrass())
-			{
-				if (!this.isEatingHaystack() && !this.isBeingRidden() && this.rand.nextInt(300) == 0 && this.world.getBlockState(new BlockPos(MathHelper.floor(this.posX), MathHelper.floor(this.posY) - 1, MathHelper.floor(this.posZ))).getBlock() == Blocks.GRASS)
-				{
+			if(this.canEatGrass()) {
+				if(!this.isEatingHaystack() && !this.isBeingRidden() && this.rand.nextInt(300) == 0
+						&& this.world
+								.getBlockState(new BlockPos(MathHelper.floor(this.posX),
+										MathHelper.floor(this.posY) - 1, MathHelper.floor(this.posZ)))
+								.getBlock() == Blocks.GRASS) {
 					this.setEatingHaystack(true);
 				}
 
-				if (this.isEatingHaystack() && ++this.eatingCounter > 50)
-				{
+				if(this.isEatingHaystack() && ++this.eatingCounter > 50) {
 					this.eatingCounter = 0;
 					this.setEatingHaystack(false);
 				}
@@ -701,163 +632,132 @@ public class EntityReindeer extends EntityAnimal implements IJumpingMount {
 		}
 	}
 
-	protected void followMother()
-	{
-		if (this.isBreeding() && this.isChild() && !this.isEatingHaystack())
-		{
+	protected void followMother() {
+		if(this.isBreeding() && this.isChild() && !this.isEatingHaystack()) {
 			EntityReindeer reindeer = this.getClosestReindeer(this, 16.0D);
 
-			if (reindeer != null && this.getDistanceSq(reindeer) > 4.0D)
-			{
+			if(reindeer != null && this.getDistanceSq(reindeer) > 4.0D) {
 				this.navigator.getPathToEntityLiving(reindeer);
 			}
 		}
 	}
 
-	public boolean canEatGrass()
-	{
+	public boolean canEatGrass() {
 		return true;
 	}
 
 	/**
 	 * Called to update the entity's position/logic.
 	 */
-	public void tick()
-	{
+	@Override
+	public void tick() {
 		super.tick();
 
-		if (this.openMouthCounter > 0 && ++this.openMouthCounter > 30)
-		{
+		if(this.openMouthCounter > 0 && ++this.openMouthCounter > 30) {
 			this.openMouthCounter = 0;
 			this.setReindeerWatchableBoolean(64, false);
 		}
 
-		if (this.canPassengerSteer() && this.jumpRearingCounter > 0 && ++this.jumpRearingCounter > 20)
-		{
+		if(this.canPassengerSteer() && this.jumpRearingCounter > 0 && ++this.jumpRearingCounter > 20) {
 			this.jumpRearingCounter = 0;
 			this.setRearing(false);
 		}
 
-		if (this.tailCounter > 0 && ++this.tailCounter > 8)
-		{
+		if(this.tailCounter > 0 && ++this.tailCounter > 8) {
 			this.tailCounter = 0;
 		}
 
-		if (this.sprintCounter > 0)
-		{
+		if(this.sprintCounter > 0) {
 			++this.sprintCounter;
 
-			if (this.sprintCounter > 300)
-			{
+			if(this.sprintCounter > 300) {
 				this.sprintCounter = 0;
 			}
 		}
 
 		this.prevHeadLean = this.headLean;
 
-		if (this.isEatingHaystack())
-		{
+		if(this.isEatingHaystack()) {
 			this.headLean += (1.0F - this.headLean) * 0.4F + 0.05F;
 
-			if (this.headLean > 1.0F)
-			{
+			if(this.headLean > 1.0F) {
 				this.headLean = 1.0F;
 			}
-		}
-		else
-		{
+		} else {
 			this.headLean += (0.0F - this.headLean) * 0.4F - 0.05F;
 
-			if (this.headLean < 0.0F)
-			{
+			if(this.headLean < 0.0F) {
 				this.headLean = 0.0F;
 			}
 		}
 
 		this.prevRearingAmount = this.rearingAmount;
 
-		if (this.isRearing())
-		{
+		if(this.isRearing()) {
 			this.headLean = 0.0F;
 			this.prevHeadLean = this.headLean;
 			this.rearingAmount += (1.0F - this.rearingAmount) * 0.4F + 0.05F;
 
-			if (this.rearingAmount > 1.0F)
-			{
+			if(this.rearingAmount > 1.0F) {
 				this.rearingAmount = 1.0F;
 			}
-		}
-		else
-		{
+		} else {
 			this.allowStandSliding = false;
-			this.rearingAmount += (0.8F * this.rearingAmount * this.rearingAmount * this.rearingAmount - this.rearingAmount) * 0.6F - 0.05F;
+			this.rearingAmount += (0.8F * this.rearingAmount * this.rearingAmount * this.rearingAmount
+					- this.rearingAmount) * 0.6F - 0.05F;
 
-			if (this.rearingAmount < 0.0F)
-			{
+			if(this.rearingAmount < 0.0F) {
 				this.rearingAmount = 0.0F;
 			}
 		}
 
 		this.prevMouthOpenness = this.mouthOpenness;
 
-		if (this.getReindeerWatchableBoolean(64))
-		{
+		if(this.getReindeerWatchableBoolean(64)) {
 			this.mouthOpenness += (1.0F - this.mouthOpenness) * 0.7F + 0.05F;
 
-			if (this.mouthOpenness > 1.0F)
-			{
+			if(this.mouthOpenness > 1.0F) {
 				this.mouthOpenness = 1.0F;
 			}
-		}
-		else
-		{
+		} else {
 			this.mouthOpenness += (0.0F - this.mouthOpenness) * 0.7F - 0.05F;
 
-			if (this.mouthOpenness < 0.0F)
-			{
+			if(this.mouthOpenness < 0.0F) {
 				this.mouthOpenness = 0.0F;
 			}
 		}
 	}
 
-	private void openReindeerMouth()
-	{
-		if (!this.world.isRemote)
-		{
+	private void openReindeerMouth() {
+		if(!this.world.isRemote) {
 			this.openMouthCounter = 1;
 			this.setReindeerWatchableBoolean(64, true);
 		}
 	}
 
-	public void setEatingHaystack(boolean p_110227_1_)
-	{
+	public void setEatingHaystack(boolean p_110227_1_) {
 		this.setReindeerWatchableBoolean(16, p_110227_1_);
 	}
 
-	public void setRearing(boolean rearing)
-	{
-		if (rearing)
-		{
+	public void setRearing(boolean rearing) {
+		if(rearing) {
 			this.setEatingHaystack(false);
 		}
 
 		this.setReindeerWatchableBoolean(32, rearing);
 	}
 
-	private void makeReindeerRear()
-	{
-		if (this.canPassengerSteer())
-		{
+	private void makeReindeerRear() {
+		if(this.canPassengerSteer()) {
 			this.jumpRearingCounter = 1;
 			this.setRearing(true);
 		}
 	}
 
-	public void travel(float strafe, float vertical, float forward)
-	{
-		if (this.isBeingRidden() && this.canBeSteered())
-		{
-			EntityLivingBase entitylivingbase = (EntityLivingBase)this.getControllingPassenger();
+	@Override
+	public void travel(float strafe, float vertical, float forward) {
+		if(this.isBeingRidden() && this.canBeSteered()) {
+			EntityLivingBase entitylivingbase = (EntityLivingBase) this.getControllingPassenger();
 			this.rotationYaw = entitylivingbase.rotationYaw;
 			this.prevRotationYaw = this.rotationYaw;
 			this.rotationPitch = entitylivingbase.rotationPitch * 0.5F;
@@ -867,36 +767,31 @@ public class EntityReindeer extends EntityAnimal implements IJumpingMount {
 			strafe = entitylivingbase.moveStrafing * 0.5F;
 			forward = entitylivingbase.moveForward;
 
-			if (forward <= 0.0F)
-			{
+			if(forward <= 0.0F) {
 				forward *= 0.25F;
 				this.gallopTime = 0;
 			}
 
-			if (this.onGround && this.jumpPower == 0.0F && this.isRearing() && !this.allowStandSliding)
-			{
+			if(this.onGround && this.jumpPower == 0.0F && this.isRearing() && !this.allowStandSliding) {
 				strafe = 0.0F;
 				forward = 0.0F;
 			}
 
-			if (this.jumpPower > 0.0F && !this.isReindeerJumping() && this.onGround)
-			{
-				this.motionY = this.getReindeerJumpStrength() * (double)this.jumpPower;
+			if(this.jumpPower > 0.0F && !this.isReindeerJumping() && this.onGround) {
+				this.motionY = this.getReindeerJumpStrength() * this.jumpPower;
 
-				if (this.isPotionActive(MobEffects.JUMP_BOOST))
-				{
-					this.motionY += (double)((float)(this.getActivePotionEffect(MobEffects.JUMP_BOOST).getAmplifier() + 1) * 0.1F);
+				if(this.isPotionActive(MobEffects.JUMP_BOOST)) {
+					this.motionY += (this.getActivePotionEffect(MobEffects.JUMP_BOOST).getAmplifier() + 1) * 0.1F;
 				}
 
 				this.setReindeerJumping(true);
 				this.isAirBorne = true;
 
-				if (forward > 0.0F)
-				{
+				if(forward > 0.0F) {
 					float f = MathHelper.sin(this.rotationYaw * 0.017453292F);
 					float f1 = MathHelper.cos(this.rotationYaw * 0.017453292F);
-					this.motionX += (double)(-0.4F * f * this.jumpPower);
-					this.motionZ += (double)(0.4F * f1 * this.jumpPower);
+					this.motionX += -0.4F * f * this.jumpPower;
+					this.motionZ += 0.4F * f1 * this.jumpPower;
 					this.playSound(SoundEvents.ENTITY_HORSE_JUMP, 0.4F, 1.0F);
 				}
 
@@ -905,20 +800,16 @@ public class EntityReindeer extends EntityAnimal implements IJumpingMount {
 
 			this.jumpMovementFactor = this.getAIMoveSpeed() * 0.1F;
 
-			if (this.canPassengerSteer())
-			{
-				this.setAIMoveSpeed((float)this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).getValue());
+			if(this.canPassengerSteer()) {
+				this.setAIMoveSpeed((float) this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).getValue());
 				super.travel(strafe, vertical, forward);
-			}
-			else if (entitylivingbase instanceof EntityPlayer)
-			{
+			} else if(entitylivingbase instanceof EntityPlayer) {
 				this.motionX = 0.0D;
 				this.motionY = 0.0D;
 				this.motionZ = 0.0D;
 			}
 
-			if (this.onGround)
-			{
+			if(this.onGround) {
 				this.jumpPower = 0.0F;
 				this.setReindeerJumping(false);
 			}
@@ -928,22 +819,18 @@ public class EntityReindeer extends EntityAnimal implements IJumpingMount {
 			double d0 = this.posZ - this.prevPosZ;
 			float f2 = MathHelper.sqrt(d1 * d1 + d0 * d0) * 4.0F;
 
-			if (f2 > 1.0F)
-			{
+			if(f2 > 1.0F) {
 				f2 = 1.0F;
 			}
 
 			this.limbSwingAmount += (f2 - this.limbSwingAmount) * 0.4F;
 			this.limbSwing += this.limbSwingAmount;
-		}
-		else
-		{
+		} else {
 			this.jumpMovementFactor = 0.02F;
 			super.travel(strafe, vertical, forward);
 		}
 	}
-	
-	
+
 
 	@Override
 	public void setCustomName(ITextComponent comp) {
@@ -956,23 +843,22 @@ public class EntityReindeer extends EntityAnimal implements IJumpingMount {
 	}
 
 
-
-	private static final DataParameter<Integer> TYPE_NUMBER = EntityDataManager.<Integer>createKey(EntityReindeer.class, DataSerializers.VARINT);
+	private static final DataParameter<Integer> TYPE_NUMBER = EntityDataManager.<Integer>createKey(EntityReindeer.class,
+			DataSerializers.VARINT);
 
 	public int getTypeNumber() {
-		return ((Integer)this.dataManager.get(TYPE_NUMBER)).intValue();
+		return this.dataManager.get(EntityReindeer.TYPE_NUMBER).intValue();
 	}
 
-	public void setType(int typeId)
-	{
-		this.dataManager.set(TYPE_NUMBER, Integer.valueOf(typeId));
+	public void setType(int typeId) {
+		this.dataManager.set(EntityReindeer.TYPE_NUMBER, Integer.valueOf(typeId));
 	}
 
 	/**
 	 * (abstract) Protected helper method to write subclass entity data to NBT.
 	 */
-	public boolean writeUnlessRemoved(NBTTagCompound compound)
-	{
+	@Override
+	public boolean writeUnlessRemoved(NBTTagCompound compound) {
 		compound.setBoolean("EatingHaystack", this.isEatingHaystack());
 		compound.setBoolean("Bred", this.isBreeding());
 		compound.setInt("Temper", this.getTemper());
@@ -985,8 +871,8 @@ public class EntityReindeer extends EntityAnimal implements IJumpingMount {
 	/**
 	 * (abstract) Protected helper method to read subclass entity data from NBT.
 	 */
-	public void read(NBTTagCompound compound)
-	{
+	@Override
+	public void read(NBTTagCompound compound) {
 		super.read(compound);
 		this.setEatingHaystack(compound.getBoolean("EatingHaystack"));
 		this.setBreeding(compound.getBoolean("Bred"));
@@ -995,162 +881,158 @@ public class EntityReindeer extends EntityAnimal implements IJumpingMount {
 
 		IAttributeInstance iattributeinstance = this.getAttributeMap().getAttributeInstanceByName("Speed");
 
-		if (iattributeinstance != null)
-		{
-			this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(iattributeinstance.getBaseValue() * 0.25D);
+		if(iattributeinstance != null) {
+			this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED)
+					.setBaseValue(iattributeinstance.getBaseValue() * 0.25D);
 		}
 
 
 		this.setType(compound.getInt("TypeNumber"));
 		Calendar calendar = Calendar.getInstance();
-		if(this.getTypeNumber() > 4 && !(calendar.get(2) + 1 == 12 && calendar.get(5) >= 22 && calendar.get(5) <= 28) && !(this.getCustomName().getString().toLowerCase().equals("rudolph") || this.parentRudolph)) {
-			this.setType(this.getTypeNumber() - 4); // Remove red noses after Christmas season after loading entity
+		if(this.getTypeNumber() > 4 && !(calendar.get(2) + 1 == 12 && calendar.get(5) >= 22 && calendar.get(5) <= 28)
+				&& !(this.getCustomName().getString().toLowerCase().equals("rudolph") || this.parentRudolph)) {
+			this.setType(this.getTypeNumber() - 4); // Remove red noses after
+													// Christmas season after
+													// loading entity
 		}
 	}
 
 
 	/**
-	 * Return true if the reindeer entity ready to mate. (no rider, not riding, tame, adult, not sterile...)
+	 * Return true if the reindeer entity ready to mate. (no rider, not riding,
+	 * tame, adult, not sterile...)
 	 */
-	protected boolean canMate()
-	{
-		return !this.isBeingRidden() && this.getRidingEntity() == null && !this.isChild() && this.getHealth() >= this.getMaxHealth() && this.isInLove();
+	protected boolean canMate() {
+		return !this.isBeingRidden() && this.getRidingEntity() == null && !this.isChild()
+				&& this.getHealth() >= this.getMaxHealth() && this.isInLove();
 	}
 
 
-	protected void setOffspringAttributes(EntityAgeable p_190681_1_, EntityReindeer p_190681_2_)
-	{
-		double d0 = this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).getBaseValue() + p_190681_1_.getAttribute(SharedMonsterAttributes.MAX_HEALTH).getBaseValue() + (double)this.getModifiedMaxHealth();
+	protected void setOffspringAttributes(EntityAgeable p_190681_1_, EntityReindeer p_190681_2_) {
+		double d0 = this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).getBaseValue()
+				+ p_190681_1_.getAttribute(SharedMonsterAttributes.MAX_HEALTH).getBaseValue()
+				+ this.getModifiedMaxHealth();
 		p_190681_2_.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(d0 / 3.0D);
-		double d1 = this.getAttribute(JUMP_STRENGTH).getBaseValue() + p_190681_1_.getAttribute(JUMP_STRENGTH).getBaseValue() + this.getModifiedJumpStrength();
-		p_190681_2_.getAttribute(JUMP_STRENGTH).setBaseValue(d1 / 3.0D);
-		double d2 = this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).getBaseValue() + p_190681_1_.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).getBaseValue() + this.getModifiedMovementSpeed();
+		double d1 = this.getAttribute(EntityReindeer.JUMP_STRENGTH).getBaseValue()
+				+ p_190681_1_.getAttribute(EntityReindeer.JUMP_STRENGTH).getBaseValue()
+				+ this.getModifiedJumpStrength();
+		p_190681_2_.getAttribute(EntityReindeer.JUMP_STRENGTH).setBaseValue(d1 / 3.0D);
+		double d2 = this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).getBaseValue()
+				+ p_190681_1_.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).getBaseValue()
+				+ this.getModifiedMovementSpeed();
 		p_190681_2_.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(d2 / 3.0D);
 	}
 
 	/**
-	 * returns true if all the conditions for steering the entity are met. For pigs, this is true if it is being ridden
-	 * by a player and the player is holding a carrot-on-a-stick
+	 * returns true if all the conditions for steering the entity are met. For
+	 * pigs, this is true if it is being ridden by a player and the player is
+	 * holding a carrot-on-a-stick
 	 */
-	public boolean canBeSteered()
-	{
+	@Override
+	public boolean canBeSteered() {
 		return this.getControllingPassenger() instanceof EntityLivingBase;
 	}
 
 	@OnlyIn(Dist.CLIENT)
-	public float getGrassEatingAmount(float p_110258_1_)
-	{
+	public float getGrassEatingAmount(float p_110258_1_) {
 		return this.prevHeadLean + (this.headLean - this.prevHeadLean) * p_110258_1_;
 	}
 
 	@OnlyIn(Dist.CLIENT)
-	public float getRearingAmount(float p_110223_1_)
-	{
+	public float getRearingAmount(float p_110223_1_) {
 		return this.prevRearingAmount + (this.rearingAmount - this.prevRearingAmount) * p_110223_1_;
 	}
 
 	@OnlyIn(Dist.CLIENT)
-	public float getMouthOpennessAngle(float p_110201_1_)
-	{
+	public float getMouthOpennessAngle(float p_110201_1_) {
 		return this.prevMouthOpenness + (this.mouthOpenness - this.prevMouthOpenness) * p_110201_1_;
 	}
 
+	@Override
 	@OnlyIn(Dist.CLIENT)
-	public void setJumpPower(int jumpPowerIn)
-	{
-		if (jumpPowerIn < 0)
-		{
+	public void setJumpPower(int jumpPowerIn) {
+		if(jumpPowerIn < 0) {
 			jumpPowerIn = 0;
-		}
-		else
-		{
+		} else {
 			this.allowStandSliding = true;
 			this.makeReindeerRear();
 		}
 
-		if (jumpPowerIn >= 90)
-		{
+		if(jumpPowerIn >= 90) {
 			this.jumpPower = 1.0F;
-		}
-		else
-		{
-			this.jumpPower = 0.4F + 0.4F * (float)jumpPowerIn / 90.0F;
+		} else {
+			this.jumpPower = 0.4F + 0.4F * jumpPowerIn / 90.0F;
 		}
 	}
 
-	public boolean canJump()
-	{
+	@Override
+	public boolean canJump() {
 		return true;
 	}
 
-	public void handleStartJump(int p_184775_1_)
-	{
+	@Override
+	public void handleStartJump(int p_184775_1_) {
 		this.allowStandSliding = true;
 		this.makeReindeerRear();
 	}
 
-	public void handleStopJump()
-	{
+	@Override
+	public void handleStopJump() {
 	}
 
 	/**
-	 * "Spawns particles for the reindeer entity. par1 tells whether to spawn hearts. If it is false, it spawns smoke."
+	 * "Spawns particles for the reindeer entity. par1 tells whether to spawn
+	 * hearts. If it is false, it spawns smoke."
 	 */
 	@OnlyIn(Dist.CLIENT)
-	protected void spawnReindeerParticles(boolean p_110216_1_)
-	{
+	protected void spawnReindeerParticles(boolean p_110216_1_) {
 		BasicParticleType enumparticletypes = p_110216_1_ ? Particles.HEART : Particles.SMOKE;
 
-		for (int i = 0; i < 7; ++i)
-		{
+		for(int i = 0; i < 7; ++i) {
 			double d0 = this.rand.nextGaussian() * 0.02D;
 			double d1 = this.rand.nextGaussian() * 0.02D;
 			double d2 = this.rand.nextGaussian() * 0.02D;
-			this.world.spawnParticle(enumparticletypes, this.posX + (double)(this.rand.nextFloat() * this.width * 2.0F) - (double)this.width, this.posY + 0.5D + (double)(this.rand.nextFloat() * this.height), this.posZ + (double)(this.rand.nextFloat() * this.width * 2.0F) - (double)this.width, d0, d1, d2);
+			this.world.spawnParticle(enumparticletypes,
+					this.posX + this.rand.nextFloat() * this.width * 2.0F - this.width,
+					this.posY + 0.5D + this.rand.nextFloat() * this.height,
+					this.posZ + this.rand.nextFloat() * this.width * 2.0F - this.width, d0, d1, d2);
 		}
 	}
 
 	/**
 	 * Handler for {@link World#setEntityState}
 	 */
+	@Override
 	@OnlyIn(Dist.CLIENT)
-	public void handleStatusUpdate(byte id)
-	{
-		if (id == 7)
-		{
+	public void handleStatusUpdate(byte id) {
+		if(id == 7) {
 			this.spawnReindeerParticles(true);
-		}
-		else if (id == 6)
-		{
+		} else if(id == 6) {
 			this.spawnReindeerParticles(false);
-		}
-		else
-		{
+		} else {
 			super.handleStatusUpdate(id);
 		}
 	}
 
-	public void updatePassenger(Entity passenger)
-	{
+	@Override
+	public void updatePassenger(Entity passenger) {
 		super.updatePassenger(passenger);
 
-		if (passenger instanceof EntityLiving)
-		{
-			EntityLiving entityliving = (EntityLiving)passenger;
+		if(passenger instanceof EntityLiving) {
+			EntityLiving entityliving = (EntityLiving) passenger;
 			this.renderYawOffset = entityliving.renderYawOffset;
 		}
 
-		if (this.prevRearingAmount > 0.0F)
-		{
+		if(this.prevRearingAmount > 0.0F) {
 			float f3 = MathHelper.sin(this.renderYawOffset * 0.017453292F);
 			float f = MathHelper.cos(this.renderYawOffset * 0.017453292F);
 			float f1 = 0.7F * this.prevRearingAmount;
 			float f2 = 0.15F * this.prevRearingAmount;
-			passenger.setPosition(this.posX + (double)(f1 * f3), this.posY + this.getMountedYOffset() + passenger.getYOffset() + (double)f2, this.posZ - (double)(f1 * f));
+			passenger.setPosition(this.posX + f1 * f3,
+					this.posY + this.getMountedYOffset() + passenger.getYOffset() + f2, this.posZ - f1 * f);
 
-			if (passenger instanceof EntityLivingBase)
-			{
-				((EntityLivingBase)passenger).renderYawOffset = this.renderYawOffset;
+			if(passenger instanceof EntityLivingBase) {
+				((EntityLivingBase) passenger).renderYawOffset = this.renderYawOffset;
 			}
 		}
 	}
@@ -1158,103 +1040,112 @@ public class EntityReindeer extends EntityAnimal implements IJumpingMount {
 	/**
 	 * Returns randomized max health
 	 */
-	protected float getModifiedMaxHealth()
-	{
-		return 15.0F + (float)this.rand.nextInt(8) + (float)this.rand.nextInt(9);
+	protected float getModifiedMaxHealth() {
+		return 15.0F + this.rand.nextInt(8) + this.rand.nextInt(9);
 	}
 
 	/**
 	 * Returns randomized jump strength
 	 */
-	protected double getModifiedJumpStrength()
-	{
-		return 0.4000000059604645D + this.rand.nextDouble() * 0.2D + this.rand.nextDouble() * 0.2D + this.rand.nextDouble() * 0.2D;
+	protected double getModifiedJumpStrength() {
+		return 0.4000000059604645D + this.rand.nextDouble() * 0.2D + this.rand.nextDouble() * 0.2D
+				+ this.rand.nextDouble() * 0.2D;
 	}
 
 	/**
 	 * Returns randomized movement speed
 	 */
-	protected double getModifiedMovementSpeed()
-	{
-		return (0.44999998807907104D + this.rand.nextDouble() * 0.3D + this.rand.nextDouble() * 0.3D + this.rand.nextDouble() * 0.3D) * 0.25D;
+	protected double getModifiedMovementSpeed() {
+		return (0.44999998807907104D + this.rand.nextDouble() * 0.3D + this.rand.nextDouble() * 0.3D
+				+ this.rand.nextDouble() * 0.3D) * 0.25D;
 	}
 
 	/**
-	 * Returns true if this entity should move as if it were on a ladder (either because it's actually on a ladder, or
-	 * for AI reasons)
+	 * Returns true if this entity should move as if it were on a ladder (either
+	 * because it's actually on a ladder, or for AI reasons)
 	 */
-	public boolean isOnLadder()
-	{
+	@Override
+	public boolean isOnLadder() {
 		return false;
 	}
 
-	public float getEyeHeight()
-	{
+	@Override
+	public float getEyeHeight() {
 		return this.height;
 	}
 
-	public boolean wearsArmor()
-	{
+	public boolean wearsArmor() {
 		return false;
 	}
 
-	public boolean isArmor(ItemStack stack)
-	{
+	public boolean isArmor(ItemStack stack) {
 		return false;
 	}
 
 	/**
-	 * For vehicles, the first passenger is generally considered the controller and "drives" the vehicle. For example,
-	 * Pigs, Horses, and Boats are generally "steered" by the controlling passenger.
+	 * For vehicles, the first passenger is generally considered the controller
+	 * and "drives" the vehicle. For example, Pigs, Horses, and Boats are
+	 * generally "steered" by the controlling passenger.
 	 */
+	@Override
 	@Nullable
-	public Entity getControllingPassenger()
-	{
-		return this.getPassengers().isEmpty() ? null : (Entity)this.getPassengers().get(0);
+	public Entity getControllingPassenger() {
+		return this.getPassengers().isEmpty() ? null : (Entity) this.getPassengers().get(0);
 	}
 
 	/**
-	 * Called only once on an entity when first time spawned, via egg, mob spawner, natural spawning etc, but not called
-	 * when entity is reloaded from nbt. Mainly used for initializing attributes and inventory
+	 * Called only once on an entity when first time spawned, via egg, mob
+	 * spawner, natural spawning etc, but not called when entity is reloaded
+	 * from nbt. Mainly used for initializing attributes and inventory
 	 */
+	@Override
 	@Nullable
-	public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, @Nullable IEntityLivingData livingdata, NBTTagCompound compound)
-	{
+	public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, @Nullable IEntityLivingData livingdata,
+			NBTTagCompound compound) {
 		livingdata = super.onInitialSpawn(difficulty, livingdata, compound);
 
 		if(!this.isChild()) {
 			Calendar calendar = Calendar.getInstance();
 			boolean isChristmasSeason = calendar.get(2) + 1 == 12 && calendar.get(5) >= 22 && calendar.get(5) <= 28;
 			boolean redNosed = this.rand.nextInt(9) == 0;
-			int i = this.rand.nextInt(4) + (isChristmasSeason && redNosed ? 5 : 1); // Values 1 to 4 or 1 to 8 (with 1/9 chance and only during christmas)
+			int i = this.rand.nextInt(4) + (isChristmasSeason && redNosed ? 5 : 1); // Values
+																					// 1
+																					// to
+																					// 4
+																					// or
+																					// 1
+																					// to
+																					// 8
+																					// (with
+																					// 1/9
+																					// chance
+																					// and
+																					// only
+																					// during
+																					// christmas)
 			boolean flag = false;
 
-			if (livingdata instanceof TypeData)
-			{
-				i = ((TypeData)livingdata).typeData;
+			if(livingdata instanceof TypeData) {
+				i = ((TypeData) livingdata).typeData;
 				flag = true;
-			}
-			else
-			{
+			} else {
 				livingdata = new TypeData(i);
 			}
 
 			this.setType(i);
 
-			if (flag)
-			{
+			if(flag) {
 				this.setGrowingAge(-24000);
 			}
 		}
 		return livingdata;
 	}
 
-	public static class TypeData implements IEntityLivingData
-	{
+	public static class TypeData implements IEntityLivingData {
+
 		public int typeData;
 
-		public TypeData(int type)
-		{
+		public TypeData(int type) {
 			this.typeData = type;
 		}
 	}

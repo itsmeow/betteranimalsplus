@@ -42,34 +42,40 @@ public class EntityBear extends EntityMob {
 		this.world = worldIn;
 		this.setSize(2F, 2F);
 	}
-	
+
 	public EntityBear(EntityType<?> type, World worldIn) {
 		super(type, worldIn);
 		this.world = worldIn;
 		this.setSize(2F, 2F);
 	}
-	
+
 	@Override
-	protected void initEntityAI()
-	{
-		//super.initEntityAI();
+	protected void initEntityAI() {
+		// super.initEntityAI();
 		this.tasks.addTask(0, new EntityAISwimming(this));
-        this.tasks.addTask(1, new EntityBear.AIMeleeAttack());
-        this.tasks.addTask(5, new EntityAIWander(this, 1.0D));
-        this.tasks.addTask(6, new EntityAIWatchClosest(this, EntityPlayer.class, 6.0F));
-        this.tasks.addTask(7, new EntityAILookIdle(this));
-        this.targetTasks.addTask(1, new EntityBear.AIHurtByTarget());
-        this.targetTasks.addTask(2, new EntityAINearestAttackableTarget<EntityPlayer>(this, EntityPlayer.class, 90, true, true, new NullPredicate()));
-        this.targetTasks.addTask(3, new EntityAINearestAttackableTarget<EntityDeer>(this, EntityDeer.class, 90, true, true, new NullPredicate()));
-        this.targetTasks.addTask(4, new EntityAINearestAttackableTarget<EntityPig>(this, EntityPig.class, 90, true, true, new NullPredicate()));
-        this.targetTasks.addTask(5, new EntityAINearestAttackableTarget<EntityChicken>(this, EntityChicken.class, 90, true, true, new NullPredicate()));
-        this.targetTasks.addTask(6, new EntityAINearestAttackableTarget<EntityRabbit>(this, EntityRabbit.class, 90, true, true, new NullPredicate()));
-        this.targetTasks.addTask(3, new EntityAINearestAttackableTarget<EntityFox>(this, EntityFox.class, 90, true, true, new NullPredicate()));
-        this.targetTasks.addTask(5, new EntityAINearestAttackableTarget<EntityPheasant>(this, EntityPheasant.class, 90, true, true, new NullPredicate()));
+		this.tasks.addTask(1, new EntityBear.AIMeleeAttack());
+		this.tasks.addTask(5, new EntityAIWander(this, 1.0D));
+		this.tasks.addTask(6, new EntityAIWatchClosest(this, EntityPlayer.class, 6.0F));
+		this.tasks.addTask(7, new EntityAILookIdle(this));
+		this.targetTasks.addTask(1, new EntityBear.AIHurtByTarget());
+		this.targetTasks.addTask(2, new EntityAINearestAttackableTarget<>(this, EntityPlayer.class, 90,
+				true, true, new NullPredicate()));
+		this.targetTasks.addTask(3, new EntityAINearestAttackableTarget<>(this, EntityDeer.class, 90, true,
+				true, new NullPredicate()));
+		this.targetTasks.addTask(4, new EntityAINearestAttackableTarget<>(this, EntityPig.class, 90, true,
+				true, new NullPredicate()));
+		this.targetTasks.addTask(5, new EntityAINearestAttackableTarget<>(this, EntityChicken.class, 90,
+				true, true, new NullPredicate()));
+		this.targetTasks.addTask(6, new EntityAINearestAttackableTarget<>(this, EntityRabbit.class, 90,
+				true, true, new NullPredicate()));
+		this.targetTasks.addTask(3, new EntityAINearestAttackableTarget<>(this, EntityFox.class, 90, true,
+				true, new NullPredicate()));
+		this.targetTasks.addTask(5, new EntityAINearestAttackableTarget<>(this, EntityPheasant.class, 90,
+				true, true, new NullPredicate()));
 	}
 
-	protected void registerAttributes()
-	{
+	@Override
+	protected void registerAttributes() {
 		super.registerAttributes();
 		this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(30.0D);
 		this.getAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(20.0D);
@@ -81,38 +87,32 @@ public class EntityBear extends EntityMob {
 
 	@Override
 	@Nullable
-	protected ResourceLocation getLootTable()
-	{
+	protected ResourceLocation getLootTable() {
 		return LootTableRegistry.bear;
 	}
 
-	
+
 	/**
-	 * Checks if the entity's current position is a valid location to spawn this entity.
+	 * Checks if the entity's current position is a valid location to spawn this
+	 * entity.
 	 */
 	@Override
-	public boolean canSpawn(IWorld world, boolean b)
-	{
+	public boolean canSpawn(IWorld world, boolean b) {
 		return this.world.getDifficulty() != EnumDifficulty.PEACEFUL;
 	}
-	
-	
+
 
 	/**
 	 * Called when the entity is attacked.
 	 */
-	public boolean attackEntityFrom(DamageSource source, float amount)
-	{
-		if (this.isInvulnerableTo(source))
-		{
+	@Override
+	public boolean attackEntityFrom(DamageSource source, float amount) {
+		if(this.isInvulnerableTo(source)) {
 			return false;
-		}
-		else
-		{
+		} else {
 			Entity entity = source.getTrueSource();
 
-			if (entity instanceof EntityPlayer)
-			{
+			if(entity instanceof EntityPlayer) {
 				this.setAttackTarget((EntityPlayer) entity);
 				this.playWarningSound();
 			}
@@ -120,132 +120,117 @@ public class EntityBear extends EntityMob {
 			return super.attackEntityFrom(source, amount);
 		}
 	}
-	
+
 	@Override
-	public void tick()
-	{
+	public void tick() {
 		super.tick();
 
 
-		if (this.warningSoundTicks > 0)
-		{
+		if(this.warningSoundTicks > 0) {
 			--this.warningSoundTicks;
 		}
 	}
 
-	protected void playWarningSound()
-	{
-		if (this.warningSoundTicks <= 0)
-		{
+	protected void playWarningSound() {
+		if(this.warningSoundTicks <= 0) {
 			this.playSound(SoundEvents.ENTITY_POLAR_BEAR_WARNING, 1.0F, 1.0F);
 			this.warningSoundTicks = 40;
 		}
 	}
 
 
-
-	protected SoundEvent getAmbientSound()
-	{
+	@Override
+	protected SoundEvent getAmbientSound() {
 		return SoundEvents.ENTITY_POLAR_BEAR_AMBIENT;
 	}
 
-	protected SoundEvent getHurtSound(DamageSource damageSourceIn)
-	{
+	@Override
+	protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
 		return SoundEvents.ENTITY_POLAR_BEAR_HURT;
 	}
 
-	protected SoundEvent getDeathSound()
-	{
+	@Override
+	protected SoundEvent getDeathSound() {
 		return SoundEvents.ENTITY_POLAR_BEAR_DEATH;
 	}
 
-	protected void playStepSound(BlockPos pos, Block blockIn)
-	{
+	protected void playStepSound(BlockPos pos, Block blockIn) {
 		this.playSound(SoundEvents.ENTITY_POLAR_BEAR_STEP, 0.15F, 1.0F);
 	}
 
-	public boolean processInteract(EntityPlayer player, EnumHand hand)
-	{
+	@Override
+	public boolean processInteract(EntityPlayer player, EnumHand hand) {
 		return false;
 	}
-	
-	public boolean isPreventingPlayerRest(EntityPlayer playerIn)
-	{
+
+	@Override
+	public boolean isPreventingPlayerRest(EntityPlayer playerIn) {
 		return this.world.getDifficulty() != EnumDifficulty.PEACEFUL && this.getAttackingEntity() == playerIn;
 	}
 
 
-	public class AIHurtByTarget extends EntityAIHurtByTarget
-	{
-		public AIHurtByTarget()
-		{
+	public class AIHurtByTarget extends EntityAIHurtByTarget {
+
+		public AIHurtByTarget() {
 			super(EntityBear.this, false);
 		}
 
 		/**
 		 * Execute a one shot task or start executing a continuous task
 		 */
-		public void startExecuting()
-		{
+		@Override
+		public void startExecuting() {
 			super.startExecuting();
 
 		}
 
-		protected void setEntityAttackTarget(EntityCreature creatureIn, EntityLivingBase entityLivingBaseIn)
-		{
-			if (creatureIn instanceof EntityBear)
-			{
+		@Override
+		protected void setEntityAttackTarget(EntityCreature creatureIn, EntityLivingBase entityLivingBaseIn) {
+			if(creatureIn instanceof EntityBear) {
 				super.setEntityAttackTarget(creatureIn, entityLivingBaseIn);
 			}
 		}
 	}
-	
-	public class AIMeleeAttack extends EntityAIAttackMelee
-	{
-		public AIMeleeAttack()
-		{
+
+	public class AIMeleeAttack extends EntityAIAttackMelee {
+
+		public AIMeleeAttack() {
 			super(EntityBear.this, 1.25D, true);
 		}
 
-		protected void checkAndPerformAttack(EntityLivingBase p_190102_1_, double p_190102_2_)
-		{
+		@Override
+		protected void checkAndPerformAttack(EntityLivingBase p_190102_1_, double p_190102_2_) {
 			double d0 = this.getAttackReachSqr(p_190102_1_);
 
-			if (p_190102_2_ <= d0 && this.attackTick <= 0)
-			{
+			if(p_190102_2_ <= d0 && this.attackTick <= 0) {
 				this.attackTick = 20;
 				this.attacker.attackEntityAsMob(p_190102_1_);
-			}
-			else if (p_190102_2_ <= d0 * 2.0D)
-			{
-				if (this.attackTick <= 0)
-				{
+			} else if(p_190102_2_ <= d0 * 2.0D) {
+				if(this.attackTick <= 0) {
 					this.attackTick = 20;
 				}
 
-				if (this.attackTick <= 10)
-				{
+				if(this.attackTick <= 10) {
 					EntityBear.this.playWarningSound();
 				}
-			}
-			else
-			{
+			} else {
 				this.attackTick = 20;
 			}
 		}
 
 		/**
-		 * Reset the task's internal state. Called when this task is interrupted by another one
+		 * Reset the task's internal state. Called when this task is interrupted
+		 * by another one
 		 */
-		public void resetTask()
-		{
+		@Override
+		public void resetTask() {
 			super.resetTask();
 		}
 
-		protected double getAttackReachSqr(EntityLivingBase attackTarget)
-		{
-			return (double)(10.0F + attackTarget.width);
+		@Override
+		protected double getAttackReachSqr(EntityLivingBase attackTarget) {
+			return 10.0F + attackTarget.width;
 		}
 	}
-	
+
 }

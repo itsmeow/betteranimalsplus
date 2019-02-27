@@ -5,10 +5,10 @@ import net.minecraft.init.Items;
 import net.minecraft.item.ItemBucketMilk;
 
 public class ItemGoatMilk extends ItemBucketMilk {
-	
+
 	public ItemGoatMilk() {
 		super(new Properties().containerItem(Items.BUCKET).group(BetterAnimalsPlusMod.group));
 		this.setRegistryName("goatmilk");
 	}
-	
+
 }

@@ -16,16 +16,14 @@ import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
 
 public class BlockTrillium extends BlockHorizontal {
-	
+
 	public BlockTrillium() {
 		super(Properties.create(Material.PLANTS).sound(SoundType.PLANT));
 		this.setRegistryName("trillium");
-		this.setDefaultState(this.getDefaultState().with(HORIZONTAL_FACING, EnumFacing.NORTH));
+		this.setDefaultState(this.getDefaultState().with(BlockHorizontal.HORIZONTAL_FACING, EnumFacing.NORTH));
 	}
-	
-	
-	
-	
+
+
 	@Override
 	public void onNeighborChange(IBlockState state, IWorldReader world, BlockPos pos, BlockPos neighbor) {
 		super.onNeighborChange(state, world, pos, neighbor);
@@ -34,7 +32,7 @@ public class BlockTrillium extends BlockHorizontal {
 			world1.destroyBlock(pos, true);
 		}
 	}
-	
+
 	@Override
 	protected void fillStateContainer(Builder<Block, IBlockState> builder) {
 		builder.add(BlockHorizontal.HORIZONTAL_FACING);
@@ -50,31 +48,28 @@ public class BlockTrillium extends BlockHorizontal {
 	}
 
 
-
 	@Override
 	public boolean hasTileEntity() {
 		return true;
 	}
 
-    @Override
-    public boolean isFullCube(IBlockState state) { 
-    	return false; 
-    }
-    
-    @Override
-    public boolean isTopSolid(IBlockState state) {
-    	return false;
-    }
+	@Override
+	public boolean isFullCube(IBlockState state) {
+		return false;
+	}
 
-    @Override
-    public EnumBlockRenderType getRenderType(IBlockState state)
-    {
-        return EnumBlockRenderType.INVISIBLE;
-    }
+	@Override
+	public boolean isTopSolid(IBlockState state) {
+		return false;
+	}
 
-    @Override
-    public TileEntity createTileEntity(IBlockState state, IBlockReader world)
-    {
-        return new TileEntityTrillium();
-    }
+	@Override
+	public EnumBlockRenderType getRenderType(IBlockState state) {
+		return EnumBlockRenderType.INVISIBLE;
+	}
+
+	@Override
+	public TileEntity createTileEntity(IBlockState state, IBlockReader world) {
+		return new TileEntityTrillium();
+	}
 }

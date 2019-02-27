@@ -14,19 +14,21 @@ public class RenderGenericHeadFloor extends TileEntityRenderer<TileEntityHead> {
 
 	@Override
 	public void render(TileEntityHead tile, double x, double y, double z, float partialTickTime, int destroyStage) {
-		renderHead((float) x, (float) y, (float) z, tile.getRotationX(), tile.getSkullRotation() * 360 / 16.0F, tile.getModel(), destroyStage, tile.getTexture(), tile.getOffset());
+		this.renderHead((float) x, (float) y, (float) z, tile.getRotationX(), tile.getSkullRotation() * 360 / 16.0F,
+				tile.getModel(), destroyStage, tile.getTexture(), tile.getOffset());
 	}
 
-	private void renderHead(float x, float y, float z, float meta, float skullRotation, ModelBase model, int destroyStage, ResourceLocation texture, float offset) {
+	private void renderHead(float x, float y, float z, float meta, float skullRotation, ModelBase model,
+			int destroyStage, ResourceLocation texture, float offset) {
 
 		this.bindTexture(texture);
 
 		GlStateManager.pushMatrix();
 
-		this.translateHead(x, y, z,(int) meta, 1.5F + offset);
+		this.translateHead(x, y, z, (int) meta, 1.5F + offset);
 
-		float newRotation = adjustRotation((int)meta, skullRotation);
-		float skullRotationX = adjustRotationX(meta);
+		float newRotation = this.adjustRotation((int) meta, skullRotation);
+		float skullRotationX = this.adjustRotationX(meta);
 
 		GlStateManager.scalef(-1.0F, -1.0F, 1.0F);
 
@@ -36,7 +38,7 @@ public class RenderGenericHeadFloor extends TileEntityRenderer<TileEntityHead> {
 	}
 
 	private void translateHead(float x, float y, float z, int meta, float yOffset) {
-		switch (meta) {
+		switch(meta) {
 		case 1:
 			GlStateManager.translatef(x + 0.5F, y + yOffset + 0.15F, z + 0.5F);
 			break;
@@ -56,7 +58,7 @@ public class RenderGenericHeadFloor extends TileEntityRenderer<TileEntityHead> {
 	}
 
 	private float adjustRotation(int meta, float rotation) {
-		switch (meta) {
+		switch(meta) {
 		case 1:
 			return rotation;
 		case 2:
@@ -69,7 +71,7 @@ public class RenderGenericHeadFloor extends TileEntityRenderer<TileEntityHead> {
 			return 90.0F;
 		}
 	}
-	
+
 	private float adjustRotationX(float meta) {
 		if(meta != 1) {
 			return 0.0F;

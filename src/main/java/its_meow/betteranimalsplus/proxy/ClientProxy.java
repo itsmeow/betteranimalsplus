@@ -17,19 +17,21 @@ public class ClientProxy implements ISidedProxy {
 
 	public static final ModelHirschgeistHelmet armorModel = new ModelHirschgeistHelmet();
 
+	@Override
 	public void setup() {
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityTrillium.class, new RenderBlockTrillium());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityHandOfFate.class, new RenderBlockHandOfFate());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityHead.class, new RenderGenericHead());
 		for(BlockGenericSkull block : BlockRegistry.genericskulls.keySet()) {
 			if(block.allowFloor) {
-				ClientRegistry.bindTileEntitySpecialRenderer(block.teClass.asSubclass(TileEntityHead.class), new RenderGenericHeadFloor());
+				ClientRegistry.bindTileEntitySpecialRenderer(block.teClass.asSubclass(TileEntityHead.class),
+						new RenderGenericHeadFloor());
 			}
 		}
 	}
 
-	public static ModelBiped getArmorModel(){
-		return armorModel;
+	public static ModelBiped getArmorModel() {
+		return ClientProxy.armorModel;
 	}
 
 }

@@ -9,7 +9,7 @@ import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.SoundEvent;
 
 public class ArmorMaterialBone implements IArmorMaterial {
-	
+
 	@Override
 	public int getDamageReductionAmount(EntityEquipmentSlot arg0) {
 		return 2;

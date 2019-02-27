@@ -22,15 +22,16 @@ public class RenderBrownBear extends RenderLiving<EntityBear> {
 	protected ResourceLocation getEntityTexture(@Nonnull EntityBear entity) {
 		return TextureRegistry.bear_brown;
 	}
-	
+
 	/**
-     * Allows the render to do state modifications necessary before the model is rendered.
-     */
-    protected void preRenderCallback(EntityBear entitylivingbaseIn, float partialTickTime)
-    {
-    	float scale = 1.3F;
-        GlStateManager.scalef(scale, scale, scale);
-        super.preRenderCallback(entitylivingbaseIn, partialTickTime);
-    }
+	 * Allows the render to do state modifications necessary before the model is
+	 * rendered.
+	 */
+	@Override
+	protected void preRenderCallback(EntityBear entitylivingbaseIn, float partialTickTime) {
+		float scale = 1.3F;
+		GlStateManager.scalef(scale, scale, scale);
+		super.preRenderCallback(entitylivingbaseIn, partialTickTime);
+	}
 
 }

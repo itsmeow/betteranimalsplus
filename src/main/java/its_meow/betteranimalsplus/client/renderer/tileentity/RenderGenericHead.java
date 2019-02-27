@@ -15,10 +15,12 @@ public class RenderGenericHead extends TileEntityRenderer<TileEntityHead> {
 
 	@Override
 	public void render(TileEntityHead tile, double x, double y, double z, float partialTickTime, int destroyStage) {
-		renderHead((float) x, (float) y, (float) z, tile.getRotationX(), tile.getSkullRotation() * 360 / 16.0F, tile.getBlockFacing(), tile.getModel(), destroyStage, tile.getTexture());
+		this.renderHead((float) x, (float) y, (float) z, tile.getRotationX(), tile.getSkullRotation() * 360 / 16.0F,
+				tile.getBlockFacing(), tile.getModel(), destroyStage, tile.getTexture());
 	}
 
-	private void renderHead(float x, float y, float z, float rotX, float skullRotation, EnumFacing face, ModelBase model, int destroyStage, ResourceLocation texture) {
+	private void renderHead(float x, float y, float z, float rotX, float skullRotation, EnumFacing face,
+			ModelBase model, int destroyStage, ResourceLocation texture) {
 		this.bindTexture(texture);
 
 		GlStateManager.pushMatrix();
@@ -36,7 +38,7 @@ public class RenderGenericHead extends TileEntityRenderer<TileEntityHead> {
 	}
 
 	private void translateHead(float x, float y, float z, EnumFacing face, float yOffset) {
-		switch (face) {
+		switch(face) {
 		case NORTH:
 			GlStateManager.translatef(x + 0.5F, y + yOffset, z + 0.5F);
 			break;

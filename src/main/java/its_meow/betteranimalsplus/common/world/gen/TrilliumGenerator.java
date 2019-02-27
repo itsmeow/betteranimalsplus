@@ -16,21 +16,26 @@ import net.minecraft.world.gen.feature.NoFeatureConfig;
 
 public class TrilliumGenerator extends Feature<NoFeatureConfig> {
 
-	   public boolean func_212245_a(IWorld world, IChunkGenerator<? extends IChunkGenSettings> genSettings, Random rand, BlockPos pos, NoFeatureConfig cfg) {
-	      for(IBlockState iblockstate = world.getBlockState(pos); (iblockstate.isAir(world, pos) || iblockstate.isIn(BlockTags.LEAVES)) && pos.getY() > 0; iblockstate = world.getBlockState(pos)) {
-	         pos = pos.down();
-	      }
+	@Override
+	public boolean func_212245_a(IWorld world, IChunkGenerator<? extends IChunkGenSettings> genSettings, Random rand,
+			BlockPos pos, NoFeatureConfig cfg) {
+		for(IBlockState iblockstate = world.getBlockState(pos); (iblockstate.isAir(world, pos)
+				|| iblockstate.isIn(BlockTags.LEAVES)) && pos.getY() > 0; iblockstate = world.getBlockState(pos)) {
+			pos = pos.down();
+		}
 
-	      IBlockState iblockstate1 = BlockRegistry.trillium.getDefaultState();
+		IBlockState iblockstate1 = BlockRegistry.trillium.getDefaultState();
 
-	      for(int i = 0; i < 4; ++i) {
-	         BlockPos blockpos = pos.add(rand.nextInt(8) - rand.nextInt(8), rand.nextInt(4) - rand.nextInt(4), rand.nextInt(8) - rand.nextInt(8));
-	         if (world.isAirBlock(blockpos) && iblockstate1.isValidPosition(world, blockpos)) {
-	            world.setBlockState(blockpos, iblockstate1.with(BlockHorizontal.HORIZONTAL_FACING, EnumFacing.byHorizontalIndex(rand.nextInt(4))), 2);
-	         }
-	      }
+		for(int i = 0; i < 4; ++i) {
+			BlockPos blockpos = pos.add(rand.nextInt(8) - rand.nextInt(8), rand.nextInt(4) - rand.nextInt(4),
+					rand.nextInt(8) - rand.nextInt(8));
+			if(world.isAirBlock(blockpos) && iblockstate1.isValidPosition(world, blockpos)) {
+				world.setBlockState(blockpos, iblockstate1.with(BlockHorizontal.HORIZONTAL_FACING,
+						EnumFacing.byHorizontalIndex(rand.nextInt(4))), 2);
+			}
+		}
 
-	      return true;
-	   }
+		return true;
+	}
 
 }

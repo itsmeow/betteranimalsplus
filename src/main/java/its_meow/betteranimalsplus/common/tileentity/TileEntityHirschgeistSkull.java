@@ -8,10 +8,13 @@ import net.minecraft.tileentity.TileEntityType;
 
 public class TileEntityHirschgeistSkull extends TileEntityHead {
 
-	public static final TileEntityType<?> HIRSCHGEIST_SKULL_TYPE = TileEntityType.Builder.create(TileEntityHirschgeistSkull::new).build(null).setRegistryName(Ref.MOD_ID, "hirschgeistskulltileentity");
+	public static final TileEntityType<?> HIRSCHGEIST_SKULL_TYPE = TileEntityType.Builder
+			.create(TileEntityHirschgeistSkull::new).build(null)
+			.setRegistryName(Ref.MOD_ID, "hirschgeistskulltileentity");
 
 	public TileEntityHirschgeistSkull() {
-		super(ModelHirschgeistSkull.class.asSubclass(ModelBase.class), TileEntityHirschgeistSkull.class, 0F, TextureRegistry.hirschgeist);
+		super(ModelHirschgeistSkull.class.asSubclass(ModelBase.class), TileEntityHirschgeistSkull.class, 0F,
+				TextureRegistry.hirschgeist);
 	}
 
 }

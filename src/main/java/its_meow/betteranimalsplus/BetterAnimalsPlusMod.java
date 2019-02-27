@@ -22,38 +22,43 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 
 @Mod(value = Ref.MOD_ID)
 public class BetterAnimalsPlusMod {
-	
-	
-	public BetterAnimalsPlusMod() {
-        // Register the setup method for modloading
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
-        // Register the enqueueIMC method for modloading
-        //FMLJavaModLoadingContext.get().getModEventBus().addListener(this::enqueueIMC);
-        // Register the processIMC method for modloading
-        //FMLJavaModLoadingContext.get().getModEventBus().addListener(this::processIMC);
-        // Register the doClientStuff method for modloading
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::doClientStuff);
 
-        // Register ourselves for server, registry and other game events we are interested in
-        MinecraftForge.EVENT_BUS.register(this);
-        
+
+	public BetterAnimalsPlusMod() {
+		// Register the setup method for modloading
+		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
+		// Register the enqueueIMC method for modloading
+		// FMLJavaModLoadingContext.get().getModEventBus().addListener(this::enqueueIMC);
+		// Register the processIMC method for modloading
+		// FMLJavaModLoadingContext.get().getModEventBus().addListener(this::processIMC);
+		// Register the doClientStuff method for modloading
+		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::doClientStuff);
+
+		// Register ourselves for server, registry and other game events we are
+		// interested in
+		MinecraftForge.EVENT_BUS.register(this);
+
 		MobRegistry.fillContainers();
-        logger.log(Level.INFO, "Injecting super coyotes...");
+		BetterAnimalsPlusMod.logger.log(Level.INFO, "Injecting super coyotes...");
 	}
-	
-	public static ISidedProxy proxy = DistExecutor.runForDist(() -> () -> new ClientProxy(), () -> () -> new ServerProxy());
+
+	public static ISidedProxy proxy = DistExecutor.runForDist(() -> () -> new ClientProxy(),
+			() -> () -> new ServerProxy());
 
 	public static BetterAnimalsItemGroup group = new BetterAnimalsItemGroup("Better Animals+");
 
-    private static final Logger logger = LogManager.getLogger();
-	
-	
-    private void setup(final FMLCommonSetupEvent event) {
-    	BiomeDictionary.getBiomes(BiomeDictionary.Type.SWAMP).forEach(biome -> biome.addFeature(net.minecraft.world.gen.GenerationStage.Decoration.VEGETAL_DECORATION, Biome.createCompositeFeature(new TrilliumGenerator(), new NoFeatureConfig(), Biome.TOP_SOLID, new FrequencyConfig(3))));
-		logger.log(Level.INFO, "Overspawning lammergeiers...");
-    }
+	private static final Logger logger = LogManager.getLogger();
 
-    private void doClientStuff(final FMLClientSetupEvent event) {
-		logger.log(Level.INFO, "Rendering squirrel physics...");
-    }
+
+	private void setup(final FMLCommonSetupEvent event) {
+		BiomeDictionary.getBiomes(BiomeDictionary.Type.SWAMP).forEach(
+				biome -> biome.addFeature(net.minecraft.world.gen.GenerationStage.Decoration.VEGETAL_DECORATION,
+						Biome.createCompositeFeature(new TrilliumGenerator(), new NoFeatureConfig(), Biome.TOP_SOLID,
+								new FrequencyConfig(3))));
+		BetterAnimalsPlusMod.logger.log(Level.INFO, "Overspawning lammergeiers...");
+	}
+
+	private void doClientStuff(final FMLClientSetupEvent event) {
+		BetterAnimalsPlusMod.logger.log(Level.INFO, "Rendering squirrel physics...");
+	}
 }

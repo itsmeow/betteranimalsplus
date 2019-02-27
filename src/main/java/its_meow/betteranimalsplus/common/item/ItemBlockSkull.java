@@ -15,7 +15,6 @@ import net.minecraft.item.ItemUseContext;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
@@ -29,14 +28,13 @@ public class ItemBlockSkull extends ItemBlock {
 		this.setRegistryName(block.getRegistryName() + "_" + i);
 		this.allowFloor = allowFloor;
 	}
-	
+
 	public ItemBlockSkull(Block block, boolean allowFloor, int i, Properties prop) {
 		super(block, prop);
 		this.setRegistryName(block.getRegistryName() + "_" + i);
 		this.allowFloor = allowFloor;
 	}
-	
-	
+
 
 	@Override
 	protected boolean canPlace(BlockItemUseContext ctx, IBlockState state) {
@@ -46,10 +44,11 @@ public class ItemBlockSkull extends ItemBlock {
 		Block block = world.getBlockState(pos).getBlock();
 		ItemStack stack = ctx.getItem();
 
-		if (block == Blocks.SNOW && block.isReplaceable(state, ctx))
+		if(block == Blocks.SNOW && block.isReplaceable(state, ctx)) {
 			side = EnumFacing.UP;
-		else if (!block.isReplaceable(state, ctx))
+		} else if(!block.isReplaceable(state, ctx)) {
 			pos = pos.offset(side);
+		}
 		return block.isReplaceable(state, ctx);
 	}
 
@@ -60,7 +59,7 @@ public class ItemBlockSkull extends ItemBlock {
 		EnumFacing side = ctx.getFace();
 		BlockPos pos = ctx.getPos();
 		World world = ctx.getWorld();
-		if (side == EnumFacing.DOWN || (side == EnumFacing.UP && !this.allowFloor)) {
+		if(side == EnumFacing.DOWN || side == EnumFacing.UP && !this.allowFloor) {
 			return EnumActionResult.FAIL;
 		} else {
 			BlockPos clickedPos = pos.offset(side);
@@ -68,11 +67,12 @@ public class ItemBlockSkull extends ItemBlock {
 			if(!clickedState.getBlock().isReplaceable(clickedState, new BlockItemUseContext(ctx))) {
 				return EnumActionResult.FAIL;
 			}
-			if (!world.isRemote) {
-				world.setBlockState(clickedPos, this.getBlock().getDefaultState().with(BlockSkull.ROTATION, side.getIndex()), 3);
+			if(!world.isRemote) {
+				world.setBlockState(clickedPos,
+						this.getBlock().getDefaultState().with(BlockSkull.ROTATION, side.getIndex()), 3);
 
 				TileEntity tile = world.getTileEntity(clickedPos);
-				populateTile(stack, side, player, tile);
+				this.populateTile(stack, side, player, tile);
 			}
 			if(!player.isCreative()) {
 				stack.shrink(1);
@@ -82,11 +82,12 @@ public class ItemBlockSkull extends ItemBlock {
 	}
 
 	protected void populateTile(ItemStack stack, EnumFacing side, EntityPlayer player, TileEntity tile) {
-		if (tile instanceof TileEntityHead) {
+		if(tile instanceof TileEntityHead) {
 			TileEntityHead tileSkull = (TileEntityHead) tile;
 			int rotation = 0;
-			if (side == EnumFacing.UP)
+			if(side == EnumFacing.UP) {
 				rotation = MathHelper.floor(player.rotationYaw * 16.0F / 360.0F + 0.5D) & 15;
+			}
 			tileSkull.setRotation(rotation);
 			tileSkull.setType(BlockRegistry.getTypeForItem(stack.getItem().getRegistryName()));
 		}

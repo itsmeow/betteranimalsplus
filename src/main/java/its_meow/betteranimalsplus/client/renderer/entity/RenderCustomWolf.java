@@ -11,8 +11,7 @@ import net.minecraft.util.ResourceLocation;
 
 public class RenderCustomWolf extends RenderLiving<EntityFeralWolf> {
 
-	public RenderCustomWolf(RenderManager manager)
-	{
+	public RenderCustomWolf(RenderManager manager) {
 		super(manager, new ModelCustomWolf(), 0.5F);
 		this.addLayer(new LayerWolfEyes(this));
 	}
@@ -21,18 +20,17 @@ public class RenderCustomWolf extends RenderLiving<EntityFeralWolf> {
 	/**
 	 * Defines wwhat float the third param in setRotationAngles of ModelBase is
 	 */
-	protected float handleRotationFloat(EntityFeralWolf livingBase, float partialTicks)
-	{
+	@Override
+	protected float handleRotationFloat(EntityFeralWolf livingBase, float partialTicks) {
 		return livingBase.getTailRotation();
 	}
 
 	/**
 	 * Renders the desired {@code T} type Entity.
 	 */
-	public void doRender(EntityFeralWolf entity, double x, double y, double z, float entityYaw, float partialTicks)
-	{
-		if (entity.isWolfWet())
-		{
+	@Override
+	public void doRender(EntityFeralWolf entity, double x, double y, double z, float entityYaw, float partialTicks) {
+		if(entity.isWolfWet()) {
 			float f = entity.getBrightness() * entity.getShadingWhileWet(partialTicks);
 			GlStateManager.color3f(f, f, f);
 		}
@@ -41,17 +39,18 @@ public class RenderCustomWolf extends RenderLiving<EntityFeralWolf> {
 	}
 
 	/**
-	 * Returns the location of an entity's texture. Doesn't seem to be called unless you call Render.bindEntityTexture.
+	 * Returns the location of an entity's texture. Doesn't seem to be called
+	 * unless you call Render.bindEntityTexture.
 	 */
-	protected ResourceLocation getEntityTexture(EntityFeralWolf entity)
-	{
+	@Override
+	protected ResourceLocation getEntityTexture(EntityFeralWolf entity) {
 		return this.getWolfTexture(entity.getTypeNumber(), entity);
 	}
-	
+
 	private ResourceLocation getWolfTexture(int typeNumber, EntityFeralWolf entity) {
 		ResourceLocation result = null;
-		
-		
+
+
 		if(entity.isTamed()) {
 			switch(typeNumber) {
 			case 1:

@@ -18,15 +18,14 @@ public class RenderDeer extends RenderLiving<EntityDeer> {
 		super(rendermanagerIn, new ModelDeer(), 1F);
 		Calendar calendar = Calendar.getInstance();
 
-		if (calendar.get(2) + 1 == 12 && calendar.get(5) >= 24 && calendar.get(5) <= 26)
-		{
+		if(calendar.get(2) + 1 == 12 && calendar.get(5) >= 24 && calendar.get(5) <= 26) {
 			this.isChristmas = true;
 		}
 	}
-	
+
 	@Override
 	protected void preRenderCallback(EntityDeer entitylivingbaseIn, float partialTickTime) {
-		if (getMainModel().isChild) {
+		if(this.getMainModel().isChild) {
 			GlStateManager.scaled(0.6D, 0.6D, 0.6D);
 		} else {
 			GlStateManager.scaled(1.0D, 1.0D, 1.0D);
@@ -38,7 +37,7 @@ public class RenderDeer extends RenderLiving<EntityDeer> {
 	protected ResourceLocation getEntityTexture(EntityDeer entity) {
 		int type = entity.getTypeNumber();
 		if(!this.isChristmas) {
-			if(getMainModel().isChild) {
+			if(this.getMainModel().isChild) {
 				return TextureRegistry.deer_1;
 			}
 			if(type == 1) {
@@ -46,7 +45,7 @@ public class RenderDeer extends RenderLiving<EntityDeer> {
 			}
 			return TextureRegistry.deer_2;
 		} else {
-			if(getMainModel().isChild) {
+			if(this.getMainModel().isChild) {
 				return TextureRegistry.deer_1_christmas;
 			}
 			if(type == 1) {

@@ -22,21 +22,21 @@ public class RenderLammergeier extends RenderLiving<EntityLammergeier> {
 		int typeNumber = entity.getTypeNumber();
 		ResourceLocation result = null;
 		switch(typeNumber) {
-			case 1:
-				result = TextureRegistry.lam_orange;
-				break;
-			case 2:
-				result = TextureRegistry.lam_red;
-				break;
-			case 3:
-				result = TextureRegistry.lam_white;
-				break;
-			case 4:
-				result = TextureRegistry.lam_yellow;
-				break;
+		case 1:
+			result = TextureRegistry.lam_orange;
+			break;
+		case 2:
+			result = TextureRegistry.lam_red;
+			break;
+		case 3:
+			result = TextureRegistry.lam_white;
+			break;
+		case 4:
+			result = TextureRegistry.lam_yellow;
+			break;
 		}
 		return result;
-		
+
 	}
 
 }

@@ -20,30 +20,30 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 public class ItemHirschgeistSkullWearable extends ItemArmor {
-	
+
 	public ItemHirschgeistSkullWearable() {
 		super(new ArmorMaterialBone(), EntityEquipmentSlot.HEAD, new Properties().group(BetterAnimalsPlusMod.group));
 		this.setRegistryName("hirschgeistskullwearable");
 	}
 
-	@Override 	
+	@Override
 	@OnlyIn(Dist.CLIENT)
 	public ModelBiped getArmorModel(EntityLivingBase entityLiving, ItemStack itemStack, EntityEquipmentSlot armorSlot,
 			ModelBiped defaultModel) {
-		if (itemStack != null) {
-			if (itemStack.getItem() instanceof ItemArmor) {
+		if(itemStack != null) {
+			if(itemStack.getItem() instanceof ItemArmor) {
 
 				ModelBiped armorModel = ClientProxy.getArmorModel();
 				armorModel.bipedHead.showModel = armorSlot == EntityEquipmentSlot.HEAD;
 				armorModel.bipedHeadwear.showModel = armorSlot == EntityEquipmentSlot.HEAD;
-				armorModel.bipedBody.showModel = (armorSlot == EntityEquipmentSlot.CHEST)
-						|| (armorSlot == EntityEquipmentSlot.CHEST);
+				armorModel.bipedBody.showModel = armorSlot == EntityEquipmentSlot.CHEST
+						|| armorSlot == EntityEquipmentSlot.CHEST;
 				armorModel.bipedRightArm.showModel = armorSlot == EntityEquipmentSlot.CHEST;
 				armorModel.bipedLeftArm.showModel = armorSlot == EntityEquipmentSlot.CHEST;
-				armorModel.bipedRightLeg.showModel = (armorSlot == EntityEquipmentSlot.LEGS)
-						|| (armorSlot == EntityEquipmentSlot.FEET);
-				armorModel.bipedLeftLeg.showModel = (armorSlot == EntityEquipmentSlot.LEGS)
-						|| (armorSlot == EntityEquipmentSlot.FEET);
+				armorModel.bipedRightLeg.showModel = armorSlot == EntityEquipmentSlot.LEGS
+						|| armorSlot == EntityEquipmentSlot.FEET;
+				armorModel.bipedLeftLeg.showModel = armorSlot == EntityEquipmentSlot.LEGS
+						|| armorSlot == EntityEquipmentSlot.FEET;
 
 				armorModel.isSneak = defaultModel.isSneak;
 				armorModel.isRiding = defaultModel.isRiding;
@@ -56,7 +56,7 @@ public class ItemHirschgeistSkullWearable extends ItemArmor {
 		}
 		return null;
 	}
-	
+
 	@Override
 	public void addInformation(ItemStack stack, World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
 		tooltip.add(new TextComponentString("It can be placed via placing it into an empty crafting table"));
@@ -67,5 +67,5 @@ public class ItemHirschgeistSkullWearable extends ItemArmor {
 	public boolean getIsRepairable(ItemStack toRepair, ItemStack repair) {
 		return repair.getItem() == Items.BONE || repair.getItem() == ItemRegistry.antler;
 	}
-	
+
 }

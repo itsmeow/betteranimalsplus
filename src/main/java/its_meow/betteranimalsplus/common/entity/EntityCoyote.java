@@ -2,8 +2,6 @@ package its_meow.betteranimalsplus.common.entity;
 
 import javax.annotation.Nullable;
 
-import com.google.common.base.Predicate;
-
 import its_meow.betteranimalsplus.init.BlockRegistry;
 import its_meow.betteranimalsplus.init.MobRegistry;
 import net.minecraft.entity.Entity;
@@ -44,16 +42,16 @@ import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
 
 public class EntityCoyote extends EntityFeralWolf {
-	
+
 	public EntityCoyote(World worldIn) {
 		super(MobRegistry.getType(EntityCoyote.class), worldIn);
 		this.world = worldIn;
 		this.setSize(0.8F, 0.9F);
-        this.setTamed(false);
+		this.setTamed(false);
 	}
-	
-	protected void initEntityAI()
-	{
+
+	@Override
+	protected void initEntityAI() {
 		this.aiSit = new EntityAISit(this);
 		this.tasks.addTask(1, new EntityAISwimming(this));
 		this.tasks.addTask(2, this.aiSit);
@@ -66,28 +64,33 @@ public class EntityCoyote extends EntityFeralWolf {
 		this.targetTasks.addTask(1, new EntityAIOwnerHurtByTarget(this));
 		this.targetTasks.addTask(2, new EntityAIOwnerHurtTarget(this));
 		this.targetTasks.addTask(3, new EntityAIHurtByTarget(this, true, new Class[0]));
-		this.targetTasks.addTask(4, new EntityAITargetNonTamed<EntityPlayer>(this, EntityPlayer.class, false, new NullPredicate()));
-		this.targetTasks.addTask(4, new EntityAITargetNonTamed<EntityAnimal>(this, EntityAnimal.class, false, new Predicate<Entity>()
-		{
-			public boolean apply(@Nullable Entity p_apply_1_)
-			{
-				return p_apply_1_ instanceof EntitySheep || p_apply_1_ instanceof EntityRabbit;
-			}
-		}));
-		this.targetTasks.addTask(4, new EntityAITargetNonTamed<EntityVillager>(this, EntityVillager.class, false, new NullPredicate()));
-		this.targetTasks.addTask(4, new EntityAITargetNonTamed<AbstractIllager>(this, AbstractIllager.class, false, new NullPredicate()));
-		this.targetTasks.addTask(4, new EntityAITargetNonTamed<EntityChicken>(this, EntityChicken.class, false, new NullPredicate()));
-		this.targetTasks.addTask(5, new EntityAINearestAttackableTarget<AbstractSkeleton>(this, AbstractSkeleton.class, false));
+		this.targetTasks.addTask(4,
+				new EntityAITargetNonTamed<>(this, EntityPlayer.class, false, new NullPredicate()));
+		this.targetTasks.addTask(4,
+				new EntityAITargetNonTamed<>(this, EntityAnimal.class, false,
+						(@Nullable Entity p_apply_1_) -> p_apply_1_ instanceof EntitySheep
+								|| p_apply_1_ instanceof EntityRabbit));
+		this.targetTasks.addTask(4,
+				new EntityAITargetNonTamed<>(this, EntityVillager.class, false, new NullPredicate()));
+		this.targetTasks.addTask(4,
+				new EntityAITargetNonTamed<>(this, AbstractIllager.class, false, new NullPredicate()));
+		this.targetTasks.addTask(4,
+				new EntityAITargetNonTamed<>(this, EntityChicken.class, false, new NullPredicate()));
+		this.targetTasks.addTask(5,
+				new EntityAINearestAttackableTarget<>(this, AbstractSkeleton.class, false));
 	}
-	
+
 	public boolean isDaytime() {
-		long time = this.world.getDayTime() % 24000L; // Time can go over values of 24000, so divide and take the remainder
+		long time = this.world.getDayTime() % 24000L; // Time can go over values
+														// of 24000, so divide
+														// and take the
+														// remainder
 		return !(time >= 13000L && time <= 23000L);
 	}
-	
+
 	@Override
 	public void setAttackTarget(EntityLivingBase entitylivingbaseIn) {
-		if(!this.isDaytime()) { 
+		if(!this.isDaytime()) {
 			super.setAttackTarget(entitylivingbaseIn);
 		} else if(!this.isTamed()) {
 			super.setAttackTarget(null);
@@ -98,138 +101,122 @@ public class EntityCoyote extends EntityFeralWolf {
 			super.setAttackTarget(null);
 		}
 	}
-	
+
 	@Override
-	protected SoundEvent getAmbientSound()
-	{
+	protected SoundEvent getAmbientSound() {
 		if(!this.isDaytime() && !this.isTamed()) {
 			return SoundEvents.ENTITY_WOLF_GROWL;
-		} else if (this.rand.nextInt(3) == 0) {
-			return this.isTamed() && ((Float)this.dataManager.get(DATA_HEALTH_ID)).floatValue() < 10.0F ? SoundEvents.ENTITY_WOLF_WHINE : SoundEvents.ENTITY_WOLF_PANT;
+		} else if(this.rand.nextInt(3) == 0) {
+			return this.isTamed() && this.dataManager.get(EntityFeralWolf.DATA_HEALTH_ID).floatValue() < 10.0F
+					? SoundEvents.ENTITY_WOLF_WHINE
+					: SoundEvents.ENTITY_WOLF_PANT;
 		} else if(this.getAttackTarget() != null) {
-				return SoundEvents.ENTITY_WOLF_GROWL;
+			return SoundEvents.ENTITY_WOLF_GROWL;
 		}
-			return null;
+		return null;
 	}
-	
+
 	@Override
 	public void onDeath(DamageSource cause) {
 		if(!this.isChild()) {
 			if(this.rand.nextInt(12) == 0) {
 				ItemStack stack = new ItemStack(BlockRegistry.wolfhead.getItemBlock());
-				//stack.setTagCompound(new NBTTagCompound());
-				//stack.getTagCompound().setInteger("TYPENUM", 4); // 4 is the coyote value for wolfheads
+				// stack.setTagCompound(new NBTTagCompound());
+				// stack.getTagCompound().setInteger("TYPENUM", 4); // 4 is the
+				// coyote value for wolfheads
 				this.entityDropItem(stack, 0.5F);
 			}
 		}
 	}
-	
-	public boolean processInteract(EntityPlayer player, EnumHand hand)
-	{
+
+	@Override
+	public boolean processInteract(EntityPlayer player, EnumHand hand) {
 		ItemStack itemstack = player.getHeldItem(hand);
 
-		if (this.isTamed())
-		{
-			if (!itemstack.isEmpty())
-			{
-				if (itemstack.getItem() instanceof ItemFood)
-				{
-					ItemFood itemfood = (ItemFood)itemstack.getItem();
+		if(this.isTamed()) {
+			if(!itemstack.isEmpty()) {
+				if(itemstack.getItem() instanceof ItemFood) {
+					ItemFood itemfood = (ItemFood) itemstack.getItem();
 
-					if (itemfood.isMeat() && ((Float)this.dataManager.get(DATA_HEALTH_ID)).floatValue() < 20.0F)
-					{
-						if (!player.isCreative())
-						{
+					if(itemfood.isMeat() && this.dataManager.get(EntityFeralWolf.DATA_HEALTH_ID).floatValue() < 20.0F) {
+						if(!player.isCreative()) {
 							itemstack.shrink(1);
 						}
 
-						this.heal((float)itemfood.getHealAmount(itemstack));
+						this.heal(itemfood.getHealAmount(itemstack));
 						return true;
 					}
 				}
 			}
 
-			if (this.isOwner(player) && !this.world.isRemote && !this.isBreedingItem(itemstack) && (!(itemstack.getItem() instanceof ItemFood) || !((ItemFood)itemstack.getItem()).isMeat()))
-			{
+			if(this.isOwner(player) && !this.world.isRemote && !this.isBreedingItem(itemstack)
+					&& (!(itemstack.getItem() instanceof ItemFood) || !((ItemFood) itemstack.getItem()).isMeat())) {
 				this.aiSit.setSitting(!this.isSitting());
 				this.isJumping = false;
 				this.navigator.clearPath();
-				this.setAttackTarget((EntityLivingBase)null);
+				this.setAttackTarget((EntityLivingBase) null);
 			}
-		}
-		else if (itemstack.getItem() == Items.RABBIT )
-		{
+		} else if(itemstack.getItem() == Items.RABBIT) {
 			if(this.isDaytime()) {
 
 
-				if (!player.isCreative())
-				{
+				if(!player.isCreative()) {
 					itemstack.shrink(1);
 				}
 
-				if (!this.world.isRemote)
-				{
-					if (this.rand.nextInt(100) <= 14 && !net.minecraftforge.event.ForgeEventFactory.onAnimalTame(this, player))
-					{
+				if(!this.world.isRemote) {
+					if(this.rand.nextInt(100) <= 14
+							&& !net.minecraftforge.event.ForgeEventFactory.onAnimalTame(this, player)) {
 						this.setTamedBy(player);
 						this.navigator.clearPath();
-						this.setAttackTarget((EntityLivingBase)null);
+						this.setAttackTarget((EntityLivingBase) null);
 						this.aiSit.setSitting(true);
 						this.setHealth(20.0F);
 						this.playTameEffect(true);
-						this.world.setEntityState(this, (byte)7);
-					}
-					else
-					{
+						this.world.setEntityState(this, (byte) 7);
+					} else {
 						this.playTameEffect(false);
-						this.world.setEntityState(this, (byte)6);
+						this.world.setEntityState(this, (byte) 6);
 					}
 				}
 
 				return true;
 			} else {
 				if(!this.world.isRemote) {
-					player.sendMessage(new TextComponentString("This coyote is currently hostile. Perhaps it could be tamed outside of its hunting hours?"));
-					
+					player.sendMessage(new TextComponentString(
+							"This coyote is currently hostile. Perhaps it could be tamed outside of its hunting hours?"));
+
 				}
 				return true;
 			}
 		}
-		
+
 
 		return false;
 	}
-	
-	@Override
-	public boolean shouldAttackEntity(EntityLivingBase target, EntityLivingBase owner)
-	{
-		if (!(target instanceof EntityCreeper) && !(target instanceof EntityGhast) && (this.isTamed() || !this.isDaytime()))
-		{
-			if (target instanceof EntityCoyote)
-			{
-				EntityCoyote entityferalwolf = (EntityCoyote)target;
 
-				if (entityferalwolf.isTamed() && entityferalwolf.getOwner() == owner)
-				{
+	@Override
+	public boolean shouldAttackEntity(EntityLivingBase target, EntityLivingBase owner) {
+		if(!(target instanceof EntityCreeper) && !(target instanceof EntityGhast)
+				&& (this.isTamed() || !this.isDaytime())) {
+			if(target instanceof EntityCoyote) {
+				EntityCoyote entityferalwolf = (EntityCoyote) target;
+
+				if(entityferalwolf.isTamed() && entityferalwolf.getOwner() == owner) {
 					return false;
 				}
 			}
 
-			if (target instanceof EntityPlayer && owner instanceof EntityPlayer && !((EntityPlayer)owner).canAttackPlayer((EntityPlayer)target))
-			{
+			if(target instanceof EntityPlayer && owner instanceof EntityPlayer
+					&& !((EntityPlayer) owner).canAttackPlayer((EntityPlayer) target)) {
 				return false;
+			} else {
+				return !(target instanceof AbstractHorse) || !((AbstractHorse) target).isTame();
 			}
-			else
-			{
-				return !(target instanceof AbstractHorse) || !((AbstractHorse)target).isTame();
-			}
-		}
-		else
-		{
+		} else {
 			return false;
 		}
 	}
-	
-	
-	
+
+
 }

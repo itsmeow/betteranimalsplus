@@ -8,8 +8,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.math.MathHelper;
 
 /**
- * lammergeier - cybercat5555
- * Created using Tabula 5.1.0
+ * lammergeier - cybercat5555 Created using Tabula 5.1.0
  */
 public class ModelLammergeier extends ModelBase {
 
@@ -578,7 +577,7 @@ public class ModelLammergeier extends ModelBase {
 	}
 
 	@Override
-	public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) { 
+	public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) {
 		this.body.render(f5);
 	}
 
@@ -589,7 +588,7 @@ public class ModelLammergeier extends ModelBase {
 			float headPitch, float scaleFactor, Entity entityIn) {
 
 
-		EntityLammergeier lammergeier = (EntityLammergeier)entityIn;
+		EntityLammergeier lammergeier = (EntityLammergeier) entityIn;
 		this.rLeg01.offsetY = 0.0F;
 		this.lLeg01.offsetY = 0.0F;
 		this.isFlying = !entityIn.getEntityWorld().isBlockFullCube(entityIn.getPosition().down());
@@ -598,7 +597,7 @@ public class ModelLammergeier extends ModelBase {
 			if(this.lastFlying == false) {
 				this.switchToFlight();
 			}
-			this.rWing01.rotateAngleZ = MathHelper.cos(ageInTicks * 0.3F) * (float)Math.PI * 0.25F;
+			this.rWing01.rotateAngleZ = MathHelper.cos(ageInTicks * 0.3F) * (float) Math.PI * 0.25F;
 			this.lWing01.rotateAngleZ = -this.rWing01.rotateAngleZ;
 			this.rWing02.rotateAngleZ = this.rWing01.rotateAngleZ * 0.5F;
 			this.lWing02.rotateAngleZ = -this.rWing01.rotateAngleZ * 0.5F;
@@ -606,25 +605,26 @@ public class ModelLammergeier extends ModelBase {
 			if(this.lastFlying == true) {
 				this.switchToWalk();
 			}
-			boolean flag = entityIn instanceof EntityLivingBase && ((EntityLivingBase)entityIn).getTicksElytraFlying() > 4;
+			boolean flag = entityIn instanceof EntityLivingBase
+					&& ((EntityLivingBase) entityIn).getTicksElytraFlying() > 4;
 			float f = 1.0F;
 
-			if (flag)
-			{
-				f = (float)(entityIn.motionX * entityIn.motionX + entityIn.motionY * entityIn.motionY + entityIn.motionZ * entityIn.motionZ);
+			if(flag) {
+				f = (float) (entityIn.motionX * entityIn.motionX + entityIn.motionY * entityIn.motionY
+						+ entityIn.motionZ * entityIn.motionZ);
 				f = f / 0.2F;
 				f = f * f * f;
 			}
 
-			if (f < 1.0F)
-			{
+			if(f < 1.0F) {
 				f = 1.0F;
 			}
 
 			this.rLeg01.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount / f;
-			this.lLeg01.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F + (float)Math.PI) * 1.4F * limbSwingAmount / f;
-			
-			
+			this.lLeg01.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F + (float) Math.PI) * 1.4F * limbSwingAmount
+					/ f;
+
+
 		}
 
 

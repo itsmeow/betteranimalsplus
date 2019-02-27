@@ -36,7 +36,6 @@ import net.minecraft.world.World;
 public class EntityDeer extends EntityAnimal {
 
 
-
 	private World world = null;
 
 	public EntityDeer(World worldIn) {
@@ -44,14 +43,12 @@ public class EntityDeer extends EntityAnimal {
 		this.world = worldIn;
 		this.setSize(1.2F, 1.6F);
 	}
-	
-	@Override
-	protected void registerData()
-	{
-		super.registerData();
-		this.dataManager.register(TYPE_NUMBER, Integer.valueOf(0));
-	}
 
+	@Override
+	protected void registerData() {
+		super.registerData();
+		this.dataManager.register(EntityDeer.TYPE_NUMBER, Integer.valueOf(0));
+	}
 
 
 	@Override
@@ -72,46 +69,47 @@ public class EntityDeer extends EntityAnimal {
 		return 4;
 	}
 
-	private static final DataParameter<Integer> TYPE_NUMBER = EntityDataManager.<Integer>createKey(EntityDeer.class, DataSerializers.VARINT);
+	private static final DataParameter<Integer> TYPE_NUMBER = EntityDataManager.<Integer>createKey(EntityDeer.class,
+			DataSerializers.VARINT);
 
 	public int getTypeNumber() {
-		return ((Integer)this.dataManager.get(TYPE_NUMBER)).intValue();
+		return this.dataManager.get(EntityDeer.TYPE_NUMBER).intValue();
 	}
 
-	public void setDeerType(int deerTypeId)
-	{
-		this.dataManager.set(TYPE_NUMBER, Integer.valueOf(deerTypeId));
+	public void setDeerType(int deerTypeId) {
+		this.dataManager.set(EntityDeer.TYPE_NUMBER, Integer.valueOf(deerTypeId));
 	}
 
-	
+
+	@Override
 	public boolean writeUnlessRemoved(NBTTagCompound compound) {
 		compound.setInt("TypeNumber", this.getTypeNumber());
 		return super.writeUnlessRemoved(compound);
 	}
-	
+
+	@Override
 	public void read(NBTTagCompound compound) {
 		super.read(compound);
 		this.setDeerType(compound.getInt("TypeNumber"));
 	}
 
 	/**
-	 * Called only once on an entity when first time spawned, via egg, mob spawner, natural spawning etc, but not called
-	 * when entity is reloaded from nbt. Mainly used for initializing attributes and inventory
+	 * Called only once on an entity when first time spawned, via egg, mob
+	 * spawner, natural spawning etc, but not called when entity is reloaded
+	 * from nbt. Mainly used for initializing attributes and inventory
 	 */
+	@Override
 	@Nullable
-	public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, @Nullable IEntityLivingData livingdata, NBTTagCompound compound)
-	{
+	public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, @Nullable IEntityLivingData livingdata,
+			NBTTagCompound compound) {
 		IEntityLivingData data = super.onInitialSpawn(difficulty, livingdata, compound);
 		int i = this.rand.nextInt(2) + 1;
 		boolean flag = false;
 
-		if (data instanceof EntityDeer.DeerTypeData)
-		{
-			i = ((EntityDeer.DeerTypeData)livingdata).typeData;
+		if(data instanceof EntityDeer.DeerTypeData) {
+			i = ((EntityDeer.DeerTypeData) livingdata).typeData;
 			flag = true;
-		}
-		else
-		{
+		} else {
 			data = new EntityDeer.DeerTypeData(i);
 		}
 
@@ -119,33 +117,30 @@ public class EntityDeer extends EntityAnimal {
 			this.setDeerType(i);
 		}
 
-		if (flag)
-		{
+		if(flag) {
 			this.setGrowingAge(-24000);
 		}
 
 		return data;
 	}
 
-	public static class DeerTypeData implements IEntityLivingData
-	{
+	public static class DeerTypeData implements IEntityLivingData {
+
 		public int typeData;
 
-		public DeerTypeData(int type)
-		{
+		public DeerTypeData(int type) {
 			this.typeData = type;
 		}
 	}
 
 	@Override
-	protected void playStepSound(BlockPos pos, IBlockState state)
-	{
+	protected void playStepSound(BlockPos pos, IBlockState state) {
 		this.playSound(SoundEvents.ENTITY_SHEEP_STEP, 0.15F, 1.0F);
 	}
 
 
-	protected void initEntityAI()
-	{
+	@Override
+	protected void initEntityAI() {
 		super.initEntityAI();
 		this.tasks.addTask(0, new EntityAISwimming(this));
 		this.tasks.addTask(2, new EntityAIPanic(this, 0.65D));
@@ -156,13 +151,13 @@ public class EntityDeer extends EntityAnimal {
 		temptItems[3] = Items.CARROT_ON_A_STICK;
 		temptItems[4] = Items.GOLDEN_CARROT;
 		this.tasks.addTask(3, new EntityAITempt(this, 0.45D, false, Ingredient.fromItems(temptItems)));
-		this.tasks.addTask(4, new EntityAIAvoidEntity<EntityPlayer>(this, EntityPlayer.class, 20, 0.55D, 0.7D));
+		this.tasks.addTask(4, new EntityAIAvoidEntity<>(this, EntityPlayer.class, 20, 0.55D, 0.7D));
 		this.tasks.addTask(5, new EntityAIWander(this, 0.45D));
 		this.tasks.addTask(6, new EntityAILookIdle(this));
 	}
 
-	protected void registerAttributes()
-	{
+	@Override
+	protected void registerAttributes() {
 		super.registerAttributes();
 		this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(15.0D);
 		this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.45D);
@@ -173,8 +168,9 @@ public class EntityDeer extends EntityAnimal {
 		if(!this.isChild()) {
 			if(this.rand.nextInt(12) == 0) {
 				ItemStack stack = new ItemStack(BlockRegistry.deerhead.getItemBlock());
-				//stack.setTagCompound(new NBTTagCompound());
-				//stack.getTagCompound().setInteger("TYPENUM", this.getTypeNumber());
+				// stack.setTagCompound(new NBTTagCompound());
+				// stack.getTagCompound().setInteger("TYPENUM",
+				// this.getTypeNumber());
 				this.entityDropItem(stack, 0.5F);
 			}
 		}
@@ -182,8 +178,7 @@ public class EntityDeer extends EntityAnimal {
 
 	@Override
 	@Nullable
-	protected ResourceLocation getLootTable()
-	{
+	protected ResourceLocation getLootTable() {
 		return LootTableRegistry.deer;
 	}
 
@@ -193,7 +188,6 @@ public class EntityDeer extends EntityAnimal {
 		child.setDeerType(this.getTypeNumber());
 		return child;
 	}
-
 
 
 }

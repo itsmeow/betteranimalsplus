@@ -23,7 +23,8 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 public class TileEntityTrillium extends TileEntity {
 
-	public static final TileEntityType<?> TRILLIUM_TYPE = TileEntityType.Builder.create(TileEntityTrillium::new).build(null).setRegistryName(Ref.MOD_ID, "trilliumtilentity");
+	public static final TileEntityType<?> TRILLIUM_TYPE = TileEntityType.Builder.create(TileEntityTrillium::new)
+			.build(null).setRegistryName(Ref.MOD_ID, "trilliumtilentity");
 	private int typeNum;
 	private final String keyType = "trilliumType";
 
@@ -34,7 +35,7 @@ public class TileEntityTrillium extends TileEntity {
 
 
 	public TileEntityTrillium() {
-		super(TRILLIUM_TYPE);
+		super(TileEntityTrillium.TRILLIUM_TYPE);
 		if(!this.getTileData().hasKey(this.keyType)) {
 			this.setType(new Random().nextInt(5));
 		}
@@ -47,9 +48,12 @@ public class TileEntityTrillium extends TileEntity {
 
 
 	public ResourceLocation getTexture() {
-		return this.typeNum == 0 ? TextureRegistry.trillium2 : TextureRegistry.trillium; // 1/5 chance of yellow trillium
+		return this.typeNum == 0 ? TextureRegistry.trillium2 : TextureRegistry.trillium; // 1/5
+																							// chance
+																							// of
+																							// yellow
+																							// trillium
 	}
-
 
 
 	public void setType(int i) {
@@ -79,7 +83,6 @@ public class TileEntityTrillium extends TileEntity {
 	}
 
 
-
 	@Override
 	public NBTTagCompound write(NBTTagCompound compound) {
 		super.write(compound);
@@ -98,12 +101,9 @@ public class TileEntityTrillium extends TileEntity {
 
 	@Override
 	public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity packet) {
-		read(packet.getNbtCompound());
-		world.getPendingBlockTicks().scheduleTick(this.pos, this.getBlockState().getBlock(), 100);
+		this.read(packet.getNbtCompound());
+		this.world.getPendingBlockTicks().scheduleTick(this.pos, this.getBlockState().getBlock(), 100);
 	}
-
-
-
 
 
 	@Override
@@ -113,7 +113,7 @@ public class TileEntityTrillium extends TileEntity {
 		return tag;
 	}
 
-	public ModelBase getModel() {	
+	public ModelBase getModel() {
 		return this.model;
 	}
 
@@ -141,7 +141,7 @@ public class TileEntityTrillium extends TileEntity {
 	public void handleUpdateTag(NBTTagCompound tag) {
 		this.read(tag);
 	}
-	
+
 	@OnlyIn(Dist.CLIENT)
 	public float getRotation() {
 		IBlockState state = this.world.getBlockState(this.pos);

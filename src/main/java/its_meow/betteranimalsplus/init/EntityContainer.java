@@ -10,7 +10,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 
 public class EntityContainer {
-	
+
 	public Class<? extends Entity> entityClazz;
 	public Function<? super World, ? extends Entity> entityFunction;
 	public String entityName;
@@ -23,9 +23,11 @@ public class EntityContainer {
 	public Biome[] spawnBiomes = {};
 	public boolean doRegister = true;
 	public boolean doSpawning = true;
-	
+
 	@SafeVarargs
-	public EntityContainer(Class<? extends Entity> EntityClass, Function<? super World, ? extends Entity> func, String entityNameIn, EnumCreatureType type, int solidColorIn, int spotColorIn, int prob, int min, int max, Set<Biome>... biomes) {
+	public EntityContainer(Class<? extends Entity> EntityClass, Function<? super World, ? extends Entity> func,
+			String entityNameIn, EnumCreatureType type, int solidColorIn, int spotColorIn, int prob, int min, int max,
+			Set<Biome>... biomes) {
 		this.entityClazz = EntityClass;
 		this.entityFunction = func;
 		this.entityName = entityNameIn;
@@ -35,10 +37,10 @@ public class EntityContainer {
 		this.minGroup = min;
 		this.maxGroup = max;
 		this.type = type;
-		
-		
+
+
 		// Convert biomes to single array
-		
+
 		Set<Biome> biomesetAdd = new HashSet<>();
 		for(Set<Biome> biomeset : biomes) {
 			biomesetAdd.addAll(biomeset);
@@ -49,5 +51,5 @@ public class EntityContainer {
 			this.spawnBiomes = new Biome[0];
 		}
 	}
-	
+
 }

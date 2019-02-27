@@ -28,11 +28,10 @@ import net.minecraftforge.fml.common.Mod;
 @OnlyIn(Dist.CLIENT)
 @Mod.EventBusSubscriber(modid = Ref.MOD_ID, value = Dist.CLIENT)
 public class EntityRendererRegistry {
-   
+
 	@OnlyIn(Dist.CLIENT)
 	@SubscribeEvent
-    public static void registerEntityRenderers(ModelRegistryEvent event)
-    {
+	public static void registerEntityRenderers(ModelRegistryEvent event) {
 		RenderingRegistry.registerEntityRenderingHandler(EntityBear.class, RenderBrownBear::new);
 		RenderingRegistry.registerEntityRenderingHandler(EntityBearNeutral.class, RenderBlackBear::new);
 		RenderingRegistry.registerEntityRenderingHandler(EntityBearNeutralKermode.class, RenderKermodeBear::new);
@@ -50,6 +49,6 @@ public class EntityRendererRegistry {
 		RenderingRegistry.registerEntityRenderingHandler(EntityReindeer.class, RenderReindeer::new);
 		RenderingRegistry.registerEntityRenderingHandler(EntityBoar.class, RenderBoar::new);
 		RenderingRegistry.registerEntityRenderingHandler(EntitySquirrel.class, RenderSquirrel::new);
-    }
+	}
 
 }

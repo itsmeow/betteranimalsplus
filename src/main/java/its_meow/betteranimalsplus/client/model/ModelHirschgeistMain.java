@@ -10,10 +10,10 @@ import net.minecraft.entity.Entity;
 import net.minecraft.util.math.MathHelper;
 
 /**
- * hirschgeist_bones - cybercat5555
- * Created using Tabula 5.1.0
+ * hirschgeist_bones - cybercat5555 Created using Tabula 5.1.0
  */
 public class ModelHirschgeistMain extends ModelBase {
+
 	public ModelRenderer spine01;
 	public ModelRenderer spine02;
 	public ModelRenderer neck01;
@@ -1221,7 +1221,7 @@ public class ModelHirschgeistMain extends ModelBase {
 	}
 
 	@Override
-	public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) { 
+	public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) {
 		this.spine01.render(f5);
 
 		GlStateManager.pushMatrix();
@@ -1237,9 +1237,9 @@ public class ModelHirschgeistMain extends ModelBase {
 		int i = 61680;
 		int j = i % 65536;
 		int k = i / 65536;
-		OpenGlHelper.glMultiTexCoord2f(OpenGlHelper.GL_TEXTURE1, (float)j, (float)k);
+		OpenGlHelper.glMultiTexCoord2f(OpenGlHelper.GL_TEXTURE1, j, k);
 		if(entity instanceof EntityHirschgeist) {
-			GlStateManager.color4f(1.0F, 1.0F, 1.0F, ((EntityHirschgeist)entity).isDaytime() ? 0.15F : 1.0F);
+			GlStateManager.color4f(1.0F, 1.0F, 1.0F, ((EntityHirschgeist) entity).isDaytime() ? 0.15F : 1.0F);
 		}
 		Minecraft.getInstance().entityRenderer.setupFogColor(true);
 		this.ectoplasm01.render(f5);
@@ -1247,7 +1247,7 @@ public class ModelHirschgeistMain extends ModelBase {
 		i = entity.getBrightnessForRender();
 		j = i % 65536;
 		k = i / 65536;
-		OpenGlHelper.glMultiTexCoord2f(OpenGlHelper.GL_TEXTURE1, (float)j, (float)k);
+		OpenGlHelper.glMultiTexCoord2f(OpenGlHelper.GL_TEXTURE1, j, k);
 		GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1F);
 		GlStateManager.disableBlend();
 		GlStateManager.disableAlphaTest();
@@ -1264,9 +1264,9 @@ public class ModelHirschgeistMain extends ModelBase {
 
 		if(limbSwingAmount >= 0.65) {
 			this.setRotateAngle(this.lArm01, 0.5462880558742251F, -0.045553093477052F, 0.27314402793711257F);
-			this.lArm01.rotateAngleX += MathHelper.cos(f * 0.6662F + (float)Math.PI) * 1.4F * f1;
+			this.lArm01.rotateAngleX += MathHelper.cos(f * 0.6662F + (float) Math.PI) * 1.4F * f1;
 			this.setRotateAngle(this.rArm01, 0.5462880558742251F, -0.045553093477052F, -0.27314402793711257F);
-			this.rArm01.rotateAngleX += MathHelper.cos(f * 0.6662F + (float)Math.PI) * 1.4F * f1;
+			this.rArm01.rotateAngleX += MathHelper.cos(f * 0.6662F + (float) Math.PI) * 1.4F * f1;
 			this.setRotateAngle(this.rLeg01, 0.9560913642424937F, 0.0F, 0.136659280431156F);
 			this.rLeg01.rotateAngleX += MathHelper.cos(f * 0.6662F) * 1.4F * f1;
 			this.setRotateAngle(this.lLeg01, 0.9560913642424937F, 0.0F, -0.136659280431156F);
@@ -1275,18 +1275,18 @@ public class ModelHirschgeistMain extends ModelBase {
 			this.setRotateAngle(this.lArm01, 0.5462880558742251F, -0.045553093477052F, 0.27314402793711257F);
 			this.lArm01.rotateAngleX += MathHelper.cos(f * 0.6662F) * 1.4F * f1;
 			this.setRotateAngle(this.rArm01, 0.5462880558742251F, -0.045553093477052F, -0.27314402793711257F);
-			this.rArm01.rotateAngleX += MathHelper.cos(f * 0.6662F + (float)Math.PI) * 1.4F * f1;
+			this.rArm01.rotateAngleX += MathHelper.cos(f * 0.6662F + (float) Math.PI) * 1.4F * f1;
 			this.setRotateAngle(this.rLeg01, 0.9560913642424937F, 0.0F, 0.136659280431156F);
 			this.rLeg01.rotateAngleX += MathHelper.cos(f * 0.6662F) * 1.4F * f1;
 			this.setRotateAngle(this.lLeg01, 0.9560913642424937F, 0.0F, -0.136659280431156F);
-			this.lLeg01.rotateAngleX += MathHelper.cos(f * 0.6662F + (float)Math.PI) * 1.4F * f1;
+			this.lLeg01.rotateAngleX += MathHelper.cos(f * 0.6662F + (float) Math.PI) * 1.4F * f1;
 		}
 
 		if(limbSwingAmount >= 0.65) {
 			this.setRotateAngle(this.lArm01Ecto, 0.0F, 0.0F, -0.045553093477052F);
-			this.lArm01Ecto.rotateAngleX += MathHelper.cos(f * 0.6662F + (float)Math.PI) * 1.4F * f1;
+			this.lArm01Ecto.rotateAngleX += MathHelper.cos(f * 0.6662F + (float) Math.PI) * 1.4F * f1;
 			this.setRotateAngle(this.rArm01Ecto, 0.0F, 0.0F, 0.045553093477052F);
-			this.rArm01Ecto.rotateAngleX += MathHelper.cos(f * 0.6662F + (float)Math.PI) * 1.4F * f1;
+			this.rArm01Ecto.rotateAngleX += MathHelper.cos(f * 0.6662F + (float) Math.PI) * 1.4F * f1;
 			this.setRotateAngle(this.rLeg01Ecto, 1.1838568316277536F, 0.0F, 0.136659280431156F);
 			this.rLeg01Ecto.rotateAngleX += MathHelper.cos(f * 0.6662F) * 1.4F * f1;
 			this.setRotateAngle(this.lLeg01Ecto, 1.1838568316277536F, 0.0F, -0.136659280431156F);
@@ -1295,11 +1295,11 @@ public class ModelHirschgeistMain extends ModelBase {
 			this.setRotateAngle(this.lArm01Ecto, 0.0F, 0.0F, -0.045553093477052F);
 			this.lArm01Ecto.rotateAngleX += MathHelper.cos(f * 0.6662F) * 1.4F * f1;
 			this.setRotateAngle(this.rArm01Ecto, 0.0F, 0.0F, 0.045553093477052F);
-			this.rArm01Ecto.rotateAngleX += MathHelper.cos(f * 0.6662F + (float)Math.PI) * 1.4F * f1;
+			this.rArm01Ecto.rotateAngleX += MathHelper.cos(f * 0.6662F + (float) Math.PI) * 1.4F * f1;
 			this.setRotateAngle(this.rLeg01Ecto, 1.1838568316277536F, 0.0F, 0.136659280431156F);
 			this.rLeg01Ecto.rotateAngleX += MathHelper.cos(f * 0.6662F) * 1.4F * f1;
 			this.setRotateAngle(this.lLeg01Ecto, 1.1838568316277536F, 0.0F, -0.136659280431156F);
-			this.lLeg01Ecto.rotateAngleX += MathHelper.cos(f * 0.6662F + (float)Math.PI) * 1.4F * f1;
+			this.lLeg01Ecto.rotateAngleX += MathHelper.cos(f * 0.6662F + (float) Math.PI) * 1.4F * f1;
 		}
 
 		if(entityIn instanceof EntityHirschgeist) {

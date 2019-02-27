@@ -18,10 +18,11 @@ public class RenderHirschgeist extends RenderLiving<EntityHirschgeist> {
 
 
 	/**
-	 * Allows the render to do state modifications necessary before the model is rendered.
+	 * Allows the render to do state modifications necessary before the model is
+	 * rendered.
 	 */
-	protected void preRenderCallback(EntityHirschgeist entitylivingbaseIn, float partialTickTime)
-	{
+	@Override
+	protected void preRenderCallback(EntityHirschgeist entitylivingbaseIn, float partialTickTime) {
 		if(!entitylivingbaseIn.isDaytime()) {
 			float scale = 2F;
 			GlStateManager.scalef(scale, scale, scale);
@@ -30,10 +31,9 @@ public class RenderHirschgeist extends RenderLiving<EntityHirschgeist> {
 	}
 
 	@Override
-	public void doRender(EntityHirschgeist entity, double x, double y, double z, float f, float partialTicks) {	
+	public void doRender(EntityHirschgeist entity, double x, double y, double z, float f, float partialTicks) {
 		super.doRender(entity, x, y, z, f, partialTicks);
 	}
-
 
 
 	@Override

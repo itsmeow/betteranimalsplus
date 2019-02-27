@@ -25,8 +25,7 @@ public class ItemVenisonRaw extends ItemFood {
 	/**
 	 * How long it takes to use or consume an item
 	 */
-	public int getMaxItemUseDuration(ItemStack stack)
-	{
+	public int getMaxItemUseDuration(ItemStack stack) {
 		return this.itemUseDuration;
 	}
 
@@ -41,10 +40,10 @@ public class ItemVenisonRaw extends ItemFood {
 	}
 
 	/**
-	 * returns the action that specifies what animation to play when the items is being used
+	 * returns the action that specifies what animation to play when the items
+	 * is being used
 	 */
-	public EnumAction getItemUseAction(ItemStack stack)
-	{
+	public EnumAction getItemUseAction(ItemStack stack) {
 		return EnumAction.EAT;
 	}
 

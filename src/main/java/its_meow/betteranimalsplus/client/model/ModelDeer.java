@@ -6,10 +6,10 @@ import net.minecraft.entity.EntityLiving;
 import net.minecraft.util.math.MathHelper;
 
 /**
- * deer2 - cybercat5555
- * Created using Tabula 5.1.0
+ * deer2 - cybercat5555 Created using Tabula 5.1.0
  */
 public class ModelDeer extends ModelBetterAnimals {
+
 	public ModelRenderer body;
 	public ModelRenderer ass;
 	public ModelRenderer chest;
@@ -437,31 +437,35 @@ public class ModelDeer extends ModelBetterAnimals {
 	}
 
 	@Override
-	public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) { 
+	public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) {
 		this.body.render(f5);
 	}
-	
+
 	@Override
 	public void setRotationAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw,
 			float headPitch, float scaleFactor, Entity entityIn) {
 		float f = limbSwing;
 		float f1 = limbSwingAmount;
 
-		
+
 		if(limbSwingAmount >= 0.65) {
-			this.lForeleg01.rotateAngleX = MathHelper.cos(f * 0.6662F + (float)Math.PI) * 1.4F * f1 + 0.136659280431156F;
-			this.rForeleg01.rotateAngleX = MathHelper.cos(f * 0.6662F + (float)Math.PI) * 1.4F * f1 + 0.136659280431156F;
+			this.lForeleg01.rotateAngleX = MathHelper.cos(f * 0.6662F + (float) Math.PI) * 1.4F * f1
+					+ 0.136659280431156F;
+			this.rForeleg01.rotateAngleX = MathHelper.cos(f * 0.6662F + (float) Math.PI) * 1.4F * f1
+					+ 0.136659280431156F;
 			this.rHindLeg01.rotateAngleX = MathHelper.cos(f * 0.6662F) * 1.4F * f1 - 0.22759093446006054F;
 			this.lHindLeg01.rotateAngleX = MathHelper.cos(f * 0.6662F) * 1.4F * f1 - 0.22759093446006054F;
 		} else {
 			this.lForeleg01.rotateAngleX = MathHelper.cos(f * 0.6662F) * 1.4F * f1 + 0.136659280431156F;
-			this.rForeleg01.rotateAngleX = MathHelper.cos(f * 0.6662F + (float)Math.PI) * 1.4F * f1 + 0.136659280431156F;
+			this.rForeleg01.rotateAngleX = MathHelper.cos(f * 0.6662F + (float) Math.PI) * 1.4F * f1
+					+ 0.136659280431156F;
 			this.rHindLeg01.rotateAngleX = MathHelper.cos(f * 0.6662F) * 1.4F * f1 - 0.22759093446006054F;
-			this.lHindLeg01.rotateAngleX = MathHelper.cos(f * 0.6662F + (float)Math.PI) * 1.4F * f1 - 0.22759093446006054F;
+			this.lHindLeg01.rotateAngleX = MathHelper.cos(f * 0.6662F + (float) Math.PI) * 1.4F * f1
+					- 0.22759093446006054F;
 		}
-		
+
 		if(entityIn instanceof EntityLiving) {
-			this.chest.rotateAngleX = ModelBetterAnimals.getHeadPitch((EntityLiving)entityIn) * 0.017453292F - 13;
+			this.chest.rotateAngleX = ModelBetterAnimals.getHeadPitch((EntityLiving) entityIn) * 0.017453292F - 13;
 			this.chest.rotateAngleY = ModelBetterAnimals.getHeadYaw((EntityLiving) entityIn) * 0.017453292F * 0.5F;
 		}
 
@@ -471,6 +475,7 @@ public class ModelDeer extends ModelBetterAnimals {
 	/**
 	 * This is a helper function from Tabula to set the rotation of model parts
 	 */
+	@Override
 	public void setRotateAngle(ModelRenderer modelRenderer, float x, float y, float z) {
 		modelRenderer.rotateAngleX = x;
 		modelRenderer.rotateAngleY = y;

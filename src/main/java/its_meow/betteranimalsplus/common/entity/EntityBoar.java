@@ -2,8 +2,6 @@ package its_meow.betteranimalsplus.common.entity;
 
 import javax.annotation.Nullable;
 
-import com.google.common.base.Predicate;
-
 import its_meow.betteranimalsplus.init.BlockRegistry;
 import its_meow.betteranimalsplus.init.MobRegistry;
 import net.minecraft.block.Block;
@@ -49,16 +47,16 @@ import net.minecraft.world.storage.loot.LootTableList;
 
 public class EntityBoar extends EntityAnimal {
 
-	protected static final DataParameter<Integer> TYPE_NUMBER = EntityDataManager.<Integer>createKey(EntityBoar.class, DataSerializers.VARINT);
+	protected static final DataParameter<Integer> TYPE_NUMBER = EntityDataManager.<Integer>createKey(EntityBoar.class,
+			DataSerializers.VARINT);
 
-	public EntityBoar(World worldIn)
-	{
+	public EntityBoar(World worldIn) {
 		super(MobRegistry.getType(EntityBoar.class), worldIn);
 		this.setSize(0.9F, 0.9F);
 	}
 
-	protected void initEntityAI()
-	{
+	@Override
+	protected void initEntityAI() {
 		this.tasks.addTask(0, new EntityAISwimming(this));
 		if(!this.isChild() && this.getEntityWorld().getDifficulty() != EnumDifficulty.PEACEFUL) {
 			this.tasks.addTask(2, new EntityAIAttackMelee(this, 1.2D, false));
@@ -69,24 +67,21 @@ public class EntityBoar extends EntityAnimal {
 		this.tasks.addTask(7, new EntityAIWatchClosest(this, EntityPlayer.class, 6.0F));
 		this.tasks.addTask(8, new EntityAILookIdle(this));
 		if(!this.isChild() && this.getEntityWorld().getDifficulty() != EnumDifficulty.PEACEFUL) {
-			this.targetTasks.addTask(1, new EntityAINearestAttackableTarget<EntityAnimal>(this, EntityAnimal.class, 90, true, true, new Predicate<Entity>() {
-				public boolean apply(@Nullable Entity in)
-				{
-					return in instanceof EntityChicken || in instanceof EntityPheasant || (in instanceof EntityAnimal && ((EntityAnimal) in).isChild() && !(in instanceof EntityBoar || in instanceof EntityPig));
-				}
-			}));
-			this.targetTasks.addTask(2, new EntityAINearestAttackableTarget<EntityLivingBase>(this, EntityLivingBase.class, 50, true, true, new Predicate<Entity>() {
-				public boolean apply(@Nullable Entity in)
-				{
-					return (in instanceof EntityAnimal && !(in instanceof EntityBoar || in instanceof EntityPig)) || in instanceof EntityPlayer;
-				}
-			}));
+			this.targetTasks.addTask(1,
+					new EntityAINearestAttackableTarget<>(this, EntityAnimal.class, 90, true, true,
+							(@Nullable Entity in) -> in instanceof EntityChicken || in instanceof EntityPheasant
+									|| in instanceof EntityAnimal && ((EntityAnimal) in).isChild()
+											&& !(in instanceof EntityBoar || in instanceof EntityPig)));
+			this.targetTasks.addTask(2,
+					new EntityAINearestAttackableTarget<>(this, EntityLivingBase.class, 50, true, true,
+							(@Nullable Entity in) -> in instanceof EntityAnimal
+									&& !(in instanceof EntityBoar || in instanceof EntityPig)
+									|| in instanceof EntityPlayer));
 		}
 	}
 
 	@Override
-	protected void registerAttributes()
-	{
+	protected void registerAttributes() {
 		super.registerAttributes();
 		this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(12.0D);
 		this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.38D);
@@ -96,48 +91,45 @@ public class EntityBoar extends EntityAnimal {
 
 
 	@Override
-	protected SoundEvent getAmbientSound()
-	{
+	protected SoundEvent getAmbientSound() {
 		return SoundEvents.ENTITY_PIG_AMBIENT;
 	}
-	
+
 	@Override
-	protected SoundEvent getHurtSound(DamageSource damageSourceIn)
-	{
+	protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
 		return SoundEvents.ENTITY_PIG_HURT;
 	}
-	
+
 	@Override
-	protected SoundEvent getDeathSound()
-	{
+	protected SoundEvent getDeathSound() {
 		return SoundEvents.ENTITY_PIG_DEATH;
 	}
 
-	protected void playStepSound(BlockPos pos, Block blockIn)
-	{
+	protected void playStepSound(BlockPos pos, Block blockIn) {
 		this.playSound(SoundEvents.ENTITY_PIG_STEP, 0.15F, 1.0F);
 	}
 
 	/**
 	 * Called when the mob's health reaches 0.
 	 */
-	public void onDeath(DamageSource cause)
-	{
+	@Override
+	public void onDeath(DamageSource cause) {
 		super.onDeath(cause);
 
 		if(!this.world.isRemote && !this.isChild()) {
 			if(this.rand.nextInt(12) == 0) {
 				ItemStack stack = new ItemStack(BlockRegistry.boarhead.getItemBlock());
-				//stack.setTagCompound(new NBTTagCompound());
-				//stack.getTagCompound().setInteger("TYPENUM", this.getTypeNumber());
+				// stack.setTagCompound(new NBTTagCompound());
+				// stack.getTagCompound().setInteger("TYPENUM",
+				// this.getTypeNumber());
 				this.entityDropItem(stack, 0.5F);
 			}
 		}
 	}
 
+	@Override
 	@Nullable
-	protected ResourceLocation getLootTable()
-	{
+	protected ResourceLocation getLootTable() {
 		return LootTableList.ENTITIES_PIG;
 	}
 
@@ -149,47 +141,45 @@ public class EntityBoar extends EntityAnimal {
 
 		// Vanilla attack code for mobs
 
-		float f = (float)this.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getValue();
+		float f = (float) this.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getValue();
 		int i = 0;
 
-		if (entityIn instanceof EntityLivingBase)
-		{
-			f += EnchantmentHelper.getModifierForCreature(this.getHeldItemMainhand(), ((EntityLivingBase)entityIn).getCreatureAttribute());
+		if(entityIn instanceof EntityLivingBase) {
+			f += EnchantmentHelper.getModifierForCreature(this.getHeldItemMainhand(),
+					((EntityLivingBase) entityIn).getCreatureAttribute());
 			i += EnchantmentHelper.getKnockbackModifier(this);
 		}
 
 		boolean flag = entityIn.attackEntityFrom(DamageSource.causeMobDamage(this), f);
 
-		if (flag)
-		{
-			if (i > 0 && entityIn instanceof EntityLivingBase)
-			{
-				((EntityLivingBase)entityIn).knockBack(this, (float)i * 0.5F, (double)MathHelper.sin(this.rotationYaw * 0.017453292F), (double)(-MathHelper.cos(this.rotationYaw * 0.017453292F)));
+		if(flag) {
+			if(i > 0 && entityIn instanceof EntityLivingBase) {
+				((EntityLivingBase) entityIn).knockBack(this, i * 0.5F, MathHelper.sin(this.rotationYaw * 0.017453292F),
+						-MathHelper.cos(this.rotationYaw * 0.017453292F));
 				this.motionX *= 0.6D;
 				this.motionZ *= 0.6D;
 			}
 
 			int j = EnchantmentHelper.getFireAspectModifier(this);
 
-			if (j > 0)
-			{
+			if(j > 0) {
 				entityIn.setFire(j * 4);
 			}
 
-			if (entityIn instanceof EntityPlayer)
-			{
-				EntityPlayer entityplayer = (EntityPlayer)entityIn;
+			if(entityIn instanceof EntityPlayer) {
+				EntityPlayer entityplayer = (EntityPlayer) entityIn;
 				ItemStack itemstack = this.getHeldItemMainhand();
-				ItemStack itemstack1 = entityplayer.isHandActive() ? entityplayer.getActiveItemStack() : ItemStack.EMPTY;
+				ItemStack itemstack1 = entityplayer.isHandActive() ? entityplayer.getActiveItemStack()
+						: ItemStack.EMPTY;
 
-				if (!itemstack.isEmpty() && !itemstack1.isEmpty() && itemstack.getItem().canDisableShield(itemstack, itemstack1, entityplayer, this) && itemstack1.getItem().isShield(itemstack1, entityplayer))
-				{
-					float f1 = 0.25F + (float)EnchantmentHelper.getEfficiencyModifier(this) * 0.05F;
+				if(!itemstack.isEmpty() && !itemstack1.isEmpty()
+						&& itemstack.getItem().canDisableShield(itemstack, itemstack1, entityplayer, this)
+						&& itemstack1.getItem().isShield(itemstack1, entityplayer)) {
+					float f1 = 0.25F + EnchantmentHelper.getEfficiencyModifier(this) * 0.05F;
 
-					if (this.rand.nextFloat() < f1)
-					{
+					if(this.rand.nextFloat() < f1) {
 						entityplayer.getCooldownTracker().setCooldown(itemstack1.getItem(), 100);
-						this.world.setEntityState(entityplayer, (byte)30);
+						this.world.setEntityState(entityplayer, (byte) 30);
 					}
 				}
 			}
@@ -203,17 +193,15 @@ public class EntityBoar extends EntityAnimal {
 	/**
 	 * Called when a lightning bolt hits the entity.
 	 */
-	public void onStruckByLightning(EntityLightningBolt lightningBolt)
-	{
-		if (!this.world.isRemote && !this.dead)
-		{
+	@Override
+	public void onStruckByLightning(EntityLightningBolt lightningBolt) {
+		if(!this.world.isRemote && !this.dead) {
 			EntityPigZombie entitypigzombie = new EntityPigZombie(this.world);
 			entitypigzombie.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, new ItemStack(Items.GOLDEN_SWORD));
 			entitypigzombie.setLocationAndAngles(this.posX, this.posY, this.posZ, this.rotationYaw, this.rotationPitch);
 			entitypigzombie.setNoAI(this.isAIDisabled());
 
-			if (this.hasCustomName())
-			{
+			if(this.hasCustomName()) {
 				entitypigzombie.setCustomName(this.getCustomName());
 				entitypigzombie.setCustomNameVisible(true);
 			}
@@ -230,7 +218,8 @@ public class EntityBoar extends EntityAnimal {
 		if(this.world.getGameRules().getBoolean("mobGriefing")) {
 			if(this.rand.nextInt(200) == 0) {
 				Block block = this.world.getBlockState(this.getPosition()).getBlock();
-				if(block == Blocks.WHEAT || block == Blocks.CARROTS || block == Blocks.POTATOES || block == Blocks.BEETROOTS) {
+				if(block == Blocks.WHEAT || block == Blocks.CARROTS || block == Blocks.POTATOES
+						|| block == Blocks.BEETROOTS) {
 					this.world.setBlockState(this.getPosition(), Blocks.AIR.getDefaultState());
 					this.setInLove(null);
 				}
@@ -241,14 +230,13 @@ public class EntityBoar extends EntityAnimal {
 	@Override
 	public boolean attackEntityFrom(DamageSource source, float amount) {
 		if(source.getImmediateSource() instanceof EntityPlayer) {
-			this.setAttackTarget((EntityPlayer) source.getImmediateSource()); 
+			this.setAttackTarget((EntityPlayer) source.getImmediateSource());
 		}
 		return super.attackEntityFrom(source, amount);
 	}
 
 	@Override
-	public EntityAgeable createChild(EntityAgeable ageable)
-	{
+	public EntityAgeable createChild(EntityAgeable ageable) {
 		if(ageable instanceof EntityBoar) {
 			EntityBoar boar = new EntityBoar(this.world);
 			boar.setType(this.getTypeNumber());
@@ -264,73 +252,70 @@ public class EntityBoar extends EntityAnimal {
 	}
 
 
-
 	@Override
 	public boolean canMateWith(EntityAnimal otherAnimal) {
-		if (otherAnimal != this) {
+		if(otherAnimal != this) {
 			if(otherAnimal instanceof EntityBoar || otherAnimal instanceof EntityPig) {
 				if(otherAnimal.isInLove() && this.isInLove()) {
 					return true;
 				}
 			}
-        }
-		
+		}
+
 		return false;
 	}
 
 	/**
-	 * Checks if the parameter is an item which this animal can be fed to breed it (wheat, carrots or seeds depending on
-	 * the animal type)
+	 * Checks if the parameter is an item which this animal can be fed to breed
+	 * it (wheat, carrots or seeds depending on the animal type)
 	 */
-	public boolean isBreedingItem(ItemStack stack)
-	{
+	@Override
+	public boolean isBreedingItem(ItemStack stack) {
 		return stack.getItem() == Items.CARROT || stack.getItem() == Items.GOLDEN_CARROT;
 	}
 
 
 	@Override
-	protected void registerData()
-	{
+	protected void registerData() {
 		super.registerData();
-		this.dataManager.register(TYPE_NUMBER, Integer.valueOf(0));
+		this.dataManager.register(EntityBoar.TYPE_NUMBER, Integer.valueOf(0));
 	}
 
 	public int getTypeNumber() {
-		return ((Integer)this.dataManager.get(TYPE_NUMBER)).intValue();
+		return this.dataManager.get(EntityBoar.TYPE_NUMBER).intValue();
 	}
 
-	public void setType(int typeId)
-	{
-		this.dataManager.set(TYPE_NUMBER, Integer.valueOf(typeId));
+	public void setType(int typeId) {
+		this.dataManager.set(EntityBoar.TYPE_NUMBER, Integer.valueOf(typeId));
 	}
 
+	@Override
 	public boolean writeUnlessRemoved(NBTTagCompound compound) {
 		compound.setInt("TypeNumber", this.getTypeNumber());
 		return super.writeUnlessRemoved(compound);
 	}
-	
+
+	@Override
 	public void read(NBTTagCompound compound) {
 		super.read(compound);
 		this.setType(compound.getInt("TypeNumber"));
 	}
 
 	/**
-	 * Called only once on an entity when first time spawned, via egg, mob spawner, natural spawning etc, but not called
-	 * when entity is reloaded from nbt. Mainly used for initializing attributes and inventory
+	 * Called only once on an entity when first time spawned, via egg, mob
+	 * spawner, natural spawning etc, but not called when entity is reloaded
+	 * from nbt. Mainly used for initializing attributes and inventory
 	 */
 	@Nullable
 	@Override
-	public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, @Nullable IEntityLivingData livingdata, NBTTagCompound compound)
-	{
+	public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, @Nullable IEntityLivingData livingdata,
+			NBTTagCompound compound) {
 		livingdata = super.onInitialSpawn(difficulty, livingdata, compound);
 		int i = this.rand.nextInt(4) + 1;
 
-		if (livingdata instanceof EntityBoar.TypeData)
-		{
-			i = ((EntityBoar.TypeData)livingdata).typeData;
-		}
-		else
-		{
+		if(livingdata instanceof EntityBoar.TypeData) {
+			i = ((EntityBoar.TypeData) livingdata).typeData;
+		} else {
 			livingdata = new EntityBoar.TypeData(i);
 		}
 
@@ -339,12 +324,11 @@ public class EntityBoar extends EntityAnimal {
 		return livingdata;
 	}
 
-	public static class TypeData implements IEntityLivingData
-	{
+	public static class TypeData implements IEntityLivingData {
+
 		public int typeData;
 
-		public TypeData(int type)
-		{
+		public TypeData(int type) {
 			this.typeData = type;
 		}
 	}

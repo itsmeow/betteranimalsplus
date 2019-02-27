@@ -8,10 +8,10 @@ import net.minecraft.entity.EntityLiving;
 import net.minecraft.util.math.MathHelper;
 
 /**
- * squirrelV2 - Batman, Cybercat5555
- * Created using Tabula 5.1.0
+ * squirrelV2 - Batman, Cybercat5555 Created using Tabula 5.1.0
  */
 public class ModelSquirrel extends ModelBase {
+
 	public ModelRenderer chest;
 	public ModelRenderer stomach;
 	public ModelRenderer lArm01;
@@ -208,7 +208,7 @@ public class ModelSquirrel extends ModelBase {
 	}
 
 	@Override
-	public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) { 
+	public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) {
 		this.chest.render(f5);
 	}
 
@@ -219,17 +219,18 @@ public class ModelSquirrel extends ModelBase {
 		float f1 = limbSwingAmount;
 
 		this.lArm01.rotateAngleX = MathHelper.cos(f * 0.6662F) * 1.4F * f1 - 0.20943951023931953F;
-		this.rArm01.rotateAngleX = MathHelper.cos(f * 0.6662F + (float)Math.PI) * 1.4F * f1 - 0.20943951023931953F;
+		this.rArm01.rotateAngleX = MathHelper.cos(f * 0.6662F + (float) Math.PI) * 1.4F * f1 - 0.20943951023931953F;
 		this.rLeg01.rotateAngleX = MathHelper.cos(f * 0.6662F) * 1.4F * f1 - 0.17453292519943295F;
-		this.lLeg01.rotateAngleX = MathHelper.cos(f * 0.6662F + (float)Math.PI) * 1.4F * f1 - 0.17453292519943295F;
+		this.lLeg01.rotateAngleX = MathHelper.cos(f * 0.6662F + (float) Math.PI) * 1.4F * f1 - 0.17453292519943295F;
 		this.tail01.rotateAngleX = MathHelper.sin(f * 0.2F) * f1 - (float) Math.toRadians(30);
 
 		if(entityIn instanceof EntityLiving) {
-			this.neck.rotateAngleX = ModelBetterAnimals.getHeadPitch((EntityLiving)entityIn) * 0.017453292F - 13;
+			this.neck.rotateAngleX = ModelBetterAnimals.getHeadPitch((EntityLiving) entityIn) * 0.017453292F - 13;
 			this.neck.rotateAngleY = ModelBetterAnimals.getHeadYaw((EntityLiving) entityIn) * 0.017453292F * 0.5F;
 			if(entityIn instanceof EntitySquirrel) {
 				EntitySquirrel ent = (EntitySquirrel) entityIn;
-				this.chest.rotateAngleX = ent.isBesideClimbableBlock() ? (float) Math.toRadians(-90) : 0.10471975511965977F;
+				this.chest.rotateAngleX = ent.isBesideClimbableBlock() ? (float) Math.toRadians(-90)
+						: 0.10471975511965977F;
 			}
 		}
 

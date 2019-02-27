@@ -57,20 +57,19 @@ public class EntityGoat extends EntityAnimal {
 		super(MobRegistry.getType(EntityGoat.class), worldIn);
 		this.world = worldIn;
 		this.setSize(1.2F, 1.2F);
-		addTemptItems();
+		this.addTemptItems();
 	}
 
 	private void addTemptItems() {
-		this.temptItems = new ArrayList<Item>();
+		this.temptItems = new ArrayList<>();
 		this.temptItems.add(Items.WHEAT);
 		this.temptItems.add(Items.POTATO);
 		this.temptItems.add(Items.CARROT);
 		this.temptItems.add(Items.CARROT_ON_A_STICK);
 		this.temptItems.add(Items.BEETROOT);
 	}
-	
-	
-	
+
+
 	@Override
 	public void livingTick() {
 		super.livingTick();
@@ -84,61 +83,58 @@ public class EntityGoat extends EntityAnimal {
 		Vec3d pos = this.getPositionVector();
 		Vec3d targetPos = entityIn.getPositionVector();
 		((EntityLivingBase) entityIn).knockBack(entityIn, 0.8F, pos.x - targetPos.x, pos.z - targetPos.z);
-		
+
 		// Vanilla attack code for mobs
-		
-        float f = (float)this.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getValue();
-        int i = 0;
 
-        if (entityIn instanceof EntityLivingBase)
-        {
-            f += EnchantmentHelper.getModifierForCreature(this.getHeldItemMainhand(), ((EntityLivingBase)entityIn).getCreatureAttribute());
-            i += EnchantmentHelper.getKnockbackModifier(this);
-        }
+		float f = (float) this.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getValue();
+		int i = 0;
 
-        boolean flag = entityIn.attackEntityFrom(DamageSource.causeMobDamage(this), f);
+		if(entityIn instanceof EntityLivingBase) {
+			f += EnchantmentHelper.getModifierForCreature(this.getHeldItemMainhand(),
+					((EntityLivingBase) entityIn).getCreatureAttribute());
+			i += EnchantmentHelper.getKnockbackModifier(this);
+		}
 
-        if (flag)
-        {
-            if (i > 0 && entityIn instanceof EntityLivingBase)
-            {
-                ((EntityLivingBase)entityIn).knockBack(this, (float)i * 0.5F, (double)MathHelper.sin(this.rotationYaw * 0.017453292F), (double)(-MathHelper.cos(this.rotationYaw * 0.017453292F)));
-                this.motionX *= 0.6D;
-                this.motionZ *= 0.6D;
-            }
+		boolean flag = entityIn.attackEntityFrom(DamageSource.causeMobDamage(this), f);
 
-            int j = EnchantmentHelper.getFireAspectModifier(this);
+		if(flag) {
+			if(i > 0 && entityIn instanceof EntityLivingBase) {
+				((EntityLivingBase) entityIn).knockBack(this, i * 0.5F, MathHelper.sin(this.rotationYaw * 0.017453292F),
+						-MathHelper.cos(this.rotationYaw * 0.017453292F));
+				this.motionX *= 0.6D;
+				this.motionZ *= 0.6D;
+			}
 
-            if (j > 0)
-            {
-                entityIn.setFire(j * 4);
-            }
+			int j = EnchantmentHelper.getFireAspectModifier(this);
 
-            if (entityIn instanceof EntityPlayer)
-            {
-                EntityPlayer entityplayer = (EntityPlayer)entityIn;
-                ItemStack itemstack = this.getHeldItemMainhand();
-                ItemStack itemstack1 = entityplayer.isHandActive() ? entityplayer.getActiveItemStack() : ItemStack.EMPTY;
+			if(j > 0) {
+				entityIn.setFire(j * 4);
+			}
 
-                if (!itemstack.isEmpty() && !itemstack1.isEmpty() && itemstack.getItem().canDisableShield(itemstack, itemstack1, entityplayer, this) && itemstack1.getItem().isShield(itemstack1, entityplayer))
-                {
-                    float f1 = 0.25F + (float)EnchantmentHelper.getEfficiencyModifier(this) * 0.05F;
+			if(entityIn instanceof EntityPlayer) {
+				EntityPlayer entityplayer = (EntityPlayer) entityIn;
+				ItemStack itemstack = this.getHeldItemMainhand();
+				ItemStack itemstack1 = entityplayer.isHandActive() ? entityplayer.getActiveItemStack()
+						: ItemStack.EMPTY;
 
-                    if (this.rand.nextFloat() < f1)
-                    {
-                        entityplayer.getCooldownTracker().setCooldown(itemstack1.getItem(), 100);
-                        this.world.setEntityState(entityplayer, (byte)30);
-                    }
-                }
-            }
+				if(!itemstack.isEmpty() && !itemstack1.isEmpty()
+						&& itemstack.getItem().canDisableShield(itemstack, itemstack1, entityplayer, this)
+						&& itemstack1.getItem().isShield(itemstack1, entityplayer)) {
+					float f1 = 0.25F + EnchantmentHelper.getEfficiencyModifier(this) * 0.05F;
 
-            this.applyEnchantments(this, entityIn);
-        }
+					if(this.rand.nextFloat() < f1) {
+						entityplayer.getCooldownTracker().setCooldown(itemstack1.getItem(), 100);
+						this.world.setEntityState(entityplayer, (byte) 30);
+					}
+				}
+			}
+
+			this.applyEnchantments(this, entityIn);
+		}
 
 		return flag;
 	}
 
-	
 
 	@Override
 	public void setAttackTarget(EntityLivingBase entitylivingbaseIn) {
@@ -147,38 +143,38 @@ public class EntityGoat extends EntityAnimal {
 	}
 
 	@Override
-	protected void playStepSound(BlockPos pos, IBlockState state)
-	{
+	protected void playStepSound(BlockPos pos, IBlockState state) {
 		this.playSound(SoundEvents.ENTITY_SHEEP_STEP, 0.15F, 1.0F);
 	}
-	
-	private static final DataParameter<Boolean> ATTACKING = EntityDataManager.<Boolean>createKey(EntityGoat.class, DataSerializers.BOOLEAN);
+
+	private static final DataParameter<Boolean> ATTACKING = EntityDataManager.<Boolean>createKey(EntityGoat.class,
+			DataSerializers.BOOLEAN);
 
 	public boolean isAttackingFromServer() {
-		return this.dataManager.get(ATTACKING).booleanValue();
+		return this.dataManager.get(EntityGoat.ATTACKING).booleanValue();
 	}
 
-	public void setAttackingOnClient(boolean in){
-		this.dataManager.set(ATTACKING, Boolean.valueOf(in));
+	public void setAttackingOnClient(boolean in) {
+		this.dataManager.set(EntityGoat.ATTACKING, Boolean.valueOf(in));
 	}
-	
+
 	public float getHeadPitch() {
-		return this.isAttackingFromServer() ? 0.15F: -0.698F;
+		return this.isAttackingFromServer() ? 0.15F : -0.698F;
 	}
 
-	protected void initEntityAI()
-	{
+	@Override
+	protected void initEntityAI() {
 		super.initEntityAI();
 		this.tasks.addTask(0, new EntityAISwimming(this));
 		this.tasks.addTask(1, new EntityAIPanic(this, 0.8D));
 		this.tasks.addTask(2, new EntityAIMate(this, 1.0D));
 		this.tasks.addTask(2, new EntityAIAttackMelee(this, 0.7D, true));
 		if(this.temptItems == null) {
-			addTemptItems();
+			this.addTemptItems();
 		}
 		IItemProvider[] tempts = new IItemProvider[this.temptItems.size()];
 		for(int i = 0; i < this.temptItems.size(); i++) {
-			tempts[i]  = this.temptItems.get(i);
+			tempts[i] = this.temptItems.get(i);
 		}
 		this.tasks.addTask(3, new EntityAITempt(this, 0.6D, false, Ingredient.fromItems(tempts)));
 		this.tasks.addTask(4, new EntityAIFollowParent(this, 0.6D));
@@ -188,8 +184,8 @@ public class EntityGoat extends EntityAnimal {
 		this.targetTasks.addTask(1, new AIHurtByTarget());
 	}
 
-	protected void registerAttributes()
-	{
+	@Override
+	protected void registerAttributes() {
 		super.registerAttributes();
 		this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(14.0D);
 		this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.5D);
@@ -198,37 +194,32 @@ public class EntityGoat extends EntityAnimal {
 	}
 
 
-
-	protected SoundEvent getAmbientSound()
-	{
+	@Override
+	protected SoundEvent getAmbientSound() {
 		return SoundEvents.ENTITY_SHEEP_AMBIENT;
 	}
 
-	protected SoundEvent getHurtSound(DamageSource damageSourceIn)
-	{
+	@Override
+	protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
 		return SoundEvents.ENTITY_SHEEP_HURT;
 	}
 
-	protected SoundEvent getDeathSound()
-	{
+	@Override
+	protected SoundEvent getDeathSound() {
 		return SoundEvents.ENTITY_SHEEP_DEATH;
 	}
 
-	public boolean processInteract(EntityPlayer player, EnumHand hand)
-	{
+	@Override
+	public boolean processInteract(EntityPlayer player, EnumHand hand) {
 		ItemStack itemstack = player.getHeldItem(hand);
 
-		if (itemstack.getItem() == Items.BUCKET && !player.isCreative() && !this.isChild())
-		{
+		if(itemstack.getItem() == Items.BUCKET && !player.isCreative() && !this.isChild()) {
 			player.playSound(SoundEvents.ENTITY_COW_MILK, 1.0F, 1.0F);
 			itemstack.shrink(1);
 
-			if (itemstack.isEmpty())
-			{
+			if(itemstack.isEmpty()) {
 				player.setHeldItem(hand, new ItemStack(ItemRegistry.goatMilk));
-			}
-			else if (!player.inventory.addItemStackToInventory(new ItemStack(ItemRegistry.goatMilk)))
-			{
+			} else if(!player.inventory.addItemStackToInventory(new ItemStack(ItemRegistry.goatMilk))) {
 				player.dropItem(new ItemStack(ItemRegistry.goatMilk), false);
 			}
 
@@ -248,76 +239,73 @@ public class EntityGoat extends EntityAnimal {
 		}
 	}
 
-	public float getEyeHeight()
-	{
+	@Override
+	public float getEyeHeight() {
 		return this.isChild() ? this.height : 0.5F;
 	}
 
 	@Override
 	@Nullable
-	protected ResourceLocation getLootTable()
-	{
+	protected ResourceLocation getLootTable() {
 		return LootTableRegistry.goat;
 	}
 
-	protected void registerData()
-	{
+	@Override
+	protected void registerData() {
 		super.registerData();
-		this.dataManager.register(TYPE_NUMBER, Integer.valueOf(0));
-		this.dataManager.register(ATTACKING, Boolean.valueOf(false));
+		this.dataManager.register(EntityGoat.TYPE_NUMBER, Integer.valueOf(0));
+		this.dataManager.register(EntityGoat.ATTACKING, Boolean.valueOf(false));
 	}
 
-	private static final DataParameter<Integer> TYPE_NUMBER = EntityDataManager.<Integer>createKey(EntityGoat.class, DataSerializers.VARINT);
+	private static final DataParameter<Integer> TYPE_NUMBER = EntityDataManager.<Integer>createKey(EntityGoat.class,
+			DataSerializers.VARINT);
 
 	public int getTypeNumber() {
-		return ((Integer)this.dataManager.get(TYPE_NUMBER)).intValue();
+		return this.dataManager.get(EntityGoat.TYPE_NUMBER).intValue();
 	}
 
-	public void setType(int typeId)
-	{
-		this.dataManager.set(TYPE_NUMBER, Integer.valueOf(typeId));
+	public void setType(int typeId) {
+		this.dataManager.set(EntityGoat.TYPE_NUMBER, Integer.valueOf(typeId));
 	}
 
-	public boolean writeUnlessRemoved(NBTTagCompound compound)
-	{
+	@Override
+	public boolean writeUnlessRemoved(NBTTagCompound compound) {
 		compound.setInt("TypeNumber", this.getTypeNumber());
 		compound.setBoolean("AttackSync", this.isAttackingFromServer());
 		return super.writeUnlessRemoved(compound);
 	}
 
-	public void read(NBTTagCompound compound)
-	{
+	@Override
+	public void read(NBTTagCompound compound) {
 		super.read(compound);
 		this.setType(compound.getInt("TypeNumber"));
 		this.setAttackingOnClient(compound.getBoolean("AttackSync"));
 	}
 
 	/**
-	 * Called only once on an entity when first time spawned, via egg, mob spawner, natural spawning etc, but not called
-	 * when entity is reloaded from nbt. Mainly used for initializing attributes and inventory
+	 * Called only once on an entity when first time spawned, via egg, mob
+	 * spawner, natural spawning etc, but not called when entity is reloaded
+	 * from nbt. Mainly used for initializing attributes and inventory
 	 */
+	@Override
 	@Nullable
-	public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, @Nullable IEntityLivingData livingdata, NBTTagCompound compound)
-	{
+	public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, @Nullable IEntityLivingData livingdata,
+			NBTTagCompound compound) {
 		livingdata = super.onInitialSpawn(difficulty, livingdata, compound);
 		if(!this.isChild()) {
 			int i = this.rand.nextInt(7) + 1; // Values 1 to 7
 			boolean flag = false;
 
-			if (livingdata instanceof TypeData)
-			{
-				i = ((TypeData)livingdata).typeData;
+			if(livingdata instanceof TypeData) {
+				i = ((TypeData) livingdata).typeData;
 				flag = true;
-			}
-			else
-			{
+			} else {
 				livingdata = new TypeData(i);
 			}
 
 			this.setType(i);
 
-			if (flag)
-			{
+			if(flag) {
 				this.setGrowingAge(-24000);
 			}
 		}
@@ -325,12 +313,11 @@ public class EntityGoat extends EntityAnimal {
 		return livingdata;
 	}
 
-	public static class TypeData implements IEntityLivingData
-	{
+	public static class TypeData implements IEntityLivingData {
+
 		public int typeData;
 
-		public TypeData(int type)
-		{
+		public TypeData(int type) {
 			this.typeData = type;
 		}
 	}
@@ -348,6 +335,7 @@ public class EntityGoat extends EntityAnimal {
 
 
 	public static class GoatAIAttackForFriend extends EntityAIBase {
+
 		EntityGoat goat = null;
 
 		public GoatAIAttackForFriend(EntityGoat entity) {
@@ -370,34 +358,31 @@ public class EntityGoat extends EntityAnimal {
 		}
 
 	}
-	
-	class AIHurtByTarget extends EntityAIHurtByTarget
-    {
-        public AIHurtByTarget()
-        {
-            super(EntityGoat.this, false);
-        }
 
-        /**
-         * Execute a one shot task or start executing a continuous task
-         */
-        public void startExecuting()
-        {
-            super.startExecuting();
+	class AIHurtByTarget extends EntityAIHurtByTarget {
 
-            if (EntityGoat.this.isChild())
-            {
-                this.alertOthers();
-                this.resetTask();
-            }
-        }
+		public AIHurtByTarget() {
+			super(EntityGoat.this, false);
+		}
 
-        protected void setEntityAttackTarget(EntityCreature creatureIn, EntityLivingBase entityLivingBaseIn)
-        {
-            if (creatureIn instanceof EntityGoat && !creatureIn.isChild())
-            {
-                super.setEntityAttackTarget(creatureIn, entityLivingBaseIn);
-            }
-        }
-    }
+		/**
+		 * Execute a one shot task or start executing a continuous task
+		 */
+		@Override
+		public void startExecuting() {
+			super.startExecuting();
+
+			if(EntityGoat.this.isChild()) {
+				this.alertOthers();
+				this.resetTask();
+			}
+		}
+
+		@Override
+		protected void setEntityAttackTarget(EntityCreature creatureIn, EntityLivingBase entityLivingBaseIn) {
+			if(creatureIn instanceof EntityGoat && !creatureIn.isChild()) {
+				super.setEntityAttackTarget(creatureIn, entityLivingBaseIn);
+			}
+		}
+	}
 }

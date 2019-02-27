@@ -46,7 +46,7 @@ public class EntityPheasant extends EntityAnimal {
 
 	public EntityPheasant(World worldIn) {
 		super(MobRegistry.getType(EntityPheasant.class), worldIn);
-		this.setPeckTime(getNewPeck());
+		this.setPeckTime(this.getNewPeck());
 		this.setPathPriority(PathNodeType.WATER, 0.0F);
 		this.setSize(1F, this.isChild() ? 0.8F : 1F);
 	}
@@ -63,8 +63,8 @@ public class EntityPheasant extends EntityAnimal {
 		this.tasks.addTask(7, new EntityAILookIdle(this));
 	}
 
-	protected void registerAttributes()
-	{
+	@Override
+	protected void registerAttributes() {
 		super.registerAttributes();
 		this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(4.0D);
 		this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.25D);
@@ -84,16 +84,16 @@ public class EntityPheasant extends EntityAnimal {
 		super.livingTick();
 		this.oFlap = this.wingRotation;
 		this.oFlapSpeed = this.destPos;
-		this.destPos = (float)((double)this.destPos + (double)(this.onGround ? -1 : 4) * 0.3D);
+		this.destPos = (float) (this.destPos + (this.onGround ? -1 : 4) * 0.3D);
 		this.destPos = MathHelper.clamp(this.destPos, 0.0F, 1.0F);
 
-		if (!this.onGround && this.wingRotDelta < 1.0F) {
+		if(!this.onGround && this.wingRotDelta < 1.0F) {
 			this.wingRotDelta = 0.3F;
 		}
 
-		this.wingRotDelta = (float)((double)this.wingRotDelta * 0.9D);
+		this.wingRotDelta = (float) (this.wingRotDelta * 0.9D);
 
-		if (!this.onGround && this.motionY < 0.0D) {
+		if(!this.onGround && this.motionY < 0.0D) {
 			this.motionY *= 0.6D;
 		}
 
@@ -105,13 +105,13 @@ public class EntityPheasant extends EntityAnimal {
 			}
 		}
 
-		if (!this.world.isRemote && this.setPeckTime(this.getPeckTime() - 1) <= 0) {
-			this.setPeckTime(getNewPeck());
+		if(!this.world.isRemote && this.setPeckTime(this.getPeckTime() - 1) <= 0) {
+			this.setPeckTime(this.getNewPeck());
 		}
 	}
 
-	public boolean processInteract(EntityPlayer player, EnumHand hand)
-	{
+	@Override
+	public boolean processInteract(EntityPlayer player, EnumHand hand) {
 		ItemStack itemstack = player.getHeldItem(hand);
 
 		if(itemstack.getItem() == Items.PUMPKIN_SEEDS && !this.isChild()) {
@@ -126,66 +126,63 @@ public class EntityPheasant extends EntityAnimal {
 	}
 
 	@Override
-	public void fall(float distance, float damageMultiplier) {}
+	public void fall(float distance, float damageMultiplier) {
+	}
 
 	@Override
-	protected SoundEvent getHurtSound(DamageSource damageSourceIn)
-	{
+	protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
 		return SoundEvents.ENTITY_CHICKEN_HURT;
 	}
 
 	@Override
-	protected SoundEvent getDeathSound()
-	{
+	protected SoundEvent getDeathSound() {
 		return SoundEvents.ENTITY_CHICKEN_DEATH;
 	}
 
 	@Override
-	protected void playStepSound(BlockPos pos, IBlockState state)
-	{
+	protected void playStepSound(BlockPos pos, IBlockState state) {
 		this.playSound(SoundEvents.ENTITY_CHICKEN_STEP, 0.15F, 1.0F);
 	}
 
+	@Override
 	@Nullable
-	protected ResourceLocation getLootTable()
-	{
+	protected ResourceLocation getLootTable() {
 		return LootTableRegistry.pheasant;
 	}
 
-	protected void registerData()
-	{
+	@Override
+	protected void registerData() {
 		super.registerData();
-		this.dataManager.register(TYPE_NUMBER, Integer.valueOf(0));
-		this.dataManager.register(PECK_TIME, Integer.valueOf(0));
+		this.dataManager.register(EntityPheasant.TYPE_NUMBER, Integer.valueOf(0));
+		this.dataManager.register(EntityPheasant.PECK_TIME, Integer.valueOf(0));
 	}
 
-	private static final DataParameter<Integer> PECK_TIME = EntityDataManager.<Integer>createKey(EntityPheasant.class, DataSerializers.VARINT);
-	private static final DataParameter<Integer> TYPE_NUMBER = EntityDataManager.<Integer>createKey(EntityPheasant.class, DataSerializers.VARINT);
+	private static final DataParameter<Integer> PECK_TIME = EntityDataManager.<Integer>createKey(EntityPheasant.class,
+			DataSerializers.VARINT);
+	private static final DataParameter<Integer> TYPE_NUMBER = EntityDataManager.<Integer>createKey(EntityPheasant.class,
+			DataSerializers.VARINT);
 
 	public int getPeckTime() {
-		return ((Integer)this.dataManager.get(PECK_TIME)).intValue();
+		return this.dataManager.get(EntityPheasant.PECK_TIME).intValue();
 	}
 
-	public int setPeckTime(int time)
-	{
-		this.dataManager.set(PECK_TIME, Integer.valueOf(time));
+	public int setPeckTime(int time) {
+		this.dataManager.set(EntityPheasant.PECK_TIME, Integer.valueOf(time));
 		return time;
 	}
 
 	public int getTypeNumber() {
-		return ((Integer)this.dataManager.get(TYPE_NUMBER)).intValue();
+		return this.dataManager.get(EntityPheasant.TYPE_NUMBER).intValue();
 	}
 
-	public void setType(int typeId)
-	{
-		this.dataManager.set(TYPE_NUMBER, Integer.valueOf(typeId));
+	public void setType(int typeId) {
+		this.dataManager.set(EntityPheasant.TYPE_NUMBER, Integer.valueOf(typeId));
 	}
 
 	/**
 	 * (abstract) Protected helper method to write subclass entity data to NBT.
 	 */
-	 public void writeEntityToNBT(NBTTagCompound compound)
-	{
+	public void writeEntityToNBT(NBTTagCompound compound) {
 		super.writeUnlessRemoved(compound);
 		compound.setInt("TypeNumber", this.getTypeNumber());
 	}
@@ -193,63 +190,60 @@ public class EntityPheasant extends EntityAnimal {
 	/**
 	 * (abstract) Protected helper method to read subclass entity data from NBT.
 	 */
-	 public void read(NBTTagCompound compound)
-	 {
-		 super.read(compound);
-		 this.setType(compound.getInt("TypeNumber"));
-	 }
+	@Override
+	public void read(NBTTagCompound compound) {
+		super.read(compound);
+		this.setType(compound.getInt("TypeNumber"));
+	}
 
-	 /**
-	  * Called only once on an entity when first time spawned, via egg, mob spawner, natural spawning etc, but not called
-	  * when entity is reloaded from nbt. Mainly used for initializing attributes and inventory
-	  */
-	 @Nullable
-	 public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, @Nullable IEntityLivingData livingdata, NBTTagCompound compound)
-	 {
-		 livingdata = super.onInitialSpawn(difficulty, livingdata, compound);
-		 if(!this.isChild()) {
-			 int i = this.rand.nextInt(2) + 1; // Values 1 to 2
-			 boolean flag = false;
+	/**
+	 * Called only once on an entity when first time spawned, via egg, mob
+	 * spawner, natural spawning etc, but not called when entity is reloaded
+	 * from nbt. Mainly used for initializing attributes and inventory
+	 */
+	@Override
+	@Nullable
+	public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, @Nullable IEntityLivingData livingdata,
+			NBTTagCompound compound) {
+		livingdata = super.onInitialSpawn(difficulty, livingdata, compound);
+		if(!this.isChild()) {
+			int i = this.rand.nextInt(2) + 1; // Values 1 to 2
+			boolean flag = false;
 
-			 if (livingdata instanceof TypeData)
-			 {
-				 i = ((TypeData)livingdata).typeData;
-				 flag = true;
-			 }
-			 else
-			 {
-				 livingdata = new TypeData(i);
-			 }
+			if(livingdata instanceof TypeData) {
+				i = ((TypeData) livingdata).typeData;
+				flag = true;
+			} else {
+				livingdata = new TypeData(i);
+			}
 
-			 this.setType(i);
+			this.setType(i);
 
-			 if (flag)
-			 {
-				 this.setGrowingAge(-24000);
-			 }
-		 }
-		 return livingdata;
-	 }
+			if(flag) {
+				this.setGrowingAge(-24000);
+			}
+		}
+		return livingdata;
+	}
 
-	 public static class TypeData implements IEntityLivingData
-	 {
-		 public int typeData;
+	public static class TypeData implements IEntityLivingData {
 
-		 public TypeData(int type)
-		 {
-			 this.typeData = type;
-		 }
-	 }
+		public int typeData;
 
-	 @Override
-	 public EntityAgeable createChild(EntityAgeable ageable) {
-		 EntityPheasant child = new EntityPheasant(ageable.world);
-		 child.setLocationAndAngles(ageable.posX, ageable.posY, ageable.posZ, 0, 0);
-		 if(ageable.hasCustomName()) {
-			 child.setCustomName(ageable.getCustomName());
-		 }
-		 child.setType(this.rand.nextInt(2) + 1);
-		 return child;
-	 }
+		public TypeData(int type) {
+			this.typeData = type;
+		}
+	}
+
+	@Override
+	public EntityAgeable createChild(EntityAgeable ageable) {
+		EntityPheasant child = new EntityPheasant(ageable.world);
+		child.setLocationAndAngles(ageable.posX, ageable.posY, ageable.posZ, 0, 0);
+		if(ageable.hasCustomName()) {
+			child.setCustomName(ageable.getCustomName());
+		}
+		child.setType(this.rand.nextInt(2) + 1);
+		return child;
+	}
 
 }

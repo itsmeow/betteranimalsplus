@@ -21,9 +21,6 @@ public class ItemHirschgeistSkull extends ItemBlockSkull {
 		tooltip.add(new TextComponentString("It can be worn via placing it into an empty crafting table"));
 		super.addInformation(stack, worldIn, tooltip, flagIn);
 	}
-	
-	
-	
 
 
 }

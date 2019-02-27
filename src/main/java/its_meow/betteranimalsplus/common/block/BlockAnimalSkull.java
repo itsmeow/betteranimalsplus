@@ -37,8 +37,8 @@ public class BlockAnimalSkull extends BlockSkull {
 	}
 
 	@Override
-	public boolean isFullCube(IBlockState state) { 
-		return false; 
+	public boolean isFullCube(IBlockState state) {
+		return false;
 	}
 
 	@Override
@@ -47,11 +47,9 @@ public class BlockAnimalSkull extends BlockSkull {
 	}
 
 	@Override
-	public EnumBlockRenderType getRenderType(IBlockState state)
-	{
+	public EnumBlockRenderType getRenderType(IBlockState state) {
 		return EnumBlockRenderType.INVISIBLE;
 	}
-
 
 
 	@Override
@@ -82,7 +80,7 @@ public class BlockAnimalSkull extends BlockSkull {
 			if(te2 instanceof TileEntityHead) {
 				TileEntityHead te = (TileEntityHead) te2;
 				Item item = this.getItemBlock(te.typeValue());
-				if (item != null && item != Items.AIR) {
+				if(item != null && item != Items.AIR) {
 					drops.add(new ItemStack(item));
 				}
 			}
@@ -94,11 +92,12 @@ public class BlockAnimalSkull extends BlockSkull {
 	}
 
 	/**
-	 * Spawns the block's drops in the world. By the time this is called the Block has possibly been set to air via
-	 * Block.removedByPlayer
+	 * Spawns the block's drops in the world. By the time this is called the
+	 * Block has possibly been set to air via Block.removedByPlayer
 	 */
-	public void harvestBlock(World worldIn, EntityPlayer player, BlockPos pos, IBlockState state, @Nullable TileEntity te, ItemStack stack)
-	{
+	@Override
+	public void harvestBlock(World worldIn, EntityPlayer player, BlockPos pos, IBlockState state,
+			@Nullable TileEntity te, ItemStack stack) {
 		player.addExhaustion(0.005F);
 	}
 
@@ -106,8 +105,7 @@ public class BlockAnimalSkull extends BlockSkull {
 	 * Get the Item that this Block should drop when harvested.
 	 */
 	@Override
-	public Item getItemDropped(IBlockState state, World world, BlockPos pos, int fortune)
-	{
+	public Item getItemDropped(IBlockState state, World world, BlockPos pos, int fortune) {
 		TileEntity te2 = world.getTileEntity(pos);
 		if(te2 instanceof TileEntityHead) {
 			TileEntityHead te = (TileEntityHead) te2;

@@ -6,10 +6,10 @@ import net.minecraft.entity.EntityLiving;
 import net.minecraft.util.math.MathHelper;
 
 /**
- * bear - cybercat5555
- * Created using Tabula 5.1.0
+ * bear - cybercat5555 Created using Tabula 5.1.0
  */
 public class ModelBear extends ModelBetterAnimals {
+
 	public ModelRenderer hind;
 	public ModelRenderer lLeg01;
 	public ModelRenderer rLeg01;
@@ -374,10 +374,9 @@ public class ModelBear extends ModelBetterAnimals {
 	}
 
 	@Override
-	public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) { 
+	public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) {
 		this.hind.render(f5);
 	}
-
 
 
 	@Override
@@ -387,12 +386,12 @@ public class ModelBear extends ModelBetterAnimals {
 		float f1 = limbSwingAmount;
 
 		this.lArm01.rotateAngleX = MathHelper.cos(f * 0.6662F) * 1.4F * f1 + 0.18203784098300857F;
-		this.rArm01.rotateAngleX = MathHelper.cos(f * 0.6662F + (float)Math.PI) * 1.4F * f1 + 0.18203784098300857F;
+		this.rArm01.rotateAngleX = MathHelper.cos(f * 0.6662F + (float) Math.PI) * 1.4F * f1 + 0.18203784098300857F;
 		this.rLeg01.rotateAngleX = MathHelper.cos(f * 0.6662F) * 1.4F * f1 - 0.136659280431156F;
-		this.lLeg01.rotateAngleX = MathHelper.cos(f * 0.6662F + (float)Math.PI) * 1.4F * f1 - 0.136659280431156F;
+		this.lLeg01.rotateAngleX = MathHelper.cos(f * 0.6662F + (float) Math.PI) * 1.4F * f1 - 0.136659280431156F;
 
 		if(entityIn instanceof EntityLiving) {
-			this.neck.rotateAngleX = ModelBetterAnimals.getHeadPitch((EntityLiving)entityIn) * 0.017453292F;
+			this.neck.rotateAngleX = ModelBetterAnimals.getHeadPitch((EntityLiving) entityIn) * 0.017453292F;
 			this.neck.rotateAngleY = ModelBetterAnimals.getHeadYaw((EntityLiving) entityIn) * 0.017453292F;
 		}
 
@@ -402,6 +401,7 @@ public class ModelBear extends ModelBetterAnimals {
 	/**
 	 * This is a helper function from Tabula to set the rotation of model parts
 	 */
+	@Override
 	public void setRotateAngle(ModelRenderer modelRenderer, float x, float y, float z) {
 		modelRenderer.rotateAngleX = x;
 		modelRenderer.rotateAngleY = y;

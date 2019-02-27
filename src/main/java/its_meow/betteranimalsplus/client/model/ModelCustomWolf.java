@@ -7,10 +7,10 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.math.MathHelper;
 
 /**
- * newwolf - cybercat5555
- * Created using Tabula 5.1.0
+ * newwolf - cybercat5555 Created using Tabula 5.1.0
  */
 public class ModelCustomWolf extends ModelBetterAnimals {
+
 	public ModelRenderer chest;
 	public ModelRenderer lArm01;
 	public ModelRenderer body;
@@ -223,68 +223,64 @@ public class ModelCustomWolf extends ModelBetterAnimals {
 
 
 	@Override
-	public void render(Entity entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scale) { 
-		super.render(entityIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, (float) scale);
-		this.setRotationAngles(limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, (float) scale, entityIn);
+	public void render(Entity entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw,
+			float headPitch, float scale) {
+		super.render(entityIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale);
+		this.setRotationAngles(limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale, entityIn);
 		this.chest.render(scale);
 	}
 
 	/**
-	 * Used for easily adding entity-dependent animations. The second and third float params here are the same second
-	 * and third as in the setRotationAngles method.
+	 * Used for easily adding entity-dependent animations. The second and third
+	 * float params here are the same second and third as in the
+	 * setRotationAngles method.
 	 */
-	public void setLivingAnimations(EntityLivingBase entitylivingbaseIn, float limbSwing, float limbSwingAmount, float partialTickTime)
-	{
-		EntityFeralWolf entityferalwolf = (EntityFeralWolf)entitylivingbaseIn;
+	@Override
+	public void setLivingAnimations(EntityLivingBase entitylivingbaseIn, float limbSwing, float limbSwingAmount,
+			float partialTickTime) {
+		EntityFeralWolf entityferalwolf = (EntityFeralWolf) entitylivingbaseIn;
 
-		if (!entityferalwolf.isTamed())
-		{
+		if(!entityferalwolf.isTamed()) {
 			this.tail01.rotateAngleY = 0.0F;
-		}
-		else
-		{
+		} else {
 			this.tail01.rotateAngleY = MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount;
 		}
 
 
-
-		/*if (entityferalwolf.isSitting())
-        {
-            this.neck.setRotationPoint(-1.0F, 16.0F, -3.0F);
-            this.neck.rotateAngleX = ((float)Math.PI * 2F / 5F);
-            this.neck.rotateAngleY = 0.0F;
-            this.body.setRotationPoint(0.0F, 18.0F, 0.0F);
-            this.body.rotateAngleX = ((float)Math.PI / 4F);
-            this.tail01.setRotationPoint(-1.0F, 21.0F, 6.0F);
-            this.lArm01.setRotationPoint(-2.5F, 22.0F, 2.0F);
-            this.lArm01.rotateAngleX = ((float)Math.PI * 3F / 2F);
-            this.rArm01.setRotationPoint(0.5F, 22.0F, 2.0F);
-            this.rArm01.rotateAngleX = ((float)Math.PI * 3F / 2F);
-            this.lHindLeg01.rotateAngleX = 5.811947F;
-            this.lHindLeg01.setRotationPoint(-2.49F, 17.0F, -4.0F);
-            this.rHindLeg01.rotateAngleX = 5.811947F;
-            this.rHindLeg01.setRotationPoint(0.51F, 17.0F, -4.0F);
-        }
-        else
-        {
-            this.body.setRotationPoint(0.0F, 14.0F, 2.0F);
-            this.body.rotateAngleX = ((float)Math.PI / 2F);
-            this.neck.setRotationPoint(-1.0F, 14.0F, -3.0F);
-            this.neck.rotateAngleX = this.body.rotateAngleX;
-            this.tail01.setRotationPoint(-1.0F, 12.0F, 8.0F);
-            this.lArm01.setRotationPoint(-2.5F, 16.0F, 7.0F);
-            this.rArm01.setRotationPoint(0.5F, 16.0F, 7.0F);
-            this.lHindLeg01.setRotationPoint(-2.5F, 16.0F, -4.0F);
-            this.rHindLeg01.setRotationPoint(0.5F, 16.0F, -4.0F);
-            this.lArm01.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount;
-            this.rArm01.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F + (float)Math.PI) * 1.4F * limbSwingAmount;
-            this.lHindLeg01.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F + (float)Math.PI) * 1.4F * limbSwingAmount;
-            this.rHindLeg02.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount;
-        }*/
+		/*
+		 * if (entityferalwolf.isSitting()) { this.neck.setRotationPoint(-1.0F,
+		 * 16.0F, -3.0F); this.neck.rotateAngleX = ((float)Math.PI * 2F / 5F);
+		 * this.neck.rotateAngleY = 0.0F; this.body.setRotationPoint(0.0F,
+		 * 18.0F, 0.0F); this.body.rotateAngleX = ((float)Math.PI / 4F);
+		 * this.tail01.setRotationPoint(-1.0F, 21.0F, 6.0F);
+		 * this.lArm01.setRotationPoint(-2.5F, 22.0F, 2.0F);
+		 * this.lArm01.rotateAngleX = ((float)Math.PI * 3F / 2F);
+		 * this.rArm01.setRotationPoint(0.5F, 22.0F, 2.0F);
+		 * this.rArm01.rotateAngleX = ((float)Math.PI * 3F / 2F);
+		 * this.lHindLeg01.rotateAngleX = 5.811947F;
+		 * this.lHindLeg01.setRotationPoint(-2.49F, 17.0F, -4.0F);
+		 * this.rHindLeg01.rotateAngleX = 5.811947F;
+		 * this.rHindLeg01.setRotationPoint(0.51F, 17.0F, -4.0F); } else {
+		 * this.body.setRotationPoint(0.0F, 14.0F, 2.0F); this.body.rotateAngleX
+		 * = ((float)Math.PI / 2F); this.neck.setRotationPoint(-1.0F, 14.0F,
+		 * -3.0F); this.neck.rotateAngleX = this.body.rotateAngleX;
+		 * this.tail01.setRotationPoint(-1.0F, 12.0F, 8.0F);
+		 * this.lArm01.setRotationPoint(-2.5F, 16.0F, 7.0F);
+		 * this.rArm01.setRotationPoint(0.5F, 16.0F, 7.0F);
+		 * this.lHindLeg01.setRotationPoint(-2.5F, 16.0F, -4.0F);
+		 * this.rHindLeg01.setRotationPoint(0.5F, 16.0F, -4.0F);
+		 * this.lArm01.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F) * 1.4F
+		 * * limbSwingAmount; this.rArm01.rotateAngleX =
+		 * MathHelper.cos(limbSwing * 0.6662F + (float)Math.PI) * 1.4F *
+		 * limbSwingAmount; this.lHindLeg01.rotateAngleX =
+		 * MathHelper.cos(limbSwing * 0.6662F + (float)Math.PI) * 1.4F *
+		 * limbSwingAmount; this.rHindLeg02.rotateAngleX =
+		 * MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount; }
+		 */
 
 
-
-		this.head.rotateAngleZ = entityferalwolf.getInterestedAngle(partialTickTime) + entityferalwolf.getShakeAngle(partialTickTime, 0.0F);
+		this.head.rotateAngleZ = entityferalwolf.getInterestedAngle(partialTickTime)
+				+ entityferalwolf.getShakeAngle(partialTickTime, 0.0F);
 		this.neck.rotateAngleZ = entityferalwolf.getShakeAngle(partialTickTime, -0.08F);
 		this.body.rotateAngleZ = entityferalwolf.getShakeAngle(partialTickTime, -0.16F);
 		this.tail01.rotateAngleZ = entityferalwolf.getShakeAngle(partialTickTime, -0.2F);
@@ -292,20 +288,24 @@ public class ModelCustomWolf extends ModelBetterAnimals {
 
 
 	@Override
-	public void setRotationAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor, Entity entity) {
+	public void setRotationAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw,
+			float headPitch, float scaleFactor, Entity entity) {
 		float swingModifier = 0.9f;
-		if (entity instanceof EntityLivingBase) {
+		if(entity instanceof EntityLivingBase) {
 			EntityLivingBase living = (EntityLivingBase) entity;
 			float newLimbSwing = limbSwing + ModelBetterAnimals.getSwingProgressPrev(living);
-			//this.head.rotateAngleZ = this.head.rotateAngleY;
-			this.lHindLeg01.rotateAngleX = MathHelper.sin(newLimbSwing * 0.8665F + (float) Math.PI) * swingModifier * limbSwingAmount;
+			// this.head.rotateAngleZ = this.head.rotateAngleY;
+			this.lHindLeg01.rotateAngleX = MathHelper.sin(newLimbSwing * 0.8665F + (float) Math.PI) * swingModifier
+					* limbSwingAmount;
 			this.rHindLeg01.rotateAngleX = MathHelper.cos(newLimbSwing * 0.8665F) * swingModifier * limbSwingAmount;
 			this.lArm01.rotateAngleX = MathHelper.sin(newLimbSwing * 0.8665F) * swingModifier * limbSwingAmount;
-			this.rArm01.rotateAngleX = MathHelper.cos(newLimbSwing * 0.8665F + (float) Math.PI) * swingModifier * limbSwingAmount;
+			this.rArm01.rotateAngleX = MathHelper.cos(newLimbSwing * 0.8665F + (float) Math.PI) * swingModifier
+					* limbSwingAmount;
 			this.neck.rotateAngleX = -0.6F;
 		}
 
-		this.head.rotateAngleX = (float) Math.toRadians(ModelBetterAnimals.getHeadPitch((EntityLivingBase) entity)) + 0.6f;
+		this.head.rotateAngleX = (float) Math.toRadians(ModelBetterAnimals.getHeadPitch((EntityLivingBase) entity))
+				+ 0.6f;
 		this.head.rotateAngleY = netHeadYaw * 0.017453292F;
 
 		if(entity instanceof EntityFeralWolf) {
@@ -331,9 +331,11 @@ public class ModelCustomWolf extends ModelBetterAnimals {
 				this.head.rotateAngleX -= Math.toRadians(20);
 				this.chest.setRotationPoint(0F, 16.8F, -0.8F);
 			} else {
-				//this.setRotateAngle(rHindLeg01, -0.18203784098300857F, 0.0F, 0.0F);
+				// this.setRotateAngle(rHindLeg01, -0.18203784098300857F, 0.0F,
+				// 0.0F);
 				this.setRotateAngle(this.rHindLeg02, 0.8196066167365371F, 0.0F, 0.0F);
-				//this.setRotateAngle(lHindLeg01, -0.18203784098300857F, 0.0F, 0.0F);
+				// this.setRotateAngle(lHindLeg01, -0.18203784098300857F, 0.0F,
+				// 0.0F);
 				this.setRotateAngle(this.lHindLeg02, 0.8196066167365371F, 0.0F, 0.0F);
 				this.lArm01.rotateAngleZ = -0.091106186954104F;
 				this.setRotateAngle(this.lArm01_1, -0.22759093446006054F, 0.0F, 0.091106186954104F);
@@ -343,8 +345,8 @@ public class ModelCustomWolf extends ModelBetterAnimals {
 				this.rHindLeg01.rotateAngleZ = 0;
 				this.setRotateAngle(this.rHindpaw, 0, 0, 0);
 				this.setRotateAngle(this.lHindpaw, 0, 0, 0);
-				//this.head.rotateAngleX = 0.36425021489121656F;
-				//this.setRotateAngle(neck, -0.36425021489121656F, 0.0F, 0.0F);
+				// this.head.rotateAngleX = 0.36425021489121656F;
+				// this.setRotateAngle(neck, -0.36425021489121656F, 0.0F, 0.0F);
 				this.body.rotateAngleX = -0.091106186954104F;
 				this.setRotateAngle(this.chest, 0, 0, 0);
 				this.setRotateAngle(this.lForepaw, 0, 0, 0);
@@ -360,12 +362,13 @@ public class ModelCustomWolf extends ModelBetterAnimals {
 	/**
 	 * This is a helper function from Tabula to set the rotation of model parts
 	 */
+	@Override
 	public void setRotateAngle(ModelRenderer modelRenderer, float x, float y, float z) {
 		modelRenderer.rotateAngleX = x;
 		modelRenderer.rotateAngleY = y;
 		modelRenderer.rotateAngleZ = z;
 	}
-	
+
 	public static void setRotateAngle360(ModelRenderer modelRenderer, float x, float y, float z) {
 		modelRenderer.rotateAngleX = (float) Math.toRadians(x);
 		modelRenderer.rotateAngleY = (float) Math.toRadians(y);

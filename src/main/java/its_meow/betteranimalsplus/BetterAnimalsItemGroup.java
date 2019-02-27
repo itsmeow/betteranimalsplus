@@ -12,7 +12,7 @@ public class BetterAnimalsItemGroup extends ItemGroup {
 	public BetterAnimalsItemGroup(String tab) {
 		super(tab);
 	}
-	
+
 	@Override
 	public ItemStack createIcon() {
 		return new ItemStack(ItemRegistry.antler);
@@ -26,5 +26,5 @@ public class BetterAnimalsItemGroup extends ItemGroup {
 			toDisplay.add(stack);
 		}
 	}
-	
+
 }

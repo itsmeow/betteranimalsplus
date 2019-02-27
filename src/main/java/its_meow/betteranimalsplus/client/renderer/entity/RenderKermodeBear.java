@@ -21,6 +21,6 @@ public class RenderKermodeBear extends RenderLiving<EntityBearNeutralKermode> {
 	protected ResourceLocation getEntityTexture(@Nonnull EntityBearNeutralKermode entity) {
 		return TextureRegistry.bear_kermode;
 	}
-	
+
 
 }

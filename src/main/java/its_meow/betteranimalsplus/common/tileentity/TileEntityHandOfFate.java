@@ -20,7 +20,8 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 public class TileEntityHandOfFate extends TileEntity {
 
-	public static final TileEntityType<?> HAND_OF_FATE_TYPE = TileEntityType.Builder.create(TileEntityHandOfFate::new).build(null).setRegistryName(Ref.MOD_ID, "handoffatetilentity");
+	public static final TileEntityType<?> HAND_OF_FATE_TYPE = TileEntityType.Builder.create(TileEntityHandOfFate::new)
+			.build(null).setRegistryName(Ref.MOD_ID, "handoffatetilentity");
 	private boolean onFire;
 	private final String keyOnFire = "OnFire";
 
@@ -34,11 +35,11 @@ public class TileEntityHandOfFate extends TileEntity {
 	private final String keyVenison = "HasVenison";
 
 	public TileEntityHandOfFate() {
-		super(HAND_OF_FATE_TYPE);
+		super(TileEntityHandOfFate.HAND_OF_FATE_TYPE);
 	}
 
 	public TileEntityHandOfFate(World worldIn) {
-		super(HAND_OF_FATE_TYPE);
+		super(TileEntityHandOfFate.HAND_OF_FATE_TYPE);
 		this.world = worldIn;
 	}
 
@@ -46,9 +47,11 @@ public class TileEntityHandOfFate extends TileEntity {
 	public void setOnFire(boolean b) {
 		this.onFire = b;
 		if(this.world.isRemote) {
-			this.world.getPendingBlockTicks().scheduleTick(pos, this.getBlockState().getBlock(), 100);
-			this.world.notifyBlockUpdate(this.pos, this.world.getBlockState(this.pos), this.world.getBlockState(this.pos), 0);
-			this.world.markBlockRangeForRenderUpdate(getPos().down(5).west(5).north(5), getPos().up(5).east(5).south(5));
+			this.world.getPendingBlockTicks().scheduleTick(this.pos, this.getBlockState().getBlock(), 100);
+			this.world.notifyBlockUpdate(this.pos, this.world.getBlockState(this.pos),
+					this.world.getBlockState(this.pos), 0);
+			this.world.markBlockRangeForRenderUpdate(this.getPos().down(5).west(5).north(5),
+					this.getPos().up(5).east(5).south(5));
 		}
 		this.markDirty();
 	}
@@ -92,7 +95,6 @@ public class TileEntityHandOfFate extends TileEntity {
 	}
 
 
-
 	private void checkHasAllThree() {
 		if(this.hasVenison && this.hasAntler && this.hasNetherWart && this.isOnFire()) {
 			this.setHasVenison(false);
@@ -102,8 +104,6 @@ public class TileEntityHandOfFate extends TileEntity {
 			this.spawnHirschgeist();
 		}
 	}
-
-
 
 
 	private void spawnHirschgeist() {
@@ -119,7 +119,8 @@ public class TileEntityHandOfFate extends TileEntity {
 	private void fireBurst() {
 		Random rand = new Random();
 		for(int i = 0; i < 100; i++) {
-			this.world.spawnParticle(Particles.FLAME, this.getPos().getX() + ((rand.nextFloat() + 0.5F) / 2), this.getPos().getY() + 1.5F, this.getPos().getZ() + ((rand.nextFloat() + 0.5F) / 2), 0, 0.5F, 0);
+			this.world.spawnParticle(Particles.FLAME, this.getPos().getX() + (rand.nextFloat() + 0.5F) / 2,
+					this.getPos().getY() + 1.5F, this.getPos().getZ() + (rand.nextFloat() + 0.5F) / 2, 0, 0.5F, 0);
 		}
 	}
 
@@ -142,7 +143,6 @@ public class TileEntityHandOfFate extends TileEntity {
 	}
 
 
-
 	@Override
 	public NBTTagCompound write(NBTTagCompound compound) {
 		super.write(compound);
@@ -163,12 +163,9 @@ public class TileEntityHandOfFate extends TileEntity {
 
 	@Override
 	public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity packet) {
-		read(packet.getNbtCompound());
-		this.world.getPendingBlockTicks().scheduleTick(pos, this.getBlockState().getBlock(), 100);
+		this.read(packet.getNbtCompound());
+		this.world.getPendingBlockTicks().scheduleTick(this.pos, this.getBlockState().getBlock(), 100);
 	}
-
-
-
 
 
 	@Override

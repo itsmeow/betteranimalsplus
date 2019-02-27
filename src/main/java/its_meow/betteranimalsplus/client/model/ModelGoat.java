@@ -7,10 +7,10 @@ import net.minecraft.entity.EntityLiving;
 import net.minecraft.util.math.MathHelper;
 
 /**
- * goat - cybercat5555
- * Created using Tabula 5.1.0
+ * goat - cybercat5555 Created using Tabula 5.1.0
  */
 public class ModelGoat extends ModelBetterAnimals {
+
 	public ModelRenderer chest;
 	public ModelRenderer neck;
 	public ModelRenderer stomach;
@@ -358,7 +358,7 @@ public class ModelGoat extends ModelBetterAnimals {
 	}
 
 	@Override
-	public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) { 
+	public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) {
 		this.chest.render(f5);
 	}
 
@@ -366,10 +366,14 @@ public class ModelGoat extends ModelBetterAnimals {
 	public void setRotationAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw,
 			float headPitch, float scaleFactor, Entity entityIn) {
 		float swingModifier = 1.5F;
-		this.lLeg01.rotateAngleX = MathHelper.sin(limbSwing * 0.8665F + (float) Math.PI) * swingModifier * limbSwingAmount - 0.2792526803190927F;
-		this.rLeg01.rotateAngleX = MathHelper.cos(limbSwing * 0.8665F) * swingModifier * limbSwingAmount - 0.2792526803190927F;
-		this.lArm01.rotateAngleX = MathHelper.sin(limbSwing * 0.8665F) * swingModifier * limbSwingAmount + 0.08726646259971647F;
-		this.rArm01.rotateAngleX = MathHelper.cos(limbSwing * 0.8665F + (float) Math.PI) * swingModifier * limbSwingAmount + 0.08726646259971647F;
+		this.lLeg01.rotateAngleX = MathHelper.sin(limbSwing * 0.8665F + (float) Math.PI) * swingModifier
+				* limbSwingAmount - 0.2792526803190927F;
+		this.rLeg01.rotateAngleX = MathHelper.cos(limbSwing * 0.8665F) * swingModifier * limbSwingAmount
+				- 0.2792526803190927F;
+		this.lArm01.rotateAngleX = MathHelper.sin(limbSwing * 0.8665F) * swingModifier * limbSwingAmount
+				+ 0.08726646259971647F;
+		this.rArm01.rotateAngleX = MathHelper.cos(limbSwing * 0.8665F + (float) Math.PI) * swingModifier
+				* limbSwingAmount + 0.08726646259971647F;
 
 		if(entityIn instanceof EntityGoat) {
 			EntityGoat goat = (EntityGoat) entityIn;
@@ -385,6 +389,7 @@ public class ModelGoat extends ModelBetterAnimals {
 	/**
 	 * This is a helper function from Tabula to set the rotation of model parts
 	 */
+	@Override
 	public void setRotateAngle(ModelRenderer modelRenderer, float x, float y, float z) {
 		modelRenderer.rotateAngleX = x;
 		modelRenderer.rotateAngleY = y;

@@ -15,11 +15,10 @@ public class BlockHirschgeistSkull extends BlockAnimalSkull {
 
 
 	@Override
-	public TileEntity createNewTileEntity(IBlockReader world)
-	{
+	public TileEntity createNewTileEntity(IBlockReader world) {
 		return new TileEntityHirschgeistSkull();
 	}
-	
+
 	@Override
 	public ItemBlock getItemBlock() {
 		return ItemRegistry.itemHirschgeistSkull;

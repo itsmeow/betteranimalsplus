@@ -18,7 +18,7 @@ public class RenderSquirrel extends RenderLiving<EntitySquirrel> {
 
 	@Override
 	protected void preRenderCallback(EntitySquirrel entitylivingbaseIn, float partialTickTime) {
-		if (getMainModel().isChild) {
+		if(this.getMainModel().isChild) {
 			GlStateManager.scaled(0.35D, 0.35D, 0.35D);
 		} else {
 			GlStateManager.scaled(0.5D, 0.5D, 0.5D);
@@ -32,10 +32,18 @@ public class RenderSquirrel extends RenderLiving<EntitySquirrel> {
 		int type = entity.getTypeNumber();
 		ResourceLocation res = TextureRegistry.squirrel_1;
 		switch(type) {
-		case 1: res = TextureRegistry.squirrel_1; break;
-		case 2: res = TextureRegistry.squirrel_2; break;
-		case 3: res = TextureRegistry.squirrel_3; break;
-		default:res = TextureRegistry.squirrel_1; break;
+		case 1:
+			res = TextureRegistry.squirrel_1;
+			break;
+		case 2:
+			res = TextureRegistry.squirrel_2;
+			break;
+		case 3:
+			res = TextureRegistry.squirrel_3;
+			break;
+		default:
+			res = TextureRegistry.squirrel_1;
+			break;
 		}
 		return res;
 	}

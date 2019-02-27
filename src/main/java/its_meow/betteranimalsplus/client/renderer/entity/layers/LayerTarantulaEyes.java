@@ -11,45 +11,42 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public class LayerTarantulaEyes implements LayerRenderer<EntityTarantula>
-{
+public class LayerTarantulaEyes implements LayerRenderer<EntityTarantula> {
+
 	private final RenderTarantula tarantulaRenderer;
 
-	public LayerTarantulaEyes(RenderTarantula rendererIn)
-	{
+	public LayerTarantulaEyes(RenderTarantula rendererIn) {
 		this.tarantulaRenderer = rendererIn;
 	}
 
-	public void render(EntityTarantula entity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch, float scale)
-	{
-		if (!entity.isInvisible() && !entity.isChild())
-		{
+	@Override
+	public void render(EntityTarantula entity, float limbSwing, float limbSwingAmount, float partialTicks,
+			float ageInTicks, float netHeadYaw, float headPitch, float scale) {
+		if(!entity.isInvisible() && !entity.isChild()) {
 			this.tarantulaRenderer.bindTexture(TextureRegistry.tarantula_eyes);
 
 			GlStateManager.enableBlend();
 			GlStateManager.disableAlphaTest();
 			GlStateManager.blendFunc(GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ONE);
 
-			if (entity.isInvisible())
-			{
+			if(entity.isInvisible()) {
 				GlStateManager.depthMask(false);
-			}
-			else
-			{
+			} else {
 				GlStateManager.depthMask(true);
 			}
 
 			int i = 61680;
 			int j = i % 65536;
 			int k = i / 65536;
-			OpenGlHelper.glMultiTexCoord2f(OpenGlHelper.GL_TEXTURE1, (float)j, (float)k);
+			OpenGlHelper.glMultiTexCoord2f(OpenGlHelper.GL_TEXTURE1, j, k);
 			Minecraft.getInstance().entityRenderer.setupFogColor(true);
-			this.tarantulaRenderer.getMainModel().render(entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale);
+			this.tarantulaRenderer.getMainModel().render(entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw,
+					headPitch, scale);
 			Minecraft.getInstance().entityRenderer.setupFogColor(false);
 			i = entity.getBrightnessForRender();
 			j = i % 65536;
 			k = i / 65536;
-			OpenGlHelper.glMultiTexCoord2f(OpenGlHelper.GL_TEXTURE1, (float)j, (float)k);
+			OpenGlHelper.glMultiTexCoord2f(OpenGlHelper.GL_TEXTURE1, j, k);
 			this.tarantulaRenderer.setLightmap(entity);
 			GlStateManager.disableBlend();
 			GlStateManager.enableAlphaTest();
@@ -57,8 +54,8 @@ public class LayerTarantulaEyes implements LayerRenderer<EntityTarantula>
 		}
 	}
 
-	public boolean shouldCombineTextures()
-	{
+	@Override
+	public boolean shouldCombineTextures() {
 		return true;
 	}
 }

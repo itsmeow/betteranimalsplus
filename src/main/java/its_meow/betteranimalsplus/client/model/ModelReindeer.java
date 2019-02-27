@@ -8,10 +8,10 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.math.MathHelper;
 
 /**
- * reindeer - cybercat5555
- * Created using Tabula 5.1.0
+ * reindeer - cybercat5555 Created using Tabula 5.1.0
  */
 public class ModelReindeer extends ModelBase {
+
 	public ModelRenderer body;
 	public ModelRenderer ass;
 	public ModelRenderer chest;
@@ -413,26 +413,22 @@ public class ModelReindeer extends ModelBase {
 	}
 
 	@Override
-	public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) { 
+	public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) {
 		this.body.render(f5);
 	}
-
 
 
 	/**
 	 * Fixes and offsets a rotation
 	 */
-	private float updateReindeerRotation(float p_110683_1_, float p_110683_2_, float p_110683_3_)
-	{
+	private float updateReindeerRotation(float p_110683_1_, float p_110683_2_, float p_110683_3_) {
 		float f;
 
-		for (f = p_110683_2_ - p_110683_1_; f < -180.0F; f += 360.0F)
-		{
+		for(f = p_110683_2_ - p_110683_1_; f < -180.0F; f += 360.0F) {
 			;
 		}
 
-		while (f >= 180.0F)
-		{
+		while(f >= 180.0F) {
 			f -= 360.0F;
 		}
 
@@ -440,58 +436,61 @@ public class ModelReindeer extends ModelBase {
 	}
 
 	/**
-	 * Used for easily adding entity-dependent animations. The second and third float params here are the same second
-	 * and third as in the setRotationAngles method.
+	 * Used for easily adding entity-dependent animations. The second and third
+	 * float params here are the same second and third as in the
+	 * setRotationAngles method.
 	 */
-	public void setLivingAnimations(EntityLivingBase entitylivingbaseIn, float limbSwing, float limbSwingAmount, float partialTickTime)
-	{
+	@Override
+	public void setLivingAnimations(EntityLivingBase entitylivingbaseIn, float limbSwing, float limbSwingAmount,
+			float partialTickTime) {
 		super.setLivingAnimations(entitylivingbaseIn, limbSwing, limbSwingAmount, partialTickTime);
-		float f = this.updateReindeerRotation(entitylivingbaseIn.prevRenderYawOffset, entitylivingbaseIn.renderYawOffset, partialTickTime);
-		float f1 = this.updateReindeerRotation(entitylivingbaseIn.prevRotationYawHead, entitylivingbaseIn.rotationYawHead, partialTickTime);
-		float f2 = entitylivingbaseIn.prevRotationPitch + (entitylivingbaseIn.rotationPitch - entitylivingbaseIn.prevRotationPitch) * partialTickTime;
+		float f = this.updateReindeerRotation(entitylivingbaseIn.prevRenderYawOffset,
+				entitylivingbaseIn.renderYawOffset, partialTickTime);
+		float f1 = this.updateReindeerRotation(entitylivingbaseIn.prevRotationYawHead,
+				entitylivingbaseIn.rotationYawHead, partialTickTime);
+		float f2 = entitylivingbaseIn.prevRotationPitch
+				+ (entitylivingbaseIn.rotationPitch - entitylivingbaseIn.prevRotationPitch) * partialTickTime;
 		float f3 = f1 - f;
 		float f4 = f2 * 0.017453292F;
 
-		if (f3 > 20.0F)
-		{
+		if(f3 > 20.0F) {
 			f3 = 20.0F;
 		}
 
-		if (f3 < -20.0F)
-		{
+		if(f3 < -20.0F) {
 			f3 = -20.0F;
 		}
 
-		if (limbSwingAmount > 0.2F)
-		{
+		if(limbSwingAmount > 0.2F) {
 			f4 += MathHelper.cos(limbSwing * 0.4F) * 0.15F * limbSwingAmount;
 		}
 
-		EntityReindeer entityreindeer = (EntityReindeer)entitylivingbaseIn;
+		EntityReindeer entityreindeer = (EntityReindeer) entitylivingbaseIn;
 		float f5 = entityreindeer.getGrassEatingAmount(partialTickTime);
 		float f6 = entityreindeer.getRearingAmount(partialTickTime);
 		float f7 = 1.0F - f6;
 		float f8 = entityreindeer.getMouthOpennessAngle(partialTickTime);
 		this.body.rotateAngleX = 0.0F;
 		float f16 = f3 * 0.017453292F;
-		this.body.rotateAngleX = (f6 * -((float)Math.PI / 4F) + f7 * this.body.rotateAngleX) * 0.65F;
-		this.chest.rotateAngleX = f6 * (0.2617994F + f4) + f5 * 2.1816616F + (1.0F - Math.max(f6, f5)) * (0.5235988F + f4) - (float) Math.toRadians(55);
+		this.body.rotateAngleX = (f6 * -((float) Math.PI / 4F) + f7 * this.body.rotateAngleX) * 0.65F;
+		this.chest.rotateAngleX = f6 * (0.2617994F + f4) + f5 * 2.1816616F
+				+ (1.0F - Math.max(f6, f5)) * (0.5235988F + f4) - (float) Math.toRadians(55);
 		this.snout.rotateAngleX = -0.09424778F * f8;
 		this.lowerJaw.rotateAngleX = 0.15707964F * f8;
 		this.chest.rotateAngleY = f6 * f3 * 0.017453292F + (1.0F - Math.max(f6, f5)) * f16;
-		
-        float f9 = (float)entitylivingbaseIn.ticksExisted + partialTickTime;
-        float f10 = MathHelper.cos(limbSwing * 0.6662F + (float)Math.PI);
-        float f11 = f10 * 0.8F * limbSwingAmount;
-        float f12 = 0.2617994F * f6;
-        float f13 = MathHelper.cos(f9 * 0.6F + (float)Math.PI);
-        float f14 = ((-1.0471976F + f13) * f6 + f11 * f7) * 0.8F;
-        float f15 = ((-1.0471976F - f13) * f6 + -f11 * f7) * 0.8F;
-		
-        this.lHindLeg01.rotateAngleX = f12 + -f10 * 0.5F * limbSwingAmount * f7;
-        this.rHindLeg01.rotateAngleX = f12 + f10 * 0.5F * limbSwingAmount * f7;
-        this.lForeleg01.rotateAngleX = f14;
-        this.rForeleg01.rotateAngleX = f15;
+
+		float f9 = entitylivingbaseIn.ticksExisted + partialTickTime;
+		float f10 = MathHelper.cos(limbSwing * 0.6662F + (float) Math.PI);
+		float f11 = f10 * 0.8F * limbSwingAmount;
+		float f12 = 0.2617994F * f6;
+		float f13 = MathHelper.cos(f9 * 0.6F + (float) Math.PI);
+		float f14 = ((-1.0471976F + f13) * f6 + f11 * f7) * 0.8F;
+		float f15 = ((-1.0471976F - f13) * f6 + -f11 * f7) * 0.8F;
+
+		this.lHindLeg01.rotateAngleX = f12 + -f10 * 0.5F * limbSwingAmount * f7;
+		this.rHindLeg01.rotateAngleX = f12 + f10 * 0.5F * limbSwingAmount * f7;
+		this.lForeleg01.rotateAngleX = f14;
+		this.rForeleg01.rotateAngleX = f15;
 	}
 
 

@@ -33,34 +33,30 @@ public class ItemRegistry {
 	public static final ItemPheasantCooked pheasantCooked = new ItemPheasantCooked(7, true);
 
 	// These are not registered
-	public static final ItemHirschgeistSkull itemHirschgeistSkull = new ItemHirschgeistSkull(BlockRegistry.hirschgeistskull);
-	
+	public static final ItemHirschgeistSkull itemHirschgeistSkull = new ItemHirschgeistSkull(
+			BlockRegistry.hirschgeistskull);
+
 	@Mod.EventBusSubscriber(modid = Ref.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 	public static class RegistrationHandler {
+
 		public static final Set<Item> ITEMS = new HashSet<>();
 
 		/**
 		 * Register this mod's {@link Item}s.
 		 *
-		 * @param event The event
+		 * @param event
+		 *            The event
 		 */
 		@SubscribeEvent
 		public static void registerItems(final RegistryEvent.Register<Item> event) {
-			Item[] items = {
-					venisonRaw,
-					venisonCooked,
-					itemHirschgeistSkullWearable,
-					antler,
-					goatMilk,
-					goatCheese,
-					pheasantRaw,
-					pheasantCooked,
-			};
+			Item[] items = { ItemRegistry.venisonRaw, ItemRegistry.venisonCooked,
+					ItemRegistry.itemHirschgeistSkullWearable, ItemRegistry.antler, ItemRegistry.goatMilk,
+					ItemRegistry.goatCheese, ItemRegistry.pheasantRaw, ItemRegistry.pheasantCooked, };
 			final IForgeRegistry<Item> registry = event.getRegistry();
 
-			for (final Item item : items) {
+			for(final Item item : items) {
 				registry.register(item);
-				ITEMS.add(item);
+				RegistrationHandler.ITEMS.add(item);
 			}
 		}
 	}

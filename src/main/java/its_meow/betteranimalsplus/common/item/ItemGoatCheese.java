@@ -7,31 +7,29 @@ import net.minecraft.item.ItemStack;
 
 public class ItemGoatCheese extends ItemFood {
 
-	 /** Number of ticks to run while 'EnumAction'ing until result. */
-    public final int itemUseDuration;
-    /** The amount this food item heals the player. */
-    private final int healAmount;
-    
-    private final boolean isMeat = false;
-	
+	/** Number of ticks to run while 'EnumAction'ing until result. */
+	public final int itemUseDuration;
+	/** The amount this food item heals the player. */
+	private final int healAmount;
+
+	private final boolean isMeat = false;
+
 	public ItemGoatCheese() {
 		super(3, 1, false, new Properties().group(BetterAnimalsPlusMod.group));
 		this.setRegistryName("goatcheese");
-        this.itemUseDuration = 15;
-        this.healAmount = 3;
+		this.itemUseDuration = 15;
+		this.healAmount = 3;
 	}
-	
-    /**
-     * How long it takes to use or consume an item
-     */
-    public int getMaxItemUseDuration(ItemStack stack)
-    {
-        return this.itemUseDuration;
-    }
-    
-    
 
-    @Override
+	/**
+	 * How long it takes to use or consume an item
+	 */
+	public int getMaxItemUseDuration(ItemStack stack) {
+		return this.itemUseDuration;
+	}
+
+
+	@Override
 	public int getHealAmount(ItemStack stack) {
 		return this.healAmount;
 	}
@@ -42,11 +40,11 @@ public class ItemGoatCheese extends ItemFood {
 	}
 
 	/**
-     * returns the action that specifies what animation to play when the items is being used
-     */
-    public EnumAction getItemUseAction(ItemStack stack)
-    {
-        return EnumAction.EAT;
-    }
+	 * returns the action that specifies what animation to play when the items
+	 * is being used
+	 */
+	public EnumAction getItemUseAction(ItemStack stack) {
+		return EnumAction.EAT;
+	}
 
 }

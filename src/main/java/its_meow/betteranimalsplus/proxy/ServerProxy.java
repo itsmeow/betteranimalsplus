@@ -4,7 +4,7 @@ public class ServerProxy implements ISidedProxy {
 
 	@Override
 	public void setup() {
-		
+
 	}
 
 }
