@@ -1,0 +1,28 @@
+﻿{
+    "_comment": "Creative Tabs",
+    "itemGroup.Better Animals+": "حيوانات أفضل+",
+
+    "_comment": "Items",
+    "item.betteranimalsplus.venisonraw": "لحم غزال خام",
+    "item.betteranimalsplus.venisoncooked": "لحم غزال مطبوخ",
+    "item.betteranimalsplus.hirschgeistskullwearable": "جمجمة غزال شبح قابلة للأرتداء",
+    "item.betteranimalsplus.antler": "قرن الوعل",
+
+    "_comment": "Blocks",
+    "block.betteranimalsplus.trillium": "تريليوم",
+    "block.betteranimalsplus.hirschgeistskull": "جمجمة غزال شبح",
+    "block.betteranimalsplus.handoffate": "يد المصير",
+
+    "_comment": "Entities",
+    "entity.betteranimalsplus.BrownBear": "دب بني",
+    "entity.betteranimalsplus.BlackBear": "دب أسود",
+    "entity.betteranimalsplus.KermodeBear": "دب الكيرمود",
+    "entity.betteranimalsplus.Deer": "غزال",
+    "entity.betteranimalsplus.Lammergeier": "نسر أبو ذقن",
+    "entity.betteranimalsplus.FeralWolf": "ذئب وحشي",
+    "entity.betteranimalsplus.Coyote": "قيوط",
+    "entity.betteranimalsplus.Trillium": "تريليوم",
+    "entity.betteranimalsplus.Fox": "ثعلب",
+    "entity.betteranimalsplus.Tarantula": "رتيلاء",
+    "entity.betteranimalsplus.Hirschgeist": "غزال شبح"
+}

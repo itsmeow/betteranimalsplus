@@ -35,21 +35,19 @@ public class ItemBlockSkull extends ItemBlock {
 		this.allowFloor = allowFloor;
 	}
 
-
 	@Override
 	protected boolean canPlace(BlockItemUseContext ctx, IBlockState state) {
 		World world = ctx.getWorld();
 		BlockPos pos = ctx.getPos();
 		EnumFacing side = ctx.getFace();
 		Block block = world.getBlockState(pos).getBlock();
-		ItemStack stack = ctx.getItem();
 
-		if(block == Blocks.SNOW && block.isReplaceable(state, ctx)) {
+		if(block == Blocks.SNOW && state.isReplaceable(ctx)) {
 			side = EnumFacing.UP;
-		} else if(!block.isReplaceable(state, ctx)) {
+		} else if(!state.isReplaceable(ctx)) {
 			pos = pos.offset(side);
 		}
-		return block.isReplaceable(state, ctx);
+		return state.isReplaceable(ctx);
 	}
 
 	@Override
@@ -64,7 +62,7 @@ public class ItemBlockSkull extends ItemBlock {
 		} else {
 			BlockPos clickedPos = pos.offset(side);
 			IBlockState clickedState = world.getBlockState(clickedPos);
-			if(!clickedState.getBlock().isReplaceable(clickedState, new BlockItemUseContext(ctx))) {
+			if(!clickedState.isReplaceable(new BlockItemUseContext(ctx))) {
 				return EnumActionResult.FAIL;
 			}
 			if(!world.isRemote) {

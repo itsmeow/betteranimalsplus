@@ -15,6 +15,9 @@ import its_meow.betteranimalsplus.common.item.ItemPheasantRaw;
 import its_meow.betteranimalsplus.common.item.ItemVenisonCooked;
 import its_meow.betteranimalsplus.common.item.ItemVenisonRaw;
 import net.minecraft.item.Item;
+import net.minecraft.item.Item.Properties;
+import net.minecraft.item.ItemGroup;
+import net.minecraft.item.ItemSpawnEgg;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -58,7 +61,14 @@ public class ItemRegistry {
 				registry.register(item);
 				RegistrationHandler.ITEMS.add(item);
 			}
+			for(EntityContainer ent : MobRegistry.entryMap.keySet()) {
+				ItemSpawnEgg egg = new ItemSpawnEgg(MobRegistry.entryMap.get(ent), ent.eggColorSolid, ent.eggColorSpot,
+						new Properties().group(ItemGroup.MISC));
+				registry.register(egg);
+				MobRegistry.eggs.add(egg);
+			}
 		}
+		
 	}
 
 }

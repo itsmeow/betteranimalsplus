@@ -31,9 +31,6 @@ import net.minecraft.entity.EntitySpawnPlacementRegistry;
 import net.minecraft.entity.EntitySpawnPlacementRegistry.SpawnPlacementType;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.EnumCreatureType;
-import net.minecraft.item.Item;
-import net.minecraft.item.Item.Properties;
-import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemSpawnEgg;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
@@ -101,10 +98,10 @@ public class MobRegistry {
 				EnumCreatureType.CREATURE, 0xfffff, 0x00000, BetterAnimalsPlusConfig.hirschgeistWeight, 1, 1,
 				BiomeDictionary.getBiomes(Type.FOREST)));
 		MobRegistry.entityList
-				.add(new EntityContainer(EntityGoat.class, EntityGoat::new, "Goat", EnumCreatureType.CREATURE, 0xffffff,
-						0xeeeeee, BetterAnimalsPlusConfig.goatWeight, 1, 4, BiomeDictionary.getBiomes(Type.HILLS),
-						BiomeDictionary.getBiomes(Type.MOUNTAIN), BiomeDictionary.getBiomes(Type.SAVANNA),
-						BiomeDictionary.getBiomes(Type.PLAINS), BiomeDictionary.getBiomes(Type.FOREST)));
+		.add(new EntityContainer(EntityGoat.class, EntityGoat::new, "Goat", EnumCreatureType.CREATURE, 0xffffff,
+				0xeeeeee, BetterAnimalsPlusConfig.goatWeight, 1, 4, BiomeDictionary.getBiomes(Type.HILLS),
+				BiomeDictionary.getBiomes(Type.MOUNTAIN), BiomeDictionary.getBiomes(Type.SAVANNA),
+				BiomeDictionary.getBiomes(Type.PLAINS), BiomeDictionary.getBiomes(Type.FOREST)));
 		MobRegistry.entityList.add(new EntityContainer(EntityJellyfish.class, EntityJellyfish::new, "Jellyfish",
 				EnumCreatureType.WATER_CREATURE, 0x226fe2, 0xf2b3b3, BetterAnimalsPlusConfig.jellyFishWeight, 1, 1,
 				BiomeDictionary.getBiomes(Type.OCEAN)));
@@ -201,17 +198,6 @@ public class MobRegistry {
 					// entityEntry.getRegistryName());
 					registry.register(entityEntry);
 				}
-			}
-		}
-
-		@SubscribeEvent
-		public static void registerEggs(final RegistryEvent.Register<Item> event) {
-			IForgeRegistry<Item> registry = event.getRegistry();
-			for(EntityContainer ent : MobRegistry.entryMap.keySet()) {
-				ItemSpawnEgg egg = new ItemSpawnEgg(MobRegistry.entryMap.get(ent), ent.eggColorSolid, ent.eggColorSpot,
-						new Properties().group(ItemGroup.MISC));
-				registry.register(egg);
-				MobRegistry.eggs.add(egg);
 			}
 		}
 	}
