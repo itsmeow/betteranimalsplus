@@ -27,7 +27,7 @@ public class ArmorMaterialBone implements IArmorMaterial {
 
 	@Override
 	public String getName() {
-		return "bone";
+		return "betteranimalsplus:bone";
 	}
 
 	@Override

@@ -2,7 +2,6 @@ package its_meow.betteranimalsplus.common.tileentity;
 
 import java.util.Random;
 
-import its_meow.betteranimalsplus.Ref;
 import its_meow.betteranimalsplus.common.entity.miniboss.hirschgeist.EntityHirschgeist;
 import its_meow.betteranimalsplus.init.BlockRegistry;
 import net.minecraft.block.BlockHorizontal;
@@ -12,7 +11,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
@@ -20,8 +18,6 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 public class TileEntityHandOfFate extends TileEntity {
 
-	public static final TileEntityType<?> HAND_OF_FATE_TYPE = TileEntityType.Builder.create(TileEntityHandOfFate::new)
-			.build(null).setRegistryName(Ref.MOD_ID, "handoffatetilentity");
 	private boolean onFire;
 	private final String keyOnFire = "OnFire";
 
@@ -35,11 +31,11 @@ public class TileEntityHandOfFate extends TileEntity {
 	private final String keyVenison = "HasVenison";
 
 	public TileEntityHandOfFate() {
-		super(TileEntityHandOfFate.HAND_OF_FATE_TYPE);
+		super(BlockRegistry.RegistrationHandler.HAND_OF_FATE_TYPE);
 	}
 
 	public TileEntityHandOfFate(World worldIn) {
-		super(TileEntityHandOfFate.HAND_OF_FATE_TYPE);
+		super(BlockRegistry.RegistrationHandler.HAND_OF_FATE_TYPE);
 		this.world = worldIn;
 	}
 

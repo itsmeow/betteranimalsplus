@@ -61,9 +61,10 @@ public class ItemRegistry {
 				registry.register(item);
 				RegistrationHandler.ITEMS.add(item);
 			}
-			for(EntityContainer ent : MobRegistry.entryMap.keySet()) {
+			for(EntityContainer ent : MobRegistry.entityList) {
 				ItemSpawnEgg egg = new ItemSpawnEgg(MobRegistry.entryMap.get(ent), ent.eggColorSolid, ent.eggColorSpot,
 						new Properties().group(ItemGroup.MISC));
+				egg.setRegistryName(ent.entityName.toLowerCase().toString() + "_spawn_egg");
 				registry.register(egg);
 				MobRegistry.eggs.add(egg);
 			}

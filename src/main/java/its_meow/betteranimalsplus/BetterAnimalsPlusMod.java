@@ -4,8 +4,10 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import its_meow.betteranimalsplus.client.ClientLifecycleHandler;
 import its_meow.betteranimalsplus.common.world.gen.TrilliumGenerator;
 import its_meow.betteranimalsplus.init.ItemRegistry;
+import its_meow.betteranimalsplus.init.LootTableRegistry;
 import its_meow.betteranimalsplus.init.MobRegistry;
 import its_meow.betteranimalsplus.proxy.ClientProxy;
 import its_meow.betteranimalsplus.proxy.ISidedProxy;
@@ -18,7 +20,6 @@ import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.feature.NoFeatureConfig;
 import net.minecraft.world.gen.placement.FrequencyConfig;
 import net.minecraftforge.common.BiomeDictionary;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
@@ -29,18 +30,9 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 public class BetterAnimalsPlusMod {
 
 	public BetterAnimalsPlusMod() {
-		// Register the setup method for modloading
-		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
-		// Register the enqueueIMC method for modloading
-		// FMLJavaModLoadingContext.get().getModEventBus().addListener(this::enqueueIMC);
-		// Register the processIMC method for modloading
-		// FMLJavaModLoadingContext.get().getModEventBus().addListener(this::processIMC);
-		// Register the doClientStuff method for modloading
-		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::clientSetup);
 
-		// Register ourselves for server, registry and other game events we are
-		// interested in
-		MinecraftForge.EVENT_BUS.register(this);
+		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
+		FMLJavaModLoadingContext.get().getModEventBus().<FMLClientSetupEvent>addListener(e -> new ClientLifecycleHandler().clientSetup(e));
 
 		MobRegistry.fillContainers();
 		BetterAnimalsPlusMod.logger.log(Level.INFO, "Injecting super coyotes...");
@@ -49,7 +41,7 @@ public class BetterAnimalsPlusMod {
 	public static ISidedProxy proxy = DistExecutor.runForDist(() -> () -> new ClientProxy(),
 			() -> () -> new ServerProxy());
 
-	public static ItemGroup group = new ItemGroup("betteranimalsplus") {
+	public static ItemGroup group = new ItemGroup("Better Animals+") {
 		@Override
 		public ItemStack createIcon() {
 			return new ItemStack(ItemRegistry.antler);
@@ -65,7 +57,7 @@ public class BetterAnimalsPlusMod {
 		}
 	};
 
-	private static final Logger logger = LogManager.getLogger();
+	public static final Logger logger = LogManager.getLogger();
 
 
 	private void setup(final FMLCommonSetupEvent event) {
@@ -74,11 +66,7 @@ public class BetterAnimalsPlusMod {
 				biome -> biome.addFeature(net.minecraft.world.gen.GenerationStage.Decoration.VEGETAL_DECORATION,
 						Biome.createCompositeFeature(new TrilliumGenerator(), new NoFeatureConfig(), Biome.TOP_SOLID,
 								new FrequencyConfig(3))));
+		LootTableRegistry.register();
 		BetterAnimalsPlusMod.logger.log(Level.INFO, "Overspawning lammergeiers...");
-	}
-	
-	// Don't load any client side classes here please
-	private void clientSetup(final FMLClientSetupEvent event) {
-		BetterAnimalsPlusMod.logger.log(Level.INFO, "Rendering squirrel physics...");
 	}
 }

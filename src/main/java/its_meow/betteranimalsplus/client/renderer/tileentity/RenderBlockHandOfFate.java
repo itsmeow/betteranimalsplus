@@ -9,10 +9,7 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.init.Particles;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
-@OnlyIn(Dist.CLIENT)
 public class RenderBlockHandOfFate extends TileEntityRenderer<TileEntityHandOfFate> {
 
 	ModelHandOfFate mainModel;

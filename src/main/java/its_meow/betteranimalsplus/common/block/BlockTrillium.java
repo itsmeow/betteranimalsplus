@@ -11,6 +11,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
@@ -46,13 +47,7 @@ public class BlockTrillium extends BlockHorizontal {
 			worldIn.destroyBlock(pos, true);
 		}
 	}
-
-
-	@Override
-	public boolean hasTileEntity() {
-		return true;
-	}
-
+	
 	@Override
 	public boolean isFullCube(IBlockState state) {
 		return false;
@@ -65,7 +60,28 @@ public class BlockTrillium extends BlockHorizontal {
 
 	@Override
 	public EnumBlockRenderType getRenderType(IBlockState state) {
-		return EnumBlockRenderType.INVISIBLE;
+		return EnumBlockRenderType.ENTITYBLOCK_ANIMATED;
+	}
+
+	@Override
+	public boolean isNormalCube(IBlockState state) {
+		return false;
+	}
+
+
+	@Override
+	public boolean isSolid(IBlockState state) {
+		return false;
+	}
+	
+	public static boolean isOpaque(VoxelShape shape) {
+		return true;
+	}
+
+
+	@Override
+	public boolean hasTileEntity() {
+		return true;
 	}
 
 	@Override

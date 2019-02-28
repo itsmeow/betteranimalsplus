@@ -172,12 +172,6 @@ public class MobRegistry {
 	@EventBusSubscriber(modid = Ref.MOD_ID, bus = EventBusSubscriber.Bus.MOD)
 	public static class RegistrationHandler {
 
-		/**
-		 * Register this mod's {@link EntityEntry}s.
-		 *
-		 * @param event
-		 *            The event
-		 */
 		@SubscribeEvent
 		public static void registerEntities(final RegistryEvent.Register<EntityType<?>> event) {
 			final IForgeRegistry<EntityType<?>> registry = event.getRegistry();

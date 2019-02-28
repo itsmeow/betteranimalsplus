@@ -18,6 +18,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
@@ -56,7 +57,7 @@ public class BlockHandOfFate extends BlockHorizontal {
 
 	@Override
 	public int getOpacity(IBlockState state, IBlockReader world, BlockPos pos) {
-		return 2;
+		return 1;
 	}
 
 
@@ -133,7 +134,22 @@ public class BlockHandOfFate extends BlockHorizontal {
 
 	@Override
 	public EnumBlockRenderType getRenderType(IBlockState state) {
-		return EnumBlockRenderType.INVISIBLE;
+		return EnumBlockRenderType.ENTITYBLOCK_ANIMATED;
+	}
+
+	@Override
+	public boolean isNormalCube(IBlockState state) {
+		return false;
+	}
+
+
+	@Override
+	public boolean isSolid(IBlockState state) {
+		return false;
+	}
+	
+	public static boolean isOpaque(VoxelShape shape) {
+		return true;
 	}
 
 	@Override

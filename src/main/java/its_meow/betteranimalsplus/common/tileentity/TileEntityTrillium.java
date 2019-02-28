@@ -2,7 +2,6 @@ package its_meow.betteranimalsplus.common.tileentity;
 
 import java.util.Random;
 
-import its_meow.betteranimalsplus.Ref;
 import its_meow.betteranimalsplus.client.model.ModelTrillium;
 import its_meow.betteranimalsplus.client.model.ModelTrilliumMulti;
 import its_meow.betteranimalsplus.client.model.ModelTrilliumMulti2;
@@ -15,7 +14,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
@@ -23,8 +21,6 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 public class TileEntityTrillium extends TileEntity {
 
-	public static final TileEntityType<?> TRILLIUM_TYPE = TileEntityType.Builder.create(TileEntityTrillium::new)
-			.build(null).setRegistryName(Ref.MOD_ID, "trilliumtilentity");
 	private int typeNum;
 	private final String keyType = "trilliumType";
 
@@ -35,7 +31,7 @@ public class TileEntityTrillium extends TileEntity {
 
 
 	public TileEntityTrillium() {
-		super(TileEntityTrillium.TRILLIUM_TYPE);
+		super(BlockRegistry.RegistrationHandler.TRILLIUM_TYPE);
 		if(!this.getTileData().hasKey(this.keyType)) {
 			this.setType(new Random().nextInt(5));
 		}

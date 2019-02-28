@@ -125,13 +125,20 @@ public class BlockRegistry {
 				}
 			}
 		}
-
+		
+		public static final TileEntityType<?> TRILLIUM_TYPE = TileEntityType.Builder.create(TileEntityTrillium::new)
+				.build(null).setRegistryName(Ref.MOD_ID, "trilliumtilentity");
+		public static final TileEntityType<?> HAND_OF_FATE_TYPE = TileEntityType.Builder.create(TileEntityHandOfFate::new)
+				.build(null).setRegistryName(Ref.MOD_ID, "handoffatetilentity");
+		public static final TileEntityType<?> HIRSCHGEIST_SKULL_TYPE = TileEntityType.Builder.create(TileEntityHirschgeistSkull::new)
+				.build(null).setRegistryName(Ref.MOD_ID, "hirschgeistskulltileentity");
+		
 		@SubscribeEvent
 		public static void registerTileEntities(final RegistryEvent.Register<TileEntityType<?>> event) {
 			final IForgeRegistry<TileEntityType<?>> reg = event.getRegistry();
-			reg.register(TileEntityTrillium.TRILLIUM_TYPE);
-			reg.register(TileEntityHandOfFate.HAND_OF_FATE_TYPE);
-			reg.register(TileEntityHirschgeistSkull.HIRSCHGEIST_SKULL_TYPE);
+			reg.register(TRILLIUM_TYPE);
+			reg.register(HAND_OF_FATE_TYPE);
+			reg.register(HIRSCHGEIST_SKULL_TYPE);
 
 			for(BlockGenericSkull block : BlockRegistry.genericskulls.keySet()) {
 				RegistrationHandler.reg(reg, block.teSupplier, block, block.teClass);
