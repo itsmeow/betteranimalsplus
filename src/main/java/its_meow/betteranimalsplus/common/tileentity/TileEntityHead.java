@@ -15,6 +15,8 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IBlockReader;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -27,6 +29,7 @@ public class TileEntityHead extends TileEntity {
 	private Method textureFunction;
 	private float offset;
 	private float rotation;
+	private boolean shouldDrop = true;
 
 	public HashMap<Integer, ResourceLocation> textures;
 
@@ -149,6 +152,17 @@ public class TileEntityHead extends TileEntity {
 	public EnumFacing getBlockFacing() {
 		return EnumFacing.NORTH;
 		// return this.getBlockState().get(BlockSkull.ROTATION);
+	}
+	
+	public static void disableDrop(IBlockReader world, BlockPos pos) {
+		TileEntity te = world.getTileEntity(pos);
+		if ((te instanceof TileEntityHead)) {
+			((TileEntityHead) te).shouldDrop = false;
+		}
+	}
+
+	public boolean shouldDrop() {
+		return shouldDrop;
 	}
 
 }

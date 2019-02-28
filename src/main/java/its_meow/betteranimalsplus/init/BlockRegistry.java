@@ -31,11 +31,9 @@ import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.IForgeRegistry;
-import net.minecraftforge.registries.ObjectHolder;
 
-@ObjectHolder(its_meow.betteranimalsplus.Ref.MOD_ID)
 public class BlockRegistry {
-
+	
 	public static final BlockTrillium trillium = new BlockTrillium();
 	public static final BlockHirschgeistSkull hirschgeistskull = new BlockHirschgeistSkull();
 	public static final BlockHandOfFate handoffate = new BlockHandOfFate();

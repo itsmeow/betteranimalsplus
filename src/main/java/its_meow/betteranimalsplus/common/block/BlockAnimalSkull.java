@@ -8,7 +8,6 @@ import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
@@ -75,14 +74,12 @@ public class BlockAnimalSkull extends BlockSkull {
 
 	@Override
 	public void getDrops(IBlockState state, NonNullList<ItemStack> drops, World world, BlockPos pos, int fortune) {
-		if(!world.isRemote) {
-			TileEntity te2 = world.getTileEntity(pos);
-			if(te2 instanceof TileEntityHead) {
-				TileEntityHead te = (TileEntityHead) te2;
-				Item item = this.getItemBlock(te.typeValue());
-				if(item != null && item != Items.AIR) {
-					drops.add(new ItemStack(item));
-				}
+		TileEntity te = world.getTileEntity(pos);
+		if (te instanceof TileEntityHead) {
+			TileEntityHead head = (TileEntityHead)te;
+			if (head.shouldDrop()) {
+				ItemStack ret = getItem(world, pos, state);
+				drops.add(ret);
 			}
 		}
 	}
@@ -98,6 +95,9 @@ public class BlockAnimalSkull extends BlockSkull {
 	@Override
 	public void harvestBlock(World worldIn, EntityPlayer player, BlockPos pos, IBlockState state,
 			@Nullable TileEntity te, ItemStack stack) {
+		if (!worldIn.isRemote && player.abilities.isCreativeMode) {
+			TileEntityHead.disableDrop(worldIn, pos);
+		}
 		player.addExhaustion(0.005F);
 	}
 
@@ -106,12 +106,7 @@ public class BlockAnimalSkull extends BlockSkull {
 	 */
 	@Override
 	public Item getItemDropped(IBlockState state, World world, BlockPos pos, int fortune) {
-		TileEntity te2 = world.getTileEntity(pos);
-		if(te2 instanceof TileEntityHead) {
-			TileEntityHead te = (TileEntityHead) te2;
-			return this.getItemBlock(te.typeValue());
-		}
-		return null;
+		return this.getItem(world, pos, state).getItem();
 	}
 
 
