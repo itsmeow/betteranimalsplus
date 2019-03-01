@@ -30,7 +30,10 @@ public class RenderBlockHandOfFate extends TileEntityRenderer<TileEntityHandOfFa
 		GlStateManager.translated(x + 0.5F, y + 1.5F, z + 0.5F);
 		GlStateManager.rotatef(180, 0, 0, 1);
 		this.bindTexture(TextureRegistry.handoffate);
-		float rotate = tileentity.getRotation();
+		float rotate = 0F;
+		if(!tileentity.getWorld().isAirBlock(tileentity.getPos())) {
+			rotate = tileentity.getRotation();
+		}
 		this.mainModel.render((Entity) null, (float) x + 0.5F, (float) y + 1.5F, (float) z + 0.5F, rotate, 0F, 0.0625F);
 
 		if(tileentity.isOnFire() && this.i % 5 == 0) {

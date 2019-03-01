@@ -111,7 +111,7 @@ public class TileEntityHead extends TileEntity {
 			return this.textures.get(this.typeNum);
 		} else {
 			ResourceLocation rl = textureFunc.apply(this.typeNum);
-			if(rl == null) {
+			if(rl == null || rl.toString().equals("")) {
 				rl = this.textures.get(this.typeNum);
 			}
 			return rl;

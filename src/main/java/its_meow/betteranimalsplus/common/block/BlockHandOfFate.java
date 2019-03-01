@@ -9,6 +9,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
+import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.state.StateContainer.Builder;
@@ -119,6 +120,11 @@ public class BlockHandOfFate extends BlockHorizontal {
 			}
 		}
 		return false;
+	}
+
+	@Override
+	public IBlockState getStateForPlacement(BlockItemUseContext context) {
+		return this.getDefaultState().with(HORIZONTAL_FACING, context.getPlacementHorizontalFacing());
 	}
 
 	@Override

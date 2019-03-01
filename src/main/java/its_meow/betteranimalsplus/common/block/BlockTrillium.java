@@ -2,10 +2,12 @@ package its_meow.betteranimalsplus.common.block;
 
 import its_meow.betteranimalsplus.common.tileentity.TileEntityTrillium;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockBush;
 import net.minecraft.block.BlockHorizontal;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.state.StateContainer.Builder;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumBlockRenderType;
@@ -15,10 +17,10 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
 
-public class BlockTrillium extends BlockHorizontal {
+public class BlockTrillium extends BlockBush {
 
 	public BlockTrillium() {
-		super(Properties.create(Material.PLANTS).sound(SoundType.PLANT));
+		super(Properties.create(Material.PLANTS).sound(SoundType.PLANT).doesNotBlockMovement());
 		this.setRegistryName("trillium");
 		this.setDefaultState(this.getDefaultState().with(BlockHorizontal.HORIZONTAL_FACING, EnumFacing.NORTH));
 	}
@@ -45,6 +47,11 @@ public class BlockTrillium extends BlockHorizontal {
 		if(!worldIn.getBlockState(pos.down()).isTopSolid(worldIn, pos)) {
 			worldIn.destroyBlock(pos, true);
 		}
+	}
+	
+	@Override
+	public IBlockState getStateForPlacement(BlockItemUseContext context) {
+		return this.getDefaultState().with(BlockHorizontal.HORIZONTAL_FACING, context.getPlacementHorizontalFacing());
 	}
 	
 	@Override

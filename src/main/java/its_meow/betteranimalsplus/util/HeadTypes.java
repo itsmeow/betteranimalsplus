@@ -58,7 +58,7 @@ public enum HeadTypes {
 				return TextureRegistry.reindeer_1;
 			}
 		}
-	})));
+	}), TextureRegistry.reindeer_1, TextureRegistry.reindeer_2, TextureRegistry.reindeer_3, TextureRegistry.reindeer_4));
 
 	public final String name;
 	public final boolean allowFloor;

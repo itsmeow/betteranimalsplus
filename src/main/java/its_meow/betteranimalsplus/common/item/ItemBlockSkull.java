@@ -102,8 +102,8 @@ public class ItemBlockSkull extends ItemWallOrFloor {
 		if(tile instanceof TileEntityHead) {
 			TileEntityHead tileSkull = (TileEntityHead) tile;
 			int rotation = 0;
-			if(side == EnumFacing.UP) {
-				rotation = MathHelper.floor(player.rotationYaw * 16.0F / 360.0F + 0.5D) & 15;
+			if(side == EnumFacing.UP || side == EnumFacing.DOWN) {
+				rotation = -MathHelper.floor((player.rotationYaw * 8.0F) / 360.0F + 0.5D);
 			} else {
 				rotation = (int) side.getHorizontalAngle();
 			}
