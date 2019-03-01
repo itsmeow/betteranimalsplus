@@ -16,7 +16,7 @@ public class BlockGenericSkull extends BlockAnimalSkull {
 
 	@Override
 	public TileEntity createNewTileEntity(IBlockReader reader) {
-		return type.teSupplier.get();
+		return type.teFactory.apply(type);
 	}
 
 }
