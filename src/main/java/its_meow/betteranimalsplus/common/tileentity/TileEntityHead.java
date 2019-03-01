@@ -46,6 +46,24 @@ public class TileEntityHead extends TileEntity {
 		this(type, yOffset, null, textureList);
 	}
 	
+	public TileEntityHead(Class<? extends ModelBase> model, Class<? extends TileEntityHead> teClass, float yOffset,
+			ResourceLocation... textureList) {
+		super(BlockRegistry.getSkullTileEntityType(teClass));
+		this.modelT = model;
+		this.textures = new HashMap<>();
+		int i = 1;
+		for(ResourceLocation texture : textureList) {
+			this.textures.put(i, texture);
+			i++;
+		}
+		if(!this.getTileData().hasKey("TYPENUM")) {
+			this.setType(new Random().nextInt(this.textures.size()) + 1);
+			this.markDirty();
+		}
+		this.offset = yOffset;
+		this.textureFunc = null;
+	}
+	
 	public TileEntityHead(HeadTypes type, float yOffset, Function<Integer, ResourceLocation> textureFunc,
 			ResourceLocation... textureList) {
 		this(type, TileEntityHead.class, yOffset, textureFunc, textureList);
@@ -54,7 +72,7 @@ public class TileEntityHead extends TileEntity {
 	public TileEntityHead(HeadTypes type, Class<? extends TileEntityHead> teClass, float yOffset, Function<Integer, ResourceLocation> textureFunc,
 			ResourceLocation... textureList) {
 		super(BlockRegistry.getSkullTileEntityType(teClass));
-		this.modelT = type.getModelSupplier().get().get().getClass(); // this is pure pain but nessecary
+		this.modelT = type.getModelSupplier().get().get();
 		this.textures = new HashMap<>();
 		int i = 1;
 		for(ResourceLocation texture : textureList) {

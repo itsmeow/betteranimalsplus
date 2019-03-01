@@ -22,16 +22,16 @@ import net.minecraft.client.renderer.entity.model.ModelBase;
 
 public enum HeadTypes {
 
-	WOLFHEAD("wolfhead", true, 4, ()->()-> new ModelWolfHead(), type -> new TileEntityHead(type, 0F,
+	WOLFHEAD("wolfhead", true, 4, ()->()-> ModelWolfHead.class, type -> new TileEntityHead(type, 0F,
 			TextureRegistry.boar_1, TextureRegistry.boar_2, TextureRegistry.boar_3, TextureRegistry.boar_4)),
 
-	FOXHEAD("foxhead", true, 4, ()->()-> new ModelFoxHead(), type -> new TileEntityHead(type, -0.1F,
+	FOXHEAD("foxhead", true, 4, ()->()-> ModelFoxHead.class, type -> new TileEntityHead(type, -0.1F,
 			TextureRegistry.fox_1, TextureRegistry.fox_2, TextureRegistry.fox_3, TextureRegistry.fox_4)),
 
-	BOARHEAD("boarhead", false, 4, ()->()-> new ModelBoarHead(), type -> new TileEntityHead(type, 0F,
+	BOARHEAD("boarhead", false, 4, ()->()-> ModelBoarHead.class, type -> new TileEntityHead(type, 0F,
 			TextureRegistry.boar_1, TextureRegistry.boar_2, TextureRegistry.boar_3, TextureRegistry.boar_4)),
 
-	DEERHEAD("deerhead", false, 2, ()->()-> new ModelDeerHead(), type -> new TileEntityHead(type, 0F, (typeNum -> {
+	DEERHEAD("deerhead", false, 2, ()->()-> ModelDeerHead.class, type -> new TileEntityHead(type, 0F, (typeNum -> {
 		Calendar calendar = Calendar.getInstance();
 		if(calendar.get(2) + 1 == 12 && calendar.get(5) >= 24 && calendar.get(5) <= 26) {
 			return typeNum == 1 ? TextureRegistry.deer_1_christmas : TextureRegistry.deer_2_christmas;
@@ -41,7 +41,7 @@ public enum HeadTypes {
 
 	}))),
 
-	REINDEERHEAD("reindeerhead", false, 4, ()->()-> new ModelReindeerHead(), type -> new TileEntityHead(type, 0F, (typeNum -> {
+	REINDEERHEAD("reindeerhead", false, 4, ()->()-> ModelReindeerHead.class, type -> new TileEntityHead(type, 0F, (typeNum -> {
 		if(typeNum <= 4) {
 			return null;
 		} else {
@@ -67,9 +67,9 @@ public enum HeadTypes {
 	private ArrayList<Pair<BlockGenericSkull, ItemBlockHeadType>> heads = new ArrayList<Pair<BlockGenericSkull, ItemBlockHeadType>>();
 	private Set<ItemBlockHeadType> items = new HashSet<ItemBlockHeadType>();
 	private Set<BlockGenericSkull> blocks = new HashSet<BlockGenericSkull>();
-	private final Supplier<Supplier<? extends ModelBase>> modelSupplier;
+	private final Supplier<Supplier<Class<? extends ModelBase>>> modelSupplier;
 	
-	HeadTypes(String name, boolean allowFloor, int texCount, Supplier<Supplier<? extends ModelBase>> modelSupplier,
+	HeadTypes(String name, boolean allowFloor, int texCount, Supplier<Supplier<Class<? extends ModelBase>>> modelSupplier,
 			Function<HeadTypes, TileEntityHead> teFactory) {
 		this.name = name;
 		this.allowFloor = allowFloor;
@@ -101,7 +101,7 @@ public enum HeadTypes {
 		return blocks;
 	}
 
-	public Supplier<Supplier<? extends ModelBase>> getModelSupplier() {
+	public Supplier<Supplier<Class<? extends ModelBase>>> getModelSupplier() {
 		return modelSupplier;
 	}
 	
