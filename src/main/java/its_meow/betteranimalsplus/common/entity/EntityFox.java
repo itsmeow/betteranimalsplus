@@ -3,6 +3,7 @@ package its_meow.betteranimalsplus.common.entity;
 import javax.annotation.Nullable;
 
 import its_meow.betteranimalsplus.init.MobRegistry;
+import its_meow.betteranimalsplus.util.HeadTypes;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityAgeable;
@@ -188,7 +189,17 @@ public class EntityFox extends EntityTameable {
 	protected void playStepSound(BlockPos pos, Block blockIn) {
 		this.playSound(SoundEvents.ENTITY_WOLF_STEP, 0.15F, 1.0F);
 	}
-
+	
+	@Override
+	public void onDeath(DamageSource cause) {
+		super.onDeath(cause);
+		if(!world.isRemote && !this.isChild()) {
+			if(this.rand.nextInt(12) == 0) {
+				ItemStack stack = new ItemStack(HeadTypes.WOLFHEAD.getItem(this.getTypeNumber()));
+				this.entityDropItem(stack, 0.5F);
+			}
+		}
+	}
 
 	@Override
 	protected SoundEvent getAmbientSound() {

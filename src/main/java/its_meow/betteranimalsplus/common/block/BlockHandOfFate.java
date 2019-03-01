@@ -18,7 +18,6 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
@@ -147,13 +146,14 @@ public class BlockHandOfFate extends BlockHorizontal {
 	public boolean isSolid(IBlockState state) {
 		return false;
 	}
-	
-	public static boolean isOpaque(VoxelShape shape) {
-		return true;
-	}
 
 	@Override
 	public boolean hasTileEntity() {
+		return true;
+	}
+	
+	@Override
+	public boolean hasTileEntity(IBlockState state) {
 		return true;
 	}
 

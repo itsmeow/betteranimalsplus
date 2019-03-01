@@ -19,24 +19,28 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 
 public class ItemBlockSkull extends ItemBlock {
-	
+
 	public final boolean allowFloor;
 	public final int typeNum;
-	
+
 	public ItemBlockSkull(Block block, boolean allowFloor, int typeNum) {
 		super(block, new Properties().group(BetterAnimalsPlusMod.group));
-		this.setRegistryName(block.getRegistryName());
+		if(block.getRegistryName() != null) {
+			this.setRegistryName(block.getRegistryName());
+		}
 		this.allowFloor = allowFloor;
 		this.typeNum = typeNum;
 	}
 
 	public ItemBlockSkull(Block block, boolean allowFloor, int typeNum, Properties prop) {
 		super(block, prop);
-		this.setRegistryName(block.getRegistryName());
+		if(block.getRegistryName() != null) {
+			this.setRegistryName(block.getRegistryName());
+		}
 		this.allowFloor = allowFloor;
 		this.typeNum = typeNum;
 	}
-	
+
 	@Override
 	protected boolean canPlace(BlockItemUseContext ctx, IBlockState state) {
 		World world = ctx.getWorld();
@@ -92,5 +96,5 @@ public class ItemBlockSkull extends ItemBlock {
 			tileSkull.setType(typeNum);
 		}
 	}
-	
+
 }

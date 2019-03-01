@@ -80,7 +80,7 @@ public class TileEntityHead extends TileEntity {
 			i++;
 		}
 		if(!this.getTileData().hasKey("TYPENUM")) {
-			this.setType(new Random().nextInt(this.textures.size()) + 1);
+			this.setType(new Random().nextInt(type.textureCount) + 1);
 			this.markDirty();
 		}
 		this.offset = yOffset;

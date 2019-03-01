@@ -10,7 +10,7 @@ public class BlockGenericSkull extends BlockAnimalSkull {
 
 	public BlockGenericSkull(HeadTypes type, int i) {
 		super();
-		this.setRegistryName(type.name + "_" + i); // Used by item, don't remove!
+		this.setRegistryName(type.name + "_" + i);
 		this.type = type;
 	}
 

@@ -6,13 +6,11 @@
 	"group": "betteranimalsplus:hirschgeistskull",
 	"ingredients": [
 	    {
-	        "item": "betteranimalsplus:hirschgeistskull",
-			"data": 0
+	        "item": "betteranimalsplus:hirschgeistskull"
 	    }
 	],
 	"result": {
 	    "item": "betteranimalsplus:hirschgeistskullwearable",
-		"data": 0,
 		"count": 1
 	}
 }

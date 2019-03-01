@@ -1,7 +1,5 @@
 package its_meow.betteranimalsplus.init;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
@@ -42,7 +40,6 @@ import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.BiomeDictionary.Type;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.registries.IForgeRegistry;
 
@@ -148,12 +145,7 @@ public class MobRegistry {
 		// Now the unchecked operation is checked
 		if(EntityClass.isInstance(EntityLiving.class)) {
 			for(Biome biome : biomes) {
-				Method addSpawn = ObfuscationReflectionHelper.findMethod(Biome.class, "addSpawn", EnumCreatureType.class, SpawnListEntry.class);
-				try {
-					addSpawn.invoke(biome, typeIn, new SpawnListEntry((EntityType<? extends EntityLiving>) entry, prob, min, max));
-				} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-					e.printStackTrace();
-				}
+				biome.getSpawns(typeIn).add(new SpawnListEntry((EntityType<? extends EntityLiving>) entry, prob, min, max));
 			}
 		}
 
