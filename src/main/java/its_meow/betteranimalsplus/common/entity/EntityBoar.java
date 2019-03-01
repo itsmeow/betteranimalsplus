@@ -2,8 +2,8 @@ package its_meow.betteranimalsplus.common.entity;
 
 import javax.annotation.Nullable;
 
-import its_meow.betteranimalsplus.init.BlockRegistry;
 import its_meow.betteranimalsplus.init.MobRegistry;
+import its_meow.betteranimalsplus.util.HeadTypes;
 import net.minecraft.block.Block;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
@@ -115,13 +115,9 @@ public class EntityBoar extends EntityAnimal {
 	@Override
 	public void onDeath(DamageSource cause) {
 		super.onDeath(cause);
-
-		if(!this.world.isRemote && !this.isChild()) {
+		if(!world.isRemote && !this.isChild()) {
 			if(this.rand.nextInt(12) == 0) {
-				ItemStack stack = new ItemStack(BlockRegistry.boarhead.getItemBlock());
-				// stack.setTagCompound(new NBTTagCompound());
-				// stack.getTagCompound().setInteger("TYPENUM",
-				// this.getTypeNumber());
+				ItemStack stack = new ItemStack(HeadTypes.BOARHEAD.getItem(this.getTypeNumber()));
 				this.entityDropItem(stack, 0.5F);
 			}
 		}

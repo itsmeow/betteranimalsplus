@@ -2,8 +2,8 @@ package its_meow.betteranimalsplus.common.entity;
 
 import javax.annotation.Nullable;
 
-import its_meow.betteranimalsplus.init.BlockRegistry;
 import its_meow.betteranimalsplus.init.MobRegistry;
+import its_meow.betteranimalsplus.util.HeadTypes;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.EntityAIAttackMelee;
@@ -118,12 +118,10 @@ public class EntityCoyote extends EntityFeralWolf {
 
 	@Override
 	public void onDeath(DamageSource cause) {
-		if(!this.isChild()) {
+		super.onDeath(cause);
+		if(!world.isRemote && !this.isChild()) {
 			if(this.rand.nextInt(12) == 0) {
-				ItemStack stack = new ItemStack(BlockRegistry.wolfhead.getItemBlock());
-				// stack.setTagCompound(new NBTTagCompound());
-				// stack.getTagCompound().setInteger("TYPENUM", 4); // 4 is the
-				// coyote value for wolfheads
+				ItemStack stack = new ItemStack(HeadTypes.WOLFHEAD.getItem(4));
 				this.entityDropItem(stack, 0.5F);
 			}
 		}

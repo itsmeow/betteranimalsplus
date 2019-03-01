@@ -1,18 +1,16 @@
 package its_meow.betteranimalsplus.common.tileentity;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Random;
+import java.util.function.Function;
 
 import its_meow.betteranimalsplus.init.BlockRegistry;
-import net.minecraft.block.BlockSkull;
+import its_meow.betteranimalsplus.util.HeadTypes;
 import net.minecraft.client.renderer.entity.model.ModelBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
@@ -25,18 +23,38 @@ public class TileEntityHead extends TileEntity {
 	private Class<? extends ModelBase> modelT = null;
 	private ModelBase model = null;
 	protected int typeNum = 0;
-	private boolean useFunc = false;
-	private Method textureFunction;
 	private float offset;
-	private float rotation;
+	private float rotation = 0;
 	private boolean shouldDrop = true;
+	private final Function<Integer, ResourceLocation> textureFunc;
 
 	public HashMap<Integer, ResourceLocation> textures;
-
-	public TileEntityHead(Class<? extends ModelBase> modelType, Class<? extends TileEntityHead> type, float yOffset,
+	
+	public TileEntityHead() {
+		super(BlockRegistry.getSkullTileEntityType(TileEntityHead.class));
+		this.offset = 0.0F;
+		this.textureFunc = null;
+	}
+	
+	public TileEntityHead(HeadTypes type, float yOffset,
 			ResourceLocation... textureList) {
-		super(BlockRegistry.getTileEntityType(type));
-		this.modelT = modelType;
+		this(type, TileEntityHead.class, yOffset, textureList);
+	}
+	
+	public TileEntityHead(HeadTypes type, Class<? extends TileEntityHead> teClass, float yOffset,
+			ResourceLocation... textureList) {
+		this(type, yOffset, null, textureList);
+	}
+	
+	public TileEntityHead(HeadTypes type, float yOffset, Function<Integer, ResourceLocation> textureFunc,
+			ResourceLocation... textureList) {
+		this(type, TileEntityHead.class, yOffset, textureFunc, textureList);
+	}
+	
+	public TileEntityHead(HeadTypes type, Class<? extends TileEntityHead> teClass, float yOffset, Function<Integer, ResourceLocation> textureFunc,
+			ResourceLocation... textureList) {
+		super(BlockRegistry.getSkullTileEntityType(teClass));
+		this.modelT = type.getModelSupplier().get().get().getClass(); // this is pure pain but nessecary
 		this.textures = new HashMap<>();
 		int i = 1;
 		for(ResourceLocation texture : textureList) {
@@ -48,6 +66,7 @@ public class TileEntityHead extends TileEntity {
 			this.markDirty();
 		}
 		this.offset = yOffset;
+		this.textureFunc = textureFunc;
 	}
 
 	public ModelBase getModel() {
@@ -70,16 +89,15 @@ public class TileEntityHead extends TileEntity {
 	}
 
 	public ResourceLocation getTexture() {
-		if(this.useFunc) {
-			try {
-				return (ResourceLocation) this.textureFunction.invoke(this.typeNum);
-			} catch(IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-				e.printStackTrace();
-			}
-		} else {
+		if(textureFunc == null) {
 			return this.textures.get(this.typeNum);
+		} else {
+			ResourceLocation rl = textureFunc.apply(this.typeNum);
+			if(rl == null) {
+				rl = this.textures.get(this.typeNum);
+			}
+			return rl;
 		}
-		return null;
 	}
 
 	public void setType(int i) {
@@ -136,7 +154,7 @@ public class TileEntityHead extends TileEntity {
 	public float getOffset() {
 		return this.offset;
 	}
-
+	
 	public void setRotation(float rotation) {
 		this.rotation = rotation;
 	}
@@ -145,15 +163,6 @@ public class TileEntityHead extends TileEntity {
 		return this.rotation;
 	}
 
-	public float getRotationX() {
-		return this.getBlockState().get(BlockSkull.ROTATION);
-	}
-
-	public EnumFacing getBlockFacing() {
-		return EnumFacing.NORTH;
-		// return this.getBlockState().get(BlockSkull.ROTATION);
-	}
-	
 	public static void disableDrop(IBlockReader world, BlockPos pos) {
 		TileEntity te = world.getTileEntity(pos);
 		if ((te instanceof TileEntityHead)) {

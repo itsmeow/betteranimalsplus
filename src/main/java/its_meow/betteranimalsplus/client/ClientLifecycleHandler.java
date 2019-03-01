@@ -22,9 +22,7 @@ import its_meow.betteranimalsplus.client.renderer.entity.RenderTarantula;
 import its_meow.betteranimalsplus.client.renderer.entity.RenderTarantulaHair;
 import its_meow.betteranimalsplus.client.renderer.tileentity.RenderBlockHandOfFate;
 import its_meow.betteranimalsplus.client.renderer.tileentity.RenderBlockTrillium;
-import its_meow.betteranimalsplus.client.renderer.tileentity.RenderGenericHead;
 import its_meow.betteranimalsplus.client.renderer.tileentity.RenderGenericHeadFloor;
-import its_meow.betteranimalsplus.common.block.BlockGenericSkull;
 import its_meow.betteranimalsplus.common.entity.EntityBear;
 import its_meow.betteranimalsplus.common.entity.EntityBearNeutral;
 import its_meow.betteranimalsplus.common.entity.EntityBearNeutralKermode;
@@ -45,7 +43,6 @@ import its_meow.betteranimalsplus.common.entity.projectile.EntityTarantulaHair;
 import its_meow.betteranimalsplus.common.tileentity.TileEntityHandOfFate;
 import its_meow.betteranimalsplus.common.tileentity.TileEntityHead;
 import its_meow.betteranimalsplus.common.tileentity.TileEntityTrillium;
-import its_meow.betteranimalsplus.init.BlockRegistry;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
@@ -55,12 +52,7 @@ public class ClientLifecycleHandler {
 	public void clientSetup(final FMLClientSetupEvent event) {
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityTrillium.class, new RenderBlockTrillium());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityHandOfFate.class, new RenderBlockHandOfFate());
-		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityHead.class, new RenderGenericHead());
-		for(BlockGenericSkull block : BlockRegistry.genericskulls.keySet()) {
-			if(block.allowFloor) {
-				ClientRegistry.bindTileEntitySpecialRenderer(block.teClass.asSubclass(TileEntityHead.class), new RenderGenericHeadFloor());
-			}
-		}
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityHead.class, new RenderGenericHeadFloor());
 		RenderingRegistry.registerEntityRenderingHandler(EntityBear.class, RenderBrownBear::new);
 		RenderingRegistry.registerEntityRenderingHandler(EntityBearNeutral.class, RenderBlackBear::new);
 		RenderingRegistry.registerEntityRenderingHandler(EntityBearNeutralKermode.class, RenderKermodeBear::new);

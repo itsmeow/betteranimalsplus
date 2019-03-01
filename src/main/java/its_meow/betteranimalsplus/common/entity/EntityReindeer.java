@@ -6,9 +6,9 @@ import javax.annotation.Nullable;
 
 import com.google.common.base.Predicate;
 
-import its_meow.betteranimalsplus.init.BlockRegistry;
 import its_meow.betteranimalsplus.init.LootTableRegistry;
 import its_meow.betteranimalsplus.init.MobRegistry;
+import its_meow.betteranimalsplus.util.HeadTypes;
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
@@ -542,12 +542,10 @@ public class EntityReindeer extends EntityAnimal implements IJumpingMount {
 
 	@Override
 	public void onDeath(DamageSource cause) {
-		if(!this.isChild()) {
+		super.onDeath(cause);
+		if(!world.isRemote && !this.isChild()) {
 			if(this.rand.nextInt(12) == 0) {
-				ItemStack stack = new ItemStack(BlockRegistry.reindeerhead.getItemBlock());
-				// stack.setTagCompound(new NBTTagCompound());
-				// stack.getTagCompound().setInteger("TYPENUM",
-				// this.getTypeNumber());
+				ItemStack stack = new ItemStack(HeadTypes.REINDEERHEAD.getItem(this.getTypeNumber()));
 				this.entityDropItem(stack, 0.5F);
 			}
 		}

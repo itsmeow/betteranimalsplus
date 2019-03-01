@@ -13,7 +13,7 @@ import net.minecraft.world.World;
 public class ItemHirschgeistSkull extends ItemBlockSkull {
 
 	public ItemHirschgeistSkull(Block block) {
-		super(block, true, 1, new Properties().defaultMaxDamage(0).group(BetterAnimalsPlusMod.group));
+		super(block, true, 1, new Properties().maxStackSize(1).group(BetterAnimalsPlusMod.group));
 	}
 
 	@Override

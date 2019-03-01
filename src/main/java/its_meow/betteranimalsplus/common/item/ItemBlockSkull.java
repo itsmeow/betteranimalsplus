@@ -2,7 +2,6 @@ package its_meow.betteranimalsplus.common.item;
 
 import its_meow.betteranimalsplus.BetterAnimalsPlusMod;
 import its_meow.betteranimalsplus.common.tileentity.TileEntityHead;
-import its_meow.betteranimalsplus.init.BlockRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockSkull;
 import net.minecraft.block.state.IBlockState;
@@ -20,21 +19,24 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 
 public class ItemBlockSkull extends ItemBlock {
-
-	private boolean allowFloor = true;
-
-	public ItemBlockSkull(Block block, boolean allowFloor, int i) {
+	
+	public final boolean allowFloor;
+	public final int typeNum;
+	
+	public ItemBlockSkull(Block block, boolean allowFloor, int typeNum) {
 		super(block, new Properties().group(BetterAnimalsPlusMod.group));
-		this.setRegistryName(block.getRegistryName() + "_" + i);
+		this.setRegistryName(block.getRegistryName());
 		this.allowFloor = allowFloor;
+		this.typeNum = typeNum;
 	}
 
-	public ItemBlockSkull(Block block, boolean allowFloor, int i, Properties prop) {
+	public ItemBlockSkull(Block block, boolean allowFloor, int typeNum, Properties prop) {
 		super(block, prop);
-		this.setRegistryName(block.getRegistryName() + "_" + i);
+		this.setRegistryName(block.getRegistryName());
 		this.allowFloor = allowFloor;
+		this.typeNum = typeNum;
 	}
-
+	
 	@Override
 	protected boolean canPlace(BlockItemUseContext ctx, IBlockState state) {
 		World world = ctx.getWorld();
@@ -87,8 +89,8 @@ public class ItemBlockSkull extends ItemBlock {
 				rotation = MathHelper.floor(player.rotationYaw * 16.0F / 360.0F + 0.5D) & 15;
 			}
 			tileSkull.setRotation(rotation);
-			tileSkull.setType(BlockRegistry.getTypeForItem(stack.getItem().getRegistryName()));
+			tileSkull.setType(typeNum);
 		}
 	}
-
+	
 }

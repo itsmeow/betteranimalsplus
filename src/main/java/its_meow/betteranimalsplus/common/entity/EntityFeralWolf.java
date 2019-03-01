@@ -2,9 +2,9 @@ package its_meow.betteranimalsplus.common.entity;
 
 import javax.annotation.Nullable;
 
-import its_meow.betteranimalsplus.init.BlockRegistry;
 import its_meow.betteranimalsplus.init.ItemRegistry;
 import its_meow.betteranimalsplus.init.MobRegistry;
+import its_meow.betteranimalsplus.util.HeadTypes;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityAgeable;
@@ -129,12 +129,10 @@ public class EntityFeralWolf extends EntityTameable implements IMob {
 
 	@Override
 	public void onDeath(DamageSource cause) {
-		if(!this.isChild()) {
+		super.onDeath(cause);
+		if(!world.isRemote && !this.isChild()) {
 			if(this.rand.nextInt(12) == 0) {
-				ItemStack stack = new ItemStack(BlockRegistry.wolfhead.getItemBlock());
-				// stack.setTagCompound(new NBTTagCompound());
-				// stack.getTagCompound().setInteger("TYPENUM",
-				// this.getTypeNumber());
+				ItemStack stack = new ItemStack(HeadTypes.WOLFHEAD.getItem(this.getTypeNumber()));
 				this.entityDropItem(stack, 0.5F);
 			}
 		}

@@ -2,9 +2,9 @@ package its_meow.betteranimalsplus.common.entity;
 
 import javax.annotation.Nullable;
 
-import its_meow.betteranimalsplus.init.BlockRegistry;
 import its_meow.betteranimalsplus.init.LootTableRegistry;
 import its_meow.betteranimalsplus.init.MobRegistry;
+import its_meow.betteranimalsplus.util.HeadTypes;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.IEntityLivingData;
@@ -165,12 +165,10 @@ public class EntityDeer extends EntityAnimal {
 
 	@Override
 	public void onDeath(DamageSource cause) {
-		if(!this.isChild()) {
+		super.onDeath(cause);
+		if(!world.isRemote && !this.isChild()) {
 			if(this.rand.nextInt(12) == 0) {
-				ItemStack stack = new ItemStack(BlockRegistry.deerhead.getItemBlock());
-				// stack.setTagCompound(new NBTTagCompound());
-				// stack.getTagCompound().setInteger("TYPENUM",
-				// this.getTypeNumber());
+				ItemStack stack = new ItemStack(HeadTypes.DEERHEAD.getItem(this.getTypeNumber()));
 				this.entityDropItem(stack, 0.5F);
 			}
 		}
