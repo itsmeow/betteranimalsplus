@@ -1,30 +1,35 @@
 package its_meow.betteranimalsplus.common.item;
 
+import javax.annotation.Nullable;
+
 import its_meow.betteranimalsplus.BetterAnimalsPlusMod;
+import its_meow.betteranimalsplus.Ref;
 import its_meow.betteranimalsplus.common.tileentity.TileEntityHead;
+import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockSkull;
+import net.minecraft.block.SoundType;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.BlockItemUseContext;
-import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemUseContext;
+import net.minecraft.item.ItemWallOrFloor;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.world.IWorldReaderBase;
 import net.minecraft.world.World;
 
-public class ItemBlockSkull extends ItemBlock {
+public class ItemBlockSkull extends ItemWallOrFloor {
 
 	public final boolean allowFloor;
 	public final int typeNum;
 
 	public ItemBlockSkull(Block block, boolean allowFloor, int typeNum) {
-		super(block, new Properties().group(BetterAnimalsPlusMod.group));
+		super(block, block, new Properties().group(BetterAnimalsPlusMod.group));
 		if(block.getRegistryName() != null) {
 			this.setRegistryName(block.getRegistryName());
 		}
@@ -33,7 +38,7 @@ public class ItemBlockSkull extends ItemBlock {
 	}
 
 	public ItemBlockSkull(Block block, boolean allowFloor, int typeNum, Properties prop) {
-		super(block, prop);
+		super(block, block, prop);
 		if(block.getRegistryName() != null) {
 			this.setRegistryName(block.getRegistryName());
 		}
@@ -41,47 +46,55 @@ public class ItemBlockSkull extends ItemBlock {
 		this.typeNum = typeNum;
 	}
 
-	@Override
-	protected boolean canPlace(BlockItemUseContext ctx, IBlockState state) {
+	@Nullable
+	protected IBlockState getStateForPlacement(BlockItemUseContext ctx) {
+		IBlockState returnedState = null;
 		World world = ctx.getWorld();
-		BlockPos pos = ctx.getPos();
-		EnumFacing side = ctx.getFace();
-		Block block = world.getBlockState(pos).getBlock();
-
-		if(block == Blocks.SNOW && state.isReplaceable(ctx)) {
-			side = EnumFacing.UP;
-		} else if(!state.isReplaceable(ctx)) {
-			pos = pos.offset(side);
+		BlockPos clickPos = ctx.getPos();
+		for (EnumFacing side : ctx.getNearestLookingDirections()) {
+			IBlockState newState;
+			if (side == EnumFacing.UP)
+				continue;
+			newState = this.getBlock().getStateForPlacement(ctx);
+			if (newState == null || !newState.isValidPosition((IWorldReaderBase) world, clickPos))
+				continue;
+			returnedState = newState;
+			break;
 		}
-		return state.isReplaceable(ctx);
+		return returnedState != null && world.checkNoEntityCollision(returnedState, clickPos) ? returnedState : null;
 	}
 
-	@Override
-	public EnumActionResult onItemUse(ItemUseContext ctx) {
-		EntityPlayer player = ctx.getPlayer();
-		ItemStack stack = ctx.getItem();
-		EnumFacing side = ctx.getFace();
-		BlockPos pos = ctx.getPos();
-		World world = ctx.getWorld();
-		if(side == EnumFacing.DOWN || side == EnumFacing.UP && !this.allowFloor) {
+	public EnumActionResult tryPlace(BlockItemUseContext ctx) {
+		if (!ctx.canPlace()) {
 			return EnumActionResult.FAIL;
 		} else {
-			BlockPos clickedPos = pos.offset(side);
-			IBlockState clickedState = world.getBlockState(clickedPos);
-			if(!clickedState.isReplaceable(new BlockItemUseContext(ctx))) {
+			IBlockState iblockstate = this.getStateForPlacement(ctx);
+			if (iblockstate == null) {
 				return EnumActionResult.FAIL;
-			}
-			if(!world.isRemote) {
-				world.setBlockState(clickedPos,
-						this.getBlock().getDefaultState().with(BlockSkull.ROTATION, side.getIndex()), 3);
+			} else if (!this.placeBlock(ctx, iblockstate)) {
+				return EnumActionResult.FAIL;
+			} else {
+				BlockPos blockpos = ctx.getPos();
+				World world = ctx.getWorld();
+				EntityPlayer player = ctx.getPlayer();
+				ItemStack stack = ctx.getItem();
+				IBlockState iblockstate1 = world.getBlockState(blockpos);
+				Block block = iblockstate1.getBlock();
+				if (block == iblockstate.getBlock()) {
+					this.onBlockPlaced(blockpos, world, player, stack, iblockstate1);
+					block.onBlockPlacedBy(world, blockpos, iblockstate1, player, stack);
+					if (player instanceof EntityPlayerMP) {
+						CriteriaTriggers.PLACED_BLOCK.trigger((EntityPlayerMP)player, blockpos, stack);
+					}
+					TileEntity tile = world.getTileEntity(blockpos);
+					this.populateTile(stack, ctx.getFace(), player, tile);
+				}
 
-				TileEntity tile = world.getTileEntity(clickedPos);
-				this.populateTile(stack, side, player, tile);
-			}
-			if(!player.isCreative()) {
+				SoundType soundtype = iblockstate1.getSoundType(world, blockpos, ctx.getPlayer());
+				world.playSound(player, blockpos, soundtype.getPlaceSound(), SoundCategory.BLOCKS, (soundtype.getVolume() + 1.0F) / 2.0F, soundtype.getPitch() * 0.8F);
 				stack.shrink(1);
+				return EnumActionResult.SUCCESS;
 			}
-			return EnumActionResult.SUCCESS;
 		}
 	}
 
@@ -91,10 +104,16 @@ public class ItemBlockSkull extends ItemBlock {
 			int rotation = 0;
 			if(side == EnumFacing.UP) {
 				rotation = MathHelper.floor(player.rotationYaw * 16.0F / 360.0F + 0.5D) & 15;
+			} else {
+				rotation = (int) side.getHorizontalAngle();
 			}
 			tileSkull.setRotation(rotation);
 			tileSkull.setType(typeNum);
 		}
+	}
+
+	public String getTranslationKey() {
+		return "block" + "." + Ref.MOD_ID + "." + this.getRegistryName().getPath();
 	}
 
 }

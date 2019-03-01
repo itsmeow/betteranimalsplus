@@ -602,7 +602,7 @@ public class EntityReindeer extends EntityAnimal implements IJumpingMount {
 
 		super.livingTick();
 		if(this.rand.nextInt(10) == 0) {
-			this.world.spawnParticle(Particles.ITEM_SNOWBALL, this.posX + this.rand.nextInt(4) - 2F,
+			this.world.spawnParticle(Particles.CLOUD, this.posX + this.rand.nextInt(4) - 2F,
 					this.posY + this.rand.nextInt(4), this.posZ + this.rand.nextInt(4) - 2F, 0F, -0.005F, 0F);
 		}
 		if(!this.world.isRemote) {

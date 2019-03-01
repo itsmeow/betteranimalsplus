@@ -23,7 +23,7 @@ import net.minecraft.client.renderer.entity.model.ModelBase;
 public enum HeadTypes {
 
 	WOLFHEAD("wolfhead", true, 4, ()->()-> ModelWolfHead.class, type -> new TileEntityHead(type, 0F,
-			TextureRegistry.boar_1, TextureRegistry.boar_2, TextureRegistry.boar_3, TextureRegistry.boar_4)),
+			TextureRegistry.wolf_black, TextureRegistry.wolf_snowy, TextureRegistry.wolf_timber, TextureRegistry.coyote_hostile)),
 
 	FOXHEAD("foxhead", true, 4, ()->()-> ModelFoxHead.class, type -> new TileEntityHead(type, -0.1F,
 			TextureRegistry.fox_1, TextureRegistry.fox_2, TextureRegistry.fox_3, TextureRegistry.fox_4)),
