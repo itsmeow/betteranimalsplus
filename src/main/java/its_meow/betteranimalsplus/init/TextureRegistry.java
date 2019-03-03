@@ -65,10 +65,12 @@ public class TextureRegistry {
 			TextureRegistry.entitytex + "coyote_hostile_eyes.png");
 
 	// Trillium Variants
-	public static final ResourceLocation trillium = new ResourceLocation(
-			TextureRegistry.entitytex + "flora/trillium.png");
-	public static final ResourceLocation trillium2 = new ResourceLocation(
-			TextureRegistry.entitytex + "flora/trillium_2.png");
+	public static final ResourceLocation trillium_base = new ResourceLocation(
+			TextureRegistry.entitytex + "flora/trillium_base.png");
+	public static final ResourceLocation trillium_purple = new ResourceLocation(
+			TextureRegistry.entitytex + "flora/trillium_purple.png");
+	public static final ResourceLocation trillium_yellow = new ResourceLocation(
+			TextureRegistry.entitytex + "flora/trillium_yellow.png");
 
 	// Fox Variants
 	public static final ResourceLocation fox_1 = new ResourceLocation(TextureRegistry.entitytex + "fox_1.png");
