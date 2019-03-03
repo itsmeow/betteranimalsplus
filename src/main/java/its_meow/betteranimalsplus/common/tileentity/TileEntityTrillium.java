@@ -43,7 +43,7 @@ public class TileEntityTrillium extends TileEntity {
 
 
 	public ResourceLocation getTexture() {
-		return this.typeNum == 0 ? TextureRegistry.trillium2 : TextureRegistry.trillium; // 1/5 chance of yellow trillium
+		return this.typeNum == 0 ? TextureRegistry.trillium_purple : TextureRegistry.trillium_yellow;
 	}
 
 
@@ -159,5 +159,8 @@ public class TileEntityTrillium extends TileEntity {
 		return 0F;
 	}
 
-
+	public int getModelNum() {
+		return this.modelNum;
+	}
+	
 }

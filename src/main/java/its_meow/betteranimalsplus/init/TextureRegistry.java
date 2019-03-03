@@ -7,7 +7,6 @@ public class TextureRegistry {
 
 	private static final String entitytex = Ref.MOD_ID + ":textures/entities/";
 
-
 	//Bear Variants
 	public static final ResourceLocation bear_brown = 
 			new ResourceLocation(entitytex + "bear_brown.png");
@@ -184,4 +183,12 @@ public class TextureRegistry {
 	public static final ResourceLocation squirrel_3 = 
 			new ResourceLocation(entitytex + "squirrel_3.png");
 	
+	// Trillium Variants
+	public static final ResourceLocation trillium_base = new ResourceLocation(
+			TextureRegistry.entitytex + "flora/trillium_base.png");
+	public static final ResourceLocation trillium_purple = new ResourceLocation(
+			TextureRegistry.entitytex + "flora/trillium_purple.png");
+	public static final ResourceLocation trillium_yellow = new ResourceLocation(
+			TextureRegistry.entitytex + "flora/trillium_yellow.png");
+
 }

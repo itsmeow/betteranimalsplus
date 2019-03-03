@@ -342,6 +342,7 @@ public class ModelTrilliumMulti extends ModelBase {
         GlStateManager.popMatrix();
     }
 
+
     /**
      * This is a helper function from Tabula to set the rotation of model parts
      */
@@ -350,4 +351,5 @@ public class ModelTrilliumMulti extends ModelBase {
         modelRenderer.rotateAngleY = y;
         modelRenderer.rotateAngleZ = z;
     }
+
 }
