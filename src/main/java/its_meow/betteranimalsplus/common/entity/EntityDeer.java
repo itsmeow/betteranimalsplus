@@ -177,7 +177,8 @@ public class EntityDeer extends EntityAnimal {
 
 	@Override
 	public void onDeath(DamageSource cause) {
-		if(!this.isChild()) {
+		super.onDeath(cause);
+		if(!world.isRemote && !this.isChild()) {
 			if(this.rand.nextInt(12) == 0) {
 				ItemStack stack = new ItemStack(BlockRegistry.deerhead.getItemBlock());
 				stack.setTagCompound(new NBTTagCompound());

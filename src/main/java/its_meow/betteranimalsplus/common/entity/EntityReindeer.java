@@ -609,7 +609,8 @@ public class EntityReindeer extends EntityAnimal implements IJumpingMount {
 	
 	@Override
 	public void onDeath(DamageSource cause) {
-		if(!this.isChild()) {
+		super.onDeath(cause);
+		if(!world.isRemote && !this.isChild()) {
 			if(this.rand.nextInt(12) == 0) {
 				ItemStack stack = new ItemStack(BlockRegistry.reindeerhead.getItemBlock());
 				stack.setTagCompound(new NBTTagCompound());

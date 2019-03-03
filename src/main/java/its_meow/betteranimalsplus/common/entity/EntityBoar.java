@@ -114,14 +114,10 @@ public class EntityBoar extends EntityAnimal {
 		this.playSound(SoundEvents.ENTITY_PIG_STEP, 0.15F, 1.0F);
 	}
 
-	/**
-	 * Called when the mob's health reaches 0.
-	 */
-	public void onDeath(DamageSource cause)
-	{
+	@Override
+	public void onDeath(DamageSource cause) {
 		super.onDeath(cause);
-
-		if(!this.isChild()) {
+		if(!world.isRemote && !this.isChild()) {
 			if(this.rand.nextInt(12) == 0) {
 				ItemStack stack = new ItemStack(BlockRegistry.boarhead.getItemBlock());
 				stack.setTagCompound(new NBTTagCompound());

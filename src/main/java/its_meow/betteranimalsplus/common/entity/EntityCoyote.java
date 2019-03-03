@@ -117,11 +117,12 @@ public class EntityCoyote extends EntityFeralWolf {
 	
 	@Override
 	public void onDeath(DamageSource cause) {
-		if(!this.isChild()) {
+		super.onDeath(cause);
+		if(!world.isRemote && !this.isChild()) {
 			if(this.rand.nextInt(12) == 0) {
 				ItemStack stack = new ItemStack(BlockRegistry.wolfhead.getItemBlock());
 				stack.setTagCompound(new NBTTagCompound());
-				stack.getTagCompound().setInteger("TYPENUM", 4); // 4 is the coyote value for wolfheads
+				stack.getTagCompound().setInteger("TYPENUM", 4); // 4 is the id for coyote head
 				this.entityDropItem(stack, 0.5F);
 			}
 		}

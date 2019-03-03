@@ -2,6 +2,7 @@ package its_meow.betteranimalsplus.common.entity;
 
 import javax.annotation.Nullable;
 
+import its_meow.betteranimalsplus.init.BlockRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityAgeable;
@@ -151,6 +152,19 @@ public class EntityFox extends EntityTameable {
 		public TypeData(int type)
 		{
 			this.typeData = type;
+		}
+	}
+	
+	@Override
+	public void onDeath(DamageSource cause) {
+		super.onDeath(cause);
+		if(!world.isRemote && !this.isChild()) {
+			if(this.rand.nextInt(12) == 0) {
+				ItemStack stack = new ItemStack(BlockRegistry.foxhead.getItemBlock());
+				stack.setTagCompound(new NBTTagCompound());
+				stack.getTagCompound().setInteger("TYPENUM", this.getTypeNumber());
+				this.entityDropItem(stack, 0.5F);
+			}
 		}
 	}
 
