@@ -5,6 +5,7 @@ import its_meow.betteranimalsplus.common.tileentity.TileEntityTrillium;
 import net.minecraft.block.BlockBush;
 import net.minecraft.block.BlockHorizontal;
 import net.minecraft.block.ITileEntityProvider;
+import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyDirection;
@@ -31,6 +32,7 @@ public class BlockTrillium extends BlockBush implements ITileEntityProvider {
 		this.translucent = true;
 		this.fullBlock = false;
 		this.setCreativeTab(BetterAnimalsPlusMod.tab);
+		this.setSoundType(SoundType.PLANT);
 	}
 	
 	
