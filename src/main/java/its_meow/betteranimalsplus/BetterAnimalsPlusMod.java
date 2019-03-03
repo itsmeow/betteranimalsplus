@@ -10,8 +10,16 @@ import its_meow.betteranimalsplus.common.config.BetterAnimalsPlusConfig;
 import its_meow.betteranimalsplus.common.world.gen.TrilliumGenerator;
 import its_meow.betteranimalsplus.init.BlockRegistry;
 import its_meow.betteranimalsplus.init.CraftingRegistry;
+import its_meow.betteranimalsplus.init.EntityContainer;
+import its_meow.betteranimalsplus.init.ItemRegistry;
 import its_meow.betteranimalsplus.init.MobRegistry;
 import its_meow.betteranimalsplus.proxy.ISidedProxy;
+import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.init.Items;
+import net.minecraft.item.ItemMonsterPlacer;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.NonNullList;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
@@ -31,7 +39,22 @@ public class BetterAnimalsPlusMod {
 	@SidedProxy(clientSide = Ref.CLIENT_PROXY_C, serverSide = Ref.SERVER_PROXY_C)
 	public static ISidedProxy proxy;
 
-	public static CreativeTab tab = new CreativeTab("Better Animals+");
+	public static CreativeTabs tab = new CreativeTabs("Better Animals+") { 
+		@Override
+		public ItemStack getTabIconItem() {
+			return new ItemStack(ItemRegistry.antler);
+		}
+
+		@Override
+		public void displayAllRelevantItems(NonNullList<ItemStack> toDisplay) {
+			super.displayAllRelevantItems(toDisplay);
+			for(EntityContainer cont : MobRegistry.entityList) {
+				ItemStack stack = new ItemStack(Items.SPAWN_EGG);
+				ItemMonsterPlacer.applyEntityIdToItemStack(stack, new ResourceLocation(Ref.MOD_ID, cont.entityName));
+				toDisplay.add(stack);
+			}
+		}
+	};
 
 	public static Logger logger;
 	
