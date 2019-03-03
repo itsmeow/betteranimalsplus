@@ -2,14 +2,10 @@ package its_meow.betteranimalsplus.common.tileentity;
 
 import java.util.Random;
 
-import its_meow.betteranimalsplus.client.model.ModelTrillium;
-import its_meow.betteranimalsplus.client.model.ModelTrilliumMulti;
-import its_meow.betteranimalsplus.client.model.ModelTrilliumMulti2;
 import its_meow.betteranimalsplus.init.BlockRegistry;
 import its_meow.betteranimalsplus.init.TextureRegistry;
 import net.minecraft.block.BlockHorizontal;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.renderer.entity.model.ModelBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
@@ -24,8 +20,6 @@ public class TileEntityTrillium extends TileEntity {
 	private int typeNum;
 	private final String keyType = "trilliumType";
 
-	private ModelBase model;
-
 	private int modelNum;
 	private final String keyModel = "trilliumModel";
 
@@ -38,7 +32,6 @@ public class TileEntityTrillium extends TileEntity {
 		if(!this.getTileData().hasKey(this.keyModel)) {
 			this.modelNum = new Random().nextInt(3);
 			this.markDirty();
-			this.setModelWithNum();
 		}
 	}
 
@@ -68,7 +61,6 @@ public class TileEntityTrillium extends TileEntity {
 		}
 		if(compound.hasKey(this.keyModel)) {
 			this.modelNum = compound.getInt(this.keyModel);
-			this.setModelWithNum();
 		} else {
 			this.setModelNum(new Random().nextInt(3));
 		}
@@ -104,29 +96,10 @@ public class TileEntityTrillium extends TileEntity {
 		this.write(tag);
 		return tag;
 	}
-
-	public ModelBase getModel() {
-		return this.model;
-	}
-
+	
 	public void setModelNum(int i) {
 		this.modelNum = i;
-		this.setModelWithNum();
 		this.markDirty();
-	}
-
-	private void setModel(ModelBase m) {
-		this.model = m;
-	}
-
-	public void setModelWithNum() {
-		if(this.modelNum == 0) {
-			this.setModel(new ModelTrilliumMulti());
-		} else if(this.modelNum == 1) {
-			this.setModel(new ModelTrillium());
-		} else {
-			this.setModel(new ModelTrilliumMulti2());
-		}
 	}
 
 	@Override
@@ -153,6 +126,10 @@ public class TileEntityTrillium extends TileEntity {
 			}
 		}
 		return 0F;
+	}
+
+	public int getModelNum() {
+		return this.modelNum;
 	}
 
 

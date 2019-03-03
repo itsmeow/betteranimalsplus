@@ -28,7 +28,6 @@ import net.minecraft.entity.ai.EntityAIOwnerHurtTarget;
 import net.minecraft.entity.ai.EntityAISit;
 import net.minecraft.entity.ai.EntityAITarget;
 import net.minecraft.entity.ai.EntityMoveHelper;
-import net.minecraft.entity.ai.EntityMoveHelper.Action;
 import net.minecraft.entity.ai.attributes.IAttributeInstance;
 import net.minecraft.entity.monster.EntityCreeper;
 import net.minecraft.entity.monster.EntityGhast;
@@ -105,6 +104,11 @@ public class EntityLammergeier extends EntityTameableFlying {
 	}
 
 	@Override
+	public boolean canBePushed() {
+		return super.canBePushed() && this.getPassengers().size() != 0;
+	}
+
+	@Override
 	protected void initEntityAI() {
 		this.aiSit = new EntityAISit(this);
 		this.tasks.addTask(1, this.aiSit);
@@ -126,15 +130,10 @@ public class EntityLammergeier extends EntityTameableFlying {
 	}
 
 	@Override
-	public boolean canBePushed() {
-		return false;
-	}
-
-	@Override
 	protected SoundEvent getAmbientSound() {
 		return this.isTamed() && this.dataManager.get(EntityLammergeier.DATA_HEALTH_ID).floatValue() < 6.0F
 				? SoundEvents.ENTITY_PARROT_HURT
-				: null;
+						: null;
 	}
 
 	@Override
@@ -173,6 +172,7 @@ public class EntityLammergeier extends EntityTameableFlying {
 
 	private int lastTick = 0;
 	public int ticksForFly = 0;
+	public double lastMotionY = 0;
 
 	@Override
 	public boolean processInteract(EntityPlayer player, EnumHand hand) {
@@ -198,7 +198,7 @@ public class EntityLammergeier extends EntityTameableFlying {
 					&& this.ticksExisted - this.lastTick > 13
 					&& (itemstack.getItem() == null || itemstack.getItem() != Items.MUTTON)) {
 				if(!this.isSitting() == false) {
-					((LammerMoveHelper) this.getMoveHelper()).action = Action.WAIT;
+					//((LammerMoveHelper) this.getMoveHelper()).action = Action.WAIT;
 					this.setAttackTarget((EntityLivingBase) null);
 				}
 
@@ -218,7 +218,7 @@ public class EntityLammergeier extends EntityTameableFlying {
 					this.setTamedBy(player);
 					// this.setOwnerId(player.getUniqueID());
 					this.navigator.clearPath();
-					((LammerMoveHelper) this.getMoveHelper()).action = Action.WAIT;
+					//((LammerMoveHelper) this.getMoveHelper()).action = Action.WAIT;
 					this.setAttackTarget((EntityLivingBase) null);
 					this.setSitting(true);
 					this.setHealth(20.0F);
@@ -345,6 +345,14 @@ public class EntityLammergeier extends EntityTameableFlying {
 			super.updateFallState(y, onGroundIn, state, pos);
 		}
 	}
+	
+	
+
+	@Override
+	public void tick() {
+		super.tick();
+		this.lastMotionY  = this.motionY;
+	}
 
 	/**
 	 * Return whether this entity should NOT trigger a pressure plate or a
@@ -411,8 +419,8 @@ public class EntityLammergeier extends EntityTameableFlying {
 
 	public BlockPos fromPolarCoordinates(PolarVector3D polar) {
 		double r = polar.getR();
-		double lat = polar.getThetaY() / 360;
-		double lon = polar.getThetaX() / 360;
+		double lat = polar.getThetaY();
+		double lon = polar.getThetaX();
 		double x = r * Math.sin(lat) * Math.cos(lon);
 		double y = r * Math.sin(lat) * Math.sin(lon);
 		double z = r * Math.cos(lat);
@@ -623,18 +631,7 @@ public class EntityLammergeier extends EntityTameableFlying {
 			double targetY = entitylivingbase.posY;
 			double targetZ = entitylivingbase.posZ;
 
-			if(entitylivingbase.getDistanceSq(this.attacker) < 4096.0D) // If
-																		// the
-																		// distance
-																		// is
-																		// less
-																		// than
-																		// 4096
-																		// square
-																		// blocks
-																		// rotate
-																		// towards
-																		// them
+			if(entitylivingbase.getDistanceSq(this.attacker) < 4096.0D) // If the distance is less than 4096 square blocks rotate towards them
 			{
 				double d1 = entitylivingbase.posX - this.attacker.posX;
 				double d2 = entitylivingbase.posZ - this.attacker.posZ;
@@ -655,24 +652,23 @@ public class EntityLammergeier extends EntityTameableFlying {
 			// the timer and attack if the entity is not grabbed
 			if(distanceToTarget <= reachToTarget && this.attackTick <= 0) {
 				this.attackTick = 20;
-				if(!entitylivingbase.isRidingOrBeingRiddenBy(this.attacker)) {
+				if(!attacker.isRidingOrBeingRiddenBy(entitylivingbase)) {
 					this.attacker.attackEntityAsMob(entitylivingbase);
 				}
 			}
 
-			// If the entity is not grabbing a target, set it to move to its
-			// target
-
-			if(entitylivingbase.getRidingEntity() == null) {
-				this.attacker.getMoveHelper().setMoveTo(targetX, targetY, targetZ, 1.0D);
-			} else { // If the entity is grabbing a target, set it to move
-						// upwards
-				this.attacker.getMoveHelper().setMoveTo(targetX, this.liftY + 15, targetZ, 5.0D);
+			// If the entity is not grabbing a target, set it to move to its target
+			if(!attacker.getMoveHelper().isUpdating()) {
+				if(attacker.getPassengers().size() == 0) {
+					this.attacker.getMoveHelper().setMoveTo(targetX, targetY, targetZ, 1.0D);
+				} else { // If the entity is grabbing a target, set it to move upwards
+					this.attacker.getMoveHelper().setMoveTo(targetX, this.liftY + 15, targetZ, 5.0D);
+				}
 			}
 
 			// If the entity is in range and entity is not grabbing a target and
 			// the target's height is less than 3 blocks
-			if(distanceToTarget <= reachToTarget && entitylivingbase.getRidingEntity() == null
+			if(distanceToTarget <= reachToTarget && attacker.getPassengers().size() == 0
 					&& entitylivingbase.height <= 3 && this.attackTick == 20) {
 				// Move the entity upwards to avoid being stuck in the ground
 				this.attacker.setLocationAndAngles(this.attacker.posX, this.attacker.posY + entitylivingbase.height + 2,
@@ -694,10 +690,10 @@ public class EntityLammergeier extends EntityTameableFlying {
 
 			// If the entity is grabbing a target and the block above is solid
 			// (stuck)
-			if(entitylivingbase.getRidingEntity() != null
+			if(attacker.getPassengers().size() == 0
 					&& this.attacker.getEntityWorld().getBlockState(this.attacker.getPosition().up()).isFullCube()) {
 				// Release target
-				entitylivingbase.dismountEntity(this.attacker);
+				entitylivingbase.stopRiding();
 				// Remove target
 				this.attacker.setAttackTarget(null);
 				// Create a random target position
@@ -713,9 +709,8 @@ public class EntityLammergeier extends EntityTameableFlying {
 
 			// If we've about reached the target lifting point and have a target
 			// grabbed, or have completed movement, drop the entity
-			if(Math.abs(this.attacker.posY - (this.liftY + 15)) <= 3 && entitylivingbase.getRidingEntity() != null
-					|| !this.attacker.getMoveHelper().isUpdating()) {
-				entitylivingbase.dismountEntity(this.attacker);
+			if(Math.abs(this.attacker.posY - (this.liftY + 15)) <= 3 && attacker.getPassengers().size() > 0) {
+				entitylivingbase.stopRiding();
 			}
 
 		}
@@ -742,32 +737,36 @@ public class EntityLammergeier extends EntityTameableFlying {
 		 * Keep ticking a continuous task that has already been started
 		 */
 		@Override
-		public void tick() {
-			if(this.parentEntity.getAttackTarget() == null) {
+		public void tick()
+		{
+			if (this.parentEntity.getAttackTarget() == null)
+			{
 				if(!this.parentEntity.isTamed()) {
-					this.parentEntity.rotationYaw = -((float) MathHelper.atan2(this.parentEntity.motionX,
-							this.parentEntity.motionZ)) * (180F / (float) Math.PI);
+					this.parentEntity.rotationYaw = -((float)MathHelper.atan2(this.parentEntity.motionX, this.parentEntity.motionZ)) * (180F / (float)Math.PI);
 					this.parentEntity.renderYawOffset = this.parentEntity.rotationYaw;
 				} else {
 					EntityLivingBase entitylivingbase = this.parentEntity.getOwner();
 					if(entitylivingbase != null) {
 
-						if(entitylivingbase.getDistanceSq(this.parentEntity) < 4096.0D) {
+						if (entitylivingbase.getDistanceSq(this.parentEntity) < 4096.0D)
+						{
 							double d1 = entitylivingbase.posX - this.parentEntity.posX;
 							double d2 = entitylivingbase.posZ - this.parentEntity.posZ;
-							this.parentEntity.rotationYaw = -((float) MathHelper.atan2(d1, d2))
-									* (180F / (float) Math.PI);
+							this.parentEntity.rotationYaw = -((float)MathHelper.atan2(d1, d2)) * (180F / (float)Math.PI);
 							this.parentEntity.renderYawOffset = this.parentEntity.rotationYaw;
 						}
 					}
 				}
-			} else {
+			}
+			else
+			{
 				EntityLivingBase entitylivingbase = this.parentEntity.getAttackTarget();
 
-				if(entitylivingbase.getDistanceSq(this.parentEntity) < 4096.0D) {
+				if (entitylivingbase.getDistanceSq(this.parentEntity) < 4096.0D)
+				{
 					double d1 = entitylivingbase.posX - this.parentEntity.posX;
 					double d2 = entitylivingbase.posZ - this.parentEntity.posZ;
-					this.parentEntity.rotationYaw = -((float) MathHelper.atan2(d1, d2)) * (180F / (float) Math.PI);
+					this.parentEntity.rotationYaw = -((float)MathHelper.atan2(d1, d2)) * (180F / (float)Math.PI);
 					this.parentEntity.renderYawOffset = this.parentEntity.rotationYaw;
 				}
 			}
@@ -795,13 +794,12 @@ public class EntityLammergeier extends EntityTameableFlying {
 			}
 			if(this.parentEntity.getAttackTarget() == null) {
 				return true;
-			} else {
-				double d0 = entitymovehelper.getX() - this.parentEntity.posX;
-				double d1 = entitymovehelper.getY() - this.parentEntity.posY;
-				double d2 = entitymovehelper.getZ() - this.parentEntity.posZ;
-				double d3 = d0 * d0 + d1 * d1 + d2 * d2;
-				return d3 < 1.0D || d3 > 3600.0D;
 			}
+			double d0 = entitymovehelper.getX() - this.parentEntity.posX;
+			double d1 = entitymovehelper.getY() - this.parentEntity.posY;
+			double d2 = entitymovehelper.getZ() - this.parentEntity.posZ;
+			double d3 = d0 * d0 + d1 * d1 + d2 * d2;
+			return d3 < 1.0D || d3 > 3600.0D;
 		}
 
 		/**
@@ -825,15 +823,6 @@ public class EntityLammergeier extends EntityTameableFlying {
 								random.nextInt(30) - 10, random.nextInt(50) + 1 + random.nextFloat()));
 				BlockPos pos = this.parentEntity.getPosition();
 				rPos = rPos.add(pos);
-				/*
-				 * double d0 = this.parentEntity.posX +
-				 * (double)((random.nextFloat() * 2.0F - 1.0F) * 16.0F); double
-				 * d1 = this.parentEntity.posY + (double)((random.nextFloat() *
-				 * 2.0F - 1.0F) * 16.0F); double d2 = this.parentEntity.posZ +
-				 * (double)((random.nextFloat() * 2.0F - 1.0F) * 16.0F);
-				 * this.parentEntity.getMoveHelper().setMoveTo(d0, d1, d2,
-				 * 1.0D);
-				 */
 				this.parentEntity.getMoveHelper().setMoveTo(rPos.getX(), rPos.getY(), rPos.getZ(), 1.0D);
 			} else if(!this.parentEntity.landedLast && this.parentEntity.posY > 65 && this.parentEntity.getFlying()) {
 				BlockPos rPos = this.findLandingPosition();
@@ -935,7 +924,7 @@ public class EntityLammergeier extends EntityTameableFlying {
 				return false;
 			} else if(!entitylivingbase.isAlive()) {
 				return false;
-			} else if(entitylivingbase.getRidingEntity() != null) {
+			} else if(mob.getPassengers().size() == 0) {
 				return false;
 			} else {
 				double d0 = this.getFollowRange();

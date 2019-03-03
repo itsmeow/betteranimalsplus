@@ -10,7 +10,6 @@ import net.minecraft.util.math.MathHelper;
 public class LammerMoveHelper extends EntityMoveHelper {
 
 	private final EntityLammergeier parentEntity;
-	public Action action;
 
 	public LammerMoveHelper(EntityLammergeier lam) {
 		super(lam);
@@ -24,6 +23,9 @@ public class LammerMoveHelper extends EntityMoveHelper {
 
 	@Override
 	public void tick() {
+		if(this.action == Action.JUMPING) {
+			this.action = Action.MOVE_TO;
+		}
 		if(this.action == EntityMoveHelper.Action.MOVE_TO && !this.parentEntity.isSitting()) {
 			double d0 = this.posX - this.parentEntity.posX;
 			double d1 = this.posY - this.parentEntity.posY;
@@ -74,8 +76,7 @@ public class LammerMoveHelper extends EntityMoveHelper {
 		for(int i = 1; i < isNotColliding; ++i) {
 			axisalignedbb = axisalignedbb.offset(d0, d1, d2);
 
-			if(this.parentEntity.world.getCollisionBoxes(this.parentEntity, axisalignedbb, this.parentEntity.posX,
-					this.parentEntity.posY, this.parentEntity.posZ).count() != 0) {
+			if(this.parentEntity.world.getCollisionBoxes(this.parentEntity, axisalignedbb, 0,0,0).count() != 0) {
 				return false;
 			}
 		}

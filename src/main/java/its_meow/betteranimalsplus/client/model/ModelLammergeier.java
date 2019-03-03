@@ -598,6 +598,19 @@ public class ModelLammergeier extends ModelBase {
 				this.switchToFlight();
 			}
 			this.rWing01.rotateAngleZ = MathHelper.cos(ageInTicks * 0.3F) * (float) Math.PI * 0.25F;
+
+			if((Math.abs(lammergeier.motionY) > 0 && (Math.abs(lammergeier.motionX) > 0.05 || Math.abs(lammergeier.motionZ) > 0.05)) || Math.abs(lammergeier.motionY) > 0.25) {
+				float rotX = -((float) Math.atan(lammergeier.motionY / Math.sqrt(Math.pow(lammergeier.motionX, 2) + Math.pow(lammergeier.motionZ, 2))) / 1.5F);
+				if(rotX < 0) {
+					rotX /= 3;
+				}
+				if(Math.abs(lammergeier.motionY + lammergeier.lastMotionY) > 0.05 && lammergeier.motionY < 0) {
+					this.rWing01.rotateAngleZ = MathHelper.cos(225 * 0.3F) * (float) Math.PI * 0.25F;
+				}
+				this.body.rotateAngleX = rotX;
+			} else {
+				this.body.rotateAngleX = 0;
+			}
 			this.lWing01.rotateAngleZ = -this.rWing01.rotateAngleZ;
 			this.rWing02.rotateAngleZ = this.rWing01.rotateAngleZ * 0.5F;
 			this.lWing02.rotateAngleZ = -this.rWing01.rotateAngleZ * 0.5F;
@@ -607,22 +620,22 @@ public class ModelLammergeier extends ModelBase {
 			}
 			boolean flag = entityIn instanceof EntityLivingBase
 					&& ((EntityLivingBase) entityIn).getTicksElytraFlying() > 4;
-			float f = 1.0F;
+					float f = 1.0F;
 
-			if(flag) {
-				f = (float) (entityIn.motionX * entityIn.motionX + entityIn.motionY * entityIn.motionY
-						+ entityIn.motionZ * entityIn.motionZ);
-				f = f / 0.2F;
-				f = f * f * f;
-			}
+					if(flag) {
+						f = (float) (entityIn.motionX * entityIn.motionX + entityIn.motionY * entityIn.motionY
+								+ entityIn.motionZ * entityIn.motionZ);
+						f = f / 0.2F;
+						f = f * f * f;
+					}
 
-			if(f < 1.0F) {
-				f = 1.0F;
-			}
+					if(f < 1.0F) {
+						f = 1.0F;
+					}
 
-			this.rLeg01.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount / f;
-			this.lLeg01.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F + (float) Math.PI) * 1.4F * limbSwingAmount
-					/ f;
+					this.rLeg01.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount / f;
+					this.lLeg01.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F + (float) Math.PI) * 1.4F * limbSwingAmount
+							/ f;
 
 
 		}
