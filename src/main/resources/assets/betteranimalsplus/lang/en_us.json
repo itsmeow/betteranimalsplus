@@ -21,7 +21,7 @@
 
     "entity.betteranimalsplus.brownbear": "Brown Bear",
     "entity.betteranimalsplus.blackbear": "Black Bear",
-    "entity.betteranimalsplus.bermodebear": "Kermode Bear",
+    "entity.betteranimalsplus.kermodebear": "Kermode Bear",
     "entity.betteranimalsplus.deer": "Deer",
     "entity.betteranimalsplus.lammergeier": "Lammergeier",
     "entity.betteranimalsplus.feralwolf": "Feral Wolf",
@@ -34,5 +34,7 @@
     "entity.betteranimalsplus.pheasant": "Pheasant",
     "entity.betteranimalsplus.reindeer": "Reindeer",
     "entity.betteranimalsplus.boar": "Boar",
-    "entity.betteranimalsplus.squirrel": "Squirrel"
+    "entity.betteranimalsplus.squirrel": "Squirrel",
+    
+    "misc.betteranimalsplus.eggorder": "%s Spawn Egg"
 }

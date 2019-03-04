@@ -50,8 +50,11 @@ public class BetterAnimalsPlusMod {
 		@Override
 		public void fill(NonNullList<ItemStack> toDisplay) {
 			super.fill(toDisplay);
-			for(ItemSpawnEgg egg : MobRegistry.eggs) {
+			for(ItemSpawnEgg egg : MobRegistry.eggs.keySet()) {
 				ItemStack stack = new ItemStack(egg);
+				//stack.setTag(new NBTTagCompound());
+				//stack.getTag().setTag("EntityTag", new NBTTagCompound());
+				//stack.getTag().getCompound("EntityTag").setString("id", MobRegistry.getType(MobRegistry.eggs.get(egg)).getRegistryName().toString());
 				toDisplay.add(stack);
 			}
 		}

@@ -1,9 +1,9 @@
 package its_meow.betteranimalsplus.init;
 
-import java.util.HashSet;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
-import java.util.Set;
+import java.util.Map;
 import java.util.function.Function;
 
 import its_meow.betteranimalsplus.Ref;
@@ -52,7 +52,8 @@ public class MobRegistry {
 	public static LinkedHashSet<EntityContainer> entityList = new LinkedHashSet<>();
 	public static LinkedHashSet<EntityType<? extends Entity>> entrySet = new LinkedHashSet<>();
 
-	public static Set<ItemSpawnEgg> eggs = new HashSet<>();
+	public static Map<ItemSpawnEgg, Class<? extends Entity>> eggs = new HashMap<ItemSpawnEgg, Class<? extends Entity>>();
+	//public static ItemSpawnEgg egg = null;
 
 	public static EntityType<? extends Entity> getType(Class<? extends Entity> clazz) {
 		for(EntityContainer cont : MobRegistry.entityList) {
@@ -119,40 +120,16 @@ public class MobRegistry {
 		MobRegistry.entityList.add(new EntityContainer(EntitySquirrel.class, EntitySquirrel::new, "Squirrel",
 				EnumCreatureType.CREATURE, 0x89806f, 0xb2a489, BetterAnimalsPlusConfig.squirrelWeight, 1, 3,
 				BiomeDictionary.getBiomes(Type.FOREST)));
+		
+		for(EntityContainer container : MobRegistry.entityList) {
+			MobRegistry.reg(container);
+		}
 	}
 
 	// #################################################################################
 
 	public static void reg(EntityContainer c) {
-		if(c.doSpawning) {
-			MobRegistry.registerWithSpawn(c.entityClazz, c.entityFunction, c.entityName, c.type, c.weight, c.minGroup,
-					c.maxGroup, c.spawnBiomes, c);
-		} else {
-			MobRegistry.register(c.entityClazz, c.entityFunction, c.entityName, c);
-		}
-	}
-
-	@SuppressWarnings("unchecked")
-	public static void registerWithSpawn(Class<? extends Entity> EntityClass,
-			Function<? super World, ? extends Entity> func, String entityNameIn, EnumCreatureType typeIn, int prob,
-			int min, int max, Biome[] biomes, EntityContainer container) {
-		EntityType<? extends Entity> entry = EntityType.Builder.create(EntityClass, func).tracker(64, 1, true)
-				.build(entityNameIn.toLowerCase()).setRegistryName(Ref.MOD_ID, entityNameIn.toLowerCase());
-		if(typeIn == EnumCreatureType.WATER_CREATURE) {
-			EntitySpawnPlacementRegistry.register(entry, SpawnPlacementType.IN_WATER, Heightmap.Type.OCEAN_FLOOR, null);
-		}
-
-		// Now the unchecked operation is checked
-		if(EntityClass.isInstance(EntityLiving.class)) {
-			for(Biome biome : biomes) {
-				biome.getSpawns(typeIn).add(new SpawnListEntry((EntityType<? extends EntityLiving>) entry, prob, min, max));
-			}
-		}
-
-		if(container != null) {
-			MobRegistry.entryMap.put(container, entry);
-		}
-		MobRegistry.entrySet.add(entry);
+		MobRegistry.register(c.entityClazz, c.entityFunction, c.entityName, c);
 	}
 
 	public static void register(Class<? extends Entity> EntityClass, Function<? super World, ? extends Entity> func,
@@ -172,25 +149,29 @@ public class MobRegistry {
 	@EventBusSubscriber(modid = Ref.MOD_ID, bus = EventBusSubscriber.Bus.MOD)
 	public static class RegistrationHandler {
 
+		@SuppressWarnings("unchecked")
 		@SubscribeEvent
 		public static void registerEntities(final RegistryEvent.Register<EntityType<?>> event) {
 			final IForgeRegistry<EntityType<?>> registry = event.getRegistry();
-
-			for(EntityContainer container : MobRegistry.entityList) {
-				if(container.doRegister) {
-					MobRegistry.reg(container);
-				}
-			}
-			// EntitySpawnPlacementRegistry.setPlacementType(EntityLammergeier.class,
-			// SpawnPlacementType.IN_AIR);
+			
 			registry.register(EntityTarantulaHair.HAIR_TYPE);
 
 			if(!MobRegistry.entrySet.isEmpty()) {
-				for(final EntityType<? extends Entity> entityEntry : MobRegistry.entrySet) {
-					// System.out.println("Registering entity: " +
-					// entityEntry.getName() + " " +
-					// entityEntry.getRegistryName());
-					registry.register(entityEntry);
+				for(EntityContainer entry : MobRegistry.entryMap.keySet()) {
+					EntityType<?> type = MobRegistry.entryMap.get(entry);
+					if(entry.type == EnumCreatureType.WATER_CREATURE) {
+						EntitySpawnPlacementRegistry.register(type, SpawnPlacementType.IN_WATER, Heightmap.Type.OCEAN_FLOOR, null);
+					}
+					if(entry.doSpawning) {
+						// Now the unchecked operation is checked
+						if(entry.entityClazz.isInstance(EntityLiving.class)) {
+							for(Biome biome : entry.spawnBiomes) {
+								biome.getSpawns(entry.type).add(new SpawnListEntry((EntityType<? extends EntityLiving>) type, entry.weight, entry.minGroup, entry.maxGroup));
+							}
+						}
+					}
+					
+					registry.register(type);
 				}
 			}
 		}

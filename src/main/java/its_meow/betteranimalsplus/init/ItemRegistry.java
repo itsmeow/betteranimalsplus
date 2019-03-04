@@ -6,6 +6,7 @@ import java.util.Set;
 import its_meow.betteranimalsplus.BetterAnimalsPlusMod;
 import its_meow.betteranimalsplus.Ref;
 import its_meow.betteranimalsplus.common.item.ItemAntler;
+import its_meow.betteranimalsplus.common.item.ItemBetterAnimalsPlusEgg;
 import its_meow.betteranimalsplus.common.item.ItemBetterFood;
 import its_meow.betteranimalsplus.common.item.ItemGoatCheese;
 import its_meow.betteranimalsplus.common.item.ItemHandOfFate;
@@ -15,8 +16,6 @@ import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.Item.Properties;
 import net.minecraft.item.ItemBucketMilk;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemSpawnEgg;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -60,13 +59,16 @@ public class ItemRegistry {
 				registry.register(item);
 				RegistrationHandler.ITEMS.add(item);
 			}
+			//ItemSpawnEgg egg = null;
 			for(EntityContainer ent : MobRegistry.entityList) {
-				ItemSpawnEgg egg = new ItemSpawnEgg(MobRegistry.entryMap.get(ent), ent.eggColorSolid, ent.eggColorSpot,
-						new Properties().group(ItemGroup.MISC));
+				ItemBetterAnimalsPlusEgg egg = new ItemBetterAnimalsPlusEgg(MobRegistry.getType(ent.entityClazz), ent.eggColorSolid, ent.eggColorSpot, ent);
 				egg.setRegistryName(ent.entityName.toLowerCase().toString() + "_spawn_egg");
 				registry.register(egg);
-				MobRegistry.eggs.add(egg);
+				MobRegistry.eggs.put(egg, ent.entityClazz);
 			}
+			//egg.setRegistryName("better_animals_spawn_egg");
+			//registry.register(egg);
+			//MobRegistry.egg = egg;
 		}
 		
 	}
