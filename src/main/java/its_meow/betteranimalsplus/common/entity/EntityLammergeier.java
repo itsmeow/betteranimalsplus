@@ -10,9 +10,9 @@ import com.google.common.base.Predicate;
 
 import its_meow.betteranimalsplus.common.entity.ai.EntityAIFollowOwnerFlying;
 import its_meow.betteranimalsplus.common.entity.ai.LammerMoveHelper;
-import its_meow.betteranimalsplus.common.util.PolarVector3D;
 import its_meow.betteranimalsplus.init.LootTableRegistry;
 import its_meow.betteranimalsplus.init.MobRegistry;
+import its_meow.betteranimalsplus.util.PolarVector3D;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;

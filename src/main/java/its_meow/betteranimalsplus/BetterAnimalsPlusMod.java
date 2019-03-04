@@ -6,6 +6,7 @@ import org.apache.logging.log4j.Logger;
 
 import its_meow.betteranimalsplus.client.ClientLifecycleHandler;
 import its_meow.betteranimalsplus.common.world.gen.TrilliumGenerator;
+import its_meow.betteranimalsplus.config.BetterAnimalsPlusConfig;
 import its_meow.betteranimalsplus.init.ItemRegistry;
 import its_meow.betteranimalsplus.init.LootTableRegistry;
 import its_meow.betteranimalsplus.init.MobRegistry;
@@ -21,7 +22,9 @@ import net.minecraft.world.gen.feature.NoFeatureConfig;
 import net.minecraft.world.gen.placement.FrequencyConfig;
 import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.fml.DistExecutor;
+import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
@@ -35,6 +38,10 @@ public class BetterAnimalsPlusMod {
 		FMLJavaModLoadingContext.get().getModEventBus().<FMLClientSetupEvent>addListener(e -> new ClientLifecycleHandler().clientSetup(e));
 
 		MobRegistry.fillContainers();
+		
+		ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, BetterAnimalsPlusConfig.SERVER_CONFIG);
+        //BetterAnimalsPlusConfig.loadConfig(BetterAnimalsPlusConfig.SERVER_CONFIG, FMLPaths.CONFIGDIR.get().resolve("betteranimalsplus-server.toml"));
+		
 		BetterAnimalsPlusMod.logger.log(Level.INFO, "Injecting super coyotes...");
 	}
 

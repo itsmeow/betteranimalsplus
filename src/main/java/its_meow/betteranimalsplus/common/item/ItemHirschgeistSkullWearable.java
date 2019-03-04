@@ -3,9 +3,9 @@ package its_meow.betteranimalsplus.common.item;
 import java.util.List;
 
 import its_meow.betteranimalsplus.BetterAnimalsPlusMod;
-import its_meow.betteranimalsplus.common.util.ArmorMaterialBone;
 import its_meow.betteranimalsplus.init.ItemRegistry;
 import its_meow.betteranimalsplus.proxy.ClientProxy;
+import its_meow.betteranimalsplus.util.ArmorMaterialBone;
 import net.minecraft.client.renderer.entity.model.ModelBiped;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.EntityLivingBase;

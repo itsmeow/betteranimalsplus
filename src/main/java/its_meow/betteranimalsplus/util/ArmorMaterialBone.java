@@ -1,4 +1,4 @@
-package its_meow.betteranimalsplus.common.util;
+package its_meow.betteranimalsplus.util;
 
 import its_meow.betteranimalsplus.init.ItemRegistry;
 import net.minecraft.init.Items;

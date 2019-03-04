@@ -1,7 +1,7 @@
 package its_meow.betteranimalsplus.common.entity.ai;
 
 import its_meow.betteranimalsplus.common.entity.EntityLammergeier;
-import its_meow.betteranimalsplus.common.util.SimpleTeleporter;
+import its_meow.betteranimalsplus.util.SimpleTeleporter;
 import net.minecraft.block.state.BlockFaceShape;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
