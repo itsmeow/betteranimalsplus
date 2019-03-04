@@ -12,7 +12,6 @@ import net.minecraftforge.common.ForgeConfigSpec;
 public class EntityConfigurationSection {
 
 	public String entityName; 
-	public ForgeConfigSpec.BooleanValue doRegister; 
 	public ForgeConfigSpec.BooleanValue doSpawning; 
 	public ForgeConfigSpec.IntValue min;
 	public ForgeConfigSpec.IntValue max; 
@@ -23,17 +22,12 @@ public class EntityConfigurationSection {
 		builder.push(container.entityName);
 		
 		this.entityName = container.entityName;
-		this.loadRegister(builder); 
 		this.loadSpawning(builder);
 		this.loadSpawnValues(builder, container); 
 		
 		builder.pop();
 	}
 	
-	public void loadRegister(ForgeConfigSpec.Builder builder) { 
-		doRegister = builder.comment("If set to false, the entity is removed (will remove from existing worlds!)").worldRestart().define("doRegistration", true);
-		//this.doRegister = config.getBoolean("doRegistration", this.categoryName, true, "If set to false, the entity is removed (will remove from existing worlds!)"); 
-	}
 	public void loadSpawning(ForgeConfigSpec.Builder builder) {
 		doSpawning = builder.comment("Disables natural spawning").worldRestart().define("doSpawning", true);
 		//this.doSpawning = config.getBoolean("doSpawning", this.categoryName, true, "Disables natural spawning"); 

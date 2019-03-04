@@ -21,7 +21,6 @@ public class EntityContainer {
 	public int minGroup;
 	public int maxGroup;
 	public Biome[] spawnBiomes = {};
-	public boolean doRegister = true;
 	public boolean doSpawning = true;
 
 	@SafeVarargs

@@ -26,16 +26,10 @@ import its_meow.betteranimalsplus.common.entity.miniboss.hirschgeist.EntityHirsc
 import its_meow.betteranimalsplus.common.entity.projectile.EntityTarantulaHair;
 import its_meow.betteranimalsplus.config.BetterAnimalsPlusConfig;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.EntitySpawnPlacementRegistry;
-import net.minecraft.entity.EntitySpawnPlacementRegistry.SpawnPlacementType;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.item.ItemSpawnEgg;
 import net.minecraft.world.World;
-import net.minecraft.world.biome.Biome;
-import net.minecraft.world.biome.Biome.SpawnListEntry;
-import net.minecraft.world.gen.Heightmap;
 import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.BiomeDictionary.Type;
 import net.minecraftforge.event.RegistryEvent;
@@ -149,30 +143,17 @@ public class MobRegistry {
 	@EventBusSubscriber(modid = Ref.MOD_ID, bus = EventBusSubscriber.Bus.MOD)
 	public static class RegistrationHandler {
 
-		@SuppressWarnings("unchecked")
 		@SubscribeEvent
 		public static void registerEntities(final RegistryEvent.Register<EntityType<?>> event) {
 			final IForgeRegistry<EntityType<?>> registry = event.getRegistry();
 			
 			registry.register(EntityTarantulaHair.HAIR_TYPE);
 			
-			BetterAnimalsPlusConfig.loadEntityData();
+
 			
 			if(!MobRegistry.entrySet.isEmpty()) {
 				for(EntityContainer entry : MobRegistry.entryMap.keySet()) {
 					EntityType<?> type = MobRegistry.entryMap.get(entry);
-					if(entry.type == EnumCreatureType.WATER_CREATURE) {
-						EntitySpawnPlacementRegistry.register(type, SpawnPlacementType.IN_WATER, Heightmap.Type.OCEAN_FLOOR, null);
-					}
-					if(entry.doSpawning) {
-						// Now the unchecked operation is checked
-						if(entry.entityClazz.isInstance(EntityLiving.class)) {
-							for(Biome biome : entry.spawnBiomes) {
-								biome.getSpawns(entry.type).add(new SpawnListEntry((EntityType<? extends EntityLiving>) type, entry.weight, entry.minGroup, entry.maxGroup));
-							}
-						}
-					}
-					
 					registry.register(type);
 				}
 			}

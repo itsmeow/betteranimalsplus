@@ -39,8 +39,8 @@ public class BetterAnimalsPlusMod {
 
 		MobRegistry.fillContainers();
 		
+		// Make sure to do this after containers are loaded
 		ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, BetterAnimalsPlusConfig.SERVER_CONFIG);
-        //BetterAnimalsPlusConfig.loadConfig(BetterAnimalsPlusConfig.SERVER_CONFIG, FMLPaths.CONFIGDIR.get().resolve("betteranimalsplus-server.toml"));
 		
 		BetterAnimalsPlusMod.logger.log(Level.INFO, "Injecting super coyotes...");
 	}
