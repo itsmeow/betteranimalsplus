@@ -1,14 +1,11 @@
 package its_meow.betteranimalsplus.init;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 
-import its_meow.betteranimalsplus.BetterAnimalsPlusMod;
 import its_meow.betteranimalsplus.Ref;
 import its_meow.betteranimalsplus.common.entity.EntityBear;
 import its_meow.betteranimalsplus.common.entity.EntityBearNeutral;
@@ -28,7 +25,6 @@ import its_meow.betteranimalsplus.common.entity.EntityTarantula;
 import its_meow.betteranimalsplus.common.entity.miniboss.hirschgeist.EntityHirschgeist;
 import its_meow.betteranimalsplus.common.entity.projectile.EntityTarantulaHair;
 import its_meow.betteranimalsplus.config.BetterAnimalsPlusConfig;
-import its_meow.betteranimalsplus.config.EntityConfiguration;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntitySpawnPlacementRegistry;
@@ -36,7 +32,6 @@ import net.minecraft.entity.EntitySpawnPlacementRegistry.SpawnPlacementType;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.item.ItemSpawnEgg;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.Biome.SpawnListEntry;
@@ -46,7 +41,6 @@ import net.minecraftforge.common.BiomeDictionary.Type;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
-import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.IForgeRegistry;
 
 
@@ -162,35 +156,7 @@ public class MobRegistry {
 			
 			registry.register(EntityTarantulaHair.HAIR_TYPE);
 			
-			
-			// Replace entity data
-			for(EntityContainer container : BetterAnimalsPlusConfig.sections.keySet()) {
-				EntityConfiguration section = BetterAnimalsPlusConfig.sections.get(container);
-				container.maxGroup = section.max.get();
-				container.minGroup = section.min.get();
-				container.weight = section.weight.get();
-				container.doRegister = section.doRegister.get();
-				container.doSpawning = section.doSpawning.get();
-
-				// Parse biomes
-				List<Biome> biomesList = new ArrayList<Biome>();
-				for(String biomeID : section.biomesList.get()) {
-					Biome biome = ForgeRegistries.BIOMES.getValue(new ResourceLocation(biomeID));
-					if(biome == null) { // Could not get biome with ID
-						BetterAnimalsPlusMod.logger.error("Invalid biome configuration entered for entity \"" + container.entityName + "\" (biome was mistyped or a biome mod was removed?): " + biomeID);
-					} else { // Valid biome
-						biomesList.add(biome);
-					}
-				}
-				// Get as array
-				Biome[] biomes = new Biome[biomesList.size()];
-				for (int i = 0; i < biomesList.size(); i++)
-				{
-					biomes[i] = biomesList.get(i);
-				}
-
-				container.spawnBiomes = biomes;
-			}
+			BetterAnimalsPlusConfig.loadEntityData();
 			
 			if(!MobRegistry.entrySet.isEmpty()) {
 				for(EntityContainer entry : MobRegistry.entryMap.keySet()) {

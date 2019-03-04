@@ -9,7 +9,7 @@ import its_meow.betteranimalsplus.init.EntityContainer;
 import net.minecraft.world.biome.Biome;
 import net.minecraftforge.common.ForgeConfigSpec;
 
-public class EntityConfiguration {
+public class EntityConfigurationSection {
 
 	public String entityName; 
 	public ForgeConfigSpec.BooleanValue doRegister; 
@@ -19,7 +19,7 @@ public class EntityConfiguration {
 	public ForgeConfigSpec.IntValue weight;
 	public ForgeConfigSpec.ConfigValue<List<? extends String>> biomesList;
 	
-	public EntityConfiguration(EntityContainer container, ForgeConfigSpec.Builder builder) { 
+	public EntityConfigurationSection(EntityContainer container, ForgeConfigSpec.Builder builder) { 
 		builder.push(container.entityName);
 		
 		this.entityName = container.entityName;
