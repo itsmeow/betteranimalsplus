@@ -1,4 +1,4 @@
-﻿{
+{
     "_comment": "Creative Tabs",
     "itemGroup.Better Animals+": "Meilleurs animaux+",
 
@@ -23,20 +23,22 @@
     "block.betteranimalsplus.boarhead": "Tête de Sanglier",
 
     "_comment": "Entities",
-    "entity.betteranimalsplus.BrownBear": "Ours brun",
-    "entity.betteranimalsplus.BlackBear": "Ours noir",
-    "entity.betteranimalsplus.KermodeBear": "Ours Kermode",
-    "entity.betteranimalsplus.Deer": "Cerf",
-    "entity.betteranimalsplus.Lammergeier": "Gypaète",
-    "entity.betteranimalsplus.FeralWolf": "Loup farouche",
-    "entity.betteranimalsplus.Coyote": "Coyote",
-    "entity.betteranimalsplus.Fox": "Renard",
-    "entity.betteranimalsplus.Tarantula": "Tarentule",
-    "entity.betteranimalsplus.Hirschgeist": "Hirschgeist",
-    "entity.betteranimalsplus.Goat": "Chèvre",
-    "entity.betteranimalsplus.Jellyfish": "Méduse",
-    "entity.betteranimalsplus.Pheasant": "Faisan",
-    "entity.betteranimalsplus.Reindeer": "Renne",
-    "entity.betteranimalsplus.Boar": "Sanglier",
-    "entity.betteranimalsplus.Squirrel": "Écureuil"
+    "entity.betteranimalsplus.brownbear": "Ours brun",
+    "entity.betteranimalsplus.blackbear": "Ours noir",
+    "entity.betteranimalsplus.kermodebear": "Ours Kermode",
+    "entity.betteranimalsplus.deer": "Cerf",
+    "entity.betteranimalsplus.lammergeier": "Gypaète",
+    "entity.betteranimalsplus.feralwolf": "Loup farouche",
+    "entity.betteranimalsplus.coyote": "Coyote",
+    "entity.betteranimalsplus.fox": "Renard",
+    "entity.betteranimalsplus.tarantula": "Tarentule",
+    "entity.betteranimalsplus.hirschgeist": "Hirschgeist",
+    "entity.betteranimalsplus.goat": "Chèvre",
+    "entity.betteranimalsplus.jellyfish": "Méduse",
+    "entity.betteranimalsplus.pheasant": "Faisan",
+    "entity.betteranimalsplus.reindeer": "Renne",
+    "entity.betteranimalsplus.boar": "Sanglier",
+    "entity.betteranimalsplus.squirrel": "Écureuil",
+	
+	"misc.betteranimalsplus.eggorder": "Oeuf d'apparition de %s"
 }

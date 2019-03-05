@@ -1,4 +1,4 @@
-﻿{
+{
     "_comment": "Creative Tabs",
     "itemGroup.Better Animals+": "動物優化+",
 
@@ -7,22 +7,38 @@
     "item.betteranimalsplus.venisoncooked": "熟鹿肉",
     "item.betteranimalsplus.hirschgeistskullwearable": "菲森蓋斯特的骷髏 (衣物)",
     "item.betteranimalsplus.antler": "鹿角",
+    "item.betteranimalsplus.goatmilk": "山羊奶",
+    "item.betteranimalsplus.goatcheese": "山羊奶酪",
+    "item.betteranimalsplus.pheasantraw": "生野雞",
+    "item.betteranimalsplus.pheasantcooked": "熟野雞",
 
     "_comment": "Blocks",
     "block.betteranimalsplus.trillium": "延齡草",
     "block.betteranimalsplus.hirschgeistskull": "菲森蓋斯特的骷髏",
     "block.betteranimalsplus.handoffate": "宿命之手",
+    "block.betteranimalsplus.wolfhead": "野狼的頭",
+    "block.betteranimalsplus.deerhead": "鹿的頭",
+    "block.betteranimalsplus.reindeerhead": "馴鹿的頭",
+    "block.betteranimalsplus.foxhead": "狐狸的頭",
+    "block.betteranimalsplus.boarhead": "野豬的頭",
 
     "_comment": "Entities",
-    "entity.betteranimalsplus.BrownBear": "棕熊",
-    "entity.betteranimalsplus.BlackBear": "黑熊",
-    "entity.betteranimalsplus.KermodeBear": "柯莫德熊",
-    "entity.betteranimalsplus.Deer": "鹿",
-    "entity.betteranimalsplus.Lammergeier": "胡兀鷲",
-    "entity.betteranimalsplus.FeralWolf": "野狼",
-    "entity.betteranimalsplus.Coyote": "郊狼",
-    "entity.betteranimalsplus.Trillium": "延齡草",
-    "entity.betteranimalsplus.Fox": "狐狸",
-    "entity.betteranimalsplus.Tarantula": "捕鳥蛛",
-    "entity.betteranimalsplus.Hirschgeist": "菲森蓋斯特"
+    "entity.betteranimalsplus.brownbear": "棕熊",
+    "entity.betteranimalsplus.blackbear": "黑熊",
+    "entity.betteranimalsplus.kermodebear": "柯莫德熊",
+    "entity.betteranimalsplus.deer": "鹿",
+    "entity.betteranimalsplus.lammergeier": "胡兀鷲",
+    "entity.betteranimalsplus.feralwolf": "野狼",
+    "entity.betteranimalsplus.coyote": "郊狼",
+    "entity.betteranimalsplus.fox": "狐狸",
+    "entity.betteranimalsplus.tarantula": "捕鳥蛛",
+    "entity.betteranimalsplus.hirschgeist": "菲森蓋斯特",
+    "entity.betteranimalsplus.goat": "山羊",
+    "entity.betteranimalsplus.jellyfish": "水母",
+    "entity.betteranimalsplus.pheasant": "野雞",
+    "entity.betteranimalsplus.reindeer": "馴鹿",
+    "entity.betteranimalsplus.boar": "野豬",
+    "entity.betteranimalsplus.squirrel": "鬆鼠",
+	
+	"misc.betteranimalsplus.eggorder": "%s生怪蛋"
 }

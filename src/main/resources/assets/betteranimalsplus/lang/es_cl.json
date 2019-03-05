@@ -1,4 +1,4 @@
-﻿{
+{
     "_comment": "Creative Tabs",
     "itemGroup.Better Animals+": "Más Animales Épicos",
 
@@ -23,20 +23,22 @@
     "block.betteranimalsplus.boarhead": "Cabeza de Jabalí",
 
     "_comment": "Entities",
-    "entity.betteranimalsplus.BrownBear": "Oso Pardo",
-    "entity.betteranimalsplus.BlackBear": "Oso Negro",
-    "entity.betteranimalsplus.KermodeBear": "Oso Kermode",
-    "entity.betteranimalsplus.Deer": "Ciervo",
-    "entity.betteranimalsplus.Lammergeier": "Quebrantahuesos",
-    "entity.betteranimalsplus.FeralWolf": "Lobo Salvaje",
-    "entity.betteranimalsplus.Coyote": "Coyote",
-    "entity.betteranimalsplus.Fox": "Zorro",
-    "entity.betteranimalsplus.Tarantula": "Tarántula",
-    "entity.betteranimalsplus.Hirschgeist": "Hirschgeist",
-    "entity.betteranimalsplus.Goat": "Cabra",
-    "entity.betteranimalsplus.Jellyfish": "Medusa",
-    "entity.betteranimalsplus.Pheasant": "Faisán",
-    "entity.betteranimalsplus.Reindeer": "Reno",
-    "entity.betteranimalsplus.Boar": "Jabali",
-    "entity.betteranimalsplus.Squirrel": "Ardilla"
+    "entity.betteranimalsplus.brownbear": "Oso Pardo",
+    "entity.betteranimalsplus.blackbear": "Oso Negro",
+    "entity.betteranimalsplus.kermodebear": "Oso Kermode",
+    "entity.betteranimalsplus.deer": "Ciervo",
+    "entity.betteranimalsplus.lammergeier": "Quebrantahuesos",
+    "entity.betteranimalsplus.feralwolf": "Lobo Salvaje",
+    "entity.betteranimalsplus.coyote": "Coyote",
+    "entity.betteranimalsplus.fox": "Zorro",
+    "entity.betteranimalsplus.tarantula": "Tarántula",
+    "entity.betteranimalsplus.hirschgeist": "Hirschgeist",
+    "entity.betteranimalsplus.goat": "Cabra",
+    "entity.betteranimalsplus.jellyfish": "Medusa",
+    "entity.betteranimalsplus.pheasant": "Faisán",
+    "entity.betteranimalsplus.reindeer": "Reno",
+    "entity.betteranimalsplus.boar": "Jabali",
+    "entity.betteranimalsplus.squirrel": "Ardilla",
+	
+	"misc.betteranimalsplus.eggorder": "Generar %s"
 }

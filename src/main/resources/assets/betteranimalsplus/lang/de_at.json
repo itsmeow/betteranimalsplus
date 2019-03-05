@@ -1,4 +1,4 @@
-﻿{
+{
     "_comment": "Creative Tabs",
     "itemGroup.Better Animals+": "Bessere Tiere+",
 
@@ -23,21 +23,23 @@
     "block.betteranimalsplus.boarhead": "Eberkopf",
 
     "_comment": "Entities",
-    "entity.betteranimalsplus.BrownBear": "Braunbär",
-    "entity.betteranimalsplus.BlackBear": "Schwarzbär",
-    "entity.betteranimalsplus.KermodeBear": "Geisterbär",
-    "entity.betteranimalsplus.Deer": "Hirsch",
-    "entity.betteranimalsplus.Lammergeier": "Bartgeier",
-    "entity.betteranimalsplus.FeralWolf": "Wilder Wolf",
-    "entity.betteranimalsplus.Coyote": "Präriehund",
-    "entity.betteranimalsplus.Trillium": "Trillium",
-    "entity.betteranimalsplus.Fox": "Fuchs",
-    "entity.betteranimalsplus.Tarantula": "Vogelspinne",
-    "entity.betteranimalsplus.Hirschgeist": "Hirschgeist",
-    "entity.betteranimalsplus.Goat": "Ziege",
-    "entity.betteranimalsplus.Jellyfish": "Qualle",
-    "entity.betteranimalsplus.Pheasant": "Fasan",
-    "entity.betteranimalsplus.Reindeer": "Rentier",
-    "entity.betteranimalsplus.Boar": "Eber",
-    "entity.betteranimalsplus.Squirrel": "Eichhörnchen"
+    "entity.betteranimalsplus.brownbear": "Braunbär",
+    "entity.betteranimalsplus.blackbear": "Schwarzbär",
+    "entity.betteranimalsplus.kermodebear": "Geisterbär",
+    "entity.betteranimalsplus.deer": "Hirsch",
+    "entity.betteranimalsplus.lammergeier": "Bartgeier",
+    "entity.betteranimalsplus.feralwolf": "Wilder Wolf",
+    "entity.betteranimalsplus.coyote": "Präriehund",
+    "entity.betteranimalsplus.trillium": "Trillium",
+    "entity.betteranimalsplus.fox": "Fuchs",
+    "entity.betteranimalsplus.tarantula": "Vogelspinne",
+    "entity.betteranimalsplus.hirschgeist": "Hirschgeist",
+    "entity.betteranimalsplus.goat": "Ziege",
+    "entity.betteranimalsplus.jellyfish": "Qualle",
+    "entity.betteranimalsplus.pheasant": "Fasan",
+    "entity.betteranimalsplus.reindeer": "Rentier",
+    "entity.betteranimalsplus.boar": "Eber",
+    "entity.betteranimalsplus.squirrel": "Eichhörnchen",
+	
+	"misc.betteranimalsplus.eggorder": "%s-Spawn-Ei"
 }

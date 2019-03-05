@@ -1,4 +1,4 @@
-﻿{
+{
     "_comment": "Creative Tabs",
     "itemGroup.Better Animals+": "حيوانات أفضل+",
 
@@ -14,15 +14,17 @@
     "block.betteranimalsplus.handoffate": "يد المصير",
 
     "_comment": "Entities",
-    "entity.betteranimalsplus.BrownBear": "دب بني",
-    "entity.betteranimalsplus.BlackBear": "دب أسود",
-    "entity.betteranimalsplus.KermodeBear": "دب الكيرمود",
-    "entity.betteranimalsplus.Deer": "غزال",
-    "entity.betteranimalsplus.Lammergeier": "نسر أبو ذقن",
-    "entity.betteranimalsplus.FeralWolf": "ذئب وحشي",
-    "entity.betteranimalsplus.Coyote": "قيوط",
-    "entity.betteranimalsplus.Trillium": "تريليوم",
-    "entity.betteranimalsplus.Fox": "ثعلب",
-    "entity.betteranimalsplus.Tarantula": "رتيلاء",
-    "entity.betteranimalsplus.Hirschgeist": "غزال شبح"
+    "entity.betteranimalsplus.brownbear": "دب بني",
+    "entity.betteranimalsplus.blackbear": "دب أسود",
+    "entity.betteranimalsplus.kermodebear": "دب الكيرمود",
+    "entity.betteranimalsplus.deer": "غزال",
+    "entity.betteranimalsplus.lammergeier": "نسر أبو ذقن",
+    "entity.betteranimalsplus.feralwolf": "ذئب وحشي",
+    "entity.betteranimalsplus.coyote": "قيوط",
+    "entity.betteranimalsplus.trillium": "تريليوم",
+    "entity.betteranimalsplus.fox": "ثعلب",
+    "entity.betteranimalsplus.tarantula": "رتيلاء",
+    "entity.betteranimalsplus.hirschgeist": "غزال شبح",
+	
+	"misc.betteranimalsplus.eggorder": "بيضة %s"
 }

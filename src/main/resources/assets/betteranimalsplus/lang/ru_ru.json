@@ -1,4 +1,4 @@
-﻿{
+{
     "_comment": "Creative Tabs",
     "itemGroup.Better Animals+": "Better Animals+",
 
@@ -23,20 +23,22 @@
     "block.betteranimalsplus.boarhead": "Голова кабана",
 
     "_comment": "Entities",
-    "entity.betteranimalsplus.BrownBear": "Бурый медведь",
-    "entity.betteranimalsplus.BlackBear": "Черный медведь",
-    "entity.betteranimalsplus.KermodeBear": "Кермодский медведь",
-    "entity.betteranimalsplus.Deer": "Олень",
-    "entity.betteranimalsplus.Lammergeier": "Бородач",
-    "entity.betteranimalsplus.FeralWolf": "Дикий волк",
-    "entity.betteranimalsplus.Coyote": "Койот",
-    "entity.betteranimalsplus.Fox": "Лиса",
-    "entity.betteranimalsplus.Tarantula": "Тарантул",
-    "entity.betteranimalsplus.Hirschgeist": "Хиршгейст",
-    "entity.betteranimalsplus.Goat": "Коза",
-    "entity.betteranimalsplus.Jellyfish": "Медуза",
-    "entity.betteranimalsplus.Pheasant": "Фазан",
-    "entity.betteranimalsplus.Reindeer": "Cеверный олень",
-    "entity.betteranimalsplus.Boar": "кабан",
-    "entity.betteranimalsplus.Squirrel": "белка"
+    "entity.betteranimalsplus.brownbear": "Бурый медведь",
+    "entity.betteranimalsplus.blackbear": "Черный медведь",
+    "entity.betteranimalsplus.kermodebear": "Кермодский медведь",
+    "entity.betteranimalsplus.deer": "Олень",
+    "entity.betteranimalsplus.lammergeier": "Бородач",
+    "entity.betteranimalsplus.feralwolf": "Дикий волк",
+    "entity.betteranimalsplus.coyote": "Койот",
+    "entity.betteranimalsplus.fox": "Лиса",
+    "entity.betteranimalsplus.tarantula": "Тарантул",
+    "entity.betteranimalsplus.hirschgeist": "Хиршгейст",
+    "entity.betteranimalsplus.goat": "Коза",
+    "entity.betteranimalsplus.jellyfish": "Медуза",
+    "entity.betteranimalsplus.pheasant": "Фазан",
+    "entity.betteranimalsplus.reindeer": "Cеверный олень",
+    "entity.betteranimalsplus.boar": "кабан",
+    "entity.betteranimalsplus.squirrel": "белка",
+	
+	"misc.betteranimalsplus.eggorder": "Яйцо призыва %s"
 }

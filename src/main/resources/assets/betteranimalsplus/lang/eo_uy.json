@@ -1,4 +1,4 @@
-﻿{
+{
     "_comment": "Creative Tabs",
     "itemGroup.Better Animals+": "Pli Bonaj Bestoj+",
 
@@ -23,21 +23,23 @@
     "block.betteranimalsplus.boarhead": "Kapo de Porkviro",
 
     "_comment": "Entities",
-    "entity.betteranimalsplus.BrownBear": "Bruna Urso",
-    "entity.betteranimalsplus.BlackBear": "Nigra Urso",
-    "entity.betteranimalsplus.KermodeBear": "Kermoda Urso",
-    "entity.betteranimalsplus.Deer": "Cervo",
-    "entity.betteranimalsplus.Lammergeier": "Ŝafgrifo",
-    "entity.betteranimalsplus.FeralWolf": "Sovaĝa Lupo",
-    "entity.betteranimalsplus.Coyote": "Kojoto",
-    "entity.betteranimalsplus.Trillium": "Trilliumo",
-    "entity.betteranimalsplus.Fox": "Vulpo",
-    "entity.betteranimalsplus.Tarantula": "Tarantulo",
-    "entity.betteranimalsplus.Hirschgeist": "Hirschgeisto",
-    "entity.betteranimalsplus.Goat": "Kapro",
-    "entity.betteranimalsplus.Jellyfish": "Meduzo",
-    "entity.betteranimalsplus.Pheasant": "Fazano",
-    "entity.betteranimalsplus.Reindeer": "Norda Cervo",
-    "entity.betteranimalsplus.Boar": "Porkviro",
-    "entity.betteranimalsplus.Squirrel": "Sciuro"
+    "entity.betteranimalsplus.brownbear": "Bruna Urso",
+    "entity.betteranimalsplus.blackbear": "Nigra Urso",
+    "entity.betteranimalsplus.kermodebear": "Kermoda Urso",
+    "entity.betteranimalsplus.deer": "Cervo",
+    "entity.betteranimalsplus.lammergeier": "Ŝafgrifo",
+    "entity.betteranimalsplus.feralwolf": "Sovaĝa Lupo",
+    "entity.betteranimalsplus.coyote": "Kojoto",
+    "entity.betteranimalsplus.trillium": "Trilliumo",
+    "entity.betteranimalsplus.fox": "Vulpo",
+    "entity.betteranimalsplus.tarantula": "Tarantulo",
+    "entity.betteranimalsplus.hirschgeist": "Hirschgeisto",
+    "entity.betteranimalsplus.goat": "Kapro",
+    "entity.betteranimalsplus.jellyfish": "Meduzo",
+    "entity.betteranimalsplus.pheasant": "Fazano",
+    "entity.betteranimalsplus.reindeer": "Norda Cervo",
+    "entity.betteranimalsplus.boar": "Porkviro",
+    "entity.betteranimalsplus.squirrel": "Sciuro",
+	
+	"misc.betteranimalsplus.eggorder": "Aperigovo de %s"
 }

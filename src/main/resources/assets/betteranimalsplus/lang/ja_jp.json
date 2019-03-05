@@ -1,4 +1,4 @@
-﻿{
+{
     "_comment": "Creative Tabs",
     "itemGroup.Better Animals+": "Better Animals+",
 
@@ -23,21 +23,23 @@
     "block.betteranimalsplus.boarhead": "イノシシの頭",
 
     "_comment": "Entities",
-    "entity.betteranimalsplus.BrownBear": "ヒグマ",
-    "entity.betteranimalsplus.BlackBear": "クロクマ",
-    "entity.betteranimalsplus.KermodeBear": "スピリットベア",
-    "entity.betteranimalsplus.Deer": "シカ",
-    "entity.betteranimalsplus.Lammergeier": "ヒゲワシ",
-    "entity.betteranimalsplus.FeralWolf": "野良オオカミ",
-    "entity.betteranimalsplus.Coyote": "コヨーテ",
-    "entity.betteranimalsplus.Trillium": "エンレイソウ",
-    "entity.betteranimalsplus.Fox": "キツネ",
-    "entity.betteranimalsplus.Tarantula": "タランチュラ",
-    "entity.betteranimalsplus.Hirschgeist": "ヒルシュガイスト",
-    "entity.betteranimalsplus.Goat": "ヤギ",
-    "entity.betteranimalsplus.Jellyfish": "クラゲ",
-    "entity.betteranimalsplus.Pheasant": "キジ",
-    "entity.betteranimalsplus.Reindeer": "トナカイ",
-    "entity.betteranimalsplus.Boar": "イノシシ",
-    "entity.betteranimalsplus.Squirrel": "リス"
+    "entity.betteranimalsplus.brownbear": "ヒグマ",
+    "entity.betteranimalsplus.blackbear": "クロクマ",
+    "entity.betteranimalsplus.kermodebear": "スピリットベア",
+    "entity.betteranimalsplus.deer": "シカ",
+    "entity.betteranimalsplus.lammergeier": "ヒゲワシ",
+    "entity.betteranimalsplus.feralwolf": "野良オオカミ",
+    "entity.betteranimalsplus.coyote": "コヨーテ",
+    "entity.betteranimalsplus.trillium": "エンレイソウ",
+    "entity.betteranimalsplus.fox": "キツネ",
+    "entity.betteranimalsplus.tarantula": "タランチュラ",
+    "entity.betteranimalsplus.hirschgeist": "ヒルシュガイスト",
+    "entity.betteranimalsplus.goat": "ヤギ",
+    "entity.betteranimalsplus.jellyfish": "クラゲ",
+    "entity.betteranimalsplus.pheasant": "キジ",
+    "entity.betteranimalsplus.reindeer": "トナカイ",
+    "entity.betteranimalsplus.boar": "イノシシ",
+    "entity.betteranimalsplus.squirrel": "リス",
+	
+	"misc.betteranimalsplus.eggorder": "%sのスポーンエッグ"
 }
