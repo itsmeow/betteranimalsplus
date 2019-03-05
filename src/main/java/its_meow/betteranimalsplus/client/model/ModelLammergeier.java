@@ -596,9 +596,6 @@ public class ModelLammergeier extends ModelBase {
 
 		if(this.isFlying) {
 			this.rWing01.rotateAngleZ = MathHelper.cos(ageInTicks * 0.3F) * (float)Math.PI * 0.25F;
-			this.lWing01.rotateAngleZ = -this.rWing01.rotateAngleZ;
-			this.rWing02.rotateAngleZ = this.rWing01.rotateAngleZ * 0.5F;
-			this.lWing02.rotateAngleZ = -this.rWing01.rotateAngleZ * 0.5F;
 			if((Math.abs(lammergeier.motionY) > 0 && (Math.abs(lammergeier.motionX) > 0.05 || Math.abs(lammergeier.motionZ) > 0.05)) || Math.abs(lammergeier.motionY) > 0.25) {
 				float rotX = -((float) Math.atan(lammergeier.motionY / Math.sqrt(Math.pow(lammergeier.motionX, 2) + Math.pow(lammergeier.motionZ, 2))) / 1.5F);
 				if(rotX < 0) {
@@ -611,6 +608,11 @@ public class ModelLammergeier extends ModelBase {
 			} else {
 				this.body.rotateAngleX = 0;
 			}
+			
+			this.lWing01.rotateAngleZ = -this.rWing01.rotateAngleZ;
+			this.rWing02.rotateAngleZ = this.rWing01.rotateAngleZ * 0.5F;
+			this.lWing02.rotateAngleZ = -this.rWing01.rotateAngleZ * 0.5F;
+			
 			if(this.lastFlying == false) {
 				this.switchToFlight();
 			}
