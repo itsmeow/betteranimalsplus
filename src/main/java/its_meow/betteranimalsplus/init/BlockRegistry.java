@@ -9,12 +9,8 @@ import com.google.common.base.Preconditions;
 import its_meow.betteranimalsplus.BetterAnimalsPlusMod;
 import its_meow.betteranimalsplus.Ref;
 import its_meow.betteranimalsplus.common.block.BlockHandOfFate;
-import its_meow.betteranimalsplus.common.block.BlockHirschgeistSkull;
 import its_meow.betteranimalsplus.common.block.BlockTrillium;
-import its_meow.betteranimalsplus.common.item.ItemHirschgeistSkull;
 import its_meow.betteranimalsplus.common.tileentity.TileEntityHandOfFate;
-import its_meow.betteranimalsplus.common.tileentity.TileEntityHead;
-import its_meow.betteranimalsplus.common.tileentity.TileEntityHirschgeistSkull;
 import its_meow.betteranimalsplus.common.tileentity.TileEntityTrillium;
 import its_meow.betteranimalsplus.util.HeadTypes;
 import net.minecraft.block.Block;
@@ -32,10 +28,9 @@ import net.minecraftforge.registries.IForgeRegistry;
 public class BlockRegistry {
 
 	public static final BlockTrillium trillium = new BlockTrillium();
-	public static final BlockHirschgeistSkull hirschgeistskull = new BlockHirschgeistSkull();
 	public static final BlockHandOfFate handoffate = new BlockHandOfFate();
 
-	public static Map<Class<? extends TileEntityHead>, TileEntityType<?>> skulltetypes = new HashMap<>();
+	public static Map<HeadTypes, TileEntityType<?>> skulltetypes = new HashMap<>();
 
 	@Mod.EventBusSubscriber(modid = Ref.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 	public static class RegistrationHandler {
@@ -44,10 +39,7 @@ public class BlockRegistry {
 		public static void registerBlocks(final RegistryEvent.Register<Block> event) {
 			final IForgeRegistry<Block> registry = event.getRegistry();
 
-			final Block[] blocks = { BlockRegistry.trillium, BlockRegistry.hirschgeistskull,
-					BlockRegistry.handoffate, };
-
-			registry.registerAll(blocks);
+			registry.registerAll(trillium, handoffate);
 
 			for(HeadTypes type : HeadTypes.values()) {
 				registry.registerAll(type.getBlockSet().toArray(new Block[0]));
@@ -58,7 +50,8 @@ public class BlockRegistry {
 		public static void registerItemBlocks(final RegistryEvent.Register<Item> event) {
 			final ItemBlock[] items = {
 					new ItemBlock(BlockRegistry.trillium, new Properties().group(BetterAnimalsPlusMod.group)),
-					new ItemHirschgeistSkull(BlockRegistry.hirschgeistskull), BlockHandOfFate.getItemBlock(), };
+					 BlockHandOfFate.getItemBlock()
+			};
 
 			final IForgeRegistry<Item> registry = event.getRegistry();
 
@@ -81,26 +74,20 @@ public class BlockRegistry {
 				.build(null).setRegistryName(Ref.MOD_ID, "trilliumtilentity");
 		public static final TileEntityType<?> HAND_OF_FATE_TYPE = TileEntityType.Builder.create(TileEntityHandOfFate::new)
 				.build(null).setRegistryName(Ref.MOD_ID, "handoffatetilentity");
-		public static final TileEntityType<?> HIRSCHGEIST_SKULL_TYPE = TileEntityType.Builder.create(TileEntityHirschgeistSkull::new)
-				.build(null).setRegistryName(Ref.MOD_ID, "hirschgeistskulltileentity");
 
 		@SubscribeEvent
 		public static void registerTileEntities(final RegistryEvent.Register<TileEntityType<?>> event) {
 			final IForgeRegistry<TileEntityType<?>> reg = event.getRegistry();
 			reg.register(TRILLIUM_TYPE);
 			reg.register(HAND_OF_FATE_TYPE);
-			reg.register(HIRSCHGEIST_SKULL_TYPE);
-			
-			// So HG skull can use base TE w/o manual declaration of type
-			BlockRegistry.skulltetypes.put(TileEntityHirschgeistSkull.class, HIRSCHGEIST_SKULL_TYPE);
 			
 			for(HeadTypes type : HeadTypes.values()) {
-				reg(reg, type.name, TileEntityHead::new, TileEntityHead.class);
+				reg(reg, type.name, () -> type.teFactory.apply(type), type);
 			}
 		}
 
 		private static void reg(IForgeRegistry<TileEntityType<?>> reg, String name, Supplier<? extends TileEntity> factory,
-				Class<? extends TileEntityHead> type) {
+				HeadTypes type) {
 			TileEntityType<?> tetype = TileEntityType.Builder.create(factory).build(null).setRegistryName(Ref.MOD_ID, name + "tileentity");
 			reg.register(tetype);
 			BlockRegistry.skulltetypes.put(type, tetype);
@@ -108,7 +95,7 @@ public class BlockRegistry {
 
 	}
 
-	public static TileEntityType<?> getSkullTileEntityType(Class<? extends TileEntityHead> type) {
+	public static TileEntityType<?> getSkullTileEntityType(HeadTypes type) {
 		return BlockRegistry.skulltetypes.get(type);
 	}
 

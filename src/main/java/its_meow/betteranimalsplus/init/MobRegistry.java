@@ -128,8 +128,7 @@ public class MobRegistry {
 
 	public static void register(Class<? extends Entity> EntityClass, Function<? super World, ? extends Entity> func,
 			String entityNameIn, EntityContainer container) {
-		EntityType<? extends Entity> entry = EntityType.Builder.create(EntityClass, func).tracker(64, 1, true)
-				.build(entityNameIn.toLowerCase()).setRegistryName(Ref.MOD_ID, entityNameIn.toLowerCase());
+		EntityType<? extends Entity> entry = EntityType.register(Ref.MOD_ID + ":" + entityNameIn.toLowerCase(), EntityType.Builder.create(EntityClass, func).tracker(64, 1, true));
 
 		if(container != null) {
 			MobRegistry.entryMap.put(container, entry);

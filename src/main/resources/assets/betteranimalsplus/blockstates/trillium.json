@@ -2,12 +2,6 @@
 {
     "forge_marker": 1,
     "variants": {
-        "normal": [{
-           "model": "minecraft:fern"
-        }],
-        "inventory": [{
-           "model": "betteranimalsplus:item/trillium"
-        }],
         "facing=north": { "model": "minecraft:fern" },
         "facing=east": { "model": "minecraft:fern" },
         "facing=south": { "model": "minecraft:fern" },

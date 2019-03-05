@@ -2,12 +2,6 @@
 {
     "forge_marker": 1,
     "variants": {
-        "normal": [{
-           "model": "minecraft:soul_sand"
-        }],
-        "inventory": [{
-           "model": "betteranimalsplus:item/handoffate"
-        }],
         "facing=north": { "model": "minecraft:soul_sand" },
         "facing=east": { "model": "minecraft:soul_sand" },
         "facing=south": { "model": "minecraft:soul_sand" },

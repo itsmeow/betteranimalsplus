@@ -14,6 +14,7 @@ import its_meow.betteranimalsplus.client.model.ModelDeerHead;
 import its_meow.betteranimalsplus.client.model.ModelFoxHead;
 import its_meow.betteranimalsplus.client.model.ModelReindeerHead;
 import its_meow.betteranimalsplus.client.model.ModelWolfHead;
+import its_meow.betteranimalsplus.client.model.ModelHirschgeistSkull;
 import its_meow.betteranimalsplus.common.block.BlockGenericSkull;
 import its_meow.betteranimalsplus.common.item.ItemBlockHeadType;
 import its_meow.betteranimalsplus.common.tileentity.TileEntityHead;
@@ -58,7 +59,9 @@ public enum HeadTypes {
 				return TextureRegistry.reindeer_1;
 			}
 		}
-	}), TextureRegistry.reindeer_1, TextureRegistry.reindeer_2, TextureRegistry.reindeer_3, TextureRegistry.reindeer_4));
+	}), TextureRegistry.reindeer_1, TextureRegistry.reindeer_2, TextureRegistry.reindeer_3, TextureRegistry.reindeer_4)), 
+	
+	HIRSCHGEIST("hirschgeistskull", true, 1, ()->()-> ModelHirschgeistSkull.class, type -> new TileEntityHead(type, 0F, TextureRegistry.hirschgeist));
 
 	public final String name;
 	public final boolean allowFloor;

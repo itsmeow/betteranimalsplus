@@ -30,48 +30,14 @@ public class TileEntityHead extends TileEntity {
 
 	public HashMap<Integer, ResourceLocation> textures;
 	
-	public TileEntityHead() {
-		super(BlockRegistry.getSkullTileEntityType(TileEntityHead.class));
-		this.offset = 0.0F;
-		this.textureFunc = null;
-	}
-	
 	public TileEntityHead(HeadTypes type, float yOffset,
-			ResourceLocation... textureList) {
-		this(type, TileEntityHead.class, yOffset, textureList);
-	}
-	
-	public TileEntityHead(HeadTypes type, Class<? extends TileEntityHead> teClass, float yOffset,
 			ResourceLocation... textureList) {
 		this(type, yOffset, null, textureList);
 	}
 	
-	public TileEntityHead(Class<? extends ModelBase> model, Class<? extends TileEntityHead> teClass, float yOffset,
-			ResourceLocation... textureList) {
-		super(BlockRegistry.getSkullTileEntityType(teClass));
-		this.modelT = model;
-		this.textures = new HashMap<>();
-		int i = 1;
-		for(ResourceLocation texture : textureList) {
-			this.textures.put(i, texture);
-			i++;
-		}
-		if(!this.getTileData().hasKey("TYPENUM")) {
-			this.setType(new Random().nextInt(this.textures.size()) + 1);
-			this.markDirty();
-		}
-		this.offset = yOffset;
-		this.textureFunc = null;
-	}
-	
 	public TileEntityHead(HeadTypes type, float yOffset, Function<Integer, ResourceLocation> textureFunc,
 			ResourceLocation... textureList) {
-		this(type, TileEntityHead.class, yOffset, textureFunc, textureList);
-	}
-	
-	public TileEntityHead(HeadTypes type, Class<? extends TileEntityHead> teClass, float yOffset, Function<Integer, ResourceLocation> textureFunc,
-			ResourceLocation... textureList) {
-		super(BlockRegistry.getSkullTileEntityType(teClass));
+		super(BlockRegistry.getSkullTileEntityType(type));
 		this.modelT = type.getModelSupplier().get().get();
 		this.textures = new HashMap<>();
 		int i = 1;

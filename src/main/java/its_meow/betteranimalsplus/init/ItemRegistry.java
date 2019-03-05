@@ -10,7 +10,6 @@ import its_meow.betteranimalsplus.common.item.ItemBetterAnimalsPlusEgg;
 import its_meow.betteranimalsplus.common.item.ItemBetterFood;
 import its_meow.betteranimalsplus.common.item.ItemGoatCheese;
 import its_meow.betteranimalsplus.common.item.ItemHandOfFate;
-import its_meow.betteranimalsplus.common.item.ItemHirschgeistSkull;
 import its_meow.betteranimalsplus.common.item.ItemHirschgeistSkullWearable;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
@@ -32,10 +31,6 @@ public class ItemRegistry {
 	public static final ItemGoatCheese goatCheese = new ItemGoatCheese();
 	public static final ItemBetterFood pheasantRaw = new ItemBetterFood("pheasantraw", 3, 0, 32, true);
 	public static final ItemBetterFood pheasantCooked = new ItemBetterFood("pheasantcooked", 7, 1.2F, 32, true);
-
-	// These are not registered
-	public static final ItemHirschgeistSkull itemHirschgeistSkull = new ItemHirschgeistSkull(
-			BlockRegistry.hirschgeistskull);
 
 	@Mod.EventBusSubscriber(modid = Ref.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 	public static class RegistrationHandler {
