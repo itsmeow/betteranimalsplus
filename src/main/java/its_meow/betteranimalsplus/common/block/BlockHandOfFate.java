@@ -22,6 +22,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 public class BlockHandOfFate extends BlockHorizontal {
 
@@ -35,7 +37,11 @@ public class BlockHandOfFate extends BlockHorizontal {
 		this.setRegistryName("handoffate");
 		this.setDefaultState(this.getDefaultState().with(BlockHorizontal.HORIZONTAL_FACING, EnumFacing.NORTH));
 	}
-
+	
+	@OnlyIn(Dist.CLIENT)
+	public boolean hasCustomBreakingProgress(IBlockState state) {
+		return true;
+	}
 
 	@Override
 	public int getLightValue(IBlockState state, IWorldReader world, BlockPos pos) {
@@ -69,6 +75,11 @@ public class BlockHandOfFate extends BlockHorizontal {
 			if(!playerIn.isCreative()) {
 				held.damageItem(1, playerIn);
 			}
+			worldIn.getPendingBlockTicks().scheduleTick(pos, state.getBlock(), 100);
+			worldIn.notifyBlockUpdate(pos, worldIn.getBlockState(pos),
+					worldIn.getBlockState(pos), 0);
+			worldIn.markBlockRangeForRenderUpdate(pos.down(5).west(5).north(5),
+					pos.up(5).east(5).south(5));
 			TileEntity te = worldIn.getTileEntity(pos);
 			if(te instanceof TileEntityHandOfFate) {
 				TileEntityHandOfFate tehof = (TileEntityHandOfFate) te;

@@ -1,0 +1,9 @@
+{
+  "type": "smelting",
+  "ingredient": {
+    "item": "betteranimalsplus:venisonraw"
+  },
+  "result": "betteranimalsplus:venisoncooked",
+  "experience": 0.3,
+  "cookingtime": 200
+}

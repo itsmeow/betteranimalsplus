@@ -1,5 +1,6 @@
 package its_meow.betteranimalsplus.client.model;
 
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.model.ModelBase;
 import net.minecraft.client.renderer.entity.model.ModelRenderer;
 import net.minecraft.entity.Entity;
@@ -213,9 +214,12 @@ public class ModelHirschgeistSkull extends ModelBase {
 
 	@Override
 	public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) {
-		this.head01.render(f5);
 		this.head01.rotateAngleY = (float) Math.toRadians(f);
-		this.head01.rotateAngleX = (float) Math.toRadians(-90F);
+		this.head01.rotateAngleX = (float) Math.toRadians(f1);
+		if(f1 != -90F) {
+			GlStateManager.translatef(0F, -0.25F, 0F);
+		}
+		this.head01.render(f5);
 	}
 
 	/**

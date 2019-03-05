@@ -16,6 +16,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 public class BlockTrillium extends BlockBush {
 
@@ -23,6 +25,11 @@ public class BlockTrillium extends BlockBush {
 		super(Properties.create(Material.PLANTS).sound(SoundType.PLANT).doesNotBlockMovement());
 		this.setRegistryName("trillium");
 		this.setDefaultState(this.getDefaultState().with(BlockHorizontal.HORIZONTAL_FACING, EnumFacing.NORTH));
+	}
+	
+	@OnlyIn(Dist.CLIENT)
+	public boolean hasCustomBreakingProgress(IBlockState state) {
+		return true;
 	}
 
 

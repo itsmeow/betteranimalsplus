@@ -61,7 +61,7 @@ public enum HeadTypes {
 		}
 	}), ModTextures.reindeer_1, ModTextures.reindeer_2, ModTextures.reindeer_3, ModTextures.reindeer_4)), 
 	
-	HIRSCHGEIST("hirschgeistskull", true, 1, ()->()-> ModelHirschgeistSkull.class, type -> new TileEntityHead(type, 0F, ModTextures.hirschgeist));
+	HIRSCHGEIST("hirschgeistskull", true, 1, ()->()-> ModelHirschgeistSkull.class, type -> new TileEntityHead(type, -0.2F, ModTextures.hirschgeist));
 
 	public final String name;
 	public final boolean allowFloor;

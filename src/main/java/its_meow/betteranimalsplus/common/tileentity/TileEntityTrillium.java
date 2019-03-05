@@ -38,7 +38,7 @@ public class TileEntityTrillium extends TileEntity {
 
 
 	public ResourceLocation getTexture() {
-		return this.typeNum == 0 ? ModTextures.trillium_purple : ModTextures.trillium_yellow;
+		return this.typeNum == 0 ? ModTextures.trillium_yellow : ModTextures.trillium_purple;
 	}
 
 

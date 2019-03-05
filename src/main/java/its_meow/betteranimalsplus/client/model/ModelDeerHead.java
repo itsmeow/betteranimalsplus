@@ -316,7 +316,7 @@ public class ModelDeerHead extends ModelBase {
 	public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) {
 		this.chest.render(f5);
 		this.chest.rotateAngleY = (float) Math.toRadians(f);
-		this.chest.rotateAngleX = (float) Math.toRadians(f1);
+		//this.chest.rotateAngleX = (float) Math.toRadians(f1);
 	}
 
 	/**

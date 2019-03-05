@@ -12,7 +12,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 
-public class RenderGenericHeadFloor extends TileEntityRenderer<TileEntityHead> {
+public class RenderGenericHead extends TileEntityRenderer<TileEntityHead> {
 
 
 	public void render(TileEntityHead te, double x, double y, double z, float partialTicks, int destroyStage) {
@@ -46,7 +46,7 @@ public class RenderGenericHeadFloor extends TileEntityRenderer<TileEntityHead> {
 		GlStateManager.scalef(-1.0F, -1.0F, 1.0F);
 		GlStateManager.enableAlphaTest();
 
-		model.render((Entity)null, skullRotation, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
+		model.render((Entity)null, skullRotation, facing != null && facing == EnumFacing.UP ? -90F : 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
 		GlStateManager.popMatrix();
 		if (destroyStage >= 0) {
 			GlStateManager.matrixMode(5890);
