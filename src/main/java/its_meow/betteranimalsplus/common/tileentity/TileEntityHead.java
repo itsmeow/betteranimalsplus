@@ -135,12 +135,17 @@ public class TileEntityHead extends TileEntity {
 		} else {
 			this.setType(new Random().nextInt(this.textures.size()) + 1);
 		}
+		
+		if(compound.hasKey("rotation")) {
+			this.rotation = compound.getFloat("rotation");
+		}
 	}
 
 	@Override
 	public NBTTagCompound write(NBTTagCompound compound) {
 		super.write(compound);
 		compound.setInt("TYPENUM", this.typeNum);
+		compound.setFloat("rotation", rotation);
 		return compound;
 	}
 
@@ -175,6 +180,7 @@ public class TileEntityHead extends TileEntity {
 	
 	public void setRotation(float rotation) {
 		this.rotation = rotation;
+		this.markDirty();
 	}
 
 	public float getSkullRotation() {

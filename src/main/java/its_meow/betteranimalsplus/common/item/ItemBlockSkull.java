@@ -19,7 +19,6 @@ import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.IWorldReaderBase;
 import net.minecraft.world.World;
 
@@ -53,8 +52,8 @@ public class ItemBlockSkull extends ItemWallOrFloor {
 		BlockPos clickPos = ctx.getPos();
 		for (EnumFacing side : ctx.getNearestLookingDirections()) {
 			IBlockState newState;
-			if (side == EnumFacing.UP)
-				continue;
+			if (side == EnumFacing.DOWN && !this.allowFloor)
+				return returnedState;
 			newState = this.getBlock().getStateForPlacement(ctx);
 			if (newState == null || !newState.isValidPosition((IWorldReaderBase) world, clickPos))
 				continue;
@@ -72,6 +71,8 @@ public class ItemBlockSkull extends ItemWallOrFloor {
 			if (iblockstate == null) {
 				return EnumActionResult.FAIL;
 			} else if (!this.placeBlock(ctx, iblockstate)) {
+				return EnumActionResult.FAIL;
+			} else if(ctx.getFace() == EnumFacing.UP && !this.allowFloor) {
 				return EnumActionResult.FAIL;
 			} else {
 				BlockPos blockpos = ctx.getPos();
@@ -101,9 +102,9 @@ public class ItemBlockSkull extends ItemWallOrFloor {
 	protected void populateTile(ItemStack stack, EnumFacing side, EntityPlayer player, TileEntity tile) {
 		if(tile instanceof TileEntityHead) {
 			TileEntityHead tileSkull = (TileEntityHead) tile;
-			int rotation = 0;
+			float rotation = 0;
 			if(side == EnumFacing.UP || side == EnumFacing.DOWN) {
-				rotation = -MathHelper.floor((player.rotationYaw * 8.0F) / 360.0F + 0.5D);
+				rotation = EnumFacing.fromAngle(player.rotationYawHead).getHorizontalAngle();
 			} else {
 				rotation = (int) side.getHorizontalAngle();
 			}

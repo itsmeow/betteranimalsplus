@@ -5,7 +5,6 @@
         "facing=north":  { "model": "minecraft:soul_sand" },
         "facing=south":  { "model": "minecraft:soul_sand" },
         "facing=up":  { "model": "minecraft:soul_sand" },
-        "facing=down":  { "model": "minecraft:soul_sand" },
-        "inventory": { "model": "betteranimalsplus:items/hirschgeistskull" }
+        "facing=down":  { "model": "minecraft:soul_sand" }
     }
 }
