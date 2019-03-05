@@ -87,7 +87,9 @@ public class BlockAnimalSkull extends BlockAbstractSkull {
 		if (!worldIn.isRemote && player.abilities.isCreativeMode) {
 			TileEntityHead.disableDrop(worldIn, pos);
 		}
-		player.addExhaustion(0.005F);
+		
+		this.dropBlockAsItemWithChance(state, worldIn, pos, 1.0f, 0);
+		worldIn.playEvent(player, 2001, pos, getStateId(state));
 	}
 
 	public IBlockState getStateForPlacement(BlockItemUseContext context) {

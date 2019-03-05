@@ -110,17 +110,17 @@ public class ModEntities {
 	 */
 
 	private static void setupContainer(EntityContainer c) {
-		ModEntities.createEntityType(c.entityClazz, c.entityFunction, c.entityName, c);
-	}
-
-	private static void createEntityType(Class<? extends Entity> EntityClass, Function<? super World, ? extends Entity> func,
-			String entityNameIn, EntityContainer container) {
-		EntityType<? extends Entity> entry = EntityType.register(Ref.MOD_ID + ":" + entityNameIn.toLowerCase(), EntityType.Builder.create(EntityClass, func).tracker(64, 1, true));
-
-		if(container != null) {
-			ModEntities.entryMap.put(container, entry);
+		EntityType<? extends Entity> entry = ModEntities.createEntityType(c.entityClazz, c.entityFunction, c.entityName, c);
+		
+		if(c != null) {
+			ModEntities.entryMap.put(c, entry);
 		}
 		ModEntities.entrySet.add(entry);
+	}
+
+	private static EntityType<? extends Entity> createEntityType(Class<? extends Entity> EntityClass, Function<? super World, ? extends Entity> func,
+			String entityNameIn, EntityContainer container) {
+		return EntityType.Builder.create(EntityClass, func).tracker(64, 1, true).build(entityNameIn).setRegistryName(Ref.MOD_ID + ":" + entityNameIn.toLowerCase());
 	}
 	
 }
