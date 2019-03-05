@@ -2,7 +2,7 @@ package its_meow.betteranimalsplus.common.entity;
 
 import javax.annotation.Nullable;
 
-import its_meow.betteranimalsplus.init.MobRegistry;
+import its_meow.betteranimalsplus.init.ModEntities;
 import its_meow.betteranimalsplus.util.HeadTypes;
 import net.minecraft.block.Block;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -51,7 +51,7 @@ public class EntityBoar extends EntityAnimal {
 			DataSerializers.VARINT);
 
 	public EntityBoar(World worldIn) {
-		super(MobRegistry.getType(EntityBoar.class), worldIn);
+		super(ModEntities.getEntityType(EntityBoar.class), worldIn);
 		this.setSize(0.9F, 0.9F);
 	}
 

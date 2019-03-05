@@ -4,7 +4,7 @@ import its_meow.betteranimalsplus.Ref;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.storage.loot.LootTableList;
 
-public class LootTableRegistry {
+public class ModLootTables {
 	public static final String pr = Ref.MOD_ID + "/";
 	public static final ResourceLocation bear = new ResourceLocation(Ref.MOD_ID, pr + "bear");
 	public static final ResourceLocation deer = new ResourceLocation(Ref.MOD_ID, pr + "deer");

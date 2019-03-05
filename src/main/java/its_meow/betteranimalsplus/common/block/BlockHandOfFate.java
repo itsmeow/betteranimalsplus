@@ -1,7 +1,7 @@
 package its_meow.betteranimalsplus.common.block;
 
 import its_meow.betteranimalsplus.common.tileentity.TileEntityHandOfFate;
-import its_meow.betteranimalsplus.init.ItemRegistry;
+import its_meow.betteranimalsplus.init.ModItems;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockHorizontal;
 import net.minecraft.block.material.Material;
@@ -94,7 +94,7 @@ public class BlockHandOfFate extends BlockHorizontal {
 					return true;
 				}
 			}
-		} else if(held.getItem() == ItemRegistry.antler) {
+		} else if(held.getItem() == ModItems.antler) {
 			TileEntity te = worldIn.getTileEntity(pos);
 			if(te instanceof TileEntityHandOfFate) {
 				TileEntityHandOfFate tehof = (TileEntityHandOfFate) te;
@@ -106,7 +106,7 @@ public class BlockHandOfFate extends BlockHorizontal {
 					return true;
 				}
 			}
-		} else if(held.getItem() == ItemRegistry.venisonRaw || held.getItem() == ItemRegistry.venisonCooked) {
+		} else if(held.getItem() == ModItems.venisonRaw || held.getItem() == ModItems.venisonCooked) {
 			TileEntity te = worldIn.getTileEntity(pos);
 			if(te instanceof TileEntityHandOfFate) {
 				TileEntityHandOfFate tehof = (TileEntityHandOfFate) te;
@@ -169,7 +169,7 @@ public class BlockHandOfFate extends BlockHorizontal {
 	}
 
 	public static ItemBlock getItemBlock() {
-		return ItemRegistry.itemHandOfFate;
+		return ModItems.itemHandOfFate;
 	}
 
 }

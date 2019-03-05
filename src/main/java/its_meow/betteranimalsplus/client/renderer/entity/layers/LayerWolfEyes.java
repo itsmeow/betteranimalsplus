@@ -2,7 +2,7 @@ package its_meow.betteranimalsplus.client.renderer.entity.layers;
 
 import its_meow.betteranimalsplus.client.renderer.entity.RenderCustomWolf;
 import its_meow.betteranimalsplus.common.entity.EntityFeralWolf;
-import its_meow.betteranimalsplus.init.TextureRegistry;
+import its_meow.betteranimalsplus.init.ModTextures;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.OpenGlHelper;
@@ -23,7 +23,7 @@ public class LayerWolfEyes implements LayerRenderer<EntityFeralWolf> {
 	public void render(EntityFeralWolf entity, float limbSwing, float limbSwingAmount, float partialTicks,
 			float ageInTicks, float netHeadYaw, float headPitch, float scale) {
 		if(!entity.isTamed() && !entity.isInvisible() && !entity.isChild()) {
-			this.wolfRenderer.bindTexture(TextureRegistry.wolf_eyes);
+			this.wolfRenderer.bindTexture(ModTextures.wolf_eyes);
 
 			GlStateManager.enableBlend();
 			GlStateManager.disableAlphaTest();

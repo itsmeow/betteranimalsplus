@@ -2,7 +2,7 @@ package its_meow.betteranimalsplus.common.entity;
 
 import javax.annotation.Nullable;
 
-import its_meow.betteranimalsplus.init.MobRegistry;
+import its_meow.betteranimalsplus.init.ModEntities;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.ai.EntityAIBase;
@@ -33,7 +33,7 @@ public class EntityJellyfish extends EntitySquid {
 
 	@Override
 	public EntityType<?> getType() {
-		return MobRegistry.getType(EntityJellyfish.class);
+		return ModEntities.getEntityType(EntityJellyfish.class);
 	}
 
 	@Override

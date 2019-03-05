@@ -4,7 +4,7 @@ import javax.annotation.Nonnull;
 
 import its_meow.betteranimalsplus.client.model.ModelPheasant;
 import its_meow.betteranimalsplus.common.entity.EntityPheasant;
-import its_meow.betteranimalsplus.init.TextureRegistry;
+import its_meow.betteranimalsplus.init.ModTextures;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.client.renderer.entity.RenderManager;
@@ -38,16 +38,16 @@ public class RenderPheasant extends RenderLiving<EntityPheasant> {
 	@Nonnull
 	protected ResourceLocation getEntityTexture(@Nonnull EntityPheasant entity) {
 		int type = entity.getTypeNumber();
-		ResourceLocation res = TextureRegistry.pheasant_1;
+		ResourceLocation res = ModTextures.pheasant_1;
 		switch(type) {
 		case 1:
-			res = TextureRegistry.pheasant_1;
+			res = ModTextures.pheasant_1;
 			break;
 		case 2:
-			res = TextureRegistry.pheasant_2;
+			res = ModTextures.pheasant_2;
 			break;
 		default:
-			res = TextureRegistry.pheasant_1;
+			res = ModTextures.pheasant_1;
 			break;
 		}
 		return res;

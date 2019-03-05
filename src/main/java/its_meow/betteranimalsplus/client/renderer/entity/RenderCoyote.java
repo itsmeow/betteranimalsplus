@@ -3,7 +3,7 @@ package its_meow.betteranimalsplus.client.renderer.entity;
 import its_meow.betteranimalsplus.client.model.ModelCustomWolf;
 import its_meow.betteranimalsplus.client.renderer.entity.layers.LayerCoyoteEyes;
 import its_meow.betteranimalsplus.common.entity.EntityCoyote;
-import its_meow.betteranimalsplus.init.TextureRegistry;
+import its_meow.betteranimalsplus.init.ModTextures;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.client.renderer.entity.RenderManager;
@@ -49,11 +49,11 @@ public class RenderCoyote extends RenderLiving<EntityCoyote> {
 
 	private ResourceLocation getCoyoteTexture(EntityCoyote entity) {
 		if(entity.isTamed()) {
-			return TextureRegistry.coyote_neutral;
+			return ModTextures.coyote_neutral;
 		} else if(entity.isDaytime()) {
-			return TextureRegistry.coyote_neutral;
+			return ModTextures.coyote_neutral;
 		} else {
-			return TextureRegistry.coyote_hostile;
+			return ModTextures.coyote_hostile;
 		}
 	}
 

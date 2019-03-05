@@ -4,7 +4,7 @@ import java.util.Calendar;
 
 import its_meow.betteranimalsplus.client.model.ModelDeer;
 import its_meow.betteranimalsplus.common.entity.EntityDeer;
-import its_meow.betteranimalsplus.init.TextureRegistry;
+import its_meow.betteranimalsplus.init.ModTextures;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.client.renderer.entity.RenderManager;
@@ -38,20 +38,20 @@ public class RenderDeer extends RenderLiving<EntityDeer> {
 		int type = entity.getTypeNumber();
 		if(!this.isChristmas) {
 			if(this.getMainModel().isChild) {
-				return TextureRegistry.deer_1;
+				return ModTextures.deer_1;
 			}
 			if(type == 1) {
-				return TextureRegistry.deer_1;
+				return ModTextures.deer_1;
 			}
-			return TextureRegistry.deer_2;
+			return ModTextures.deer_2;
 		} else {
 			if(this.getMainModel().isChild) {
-				return TextureRegistry.deer_1_christmas;
+				return ModTextures.deer_1_christmas;
 			}
 			if(type == 1) {
-				return TextureRegistry.deer_1_christmas;
+				return ModTextures.deer_1_christmas;
 			}
-			return TextureRegistry.deer_2_christmas;
+			return ModTextures.deer_2_christmas;
 		}
 	}
 

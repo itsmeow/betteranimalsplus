@@ -2,8 +2,8 @@ package its_meow.betteranimalsplus.common.entity;
 
 import javax.annotation.Nullable;
 
-import its_meow.betteranimalsplus.init.LootTableRegistry;
-import its_meow.betteranimalsplus.init.MobRegistry;
+import its_meow.betteranimalsplus.init.ModLootTables;
+import its_meow.betteranimalsplus.init.ModEntities;
 import its_meow.betteranimalsplus.util.HeadTypes;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityAgeable;
@@ -39,7 +39,7 @@ public class EntityDeer extends EntityAnimal {
 	private World world = null;
 
 	public EntityDeer(World worldIn) {
-		super(MobRegistry.getType(EntityDeer.class), worldIn);
+		super(ModEntities.getEntityType(EntityDeer.class), worldIn);
 		this.world = worldIn;
 		this.setSize(1.2F, 1.6F);
 	}
@@ -177,7 +177,7 @@ public class EntityDeer extends EntityAnimal {
 	@Override
 	@Nullable
 	protected ResourceLocation getLootTable() {
-		return LootTableRegistry.deer;
+		return ModLootTables.deer;
 	}
 
 	@Override

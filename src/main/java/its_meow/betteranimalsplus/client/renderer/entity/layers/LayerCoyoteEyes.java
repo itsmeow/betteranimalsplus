@@ -2,7 +2,7 @@ package its_meow.betteranimalsplus.client.renderer.entity.layers;
 
 import its_meow.betteranimalsplus.client.renderer.entity.RenderCoyote;
 import its_meow.betteranimalsplus.common.entity.EntityCoyote;
-import its_meow.betteranimalsplus.init.TextureRegistry;
+import its_meow.betteranimalsplus.init.ModTextures;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.OpenGlHelper;
@@ -24,7 +24,7 @@ public class LayerCoyoteEyes implements LayerRenderer<EntityCoyote> {
 			float ageInTicks, float netHeadYaw, float headPitch, float scale) {
 		if(!entity.isDaytime()) {
 			if(!entity.isTamed() && !entity.isInvisible() && !entity.isChild()) {
-				this.wolfRenderer.bindTexture(TextureRegistry.coyote_eyes);
+				this.wolfRenderer.bindTexture(ModTextures.coyote_eyes);
 
 				GlStateManager.enableBlend();
 				GlStateManager.enableAlphaTest();

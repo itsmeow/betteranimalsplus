@@ -7,9 +7,9 @@ import org.apache.logging.log4j.Logger;
 import its_meow.betteranimalsplus.client.ClientLifecycleHandler;
 import its_meow.betteranimalsplus.common.world.gen.TrilliumGenerator;
 import its_meow.betteranimalsplus.config.BetterAnimalsPlusConfig;
-import its_meow.betteranimalsplus.init.ItemRegistry;
-import its_meow.betteranimalsplus.init.LootTableRegistry;
-import its_meow.betteranimalsplus.init.MobRegistry;
+import its_meow.betteranimalsplus.init.ModEntities;
+import its_meow.betteranimalsplus.init.ModItems;
+import its_meow.betteranimalsplus.init.ModLootTables;
 import its_meow.betteranimalsplus.proxy.ClientProxy;
 import its_meow.betteranimalsplus.proxy.ISidedProxy;
 import its_meow.betteranimalsplus.proxy.ServerProxy;
@@ -37,8 +37,8 @@ public class BetterAnimalsPlusMod {
 		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
 		FMLJavaModLoadingContext.get().getModEventBus().<FMLClientSetupEvent>addListener(e -> new ClientLifecycleHandler().clientSetup(e));
 		
-		if(MobRegistry.entityList.isEmpty()) {
-			MobRegistry.fillContainers();
+		if(ModEntities.entityList.isEmpty()) {
+			ModEntities.fillContainers();
 		}
 		
 		BetterAnimalsPlusConfig.setupConfig();
@@ -55,13 +55,13 @@ public class BetterAnimalsPlusMod {
 	public static ItemGroup group = new ItemGroup("Better Animals+") {
 		@Override
 		public ItemStack createIcon() {
-			return new ItemStack(ItemRegistry.antler);
+			return new ItemStack(ModItems.antler);
 		}
 
 		@Override
 		public void fill(NonNullList<ItemStack> toDisplay) {
 			super.fill(toDisplay);
-			for(ItemSpawnEgg egg : MobRegistry.eggs.keySet()) {
+			for(ItemSpawnEgg egg : ModItems.eggs.keySet()) {
 				ItemStack stack = new ItemStack(egg);
 				toDisplay.add(stack);
 			}
@@ -77,7 +77,7 @@ public class BetterAnimalsPlusMod {
 				biome -> biome.addFeature(net.minecraft.world.gen.GenerationStage.Decoration.VEGETAL_DECORATION,
 						Biome.createCompositeFeature(new TrilliumGenerator(), new NoFeatureConfig(), Biome.TOP_SOLID,
 								new FrequencyConfig(3))));
-		LootTableRegistry.register();
+		ModLootTables.register();
 		BetterAnimalsPlusMod.logger.log(Level.INFO, "Overspawning lammergeiers...");
 	}
 }

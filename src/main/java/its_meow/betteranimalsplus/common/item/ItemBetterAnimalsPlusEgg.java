@@ -1,6 +1,6 @@
 package its_meow.betteranimalsplus.common.item;
 
-import its_meow.betteranimalsplus.init.EntityContainer;
+import its_meow.betteranimalsplus.util.EntityContainer;
 import net.minecraft.entity.EntityType;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemSpawnEgg;

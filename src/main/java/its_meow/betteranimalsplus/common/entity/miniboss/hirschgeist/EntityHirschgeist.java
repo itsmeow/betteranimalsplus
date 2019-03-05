@@ -2,8 +2,8 @@ package its_meow.betteranimalsplus.common.entity.miniboss.hirschgeist;
 
 import its_meow.betteranimalsplus.common.entity.miniboss.hirschgeist.ai.HirschgeistAIAttackMelee;
 import its_meow.betteranimalsplus.common.entity.miniboss.hirschgeist.ai.HirschgeistAIFlameAttack;
-import its_meow.betteranimalsplus.init.LootTableRegistry;
-import its_meow.betteranimalsplus.init.MobRegistry;
+import its_meow.betteranimalsplus.init.ModEntities;
+import its_meow.betteranimalsplus.init.ModLootTables;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.EntityLiving;
@@ -31,7 +31,7 @@ import net.minecraftforge.fml.loading.FMLEnvironment;
 public class EntityHirschgeist extends EntityLiving implements IMob {
 
 	public EntityHirschgeist(World worldIn) {
-		super(MobRegistry.getType(EntityHirschgeist.class), worldIn);
+		super(ModEntities.getEntityType(EntityHirschgeist.class), worldIn);
 		// this.setSize(3, 4);
 	}
 
@@ -101,7 +101,7 @@ public class EntityHirschgeist extends EntityLiving implements IMob {
 
 	@Override
 	protected ResourceLocation getLootTable() {
-		return LootTableRegistry.hirschgeist;
+		return ModLootTables.hirschgeist;
 	}
 
 	@Override

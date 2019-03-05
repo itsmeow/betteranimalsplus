@@ -2,7 +2,7 @@ package its_meow.betteranimalsplus.client.renderer.entity;
 
 import its_meow.betteranimalsplus.client.model.ModelReindeer;
 import its_meow.betteranimalsplus.common.entity.EntityReindeer;
-import its_meow.betteranimalsplus.init.TextureRegistry;
+import its_meow.betteranimalsplus.init.ModTextures;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.client.renderer.entity.RenderManager;
@@ -28,23 +28,23 @@ public class RenderReindeer extends RenderLiving<EntityReindeer> {
 		int type = entity.getTypeNumber();
 		switch(type) {
 		case 1:
-			return TextureRegistry.reindeer_1;
+			return ModTextures.reindeer_1;
 		case 2:
-			return TextureRegistry.reindeer_2;
+			return ModTextures.reindeer_2;
 		case 3:
-			return TextureRegistry.reindeer_3;
+			return ModTextures.reindeer_3;
 		case 4:
-			return TextureRegistry.reindeer_4;
+			return ModTextures.reindeer_4;
 		case 5:
-			return TextureRegistry.reindeer_1_christmas;
+			return ModTextures.reindeer_1_christmas;
 		case 6:
-			return TextureRegistry.reindeer_2_christmas;
+			return ModTextures.reindeer_2_christmas;
 		case 7:
-			return TextureRegistry.reindeer_3_christmas;
+			return ModTextures.reindeer_3_christmas;
 		case 8:
-			return TextureRegistry.reindeer_4_christmas;
+			return ModTextures.reindeer_4_christmas;
 		default:
-			return TextureRegistry.reindeer_1;
+			return ModTextures.reindeer_1;
 		}
 	}
 

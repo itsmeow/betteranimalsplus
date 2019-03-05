@@ -3,7 +3,8 @@ package its_meow.betteranimalsplus.common.tileentity;
 import java.util.Random;
 
 import its_meow.betteranimalsplus.common.entity.miniboss.hirschgeist.EntityHirschgeist;
-import its_meow.betteranimalsplus.init.BlockRegistry;
+import its_meow.betteranimalsplus.init.ModBlocks;
+import its_meow.betteranimalsplus.init.ModTileEntities;
 import net.minecraft.block.BlockHorizontal;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Particles;
@@ -31,11 +32,11 @@ public class TileEntityHandOfFate extends TileEntity {
 	private final String keyVenison = "HasVenison";
 
 	public TileEntityHandOfFate() {
-		super(BlockRegistry.RegistrationHandler.HAND_OF_FATE_TYPE);
+		super(ModTileEntities.HAND_OF_FATE_TYPE);
 	}
 
 	public TileEntityHandOfFate(World worldIn) {
-		super(BlockRegistry.RegistrationHandler.HAND_OF_FATE_TYPE);
+		super(ModTileEntities.HAND_OF_FATE_TYPE);
 		this.world = worldIn;
 	}
 
@@ -180,7 +181,7 @@ public class TileEntityHandOfFate extends TileEntity {
 	@OnlyIn(Dist.CLIENT)
 	public float getRotation() {
 		IBlockState state = this.world.getBlockState(this.pos);
-		if(state.getBlock() == BlockRegistry.handoffate) {
+		if(state.getBlock() == ModBlocks.handoffate) {
 			EnumFacing facing = state.get(BlockHorizontal.HORIZONTAL_FACING).getOpposite();
 			if(facing == EnumFacing.NORTH) {
 				return 0F;

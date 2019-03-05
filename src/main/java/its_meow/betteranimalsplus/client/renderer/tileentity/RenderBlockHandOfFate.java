@@ -4,7 +4,7 @@ import java.util.Random;
 
 import its_meow.betteranimalsplus.client.model.ModelHandOfFate;
 import its_meow.betteranimalsplus.common.tileentity.TileEntityHandOfFate;
-import its_meow.betteranimalsplus.init.TextureRegistry;
+import its_meow.betteranimalsplus.init.ModTextures;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
 import net.minecraft.entity.Entity;
@@ -29,7 +29,7 @@ public class RenderBlockHandOfFate extends TileEntityRenderer<TileEntityHandOfFa
 		GlStateManager.pushMatrix();
 		GlStateManager.translated(x + 0.5F, y + 1.5F, z + 0.5F);
 		GlStateManager.rotatef(180, 0, 0, 1);
-		this.bindTexture(TextureRegistry.handoffate);
+		this.bindTexture(ModTextures.handoffate);
 		float rotate = 0F;
 		if(!tileentity.getWorld().isAirBlock(tileentity.getPos())) {
 			rotate = tileentity.getRotation();

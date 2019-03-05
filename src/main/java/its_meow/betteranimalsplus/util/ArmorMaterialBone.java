@@ -1,6 +1,6 @@
 package its_meow.betteranimalsplus.util;
 
-import its_meow.betteranimalsplus.init.ItemRegistry;
+import its_meow.betteranimalsplus.init.ModItems;
 import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.EntityEquipmentSlot;
@@ -32,7 +32,7 @@ public class ArmorMaterialBone implements IArmorMaterial {
 
 	@Override
 	public Ingredient getRepairMaterial() {
-		return Ingredient.fromItems(Items.BONE, ItemRegistry.antler);
+		return Ingredient.fromItems(Items.BONE, ModItems.antler);
 	}
 
 	@Override

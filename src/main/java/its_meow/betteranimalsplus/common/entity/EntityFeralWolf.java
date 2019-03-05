@@ -2,8 +2,8 @@ package its_meow.betteranimalsplus.common.entity;
 
 import javax.annotation.Nullable;
 
-import its_meow.betteranimalsplus.init.ItemRegistry;
-import its_meow.betteranimalsplus.init.MobRegistry;
+import its_meow.betteranimalsplus.init.ModEntities;
+import its_meow.betteranimalsplus.init.ModItems;
 import its_meow.betteranimalsplus.util.HeadTypes;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
@@ -81,7 +81,7 @@ public class EntityFeralWolf extends EntityTameable implements IMob {
 	protected float prevTimeWolfIsShaking;
 
 	public EntityFeralWolf(World worldIn) {
-		super(MobRegistry.getType(EntityFeralWolf.class), worldIn);
+		super(ModEntities.getEntityType(EntityFeralWolf.class), worldIn);
 		this.world = worldIn;
 		this.setSize(0.8F, 0.9F);
 		this.setTamed(false);
@@ -458,7 +458,7 @@ public class EntityFeralWolf extends EntityTameable implements IMob {
 			if(stack.getItem() == Items.DRAGON_HEAD) {
 				wearingPowerHead = true;
 			}
-			if(stack.getItem() == ItemRegistry.itemHirschgeistSkullWearable) {
+			if(stack.getItem() == ModItems.itemHirschgeistSkullWearable) {
 				wearingPowerHead = true;
 			}
 

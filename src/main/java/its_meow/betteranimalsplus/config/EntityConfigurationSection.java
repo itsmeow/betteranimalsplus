@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.google.common.base.Predicate;
 
-import its_meow.betteranimalsplus.init.EntityContainer;
+import its_meow.betteranimalsplus.util.EntityContainer;
 import net.minecraft.world.biome.Biome;
 import net.minecraftforge.common.ForgeConfigSpec;
 

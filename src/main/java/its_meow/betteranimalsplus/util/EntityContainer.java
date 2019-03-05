@@ -1,4 +1,4 @@
-package its_meow.betteranimalsplus.init;
+package its_meow.betteranimalsplus.util;
 
 import java.util.HashSet;
 import java.util.Set;

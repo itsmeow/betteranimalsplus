@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Random;
 import java.util.function.Function;
 
-import its_meow.betteranimalsplus.init.BlockRegistry;
+import its_meow.betteranimalsplus.init.ModTileEntities;
 import its_meow.betteranimalsplus.util.HeadTypes;
 import net.minecraft.client.renderer.entity.model.ModelBase;
 import net.minecraft.nbt.NBTTagCompound;
@@ -37,7 +37,7 @@ public class TileEntityHead extends TileEntity {
 	
 	public TileEntityHead(HeadTypes type, float yOffset, Function<Integer, ResourceLocation> textureFunc,
 			ResourceLocation... textureList) {
-		super(BlockRegistry.getSkullTileEntityType(type));
+		super(ModTileEntities.getSkullTileEntityType(type));
 		this.modelT = type.getModelSupplier().get().get();
 		this.textures = new HashMap<>();
 		int i = 1;

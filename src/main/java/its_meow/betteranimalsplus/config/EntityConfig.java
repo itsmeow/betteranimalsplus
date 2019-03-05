@@ -7,8 +7,8 @@ import java.util.HashMap;
 import java.util.List;
 
 import its_meow.betteranimalsplus.BetterAnimalsPlusMod;
-import its_meow.betteranimalsplus.init.EntityContainer;
-import its_meow.betteranimalsplus.init.MobRegistry;
+import its_meow.betteranimalsplus.init.ModEntities;
+import its_meow.betteranimalsplus.util.EntityContainer;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntitySpawnPlacementRegistry;
 import net.minecraft.entity.EntitySpawnPlacementRegistry.SpawnPlacementType;
@@ -27,7 +27,7 @@ public class EntityConfig {
 	private HashMap<EntityContainer, EntityConfigurationSection> sections = new HashMap<EntityContainer, EntityConfigurationSection>();
 
 	EntityConfig(ForgeConfigSpec.Builder builder) {
-		for(EntityContainer cont : MobRegistry.entityList) {
+		for(EntityContainer cont : ModEntities.entityList) {
 			sections.put(cont, new EntityConfigurationSection(cont, builder));
 		}
 	}
@@ -69,9 +69,9 @@ public class EntityConfig {
 		this.loadEntityData();
 
 		// Add spawns based on new container data
-		if(!MobRegistry.entryMap.isEmpty()) {
-			for(EntityContainer entry : MobRegistry.entryMap.keySet()) {
-				EntityType<?> type = MobRegistry.entryMap.get(entry);
+		if(!ModEntities.entryMap.isEmpty()) {
+			for(EntityContainer entry : ModEntities.entryMap.keySet()) {
+				EntityType<?> type = ModEntities.entryMap.get(entry);
 
 				if(entry.doSpawning) {
 					if(entry.type == EnumCreatureType.WATER_CREATURE) {

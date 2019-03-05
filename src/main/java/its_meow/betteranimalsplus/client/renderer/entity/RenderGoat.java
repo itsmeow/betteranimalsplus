@@ -4,7 +4,7 @@ import javax.annotation.Nonnull;
 
 import its_meow.betteranimalsplus.client.model.ModelGoat;
 import its_meow.betteranimalsplus.common.entity.EntityGoat;
-import its_meow.betteranimalsplus.init.TextureRegistry;
+import its_meow.betteranimalsplus.init.ModTextures;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.client.renderer.entity.RenderManager;
@@ -30,31 +30,31 @@ public class RenderGoat extends RenderLiving<EntityGoat> {
 	@Nonnull
 	protected ResourceLocation getEntityTexture(@Nonnull EntityGoat entity) {
 		int type = entity.getTypeNumber();
-		ResourceLocation res = TextureRegistry.goat_1;
+		ResourceLocation res = ModTextures.goat_1;
 		switch(type) {
 		case 1:
-			res = TextureRegistry.goat_1;
+			res = ModTextures.goat_1;
 			break;
 		case 2:
-			res = TextureRegistry.goat_2;
+			res = ModTextures.goat_2;
 			break;
 		case 3:
-			res = TextureRegistry.goat_3;
+			res = ModTextures.goat_3;
 			break;
 		case 4:
-			res = TextureRegistry.goat_4;
+			res = ModTextures.goat_4;
 			break;
 		case 5:
-			res = TextureRegistry.goat_5;
+			res = ModTextures.goat_5;
 			break;
 		case 6:
-			res = TextureRegistry.goat_6;
+			res = ModTextures.goat_6;
 			break;
 		case 7:
-			res = TextureRegistry.goat_7;
+			res = ModTextures.goat_7;
 			break;
 		default:
-			res = TextureRegistry.goat_1;
+			res = ModTextures.goat_1;
 			break;
 		}
 		return res;

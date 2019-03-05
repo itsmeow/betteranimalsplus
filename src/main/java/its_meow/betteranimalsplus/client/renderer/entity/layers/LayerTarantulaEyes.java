@@ -2,7 +2,7 @@ package its_meow.betteranimalsplus.client.renderer.entity.layers;
 
 import its_meow.betteranimalsplus.client.renderer.entity.RenderTarantula;
 import its_meow.betteranimalsplus.common.entity.EntityTarantula;
-import its_meow.betteranimalsplus.init.TextureRegistry;
+import its_meow.betteranimalsplus.init.ModTextures;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.OpenGlHelper;
@@ -23,7 +23,7 @@ public class LayerTarantulaEyes implements LayerRenderer<EntityTarantula> {
 	public void render(EntityTarantula entity, float limbSwing, float limbSwingAmount, float partialTicks,
 			float ageInTicks, float netHeadYaw, float headPitch, float scale) {
 		if(!entity.isInvisible() && !entity.isChild()) {
-			this.tarantulaRenderer.bindTexture(TextureRegistry.tarantula_eyes);
+			this.tarantulaRenderer.bindTexture(ModTextures.tarantula_eyes);
 
 			GlStateManager.enableBlend();
 			GlStateManager.disableAlphaTest();

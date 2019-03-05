@@ -2,7 +2,7 @@ package its_meow.betteranimalsplus.common.entity;
 
 import javax.annotation.Nullable;
 
-import its_meow.betteranimalsplus.init.MobRegistry;
+import its_meow.betteranimalsplus.init.ModEntities;
 import its_meow.betteranimalsplus.util.HeadTypes;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -44,7 +44,7 @@ import net.minecraft.world.World;
 public class EntityCoyote extends EntityFeralWolf {
 
 	public EntityCoyote(World worldIn) {
-		super(MobRegistry.getType(EntityCoyote.class), worldIn);
+		super(ModEntities.getEntityType(EntityCoyote.class), worldIn);
 		this.world = worldIn;
 		this.setSize(0.8F, 0.9F);
 		this.setTamed(false);

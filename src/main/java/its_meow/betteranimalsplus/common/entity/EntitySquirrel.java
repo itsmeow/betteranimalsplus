@@ -2,7 +2,7 @@ package its_meow.betteranimalsplus.common.entity;
 
 import javax.annotation.Nullable;
 
-import its_meow.betteranimalsplus.init.MobRegistry;
+import its_meow.betteranimalsplus.init.ModEntities;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.IEntityLivingData;
@@ -41,7 +41,7 @@ public class EntitySquirrel extends EntityAnimal {
 	private int climbTimeWithoutLog = 0;
 
 	public EntitySquirrel(World worldIn) {
-		super(MobRegistry.getType(EntitySquirrel.class), worldIn);
+		super(ModEntities.getEntityType(EntitySquirrel.class), worldIn);
 		this.setSize(0.5F, 0.5F);
 
 	}

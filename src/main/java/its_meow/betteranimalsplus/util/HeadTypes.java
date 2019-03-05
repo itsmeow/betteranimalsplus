@@ -18,26 +18,26 @@ import its_meow.betteranimalsplus.client.model.ModelHirschgeistSkull;
 import its_meow.betteranimalsplus.common.block.BlockGenericSkull;
 import its_meow.betteranimalsplus.common.item.ItemBlockHeadType;
 import its_meow.betteranimalsplus.common.tileentity.TileEntityHead;
-import its_meow.betteranimalsplus.init.TextureRegistry;
+import its_meow.betteranimalsplus.init.ModTextures;
 import net.minecraft.client.renderer.entity.model.ModelBase;
 
 public enum HeadTypes {
 
 	WOLFHEAD("wolfhead", true, 4, ()->()-> ModelWolfHead.class, type -> new TileEntityHead(type, 0F,
-			TextureRegistry.wolf_black, TextureRegistry.wolf_snowy, TextureRegistry.wolf_timber, TextureRegistry.coyote_hostile)),
+			ModTextures.wolf_black, ModTextures.wolf_snowy, ModTextures.wolf_timber, ModTextures.coyote_hostile)),
 
 	FOXHEAD("foxhead", true, 4, ()->()-> ModelFoxHead.class, type -> new TileEntityHead(type, -0.1F,
-			TextureRegistry.fox_1, TextureRegistry.fox_2, TextureRegistry.fox_3, TextureRegistry.fox_4)),
+			ModTextures.fox_1, ModTextures.fox_2, ModTextures.fox_3, ModTextures.fox_4)),
 
 	BOARHEAD("boarhead", false, 4, ()->()-> ModelBoarHead.class, type -> new TileEntityHead(type, 0F,
-			TextureRegistry.boar_1, TextureRegistry.boar_2, TextureRegistry.boar_3, TextureRegistry.boar_4)),
+			ModTextures.boar_1, ModTextures.boar_2, ModTextures.boar_3, ModTextures.boar_4)),
 
 	DEERHEAD("deerhead", false, 2, ()->()-> ModelDeerHead.class, type -> new TileEntityHead(type, 0F, (typeNum -> {
 		Calendar calendar = Calendar.getInstance();
 		if(calendar.get(2) + 1 == 12 && calendar.get(5) >= 24 && calendar.get(5) <= 26) {
-			return typeNum == 1 ? TextureRegistry.deer_1_christmas : TextureRegistry.deer_2_christmas;
+			return typeNum == 1 ? ModTextures.deer_1_christmas : ModTextures.deer_2_christmas;
 		} else {
-			return typeNum == 1 ? TextureRegistry.deer_1 : TextureRegistry.deer_2;
+			return typeNum == 1 ? ModTextures.deer_1 : ModTextures.deer_2;
 		}
 
 	}))),
@@ -48,20 +48,20 @@ public enum HeadTypes {
 		} else {
 			switch(typeNum) {
 			case 5:
-				return TextureRegistry.reindeer_1_christmas;
+				return ModTextures.reindeer_1_christmas;
 			case 6:
-				return TextureRegistry.reindeer_2_christmas;
+				return ModTextures.reindeer_2_christmas;
 			case 7:
-				return TextureRegistry.reindeer_3_christmas;
+				return ModTextures.reindeer_3_christmas;
 			case 8:
-				return TextureRegistry.reindeer_4_christmas;
+				return ModTextures.reindeer_4_christmas;
 			default:
-				return TextureRegistry.reindeer_1;
+				return ModTextures.reindeer_1;
 			}
 		}
-	}), TextureRegistry.reindeer_1, TextureRegistry.reindeer_2, TextureRegistry.reindeer_3, TextureRegistry.reindeer_4)), 
+	}), ModTextures.reindeer_1, ModTextures.reindeer_2, ModTextures.reindeer_3, ModTextures.reindeer_4)), 
 	
-	HIRSCHGEIST("hirschgeistskull", true, 1, ()->()-> ModelHirschgeistSkull.class, type -> new TileEntityHead(type, 0F, TextureRegistry.hirschgeist));
+	HIRSCHGEIST("hirschgeistskull", true, 1, ()->()-> ModelHirschgeistSkull.class, type -> new TileEntityHead(type, 0F, ModTextures.hirschgeist));
 
 	public final String name;
 	public final boolean allowFloor;

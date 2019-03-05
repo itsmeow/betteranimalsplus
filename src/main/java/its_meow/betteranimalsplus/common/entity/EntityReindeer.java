@@ -6,8 +6,8 @@ import javax.annotation.Nullable;
 
 import com.google.common.base.Predicate;
 
-import its_meow.betteranimalsplus.init.LootTableRegistry;
-import its_meow.betteranimalsplus.init.MobRegistry;
+import its_meow.betteranimalsplus.init.ModLootTables;
+import its_meow.betteranimalsplus.init.ModEntities;
 import its_meow.betteranimalsplus.util.HeadTypes;
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
@@ -93,7 +93,7 @@ public class EntityReindeer extends EntityAnimal implements IJumpingMount {
 	public boolean parentRudolph = false;
 
 	public EntityReindeer(World worldIn) {
-		super(MobRegistry.getType(EntityReindeer.class), worldIn);
+		super(ModEntities.getEntityType(EntityReindeer.class), worldIn);
 		this.setSize(1.3964844F, 1.8F);
 		this.stepHeight = 1.0F;
 	}
@@ -554,7 +554,7 @@ public class EntityReindeer extends EntityAnimal implements IJumpingMount {
 	@Override
 	@Nullable
 	protected ResourceLocation getLootTable() {
-		return LootTableRegistry.reindeer;
+		return ModLootTables.reindeer;
 	}
 
 	protected void mountTo(EntityPlayer player) {

@@ -4,7 +4,7 @@ import javax.annotation.Nonnull;
 
 import its_meow.betteranimalsplus.client.model.ModelBear;
 import its_meow.betteranimalsplus.common.entity.EntityBearNeutralKermode;
-import its_meow.betteranimalsplus.init.TextureRegistry;
+import its_meow.betteranimalsplus.init.ModTextures;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.util.ResourceLocation;
@@ -19,7 +19,7 @@ public class RenderKermodeBear extends RenderLiving<EntityBearNeutralKermode> {
 	@Override
 	@Nonnull
 	protected ResourceLocation getEntityTexture(@Nonnull EntityBearNeutralKermode entity) {
-		return TextureRegistry.bear_kermode;
+		return ModTextures.bear_kermode;
 	}
 
 

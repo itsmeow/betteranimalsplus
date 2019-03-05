@@ -3,7 +3,7 @@ package its_meow.betteranimalsplus.client.renderer.entity;
 import its_meow.betteranimalsplus.client.model.ModelCustomWolf;
 import its_meow.betteranimalsplus.client.renderer.entity.layers.LayerWolfEyes;
 import its_meow.betteranimalsplus.common.entity.EntityFeralWolf;
-import its_meow.betteranimalsplus.init.TextureRegistry;
+import its_meow.betteranimalsplus.init.ModTextures;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.client.renderer.entity.RenderManager;
@@ -54,25 +54,25 @@ public class RenderCustomWolf extends RenderLiving<EntityFeralWolf> {
 		if(entity.isTamed()) {
 			switch(typeNumber) {
 			case 1:
-				result = TextureRegistry.wolf_black_neutral;
+				result = ModTextures.wolf_black_neutral;
 				break;
 			case 2:
-				result = TextureRegistry.wolf_snowy_neutral;
+				result = ModTextures.wolf_snowy_neutral;
 				break;
 			case 3:
-				result = TextureRegistry.wolf_timber_neutral;
+				result = ModTextures.wolf_timber_neutral;
 				break;
 			}
 		} else {
 			switch(typeNumber) {
 			case 1:
-				result = TextureRegistry.wolf_black;
+				result = ModTextures.wolf_black;
 				break;
 			case 2:
-				result = TextureRegistry.wolf_snowy;
+				result = ModTextures.wolf_snowy;
 				break;
 			case 3:
-				result = TextureRegistry.wolf_timber;
+				result = ModTextures.wolf_timber;
 				break;
 			}
 		}

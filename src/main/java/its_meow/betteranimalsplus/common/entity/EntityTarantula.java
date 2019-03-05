@@ -1,7 +1,7 @@
 package its_meow.betteranimalsplus.common.entity;
 
 import its_meow.betteranimalsplus.common.entity.projectile.EntityTarantulaHair;
-import its_meow.betteranimalsplus.init.MobRegistry;
+import its_meow.betteranimalsplus.init.ModEntities;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.IRangedAttackMob;
 import net.minecraft.entity.ai.EntityAIAttackMelee;
@@ -27,7 +27,7 @@ public class EntityTarantula extends EntitySpider implements IRangedAttackMob {
 	protected World world;
 
 	public EntityTarantula(World worldIn) {
-		super(MobRegistry.getType(EntityTarantula.class), worldIn);
+		super(ModEntities.getEntityType(EntityTarantula.class), worldIn);
 		this.world = worldIn;
 	}
 

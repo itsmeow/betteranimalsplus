@@ -2,7 +2,7 @@ package its_meow.betteranimalsplus.common.world.gen;
 
 import java.util.Random;
 
-import its_meow.betteranimalsplus.init.BlockRegistry;
+import its_meow.betteranimalsplus.init.ModBlocks;
 import net.minecraft.block.BlockHorizontal;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.tags.BlockTags;
@@ -24,7 +24,7 @@ public class TrilliumGenerator extends Feature<NoFeatureConfig> {
 			pos = pos.down();
 		}
 
-		IBlockState iblockstate1 = BlockRegistry.trillium.getDefaultState();
+		IBlockState iblockstate1 = ModBlocks.trillium.getDefaultState();
 
 		for(int i = 0; i < 4; ++i) {
 			BlockPos blockpos = pos.add(rand.nextInt(8) - rand.nextInt(8), rand.nextInt(4) - rand.nextInt(4),

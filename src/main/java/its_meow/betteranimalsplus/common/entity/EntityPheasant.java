@@ -2,8 +2,8 @@ package its_meow.betteranimalsplus.common.entity;
 
 import javax.annotation.Nullable;
 
-import its_meow.betteranimalsplus.init.LootTableRegistry;
-import its_meow.betteranimalsplus.init.MobRegistry;
+import its_meow.betteranimalsplus.init.ModLootTables;
+import its_meow.betteranimalsplus.init.ModEntities;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.IEntityLivingData;
@@ -45,7 +45,7 @@ public class EntityPheasant extends EntityAnimal {
 	public float wingRotDelta = 0.3F;
 
 	public EntityPheasant(World worldIn) {
-		super(MobRegistry.getType(EntityPheasant.class), worldIn);
+		super(ModEntities.getEntityType(EntityPheasant.class), worldIn);
 		this.setPeckTime(this.getNewPeck());
 		this.setPathPriority(PathNodeType.WATER, 0.0F);
 		this.setSize(1F, this.isChild() ? 0.8F : 1F);
@@ -147,7 +147,7 @@ public class EntityPheasant extends EntityAnimal {
 	@Override
 	@Nullable
 	protected ResourceLocation getLootTable() {
-		return LootTableRegistry.pheasant;
+		return ModLootTables.pheasant;
 	}
 
 	@Override
