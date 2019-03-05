@@ -176,6 +176,13 @@ public class EntityLammergeier extends EntityTameableFlying {
 
 	private int lastTick = 0;
 	public int ticksForFly = 0;
+	public double lastMotionY = 0;
+	
+	@Override
+	public void onUpdate() {
+		super.onUpdate();
+		this.lastMotionY  = this.motionY;
+	}
 
 	public boolean processInteract(EntityPlayer player, EnumHand hand)
 	{
