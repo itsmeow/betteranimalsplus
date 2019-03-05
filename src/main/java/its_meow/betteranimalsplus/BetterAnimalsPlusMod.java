@@ -36,8 +36,12 @@ public class BetterAnimalsPlusMod {
 
 		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
 		FMLJavaModLoadingContext.get().getModEventBus().<FMLClientSetupEvent>addListener(e -> new ClientLifecycleHandler().clientSetup(e));
-
-		MobRegistry.fillContainers();
+		
+		if(MobRegistry.entityList.isEmpty()) {
+			MobRegistry.fillContainers();
+		}
+		
+		BetterAnimalsPlusConfig.setupConfig();
 		
 		// Make sure to do this after containers are loaded
 		ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, BetterAnimalsPlusConfig.SERVER_CONFIG);

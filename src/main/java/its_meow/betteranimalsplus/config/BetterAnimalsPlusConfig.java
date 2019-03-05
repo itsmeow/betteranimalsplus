@@ -7,16 +7,17 @@ import its_meow.betteranimalsplus.Ref;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.config.ModConfig;
 
-@Mod.EventBusSubscriber
+@Mod.EventBusSubscriber(modid = Ref.MOD_ID, bus = EventBusSubscriber.Bus.MOD)
 public class BetterAnimalsPlusConfig {
 
-	private static final EntityConfig ENTITY_CONFIG;
+	private static EntityConfig ENTITY_CONFIG = null;
 
-	public static final ForgeConfigSpec SERVER_CONFIG;
+	public static ForgeConfigSpec SERVER_CONFIG = null;
 
-	static { 
+	public static void setupConfig() { 
 		final Pair<EntityConfig, ForgeConfigSpec> specPair = new ForgeConfigSpec.Builder().configure(EntityConfig::new);
         SERVER_CONFIG = specPair.getRight();
         ENTITY_CONFIG = specPair.getLeft();

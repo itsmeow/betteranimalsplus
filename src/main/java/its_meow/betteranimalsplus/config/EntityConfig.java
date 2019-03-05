@@ -1,5 +1,7 @@
 package its_meow.betteranimalsplus.config;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -10,25 +12,26 @@ import its_meow.betteranimalsplus.init.MobRegistry;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntitySpawnPlacementRegistry;
 import net.minecraft.entity.EntitySpawnPlacementRegistry.SpawnPlacementType;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.EnumCreatureType;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.Biome.SpawnListEntry;
 import net.minecraft.world.gen.Heightmap;
 import net.minecraftforge.common.ForgeConfigSpec;
+import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import net.minecraftforge.registries.ForgeRegistries;
 
 public class EntityConfig {
-	
+
 	private HashMap<EntityContainer, EntityConfigurationSection> sections = new HashMap<EntityContainer, EntityConfigurationSection>();
-	
+
 	EntityConfig(ForgeConfigSpec.Builder builder) {
 		for(EntityContainer cont : MobRegistry.entityList) {
 			sections.put(cont, new EntityConfigurationSection(cont, builder));
 		}
 	}
-	
+
 	public void loadEntityData() {
 		// Replace entity data
 		for(EntityContainer container : this.sections.keySet()) {
@@ -61,23 +64,25 @@ public class EntityConfig {
 
 	@SuppressWarnings("unchecked")
 	public void onWorldLoad() {
-		
+
 		// Fill containers with proper values from their config sections
 		this.loadEntityData();
-		
+
 		// Add spawns based on new container data
-		if(!MobRegistry.entrySet.isEmpty()) {
+		if(!MobRegistry.entryMap.isEmpty()) {
 			for(EntityContainer entry : MobRegistry.entryMap.keySet()) {
 				EntityType<?> type = MobRegistry.entryMap.get(entry);
 
 				if(entry.doSpawning) {
-					// Now the unchecked operation is checked
-					if(entry.entityClazz.isInstance(EntityLiving.class)) {
-						if(entry.type == EnumCreatureType.WATER_CREATURE) {
-							EntitySpawnPlacementRegistry.register(type, SpawnPlacementType.IN_WATER, Heightmap.Type.OCEAN_FLOOR, null);
-						}
-						for(Biome biome : entry.spawnBiomes) {
-							biome.getSpawns(entry.type).add(new SpawnListEntry((EntityType<? extends EntityLiving>) type, entry.weight, entry.minGroup, entry.maxGroup));
+					if(entry.type == EnumCreatureType.WATER_CREATURE) {
+						EntitySpawnPlacementRegistry.register(type, SpawnPlacementType.IN_WATER, Heightmap.Type.OCEAN_FLOOR, null);
+					}
+					for(Biome biome : entry.spawnBiomes) {
+						Method addSpawn = ObfuscationReflectionHelper.findMethod(Biome.class, "addSpawn", EnumCreatureType.class, SpawnListEntry.class);
+						try {
+							addSpawn.invoke(biome, entry.type, new SpawnListEntry((EntityType<? extends EntityLiving>) type, entry.weight, entry.minGroup, entry.maxGroup));
+						} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+							e.printStackTrace();
 						}
 					}
 				}
