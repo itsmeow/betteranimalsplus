@@ -14,6 +14,7 @@ import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.shapes.VoxelShape;
+import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
@@ -22,7 +23,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 public class BlockTrillium extends BlockBush {
 	
-	private static final VoxelShape SHAPE = Block.makeCuboidShape(0.25F, 0.0F, 0.25F, 0.75F, 1.0F, 0.75F);
+	private static final VoxelShape SHAPE = VoxelShapes.create(0.15F, 0.0F, 0.15F, 0.85F, 0.9F, 0.85F);
 	
 	public BlockTrillium() {
 		super(Properties.create(Material.PLANTS).sound(SoundType.PLANT).doesNotBlockMovement());

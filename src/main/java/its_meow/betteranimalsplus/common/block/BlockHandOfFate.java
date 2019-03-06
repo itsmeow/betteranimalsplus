@@ -19,6 +19,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.shapes.VoxelShape;
+import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
@@ -27,7 +28,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 public class BlockHandOfFate extends BlockHorizontal {
 
-	private static final VoxelShape SHAPE = Block.makeCuboidShape(0.25F, 0.0F, 0.25F, 0.75F, 1.0F, 0.75F);
+	private static final VoxelShape SHAPE = VoxelShapes.create(0.25F, 0.0F, 0.25F, 0.75F, 1.0F, 0.75F);
 
 	public BlockHandOfFate() {
 		super(Properties.create(Material.IRON).hardnessAndResistance(3.0F, 2.0F));
