@@ -17,8 +17,8 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
-import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
@@ -27,15 +27,16 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 public class BlockHandOfFate extends BlockHorizontal {
 
-	protected static final AxisAlignedBB NORTH_AABB = new AxisAlignedBB(0.0625D, 0.0D, 0.0D, 0.9375D, 0.875D, 0.9375D);
-	protected static final AxisAlignedBB SOUTH_AABB = new AxisAlignedBB(0.0625D, 0.0D, 0.0625D, 0.9375D, 0.875D, 1.0D);
-	protected static final AxisAlignedBB WES_AABB = new AxisAlignedBB(0.0D, 0.0D, 0.0625D, 0.9375D, 0.875D, 0.9375D);
-	protected static final AxisAlignedBB EAST_AABB = new AxisAlignedBB(0.0625D, 0.0D, 0.0625D, 1.0D, 0.875D, 0.9375D);
+	private static final VoxelShape SHAPE = Block.makeCuboidShape(0.25F, 0.0F, 0.25F, 0.75F, 1.0F, 0.75F);
 
 	public BlockHandOfFate() {
 		super(Properties.create(Material.IRON).hardnessAndResistance(3.0F, 2.0F));
 		this.setRegistryName("handoffate");
 		this.setDefaultState(this.getDefaultState().with(BlockHorizontal.HORIZONTAL_FACING, EnumFacing.NORTH));
+	}
+	
+	public VoxelShape getShape(IBlockState state, IBlockReader worldIn, BlockPos pos) {
+		return SHAPE;
 	}
 	
 	@OnlyIn(Dist.CLIENT)

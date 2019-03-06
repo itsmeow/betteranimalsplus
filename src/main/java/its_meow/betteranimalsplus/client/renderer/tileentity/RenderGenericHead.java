@@ -29,7 +29,11 @@ public class RenderGenericHead extends TileEntityRenderer<TileEntityHead> {
 		rotation = (enumfacing == EnumFacing.UP) ? te.getSkullRotation() : rotation;
 		
 		ModelBase model = modelMap.get(te.type);
-		model = modelMap.put(te.type, (model == null ? te.getModel() : model));
+		if(model == null) {
+			ModelBase newModel = te.getModel();
+			modelMap.put(te.type, newModel);
+			model = newModel;
+		}
 		
 		this.render((float)x, (float)y, (float)z, enumfacing, rotation, destroyStage, te.getTexture(), model, te.getOffset());
 	}
@@ -53,8 +57,11 @@ public class RenderGenericHead extends TileEntityRenderer<TileEntityHead> {
 		GlStateManager.enableRescaleNormal();
 		GlStateManager.scalef(-1.0F, -1.0F, 1.0F);
 		GlStateManager.enableAlphaTest();
-
-		model.render((Entity)null, skullRotation, facing != null && facing == EnumFacing.UP ? -90F : 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
+		float rotX = 0F;
+		if(facing != null) {
+			rotX = facing == EnumFacing.UP ? -90F : 0.0F;
+		}
+		model.render((Entity)null, skullRotation, rotX, 0.0F, 0.0F, 0.0F, 0.0625F);
 		GlStateManager.popMatrix();
 		if (destroyStage >= 0) {
 			GlStateManager.matrixMode(5890);
