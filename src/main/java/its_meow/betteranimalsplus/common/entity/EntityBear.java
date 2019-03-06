@@ -9,6 +9,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIAttackMelee;
 import net.minecraft.entity.ai.EntityAIHurtByTarget;
@@ -23,11 +24,13 @@ import net.minecraft.entity.passive.EntityPig;
 import net.minecraft.entity.passive.EntityRabbit;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
@@ -231,6 +234,13 @@ public class EntityBear extends EntityMob {
 		protected double getAttackReachSqr(EntityLivingBase attackTarget) {
 			return 10.0F + attackTarget.width;
 		}
+	}
+	
+	@Override
+	public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, IEntityLivingData entityLivingData,
+			NBTTagCompound itemNbt) {
+		this.setLocationAndAngles(this.posX, this.posY, this.posZ, this.rotationYaw, 0F);
+		return super.onInitialSpawn(difficulty, entityLivingData, itemNbt);
 	}
 
 }

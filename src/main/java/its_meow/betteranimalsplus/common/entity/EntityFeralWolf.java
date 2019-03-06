@@ -177,7 +177,7 @@ public class EntityFeralWolf extends EntityTameable implements IMob {
 		}
 
 		this.setType(i);
-
+		this.setLocationAndAngles(this.posX, this.posY, this.posZ, this.rotationYaw, 0F);
 		return livingdata;
 	}
 

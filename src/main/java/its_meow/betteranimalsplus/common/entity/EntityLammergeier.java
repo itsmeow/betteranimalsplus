@@ -509,7 +509,7 @@ public class EntityLammergeier extends EntityTameableFlying {
 		}
 
 		this.setLammerType(i);
-
+		this.setLocationAndAngles(this.posX, this.posY, this.posZ, this.rotationYaw, 0F);
 		return livingdata;
 	}
 

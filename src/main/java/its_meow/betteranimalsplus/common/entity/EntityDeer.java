@@ -120,7 +120,7 @@ public class EntityDeer extends EntityAnimal {
 		if(flag) {
 			this.setGrowingAge(-24000);
 		}
-
+		this.setLocationAndAngles(this.posX, this.posY, this.posZ, this.rotationYaw, 0F);
 		return data;
 	}
 

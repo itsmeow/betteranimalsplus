@@ -1,9 +1,12 @@
 package its_meow.betteranimalsplus.client.renderer.tileentity;
 
+import java.util.HashMap;
+
 import javax.annotation.Nullable;
 
 import its_meow.betteranimalsplus.common.block.BlockAnimalSkull;
 import its_meow.betteranimalsplus.common.tileentity.TileEntityHead;
+import its_meow.betteranimalsplus.util.HeadTypes;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.model.ModelBase;
@@ -13,7 +16,8 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 
 public class RenderGenericHead extends TileEntityRenderer<TileEntityHead> {
-
+	
+	public static HashMap<HeadTypes, ModelBase> modelMap = new HashMap<HeadTypes, ModelBase>();
 
 	public void render(TileEntityHead te, double x, double y, double z, float partialTicks, int destroyStage) {
 
@@ -23,7 +27,11 @@ public class RenderGenericHead extends TileEntityRenderer<TileEntityHead> {
 		float rotation = -enumfacing.getHorizontalAngle();
 		rotation = (enumfacing == EnumFacing.NORTH || enumfacing == EnumFacing.SOUTH) ? enumfacing.getOpposite().getHorizontalAngle() : rotation;
 		rotation = (enumfacing == EnumFacing.UP) ? te.getSkullRotation() : rotation;
-		this.render((float)x, (float)y, (float)z, enumfacing, rotation, destroyStage, te.getTexture(), te.getModel(), te.getOffset());
+		
+		ModelBase model = modelMap.get(te.type);
+		model = modelMap.put(te.type, (model == null ? te.getModel() : model));
+		
+		this.render((float)x, (float)y, (float)z, enumfacing, rotation, destroyStage, te.getTexture(), model, te.getOffset());
 	}
 
 	public void render(float x, float y, float z, @Nullable EnumFacing facing, float skullRotation, int destroyStage, ResourceLocation texture, ModelBase model, float yOffset) {

@@ -316,7 +316,7 @@ public class EntityBoar extends EntityAnimal {
 		}
 
 		this.setType(i);
-
+		this.setLocationAndAngles(this.posX, this.posY, this.posZ, this.rotationYaw, 0F);
 		return livingdata;
 	}
 

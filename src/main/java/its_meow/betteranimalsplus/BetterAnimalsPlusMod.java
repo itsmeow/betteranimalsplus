@@ -9,7 +9,6 @@ import its_meow.betteranimalsplus.common.world.gen.TrilliumGenerator;
 import its_meow.betteranimalsplus.config.BetterAnimalsPlusConfig;
 import its_meow.betteranimalsplus.init.ModEntities;
 import its_meow.betteranimalsplus.init.ModItems;
-import its_meow.betteranimalsplus.init.ModLootTables;
 import its_meow.betteranimalsplus.proxy.ClientProxy;
 import its_meow.betteranimalsplus.proxy.ISidedProxy;
 import its_meow.betteranimalsplus.proxy.ServerProxy;
@@ -77,7 +76,6 @@ public class BetterAnimalsPlusMod {
 				biome -> biome.addFeature(net.minecraft.world.gen.GenerationStage.Decoration.VEGETAL_DECORATION,
 						Biome.createCompositeFeature(new TrilliumGenerator(), new NoFeatureConfig(), Biome.TOP_SOLID,
 								new FrequencyConfig(3))));
-		ModLootTables.register();
 		BetterAnimalsPlusMod.logger.log(Level.INFO, "Overspawning lammergeiers...");
 	}
 }

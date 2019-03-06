@@ -3,6 +3,7 @@ package its_meow.betteranimalsplus.common.entity;
 import its_meow.betteranimalsplus.common.entity.projectile.EntityTarantulaHair;
 import its_meow.betteranimalsplus.init.ModEntities;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.IRangedAttackMob;
 import net.minecraft.entity.ai.EntityAIAttackMelee;
 import net.minecraft.entity.ai.EntityAIAttackRanged;
@@ -17,8 +18,10 @@ import net.minecraft.entity.monster.EntityIronGolem;
 import net.minecraft.entity.monster.EntitySpider;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
 import net.minecraft.world.storage.loot.LootTableList;
 
@@ -75,5 +78,13 @@ public class EntityTarantula extends EntitySpider implements IRangedAttackMob {
 		return LootTableList.ENTITIES_SPIDER;
 	}
 
+	@Override
+	public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, IEntityLivingData entityLivingData,
+			NBTTagCompound itemNbt) {
+		this.setLocationAndAngles(this.posX, this.posY, this.posZ, this.rotationYaw, 0F);
+		return super.onInitialSpawn(difficulty, entityLivingData, itemNbt);
+	}
+	
+	
 
 }

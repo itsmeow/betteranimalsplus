@@ -7,6 +7,7 @@ public class ClientProxy implements ISidedProxy {
 
 	public static final ModelHirschgeistHelmet armorModel = new ModelHirschgeistHelmet();
 
+
 	@Override
 	public void setup() {
 		

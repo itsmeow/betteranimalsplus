@@ -223,6 +223,7 @@ public class EntityPheasant extends EntityAnimal {
 				this.setGrowingAge(-24000);
 			}
 		}
+		this.setLocationAndAngles(this.posX, this.posY, this.posZ, this.rotationYaw, 0F);
 		return livingdata;
 	}
 

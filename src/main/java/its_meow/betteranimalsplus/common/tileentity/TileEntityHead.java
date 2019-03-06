@@ -21,23 +21,24 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 public class TileEntityHead extends TileEntity {
 
 	private Class<? extends ModelBase> modelT = null;
-	private ModelBase model = null;
 	protected int typeNum = 0;
 	private float offset;
 	private float rotation = 0;
 	private boolean shouldDrop = true;
 	private final Function<Integer, ResourceLocation> textureFunc;
+	public final HeadTypes type;
 
 	public HashMap<Integer, ResourceLocation> textures;
-	
+
 	public TileEntityHead(HeadTypes type, float yOffset,
 			ResourceLocation... textureList) {
 		this(type, yOffset, null, textureList);
 	}
-	
+
 	public TileEntityHead(HeadTypes type, float yOffset, Function<Integer, ResourceLocation> textureFunc,
 			ResourceLocation... textureList) {
 		super(ModTileEntities.getSkullTileEntityType(type));
+		this.type = type;
 		this.modelT = type.getModelSupplier().get().get();
 		this.textures = new HashMap<>();
 		int i = 1;
@@ -54,16 +55,14 @@ public class TileEntityHead extends TileEntity {
 	}
 
 	public ModelBase getModel() {
-		if(this.model == null) {
-			try {
-				this.model = this.modelT.newInstance();
-			} catch(InstantiationException e) {
-				e.printStackTrace();
-			} catch(IllegalAccessException e) {
-				e.printStackTrace();
-			}
+		try {
+			return this.modelT.newInstance();
+		} catch(InstantiationException e) {
+			e.printStackTrace();
+		} catch(IllegalAccessException e) {
+			e.printStackTrace();
 		}
-		return this.model;
+		return null;
 	}
 
 	@Override
@@ -101,7 +100,7 @@ public class TileEntityHead extends TileEntity {
 		} else {
 			this.setType(new Random().nextInt(this.textures.size()) + 1);
 		}
-		
+
 		if(compound.hasKey("rotation")) {
 			this.rotation = compound.getFloat("rotation");
 		}
@@ -143,7 +142,7 @@ public class TileEntityHead extends TileEntity {
 	public float getOffset() {
 		return this.offset;
 	}
-	
+
 	public void setRotation(float rotation) {
 		this.rotation = rotation;
 		this.markDirty();

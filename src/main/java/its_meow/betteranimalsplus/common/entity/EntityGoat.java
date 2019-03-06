@@ -310,6 +310,7 @@ public class EntityGoat extends EntityAnimal {
 			}
 		}
 		this.setAttackingOnClient(false);
+		this.setLocationAndAngles(this.posX, this.posY, this.posZ, this.rotationYaw, 0F);
 		return livingdata;
 	}
 

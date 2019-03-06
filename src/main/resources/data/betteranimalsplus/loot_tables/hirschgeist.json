@@ -6,35 +6,14 @@
             "entries": [
                 {
                     "type": "item",
-                    "name": "betteranimalsplus:hirschgeistskull",
-                    "weight": 200,
+                    "name": "betteranimalsplus:hirschgeistskull_1",
+                    "weight": 1,
                     "functions": [
                         {
                             "function": "set_count",
                             "count": {
                                 "min": 1,
                                 "max": 1
-                            }
-                        }
-                    ]
-                },
-                {
-                    "type": "item",
-                    "name": "minecraft:bone",
-                    "weight": 1,
-                    "functions": [
-                        {
-                            "function": "set_count",
-                            "count": {
-                                "min": 0,
-                                "max": 4
-                            }
-                        },
-                        {
-                            "function": "looting_enchant",
-                            "count": {
-                                "min": 0,
-                                "max": 2
                             }
                         }
                     ]

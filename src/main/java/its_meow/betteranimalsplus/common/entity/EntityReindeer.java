@@ -1106,21 +1106,7 @@ public class EntityReindeer extends EntityAnimal implements IJumpingMount {
 			Calendar calendar = Calendar.getInstance();
 			boolean isChristmasSeason = calendar.get(2) + 1 == 12 && calendar.get(5) >= 22 && calendar.get(5) <= 28;
 			boolean redNosed = this.rand.nextInt(9) == 0;
-			int i = this.rand.nextInt(4) + (isChristmasSeason && redNosed ? 5 : 1); // Values
-																					// 1
-																					// to
-																					// 4
-																					// or
-																					// 1
-																					// to
-																					// 8
-																					// (with
-																					// 1/9
-																					// chance
-																					// and
-																					// only
-																					// during
-																					// christmas)
+			int i = this.rand.nextInt(4) + (isChristmasSeason && redNosed ? 5 : 1); // Values 1 to 4 or 1 to 8 (with 1/9 chance and only during christmas)
 			boolean flag = false;
 
 			if(livingdata instanceof TypeData) {
@@ -1136,6 +1122,7 @@ public class EntityReindeer extends EntityAnimal implements IJumpingMount {
 				this.setGrowingAge(-24000);
 			}
 		}
+		this.setLocationAndAngles(this.posX, this.posY, this.posZ, this.rotationYaw, 0F);
 		return livingdata;
 	}
 

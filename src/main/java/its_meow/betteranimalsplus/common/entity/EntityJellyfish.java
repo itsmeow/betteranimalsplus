@@ -142,6 +142,7 @@ public class EntityJellyfish extends EntitySquid {
 			this.setType(i);
 			this.setSize(rand, rand);
 		}
+		this.setLocationAndAngles(this.posX, this.posY, this.posZ, this.rotationYaw, 0F);
 		return livingdata;
 	}
 
