@@ -164,5 +164,25 @@ public class ModTextures {
 			ModTextures.entitytex + "squirrel_2.png");
 	public static final ResourceLocation squirrel_3 = new ResourceLocation(
 			ModTextures.entitytex + "squirrel_3.png");
+	
+	// Songbird Variants
+	public static final ResourceLocation songbird_1 = 
+			new ResourceLocation(entitytex + "songbird_1.png");
+	public static final ResourceLocation songbird_2 = 
+			new ResourceLocation(entitytex + "songbird_2.png");
+	public static final ResourceLocation songbird_3 = 
+			new ResourceLocation(entitytex + "songbird_3.png");
+	public static final ResourceLocation songbird_4 = 
+			new ResourceLocation(entitytex + "songbird_4.png");
+	public static final ResourceLocation songbird_small_1 = 
+			new ResourceLocation(entitytex + "songbird_small_1.png");
+	public static final ResourceLocation songbird_small_2 = 
+			new ResourceLocation(entitytex + "songbird_small_2.png");
+	public static final ResourceLocation songbird_small_3 = 
+			new ResourceLocation(entitytex + "songbird_small_3.png");
+	public static final ResourceLocation songbird_small_4 = 
+			new ResourceLocation(entitytex + "songbird_small_4.png");
+	public static final ResourceLocation songbird_small_5 = 
+			new ResourceLocation(entitytex + "songbird_small_5.png");
 
 }
