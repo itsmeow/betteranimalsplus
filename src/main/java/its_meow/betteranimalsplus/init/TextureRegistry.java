@@ -190,5 +190,25 @@ public class TextureRegistry {
 			TextureRegistry.entitytex + "flora/trillium_purple.png");
 	public static final ResourceLocation trillium_yellow = new ResourceLocation(
 			TextureRegistry.entitytex + "flora/trillium_yellow.png");
+	
+	// Songbird Variants
+	public static final ResourceLocation songbird_1 = 
+			new ResourceLocation(entitytex + "songbird_1.png");
+	public static final ResourceLocation songbird_2 = 
+			new ResourceLocation(entitytex + "songbird_2.png");
+	public static final ResourceLocation songbird_3 = 
+			new ResourceLocation(entitytex + "songbird_3.png");
+	public static final ResourceLocation songbird_4 = 
+			new ResourceLocation(entitytex + "songbird_4.png");
+	public static final ResourceLocation songbird_small_1 = 
+			new ResourceLocation(entitytex + "songbird_small_1.png");
+	public static final ResourceLocation songbird_small_2 = 
+			new ResourceLocation(entitytex + "songbird_small_2.png");
+	public static final ResourceLocation songbird_small_3 = 
+			new ResourceLocation(entitytex + "songbird_small_3.png");
+	public static final ResourceLocation songbird_small_4 = 
+			new ResourceLocation(entitytex + "songbird_small_4.png");
+	public static final ResourceLocation songbird_small_5 = 
+			new ResourceLocation(entitytex + "songbird_small_5.png");
 
 }

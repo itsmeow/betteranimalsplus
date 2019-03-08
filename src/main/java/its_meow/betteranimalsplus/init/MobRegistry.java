@@ -17,6 +17,7 @@ import its_meow.betteranimalsplus.common.entity.EntityJellyfish;
 import its_meow.betteranimalsplus.common.entity.EntityLammergeier;
 import its_meow.betteranimalsplus.common.entity.EntityPheasant;
 import its_meow.betteranimalsplus.common.entity.EntityReindeer;
+import its_meow.betteranimalsplus.common.entity.EntitySongbird;
 import its_meow.betteranimalsplus.common.entity.EntitySquirrel;
 import its_meow.betteranimalsplus.common.entity.EntityTarantula;
 import its_meow.betteranimalsplus.common.entity.miniboss.hirschgeist.EntityHirschgeist;
@@ -62,6 +63,7 @@ public class MobRegistry {
 		entityList.add(new EntityContainer(EntityReindeer.class, "Reindeer", EnumCreatureType.CREATURE, 0x8e510b, 0x017700, BetterAnimalsPlusConfig.reindeerWeight, 1, 4, BiomeDictionary.getBiomes(Type.SNOWY)));
 		entityList.add(new EntityContainer(EntityBoar.class, "Boar", EnumCreatureType.CREATURE, 0x3d3c3b, 0xbca895, BetterAnimalsPlusConfig.boarWeight, 1, 4, BiomeDictionary.getBiomes(Type.FOREST), BiomeDictionary.getBiomes(Type.JUNGLE), BiomeDictionary.getBiomes(Type.PLAINS), BiomeDictionary.getBiomes(Type.SAVANNA)));
 		entityList.add(new EntityContainer(EntitySquirrel.class, "Squirrel", EnumCreatureType.CREATURE, 0x89806f, 0xb2a489, BetterAnimalsPlusConfig.squirrelWeight, 1, 3, BiomeDictionary.getBiomes(Type.FOREST)));
+		entityList.add(new EntityContainer(EntitySongbird.class, "songbird", EnumCreatureType.CREATURE, 0x46f4d2, 0x7df442, BetterAnimalsPlusConfig.songbirdWeight, 1, 4, BiomeDictionary.getBiomes(Type.FOREST), BiomeDictionary.getBiomes(Type.PLAINS)));
 	}
 
 	//#################################################################################
