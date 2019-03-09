@@ -1,8 +1,11 @@
 package its_meow.betteranimalsplus.client.model;
 
+import its_meow.betteranimalsplus.common.entity.EntitySongbird;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.util.math.MathHelper;
 
 /**
  * songbirdSmall - cybercat5555
@@ -222,6 +225,68 @@ public class ModelSongbirdSmall extends ModelBase {
 
     @Override
     public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) { 
+    	if(entity instanceof EntitySongbird) {
+    		EntitySongbird bird = (EntitySongbird) entity;
+    		if(bird.isFlying()) {
+    			this.rWing01.rotateAngleY = 0F;
+    			this.lWing01.rotateAngleY = 0F;
+    			this.rWing02.rotateAngleY = 0F;
+    			this.lWing02.rotateAngleY = 0F;
+    			
+    			this.rWing01.rotateAngleX = 0F;
+    			this.lWing01.rotateAngleX = 0F;
+    			this.rWing02.rotateAngleX = 0F;
+    			this.lWing02.rotateAngleX = 0F;
+    			
+    			this.lWingFeather01.rotateAngleX = 0F;
+    			this.rWingFeather01.rotateAngleX = 0F;
+    			
+    			this.rLeg01.rotateAngleX = 0.2617993877991494F;
+    			this.lLeg01.rotateAngleX = 0.2617993877991494F;
+    			
+    			this.rWing01.rotateAngleZ = MathHelper.cos(f2 * 3F) * (float) Math.PI / 8F;
+    			if((Math.abs(bird.motionY) > 0 && (Math.abs(bird.motionX) > 0.05 || Math.abs(bird.motionZ) > 0.05)) || Math.abs(bird.motionY) > 0.25) {
+    				float rotX = -((float) Math.atan(bird.motionY / Math.sqrt(Math.pow(bird.motionX, 2) + Math.pow(bird.motionZ, 2))) / 1.5F);
+    				if(rotX < 0) {
+    					rotX /= 3;
+    				}
+    				this.body.rotateAngleX = rotX - 0.2617993877991494F;
+    			} else {
+    				this.body.rotateAngleX = -0.2617993877991494F;
+    			}
+    			
+    			this.lWing01.rotateAngleZ = -this.rWing01.rotateAngleZ;
+    			this.rWing02.rotateAngleZ = this.rWing01.rotateAngleZ * 0.5F;
+    			this.lWing02.rotateAngleZ = -this.rWing01.rotateAngleZ * 0.5F;
+    		} else {
+    			this.setRotateAngle(rWing01, 0.0F, 1.0821041362364843F, -0.9424777960769379F);
+    			this.setRotateAngle(lWing01, 0.0F, -1.0821041362364843F, 0.9424777960769379F);
+    			this.setRotateAngle(rWing02, -0.3665191429188092F, 0.5235987755982988F, 0.0F);
+    			this.setRotateAngle(lWing02, -0.3665191429188092F, -0.5235987755982988F, 0.0F);
+    			this.lWingFeather01.rotateAngleX = -0.5585053606381855F;
+    			this.rWingFeather01.rotateAngleX = -0.5585053606381855F;
+    			this.body.rotateAngleX = -0.2617993877991494F;
+    			
+    			boolean flag = entity instanceof EntityLivingBase && ((EntityLivingBase)entity).getTicksElytraFlying() > 4;
+    			float e = 1.0F;
+
+    			if (flag)
+    			{
+    				e = (float)(entity.motionX * entity.motionX + entity.motionY * entity.motionY + entity.motionZ * entity.motionZ);
+    				e = e / 0.2F;
+    				e = e * e * e;
+    			}
+
+    			if (e < 1.0F)
+    			{
+    				e = 1.0F;
+    			}
+    			
+    			
+    			this.rLeg01.rotateAngleX = MathHelper.cos(f * 0.6662F) * 1.4F * f1 / e + 0.2617993877991494F;
+    			this.lLeg01.rotateAngleX = MathHelper.cos(f * 0.6662F + (float)Math.PI) * 1.4F * f1 / e + 0.2617993877991494F;
+    		}
+    	}
         this.body.render(f5);
     }
 

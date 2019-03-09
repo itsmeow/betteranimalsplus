@@ -4,12 +4,14 @@ import java.util.Set;
 
 import javax.annotation.Nullable;
 
+import com.google.common.base.Predicate;
 import com.google.common.collect.Sets;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockLeaves;
 import net.minecraft.block.BlockLog;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -34,6 +36,7 @@ import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.pathfinding.PathNavigate;
 import net.minecraft.pathfinding.PathNavigateFlying;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
@@ -42,11 +45,11 @@ import net.minecraft.world.World;
 
 public class EntitySongbird extends EntityAnimal implements EntityFlying {
 
-	private static final Set<Item> ITEMS = Sets.newHashSet(Items.WHEAT_SEEDS, Items.MELON_SEEDS, Items.PUMPKIN_SEEDS, Items.BEETROOT_SEEDS);
+	private static final Set<Item> SEEDS = Sets.newHashSet(Items.WHEAT_SEEDS, Items.MELON_SEEDS, Items.PUMPKIN_SEEDS, Items.BEETROOT_SEEDS);
 	
 	public EntitySongbird(World worldIn) {
 		super(worldIn);
-		this.setSize(0.5F, 0.9F);
+		this.setSize(0.5F, 0.5F);
         this.moveHelper = new EntityFlyHelper(this);
 	}
 	
@@ -54,9 +57,17 @@ public class EntitySongbird extends EntityAnimal implements EntityFlying {
     {
         this.tasks.addTask(0, new EntityAISwimming(this));
         this.tasks.addTask(1, new EntityAIPanic(this, 1.25D));
-        this.tasks.addTask(2, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
-		this.tasks.addTask(3, new EntityAIMate(this, 0.4F));
-		this.tasks.addTask(4, new EntityAIAvoidEntity<EntityPlayer>(this, EntityPlayer.class, 20, 0.55D, 0.7D));
+        Predicate<Entity> avoidPredicate = new Predicate<Entity>() {
+			@Override
+			public boolean apply(Entity input) {
+				boolean result1 = (input instanceof EntityPlayer);
+				boolean result2 = !SEEDS.contains(((EntityPlayer)input).getHeldItem(EnumHand.MAIN_HAND).getItem()) && !SEEDS.contains(((EntityPlayer)input).getHeldItem(EnumHand.OFF_HAND).getItem());
+				return result1 && result2;
+			}
+		};
+		this.tasks.addTask(2, new EntityAIAvoidEntity<EntityPlayer>(this, EntityPlayer.class, avoidPredicate, 10F, 0.8D, 1D));
+        this.tasks.addTask(3, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
+		this.tasks.addTask(4, new EntityAIMate(this, 0.4F));
         this.tasks.addTask(5, new EntityAIWanderAvoidWaterFlying(this, 1.0D));
     }
 
@@ -93,7 +104,7 @@ public class EntitySongbird extends EntityAnimal implements EntityFlying {
 
 	@Override
 	public boolean isBreedingItem(ItemStack stack) {
-		return ITEMS.contains(stack.getItem());
+		return SEEDS.contains(stack.getItem());
 	}
 	
 	public void fall(float distance, float damageMultiplier)
@@ -223,4 +234,5 @@ public class EntitySongbird extends EntityAnimal implements EntityFlying {
 		bird.setType(this.getTypeNumber());
 		return bird;
 	}
+	
 }
