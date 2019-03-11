@@ -1,7 +1,7 @@
 package its_meow.betteranimalsplus.init;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
 import java.util.function.Function;
 
 import its_meow.betteranimalsplus.Ref;
@@ -34,8 +34,8 @@ import net.minecraftforge.common.BiomeDictionary.Type;
 public class ModEntities {
 	
 	public static LinkedHashMap<EntityContainer, EntityType<? extends Entity>> entryMap = new LinkedHashMap<>();
-	public static LinkedHashSet<EntityContainer> entityList = new LinkedHashSet<>();
-	public static LinkedHashSet<EntityType<? extends Entity>> entrySet = new LinkedHashSet<>();
+	public static ArrayList<EntityContainer> entityList = new ArrayList<>();
+	public static ArrayList<EntityType<? extends Entity>> entrySet = new ArrayList<>();
 	
 	public static EntityType<? extends Entity> getEntityType(Class<? extends Entity> clazz) {
 		for(EntityContainer cont : entityList) {

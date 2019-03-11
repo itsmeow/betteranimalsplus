@@ -4,9 +4,7 @@ import java.util.function.Supplier;
 
 import com.google.common.base.Preconditions;
 
-import its_meow.betteranimalsplus.BetterAnimalsPlusMod;
 import its_meow.betteranimalsplus.Ref;
-import its_meow.betteranimalsplus.common.block.BlockHandOfFate;
 import its_meow.betteranimalsplus.common.entity.projectile.EntityTarantulaHair;
 import its_meow.betteranimalsplus.common.item.ItemBetterAnimalsPlusEgg;
 import its_meow.betteranimalsplus.util.EntityContainer;
@@ -14,7 +12,6 @@ import its_meow.betteranimalsplus.util.HeadTypes;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityType;
 import net.minecraft.item.Item;
-import net.minecraft.item.Item.Properties;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
@@ -47,8 +44,8 @@ public class BetterAnimalsPlusRegistrar {
 	@SubscribeEvent
 	public static void registerItemBlocks(final RegistryEvent.Register<Item> event) {
 		final ItemBlock[] items = {
-				new ItemBlock(ModBlocks.trillium, new Properties().group(BetterAnimalsPlusMod.group)),
-				BlockHandOfFate.getItemBlock()
+				ModItems.trillium,
+				ModItems.itemHandOfFate
 		};
 
 		final IForgeRegistry<Item> registry = event.getRegistry();
@@ -73,14 +70,17 @@ public class BetterAnimalsPlusRegistrar {
 	 */
 	@SubscribeEvent
 	public static void registerItems(final RegistryEvent.Register<Item> event) {
-		Item[] items = { ModItems.venisonRaw, ModItems.venisonCooked,
-				ModItems.itemHirschgeistSkullWearable, ModItems.antler, ModItems.goatMilk,
-				ModItems.goatCheese, ModItems.pheasantRaw, ModItems.pheasantCooked, };
 		final IForgeRegistry<Item> registry = event.getRegistry();
 
-		for(final Item item : items) {
-			registry.register(item);
-		}
+		registry.registerAll(
+				ModItems.venisonRaw, 
+				ModItems.venisonCooked,
+				ModItems.itemHirschgeistSkullWearable, 
+				ModItems.antler, ModItems.goatMilk,
+				ModItems.goatCheese, 
+				ModItems.pheasantRaw, 
+				ModItems.pheasantCooked
+		);
 
 		for(EntityContainer ent : ModEntities.entityList) {
 			ItemBetterAnimalsPlusEgg egg = new ItemBetterAnimalsPlusEgg(ModEntities.getEntityType(ent.entityClazz), ent.eggColorSolid, ent.eggColorSpot, ent);
@@ -122,7 +122,6 @@ public class BetterAnimalsPlusRegistrar {
 	/*
 	 * Helper registry methods and Getters
 	 */
-
 	private static void regTileEntity(IForgeRegistry<TileEntityType<?>> reg, String name, Supplier<? extends TileEntity> factory,
 			HeadTypes type) {
 		TileEntityType<?> tetype = TileEntityType.Builder.create(factory).build(null).setRegistryName(Ref.MOD_ID, name + "tileentity");

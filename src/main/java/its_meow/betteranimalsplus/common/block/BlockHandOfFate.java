@@ -181,8 +181,4 @@ public class BlockHandOfFate extends BlockHorizontal {
 		return new TileEntityHandOfFate();
 	}
 
-	public static ItemBlock getItemBlock() {
-		return ModItems.itemHandOfFate;
-	}
-
 }

@@ -74,7 +74,7 @@ public class EntityConfig {
 				EntityType<?> type = ModEntities.entryMap.get(entry);
 
 				if(entry.doSpawning) {
-					if(entry.type == EnumCreatureType.WATER_CREATURE) {
+					if(entry.type == EnumCreatureType.WATER_CREATURE && EntitySpawnPlacementRegistry.getPlacementType((EntityType<? extends EntityLiving>) type) == null) {
 						EntitySpawnPlacementRegistry.register(type, SpawnPlacementType.IN_WATER, Heightmap.Type.OCEAN_FLOOR, null);
 					}
 					for(Biome biome : entry.spawnBiomes) {
