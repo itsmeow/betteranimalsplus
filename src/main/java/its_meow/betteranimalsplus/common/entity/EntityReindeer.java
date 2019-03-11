@@ -1,6 +1,7 @@
 package its_meow.betteranimalsplus.common.entity;
 
 import java.util.Calendar;
+import java.util.Random;
 import java.util.UUID;
 
 import javax.annotation.Nullable;
@@ -1247,6 +1248,20 @@ public class EntityReindeer extends EntityAnimal implements IJumpingMount, IVari
 	public DataParameter<Integer> getDataKey() {
 		return TYPE_NUMBER;
 	}
+	
+	@Override
+	public boolean isChildI() {
+		return this.isChild();
+	}
 
+	@Override
+	public Random getRNGI() {
+		return this.getRNG();
+	}
+
+	@Override
+	public EntityDataManager getDataManagerI() {
+		return this.getDataManager();
+	}
 
 }

@@ -1,6 +1,7 @@
 package its_meow.betteranimalsplus.common.entity;
 
 import java.util.HashSet;
+import java.util.Random;
 import java.util.Set;
 
 import javax.annotation.Nullable;
@@ -36,125 +37,138 @@ import net.minecraft.world.World;
 
 public class EntityDeer extends EntityAnimal implements IVariantTypes {
 
-	public EntityDeer(World worldIn) {
-		super(worldIn);
-		this.setSize(1.2F, 1.6F);
-	}
+    public EntityDeer(World worldIn) {
+        super(worldIn);
+        this.setSize(1.2F, 1.6F);
+    }
 
-	protected void entityInit()
-	{
-		super.entityInit();
-		this.registerTypeKey();
-	}
+    protected void entityInit()
+    {
+        super.entityInit();
+        this.registerTypeKey();
+    }
 
-	@Override
-	public boolean processInteract(EntityPlayer player, EnumHand hand) {
-		ItemStack stack = player.getHeldItem(hand);
-		boolean isEmpty = stack.isEmpty();
-		if(!isEmpty) {
-			if(stack.getItem() == Items.WHEAT || stack.getItem() == Items.CARROT) {
-				this.setInLove(player);
-			}
-		}
+    @Override
+    public boolean processInteract(EntityPlayer player, EnumHand hand) {
+        ItemStack stack = player.getHeldItem(hand);
+        boolean isEmpty = stack.isEmpty();
+        if(!isEmpty) {
+            if(stack.getItem() == Items.WHEAT || stack.getItem() == Items.CARROT) {
+                this.setInLove(player);
+            }
+        }
 
-		return super.processInteract(player, hand);
-	}
+        return super.processInteract(player, hand);
+    }
 
-	@Override
-	public int getMaxSpawnedInChunk() {
-		return 4;
-	}
+    @Override
+    public int getMaxSpawnedInChunk() {
+        return 4;
+    }
 
-	private static final DataParameter<Integer> TYPE_NUMBER = EntityDataManager.<Integer>createKey(EntityDeer.class, DataSerializers.VARINT);
+    private static final DataParameter<Integer> TYPE_NUMBER = EntityDataManager.<Integer>createKey(EntityDeer.class, DataSerializers.VARINT);
 
-	public void writeEntityToNBT(NBTTagCompound compound)
-	{
-		super.writeEntityToNBT(compound);
-		this.writeType(compound);
-	}
+    public void writeEntityToNBT(NBTTagCompound compound)
+    {
+        super.writeEntityToNBT(compound);
+        this.writeType(compound);
+    }
 
-	/**
-	 * (abstract) Protected helper method to read subclass entity data from NBT.
-	 */
-	public void readEntityFromNBT(NBTTagCompound compound)
-	{
-		super.readEntityFromNBT(compound);
-		this.readType(compound);
-	}
+    /**
+     * (abstract) Protected helper method to read subclass entity data from NBT.
+     */
+    public void readEntityFromNBT(NBTTagCompound compound)
+    {
+        super.readEntityFromNBT(compound);
+        this.readType(compound);
+    }
 
-	@Nullable
-	public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, @Nullable IEntityLivingData livingdata) {
-		return this.initData(super.onInitialSpawn(difficulty, livingdata));
-	}
+    @Nullable
+    public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, @Nullable IEntityLivingData livingdata) {
+        return this.initData(super.onInitialSpawn(difficulty, livingdata));
+    }
 
-	@Override
-	protected void playStepSound(BlockPos pos, Block blockIn)
-	{
-		this.playSound(SoundEvents.ENTITY_SHEEP_STEP, 0.15F, 1.0F);
-	}
-
-
-	protected void initEntityAI()
-	{
-		super.initEntityAI();
-		this.tasks.addTask(0, new EntityAISwimming(this));
-		this.tasks.addTask(2, new EntityAIPanic(this, 0.65D));
-		Set<Item> temptItems = new HashSet<Item>();
-		temptItems.add(Items.APPLE);
-		temptItems.add(Items.GOLDEN_APPLE);
-		temptItems.add(Items.CARROT);
-		temptItems.add(Items.CARROT_ON_A_STICK);
-		temptItems.add(Items.GOLDEN_CARROT);
-		this.tasks.addTask(3, new EntityAITempt(this, 0.45D, false, temptItems));
-		this.tasks.addTask(4, new EntityAIAvoidEntity<EntityPlayer>(this, EntityPlayer.class, 20, 0.55D, 0.7D));
-		this.tasks.addTask(5, new EntityAIWander(this, 0.45D));
-		this.tasks.addTask(6, new EntityAILookIdle(this));
-	}
-
-	protected void applyEntityAttributes()
-	{
-		super.applyEntityAttributes();
-		this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(15.0D);
-		this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.45D);
-	}
-
-	@Override
-	public void onDeath(DamageSource cause) {
-		super.onDeath(cause);
-		if(!world.isRemote && !this.isChild()) {
-			if(this.rand.nextInt(12) == 0) {
-				ItemStack stack = new ItemStack(BlockRegistry.deerhead.getItemBlock());
-				stack.setTagCompound(new NBTTagCompound());
-				stack.getTagCompound().setInteger("TYPENUM", this.getTypeNumber());
-				this.entityDropItem(stack, 0.5F);
-			}
-		}
-	}
-
-	@Override
-	@Nullable
-	protected ResourceLocation getLootTable()
-	{
-		return LootTableRegistry.deer;
-	}
-
-	@Override
-	public EntityAgeable createChild(EntityAgeable ageable) {
-		EntityDeer child = new EntityDeer(this.world);
-		child.setType(this.getTypeNumber());
-		return child;
-	}
-
-	@Override
-	public DataParameter<Integer> getDataKey() {
-		return TYPE_NUMBER;
-	}
-
-	@Override
-	public int getVariantMax() {
-		return 2;
-	}
+    @Override
+    protected void playStepSound(BlockPos pos, Block blockIn)
+    {
+        this.playSound(SoundEvents.ENTITY_SHEEP_STEP, 0.15F, 1.0F);
+    }
 
 
+    protected void initEntityAI()
+    {
+        super.initEntityAI();
+        this.tasks.addTask(0, new EntityAISwimming(this));
+        this.tasks.addTask(2, new EntityAIPanic(this, 0.65D));
+        Set<Item> temptItems = new HashSet<Item>();
+        temptItems.add(Items.APPLE);
+        temptItems.add(Items.GOLDEN_APPLE);
+        temptItems.add(Items.CARROT);
+        temptItems.add(Items.CARROT_ON_A_STICK);
+        temptItems.add(Items.GOLDEN_CARROT);
+        this.tasks.addTask(3, new EntityAITempt(this, 0.45D, false, temptItems));
+        this.tasks.addTask(4, new EntityAIAvoidEntity<EntityPlayer>(this, EntityPlayer.class, 20, 0.55D, 0.7D));
+        this.tasks.addTask(5, new EntityAIWander(this, 0.45D));
+        this.tasks.addTask(6, new EntityAILookIdle(this));
+    }
+
+    protected void applyEntityAttributes()
+    {
+        super.applyEntityAttributes();
+        this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(15.0D);
+        this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.45D);
+    }
+
+    @Override
+    public void onDeath(DamageSource cause) {
+        super.onDeath(cause);
+        if(!world.isRemote && !this.isChild()) {
+            if(this.rand.nextInt(12) == 0) {
+                ItemStack stack = new ItemStack(BlockRegistry.deerhead.getItemBlock());
+                stack.setTagCompound(new NBTTagCompound());
+                stack.getTagCompound().setInteger("TYPENUM", this.getTypeNumber());
+                this.entityDropItem(stack, 0.5F);
+            }
+        }
+    }
+
+    @Override
+    @Nullable
+    protected ResourceLocation getLootTable()
+    {
+        return LootTableRegistry.deer;
+    }
+
+    @Override
+    public EntityAgeable createChild(EntityAgeable ageable) {
+        EntityDeer child = new EntityDeer(this.world);
+        child.setType(this.getTypeNumber());
+        return child;
+    }
+
+    @Override
+    public DataParameter<Integer> getDataKey() {
+        return TYPE_NUMBER;
+    }
+
+    @Override
+    public int getVariantMax() {
+        return 2;
+    }
+
+    @Override
+    public boolean isChildI() {
+        return this.isChild();
+    }
+
+    @Override
+    public Random getRNGI() {
+        return this.getRNG();
+    }
+
+    @Override
+    public EntityDataManager getDataManagerI() {
+        return this.getDataManager();
+    }
 
 }

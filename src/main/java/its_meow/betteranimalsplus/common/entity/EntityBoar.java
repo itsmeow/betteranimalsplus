@@ -1,5 +1,7 @@
 package its_meow.betteranimalsplus.common.entity;
 
+import java.util.Random;
+
 import javax.annotation.Nullable;
 
 import com.google.common.base.Predicate;
@@ -304,6 +306,21 @@ public class EntityBoar extends EntityAnimal implements IVariantTypes {
 	@Override
 	public int getVariantMax() {
 		return 4;
+	}
+	
+	@Override
+	public boolean isChildI() {
+		return this.isChild();
+	}
+
+	@Override
+	public Random getRNGI() {
+		return this.getRNG();
+	}
+
+	@Override
+	public EntityDataManager getDataManagerI() {
+		return this.getDataManager();
 	}
 
 }
