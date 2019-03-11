@@ -78,7 +78,10 @@ public class EntityConfig {
 						EntitySpawnPlacementRegistry.register(type, SpawnPlacementType.IN_WATER, Heightmap.Type.OCEAN_FLOOR, null);
 					}
 					for(Biome biome : entry.spawnBiomes) {
-						Method addSpawn = ObfuscationReflectionHelper.findMethod(Biome.class, "addSpawn", EnumCreatureType.class, SpawnListEntry.class);
+						//Method addSpawn = ObfuscationReflectionHelper.findMethod(Biome.class, "addSpawn", EnumCreatureType.class, SpawnListEntry.class);
+						//if(addSpawn == null) {
+						Method addSpawn = ObfuscationReflectionHelper.findMethod(Biome.class, "func_201866_a", EnumCreatureType.class, SpawnListEntry.class);
+						//}
 						try {
 							addSpawn.invoke(biome, entry.type, new SpawnListEntry((EntityType<? extends EntityLiving>) type, entry.weight, entry.minGroup, entry.maxGroup));
 						} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
