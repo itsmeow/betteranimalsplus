@@ -21,7 +21,7 @@ import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
 
 
-public class EntityJellyfish extends EntitySquid {
+public class EntityJellyfish extends EntitySquid implements IVariantTypes {
 
 	protected int attackCooldown = 0;
 
@@ -70,24 +70,15 @@ public class EntityJellyfish extends EntitySquid {
 	protected void entityInit()
 	{
 		super.entityInit();
-		this.dataManager.register(TYPE_NUMBER, Integer.valueOf(0));
+		this.registerTypeKey();
 		this.dataManager.register(SIZE, Float.valueOf(1));
 	}
 
 	private static final DataParameter<Integer> TYPE_NUMBER = EntityDataManager.<Integer>createKey(EntityJellyfish.class, DataSerializers.VARINT);
 	private static final DataParameter<Float> SIZE = EntityDataManager.<Float>createKey(EntityJellyfish.class, DataSerializers.FLOAT);
 	
-	public int getTypeNumber() {
-		return ((Integer)this.dataManager.get(TYPE_NUMBER)).intValue();
-	}
-	
 	public float getSize() {
 		return ((Float)this.dataManager.get(SIZE)).floatValue();
-	}
-
-	public void setType(int typeId)
-	{
-		this.dataManager.set(TYPE_NUMBER, Integer.valueOf(typeId));
 	}
 
 	@Override
@@ -102,7 +93,7 @@ public class EntityJellyfish extends EntitySquid {
 	public void writeEntityToNBT(NBTTagCompound compound)
 	{
 		super.writeEntityToNBT(compound);
-		compound.setInteger("TypeNumber", this.getTypeNumber());
+		this.writeType(compound);
 		compound.setFloat("Size", this.getSize());
 	}
 
@@ -112,15 +103,11 @@ public class EntityJellyfish extends EntitySquid {
 	public void readEntityFromNBT(NBTTagCompound compound)
 	{
 		super.readEntityFromNBT(compound);
-		this.setType(compound.getInteger("TypeNumber"));
+		this.readType(compound);
 		float size = compound.getFloat("Size");
 		this.setSize(size, size);
 	}
 
-	/**
-	 * Called only once on an entity when first time spawned, via egg, mob spawner, natural spawning etc, but not called
-	 * when entity is reloaded from nbt. Mainly used for initializing attributes and inventory
-	 */
 	@Nullable
 	public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, @Nullable IEntityLivingData livingdata)
 	{
@@ -195,5 +182,15 @@ public class EntityJellyfish extends EntitySquid {
             }
         }
     }
+
+	@Override
+	public DataParameter<Integer> getDataKey() {
+		return TYPE_NUMBER;
+	}
+
+	@Override
+	public int getVariantMax() {
+		return 6;
+	}
 
 }

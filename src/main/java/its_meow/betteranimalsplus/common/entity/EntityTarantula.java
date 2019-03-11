@@ -23,11 +23,8 @@ import net.minecraft.world.storage.loot.LootTableList;
 
 public class EntityTarantula extends EntitySpider implements IRangedAttackMob {
 	
-	protected World world;
-	
-	public EntityTarantula(World worldIn) {
-		super(worldIn);
-		this.world = worldIn;
+	public EntityTarantula(World world) {
+		super(world);
 	}
 	
 	protected void initEntityAI()
@@ -46,8 +43,6 @@ public class EntityTarantula extends EntitySpider implements IRangedAttackMob {
         this.targetTasks.addTask(3, new EntityAINearestAttackableTarget<EntityIronGolem>(this, EntityIronGolem.class, true));
     }
 
-
-
 	@Override
 	public void attackEntityWithRangedAttack(EntityLivingBase target, float distanceFactor) {
 		EntityTarantulaHair entityhair = new EntityTarantulaHair(this.world, this);
@@ -64,15 +59,11 @@ public class EntityTarantula extends EntitySpider implements IRangedAttackMob {
 	}
 
 	@Override
-	public void setSwingingArms(boolean swingingArms) {
-		
-	}
+	public void setSwingingArms(boolean swingingArms) {}
 
 	@Override
 	protected ResourceLocation getLootTable() {
 		return LootTableList.ENTITIES_SPIDER;
 	}
-	
-	
 
 }

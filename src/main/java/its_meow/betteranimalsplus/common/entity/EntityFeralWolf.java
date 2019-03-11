@@ -3,6 +3,7 @@ package its_meow.betteranimalsplus.common.entity;
 import javax.annotation.Nullable;
 
 import com.google.common.base.Predicate;
+import com.google.common.base.Predicates;
 
 import its_meow.betteranimalsplus.init.BlockRegistry;
 import its_meow.betteranimalsplus.init.ItemRegistry;
@@ -63,7 +64,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class EntityFeralWolf extends EntityTameable implements IMob {
+public class EntityFeralWolf extends EntityTameable implements IMob, IVariantTypes {
 	
 	protected static final DataParameter<Float> DATA_HEALTH_ID = EntityDataManager.<Float>createKey(EntityFeralWolf.class, DataSerializers.FLOAT);
 	protected static final DataParameter<Integer> TYPE_NUMBER = EntityDataManager.<Integer>createKey(EntityFeralWolf.class, DataSerializers.VARINT);
@@ -99,7 +100,7 @@ public class EntityFeralWolf extends EntityTameable implements IMob {
 		this.targetTasks.addTask(1, new EntityAIOwnerHurtByTarget(this));
 		this.targetTasks.addTask(2, new EntityAIOwnerHurtTarget(this));
 		this.targetTasks.addTask(3, new EntityAIHurtByTarget(this, true, new Class[0]));
-		this.targetTasks.addTask(4, new EntityAITargetNonTamed<EntityPlayer>(this, EntityPlayer.class, false, new NullPredicate()));
+		this.targetTasks.addTask(4, new EntityAITargetNonTamed<EntityPlayer>(this, EntityPlayer.class, false, Predicates.alwaysTrue()));
 		this.targetTasks.addTask(4, new EntityAITargetNonTamed<EntityAnimal>(this, EntityAnimal.class, false, new Predicate<Entity>()
 		{
 			public boolean apply(@Nullable Entity p_apply_1_)
@@ -107,10 +108,10 @@ public class EntityFeralWolf extends EntityTameable implements IMob {
 				return p_apply_1_ instanceof EntitySheep || p_apply_1_ instanceof EntityRabbit;
 			}
 		}));
-		this.targetTasks.addTask(4, new EntityAITargetNonTamed<EntityVillager>(this, EntityVillager.class, false, new NullPredicate()));
-		this.targetTasks.addTask(4, new EntityAITargetNonTamed<AbstractIllager>(this, AbstractIllager.class, false, new NullPredicate()));
-		this.targetTasks.addTask(4, new EntityAITargetNonTamed<EntityChicken>(this, EntityChicken.class, false, new NullPredicate()));
-		this.targetTasks.addTask(4, new EntityAITargetNonTamed<EntityGoat>(this, EntityGoat.class, false, new NullPredicate()));
+		this.targetTasks.addTask(4, new EntityAITargetNonTamed<EntityVillager>(this, EntityVillager.class, false, Predicates.alwaysTrue()));
+		this.targetTasks.addTask(4, new EntityAITargetNonTamed<AbstractIllager>(this, AbstractIllager.class, false, Predicates.alwaysTrue()));
+		this.targetTasks.addTask(4, new EntityAITargetNonTamed<EntityChicken>(this, EntityChicken.class, false, Predicates.alwaysTrue()));
+		this.targetTasks.addTask(4, new EntityAITargetNonTamed<EntityGoat>(this, EntityGoat.class, false, Predicates.alwaysTrue()));
 		this.targetTasks.addTask(5, new EntityAINearestAttackableTarget<AbstractSkeleton>(this, AbstractSkeleton.class, false));
 	}	
 	
@@ -128,55 +129,21 @@ public class EntityFeralWolf extends EntityTameable implements IMob {
 		}
 	}
 
-	public int getTypeNumber() {
-		return ((Integer)this.dataManager.get(TYPE_NUMBER)).intValue();
-	}
-
-	public void setType(int typeId)
-	{
-		this.dataManager.set(TYPE_NUMBER, Integer.valueOf(typeId));
-	}
-
-	/**
-	 * (abstract) Protected helper method to write subclass entity data to NBT.
-	 */
 	public void writeEntityToNBT(NBTTagCompound compound)
 	{
 		super.writeEntityToNBT(compound);
-		compound.setInteger("TypeNumber", this.getTypeNumber());
+		this.writeType(compound);
 	}
 
-	/**
-	 * (abstract) Protected helper method to read subclass entity data from NBT.
-	 */
 	public void readEntityFromNBT(NBTTagCompound compound)
 	{
 		super.readEntityFromNBT(compound);
-		this.setType(compound.getInteger("TypeNumber"));
+		this.readType(compound);
 	}
 	
-	/**
-	 * Called only once on an entity when first time spawned, via egg, mob spawner, natural spawning etc, but not called
-	 * when entity is reloaded from nbt. Mainly used for initializing attributes and inventory
-	 */
 	@Nullable
-	public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, @Nullable IEntityLivingData livingdata)
-	{
-		livingdata = super.onInitialSpawn(difficulty, livingdata);
-		int i = this.rand.nextInt(3) + 1;
-
-		if (livingdata instanceof EntityFeralWolf.TypeData)
-		{
-			i = ((EntityFeralWolf.TypeData)livingdata).typeData;
-		}
-		else
-		{
-			livingdata = new EntityFeralWolf.TypeData(i);
-		}
-
-		this.setType(i);
-
-		return livingdata;
+	public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, @Nullable IEntityLivingData livingdata) {
+		return this.initData(super.onInitialSpawn(difficulty, livingdata));
 	}
 
 	public static class TypeData implements IEntityLivingData
@@ -225,7 +192,7 @@ public class EntityFeralWolf extends EntityTameable implements IMob {
 	{
 		super.entityInit();
 		this.dataManager.register(DATA_HEALTH_ID, Float.valueOf(this.getHealth()));
-		this.dataManager.register(TYPE_NUMBER, Integer.valueOf(0));
+		this.registerTypeKey();
 	}
 
 	protected void playStepSound(BlockPos pos, Block blockIn)
@@ -632,6 +599,16 @@ public class EntityFeralWolf extends EntityTameable implements IMob {
 	public EntityFeralWolf createChild(EntityAgeable ageable)
 	{
 		return null;
+	}
+
+	@Override
+	public DataParameter<Integer> getDataKey() {
+		return TYPE_NUMBER;
+	}
+
+	@Override
+	public int getVariantMax() {
+		return 3;
 	}
 
 }

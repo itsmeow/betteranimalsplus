@@ -43,7 +43,7 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
 
-public class EntitySongbird extends EntityAnimal implements EntityFlying {
+public class EntitySongbird extends EntityAnimal implements EntityFlying, IVariantTypes {
 
 	private static final Set<Item> SEEDS = Sets.newHashSet(Items.WHEAT_SEEDS, Items.MELON_SEEDS, Items.PUMPKIN_SEEDS, Items.BEETROOT_SEEDS);
 	
@@ -148,74 +148,25 @@ public class EntitySongbird extends EntityAnimal implements EntityFlying {
     
     protected static final DataParameter<Integer> TYPE_NUMBER = EntityDataManager.<Integer>createKey(EntitySongbird.class, DataSerializers.VARINT);
     
-    protected void entityInit()
-	{
+    protected void entityInit() {
 		super.entityInit();
-		this.dataManager.register(TYPE_NUMBER, Integer.valueOf(0));
+		this.registerTypeKey();
 	}
 
-	public int getTypeNumber() {
-		return ((Integer)this.dataManager.get(TYPE_NUMBER)).intValue();
-	}
-
-	public void setType(int typeId)
-	{
-		this.dataManager.set(TYPE_NUMBER, Integer.valueOf(typeId));
-	}
-
-	/**
-	 * (abstract) Protected helper method to write subclass entity data to NBT.
-	 */
-	public void writeEntityToNBT(NBTTagCompound compound)
-	{
+	public void writeEntityToNBT(NBTTagCompound compound) {
 		super.writeEntityToNBT(compound);
-		compound.setInteger("TypeNumber", this.getTypeNumber());
+		this.writeType(compound);
 	}
 
-	/**
-	 * (abstract) Protected helper method to read subclass entity data from NBT.
-	 */
-	public void readEntityFromNBT(NBTTagCompound compound)
-	{
+	public void readEntityFromNBT(NBTTagCompound compound) {
 		super.readEntityFromNBT(compound);
-		this.setType(compound.getInteger("TypeNumber"));
+		this.readType(compound);
 	}
 
-	/**
-	 * Called only once on an entity when first time spawned, via egg, mob spawner, natural spawning etc, but not called
-	 * when entity is reloaded from nbt. Mainly used for initializing attributes and inventory
-	 */
 	@Nullable
-	public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, @Nullable IEntityLivingData livingdata)
-	{
-		livingdata = super.onInitialSpawn(difficulty, livingdata);
-		int i = this.rand.nextInt(9) + 1;
-
-		if (livingdata instanceof EntitySongbird.TypeData)
-		{
-			i = ((EntitySongbird.TypeData)livingdata).typeData;
-		}
-		else
-		{
-			livingdata = new EntitySongbird.TypeData(i);
-		}
-
-		this.setType(i);
-
-		return livingdata;
-	}
-
-	public static class TypeData implements IEntityLivingData
-	{
-		public int typeData;
-
-		public TypeData(int type)
-		{
-			this.typeData = type;
-		}
-	}
-	
-	
+	public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, @Nullable IEntityLivingData livingdata) {
+		return this.initData(super.onInitialSpawn(difficulty, livingdata));
+	}	
 
 	@Override
 	public boolean canMateWith(EntityAnimal otherAnimal) {
@@ -233,6 +184,16 @@ public class EntitySongbird extends EntityAnimal implements EntityFlying {
 		EntitySongbird bird = new EntitySongbird(world);
 		bird.setType(this.getTypeNumber());
 		return bird;
+	}
+
+	@Override
+	public int getVariantMax() {
+		return 9;
+	}
+
+	@Override
+	public DataParameter<Integer> getDataKey() {
+		return TYPE_NUMBER;
 	}
 	
 }

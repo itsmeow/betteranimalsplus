@@ -56,7 +56,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class EntityReindeer extends EntityAnimal implements IJumpingMount {
+public class EntityReindeer extends EntityAnimal implements IJumpingMount, IVariantTypes {
 
 	private static final Predicate<Entity> IS_REINDEER_BREEDING = new Predicate<Entity>()
 	{
@@ -944,8 +944,6 @@ public class EntityReindeer extends EntityAnimal implements IJumpingMount {
 			super.travel(strafe, vertical, forward);
 		}
 	}
-	
-	
 
 	@Override
 	public void setCustomNameTag(String name) {
@@ -957,18 +955,7 @@ public class EntityReindeer extends EntityAnimal implements IJumpingMount {
 		super.setCustomNameTag(name);
 	}
 
-
-
 	private static final DataParameter<Integer> TYPE_NUMBER = EntityDataManager.<Integer>createKey(EntityReindeer.class, DataSerializers.VARINT);
-
-	public int getTypeNumber() {
-		return ((Integer)this.dataManager.get(TYPE_NUMBER)).intValue();
-	}
-
-	public void setType(int typeId)
-	{
-		this.dataManager.set(TYPE_NUMBER, Integer.valueOf(typeId));
-	}
 
 	/**
 	 * (abstract) Protected helper method to write subclass entity data to NBT.
@@ -980,7 +967,7 @@ public class EntityReindeer extends EntityAnimal implements IJumpingMount {
 		compound.setBoolean("Bred", this.isBreeding());
 		compound.setInteger("Temper", this.getTemper());
 
-		compound.setInteger("TypeNumber", this.getTypeNumber());
+		this.writeType(compound);
 		compound.setBoolean("IsParentRudolph", this.parentRudolph );
 	}
 
@@ -1003,7 +990,7 @@ public class EntityReindeer extends EntityAnimal implements IJumpingMount {
 		}
 
 
-		this.setType(compound.getInteger("TypeNumber"));
+		this.readType(compound);
 		Calendar calendar = Calendar.getInstance();
 		if(this.getTypeNumber() > 4 && !(calendar.get(2) + 1 == 12 && calendar.get(5) >= 22 && calendar.get(5) <= 28) && !(this.getCustomNameTag().toLowerCase().equals("rudolph") || this.parentRudolph)) {
 			this.setType(this.getTypeNumber() - 4); // Remove red noses after Christmas season after loading entity
@@ -1251,14 +1238,14 @@ public class EntityReindeer extends EntityAnimal implements IJumpingMount {
 		return livingdata;
 	}
 
-	public static class TypeData implements IEntityLivingData
-	{
-		public int typeData;
+	@Override
+	public int getVariantMax() {
+		return 0; // This is not used in this class
+	}
 
-		public TypeData(int type)
-		{
-			this.typeData = type;
-		}
+	@Override
+	public DataParameter<Integer> getDataKey() {
+		return TYPE_NUMBER;
 	}
 
 

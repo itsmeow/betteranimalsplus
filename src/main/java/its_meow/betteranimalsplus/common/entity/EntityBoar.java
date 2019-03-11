@@ -46,7 +46,7 @@ import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
 import net.minecraft.world.storage.loot.LootTableList;
 
-public class EntityBoar extends EntityAnimal {
+public class EntityBoar extends EntityAnimal implements IVariantTypes {
 
 	protected static final DataParameter<Integer> TYPE_NUMBER = EntityDataManager.<Integer>createKey(EntityBoar.class, DataSerializers.VARINT);
 
@@ -270,82 +270,40 @@ public class EntityBoar extends EntityAnimal {
 		return false;
 	}
 
-	/**
-	 * Checks if the parameter is an item which this animal can be fed to breed it (wheat, carrots or seeds depending on
-	 * the animal type)
-	 */
-	public boolean isBreedingItem(ItemStack stack)
-	{
+	public boolean isBreedingItem(ItemStack stack) {
 		return stack.getItem() == Items.CARROT || stack.getItem() == Items.GOLDEN_CARROT;
 	}
 
 
 
-	protected void entityInit()
-	{
+	protected void entityInit() {
 		super.entityInit();
-		this.dataManager.register(TYPE_NUMBER, Integer.valueOf(0));
+		this.registerTypeKey();
 	}
 
-	public int getTypeNumber() {
-		return ((Integer)this.dataManager.get(TYPE_NUMBER)).intValue();
-	}
-
-	public void setType(int typeId)
-	{
-		this.dataManager.set(TYPE_NUMBER, Integer.valueOf(typeId));
-	}
-
-	/**
-	 * (abstract) Protected helper method to write subclass entity data to NBT.
-	 */
-	public void writeEntityToNBT(NBTTagCompound compound)
-	{
+	public void writeEntityToNBT(NBTTagCompound compound) {
 		super.writeEntityToNBT(compound);
-		compound.setInteger("TypeNumber", this.getTypeNumber());
+		this.writeType(compound);
 	}
 
-	/**
-	 * (abstract) Protected helper method to read subclass entity data from NBT.
-	 */
-	public void readEntityFromNBT(NBTTagCompound compound)
-	{
+	public void readEntityFromNBT(NBTTagCompound compound) {
 		super.readEntityFromNBT(compound);
-		this.setType(compound.getInteger("TypeNumber"));
+		this.readType(compound);
 	}
 
-	/**
-	 * Called only once on an entity when first time spawned, via egg, mob spawner, natural spawning etc, but not called
-	 * when entity is reloaded from nbt. Mainly used for initializing attributes and inventory
-	 */
 	@Nullable
-	public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, @Nullable IEntityLivingData livingdata)
-	{
-		livingdata = super.onInitialSpawn(difficulty, livingdata);
-		int i = this.rand.nextInt(4) + 1;
-
-		if (livingdata instanceof EntityBoar.TypeData)
-		{
-			i = ((EntityBoar.TypeData)livingdata).typeData;
-		}
-		else
-		{
-			livingdata = new EntityBoar.TypeData(i);
-		}
-
-		this.setType(i);
-
-		return livingdata;
+	public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, @Nullable IEntityLivingData livingdata) {
+		return this.initData(super.onInitialSpawn(difficulty, livingdata));
 	}
 
-	public static class TypeData implements IEntityLivingData
-	{
-		public int typeData;
+	@Override
+	public DataParameter<Integer> getDataKey() {
+		return TYPE_NUMBER;
+	}
 
-		public TypeData(int type)
-		{
-			this.typeData = type;
-		}
+	@Override
+	public int getVariantMax() {
+		return 4;
 	}
 
 }

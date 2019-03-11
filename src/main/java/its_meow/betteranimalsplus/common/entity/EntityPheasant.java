@@ -34,7 +34,7 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
 
-public class EntityPheasant extends EntityAnimal {
+public class EntityPheasant extends EntityAnimal implements IVariantTypes {
 
 	public float wingRotation;
 	public float destPos;
@@ -153,7 +153,7 @@ public class EntityPheasant extends EntityAnimal {
 	protected void entityInit()
 	{
 		super.entityInit();
-		this.dataManager.register(TYPE_NUMBER, Integer.valueOf(0));
+		this.registerTypeKey();
 		this.dataManager.register(PECK_TIME, Integer.valueOf(0));
 	}
 
@@ -170,84 +170,40 @@ public class EntityPheasant extends EntityAnimal {
 		return time;
 	}
 
-	public int getTypeNumber() {
-		return ((Integer)this.dataManager.get(TYPE_NUMBER)).intValue();
-	}
-
-	public void setType(int typeId)
-	{
-		this.dataManager.set(TYPE_NUMBER, Integer.valueOf(typeId));
-	}
-
-	/**
-	 * (abstract) Protected helper method to write subclass entity data to NBT.
-	 */
-	 public void writeEntityToNBT(NBTTagCompound compound)
-	{
+	public void writeEntityToNBT(NBTTagCompound compound) {
 		super.writeEntityToNBT(compound);
-		compound.setInteger("TypeNumber", this.getTypeNumber());
+		this.writeType(compound);
 	}
 
-	/**
-	 * (abstract) Protected helper method to read subclass entity data from NBT.
-	 */
-	 public void readEntityFromNBT(NBTTagCompound compound)
-	 {
-		 super.readEntityFromNBT(compound);
-		 this.setType(compound.getInteger("TypeNumber"));
-	 }
+	public void readEntityFromNBT(NBTTagCompound compound) {
+		super.readEntityFromNBT(compound);
+		this.readType(compound);
+	}
 
-	 /**
-	  * Called only once on an entity when first time spawned, via egg, mob spawner, natural spawning etc, but not called
-	  * when entity is reloaded from nbt. Mainly used for initializing attributes and inventory
-	  */
-	 @Nullable
-	 public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, @Nullable IEntityLivingData livingdata)
-	 {
-		 livingdata = super.onInitialSpawn(difficulty, livingdata);
-		 if(!this.isChild()) {
-			 int i = this.rand.nextInt(2) + 1; // Values 1 to 2
-			 boolean flag = false;
+	@Nullable
+	public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, @Nullable IEntityLivingData livingdata) {
+		return this.initData(super.onInitialSpawn(difficulty, livingdata));
+	}
 
-			 if (livingdata instanceof TypeData)
-			 {
-				 i = ((TypeData)livingdata).typeData;
-				 flag = true;
-			 }
-			 else
-			 {
-				 livingdata = new TypeData(i);
-			 }
+	@Override
+	public EntityAgeable createChild(EntityAgeable ageable) {
+		EntityPheasant child = new EntityPheasant(ageable.world);
+		child.setLocationAndAngles(ageable.posX, ageable.posY, ageable.posZ, 0, 0);
+		if(ageable.hasCustomName()) {
+			child.setCustomNameTag(ageable.getCustomNameTag());
+		}
+		child.setType(this.rand.nextInt(2) + 1);
+		return child;
+	}
 
-			 this.setType(i);
+	@Override
+	public int getVariantMax() {
+		return 2;
+	}
 
-			 if (flag)
-			 {
-				 this.setGrowingAge(-24000);
-			 }
-		 }
-		 return livingdata;
-	 }
-
-	 public static class TypeData implements IEntityLivingData
-	 {
-		 public int typeData;
-
-		 public TypeData(int type)
-		 {
-			 this.typeData = type;
-		 }
-	 }
-
-	 @Override
-	 public EntityAgeable createChild(EntityAgeable ageable) {
-		 EntityPheasant child = new EntityPheasant(ageable.world);
-		 child.setLocationAndAngles(ageable.posX, ageable.posY, ageable.posZ, 0, 0);
-		 if(ageable.hasCustomName()) {
-			 child.setCustomNameTag(ageable.getCustomNameTag());
-		 }
-		 child.setType(this.rand.nextInt(2) + 1);
-		 return child;
-	 }
+	@Override
+	public DataParameter<Integer> getDataKey() {
+		return TYPE_NUMBER;
+	}
 
 }

@@ -1,5 +1,7 @@
 package its_meow.betteranimalsplus.common.entity;
 
+import com.google.common.base.Predicates;
+
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityCreature;
@@ -48,7 +50,7 @@ public class EntityBearNeutral extends EntityBear {
         this.tasks.addTask(7, new EntityAILookIdle(this));
         this.targetTasks.addTask(2, new EntityAINearestAttackableTarget<EntityChicken>(this, EntityChicken.class, true));
         this.targetTasks.addTask(3, new EntityAINearestAttackableTarget<EntityRabbit>(this, EntityRabbit.class, true));
-        this.targetTasks.addTask(4, new EntityAINearestAttackableTarget<EntityPheasant>(this, EntityPheasant.class, 90, true, true, new NullPredicate()));
+        this.targetTasks.addTask(4, new EntityAINearestAttackableTarget<EntityPheasant>(this, EntityPheasant.class, 90, true, true, Predicates.alwaysTrue()));
     }
 
 	protected void applyEntityAttributes()

@@ -44,11 +44,12 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
 
-public class EntityGoat extends EntityAnimal {
+public class EntityGoat extends EntityAnimal implements IVariantTypes {
 
 	public EntityPlayer friend = null;
 	public boolean hasBeenFed = false;
 	private HashSet<Item> temptItems = null;
+	private static final DataParameter<Integer> TYPE_NUMBER = EntityDataManager.<Integer>createKey(EntityGoat.class, DataSerializers.VARINT);
 
 	public EntityGoat(World worldIn) {
 		super(worldIn);
@@ -253,87 +254,6 @@ public class EntityGoat extends EntityAnimal {
 		return LootTableRegistry.goat;
 	}
 
-	protected void entityInit()
-	{
-		super.entityInit();
-		this.dataManager.register(TYPE_NUMBER, Integer.valueOf(0));
-		this.dataManager.register(ATTACKING, Boolean.valueOf(false));
-	}
-
-	private static final DataParameter<Integer> TYPE_NUMBER = EntityDataManager.<Integer>createKey(EntityGoat.class, DataSerializers.VARINT);
-
-	public int getTypeNumber() {
-		return ((Integer)this.dataManager.get(TYPE_NUMBER)).intValue();
-	}
-
-	public void setType(int typeId)
-	{
-		this.dataManager.set(TYPE_NUMBER, Integer.valueOf(typeId));
-	}
-
-	/**
-	 * (abstract) Protected helper method to write subclass entity data to NBT.
-	 */
-	public void writeEntityToNBT(NBTTagCompound compound)
-	{
-		super.writeEntityToNBT(compound);
-		compound.setInteger("TypeNumber", this.getTypeNumber());
-		compound.setBoolean("AttackSync", this.isAttackingFromServer());
-	}
-
-	/**
-	 * (abstract) Protected helper method to read subclass entity data from NBT.
-	 */
-	public void readEntityFromNBT(NBTTagCompound compound)
-	{
-		super.readEntityFromNBT(compound);
-		this.setType(compound.getInteger("TypeNumber"));
-		this.setAttackingOnClient(compound.getBoolean("AttackSync"));
-	}
-
-	/**
-	 * Called only once on an entity when first time spawned, via egg, mob spawner, natural spawning etc, but not called
-	 * when entity is reloaded from nbt. Mainly used for initializing attributes and inventory
-	 */
-	@Nullable
-	public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, @Nullable IEntityLivingData livingdata)
-	{
-		livingdata = super.onInitialSpawn(difficulty, livingdata);
-		if(!this.isChild()) {
-			int i = this.rand.nextInt(7) + 1; // Values 1 to 7
-			boolean flag = false;
-
-			if (livingdata instanceof TypeData)
-			{
-				i = ((TypeData)livingdata).typeData;
-				flag = true;
-			}
-			else
-			{
-				livingdata = new TypeData(i);
-			}
-
-			this.setType(i);
-
-			if (flag)
-			{
-				this.setGrowingAge(-24000);
-			}
-		}
-		this.setAttackingOnClient(false);
-		return livingdata;
-	}
-
-	public static class TypeData implements IEntityLivingData
-	{
-		public int typeData;
-
-		public TypeData(int type)
-		{
-			this.typeData = type;
-		}
-	}
-
 	@Override
 	public EntityAgeable createChild(EntityAgeable ageable) {
 		EntityGoat goat = new EntityGoat(ageable.world);
@@ -399,4 +319,50 @@ public class EntityGoat extends EntityAnimal {
             }
         }
     }
+	
+	
+	protected void entityInit()
+	{
+		super.entityInit();
+		this.registerTypeKey();
+		this.dataManager.register(ATTACKING, Boolean.valueOf(false));
+	}
+
+	/**
+	 * (abstract) Protected helper method to write subclass entity data to NBT.
+	 */
+	public void writeEntityToNBT(NBTTagCompound compound)
+	{
+		super.writeEntityToNBT(compound);
+		this.writeType(compound);
+		compound.setBoolean("AttackSync", this.isAttackingFromServer());
+	}
+
+	/**
+	 * (abstract) Protected helper method to read subclass entity data from NBT.
+	 */
+	public void readEntityFromNBT(NBTTagCompound compound)
+	{
+		super.readEntityFromNBT(compound);
+		this.readType(compound);
+		this.setAttackingOnClient(compound.getBoolean("AttackSync"));
+	}
+	
+	@Override
+	public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, IEntityLivingData livingdata) {
+		livingdata = this.initData(super.onInitialSpawn(difficulty, livingdata));
+		this.setAttackingOnClient(false);
+		return livingdata;
+	}
+
+	@Override
+	public DataParameter<Integer> getDataKey() {
+		return TYPE_NUMBER;
+	}
+
+	@Override
+	public int getVariantMax() {
+		return 7;
+	}
+
 }

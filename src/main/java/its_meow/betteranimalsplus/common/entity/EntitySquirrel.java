@@ -29,7 +29,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
 
-public class EntitySquirrel extends EntityAnimal {
+public class EntitySquirrel extends EntityAnimal implements IVariantTypes {
 
 	private static final DataParameter<Byte> CLIMBING = EntityDataManager.<Byte>createKey(EntitySquirrel.class, DataSerializers.BYTE);
 	private static final DataParameter<Integer> TYPE_NUMBER = EntityDataManager.<Integer>createKey(EntitySquirrel.class, DataSerializers.VARINT);
@@ -64,34 +64,17 @@ public class EntitySquirrel extends EntityAnimal {
 	{
 		super.entityInit();
 		this.dataManager.register(CLIMBING, Byte.valueOf((byte)0));
-		this.dataManager.register(TYPE_NUMBER, Integer.valueOf(0));
+		this.registerTypeKey();
 	}
 
-	public int getTypeNumber() {
-		return ((Integer)this.dataManager.get(TYPE_NUMBER)).intValue();
-	}
-
-	public void setType(int typeId)
-	{
-		this.dataManager.set(TYPE_NUMBER, Integer.valueOf(typeId));
-	}
-
-	/**
-	 * (abstract) Protected helper method to write subclass entity data to NBT.
-	 */
-	public void writeEntityToNBT(NBTTagCompound compound)
-	{
+	public void writeEntityToNBT(NBTTagCompound compound) {
 		super.writeEntityToNBT(compound);
-		compound.setInteger("TypeNumber", this.getTypeNumber());
+		this.writeType(compound);
 	}
 
-	/**
-	 * (abstract) Protected helper method to read subclass entity data from NBT.
-	 */
-	public void readEntityFromNBT(NBTTagCompound compound)
-	{
+	public void readEntityFromNBT(NBTTagCompound compound) {
 		super.readEntityFromNBT(compound);
-		this.setType(compound.getInteger("TypeNumber"));
+		this.readType(compound);
 	}
 
 	/**
@@ -119,16 +102,6 @@ public class EntitySquirrel extends EntityAnimal {
 			this.setType(i);
 		}
 		return livingdata;
-	}
-
-	public static class TypeData implements IEntityLivingData
-	{
-		public int typeData;
-
-		public TypeData(int type)
-		{
-			this.typeData = type;
-		}
 	}
 
 	/**
@@ -213,6 +186,16 @@ public class EntitySquirrel extends EntityAnimal {
 	@Override
 	public boolean isBreedingItem(ItemStack stack) {
 		return stack.getItem() == Items.WHEAT_SEEDS || stack.getItem() == Items.BEETROOT_SEEDS || stack.getItem() == Items.MELON_SEEDS || stack.getItem() == Items.PUMPKIN_SEEDS;
+	}
+
+	@Override
+	public int getVariantMax() {
+		return 0; // This is not used in this class
+	}
+
+	@Override
+	public DataParameter<Integer> getDataKey() {
+		return TYPE_NUMBER;
 	}
 
 }

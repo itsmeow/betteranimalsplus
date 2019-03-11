@@ -3,6 +3,7 @@ package its_meow.betteranimalsplus.common.entity;
 import javax.annotation.Nullable;
 
 import com.google.common.base.Predicate;
+import com.google.common.base.Predicates;
 
 import its_meow.betteranimalsplus.init.BlockRegistry;
 import net.minecraft.entity.Entity;
@@ -69,7 +70,7 @@ public class EntityCoyote extends EntityFeralWolf {
 		this.targetTasks.addTask(1, new EntityAIOwnerHurtByTarget(this));
 		this.targetTasks.addTask(2, new EntityAIOwnerHurtTarget(this));
 		this.targetTasks.addTask(3, new EntityAIHurtByTarget(this, true, new Class[0]));
-		this.targetTasks.addTask(4, new EntityAITargetNonTamed<EntityPlayer>(this, EntityPlayer.class, false, new NullPredicate()));
+		this.targetTasks.addTask(4, new EntityAITargetNonTamed<EntityPlayer>(this, EntityPlayer.class, false, Predicates.alwaysTrue()));
 		this.targetTasks.addTask(4, new EntityAITargetNonTamed<EntityAnimal>(this, EntityAnimal.class, false, new Predicate<Entity>()
 		{
 			public boolean apply(@Nullable Entity p_apply_1_)
@@ -77,9 +78,9 @@ public class EntityCoyote extends EntityFeralWolf {
 				return p_apply_1_ instanceof EntitySheep || p_apply_1_ instanceof EntityRabbit;
 			}
 		}));
-		this.targetTasks.addTask(4, new EntityAITargetNonTamed<EntityVillager>(this, EntityVillager.class, false, new NullPredicate()));
-		this.targetTasks.addTask(4, new EntityAITargetNonTamed<AbstractIllager>(this, AbstractIllager.class, false, new NullPredicate()));
-		this.targetTasks.addTask(4, new EntityAITargetNonTamed<EntityChicken>(this, EntityChicken.class, false, new NullPredicate()));
+		this.targetTasks.addTask(4, new EntityAITargetNonTamed<EntityVillager>(this, EntityVillager.class, false, Predicates.alwaysTrue()));
+		this.targetTasks.addTask(4, new EntityAITargetNonTamed<AbstractIllager>(this, AbstractIllager.class, false, Predicates.alwaysTrue()));
+		this.targetTasks.addTask(4, new EntityAITargetNonTamed<EntityChicken>(this, EntityChicken.class, false, Predicates.alwaysTrue()));
 		this.targetTasks.addTask(5, new EntityAINearestAttackableTarget<AbstractSkeleton>(this, AbstractSkeleton.class, false));
 	}
 	

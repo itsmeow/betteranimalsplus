@@ -2,6 +2,8 @@ package its_meow.betteranimalsplus.common.entity;
 
 import javax.annotation.Nullable;
 
+import com.google.common.base.Predicates;
+
 import its_meow.betteranimalsplus.init.BlockRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
@@ -54,7 +56,7 @@ import net.minecraft.world.storage.loot.LootTableList;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class EntityFox extends EntityTameable {
+public class EntityFox extends EntityTameable implements IVariantTypes {
 	
 	protected static final DataParameter<Float> DATA_HEALTH_ID = EntityDataManager.<Float>createKey(EntityFox.class, DataSerializers.FLOAT);
 	protected static final DataParameter<Integer> TYPE_NUMBER = EntityDataManager.<Integer>createKey(EntityFox.class, DataSerializers.VARINT);
@@ -90,17 +92,8 @@ public class EntityFox extends EntityTameable {
 		this.targetTasks.addTask(1, new EntityAIOwnerHurtByTarget(this));
 		this.targetTasks.addTask(2, new EntityAIOwnerHurtTarget(this));
 		this.targetTasks.addTask(3, new EntityAIHurtByTarget(this, true, new Class[0]));
-		this.targetTasks.addTask(4, new EntityAITargetNonTamed<EntityRabbit>(this, EntityRabbit.class, false, new NullPredicate()));
-		this.targetTasks.addTask(4, new EntityAITargetNonTamed<EntityChicken>(this, EntityChicken.class, false, new NullPredicate()));
-	}
-
-	public int getTypeNumber() {
-		return ((Integer)this.dataManager.get(TYPE_NUMBER)).intValue();
-	}
-
-	public void setType(int typeId)
-	{
-		this.dataManager.set(TYPE_NUMBER, Integer.valueOf(typeId));
+		this.targetTasks.addTask(4, new EntityAITargetNonTamed<EntityRabbit>(this, EntityRabbit.class, false, Predicates.alwaysTrue()));
+		this.targetTasks.addTask(4, new EntityAITargetNonTamed<EntityChicken>(this, EntityChicken.class, false, Predicates.alwaysTrue()));
 	}
 
 	/**
@@ -109,7 +102,7 @@ public class EntityFox extends EntityTameable {
 	public void writeEntityToNBT(NBTTagCompound compound)
 	{
 		super.writeEntityToNBT(compound);
-		compound.setInteger("TypeNumber", this.getTypeNumber());
+		this.writeType(compound);
 	}
 
 	/**
@@ -118,41 +111,12 @@ public class EntityFox extends EntityTameable {
 	public void readEntityFromNBT(NBTTagCompound compound)
 	{
 		super.readEntityFromNBT(compound);
-		this.setType(compound.getInteger("TypeNumber"));
+		this.readType(compound);
 	}
 	
-	/**
-	 * Called only once on an entity when first time spawned, via egg, mob spawner, natural spawning etc, but not called
-	 * when entity is reloaded from nbt. Mainly used for initializing attributes and inventory
-	 */
 	@Nullable
-	public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, @Nullable IEntityLivingData livingdata)
-	{
-		livingdata = super.onInitialSpawn(difficulty, livingdata);
-		int i = this.rand.nextInt(4) + 1;
-
-		if (livingdata instanceof EntityFox.TypeData)
-		{
-			i = ((EntityFox.TypeData)livingdata).typeData;
-		}
-		else
-		{
-			livingdata = new EntityFox.TypeData(i);
-		}
-
-		this.setType(i);
-
-		return livingdata;
-	}
-
-	public static class TypeData implements IEntityLivingData
-	{
-		public int typeData;
-
-		public TypeData(int type)
-		{
-			this.typeData = type;
-		}
+	public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, @Nullable IEntityLivingData livingdata) {
+		return this.initData(super.onInitialSpawn(difficulty, livingdata));
 	}
 	
 	@Override
@@ -194,7 +158,7 @@ public class EntityFox extends EntityTameable {
 	{
 		super.entityInit();
 		this.dataManager.register(DATA_HEALTH_ID, Float.valueOf(this.getHealth()));
-		this.dataManager.register(TYPE_NUMBER, Integer.valueOf(0));
+		this.registerTypeKey();
 	}
 	
 	@Override
@@ -589,6 +553,16 @@ public class EntityFox extends EntityTameable {
 	public EntityFox createChild(EntityAgeable ageable)
 	{
 		return null;
+	}
+
+	@Override
+	public DataParameter<Integer> getDataKey() {
+		return TYPE_NUMBER;
+	}
+
+	@Override
+	public int getVariantMax() {
+		return 4;
 	}
 
 }
