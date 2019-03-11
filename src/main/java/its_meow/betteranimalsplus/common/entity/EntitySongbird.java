@@ -48,7 +48,7 @@ import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 
-public class EntitySongbird extends EntityAnimal implements IFlyingAnimal {
+public class EntitySongbird extends EntityAnimal implements IFlyingAnimal, IVariantTypes {
 
 	private static final Set<Item> SEEDS = Sets.newHashSet(Items.WHEAT_SEEDS, Items.MELON_SEEDS, Items.PUMPKIN_SEEDS, Items.BEETROOT_SEEDS);
 	
@@ -165,22 +165,13 @@ public class EntitySongbird extends EntityAnimal implements IFlyingAnimal {
     protected void registerData()
 	{
 		super.registerData();
-		this.dataManager.register(TYPE_NUMBER, Integer.valueOf(0));
-	}
-
-	public int getTypeNumber() {
-		return ((Integer)this.dataManager.get(TYPE_NUMBER)).intValue();
-	}
-
-	public void setType(int typeId)
-	{
-		this.dataManager.set(TYPE_NUMBER, Integer.valueOf(typeId));
+		this.registerTypeKey();
 	}
 	
 	@Override
 	public boolean writeUnlessRemoved(NBTTagCompound compound)
 	{
-		compound.setInt("TypeNumber", this.getTypeNumber());
+		this.writeType(compound);
 		return super.writeUnlessRemoved(compound);
 	}
 	
@@ -188,41 +179,13 @@ public class EntitySongbird extends EntityAnimal implements IFlyingAnimal {
 	public void read(NBTTagCompound compound)
 	{
 		super.read(compound);
-		this.setType(compound.getInt("TypeNumber"));
+		this.readType(compound);
 	}
 
 	@Nullable
-	@Override
-	public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, @Nullable IEntityLivingData livingdata, NBTTagCompound compound)
-	{
-		livingdata = super.onInitialSpawn(difficulty, livingdata, compound);
-		int i = this.rand.nextInt(9) + 1;
-
-		if (livingdata instanceof EntitySongbird.TypeData)
-		{
-			i = ((EntitySongbird.TypeData)livingdata).typeData;
-		}
-		else
-		{
-			livingdata = new EntitySongbird.TypeData(i);
-		}
-
-		this.setType(i);
-
-		return livingdata;
-	}
-
-	public static class TypeData implements IEntityLivingData
-	{
-		public int typeData;
-
-		public TypeData(int type)
-		{
-			this.typeData = type;
-		}
-	}
-	
-	
+	public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, @Nullable IEntityLivingData livingdata, NBTTagCompound compound) {
+		return this.initData(super.onInitialSpawn(difficulty, livingdata, compound));
+	}	
 
 	@Override
 	public boolean canMateWith(EntityAnimal otherAnimal) {
@@ -247,5 +210,13 @@ public class EntitySongbird extends EntityAnimal implements IFlyingAnimal {
 		return ModLootTables.songbird;
 	}
 
+	public int getVariantMax() {
+		return 9;
+	}
+
+	@Override
+	public DataParameter<Integer> getDataKey() {
+		return TYPE_NUMBER;
+	}
 	
 }

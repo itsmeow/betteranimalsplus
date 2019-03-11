@@ -45,7 +45,7 @@ import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
 import net.minecraft.world.storage.loot.LootTableList;
 
-public class EntityBoar extends EntityAnimal {
+public class EntityBoar extends EntityAnimal implements IVariantTypes {
 
 	protected static final DataParameter<Integer> TYPE_NUMBER = EntityDataManager.<Integer>createKey(EntityBoar.class,
 			DataSerializers.VARINT);
@@ -261,10 +261,6 @@ public class EntityBoar extends EntityAnimal {
 		return false;
 	}
 
-	/**
-	 * Checks if the parameter is an item which this animal can be fed to breed
-	 * it (wheat, carrots or seeds depending on the animal type)
-	 */
 	@Override
 	public boolean isBreedingItem(ItemStack stack) {
 		return stack.getItem() == Items.CARROT || stack.getItem() == Items.GOLDEN_CARROT;
@@ -274,59 +270,35 @@ public class EntityBoar extends EntityAnimal {
 	@Override
 	protected void registerData() {
 		super.registerData();
-		this.dataManager.register(EntityBoar.TYPE_NUMBER, Integer.valueOf(0));
-	}
-
-	public int getTypeNumber() {
-		return this.dataManager.get(EntityBoar.TYPE_NUMBER).intValue();
-	}
-
-	public void setType(int typeId) {
-		this.dataManager.set(EntityBoar.TYPE_NUMBER, Integer.valueOf(typeId));
+		this.registerTypeKey();
 	}
 
 	@Override
 	public boolean writeUnlessRemoved(NBTTagCompound compound) {
-		compound.setInt("TypeNumber", this.getTypeNumber());
+		this.writeType(compound);
 		return super.writeUnlessRemoved(compound);
 	}
 
 	@Override
 	public void read(NBTTagCompound compound) {
 		super.read(compound);
-		this.setType(compound.getInt("TypeNumber"));
+		this.readType(compound);
 	}
 
-	/**
-	 * Called only once on an entity when first time spawned, via egg, mob
-	 * spawner, natural spawning etc, but not called when entity is reloaded
-	 * from nbt. Mainly used for initializing attributes and inventory
-	 */
-	@Nullable
 	@Override
-	public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, @Nullable IEntityLivingData livingdata,
-			NBTTagCompound compound) {
-		livingdata = super.onInitialSpawn(difficulty, livingdata, compound);
-		int i = this.rand.nextInt(4) + 1;
-
-		if(livingdata instanceof EntityBoar.TypeData) {
-			i = ((EntityBoar.TypeData) livingdata).typeData;
-		} else {
-			livingdata = new EntityBoar.TypeData(i);
-		}
-
-		this.setType(i);
-		this.setLocationAndAngles(this.posX, this.posY, this.posZ, this.rotationYaw, 0F);
-		return livingdata;
+	@Nullable
+	public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, @Nullable IEntityLivingData livingdata, NBTTagCompound compound) {
+		return this.initData(super.onInitialSpawn(difficulty, livingdata, compound));
 	}
 
-	public static class TypeData implements IEntityLivingData {
+	@Override
+	public DataParameter<Integer> getDataKey() {
+		return TYPE_NUMBER;
+	}
 
-		public int typeData;
-
-		public TypeData(int type) {
-			this.typeData = type;
-		}
+	@Override
+	public int getVariantMax() {
+		return 4;
 	}
 
 }

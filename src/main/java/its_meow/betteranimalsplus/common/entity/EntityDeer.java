@@ -33,24 +33,22 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
 
-public class EntityDeer extends EntityAnimal {
-
-
-	private World world = null;
-
+public class EntityDeer extends EntityAnimal implements IVariantTypes {
+	
+	private static final DataParameter<Integer> TYPE_NUMBER = EntityDataManager.<Integer>createKey(EntityDeer.class, DataSerializers.VARINT);
+	
 	public EntityDeer(World worldIn) {
 		super(ModEntities.getEntityType(EntityDeer.class), worldIn);
-		this.world = worldIn;
 		this.setSize(1.2F, 1.6F);
 	}
-
+	
+	
 	@Override
 	protected void registerData() {
 		super.registerData();
 		this.dataManager.register(EntityDeer.TYPE_NUMBER, Integer.valueOf(0));
 	}
-
-
+	
 	@Override
 	public boolean processInteract(EntityPlayer player, EnumHand hand) {
 		ItemStack stack = player.getHeldItem(hand);
@@ -69,68 +67,22 @@ public class EntityDeer extends EntityAnimal {
 		return 4;
 	}
 
-	private static final DataParameter<Integer> TYPE_NUMBER = EntityDataManager.<Integer>createKey(EntityDeer.class,
-			DataSerializers.VARINT);
-
-	public int getTypeNumber() {
-		return this.dataManager.get(EntityDeer.TYPE_NUMBER).intValue();
-	}
-
-	public void setDeerType(int deerTypeId) {
-		this.dataManager.set(EntityDeer.TYPE_NUMBER, Integer.valueOf(deerTypeId));
-	}
-
-
 	@Override
 	public boolean writeUnlessRemoved(NBTTagCompound compound) {
-		compound.setInt("TypeNumber", this.getTypeNumber());
+		this.writeType(compound);
 		return super.writeUnlessRemoved(compound);
 	}
 
 	@Override
 	public void read(NBTTagCompound compound) {
 		super.read(compound);
-		this.setDeerType(compound.getInt("TypeNumber"));
+		this.readType(compound);
 	}
 
-	/**
-	 * Called only once on an entity when first time spawned, via egg, mob
-	 * spawner, natural spawning etc, but not called when entity is reloaded
-	 * from nbt. Mainly used for initializing attributes and inventory
-	 */
 	@Override
 	@Nullable
-	public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, @Nullable IEntityLivingData livingdata,
-			NBTTagCompound compound) {
-		IEntityLivingData data = super.onInitialSpawn(difficulty, livingdata, compound);
-		int i = this.rand.nextInt(2) + 1;
-		boolean flag = false;
-
-		if(data instanceof EntityDeer.DeerTypeData) {
-			i = ((EntityDeer.DeerTypeData) livingdata).typeData;
-			flag = true;
-		} else {
-			data = new EntityDeer.DeerTypeData(i);
-		}
-
-		if(!this.isChild()) {
-			this.setDeerType(i);
-		}
-
-		if(flag) {
-			this.setGrowingAge(-24000);
-		}
-		this.setLocationAndAngles(this.posX, this.posY, this.posZ, this.rotationYaw, 0F);
-		return data;
-	}
-
-	public static class DeerTypeData implements IEntityLivingData {
-
-		public int typeData;
-
-		public DeerTypeData(int type) {
-			this.typeData = type;
-		}
+	public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, @Nullable IEntityLivingData livingdata, NBTTagCompound compound) {
+		return this.initData(super.onInitialSpawn(difficulty, livingdata, compound));
 	}
 
 	@Override
@@ -183,8 +135,18 @@ public class EntityDeer extends EntityAnimal {
 	@Override
 	public EntityAgeable createChild(EntityAgeable ageable) {
 		EntityDeer child = new EntityDeer(this.world);
-		child.setDeerType(this.getTypeNumber());
+		child.setType(this.getTypeNumber());
 		return child;
+	}
+
+	@Override
+	public DataParameter<Integer> getDataKey() {
+		return TYPE_NUMBER;
+	}
+
+	@Override
+	public int getVariantMax() {
+		return 2;
 	}
 
 

@@ -2,8 +2,10 @@ package its_meow.betteranimalsplus.common.entity;
 
 import javax.annotation.Nullable;
 
-import its_meow.betteranimalsplus.init.ModLootTables;
+import com.google.common.base.Predicates;
+
 import its_meow.betteranimalsplus.init.ModEntities;
+import its_meow.betteranimalsplus.init.ModLootTables;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityCreature;
@@ -38,47 +40,37 @@ import net.minecraft.world.World;
 public class EntityBear extends EntityMob {
 
 	private int warningSoundTicks;
-	private World world = null;
 
 	public EntityBear(World worldIn) {
 		super(ModEntities.getEntityType(EntityBear.class), worldIn);
-		this.world = worldIn;
 		this.setSize(2F, 2F);
 	}
 
 	public EntityBear(EntityType<?> type, World worldIn) {
 		super(type, worldIn);
-		this.world = worldIn;
 		this.setSize(2F, 2F);
 	}
 
 	@Override
 	protected void initEntityAI() {
-		// super.initEntityAI();
 		this.tasks.addTask(0, new EntityAISwimming(this));
 		this.tasks.addTask(1, new EntityBear.AIMeleeAttack());
 		this.tasks.addTask(5, new EntityAIWander(this, 1.0D));
 		this.tasks.addTask(6, new EntityAIWatchClosest(this, EntityPlayer.class, 6.0F));
 		this.tasks.addTask(7, new EntityAILookIdle(this));
-		this.targetTasks.addTask(1, new EntityBear.AIHurtByTarget());
-		this.targetTasks.addTask(2, new EntityAINearestAttackableTarget<>(this, EntityPlayer.class, 90,
-				true, true, new NullPredicate()));
-		this.targetTasks.addTask(3, new EntityAINearestAttackableTarget<>(this, EntityDeer.class, 90, true,
-				true, new NullPredicate()));
-		this.targetTasks.addTask(4, new EntityAINearestAttackableTarget<>(this, EntityPig.class, 90, true,
-				true, new NullPredicate()));
-		this.targetTasks.addTask(5, new EntityAINearestAttackableTarget<>(this, EntityChicken.class, 90,
-				true, true, new NullPredicate()));
-		this.targetTasks.addTask(6, new EntityAINearestAttackableTarget<>(this, EntityRabbit.class, 90,
-				true, true, new NullPredicate()));
-		this.targetTasks.addTask(3, new EntityAINearestAttackableTarget<>(this, EntityFox.class, 90, true,
-				true, new NullPredicate()));
-		this.targetTasks.addTask(5, new EntityAINearestAttackableTarget<>(this, EntityPheasant.class, 90,
-				true, true, new NullPredicate()));
+        this.targetTasks.addTask(1, new EntityBear.AIHurtByTarget());
+        this.targetTasks.addTask(2, new EntityAINearestAttackableTarget<EntityPlayer>(this, EntityPlayer.class, 90, true, true, Predicates.alwaysTrue()));
+        this.targetTasks.addTask(3, new EntityAINearestAttackableTarget<EntityDeer>(this, EntityDeer.class, 90, true, true, Predicates.alwaysTrue()));
+        this.targetTasks.addTask(4, new EntityAINearestAttackableTarget<EntityPig>(this, EntityPig.class, 90, true, true, Predicates.alwaysTrue()));
+        this.targetTasks.addTask(5, new EntityAINearestAttackableTarget<EntityChicken>(this, EntityChicken.class, 90, true, true, Predicates.alwaysTrue()));
+        this.targetTasks.addTask(6, new EntityAINearestAttackableTarget<EntityRabbit>(this, EntityRabbit.class, 90, true, true, Predicates.alwaysTrue()));
+        this.targetTasks.addTask(3, new EntityAINearestAttackableTarget<EntityFox>(this, EntityFox.class, 90, true, true, Predicates.alwaysTrue()));
+        this.targetTasks.addTask(5, new EntityAINearestAttackableTarget<EntityPheasant>(this, EntityPheasant.class, 90, true, true, Predicates.alwaysTrue()));
 	}
-
+	
 	@Override
-	protected void registerAttributes() {
+	protected void registerAttributes()
+	{
 		super.registerAttributes();
 		this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(30.0D);
 		this.getAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(20.0D);

@@ -31,7 +31,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
 
-public class EntitySquirrel extends EntityAnimal {
+public class EntitySquirrel extends EntityAnimal implements IVariantTypes {
 
 	private static final DataParameter<Byte> CLIMBING = EntityDataManager.<Byte>createKey(EntitySquirrel.class,
 			DataSerializers.BYTE);
@@ -68,40 +68,21 @@ public class EntitySquirrel extends EntityAnimal {
 	protected void registerData() {
 		super.registerData();
 		this.dataManager.register(EntitySquirrel.CLIMBING, Byte.valueOf((byte) 0));
-		this.dataManager.register(EntitySquirrel.TYPE_NUMBER, Integer.valueOf(0));
+		this.registerTypeKey();
 	}
 
-	public int getTypeNumber() {
-		return this.dataManager.get(EntitySquirrel.TYPE_NUMBER).intValue();
-	}
-
-	public void setType(int typeId) {
-		this.dataManager.set(EntitySquirrel.TYPE_NUMBER, Integer.valueOf(typeId));
-	}
-
-	/**
-	 * (abstract) Protected helper method to write subclass entity data to NBT.
-	 */
 	@Override
 	public boolean writeUnlessRemoved(NBTTagCompound compound) {
-		compound.setInt("TypeNumber", this.getTypeNumber());
+		this.writeType(compound);
 		return super.writeUnlessRemoved(compound);
 	}
 
-	/**
-	 * (abstract) Protected helper method to read subclass entity data from NBT.
-	 */
 	@Override
 	public void read(NBTTagCompound compound) {
 		super.read(compound);
 		this.setType(compound.getInt("TypeNumber"));
 	}
 
-	/**
-	 * Called only once on an entity when first time spawned, via egg, mob
-	 * spawner, natural spawning etc, but not called when entity is reloaded
-	 * from nbt. Mainly used for initializing attributes and inventory
-	 */
 	@Override
 	@Nullable
 	public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, @Nullable IEntityLivingData livingdata,
@@ -124,15 +105,6 @@ public class EntitySquirrel extends EntityAnimal {
 		}
 		this.setLocationAndAngles(this.posX, this.posY, this.posZ, this.rotationYaw, 0F);
 		return livingdata;
-	}
-
-	public static class TypeData implements IEntityLivingData {
-
-		public int typeData;
-
-		public TypeData(int type) {
-			this.typeData = type;
-		}
 	}
 
 	/**
@@ -216,6 +188,16 @@ public class EntitySquirrel extends EntityAnimal {
 	public boolean isBreedingItem(ItemStack stack) {
 		return stack.getItem() == Items.WHEAT_SEEDS || stack.getItem() == Items.BEETROOT_SEEDS
 				|| stack.getItem() == Items.MELON_SEEDS || stack.getItem() == Items.PUMPKIN_SEEDS;
+	}
+
+	@Override
+	public int getVariantMax() {
+		return 0; // This is not used in this class
+	}
+
+	@Override
+	public DataParameter<Integer> getDataKey() {
+		return TYPE_NUMBER;
 	}
 
 }

@@ -27,19 +27,15 @@ import net.minecraft.world.storage.loot.LootTableList;
 
 public class EntityTarantula extends EntitySpider implements IRangedAttackMob {
 
-	protected World world;
-
 	public EntityTarantula(World worldIn) {
 		super(ModEntities.getEntityType(EntityTarantula.class), worldIn);
-		this.world = worldIn;
 	}
 
 	@Override
 	protected void initEntityAI() {
 		this.tasks.addTask(1, new EntityAISwimming(this));
 		EntityAIAttackRanged atkrange = new EntityAIAttackRanged(this, 1.0D, 160, 15.0F);
-		atkrange.setMutexBits(4); // Allow it to run at the same time as melee
-									// attacks
+		atkrange.setMutexBits(4); // Allow it to run at the same time as melee attacks
 		this.tasks.addTask(3, atkrange);
 		this.tasks.addTask(3, new EntityAILeapAtTarget(this, 0.4F));
 		this.tasks.addTask(3, new EntityAIAttackMelee(this, 0.8D, false));
@@ -51,7 +47,6 @@ public class EntityTarantula extends EntitySpider implements IRangedAttackMob {
 		this.targetTasks.addTask(3,
 				new EntityAINearestAttackableTarget<>(this, EntityIronGolem.class, true));
 	}
-
 
 	@Override
 	public void attackEntityWithRangedAttack(EntityLivingBase target, float distanceFactor) {
@@ -69,9 +64,7 @@ public class EntityTarantula extends EntitySpider implements IRangedAttackMob {
 	}
 
 	@Override
-	public void setSwingingArms(boolean swingingArms) {
-
-	}
+	public void setSwingingArms(boolean swingingArms) {}
 
 	@Override
 	protected ResourceLocation getLootTable() {
@@ -84,7 +77,5 @@ public class EntityTarantula extends EntitySpider implements IRangedAttackMob {
 		this.setLocationAndAngles(this.posX, this.posY, this.posZ, this.rotationYaw, 0F);
 		return super.onInitialSpawn(difficulty, entityLivingData, itemNbt);
 	}
-	
-	
 
 }

@@ -57,7 +57,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
-public class EntityReindeer extends EntityAnimal implements IJumpingMount {
+public class EntityReindeer extends EntityAnimal implements IJumpingMount, IVariantTypes {
 
 	private static final Predicate<Entity> IS_REINDEER_BREEDING = (
 			@Nullable Entity p_apply_1_) -> p_apply_1_ instanceof EntityReindeer
@@ -113,7 +113,7 @@ public class EntityReindeer extends EntityAnimal implements IJumpingMount {
 	protected void registerData() {
 		super.registerData();
 		this.dataManager.register(EntityReindeer.STATUS, Byte.valueOf((byte) 0));
-		this.dataManager.register(EntityReindeer.TYPE_NUMBER, Integer.valueOf(0));
+		this.registerTypeKey();
 	}
 
 
@@ -829,7 +829,6 @@ public class EntityReindeer extends EntityAnimal implements IJumpingMount {
 		}
 	}
 
-
 	@Override
 	public void setCustomName(ITextComponent comp) {
 		if(comp.getString().toLowerCase().equals("rudolph")) {
@@ -840,35 +839,20 @@ public class EntityReindeer extends EntityAnimal implements IJumpingMount {
 		super.setCustomName(comp);
 	}
 
-
 	private static final DataParameter<Integer> TYPE_NUMBER = EntityDataManager.<Integer>createKey(EntityReindeer.class,
 			DataSerializers.VARINT);
 
-	public int getTypeNumber() {
-		return this.dataManager.get(EntityReindeer.TYPE_NUMBER).intValue();
-	}
-
-	public void setType(int typeId) {
-		this.dataManager.set(EntityReindeer.TYPE_NUMBER, Integer.valueOf(typeId));
-	}
-
-	/**
-	 * (abstract) Protected helper method to write subclass entity data to NBT.
-	 */
 	@Override
 	public boolean writeUnlessRemoved(NBTTagCompound compound) {
 		compound.setBoolean("EatingHaystack", this.isEatingHaystack());
 		compound.setBoolean("Bred", this.isBreeding());
 		compound.setInt("Temper", this.getTemper());
 
-		compound.setInt("TypeNumber", this.getTypeNumber());
+		this.writeType(compound);
 		compound.setBoolean("IsParentRudolph", this.parentRudolph);
 		return super.writeUnlessRemoved(compound);
 	}
 
-	/**
-	 * (abstract) Protected helper method to read subclass entity data from NBT.
-	 */
 	@Override
 	public void read(NBTTagCompound compound) {
 		super.read(compound);
@@ -884,14 +868,11 @@ public class EntityReindeer extends EntityAnimal implements IJumpingMount {
 					.setBaseValue(iattributeinstance.getBaseValue() * 0.25D);
 		}
 
-
-		this.setType(compound.getInt("TypeNumber"));
+		this.readType(compound);
 		Calendar calendar = Calendar.getInstance();
 		if(this.getTypeNumber() > 4 && !(calendar.get(2) + 1 == 12 && calendar.get(5) >= 22 && calendar.get(5) <= 28)
 				&& !(this.getCustomName().getString().toLowerCase().equals("rudolph") || this.parentRudolph)) {
-			this.setType(this.getTypeNumber() - 4); // Remove red noses after
-													// Christmas season after
-													// loading entity
+			this.setType(this.getTypeNumber() - 4); // Remove red noses after Christmas season after loading entity
 		}
 	}
 
@@ -1126,13 +1107,14 @@ public class EntityReindeer extends EntityAnimal implements IJumpingMount {
 		return livingdata;
 	}
 
-	public static class TypeData implements IEntityLivingData {
+	@Override
+	public int getVariantMax() {
+		return 0; // This is not used in this class
+	}
 
-		public int typeData;
-
-		public TypeData(int type) {
-			this.typeData = type;
-		}
+	@Override
+	public DataParameter<Integer> getDataKey() {
+		return TYPE_NUMBER;
 	}
 
 

@@ -47,11 +47,12 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
 
-public class EntityGoat extends EntityAnimal {
+public class EntityGoat extends EntityAnimal implements IVariantTypes {
 
 	public EntityPlayer friend = null;
 	public boolean hasBeenFed = false;
 	private ArrayList<Item> temptItems = null;
+	private static final DataParameter<Integer> TYPE_NUMBER = EntityDataManager.<Integer>createKey(EntityGoat.class, DataSerializers.VARINT);
 
 	public EntityGoat(World worldIn) {
 		super(ModEntities.getEntityType(EntityGoat.class), worldIn);
@@ -253,24 +254,13 @@ public class EntityGoat extends EntityAnimal {
 	@Override
 	protected void registerData() {
 		super.registerData();
-		this.dataManager.register(EntityGoat.TYPE_NUMBER, Integer.valueOf(0));
+		this.registerTypeKey();
 		this.dataManager.register(EntityGoat.ATTACKING, Boolean.valueOf(false));
-	}
-
-	private static final DataParameter<Integer> TYPE_NUMBER = EntityDataManager.<Integer>createKey(EntityGoat.class,
-			DataSerializers.VARINT);
-
-	public int getTypeNumber() {
-		return this.dataManager.get(EntityGoat.TYPE_NUMBER).intValue();
-	}
-
-	public void setType(int typeId) {
-		this.dataManager.set(EntityGoat.TYPE_NUMBER, Integer.valueOf(typeId));
 	}
 
 	@Override
 	public boolean writeUnlessRemoved(NBTTagCompound compound) {
-		compound.setInt("TypeNumber", this.getTypeNumber());
+		this.writeType(compound);
 		compound.setBoolean("AttackSync", this.isAttackingFromServer());
 		return super.writeUnlessRemoved(compound);
 	}
@@ -278,50 +268,10 @@ public class EntityGoat extends EntityAnimal {
 	@Override
 	public void read(NBTTagCompound compound) {
 		super.read(compound);
-		this.setType(compound.getInt("TypeNumber"));
+		this.readType(compound);
 		this.setAttackingOnClient(compound.getBoolean("AttackSync"));
 	}
 
-	/**
-	 * Called only once on an entity when first time spawned, via egg, mob
-	 * spawner, natural spawning etc, but not called when entity is reloaded
-	 * from nbt. Mainly used for initializing attributes and inventory
-	 */
-	@Override
-	@Nullable
-	public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, @Nullable IEntityLivingData livingdata,
-			NBTTagCompound compound) {
-		livingdata = super.onInitialSpawn(difficulty, livingdata, compound);
-		if(!this.isChild()) {
-			int i = this.rand.nextInt(7) + 1; // Values 1 to 7
-			boolean flag = false;
-
-			if(livingdata instanceof TypeData) {
-				i = ((TypeData) livingdata).typeData;
-				flag = true;
-			} else {
-				livingdata = new TypeData(i);
-			}
-
-			this.setType(i);
-
-			if(flag) {
-				this.setGrowingAge(-24000);
-			}
-		}
-		this.setAttackingOnClient(false);
-		this.setLocationAndAngles(this.posX, this.posY, this.posZ, this.rotationYaw, 0F);
-		return livingdata;
-	}
-
-	public static class TypeData implements IEntityLivingData {
-
-		public int typeData;
-
-		public TypeData(int type) {
-			this.typeData = type;
-		}
-	}
 
 	@Override
 	public EntityAgeable createChild(EntityAgeable ageable) {
@@ -386,4 +336,22 @@ public class EntityGoat extends EntityAnimal {
 			}
 		}
 	}
+	
+	@Override
+	public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, IEntityLivingData livingdata, NBTTagCompound compound) {
+		livingdata = this.initData(super.onInitialSpawn(difficulty, livingdata, compound));
+		this.setAttackingOnClient(false);
+		return livingdata;
+	}
+
+	@Override
+	public DataParameter<Integer> getDataKey() {
+		return TYPE_NUMBER;
+	}
+
+	@Override
+	public int getVariantMax() {
+		return 7;
+	}
+
 }

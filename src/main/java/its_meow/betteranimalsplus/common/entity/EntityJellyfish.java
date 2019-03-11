@@ -23,7 +23,7 @@ import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
 
 
-public class EntityJellyfish extends EntitySquid {
+public class EntityJellyfish extends EntitySquid implements IVariantTypes {
 
 	protected int attackCooldown = 0;
 
@@ -76,53 +76,38 @@ public class EntityJellyfish extends EntitySquid {
 	@Override
 	protected void registerData() {
 		super.registerData();
-		this.dataManager.register(EntityJellyfish.TYPE_NUMBER, Integer.valueOf(0));
+		this.registerTypeKey();
 		this.dataManager.register(EntityJellyfish.SIZE, Float.valueOf(1));
 	}
 
-	private static final DataParameter<Integer> TYPE_NUMBER = EntityDataManager
-			.<Integer>createKey(EntityJellyfish.class, DataSerializers.VARINT);
-	private static final DataParameter<Float> SIZE = EntityDataManager.<Float>createKey(EntityJellyfish.class,
-			DataSerializers.FLOAT);
-
-	public int getTypeNumber() {
-		return this.dataManager.get(EntityJellyfish.TYPE_NUMBER).intValue();
-	}
-
+	private static final DataParameter<Integer> TYPE_NUMBER = EntityDataManager.<Integer>createKey(EntityJellyfish.class, DataSerializers.VARINT);
+	private static final DataParameter<Float> SIZE = EntityDataManager.<Float>createKey(EntityJellyfish.class, DataSerializers.FLOAT);
+	
 	public float getSize() {
 		return this.dataManager.get(EntityJellyfish.SIZE).floatValue();
 	}
-
-	public void setType(int typeId) {
-		this.dataManager.set(EntityJellyfish.TYPE_NUMBER, Integer.valueOf(typeId));
-	}
-
+	
 	@Override
 	public void setSize(float width, float height) {
 		this.dataManager.set(EntityJellyfish.SIZE, Float.valueOf(width));
 		super.setSize(width, height);
 	}
-
 	@Override
 	public boolean writeUnlessRemoved(NBTTagCompound compound) {
-		compound.setInt("TypeNumber", this.getTypeNumber());
+		this.writeType(compound);
 		compound.setFloat("Size", this.getSize());
 		return super.writeUnlessRemoved(compound);
 	}
 
+
 	@Override
 	public void read(NBTTagCompound compound) {
 		super.read(compound);
-		this.setType(compound.getInt("TypeNumber"));
+		this.readType(compound);
 		float size = compound.getFloat("Size");
 		this.setSize(size, size);
 	}
 
-	/**
-	 * Called only once on an entity when first time spawned, via egg, mob
-	 * spawner, natural spawning etc, but not called when entity is reloaded
-	 * from nbt. Mainly used for initializing attributes and inventory
-	 */
 	@Override
 	@Nullable
 	public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, @Nullable IEntityLivingData livingdata,
@@ -191,6 +176,16 @@ public class EntityJellyfish extends EntitySquid {
 				this.entity.setMovementVector(f1 / 3, f2 / 3, f3 / 3);
 			}
 		}
+	}
+
+	@Override
+	public DataParameter<Integer> getDataKey() {
+		return TYPE_NUMBER;
+	}
+
+	@Override
+	public int getVariantMax() {
+		return 6;
 	}
 
 }

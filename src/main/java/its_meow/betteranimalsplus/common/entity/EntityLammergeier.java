@@ -56,7 +56,7 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
 
-public class EntityLammergeier extends EntityTameableFlying {
+public class EntityLammergeier extends EntityTameableFlying implements IVariantTypes {
 
 	private static final DataParameter<Byte> FLYING = EntityDataManager.<Byte>createKey(EntityLammergeier.class,
 			DataSerializers.BYTE);
@@ -450,31 +450,17 @@ public class EntityLammergeier extends EntityTameableFlying {
 	private static final DataParameter<Integer> TYPE_NUMBER = EntityDataManager
 			.<Integer>createKey(EntityLammergeier.class, DataSerializers.VARINT);
 
-	public int getTypeNumber() {
-		return this.dataManager.get(EntityLammergeier.TYPE_NUMBER).intValue();
-	}
-
-	public void setLammerType(int lammerTypeId) {
-		this.dataManager.set(EntityLammergeier.TYPE_NUMBER, Integer.valueOf(lammerTypeId));
-	}
-
-	/**
-	 * (abstract) Protected helper method to write subclass entity data to NBT.
-	 */
 	@Override
 	public boolean writeUnlessRemoved(NBTTagCompound compound) {
-		compound.setInt("TypeNumber", this.getTypeNumber());
+		this.writeType(compound);
 		compound.setByte("LammerFlying", this.dataManager.get(EntityLammergeier.FLYING).byteValue());
 		return super.writeUnlessRemoved(compound);
 	}
 
-	/**
-	 * (abstract) Protected helper method to read subclass entity data from NBT.
-	 */
 	@Override
 	public void read(NBTTagCompound compound) {
 		super.read(compound);
-		this.setLammerType(compound.getInt("TypeNumber"));
+		this.readType(compound);
 		this.dataManager.set(EntityLammergeier.FLYING, Byte.valueOf(compound.getByte("LammerFlying")));
 	}
 
@@ -488,40 +474,12 @@ public class EntityLammergeier extends EntityTameableFlying {
 		}
 
 	}
-
-
-	/**
-	 * Called only once on an entity when first time spawned, via egg, mob
-	 * spawner, natural spawning etc, but not called when entity is reloaded
-	 * from nbt. Mainly used for initializing attributes and inventory
-	 */
+	
 	@Override
 	@Nullable
-	public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, @Nullable IEntityLivingData livingdata,
-			NBTTagCompound compound) {
-		livingdata = super.onInitialSpawn(difficulty, livingdata, compound);
-		int i = this.rand.nextInt(4) + 1;
-
-		if(livingdata instanceof EntityLammergeier.LammerTypeData) {
-			i = ((EntityLammergeier.LammerTypeData) livingdata).typeData;
-		} else {
-			livingdata = new EntityLammergeier.LammerTypeData(i);
-		}
-
-		this.setLammerType(i);
-		this.setLocationAndAngles(this.posX, this.posY, this.posZ, this.rotationYaw, 0F);
-		return livingdata;
+	public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, @Nullable IEntityLivingData livingdata, NBTTagCompound compound) {
+		return this.initData(super.onInitialSpawn(difficulty, livingdata, compound));
 	}
-
-	public static class LammerTypeData implements IEntityLivingData {
-
-		public int typeData;
-
-		public LammerTypeData(int type) {
-			this.typeData = type;
-		}
-	}
-
 
 	@Override
 	public void updatePassenger(Entity passenger) {
@@ -541,8 +499,6 @@ public class EntityLammergeier extends EntityTameableFlying {
 
 
 	static class AIMeleeAttack extends net.minecraft.entity.ai.EntityAIAttackMelee {
-
-
 		protected World world;
 		protected EntityLammergeier attacker;
 		/**
@@ -969,6 +925,16 @@ public class EntityLammergeier extends EntityTameableFlying {
 	@Override
 	public EntityAgeable createChild(EntityAgeable ageable) {
 		return null;
+	}
+
+	@Override
+	public DataParameter<Integer> getDataKey() {
+		return TYPE_NUMBER;
+	}
+
+	@Override
+	public int getVariantMax() {
+		return 4;
 	}
 
 }

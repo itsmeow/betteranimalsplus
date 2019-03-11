@@ -36,7 +36,7 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
 
-public class EntityPheasant extends EntityAnimal {
+public class EntityPheasant extends EntityAnimal implements IVariantTypes {
 
 	public float wingRotation;
 	public float destPos;
@@ -153,7 +153,7 @@ public class EntityPheasant extends EntityAnimal {
 	@Override
 	protected void registerData() {
 		super.registerData();
-		this.dataManager.register(EntityPheasant.TYPE_NUMBER, Integer.valueOf(0));
+		this.registerTypeKey();
 		this.dataManager.register(EntityPheasant.PECK_TIME, Integer.valueOf(0));
 	}
 
@@ -170,70 +170,23 @@ public class EntityPheasant extends EntityAnimal {
 		this.dataManager.set(EntityPheasant.PECK_TIME, Integer.valueOf(time));
 		return time;
 	}
-
-	public int getTypeNumber() {
-		return this.dataManager.get(EntityPheasant.TYPE_NUMBER).intValue();
+	
+	@Override
+	public boolean writeUnlessRemoved(NBTTagCompound compound) {
+		this.writeType(compound);
+		return super.writeUnlessRemoved(compound);
 	}
 
-	public void setType(int typeId) {
-		this.dataManager.set(EntityPheasant.TYPE_NUMBER, Integer.valueOf(typeId));
-	}
-
-	/**
-	 * (abstract) Protected helper method to write subclass entity data to NBT.
-	 */
-	public void writeEntityToNBT(NBTTagCompound compound) {
-		super.writeUnlessRemoved(compound);
-		compound.setInt("TypeNumber", this.getTypeNumber());
-	}
-
-	/**
-	 * (abstract) Protected helper method to read subclass entity data from NBT.
-	 */
 	@Override
 	public void read(NBTTagCompound compound) {
 		super.read(compound);
-		this.setType(compound.getInt("TypeNumber"));
+		this.readType(compound);
 	}
-
-	/**
-	 * Called only once on an entity when first time spawned, via egg, mob
-	 * spawner, natural spawning etc, but not called when entity is reloaded
-	 * from nbt. Mainly used for initializing attributes and inventory
-	 */
+	
 	@Override
 	@Nullable
-	public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, @Nullable IEntityLivingData livingdata,
-			NBTTagCompound compound) {
-		livingdata = super.onInitialSpawn(difficulty, livingdata, compound);
-		if(!this.isChild()) {
-			int i = this.rand.nextInt(2) + 1; // Values 1 to 2
-			boolean flag = false;
-
-			if(livingdata instanceof TypeData) {
-				i = ((TypeData) livingdata).typeData;
-				flag = true;
-			} else {
-				livingdata = new TypeData(i);
-			}
-
-			this.setType(i);
-
-			if(flag) {
-				this.setGrowingAge(-24000);
-			}
-		}
-		this.setLocationAndAngles(this.posX, this.posY, this.posZ, this.rotationYaw, 0F);
-		return livingdata;
-	}
-
-	public static class TypeData implements IEntityLivingData {
-
-		public int typeData;
-
-		public TypeData(int type) {
-			this.typeData = type;
-		}
+	public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, @Nullable IEntityLivingData livingdata, NBTTagCompound compound) {
+		return this.initData(super.onInitialSpawn(difficulty, livingdata, compound));
 	}
 
 	@Override
@@ -245,6 +198,16 @@ public class EntityPheasant extends EntityAnimal {
 		}
 		child.setType(this.rand.nextInt(2) + 1);
 		return child;
+	}
+
+	@Override
+	public int getVariantMax() {
+		return 2;
+	}
+
+	@Override
+	public DataParameter<Integer> getDataKey() {
+		return TYPE_NUMBER;
 	}
 
 }
