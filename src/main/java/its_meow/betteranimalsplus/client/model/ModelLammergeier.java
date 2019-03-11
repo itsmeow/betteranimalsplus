@@ -594,9 +594,6 @@ public class ModelLammergeier extends ModelBase {
 		this.isFlying = !entityIn.getEntityWorld().isBlockFullCube(entityIn.getPosition().down());
 
 		if(this.isFlying) {
-			if(this.lastFlying == false) {
-				this.switchToFlight();
-			}
 			this.rWing01.rotateAngleZ = MathHelper.cos(ageInTicks * 0.3F) * (float) Math.PI * 0.25F;
 
 			if((Math.abs(lammergeier.motionY) > 0 && (Math.abs(lammergeier.motionX) > 0.05 || Math.abs(lammergeier.motionZ) > 0.05)) || Math.abs(lammergeier.motionY) > 0.25) {
@@ -614,6 +611,9 @@ public class ModelLammergeier extends ModelBase {
 			this.lWing01.rotateAngleZ = -this.rWing01.rotateAngleZ;
 			this.rWing02.rotateAngleZ = this.rWing01.rotateAngleZ * 0.5F;
 			this.lWing02.rotateAngleZ = -this.rWing01.rotateAngleZ * 0.5F;
+			if(this.lastFlying == false) {
+				this.switchToFlight();
+			}
 		} else {
 			if(this.lastFlying == true) {
 				this.switchToWalk();
