@@ -124,7 +124,7 @@ public class ModEntities {
 
 	private static EntityType<? extends Entity> createEntityType(Class<? extends Entity> EntityClass, Function<? super World, ? extends Entity> func,
 			String entityNameIn, EntityContainer container) {
-		return EntityType.Builder.create(EntityClass, func).tracker(64, 1, true).build(entityNameIn).setRegistryName(Ref.MOD_ID + ":" + entityNameIn.toLowerCase());
+		return EntityType.Builder.create(EntityClass, func).tracker(64, 1, true).customSpawning(null, true).build(entityNameIn).setRegistryName(Ref.MOD_ID + ":" + entityNameIn.toLowerCase());
 	}
 	
 }
