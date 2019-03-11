@@ -1,5 +1,7 @@
 package its_meow.betteranimalsplus.common.entity;
 
+import java.util.Random;
+
 import javax.annotation.Nullable;
 
 import its_meow.betteranimalsplus.init.ModEntities;
@@ -186,6 +188,21 @@ public class EntityJellyfish extends EntitySquid implements IVariantTypes {
 	@Override
 	public int getVariantMax() {
 		return 6;
+	}
+	
+	@Override
+	public boolean isChildI() {
+		return this.isChild();
+	}
+
+	@Override
+	public Random getRNGI() {
+		return this.getRNG();
+	}
+
+	@Override
+	public EntityDataManager getDataManagerI() {
+		return this.getDataManager();
 	}
 
 }

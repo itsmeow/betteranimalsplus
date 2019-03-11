@@ -1,5 +1,6 @@
 package its_meow.betteranimalsplus.common.entity;
 
+import java.util.Random;
 import java.util.Set;
 
 import javax.annotation.Nullable;
@@ -217,6 +218,21 @@ public class EntitySongbird extends EntityAnimal implements IFlyingAnimal, IVari
 	@Override
 	public DataParameter<Integer> getDataKey() {
 		return TYPE_NUMBER;
+	}
+	
+	@Override
+	public boolean isChildI() {
+		return this.isChild();
+	}
+
+	@Override
+	public Random getRNGI() {
+		return this.getRNG();
+	}
+
+	@Override
+	public EntityDataManager getDataManagerI() {
+		return this.getDataManager();
 	}
 	
 }

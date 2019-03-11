@@ -13,15 +13,11 @@ public interface IVariantTypes {
 	
 	/* Methods from superclass */
 	
-	boolean isChild();
+	boolean isChildI();
 	
-	Random getRNG();
+	Random getRNGI();
 	
-	EntityDataManager getDataManager();
-	
-	void read(NBTTagCompound compound);
-	
-	boolean writeUnlessRemoved(NBTTagCompound compound);
+	EntityDataManager getDataManagerI();
 	
 	/* Implemented */
 	
@@ -32,16 +28,16 @@ public interface IVariantTypes {
 	/* Default Methods */
 	
 	default void registerTypeKey() {
-		this.getDataManager().register(getDataKey(), Integer.valueOf(0));
+		this.getDataManagerI().register(getDataKey(), Integer.valueOf(0));
 	}
 
 	default int getTypeNumber() {
-		return ((Integer)this.getDataManager().get(this.getDataKey())).intValue();
+		return ((Integer)this.getDataManagerI().get(this.getDataKey())).intValue();
 	}
 
 	default void setType(int typeId)
 	{
-		this.getDataManager().set(this.getDataKey(), Integer.valueOf(typeId));
+		this.getDataManagerI().set(this.getDataKey(), Integer.valueOf(typeId));
 	}
 
 	default void writeType(NBTTagCompound compound)
@@ -68,8 +64,8 @@ public interface IVariantTypes {
 	default IEntityLivingData initData(IEntityLivingData livingdata)
 	{
 
-		if(!this.isChild()) {
-			int i = this.getRNG().nextInt(getVariantMax()) + 1;
+		if(!this.isChildI()) {
+			int i = this.getRNGI().nextInt(getVariantMax()) + 1;
 
 			if (livingdata instanceof TypeData)
 			{

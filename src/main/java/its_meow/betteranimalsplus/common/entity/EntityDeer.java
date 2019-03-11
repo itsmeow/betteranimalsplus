@@ -1,5 +1,7 @@
 package its_meow.betteranimalsplus.common.entity;
 
+import java.util.Random;
+
 import javax.annotation.Nullable;
 
 import its_meow.betteranimalsplus.init.ModLootTables;
@@ -149,5 +151,19 @@ public class EntityDeer extends EntityAnimal implements IVariantTypes {
 		return 2;
 	}
 
+	@Override
+	public boolean isChildI() {
+		return this.isChild();
+	}
 
+	@Override
+	public Random getRNGI() {
+		return this.getRNG();
+	}
+
+	@Override
+	public EntityDataManager getDataManagerI() {
+		return this.getDataManager();
+	}
+	
 }
