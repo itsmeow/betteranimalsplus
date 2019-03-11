@@ -9,6 +9,7 @@ import com.google.common.base.Predicates;
 import com.google.common.collect.Sets;
 
 import its_meow.betteranimalsplus.init.ModEntities;
+import its_meow.betteranimalsplus.init.ModLootTables;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockLeaves;
 import net.minecraft.block.BlockLog;
@@ -39,6 +40,7 @@ import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.pathfinding.PathNavigate;
 import net.minecraft.pathfinding.PathNavigateFlying;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
@@ -239,5 +241,11 @@ public class EntitySongbird extends EntityAnimal implements IFlyingAnimal {
 		bird.setType(this.getTypeNumber());
 		return bird;
 	}
+
+	@Override
+	protected ResourceLocation getLootTable() {
+		return ModLootTables.songbird;
+	}
+
 	
 }
