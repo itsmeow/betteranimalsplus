@@ -3,7 +3,7 @@ package its_meow.betteranimalsplus.client.renderer.entity;
 import its_meow.betteranimalsplus.client.model.ModelSongbird;
 import its_meow.betteranimalsplus.client.model.ModelSongbirdSmall;
 import its_meow.betteranimalsplus.common.entity.EntitySongbird;
-import its_meow.betteranimalsplus.init.TextureRegistry;
+import its_meow.betteranimalsplus.init.ModTextures;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.client.renderer.entity.RenderManager;
@@ -21,9 +21,9 @@ public class RenderSongbird extends RenderLiving<EntitySongbird> {
 	@Override
 	protected void preRenderCallback(EntitySongbird entity, float partialTickTime) {
 		if (getMainModel().isChild) {
-			GlStateManager.scale(0.35D, 0.35D, 0.35D);
+			GlStateManager.scaled(0.35D, 0.35D, 0.35D);
 		} else {
-			GlStateManager.scale(0.5D, 0.5D, 0.5D);
+			GlStateManager.scaled(0.5D, 0.5D, 0.5D);
 		}
 	}
 	
@@ -44,25 +44,25 @@ public class RenderSongbird extends RenderLiving<EntitySongbird> {
 	protected ResourceLocation getEntityTexture(EntitySongbird entity) {
 		switch(entity.getTypeNumber()) {
 		case 1:
-			return TextureRegistry.songbird_1;
+			return ModTextures.songbird_1;
 		case 2:
-			return TextureRegistry.songbird_2;
+			return ModTextures.songbird_2;
 		case 3:
-			return TextureRegistry.songbird_3;
+			return ModTextures.songbird_3;
 		case 4:
-			return TextureRegistry.songbird_4;
+			return ModTextures.songbird_4;
 		case 5:
-			return TextureRegistry.songbird_small_1;
+			return ModTextures.songbird_small_1;
 		case 6:
-			return TextureRegistry.songbird_small_2;
+			return ModTextures.songbird_small_2;
 		case 7:
-			return TextureRegistry.songbird_small_3;
+			return ModTextures.songbird_small_3;
 		case 8:
-			return TextureRegistry.songbird_small_4;
+			return ModTextures.songbird_small_4;
 		case 9:
-			return TextureRegistry.songbird_small_5;
+			return ModTextures.songbird_small_5;
 		default:
-			return TextureRegistry.songbird_1;
+			return ModTextures.songbird_1;
 		}
 	}
 

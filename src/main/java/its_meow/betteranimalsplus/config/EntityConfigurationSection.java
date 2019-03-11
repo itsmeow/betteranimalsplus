@@ -30,7 +30,6 @@ public class EntityConfigurationSection {
 	
 	public void loadSpawning(ForgeConfigSpec.Builder builder) {
 		doSpawning = builder.comment("Disables natural spawning").worldRestart().define("doSpawning", true);
-		//this.doSpawning = config.getBoolean("doSpawning", this.categoryName, true, "Disables natural spawning"); 
 	}
 
 	public void loadSpawnValues(ForgeConfigSpec.Builder builder, EntityContainer container) { 
@@ -42,10 +41,6 @@ public class EntityConfigurationSection {
 			biomes.add(biome.getRegistryName().toString());
 		}
 		biomesList = builder.comment("Enter biome Resource Locations. Supports modded biomes.").worldRestart().defineList("spawnBiomes", biomes, new Predicate<Object>(){@Override public boolean apply(Object input){return input instanceof String;}});
-		//this.weight = config.getInt("weight", this.categoryName, weight, 1, 9999, "The spawn chance compared to other animals (typically between 6-20)");
-		//this.min = config.getInt("minGroup", this.categoryName, min, 1, 9999, "Must be greater than 0"); 
-		//this.max = config.getInt("maxGroup", this.categoryName, max, 1, 9999, "Must be greater or equal to min value!"); 
-		//this.biomesList = config.getStringList("spawnBiomes", this.categoryName, biomesList, "Enter biome Resource Locations. Supports modded biomes."); 
 	}
 
 }
