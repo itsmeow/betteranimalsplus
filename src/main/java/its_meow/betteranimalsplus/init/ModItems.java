@@ -17,16 +17,17 @@ import net.minecraft.item.ItemSpawnEgg;
 
 public class ModItems {
 	
-	public static final ItemBetterFood venisonRaw = new ItemBetterFood("venisonraw", 4, 0, 32, true);
-	public static final ItemBetterFood venisonCooked = new ItemBetterFood("venisoncooked", 8, 1.2F, 32, true);
-	public static final ItemHirschgeistSkullWearable itemHirschgeistSkullWearable = new ItemHirschgeistSkullWearable();
-	public static final ItemAntler antler = new ItemAntler();
-	public static final ItemBlock trillium = new ItemBlock(ModBlocks.trillium, new Properties().group(BetterAnimalsPlusMod.group));
-	public static final ItemBlock itemHandOfFate = new ItemBlock(ModBlocks.handoffate, new Properties().group(BetterAnimalsPlusMod.group));
-	public static final Item goatMilk = new ItemBucketMilk(new Properties().containerItem(Items.BUCKET).group(BetterAnimalsPlusMod.group).maxStackSize(1)).setRegistryName("goatmilk");
-	public static final ItemGoatCheese goatCheese = new ItemGoatCheese();
-	public static final ItemBetterFood pheasantRaw = new ItemBetterFood("pheasantraw", 3, 0, 32, true);
-	public static final ItemBetterFood pheasantCooked = new ItemBetterFood("pheasantcooked", 7, 1.2F, 32, true);
+	public static final ItemBetterFood VENISON_RAW = new ItemBetterFood("venisonraw", 4, 0, 32, true);
+	public static final ItemBetterFood VENISON_COOKED = new ItemBetterFood("venisoncooked", 8, 1.2F, 32, true);
+	public static final ItemHirschgeistSkullWearable HIRSCHGEIST_SKULL_WEARABLE = new ItemHirschgeistSkullWearable();
+	public static final ItemAntler ANTLER = new ItemAntler();
+	public static final Item GOAT_MILK = new ItemBucketMilk(new Properties().containerItem(Items.BUCKET).group(BetterAnimalsPlusMod.group).maxStackSize(1)).setRegistryName("goatmilk");
+	public static final ItemGoatCheese GOAT_CHEESE = new ItemGoatCheese();
+	public static final ItemBetterFood PHEASANT_RAW = new ItemBetterFood("pheasantraw", 3, 0, 32, true);
+	public static final ItemBetterFood PHEASANT_COOKED = new ItemBetterFood("pheasantcooked", 7, 1.2F, 32, true);
+	
+	public static final ItemBlock ITEMBLOCK_TRILLIUM = new ItemBlock(ModBlocks.TRILLIUM, new Properties().group(BetterAnimalsPlusMod.group));
+	public static final ItemBlock ITEMBLOCK_HAND_OF_FATE = new ItemBlock(ModBlocks.HAND_OF_FATE, new Properties().group(BetterAnimalsPlusMod.group));
 	
 	public static LinkedHashMap<ItemSpawnEgg, Class<? extends Entity>> eggs = new LinkedHashMap<ItemSpawnEgg, Class<? extends Entity>>();
 	

@@ -31,7 +31,7 @@ public class BetterAnimalsPlusRegistrar {
 	public static void registerBlocks(final RegistryEvent.Register<Block> event) {
 		final IForgeRegistry<Block> registry = event.getRegistry();
 
-		registry.registerAll(ModBlocks.trillium, ModBlocks.handoffate);
+		registry.registerAll(ModBlocks.TRILLIUM, ModBlocks.HAND_OF_FATE);
 
 		for(HeadTypes type : HeadTypes.values()) {
 			registry.registerAll(type.getBlockSet().toArray(new Block[0]));
@@ -44,8 +44,8 @@ public class BetterAnimalsPlusRegistrar {
 	@SubscribeEvent
 	public static void registerItemBlocks(final RegistryEvent.Register<Item> event) {
 		final ItemBlock[] items = {
-				ModItems.trillium,
-				ModItems.itemHandOfFate
+				ModItems.ITEMBLOCK_TRILLIUM,
+				ModItems.ITEMBLOCK_HAND_OF_FATE
 		};
 
 		final IForgeRegistry<Item> registry = event.getRegistry();
@@ -73,13 +73,13 @@ public class BetterAnimalsPlusRegistrar {
 		final IForgeRegistry<Item> registry = event.getRegistry();
 
 		registry.registerAll(
-				ModItems.venisonRaw, 
-				ModItems.venisonCooked,
-				ModItems.itemHirschgeistSkullWearable, 
-				ModItems.antler, ModItems.goatMilk,
-				ModItems.goatCheese, 
-				ModItems.pheasantRaw, 
-				ModItems.pheasantCooked
+				ModItems.VENISON_RAW, 
+				ModItems.VENISON_COOKED,
+				ModItems.HIRSCHGEIST_SKULL_WEARABLE, 
+				ModItems.ANTLER, ModItems.GOAT_MILK,
+				ModItems.GOAT_CHEESE, 
+				ModItems.PHEASANT_RAW, 
+				ModItems.PHEASANT_COOKED
 		);
 
 		for(EntityContainer ent : ModEntities.entityList) {

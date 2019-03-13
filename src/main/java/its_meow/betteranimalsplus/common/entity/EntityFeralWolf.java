@@ -424,7 +424,7 @@ public class EntityFeralWolf extends EntityTameable implements IMob, IVariantTyp
 			if(stack.getItem() == Items.DRAGON_HEAD) {
 				wearingPowerHead = true;
 			}
-			if(stack.getItem() == ModItems.itemHirschgeistSkullWearable) {
+			if(stack.getItem() == ModItems.HIRSCHGEIST_SKULL_WEARABLE) {
 				wearingPowerHead = true;
 			}
 

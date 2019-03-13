@@ -5,7 +5,7 @@ import its_meow.betteranimalsplus.common.block.BlockTrillium;
 
 public class ModBlocks {
 	
-	public static final BlockTrillium trillium = new BlockTrillium();
-	public static final BlockHandOfFate handoffate = new BlockHandOfFate();
+	public static final BlockTrillium TRILLIUM = new BlockTrillium();
+	public static final BlockHandOfFate HAND_OF_FATE = new BlockHandOfFate();
 	
 }

@@ -65,7 +65,7 @@ public class ItemHirschgeistSkullWearable extends ItemArmor {
 
 	@Override
 	public boolean getIsRepairable(ItemStack toRepair, ItemStack repair) {
-		return repair.getItem() == Items.BONE || repair.getItem() == ModItems.antler;
+		return repair.getItem() == Items.BONE || repair.getItem() == ModItems.ANTLER;
 	}
 
 }

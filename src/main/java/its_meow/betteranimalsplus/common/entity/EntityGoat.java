@@ -220,9 +220,9 @@ public class EntityGoat extends EntityAnimal implements IVariantTypes {
 			itemstack.shrink(1);
 
 			if(itemstack.isEmpty()) {
-				player.setHeldItem(hand, new ItemStack(ModItems.goatMilk));
-			} else if(!player.inventory.addItemStackToInventory(new ItemStack(ModItems.goatMilk))) {
-				player.dropItem(new ItemStack(ModItems.goatMilk), false);
+				player.setHeldItem(hand, new ItemStack(ModItems.GOAT_MILK));
+			} else if(!player.inventory.addItemStackToInventory(new ItemStack(ModItems.GOAT_MILK))) {
+				player.dropItem(new ItemStack(ModItems.GOAT_MILK), false);
 			}
 
 			return true;

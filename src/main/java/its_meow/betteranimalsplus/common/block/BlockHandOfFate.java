@@ -106,7 +106,7 @@ public class BlockHandOfFate extends BlockHorizontal {
 					return true;
 				}
 			}
-		} else if(held.getItem() == ModItems.antler) {
+		} else if(held.getItem() == ModItems.ANTLER) {
 			TileEntity te = worldIn.getTileEntity(pos);
 			if(te instanceof TileEntityHandOfFate) {
 				TileEntityHandOfFate tehof = (TileEntityHandOfFate) te;
@@ -118,7 +118,7 @@ public class BlockHandOfFate extends BlockHorizontal {
 					return true;
 				}
 			}
-		} else if(held.getItem() == ModItems.venisonRaw || held.getItem() == ModItems.venisonCooked) {
+		} else if(held.getItem() == ModItems.VENISON_RAW || held.getItem() == ModItems.VENISON_COOKED) {
 			TileEntity te = worldIn.getTileEntity(pos);
 			if(te instanceof TileEntityHandOfFate) {
 				TileEntityHandOfFate tehof = (TileEntityHandOfFate) te;

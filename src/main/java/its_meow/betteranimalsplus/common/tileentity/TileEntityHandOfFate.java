@@ -181,7 +181,7 @@ public class TileEntityHandOfFate extends TileEntity {
 	@OnlyIn(Dist.CLIENT)
 	public float getRotation() {
 		IBlockState state = this.world.getBlockState(this.pos);
-		if(state.getBlock() == ModBlocks.handoffate) {
+		if(state.getBlock() == ModBlocks.HAND_OF_FATE) {
 			EnumFacing facing = state.get(BlockHorizontal.HORIZONTAL_FACING).getOpposite();
 			if(facing == EnumFacing.NORTH) {
 				return 0F;

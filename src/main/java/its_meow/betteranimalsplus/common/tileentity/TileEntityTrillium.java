@@ -111,7 +111,7 @@ public class TileEntityTrillium extends TileEntity {
 	@OnlyIn(Dist.CLIENT)
 	public float getRotation() {
 		IBlockState state = this.world.getBlockState(this.pos);
-		if(state.getBlock() == ModBlocks.trillium) {
+		if(state.getBlock() == ModBlocks.TRILLIUM) {
 			EnumFacing facing = state.get(BlockHorizontal.HORIZONTAL_FACING).getOpposite();
 			if(facing == EnumFacing.NORTH) {
 				return 0F;

@@ -54,7 +54,7 @@ public class BetterAnimalsPlusMod {
 	public static ItemGroup group = new ItemGroup("Better Animals+") {
 		@Override
 		public ItemStack createIcon() {
-			return new ItemStack(ModItems.antler);
+			return new ItemStack(ModItems.ANTLER);
 		}
 
 		@Override

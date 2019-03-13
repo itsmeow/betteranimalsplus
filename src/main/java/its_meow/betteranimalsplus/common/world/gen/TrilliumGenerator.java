@@ -24,7 +24,7 @@ public class TrilliumGenerator extends Feature<NoFeatureConfig> {
 			pos = pos.down();
 		}
 
-		IBlockState iblockstate1 = ModBlocks.trillium.getDefaultState();
+		IBlockState iblockstate1 = ModBlocks.TRILLIUM.getDefaultState();
 
 		for(int i = 0; i < 4; ++i) {
 			BlockPos blockpos = pos.add(rand.nextInt(8) - rand.nextInt(8), rand.nextInt(4) - rand.nextInt(4),

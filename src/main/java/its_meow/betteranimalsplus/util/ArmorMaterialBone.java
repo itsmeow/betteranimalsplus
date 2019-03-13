@@ -32,7 +32,7 @@ public class ArmorMaterialBone implements IArmorMaterial {
 
 	@Override
 	public Ingredient getRepairMaterial() {
-		return Ingredient.fromItems(Items.BONE, ModItems.antler);
+		return Ingredient.fromItems(Items.BONE, ModItems.ANTLER);
 	}
 
 	@Override
