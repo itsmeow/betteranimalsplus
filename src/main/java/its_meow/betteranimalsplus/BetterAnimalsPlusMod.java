@@ -9,9 +9,6 @@ import its_meow.betteranimalsplus.common.world.gen.TrilliumGenerator;
 import its_meow.betteranimalsplus.config.BetterAnimalsPlusConfig;
 import its_meow.betteranimalsplus.init.ModEntities;
 import its_meow.betteranimalsplus.init.ModItems;
-import its_meow.betteranimalsplus.proxy.ClientProxy;
-import its_meow.betteranimalsplus.proxy.ISidedProxy;
-import its_meow.betteranimalsplus.proxy.ServerProxy;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemSpawnEgg;
 import net.minecraft.item.ItemStack;
@@ -20,7 +17,6 @@ import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.feature.NoFeatureConfig;
 import net.minecraft.world.gen.placement.FrequencyConfig;
 import net.minecraftforge.common.BiomeDictionary;
-import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
@@ -68,7 +64,6 @@ public class BetterAnimalsPlusMod {
 
 
 	private void setup(final FMLCommonSetupEvent event) {
-		proxy.setup();
 		BiomeDictionary.getBiomes(BiomeDictionary.Type.SWAMP).forEach(
 				biome -> biome.addFeature(net.minecraft.world.gen.GenerationStage.Decoration.VEGETAL_DECORATION,
 						Biome.createCompositeFeature(new TrilliumGenerator(), new NoFeatureConfig(), Biome.TOP_SOLID,

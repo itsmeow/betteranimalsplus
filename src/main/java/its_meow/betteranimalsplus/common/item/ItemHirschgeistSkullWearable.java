@@ -3,8 +3,8 @@ package its_meow.betteranimalsplus.common.item;
 import java.util.List;
 
 import its_meow.betteranimalsplus.BetterAnimalsPlusMod;
+import its_meow.betteranimalsplus.client.ClientLifecycleHandler;
 import its_meow.betteranimalsplus.init.ModItems;
-import its_meow.betteranimalsplus.proxy.ClientProxy;
 import its_meow.betteranimalsplus.util.ArmorMaterialBone;
 import net.minecraft.client.renderer.entity.model.ModelBiped;
 import net.minecraft.client.util.ITooltipFlag;
@@ -20,7 +20,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 public class ItemHirschgeistSkullWearable extends ItemArmor {
-
+    
 	public ItemHirschgeistSkullWearable() {
 		super(new ArmorMaterialBone(), EntityEquipmentSlot.HEAD, new Properties().group(BetterAnimalsPlusMod.group));
 		this.setRegistryName("hirschgeistskullwearable");
@@ -33,7 +33,7 @@ public class ItemHirschgeistSkullWearable extends ItemArmor {
 		if(itemStack != null) {
 			if(itemStack.getItem() instanceof ItemArmor) {
 
-				ModelBiped armorModel = ClientProxy.getArmorModel();
+				ModelBiped armorModel = ClientLifecycleHandler.armorModel;
 				armorModel.bipedHead.showModel = armorSlot == EntityEquipmentSlot.HEAD;
 				armorModel.bipedHeadwear.showModel = armorSlot == EntityEquipmentSlot.HEAD;
 				armorModel.bipedBody.showModel = armorSlot == EntityEquipmentSlot.CHEST

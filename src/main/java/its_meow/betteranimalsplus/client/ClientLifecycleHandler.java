@@ -3,6 +3,7 @@ package its_meow.betteranimalsplus.client;
 import org.apache.logging.log4j.Level;
 
 import its_meow.betteranimalsplus.BetterAnimalsPlusMod;
+import its_meow.betteranimalsplus.client.model.ModelHirschgeistHelmet;
 import its_meow.betteranimalsplus.client.renderer.entity.RenderBlackBear;
 import its_meow.betteranimalsplus.client.renderer.entity.RenderBoar;
 import its_meow.betteranimalsplus.client.renderer.entity.RenderBrownBear;
@@ -50,7 +51,9 @@ import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 
 public class ClientLifecycleHandler {
-
+    
+    public static final ModelHirschgeistHelmet armorModel = new ModelHirschgeistHelmet();
+    
 	public void clientSetup(final FMLClientSetupEvent event) {
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityTrillium.class, new RenderBlockTrillium());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityHandOfFate.class, new RenderBlockHandOfFate());
