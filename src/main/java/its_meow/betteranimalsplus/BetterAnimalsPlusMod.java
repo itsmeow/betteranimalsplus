@@ -48,9 +48,6 @@ public class BetterAnimalsPlusMod {
 		BetterAnimalsPlusMod.logger.log(Level.INFO, "Injecting super coyotes...");
 	}
 
-	public static ISidedProxy proxy = DistExecutor.runForDist(() -> () -> new ClientProxy(),
-			() -> () -> new ServerProxy());
-
 	public static ItemGroup group = new ItemGroup("Better Animals+") {
 		@Override
 		public ItemStack createIcon() {
