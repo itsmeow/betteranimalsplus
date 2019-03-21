@@ -20,68 +20,65 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ItemHirschgeistSkullWearable extends ItemArmor {
-	
-	public ItemHirschgeistSkullWearable() {
-		super(EnumHelper.addArmorMaterial("bone", "betteranimalsplus:hirschgeistskull", 15, new int[] {1,4,5,2}, 12, SoundEvents.ITEM_ARMOR_EQUIP_GENERIC, 0.1F), -1, EntityEquipmentSlot.HEAD);
-		this.setUnlocalizedName("betteranimalsplus.hirschgeistskullwearable");
-		this.setRegistryName("hirschgeistskullwearable");
-		this.setCreativeTab(BetterAnimalsPlusMod.tab);
-		this.canRepair = true;
-	}
 
-	@Override
-	public boolean isValidArmor(ItemStack stack, EntityEquipmentSlot armorType, Entity entity) {
-		return armorType == EntityEquipmentSlot.HEAD;
-	}
+    public ItemHirschgeistSkullWearable() {
+        super(EnumHelper.addArmorMaterial("bone", "betteranimalsplus:hirschgeistskull", 15, new int[] { 1, 4, 5, 2 }, 12, SoundEvents.ITEM_ARMOR_EQUIP_GENERIC, 0.1F), -1, EntityEquipmentSlot.HEAD);
+        this.setUnlocalizedName("betteranimalsplus.hirschgeistskullwearable");
+        this.setRegistryName("hirschgeistskullwearable");
+        this.setCreativeTab(BetterAnimalsPlusMod.tab);
+        this.canRepair = true;
+    }
 
-	/*@Override
-	public String getArmorTexture(ItemStack stack, Entity entity, EntityEquipmentSlot slot, String type)
-	{
-		return Ref.MOD_ID + ":textures/models/armor/hirschgeistskull.png";
-	}*/
+    @Override
+    public boolean isValidArmor(ItemStack stack, EntityEquipmentSlot armorType, Entity entity) {
+        return armorType == EntityEquipmentSlot.HEAD;
+    }
 
-	@Override 	
-	@SideOnly(Side.CLIENT)
-	public ModelBiped getArmorModel(EntityLivingBase entityLiving, ItemStack itemStack, EntityEquipmentSlot armorSlot,
-			ModelBiped defaultModel) {
-		if (itemStack != null) {
-			if (itemStack.getItem() instanceof ItemArmor) {
+    /*
+     * @Override
+     * public String getArmorTexture(ItemStack stack, Entity entity,
+     * EntityEquipmentSlot slot, String type)
+     * {
+     * return Ref.MOD_ID + ":textures/models/armor/hirschgeistskull.png";
+     * }
+     */
 
-				ModelBiped armorModel = ClientProxy.getArmorModel();
-				armorModel.bipedHead.showModel = armorSlot == EntityEquipmentSlot.HEAD;
-				armorModel.bipedHeadwear.showModel = armorSlot == EntityEquipmentSlot.HEAD;
-				armorModel.bipedBody.showModel = (armorSlot == EntityEquipmentSlot.CHEST)
-						|| (armorSlot == EntityEquipmentSlot.CHEST);
-				armorModel.bipedRightArm.showModel = armorSlot == EntityEquipmentSlot.CHEST;
-				armorModel.bipedLeftArm.showModel = armorSlot == EntityEquipmentSlot.CHEST;
-				armorModel.bipedRightLeg.showModel = (armorSlot == EntityEquipmentSlot.LEGS)
-						|| (armorSlot == EntityEquipmentSlot.FEET);
-				armorModel.bipedLeftLeg.showModel = (armorSlot == EntityEquipmentSlot.LEGS)
-						|| (armorSlot == EntityEquipmentSlot.FEET);
+    @Override
+    @SideOnly(Side.CLIENT)
+    public ModelBiped getArmorModel(EntityLivingBase entityLiving, ItemStack itemStack, EntityEquipmentSlot armorSlot, ModelBiped defaultModel) {
+        if (itemStack != null) {
+            if (itemStack.getItem() instanceof ItemArmor) {
 
-				armorModel.isSneak = defaultModel.isSneak;
-				armorModel.isRiding = defaultModel.isRiding;
-				armorModel.isChild = defaultModel.isChild;
-				armorModel.rightArmPose = defaultModel.rightArmPose;
-				armorModel.leftArmPose = defaultModel.leftArmPose;
+                ModelBiped armorModel = ClientProxy.getArmorModel();
+                armorModel.bipedHead.showModel = armorSlot == EntityEquipmentSlot.HEAD;
+                armorModel.bipedHeadwear.showModel = armorSlot == EntityEquipmentSlot.HEAD;
+                armorModel.bipedBody.showModel = (armorSlot == EntityEquipmentSlot.CHEST) || (armorSlot == EntityEquipmentSlot.CHEST);
+                armorModel.bipedRightArm.showModel = armorSlot == EntityEquipmentSlot.CHEST;
+                armorModel.bipedLeftArm.showModel = armorSlot == EntityEquipmentSlot.CHEST;
+                armorModel.bipedRightLeg.showModel = (armorSlot == EntityEquipmentSlot.LEGS) || (armorSlot == EntityEquipmentSlot.FEET);
+                armorModel.bipedLeftLeg.showModel = (armorSlot == EntityEquipmentSlot.LEGS) || (armorSlot == EntityEquipmentSlot.FEET);
 
-				return armorModel;
-			}
-		}
-		return null;
-	}
-	
-	@Override
-	public void addInformation(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
-		tooltip.add("It can be placed via placing it into an empty crafting table");
-		super.addInformation(stack, worldIn, tooltip, flagIn);
-	}
+                armorModel.isSneak = defaultModel.isSneak;
+                armorModel.isRiding = defaultModel.isRiding;
+                armorModel.isChild = defaultModel.isChild;
+                armorModel.rightArmPose = defaultModel.rightArmPose;
+                armorModel.leftArmPose = defaultModel.leftArmPose;
 
-	@Override
-	public boolean getIsRepairable(ItemStack toRepair, ItemStack repair) {
-		return repair.getItem() == Items.BONE || repair.getItem() == ItemRegistry.antler;
-	}
-	
-	
-	
+                return armorModel;
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public void addInformation(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
+        tooltip.add("It can be placed via placing it into an empty crafting table");
+        super.addInformation(stack, worldIn, tooltip, flagIn);
+    }
+
+    @Override
+    public boolean getIsRepairable(ItemStack toRepair, ItemStack repair) {
+        return repair.getItem() == Items.BONE || repair.getItem() == ItemRegistry.antler;
+    }
+
 }

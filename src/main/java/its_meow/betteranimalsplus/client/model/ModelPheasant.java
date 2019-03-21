@@ -264,28 +264,28 @@ public class ModelPheasant extends ModelBase {
     }
 
     @Override
-    public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) { 
+    public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) {
         this.body.render(f5);
     }
-    
+
     @Override
     public void setRotationAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor, Entity entityIn) {
-        if(entityIn instanceof EntityPheasant) {
-        	EntityPheasant ent = (EntityPheasant) entityIn;
-        	float peckTime = (float) ent.getPeckTime();
-        	if(peckTime <= 60) {
-        		this.neck01.rotateAngleX = (float) Math.toRadians((peckTime % (60F / peckTime))) * 6F + (float) Math.toRadians(30);
-        	} else {
-        		this.neck01.rotateAngleX = headPitch * 0.017453292F - 0.9075712110370513F;
-        	}
+        if (entityIn instanceof EntityPheasant) {
+            EntityPheasant ent = (EntityPheasant) entityIn;
+            float peckTime = ent.getPeckTime();
+            if (peckTime <= 60) {
+                this.neck01.rotateAngleX = (float) Math.toRadians((peckTime % (60F / peckTime))) * 6F + (float) Math.toRadians(30);
+            } else {
+                this.neck01.rotateAngleX = headPitch * 0.017453292F - 0.9075712110370513F;
+            }
         }
         this.neck01.rotateAngleY = netHeadYaw * 0.017453292F;
         this.rLeg01.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount;
-        this.lLeg01.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F + (float)Math.PI) * 1.4F * limbSwingAmount;
+        this.lLeg01.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F + (float) Math.PI) * 1.4F * limbSwingAmount;
         this.rWing01.rotateAngleZ = ageInTicks - 0.4F;
         this.lWing01.rotateAngleZ = -ageInTicks + 0.4F;
         this.rWing01.rotateAngleY = ageInTicks == 0 ? 1.2217304763960306F : 0;
-    	this.lWing01.rotateAngleY = -this.rWing01.rotateAngleY;
+        this.lWing01.rotateAngleY = -this.rWing01.rotateAngleY;
     }
 
     /**

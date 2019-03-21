@@ -6,8 +6,8 @@ import net.minecraft.client.model.ModelBase;
 
 public class TileEntityHirschgeistSkull extends TileEntityHead {
 
-	public TileEntityHirschgeistSkull() {
-		super(ModelHirschgeistSkull.class.asSubclass(ModelBase.class), 0F, TextureRegistry.hirschgeist);
-	}
+    public TileEntityHirschgeistSkull() {
+        super(ModelHirschgeistSkull.class.asSubclass(ModelBase.class), 0F, TextureRegistry.hirschgeist);
+    }
 
 }

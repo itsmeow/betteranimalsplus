@@ -22,62 +22,54 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
 public class BlockTrillium extends BlockBush implements ITileEntityProvider {
-	
-	public static final PropertyDirection FACING = BlockHorizontal.FACING;
-	
-	public BlockTrillium() {
-		super(Material.PLANTS);
-		this.setRegistryName("trillium");
-		this.setUnlocalizedName("betteranimalsplus.trillium");
-		this.translucent = true;
-		this.fullBlock = false;
-		this.setCreativeTab(BetterAnimalsPlusMod.tab);
-		this.setSoundType(SoundType.PLANT);
-	}
-	
-	
-	
-	
-	@Override
-	public void onNeighborChange(IBlockAccess world, BlockPos pos, BlockPos neighbor) {
-		super.onNeighborChange(world, pos, neighbor);
-		if(!world.getBlockState(neighbor).isSideSolid(world, pos, EnumFacing.UP) && pos.down() == neighbor) {
-			World world1 = (World) world;
-			world1.destroyBlock(pos, true);
-		}
-	}
-	
-	
-	
 
+    public static final PropertyDirection FACING = BlockHorizontal.FACING;
 
+    public BlockTrillium() {
+        super(Material.PLANTS);
+        this.setRegistryName("trillium");
+        this.setUnlocalizedName("betteranimalsplus.trillium");
+        this.translucent = true;
+        this.fullBlock = false;
+        this.setCreativeTab(BetterAnimalsPlusMod.tab);
+        this.setSoundType(SoundType.PLANT);
+    }
 
-	@Override
-	public void onBlockAdded(World worldIn, BlockPos pos, IBlockState state) {
-		super.onBlockAdded(worldIn, pos, state);
-		if(!worldIn.getBlockState(pos.down()).isSideSolid(worldIn, pos, EnumFacing.UP)) {
-			worldIn.destroyBlock(pos, true);
-		}
-	}
-	
-	/**
-     * Called by ItemBlocks just before a block is actually set in the world, to allow for adjustments to the
+    @Override
+    public void onNeighborChange(IBlockAccess world, BlockPos pos, BlockPos neighbor) {
+        super.onNeighborChange(world, pos, neighbor);
+        if (!world.getBlockState(neighbor).isSideSolid(world, pos, EnumFacing.UP) && pos.down() == neighbor) {
+            World world1 = (World) world;
+            world1.destroyBlock(pos, true);
+        }
+    }
+
+    @Override
+    public void onBlockAdded(World worldIn, BlockPos pos, IBlockState state) {
+        super.onBlockAdded(worldIn, pos, state);
+        if (!worldIn.getBlockState(pos.down()).isSideSolid(worldIn, pos, EnumFacing.UP)) {
+            worldIn.destroyBlock(pos, true);
+        }
+    }
+
+    /**
+     * Called by ItemBlocks just before a block is actually set in the world, to
+     * allow for adjustments to the
      * IBlockstate
      */
-    public IBlockState getStateForPlacement(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer)
-    {
+    @Override
+    public IBlockState getStateForPlacement(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer) {
         return this.getDefaultState().withProperty(FACING, placer.getHorizontalFacing());
     }
-    
+
     /**
      * Convert the given metadata into a BlockState for this Block
      */
-    public IBlockState getStateFromMeta(int meta)
-    {
+    @Override
+    public IBlockState getStateFromMeta(int meta) {
         EnumFacing enumfacing = EnumFacing.getFront(meta);
 
-        if (enumfacing.getAxis() == EnumFacing.Axis.Y)
-        {
+        if (enumfacing.getAxis() == EnumFacing.Axis.Y) {
             enumfacing = EnumFacing.NORTH;
         }
 
@@ -87,68 +79,63 @@ public class BlockTrillium extends BlockBush implements ITileEntityProvider {
     /**
      * Convert the BlockState into the correct metadata value
      */
-    public int getMetaFromState(IBlockState state)
-    {
-        return ((EnumFacing)state.getValue(FACING)).getIndex();
+    @Override
+    public int getMetaFromState(IBlockState state) {
+        return state.getValue(FACING).getIndex();
     }
 
     /**
-     * Returns the blockstate with the given rotation from the passed blockstate. If inapplicable, returns the passed
+     * Returns the blockstate with the given rotation from the passed blockstate. If
+     * inapplicable, returns the passed
      * blockstate.
      */
-    public IBlockState withRotation(IBlockState state, Rotation rot)
-    {
-        return state.withProperty(FACING, rot.rotate((EnumFacing)state.getValue(FACING)));
+    @Override
+    public IBlockState withRotation(IBlockState state, Rotation rot) {
+        return state.withProperty(FACING, rot.rotate(state.getValue(FACING)));
     }
 
     /**
-     * Returns the blockstate with the given mirror of the passed blockstate. If inapplicable, returns the passed
+     * Returns the blockstate with the given mirror of the passed blockstate. If
+     * inapplicable, returns the passed
      * blockstate.
      */
-    public IBlockState withMirror(IBlockState state, Mirror mirrorIn)
-    {
-        return state.withRotation(mirrorIn.toRotation((EnumFacing)state.getValue(FACING)));
+    @Override
+    public IBlockState withMirror(IBlockState state, Mirror mirrorIn) {
+        return state.withRotation(mirrorIn.toRotation(state.getValue(FACING)));
     }
-
-    protected BlockStateContainer createBlockState()
-    {
-        return new BlockStateContainer(this, new IProperty[] {FACING});
-    }
-
-
-
-
-	@Override
-	public boolean hasTileEntity() {
-		return true;
-	}
-
-
-
-	@Override
-    public boolean isOpaqueCube(IBlockState state) { 
-		return false; 
-	}
 
     @Override
-    public boolean isFullCube(IBlockState state) { 
-    	return false; 
+    protected BlockStateContainer createBlockState() {
+        return new BlockStateContainer(this, new IProperty[] { FACING });
     }
-    
+
+    @Override
+    public boolean hasTileEntity() {
+        return true;
+    }
+
+    @Override
+    public boolean isOpaqueCube(IBlockState state) {
+        return false;
+    }
+
+    @Override
+    public boolean isFullCube(IBlockState state) {
+        return false;
+    }
+
     @Override
     public boolean isTopSolid(IBlockState state) {
-    	return false;
+        return false;
     }
 
     @Override
-    public EnumBlockRenderType getRenderType(IBlockState state)
-    {
+    public EnumBlockRenderType getRenderType(IBlockState state) {
         return EnumBlockRenderType.INVISIBLE;
     }
 
     @Override
-    public TileEntity createNewTileEntity(World worldIn, int meta)
-    {
+    public TileEntity createNewTileEntity(World worldIn, int meta) {
         return new TileEntityTrillium();
     }
 }

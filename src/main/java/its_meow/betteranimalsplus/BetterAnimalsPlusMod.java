@@ -33,61 +33,61 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 @Mod(modid = Ref.MOD_ID, name = Ref.NAME, version = Ref.VERSION, acceptedMinecraftVersions = Ref.acceptedMCV, updateJSON = Ref.updateJSON)
 public class BetterAnimalsPlusMod {
 
-	@Instance(Ref.MOD_ID) 
-	public static BetterAnimalsPlusMod mod;
-	
-	@SidedProxy(clientSide = Ref.CLIENT_PROXY_C, serverSide = Ref.SERVER_PROXY_C)
-	public static ISidedProxy proxy;
+    @Instance(Ref.MOD_ID)
+    public static BetterAnimalsPlusMod mod;
 
-	public static CreativeTabs tab = new CreativeTabs("Better Animals+") { 
-		@Override
-		public ItemStack getTabIconItem() {
-			return new ItemStack(ItemRegistry.antler);
-		}
+    @SidedProxy(clientSide = Ref.CLIENT_PROXY_C, serverSide = Ref.SERVER_PROXY_C)
+    public static ISidedProxy proxy;
 
-		@Override
-		public void displayAllRelevantItems(NonNullList<ItemStack> toDisplay) {
-			super.displayAllRelevantItems(toDisplay);
-			for(EntityContainer cont : MobRegistry.entityList) {
-				ItemStack stack = new ItemStack(Items.SPAWN_EGG);
-				ItemMonsterPlacer.applyEntityIdToItemStack(stack, new ResourceLocation(Ref.MOD_ID, cont.entityName));
-				toDisplay.add(stack);
-			}
-		}
-	};
+    public static CreativeTabs tab = new CreativeTabs("Better Animals+") {
+        @Override
+        public ItemStack getTabIconItem() {
+            return new ItemStack(ItemRegistry.antler);
+        }
 
-	public static Logger logger;
-	
-	public static Configuration config;
-	
-	@EventHandler
-	public void preInit(FMLPreInitializationEvent event) {
-		logger = LogManager.getLogger("betteranimalsplus");
-		proxy.preInit(event);
-		MobRegistry.fillContainers();
-		File directory = event.getModConfigurationDirectory();
-        config = new Configuration(new File(directory.getPath(), "betteranimalsplus.cfg")); 
+        @Override
+        public void displayAllRelevantItems(NonNullList<ItemStack> toDisplay) {
+            super.displayAllRelevantItems(toDisplay);
+            for (EntityContainer cont : MobRegistry.entityList) {
+                ItemStack stack = new ItemStack(Items.SPAWN_EGG);
+                ItemMonsterPlacer.applyEntityIdToItemStack(stack, new ResourceLocation(Ref.MOD_ID, cont.entityName));
+                toDisplay.add(stack);
+            }
+        }
+    };
+
+    public static Logger logger;
+
+    public static Configuration config;
+
+    @EventHandler
+    public void preInit(FMLPreInitializationEvent event) {
+        logger = LogManager.getLogger("betteranimalsplus");
+        proxy.preInit(event);
+        MobRegistry.fillContainers();
+        File directory = event.getModConfigurationDirectory();
+        config = new Configuration(new File(directory.getPath(), "betteranimalsplus.cfg"));
         BetterAnimalsPlusConfig.readConfig();
         BetterAnimalsPlusConfig.initConfig(config);
         logger.log(Level.INFO, "Injecting super coyotes...");
-	}
+    }
 
-	@EventHandler
-	public void init(FMLInitializationEvent e) {
-		proxy.init(e);
-		CraftingRegistry.register(); 
-		if(BetterAnimalsPlusConfig.spawnTrillium) {
-			GameRegistry.registerWorldGenerator(new TrilliumGenerator(BlockRegistry.trillium), 1);
-		}
-		logger.log(Level.INFO, "Overspawning lammergeiers...");
-	}
-	
-	@EventHandler
-	public void postInit(FMLPostInitializationEvent e) {
-		proxy.postInit(e);
-		if(config.hasChanged()){
-			config.save();
-		}
-		logger.log(Level.INFO, "Crazy bird creation complete.");
-	}
+    @EventHandler
+    public void init(FMLInitializationEvent e) {
+        proxy.init(e);
+        CraftingRegistry.register();
+        if (BetterAnimalsPlusConfig.spawnTrillium) {
+            GameRegistry.registerWorldGenerator(new TrilliumGenerator(BlockRegistry.trillium), 1);
+        }
+        logger.log(Level.INFO, "Overspawning lammergeiers...");
+    }
+
+    @EventHandler
+    public void postInit(FMLPostInitializationEvent e) {
+        proxy.postInit(e);
+        if (config.hasChanged()) {
+            config.save();
+        }
+        logger.log(Level.INFO, "Crazy bird creation complete.");
+    }
 }

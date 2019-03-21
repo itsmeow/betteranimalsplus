@@ -8,22 +8,24 @@ import net.minecraft.item.ItemStack;
 
 public class ItemBetterFood extends ItemFood {
 
-	public final int itemUseDuration;
+    public final int itemUseDuration;
 
-	public ItemBetterFood(String name, int foodToFill, float saturationMultiplier, int eatLength, boolean isMeat) {
-		super(foodToFill, saturationMultiplier, isMeat);
-		this.setRegistryName(name);
-		this.setUnlocalizedName(Ref.MOD_ID + "." + name);
-		this.itemUseDuration = eatLength;
-		this.setCreativeTab(BetterAnimalsPlusMod.tab);
-	}
+    public ItemBetterFood(String name, int foodToFill, float saturationMultiplier, int eatLength, boolean isMeat) {
+        super(foodToFill, saturationMultiplier, isMeat);
+        this.setRegistryName(name);
+        this.setUnlocalizedName(Ref.MOD_ID + "." + name);
+        this.itemUseDuration = eatLength;
+        this.setCreativeTab(BetterAnimalsPlusMod.tab);
+    }
 
-	public int getMaxItemUseDuration(ItemStack stack) {
-		return this.itemUseDuration;
-	}
+    @Override
+    public int getMaxItemUseDuration(ItemStack stack) {
+        return this.itemUseDuration;
+    }
 
-	public EnumAction getItemUseAction(ItemStack stack) {
-		return EnumAction.EAT;
-	}
+    @Override
+    public EnumAction getItemUseAction(ItemStack stack) {
+        return EnumAction.EAT;
+    }
 
 }

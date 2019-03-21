@@ -47,86 +47,77 @@ import net.minecraft.world.World;
 
 public class EntityGoat extends EntityAnimal implements IVariantTypes {
 
-	public EntityPlayer friend = null;
-	public boolean hasBeenFed = false;
-	private HashSet<Item> temptItems = null;
-	private static final DataParameter<Integer> TYPE_NUMBER = EntityDataManager.<Integer>createKey(EntityGoat.class, DataSerializers.VARINT);
+    public EntityPlayer friend = null;
+    public boolean hasBeenFed = false;
+    private HashSet<Item> temptItems = null;
+    private static final DataParameter<Integer> TYPE_NUMBER = EntityDataManager.<Integer>createKey(EntityGoat.class, DataSerializers.VARINT);
 
-	public EntityGoat(World worldIn) {
-		super(worldIn);
-		this.world = worldIn;
-		this.setSize(1.2F, 1.2F);
-		addTemptItems();
-	}
+    public EntityGoat(World worldIn) {
+        super(worldIn);
+        this.world = worldIn;
+        this.setSize(1.2F, 1.2F);
+        this.addTemptItems();
+    }
 
-	private void addTemptItems() {
-		this.temptItems = new HashSet<Item>();
-		this.temptItems.add(Items.WHEAT);
-		this.temptItems.add(Items.POTATO);
-		this.temptItems.add(Items.CARROT);
-		this.temptItems.add(Items.CARROT_ON_A_STICK);
-		this.temptItems.add(Items.BEETROOT);
-	}
-	
-	
-	
-	@Override
-	public void onLivingUpdate() {
-		super.onLivingUpdate();
-		if(!this.world.isRemote && (this.getAttackTarget() == null || this.getAttackTarget().isDead)) {
-			this.setAttackingOnClient(false);
-		}
-	}
+    private void addTemptItems() {
+        this.temptItems = new HashSet<Item>();
+        this.temptItems.add(Items.WHEAT);
+        this.temptItems.add(Items.POTATO);
+        this.temptItems.add(Items.CARROT);
+        this.temptItems.add(Items.CARROT_ON_A_STICK);
+        this.temptItems.add(Items.BEETROOT);
+    }
 
-	@Override
-	public boolean attackEntityAsMob(Entity entityIn) {
-		Vec3d pos = this.getPositionVector();
-		Vec3d targetPos = entityIn.getPositionVector();
-		((EntityLivingBase) entityIn).knockBack(entityIn, 0.8F, pos.x - targetPos.x, pos.z - targetPos.z);
-		
-		// Vanilla attack code for mobs
-		
-        float f = (float)this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getAttributeValue();
+    @Override
+    public void onLivingUpdate() {
+        super.onLivingUpdate();
+        if (!this.world.isRemote && (this.getAttackTarget() == null || this.getAttackTarget().isDead)) {
+            this.setAttackingOnClient(false);
+        }
+    }
+
+    @Override
+    public boolean attackEntityAsMob(Entity entityIn) {
+        Vec3d pos = this.getPositionVector();
+        Vec3d targetPos = entityIn.getPositionVector();
+        ((EntityLivingBase) entityIn).knockBack(entityIn, 0.8F, pos.x - targetPos.x, pos.z - targetPos.z);
+
+        // Vanilla attack code for mobs
+
+        float f = (float) this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getAttributeValue();
         int i = 0;
 
-        if (entityIn instanceof EntityLivingBase)
-        {
-            f += EnchantmentHelper.getModifierForCreature(this.getHeldItemMainhand(), ((EntityLivingBase)entityIn).getCreatureAttribute());
+        if (entityIn instanceof EntityLivingBase) {
+            f += EnchantmentHelper.getModifierForCreature(this.getHeldItemMainhand(), ((EntityLivingBase) entityIn).getCreatureAttribute());
             i += EnchantmentHelper.getKnockbackModifier(this);
         }
 
         boolean flag = entityIn.attackEntityFrom(DamageSource.causeMobDamage(this), f);
 
-        if (flag)
-        {
-            if (i > 0 && entityIn instanceof EntityLivingBase)
-            {
-                ((EntityLivingBase)entityIn).knockBack(this, (float)i * 0.5F, (double)MathHelper.sin(this.rotationYaw * 0.017453292F), (double)(-MathHelper.cos(this.rotationYaw * 0.017453292F)));
+        if (flag) {
+            if (i > 0 && entityIn instanceof EntityLivingBase) {
+                ((EntityLivingBase) entityIn).knockBack(this, i * 0.5F, MathHelper.sin(this.rotationYaw * 0.017453292F), (-MathHelper.cos(this.rotationYaw * 0.017453292F)));
                 this.motionX *= 0.6D;
                 this.motionZ *= 0.6D;
             }
 
             int j = EnchantmentHelper.getFireAspectModifier(this);
 
-            if (j > 0)
-            {
+            if (j > 0) {
                 entityIn.setFire(j * 4);
             }
 
-            if (entityIn instanceof EntityPlayer)
-            {
-                EntityPlayer entityplayer = (EntityPlayer)entityIn;
+            if (entityIn instanceof EntityPlayer) {
+                EntityPlayer entityplayer = (EntityPlayer) entityIn;
                 ItemStack itemstack = this.getHeldItemMainhand();
                 ItemStack itemstack1 = entityplayer.isHandActive() ? entityplayer.getActiveItemStack() : ItemStack.EMPTY;
 
-                if (!itemstack.isEmpty() && !itemstack1.isEmpty() && itemstack.getItem().canDisableShield(itemstack, itemstack1, entityplayer, this) && itemstack1.getItem().isShield(itemstack1, entityplayer))
-                {
-                    float f1 = 0.25F + (float)EnchantmentHelper.getEfficiencyModifier(this) * 0.05F;
+                if (!itemstack.isEmpty() && !itemstack1.isEmpty() && itemstack.getItem().canDisableShield(itemstack, itemstack1, entityplayer, this) && itemstack1.getItem().isShield(itemstack1, entityplayer)) {
+                    float f1 = 0.25F + EnchantmentHelper.getEfficiencyModifier(this) * 0.05F;
 
-                    if (this.rand.nextFloat() < f1)
-                    {
+                    if (this.rand.nextFloat() < f1) {
                         entityplayer.getCooldownTracker().setCooldown(itemstack1.getItem(), 100);
-                        this.world.setEntityState(entityplayer, (byte)30);
+                        this.world.setEntityState(entityplayer, (byte) 30);
                     }
                 }
             }
@@ -134,251 +125,235 @@ public class EntityGoat extends EntityAnimal implements IVariantTypes {
             this.applyEnchantments(this, entityIn);
         }
 
-		return flag;
-	}
+        return flag;
+    }
 
-	
+    @Override
+    public void setAttackTarget(EntityLivingBase entitylivingbaseIn) {
+        this.setAttackingOnClient(entitylivingbaseIn != null);
+        super.setAttackTarget(entitylivingbaseIn);
+    }
 
-	@Override
-	public void setAttackTarget(EntityLivingBase entitylivingbaseIn) {
-		this.setAttackingOnClient(entitylivingbaseIn != null);
-		super.setAttackTarget(entitylivingbaseIn);
-	}
+    @Override
+    protected void playStepSound(BlockPos pos, Block blockIn) {
+        this.playSound(SoundEvents.ENTITY_SHEEP_STEP, 0.15F, 1.0F);
+    }
 
-	@Override
-	protected void playStepSound(BlockPos pos, Block blockIn)
-	{
-		this.playSound(SoundEvents.ENTITY_SHEEP_STEP, 0.15F, 1.0F);
-	}
-	
-	private static final DataParameter<Boolean> ATTACKING = EntityDataManager.<Boolean>createKey(EntityGoat.class, DataSerializers.BOOLEAN);
+    private static final DataParameter<Boolean> ATTACKING = EntityDataManager.<Boolean>createKey(EntityGoat.class, DataSerializers.BOOLEAN);
 
-	public boolean isAttackingFromServer() {
-		return this.dataManager.get(ATTACKING).booleanValue();
-	}
+    public boolean isAttackingFromServer() {
+        return this.dataManager.get(ATTACKING).booleanValue();
+    }
 
-	public void setAttackingOnClient(boolean in){
-		this.dataManager.set(ATTACKING, Boolean.valueOf(in));
-	}
-	
-	public float getHeadPitch() {
-		return this.isAttackingFromServer() ? 0.15F: -0.698F;
-	}
+    public void setAttackingOnClient(boolean in) {
+        this.dataManager.set(ATTACKING, Boolean.valueOf(in));
+    }
 
-	protected void initEntityAI()
-	{
-		super.initEntityAI();
-		this.tasks.addTask(0, new EntityAISwimming(this));
-		this.tasks.addTask(1, new EntityAIPanic(this, 0.8D));
-		this.tasks.addTask(2, new EntityAIMate(this, 1.0D));
-		this.tasks.addTask(2, new EntityAIAttackMelee(this, 0.7D, true));
-		if(this.temptItems == null) {
-			addTemptItems();
-		}
-		this.tasks.addTask(3, new EntityAITempt(this, 0.6D, false, this.temptItems));
-		this.tasks.addTask(4, new EntityAIFollowParent(this, 0.6D));
-		this.tasks.addTask(5, new EntityAIWander(this, 0.6D));
-		this.tasks.addTask(6, new EntityAILookIdle(this));
-		this.targetTasks.addTask(1, new GoatAIAttackForFriend(this));
-		this.targetTasks.addTask(1, new AIHurtByTarget());
-	}
+    public float getHeadPitch() {
+        return this.isAttackingFromServer() ? 0.15F : -0.698F;
+    }
 
-	protected void applyEntityAttributes()
-	{
-		super.applyEntityAttributes();
-		this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(14.0D);
-		this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.5D);
-		this.getAttributeMap().registerAttribute(SharedMonsterAttributes.ATTACK_DAMAGE);
-		this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(0.8D);
-	}
+    @Override
+    protected void initEntityAI() {
+        super.initEntityAI();
+        this.tasks.addTask(0, new EntityAISwimming(this));
+        this.tasks.addTask(1, new EntityAIPanic(this, 0.8D));
+        this.tasks.addTask(2, new EntityAIMate(this, 1.0D));
+        this.tasks.addTask(2, new EntityAIAttackMelee(this, 0.7D, true));
+        if (this.temptItems == null) {
+            this.addTemptItems();
+        }
+        this.tasks.addTask(3, new EntityAITempt(this, 0.6D, false, this.temptItems));
+        this.tasks.addTask(4, new EntityAIFollowParent(this, 0.6D));
+        this.tasks.addTask(5, new EntityAIWander(this, 0.6D));
+        this.tasks.addTask(6, new EntityAILookIdle(this));
+        this.targetTasks.addTask(1, new GoatAIAttackForFriend(this));
+        this.targetTasks.addTask(1, new AIHurtByTarget());
+    }
 
+    @Override
+    protected void applyEntityAttributes() {
+        super.applyEntityAttributes();
+        this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(14.0D);
+        this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.5D);
+        this.getAttributeMap().registerAttribute(SharedMonsterAttributes.ATTACK_DAMAGE);
+        this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(0.8D);
+    }
 
+    @Override
+    protected SoundEvent getAmbientSound() {
+        return SoundEvents.ENTITY_SHEEP_AMBIENT;
+    }
 
-	protected SoundEvent getAmbientSound()
-	{
-		return SoundEvents.ENTITY_SHEEP_AMBIENT;
-	}
+    @Override
+    protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
+        return SoundEvents.ENTITY_SHEEP_HURT;
+    }
 
-	protected SoundEvent getHurtSound(DamageSource damageSourceIn)
-	{
-		return SoundEvents.ENTITY_SHEEP_HURT;
-	}
+    @Override
+    protected SoundEvent getDeathSound() {
+        return SoundEvents.ENTITY_SHEEP_DEATH;
+    }
 
-	protected SoundEvent getDeathSound()
-	{
-		return SoundEvents.ENTITY_SHEEP_DEATH;
-	}
+    @Override
+    public boolean processInteract(EntityPlayer player, EnumHand hand) {
+        ItemStack itemstack = player.getHeldItem(hand);
 
-	public boolean processInteract(EntityPlayer player, EnumHand hand)
-	{
-		ItemStack itemstack = player.getHeldItem(hand);
+        if (itemstack.getItem() == Items.BUCKET && !player.capabilities.isCreativeMode && !this.isChild()) {
+            player.playSound(SoundEvents.ENTITY_COW_MILK, 1.0F, 1.0F);
+            itemstack.shrink(1);
 
-		if (itemstack.getItem() == Items.BUCKET && !player.capabilities.isCreativeMode && !this.isChild())
-		{
-			player.playSound(SoundEvents.ENTITY_COW_MILK, 1.0F, 1.0F);
-			itemstack.shrink(1);
+            if (itemstack.isEmpty()) {
+                player.setHeldItem(hand, new ItemStack(ItemRegistry.goatMilk));
+            } else if (!player.inventory.addItemStackToInventory(new ItemStack(ItemRegistry.goatMilk))) {
+                player.dropItem(new ItemStack(ItemRegistry.goatMilk), false);
+            }
 
-			if (itemstack.isEmpty())
-			{
-				player.setHeldItem(hand, new ItemStack(ItemRegistry.goatMilk));
-			}
-			else if (!player.inventory.addItemStackToInventory(new ItemStack(ItemRegistry.goatMilk)))
-			{
-				player.dropItem(new ItemStack(ItemRegistry.goatMilk), false);
-			}
+            return true;
+        } else if (this.temptItems.contains(itemstack.getItem()) && !this.isChild()) {
+            this.hasBeenFed = true;
+            this.friend = player;
+            if (itemstack.getItem() == Items.WHEAT) {
+                this.setInLove(player);
+                if (!player.capabilities.isCreativeMode) {
+                    itemstack.shrink(1);
+                }
+            }
+            return true;
+        } else {
+            return super.processInteract(player, hand);
+        }
+    }
 
-			return true;
-		} else if(this.temptItems.contains(itemstack.getItem()) && !this.isChild()) {
-			this.hasBeenFed = true;
-			this.friend = player;
-			if(itemstack.getItem() == Items.WHEAT) {
-				this.setInLove(player);
-				if(!player.capabilities.isCreativeMode) {
-					itemstack.shrink(1);
-				}
-			}
-			return true;
-		} else {
-			return super.processInteract(player, hand);
-		}
-	}
+    @Override
+    public float getEyeHeight() {
+        return this.isChild() ? this.height : 0.5F;
+    }
 
-	public float getEyeHeight()
-	{
-		return this.isChild() ? this.height : 0.5F;
-	}
+    @Override
+    @Nullable
+    protected ResourceLocation getLootTable() {
+        return LootTableRegistry.goat;
+    }
 
-	@Override
-	@Nullable
-	protected ResourceLocation getLootTable()
-	{
-		return LootTableRegistry.goat;
-	}
+    @Override
+    public EntityAgeable createChild(EntityAgeable ageable) {
+        EntityGoat goat = new EntityGoat(ageable.world);
+        goat.setLocationAndAngles(ageable.posX, ageable.posY, ageable.posZ, 0, 0);
+        if (ageable.hasCustomName()) {
+            goat.setCustomNameTag(ageable.getCustomNameTag());
+        }
+        goat.setType(this.getTypeNumber());
+        return goat;
+    }
 
-	@Override
-	public EntityAgeable createChild(EntityAgeable ageable) {
-		EntityGoat goat = new EntityGoat(ageable.world);
-		goat.setLocationAndAngles(ageable.posX, ageable.posY, ageable.posZ, 0, 0);
-		if(ageable.hasCustomName()) {
-			goat.setCustomNameTag(ageable.getCustomNameTag());
-		}
-		goat.setType(this.getTypeNumber());
-		return goat;
-	}
+    public static class GoatAIAttackForFriend extends EntityAIBase {
+        EntityGoat goat = null;
 
+        public GoatAIAttackForFriend(EntityGoat entity) {
+            this.goat = entity;
+        }
 
-	public static class GoatAIAttackForFriend extends EntityAIBase {
-		EntityGoat goat = null;
+        @Override
+        public boolean shouldExecute() {
+            return this.goat.hasBeenFed && this.goat.friend != null && this.goat.friend.getAttackingEntity() != null;
+        }
 
-		public GoatAIAttackForFriend(EntityGoat entity) {
-			this.goat = entity;
-		}
+        @Override
+        public void startExecuting() {
+            this.goat.setAttackTarget(this.goat.friend.getAttackingEntity());
+        }
 
-		@Override
-		public boolean shouldExecute() {
-			return this.goat.hasBeenFed && this.goat.friend != null && this.goat.friend.getAttackingEntity() != null;
-		}
+        @Override
+        public boolean shouldContinueExecuting() {
+            return false;
+        }
 
-		@Override
-		public void startExecuting() {
-			this.goat.setAttackTarget(this.goat.friend.getAttackingEntity());
-		}
+    }
 
-		@Override
-		public boolean shouldContinueExecuting() {
-			return false;
-		}
-
-	}
-	
-	class AIHurtByTarget extends EntityAIHurtByTarget
-    {
-        public AIHurtByTarget()
-        {
+    class AIHurtByTarget extends EntityAIHurtByTarget {
+        public AIHurtByTarget() {
             super(EntityGoat.this, false);
         }
 
         /**
          * Execute a one shot task or start executing a continuous task
          */
-        public void startExecuting()
-        {
+        @Override
+        public void startExecuting() {
             super.startExecuting();
 
-            if (EntityGoat.this.isChild())
-            {
+            if (EntityGoat.this.isChild()) {
                 this.alertOthers();
                 this.resetTask();
             }
         }
 
-        protected void setEntityAttackTarget(EntityCreature creatureIn, EntityLivingBase entityLivingBaseIn)
-        {
-            if (creatureIn instanceof EntityGoat && !creatureIn.isChild())
-            {
+        @Override
+        protected void setEntityAttackTarget(EntityCreature creatureIn, EntityLivingBase entityLivingBaseIn) {
+            if (creatureIn instanceof EntityGoat && !creatureIn.isChild()) {
                 super.setEntityAttackTarget(creatureIn, entityLivingBaseIn);
             }
         }
     }
-	
-	
-	protected void entityInit()
-	{
-		super.entityInit();
-		this.registerTypeKey();
-		this.dataManager.register(ATTACKING, Boolean.valueOf(false));
-	}
 
-	/**
-	 * (abstract) Protected helper method to write subclass entity data to NBT.
-	 */
-	public void writeEntityToNBT(NBTTagCompound compound)
-	{
-		super.writeEntityToNBT(compound);
-		this.writeType(compound);
-		compound.setBoolean("AttackSync", this.isAttackingFromServer());
-	}
+    @Override
+    protected void entityInit() {
+        super.entityInit();
+        this.registerTypeKey();
+        this.dataManager.register(ATTACKING, Boolean.valueOf(false));
+    }
 
-	/**
-	 * (abstract) Protected helper method to read subclass entity data from NBT.
-	 */
-	public void readEntityFromNBT(NBTTagCompound compound)
-	{
-		super.readEntityFromNBT(compound);
-		this.readType(compound);
-		this.setAttackingOnClient(compound.getBoolean("AttackSync"));
-	}
-	
-	@Override
-	public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, IEntityLivingData livingdata) {
-		livingdata = this.initData(super.onInitialSpawn(difficulty, livingdata));
-		this.setAttackingOnClient(false);
-		return livingdata;
-	}
+    /**
+     * (abstract) Protected helper method to write subclass entity data to NBT.
+     */
+    @Override
+    public void writeEntityToNBT(NBTTagCompound compound) {
+        super.writeEntityToNBT(compound);
+        this.writeType(compound);
+        compound.setBoolean("AttackSync", this.isAttackingFromServer());
+    }
 
-	@Override
-	public DataParameter<Integer> getDataKey() {
-		return TYPE_NUMBER;
-	}
+    /**
+     * (abstract) Protected helper method to read subclass entity data from NBT.
+     */
+    @Override
+    public void readEntityFromNBT(NBTTagCompound compound) {
+        super.readEntityFromNBT(compound);
+        this.readType(compound);
+        this.setAttackingOnClient(compound.getBoolean("AttackSync"));
+    }
 
-	@Override
-	public int getVariantMax() {
-		return 7;
-	}
-	
-	@Override
-	public boolean isChildI() {
-		return this.isChild();
-	}
+    @Override
+    public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, IEntityLivingData livingdata) {
+        livingdata = this.initData(super.onInitialSpawn(difficulty, livingdata));
+        this.setAttackingOnClient(false);
+        return livingdata;
+    }
 
-	@Override
-	public Random getRNGI() {
-		return this.getRNG();
-	}
+    @Override
+    public DataParameter<Integer> getDataKey() {
+        return TYPE_NUMBER;
+    }
 
-	@Override
-	public EntityDataManager getDataManagerI() {
-		return this.getDataManager();
-	}
+    @Override
+    public int getVariantMax() {
+        return 7;
+    }
+
+    @Override
+    public boolean isChildI() {
+        return this.isChild();
+    }
+
+    @Override
+    public Random getRNGI() {
+        return this.getRNG();
+    }
+
+    @Override
+    public EntityDataManager getDataManagerI() {
+        return this.getDataManager();
+    }
 
 }

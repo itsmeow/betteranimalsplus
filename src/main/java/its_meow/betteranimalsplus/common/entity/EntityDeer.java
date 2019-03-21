@@ -42,8 +42,8 @@ public class EntityDeer extends EntityAnimal implements IVariantTypes {
         this.setSize(1.2F, 1.6F);
     }
 
-    protected void entityInit()
-    {
+    @Override
+    protected void entityInit() {
         super.entityInit();
         this.registerTypeKey();
     }
@@ -52,8 +52,8 @@ public class EntityDeer extends EntityAnimal implements IVariantTypes {
     public boolean processInteract(EntityPlayer player, EnumHand hand) {
         ItemStack stack = player.getHeldItem(hand);
         boolean isEmpty = stack.isEmpty();
-        if(!isEmpty) {
-            if(stack.getItem() == Items.WHEAT || stack.getItem() == Items.CARROT) {
+        if (!isEmpty) {
+            if (stack.getItem() == Items.WHEAT || stack.getItem() == Items.CARROT) {
                 this.setInLove(player);
             }
         }
@@ -68,8 +68,8 @@ public class EntityDeer extends EntityAnimal implements IVariantTypes {
 
     private static final DataParameter<Integer> TYPE_NUMBER = EntityDataManager.<Integer>createKey(EntityDeer.class, DataSerializers.VARINT);
 
-    public void writeEntityToNBT(NBTTagCompound compound)
-    {
+    @Override
+    public void writeEntityToNBT(NBTTagCompound compound) {
         super.writeEntityToNBT(compound);
         this.writeType(compound);
     }
@@ -77,26 +77,25 @@ public class EntityDeer extends EntityAnimal implements IVariantTypes {
     /**
      * (abstract) Protected helper method to read subclass entity data from NBT.
      */
-    public void readEntityFromNBT(NBTTagCompound compound)
-    {
+    @Override
+    public void readEntityFromNBT(NBTTagCompound compound) {
         super.readEntityFromNBT(compound);
         this.readType(compound);
     }
 
+    @Override
     @Nullable
     public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, @Nullable IEntityLivingData livingdata) {
         return this.initData(super.onInitialSpawn(difficulty, livingdata));
     }
 
     @Override
-    protected void playStepSound(BlockPos pos, Block blockIn)
-    {
+    protected void playStepSound(BlockPos pos, Block blockIn) {
         this.playSound(SoundEvents.ENTITY_SHEEP_STEP, 0.15F, 1.0F);
     }
 
-
-    protected void initEntityAI()
-    {
+    @Override
+    protected void initEntityAI() {
         super.initEntityAI();
         this.tasks.addTask(0, new EntityAISwimming(this));
         this.tasks.addTask(2, new EntityAIPanic(this, 0.65D));
@@ -112,8 +111,8 @@ public class EntityDeer extends EntityAnimal implements IVariantTypes {
         this.tasks.addTask(6, new EntityAILookIdle(this));
     }
 
-    protected void applyEntityAttributes()
-    {
+    @Override
+    protected void applyEntityAttributes() {
         super.applyEntityAttributes();
         this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(15.0D);
         this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.45D);
@@ -122,8 +121,8 @@ public class EntityDeer extends EntityAnimal implements IVariantTypes {
     @Override
     public void onDeath(DamageSource cause) {
         super.onDeath(cause);
-        if(!world.isRemote && !this.isChild()) {
-            if(this.rand.nextInt(12) == 0) {
+        if (!world.isRemote && !this.isChild()) {
+            if (this.rand.nextInt(12) == 0) {
                 ItemStack stack = new ItemStack(BlockRegistry.deerhead.getItemBlock());
                 stack.setTagCompound(new NBTTagCompound());
                 stack.getTagCompound().setInteger("TYPENUM", this.getTypeNumber());
@@ -134,8 +133,7 @@ public class EntityDeer extends EntityAnimal implements IVariantTypes {
 
     @Override
     @Nullable
-    protected ResourceLocation getLootTable()
-    {
+    protected ResourceLocation getLootTable() {
         return LootTableRegistry.deer;
     }
 

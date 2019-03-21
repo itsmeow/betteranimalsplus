@@ -407,7 +407,7 @@ public class ModelTrilliumMulti2 extends ModelBase {
 
     @Override
     public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) {
-    	GlStateManager.rotate(f3, 0, 1, 0); // Yaw
+        GlStateManager.rotate(f3, 0, 1, 0); // Yaw
         this.stem03_1.render(f5);
         GlStateManager.pushMatrix();
         GlStateManager.translate(this.stem04.offsetX, this.stem04.offsetY, this.stem04.offsetZ);
@@ -499,10 +499,10 @@ public class ModelTrilliumMulti2 extends ModelBase {
         this.stem05_2.render(f5);
         GlStateManager.popMatrix();
     }
-    
+
     @Override
-   	public void setRotationAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor, Entity entity) {
-       	this.stem01.rotateAngleY = entity.rotationYaw;
+    public void setRotationAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor, Entity entity) {
+        this.stem01.rotateAngleY = entity.rotationYaw;
     }
 
     /**

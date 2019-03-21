@@ -274,7 +274,7 @@ public class ModelTrilliumMulti extends ModelBase {
 
     @Override
     public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) {
-    	GlStateManager.rotate(f3, 0, 1, 0); // Yaw
+        GlStateManager.rotate(f3, 0, 1, 0); // Yaw
         GlStateManager.pushMatrix();
         GlStateManager.translate(this.stem04_1.offsetX, this.stem04_1.offsetY, this.stem04_1.offsetZ);
         GlStateManager.translate(this.stem04_1.rotationPointX * f5, this.stem04_1.rotationPointY * f5, this.stem04_1.rotationPointZ * f5);
@@ -341,7 +341,6 @@ public class ModelTrilliumMulti extends ModelBase {
         this.stem03_1.render(f5);
         GlStateManager.popMatrix();
     }
-
 
     /**
      * This is a helper function from Tabula to set the rotation of model parts

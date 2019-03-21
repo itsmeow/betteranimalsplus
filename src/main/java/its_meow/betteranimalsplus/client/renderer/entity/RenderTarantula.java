@@ -10,15 +10,14 @@ import net.minecraft.util.ResourceLocation;
 
 public class RenderTarantula extends RenderLiving<EntityTarantula> {
 
+    public RenderTarantula(RenderManager rendermanagerIn) {
+        super(rendermanagerIn, new ModelTarantula(), 1F);
+        this.addLayer(new LayerTarantulaEyes(this));
+    }
 
-	public RenderTarantula(RenderManager rendermanagerIn) {
-		super(rendermanagerIn, new ModelTarantula(), 1F);
-		this.addLayer(new LayerTarantulaEyes(this));
-	}
-
-	@Override
-	protected ResourceLocation getEntityTexture(EntityTarantula entity) {
-		return TextureRegistry.tarantula;
-	}
+    @Override
+    protected ResourceLocation getEntityTexture(EntityTarantula entity) {
+        return TextureRegistry.tarantula;
+    }
 
 }

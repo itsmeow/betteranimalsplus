@@ -21,146 +21,134 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class TileEntityTrillium extends TileEntity {
 
-	private int typeNum;
-	private final String keyType = "trilliumType";
+    private int typeNum;
+    private final String keyType = "trilliumType";
 
-	private ModelBase model;
+    private ModelBase model;
 
-	private int modelNum;
-	private final String keyModel = "trilliumModel";
+    private int modelNum;
+    private final String keyModel = "trilliumModel";
 
+    public TileEntityTrillium() {
+        if (!this.getTileData().hasKey(this.keyType)) {
+            this.setType(new Random().nextInt(5));
+        }
+        if (!this.getTileData().hasKey(this.keyModel)) {
+            this.modelNum = new Random().nextInt(3);
+            this.markDirty();
+            this.setModelWithNum();
+        }
+    }
 
-	public TileEntityTrillium() {
-		if(!this.getTileData().hasKey(this.keyType)) {
-			this.setType(new Random().nextInt(5));
-		}
-		if(!this.getTileData().hasKey(this.keyModel)) {
-			this.modelNum = new Random().nextInt(3);
-			this.markDirty();
-			this.setModelWithNum();
-		}
-	}
+    public ResourceLocation getTexture() {
+        return this.typeNum == 0 ? TextureRegistry.trillium_purple : TextureRegistry.trillium_yellow;
+    }
 
+    public void setType(int i) {
+        this.typeNum = i;
+        this.markDirty();
+    }
 
-	public ResourceLocation getTexture() {
-		return this.typeNum == 0 ? TextureRegistry.trillium_purple : TextureRegistry.trillium_yellow;
-	}
+    public int typeValue() {
+        return this.typeNum;
+    }
 
+    @Override
+    public void readFromNBT(NBTTagCompound compound) {
+        super.readFromNBT(compound);
+        if (compound.hasKey(this.keyType)) {
+            this.typeNum = compound.getInteger(this.keyType);
+        } else {
+            this.setType(new Random().nextInt(5)); // 1/5 chance
+        }
+        if (compound.hasKey(this.keyModel)) {
+            this.modelNum = compound.getInteger(this.keyModel);
+            this.setModelWithNum();
+        } else {
+            this.setModelNum(new Random().nextInt(3));
+        }
+    }
 
+    @Override
+    public NBTTagCompound writeToNBT(NBTTagCompound compound) {
+        super.writeToNBT(compound);
+        compound.setInteger(this.keyType, this.typeNum);
+        compound.setInteger(this.keyModel, this.modelNum);
+        return compound;
+    }
 
-	public void setType(int i) {
-		this.typeNum = i;
-		this.markDirty();
-	}
+    @Override
+    public SPacketUpdateTileEntity getUpdatePacket() {
+        NBTTagCompound tag = new NBTTagCompound();
+        this.writeToNBT(tag);
+        return new SPacketUpdateTileEntity(this.pos, 1, tag);
+    }
 
-	public int typeValue() {
-		return this.typeNum;
-	}
+    @Override
+    public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity packet) {
+        this.readFromNBT(packet.getNbtCompound());
+        this.world.scheduleUpdate(this.pos, this.blockType, 100);
+    }
 
+    @Override
+    public NBTTagCompound getUpdateTag() {
+        NBTTagCompound tag = new NBTTagCompound();
+        this.writeToNBT(tag);
+        return tag;
+    }
 
-	@Override
-	public void readFromNBT(NBTTagCompound compound) {
-		super.readFromNBT(compound);
-		if(compound.hasKey(this.keyType)) {
-			this.typeNum = compound.getInteger(this.keyType);
-		} else {
-			this.setType(new Random().nextInt(5)); // 1/5 chance
-		}
-		if(compound.hasKey(this.keyModel)) {
-			this.modelNum = compound.getInteger(this.keyModel);
-			this.setModelWithNum();
-		} else {
-			this.setModelNum(new Random().nextInt(3));
-		}
-	}
+    public ModelBase getModel() {
+        return this.model;
+    }
 
+    public void setModelNum(int i) {
+        this.modelNum = i;
+        this.setModelWithNum();
+        this.markDirty();
+    }
 
+    private void setModel(ModelBase m) {
+        this.model = m;
+    }
 
-	@Override
-	public NBTTagCompound writeToNBT(NBTTagCompound compound) {
-		super.writeToNBT(compound);
-		compound.setInteger(this.keyType, this.typeNum);
-		compound.setInteger(this.keyModel, this.modelNum);
-		return compound;
-	}
+    public void setModelWithNum() {
+        if (this.modelNum == 0) {
+            this.setModel(new ModelTrilliumMulti());
+        } else if (this.modelNum == 1) {
+            this.setModel(new ModelTrillium());
+        } else {
+            this.setModel(new ModelTrilliumMulti2());
+        }
+    }
 
-	@Override
-	public SPacketUpdateTileEntity getUpdatePacket() {
-		NBTTagCompound tag = new NBTTagCompound();
-		this.writeToNBT(tag);
-		return new SPacketUpdateTileEntity(this.pos, 1, tag);
-	}
+    @Override
+    public void handleUpdateTag(NBTTagCompound tag) {
+        this.readFromNBT(tag);
+    }
 
+    @SideOnly(Side.CLIENT)
+    public float getRotation() {
+        IBlockState state = this.world.getBlockState(this.pos);
+        if (state.getBlock() == BlockRegistry.trillium) {
+            EnumFacing facing = state.getValue(BlockHorizontal.FACING).getOpposite();
+            if (facing == EnumFacing.NORTH) {
+                return 0F;
+            }
+            if (facing == EnumFacing.EAST) {
+                return 90F;
+            }
+            if (facing == EnumFacing.SOUTH) {
+                return 180F;
+            }
+            if (facing == EnumFacing.WEST) {
+                return 270F;
+            }
+        }
+        return 0F;
+    }
 
-	@Override
-	public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity packet) {
-		readFromNBT(packet.getNbtCompound());
-		this.world.scheduleUpdate(this.pos, this.blockType, 100);
-	}
+    public int getModelNum() {
+        return this.modelNum;
+    }
 
-
-
-
-
-	@Override
-	public NBTTagCompound getUpdateTag() {
-		NBTTagCompound tag = new NBTTagCompound();
-		this.writeToNBT(tag);
-		return tag;
-	}
-
-	public ModelBase getModel() {	
-		return this.model;
-	}
-
-	public void setModelNum(int i) {
-		this.modelNum = i;
-		this.setModelWithNum();
-		this.markDirty();
-	}
-
-	private void setModel(ModelBase m) {
-		this.model = m;
-	}
-
-	public void setModelWithNum() {
-		if(this.modelNum == 0) {
-			this.setModel(new ModelTrilliumMulti());
-		} else if(this.modelNum == 1) {
-			this.setModel(new ModelTrillium());
-		} else {
-			this.setModel(new ModelTrilliumMulti2());
-		}
-	}
-
-	@Override
-	public void handleUpdateTag(NBTTagCompound tag) {
-		this.readFromNBT(tag);
-	}
-	
-	@SideOnly(Side.CLIENT)
-	public float getRotation() {
-		IBlockState state = this.world.getBlockState(this.pos);
-		if(state.getBlock() == BlockRegistry.trillium) {
-			EnumFacing facing = state.getValue(BlockHorizontal.FACING).getOpposite();
-			if(facing == EnumFacing.NORTH) {
-				return 0F;
-			}
-			if(facing == EnumFacing.EAST) {
-				return 90F;
-			}
-			if(facing == EnumFacing.SOUTH) {
-				return 180F;
-			}
-			if(facing == EnumFacing.WEST) {
-				return 270F;
-			}
-		}
-		return 0F;
-	}
-
-	public int getModelNum() {
-		return this.modelNum;
-	}
-	
 }

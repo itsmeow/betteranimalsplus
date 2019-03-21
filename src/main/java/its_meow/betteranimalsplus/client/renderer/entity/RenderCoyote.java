@@ -11,51 +11,49 @@ import net.minecraft.util.ResourceLocation;
 
 public class RenderCoyote extends RenderLiving<EntityCoyote> {
 
-	public RenderCoyote(RenderManager manager)
-	{
-		super(manager, new ModelCustomWolf(), 0.5F);
-		this.addLayer(new LayerCoyoteEyes(this));
-	}
+    public RenderCoyote(RenderManager manager) {
+        super(manager, new ModelCustomWolf(), 0.5F);
+        this.addLayer(new LayerCoyoteEyes(this));
+    }
 
+    /**
+     * Defines what float the third param in setRotationAngles of ModelBase is
+     */
+    @Override
+    protected float handleRotationFloat(EntityCoyote livingBase, float partialTicks) {
+        return livingBase.getTailRotation();
+    }
 
-	/**
-	 * Defines what float the third param in setRotationAngles of ModelBase is
-	 */
-	protected float handleRotationFloat(EntityCoyote livingBase, float partialTicks)
-	{
-		return livingBase.getTailRotation();
-	}
+    /**
+     * Renders the desired {@code T} type Entity.
+     */
+    @Override
+    public void doRender(EntityCoyote entity, double x, double y, double z, float entityYaw, float partialTicks) {
+        if (entity.isWolfWet()) {
+            float f = entity.getBrightness() * entity.getShadingWhileWet(partialTicks);
+            GlStateManager.color(f, f, f);
+        }
 
-	/**
-	 * Renders the desired {@code T} type Entity.
-	 */
-	public void doRender(EntityCoyote entity, double x, double y, double z, float entityYaw, float partialTicks)
-	{
-		if (entity.isWolfWet())
-		{
-			float f = entity.getBrightness() * entity.getShadingWhileWet(partialTicks);
-			GlStateManager.color(f, f, f);
-		}
+        super.doRender(entity, x, y, z, entityYaw, partialTicks);
+    }
 
-		super.doRender(entity, x, y, z, entityYaw, partialTicks);
-	}
+    /**
+     * Returns the location of an entity's texture. Doesn't seem to be called unless
+     * you call Render.bindEntityTexture.
+     */
+    @Override
+    protected ResourceLocation getEntityTexture(EntityCoyote entity) {
+        return this.getCoyoteTexture(entity);
+    }
 
-	/**
-	 * Returns the location of an entity's texture. Doesn't seem to be called unless you call Render.bindEntityTexture.
-	 */
-	protected ResourceLocation getEntityTexture(EntityCoyote entity)
-	{
-		return this.getCoyoteTexture(entity);
-	}
-	
-	private ResourceLocation getCoyoteTexture(EntityCoyote entity) {	
-		if(entity.isTamed()) {
-			return TextureRegistry.coyote_neutral;
-		} else if(entity.isDaytime()) {
-			return TextureRegistry.coyote_neutral;
-		} else {
-			return TextureRegistry.coyote_hostile;
-		}
-	}
+    private ResourceLocation getCoyoteTexture(EntityCoyote entity) {
+        if (entity.isTamed()) {
+            return TextureRegistry.coyote_neutral;
+        } else if (entity.isDaytime()) {
+            return TextureRegistry.coyote_neutral;
+        } else {
+            return TextureRegistry.coyote_hostile;
+        }
+    }
 
 }

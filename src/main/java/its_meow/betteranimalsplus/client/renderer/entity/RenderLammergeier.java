@@ -11,32 +11,31 @@ import net.minecraft.util.ResourceLocation;
 
 public class RenderLammergeier extends RenderLiving<EntityLammergeier> {
 
+    public RenderLammergeier(RenderManager rendermanagerIn) {
+        super(rendermanagerIn, new ModelLammergeier(), 0.3F);
+    }
 
-	public RenderLammergeier(RenderManager rendermanagerIn) {
-		super(rendermanagerIn, new ModelLammergeier(), 0.3F);
-	}
+    @Override
+    @Nonnull
+    protected ResourceLocation getEntityTexture(@Nonnull EntityLammergeier entity) {
+        int typeNumber = entity.getTypeNumber();
+        ResourceLocation result = null;
+        switch (typeNumber) {
+        case 1:
+            result = TextureRegistry.lam_orange;
+            break;
+        case 2:
+            result = TextureRegistry.lam_red;
+            break;
+        case 3:
+            result = TextureRegistry.lam_white;
+            break;
+        case 4:
+            result = TextureRegistry.lam_yellow;
+            break;
+        }
+        return result;
 
-	@Override
-	@Nonnull
-	protected ResourceLocation getEntityTexture(@Nonnull EntityLammergeier entity) {
-		int typeNumber = entity.getTypeNumber();
-		ResourceLocation result = null;
-		switch(typeNumber) {
-			case 1:
-				result = TextureRegistry.lam_orange;
-				break;
-			case 2:
-				result = TextureRegistry.lam_red;
-				break;
-			case 3:
-				result = TextureRegistry.lam_white;
-				break;
-			case 4:
-				result = TextureRegistry.lam_yellow;
-				break;
-		}
-		return result;
-		
-	}
+    }
 
 }

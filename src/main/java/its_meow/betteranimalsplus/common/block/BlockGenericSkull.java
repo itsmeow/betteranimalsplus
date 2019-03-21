@@ -17,54 +17,52 @@ import net.minecraft.world.World;
 
 public class BlockGenericSkull extends BlockAnimalSkull implements ITileEntityProvider {
 
-	public final boolean allowFloor;
-	public final Class<? extends TileEntity> teClass;
-	public final int texCount;
+    public final boolean allowFloor;
+    public final Class<? extends TileEntity> teClass;
+    public final int texCount;
 
-	public BlockGenericSkull(Class<? extends TileEntity> teClass, String name, boolean allowFloor, int textureCount) {
-		super();
-		this.setRegistryName(name);
-		this.setUnlocalizedName("betteranimalsplus." + name);
-		this.teClass = teClass;
-		this.allowFloor = allowFloor;
-		this.texCount = textureCount;
-	}
+    public BlockGenericSkull(Class<? extends TileEntity> teClass, String name, boolean allowFloor, int textureCount) {
+        super();
+        this.setRegistryName(name);
+        this.setUnlocalizedName("betteranimalsplus." + name);
+        this.teClass = teClass;
+        this.allowFloor = allowFloor;
+        this.texCount = textureCount;
+    }
 
+    @Override
+    public void getDrops(NonNullList<ItemStack> drops, IBlockAccess world, BlockPos pos, IBlockState state, int fortune) {
+        if (!state.getValue(NODROP).booleanValue()) {
+            Item item = this.getItemBlock();
+            if (item != null && item != Items.AIR) {
+                ItemStack stack = new ItemStack(item);
+                TileEntity te = world.getTileEntity(pos);
+                if (te != null && te instanceof TileEntityHead) {
+                    TileEntityHead teH = (TileEntityHead) te;
+                    stack.setTagCompound(new NBTTagCompound());
+                    stack.getTagCompound().setInteger("TYPENUM", teH.typeValue());
+                }
 
-	@Override
-	public void getDrops(NonNullList<ItemStack> drops, IBlockAccess world, BlockPos pos, IBlockState state, int fortune) {
-		if (!((Boolean)state.getValue(NODROP)).booleanValue()) {
-			Item item = this.getItemBlock();
-			if (item != null && item != Items.AIR) {
-				ItemStack stack = new ItemStack(item);
-				TileEntity te = world.getTileEntity(pos);
-				if(te != null && te instanceof TileEntityHead) {
-					TileEntityHead teH = (TileEntityHead) te;
-					stack.setTagCompound(new NBTTagCompound());
-					stack.getTagCompound().setInteger("TYPENUM", teH.typeValue());
-				}
+                drops.add(stack);
+            }
+        }
+    }
 
-				drops.add(stack);
-			}
-		}
-	}
+    @Override
+    public TileEntity createNewTileEntity(World worldIn, int meta) {
+        try {
+            return this.teClass.newInstance();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
-	@Override
-	public TileEntity createNewTileEntity(World worldIn, int meta)
-	{
-		try {
-			return this.teClass.newInstance();
-		} catch (InstantiationException e) {
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
-
-	@Override
-	public ItemBlock getItemBlock() {
-		return BlockRegistry.getSkullItemForBlock(this);
-	}
+    @Override
+    public ItemBlock getItemBlock() {
+        return BlockRegistry.getSkullItemForBlock(this);
+    }
 
 }

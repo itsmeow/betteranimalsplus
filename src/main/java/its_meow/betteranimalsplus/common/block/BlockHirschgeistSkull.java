@@ -9,22 +9,20 @@ import net.minecraft.world.World;
 
 public class BlockHirschgeistSkull extends BlockAnimalSkull implements ITileEntityProvider {
 
-	public BlockHirschgeistSkull() {
-		super();
-		this.setRegistryName("hirschgeistskull");
-		this.setUnlocalizedName("betteranimalsplus.hirschgeistskull");
-	}
+    public BlockHirschgeistSkull() {
+        super();
+        this.setRegistryName("hirschgeistskull");
+        this.setUnlocalizedName("betteranimalsplus.hirschgeistskull");
+    }
 
+    @Override
+    public TileEntity createNewTileEntity(World worldIn, int meta) {
+        return new TileEntityHirschgeistSkull();
+    }
 
-	@Override
-	public TileEntity createNewTileEntity(World worldIn, int meta)
-	{
-		return new TileEntityHirschgeistSkull();
-	}
-	
-	@Override
-	public ItemBlock getItemBlock() {
-		return ItemRegistry.itemHirschgeistSkull;
-	}
+    @Override
+    public ItemBlock getItemBlock() {
+        return ItemRegistry.itemHirschgeistSkull;
+    }
 
 }

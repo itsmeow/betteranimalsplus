@@ -22,16 +22,16 @@ import net.minecraft.world.World;
 import net.minecraft.world.storage.loot.LootTableList;
 
 public class EntityTarantula extends EntitySpider implements IRangedAttackMob {
-	
-	public EntityTarantula(World world) {
-		super(world);
-	}
-	
-	protected void initEntityAI()
-    {
+
+    public EntityTarantula(World world) {
+        super(world);
+    }
+
+    @Override
+    protected void initEntityAI() {
         this.tasks.addTask(1, new EntityAISwimming(this));
         EntityAIAttackRanged atkrange = new EntityAIAttackRanged(this, 1.0D, 160, 15.0F);
-        atkrange.setMutexBits(4); //Allow it to run at the same time as melee attacks
+        atkrange.setMutexBits(4); // Allow it to run at the same time as melee attacks
         this.tasks.addTask(3, atkrange);
         this.tasks.addTask(3, new EntityAILeapAtTarget(this, 0.4F));
         this.tasks.addTask(3, new EntityAIAttackMelee(this, 0.8D, false));
@@ -43,27 +43,28 @@ public class EntityTarantula extends EntitySpider implements IRangedAttackMob {
         this.targetTasks.addTask(3, new EntityAINearestAttackableTarget<EntityIronGolem>(this, EntityIronGolem.class, true));
     }
 
-	@Override
-	public void attackEntityWithRangedAttack(EntityLivingBase target, float distanceFactor) {
-		EntityTarantulaHair entityhair = new EntityTarantulaHair(this.world, this);
-		entityhair.setLocationAndAngles(this.posX, this.posY + 1, this.posZ, 0, 0);
-        double d0 = target.posY + (double)target.getEyeHeight() - 1.100000023841858D;
+    @Override
+    public void attackEntityWithRangedAttack(EntityLivingBase target, float distanceFactor) {
+        EntityTarantulaHair entityhair = new EntityTarantulaHair(this.world, this);
+        entityhair.setLocationAndAngles(this.posX, this.posY + 1, this.posZ, 0, 0);
+        double d0 = target.posY + target.getEyeHeight() - 1.100000023841858D;
         double d1 = target.posX - this.posX;
         double d2 = d0 - entityhair.posY;
         double d3 = target.posZ - this.posZ;
         float f = MathHelper.sqrt(d1 * d1 + d3 * d3) * 0.2F;
-        entityhair.shoot(d1, d2 + (double)f, d3, 1.5F, 8.0F);
+        entityhair.shoot(d1, d2 + f, d3, 1.5F, 8.0F);
         this.playSound(SoundEvents.BLOCK_CLOTH_PLACE, 1.0F, 1.0F / (this.getRNG().nextFloat() * 0.4F + 0.8F));
         this.world.spawnEntity(entityhair);
-		
-	}
 
-	@Override
-	public void setSwingingArms(boolean swingingArms) {}
+    }
 
-	@Override
-	protected ResourceLocation getLootTable() {
-		return LootTableList.ENTITIES_SPIDER;
-	}
+    @Override
+    public void setSwingingArms(boolean swingingArms) {
+    }
+
+    @Override
+    protected ResourceLocation getLootTable() {
+        return LootTableList.ENTITIES_SPIDER;
+    }
 
 }

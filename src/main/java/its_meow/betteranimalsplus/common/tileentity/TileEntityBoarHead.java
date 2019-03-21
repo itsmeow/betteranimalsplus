@@ -6,8 +6,8 @@ import net.minecraft.client.model.ModelBase;
 
 public class TileEntityBoarHead extends TileEntityHead {
 
-	public TileEntityBoarHead() {
-		super(ModelBoarHead.class.asSubclass(ModelBase.class), 0F, TextureRegistry.boar_1, TextureRegistry.boar_2, TextureRegistry.boar_3, TextureRegistry.boar_4);
-	}
+    public TileEntityBoarHead() {
+        super(ModelBoarHead.class.asSubclass(ModelBase.class), 0F, TextureRegistry.boar_1, TextureRegistry.boar_2, TextureRegistry.boar_3, TextureRegistry.boar_4);
+    }
 
 }

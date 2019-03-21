@@ -42,15 +42,7 @@ public class ItemRegistry {
          */
         @SubscribeEvent
         public static void registerItems(final RegistryEvent.Register<Item> event) {
-            Item[] items = {
-                    venisonRaw,
-                    venisonCooked,
-                    itemHirschgeistSkullWearable,
-                    antler,
-                    goatMilk,
-                    goatCheese,
-                    pheasantRaw,
-                    pheasantCooked,
+            Item[] items = { venisonRaw, venisonCooked, itemHirschgeistSkullWearable, antler, goatMilk, goatCheese, pheasantRaw, pheasantCooked,
             };
             final IForgeRegistry<Item> registry = event.getRegistry();
 

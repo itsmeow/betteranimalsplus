@@ -13,19 +13,18 @@ import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.ResourceLocation;
 
 public class RenderTarantulaHair extends Render<EntityTarantulaHair> {
-	
-	protected RenderTarantulaHair(RenderManager renderManager) {
-		super(renderManager);
-	}
-	
-	@Override
-	public void doRender(EntityTarantulaHair entity, double x, double y, double z, float entityYaw, float partialTicks)
-    {
-		this.bindEntityTexture(entity);
+
+    protected RenderTarantulaHair(RenderManager renderManager) {
+        super(renderManager);
+    }
+
+    @Override
+    public void doRender(EntityTarantulaHair entity, double x, double y, double z, float entityYaw, float partialTicks) {
+        this.bindEntityTexture(entity);
         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
         GlStateManager.pushMatrix();
         GlStateManager.disableLighting();
-        GlStateManager.translate((float)x, (float)y, (float)z);
+        GlStateManager.translate((float) x, (float) y, (float) z);
         GlStateManager.rotate(entity.prevRotationYaw + (entity.rotationYaw - entity.prevRotationYaw) * partialTicks - 90.0F, 0.0F, 1.0F, 0.0F);
         GlStateManager.rotate(entity.prevRotationPitch + (entity.rotationPitch - entity.prevRotationPitch) * partialTicks, 0.0F, 0.0F, 1.0F);
         Tessellator tessellator = Tessellator.getInstance();
@@ -36,8 +35,7 @@ public class RenderTarantulaHair extends Render<EntityTarantulaHair> {
         GlStateManager.scale(0.05625F, 0.05625F, 0.05625F);
         GlStateManager.translate(-4.0F, 0.0F, 0.0F);
 
-        if (this.renderOutlines)
-        {
+        if (this.renderOutlines) {
             GlStateManager.enableColorMaterial();
             GlStateManager.enableOutlineMode(this.getTeamColor(entity));
         }
@@ -57,8 +55,7 @@ public class RenderTarantulaHair extends Render<EntityTarantulaHair> {
         bufferbuilder.pos(-7.0D, -2.0D, -2.0D).tex(0.0D, 0.3125D).endVertex();
         tessellator.draw();
 
-        for (int j = 0; j < 4; ++j)
-        {
+        for (int j = 0; j < 4; ++j) {
             GlStateManager.rotate(90.0F, 1.0F, 0.0F, 0.0F);
             GlStateManager.glNormal3f(0.0F, 0.0F, 0.05625F);
             bufferbuilder.begin(7, DefaultVertexFormats.POSITION_TEX);
@@ -69,8 +66,7 @@ public class RenderTarantulaHair extends Render<EntityTarantulaHair> {
             tessellator.draw();
         }
 
-        if (this.renderOutlines)
-        {
+        if (this.renderOutlines) {
             GlStateManager.disableOutlineMode();
             GlStateManager.disableColorMaterial();
         }
@@ -80,11 +76,11 @@ public class RenderTarantulaHair extends Render<EntityTarantulaHair> {
         GlStateManager.popMatrix();
         super.doRender(entity, x, y, z, entityYaw, partialTicks);
     }
-    
-	@Override
-	@Nonnull
-	protected ResourceLocation getEntityTexture(@Nonnull EntityTarantulaHair entity) {
-		return TextureRegistry.tarantula_hair;
-	}
-    
+
+    @Override
+    @Nonnull
+    protected ResourceLocation getEntityTexture(@Nonnull EntityTarantulaHair entity) {
+        return TextureRegistry.tarantula_hair;
+    }
+
 }

@@ -12,34 +12,32 @@ import net.minecraft.util.ResourceLocation;
 
 public class RenderHirschgeist extends RenderLiving<EntityHirschgeist> {
 
-	public RenderHirschgeist(RenderManager rendermanagerIn) {
-		super(rendermanagerIn, new ModelHirschgeistMain(), 1F);
-	}
+    public RenderHirschgeist(RenderManager rendermanagerIn) {
+        super(rendermanagerIn, new ModelHirschgeistMain(), 1F);
+    }
 
+    /**
+     * Allows the render to do state modifications necessary before the model is
+     * rendered.
+     */
+    @Override
+    protected void preRenderCallback(EntityHirschgeist entitylivingbaseIn, float partialTickTime) {
+        if (!entitylivingbaseIn.isDaytime()) {
+            float scale = 2F;
+            GlStateManager.scale(scale, scale, scale);
+        }
+        super.preRenderCallback(entitylivingbaseIn, partialTickTime);
+    }
 
-	/**
-	 * Allows the render to do state modifications necessary before the model is rendered.
-	 */
-	protected void preRenderCallback(EntityHirschgeist entitylivingbaseIn, float partialTickTime)
-	{
-		if(!entitylivingbaseIn.isDaytime()) {
-			float scale = 2F;
-			GlStateManager.scale(scale, scale, scale);
-		}
-		super.preRenderCallback(entitylivingbaseIn, partialTickTime);
-	}
+    @Override
+    public void doRender(EntityHirschgeist entity, double x, double y, double z, float f, float partialTicks) {
+        super.doRender(entity, x, y, z, f, partialTicks);
+    }
 
-	@Override
-	public void doRender(EntityHirschgeist entity, double x, double y, double z, float f, float partialTicks) {	
-		super.doRender(entity, x, y, z, f, partialTicks);
-	}
-
-
-
-	@Override
-	@Nonnull
-	protected ResourceLocation getEntityTexture(@Nonnull EntityHirschgeist entity) {
-		return TextureRegistry.hirschgeist;
-	}
+    @Override
+    @Nonnull
+    protected ResourceLocation getEntityTexture(@Nonnull EntityHirschgeist entity) {
+        return TextureRegistry.hirschgeist;
+    }
 
 }

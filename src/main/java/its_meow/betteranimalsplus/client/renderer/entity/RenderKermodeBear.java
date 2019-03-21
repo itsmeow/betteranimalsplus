@@ -11,16 +11,14 @@ import net.minecraft.util.ResourceLocation;
 
 public class RenderKermodeBear extends RenderLiving<EntityBearNeutralKermode> {
 
+    public RenderKermodeBear(RenderManager rendermanagerIn) {
+        super(rendermanagerIn, new ModelBear(), 1F);
+    }
 
-	public RenderKermodeBear(RenderManager rendermanagerIn) {
-		super(rendermanagerIn, new ModelBear(), 1F);
-	}
-
-	@Override
-	@Nonnull
-	protected ResourceLocation getEntityTexture(@Nonnull EntityBearNeutralKermode entity) {
-		return TextureRegistry.bear_kermode;
-	}
-	
+    @Override
+    @Nonnull
+    protected ResourceLocation getEntityTexture(@Nonnull EntityBearNeutralKermode entity) {
+        return TextureRegistry.bear_kermode;
+    }
 
 }

@@ -56,10 +56,10 @@ public class ModelHirschgeistHelmet extends ModelBiped {
     public ModelRenderer rAnter07e;
 
     public ModelHirschgeistHelmet() {
-    	super(0, 0, 128, 128);
+        super(0, 0, 128, 128);
         this.textureWidth = 128;
         this.textureHeight = 128;
-        
+
         this.lAnter05a1 = new ModelRenderer(this, 60, 20);
         this.lAnter05a1.setRotationPoint(0.3F, -0.2F, 0.5F);
         this.lAnter05a1.addBox(-0.2F, -0.2F, -5.4F, 1, 1, 6, 0.0F);
@@ -278,13 +278,13 @@ public class ModelHirschgeistHelmet extends ModelBiped {
         this.rAnter01.addChild(this.rAnter02);
         this.lAnter03a.addChild(this.lAnter03c);
         this.lAnter05a1.addChild(this.lAnter05a2);
-        
+
         this.bipedHead.addChild(this.head01);
     }
 
     @Override
-    public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) { 
-    	super.render(entity, f, f1, f2, f3, f4, f5);
+    public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) {
+        super.render(entity, f, f1, f2, f3, f4, f5);
     }
 
     /**

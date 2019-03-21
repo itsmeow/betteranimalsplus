@@ -11,15 +11,14 @@ import net.minecraft.util.ResourceLocation;
 
 public class RenderBlackBear extends RenderLiving<EntityBearNeutral> {
 
+    public RenderBlackBear(RenderManager rendermanagerIn) {
+        super(rendermanagerIn, new ModelBear(), 1F);
+    }
 
-	public RenderBlackBear(RenderManager rendermanagerIn) {
-		super(rendermanagerIn, new ModelBear(), 1F);
-	}
-
-	@Override
-	@Nonnull
-	protected ResourceLocation getEntityTexture(@Nonnull EntityBearNeutral entity) {
-		return TextureRegistry.bear_black;
-	}
+    @Override
+    @Nonnull
+    protected ResourceLocation getEntityTexture(@Nonnull EntityBearNeutral entity) {
+        return TextureRegistry.bear_black;
+    }
 
 }

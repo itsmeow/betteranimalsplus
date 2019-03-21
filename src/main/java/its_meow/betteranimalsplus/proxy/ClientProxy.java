@@ -18,30 +18,32 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
 public class ClientProxy implements ISidedProxy {
 
-	public static final ModelHirschgeistHelmet armorModel = new ModelHirschgeistHelmet();
+    public static final ModelHirschgeistHelmet armorModel = new ModelHirschgeistHelmet();
 
-	public void preInit(FMLPreInitializationEvent event) {
-		
-	}
+    @Override
+    public void preInit(FMLPreInitializationEvent event) {
 
-	public void init(FMLInitializationEvent event) {
-		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityTrillium.class, new RenderBlockTrillium());
-		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityHandOfFate.class, new RenderBlockHandOfFate());
-		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityHead.class, new RenderGenericHead());
-		for(BlockGenericSkull block : BlockRegistry.genericskulls.keySet()) {
-			if(block.allowFloor) {
-				ClientRegistry.bindTileEntitySpecialRenderer(block.teClass.asSubclass(TileEntityHead.class), new RenderGenericHeadFloor());
-			}
-		}
-	}
-	
-	@Override
-	public void postInit(FMLPostInitializationEvent e) {
-		
-	}
+    }
 
-	public static ModelBiped getArmorModel(){
-		return armorModel;
-	}
+    @Override
+    public void init(FMLInitializationEvent event) {
+        ClientRegistry.bindTileEntitySpecialRenderer(TileEntityTrillium.class, new RenderBlockTrillium());
+        ClientRegistry.bindTileEntitySpecialRenderer(TileEntityHandOfFate.class, new RenderBlockHandOfFate());
+        ClientRegistry.bindTileEntitySpecialRenderer(TileEntityHead.class, new RenderGenericHead());
+        for (BlockGenericSkull block : BlockRegistry.genericskulls.keySet()) {
+            if (block.allowFloor) {
+                ClientRegistry.bindTileEntitySpecialRenderer(block.teClass.asSubclass(TileEntityHead.class), new RenderGenericHeadFloor());
+            }
+        }
+    }
+
+    @Override
+    public void postInit(FMLPostInitializationEvent e) {
+
+    }
+
+    public static ModelBiped getArmorModel() {
+        return armorModel;
+    }
 
 }
