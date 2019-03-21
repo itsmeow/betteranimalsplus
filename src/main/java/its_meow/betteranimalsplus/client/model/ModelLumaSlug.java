@@ -5,8 +5,7 @@ import net.minecraft.client.renderer.entity.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 
 /**
- * lumaslug - cybercat5555
- * Created using Tabula 5.1.0
+ * lumaslug - cybercat5555 Created using Tabula 5.1.0
  */
 public class ModelLumaSlug extends ModelBase {
     public ModelRenderer body;
@@ -65,7 +64,7 @@ public class ModelLumaSlug extends ModelBase {
     }
 
     @Override
-    public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) { 
+    public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) {
         this.body.render(f5);
     }
 

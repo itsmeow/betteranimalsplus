@@ -10,39 +10,39 @@ import net.minecraft.util.SoundEvent;
 
 public class ArmorMaterialBone implements IArmorMaterial {
 
-	@Override
-	public int getDamageReductionAmount(EntityEquipmentSlot arg0) {
-		return 2;
-	}
+    @Override
+    public int getDamageReductionAmount(EntityEquipmentSlot arg0) {
+        return 2;
+    }
 
-	@Override
-	public int getDurability(EntityEquipmentSlot arg0) {
-		return 50;
-	}
+    @Override
+    public int getDurability(EntityEquipmentSlot arg0) {
+        return 50;
+    }
 
-	@Override
-	public int getEnchantability() {
-		return 12;
-	}
+    @Override
+    public int getEnchantability() {
+        return 12;
+    }
 
-	@Override
-	public String getName() {
-		return "betteranimalsplus:bone";
-	}
+    @Override
+    public String getName() {
+        return "betteranimalsplus:bone";
+    }
 
-	@Override
-	public Ingredient getRepairMaterial() {
-		return Ingredient.fromItems(Items.BONE, ModItems.ANTLER);
-	}
+    @Override
+    public Ingredient getRepairMaterial() {
+        return Ingredient.fromItems(Items.BONE, ModItems.ANTLER);
+    }
 
-	@Override
-	public SoundEvent getSoundEvent() {
-		return SoundEvents.ITEM_ARMOR_EQUIP_GENERIC;
-	}
+    @Override
+    public SoundEvent getSoundEvent() {
+        return SoundEvents.ITEM_ARMOR_EQUIP_GENERIC;
+    }
 
-	@Override
-	public float getToughness() {
-		return 0;
-	}
+    @Override
+    public float getToughness() {
+        return 0;
+    }
 
 }

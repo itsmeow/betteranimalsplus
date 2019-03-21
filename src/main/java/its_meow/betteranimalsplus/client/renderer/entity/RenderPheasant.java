@@ -13,44 +13,43 @@ import net.minecraft.util.math.MathHelper;
 
 public class RenderPheasant extends RenderLiving<EntityPheasant> {
 
-	public RenderPheasant(RenderManager rendermanagerIn) {
-		super(rendermanagerIn, new ModelPheasant(), 0.5F);
-	}
+    public RenderPheasant(RenderManager rendermanagerIn) {
+        super(rendermanagerIn, new ModelPheasant(), 0.5F);
+    }
 
-	@Override
-	protected void preRenderCallback(EntityPheasant entitylivingbaseIn, float partialTickTime) {
-		if(this.getMainModel().isChild) {
-			GlStateManager.scaled(0.5D, 0.5D, 0.5D);
-		} else {
-			GlStateManager.scaled(1.0D, 1.0D, 1.0D);
-		}
-	}
+    @Override
+    protected void preRenderCallback(EntityPheasant entitylivingbaseIn, float partialTickTime) {
+        if (this.getMainModel().isChild) {
+            GlStateManager.scaled(0.5D, 0.5D, 0.5D);
+        } else {
+            GlStateManager.scaled(1.0D, 1.0D, 1.0D);
+        }
+    }
 
-	@Override
-	protected float handleRotationFloat(EntityPheasant livingBase, float partialTicks) {
-		float f = livingBase.oFlap + (livingBase.wingRotation - livingBase.oFlap) * partialTicks;
-		float f1 = livingBase.oFlapSpeed + (livingBase.destPos - livingBase.oFlapSpeed) * partialTicks;
-		return (MathHelper.sin(f) + 1.0F) * f1;
-	}
+    @Override
+    protected float handleRotationFloat(EntityPheasant livingBase, float partialTicks) {
+        float f = livingBase.oFlap + (livingBase.wingRotation - livingBase.oFlap) * partialTicks;
+        float f1 = livingBase.oFlapSpeed + (livingBase.destPos - livingBase.oFlapSpeed) * partialTicks;
+        return (MathHelper.sin(f) + 1.0F) * f1;
+    }
 
-
-	@Override
-	@Nonnull
-	protected ResourceLocation getEntityTexture(@Nonnull EntityPheasant entity) {
-		int type = entity.getTypeNumber();
-		ResourceLocation res = ModTextures.pheasant_1;
-		switch(type) {
-		case 1:
-			res = ModTextures.pheasant_1;
-			break;
-		case 2:
-			res = ModTextures.pheasant_2;
-			break;
-		default:
-			res = ModTextures.pheasant_1;
-			break;
-		}
-		return res;
-	}
+    @Override
+    @Nonnull
+    protected ResourceLocation getEntityTexture(@Nonnull EntityPheasant entity) {
+        int type = entity.getTypeNumber();
+        ResourceLocation res = ModTextures.pheasant_1;
+        switch (type) {
+        case 1:
+            res = ModTextures.pheasant_1;
+            break;
+        case 2:
+            res = ModTextures.pheasant_2;
+            break;
+        default:
+            res = ModTextures.pheasant_1;
+            break;
+        }
+        return res;
+    }
 
 }

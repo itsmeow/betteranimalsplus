@@ -13,49 +13,49 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 @OnlyIn(Dist.CLIENT)
 public class LayerTarantulaEyes implements LayerRenderer<EntityTarantula> {
 
-	private final RenderTarantula tarantulaRenderer;
+    private final RenderTarantula tarantulaRenderer;
 
-	public LayerTarantulaEyes(RenderTarantula rendererIn) {
-		this.tarantulaRenderer = rendererIn;
-	}
+    public LayerTarantulaEyes(RenderTarantula rendererIn) {
+        this.tarantulaRenderer = rendererIn;
+    }
 
-	@Override
-	public void render(EntityTarantula entity, float limbSwing, float limbSwingAmount, float partialTicks,
-			float ageInTicks, float netHeadYaw, float headPitch, float scale) {
-		if(!entity.isInvisible() && !entity.isChild()) {
-			this.tarantulaRenderer.bindTexture(ModTextures.tarantula_eyes);
+    @Override
+    public void render(EntityTarantula entity, float limbSwing, float limbSwingAmount, float partialTicks,
+            float ageInTicks, float netHeadYaw, float headPitch, float scale) {
+        if (!entity.isInvisible() && !entity.isChild()) {
+            this.tarantulaRenderer.bindTexture(ModTextures.tarantula_eyes);
 
-			GlStateManager.enableBlend();
-			GlStateManager.disableAlphaTest();
-			GlStateManager.blendFunc(GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ONE);
+            GlStateManager.enableBlend();
+            GlStateManager.disableAlphaTest();
+            GlStateManager.blendFunc(GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ONE);
 
-			if(entity.isInvisible()) {
-				GlStateManager.depthMask(false);
-			} else {
-				GlStateManager.depthMask(true);
-			}
+            if (entity.isInvisible()) {
+                GlStateManager.depthMask(false);
+            } else {
+                GlStateManager.depthMask(true);
+            }
 
-			int i = 61680;
-			int j = i % 65536;
-			int k = i / 65536;
-			OpenGlHelper.glMultiTexCoord2f(OpenGlHelper.GL_TEXTURE1, j, k);
-			Minecraft.getInstance().entityRenderer.setupFogColor(true);
-			this.tarantulaRenderer.getMainModel().render(entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw,
-					headPitch, scale);
-			Minecraft.getInstance().entityRenderer.setupFogColor(false);
-			i = entity.getBrightnessForRender();
-			j = i % 65536;
-			k = i / 65536;
-			OpenGlHelper.glMultiTexCoord2f(OpenGlHelper.GL_TEXTURE1, j, k);
-			this.tarantulaRenderer.setLightmap(entity);
-			GlStateManager.disableBlend();
-			GlStateManager.enableAlphaTest();
+            int i = 61680;
+            int j = i % 65536;
+            int k = i / 65536;
+            OpenGlHelper.glMultiTexCoord2f(OpenGlHelper.GL_TEXTURE1, j, k);
+            Minecraft.getInstance().entityRenderer.setupFogColor(true);
+            this.tarantulaRenderer.getMainModel().render(entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw,
+                    headPitch, scale);
+            Minecraft.getInstance().entityRenderer.setupFogColor(false);
+            i = entity.getBrightnessForRender();
+            j = i % 65536;
+            k = i / 65536;
+            OpenGlHelper.glMultiTexCoord2f(OpenGlHelper.GL_TEXTURE1, j, k);
+            this.tarantulaRenderer.setLightmap(entity);
+            GlStateManager.disableBlend();
+            GlStateManager.enableAlphaTest();
 
-		}
-	}
+        }
+    }
 
-	@Override
-	public boolean shouldCombineTextures() {
-		return true;
-	}
+    @Override
+    public boolean shouldCombineTextures() {
+        return true;
+    }
 }

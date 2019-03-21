@@ -12,26 +12,25 @@ import net.minecraft.util.ResourceLocation;
 
 public class RenderBrownBear extends RenderLiving<EntityBear> {
 
+    public RenderBrownBear(RenderManager rendermanagerIn) {
+        super(rendermanagerIn, new ModelBear(), 1F);
+    }
 
-	public RenderBrownBear(RenderManager rendermanagerIn) {
-		super(rendermanagerIn, new ModelBear(), 1F);
-	}
+    @Override
+    @Nonnull
+    protected ResourceLocation getEntityTexture(@Nonnull EntityBear entity) {
+        return ModTextures.bear_brown;
+    }
 
-	@Override
-	@Nonnull
-	protected ResourceLocation getEntityTexture(@Nonnull EntityBear entity) {
-		return ModTextures.bear_brown;
-	}
-
-	/**
-	 * Allows the render to do state modifications necessary before the model is
-	 * rendered.
-	 */
-	@Override
-	protected void preRenderCallback(EntityBear entitylivingbaseIn, float partialTickTime) {
-		float scale = 1.3F;
-		GlStateManager.scalef(scale, scale, scale);
-		super.preRenderCallback(entitylivingbaseIn, partialTickTime);
-	}
+    /**
+     * Allows the render to do state modifications necessary before the model is
+     * rendered.
+     */
+    @Override
+    protected void preRenderCallback(EntityBear entitylivingbaseIn, float partialTickTime) {
+        float scale = 1.3F;
+        GlStateManager.scalef(scale, scale, scale);
+        super.preRenderCallback(entitylivingbaseIn, partialTickTime);
+    }
 
 }

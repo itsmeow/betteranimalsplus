@@ -51,32 +51,32 @@ import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 
 public class ClientLifecycleHandler {
-    
+
     public static final ModelHirschgeistHelmet armorModel = new ModelHirschgeistHelmet();
-    
-	public void clientSetup(final FMLClientSetupEvent event) {
-		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityTrillium.class, new RenderBlockTrillium());
-		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityHandOfFate.class, new RenderBlockHandOfFate());
-		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityHead.class, new RenderGenericHead());
-		RenderingRegistry.registerEntityRenderingHandler(EntityBear.class, RenderBrownBear::new);
-		RenderingRegistry.registerEntityRenderingHandler(EntityBearNeutral.class, RenderBlackBear::new);
-		RenderingRegistry.registerEntityRenderingHandler(EntityBearNeutralKermode.class, RenderKermodeBear::new);
-		RenderingRegistry.registerEntityRenderingHandler(EntityDeer.class, RenderDeer::new);
-		RenderingRegistry.registerEntityRenderingHandler(EntityLammergeier.class, RenderLammergeier::new);
-		RenderingRegistry.registerEntityRenderingHandler(EntityFeralWolf.class, RenderCustomWolf::new);
-		RenderingRegistry.registerEntityRenderingHandler(EntityCoyote.class, RenderCoyote::new);
-		RenderingRegistry.registerEntityRenderingHandler(EntityFox.class, RenderFox::new);
-		RenderingRegistry.registerEntityRenderingHandler(EntityTarantulaHair.class, RenderTarantulaHair::new);
-		RenderingRegistry.registerEntityRenderingHandler(EntityTarantula.class, RenderTarantula::new);
-		RenderingRegistry.registerEntityRenderingHandler(EntityHirschgeist.class, RenderHirschgeist::new);
-		RenderingRegistry.registerEntityRenderingHandler(EntityGoat.class, RenderGoat::new);
-		RenderingRegistry.registerEntityRenderingHandler(EntityJellyfish.class, RenderJellyfish::new);
-		RenderingRegistry.registerEntityRenderingHandler(EntityPheasant.class, RenderPheasant::new);
-		RenderingRegistry.registerEntityRenderingHandler(EntityReindeer.class, RenderReindeer::new);
-		RenderingRegistry.registerEntityRenderingHandler(EntityBoar.class, RenderBoar::new);
-		RenderingRegistry.registerEntityRenderingHandler(EntitySquirrel.class, RenderSquirrel::new);
-		RenderingRegistry.registerEntityRenderingHandler(EntitySongbird.class, RenderSongbird::new);
-		BetterAnimalsPlusMod.logger.log(Level.INFO, "Rendering squirrel physics...");
-	}
+
+    public void clientSetup(final FMLClientSetupEvent event) {
+        ClientRegistry.bindTileEntitySpecialRenderer(TileEntityTrillium.class, new RenderBlockTrillium());
+        ClientRegistry.bindTileEntitySpecialRenderer(TileEntityHandOfFate.class, new RenderBlockHandOfFate());
+        ClientRegistry.bindTileEntitySpecialRenderer(TileEntityHead.class, new RenderGenericHead());
+        RenderingRegistry.registerEntityRenderingHandler(EntityBear.class, RenderBrownBear::new);
+        RenderingRegistry.registerEntityRenderingHandler(EntityBearNeutral.class, RenderBlackBear::new);
+        RenderingRegistry.registerEntityRenderingHandler(EntityBearNeutralKermode.class, RenderKermodeBear::new);
+        RenderingRegistry.registerEntityRenderingHandler(EntityDeer.class, RenderDeer::new);
+        RenderingRegistry.registerEntityRenderingHandler(EntityLammergeier.class, RenderLammergeier::new);
+        RenderingRegistry.registerEntityRenderingHandler(EntityFeralWolf.class, RenderCustomWolf::new);
+        RenderingRegistry.registerEntityRenderingHandler(EntityCoyote.class, RenderCoyote::new);
+        RenderingRegistry.registerEntityRenderingHandler(EntityFox.class, RenderFox::new);
+        RenderingRegistry.registerEntityRenderingHandler(EntityTarantulaHair.class, RenderTarantulaHair::new);
+        RenderingRegistry.registerEntityRenderingHandler(EntityTarantula.class, RenderTarantula::new);
+        RenderingRegistry.registerEntityRenderingHandler(EntityHirschgeist.class, RenderHirschgeist::new);
+        RenderingRegistry.registerEntityRenderingHandler(EntityGoat.class, RenderGoat::new);
+        RenderingRegistry.registerEntityRenderingHandler(EntityJellyfish.class, RenderJellyfish::new);
+        RenderingRegistry.registerEntityRenderingHandler(EntityPheasant.class, RenderPheasant::new);
+        RenderingRegistry.registerEntityRenderingHandler(EntityReindeer.class, RenderReindeer::new);
+        RenderingRegistry.registerEntityRenderingHandler(EntityBoar.class, RenderBoar::new);
+        RenderingRegistry.registerEntityRenderingHandler(EntitySquirrel.class, RenderSquirrel::new);
+        RenderingRegistry.registerEntityRenderingHandler(EntitySongbird.class, RenderSongbird::new);
+        BetterAnimalsPlusMod.logger.log(Level.INFO, "Rendering squirrel physics...");
+    }
 
 }

@@ -51,57 +51,54 @@ import net.minecraft.world.World;
 
 public class EntitySongbird extends EntityAnimal implements IFlyingAnimal, IVariantTypes {
 
-	private static final Set<Item> SEEDS = Sets.newHashSet(Items.WHEAT_SEEDS, Items.MELON_SEEDS, Items.PUMPKIN_SEEDS, Items.BEETROOT_SEEDS);
-	
-	public EntitySongbird(World worldIn) {
-		super(ModEntities.getEntityType(EntitySongbird.class), worldIn);
-		this.setSize(0.5F, 0.5F);
+    private static final Set<Item> SEEDS = Sets.newHashSet(Items.WHEAT_SEEDS, Items.MELON_SEEDS, Items.PUMPKIN_SEEDS,
+            Items.BEETROOT_SEEDS);
+
+    public EntitySongbird(World worldIn) {
+        super(ModEntities.getEntityType(EntitySongbird.class), worldIn);
+        this.setSize(0.5F, 0.5F);
         this.moveHelper = new EntityFlyHelper(this);
-	}
-	
-	@Override
-	protected void initEntityAI()
-    {
+    }
+
+    @Override
+    protected void initEntityAI() {
         this.tasks.addTask(0, new EntityAISwimming(this));
         this.tasks.addTask(1, new EntityAIPanic(this, 1.25D));
-        Predicate<Entity> avoidPredicate = new Predicate<Entity>() {
-			@Override
-			public boolean apply(Entity input) {
-				boolean result1 = (input instanceof EntityPlayer);
-				boolean result2 = !SEEDS.contains(((EntityPlayer)input).getHeldItem(EnumHand.MAIN_HAND).getItem()) && !SEEDS.contains(((EntityPlayer)input).getHeldItem(EnumHand.OFF_HAND).getItem());
-				return result1 && result2;
-			}
-		};
-		this.tasks.addTask(2, new EntityAIAvoidEntity<EntityPlayer>(this, EntityPlayer.class, avoidPredicate, 10F, 0.8D, 1D, Predicates.alwaysTrue()));
+        Predicate<Entity> avoidPredicate = input -> {
+            boolean result1 = (input instanceof EntityPlayer);
+            boolean result2 = !SEEDS.contains(((EntityPlayer) input).getHeldItem(EnumHand.MAIN_HAND).getItem())
+                    && !SEEDS.contains(((EntityPlayer) input).getHeldItem(EnumHand.OFF_HAND).getItem());
+            return result1 && result2;
+        };
+        this.tasks.addTask(2, new EntityAIAvoidEntity<EntityPlayer>(this, EntityPlayer.class, avoidPredicate, 10F, 0.8D,
+                1D, Predicates.alwaysTrue()));
         this.tasks.addTask(3, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
-		this.tasks.addTask(4, new EntityAIMate(this, 0.4F));
+        this.tasks.addTask(4, new EntityAIMate(this, 0.4F));
         this.tasks.addTask(5, new EntityAIWanderAvoidWaterFlying(this, 1.0D));
     }
-	
-	@Override
-    protected void registerAttributes()
-    {
+
+    @Override
+    protected void registerAttributes() {
         super.registerAttributes();
         this.getAttributeMap().registerAttribute(SharedMonsterAttributes.FLYING_SPEED);
         this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(6.0D);
         this.getAttribute(SharedMonsterAttributes.FLYING_SPEED).setBaseValue(0.4D);
         this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.2D);
     }
-    
+
     @Override
-    public boolean canSpawn(IWorld world, boolean b)
-    {
+    public boolean canSpawn(IWorld world, boolean b) {
         int i = MathHelper.floor(this.posX);
         int j = MathHelper.floor(this.getBoundingBox().minY);
         int k = MathHelper.floor(this.posZ);
         BlockPos blockpos = new BlockPos(i, j, k);
         Block block = this.world.getBlockState(blockpos.down()).getBlock();
-        return block instanceof BlockLeaves || block == Blocks.GRASS || block instanceof BlockLog || block == Blocks.AIR && this.world.getLight(blockpos) > 8 && super.canSpawn(world, b);
+        return block instanceof BlockLeaves || block == Blocks.GRASS || block instanceof BlockLog
+                || block == Blocks.AIR && this.world.getLight(blockpos) > 8 && super.canSpawn(world, b);
     }
-    
+
     @Override
-    protected PathNavigate createNavigator(World worldIn)
-    {
+    protected PathNavigate createNavigator(World worldIn) {
         PathNavigateFlying pathnavigateflying = new PathNavigateFlying(this, worldIn);
         pathnavigateflying.setCanOpenDoors(false);
         pathnavigateflying.setCanSwim(true);
@@ -109,130 +106,123 @@ public class EntitySongbird extends EntityAnimal implements IFlyingAnimal, IVari
         return pathnavigateflying;
     }
 
-	@Override
-	public boolean isBreedingItem(ItemStack stack) {
-		return SEEDS.contains(stack.getItem());
-	}
-	
-	@Override
-	public void fall(float distance, float damageMultiplier)
-    {
+    @Override
+    public boolean isBreedingItem(ItemStack stack) {
+        return SEEDS.contains(stack.getItem());
     }
-	
-	@Override
-    protected void updateFallState(double y, boolean onGroundIn, IBlockState state, BlockPos pos)
-    {
+
+    @Override
+    public void fall(float distance, float damageMultiplier) {
     }
-    
-	@Override
-    protected void playStepSound(BlockPos pos, IBlockState state)
-    {
+
+    @Override
+    protected void updateFallState(double y, boolean onGroundIn, IBlockState state, BlockPos pos) {
+    }
+
+    @Override
+    protected void playStepSound(BlockPos pos, IBlockState state) {
         this.playSound(SoundEvents.ENTITY_PARROT_STEP, 0.15F, 1.0F);
     }
-	
-	@Override
-    protected float playFlySound(float p_191954_1_)
-    {
+
+    @Override
+    protected float playFlySound(float p_191954_1_) {
         this.playSound(SoundEvents.ENTITY_PARROT_FLY, 0.15F, 1.0F);
         return p_191954_1_;
     }
-	
-	@Override
-    protected boolean makeFlySound()
-    {
+
+    @Override
+    protected boolean makeFlySound() {
         return true;
     }
-    
-	@Override
-    public SoundCategory getSoundCategory()
-    {
+
+    @Override
+    public SoundCategory getSoundCategory() {
         return SoundCategory.NEUTRAL;
     }
-    
-	@Override
-    public boolean canBePushed()
-    {
+
+    @Override
+    public boolean canBePushed() {
         return true;
     }
-	
-    public boolean isFlying()
-    {
+
+    public boolean isFlying() {
         return !this.onGround;
     }
-    
-    protected static final DataParameter<Integer> TYPE_NUMBER = EntityDataManager.<Integer>createKey(EntitySongbird.class, DataSerializers.VARINT);
-    
+
+    protected static final DataParameter<Integer> TYPE_NUMBER = EntityDataManager
+            .<Integer>createKey(EntitySongbird.class, DataSerializers.VARINT);
+
     @Override
-    protected void registerData()
-	{
-		super.registerData();
-		this.registerTypeKey();
-	}
-	
-	@Override
-	public boolean writeUnlessRemoved(NBTTagCompound compound)
-	{
-		this.writeType(compound);
-		return super.writeUnlessRemoved(compound);
-	}
-	
-	@Override
-	public void read(NBTTagCompound compound)
-	{
-		super.read(compound);
-		this.readType(compound);
-	}
+    protected void registerData() {
+        super.registerData();
+        this.registerTypeKey();
+    }
 
-	@Nullable
-	public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, @Nullable IEntityLivingData livingdata, NBTTagCompound compound) {
-		return this.initData(super.onInitialSpawn(difficulty, livingdata, compound));
-	}	
+    @Override
+    public boolean writeUnlessRemoved(NBTTagCompound compound) {
+        this.writeType(compound);
+        return super.writeUnlessRemoved(compound);
+    }
 
-	@Override
-	public boolean canMateWith(EntityAnimal otherAnimal) {
-		if(super.canMateWith(otherAnimal)) {
-			if(!(otherAnimal instanceof EntitySongbird)) {
-				return false;
-			}
-			return ((EntitySongbird) otherAnimal).getTypeNumber() == this.getTypeNumber();
-		}
-		return false;
-	}
+    @Override
+    public void read(NBTTagCompound compound) {
+        super.read(compound);
+        this.readType(compound);
+    }
 
-	@Override
-	public EntityAgeable createChild(EntityAgeable ageable) {
-		EntitySongbird bird = new EntitySongbird(world);
-		bird.setType(this.getTypeNumber());
-		return bird;
-	}
+    @Override
+    @Nullable
+    public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, @Nullable IEntityLivingData livingdata,
+            NBTTagCompound compound) {
+        return this.initData(super.onInitialSpawn(difficulty, livingdata, compound));
+    }
 
-	@Override
-	protected ResourceLocation getLootTable() {
-		return ModLootTables.songbird;
-	}
+    @Override
+    public boolean canMateWith(EntityAnimal otherAnimal) {
+        if (super.canMateWith(otherAnimal)) {
+            if (!(otherAnimal instanceof EntitySongbird)) {
+                return false;
+            }
+            return ((EntitySongbird) otherAnimal).getTypeNumber() == this.getTypeNumber();
+        }
+        return false;
+    }
 
-	public int getVariantMax() {
-		return 9;
-	}
+    @Override
+    public EntityAgeable createChild(EntityAgeable ageable) {
+        EntitySongbird bird = new EntitySongbird(world);
+        bird.setType(this.getTypeNumber());
+        return bird;
+    }
 
-	@Override
-	public DataParameter<Integer> getDataKey() {
-		return TYPE_NUMBER;
-	}
-	
-	@Override
-	public boolean isChildI() {
-		return this.isChild();
-	}
+    @Override
+    protected ResourceLocation getLootTable() {
+        return ModLootTables.songbird;
+    }
 
-	@Override
-	public Random getRNGI() {
-		return this.getRNG();
-	}
+    @Override
+    public int getVariantMax() {
+        return 9;
+    }
 
-	@Override
-	public EntityDataManager getDataManagerI() {
-		return this.getDataManager();
-	}
-	
+    @Override
+    public DataParameter<Integer> getDataKey() {
+        return TYPE_NUMBER;
+    }
+
+    @Override
+    public boolean isChildI() {
+        return this.isChild();
+    }
+
+    @Override
+    public Random getRNGI() {
+        return this.getRNG();
+    }
+
+    @Override
+    public EntityDataManager getDataManagerI() {
+        return this.getDataManager();
+    }
+
 }

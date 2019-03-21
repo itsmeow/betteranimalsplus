@@ -12,40 +12,39 @@ import net.minecraft.util.ResourceLocation;
 
 public class RenderSquirrel extends RenderLiving<EntitySquirrel> {
 
-	public RenderSquirrel(RenderManager rendermanagerIn) {
-		super(rendermanagerIn, new ModelSquirrel(), 0.3F);
-	}
+    public RenderSquirrel(RenderManager rendermanagerIn) {
+        super(rendermanagerIn, new ModelSquirrel(), 0.3F);
+    }
 
-	@Override
-	protected void preRenderCallback(EntitySquirrel entitylivingbaseIn, float partialTickTime) {
-		if(this.getMainModel().isChild) {
-			GlStateManager.scaled(0.35D, 0.35D, 0.35D);
-		} else {
-			GlStateManager.scaled(0.5D, 0.5D, 0.5D);
-		}
-	}
+    @Override
+    protected void preRenderCallback(EntitySquirrel entitylivingbaseIn, float partialTickTime) {
+        if (this.getMainModel().isChild) {
+            GlStateManager.scaled(0.35D, 0.35D, 0.35D);
+        } else {
+            GlStateManager.scaled(0.5D, 0.5D, 0.5D);
+        }
+    }
 
-
-	@Override
-	@Nonnull
-	protected ResourceLocation getEntityTexture(@Nonnull EntitySquirrel entity) {
-		int type = entity.getTypeNumber();
-		ResourceLocation res = ModTextures.squirrel_1;
-		switch(type) {
-		case 1:
-			res = ModTextures.squirrel_1;
-			break;
-		case 2:
-			res = ModTextures.squirrel_2;
-			break;
-		case 3:
-			res = ModTextures.squirrel_3;
-			break;
-		default:
-			res = ModTextures.squirrel_1;
-			break;
-		}
-		return res;
-	}
+    @Override
+    @Nonnull
+    protected ResourceLocation getEntityTexture(@Nonnull EntitySquirrel entity) {
+        int type = entity.getTypeNumber();
+        ResourceLocation res = ModTextures.squirrel_1;
+        switch (type) {
+        case 1:
+            res = ModTextures.squirrel_1;
+            break;
+        case 2:
+            res = ModTextures.squirrel_2;
+            break;
+        case 3:
+            res = ModTextures.squirrel_3;
+            break;
+        default:
+            res = ModTextures.squirrel_1;
+            break;
+        }
+        return res;
+    }
 
 }

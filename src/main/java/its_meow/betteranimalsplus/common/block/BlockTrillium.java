@@ -22,91 +22,91 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 public class BlockTrillium extends BlockBush {
-	
-	private static final VoxelShape SHAPE = VoxelShapes.create(0.15F, 0.0F, 0.15F, 0.85F, 0.9F, 0.85F);
-	
-	public BlockTrillium() {
-		super(Properties.create(Material.PLANTS).sound(SoundType.PLANT).doesNotBlockMovement());
-		this.setRegistryName("trillium");
-		this.setDefaultState(this.getDefaultState().with(BlockHorizontal.HORIZONTAL_FACING, EnumFacing.NORTH));
-	}
-	
-	public VoxelShape getShape(IBlockState state, IBlockReader worldIn, BlockPos pos) {
-		return SHAPE;
-	}
-	
-	@OnlyIn(Dist.CLIENT)
-	public boolean hasCustomBreakingProgress(IBlockState state) {
-		return true;
-	}
 
+    private static final VoxelShape SHAPE = VoxelShapes.create(0.15F, 0.0F, 0.15F, 0.85F, 0.9F, 0.85F);
 
-	@Override
-	public void onNeighborChange(IBlockState state, IWorldReader world, BlockPos pos, BlockPos neighbor) {
-		super.onNeighborChange(state, world, pos, neighbor);
-		if(!world.getBlockState(neighbor).isTopSolid(world, pos) && pos.down() == neighbor) {
-			World world1 = (World) world;
-			world1.destroyBlock(pos, true);
-		}
-	}
+    public BlockTrillium() {
+        super(Properties.create(Material.PLANTS).sound(SoundType.PLANT).doesNotBlockMovement());
+        this.setRegistryName("trillium");
+        this.setDefaultState(this.getDefaultState().with(BlockHorizontal.HORIZONTAL_FACING, EnumFacing.NORTH));
+    }
 
-	@Override
-	protected void fillStateContainer(Builder<Block, IBlockState> builder) {
-		builder.add(BlockHorizontal.HORIZONTAL_FACING);
-	}
+    @Override
+    public VoxelShape getShape(IBlockState state, IBlockReader worldIn, BlockPos pos) {
+        return SHAPE;
+    }
 
-	@SuppressWarnings("deprecation")
-	@Override
-	public void onBlockAdded(IBlockState state, World worldIn, BlockPos pos, IBlockState oldState) {
-		super.onBlockAdded(state, worldIn, pos, oldState);
-		if(!worldIn.getBlockState(pos.down()).isTopSolid(worldIn, pos)) {
-			worldIn.destroyBlock(pos, true);
-		}
-	}
-	
-	@Override
-	public IBlockState getStateForPlacement(BlockItemUseContext context) {
-		return this.getDefaultState().with(BlockHorizontal.HORIZONTAL_FACING, context.getPlacementHorizontalFacing());
-	}
-	
-	@Override
-	public boolean isFullCube(IBlockState state) {
-		return false;
-	}
+    @Override
+    @OnlyIn(Dist.CLIENT)
+    public boolean hasCustomBreakingProgress(IBlockState state) {
+        return true;
+    }
 
-	@Override
-	public boolean isTopSolid(IBlockState state) {
-		return false;
-	}
+    @Override
+    public void onNeighborChange(IBlockState state, IWorldReader world, BlockPos pos, BlockPos neighbor) {
+        super.onNeighborChange(state, world, pos, neighbor);
+        if (!world.getBlockState(neighbor).isTopSolid(world, pos) && pos.down() == neighbor) {
+            World world1 = (World) world;
+            world1.destroyBlock(pos, true);
+        }
+    }
 
-	@Override
-	public EnumBlockRenderType getRenderType(IBlockState state) {
-		return EnumBlockRenderType.ENTITYBLOCK_ANIMATED;
-	}
+    @Override
+    protected void fillStateContainer(Builder<Block, IBlockState> builder) {
+        builder.add(BlockHorizontal.HORIZONTAL_FACING);
+    }
 
-	@Override
-	public boolean isNormalCube(IBlockState state) {
-		return false;
-	}
+    @SuppressWarnings("deprecation")
+    @Override
+    public void onBlockAdded(IBlockState state, World worldIn, BlockPos pos, IBlockState oldState) {
+        super.onBlockAdded(state, worldIn, pos, oldState);
+        if (!worldIn.getBlockState(pos.down()).isTopSolid(worldIn, pos)) {
+            worldIn.destroyBlock(pos, true);
+        }
+    }
 
+    @Override
+    public IBlockState getStateForPlacement(BlockItemUseContext context) {
+        return this.getDefaultState().with(BlockHorizontal.HORIZONTAL_FACING, context.getPlacementHorizontalFacing());
+    }
 
-	@Override
-	public boolean isSolid(IBlockState state) {
-		return false;
-	}
+    @Override
+    public boolean isFullCube(IBlockState state) {
+        return false;
+    }
 
-	@Override
-	public boolean hasTileEntity() {
-		return true;
-	}
-	
-	@Override
-	public boolean hasTileEntity(IBlockState state) {
-		return true;
-	}
+    @Override
+    public boolean isTopSolid(IBlockState state) {
+        return false;
+    }
 
-	@Override
-	public TileEntity createTileEntity(IBlockState state, IBlockReader world) {
-		return new TileEntityTrillium();
-	}
+    @Override
+    public EnumBlockRenderType getRenderType(IBlockState state) {
+        return EnumBlockRenderType.ENTITYBLOCK_ANIMATED;
+    }
+
+    @Override
+    public boolean isNormalCube(IBlockState state) {
+        return false;
+    }
+
+    @Override
+    public boolean isSolid(IBlockState state) {
+        return false;
+    }
+
+    @Override
+    public boolean hasTileEntity() {
+        return true;
+    }
+
+    @Override
+    public boolean hasTileEntity(IBlockState state) {
+        return true;
+    }
+
+    @Override
+    public TileEntity createTileEntity(IBlockState state, IBlockReader world) {
+        return new TileEntityTrillium();
+    }
 }

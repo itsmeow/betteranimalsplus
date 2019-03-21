@@ -20,52 +20,52 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 public class ItemHirschgeistSkullWearable extends ItemArmor {
-    
-	public ItemHirschgeistSkullWearable() {
-		super(new ArmorMaterialBone(), EntityEquipmentSlot.HEAD, new Properties().group(BetterAnimalsPlusMod.group));
-		this.setRegistryName("hirschgeistskullwearable");
-	}
 
-	@Override
-	@OnlyIn(Dist.CLIENT)
-	public ModelBiped getArmorModel(EntityLivingBase entityLiving, ItemStack itemStack, EntityEquipmentSlot armorSlot,
-			ModelBiped defaultModel) {
-		if(itemStack != null) {
-			if(itemStack.getItem() instanceof ItemArmor) {
+    public ItemHirschgeistSkullWearable() {
+        super(new ArmorMaterialBone(), EntityEquipmentSlot.HEAD, new Properties().group(BetterAnimalsPlusMod.group));
+        this.setRegistryName("hirschgeistskullwearable");
+    }
 
-				ModelBiped armorModel = ClientLifecycleHandler.armorModel;
-				armorModel.bipedHead.showModel = armorSlot == EntityEquipmentSlot.HEAD;
-				armorModel.bipedHeadwear.showModel = armorSlot == EntityEquipmentSlot.HEAD;
-				armorModel.bipedBody.showModel = armorSlot == EntityEquipmentSlot.CHEST
-						|| armorSlot == EntityEquipmentSlot.CHEST;
-				armorModel.bipedRightArm.showModel = armorSlot == EntityEquipmentSlot.CHEST;
-				armorModel.bipedLeftArm.showModel = armorSlot == EntityEquipmentSlot.CHEST;
-				armorModel.bipedRightLeg.showModel = armorSlot == EntityEquipmentSlot.LEGS
-						|| armorSlot == EntityEquipmentSlot.FEET;
-				armorModel.bipedLeftLeg.showModel = armorSlot == EntityEquipmentSlot.LEGS
-						|| armorSlot == EntityEquipmentSlot.FEET;
+    @Override
+    @OnlyIn(Dist.CLIENT)
+    public ModelBiped getArmorModel(EntityLivingBase entityLiving, ItemStack itemStack, EntityEquipmentSlot armorSlot,
+            ModelBiped defaultModel) {
+        if (itemStack != null) {
+            if (itemStack.getItem() instanceof ItemArmor) {
 
-				armorModel.isSneak = defaultModel.isSneak;
-				armorModel.isRiding = defaultModel.isRiding;
-				armorModel.isChild = defaultModel.isChild;
-				armorModel.rightArmPose = defaultModel.rightArmPose;
-				armorModel.leftArmPose = defaultModel.leftArmPose;
+                ModelBiped armorModel = ClientLifecycleHandler.armorModel;
+                armorModel.bipedHead.showModel = armorSlot == EntityEquipmentSlot.HEAD;
+                armorModel.bipedHeadwear.showModel = armorSlot == EntityEquipmentSlot.HEAD;
+                armorModel.bipedBody.showModel = armorSlot == EntityEquipmentSlot.CHEST
+                        || armorSlot == EntityEquipmentSlot.CHEST;
+                armorModel.bipedRightArm.showModel = armorSlot == EntityEquipmentSlot.CHEST;
+                armorModel.bipedLeftArm.showModel = armorSlot == EntityEquipmentSlot.CHEST;
+                armorModel.bipedRightLeg.showModel = armorSlot == EntityEquipmentSlot.LEGS
+                        || armorSlot == EntityEquipmentSlot.FEET;
+                armorModel.bipedLeftLeg.showModel = armorSlot == EntityEquipmentSlot.LEGS
+                        || armorSlot == EntityEquipmentSlot.FEET;
 
-				return armorModel;
-			}
-		}
-		return null;
-	}
+                armorModel.isSneak = defaultModel.isSneak;
+                armorModel.isRiding = defaultModel.isRiding;
+                armorModel.isChild = defaultModel.isChild;
+                armorModel.rightArmPose = defaultModel.rightArmPose;
+                armorModel.leftArmPose = defaultModel.leftArmPose;
 
-	@Override
-	public void addInformation(ItemStack stack, World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
-		tooltip.add(new TextComponentString("It can be placed via placing it into an empty crafting table"));
-		super.addInformation(stack, worldIn, tooltip, flagIn);
-	}
+                return armorModel;
+            }
+        }
+        return null;
+    }
 
-	@Override
-	public boolean getIsRepairable(ItemStack toRepair, ItemStack repair) {
-		return repair.getItem() == Items.BONE || repair.getItem() == ModItems.ANTLER;
-	}
+    @Override
+    public void addInformation(ItemStack stack, World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
+        tooltip.add(new TextComponentString("It can be placed via placing it into an empty crafting table"));
+        super.addInformation(stack, worldIn, tooltip, flagIn);
+    }
+
+    @Override
+    public boolean getIsRepairable(ItemStack toRepair, ItemStack repair) {
+        return repair.getItem() == Items.BONE || repair.getItem() == ModItems.ANTLER;
+    }
 
 }

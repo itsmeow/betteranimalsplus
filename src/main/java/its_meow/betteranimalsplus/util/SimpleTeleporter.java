@@ -10,9 +10,9 @@ import net.minecraftforge.common.util.ITeleporter;
  **/
 public class SimpleTeleporter implements ITeleporter {
 
-	@Override
-	public void placeEntity(World world, Entity entity, float yaw) {
+    @Override
+    public void placeEntity(World world, Entity entity, float yaw) {
 
-	}
+    }
 
 }

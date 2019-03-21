@@ -27,47 +27,47 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 @Mod(value = Ref.MOD_ID)
 public class BetterAnimalsPlusMod {
 
-	public BetterAnimalsPlusMod() {
+    public BetterAnimalsPlusMod() {
 
-		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
-		FMLJavaModLoadingContext.get().getModEventBus().<FMLClientSetupEvent>addListener(e -> new ClientLifecycleHandler().clientSetup(e));
-		
-		if(ModEntities.entityList.isEmpty()) {
-			ModEntities.fillContainers();
-		}
-		
-		BetterAnimalsPlusConfig.setupConfig();
-		
-		// Make sure to do this after containers are loaded
-		ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, BetterAnimalsPlusConfig.SERVER_CONFIG);
-		
-		BetterAnimalsPlusMod.logger.log(Level.INFO, "Injecting super coyotes...");
-	}
+        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
+        FMLJavaModLoadingContext.get().getModEventBus()
+                .<FMLClientSetupEvent>addListener(e -> new ClientLifecycleHandler().clientSetup(e));
 
-	public static ItemGroup group = new ItemGroup("Better Animals+") {
-		@Override
-		public ItemStack createIcon() {
-			return new ItemStack(ModItems.ANTLER);
-		}
+        if (ModEntities.entityList.isEmpty()) {
+            ModEntities.fillContainers();
+        }
 
-		@Override
-		public void fill(NonNullList<ItemStack> toDisplay) {
-			super.fill(toDisplay);
-			for(ItemSpawnEgg egg : ModItems.eggs.keySet()) {
-				ItemStack stack = new ItemStack(egg);
-				toDisplay.add(stack);
-			}
-		}
-	};
+        BetterAnimalsPlusConfig.setupConfig();
 
-	public static final Logger logger = LogManager.getLogger();
+        // Make sure to do this after containers are loaded
+        ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, BetterAnimalsPlusConfig.SERVER_CONFIG);
 
+        BetterAnimalsPlusMod.logger.log(Level.INFO, "Injecting super coyotes...");
+    }
 
-	private void setup(final FMLCommonSetupEvent event) {
-		BiomeDictionary.getBiomes(BiomeDictionary.Type.SWAMP).forEach(
-				biome -> biome.addFeature(net.minecraft.world.gen.GenerationStage.Decoration.VEGETAL_DECORATION,
-						Biome.createCompositeFeature(new TrilliumGenerator(), new NoFeatureConfig(), Biome.TOP_SOLID,
-								new FrequencyConfig(3))));
-		BetterAnimalsPlusMod.logger.log(Level.INFO, "Overspawning lammergeiers...");
-	}
+    public static ItemGroup group = new ItemGroup("Better Animals+") {
+        @Override
+        public ItemStack createIcon() {
+            return new ItemStack(ModItems.ANTLER);
+        }
+
+        @Override
+        public void fill(NonNullList<ItemStack> toDisplay) {
+            super.fill(toDisplay);
+            for (ItemSpawnEgg egg : ModItems.eggs.keySet()) {
+                ItemStack stack = new ItemStack(egg);
+                toDisplay.add(stack);
+            }
+        }
+    };
+
+    public static final Logger logger = LogManager.getLogger();
+
+    private void setup(final FMLCommonSetupEvent event) {
+        BiomeDictionary.getBiomes(BiomeDictionary.Type.SWAMP).forEach(
+                biome -> biome.addFeature(net.minecraft.world.gen.GenerationStage.Decoration.VEGETAL_DECORATION,
+                        Biome.createCompositeFeature(new TrilliumGenerator(), new NoFeatureConfig(), Biome.TOP_SOLID,
+                                new FrequencyConfig(3))));
+        BetterAnimalsPlusMod.logger.log(Level.INFO, "Overspawning lammergeiers...");
+    }
 }
