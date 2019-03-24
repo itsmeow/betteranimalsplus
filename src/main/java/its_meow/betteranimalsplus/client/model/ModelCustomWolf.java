@@ -289,12 +289,10 @@ public class ModelCustomWolf extends ModelBetterAnimals {
             EntityLivingBase living = (EntityLivingBase) entity;
             float newLimbSwing = limbSwing + ModelBetterAnimals.getSwingProgressPrev(living);
             // this.head.rotateAngleZ = this.head.rotateAngleY;
-            this.lHindLeg01.rotateAngleX = MathHelper.sin(newLimbSwing * 0.8665F + (float) Math.PI) * swingModifier
-                    * limbSwingAmount;
-            this.rHindLeg01.rotateAngleX = MathHelper.cos(newLimbSwing * 0.8665F) * swingModifier * limbSwingAmount;
-            this.lArm01.rotateAngleX = MathHelper.sin(newLimbSwing * 0.8665F) * swingModifier * limbSwingAmount;
-            this.rArm01.rotateAngleX = MathHelper.cos(newLimbSwing * 0.8665F + (float) Math.PI) * swingModifier
-                    * limbSwingAmount;
+            this.lHindLeg01.rotateAngleX = MathHelper.sin(newLimbSwing * 0.8665F + (float) Math.PI) * swingModifier * limbSwingAmount - 0.22759093446006054F;
+            this.rHindLeg01.rotateAngleX = MathHelper.cos(newLimbSwing * 0.8665F) * swingModifier * limbSwingAmount  - 0.22759093446006054F;
+            this.lArm01.rotateAngleX = MathHelper.sin(newLimbSwing * 0.8665F) * swingModifier * limbSwingAmount + 0.22759093446006054F;
+            this.rArm01.rotateAngleX = MathHelper.cos(newLimbSwing * 0.8665F + (float) Math.PI) * swingModifier * limbSwingAmount + 0.22759093446006054F;
             this.neck.rotateAngleX = -0.6F;
         }
 
