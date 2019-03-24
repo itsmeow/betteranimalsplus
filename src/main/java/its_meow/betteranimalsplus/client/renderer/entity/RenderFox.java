@@ -14,6 +14,15 @@ public class RenderFox extends RenderLiving<EntityFox> {
         super(manager, new ModelFox(), 0.5F);
     }
 
+    @Override
+    protected void preRenderCallback(EntityFox entitylivingbaseIn, float partialTickTime) {
+        if (this.getMainModel().isChild) {
+            GlStateManager.scale(0.6D, 0.6D, 0.6D);
+        } else {
+            GlStateManager.scale(1.0D, 1.0D, 1.0D);
+        }
+    }
+
     /**
      * Defines what float the third param in setRotationAngles of ModelBase is
      */

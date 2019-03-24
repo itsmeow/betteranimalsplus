@@ -1,6 +1,7 @@
 package its_meow.betteranimalsplus.common.entity;
 
 import java.util.Random;
+import java.util.UUID;
 
 import javax.annotation.Nullable;
 
@@ -19,6 +20,7 @@ import net.minecraft.entity.ai.EntityAIFollowOwner;
 import net.minecraft.entity.ai.EntityAIHurtByTarget;
 import net.minecraft.entity.ai.EntityAILeapAtTarget;
 import net.minecraft.entity.ai.EntityAILookIdle;
+import net.minecraft.entity.ai.EntityAIMate;
 import net.minecraft.entity.ai.EntityAIOwnerHurtByTarget;
 import net.minecraft.entity.ai.EntityAIOwnerHurtTarget;
 import net.minecraft.entity.ai.EntityAISit;
@@ -29,7 +31,6 @@ import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.monster.EntityCreeper;
 import net.minecraft.entity.monster.EntityGhast;
 import net.minecraft.entity.passive.AbstractHorse;
-import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.passive.EntityChicken;
 import net.minecraft.entity.passive.EntityRabbit;
 import net.minecraft.entity.passive.EntityTameable;
@@ -54,6 +55,7 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldServer;
 import net.minecraft.world.storage.loot.LootTableList;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -85,6 +87,7 @@ public class EntityFox extends EntityTameable implements IVariantTypes {
         this.aiSit = new EntityAISit(this);
         this.tasks.addTask(1, new EntityAISwimming(this));
         this.tasks.addTask(2, this.aiSit);
+        this.tasks.addTask(3, new EntityAIMate(this, 1.0D));
         this.tasks.addTask(4, new EntityAILeapAtTarget(this, 0.4F));
         this.tasks.addTask(5, new EntityAIAttackMelee(this, 1.0D, true));
         this.tasks.addTask(6, new EntityAIFollowOwner(this, 1.0D, 10.0F, 2.0F));
@@ -368,34 +371,34 @@ public class EntityFox extends EntityTameable implements IVariantTypes {
 
     @Override
     public boolean processInteract(EntityPlayer player, EnumHand hand) {
-        ItemStack itemstack = player.getHeldItem(hand);
+        ItemStack stack = player.getHeldItem(hand);
 
-        if (this.isTamed()) {
-            if (!itemstack.isEmpty()) {
-                if (itemstack.getItem() instanceof ItemFood) {
-                    ItemFood itemfood = (ItemFood) itemstack.getItem();
+        if(this.isTamed() && !this.world.isRemote) {
+            if(this.isOwner(player)) {
+                if(this.isBreedingItem(stack) && !this.isInLove() && !this.isChild()) {
+                    if(this.isSitting()) {
+                        this.aiSit.setSitting(false);
+                    }
+                    this.setInLove(player);
+                    this.consumeItemFromStack(player, stack);
+                } else if(!this.world.isRemote && !(stack.getItem() instanceof ItemFood || this.dataManager.get(DATA_HEALTH_ID).floatValue() < this.getMaxHealth())) {
+                    this.aiSit.setSitting(!this.isSitting());
+                    this.isJumping = false;
+                    this.navigator.clearPath();
+                    this.setAttackTarget((EntityLivingBase) null);
+                } else if(!stack.isEmpty() && stack.getItem() instanceof ItemFood) {
+                    ItemFood itemfood = (ItemFood) stack.getItem();
 
-                    if (itemfood.isWolfsFavoriteMeat() && this.dataManager.get(DATA_HEALTH_ID).floatValue() < 20.0F) {
-                        if (!player.capabilities.isCreativeMode) {
-                            itemstack.shrink(1);
-                        }
-
-                        this.heal(itemfood.getHealAmount(itemstack));
+                    if(itemfood.isWolfsFavoriteMeat() && this.dataManager.get(DATA_HEALTH_ID).floatValue() < this.getMaxHealth()) {
+                        this.consumeItemFromStack(player, stack);
+                        this.heal(itemfood.getHealAmount(stack));
+                        this.playHealEffect();
                         return true;
                     }
                 }
             }
-
-            if (this.isOwner(player) && !this.world.isRemote && !this.isBreedingItem(itemstack) && (!(itemstack.getItem() instanceof ItemFood) || !((ItemFood) itemstack.getItem()).isWolfsFavoriteMeat())) {
-                this.aiSit.setSitting(!this.isSitting());
-                this.isJumping = false;
-                this.navigator.clearPath();
-                this.setAttackTarget((EntityLivingBase) null);
-            }
-        } else if (itemstack.getItem() == Items.RABBIT || itemstack.getItem() == Items.CHICKEN) {
-            if (!player.capabilities.isCreativeMode) {
-                itemstack.shrink(1);
-            }
+        } else if(this.isBreedingItem(stack)) {
+            this.consumeItemFromStack(player, stack);
 
             if (!this.world.isRemote) {
                 if (this.rand.nextInt(3) == 0 && !net.minecraftforge.event.ForgeEventFactory.onAnimalTame(this, player)) {
@@ -415,7 +418,20 @@ public class EntityFox extends EntityTameable implements IVariantTypes {
             return true;
         }
 
-        return super.processInteract(player, hand);
+        return false;
+    }
+    
+    protected void playHealEffect() {
+
+        for (int i = 0; i < 7; ++i) {
+            double d0 = this.rand.nextGaussian() * 0.02D;
+            double d1 = this.rand.nextGaussian() * 0.02D;
+            double d2 = this.rand.nextGaussian() * 0.02D;
+            
+            if(!this.world.isRemote) {
+                ((WorldServer)this.world).spawnParticle(EnumParticleTypes.VILLAGER_HAPPY, this.posX + (double)(this.rand.nextFloat() * this.width * 2.0F) - (double)this.width, this.posY + 0.5D + (double)(this.rand.nextFloat() * this.height), this.posZ + (double)(this.rand.nextFloat() * this.width * 2.0F) - (double)this.width, 1, d0, d1, d2, 1F, new int[0]);
+            }
+        }
     }
 
     /**
@@ -449,7 +465,7 @@ public class EntityFox extends EntityTameable implements IVariantTypes {
      */
     @Override
     public boolean isBreedingItem(ItemStack stack) {
-        return stack.getItem() instanceof ItemFood && ((ItemFood) stack.getItem()).isWolfsFavoriteMeat();
+        return stack.getItem() == Items.CHICKEN || stack.getItem() == Items.RABBIT;
     }
 
     /**
@@ -458,14 +474,6 @@ public class EntityFox extends EntityTameable implements IVariantTypes {
     @Override
     public int getMaxSpawnedInChunk() {
         return 8;
-    }
-
-    /**
-     * Returns true if the mob is currently able to mate with the specified mob.
-     */
-    @Override
-    public boolean canMateWith(EntityAnimal otherAnimal) {
-        return false;
     }
 
     @Override
@@ -497,7 +505,14 @@ public class EntityFox extends EntityTameable implements IVariantTypes {
     @Override
     public EntityAgeable createChild(EntityAgeable ageable) {
         if(!(ageable instanceof IVariantTypes)) return null;
-        return (EntityAgeable) new EntityFox(this.world).setType(this.getOffspringType(this, (IVariantTypes) ageable));
+        EntityFox fox = (EntityFox) new EntityFox(this.world).setType(this.getOffspringType(this, (IVariantTypes) ageable));
+        UUID uuid = this.getOwnerId();
+
+        if (uuid != null) {
+            fox.setOwnerId(uuid);
+            fox.setTamed(true);
+        }
+        return fox;
     }
 
     @Override
