@@ -1,4 +1,4 @@
-package its_meow.betteranimalsplus.common.config;
+package its_meow.betteranimalsplus.config;
 
 import java.util.ArrayList;
 import java.util.HashMap;

@@ -238,13 +238,8 @@ public class EntityGoat extends EntityAnimal implements IVariantTypes {
 
     @Override
     public EntityAgeable createChild(EntityAgeable ageable) {
-        EntityGoat goat = new EntityGoat(ageable.world);
-        goat.setLocationAndAngles(ageable.posX, ageable.posY, ageable.posZ, 0, 0);
-        if (ageable.hasCustomName()) {
-            goat.setCustomNameTag(ageable.getCustomNameTag());
-        }
-        goat.setType(this.getTypeNumber());
-        return goat;
+        if(!(ageable instanceof IVariantTypes)) return null;
+        return (EntityAgeable) new EntityGoat(this.world).setType(this.getOffspringType(this, (IVariantTypes) ageable));
     }
 
     public static class GoatAIAttackForFriend extends EntityAIBase {

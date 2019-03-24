@@ -139,9 +139,8 @@ public class EntityDeer extends EntityAnimal implements IVariantTypes {
 
     @Override
     public EntityAgeable createChild(EntityAgeable ageable) {
-        EntityDeer child = new EntityDeer(this.world);
-        child.setType(this.getTypeNumber());
-        return child;
+        if(!(ageable instanceof IVariantTypes)) return null;
+        return (EntityAgeable) new EntityDeer(this.world).setType(this.getOffspringType(this, (IVariantTypes) ageable));
     }
 
     @Override

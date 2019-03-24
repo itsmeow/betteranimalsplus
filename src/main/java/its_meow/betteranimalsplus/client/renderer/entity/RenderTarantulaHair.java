@@ -14,7 +14,7 @@ import net.minecraft.util.ResourceLocation;
 
 public class RenderTarantulaHair extends Render<EntityTarantulaHair> {
 
-    protected RenderTarantulaHair(RenderManager renderManager) {
+    public RenderTarantulaHair(RenderManager renderManager) {
         super(renderManager);
     }
 

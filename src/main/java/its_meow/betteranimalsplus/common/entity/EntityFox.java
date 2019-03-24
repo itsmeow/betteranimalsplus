@@ -495,8 +495,9 @@ public class EntityFox extends EntityTameable implements IVariantTypes {
     }
 
     @Override
-    public EntityFox createChild(EntityAgeable ageable) {
-        return null;
+    public EntityAgeable createChild(EntityAgeable ageable) {
+        if(!(ageable instanceof IVariantTypes)) return null;
+        return (EntityAgeable) new EntityFox(this.world).setType(this.getOffspringType(this, (IVariantTypes) ageable));
     }
 
     @Override

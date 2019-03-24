@@ -1,4 +1,4 @@
-package its_meow.betteranimalsplus.client;
+package its_meow.betteranimalsplus.client.util;
 
 import its_meow.betteranimalsplus.Ref;
 import its_meow.betteranimalsplus.common.block.BlockGenericSkull;
