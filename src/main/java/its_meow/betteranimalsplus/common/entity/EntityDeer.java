@@ -13,6 +13,7 @@ import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIAvoidEntity;
+import net.minecraft.entity.ai.EntityAIEatGrass;
 import net.minecraft.entity.ai.EntityAILookIdle;
 import net.minecraft.entity.ai.EntityAIMate;
 import net.minecraft.entity.ai.EntityAIPanic;
@@ -35,12 +36,15 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class EntityDeer extends EntityAnimal implements IVariantTypes {
     
-    private static final DataParameter<Integer> EAT_TIME = EntityDataManager.<Integer>createKey(EntityDeer.class, DataSerializers.VARINT);
     private static final DataParameter<Integer> TYPE_NUMBER = EntityDataManager.<Integer>createKey(EntityDeer.class, DataSerializers.VARINT);
-    
+    private EntityAIEatGrass eatTask = null;
+    public int eatTimer;
+
     public EntityDeer(World worldIn) {
         super(worldIn);
         this.setSize(1.2F, 1.6F);
@@ -50,20 +54,31 @@ public class EntityDeer extends EntityAnimal implements IVariantTypes {
     protected void entityInit() {
         super.entityInit();
         this.registerTypeKey();
-        this.dataManager.register(EAT_TIME, 0);
-    }
-    
-    public int getEatTime() {
-        return this.dataManager.get(EAT_TIME).intValue();
     }
 
-    public int setEatTime(int time) {
-        this.dataManager.set(EAT_TIME, Integer.valueOf(time));
-        return time;
+    public int getEatTime() {
+        return eatTimer;
     }
     
-    private int getNewEat() {
-        return this.rand.nextInt(600) + 30;
+    @SideOnly(Side.CLIENT)
+    public void handleStatusUpdate(byte id)
+    {
+        if (id == 10)
+        {
+            this.eatTimer = 40;
+        }
+        else
+        {
+            super.handleStatusUpdate(id);
+        }
+    }
+    
+    @Override
+    public void onLivingUpdate() {
+        super.onLivingUpdate();
+        if (this.world.isRemote) {
+            this.eatTimer = Math.max(0, this.eatTimer - 1);
+        }
     }
 
     @Override
@@ -124,8 +139,17 @@ public class EntityDeer extends EntityAnimal implements IVariantTypes {
         temptItems.add(Items.GOLDEN_CARROT);
         this.tasks.addTask(3, new EntityAITempt(this, 0.45D, false, temptItems));
         this.tasks.addTask(4, new EntityAIAvoidEntity<EntityPlayer>(this, EntityPlayer.class, 20, 0.55D, 0.7D));
+        this.tasks.addTask(5, this.eatTask = new EntityAIEatGrass(this));
         this.tasks.addTask(5, new EntityAIWander(this, 0.45D));
         this.tasks.addTask(6, new EntityAILookIdle(this));
+    }
+    
+    
+
+    @Override
+    public void eatGrassBonus() {
+        super.eatGrassBonus();
+        this.addGrowth(60);
     }
 
     @Override
@@ -147,21 +171,15 @@ public class EntityDeer extends EntityAnimal implements IVariantTypes {
             }
         }
     }
-    
-    
+
+
 
     @Override
-    public void onUpdate() {
-        super.onUpdate();
-        if (!this.onGround || this.getMoveHelper().isUpdating()) {
-            if (this.getEatTime() <= 61) {
-                this.setEatTime(80);
-            }
+    public void updateAITasks() {
+        if(this.eatTask != null) {
+            this.eatTimer = this.eatTask.getEatingGrassTimer();
         }
-
-        if (!this.world.isRemote && this.setEatTime(this.getEatTime() - 1) <= 0) {
-            this.setEatTime(this.getNewEat());
-        }
+        super.updateAITasks();
     }
 
     @Override

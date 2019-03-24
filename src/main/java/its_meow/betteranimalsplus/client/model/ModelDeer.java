@@ -460,16 +460,13 @@ public class ModelDeer extends ModelBetterAnimals {
         if(entity instanceof EntityDeer) {
             EntityDeer deer = (EntityDeer) entity;
             float eatTime = deer.getEatTime();
-            if(eatTime <= 60) {
-                this.chest.rotateAngleX = (float) Math.toRadians((eatTime * 5) % 1000F) - 0.6829473363053812F;
-                this.chest.offsetZ = eatTime / 20F + this.chest.rotationPointX;
-                this.neck.rotateAngleX = (float) Math.toRadians(1000F % eatTime) - 0.31869712141416456F;
-                this.head.rotateAngleX = -0.31869712141416456F + (float) Math.toRadians(45F);
-                this.lowerJaw.rotateAngleX = (float) Math.toRadians((eatTime % 30F)) * 2F;
+            if(eatTime > 0) {
+                this.chest.rotateAngleX = (float) Math.toRadians(55F) - 0.6829473363053812F;
+                this.neck.rotateAngleX = (float) Math.toRadians(60F) - 0.31869712141416456F;
+                this.head.rotateAngleX = -0.31869712141416456F - (float) Math.toRadians(45F);
+                this.lowerJaw.rotateAngleX = (float) Math.toRadians((eatTime % 20F)) + 0.1F;
             } else {
                 this.chest.rotateAngleX = -0.6829473363053812F;
-                this.chest.offsetZ = 0F;
-                this.chest.offsetX = 0F;
                 this.neck.rotateAngleX = headPitch * 0.017453292F - 0.31869712141416456F;
                 this.head.rotateAngleX = -0.31869712141416456F;
                 this.lowerJaw.rotateAngleX = 0F;
