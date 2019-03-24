@@ -37,7 +37,10 @@ import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
 
 public class EntityDeer extends EntityAnimal implements IVariantTypes {
-
+    
+    private static final DataParameter<Integer> EAT_TIME = EntityDataManager.<Integer>createKey(EntityDeer.class, DataSerializers.VARINT);
+    private static final DataParameter<Integer> TYPE_NUMBER = EntityDataManager.<Integer>createKey(EntityDeer.class, DataSerializers.VARINT);
+    
     public EntityDeer(World worldIn) {
         super(worldIn);
         this.setSize(1.2F, 1.6F);
@@ -47,6 +50,20 @@ public class EntityDeer extends EntityAnimal implements IVariantTypes {
     protected void entityInit() {
         super.entityInit();
         this.registerTypeKey();
+        this.dataManager.register(EAT_TIME, 0);
+    }
+    
+    public int getEatTime() {
+        return this.dataManager.get(EAT_TIME).intValue();
+    }
+
+    public int setEatTime(int time) {
+        this.dataManager.set(EAT_TIME, Integer.valueOf(time));
+        return time;
+    }
+    
+    private int getNewEat() {
+        return this.rand.nextInt(600) + 30;
     }
 
     @Override
@@ -66,8 +83,6 @@ public class EntityDeer extends EntityAnimal implements IVariantTypes {
     public int getMaxSpawnedInChunk() {
         return 4;
     }
-
-    private static final DataParameter<Integer> TYPE_NUMBER = EntityDataManager.<Integer>createKey(EntityDeer.class, DataSerializers.VARINT);
 
     @Override
     public void writeEntityToNBT(NBTTagCompound compound) {
@@ -130,6 +145,22 @@ public class EntityDeer extends EntityAnimal implements IVariantTypes {
                 stack.getTagCompound().setInteger("TYPENUM", this.getTypeNumber());
                 this.entityDropItem(stack, 0.5F);
             }
+        }
+    }
+    
+    
+
+    @Override
+    public void onUpdate() {
+        super.onUpdate();
+        if (!this.onGround || this.getMoveHelper().isUpdating()) {
+            if (this.getEatTime() <= 61) {
+                this.setEatTime(80);
+            }
+        }
+
+        if (!this.world.isRemote && this.setEatTime(this.getEatTime() - 1) <= 0) {
+            this.setEatTime(this.getNewEat());
         }
     }
 

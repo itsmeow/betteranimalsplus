@@ -1,5 +1,6 @@
 package its_meow.betteranimalsplus.client.model;
 
+import its_meow.betteranimalsplus.common.entity.EntityDeer;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
@@ -442,28 +443,40 @@ public class ModelDeer extends ModelBetterAnimals {
     }
 
     @Override
-    public void setRotationAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor, Entity entityIn) {
+    public void setRotationAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor, Entity entity) {
         float f = limbSwing;
         float f1 = limbSwingAmount;
 
-        if (limbSwingAmount >= 0.65) {
-            this.lForeleg01.rotateAngleX = MathHelper.cos(f * 0.6662F + (float) Math.PI) * 1.4F * f1 + 0.136659280431156F;
-            this.rForeleg01.rotateAngleX = MathHelper.cos(f * 0.6662F + (float) Math.PI) * 1.4F * f1 + 0.136659280431156F;
-            this.rHindLeg01.rotateAngleX = MathHelper.cos(f * 0.6662F) * 1.4F * f1 - 0.22759093446006054F;
-            this.lHindLeg01.rotateAngleX = MathHelper.cos(f * 0.6662F) * 1.4F * f1 - 0.22759093446006054F;
-        } else {
-            this.lForeleg01.rotateAngleX = MathHelper.cos(f * 0.6662F) * 1.4F * f1 + 0.136659280431156F;
-            this.rForeleg01.rotateAngleX = MathHelper.cos(f * 0.6662F + (float) Math.PI) * 1.4F * f1 + 0.136659280431156F;
-            this.rHindLeg01.rotateAngleX = MathHelper.cos(f * 0.6662F) * 1.4F * f1 - 0.22759093446006054F;
-            this.lHindLeg01.rotateAngleX = MathHelper.cos(f * 0.6662F + (float) Math.PI) * 1.4F * f1 - 0.22759093446006054F;
+        this.lForeleg01.rotateAngleX = MathHelper.cos(f * 0.6662F) * 1.4F * f1 + 0.136659280431156F;
+        this.rForeleg01.rotateAngleX = MathHelper.cos(f * 0.6662F + (float) Math.PI) * 1.4F * f1 + 0.136659280431156F;
+        this.rHindLeg01.rotateAngleX = MathHelper.cos(f * 0.6662F) * 1.4F * f1 - 0.22759093446006054F;
+        this.lHindLeg01.rotateAngleX = MathHelper.cos(f * 0.6662F + (float) Math.PI) * 1.4F * f1 - 0.22759093446006054F;
+
+        if (entity instanceof EntityLiving) {
+            this.chest.rotateAngleX = ModelBetterAnimals.getHeadPitch((EntityLiving) entity) * 0.017453292F - 13;
+            this.chest.rotateAngleY = ModelBetterAnimals.getHeadYaw((EntityLiving) entity) * 0.017453292F * 0.5F;
         }
 
-        if (entityIn instanceof EntityLiving) {
-            this.chest.rotateAngleX = ModelBetterAnimals.getHeadPitch((EntityLiving) entityIn) * 0.017453292F - 13;
-            this.chest.rotateAngleY = ModelBetterAnimals.getHeadYaw((EntityLiving) entityIn) * 0.017453292F * 0.5F;
+        if(entity instanceof EntityDeer) {
+            EntityDeer deer = (EntityDeer) entity;
+            float eatTime = deer.getEatTime();
+            if(eatTime <= 60) {
+                this.chest.rotateAngleX = (float) Math.toRadians((eatTime * 5) % 1000F) - 0.6829473363053812F;
+                this.chest.offsetZ = eatTime / 20F + this.chest.rotationPointX;
+                this.neck.rotateAngleX = (float) Math.toRadians(1000F % eatTime) - 0.31869712141416456F;
+                this.head.rotateAngleX = -0.31869712141416456F + (float) Math.toRadians(45F);
+                this.lowerJaw.rotateAngleX = (float) Math.toRadians((eatTime % 30F)) * 2F;
+            } else {
+                this.chest.rotateAngleX = -0.6829473363053812F;
+                this.chest.offsetZ = 0F;
+                this.chest.offsetX = 0F;
+                this.neck.rotateAngleX = headPitch * 0.017453292F - 0.31869712141416456F;
+                this.head.rotateAngleX = -0.31869712141416456F;
+                this.lowerJaw.rotateAngleX = 0F;
+            }
         }
 
-        super.setRotationAngles(limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor, entityIn);
+        super.setRotationAngles(limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor, entity);
     }
 
     /**
