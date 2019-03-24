@@ -6,7 +6,6 @@ import javax.annotation.Nullable;
 
 import its_meow.betteranimalsplus.BetterAnimalsPlusMod;
 import net.minecraft.block.BlockSkull;
-import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
@@ -23,7 +22,7 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-public class BlockAnimalSkull extends BlockSkull implements ITileEntityProvider {
+public class BlockAnimalSkull extends BlockSkull {
 
     public BlockAnimalSkull() {
         this.setHardness(0.8F);
@@ -35,6 +34,11 @@ public class BlockAnimalSkull extends BlockSkull implements ITileEntityProvider 
 
     @Override
     public boolean hasTileEntity() {
+        return true;
+    }
+    
+    @Override
+    public boolean hasTileEntity(IBlockState state) {
         return true;
     }
 

@@ -5,10 +5,10 @@ import its_meow.betteranimalsplus.common.tileentity.TileEntityHandOfFate;
 import its_meow.betteranimalsplus.init.ModItems;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockHorizontal;
-import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyDirection;
+import net.minecraft.block.state.BlockFaceShape;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
@@ -28,7 +28,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-public class BlockHandOfFate extends Block implements ITileEntityProvider {
+public class BlockHandOfFate extends Block {
 
     public static final PropertyDirection FACING = BlockHorizontal.FACING;
     protected static final AxisAlignedBB AABB;
@@ -72,7 +72,10 @@ public class BlockHandOfFate extends Block implements ITileEntityProvider {
         return 2;
     }
 
-
+    @Override
+    public boolean hasCustomBreakingProgress(IBlockState state) {
+        return true;
+    }
 
     /**
      * Called by ItemBlocks just before a block is actually set in the world, to
@@ -207,6 +210,11 @@ public class BlockHandOfFate extends Block implements ITileEntityProvider {
     }
 
     @Override
+    public boolean isSideSolid(IBlockState base_state, IBlockAccess world, BlockPos pos, EnumFacing side) {
+        return false;
+    }
+
+    @Override
     public EnumBlockRenderType getRenderType(IBlockState state) {
         return EnumBlockRenderType.INVISIBLE;
     }
@@ -217,7 +225,16 @@ public class BlockHandOfFate extends Block implements ITileEntityProvider {
     }
 
     @Override
-    public TileEntity createNewTileEntity(World worldIn, int meta) {
+    public boolean hasTileEntity(IBlockState state) {
+        return true;
+    }
+    
+    public BlockFaceShape getBlockFaceShape(IBlockAccess worldIn, IBlockState state, BlockPos pos, EnumFacing face) {
+        return BlockFaceShape.UNDEFINED;
+    }
+
+    @Override
+    public TileEntity createTileEntity(World worldIn, IBlockState state) {
         return new TileEntityHandOfFate(worldIn);
     }
 

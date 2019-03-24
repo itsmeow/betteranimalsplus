@@ -2,7 +2,6 @@ package its_meow.betteranimalsplus.common.block;
 
 import its_meow.betteranimalsplus.common.tileentity.TileEntityHead;
 import its_meow.betteranimalsplus.init.ModBlocks;
-import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
@@ -15,7 +14,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-public class BlockGenericSkull extends BlockAnimalSkull implements ITileEntityProvider {
+public class BlockGenericSkull extends BlockAnimalSkull {
 
     public final boolean allowFloor;
     public final Class<? extends TileEntity> teClass;
@@ -50,6 +49,18 @@ public class BlockGenericSkull extends BlockAnimalSkull implements ITileEntityPr
 
     @Override
     public TileEntity createNewTileEntity(World worldIn, int meta) {
+        try {
+            return this.teClass.newInstance();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    
+    @Override
+    public TileEntity createTileEntity(World worldIn, IBlockState state) {
         try {
             return this.teClass.newInstance();
         } catch (InstantiationException e) {
