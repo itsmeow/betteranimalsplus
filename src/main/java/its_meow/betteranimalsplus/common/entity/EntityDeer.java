@@ -37,10 +37,10 @@ import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
 
 public class EntityDeer extends EntityAnimal implements IVariantTypes {
-
-    private static final DataParameter<Integer> TYPE_NUMBER = EntityDataManager.<Integer>createKey(EntityDeer.class,
-            DataSerializers.VARINT);
-
+    
+    private static final DataParameter<Integer> EAT_TIME = EntityDataManager.<Integer>createKey(EntityDeer.class, DataSerializers.VARINT);
+    private static final DataParameter<Integer> TYPE_NUMBER = EntityDataManager.<Integer>createKey(EntityDeer.class, DataSerializers.VARINT);
+    
     public EntityDeer(World worldIn) {
         super(ModEntities.getEntityType(EntityDeer.class), worldIn);
         this.setSize(1.2F, 1.6F);
@@ -49,7 +49,21 @@ public class EntityDeer extends EntityAnimal implements IVariantTypes {
     @Override
     protected void registerData() {
         super.registerData();
-        this.dataManager.register(EntityDeer.TYPE_NUMBER, Integer.valueOf(0));
+        this.registerTypeKey();
+        this.dataManager.register(EAT_TIME, 0);
+    }
+    
+    public int getEatTime() {
+        return this.dataManager.get(EAT_TIME).intValue();
+    }
+
+    public int setEatTime(int time) {
+        this.dataManager.set(EAT_TIME, Integer.valueOf(time));
+        return time;
+    }
+    
+    private int getNewEat() {
+        return this.rand.nextInt(600) + 30;
     }
 
     @Override
@@ -127,6 +141,22 @@ public class EntityDeer extends EntityAnimal implements IVariantTypes {
                 ItemStack stack = new ItemStack(HeadTypes.DEERHEAD.getItem(this.getTypeNumber()));
                 this.entityDropItem(stack, 0.5F);
             }
+        }
+    }
+    
+    
+
+    @Override
+    public void tick() {
+        super.tick();
+        if (!this.onGround || this.getMoveHelper().isUpdating()) {
+            if (this.getEatTime() <= 61) {
+                this.setEatTime(80);
+            }
+        }
+
+        if (!this.world.isRemote && this.setEatTime(this.getEatTime() - 1) <= 0) {
+            this.setEatTime(this.getNewEat());
         }
     }
 
