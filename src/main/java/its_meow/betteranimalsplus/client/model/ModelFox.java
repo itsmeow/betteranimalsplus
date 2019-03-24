@@ -368,10 +368,10 @@ public class ModelFox extends ModelBetterAnimals {
             EntityLivingBase living = (EntityLivingBase) entity;
             float newLimbSwing = limbSwing + ModelBetterAnimals.getSwingProgressPrev(living);
             // this.head.rotateAngleZ = this.head.rotateAngleY;
-            this.lHindLeg01.rotateAngleX = MathHelper.sin(newLimbSwing * 0.8665F + (float) Math.PI) * swingModifier * limbSwingAmount;
-            this.rHindLeg01.rotateAngleX = MathHelper.cos(newLimbSwing * 0.8665F) * swingModifier * limbSwingAmount;
-            this.lArm01.rotateAngleX = MathHelper.sin(newLimbSwing * 0.8665F) * swingModifier * limbSwingAmount;
-            this.rArm01.rotateAngleX = MathHelper.cos(newLimbSwing * 0.8665F + (float) Math.PI) * swingModifier * limbSwingAmount;
+            this.lHindLeg01.rotateAngleX = MathHelper.sin(newLimbSwing * 0.8665F + (float) Math.PI) * swingModifier * limbSwingAmount - 0.18203784098300857F;
+            this.rHindLeg01.rotateAngleX = MathHelper.cos(newLimbSwing * 0.8665F) * swingModifier * limbSwingAmount - 0.18203784098300857F;
+            this.lArm01.rotateAngleX = MathHelper.sin(newLimbSwing * 0.8665F) * swingModifier * limbSwingAmount + 0.22759093446006054F;
+            this.rArm01.rotateAngleX = MathHelper.cos(newLimbSwing * 0.8665F + (float) Math.PI) * swingModifier * limbSwingAmount + 0.22759093446006054F;
             this.neck.rotateAngleX = -0.6F;
         }
 
@@ -381,17 +381,6 @@ public class ModelFox extends ModelBetterAnimals {
         if (entity instanceof EntityFox) {
             EntityFox fox = (EntityFox) entity;
             this.tail01.rotateAngleX = ageInTicks;
-
-            /*
-             * if(fox.isSitting()) {
-             * this.rear.rotateAngleX = -1F;
-             * this.tail01.rotateAngleX = 0F;
-             * this.body.rotateAngleX = -0.3F;
-             * }else {
-             * this.rear.rotateAngleX = 0;
-             * this.body.rotateAngleX = 0;
-             * }
-             */
 
             if (fox.isSitting()) {
                 this.setRotateAngle360(this.neck, 30, 0, 0);
@@ -425,8 +414,6 @@ public class ModelFox extends ModelBetterAnimals {
                 this.rHindLeg01.rotateAngleZ = 0;
                 this.setRotateAngle(this.rHindpaw, 0, 0, 0);
                 this.setRotateAngle(this.lHindpaw, 0, 0, 0);
-                // this.head.rotateAngleX = 0.36425021489121656F;
-                // this.setRotateAngle(neck, -0.36425021489121656F, 0.0F, 0.0F);
                 this.rear.rotateAngleX = -0.091106186954104F;
                 this.setRotateAngle(this.body, 0, 0, 0);
                 this.setRotateAngle(this.lForepaw, 0, 0, 0);
