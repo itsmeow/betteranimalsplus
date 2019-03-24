@@ -13,6 +13,7 @@ import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIAvoidEntity;
 import net.minecraft.entity.ai.EntityAILookIdle;
+import net.minecraft.entity.ai.EntityAIMate;
 import net.minecraft.entity.ai.EntityAIPanic;
 import net.minecraft.entity.ai.EntityAISwimming;
 import net.minecraft.entity.ai.EntityAITempt;
@@ -97,6 +98,7 @@ public class EntityDeer extends EntityAnimal implements IVariantTypes {
     protected void initEntityAI() {
         super.initEntityAI();
         this.tasks.addTask(0, new EntityAISwimming(this));
+        this.tasks.addTask(1, new EntityAIMate(this, 0.45D));
         this.tasks.addTask(2, new EntityAIPanic(this, 0.65D));
         IItemProvider[] temptItems = new IItemProvider[5];
         temptItems[0] = Items.APPLE;
