@@ -27,7 +27,12 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 public class BlockHandOfFate extends BlockHorizontal {
 
-    private static final VoxelShape SHAPE = VoxelShapes.create(0.25F, 0.0F, 0.25F, 0.75F, 1.0F, 0.75F);
+    private static VoxelShape SHAPE;
+
+    static {
+        double d = 0.0625D * 3;
+        SHAPE = VoxelShapes.create(d, 0.0D, d, 1D - d, 1.2D, 1D - d);
+    }
 
     public BlockHandOfFate() {
         super(Properties.create(Material.IRON).hardnessAndResistance(3.0F, 2.0F));

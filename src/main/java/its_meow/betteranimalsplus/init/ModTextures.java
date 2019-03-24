@@ -155,5 +155,15 @@ public class ModTextures {
     public static final ResourceLocation songbird_small_3 = new ResourceLocation(entitytex + "songbird_small_3.png");
     public static final ResourceLocation songbird_small_4 = new ResourceLocation(entitytex + "songbird_small_4.png");
     public static final ResourceLocation songbird_small_5 = new ResourceLocation(entitytex + "songbird_small_5.png");
+    
+    // Badger Variants
+    public static final ResourceLocation badger_1 = new ResourceLocation(entitytex + "badger_1.png");
+    public static final ResourceLocation badger_2 = new ResourceLocation(entitytex + "badger_2.png");
+    public static final ResourceLocation badger_3 = new ResourceLocation(entitytex + "badger_3.png");
+
+    // Lamprey Variants
+    public static final ResourceLocation lamprey_1 = new ResourceLocation(entitytex + "lamprey_1.png");
+    public static final ResourceLocation lamprey_2 = new ResourceLocation(entitytex + "lamprey_2.png");
+    public static final ResourceLocation lamprey_3 = new ResourceLocation(entitytex + "lamprey_3.png");
 
 }

@@ -35,8 +35,9 @@ public interface IVariantTypes {
         return this.getDataManagerI().get(this.getDataKey()).intValue();
     }
 
-    default void setType(int typeId) {
+    default IVariantTypes setType(int typeId) {
         this.getDataManagerI().set(this.getDataKey(), Integer.valueOf(typeId));
+        return this;
     }
 
     default void writeType(NBTTagCompound compound) {
@@ -45,6 +46,14 @@ public interface IVariantTypes {
 
     default void readType(NBTTagCompound compound) {
         this.setType(compound.getInt("TypeNumber"));
+    }
+    
+    default int getOffspringType(IVariantTypes parent1, IVariantTypes parent2) {
+        return this.getRNGI().nextBoolean() ? parent1.getTypeNumber() : parent2.getTypeNumber();
+    }
+
+    default int getRandomType() {
+        return this.getRNGI().nextInt(getVariantMax()) + 1;
     }
 
     public static class TypeData implements IEntityLivingData {
@@ -59,7 +68,7 @@ public interface IVariantTypes {
     default IEntityLivingData initData(IEntityLivingData livingdata) {
 
         if (!this.isChildI()) {
-            int i = this.getRNGI().nextInt(getVariantMax()) + 1;
+            int i = this.getRandomType();
 
             if (livingdata instanceof TypeData) {
                 i = ((TypeData) livingdata).typeData;
