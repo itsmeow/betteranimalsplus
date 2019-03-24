@@ -190,9 +190,8 @@ public class EntitySongbird extends EntityAnimal implements IFlyingAnimal, IVari
 
     @Override
     public EntityAgeable createChild(EntityAgeable ageable) {
-        EntitySongbird bird = new EntitySongbird(world);
-        bird.setType(this.getTypeNumber());
-        return bird;
+        if(!(ageable instanceof IVariantTypes)) return null;
+        return (EntityAgeable) new EntitySongbird(this.world).setType(this.getOffspringType(this, (IVariantTypes) ageable));
     }
 
     @Override

@@ -194,13 +194,8 @@ public class EntityPheasant extends EntityAnimal implements IVariantTypes {
 
     @Override
     public EntityAgeable createChild(EntityAgeable ageable) {
-        EntityPheasant child = new EntityPheasant(ageable.world);
-        child.setLocationAndAngles(ageable.posX, ageable.posY, ageable.posZ, 0, 0);
-        if (ageable.hasCustomName()) {
-            child.setCustomName(ageable.getCustomName());
-        }
-        child.setType(this.rand.nextInt(2) + 1);
-        return child;
+        if(!(ageable instanceof IVariantTypes)) return null;
+        return (EntityAgeable) new EntityPheasant(this.world).setType(this.getOffspringType(this, (IVariantTypes) ageable));
     }
 
     @Override
