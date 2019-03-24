@@ -1,4 +1,4 @@
-package its_meow.betteranimalsplus.common.util;
+package its_meow.betteranimalsplus.util;
 
 public class PolarVector3D {
 

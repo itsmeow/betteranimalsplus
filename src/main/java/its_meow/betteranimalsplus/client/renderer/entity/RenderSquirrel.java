@@ -4,7 +4,7 @@ import javax.annotation.Nonnull;
 
 import its_meow.betteranimalsplus.client.model.ModelSquirrel;
 import its_meow.betteranimalsplus.common.entity.EntitySquirrel;
-import its_meow.betteranimalsplus.init.TextureRegistry;
+import its_meow.betteranimalsplus.init.ModTextures;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.client.renderer.entity.RenderManager;
@@ -29,19 +29,19 @@ public class RenderSquirrel extends RenderLiving<EntitySquirrel> {
     @Nonnull
     protected ResourceLocation getEntityTexture(@Nonnull EntitySquirrel entity) {
         int type = entity.getTypeNumber();
-        ResourceLocation res = TextureRegistry.squirrel_1;
+        ResourceLocation res = ModTextures.squirrel_1;
         switch (type) {
         case 1:
-            res = TextureRegistry.squirrel_1;
+            res = ModTextures.squirrel_1;
             break;
         case 2:
-            res = TextureRegistry.squirrel_2;
+            res = ModTextures.squirrel_2;
             break;
         case 3:
-            res = TextureRegistry.squirrel_3;
+            res = ModTextures.squirrel_3;
             break;
         default:
-            res = TextureRegistry.squirrel_1;
+            res = ModTextures.squirrel_1;
             break;
         }
         return res;

@@ -6,8 +6,8 @@ import javax.annotation.Nullable;
 
 import com.google.common.base.Predicates;
 
-import its_meow.betteranimalsplus.init.BlockRegistry;
-import its_meow.betteranimalsplus.init.ItemRegistry;
+import its_meow.betteranimalsplus.init.ModBlocks;
+import its_meow.betteranimalsplus.init.ModItems;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityAgeable;
@@ -115,7 +115,7 @@ public class EntityFeralWolf extends EntityTameable implements IMob, IVariantTyp
         super.onDeath(cause);
         if (!world.isRemote && !this.isChild()) {
             if (this.rand.nextInt(12) == 0) {
-                ItemStack stack = new ItemStack(BlockRegistry.wolfhead.getItemBlock());
+                ItemStack stack = new ItemStack(ModBlocks.wolfhead.getItemBlock());
                 stack.setTagCompound(new NBTTagCompound());
                 stack.getTagCompound().setInteger("TYPENUM", this.getTypeNumber());
                 this.entityDropItem(stack, 0.5F);
@@ -410,7 +410,7 @@ public class EntityFeralWolf extends EntityTameable implements IMob, IVariantTyp
                     wearingPowerHead = true;
                 }
             }
-            if (stack.getItem() == ItemRegistry.itemHirschgeistSkullWearable) {
+            if (stack.getItem() == ModItems.itemHirschgeistSkullWearable) {
                 wearingPowerHead = true;
             }
 

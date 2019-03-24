@@ -5,8 +5,8 @@ import java.util.Random;
 
 import javax.annotation.Nullable;
 
-import its_meow.betteranimalsplus.init.ItemRegistry;
-import its_meow.betteranimalsplus.init.LootTableRegistry;
+import its_meow.betteranimalsplus.init.ModItems;
+import its_meow.betteranimalsplus.init.ModLootTables;
 import net.minecraft.block.Block;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
@@ -204,9 +204,9 @@ public class EntityGoat extends EntityAnimal implements IVariantTypes {
             itemstack.shrink(1);
 
             if (itemstack.isEmpty()) {
-                player.setHeldItem(hand, new ItemStack(ItemRegistry.goatMilk));
-            } else if (!player.inventory.addItemStackToInventory(new ItemStack(ItemRegistry.goatMilk))) {
-                player.dropItem(new ItemStack(ItemRegistry.goatMilk), false);
+                player.setHeldItem(hand, new ItemStack(ModItems.goatMilk));
+            } else if (!player.inventory.addItemStackToInventory(new ItemStack(ModItems.goatMilk))) {
+                player.dropItem(new ItemStack(ModItems.goatMilk), false);
             }
 
             return true;
@@ -233,7 +233,7 @@ public class EntityGoat extends EntityAnimal implements IVariantTypes {
     @Override
     @Nullable
     protected ResourceLocation getLootTable() {
-        return LootTableRegistry.goat;
+        return ModLootTables.goat;
     }
 
     @Override

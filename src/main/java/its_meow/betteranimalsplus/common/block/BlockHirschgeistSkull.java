@@ -1,7 +1,7 @@
 package its_meow.betteranimalsplus.common.block;
 
 import its_meow.betteranimalsplus.common.tileentity.TileEntityHirschgeistSkull;
-import its_meow.betteranimalsplus.init.ItemRegistry;
+import its_meow.betteranimalsplus.init.ModItems;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.tileentity.TileEntity;
@@ -22,7 +22,7 @@ public class BlockHirschgeistSkull extends BlockAnimalSkull implements ITileEnti
 
     @Override
     public ItemBlock getItemBlock() {
-        return ItemRegistry.itemHirschgeistSkull;
+        return ModItems.itemHirschgeistSkull;
     }
 
 }

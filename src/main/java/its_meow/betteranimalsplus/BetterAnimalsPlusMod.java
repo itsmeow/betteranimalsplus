@@ -7,13 +7,13 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import its_meow.betteranimalsplus.common.config.BetterAnimalsPlusConfig;
-import its_meow.betteranimalsplus.common.world.gen.TrilliumGenerator;
-import its_meow.betteranimalsplus.init.BlockRegistry;
-import its_meow.betteranimalsplus.init.CraftingRegistry;
-import its_meow.betteranimalsplus.init.EntityContainer;
-import its_meow.betteranimalsplus.init.ItemRegistry;
-import its_meow.betteranimalsplus.init.MobRegistry;
+import its_meow.betteranimalsplus.init.ModBlocks;
+import its_meow.betteranimalsplus.init.ModOreDictSmelting;
+import its_meow.betteranimalsplus.init.ModItems;
+import its_meow.betteranimalsplus.init.ModEntities;
 import its_meow.betteranimalsplus.proxy.ISidedProxy;
+import its_meow.betteranimalsplus.util.EntityContainer;
+import its_meow.betteranimalsplus.world.gen.TrilliumGenerator;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemMonsterPlacer;
@@ -42,13 +42,13 @@ public class BetterAnimalsPlusMod {
     public static CreativeTabs tab = new CreativeTabs("Better Animals+") {
         @Override
         public ItemStack getTabIconItem() {
-            return new ItemStack(ItemRegistry.antler);
+            return new ItemStack(ModItems.antler);
         }
 
         @Override
         public void displayAllRelevantItems(NonNullList<ItemStack> toDisplay) {
             super.displayAllRelevantItems(toDisplay);
-            for (EntityContainer cont : MobRegistry.entityList) {
+            for (EntityContainer cont : ModEntities.entityList) {
                 ItemStack stack = new ItemStack(Items.SPAWN_EGG);
                 ItemMonsterPlacer.applyEntityIdToItemStack(stack, new ResourceLocation(Ref.MOD_ID, cont.entityName));
                 toDisplay.add(stack);
@@ -64,7 +64,7 @@ public class BetterAnimalsPlusMod {
     public void preInit(FMLPreInitializationEvent event) {
         logger = LogManager.getLogger("betteranimalsplus");
         proxy.preInit(event);
-        MobRegistry.fillContainers();
+        ModEntities.fillContainers();
         File directory = event.getModConfigurationDirectory();
         config = new Configuration(new File(directory.getPath(), "betteranimalsplus.cfg"));
         BetterAnimalsPlusConfig.readConfig();
@@ -75,9 +75,9 @@ public class BetterAnimalsPlusMod {
     @EventHandler
     public void init(FMLInitializationEvent e) {
         proxy.init(e);
-        CraftingRegistry.register();
+        ModOreDictSmelting.register();
         if (BetterAnimalsPlusConfig.spawnTrillium) {
-            GameRegistry.registerWorldGenerator(new TrilliumGenerator(BlockRegistry.trillium), 1);
+            GameRegistry.registerWorldGenerator(new TrilliumGenerator(ModBlocks.trillium), 1);
         }
         logger.log(Level.INFO, "Overspawning lammergeiers...");
     }

@@ -4,7 +4,7 @@ import java.util.Random;
 
 import javax.annotation.Nullable;
 
-import its_meow.betteranimalsplus.init.BlockRegistry;
+import its_meow.betteranimalsplus.init.ModBlocks;
 import net.minecraft.block.Block;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
@@ -106,7 +106,7 @@ public class EntityBoar extends EntityAnimal implements IVariantTypes {
         super.onDeath(cause);
         if (!world.isRemote && !this.isChild()) {
             if (this.rand.nextInt(12) == 0) {
-                ItemStack stack = new ItemStack(BlockRegistry.boarhead.getItemBlock());
+                ItemStack stack = new ItemStack(ModBlocks.boarhead.getItemBlock());
                 stack.setTagCompound(new NBTTagCompound());
                 stack.getTagCompound().setInteger("TYPENUM", this.getTypeNumber());
                 this.entityDropItem(stack, 0.5F);

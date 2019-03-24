@@ -2,7 +2,7 @@ package its_meow.betteranimalsplus.client.renderer.entity;
 
 import its_meow.betteranimalsplus.client.model.ModelFox;
 import its_meow.betteranimalsplus.common.entity.EntityFox;
-import its_meow.betteranimalsplus.init.TextureRegistry;
+import its_meow.betteranimalsplus.init.ModTextures;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.client.renderer.entity.RenderManager;
@@ -49,16 +49,16 @@ public class RenderFox extends RenderLiving<EntityFox> {
 
         switch (typeNumber) {
         case 1:
-            result = TextureRegistry.fox_1;
+            result = ModTextures.fox_1;
             break;
         case 2:
-            result = TextureRegistry.fox_2;
+            result = ModTextures.fox_2;
             break;
         case 3:
-            result = TextureRegistry.fox_3;
+            result = ModTextures.fox_3;
             break;
         case 4:
-            result = TextureRegistry.fox_4;
+            result = ModTextures.fox_4;
             break;
         }
         return result;

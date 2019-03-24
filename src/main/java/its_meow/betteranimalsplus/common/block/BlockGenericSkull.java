@@ -1,7 +1,7 @@
 package its_meow.betteranimalsplus.common.block;
 
 import its_meow.betteranimalsplus.common.tileentity.TileEntityHead;
-import its_meow.betteranimalsplus.init.BlockRegistry;
+import its_meow.betteranimalsplus.init.ModBlocks;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Items;
@@ -62,7 +62,7 @@ public class BlockGenericSkull extends BlockAnimalSkull implements ITileEntityPr
 
     @Override
     public ItemBlock getItemBlock() {
-        return BlockRegistry.getSkullItemForBlock(this);
+        return ModBlocks.getSkullItemForBlock(this);
     }
 
 }

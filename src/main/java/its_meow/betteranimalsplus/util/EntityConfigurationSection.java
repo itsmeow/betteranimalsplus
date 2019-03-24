@@ -1,4 +1,4 @@
-package its_meow.betteranimalsplus.common.config;
+package its_meow.betteranimalsplus.util;
 
 import static its_meow.betteranimalsplus.BetterAnimalsPlusMod.config;
 

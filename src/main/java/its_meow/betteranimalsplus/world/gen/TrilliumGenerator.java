@@ -1,4 +1,4 @@
-package its_meow.betteranimalsplus.common.world.gen;
+package its_meow.betteranimalsplus.world.gen;
 
 import java.util.Random;
 

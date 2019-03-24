@@ -6,8 +6,9 @@ import java.util.List;
 
 import its_meow.betteranimalsplus.BetterAnimalsPlusMod;
 import its_meow.betteranimalsplus.Ref;
-import its_meow.betteranimalsplus.init.EntityContainer;
-import its_meow.betteranimalsplus.init.MobRegistry;
+import its_meow.betteranimalsplus.init.ModEntities;
+import its_meow.betteranimalsplus.util.EntityConfigurationSection;
+import its_meow.betteranimalsplus.util.EntityContainer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.biome.Biome;
 import net.minecraftforge.common.config.Configuration;
@@ -52,7 +53,7 @@ public class BetterAnimalsPlusConfig {
 
     public static void initConfig(Configuration cfg) {
         spawnTrillium = cfg.getBoolean("generatetrillium", "generation", true, "Does not remove item, prevents world gen");
-        for (EntityContainer container : MobRegistry.entityList) {
+        for (EntityContainer container : ModEntities.entityList) {
             String[] biomeStrings = new String[container.spawnBiomes.length];
             for (int i = 0; i < container.spawnBiomes.length; i++) {
                 biomeStrings[i] = container.spawnBiomes[i].getRegistryName().toString();

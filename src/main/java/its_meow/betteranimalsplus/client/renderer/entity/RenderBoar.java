@@ -2,7 +2,7 @@ package its_meow.betteranimalsplus.client.renderer.entity;
 
 import its_meow.betteranimalsplus.client.model.ModelBoar;
 import its_meow.betteranimalsplus.common.entity.EntityBoar;
-import its_meow.betteranimalsplus.init.TextureRegistry;
+import its_meow.betteranimalsplus.init.ModTextures;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.client.renderer.entity.RenderManager;
@@ -28,15 +28,15 @@ public class RenderBoar extends RenderLiving<EntityBoar> {
         int type = entity.getTypeNumber();
         switch (type) {
         case 1:
-            return TextureRegistry.boar_1;
+            return ModTextures.boar_1;
         case 2:
-            return TextureRegistry.boar_2;
+            return ModTextures.boar_2;
         case 3:
-            return TextureRegistry.boar_3;
+            return ModTextures.boar_3;
         case 4:
-            return TextureRegistry.boar_4;
+            return ModTextures.boar_4;
         default:
-            return TextureRegistry.boar_1;
+            return ModTextures.boar_1;
         }
     }
 

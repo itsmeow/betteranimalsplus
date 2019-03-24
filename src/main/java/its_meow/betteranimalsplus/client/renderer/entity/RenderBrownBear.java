@@ -4,7 +4,7 @@ import javax.annotation.Nonnull;
 
 import its_meow.betteranimalsplus.client.model.ModelBear;
 import its_meow.betteranimalsplus.common.entity.EntityBear;
-import its_meow.betteranimalsplus.init.TextureRegistry;
+import its_meow.betteranimalsplus.init.ModTextures;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.client.renderer.entity.RenderManager;
@@ -19,7 +19,7 @@ public class RenderBrownBear extends RenderLiving<EntityBear> {
     @Override
     @Nonnull
     protected ResourceLocation getEntityTexture(@Nonnull EntityBear entity) {
-        return TextureRegistry.bear_brown;
+        return ModTextures.bear_brown;
     }
 
     /**

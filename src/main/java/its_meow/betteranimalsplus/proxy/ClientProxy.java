@@ -9,7 +9,7 @@ import its_meow.betteranimalsplus.common.block.BlockGenericSkull;
 import its_meow.betteranimalsplus.common.tileentity.TileEntityHandOfFate;
 import its_meow.betteranimalsplus.common.tileentity.TileEntityHead;
 import its_meow.betteranimalsplus.common.tileentity.TileEntityTrillium;
-import its_meow.betteranimalsplus.init.BlockRegistry;
+import its_meow.betteranimalsplus.init.ModBlocks;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -30,7 +30,7 @@ public class ClientProxy implements ISidedProxy {
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityTrillium.class, new RenderBlockTrillium());
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityHandOfFate.class, new RenderBlockHandOfFate());
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityHead.class, new RenderGenericHead());
-        for (BlockGenericSkull block : BlockRegistry.genericskulls.keySet()) {
+        for (BlockGenericSkull block : ModBlocks.genericskulls.keySet()) {
             if (block.allowFloor) {
                 ClientRegistry.bindTileEntitySpecialRenderer(block.teClass.asSubclass(TileEntityHead.class), new RenderGenericHeadFloor());
             }

@@ -3,7 +3,7 @@ package its_meow.betteranimalsplus.common.item;
 import java.util.List;
 
 import its_meow.betteranimalsplus.BetterAnimalsPlusMod;
-import its_meow.betteranimalsplus.init.ItemRegistry;
+import its_meow.betteranimalsplus.init.ModItems;
 import its_meow.betteranimalsplus.proxy.ClientProxy;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.util.ITooltipFlag;
@@ -78,7 +78,7 @@ public class ItemHirschgeistSkullWearable extends ItemArmor {
 
     @Override
     public boolean getIsRepairable(ItemStack toRepair, ItemStack repair) {
-        return repair.getItem() == Items.BONE || repair.getItem() == ItemRegistry.antler;
+        return repair.getItem() == Items.BONE || repair.getItem() == ModItems.antler;
     }
 
 }

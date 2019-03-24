@@ -3,7 +3,7 @@ package its_meow.betteranimalsplus.common.tileentity;
 import java.util.Random;
 
 import its_meow.betteranimalsplus.common.entity.miniboss.hirschgeist.EntityHirschgeist;
-import its_meow.betteranimalsplus.init.BlockRegistry;
+import its_meow.betteranimalsplus.init.ModBlocks;
 import net.minecraft.block.BlockHorizontal;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.nbt.NBTTagCompound;
@@ -162,7 +162,7 @@ public class TileEntityHandOfFate extends TileEntity {
     @SideOnly(Side.CLIENT)
     public float getRotation() {
         IBlockState state = this.world.getBlockState(this.pos);
-        if (state.getBlock() == BlockRegistry.handoffate) {
+        if (state.getBlock() == ModBlocks.handoffate) {
             EnumFacing facing = state.getValue(BlockHorizontal.FACING).getOpposite();
             if (facing == EnumFacing.NORTH) {
                 return 0F;

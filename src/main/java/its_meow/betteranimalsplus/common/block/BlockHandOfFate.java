@@ -2,7 +2,7 @@ package its_meow.betteranimalsplus.common.block;
 
 import its_meow.betteranimalsplus.BetterAnimalsPlusMod;
 import its_meow.betteranimalsplus.common.tileentity.TileEntityHandOfFate;
-import its_meow.betteranimalsplus.init.ItemRegistry;
+import its_meow.betteranimalsplus.init.ModItems;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockHorizontal;
 import net.minecraft.block.ITileEntityProvider;
@@ -16,7 +16,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumBlockRenderType;
@@ -32,10 +31,12 @@ import net.minecraft.world.World;
 public class BlockHandOfFate extends Block implements ITileEntityProvider {
 
     public static final PropertyDirection FACING = BlockHorizontal.FACING;
-    protected static final AxisAlignedBB NORTH_AABB = new AxisAlignedBB(0.0625D, 0.0D, 0.0D, 0.9375D, 0.875D, 0.9375D);
-    protected static final AxisAlignedBB SOUTH_AABB = new AxisAlignedBB(0.0625D, 0.0D, 0.0625D, 0.9375D, 0.875D, 1.0D);
-    protected static final AxisAlignedBB WES_AABB = new AxisAlignedBB(0.0D, 0.0D, 0.0625D, 0.9375D, 0.875D, 0.9375D);
-    protected static final AxisAlignedBB EAST_AABB = new AxisAlignedBB(0.0625D, 0.0D, 0.0625D, 1.0D, 0.875D, 0.9375D);
+    protected static final AxisAlignedBB AABB;
+    
+    static {
+        double d = 0.0625D * 3;
+        AABB = new AxisAlignedBB(d, 0.0D, d, 1D - d, 1.2D, 1D - d);
+    }
 
     public BlockHandOfFate() {
         super(Material.IRON);
@@ -47,6 +48,11 @@ public class BlockHandOfFate extends Block implements ITileEntityProvider {
         this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH));
         this.setHardness(3.0F);
         this.setHarvestLevel("pickaxe", 0);
+    }
+    
+    @Override
+    public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
+        return AABB;
     }
 
     @Override
@@ -65,6 +71,8 @@ public class BlockHandOfFate extends Block implements ITileEntityProvider {
     public int getLightOpacity(IBlockState state, IBlockAccess world, BlockPos pos) {
         return 2;
     }
+
+
 
     /**
      * Called by ItemBlocks just before a block is actually set in the world, to
@@ -155,7 +163,7 @@ public class BlockHandOfFate extends Block implements ITileEntityProvider {
                     return true;
                 }
             }
-        } else if (held.getItem() == ItemRegistry.antler) {
+        } else if (held.getItem() == ModItems.antler) {
             TileEntity te = worldIn.getTileEntity(pos);
             if (te instanceof TileEntityHandOfFate) {
                 TileEntityHandOfFate tehof = (TileEntityHandOfFate) te;
@@ -167,7 +175,7 @@ public class BlockHandOfFate extends Block implements ITileEntityProvider {
                     return true;
                 }
             }
-        } else if (held.getItem() == ItemRegistry.venisonRaw || held.getItem() == ItemRegistry.venisonCooked) {
+        } else if (held.getItem() == ModItems.venisonRaw || held.getItem() == ModItems.venisonCooked) {
             TileEntity te = worldIn.getTileEntity(pos);
             if (te instanceof TileEntityHandOfFate) {
                 TileEntityHandOfFate tehof = (TileEntityHandOfFate) te;
@@ -211,10 +219,6 @@ public class BlockHandOfFate extends Block implements ITileEntityProvider {
     @Override
     public TileEntity createNewTileEntity(World worldIn, int meta) {
         return new TileEntityHandOfFate(worldIn);
-    }
-
-    public static ItemBlock getItemBlock() {
-        return ItemRegistry.itemHandOfFate;
     }
 
 }

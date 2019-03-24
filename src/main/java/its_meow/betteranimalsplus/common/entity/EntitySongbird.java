@@ -8,7 +8,7 @@ import javax.annotation.Nullable;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Sets;
 
-import its_meow.betteranimalsplus.init.LootTableRegistry;
+import its_meow.betteranimalsplus.init.ModLootTables;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockLeaves;
 import net.minecraft.block.BlockLog;
@@ -201,7 +201,7 @@ public class EntitySongbird extends EntityAnimal implements EntityFlying, IVaria
 
     @Override
     protected ResourceLocation getLootTable() {
-        return LootTableRegistry.songbird;
+        return ModLootTables.songbird;
     }
 
     @Override

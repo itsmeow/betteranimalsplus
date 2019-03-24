@@ -1,6 +1,6 @@
 package its_meow.betteranimalsplus.client.model;
 
-import its_meow.betteranimalsplus.common.util.ModMathHelper;
+import its_meow.betteranimalsplus.util.ModMathHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;

@@ -10,8 +10,8 @@ import com.google.common.base.Predicate;
 
 import its_meow.betteranimalsplus.common.entity.ai.EntityAIFollowOwnerFlying;
 import its_meow.betteranimalsplus.common.entity.ai.LammerMoveHelper;
-import its_meow.betteranimalsplus.common.util.PolarVector3D;
-import its_meow.betteranimalsplus.init.LootTableRegistry;
+import its_meow.betteranimalsplus.init.ModLootTables;
+import its_meow.betteranimalsplus.util.PolarVector3D;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
@@ -84,7 +84,7 @@ public class EntityLammergeier extends EntityTameableFlying implements IVariantT
 
     @Override
     protected ResourceLocation getLootTable() {
-        return LootTableRegistry.lammergeier;
+        return ModLootTables.lammergeier;
     }
 
     @Override

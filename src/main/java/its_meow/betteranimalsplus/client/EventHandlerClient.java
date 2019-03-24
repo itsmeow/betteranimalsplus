@@ -3,8 +3,8 @@ package its_meow.betteranimalsplus.client;
 import its_meow.betteranimalsplus.Ref;
 import its_meow.betteranimalsplus.common.block.BlockGenericSkull;
 import its_meow.betteranimalsplus.common.item.ItemBlockSkull;
-import its_meow.betteranimalsplus.init.BlockRegistry;
-import its_meow.betteranimalsplus.init.ItemRegistry;
+import its_meow.betteranimalsplus.init.ModBlocks;
+import its_meow.betteranimalsplus.init.ModItems;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.block.model.ModelBakery;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
@@ -37,12 +37,12 @@ public class EventHandlerClient {
 
         // OBJLoader.INSTANCE.addDomain(Ref.MOD_ID);
 
-        initModel(BlockRegistry.trillium, 0);
-        initModel(BlockRegistry.hirschgeistskull, 0);
-        initModel(BlockRegistry.handoffate, 0);
+        initModel(ModBlocks.trillium, 0);
+        initModel(ModBlocks.hirschgeistskull, 0);
+        initModel(ModBlocks.handoffate, 0);
 
         // generics
-        for (BlockGenericSkull skull : BlockRegistry.genericskulls.keySet()) {
+        for (BlockGenericSkull skull : ModBlocks.genericskulls.keySet()) {
             HeadItemMeshDefinition meshDefinition = new HeadItemMeshDefinition(skull);
             ItemBlockSkull item = (ItemBlockSkull) skull.getItemBlock();
             ModelBakery.registerItemVariants(item, meshDefinition.defaultModelResourceLocation);
@@ -57,14 +57,14 @@ public class EventHandlerClient {
 
         // Items
 
-        initModel(ItemRegistry.venisonRaw, 0);
-        initModel(ItemRegistry.venisonCooked, 0);
-        initModel(ItemRegistry.itemHirschgeistSkullWearable, 0);
-        initModel(ItemRegistry.antler, 0);
-        initModel(ItemRegistry.goatMilk, 0);
-        initModel(ItemRegistry.goatCheese, 0);
-        initModel(ItemRegistry.pheasantRaw, 0);
-        initModel(ItemRegistry.pheasantCooked, 0);
+        initModel(ModItems.venisonRaw, 0);
+        initModel(ModItems.venisonCooked, 0);
+        initModel(ModItems.itemHirschgeistSkullWearable, 0);
+        initModel(ModItems.antler, 0);
+        initModel(ModItems.goatMilk, 0);
+        initModel(ModItems.goatCheese, 0);
+        initModel(ModItems.pheasantRaw, 0);
+        initModel(ModItems.pheasantCooked, 0);
     }
 
     public static void initModel(Item item, int meta) {

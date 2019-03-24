@@ -9,8 +9,8 @@ import javax.annotation.Nullable;
 import com.google.common.base.Optional;
 import com.google.common.base.Predicate;
 
-import its_meow.betteranimalsplus.init.BlockRegistry;
-import its_meow.betteranimalsplus.init.LootTableRegistry;
+import its_meow.betteranimalsplus.init.ModBlocks;
+import its_meow.betteranimalsplus.init.ModLootTables;
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
@@ -527,7 +527,7 @@ public class EntityReindeer extends EntityAnimal implements IJumpingMount, IVari
         super.onDeath(cause);
         if (!world.isRemote && !this.isChild()) {
             if (this.rand.nextInt(12) == 0) {
-                ItemStack stack = new ItemStack(BlockRegistry.reindeerhead.getItemBlock());
+                ItemStack stack = new ItemStack(ModBlocks.reindeerhead.getItemBlock());
                 stack.setTagCompound(new NBTTagCompound());
                 stack.getTagCompound().setInteger("TYPENUM", this.getTypeNumber());
                 this.entityDropItem(stack, 0.5F);
@@ -538,7 +538,7 @@ public class EntityReindeer extends EntityAnimal implements IJumpingMount, IVari
     @Override
     @Nullable
     protected ResourceLocation getLootTable() {
-        return LootTableRegistry.reindeer;
+        return ModLootTables.reindeer;
     }
 
     protected void mountTo(EntityPlayer player) {

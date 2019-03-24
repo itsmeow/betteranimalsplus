@@ -1,14 +1,14 @@
 package its_meow.betteranimalsplus.common.tileentity;
 
 import its_meow.betteranimalsplus.client.model.ModelReindeerHead;
-import its_meow.betteranimalsplus.init.TextureRegistry;
+import its_meow.betteranimalsplus.init.ModTextures;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.util.ResourceLocation;
 
 public class TileEntityReindeerHead extends TileEntityHead {
 
     public TileEntityReindeerHead() {
-        super(ModelReindeerHead.class.asSubclass(ModelBase.class), 0F, TextureRegistry.reindeer_1, TextureRegistry.reindeer_2, TextureRegistry.reindeer_3, TextureRegistry.reindeer_4);
+        super(ModelReindeerHead.class.asSubclass(ModelBase.class), 0F, ModTextures.reindeer_1, ModTextures.reindeer_2, ModTextures.reindeer_3, ModTextures.reindeer_4);
     }
 
     @Override
@@ -23,23 +23,23 @@ public class TileEntityReindeerHead extends TileEntityHead {
     protected static ResourceLocation getEntityTexture(int type) {
         switch (type) {
         case 1:
-            return TextureRegistry.reindeer_1;
+            return ModTextures.reindeer_1;
         case 2:
-            return TextureRegistry.reindeer_2;
+            return ModTextures.reindeer_2;
         case 3:
-            return TextureRegistry.reindeer_3;
+            return ModTextures.reindeer_3;
         case 4:
-            return TextureRegistry.reindeer_4;
+            return ModTextures.reindeer_4;
         case 5:
-            return TextureRegistry.reindeer_1_christmas;
+            return ModTextures.reindeer_1_christmas;
         case 6:
-            return TextureRegistry.reindeer_2_christmas;
+            return ModTextures.reindeer_2_christmas;
         case 7:
-            return TextureRegistry.reindeer_3_christmas;
+            return ModTextures.reindeer_3_christmas;
         case 8:
-            return TextureRegistry.reindeer_4_christmas;
+            return ModTextures.reindeer_4_christmas;
         default:
-            return TextureRegistry.reindeer_1;
+            return ModTextures.reindeer_1;
         }
     }
 

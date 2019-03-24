@@ -4,7 +4,7 @@ import javax.annotation.Nullable;
 
 import com.google.common.base.Predicates;
 
-import its_meow.betteranimalsplus.init.BlockRegistry;
+import its_meow.betteranimalsplus.init.ModBlocks;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.EntityList;
@@ -114,7 +114,7 @@ public class EntityCoyote extends EntityFeralWolf {
         super.onDeath(cause);
         if (!world.isRemote && !this.isChild()) {
             if (this.rand.nextInt(12) == 0) {
-                ItemStack stack = new ItemStack(BlockRegistry.wolfhead.getItemBlock());
+                ItemStack stack = new ItemStack(ModBlocks.wolfhead.getItemBlock());
                 stack.setTagCompound(new NBTTagCompound());
                 stack.getTagCompound().setInteger("TYPENUM", 4); // 4 is the id for coyote head
                 this.entityDropItem(stack, 0.5F);

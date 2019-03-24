@@ -3,7 +3,7 @@ package its_meow.betteranimalsplus.init;
 import its_meow.betteranimalsplus.Ref;
 import net.minecraft.util.ResourceLocation;
 
-public class TextureRegistry {
+public class ModTextures {
 
     private static final String entitytex = Ref.MOD_ID + ":textures/entities/";
 
@@ -115,9 +115,9 @@ public class TextureRegistry {
     public static final ResourceLocation squirrel_3 = new ResourceLocation(entitytex + "squirrel_3.png");
 
     // Trillium Variants
-    public static final ResourceLocation trillium_base = new ResourceLocation(TextureRegistry.entitytex + "flora/trillium_base.png");
-    public static final ResourceLocation trillium_purple = new ResourceLocation(TextureRegistry.entitytex + "flora/trillium_purple.png");
-    public static final ResourceLocation trillium_yellow = new ResourceLocation(TextureRegistry.entitytex + "flora/trillium_yellow.png");
+    public static final ResourceLocation trillium_base = new ResourceLocation(ModTextures.entitytex + "flora/trillium_base.png");
+    public static final ResourceLocation trillium_purple = new ResourceLocation(ModTextures.entitytex + "flora/trillium_purple.png");
+    public static final ResourceLocation trillium_yellow = new ResourceLocation(ModTextures.entitytex + "flora/trillium_yellow.png");
 
     // Songbird Variants
     public static final ResourceLocation songbird_1 = new ResourceLocation(entitytex + "songbird_1.png");
@@ -129,5 +129,15 @@ public class TextureRegistry {
     public static final ResourceLocation songbird_small_3 = new ResourceLocation(entitytex + "songbird_small_3.png");
     public static final ResourceLocation songbird_small_4 = new ResourceLocation(entitytex + "songbird_small_4.png");
     public static final ResourceLocation songbird_small_5 = new ResourceLocation(entitytex + "songbird_small_5.png");
+
+    // Badger Variants
+    public static final ResourceLocation badger_1 = new ResourceLocation(entitytex + "badger_1.png");
+    public static final ResourceLocation badger_2 = new ResourceLocation(entitytex + "badger_2.png");
+    public static final ResourceLocation badger_3 = new ResourceLocation(entitytex + "badger_3.png");
+    
+    // Lamprey Variants
+    public static final ResourceLocation lamprey_1 = new ResourceLocation(entitytex + "lamprey_1.png");
+    public static final ResourceLocation lamprey_2 = new ResourceLocation(entitytex + "lamprey_2.png");
+    public static final ResourceLocation lamprey_3 = new ResourceLocation(entitytex + "lamprey_3.png");
 
 }

@@ -5,8 +5,8 @@ import java.util.Random;
 import its_meow.betteranimalsplus.client.model.ModelTrillium;
 import its_meow.betteranimalsplus.client.model.ModelTrilliumMulti;
 import its_meow.betteranimalsplus.client.model.ModelTrilliumMulti2;
-import its_meow.betteranimalsplus.init.BlockRegistry;
-import its_meow.betteranimalsplus.init.TextureRegistry;
+import its_meow.betteranimalsplus.init.ModBlocks;
+import its_meow.betteranimalsplus.init.ModTextures;
 import net.minecraft.block.BlockHorizontal;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.model.ModelBase;
@@ -41,7 +41,7 @@ public class TileEntityTrillium extends TileEntity {
     }
 
     public ResourceLocation getTexture() {
-        return this.typeNum == 0 ? TextureRegistry.trillium_purple : TextureRegistry.trillium_yellow;
+        return this.typeNum == 0 ? ModTextures.trillium_purple : ModTextures.trillium_yellow;
     }
 
     public void setType(int i) {
@@ -129,7 +129,7 @@ public class TileEntityTrillium extends TileEntity {
     @SideOnly(Side.CLIENT)
     public float getRotation() {
         IBlockState state = this.world.getBlockState(this.pos);
-        if (state.getBlock() == BlockRegistry.trillium) {
+        if (state.getBlock() == ModBlocks.trillium) {
             EnumFacing facing = state.getValue(BlockHorizontal.FACING).getOpposite();
             if (facing == EnumFacing.NORTH) {
                 return 0F;

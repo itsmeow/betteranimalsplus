@@ -3,7 +3,7 @@ package its_meow.betteranimalsplus.client.renderer.entity;
 import javax.annotation.Nonnull;
 
 import its_meow.betteranimalsplus.common.entity.projectile.EntityTarantulaHair;
-import its_meow.betteranimalsplus.init.TextureRegistry;
+import its_meow.betteranimalsplus.init.ModTextures;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
@@ -80,7 +80,7 @@ public class RenderTarantulaHair extends Render<EntityTarantulaHair> {
     @Override
     @Nonnull
     protected ResourceLocation getEntityTexture(@Nonnull EntityTarantulaHair entity) {
-        return TextureRegistry.tarantula_hair;
+        return ModTextures.tarantula_hair;
     }
 
 }

@@ -6,8 +6,8 @@ import java.util.Set;
 
 import javax.annotation.Nullable;
 
-import its_meow.betteranimalsplus.init.BlockRegistry;
-import its_meow.betteranimalsplus.init.LootTableRegistry;
+import its_meow.betteranimalsplus.init.ModBlocks;
+import its_meow.betteranimalsplus.init.ModLootTables;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.IEntityLivingData;
@@ -123,7 +123,7 @@ public class EntityDeer extends EntityAnimal implements IVariantTypes {
         super.onDeath(cause);
         if (!world.isRemote && !this.isChild()) {
             if (this.rand.nextInt(12) == 0) {
-                ItemStack stack = new ItemStack(BlockRegistry.deerhead.getItemBlock());
+                ItemStack stack = new ItemStack(ModBlocks.deerhead.getItemBlock());
                 stack.setTagCompound(new NBTTagCompound());
                 stack.getTagCompound().setInteger("TYPENUM", this.getTypeNumber());
                 this.entityDropItem(stack, 0.5F);
@@ -134,7 +134,7 @@ public class EntityDeer extends EntityAnimal implements IVariantTypes {
     @Override
     @Nullable
     protected ResourceLocation getLootTable() {
-        return LootTableRegistry.deer;
+        return ModLootTables.deer;
     }
 
     @Override

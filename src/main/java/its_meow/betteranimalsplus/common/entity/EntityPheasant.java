@@ -4,7 +4,7 @@ import java.util.Random;
 
 import javax.annotation.Nullable;
 
-import its_meow.betteranimalsplus.init.LootTableRegistry;
+import its_meow.betteranimalsplus.init.ModLootTables;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.IEntityLivingData;
@@ -147,7 +147,7 @@ public class EntityPheasant extends EntityAnimal implements IVariantTypes {
     @Override
     @Nullable
     protected ResourceLocation getLootTable() {
-        return LootTableRegistry.pheasant;
+        return ModLootTables.pheasant;
     }
 
     @Override

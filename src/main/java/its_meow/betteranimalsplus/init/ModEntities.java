@@ -2,7 +2,6 @@ package its_meow.betteranimalsplus.init;
 
 import java.util.LinkedHashSet;
 
-import its_meow.betteranimalsplus.Ref;
 import its_meow.betteranimalsplus.common.config.BetterAnimalsPlusConfig;
 import its_meow.betteranimalsplus.common.entity.EntityBear;
 import its_meow.betteranimalsplus.common.entity.EntityBearNeutral;
@@ -21,29 +20,17 @@ import its_meow.betteranimalsplus.common.entity.EntitySongbird;
 import its_meow.betteranimalsplus.common.entity.EntitySquirrel;
 import its_meow.betteranimalsplus.common.entity.EntityTarantula;
 import its_meow.betteranimalsplus.common.entity.miniboss.hirschgeist.EntityHirschgeist;
-import its_meow.betteranimalsplus.common.entity.projectile.EntityTarantulaHair;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLiving.SpawnPlacementType;
-import net.minecraft.entity.EntitySpawnPlacementRegistry;
+import its_meow.betteranimalsplus.util.EntityContainer;
 import net.minecraft.entity.EnumCreatureType;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.biome.Biome;
 import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.BiomeDictionary.Type;
-import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.EntityEntry;
-import net.minecraftforge.fml.common.registry.EntityEntryBuilder;
-import net.minecraftforge.registries.IForgeRegistry;
 
-public class MobRegistry {
+public class ModEntities {
     public static int modEntities = 0;
 
     public static LinkedHashSet<EntityEntry> entrySet = new LinkedHashSet<EntityEntry>();
     public static LinkedHashSet<EntityContainer> entityList = new LinkedHashSet<EntityContainer>();
-
-    private static final String LOCALIZE_PREFIX = Ref.MOD_ID + ".";
 
     public static void fillContainers() {
         entityList.add(new EntityContainer(EntityBear.class, "BrownBear", EnumCreatureType.CREATURE, 0x4F2900, 0x8E500E, BetterAnimalsPlusConfig.brownBearWeight, 1, 1, BiomeDictionary.getBiomes(Type.FOREST)));
@@ -63,65 +50,6 @@ public class MobRegistry {
         entityList.add(new EntityContainer(EntityBoar.class, "Boar", EnumCreatureType.CREATURE, 0x3d3c3b, 0xbca895, BetterAnimalsPlusConfig.boarWeight, 1, 4, BiomeDictionary.getBiomes(Type.FOREST), BiomeDictionary.getBiomes(Type.JUNGLE), BiomeDictionary.getBiomes(Type.PLAINS), BiomeDictionary.getBiomes(Type.SAVANNA)));
         entityList.add(new EntityContainer(EntitySquirrel.class, "Squirrel", EnumCreatureType.CREATURE, 0x89806f, 0xb2a489, BetterAnimalsPlusConfig.squirrelWeight, 1, 3, BiomeDictionary.getBiomes(Type.FOREST)));
         entityList.add(new EntityContainer(EntitySongbird.class, "songbird", EnumCreatureType.CREATURE, 0x46f4d2, 0x7df442, BetterAnimalsPlusConfig.songbirdWeight, 1, 4, BiomeDictionary.getBiomes(Type.FOREST), BiomeDictionary.getBiomes(Type.PLAINS)));
-    }
-
-    // #################################################################################
-
-    public static void reg(EntityContainer c) {
-        if (c.doSpawning) {
-            registerWithSpawnAndEgg(c.entityClazz, c.entityName, c.eggColorSolid, c.eggColorSpot, c.type, c.weight, c.minGroup, c.maxGroup, c.spawnBiomes);
-        } else {
-            registerWithEgg(c.entityClazz, c.entityName, c.eggColorSolid, c.eggColorSpot);
-        }
-    }
-
-    public static void registerWithSpawnAndEgg(Class<? extends Entity> EntityClass, String entityNameIn, int solidColorIn, int spotColorIn, EnumCreatureType typeIn, int prob, int min, int max, Biome[] biomes) {
-        EntityEntry entry = EntityEntryBuilder.create().entity(EntityClass).id(new ResourceLocation(Ref.MOD_ID, entityNameIn), modEntities++).name(LOCALIZE_PREFIX + entityNameIn).tracker(64, 1, true).egg(solidColorIn, spotColorIn).spawn(typeIn, prob, min, max, biomes).build();
-        if (typeIn == EnumCreatureType.WATER_CREATURE) {
-            EntitySpawnPlacementRegistry.setPlacementType(EntityClass, SpawnPlacementType.IN_WATER);
-        }
-        entrySet.add(entry);
-    }
-
-    public static void registerWithEgg(Class<? extends Entity> EntityClass, String entityNameIn, int solidColorIn, int spotColorIn) {
-        EntityEntry entry = EntityEntryBuilder.create().entity(EntityClass).id(new ResourceLocation(Ref.MOD_ID, entityNameIn), modEntities++).name(LOCALIZE_PREFIX + entityNameIn).tracker(64, 1, true).egg(solidColorIn, spotColorIn).build();
-        entrySet.add(entry);
-    }
-
-    public static void register(Class<? extends Entity> EntityClass, String entityNameIn) {
-        EntityEntry entry = EntityEntryBuilder.create().entity(EntityClass).id(new ResourceLocation(Ref.MOD_ID, entityNameIn), modEntities++).name(LOCALIZE_PREFIX + entityNameIn).tracker(64, 1, true).build();
-
-        entrySet.add(entry);
-    }
-
-    // ####################################################################################
-
-    @EventBusSubscriber(modid = Ref.MOD_ID)
-    public static class RegistrationHandler {
-        /**
-         * Register this mod's {@link EntityEntry}s.
-         *
-         * @param event The event
-         */
-        @SubscribeEvent
-        public static void onEvent(final RegistryEvent.Register<EntityEntry> event) {
-            final IForgeRegistry<EntityEntry> registry = event.getRegistry();
-
-            for (EntityContainer container : entityList) {
-                if (container.doRegister)
-                    reg(container);
-            }
-            EntitySpawnPlacementRegistry.setPlacementType(EntityLammergeier.class, SpawnPlacementType.IN_AIR);
-            register(EntityTarantulaHair.class, "tarantulahair");
-
-            if (!entrySet.isEmpty()) {
-                for (final EntityEntry entityEntry : entrySet) {
-                    // System.out.println("Registering entity: " + entityEntry.getName() + " " +
-                    // entityEntry.getRegistryName());
-                    registry.register(entityEntry);
-                }
-            }
-        }
     }
 
 }

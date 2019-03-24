@@ -4,7 +4,7 @@ import javax.annotation.Nonnull;
 
 import its_meow.betteranimalsplus.client.model.ModelHirschgeistMain;
 import its_meow.betteranimalsplus.common.entity.miniboss.hirschgeist.EntityHirschgeist;
-import its_meow.betteranimalsplus.init.TextureRegistry;
+import its_meow.betteranimalsplus.init.ModTextures;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.client.renderer.entity.RenderManager;
@@ -37,7 +37,7 @@ public class RenderHirschgeist extends RenderLiving<EntityHirschgeist> {
     @Override
     @Nonnull
     protected ResourceLocation getEntityTexture(@Nonnull EntityHirschgeist entity) {
-        return TextureRegistry.hirschgeist;
+        return ModTextures.hirschgeist;
     }
 
 }

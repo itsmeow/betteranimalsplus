@@ -4,7 +4,7 @@ import javax.annotation.Nullable;
 
 import com.google.common.base.Predicates;
 
-import its_meow.betteranimalsplus.init.LootTableRegistry;
+import its_meow.betteranimalsplus.init.ModLootTables;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityCreature;
@@ -76,7 +76,7 @@ public class EntityBear extends EntityMob {
     @Override
     @Nullable
     protected ResourceLocation getLootTable() {
-        return LootTableRegistry.bear;
+        return ModLootTables.bear;
     }
 
     /**
