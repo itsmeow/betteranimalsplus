@@ -1,7 +1,5 @@
 package its_meow.betteranimalsplus.common.entity;
 
-import java.util.Random;
-
 import javax.annotation.Nullable;
 
 import net.minecraft.block.Block;
@@ -15,12 +13,10 @@ import net.minecraft.entity.ai.EntityAIPanic;
 import net.minecraft.entity.ai.EntityAISwimming;
 import net.minecraft.entity.ai.EntityAITempt;
 import net.minecraft.entity.ai.EntityAIWanderAvoidWater;
-import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
@@ -31,10 +27,9 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
 
-public class EntitySquirrel extends EntityAnimal implements IVariantTypes {
+public class EntitySquirrel extends EntityAnimalWithTypes {
 
     private static final DataParameter<Byte> CLIMBING = EntityDataManager.<Byte>createKey(EntitySquirrel.class, DataSerializers.BYTE);
-    private static final DataParameter<Integer> TYPE_NUMBER = EntityDataManager.<Integer>createKey(EntitySquirrel.class, DataSerializers.VARINT);
 
     private int climbTimeWithoutLog = 0;
 
@@ -66,33 +61,13 @@ public class EntitySquirrel extends EntityAnimal implements IVariantTypes {
     protected void entityInit() {
         super.entityInit();
         this.dataManager.register(CLIMBING, Byte.valueOf((byte) 0));
-        this.registerTypeKey();
     }
 
-    @Override
-    public void writeEntityToNBT(NBTTagCompound compound) {
-        super.writeEntityToNBT(compound);
-        this.writeType(compound);
-    }
-
-    @Override
-    public void readEntityFromNBT(NBTTagCompound compound) {
-        super.readEntityFromNBT(compound);
-        this.readType(compound);
-    }
-
-    /**
-     * Called only once on an entity when first time spawned, via egg, mob spawner,
-     * natural spawning etc, but not called
-     * when entity is reloaded from nbt. Mainly used for initializing attributes and
-     * inventory
-     */
     @Override
     @Nullable
     public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, @Nullable IEntityLivingData livingdata) {
-        livingdata = super.onInitialSpawn(difficulty, livingdata);
         if (!this.isChild()) {
-            int i = this.rand.nextInt(3) + 1; // Values 1 to 3
+            int i = this.rand.nextInt(this.getVariantMax()) + 1; // Values 1 to 3
             if (i == 3 && this.rand.nextInt(4) != 0) { // 1/4 chance it remains white (overall 1/12 chance of white)
                 i = this.rand.nextInt(2) + 1; // 1 - 2
             }
@@ -189,27 +164,12 @@ public class EntitySquirrel extends EntityAnimal implements IVariantTypes {
 
     @Override
     public int getVariantMax() {
-        return 0; // This is not used in this class
+        return 3;
     }
 
     @Override
-    public DataParameter<Integer> getDataKey() {
-        return TYPE_NUMBER;
-    }
-
-    @Override
-    public boolean isChildI() {
-        return this.isChild();
-    }
-
-    @Override
-    public Random getRNGI() {
-        return this.getRNG();
-    }
-
-    @Override
-    public EntityDataManager getDataManagerI() {
-        return this.getDataManager();
+    protected IVariantTypes getBaseChild() {
+        return null; // This is not used, createChild is overriden
     }
 
 }

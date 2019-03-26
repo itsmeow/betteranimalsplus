@@ -1,7 +1,5 @@
 package its_meow.betteranimalsplus.common.entity;
 
-import java.util.Random;
-
 import javax.annotation.Nullable;
 
 import its_meow.betteranimalsplus.init.ModBlocks;
@@ -10,10 +8,10 @@ import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIAttackMelee;
 import net.minecraft.entity.ai.EntityAIFollowParent;
+import net.minecraft.entity.ai.EntityAIHurtByTarget;
 import net.minecraft.entity.ai.EntityAILookIdle;
 import net.minecraft.entity.ai.EntityAIMate;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
@@ -22,6 +20,7 @@ import net.minecraft.entity.ai.EntityAIWanderAvoidWater;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.entity.monster.EntityPigZombie;
+import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.passive.EntityChicken;
 import net.minecraft.entity.passive.EntityPig;
@@ -32,23 +31,17 @@ import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.datasync.DataParameter;
-import net.minecraft.network.datasync.DataSerializers;
-import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
 import net.minecraft.world.storage.loot.LootTableList;
 
-public class EntityBoar extends EntityAnimal implements IVariantTypes {
-
-    protected static final DataParameter<Integer> TYPE_NUMBER = EntityDataManager.<Integer>createKey(EntityBoar.class, DataSerializers.VARINT);
+public class EntityBoar extends EntityAnimalWithTypes implements IMob {
 
     public EntityBoar(World worldIn) {
         super(worldIn);
@@ -67,6 +60,7 @@ public class EntityBoar extends EntityAnimal implements IVariantTypes {
         this.tasks.addTask(7, new EntityAIWatchClosest(this, EntityPlayer.class, 6.0F));
         this.tasks.addTask(8, new EntityAILookIdle(this));
         if (!this.isChild() && this.getEntityWorld().getDifficulty() != EnumDifficulty.PEACEFUL) {
+            this.targetTasks.addTask(0, new EntityAIHurtByTarget(this, true, new Class[0]));
             this.targetTasks.addTask(1, new EntityAINearestAttackableTarget<EntityAnimal>(this, EntityAnimal.class, 90, true, true, (@Nullable Entity in) -> in instanceof EntityChicken || in instanceof EntityPheasant || (in instanceof EntityAnimal && ((EntityAnimal) in).isChild() && !(in instanceof EntityBoar || in instanceof EntityPig))));
             this.targetTasks.addTask(2, new EntityAINearestAttackableTarget<EntityLivingBase>(this, EntityLivingBase.class, 50, true, true, (@Nullable Entity in) -> (in instanceof EntityAnimal && !(in instanceof EntityBoar || in instanceof EntityPig)) || in instanceof EntityPlayer));
         }
@@ -208,14 +202,6 @@ public class EntityBoar extends EntityAnimal implements IVariantTypes {
     }
 
     @Override
-    public boolean attackEntityFrom(DamageSource source, float amount) {
-        if (source.getImmediateSource() instanceof EntityPlayer) {
-            this.setAttackTarget((EntityPlayer) source.getImmediateSource());
-        }
-        return super.attackEntityFrom(source, amount);
-    }
-
-    @Override
     public EntityAgeable createChild(EntityAgeable ageable) {
         if (ageable instanceof EntityBoar) {
             EntityBoar boar = new EntityBoar(this.world);
@@ -250,52 +236,13 @@ public class EntityBoar extends EntityAnimal implements IVariantTypes {
     }
 
     @Override
-    protected void entityInit() {
-        super.entityInit();
-        this.registerTypeKey();
-    }
-
-    @Override
-    public void writeEntityToNBT(NBTTagCompound compound) {
-        super.writeEntityToNBT(compound);
-        this.writeType(compound);
-    }
-
-    @Override
-    public void readEntityFromNBT(NBTTagCompound compound) {
-        super.readEntityFromNBT(compound);
-        this.readType(compound);
-    }
-
-    @Override
-    @Nullable
-    public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, @Nullable IEntityLivingData livingdata) {
-        return this.initData(super.onInitialSpawn(difficulty, livingdata));
-    }
-
-    @Override
-    public DataParameter<Integer> getDataKey() {
-        return TYPE_NUMBER;
-    }
-
-    @Override
     public int getVariantMax() {
         return 4;
     }
-
+    
     @Override
-    public boolean isChildI() {
-        return this.isChild();
-    }
-
-    @Override
-    public Random getRNGI() {
-        return this.getRNG();
-    }
-
-    @Override
-    public EntityDataManager getDataManagerI() {
-        return this.getDataManager();
+    protected IVariantTypes getBaseChild() {
+        return null;
     }
 
 }

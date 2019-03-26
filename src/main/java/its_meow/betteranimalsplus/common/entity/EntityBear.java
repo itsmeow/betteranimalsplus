@@ -8,7 +8,6 @@ import its_meow.betteranimalsplus.init.ModLootTables;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityCreature;
-import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIAttackMelee;
@@ -28,7 +27,6 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
-import net.minecraft.util.datafix.DataFixer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
@@ -36,17 +34,14 @@ import net.minecraft.world.World;
 public class EntityBear extends EntityMob {
 
     private int warningSoundTicks;
-    private World world = null;
 
     public EntityBear(World worldIn) {
         super(worldIn);
-        this.world = worldIn;
         this.setSize(2F, 2F);
     }
 
     @Override
     protected void initEntityAI() {
-        // super.initEntityAI();
         this.tasks.addTask(0, new EntityAISwimming(this));
         this.tasks.addTask(1, new EntityBear.AIMeleeAttack());
         this.tasks.addTask(5, new EntityAIWander(this, 1.0D));
@@ -79,22 +74,6 @@ public class EntityBear extends EntityMob {
         return ModLootTables.bear;
     }
 
-    /**
-     * Checks if the entity's current position is a valid location to spawn this
-     * entity.
-     */
-    @Override
-    public boolean getCanSpawnHere() {
-        return this.world.getDifficulty() != EnumDifficulty.PEACEFUL;
-    }
-
-    public static void registerFixesBear(DataFixer fixer) {
-        EntityLiving.registerFixesMob(fixer, EntityBear.class);
-    }
-
-    /**
-     * Called when the entity is attacked.
-     */
     @Override
     public boolean attackEntityFrom(DamageSource source, float amount) {
         if (this.isEntityInvulnerable(source)) {

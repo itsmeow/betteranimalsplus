@@ -50,7 +50,6 @@ public class EntityCoyote extends EntityFeralWolf {
 
     public EntityCoyote(World worldIn) {
         super(worldIn);
-        this.world = worldIn;
         this.setSize(0.8F, 0.9F);
         this.setTamed(false);
     }
@@ -70,7 +69,7 @@ public class EntityCoyote extends EntityFeralWolf {
         this.targetTasks.addTask(2, new EntityAIOwnerHurtTarget(this));
         this.targetTasks.addTask(3, new EntityAIHurtByTarget(this, true, new Class[0]));
         this.targetTasks.addTask(4, new EntityAITargetNonTamed<EntityPlayer>(this, EntityPlayer.class, false, Predicates.alwaysTrue()));
-        this.targetTasks.addTask(4, new EntityAITargetNonTamed<EntityAnimal>(this, EntityAnimal.class, false, (@Nullable Entity p_apply_1_) -> p_apply_1_ instanceof EntitySheep || p_apply_1_ instanceof EntityRabbit));
+        this.targetTasks.addTask(4, new EntityAITargetNonTamed<EntityAnimal>(this, EntityAnimal.class, false, (@Nullable Entity e) -> e instanceof EntitySheep || e instanceof EntityRabbit));
         this.targetTasks.addTask(4, new EntityAITargetNonTamed<EntityVillager>(this, EntityVillager.class, false, Predicates.alwaysTrue()));
         this.targetTasks.addTask(4, new EntityAITargetNonTamed<AbstractIllager>(this, AbstractIllager.class, false, Predicates.alwaysTrue()));
         this.targetTasks.addTask(4, new EntityAITargetNonTamed<EntityChicken>(this, EntityChicken.class, false, Predicates.alwaysTrue()));
@@ -78,8 +77,7 @@ public class EntityCoyote extends EntityFeralWolf {
     }
 
     public boolean isDaytime() {
-        long time = this.world.getWorldTime() % 24000L; // Time can go over values of 24000, so divide and take the
-                                                        // remainder
+        long time = this.world.getWorldTime() % 24000L; // Time can go over values of 24000, so divide and take the remainder
         return !(time >= 13000L && time <= 23000L);
     }
 

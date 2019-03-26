@@ -1,9 +1,6 @@
 package its_meow.betteranimalsplus.common.entity;
 
-import java.util.Random;
 import java.util.Set;
-
-import javax.annotation.Nullable;
 
 import com.google.common.base.Predicate;
 import com.google.common.collect.Sets;
@@ -14,8 +11,6 @@ import net.minecraft.block.BlockLeaves;
 import net.minecraft.block.BlockLog;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityAgeable;
-import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIAvoidEntity;
 import net.minecraft.entity.ai.EntityAIMate;
@@ -32,10 +27,6 @@ import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.datasync.DataParameter;
-import net.minecraft.network.datasync.DataSerializers;
-import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.pathfinding.PathNavigate;
 import net.minecraft.pathfinding.PathNavigateFlying;
 import net.minecraft.util.EnumHand;
@@ -43,10 +34,9 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
 
-public class EntitySongbird extends EntityAnimal implements EntityFlying, IVariantTypes {
+public class EntitySongbird extends EntityAnimalWithTypes implements EntityFlying {
 
     private static final Set<Item> SEEDS = Sets.newHashSet(Items.WHEAT_SEEDS, Items.MELON_SEEDS, Items.PUMPKIN_SEEDS, Items.BEETROOT_SEEDS);
 
@@ -145,32 +135,6 @@ public class EntitySongbird extends EntityAnimal implements EntityFlying, IVaria
         return !this.onGround;
     }
 
-    protected static final DataParameter<Integer> TYPE_NUMBER = EntityDataManager.<Integer>createKey(EntitySongbird.class, DataSerializers.VARINT);
-
-    @Override
-    protected void entityInit() {
-        super.entityInit();
-        this.registerTypeKey();
-    }
-
-    @Override
-    public void writeEntityToNBT(NBTTagCompound compound) {
-        super.writeEntityToNBT(compound);
-        this.writeType(compound);
-    }
-
-    @Override
-    public void readEntityFromNBT(NBTTagCompound compound) {
-        super.readEntityFromNBT(compound);
-        this.readType(compound);
-    }
-
-    @Override
-    @Nullable
-    public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, @Nullable IEntityLivingData livingdata) {
-        return this.initData(super.onInitialSpawn(difficulty, livingdata));
-    }
-
     @Override
     public boolean canMateWith(EntityAnimal otherAnimal) {
         if (super.canMateWith(otherAnimal)) {
@@ -183,20 +147,10 @@ public class EntitySongbird extends EntityAnimal implements EntityFlying, IVaria
     }
 
     @Override
-    public EntityAgeable createChild(EntityAgeable ageable) {
-        if(!(ageable instanceof IVariantTypes)) return null;
-        return (EntityAgeable) new EntitySongbird(this.world).setType(this.getOffspringType(this, (IVariantTypes) ageable));
-    }
-
-    @Override
     public int getVariantMax() {
         return 9;
     }
 
-    @Override
-    public DataParameter<Integer> getDataKey() {
-        return TYPE_NUMBER;
-    }
 
     @Override
     protected ResourceLocation getLootTable() {
@@ -204,18 +158,8 @@ public class EntitySongbird extends EntityAnimal implements EntityFlying, IVaria
     }
 
     @Override
-    public boolean isChildI() {
-        return this.isChild();
-    }
-
-    @Override
-    public Random getRNGI() {
-        return this.getRNG();
-    }
-
-    @Override
-    public EntityDataManager getDataManagerI() {
-        return this.getDataManager();
+    protected IVariantTypes getBaseChild() {
+        return new EntitySongbird(this.world);
     }
 
 }

@@ -57,7 +57,9 @@ import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
 
 public class EntityLammergeier extends EntityTameableFlying implements IVariantTypes {
-
+    
+    private static final DataParameter<Integer> TYPE_NUMBER = EntityDataManager.<Integer>createKey(EntityLammergeier.class, DataSerializers.VARINT);
+    
     private static final DataParameter<Byte> FLYING = EntityDataManager.<Byte>createKey(EntityLammergeier.class, DataSerializers.BYTE);
     private static final DataParameter<Float> DATA_HEALTH_ID = EntityDataManager.<Float>createKey(EntityLammergeier.class, DataSerializers.FLOAT);
 
@@ -427,8 +429,6 @@ public class EntityLammergeier extends EntityTameableFlying implements IVariantT
     public PolarVector3D toPolarCoordinates(int x, int y, int z) {
         return this.toPolarCoordinates(new BlockPos(x, y, z));
     }
-
-    private static final DataParameter<Integer> TYPE_NUMBER = EntityDataManager.<Integer>createKey(EntityLammergeier.class, DataSerializers.VARINT);
 
     /**
      * (abstract) Protected helper method to write subclass entity data to NBT.

@@ -1,6 +1,5 @@
 package its_meow.betteranimalsplus.common.entity;
 
-import java.util.Random;
 import java.util.UUID;
 
 import javax.annotation.Nullable;
@@ -11,9 +10,7 @@ import its_meow.betteranimalsplus.init.ModBlocks;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityAgeable;
-import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIAttackMelee;
 import net.minecraft.entity.ai.EntityAIFollowOwner;
@@ -33,7 +30,6 @@ import net.minecraft.entity.monster.EntityGhast;
 import net.minecraft.entity.passive.AbstractHorse;
 import net.minecraft.entity.passive.EntityChicken;
 import net.minecraft.entity.passive.EntityRabbit;
-import net.minecraft.entity.passive.EntityTameable;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.init.Items;
@@ -49,31 +45,15 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
-import net.minecraft.util.datafix.DataFixer;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import net.minecraft.world.storage.loot.LootTableList;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class EntityFox extends EntityTameable implements IVariantTypes {
+public class EntityFox extends EntityTameableWithTypes {
 
     protected static final DataParameter<Float> DATA_HEALTH_ID = EntityDataManager.<Float>createKey(EntityFox.class, DataSerializers.FLOAT);
-    protected static final DataParameter<Integer> TYPE_NUMBER = EntityDataManager.<Integer>createKey(EntityFox.class, DataSerializers.VARINT);
-    /** Float used to smooth the rotation of the wolf head */
-    protected float headRotationCourse;
-    protected float headRotationCourseOld;
-    /** true is the wolf is wet else false */
-    protected boolean isWet;
-    /** True if the wolf is shaking else False */
-    protected boolean isShaking;
-    /** This time increases while wolf is shaking and emitting water particles. */
-    protected float timeWolfIsShaking;
-    protected float prevTimeWolfIsShaking;
 
     public EntityFox(World worldIn) {
         super(worldIn);
@@ -99,30 +79,6 @@ public class EntityFox extends EntityTameable implements IVariantTypes {
         this.targetTasks.addTask(3, new EntityAIHurtByTarget(this, true, new Class[0]));
         this.targetTasks.addTask(4, new EntityAITargetNonTamed<EntityRabbit>(this, EntityRabbit.class, false, Predicates.alwaysTrue()));
         this.targetTasks.addTask(4, new EntityAITargetNonTamed<EntityChicken>(this, EntityChicken.class, false, Predicates.alwaysTrue()));
-    }
-
-    /**
-     * (abstract) Protected helper method to write subclass entity data to NBT.
-     */
-    @Override
-    public void writeEntityToNBT(NBTTagCompound compound) {
-        super.writeEntityToNBT(compound);
-        this.writeType(compound);
-    }
-
-    /**
-     * (abstract) Protected helper method to read subclass entity data from NBT.
-     */
-    @Override
-    public void readEntityFromNBT(NBTTagCompound compound) {
-        super.readEntityFromNBT(compound);
-        this.readType(compound);
-    }
-
-    @Override
-    @Nullable
-    public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, @Nullable IEntityLivingData livingdata) {
-        return this.initData(super.onInitialSpawn(difficulty, livingdata));
     }
 
     @Override
@@ -161,7 +117,6 @@ public class EntityFox extends EntityTameable implements IVariantTypes {
     protected void entityInit() {
         super.entityInit();
         this.dataManager.register(DATA_HEALTH_ID, Float.valueOf(this.getHealth()));
-        this.registerTypeKey();
     }
 
     @Override
@@ -176,10 +131,6 @@ public class EntityFox extends EntityTameable implements IVariantTypes {
     @Override
     protected void playStepSound(BlockPos pos, Block blockIn) {
         this.playSound(SoundEvents.ENTITY_WOLF_STEP, 0.15F, 1.0F);
-    }
-
-    public static void registerFixesFox(DataFixer fixer) {
-        EntityLiving.registerFixesMob(fixer, EntityFox.class);
     }
 
     @Override
@@ -214,118 +165,11 @@ public class EntityFox extends EntityTameable implements IVariantTypes {
         return LootTableList.ENTITIES_WOLF;
     }
 
-    /**
-     * Called frequently so the entity can update its state every tick as required.
-     * For example, zombies and skeletons
-     * use this to react to sunlight and start to burn.
-     */
-    @Override
-    public void onLivingUpdate() {
-        super.onLivingUpdate();
-
-        if (!this.world.isRemote && this.isWet && !this.isShaking && !this.hasPath() && this.onGround) {
-            this.isShaking = true;
-            this.timeWolfIsShaking = 0.0F;
-            this.prevTimeWolfIsShaking = 0.0F;
-            this.world.setEntityState(this, (byte) 8);
-        }
-    }
-
-    /**
-     * Called to update the entity's position/logic.
-     */
-    @Override
-    public void onUpdate() {
-        super.onUpdate();
-        this.headRotationCourseOld = this.headRotationCourse;
-
-        this.headRotationCourse += (0.0F - this.headRotationCourse) * 0.4F;
-
-        if (this.isWet()) {
-            this.isWet = true;
-            this.isShaking = false;
-            this.timeWolfIsShaking = 0.0F;
-            this.prevTimeWolfIsShaking = 0.0F;
-        } else if ((this.isWet || this.isShaking) && this.isShaking) {
-            if (this.timeWolfIsShaking == 0.0F) {
-                this.playSound(SoundEvents.ENTITY_WOLF_SHAKE, this.getSoundVolume(), (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 1.0F);
-            }
-
-            this.prevTimeWolfIsShaking = this.timeWolfIsShaking;
-            this.timeWolfIsShaking += 0.05F;
-
-            if (this.prevTimeWolfIsShaking >= 2.0F) {
-                this.isWet = false;
-                this.isShaking = false;
-                this.prevTimeWolfIsShaking = 0.0F;
-                this.timeWolfIsShaking = 0.0F;
-            }
-
-            if (this.timeWolfIsShaking > 0.4F) {
-                float f = (float) this.getEntityBoundingBox().minY;
-                int i = (int) (MathHelper.sin((this.timeWolfIsShaking - 0.4F) * (float) Math.PI) * 7.0F);
-
-                for (int j = 0; j < i; ++j) {
-                    float f1 = (this.rand.nextFloat() * 2.0F - 1.0F) * this.width * 0.5F;
-                    float f2 = (this.rand.nextFloat() * 2.0F - 1.0F) * this.width * 0.5F;
-                    this.world.spawnParticle(EnumParticleTypes.WATER_SPLASH, this.posX + f1, f + 0.8F, this.posZ + f2, this.motionX, this.motionY, this.motionZ);
-                }
-            }
-        }
-    }
-
-    /**
-     * True if the wolf is wet
-     */
-    @SideOnly(Side.CLIENT)
-    public boolean isWolfWet() {
-        return this.isWet;
-    }
-
-    /**
-     * Used when calculating the amount of shading to apply while the wolf is wet.
-     */
-    @SideOnly(Side.CLIENT)
-    public float getShadingWhileWet(float p_70915_1_) {
-        return 0.75F + (this.prevTimeWolfIsShaking + (this.timeWolfIsShaking - this.prevTimeWolfIsShaking) * p_70915_1_) / 2.0F * 0.25F;
-    }
-
-    @SideOnly(Side.CLIENT)
-    public float getShakeAngle(float p_70923_1_, float p_70923_2_) {
-        float f = (this.prevTimeWolfIsShaking + (this.timeWolfIsShaking - this.prevTimeWolfIsShaking) * p_70923_1_ + p_70923_2_) / 1.8F;
-
-        if (f < 0.0F) {
-            f = 0.0F;
-        } else if (f > 1.0F) {
-            f = 1.0F;
-        }
-
-        return MathHelper.sin(f * (float) Math.PI) * MathHelper.sin(f * (float) Math.PI * 11.0F) * 0.15F * (float) Math.PI;
-    }
-
-    @SideOnly(Side.CLIENT)
-    public float getInterestedAngle(float p_70917_1_) {
-        return (this.headRotationCourseOld + (this.headRotationCourse - this.headRotationCourseOld) * p_70917_1_) * 0.15F * (float) Math.PI;
-    }
-
     @Override
     public float getEyeHeight() {
         return this.height * 0.8F;
     }
 
-    /**
-     * The speed it takes to move the entityliving's rotationPitch through the
-     * faceEntity method. This is only currently
-     * use in wolves.
-     */
-    @Override
-    public int getVerticalFaceSpeed() {
-        return this.isSitting() ? 20 : super.getVerticalFaceSpeed();
-    }
-
-    /**
-     * Called when the entity is attacked.
-     */
     @Override
     public boolean attackEntityFrom(DamageSource source, float amount) {
         if (this.isEntityInvulnerable(source)) {
@@ -434,43 +278,11 @@ public class EntityFox extends EntityTameable implements IVariantTypes {
         }
     }
 
-    /**
-     * Handler for {@link World#setEntityState}
-     */
-    @Override
-    @SideOnly(Side.CLIENT)
-    public void handleStatusUpdate(byte id) {
-        if (id == 8) {
-            this.isShaking = true;
-            this.timeWolfIsShaking = 0.0F;
-            this.prevTimeWolfIsShaking = 0.0F;
-        } else {
-            super.handleStatusUpdate(id);
-        }
-    }
-
-    @SideOnly(Side.CLIENT)
-    public float getTailRotation() {
-        if (!this.isTamed()) {
-            return -0.15F;
-        } else {
-            return this.isTamed() ? (0.25F - (this.getMaxHealth() - this.dataManager.get(DATA_HEALTH_ID).floatValue()) * 0.04F) : -0.85F;
-        }
-    }
-
-    /**
-     * Checks if the parameter is an item which this animal can be fed to breed it
-     * (wheat, carrots or seeds depending on
-     * the animal type)
-     */
     @Override
     public boolean isBreedingItem(ItemStack stack) {
         return stack.getItem() == Items.CHICKEN || stack.getItem() == Items.RABBIT;
     }
 
-    /**
-     * Will return how many at most can spawn in a chunk at once.
-     */
     @Override
     public int getMaxSpawnedInChunk() {
         return 8;
@@ -516,27 +328,13 @@ public class EntityFox extends EntityTameable implements IVariantTypes {
     }
 
     @Override
-    public DataParameter<Integer> getDataKey() {
-        return TYPE_NUMBER;
-    }
-
-    @Override
     public int getVariantMax() {
         return 4;
+        
     }
 
     @Override
-    public boolean isChildI() {
-        return this.isChild();
-    }
-
-    @Override
-    public Random getRNGI() {
-        return this.getRNG();
-    }
-
-    @Override
-    public EntityDataManager getDataManagerI() {
-        return this.getDataManager();
+    protected IVariantTypes getBaseChild() {
+        return null; // Unused with custom logic here
     }
 }

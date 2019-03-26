@@ -402,9 +402,7 @@ public class ModelFox extends ModelBetterAnimals {
                 this.head.rotateAngleX -= Math.toRadians(20);
                 this.body.setRotationPoint(0F, 16.8F, -0.8F);
             } else {
-                // this.setRotateAngle(rHindLeg01, -0.18203784098300857F, 0.0F, 0.0F);
                 this.setRotateAngle(this.rHindLeg02, 0.8196066167365371F, 0.0F, 0.0F);
-                // this.setRotateAngle(lHindLeg01, -0.18203784098300857F, 0.0F, 0.0F);
                 this.setRotateAngle(this.lHindLeg02, 0.8196066167365371F, 0.0F, 0.0F);
                 this.lArm01.rotateAngleZ = -0.091106186954104F;
                 this.setRotateAngle(this.lArm01_1, -0.22759093446006054F, 0.0F, 0.091106186954104F);
