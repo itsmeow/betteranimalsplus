@@ -76,8 +76,13 @@ public class EntitySongbird extends EntityAnimalWithTypes implements EntityFlyin
         int j = MathHelper.floor(this.getEntityBoundingBox().minY);
         int k = MathHelper.floor(this.posZ);
         BlockPos blockpos = new BlockPos(i, j, k);
-        Block block = this.world.getBlockState(blockpos.down()).getBlock();
-        return block instanceof BlockLeaves || block == Blocks.GRASS || block instanceof BlockLog || block == Blocks.AIR && this.world.getLight(blockpos) > 8 && super.getCanSpawnHere();
+        if(!world.isBlockLoaded(new BlockPos(blockpos))) {
+            Block block = this.world.getBlockState(blockpos.down()).getBlock();
+            return block instanceof BlockLeaves || block == Blocks.GRASS || block instanceof BlockLog
+                    || block == Blocks.AIR && this.world.getLight(blockpos) > 8 && super.getCanSpawnHere();
+        } else {
+            return super.getCanSpawnHere();
+        }
     }
 
     /**
