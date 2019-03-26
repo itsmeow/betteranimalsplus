@@ -40,12 +40,12 @@ import net.minecraft.world.World;
 public class EntityBear extends EntityMob {
 
     private int warningSoundTicks;
-
+    
     public EntityBear(World worldIn) {
         super(ModEntities.getEntityType(EntityBear.class), worldIn);
         this.setSize(2F, 2F);
     }
-
+    
     public EntityBear(EntityType<?> type, World worldIn) {
         super(type, worldIn);
         this.setSize(2F, 2F);

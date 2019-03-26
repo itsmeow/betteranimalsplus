@@ -42,7 +42,6 @@ public class EntityBearNeutral extends EntityBear {
 
     @Override
     protected void initEntityAI() {
-        // super.initEntityAI();
         this.tasks.addTask(0, new EntityAISwimming(this));
         this.tasks.addTask(1, new EntityBearNeutral.AIMeleeAttack());
         this.targetTasks.addTask(1, new EntityBearNeutral.AIHurtByTarget());

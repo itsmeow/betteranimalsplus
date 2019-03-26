@@ -1,6 +1,5 @@
 package its_meow.betteranimalsplus.common.entity;
 
-import java.util.Random;
 
 import javax.annotation.Nullable;
 
@@ -8,8 +7,6 @@ import its_meow.betteranimalsplus.init.ModEntities;
 import its_meow.betteranimalsplus.init.ModLootTables;
 import its_meow.betteranimalsplus.util.HeadTypes;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.EntityAgeable;
-import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIAvoidEntity;
 import net.minecraft.entity.ai.EntityAIEatGrass;
@@ -19,41 +16,28 @@ import net.minecraft.entity.ai.EntityAIPanic;
 import net.minecraft.entity.ai.EntityAISwimming;
 import net.minecraft.entity.ai.EntityAITempt;
 import net.minecraft.entity.ai.EntityAIWander;
-import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.datasync.DataParameter;
-import net.minecraft.network.datasync.DataSerializers;
-import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.IItemProvider;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
-public class EntityDeer extends EntityAnimal implements IVariantTypes {
+public class EntityDeer extends EntityAnimalWithTypes {
     
-    private static final DataParameter<Integer> TYPE_NUMBER = EntityDataManager.<Integer>createKey(EntityDeer.class, DataSerializers.VARINT);
     private EntityAIEatGrass eatTask = null;
     public int eatTimer;
 
     public EntityDeer(World worldIn) {
         super(ModEntities.getEntityType(EntityDeer.class), worldIn);
         this.setSize(1.2F, 1.6F);
-    }
-
-    @Override
-    protected void registerData() {
-        super.registerData();
-        this.registerTypeKey();
     }
 
     public int getEatTime() {
@@ -101,25 +85,6 @@ public class EntityDeer extends EntityAnimal implements IVariantTypes {
     }
 
     @Override
-    public boolean writeUnlessRemoved(NBTTagCompound compound) {
-        this.writeType(compound);
-        return super.writeUnlessRemoved(compound);
-    }
-
-    @Override
-    public void read(NBTTagCompound compound) {
-        super.read(compound);
-        this.readType(compound);
-    }
-
-    @Override
-    @Nullable
-    public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, @Nullable IEntityLivingData livingdata,
-            NBTTagCompound compound) {
-        return this.initData(super.onInitialSpawn(difficulty, livingdata, compound));
-    }
-
-    @Override
     protected void playStepSound(BlockPos pos, IBlockState state) {
         this.playSound(SoundEvents.ENTITY_SHEEP_STEP, 0.15F, 1.0F);
     }
@@ -142,8 +107,6 @@ public class EntityDeer extends EntityAnimal implements IVariantTypes {
         this.tasks.addTask(5, new EntityAIWander(this, 0.45D));
         this.tasks.addTask(6, new EntityAILookIdle(this));
     }
-    
-    
 
     @Override
     public void eatGrassBonus() {
@@ -184,34 +147,13 @@ public class EntityDeer extends EntityAnimal implements IVariantTypes {
     }
 
     @Override
-    public EntityAgeable createChild(EntityAgeable ageable) {
-        if(!(ageable instanceof IVariantTypes)) return null;
-        return (EntityAgeable) new EntityDeer(this.world).setType(this.getOffspringType(this, (IVariantTypes) ageable));
-    }
-
-    @Override
-    public DataParameter<Integer> getDataKey() {
-        return TYPE_NUMBER;
-    }
-
-    @Override
     public int getVariantMax() {
         return 2;
     }
 
     @Override
-    public boolean isChildI() {
-        return this.isChild();
-    }
-
-    @Override
-    public Random getRNGI() {
-        return this.getRNG();
-    }
-
-    @Override
-    public EntityDataManager getDataManagerI() {
-        return this.getDataManager();
+    protected IVariantTypes getBaseChild() {
+        return new EntityDeer(this.world);
     }
 
 }

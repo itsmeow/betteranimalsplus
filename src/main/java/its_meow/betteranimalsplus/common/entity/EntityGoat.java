@@ -1,7 +1,6 @@
 package its_meow.betteranimalsplus.common.entity;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 import javax.annotation.Nullable;
 
@@ -11,10 +10,8 @@ import its_meow.betteranimalsplus.init.ModLootTables;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIAttackMelee;
 import net.minecraft.entity.ai.EntityAIBase;
@@ -26,7 +23,6 @@ import net.minecraft.entity.ai.EntityAIPanic;
 import net.minecraft.entity.ai.EntityAISwimming;
 import net.minecraft.entity.ai.EntityAITempt;
 import net.minecraft.entity.ai.EntityAIWander;
-import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
@@ -45,16 +41,14 @@ import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
 
-public class EntityGoat extends EntityAnimal implements IVariantTypes {
+public class EntityGoat extends EntityAnimalWithTypes {
 
     public EntityPlayer friend = null;
     public boolean hasBeenFed = false;
     private ArrayList<Item> temptItems = null;
-    private static final DataParameter<Integer> TYPE_NUMBER = EntityDataManager.<Integer>createKey(EntityGoat.class,
-            DataSerializers.VARINT);
+    private static final DataParameter<Boolean> ATTACKING = EntityDataManager.<Boolean>createKey(EntityGoat.class, DataSerializers.BOOLEAN);
 
     public EntityGoat(World worldIn) {
         super(ModEntities.getEntityType(EntityGoat.class), worldIn);
@@ -147,9 +141,6 @@ public class EntityGoat extends EntityAnimal implements IVariantTypes {
     protected void playStepSound(BlockPos pos, IBlockState state) {
         this.playSound(SoundEvents.ENTITY_SHEEP_STEP, 0.15F, 1.0F);
     }
-
-    private static final DataParameter<Boolean> ATTACKING = EntityDataManager.<Boolean>createKey(EntityGoat.class,
-            DataSerializers.BOOLEAN);
 
     public boolean isAttackingFromServer() {
         return this.dataManager.get(EntityGoat.ATTACKING).booleanValue();
@@ -253,13 +244,11 @@ public class EntityGoat extends EntityAnimal implements IVariantTypes {
     @Override
     protected void registerData() {
         super.registerData();
-        this.registerTypeKey();
         this.dataManager.register(EntityGoat.ATTACKING, Boolean.valueOf(false));
     }
 
     @Override
     public boolean writeUnlessRemoved(NBTTagCompound compound) {
-        this.writeType(compound);
         compound.setBoolean("AttackSync", this.isAttackingFromServer());
         return super.writeUnlessRemoved(compound);
     }
@@ -267,14 +256,7 @@ public class EntityGoat extends EntityAnimal implements IVariantTypes {
     @Override
     public void read(NBTTagCompound compound) {
         super.read(compound);
-        this.readType(compound);
         this.setAttackingOnClient(compound.getBoolean("AttackSync"));
-    }
-
-    @Override
-    public EntityAgeable createChild(EntityAgeable ageable) {
-        if(!(ageable instanceof IVariantTypes)) return null;
-        return (EntityAgeable) new EntityGoat(this.world).setType(this.getOffspringType(this, (IVariantTypes) ageable));
     }
 
     public static class GoatAIAttackForFriend extends EntityAIBase {
@@ -330,36 +312,13 @@ public class EntityGoat extends EntityAnimal implements IVariantTypes {
     }
 
     @Override
-    public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, IEntityLivingData livingdata,
-            NBTTagCompound compound) {
-        livingdata = this.initData(super.onInitialSpawn(difficulty, livingdata, compound));
-        this.setAttackingOnClient(false);
-        return livingdata;
-    }
-
-    @Override
-    public DataParameter<Integer> getDataKey() {
-        return TYPE_NUMBER;
-    }
-
-    @Override
     public int getVariantMax() {
         return 7;
     }
 
     @Override
-    public boolean isChildI() {
-        return this.isChild();
-    }
-
-    @Override
-    public Random getRNGI() {
-        return this.getRNG();
-    }
-
-    @Override
-    public EntityDataManager getDataManagerI() {
-        return this.getDataManager();
+    protected IVariantTypes getBaseChild() {
+        return new EntityGoat(this.world);
     }
 
 }

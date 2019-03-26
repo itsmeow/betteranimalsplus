@@ -1,7 +1,5 @@
 package its_meow.betteranimalsplus.common.entity;
 
-import java.util.Random;
-
 import javax.annotation.Nullable;
 
 import com.google.common.base.Predicates;
@@ -11,10 +9,8 @@ import its_meow.betteranimalsplus.init.ModItems;
 import its_meow.betteranimalsplus.util.HeadTypes;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIAttackMelee;
 import net.minecraft.entity.ai.EntityAIFollowOwner;
@@ -39,7 +35,6 @@ import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.passive.EntityChicken;
 import net.minecraft.entity.passive.EntityRabbit;
 import net.minecraft.entity.passive.EntitySheep;
-import net.minecraft.entity.passive.EntityTameable;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityArrow;
@@ -49,7 +44,6 @@ import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
@@ -59,13 +53,12 @@ import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.TextComponentString;
-import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
-public class EntityFeralWolf extends EntityTameable implements IMob, IVariantTypes {
+public class EntityFeralWolf extends EntityTameableWithTypes implements IMob {
 
     protected static final DataParameter<Float> DATA_HEALTH_ID = EntityDataManager
             .<Float>createKey(EntityFeralWolf.class, DataSerializers.FLOAT);
@@ -95,8 +88,6 @@ public class EntityFeralWolf extends EntityTameable implements IMob, IVariantTyp
     public EntityFeralWolf(EntityType<? extends Entity> type, World worldIn) {
         super(type, worldIn);
         this.world = worldIn;
-        this.setSize(0.8F, 0.9F);
-        this.setTamed(false);
     }
 
     @Override
@@ -142,25 +133,6 @@ public class EntityFeralWolf extends EntityTameable implements IMob, IVariantTyp
         }
     }
 
-    @Override
-    public boolean writeUnlessRemoved(NBTTagCompound compound) {
-        this.writeType(compound);
-        return super.writeUnlessRemoved(compound);
-    }
-
-    @Override
-    public void read(NBTTagCompound compound) {
-        super.read(compound);
-        this.readType(compound);
-    }
-
-    @Override
-    @Nullable
-    public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, @Nullable IEntityLivingData livingdata,
-            NBTTagCompound compound) {
-        return this.initData(super.onInitialSpawn(difficulty, livingdata, compound));
-    }
-
     public boolean isPreventingPlayerRest(EntityPlayer playerIn) {
         return this.world.getDifficulty() != EnumDifficulty.PEACEFUL && !this.isTamed()
                 && this.getAttackTarget() != null && playerIn.getDistanceSq(this) <= 50D;
@@ -193,7 +165,6 @@ public class EntityFeralWolf extends EntityTameable implements IMob, IVariantTyp
     protected void registerData() {
         super.registerData();
         this.dataManager.register(DATA_HEALTH_ID, Float.valueOf(this.getHealth()));
-        this.registerTypeKey();
     }
 
     protected void playStepSound(BlockPos pos, Block blockIn) {
@@ -223,9 +194,6 @@ public class EntityFeralWolf extends EntityTameable implements IMob, IVariantTyp
         return SoundEvents.ENTITY_WOLF_DEATH;
     }
 
-    /**
-     * Returns the volume for the sounds this mob makes.
-     */
     @Override
     protected float getSoundVolume() {
         return 0.4F;
@@ -491,26 +459,16 @@ public class EntityFeralWolf extends EntityTameable implements IMob, IVariantTyp
         }
     }
 
-    /**
-     * Checks if the parameter is an item which this animal can be fed to breed it
-     * (wheat, carrots or seeds depending on the animal type)
-     */
     @Override
     public boolean isBreedingItem(ItemStack stack) {
         return stack.getItem() instanceof ItemFood && ((ItemFood) stack.getItem()).isMeat();
     }
 
-    /**
-     * Will return how many at most can spawn in a chunk at once.
-     */
     @Override
     public int getMaxSpawnedInChunk() {
         return 8;
     }
 
-    /**
-     * Returns true if the mob is currently able to mate with the specified mob.
-     */
     @Override
     public boolean canMateWith(EntityAnimal otherAnimal) {
         return false;
@@ -544,33 +502,13 @@ public class EntityFeralWolf extends EntityTameable implements IMob, IVariantTyp
     }
 
     @Override
-    public EntityFeralWolf createChild(EntityAgeable ageable) {
-        return null;
-    }
-
-    @Override
-    public DataParameter<Integer> getDataKey() {
-        return TYPE_NUMBER;
-    }
-
-    @Override
     public int getVariantMax() {
         return 3;
     }
 
     @Override
-    public boolean isChildI() {
-        return this.isChild();
-    }
-
-    @Override
-    public Random getRNGI() {
-        return this.getRNG();
-    }
-
-    @Override
-    public EntityDataManager getDataManagerI() {
-        return this.getDataManager();
+    protected IVariantTypes getBaseChild() {
+        return null;
     }
 
 }

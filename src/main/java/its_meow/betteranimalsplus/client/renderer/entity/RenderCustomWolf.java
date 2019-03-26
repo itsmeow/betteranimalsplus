@@ -16,9 +16,6 @@ public class RenderCustomWolf extends RenderLiving<EntityFeralWolf> {
         this.addLayer(new LayerWolfEyes(this));
     }
 
-    /**
-     * Defines wwhat float the third param in setRotationAngles of ModelBase is
-     */
     @Override
     protected float handleRotationFloat(EntityFeralWolf livingBase, float partialTicks) {
         return livingBase.getTailRotation();
@@ -43,12 +40,8 @@ public class RenderCustomWolf extends RenderLiving<EntityFeralWolf> {
      */
     @Override
     protected ResourceLocation getEntityTexture(EntityFeralWolf entity) {
-        return this.getWolfTexture(entity.getTypeNumber(), entity);
-    }
-
-    private ResourceLocation getWolfTexture(int typeNumber, EntityFeralWolf entity) {
         ResourceLocation result = null;
-
+        int typeNumber = entity.getTypeNumber();
         if (entity.isTamed()) {
             switch (typeNumber) {
             case 1:

@@ -229,11 +229,6 @@ public class ModelCustomWolf extends ModelBetterAnimals {
         this.chest.render(scale);
     }
 
-    /**
-     * Used for easily adding entity-dependent animations. The second and third
-     * float params here are the same second and third as in the setRotationAngles
-     * method.
-     */
     @Override
     public void setLivingAnimations(EntityLivingBase entitylivingbaseIn, float limbSwing, float limbSwingAmount,
             float partialTickTime) {
@@ -244,41 +239,6 @@ public class ModelCustomWolf extends ModelBetterAnimals {
         } else {
             this.tail01.rotateAngleY = MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount;
         }
-
-        /*
-         * if (entityferalwolf.isSitting()) { this.neck.setRotationPoint(-1.0F, 16.0F,
-         * -3.0F); this.neck.rotateAngleX = ((float)Math.PI * 2F / 5F);
-         * this.neck.rotateAngleY = 0.0F; this.body.setRotationPoint(0.0F, 18.0F, 0.0F);
-         * this.body.rotateAngleX = ((float)Math.PI / 4F);
-         * this.tail01.setRotationPoint(-1.0F, 21.0F, 6.0F);
-         * this.lArm01.setRotationPoint(-2.5F, 22.0F, 2.0F); this.lArm01.rotateAngleX =
-         * ((float)Math.PI * 3F / 2F); this.rArm01.setRotationPoint(0.5F, 22.0F, 2.0F);
-         * this.rArm01.rotateAngleX = ((float)Math.PI * 3F / 2F);
-         * this.lHindLeg01.rotateAngleX = 5.811947F;
-         * this.lHindLeg01.setRotationPoint(-2.49F, 17.0F, -4.0F);
-         * this.rHindLeg01.rotateAngleX = 5.811947F;
-         * this.rHindLeg01.setRotationPoint(0.51F, 17.0F, -4.0F); } else {
-         * this.body.setRotationPoint(0.0F, 14.0F, 2.0F); this.body.rotateAngleX =
-         * ((float)Math.PI / 2F); this.neck.setRotationPoint(-1.0F, 14.0F, -3.0F);
-         * this.neck.rotateAngleX = this.body.rotateAngleX;
-         * this.tail01.setRotationPoint(-1.0F, 12.0F, 8.0F);
-         * this.lArm01.setRotationPoint(-2.5F, 16.0F, 7.0F);
-         * this.rArm01.setRotationPoint(0.5F, 16.0F, 7.0F);
-         * this.lHindLeg01.setRotationPoint(-2.5F, 16.0F, -4.0F);
-         * this.rHindLeg01.setRotationPoint(0.5F, 16.0F, -4.0F);
-         * this.lArm01.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F) * 1.4F *
-         * limbSwingAmount; this.rArm01.rotateAngleX = MathHelper.cos(limbSwing *
-         * 0.6662F + (float)Math.PI) * 1.4F * limbSwingAmount;
-         * this.lHindLeg01.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F +
-         * (float)Math.PI) * 1.4F * limbSwingAmount; this.rHindLeg02.rotateAngleX =
-         * MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount; }
-         */
-
-        this.head.rotateAngleZ = entityferalwolf.getInterestedAngle(partialTickTime)
-                + entityferalwolf.getShakeAngle(partialTickTime, 0.0F);
-        this.neck.rotateAngleZ = entityferalwolf.getShakeAngle(partialTickTime, -0.08F);
-        this.body.rotateAngleZ = entityferalwolf.getShakeAngle(partialTickTime, -0.16F);
-        this.tail01.rotateAngleZ = entityferalwolf.getShakeAngle(partialTickTime, -0.2F);
     }
 
     @Override
@@ -288,7 +248,6 @@ public class ModelCustomWolf extends ModelBetterAnimals {
         if (entity instanceof EntityLivingBase) {
             EntityLivingBase living = (EntityLivingBase) entity;
             float newLimbSwing = limbSwing + ModelBetterAnimals.getSwingProgressPrev(living);
-            // this.head.rotateAngleZ = this.head.rotateAngleY;
             this.lHindLeg01.rotateAngleX = MathHelper.sin(newLimbSwing * 0.8665F + (float) Math.PI) * swingModifier * limbSwingAmount - 0.22759093446006054F;
             this.rHindLeg01.rotateAngleX = MathHelper.cos(newLimbSwing * 0.8665F) * swingModifier * limbSwingAmount  - 0.22759093446006054F;
             this.lArm01.rotateAngleX = MathHelper.sin(newLimbSwing * 0.8665F) * swingModifier * limbSwingAmount + 0.22759093446006054F;
@@ -323,11 +282,7 @@ public class ModelCustomWolf extends ModelBetterAnimals {
                 this.head.rotateAngleX -= Math.toRadians(20);
                 this.chest.setRotationPoint(0F, 16.8F, -0.8F);
             } else {
-                // this.setRotateAngle(rHindLeg01, -0.18203784098300857F, 0.0F,
-                // 0.0F);
                 this.setRotateAngle(this.rHindLeg02, 0.8196066167365371F, 0.0F, 0.0F);
-                // this.setRotateAngle(lHindLeg01, -0.18203784098300857F, 0.0F,
-                // 0.0F);
                 this.setRotateAngle(this.lHindLeg02, 0.8196066167365371F, 0.0F, 0.0F);
                 this.lArm01.rotateAngleZ = -0.091106186954104F;
                 this.setRotateAngle(this.lArm01_1, -0.22759093446006054F, 0.0F, 0.091106186954104F);
@@ -337,8 +292,6 @@ public class ModelCustomWolf extends ModelBetterAnimals {
                 this.rHindLeg01.rotateAngleZ = 0;
                 this.setRotateAngle(this.rHindpaw, 0, 0, 0);
                 this.setRotateAngle(this.lHindpaw, 0, 0, 0);
-                // this.head.rotateAngleX = 0.36425021489121656F;
-                // this.setRotateAngle(neck, -0.36425021489121656F, 0.0F, 0.0F);
                 this.body.rotateAngleX = -0.091106186954104F;
                 this.setRotateAngle(this.chest, 0, 0, 0);
                 this.setRotateAngle(this.lForepaw, 0, 0, 0);

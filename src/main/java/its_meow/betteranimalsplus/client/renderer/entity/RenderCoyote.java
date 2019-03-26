@@ -15,10 +15,7 @@ public class RenderCoyote extends RenderLiving<EntityCoyote> {
         super(manager, new ModelCustomWolf(), 0.5F);
         this.addLayer(new LayerCoyoteEyes(this));
     }
-
-    /**
-     * Defines what float the third param in setRotationAngles of ModelBase is
-     */
+    
     @Override
     protected float handleRotationFloat(EntityCoyote livingBase, float partialTicks) {
         return livingBase.getTailRotation();
@@ -43,10 +40,6 @@ public class RenderCoyote extends RenderLiving<EntityCoyote> {
      */
     @Override
     protected ResourceLocation getEntityTexture(EntityCoyote entity) {
-        return this.getCoyoteTexture(entity);
-    }
-
-    private ResourceLocation getCoyoteTexture(EntityCoyote entity) {
         if (entity.isTamed()) {
             return ModTextures.coyote_neutral;
         } else if (entity.isDaytime()) {

@@ -1,6 +1,5 @@
 package its_meow.betteranimalsplus.common.entity;
 
-import java.util.Random;
 import java.util.UUID;
 
 import javax.annotation.Nullable;
@@ -13,7 +12,6 @@ import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIAttackMelee;
 import net.minecraft.entity.ai.EntityAIFollowOwner;
@@ -33,7 +31,6 @@ import net.minecraft.entity.monster.EntityGhast;
 import net.minecraft.entity.passive.AbstractHorse;
 import net.minecraft.entity.passive.EntityChicken;
 import net.minecraft.entity.passive.EntityRabbit;
-import net.minecraft.entity.passive.EntityTameable;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.init.Items;
@@ -41,7 +38,6 @@ import net.minecraft.init.Particles;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
@@ -52,7 +48,6 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
@@ -60,12 +55,10 @@ import net.minecraft.world.storage.loot.LootTableList;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
-public class EntityFox extends EntityTameable implements IVariantTypes {
 
-    protected static final DataParameter<Float> DATA_HEALTH_ID = EntityDataManager.<Float>createKey(EntityFox.class,
-            DataSerializers.FLOAT);
-    protected static final DataParameter<Integer> TYPE_NUMBER = EntityDataManager.<Integer>createKey(EntityFox.class,
-            DataSerializers.VARINT);
+public class EntityFox extends EntityTameableWithTypes {
+
+    protected static final DataParameter<Float> DATA_HEALTH_ID = EntityDataManager.<Float>createKey(EntityFox.class, DataSerializers.FLOAT);
 
     protected float headRotationCourse;
     protected float headRotationCourseOld;
@@ -104,25 +97,6 @@ public class EntityFox extends EntityTameable implements IVariantTypes {
     }
 
     @Override
-    public boolean writeUnlessRemoved(NBTTagCompound compound) {
-        this.writeType(compound);
-        return super.writeUnlessRemoved(compound);
-    }
-
-    @Override
-    public void read(NBTTagCompound compound) {
-        super.read(compound);
-        this.readType(compound);
-    }
-
-    @Override
-    @Nullable
-    public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, @Nullable IEntityLivingData livingdata,
-            NBTTagCompound compound) {
-        return this.initData(super.onInitialSpawn(difficulty, livingdata, compound));
-    }
-
-    @Override
     protected void registerAttributes() {
         super.registerAttributes();
         this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.30000001192092896D);
@@ -145,7 +119,6 @@ public class EntityFox extends EntityTameable implements IVariantTypes {
     protected void registerData() {
         super.registerData();
         this.dataManager.register(DATA_HEALTH_ID, Float.valueOf(this.getHealth()));
-        this.registerTypeKey();
     }
 
     @Override
@@ -461,18 +434,11 @@ public class EntityFox extends EntityTameable implements IVariantTypes {
         }
     }
 
-    /**
-     * Checks if the parameter is an item which this animal can be fed to breed it
-     * (wheat, carrots or seeds depending on the animal type)
-     */
     @Override
     public boolean isBreedingItem(ItemStack stack) {
         return stack.getItem() == Items.CHICKEN || stack.getItem() == Items.RABBIT;
     }
 
-    /**
-     * Will return how many at most can spawn in a chunk at once.
-     */
     @Override
     public int getMaxSpawnedInChunk() {
         return 8;
@@ -519,27 +485,13 @@ public class EntityFox extends EntityTameable implements IVariantTypes {
     }
 
     @Override
-    public DataParameter<Integer> getDataKey() {
-        return TYPE_NUMBER;
-    }
-
-    @Override
     public int getVariantMax() {
         return 4;
+        
     }
 
     @Override
-    public boolean isChildI() {
-        return this.isChild();
-    }
-
-    @Override
-    public Random getRNGI() {
-        return this.getRNG();
-    }
-
-    @Override
-    public EntityDataManager getDataManagerI() {
-        return this.getDataManager();
+    protected IVariantTypes getBaseChild() {
+        return null; // Unused with custom logic here
     }
 }

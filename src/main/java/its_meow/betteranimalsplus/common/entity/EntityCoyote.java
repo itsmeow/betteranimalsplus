@@ -47,7 +47,6 @@ public class EntityCoyote extends EntityFeralWolf {
 
     public EntityCoyote(World worldIn) {
         super(ModEntities.getEntityType(EntityCoyote.class), worldIn);
-        this.world = worldIn;
         this.setSize(0.8F, 0.9F);
         this.setTamed(false);
     }
@@ -84,10 +83,7 @@ public class EntityCoyote extends EntityFeralWolf {
     }
 
     public boolean isDaytime() {
-        long time = this.world.getDayTime() % 24000L; // Time can go over values
-                                                      // of 24000, so divide
-                                                      // and take the
-                                                      // remainder
+        long time = this.world.getDayTime() % 24000L; // Time can go over values of 24000, so divide and take the remainder
         return !(time >= 13000L && time <= 23000L);
     }
 

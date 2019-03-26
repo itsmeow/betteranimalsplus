@@ -1,7 +1,6 @@
 package its_meow.betteranimalsplus.common.entity;
 
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.MoverType;
 import net.minecraft.entity.passive.EntityTameable;
@@ -9,7 +8,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 
-public class EntityTameableFlying extends EntityTameable {
+public abstract class EntityTameableFlying extends EntityTameable {
 
     public EntityTameableFlying(EntityType<?> type, World worldIn) {
         super(type, worldIn);
@@ -69,18 +68,9 @@ public class EntityTameableFlying extends EntityTameable {
         this.limbSwing += this.limbSwingAmount;
     }
 
-    /**
-     * Returns true if this entity should move as if it were on a ladder (either
-     * because it's actually on a ladder, or for AI reasons)
-     */
     @Override
     public boolean isOnLadder() {
         return false;
-    }
-
-    @Override
-    public EntityAgeable createChild(EntityAgeable ageable) {
-        return null;
     }
 
 }
