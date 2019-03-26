@@ -92,9 +92,13 @@ public class EntitySongbird extends EntityAnimal implements IFlyingAnimal, IVari
         int j = MathHelper.floor(this.getBoundingBox().minY);
         int k = MathHelper.floor(this.posZ);
         BlockPos blockpos = new BlockPos(i, j, k);
-        Block block = this.world.getBlockState(blockpos.down()).getBlock();
-        return block instanceof BlockLeaves || block == Blocks.GRASS || block instanceof BlockLog
-                || block == Blocks.AIR && this.world.getLight(blockpos) > 8 && super.canSpawn(world, b);
+        if(!world.isBlockLoaded(new BlockPos(blockpos))) {
+            Block block = this.world.getBlockState(blockpos.down()).getBlock();
+            return block instanceof BlockLeaves || block == Blocks.GRASS || block instanceof BlockLog
+                    || block == Blocks.AIR && this.world.getLight(blockpos) > 8 && super.canSpawn(world, b);
+        } else {
+            return super.canSpawn(world, b);
+        }
     }
 
     @Override
