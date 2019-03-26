@@ -18,6 +18,11 @@ public class ModOreDictSmelting {
         OreDictionary.registerOre("listAllmeatcooked", ModItems.pheasantCooked);
         OreDictionary.registerOre("listAllvenisonraw", ModItems.venisonRaw);
         OreDictionary.registerOre("listAllvenisoncooked", ModItems.venisonCooked);
+        OreDictionary.registerOre("listAllMilk", ModItems.goatMilk);
+        OreDictionary.registerOre("listAllGoatMilk", ModItems.goatMilk);
+        OreDictionary.registerOre("foodGoatMilk", ModItems.goatMilk);
+        OreDictionary.registerOre("foodCheese", ModItems.goatCheese);
+        OreDictionary.registerOre("foodGoatCheese", ModItems.goatCheese);
         OreDictionary.registerOre("foodVenisonraw", ModItems.venisonRaw);
         OreDictionary.registerOre("foodVenisoncooked", ModItems.venisonCooked);
     }
