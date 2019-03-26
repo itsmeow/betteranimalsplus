@@ -315,40 +315,6 @@ public class ModelFox extends ModelBetterAnimals {
         } else {
             this.tail01.rotateAngleY = MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount;
         }
-
-        /*
-         * if (entityfox.isSitting()) { this.neck.setRotationPoint(-1.0F, 16.0F, -3.0F);
-         * this.neck.rotateAngleX = ((float)Math.PI * 2F / 5F); this.neck.rotateAngleY =
-         * 0.0F; this.body.setRotationPoint(0.0F, 18.0F, 0.0F); this.body.rotateAngleX =
-         * ((float)Math.PI / 4F); this.tail01.setRotationPoint(-1.0F, 21.0F, 6.0F);
-         * this.lArm01.setRotationPoint(-2.5F, 22.0F, 2.0F); this.lArm01.rotateAngleX =
-         * ((float)Math.PI * 3F / 2F); this.rArm01.setRotationPoint(0.5F, 22.0F, 2.0F);
-         * this.rArm01.rotateAngleX = ((float)Math.PI * 3F / 2F);
-         * this.lHindLeg01.rotateAngleX = 5.811947F;
-         * this.lHindLeg01.setRotationPoint(-2.49F, 17.0F, -4.0F);
-         * this.rHindLeg01.rotateAngleX = 5.811947F;
-         * this.rHindLeg01.setRotationPoint(0.51F, 17.0F, -4.0F); } else {
-         * this.body.setRotationPoint(0.0F, 14.0F, 2.0F); this.body.rotateAngleX =
-         * ((float)Math.PI / 2F); this.neck.setRotationPoint(-1.0F, 14.0F, -3.0F);
-         * this.neck.rotateAngleX = this.body.rotateAngleX;
-         * this.tail01.setRotationPoint(-1.0F, 12.0F, 8.0F);
-         * this.lArm01.setRotationPoint(-2.5F, 16.0F, 7.0F);
-         * this.rArm01.setRotationPoint(0.5F, 16.0F, 7.0F);
-         * this.lHindLeg01.setRotationPoint(-2.5F, 16.0F, -4.0F);
-         * this.rHindLeg01.setRotationPoint(0.5F, 16.0F, -4.0F);
-         * this.lArm01.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F) * 1.4F *
-         * limbSwingAmount; this.rArm01.rotateAngleX = MathHelper.cos(limbSwing *
-         * 0.6662F + (float)Math.PI) * 1.4F * limbSwingAmount;
-         * this.lHindLeg01.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F +
-         * (float)Math.PI) * 1.4F * limbSwingAmount; this.rHindLeg02.rotateAngleX =
-         * MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount; }
-         */
-
-        this.head.rotateAngleZ = entityfox.getInterestedAngle(partialTickTime)
-                + entityfox.getShakeAngle(partialTickTime, 0.0F);
-        this.neck.rotateAngleZ = entityfox.getShakeAngle(partialTickTime, -0.08F);
-        this.rear.rotateAngleZ = entityfox.getShakeAngle(partialTickTime, -0.16F);
-        this.tail01.rotateAngleZ = entityfox.getShakeAngle(partialTickTime, -0.2F);
     }
 
     @Override
