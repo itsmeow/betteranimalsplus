@@ -50,6 +50,8 @@ import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import net.minecraft.world.storage.loot.LootTableList;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class EntityFox extends EntityTameableWithTypes {
 
@@ -306,6 +308,15 @@ public class EntityFox extends EntityTameableWithTypes {
             }
         } else {
             return false;
+        }
+    }
+    
+    @SideOnly(Side.CLIENT)
+    public float getTailRotation() {
+        if (!this.isTamed()) {
+            return -0.15F;
+        } else {
+            return this.isTamed() ? (0.25F - (this.getMaxHealth() - this.dataManager.get(DATA_HEALTH_ID).floatValue()) * 0.04F) : -0.85F;
         }
     }
 
