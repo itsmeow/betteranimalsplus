@@ -18,7 +18,5 @@ public class EntityBadger extends EntityAnimalWithTypes {
     protected IVariantTypes getBaseChild() {
         return new EntityBadger(this.world);
     }
-    
-
 
 }
