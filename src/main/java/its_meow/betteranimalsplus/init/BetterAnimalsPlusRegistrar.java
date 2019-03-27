@@ -4,7 +4,9 @@ import static its_meow.betteranimalsplus.init.ModBlocks.genericskulls;
 import static its_meow.betteranimalsplus.init.ModBlocks.handoffate;
 import static its_meow.betteranimalsplus.init.ModBlocks.hirschgeistskull;
 import static its_meow.betteranimalsplus.init.ModBlocks.trillium;
-import static its_meow.betteranimalsplus.init.ModEntities.*;
+import static its_meow.betteranimalsplus.init.ModEntities.entityList;
+import static its_meow.betteranimalsplus.init.ModEntities.entrySet;
+import static its_meow.betteranimalsplus.init.ModEntities.modEntities;
 import static its_meow.betteranimalsplus.init.ModItems.antler;
 import static its_meow.betteranimalsplus.init.ModItems.goatCheese;
 import static its_meow.betteranimalsplus.init.ModItems.goatMilk;
@@ -19,6 +21,7 @@ import com.google.common.base.Preconditions;
 import its_meow.betteranimalsplus.Ref;
 import its_meow.betteranimalsplus.common.block.BlockGenericSkull;
 import its_meow.betteranimalsplus.common.entity.EntityLammergeier;
+import its_meow.betteranimalsplus.common.entity.projectile.EntityBadgerDirt;
 import its_meow.betteranimalsplus.common.entity.projectile.EntityTarantulaHair;
 import its_meow.betteranimalsplus.common.tileentity.TileEntityHandOfFate;
 import its_meow.betteranimalsplus.common.tileentity.TileEntityHirschgeistSkull;
@@ -104,6 +107,7 @@ public class BetterAnimalsPlusRegistrar {
         }
         EntitySpawnPlacementRegistry.setPlacementType(EntityLammergeier.class, SpawnPlacementType.IN_AIR);
         register(EntityTarantulaHair.class, "tarantulahair");
+        register(EntityBadgerDirt.class, "badgerdirt");
 
         if (!entrySet.isEmpty()) {
             for (final EntityEntry entityEntry : entrySet) {
