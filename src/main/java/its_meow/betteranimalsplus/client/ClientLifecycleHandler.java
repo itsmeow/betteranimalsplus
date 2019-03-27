@@ -5,6 +5,7 @@ import org.apache.logging.log4j.Level;
 import its_meow.betteranimalsplus.BetterAnimalsPlusMod;
 import its_meow.betteranimalsplus.client.model.ModelHirschgeistHelmet;
 import its_meow.betteranimalsplus.client.renderer.entity.RenderBadger;
+import its_meow.betteranimalsplus.client.renderer.entity.RenderBadgerDirt;
 import its_meow.betteranimalsplus.client.renderer.entity.RenderBlackBear;
 import its_meow.betteranimalsplus.client.renderer.entity.RenderBoar;
 import its_meow.betteranimalsplus.client.renderer.entity.RenderBrownBear;
@@ -44,6 +45,7 @@ import its_meow.betteranimalsplus.common.entity.EntitySongbird;
 import its_meow.betteranimalsplus.common.entity.EntitySquirrel;
 import its_meow.betteranimalsplus.common.entity.EntityTarantula;
 import its_meow.betteranimalsplus.common.entity.miniboss.hirschgeist.EntityHirschgeist;
+import its_meow.betteranimalsplus.common.entity.projectile.EntityBadgerDirt;
 import its_meow.betteranimalsplus.common.entity.projectile.EntityTarantulaHair;
 import its_meow.betteranimalsplus.common.tileentity.TileEntityHandOfFate;
 import its_meow.betteranimalsplus.common.tileentity.TileEntityHead;
@@ -79,6 +81,7 @@ public class ClientLifecycleHandler {
         RenderingRegistry.registerEntityRenderingHandler(EntitySquirrel.class, RenderSquirrel::new);
         RenderingRegistry.registerEntityRenderingHandler(EntitySongbird.class, RenderSongbird::new);
         RenderingRegistry.registerEntityRenderingHandler(EntityBadger.class, RenderBadger::new);
+        RenderingRegistry.registerEntityRenderingHandler(EntityBadgerDirt.class, RenderBadgerDirt::new);
         BetterAnimalsPlusMod.logger.log(Level.INFO, "Rendering squirrel physics...");
     }
 

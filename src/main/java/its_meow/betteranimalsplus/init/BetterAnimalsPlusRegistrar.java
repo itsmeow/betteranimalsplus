@@ -5,6 +5,7 @@ import java.util.function.Supplier;
 import com.google.common.base.Preconditions;
 
 import its_meow.betteranimalsplus.Ref;
+import its_meow.betteranimalsplus.common.entity.projectile.EntityBadgerDirt;
 import its_meow.betteranimalsplus.common.entity.projectile.EntityTarantulaHair;
 import its_meow.betteranimalsplus.common.item.ItemBetterAnimalsPlusEgg;
 import its_meow.betteranimalsplus.util.EntityContainer;
@@ -104,7 +105,8 @@ public class BetterAnimalsPlusRegistrar {
         final IForgeRegistry<EntityType<?>> registry = event.getRegistry();
 
         registry.register(EntityTarantulaHair.HAIR_TYPE);
-
+        registry.register(EntityBadgerDirt.DIRT_TYPE);
+        
         for (EntityContainer entry : ModEntities.entryMap.keySet()) {
             EntityType<?> type = ModEntities.entryMap.get(entry);
             registry.register(type);

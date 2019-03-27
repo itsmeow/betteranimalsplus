@@ -40,6 +40,7 @@ public class BetterAnimalsPlusConfig {
     public static int boarWeight = 9;
     public static int squirrelWeight = 8;
     public static int songbirdWeight = 11;
+    public static int badgerWeight = 7;
 
     public static boolean spawnTrillium = true;
 
@@ -49,12 +50,6 @@ public class BetterAnimalsPlusConfig {
         if (configEvent.getConfig().getSpec() == SERVER_CONFIG) {
             ENTITY_CONFIG.onWorldLoad();
         }
-    }
-
-    @SubscribeEvent
-    public static void onFileChange(final ModConfig.ConfigReloading configEvent) {
-        // BetterAnimalsPlusMod.logger.fatal(Logging.CORE, "{} changed while running!",
-        // Ref.MOD_ID);
     }
 
 }

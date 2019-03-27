@@ -201,7 +201,7 @@ public class EntityBoar extends EntityAnimalWithTypes implements IMob {
 	@Override
 	public void tick() {
 		super.tick();
-		if (this.world.getGameRules().getBoolean("mobGriefing")) {
+		if(net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(this.world, this)) {
 			if (this.rand.nextInt(200) == 0) {
 				Block block = this.world.getBlockState(this.getPosition()).getBlock();
 				if (block == Blocks.WHEAT || block == Blocks.CARROTS || block == Blocks.POTATOES

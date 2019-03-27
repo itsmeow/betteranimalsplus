@@ -11,15 +11,15 @@ import net.minecraft.util.ResourceLocation;
 public class RenderBadger extends RenderLiving<EntityBadger> {
 
     public RenderBadger(RenderManager mgr) {
-        super(mgr, new ModelBadger(), 0.7F);
+        super(mgr, new ModelBadger(), 0.4F);
     }
 
     @Override
     protected void preRenderCallback(EntityBadger entitylivingbaseIn, float partialTickTime) {
         if (this.getMainModel().isChild) {
-            GlStateManager.scaled(0.6D, 0.6D, 0.6D);
+            GlStateManager.scaled(0.35D, 0.35D, 0.35D);
         } else {
-            GlStateManager.scaled(1.0D, 1.0D, 1.0D);
+            GlStateManager.scaled(0.7D, 0.7D, 0.7D);
         }
     }
 

@@ -7,7 +7,6 @@ import org.apache.logging.log4j.Logger;
 import its_meow.betteranimalsplus.client.ClientLifecycleHandler;
 import its_meow.betteranimalsplus.common.world.gen.TrilliumGenerator;
 import its_meow.betteranimalsplus.config.BetterAnimalsPlusConfig;
-import its_meow.betteranimalsplus.init.ModEntities;
 import its_meow.betteranimalsplus.init.ModItems;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemSpawnEgg;
@@ -32,10 +31,6 @@ public class BetterAnimalsPlusMod {
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
         FMLJavaModLoadingContext.get().getModEventBus()
                 .<FMLClientSetupEvent>addListener(e -> new ClientLifecycleHandler().clientSetup(e));
-
-        if (ModEntities.entityList.isEmpty()) {
-            ModEntities.fillContainers();
-        }
 
         BetterAnimalsPlusConfig.setupConfig();
 
