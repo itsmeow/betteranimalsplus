@@ -56,6 +56,6 @@ public class LayerCoyoteEyes implements LayerRenderer<EntityCoyote> {
 
     @Override
     public boolean shouldCombineTextures() {
-        return true;
+        return false;
     }
 }
