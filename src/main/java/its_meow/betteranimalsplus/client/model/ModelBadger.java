@@ -1,8 +1,10 @@
 package its_meow.betteranimalsplus.client.model;
 
+import its_meow.betteranimalsplus.common.entity.EntityBadger;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.math.MathHelper;
 
 /**
@@ -289,16 +291,34 @@ public class ModelBadger extends ModelBase {
     }
 
     @Override
-    public void setRotationAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor, Entity entityIn) {
-        
-        float swingModifier = 0.7F;
-        
-        this.lLeg01.rotateAngleX = MathHelper.sin(limbSwing * 0.8665F + (float) Math.PI) * swingModifier * limbSwingAmount;
-        this.rLeg01.rotateAngleX = MathHelper.cos(limbSwing * 0.8665F) * swingModifier * limbSwingAmount;
-        this.lArm01.rotateAngleX = MathHelper.sin(limbSwing * 0.8665F) * swingModifier * limbSwingAmount + 0.22759093446006054F;
-        this.rArm01.rotateAngleX = MathHelper.cos(limbSwing * 0.8665F + (float) Math.PI) * swingModifier * limbSwingAmount + 0.22759093446006054F;
-        
-        super.setRotationAngles(limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor, entityIn);
+    public void setLivingAnimations(EntityLivingBase entity, float limbSwing, float limbSwingAmount,
+            float partialTickTime) {
+
+        if(entity instanceof EntityBadger) {
+            EntityBadger badger = (EntityBadger) entity;
+            int f1 = badger.getDigOffset();
+            if(f1 > 0) {
+                float r = (float) Math.toRadians(f1);
+                this.lArm01.rotateAngleX = Math.max(MathHelper.sin(r*10) * 2.5F * 10 + 0.22759093446006054F, 0.22759093446006054F);
+                this.rArm01.rotateAngleX = Math.max(MathHelper.cos(r*10 + (float) Math.PI) * 2.5F * 10 + 0.22759093446006054F, 0.22759093446006054F);
+                this.rear.rotateAngleX = (float) (Math.toRadians(Math.max((r * 100), 45F)) - 0.045553093477052F);
+                EntityLivingBase t = badger.getAttackTarget();
+                if(t != null) {
+                    this.rear.rotateAngleY = (float) Math.toRadians(Math.atan2((badger.posZ - t.posZ), (badger.posX - t.posX)));
+                } else {
+                    this.rear.rotateAngleY = 0F;
+                }
+            } else {
+                this.lLeg01.rotateAngleX = MathHelper.sin(limbSwing * 0.8665F + (float) Math.PI) * 1.5F * limbSwingAmount;
+                this.rLeg01.rotateAngleX = MathHelper.cos(limbSwing * 0.8665F) * 1.5F * limbSwingAmount;
+                this.lArm01.rotateAngleX = MathHelper.sin(limbSwing * 0.8665F) * 1.5F * limbSwingAmount + 0.22759093446006054F;
+                this.rArm01.rotateAngleX = MathHelper.cos(limbSwing * 0.8665F + (float) Math.PI) * 1.5F * limbSwingAmount + 0.22759093446006054F;
+                this.rear.rotateAngleX = -0.045553093477052F;
+                this.rear.rotateAngleY = 0F;
+            }
+        }
+
+        super.setLivingAnimations(entity, limbSwing, limbSwingAmount, partialTickTime);
     }
 
     /**

@@ -106,7 +106,20 @@ public class EntityBadger extends EntityAnimalWithTypes implements IMob {
 
         @Override
         public boolean shouldContinueExecuting() {
-            return badger.getRevengeTarget() != null && badger.getAttackTarget() == badger.getRevengeTarget() && tick <= 240;
+            boolean onDiggable = false;
+            World world = badger.world;
+            BlockPos below = badger.getPosition().down();
+            if(world.isBlockLoaded(below)) {
+                IBlockState state = world.getBlockState(below);
+                if(state.getBlock() == Blocks.DIRT || state.getBlock() == Blocks.GRASS || state.getBlock() == Blocks.SAND || state.getBlock() == Blocks.GRAVEL || state.getBlock() == Blocks.MYCELIUM) {
+                    if(state.getBlock() == Blocks.GRASS) {
+                        state = Blocks.DIRT.getDefaultState();
+                    }
+                    stateId = Block.getStateId(state);
+                    onDiggable = true;
+                }
+            }
+            return badger.getRevengeTarget() != null && badger.getAttackTarget() == badger.getRevengeTarget() && tick <= 240 && onDiggable;
         }
 
         @Override
@@ -121,7 +134,7 @@ public class EntityBadger extends EntityAnimalWithTypes implements IMob {
                     }
                     stateId = Block.getStateId(state);
                     tick = 1;
-                    badger.setDigOffset(tick);
+                    badger.setDigOffset(tick);          
                 }
             }
         }
@@ -130,14 +143,14 @@ public class EntityBadger extends EntityAnimalWithTypes implements IMob {
         public void updateTask() {
             tick++;
             badger.setDigOffset(tick);
+            EntityLivingBase t = badger.getAttackTarget();             
             if(tick % 20 == 0) { // Throw dirt every second (20 ticks)
                 EntityBadgerDirt proj = new EntityBadgerDirt(badger.world, badger, stateId);
                 proj.setLocationAndAngles(badger.posX, badger.posY + 1, badger.posZ, 0, 0);
-                EntityLivingBase target = badger.getAttackTarget();
-                double d0 = target.posY + target.getEyeHeight() - 1.100000023841858D;
-                double d1 = target.posX - badger.posX;
+                double d0 = t.posY + t.getEyeHeight() - 1.100000023841858D;
+                double d1 = t.posX - badger.posX;
                 double d2 = d0 - proj.posY;
-                double d3 = target.posZ - badger.posZ;
+                double d3 = t.posZ - badger.posZ;
                 float f = MathHelper.sqrt(d1 * d1 + d3 * d3) * 0.2F;
                 proj.shoot(d1, d2 + f, d3, 0.6F, 4.8F);
                 badger.playSound(SoundEvents.BLOCK_GRASS_BREAK, 1.0F, 1.0F / (badger.getRNG().nextFloat() * 0.4F + 0.8F));
