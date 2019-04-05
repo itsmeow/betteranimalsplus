@@ -1,0 +1,40 @@
+#Creative Tabs
+itemGroup.Better Animals+=Más Animales Épicos
+
+#Items
+item.betteranimalsplus.venisonraw.name=Venado Crudo
+item.betteranimalsplus.venisoncooked.name=Venado Cocido
+item.betteranimalsplus.hirschgeistskullwearable.name=Cráneo Usable de la Hirschgeist
+item.betteranimalsplus.antler.name=Cornamenta
+item.betteranimalsplus.goatmilk.name=Leche de Cabra
+item.betteranimalsplus.goatcheese.name=Queso de Cabra
+item.betteranimalsplus.pheasantraw.name=Faisán crudo
+item.betteranimalsplus.pheasantcooked.name=Faisán Cocido
+
+#Blocks
+tile.betteranimalsplus.trillium.name=Trilio
+tile.betteranimalsplus.hirschgeistskull.name=Cráneo de la Hirschgeist
+tile.betteranimalsplus.handoffate.name=Mano del Destino
+tile.betteranimalsplus.wolfhead.name=Cabeza de Lobo
+tile.betteranimalsplus.deerhead.name=Cabeza de Ciervo
+tile.betteranimalsplus.reindeerhead.name=Cabeza de Reno
+tile.betteranimalsplus.foxhead.name=Cabeza de Zorro
+tile.betteranimalsplus.boarhead.name=Cabeza de Jabalí
+
+#Entities
+entity.betteranimalsplus.BrownBear.name=Oso Pardo
+entity.betteranimalsplus.BlackBear.name=Oso Negro
+entity.betteranimalsplus.KermodeBear.name=Oso Kermode
+entity.betteranimalsplus.Deer.name=Ciervo
+entity.betteranimalsplus.Lammergeier.name=Quebrantahuesos
+entity.betteranimalsplus.FeralWolf.name=Lobo Salvaje
+entity.betteranimalsplus.Coyote.name=Coyote
+entity.betteranimalsplus.Fox.name=Zorro
+entity.betteranimalsplus.Tarantula.name=Tarántula
+entity.betteranimalsplus.Hirschgeist.name=Hirschgeist
+entity.betteranimalsplus.Goat.name=Cabra
+entity.betteranimalsplus.Jellyfish.name=Medusa
+entity.betteranimalsplus.Pheasant.name=Faisán
+entity.betteranimalsplus.Reindeer.name=Reno
+entity.betteranimalsplus.Boar.name=Jabali
+entity.betteranimalsplus.Squirrel.name=Ardilla

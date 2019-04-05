@@ -1,0 +1,41 @@
+#Creative Tabs
+itemGroup.Better Animals+=Pli Bonaj Bestoj+
+
+#Items
+item.betteranimalsplus.venisonraw.name=Kruda Cervaĵo
+item.betteranimalsplus.venisoncooked.name=Kuirita Cervaĵo
+item.betteranimalsplus.hirschgeistskullwearable.name=Surhavipova Kranio de Hirschgeisto
+item.betteranimalsplus.antler.name=Kornbranĉo
+item.betteranimalsplus.goatmilk.name=Kapra Lakto
+item.betteranimalsplus.goatcheese.name=Kapra Fromaĝo
+item.betteranimalsplus.pheasantraw.name=Kruda Fazanaĵo
+item.betteranimalsplus.pheasantcooked.name=Kuirita Fazanaĵo
+
+#Blocks
+tile.betteranimalsplus.trillium.name=Trilliumo
+tile.betteranimalsplus.hirschgeistskull.name=Kranio de Hirschgeisto
+tile.betteranimalsplus.handoffate.name=Mano de Sorto
+tile.betteranimalsplus.wolfhead.name=Kapo de Lupo
+tile.betteranimalsplus.deerhead.name=Kapo de Cervo
+tile.betteranimalsplus.reindeerhead.name=Kapo de Norda Cervo
+tile.betteranimalsplus.foxhead.name=Kapo de Vulpo
+tile.betteranimalsplus.boarhead.name=Kapo de Porkviro
+
+#Entities
+entity.betteranimalsplus.BrownBear.name=Bruna Urso
+entity.betteranimalsplus.BlackBear.name=Nigra Urso
+entity.betteranimalsplus.KermodeBear.name=Kermoda Urso
+entity.betteranimalsplus.Deer.name=Cervo
+entity.betteranimalsplus.Lammergeier.name=Ŝafgrifo
+entity.betteranimalsplus.FeralWolf.name=Sovaĝa Lupo
+entity.betteranimalsplus.Coyote.name=Kojoto
+entity.betteranimalsplus.Trillium.name=Trilliumo
+entity.betteranimalsplus.Fox.name=Vulpo
+entity.betteranimalsplus.Tarantula.name=Tarantulo
+entity.betteranimalsplus.Hirschgeist.name=Hirschgeisto
+entity.betteranimalsplus.Goat.name=Goat
+entity.betteranimalsplus.Jellyfish.name=Meduzo
+entity.betteranimalsplus.Pheasant.name=Fazano
+entity.betteranimalsplus.Reindeer.name=Norda Cervo
+entity.betteranimalsplus.Boar.name=Porkviro
+entity.betteranimalsplus.Squirrel.name=Sciuro

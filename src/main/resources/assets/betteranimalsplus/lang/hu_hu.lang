@@ -1,0 +1,41 @@
+#Creative Tabs
+itemGroup.Better Animals+=Better Animals+
+
+#Items
+item.betteranimalsplus.venisonraw.name=Nyers Õzhús
+item.betteranimalsplus.venisoncooked.name=Sült Õzhús
+item.betteranimalsplus.hirschgeistskullwearable.name=Viselhetõ Szarvaslélek Koponya
+item.betteranimalsplus.antler.name=Agancsok
+item.betteranimalsplus.goatmilk.name=Kecsketej
+item.betteranimalsplus.goatcheese.name=Kecskesajt
+item.betteranimalsplus.pheasantraw.name=Nyers Fácán
+item.betteranimalsplus.pheasantcooked.name=Sült Fácán
+
+#Blocks
+tile.betteranimalsplus.trillium.name=Hármasszirom
+tile.betteranimalsplus.hirschgeistskull.name=Szarvaslélek Koponya
+tile.betteranimalsplus.handoffate.name=A Sors Keze
+tile.betteranimalsplus.wolfhead.name=Farkasfej
+tile.betteranimalsplus.deerhead.name=Õzfej
+tile.betteranimalsplus.reindeerhead.name=Rénszarvasfej
+tile.betteranimalsplus.foxhead.name=Rókafej
+tile.betteranimalsplus.boarhead.name=Vaddisznófej
+
+#Entities
+entity.betteranimalsplus.BrownBear.name=Barnamedve
+entity.betteranimalsplus.BlackBear.name=Feketemedve
+entity.betteranimalsplus.KermodeBear.name=Szellem Medve
+entity.betteranimalsplus.Deer.name=Õz
+entity.betteranimalsplus.Lammergeier.name=Szakállas Saskeselyû
+entity.betteranimalsplus.FeralWolf.name=Vad Farkas
+entity.betteranimalsplus.Coyote.name=Prérifarkas
+entity.betteranimalsplus.Trillium.name=Hármasszirom
+entity.betteranimalsplus.Fox.name=Róka
+entity.betteranimalsplus.Tarantula.name=Tarantellapók
+entity.betteranimalsplus.Hirschgeist.name=Szarvaslélek
+entity.betteranimalsplus.Goat.name=Kecske
+entity.betteranimalsplus.Jellyfish.name=Medúza
+entity.betteranimalsplus.Pheasant.name=Fácán
+entity.betteranimalsplus.Reindeer.name=Rénszarvas
+entity.betteranimalsplus.Boar.name=Vaddisznó
+entity.betteranimalsplus.Squirrel.name=Mókus
