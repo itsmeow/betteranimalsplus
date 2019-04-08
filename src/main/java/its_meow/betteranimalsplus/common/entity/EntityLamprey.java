@@ -16,7 +16,7 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 
-public class EntityLamprey extends EntityWaterMob implements IMob {
+public class EntityLamprey extends EntityWaterMobWithTypes implements IMob {
 
     private boolean resetPassengerState = true;
     private float passengerX = 0.0F;
@@ -135,6 +135,11 @@ public class EntityLamprey extends EntityWaterMob implements IMob {
         float modZ = Math.random() >= 0.5 ? 1 : -1;
         this.passengerX = passenger.width * modX;
         this.passengerZ = passenger.width * modZ;
+    }
+
+    @Override
+    public int getVariantMax() {
+        return 3;
     }
 
 }
