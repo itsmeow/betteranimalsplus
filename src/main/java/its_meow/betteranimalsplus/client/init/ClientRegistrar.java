@@ -22,6 +22,10 @@ import its_meow.betteranimalsplus.client.renderer.entity.RenderSongbird;
 import its_meow.betteranimalsplus.client.renderer.entity.RenderSquirrel;
 import its_meow.betteranimalsplus.client.renderer.entity.RenderTarantula;
 import its_meow.betteranimalsplus.client.renderer.entity.RenderTarantulaHair;
+import its_meow.betteranimalsplus.client.renderer.tileentity.RenderBlockHandOfFate;
+import its_meow.betteranimalsplus.client.renderer.tileentity.RenderBlockTrillium;
+import its_meow.betteranimalsplus.client.renderer.tileentity.RenderGenericHead;
+import its_meow.betteranimalsplus.client.renderer.tileentity.RenderGenericHeadFloor;
 import its_meow.betteranimalsplus.client.util.HeadItemMeshDefinition;
 import its_meow.betteranimalsplus.common.block.BlockGenericSkull;
 import its_meow.betteranimalsplus.common.entity.EntityBadger;
@@ -46,6 +50,9 @@ import its_meow.betteranimalsplus.common.entity.miniboss.hirschgeist.EntityHirsc
 import its_meow.betteranimalsplus.common.entity.projectile.EntityBadgerDirt;
 import its_meow.betteranimalsplus.common.entity.projectile.EntityTarantulaHair;
 import its_meow.betteranimalsplus.common.item.ItemBlockSkull;
+import its_meow.betteranimalsplus.common.tileentity.TileEntityHandOfFate;
+import its_meow.betteranimalsplus.common.tileentity.TileEntityHead;
+import its_meow.betteranimalsplus.common.tileentity.TileEntityTrillium;
 import its_meow.betteranimalsplus.init.ModBlocks;
 import its_meow.betteranimalsplus.init.ModItems;
 import net.minecraft.block.Block;
@@ -56,6 +63,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.model.ModelLoader;
+import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -97,6 +105,17 @@ public class ClientRegistrar {
         initModel(ModItems.goatCheese, 0);
         initModel(ModItems.pheasantRaw, 0);
         initModel(ModItems.pheasantCooked, 0);
+        
+        // Tile Entities
+        
+        ClientRegistry.bindTileEntitySpecialRenderer(TileEntityTrillium.class, new RenderBlockTrillium());
+        ClientRegistry.bindTileEntitySpecialRenderer(TileEntityHandOfFate.class, new RenderBlockHandOfFate());
+        ClientRegistry.bindTileEntitySpecialRenderer(TileEntityHead.class, new RenderGenericHead());
+        for (BlockGenericSkull block : ModBlocks.genericskulls.keySet()) {
+            if (block.allowFloor) {
+                ClientRegistry.bindTileEntitySpecialRenderer(block.teClass.asSubclass(TileEntityHead.class), new RenderGenericHeadFloor());
+            }
+        }
         
         // Entities
         

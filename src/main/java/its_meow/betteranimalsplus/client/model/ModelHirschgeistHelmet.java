@@ -9,7 +9,9 @@ import net.minecraft.entity.Entity;
  * Created using Tabula 5.1.0
  */
 public class ModelHirschgeistHelmet extends ModelBiped {
-
+    
+    public static final ModelHirschgeistHelmet INSTANCE = new ModelHirschgeistHelmet();
+    
     public ModelRenderer head01;
     public ModelRenderer muzzle;
     public ModelRenderer lowerJaw01;

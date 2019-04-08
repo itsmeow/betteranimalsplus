@@ -8,10 +8,9 @@ import org.apache.logging.log4j.Logger;
 
 import its_meow.betteranimalsplus.config.BetterAnimalsPlusConfig;
 import its_meow.betteranimalsplus.init.ModBlocks;
-import its_meow.betteranimalsplus.init.ModOreDictSmelting;
-import its_meow.betteranimalsplus.init.ModItems;
 import its_meow.betteranimalsplus.init.ModEntities;
-import its_meow.betteranimalsplus.proxy.ISidedProxy;
+import its_meow.betteranimalsplus.init.ModItems;
+import its_meow.betteranimalsplus.init.ModOreDictSmelting;
 import its_meow.betteranimalsplus.util.EntityContainer;
 import its_meow.betteranimalsplus.world.gen.TrilliumGenerator;
 import net.minecraft.creativetab.CreativeTabs;
@@ -24,7 +23,6 @@ import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.Mod.Instance;
-import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
@@ -35,9 +33,6 @@ public class BetterAnimalsPlusMod {
 
     @Instance(Ref.MOD_ID)
     public static BetterAnimalsPlusMod mod;
-
-    @SidedProxy(clientSide = Ref.CLIENT_PROXY_C, serverSide = Ref.SERVER_PROXY_C)
-    public static ISidedProxy proxy;
 
     public static CreativeTabs tab = new CreativeTabs("Better Animals+") {
         @Override
@@ -63,7 +58,6 @@ public class BetterAnimalsPlusMod {
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) {
         logger = LogManager.getLogger("betteranimalsplus");
-        proxy.preInit(event);
         ModEntities.fillContainers();
         File directory = event.getModConfigurationDirectory();
         config = new Configuration(new File(directory.getPath(), "betteranimalsplus.cfg"));
@@ -74,7 +68,6 @@ public class BetterAnimalsPlusMod {
 
     @EventHandler
     public void init(FMLInitializationEvent e) {
-        proxy.init(e);
         ModOreDictSmelting.register();
         if (BetterAnimalsPlusConfig.spawnTrillium) {
             GameRegistry.registerWorldGenerator(new TrilliumGenerator(ModBlocks.trillium), 1);
@@ -84,7 +77,6 @@ public class BetterAnimalsPlusMod {
 
     @EventHandler
     public void postInit(FMLPostInitializationEvent e) {
-        proxy.postInit(e);
         if (config.hasChanged()) {
             config.save();
         }

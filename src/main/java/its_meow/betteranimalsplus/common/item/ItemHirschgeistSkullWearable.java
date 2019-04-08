@@ -3,8 +3,8 @@ package its_meow.betteranimalsplus.common.item;
 import java.util.List;
 
 import its_meow.betteranimalsplus.BetterAnimalsPlusMod;
+import its_meow.betteranimalsplus.client.model.ModelHirschgeistHelmet;
 import its_meow.betteranimalsplus.init.ModItems;
-import its_meow.betteranimalsplus.proxy.ClientProxy;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;
@@ -34,22 +34,13 @@ public class ItemHirschgeistSkullWearable extends ItemArmor {
         return armorType == EntityEquipmentSlot.HEAD;
     }
 
-    /*
-     * @Override
-     * public String getArmorTexture(ItemStack stack, Entity entity,
-     * EntityEquipmentSlot slot, String type)
-     * {
-     * return Ref.MOD_ID + ":textures/models/armor/hirschgeistskull.png";
-     * }
-     */
-
     @Override
     @SideOnly(Side.CLIENT)
     public ModelBiped getArmorModel(EntityLivingBase entityLiving, ItemStack itemStack, EntityEquipmentSlot armorSlot, ModelBiped defaultModel) {
         if (itemStack != null) {
             if (itemStack.getItem() instanceof ItemArmor) {
 
-                ModelBiped armorModel = ClientProxy.getArmorModel();
+                ModelBiped armorModel = ModelHirschgeistHelmet.INSTANCE;
                 armorModel.bipedHead.showModel = armorSlot == EntityEquipmentSlot.HEAD;
                 armorModel.bipedHeadwear.showModel = armorSlot == EntityEquipmentSlot.HEAD;
                 armorModel.bipedBody.showModel = (armorSlot == EntityEquipmentSlot.CHEST) || (armorSlot == EntityEquipmentSlot.CHEST);
