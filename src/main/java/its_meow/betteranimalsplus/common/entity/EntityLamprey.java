@@ -5,12 +5,15 @@ import its_meow.betteranimalsplus.common.entity.ai.EntityAIMoveTowardsAttackTarg
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.MoverType;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.passive.EntityWaterMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.pathfinding.PathNavigate;
+import net.minecraft.pathfinding.PathNavigateSwimmer;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 
@@ -27,9 +30,10 @@ public class EntityLamprey extends EntityWaterMobWithTypes implements IMob {
 
     @Override
     protected void initEntityAI() {
+        //this.tasks.addTask(0, new EntityAISwimming(this));
         this.tasks.addTask(0, new EntityAIMoveTowardsAttackTarget(this, 0.8D, true));
         this.tasks.addTask(1, new EntityAIWatchClosest(this, EntityWaterMob.class, 10.0F));
-        this.targetTasks.addTask(0, new EntityAIFindEntityNearestPredicate(this, EntityWaterMob.class, e -> e instanceof EntityWaterMob && !(e instanceof IMob)));
+        this.targetTasks.addTask(0, new EntityAIFindEntityNearestPredicate(this, EntityLivingBase.class, e -> e instanceof EntityLivingBase && !(e instanceof IMob)));
     }
 
     @Override
@@ -40,13 +44,33 @@ public class EntityLamprey extends EntityWaterMobWithTypes implements IMob {
         this.getAttributeMap().registerAttribute(SharedMonsterAttributes.ATTACK_DAMAGE);
         this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(1D);
     }
-    
+
+    @Override
+    protected PathNavigate createNavigator(World worldIn) {
+        return new PathNavigateSwimmer(this, worldIn);
+    }
+
+    public void travel(float strafe, float vertical, float forward) {
+        this.move(MoverType.SELF, this.motionX, this.motionY, this.motionZ);
+    }
+
     @Override
     public void onUpdate() {
         super.onUpdate();
-        if(!this.inWater) {
-            this.motionX = 0F;
-            this.motionZ = 0F;
+        if(!this.world.isRemote) {
+            if(!this.inWater) {
+                this.motionX = 0F;
+                this.motionZ = 0F;
+                if (!this.hasNoGravity()) {
+                    this.motionY -= 0.08D;
+                }
+
+                this.motionY *= 0.9800000190734863D;
+            } else {
+                this.motionX = (this.getMoveHelper().getX() - this.posX) * 0.05F;
+                this.motionZ = (this.getMoveHelper().getZ() - this.posZ) * 0.05F;
+                this.motionY = (this.getMoveHelper().getY() - this.posY) * 0.05F;
+            }
         }
     }
 
@@ -103,9 +127,7 @@ public class EntityLamprey extends EntityWaterMobWithTypes implements IMob {
                 this.resetPassengerState = false;
                 this.setOffsetFor(passenger);
             }
-            int xMod = (passenger.posX - this.posX) < 0 ? -1 : 1;
-            int zMod = (passenger.posZ - this.posZ) < 0 ? -1 : 1;
-            passenger.setPosition(this.posX + (passengerX * xMod) / 2, this.posY, this.posZ + (passengerZ * zMod) / 2);
+            passenger.setPosition(this.posX + (passengerX), this.posY, this.posZ + (passengerZ));
         }
     }
 
@@ -115,11 +137,11 @@ public class EntityLamprey extends EntityWaterMobWithTypes implements IMob {
         this.passengerX = passenger.width * modX;
         this.passengerZ = passenger.width * modZ;
     }
-    
+
     protected boolean canTriggerWalking() {
         return false;
     }
-    
+
     public boolean getCanSpawnHere() {
         return this.posY > 45.0D && this.posY < (double)this.world.getSeaLevel() && super.getCanSpawnHere();
     }
