@@ -295,7 +295,7 @@ public class ModelBadger extends ModelBase {
             float partialTickTime) {
 
         if(entity instanceof EntityBadger) {
-            EntityBadger badger = (EntityBadger) entity;
+            /*EntityBadger badger = (EntityBadger) entity;
             int f1 = badger.getDigOffset();
             if(f1 > 0) {
                 float r = (float) Math.toRadians(f1);
@@ -308,7 +308,7 @@ public class ModelBadger extends ModelBase {
                 } else {
                     this.rear.rotateAngleY = 0F;
                 }
-            } else {
+            } else */{
                 this.lLeg01.rotateAngleX = MathHelper.sin(limbSwing * 0.8665F + (float) Math.PI) * 1.5F * limbSwingAmount;
                 this.rLeg01.rotateAngleX = MathHelper.cos(limbSwing * 0.8665F) * 1.5F * limbSwingAmount;
                 this.lArm01.rotateAngleX = MathHelper.sin(limbSwing * 0.8665F) * 1.5F * limbSwingAmount + 0.22759093446006054F;
