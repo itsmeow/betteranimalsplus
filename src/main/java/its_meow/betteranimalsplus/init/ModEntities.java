@@ -14,6 +14,7 @@ import its_meow.betteranimalsplus.common.entity.EntityFox;
 import its_meow.betteranimalsplus.common.entity.EntityGoat;
 import its_meow.betteranimalsplus.common.entity.EntityJellyfish;
 import its_meow.betteranimalsplus.common.entity.EntityLammergeier;
+import its_meow.betteranimalsplus.common.entity.EntityLamprey;
 import its_meow.betteranimalsplus.common.entity.EntityPheasant;
 import its_meow.betteranimalsplus.common.entity.EntityReindeer;
 import its_meow.betteranimalsplus.common.entity.EntitySongbird;
@@ -52,6 +53,7 @@ public class ModEntities {
         entityList.add(new EntityContainer(EntitySquirrel.class, "Squirrel", EnumCreatureType.CREATURE, 0x89806f, 0xb2a489, BetterAnimalsPlusConfig.squirrelWeight, 1, 3, BiomeDictionary.getBiomes(Type.FOREST)));
         entityList.add(new EntityContainer(EntitySongbird.class, "songbird", EnumCreatureType.CREATURE, 0x46f4d2, 0x7df442, BetterAnimalsPlusConfig.songbirdWeight, 1, 4, BiomeDictionary.getBiomes(Type.FOREST), BiomeDictionary.getBiomes(Type.PLAINS)));
         entityList.add(new EntityContainer(EntityBadger.class, "badger", EnumCreatureType.CREATURE, 0x000000, 0xffffff, BetterAnimalsPlusConfig.badgerWeight, 2, 7, BiomeDictionary.getBiomes(Type.FOREST), BiomeDictionary.getBiomes(Type.PLAINS), BiomeDictionary.getBiomes(Type.SAVANNA)));
+        entityList.add(new EntityContainer(EntityLamprey.class, "lamprey", EnumCreatureType.WATER_CREATURE, 0x000000, 0xffffff, BetterAnimalsPlusConfig.lampreyWeight, 1, 1, BiomeDictionary.getBiomes(Type.WATER)));
     }
 
 }
