@@ -15,6 +15,7 @@ import its_meow.betteranimalsplus.client.renderer.entity.RenderHirschgeist;
 import its_meow.betteranimalsplus.client.renderer.entity.RenderJellyfish;
 import its_meow.betteranimalsplus.client.renderer.entity.RenderKermodeBear;
 import its_meow.betteranimalsplus.client.renderer.entity.RenderLammergeier;
+import its_meow.betteranimalsplus.client.renderer.entity.RenderLamprey;
 import its_meow.betteranimalsplus.client.renderer.entity.RenderPheasant;
 import its_meow.betteranimalsplus.client.renderer.entity.RenderReindeer;
 import its_meow.betteranimalsplus.client.renderer.entity.RenderSongbird;
@@ -35,6 +36,7 @@ import its_meow.betteranimalsplus.common.entity.EntityFox;
 import its_meow.betteranimalsplus.common.entity.EntityGoat;
 import its_meow.betteranimalsplus.common.entity.EntityJellyfish;
 import its_meow.betteranimalsplus.common.entity.EntityLammergeier;
+import its_meow.betteranimalsplus.common.entity.EntityLamprey;
 import its_meow.betteranimalsplus.common.entity.EntityPheasant;
 import its_meow.betteranimalsplus.common.entity.EntityReindeer;
 import its_meow.betteranimalsplus.common.entity.EntitySongbird;
@@ -109,7 +111,7 @@ public class ClientRegistrar {
         RenderingRegistry.registerEntityRenderingHandler(EntityTarantulaHair.class, RenderTarantulaHair::new);
         RenderingRegistry.registerEntityRenderingHandler(EntityTarantula.class, RenderTarantula::new);
         RenderingRegistry.registerEntityRenderingHandler(EntityHirschgeist.class, RenderHirschgeist::new);
-        RenderingRegistry.registerEntityRenderingHandler(EntityGoat.class, RenderGoat::new);
+        RenderingRegistry.registerEntityRenderingHandler(EntityGoat.class, RenderGoat::new);    
         RenderingRegistry.registerEntityRenderingHandler(EntityJellyfish.class, RenderJellyfish::new);
         RenderingRegistry.registerEntityRenderingHandler(EntityPheasant.class, RenderPheasant::new);
         RenderingRegistry.registerEntityRenderingHandler(EntityReindeer.class, RenderReindeer::new);
@@ -118,6 +120,7 @@ public class ClientRegistrar {
         RenderingRegistry.registerEntityRenderingHandler(EntitySongbird.class, RenderSongbird::new);
         RenderingRegistry.registerEntityRenderingHandler(EntityBadger.class, RenderBadger::new);
         RenderingRegistry.registerEntityRenderingHandler(EntityBadgerDirt.class, RenderBadgerDirt::new);
+        RenderingRegistry.registerEntityRenderingHandler(EntityLamprey.class, RenderLamprey::new);
     }
 
     public static void initModel(Item item, int meta) {
