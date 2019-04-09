@@ -35,11 +35,11 @@ public class BetterAnimalsPlusConfig {
 	
 	public static HashMap<EntityContainer, EntityConfigurationSection> sections = new HashMap<EntityContainer, EntityConfigurationSection>();
 
-	public static void readConfig(){
+	public static void readConfig(boolean init){
 		Configuration cfg = BetterAnimalsPlusMod.config;
 		try {
 			cfg.load();
-			initConfig(cfg);
+			if(init) initLoadConfig(cfg); else worldLoadConfig(cfg);
 		} catch (Exception e1) {
 			BetterAnimalsPlusMod.logger.log(org.apache.logging.log4j.Level.ERROR, "Mod " + Ref.MOD_ID + " failed to load configuration. Report this here: http://github.com/itsmeow/betteranimalsplus/issues/new/choose", e1);
 		} finally {
@@ -49,9 +49,13 @@ public class BetterAnimalsPlusConfig {
 		}
 	}
 
-	public static void initConfig(Configuration cfg) {
+	public static void initLoadConfig(Configuration cfg) {
 		spawnTrillium = cfg.getBoolean("generatetrillium", "generation", true, "Does not remove item, prevents world gen");
+	}
+	
+	public static void worldLoadConfig(Configuration cfg) {
 		for(EntityContainer container : MobRegistry.entityList) {
+			container.populateBiomes();
 			String[] biomeStrings = new String[container.spawnBiomes.length];
 			for(int i = 0; i < container.spawnBiomes.length; i++) {
 				biomeStrings[i] = container.spawnBiomes[i].getRegistryName().toString();
@@ -85,6 +89,12 @@ public class BetterAnimalsPlusConfig {
             }
             
             container.spawnBiomes = biomes;
+		}
+		for(EntityContainer container : MobRegistry.entityList) {
+			for(Biome biome : container.spawnBiomes) {
+				Biome.SpawnListEntry entry = new Biome.SpawnListEntry(container.entityClazz, container.weight, container.minGroup, container.maxGroup);
+				biome.getSpawnableList(container.type).add(entry);
+			}
 		}
 	}
 

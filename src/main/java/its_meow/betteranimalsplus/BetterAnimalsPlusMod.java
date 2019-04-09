@@ -20,8 +20,10 @@ import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
+@Mod.EventBusSubscriber(modid = Ref.MOD_ID)
 @Mod(modid = Ref.MOD_ID, name = Ref.NAME, version = Ref.VERSION, acceptedMinecraftVersions = Ref.acceptedMCV, updateJSON = Ref.updateJSON)
 public class BetterAnimalsPlusMod {
 
@@ -44,8 +46,7 @@ public class BetterAnimalsPlusMod {
 		MobRegistry.fillContainers();
 		File directory = event.getModConfigurationDirectory();
         config = new Configuration(new File(directory.getPath(), "betteranimalsplus.cfg")); 
-        BetterAnimalsPlusConfig.readConfig();
-        BetterAnimalsPlusConfig.initConfig(config);
+        BetterAnimalsPlusConfig.readConfig(true);
         logger.log(Level.INFO, "Injecting super coyotes...");
 	}
 
@@ -66,5 +67,10 @@ public class BetterAnimalsPlusMod {
 			config.save();
 		}
 		logger.log(Level.INFO, "Crazy bird creation complete.");
+	}
+	
+	@EventHandler
+	public static void serverStart(FMLServerStartingEvent e) {
+		BetterAnimalsPlusConfig.readConfig(false);
 	}
 }
