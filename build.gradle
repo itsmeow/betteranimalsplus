@@ -1,7 +1,15 @@
 buildscript {
     repositories {
         jcenter()
-        maven { url = "http://files.minecraftforge.net/maven" }
+        
+        maven { 
+            name = "Forge"
+            url = "http://files.minecraftforge.net/maven" 
+        }
+        maven {
+            name = "CurseForge"
+            url = "https://minecraft.curseforge.com/api/maven/"
+        }
     }
     dependencies {
         classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
@@ -21,13 +29,51 @@ compileJava {
 }
 
 minecraft {
-    version = "1.12.2-14.23.4.2705"
+    version = "1.12.2-14.23.5.2825"
     runDir = "run"
     mappings = "snapshot_20171003"
 }
 
+repositories {
+    flatDir {
+        dirs 'libs'
+    }
+    maven {
+        name = "Mobius Repo"
+        url = "http://tehnut.info/maven"
+    }
+    maven {
+        name = "JEI"
+        url = "http://dvs1.progwml6.com/files/maven"
+    }
+    maven {
+        url = "https://minecraft.curseforge.com/api/maven/"
+    }
+    maven {
+        name = "ModMaven"
+        url = "modmaven.k-4u.nl"
+    }
+    maven {
+        url "https://maven.mcmoddev.com/"
+    }
+    maven {
+        name = "ModMaven"
+        url = "modmaven.k-4u.nl"
+    }
+    maven {
+        url = 'https://maven.blamejared.com'
+    }
+    maven {
+        url "http://maven.tterrag.com/"
+    }
+}
+
 dependencies {
-    
+    deobfCompile "mcp.mobius.waila:Hwyla:1.8.26-B41_1.12.2"
+    deobfCompile "mezz.jei:jei_1.12.2:4.14.4.264"
+    deobfCompile "team.chisel.ctm:CTM:MC1.12.2-0.3.3.22"
+    deobfCompile "team.chisel:Chisel:MC1.12.2-0.2.1.35"
+    deobfCompile "com.github.glitchfiend.biomesoplenty:BiomesOPlenty:1.12.2-7.0.1.2399:universal"
 }
 
 tasks.withType(JavaCompile) {
