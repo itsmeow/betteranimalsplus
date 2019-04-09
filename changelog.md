@@ -1,3 +1,7 @@
+5.0.2
+-
+- Fix bug that caused modded biomes to be unable to spawn BA+ entities and made the configuration unable to affect it
+
 5.0.1
 -
 - Fix random crash on client when loading chunks with Trillium or Hand of Fate, where the TE loads before the block.
