@@ -45,7 +45,7 @@ import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
 
-public class EntityCoyote extends EntityFeralWolf {
+public class EntityCoyote extends EntityFeralWolf implements ITimeOfDay {
 
     public EntityCoyote(World worldIn) {
         super(worldIn);
@@ -74,14 +74,9 @@ public class EntityCoyote extends EntityFeralWolf {
         this.targetTasks.addTask(5, new EntityAINearestAttackableTarget<AbstractSkeleton>(this, AbstractSkeleton.class, false));
     }
 
-    public boolean isDaytime() {
-        long time = this.world.getWorldTime() % 24000L; // Time can go over values of 24000, so divide and take the remainder
-        return !(time >= 13000L && time <= 23000L);
-    }
-
     @Override
     public void setAttackTarget(EntityLivingBase entitylivingbaseIn) {
-        if (!this.isDaytime()) {
+        if (!this.isDaytime(this.world)) {
             super.setAttackTarget(entitylivingbaseIn);
         } else if (!this.isTamed()) {
             super.setAttackTarget(null);
@@ -95,7 +90,7 @@ public class EntityCoyote extends EntityFeralWolf {
 
     @Override
     protected SoundEvent getAmbientSound() {
-        if (!this.isDaytime() && !this.isTamed()) {
+        if (!this.isDaytime(this.world) && !this.isTamed()) {
             return SoundEvents.ENTITY_WOLF_GROWL;
         } else if (this.rand.nextInt(3) == 0) {
             return this.isTamed() && this.dataManager.get(DATA_HEALTH_ID).floatValue() < 10.0F ? SoundEvents.ENTITY_WOLF_WHINE : SoundEvents.ENTITY_WOLF_PANT;
@@ -145,7 +140,7 @@ public class EntityCoyote extends EntityFeralWolf {
                 this.setAttackTarget((EntityLivingBase) null);
             }
         } else if (itemstack.getItem() == Items.RABBIT) {
-            if (this.isDaytime()) {
+            if (this.isDaytime(this.world)) {
 
                 if (!player.capabilities.isCreativeMode) {
                     itemstack.shrink(1);
@@ -207,7 +202,7 @@ public class EntityCoyote extends EntityFeralWolf {
 
     @Override
     public boolean shouldAttackEntity(EntityLivingBase target, EntityLivingBase owner) {
-        if (!(target instanceof EntityCreeper) && !(target instanceof EntityGhast) && (this.isTamed() || !this.isDaytime())) {
+        if (!(target instanceof EntityCreeper) && !(target instanceof EntityGhast) && (this.isTamed() || !this.isDaytime(this.world))) {
             if (target instanceof EntityCoyote) {
                 EntityCoyote entityferalwolf = (EntityCoyote) target;
 

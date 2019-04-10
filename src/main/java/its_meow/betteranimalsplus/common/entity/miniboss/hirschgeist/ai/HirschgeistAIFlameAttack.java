@@ -27,7 +27,7 @@ public class HirschgeistAIFlameAttack extends EntityAIBase {
     public boolean shouldExecute() {
         if (this.attacker.getAttackTarget() == null) {
             return false;
-        } else if (this.attacker.isDaytime()) {
+        } else if (this.attacker.isDaytime(this.world)) {
             return false;
         } else if (this.attacker.getAttackTarget().isDead) {
             return false;

@@ -1,5 +1,6 @@
 package its_meow.betteranimalsplus.common.entity.miniboss.hirschgeist;
 
+import its_meow.betteranimalsplus.common.entity.ITimeOfDay;
 import its_meow.betteranimalsplus.common.entity.miniboss.hirschgeist.ai.HirschgeistAIAttackMelee;
 import its_meow.betteranimalsplus.common.entity.miniboss.hirschgeist.ai.HirschgeistAIFlameAttack;
 import its_meow.betteranimalsplus.init.ModLootTables;
@@ -25,7 +26,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.relauncher.Side;
 
-public class EntityHirschgeist extends EntityLiving implements IMob {
+public class EntityHirschgeist extends EntityLiving implements IMob, ITimeOfDay {
 
     public EntityHirschgeist(World worldIn) {
         super(worldIn);
@@ -52,16 +53,10 @@ public class EntityHirschgeist extends EntityLiving implements IMob {
         this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(6.0D);
     }
 
-    public boolean isDaytime() {
-        long time = this.world.getWorldTime() % 24000L; // Time can go over values of 24000, so divide and take the
-                                                        // remainder
-        return !(time >= 13000L && time <= 23000L);
-    }
-
     @Override
     public void onLivingUpdate() {
         super.onLivingUpdate();
-        if (this.isDaytime()) {
+        if (this.isDaytime(this.world)) {
             this.setSize(1, 2);
         } else {
             this.setSize(3, 4);
@@ -99,23 +94,23 @@ public class EntityHirschgeist extends EntityLiving implements IMob {
 
     @Override
     public boolean attackable() {
-        return !this.isDaytime();
+        return !this.isDaytime(this.world);
     }
 
     @Override
     public boolean attackEntityFrom(DamageSource source, float amount) {
-        if (this.isDaytime() && FMLCommonHandler.instance().getSide() == Side.CLIENT && FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT) {
+        if (this.isDaytime(this.world) && FMLCommonHandler.instance().getSide() == Side.CLIENT && FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT) {
             if (source.getTrueSource() instanceof EntityPlayer) {
                 EntityPlayer player = (EntityPlayer) source.getTrueSource();
                 player.sendMessage(new TextComponentString("The " + I18n.format("entity.betteranimalsplus.Hirschgeist.name") + " is immortal in the daytime. Try fighting it later."));
             }
         }
-        return this.isDaytime() ? false : super.attackEntityFrom(source, amount);
+        return this.isDaytime(this.world) ? false : super.attackEntityFrom(source, amount);
     }
 
     @Override
     public void setAttackTarget(EntityLivingBase entityIn) {
-        super.setAttackTarget(this.isDaytime() ? null : entityIn);
+        super.setAttackTarget(this.isDaytime(this.world) ? null : entityIn);
     }
 
     public Vec3d getHeadLookVec(float p_184665_1_) {
