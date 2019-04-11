@@ -39,10 +39,10 @@ import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
 import net.minecraft.world.storage.loot.LootTableList;
 
-public class EntityBoar extends EntityAnimalEatsGrassWithTypes implements IMob {
+public class EntityBoar extends EntityAnimalWithTypes implements IMob {
 
 	public EntityBoar(World worldIn) {
-		super(ModEntities.getEntityType(EntityBoar.class), worldIn, 6);
+		super(ModEntities.getEntityType(EntityBoar.class), worldIn);
 		this.setSize(0.9F, 0.9F);
 	}
 
@@ -255,5 +255,4 @@ public class EntityBoar extends EntityAnimalEatsGrassWithTypes implements IMob {
 	protected IVariantTypes getBaseChild() {
 		return null;
 	}
-
 }
