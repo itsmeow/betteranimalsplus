@@ -131,14 +131,15 @@ public class EntityBadger extends EntityAnimalWithTypes implements IMob {
 
 		@Override
 		public boolean shouldExecute() {
+			tick = 0;
 			World world = badger.world;
 			BlockPos below = badger.getPosition().down();
 			if(world.isBlockLoaded(below)) {
 				IBlockState state = world.getBlockState(below);
-				return badger.getRevengeTarget() != null && badger.getAttackTarget() == badger.getRevengeTarget() && (state.getBlock() == Blocks.DIRT || state.getBlock() == Blocks.GRASS || state.getBlock() == Blocks.SAND || state.getBlock() == Blocks.GRAVEL || state.getBlock() == Blocks.MYCELIUM);
-			} else {
-				return false;
+				double dist = badger.getAttackTarget() == null ? 0 : Math.sqrt(badger.getPosition().distanceSq(badger.getAttackTarget().getPosition()));
+				return badger.getRevengeTarget() != null && badger.getAttackTarget() == badger.getRevengeTarget() && dist < 10 && dist > 2 && (state.getBlock() == Blocks.DIRT || state.getBlock() == Blocks.GRASS || state.getBlock() == Blocks.SAND || state.getBlock() == Blocks.GRAVEL || state.getBlock() == Blocks.MYCELIUM);
 			}
+			return false;
 		}
 
 		@Override
@@ -156,7 +157,8 @@ public class EntityBadger extends EntityAnimalWithTypes implements IMob {
 					onDiggable = true;
 				}
 			}
-			return badger.getRevengeTarget() != null && badger.getAttackTarget() == badger.getRevengeTarget() && tick <= 240 && onDiggable;
+			double dist = badger.getAttackTarget() == null ? 0 : Math.sqrt(badger.getPosition().distanceSq(badger.getAttackTarget().getPosition()));
+			return badger.getRevengeTarget() != null && badger.getAttackTarget() == badger.getRevengeTarget() && tick <= 200 + Math.random() * 300 && dist < 10 && dist > 2 && onDiggable;
 		}
 
 		@Override
