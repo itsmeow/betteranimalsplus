@@ -98,23 +98,21 @@ public class EntityLamprey extends EntityWaterMobWithTypes implements IMob {
 	@Override
 	public void tick() {
 		super.tick();
-		if(!this.world.isRemote) {
-			if(!this.inWater) {
-				this.motionX = 0F;
-				this.motionZ = 0F;
-				if (!this.hasNoGravity()) {
-					this.motionY -= 0.08D;
-				}
-
-				this.motionY *= 0.9800000190734863D;
-				if(this.isBeingRidden()) {
-					this.getRidingEntity().stopRiding();
-				}
-			} else {
-				this.motionX = (this.getMoveHelper().getX() - this.posX) * 0.05F;
-				this.motionZ = (this.getMoveHelper().getZ() - this.posZ) * 0.05F;
-				this.motionY = (this.getMoveHelper().getY() - this.posY) * 0.05F;
+		if(!this.inWater) {
+			this.motionX *= 0.2F;
+			this.motionZ *= 0.2F;
+			if (!this.hasNoGravity()) {
+				this.motionY -= 0.08D;
 			}
+
+			this.motionY *= 0.9800000190734863D;
+			if(this.isBeingRidden()) {
+				this.getRidingEntity().stopRiding();
+			}
+		} else {
+			this.motionX = (this.getMoveHelper().getX() - this.posX) * 0.05F;
+			this.motionZ = (this.getMoveHelper().getZ() - this.posZ) * 0.05F;
+			this.motionY = (this.getMoveHelper().getY() - this.posY) * 0.05F;
 		}
 	}
 
