@@ -17,6 +17,7 @@ import net.minecraft.pathfinding.PathNavigateSwimmer;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
 
@@ -28,7 +29,7 @@ public class EntityLamprey extends EntityWaterMobWithTypes implements IMob {
 
 	public EntityLamprey(World worldIn) {
 		super(worldIn);
-		this.setSize(1.0F, 0.4F);
+		this.setSize(1.0F, 0.7F);
 	}
 
 	@Override
@@ -71,10 +72,17 @@ public class EntityLamprey extends EntityWaterMobWithTypes implements IMob {
 			if(this.isBeingRidden()) {
 				this.getRidingEntity().dismountRidingEntity();
 			}
-		} else {
-			this.motionX = (this.getMoveHelper().getX() - this.posX) * 0.05F;
-			this.motionZ = (this.getMoveHelper().getZ() - this.posZ) * 0.05F;
-			this.motionY = (this.getMoveHelper().getY() - this.posY) * 0.05F;
+		} else if(!world.isRemote) {
+			if(!this.navigator.noPath()) {
+				Vec3d target = this.navigator.getPath().getCurrentPos();
+				this.motionX = (target.x - this.posX) * 0.05F;
+				this.motionY = (target.y - this.posY) * 0.05F;
+				this.motionZ = (target.z - this.posZ) * 0.05F;
+			} else if(this.getMoveHelper().isUpdating()) {
+				this.motionX = (this.getMoveHelper().getX() - this.posX) * 0.05F;
+				this.motionZ = (this.getMoveHelper().getZ() - this.posZ) * 0.05F;
+				this.motionY = (this.getMoveHelper().getY() - this.posY) * 0.05F;
+			}
 		}
 	}
 
@@ -120,20 +128,30 @@ public class EntityLamprey extends EntityWaterMobWithTypes implements IMob {
 		super.onLivingUpdate();
 		if(!this.world.isRemote && this.getAttackTarget() != null) {
 			if(this.isRidingOrBeingRiddenBy(this.getAttackTarget())) {
-				if(Math.random() >= 0.2F) {
+				if(this.getLastAttackedEntityTime() + 10F < this.ticksExisted) {
 					this.attackEntityAsMob(this.getAttackTarget());
 				}
+			} else if(this.getDistanceSq(this.getAttackTarget()) < 2) {
+				this.grabTarget(this.getAttackTarget());
 			}
 		}
 	}
 
-	@Override
-	protected void collideWithEntity(Entity entity) {
+	public void grabTarget(Entity entity) {
 		if(entity == this.getAttackTarget() && !this.isRidingOrBeingRiddenBy(entity) && this.inWater) {
 			entity.startRiding(this);
 			this.resetPassengerState = true;
 		}
-		super.collideWithEntity(entity);
+	}
+	
+	@Override
+	public boolean canRiderInteract() {
+		return true;
+	}
+	
+	@Override
+	public boolean shouldRiderSit() {
+		return false;
 	}
 
 	@Override
