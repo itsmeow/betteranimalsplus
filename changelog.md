@@ -1,3 +1,18 @@
+6.0.0
+-
+- Added Badgers
+- Added Lampreys
+- Trillium now match biome grass color
+- Lammergeiers have new animations
+- Deer are breedable (wheat)
+- Tamed Fox are breedable (raw rabbit or chicken)
+- Hand of Fate has breaking progress and a nicer bounding box
+- Deer no longer run without a single leg on the ground
+- Deer will eat grass
+- Goats will eat grass
+- Fix some translations that were not working
+- Code refactors (as usual) that make development easier
+
 5.0.2
 -
 - Fix bug that caused modded biomes to be unable to spawn BA+ entities and made the configuration unable to affect it
