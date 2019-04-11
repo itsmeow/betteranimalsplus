@@ -35,7 +35,7 @@ public class ModEntities {
     public static LinkedHashSet<EntityEntry> entrySet = new LinkedHashSet<EntityEntry>();
     public static LinkedHashSet<EntityContainer> entityList = new LinkedHashSet<EntityContainer>();
 
-    public static void fillContainers() {
+    static {
     	add(EntityBear.class, "BrownBear", EnumCreatureType.CREATURE, 0x4F2900, 0x8E500E, BetterAnimalsPlusConfig.brownBearWeight, 1, 1, Type.FOREST);
 		add(EntityBearNeutral.class, "BlackBear", EnumCreatureType.CREATURE, 0x000000, 0x333333, BetterAnimalsPlusConfig.blackBearWeight, 1, 1, Type.FOREST);
 		add(EntityBearNeutralKermode.class, "KermodeBear", EnumCreatureType.CREATURE, 0xe8e8e8, 0xf7dabe, BetterAnimalsPlusConfig.kermodeBearWeight, 1, 1, Type.FOREST);
@@ -53,10 +53,22 @@ public class ModEntities {
 		add(EntityBoar.class, "Boar", EnumCreatureType.CREATURE, 0x3d3c3b, 0xbca895, BetterAnimalsPlusConfig.boarWeight, 1, 4, Type.FOREST, Type.JUNGLE, Type.PLAINS, Type.SAVANNA);
 		add(EntitySquirrel.class, "Squirrel", EnumCreatureType.CREATURE, 0x89806f, 0xb2a489, BetterAnimalsPlusConfig.squirrelWeight, 1, 3, Type.FOREST);
         add(EntitySongbird.class, "songbird", EnumCreatureType.CREATURE, 0x46f4d2, 0x7df442, BetterAnimalsPlusConfig.songbirdWeight, 1, 4, Type.FOREST, Type.PLAINS);
-        add(EntityBadger.class, "badger", EnumCreatureType.CREATURE, 0x000000, 0xffffff, BetterAnimalsPlusConfig.badgerWeight, 2, 7, Type.FOREST, Type.PLAINS, Type.SAVANNA);
-        add(EntityLamprey.class, "lamprey", EnumCreatureType.WATER_CREATURE, 0x000000, 0xffffff, BetterAnimalsPlusConfig.lampreyWeight, 1, 1, Type.WATER);
+        add(EntityBadger.class, "badger", EnumCreatureType.CREATURE, 0x0c0c0c, 0xd3d3d3, BetterAnimalsPlusConfig.badgerWeight, 2, 7, Type.FOREST, Type.PLAINS, Type.SAVANNA);
+        add(EntityLamprey.class, "lamprey", EnumCreatureType.WATER_CREATURE, 0x0000ad, 0x0a0a0a, BetterAnimalsPlusConfig.lampreyWeight, 1, 1, Type.WATER);
     }
     
+    /**
+     * Use this to add new entities to be registered
+     * @param EntityClass - The class of the entity
+     * @param entityNameIn - The name of the entity. Should be lower case.
+     * @param type - The type of the entity (EnumCreatureType). This is only used for spawning types. Typically use CREATURE.
+     * @param solidColorIn - The solid color if the egg (back color) in integer format. You can specify in decimal or hexadecimal form. (0 or 0x000000)
+     * @param spotColorIn - The spot color of the egg in integer format. See solid color for more.
+     * @param prob - The random selection spawning weight used at spawn time. E.g. a spawn weight of 20 is 20x more likely to spawn than a weight of 1, and 2x more than 10.
+     * @param min - The minimum amount of these that can spawn at once (in a group). Must be at least 1 and less than or equal to the maximum.
+     * @param max - The maximum amount of these that can spawn at once (in a group). Must be at least 1 and greater to or equal to the minimum.
+     * @param types - A list of BiomeTypes this entity can spawn in.
+     */
     public static void add(Class<? extends EntityLiving> EntityClass, String entityNameIn, EnumCreatureType type, int solidColorIn, int spotColorIn, int prob, int min, int max, BiomeDictionary.Type... types) {
     	entityList.add(new EntityContainer(EntityClass, entityNameIn, type, solidColorIn, spotColorIn, prob, min, max, types));
     }

@@ -60,7 +60,6 @@ public class BetterAnimalsPlusMod {
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) {
         logger = LogManager.getLogger("betteranimalsplus");
-        ModEntities.fillContainers();
         File directory = event.getModConfigurationDirectory();
         config = new Configuration(new File(directory.getPath(), "betteranimalsplus.cfg"));
         BetterAnimalsPlusConfig.readConfig(true);
