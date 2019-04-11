@@ -28,11 +28,13 @@ public class EntityAIFindEntityNearestPredicate extends EntityAIBase {
     private final EntityAINearestAttackableTarget.Sorter sorter;
     private EntityLivingBase target;
     private final Class <? extends EntityLivingBase > classToCheck;
+    private boolean blockSelf = true;
 
-    public EntityAIFindEntityNearestPredicate(EntityLiving mobIn, Class <? extends EntityLivingBase > p_i45884_2_, Predicate<EntityLivingBase> predicate)
+    public EntityAIFindEntityNearestPredicate(EntityLiving mobIn, Class <? extends EntityLivingBase > p_i45884_2_, Predicate<EntityLivingBase> predicate, boolean blockSelf)
     {
         this.mob = mobIn;
         this.classToCheck = p_i45884_2_;
+        this.blockSelf = blockSelf;
 
         if (mobIn instanceof EntityCreature)
         {
@@ -69,7 +71,7 @@ public class EntityAIFindEntityNearestPredicate extends EntityAIBase {
     public boolean shouldExecute()
     {
         double d0 = this.getFollowRange();
-        List<EntityLivingBase> list = this.mob.world.<EntityLivingBase>getEntitiesWithinAABB(this.classToCheck, this.mob.getBoundingBox().grow(d0, 4.0D, d0), this.predicate);
+        List<EntityLivingBase> list = this.mob.world.<EntityLivingBase>getEntitiesWithinAABB(this.classToCheck, this.mob.getBoundingBox().grow(d0, 4.0D, d0), e-> this.predicate.apply(e) && (blockSelf ? !mob.getClass().isInstance(e) : true));
         Collections.sort(list, this.sorter);
 
         if (list.isEmpty())

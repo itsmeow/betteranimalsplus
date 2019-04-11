@@ -12,10 +12,13 @@ import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.passive.EntityWaterMob;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.MobEffects;
 import net.minecraft.item.ItemStack;
 import net.minecraft.pathfinding.PathNavigate;
 import net.minecraft.pathfinding.PathNavigateSwimmer;
+import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
+import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 
@@ -27,7 +30,7 @@ public class EntityLamprey extends EntityWaterMobWithTypes implements IMob {
 
 	public EntityLamprey(World worldIn) {
 		super(ModEntities.getEntityType(EntityLamprey.class), worldIn);
-		this.setSize(1.2F, 0.4F);
+		this.setSize(1.0F, 0.4F);
 	}
 
 	@Override
@@ -35,7 +38,7 @@ public class EntityLamprey extends EntityWaterMobWithTypes implements IMob {
 		//this.tasks.addTask(0, new EntityAISwimming(this));
 		this.tasks.addTask(0, new EntityAIMoveTowardsAttackTarget(this, 0.8D, true));
 		this.tasks.addTask(1, new EntityAIWatchClosest(this, EntityWaterMob.class, 10.0F));
-		this.targetTasks.addTask(0, new EntityAIFindEntityNearestPredicate(this, EntityLivingBase.class, e -> e instanceof EntityLivingBase && !(e instanceof IMob)));
+		this.targetTasks.addTask(0, new EntityAIFindEntityNearestPredicate(this, EntityLivingBase.class, e -> e instanceof EntityLivingBase && !(e instanceof IMob) && !(e instanceof EntityLamprey), true));
 	}
 
 	@Override
@@ -67,6 +70,16 @@ public class EntityLamprey extends EntityWaterMobWithTypes implements IMob {
 		if(flag) {
 			if(entityIn instanceof EntityPlayer) {
 				EntityPlayer entityplayer = (EntityPlayer)entityIn;
+
+				int weakTicks = 0;
+				if (this.world.getDifficulty() == EnumDifficulty.EASY) {
+					weakTicks = 200;
+				} else if (this.world.getDifficulty() == EnumDifficulty.NORMAL) {
+					weakTicks = 300;
+				} else if (this.world.getDifficulty() == EnumDifficulty.HARD) {
+					weakTicks = 600;
+				}
+				entityplayer.addPotionEffect(new PotionEffect(MobEffects.WEAKNESS, weakTicks, 1, false, false));
 				ItemStack itemstack = this.getHeldItemMainhand();
 				ItemStack itemstack1 = entityplayer.isHandActive() ? entityplayer.getActiveItemStack() : ItemStack.EMPTY;
 				if(!itemstack.isEmpty() && !itemstack1.isEmpty() && itemstack.getItem().canDisableShield(itemstack, itemstack1, entityplayer, this) && itemstack1.getItem().isShield(itemstack1, entityplayer)) {
@@ -94,6 +107,9 @@ public class EntityLamprey extends EntityWaterMobWithTypes implements IMob {
 				}
 
 				this.motionY *= 0.9800000190734863D;
+				if(this.isBeingRidden()) {
+					this.getRidingEntity().stopRiding();
+				}
 			} else {
 				this.motionX = (this.getMoveHelper().getX() - this.posX) * 0.05F;
 				this.motionZ = (this.getMoveHelper().getZ() - this.posZ) * 0.05F;
@@ -116,7 +132,7 @@ public class EntityLamprey extends EntityWaterMobWithTypes implements IMob {
 
 	@Override
 	protected void collideWithEntity(Entity entity) {
-		if(entity == this.getAttackTarget() && !this.isRidingOrBeingRiddenBy(entity)) {
+		if(entity == this.getAttackTarget() && !this.isRidingOrBeingRiddenBy(entity) && this.inWater) {
 			entity.startRiding(this);
 			this.resetPassengerState = true;
 		}
@@ -135,8 +151,14 @@ public class EntityLamprey extends EntityWaterMobWithTypes implements IMob {
 	}
 
 	private void setOffsetFor(Entity passenger) {
-		float modX = Math.random() >= 0.5 ? 1 : -1;
-		float modZ = Math.random() >= 0.5 ? 1 : -1;
+		boolean side = Math.random() >= 0.5;
+		float modX = Math.random() >= 0.5 ? 1F : -1F;
+		float modZ = Math.random() >= 0.5 ? 1F : -1F;
+		if(side) {
+			modX = Math.random() >= 0.5 ? 0.5F : -0.5F;
+		} else {
+			modZ = Math.random() >= 0.5 ? 0.5F : -0.5F;
+		}
 		this.passengerX = passenger.width * modX;
 		this.passengerZ = passenger.width * modZ;
 	}
@@ -146,6 +168,7 @@ public class EntityLamprey extends EntityWaterMobWithTypes implements IMob {
 		return false;
 	}
 
+	@Override
 	public boolean canSpawn(IWorld worldIn, boolean p_205020_2_) {
 		return this.posY > 45.0D && this.posY < (double)worldIn.getSeaLevel();
 	}
