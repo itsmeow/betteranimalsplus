@@ -20,9 +20,10 @@ public class RenderGenericHeadFloor extends TileEntitySpecialRenderer<TileEntity
     }
 
     private void renderHead(float x, float y, float z, int meta, float skullRotation, GameProfile profile, ModelBase model, int destroyStage, ResourceLocation texture, float offset) {
-
-        this.bindTexture(texture);
-
+		if(texture != null) {
+			this.bindTexture(texture);
+		}
+		
         GlStateManager.pushMatrix();
 
         this.translateHead(x, y, z, meta, 1.5F + offset);

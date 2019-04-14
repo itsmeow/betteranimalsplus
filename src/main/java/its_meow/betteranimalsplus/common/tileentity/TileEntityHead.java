@@ -80,6 +80,9 @@ public class TileEntityHead extends TileEntitySkull {
     }
 
     public int typeValue() {
+    	if(typeNum <= 0) {
+    		this.typeNum = 1;
+    	}
         return this.typeNum;
     }
 
