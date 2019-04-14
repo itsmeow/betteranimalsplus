@@ -67,8 +67,8 @@ repositories {
 dependencies {
     deobfCompile "mcp.mobius.waila:Hwyla:1.8.26-B41_1.12.2"
     deobfCompile "mezz.jei:jei_1.12.2:4.14.4.264"
-    deobfCompile "team.chisel.ctm:CTM:MC1.12.2-0.3.3.22"
-    deobfCompile "team.chisel:Chisel:MC1.12.2-0.2.1.35"
+    //deobfCompile "team.chisel.ctm:CTM:MC1.12.2-0.3.3.22"
+    //deobfCompile "team.chisel:Chisel:MC1.12.2-0.2.1.35"
     deobfCompile "com.github.glitchfiend.biomesoplenty:BiomesOPlenty:1.12.2-7.0.1.2399:universal"
 }
 
