@@ -28,7 +28,7 @@ import net.minecraft.world.World;
 
 public class EntitySquirrel extends EntityAnimalWithTypes {
 
-    private static final DataParameter<Byte> CLIMBING = EntityDataManager.<Byte>createKey(EntitySquirrel.class, DataSerializers.BYTE);
+    protected static final DataParameter<Byte> CLIMBING = EntityDataManager.<Byte>createKey(EntitySquirrel.class, DataSerializers.BYTE);
 
     private int climbTimeWithoutLog = 0;
 

@@ -23,7 +23,9 @@ import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
 
 public class EntityJellyfish extends EntitySquid implements IVariantTypes {
-
+	
+    protected static final DataParameter<Integer> TYPE_NUMBER = EntityDataManager.<Integer>createKey(EntityJellyfish.class, DataSerializers.VARINT);
+    protected static final DataParameter<Float> SIZE = EntityDataManager.<Float>createKey(EntityJellyfish.class, DataSerializers.FLOAT);
     protected int attackCooldown = 0;
 
     public EntityJellyfish(World worldIn) {
@@ -73,9 +75,6 @@ public class EntityJellyfish extends EntitySquid implements IVariantTypes {
         this.registerTypeKey();
         this.dataManager.register(SIZE, Float.valueOf(1));
     }
-
-    private static final DataParameter<Integer> TYPE_NUMBER = EntityDataManager.<Integer>createKey(EntityJellyfish.class, DataSerializers.VARINT);
-    private static final DataParameter<Float> SIZE = EntityDataManager.<Float>createKey(EntityJellyfish.class, DataSerializers.FLOAT);
 
     public float getSize() {
         return this.dataManager.get(SIZE).floatValue();

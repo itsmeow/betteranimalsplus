@@ -38,7 +38,7 @@ import net.minecraft.world.World;
 
 public class EntitySongbird extends EntityAnimalWithTypes implements EntityFlying {
 
-    private static final Set<Item> SEEDS = Sets.newHashSet(Items.WHEAT_SEEDS, Items.MELON_SEEDS, Items.PUMPKIN_SEEDS, Items.BEETROOT_SEEDS);
+    protected static final Set<Item> SEEDS = Sets.newHashSet(Items.WHEAT_SEEDS, Items.MELON_SEEDS, Items.PUMPKIN_SEEDS, Items.BEETROOT_SEEDS);
 
     public EntitySongbird(World worldIn) {
         super(worldIn);

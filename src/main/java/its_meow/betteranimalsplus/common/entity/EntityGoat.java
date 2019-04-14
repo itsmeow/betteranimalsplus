@@ -42,11 +42,11 @@ import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
 
 public class EntityGoat extends EntityAnimalEatsGrassWithTypes {
-
+	
+    protected static final DataParameter<Boolean> ATTACKING = EntityDataManager.<Boolean>createKey(EntityGoat.class, DataSerializers.BOOLEAN);
     public EntityPlayer friend = null;
     public boolean hasBeenFed = false;
     private HashSet<Item> temptItems = null;
-    private static final DataParameter<Boolean> ATTACKING = EntityDataManager.<Boolean>createKey(EntityGoat.class, DataSerializers.BOOLEAN);
 
     public EntityGoat(World worldIn) {
         super(worldIn, 5);
