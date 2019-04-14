@@ -11,6 +11,9 @@
 - Deer will eat grass
 - Goats will eat grass
 - Fix some translations that were not working
+- Fixed bug with deer drops/loot table causing it to not exist or not drop
+- Fixed crashes with DataManager keys on Jellyfish
+- Fixed heads with corrupted or invalid NBT data causing client to crash
 - Code refactors (as usual) that make development easier
 
 5.0.2
