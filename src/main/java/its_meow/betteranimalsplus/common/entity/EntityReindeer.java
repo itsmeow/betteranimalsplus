@@ -59,24 +59,15 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 public class EntityReindeer extends EntityAnimal implements IJumpingMount, IVariantTypes {
 
-    private static final Predicate<Entity> IS_REINDEER_BREEDING = (
-            @Nullable Entity p_apply_1_) -> p_apply_1_ instanceof EntityReindeer
-                    && ((EntityReindeer) p_apply_1_).isBreeding();
-    protected static final IAttribute JUMP_STRENGTH = new RangedAttribute((IAttribute) null, "reindeer.jumpStrength",
-            0.7D, 0.0D, 2.0D).setDescription("Jump Strength").setShouldWatch(true);
-    private static final DataParameter<Byte> STATUS = EntityDataManager.<Byte>createKey(EntityReindeer.class,
-            DataSerializers.BYTE);
+    protected static final Predicate<Entity> IS_REINDEER_BREEDING = (@Nullable Entity p_apply_1_) -> p_apply_1_ instanceof EntityReindeer && ((EntityReindeer) p_apply_1_).isBreeding();
+    protected static final IAttribute JUMP_STRENGTH = (new RangedAttribute((IAttribute) null, "reindeer.jumpStrength", 0.7D, 0.0D, 2.0D)).setDescription("Jump Strength").setShouldWatch(true);
+    protected static final DataParameter<Byte> STATUS = EntityDataManager.<Byte>createKey(EntityReindeer.class, DataSerializers.BYTE);
     private int eatingCounter;
     private int openMouthCounter;
     private int jumpRearingCounter;
     public int tailCounter;
     public int sprintCounter;
     protected boolean reindeerJumping;
-    /**
-     * "The higher this value, the more likely the reindeer is to be tamed next time
-     * a player rides it."
-     */
-    protected int temper;
     protected float jumpPower;
     private boolean allowStandSliding;
     private float headLean;
@@ -111,8 +102,8 @@ public class EntityReindeer extends EntityAnimal implements IJumpingMount, IVari
     @Override
     protected void registerData() {
         super.registerData();
-        this.dataManager.register(EntityReindeer.STATUS, Byte.valueOf((byte) 0));
         this.registerTypeKey();
+        this.dataManager.register(STATUS, Byte.valueOf((byte) 0));
     }
 
     // Implementation
@@ -258,20 +249,6 @@ public class EntityReindeer extends EntityAnimal implements IJumpingMount, IVari
 
     public void setBreeding(boolean breeding) {
         this.setReindeerWatchableBoolean(8, breeding);
-    }
-
-    public int getTemper() {
-        return this.temper;
-    }
-
-    public void setTemper(int temperIn) {
-        this.temper = temperIn;
-    }
-
-    public int increaseTemper(int p_110198_1_) {
-        int i = MathHelper.clamp(this.getTemper() + p_110198_1_, 0, this.getMaxTemper());
-        this.setTemper(i);
-        return i;
     }
 
     /**
@@ -459,13 +436,11 @@ public class EntityReindeer extends EntityAnimal implements IJumpingMount, IVari
         boolean flag = false;
         float f = 0.0F;
         int i = 0;
-        int j = 0;
         Item item = stack.getItem();
 
         if (item == Items.WHEAT || item == Items.CARROT) {
             f = 2.0F;
             i = 20;
-            j = 3;
             if (!this.isChild() && !this.isInLove()) {
                 flag = true;
                 this.setInLove(player);
@@ -473,18 +448,15 @@ public class EntityReindeer extends EntityAnimal implements IJumpingMount, IVari
         } else if (item == Items.SUGAR) {
             f = 1.0F;
             i = 30;
-            j = 3;
         } else if (item == Blocks.HAY_BLOCK.asItem()) {
             f = 20.0F;
             i = 180;
         } else if (item == Items.APPLE) {
             f = 3.0F;
             i = 60;
-            j = 3;
         } else if (item == Items.GOLDEN_CARROT) {
             f = 4.0F;
             i = 60;
-            j = 5;
 
             if (this.getGrowingAge() == 0 && !this.isInLove()) {
                 flag = true;
@@ -493,7 +465,6 @@ public class EntityReindeer extends EntityAnimal implements IJumpingMount, IVari
         } else if (item == Items.GOLDEN_APPLE) {
             f = 10.0F;
             i = 240;
-            j = 10;
 
             if (this.getGrowingAge() == 0 && !this.isInLove()) {
                 flag = true;
@@ -518,15 +489,6 @@ public class EntityReindeer extends EntityAnimal implements IJumpingMount, IVari
 
             flag = true;
         }
-
-        if (j > 0 && flag && this.getTemper() < this.getMaxTemper()) {
-            flag = true;
-
-            if (!this.world.isRemote) {
-                this.increaseTemper(j);
-            }
-        }
-
         if (flag) {
             this.eatingReindeer();
         }
@@ -839,7 +801,6 @@ public class EntityReindeer extends EntityAnimal implements IJumpingMount, IVari
     public boolean writeUnlessRemoved(NBTTagCompound compound) {
         compound.setBoolean("EatingHaystack", this.isEatingHaystack());
         compound.setBoolean("Bred", this.isBreeding());
-        compound.setInt("Temper", this.getTemper());
 
         this.writeType(compound);
         compound.setBoolean("IsParentRudolph", this.parentRudolph);
@@ -851,7 +812,7 @@ public class EntityReindeer extends EntityAnimal implements IJumpingMount, IVari
         super.read(compound);
         this.setEatingHaystack(compound.getBoolean("EatingHaystack"));
         this.setBreeding(compound.getBoolean("Bred"));
-        this.setTemper(compound.getInt("Temper"));
+
         this.parentRudolph = compound.getBoolean("IsParentRudolph");
 
         IAttributeInstance iattributeinstance = this.getAttributeMap().getAttributeInstanceByName("Speed");

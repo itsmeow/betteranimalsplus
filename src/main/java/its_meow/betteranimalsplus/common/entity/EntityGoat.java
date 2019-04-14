@@ -43,11 +43,11 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 public class EntityGoat extends EntityAnimalEatsGrassWithTypes {
-
+	
+    protected static final DataParameter<Boolean> ATTACKING = EntityDataManager.<Boolean>createKey(EntityGoat.class, DataSerializers.BOOLEAN);
     public EntityPlayer friend = null;
     public boolean hasBeenFed = false;
     private ArrayList<Item> temptItems = null;
-    private static final DataParameter<Boolean> ATTACKING = EntityDataManager.<Boolean>createKey(EntityGoat.class, DataSerializers.BOOLEAN);
 
     public EntityGoat(World worldIn) {
         super(ModEntities.getEntityType(EntityGoat.class), worldIn, 5);

@@ -32,7 +32,7 @@ import net.minecraft.world.World;
 
 public class EntityPheasant extends EntityAnimalWithTypes {
     
-    private static final DataParameter<Integer> PECK_TIME = EntityDataManager.<Integer>createKey(EntityPheasant.class, DataSerializers.VARINT);
+    protected static final DataParameter<Integer> PECK_TIME = EntityDataManager.<Integer>createKey(EntityPheasant.class, DataSerializers.VARINT);
     public float wingRotation;
     public float destPos;
     public float oFlapSpeed;
