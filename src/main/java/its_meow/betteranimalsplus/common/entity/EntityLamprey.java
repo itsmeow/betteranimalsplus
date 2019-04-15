@@ -1,6 +1,5 @@
 package its_meow.betteranimalsplus.common.entity;
 
-import its_meow.betteranimalsplus.common.entity.ai.EntityAIMoveTowardsAttackTarget;
 import its_meow.betteranimalsplus.init.ModEntities;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
