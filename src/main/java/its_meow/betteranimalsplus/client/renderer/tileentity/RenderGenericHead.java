@@ -51,7 +51,7 @@ public class RenderGenericHead extends TileEntityRenderer<TileEntityHead> {
             GlStateManager.scalef(4.0F, 2.0F, 1.0F);
             GlStateManager.translatef(0.0625F, 0.0625F, 0.0625F);
             GlStateManager.matrixMode(5888);
-        } else {
+        } else if(texture != null) {
             this.bindTexture(texture);
         }
 
