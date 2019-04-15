@@ -1,0 +1,26 @@
+#Creative Tabs
+itemGroup.Better Animals+=حيوانات أفضل+
+
+#Items
+item.betteranimalsplus.venisonraw.name=لحم غزال خام
+item.betteranimalsplus.venisoncooked.name=لحم غزال مطبوخ
+item.betteranimalsplus.hirschgeistskullwearable.name=جمجمة غزال شبح قابلة للأرتداء
+item.betteranimalsplus.antler.name=قرن الوعل
+
+#Blocks
+tile.betteranimalsplus.trillium.name=تريليوم
+tile.betteranimalsplus.hirschgeistskull.name=جمجمة غزال شبح
+tile.betteranimalsplus.handoffate.name=يد المصير
+
+#Entities
+entity.betteranimalsplus.brownbear.name=دب بني
+entity.betteranimalsplus.blackbear.name=دب أسود
+entity.betteranimalsplus.kermodebear.name=دب الكيرمود
+entity.betteranimalsplus.deer.name=غزال
+entity.betteranimalsplus.lammergeier.name=نسر أبو ذقن
+entity.betteranimalsplus.feralWolf.name=ذئب وحشي
+entity.betteranimalsplus.coyote.name=قيوط
+entity.betteranimalsplus.trillium.name=تريليوم
+entity.betteranimalsplus.fox.name=ثعلب
+entity.betteranimalsplus.tarantula.name=رتيلاء
+entity.betteranimalsplus.hirschgeist.name=غزال شبح

@@ -1,0 +1,26 @@
+#Creative Tabs
+itemGroup.Better Animals+=動物優化+
+
+#Items
+item.betteranimalsplus.venisonraw.name=生鹿肉
+item.betteranimalsplus.venisoncooked.name=熟鹿肉
+item.betteranimalsplus.hirschgeistskullwearable.name=菲森蓋斯特的骷髏 (衣物)
+item.betteranimalsplus.antler.name=鹿角
+
+#Blocks
+tile.betteranimalsplus.trillium.name=延齡草
+tile.betteranimalsplus.hirschgeistskull.name=菲森蓋斯特的骷髏
+tile.betteranimalsplus.handoffate.name=宿命之手
+
+#Entities
+entity.betteranimalsplus.brownbear.name=棕熊
+entity.betteranimalsplus.blackbear.name=黑熊
+entity.betteranimalsplus.kermodebear.name=柯莫德熊
+entity.betteranimalsplus.deer.name=鹿
+entity.betteranimalsplus.lammergeier.name=胡兀鷲
+entity.betteranimalsplus.feralwolf.name=野狼
+entity.betteranimalsplus.coyote.name=郊狼
+entity.betteranimalsplus.trillium.name=延齡草
+entity.betteranimalsplus.fox.name=狐狸
+entity.betteranimalsplus.tarantula.name=捕鳥蛛
+entity.betteranimalsplus.hirschgeist.name=菲森蓋斯特

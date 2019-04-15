@@ -1,0 +1,43 @@
+#Creative Tabs
+itemGroup.Better Animals+=Better Animals+
+
+#Items
+item.betteranimalsplus.venisonraw.name=Сырая оленина
+item.betteranimalsplus.venisoncooked.name=Приготовленная оленина
+item.betteranimalsplus.hirschgeistskullwearable.name=Носимый череп хиршгейста
+item.betteranimalsplus.antler.name=Рога
+item.betteranimalsplus.goatmilk.name=Козье молоко
+item.betteranimalsplus.goatcheese.name=Козий сыр
+item.betteranimalsplus.pheasantraw.name=Сырая фазанина
+item.betteranimalsplus.pheasantcooked.name=Приготовленная фазанина
+
+#Blocks
+tile.betteranimalsplus.trillium.name=Триллиум
+tile.betteranimalsplus.hirschgeistskull.name=Череп Хиршгейста
+tile.betteranimalsplus.handoffate.name=Рука судьбы
+tile.betteranimalsplus.wolfhead.name=Голова волка
+tile.betteranimalsplus.deerhead.name=Голова оленя
+tile.betteranimalsplus.reindeerhead.name=Голова северного оленя
+tile.betteranimalsplus.foxhead.name=Голова лисы
+tile.betteranimalsplus.boarhead.name=Голова кабана
+
+#Entities
+entity.betteranimalsplus.brownbear.name=Бурый медведь
+entity.betteranimalsplus.blackbear.name=Черный медведь
+entity.betteranimalsplus.kermodebear.name=Кермодский медведь
+entity.betteranimalsplus.deer.name=Олень
+entity.betteranimalsplus.lammergeier.name=Бородач
+entity.betteranimalsplus.feralwolf.name=Дикий волк
+entity.betteranimalsplus.coyote.name=Койот
+entity.betteranimalsplus.fox.name=Лиса
+entity.betteranimalsplus.tarantula.name=Тарантул
+entity.betteranimalsplus.hirschgeist.name=Хиршгейст
+entity.betteranimalsplus.goat.name=Коза
+entity.betteranimalsplus.jellyfish.name=Медуза
+entity.betteranimalsplus.pheasant.name=Фазан
+entity.betteranimalsplus.reindeer.name=Cеверный олень
+entity.betteranimalsplus.boar.name=кабан
+entity.betteranimalsplus.squirrel.name=белка
+entity.betteranimalsplus.songbird.name=певунья
+entity.betteranimalsplus.badger.name=барсук
+entity.betteranimalsplus.lamprey.name=минога
