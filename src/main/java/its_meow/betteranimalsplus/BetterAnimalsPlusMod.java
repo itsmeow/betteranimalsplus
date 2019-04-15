@@ -6,6 +6,7 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import its_meow.betteranimalsplus.common.item.ItemBlockHeadType;
 import its_meow.betteranimalsplus.config.BetterAnimalsPlusConfig;
 import its_meow.betteranimalsplus.fixers.HeadBlockDataFixer;
 import its_meow.betteranimalsplus.fixers.HeadItemDataFixer;
@@ -15,6 +16,7 @@ import its_meow.betteranimalsplus.init.ModEntities;
 import its_meow.betteranimalsplus.init.ModItems;
 import its_meow.betteranimalsplus.init.ModOreDictSmelting;
 import its_meow.betteranimalsplus.util.EntityContainer;
+import its_meow.betteranimalsplus.util.HeadTypes;
 import its_meow.betteranimalsplus.world.gen.TrilliumGenerator;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Items;
@@ -53,6 +55,11 @@ public class BetterAnimalsPlusMod {
         @Override
         public void displayAllRelevantItems(NonNullList<ItemStack> toDisplay) {
             super.displayAllRelevantItems(toDisplay);
+            for(HeadTypes type : HeadTypes.values()) {
+            	for(ItemBlockHeadType item : type.getItems()) {
+            		toDisplay.add(new ItemStack(item));
+            	}
+            }
             for (EntityContainer cont : ModEntities.entityList) {
                 ItemStack stack = new ItemStack(Items.SPAWN_EGG);
                 ItemMonsterPlacer.applyEntityIdToItemStack(stack, new ResourceLocation(Ref.MOD_ID, cont.entityName));

@@ -37,5 +37,5 @@ entity.betteranimalsplus.Goat.name=Ziege
 entity.betteranimalsplus.Jellyfish.name=Qualle
 entity.betteranimalsplus.Pheasant.name=Fasan
 entity.betteranimalsplus.Reindeer.name=Rentier
-entity.betteranimalsplus.Boar.name=Eber
-entity.betteranimalsplus.Squirrel.name=Eichhörnchen
+entity.betteranimalsplus.boar.name=Eber
+entity.betteranimalsplus.squirrel.name=Eichhörnchen

@@ -26,6 +26,7 @@ import its_meow.betteranimalsplus.common.tileentity.TileEntityTrillium;
 import its_meow.betteranimalsplus.util.EntityContainer;
 import its_meow.betteranimalsplus.util.HeadTypes;
 import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving.SpawnPlacementType;
 import net.minecraft.entity.EntitySpawnPlacementRegistry;
@@ -51,6 +52,7 @@ public class BetterAnimalsPlusRegistrar {
 		registry.registerAll(trillium, handoffate);
 
 		for(HeadTypes type : HeadTypes.values()) {
+			registry.register(new Block(Material.CLOTH).setRegistryName(Ref.MOD_ID, type.name));
 			registry.registerAll(type.getBlocks().toArray(new Block[0]));
 		}
 
@@ -75,6 +77,7 @@ public class BetterAnimalsPlusRegistrar {
 		}
 
 		for(HeadTypes type : HeadTypes.values()) {
+			registry.register(new Item().setRegistryName(Ref.MOD_ID, type.name));
 			registry.registerAll(type.getItems().toArray(new Item[0]));
 		}
 

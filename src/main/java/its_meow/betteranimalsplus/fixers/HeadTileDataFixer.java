@@ -40,11 +40,10 @@ public class HeadTileDataFixer implements IFixableData {
 			if(compound.hasKey("Rot")) {
 				byte rotB = compound.getByte("Rot");
 				float rot = (float) ((int)rotB);
-				int fixedRot = (int) Math.floor(rot / 4);
-				fixedRot *= 90;
+				int newRot = Math.round(rot * 22.5F);
 				compound.removeTag("Rot");
-				compound.setInteger("rotation", fixedRot);
-				BetterAnimalsPlusMod.logger.debug("Fixed rotation on skull above from {} to {}", rot, fixedRot);
+				compound.setInteger("rotation", newRot);
+				BetterAnimalsPlusMod.logger.debug("Fixed rotation on skull above from {} to {}", rot, newRot);
 			}
 		}
 		return compound;

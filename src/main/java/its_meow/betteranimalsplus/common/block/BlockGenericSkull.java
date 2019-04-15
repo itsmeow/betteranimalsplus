@@ -1,6 +1,5 @@
 package its_meow.betteranimalsplus.common.block;
 
-import its_meow.betteranimalsplus.BetterAnimalsPlusMod;
 import its_meow.betteranimalsplus.Ref;
 import its_meow.betteranimalsplus.util.HeadTypes;
 import net.minecraft.block.state.IBlockState;
@@ -22,7 +21,6 @@ public class BlockGenericSkull extends BlockAnimalSkull {
 		this.typeNum = typeNum;
 		this.setRegistryName(type.name + "_" + typeNum);
 		this.setUnlocalizedName(Ref.MOD_ID + "." + type.name);
-		this.setCreativeTab(BetterAnimalsPlusMod.tab);
 		this.type = type;
 	}
 
