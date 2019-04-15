@@ -1,8 +1,6 @@
 package its_meow.betteranimalsplus.init;
 
 import com.google.common.base.Preconditions;
-import com.mojang.datafixers.DataFixUtils;
-import com.mojang.datafixers.schemas.Schema;
 
 import its_meow.betteranimalsplus.Ref;
 import its_meow.betteranimalsplus.common.entity.projectile.EntityBadgerDirt;
@@ -16,7 +14,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.datafix.DataFixesManager;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -112,13 +109,15 @@ public class BetterAnimalsPlusRegistrar {
 
 	private static void registerTE(IForgeRegistry<TileEntityType<?>> reg, TileEntityType<?> type) {
 		reg.register(type);
-		String id = type.getRegistryName().toString();
+		/*String id = type.getRegistryName().toString();
 		try {
 			Schema s = DataFixesManager.getDataFixer().getSchema(DataFixUtils.makeKey(1631));
-			s.registerSimple(s.registerBlockEntities(s), id);
+			HashMap<String, Supplier<TypeTemplate>> map = new HashMap<String, Supplier<TypeTemplate>>();
+			map.put(id, () -> s.findChoiceType(TypeReferences.BLOCK_ENTITY).template());
+			s.registerSimple(map, id);
 		} catch (IllegalArgumentException e) {
 			e.printStackTrace();
-		}
+		}*/
 	}
 
 }
