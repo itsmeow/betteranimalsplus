@@ -1,6 +1,7 @@
 package its_meow.betteranimalsplus.common.entity;
 
 import its_meow.betteranimalsplus.common.entity.ai.EntityAIMoveTowardsAttackTarget;
+import its_meow.betteranimalsplus.init.ModEntities;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -22,7 +23,7 @@ public class EntityLamprey extends EntityWaterMob implements IMob {
     private float passengerZ = 0.0F;
 
     public EntityLamprey(World worldIn) {
-        super(worldIn);
+        super(ModEntities.getEntityType(EntityLamprey.class), worldIn);
         this.setSize(0.4F, 0.4F);
     }
 
@@ -34,18 +35,18 @@ public class EntityLamprey extends EntityWaterMob implements IMob {
     }
 
     @Override
-    protected void applyEntityAttributes() {
-        super.applyEntityAttributes();
-        this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(3.0D);
-        this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.4D);
+    protected void registerAttributes() {
+        super.registerAttributes();
+        this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(3.0D);
+        this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.4D);
         this.getAttributeMap().registerAttribute(SharedMonsterAttributes.ATTACK_DAMAGE);
-        this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(1D);
+        this.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(1D);
     }
     
     @Override
     public boolean attackEntityAsMob(Entity entityIn)
     {
-        float f = (float)this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getAttributeValue();
+        float f = (float)this.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getValue();
         int i = 0;
 
         if (entityIn instanceof EntityLivingBase)
@@ -97,8 +98,8 @@ public class EntityLamprey extends EntityWaterMob implements IMob {
     }
 
     @Override
-    public void onLivingUpdate() {
-        super.onLivingUpdate();
+    public void livingTick() {
+        super.livingTick();
         if(!this.world.isRemote && this.getAttackTarget() != null) {
             if(this.isRidingOrBeingRiddenBy(this.getAttackTarget())) {
                if(Math.random() >= 0.2F) {
