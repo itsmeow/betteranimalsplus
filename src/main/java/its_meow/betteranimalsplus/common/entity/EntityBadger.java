@@ -42,7 +42,7 @@ public class EntityBadger extends EntityAnimalWithTypes implements IMob {
 		this.tasks.addTask(0, new EntityAISwimming(this));
 		if (!this.isChild() && this.getEntityWorld().getDifficulty() != EnumDifficulty.PEACEFUL) {
 			this.tasks.addTask(1, new EntityAIBadgerDigDirtThrow(this));
-			this.tasks.addTask(2, new EntityAIAttackMelee(this, 0.5D, true));
+			this.tasks.addTask(3, new EntityAIAttackMelee(this, 0.5D, true));
 		}
 		this.tasks.addTask(3, new EntityAIWander(this, 0.4D));
 		this.tasks.addTask(4, new EntityAIWatchClosest(this, EntityPlayer.class, 6.0F));
@@ -137,7 +137,7 @@ public class EntityBadger extends EntityAnimalWithTypes implements IMob {
 			if(world.isBlockLoaded(below)) {
 				IBlockState state = world.getBlockState(below);
 				double dist = badger.getAttackTarget() == null ? 0 : Math.sqrt(badger.getPosition().distanceSq(badger.getAttackTarget().getPosition()));
-				return badger.getRevengeTarget() != null && badger.getAttackTarget() == badger.getRevengeTarget() && dist < 10 && dist > 2 && (state.getBlock() == Blocks.DIRT || state.getBlock() == Blocks.GRASS || state.getBlock() == Blocks.SAND || state.getBlock() == Blocks.GRAVEL || state.getBlock() == Blocks.MYCELIUM);
+				return badger.getAttackTarget() != null && dist < 10 && dist > 2 && (state.getBlock() == Blocks.DIRT || state.getBlock() == Blocks.GRASS_BLOCK || state.getBlock() == Blocks.SAND || state.getBlock() == Blocks.GRAVEL || state.getBlock() == Blocks.MYCELIUM);
 			}
 			return false;
 		}
@@ -149,8 +149,8 @@ public class EntityBadger extends EntityAnimalWithTypes implements IMob {
 			BlockPos below = badger.getPosition().down();
 			if(world.isBlockLoaded(below)) {
 				IBlockState state = world.getBlockState(below);
-				if(state.getBlock() == Blocks.DIRT || state.getBlock() == Blocks.GRASS || state.getBlock() == Blocks.SAND || state.getBlock() == Blocks.GRAVEL || state.getBlock() == Blocks.MYCELIUM) {
-					if(state.getBlock() == Blocks.GRASS) {
+				if(state.getBlock() == Blocks.DIRT || state.getBlock() == Blocks.GRASS_BLOCK || state.getBlock() == Blocks.SAND || state.getBlock() == Blocks.GRAVEL || state.getBlock() == Blocks.MYCELIUM) {
+					if(state.getBlock() == Blocks.GRASS_BLOCK) {
 						state = Blocks.DIRT.getDefaultState();
 					}
 					stateId = Block.getStateId(state);
@@ -158,7 +158,7 @@ public class EntityBadger extends EntityAnimalWithTypes implements IMob {
 				}
 			}
 			double dist = badger.getAttackTarget() == null ? 0 : Math.sqrt(badger.getPosition().distanceSq(badger.getAttackTarget().getPosition()));
-			return badger.getRevengeTarget() != null && badger.getAttackTarget() == badger.getRevengeTarget() && tick <= 200 + Math.random() * 300 && dist < 10 && dist > 2 && onDiggable;
+			return badger.getAttackTarget() != null && tick <= 200 + Math.random() * 300 && dist < 10 && dist > 2 && onDiggable;
 		}
 
 		@Override
@@ -167,8 +167,8 @@ public class EntityBadger extends EntityAnimalWithTypes implements IMob {
 			BlockPos below = badger.getPosition().down();
 			if(world.isBlockLoaded(below)) {
 				IBlockState state = world.getBlockState(below);
-				if(state.getBlock() == Blocks.DIRT || state.getBlock() == Blocks.GRASS || state.getBlock() == Blocks.SAND || state.getBlock() == Blocks.GRAVEL || state.getBlock() == Blocks.MYCELIUM) {
-					if(state.getBlock() == Blocks.GRASS) {
+				if(state.getBlock() == Blocks.DIRT || state.getBlock() == Blocks.GRASS_BLOCK || state.getBlock() == Blocks.SAND || state.getBlock() == Blocks.GRAVEL || state.getBlock() == Blocks.MYCELIUM) {
+					if(state.getBlock() == Blocks.GRASS_BLOCK) {
 						state = Blocks.DIRT.getDefaultState();
 					}
 					stateId = Block.getStateId(state);

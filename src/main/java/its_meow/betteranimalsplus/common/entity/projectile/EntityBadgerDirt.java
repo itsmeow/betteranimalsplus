@@ -25,12 +25,14 @@ public class EntityBadgerDirt extends EntityThrowable {
 
     public EntityBadgerDirt(World worldIn) {
         super(DIRT_TYPE, worldIn);
+        this.setSize(1.2F, 1.2F);
     }
 
     public EntityBadgerDirt(World worldIn, EntityLivingBase throwerIn, int stateId) {
         super(DIRT_TYPE, worldIn);
         this.thrower = throwerIn;
         this.stateId = stateId;
+        this.setSize(1.2F, 1.2F);
     }
 
     @Override

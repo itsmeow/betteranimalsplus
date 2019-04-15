@@ -1,6 +1,5 @@
 package its_meow.betteranimalsplus.common.entity;
 
-import its_meow.betteranimalsplus.common.entity.ai.EntityAIFindEntityNearestPredicate;
 import its_meow.betteranimalsplus.common.entity.ai.EntityAIMoveTowardsAttackTarget;
 import its_meow.betteranimalsplus.init.ModEntities;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -8,6 +7,8 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.MoverType;
 import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.EntityAIMoveTowardsTarget;
+import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.passive.EntityWaterMob;
@@ -37,9 +38,9 @@ public class EntityLamprey extends EntityWaterMobWithTypes implements IMob {
 	@Override
 	protected void initEntityAI() {
 		//this.tasks.addTask(0, new EntityAISwimming(this));
-		this.tasks.addTask(0, new EntityAIMoveTowardsAttackTarget(this, 0.8D, true));
+		this.tasks.addTask(0, new EntityAIMoveTowardsTarget(this, 0.8D, 15F));
 		this.tasks.addTask(1, new EntityAIWatchClosest(this, EntityWaterMob.class, 10.0F));
-		this.targetTasks.addTask(0, new EntityAIFindEntityNearestPredicate(this, EntityLivingBase.class, e -> e instanceof EntityLivingBase && !(e instanceof IMob) && !(e instanceof EntityLamprey), true));
+		this.targetTasks.addTask(0, new EntityAINearestAttackableTarget<EntityLivingBase>(this, EntityLivingBase.class, 100, true, true, e -> e instanceof EntityLivingBase && !(e instanceof IMob) && !(e instanceof EntityLamprey)));
 	}
 
 	@Override
@@ -55,7 +56,8 @@ public class EntityLamprey extends EntityWaterMobWithTypes implements IMob {
 	protected PathNavigate createNavigator(World worldIn) {
 		return new PathNavigateSwimmer(this, worldIn);
 	}
-
+	
+	@Override
 	public void travel(float strafe, float vertical, float forward) {
 		this.move(MoverType.SELF, this.motionX, this.motionY, this.motionZ);
 	}
@@ -107,7 +109,7 @@ public class EntityLamprey extends EntityWaterMobWithTypes implements IMob {
 			}
 
 			this.motionY *= 0.9800000190734863D;
-			if(this.isBeingRidden()) {
+			if(this.isBeingRidden() && this.getRidingEntity() != null) {
 				this.getRidingEntity().stopRiding();
 			}
 		} else if(!world.isRemote) {
@@ -120,6 +122,10 @@ public class EntityLamprey extends EntityWaterMobWithTypes implements IMob {
 				this.motionX = (this.getMoveHelper().getX() - this.posX) * 0.05F;
 				this.motionZ = (this.getMoveHelper().getZ() - this.posZ) * 0.05F;
 				this.motionY = (this.getMoveHelper().getY() - this.posY) * 0.05F;
+			} else {
+				this.motionX *= 0.85F;
+				this.motionY *= 0.85F;
+				this.motionZ *= 0.85F;
 			}
 		}
 	}
