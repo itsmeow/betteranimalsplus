@@ -38,7 +38,7 @@ public class ModEntities {
     static {
     	add(EntityBear.class, "brownbear", EnumCreatureType.CREATURE, 0x4F2900, 0x8E500E, BetterAnimalsPlusConfig.brownBearWeight, 1, 1, Type.FOREST);
 		add(EntityBearNeutral.class, "blackbear", EnumCreatureType.CREATURE, 0x000000, 0x333333, BetterAnimalsPlusConfig.blackBearWeight, 1, 1, Type.FOREST);
-		add(EntityBearNeutralKermode.class, "kermodeBear", EnumCreatureType.CREATURE, 0xe8e8e8, 0xf7dabe, BetterAnimalsPlusConfig.kermodeBearWeight, 1, 1, Type.FOREST);
+		add(EntityBearNeutralKermode.class, "kermodebear", EnumCreatureType.CREATURE, 0xe8e8e8, 0xf7dabe, BetterAnimalsPlusConfig.kermodeBearWeight, 1, 1, Type.FOREST);
 		add(EntityDeer.class, "deer", EnumCreatureType.CREATURE, 0x8e510b, 0xc6863b, BetterAnimalsPlusConfig.deerWeight, 1, 4,  Type.FOREST, Type.MAGICAL);
 		add(EntityLammergeier.class, "lammergeier", EnumCreatureType.CREATURE, 0xd8d8d8, 0xd82b11, BetterAnimalsPlusConfig.lammergeierWeight, 1, 2, Type.HILLS, Type.MOUNTAIN);
 		add(EntityFeralWolf.class, "feralwolf", EnumCreatureType.CREATURE, 0xbababa, 0x232323, BetterAnimalsPlusConfig.feralWolfWeight, 1, 6, Type.FOREST, Type.MAGICAL, Type.SPOOKY);
