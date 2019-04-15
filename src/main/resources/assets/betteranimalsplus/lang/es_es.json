@@ -39,6 +39,9 @@
     "entity.betteranimalsplus.reindeer": "Reno",
     "entity.betteranimalsplus.boar": "Jabali",
     "entity.betteranimalsplus.squirrel": "Ardilla",
+	"entity.betteranimalsplus.songbird": "Pájaro Cantor",
+    "entity.betteranimalsplus.badger": "Tejón",
+    "entity.betteranimalsplus.lamprey": "Lamprea",
 	
 	"misc.betteranimalsplus.eggorder": "Generar %s"
 }

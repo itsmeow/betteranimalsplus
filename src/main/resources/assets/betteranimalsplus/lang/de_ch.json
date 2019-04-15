@@ -40,6 +40,9 @@
     "entity.betteranimalsplus.reindeer": "Rentier",
     "entity.betteranimalsplus.boar": "Eber",
     "entity.betteranimalsplus.squirrel": "Eichhörnchen",
+	"entity.betteranimalsplus.songbird": "Singvogel",
+    "entity.betteranimalsplus.badger": "Dachs",
+    "entity.betteranimalsplus.lamprey": "Neunauge",
 	
 	"misc.betteranimalsplus.eggorder": "%s-Spawn-Ei"
 }

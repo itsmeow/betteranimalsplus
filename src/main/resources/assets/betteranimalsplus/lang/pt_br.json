@@ -39,6 +39,9 @@
     "entity.betteranimalsplus.reindeer": "Rena",
     "entity.betteranimalsplus.boar": "Javali",
     "entity.betteranimalsplus.squirrel": "Esquilo",
+	"entity.betteranimalsplus.songbird": "Ave Canora",
+    "entity.betteranimalsplus.badger": "Texugo",
+    "entity.betteranimalsplus.lamprey": "Lampreia",
 	
 	"misc.betteranimalsplus.eggorder": "Ovo de Geração %s"
 }

@@ -39,6 +39,9 @@
     "entity.betteranimalsplus.reindeer": "Cеверный олень",
     "entity.betteranimalsplus.boar": "кабан",
     "entity.betteranimalsplus.squirrel": "белка",
+	"entity.betteranimalsplus.songbird": "певунья",
+    "entity.betteranimalsplus.badger": "барсук",
+    "entity.betteranimalsplus.lamprey": "минога",
 	
 	"misc.betteranimalsplus.eggorder": "Яйцо призыва %s"
 }

@@ -36,6 +36,8 @@
     "entity.betteranimalsplus.boar": "Boar",
     "entity.betteranimalsplus.squirrel": "Squirrel",
     "entity.betteranimalsplus.songbird": "Songbird",
+    "entity.betteranimalsplus.badger": "Badger",
+    "entity.betteranimalsplus.lamprey": "Lamprey",
     
     "misc.betteranimalsplus.eggorder": "%s Spawn Egg"
 }

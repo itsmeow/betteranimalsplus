@@ -39,6 +39,9 @@
     "entity.betteranimalsplus.reindeer": "Renne",
     "entity.betteranimalsplus.boar": "Sanglier",
     "entity.betteranimalsplus.squirrel": "Écureuil",
+    "entity.betteranimalsplus.songbird": "Oiseau chanteur",
+    "entity.betteranimalsplus.badger": "Blaireau",
+    "entity.betteranimalsplus.lamprey": "Lamproie",
 	
 	"misc.betteranimalsplus.eggorder": "Oeuf d'apparition de %s"
 }
