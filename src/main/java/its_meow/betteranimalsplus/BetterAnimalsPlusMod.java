@@ -36,7 +36,7 @@ public class BetterAnimalsPlusMod {
 
         // Make sure to do this after containers are loaded
         ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, BetterAnimalsPlusConfig.SERVER_CONFIG);
-
+        
         BetterAnimalsPlusMod.logger.log(Level.INFO, "Injecting super coyotes...");
     }
 

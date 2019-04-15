@@ -25,18 +25,22 @@ public class TileEntityHead extends TileEntity {
     private float offset;
     private float rotation = 0;
     private boolean shouldDrop = true;
-    private final Function<Integer, ResourceLocation> textureFunc;
-    public final HeadTypes type;
+    private Function<Integer, ResourceLocation> textureFunc;
+    public HeadTypes type;
 
     public HashMap<Integer, ResourceLocation> textures;
-
+    
+    public TileEntityHead() {
+    	super(ModTileEntities.HEAD_TYPE);
+    }
+    
     public TileEntityHead(HeadTypes type, float yOffset, ResourceLocation... textureList) {
         this(type, yOffset, null, textureList);
     }
 
     public TileEntityHead(HeadTypes type, float yOffset, Function<Integer, ResourceLocation> textureFunc,
             ResourceLocation... textureList) {
-        super(ModTileEntities.getSkullTileEntityType(type));
+        super(ModTileEntities.HEAD_TYPE);
         this.type = type;
         this.modelT = type.getModelSupplier().get().get();
         this.textures = new HashMap<>();
@@ -103,6 +107,17 @@ public class TileEntityHead extends TileEntity {
         if (compound.hasKey("rotation")) {
             this.rotation = compound.getFloat("rotation");
         }
+        if (compound.hasKey("GENERIC_TYPE")) {
+			this.type = HeadTypes.valueOf(compound.getString("GENERIC_TYPE"));
+
+			// Create with proper constructor for type
+			TileEntityHead te2 = type.teFactory.apply(type);
+			// Copy from TE
+			this.modelT = te2.modelT;
+			this.textures = te2.textures;
+			this.offset = te2.offset;
+			this.textureFunc = te2.textureFunc;
+        }
     }
 
     @Override
@@ -110,6 +125,7 @@ public class TileEntityHead extends TileEntity {
         super.write(compound);
         compound.setInt("TYPENUM", this.typeNum);
         compound.setFloat("rotation", rotation);
+        compound.setString("GENERIC_TYPE", type.name());
         return compound;
     }
 

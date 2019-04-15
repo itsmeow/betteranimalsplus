@@ -1,7 +1,5 @@
 package its_meow.betteranimalsplus.init;
 
-import java.util.function.Supplier;
-
 import com.google.common.base.Preconditions;
 
 import its_meow.betteranimalsplus.Ref;
@@ -14,7 +12,6 @@ import net.minecraft.block.Block;
 import net.minecraft.entity.EntityType;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.event.RegistryEvent;
@@ -91,10 +88,7 @@ public class BetterAnimalsPlusRegistrar {
         final IForgeRegistry<TileEntityType<?>> reg = event.getRegistry();
         reg.register(ModTileEntities.TRILLIUM_TYPE);
         reg.register(ModTileEntities.HAND_OF_FATE_TYPE);
-
-        for (HeadTypes type : HeadTypes.values()) {
-            regTileEntity(reg, type.name, () -> type.teFactory.apply(type), type);
-        }
+        reg.register(ModTileEntities.HEAD_TYPE);
     }
 
     /*
@@ -111,17 +105,6 @@ public class BetterAnimalsPlusRegistrar {
             EntityType<?> type = ModEntities.entryMap.get(entry);
             registry.register(type);
         }
-    }
-
-    /*
-     * Helper registry methods and Getters
-     */
-    private static void regTileEntity(IForgeRegistry<TileEntityType<?>> reg, String name,
-            Supplier<? extends TileEntity> factory, HeadTypes type) {
-        TileEntityType<?> tetype = TileEntityType.Builder.create(factory).build(null).setRegistryName(Ref.MOD_ID,
-                name + "tileentity");
-        reg.register(tetype);
-        ModTileEntities.skulltetypes.put(type, tetype);
     }
 
 }
