@@ -76,7 +76,7 @@ public class ClientRegistrar {
 
         // Generics
         for(HeadTypes type : HeadTypes.values()) {
-        	for(ItemBlockHeadType item : type.getItemSet()) {
+        	for(ItemBlockHeadType item : type.getItems()) {
         		 initModel(item, 0);
         	}
         }

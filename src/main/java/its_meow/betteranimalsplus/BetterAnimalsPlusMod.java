@@ -7,6 +7,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import its_meow.betteranimalsplus.config.BetterAnimalsPlusConfig;
+import its_meow.betteranimalsplus.fixers.HeadBlockDataFixer;
 import its_meow.betteranimalsplus.fixers.HeadItemDataFixer;
 import its_meow.betteranimalsplus.fixers.HeadTileDataFixer;
 import its_meow.betteranimalsplus.init.ModBlocks;
@@ -38,7 +39,7 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 @Mod(modid = Ref.MOD_ID, name = Ref.NAME, version = Ref.VERSION, acceptedMinecraftVersions = Ref.acceptedMCV, updateJSON = Ref.updateJSON)
 public class BetterAnimalsPlusMod {
 
-    public static final int FIXER_VERSION = 1;
+    public static final int FIXER_VERSION = 2;
 
 	@Instance(Ref.MOD_ID)
     public static BetterAnimalsPlusMod mod;
@@ -79,6 +80,7 @@ public class BetterAnimalsPlusMod {
             GameRegistry.registerWorldGenerator(new TrilliumGenerator(ModBlocks.trillium), 1);
         }
         ModFixs fixer = FMLCommonHandler.instance().getDataFixer().init(Ref.MOD_ID, FIXER_VERSION);
+        fixer.registerFix(FixTypes.CHUNK, new HeadBlockDataFixer());
         fixer.registerFix(FixTypes.BLOCK_ENTITY, new HeadTileDataFixer());
         fixer.registerFix(FixTypes.ITEM_INSTANCE, new HeadItemDataFixer());
         logger.log(Level.INFO, "Overspawning lammergeiers...");

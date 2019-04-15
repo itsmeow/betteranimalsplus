@@ -2,8 +2,6 @@ package its_meow.betteranimalsplus.util;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
@@ -78,8 +76,8 @@ public enum HeadTypes {
 	public final Function<HeadTypes, TileEntityHead> teFactory;
 	private final Supplier<Supplier<Class<? extends ModelBase>>> modelSupplier;
 	private ArrayList<Pair<BlockGenericSkull, ItemBlockHeadType>> heads = new ArrayList<Pair<BlockGenericSkull, ItemBlockHeadType>>();
-	private Set<ItemBlockHeadType> items = new HashSet<ItemBlockHeadType>();
-	private BlockGenericSkull block = null;
+	private ArrayList<ItemBlockHeadType> items = new ArrayList<ItemBlockHeadType>();
+	private ArrayList<BlockGenericSkull> blocks = new ArrayList<BlockGenericSkull>();
 
 	HeadTypes(String name, boolean allowFloor, int texCount, Supplier<Supplier<Class<? extends ModelBase>>> modelSupplier,
 	          Function<HeadTypes, TileEntityHead> teFactory) {
@@ -88,8 +86,9 @@ public enum HeadTypes {
 		this.teFactory = teFactory;
 		this.textureCount = texCount;
 		this.modelSupplier = modelSupplier;
-		block = new BlockGenericSkull(this);
 		for (int i = 1; i <= texCount; i++) {
+			BlockGenericSkull block = new BlockGenericSkull(this, i);
+			blocks.add(block);
 			ItemBlockHeadType item = new ItemBlockHeadType(block, this, i);
 			heads.add(Pair.of(block, item));
 			items.add(item);
@@ -97,19 +96,19 @@ public enum HeadTypes {
 	}
 
 	public BlockGenericSkull getBlock(int i) {
-		return heads.get(i).getLeft();
+		return heads.get(i - 1).getLeft();
 	}
 
 	public ItemBlockHeadType getItem(int i) {
-		return heads.get(i).getRight();
+		return heads.get(i - 1).getRight();
 	}
 
-	public Set<ItemBlockHeadType> getItemSet() {
+	public ArrayList<ItemBlockHeadType> getItems() {
 		return items;
 	}
 
-	public BlockGenericSkull getBlock() {
-		return block;
+	public ArrayList<BlockGenericSkull> getBlocks() {
+		return blocks;
 	}
 
 	public Supplier<Supplier<Class<? extends ModelBase>>> getModelSupplier() {

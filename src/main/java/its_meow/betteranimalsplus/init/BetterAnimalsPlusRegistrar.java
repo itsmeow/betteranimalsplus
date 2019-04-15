@@ -43,88 +43,88 @@ import net.minecraftforge.registries.IForgeRegistry;
 
 @EventBusSubscriber(modid = Ref.MOD_ID)
 public class BetterAnimalsPlusRegistrar {
-    
-    @SubscribeEvent
-    public static void registerBlocks(final RegistryEvent.Register<Block> event) {
-        final IForgeRegistry<Block> registry = event.getRegistry();
 
-        registry.registerAll(trillium, handoffate);
+	@SubscribeEvent
+	public static void registerBlocks(final RegistryEvent.Register<Block> event) {
+		final IForgeRegistry<Block> registry = event.getRegistry();
 
-        for(HeadTypes type : HeadTypes.values()) {
-            registry.register(type.getBlock());
-        }
-        
-        GameRegistry.registerTileEntity(TileEntityTrillium.class, new ResourceLocation(trillium.getRegistryName() + "tileentity"));
-        GameRegistry.registerTileEntity(TileEntityHandOfFate.class, new ResourceLocation(handoffate.getRegistryName() + "tileentity"));
-        GameRegistry.registerTileEntity(TileEntityHead.class, new ResourceLocation(Ref.MOD_ID, "head"));
-    }
+		registry.registerAll(trillium, handoffate);
 
-    @SubscribeEvent
-    public static void registerItems(final RegistryEvent.Register<Item> event) {
-        
-        // ItemBlocks
-        
-        final ItemBlock[] items = { new ItemBlock(trillium), new ItemBlock(handoffate)};
+		for(HeadTypes type : HeadTypes.values()) {
+			registry.registerAll(type.getBlocks().toArray(new Block[0]));
+		}
 
-        final IForgeRegistry<Item> registry = event.getRegistry();
+		GameRegistry.registerTileEntity(TileEntityTrillium.class, new ResourceLocation(trillium.getRegistryName() + "tileentity"));
+		GameRegistry.registerTileEntity(TileEntityHandOfFate.class, new ResourceLocation(handoffate.getRegistryName() + "tileentity"));
+		GameRegistry.registerTileEntity(TileEntityHead.class, new ResourceLocation(Ref.MOD_ID, "head"));
+	}
 
-        for (final ItemBlock item : items) {
-            final Block block = item.getBlock();
-            final ResourceLocation registryName = Preconditions.checkNotNull(block.getRegistryName(), "Block %s has null registry name", block);
-            registry.register(item.setRegistryName(registryName));
-        }
+	@SubscribeEvent
+	public static void registerItems(final RegistryEvent.Register<Item> event) {
 
-        for(HeadTypes type : HeadTypes.values()) {
-            registry.registerAll(type.getItemSet().toArray(new Item[0]));
-        }
-        
-        // Items
-        
-        registry.registerAll(venisonRaw, venisonCooked, itemHirschgeistSkullWearable, antler, goatMilk, goatCheese, pheasantRaw, pheasantCooked);
+		// ItemBlocks
 
-    }
-    
-    @SubscribeEvent
-    public static void registerEntities(final RegistryEvent.Register<EntityEntry> event) {
-        final IForgeRegistry<EntityEntry> registry = event.getRegistry();
+		final ItemBlock[] items = { new ItemBlock(trillium), new ItemBlock(handoffate)};
 
-        for (EntityContainer container : entityList) {
-            if (container.doRegister)
-                reg(container);
-        }
-        EntitySpawnPlacementRegistry.setPlacementType(EntityLammergeier.class, SpawnPlacementType.IN_AIR);
-        register(EntityTarantulaHair.class, "tarantulahair");
-        register(EntityBadgerDirt.class, "badgerdirt");
+		final IForgeRegistry<Item> registry = event.getRegistry();
 
-        if (!entrySet.isEmpty()) {
-            for (final EntityEntry entityEntry : entrySet) {
-                registry.register(entityEntry);
-            }
-        }
-    }
-    
-    
-    
-    // Entity Registration Helpers
-    
-    private static final String LOCALIZE_PREFIX = Ref.MOD_ID + ".";
-    
-    public static void reg(EntityContainer c) {
-    	registerWithEgg(c.entityClazz, c.entityName, c.eggColorSolid, c.eggColorSpot, c.type);
-    }
+		for (final ItemBlock item : items) {
+			final Block block = item.getBlock();
+			final ResourceLocation registryName = Preconditions.checkNotNull(block.getRegistryName(), "Block %s has null registry name", block);
+			registry.register(item.setRegistryName(registryName));
+		}
 
-    public static void registerWithEgg(Class<? extends Entity> EntityClass, String entityNameIn, int solidColorIn, int spotColorIn, EnumCreatureType typeIn) {
-        EntityEntry entry = EntityEntryBuilder.create().entity(EntityClass).id(new ResourceLocation(Ref.MOD_ID, entityNameIn), modEntities++).name(LOCALIZE_PREFIX + entityNameIn).tracker(64, 1, true).egg(solidColorIn, spotColorIn).build();
-        if (typeIn == EnumCreatureType.WATER_CREATURE) {
-            EntitySpawnPlacementRegistry.setPlacementType(EntityClass, SpawnPlacementType.IN_WATER);
-        }
-        entrySet.add(entry);
-    }
+		for(HeadTypes type : HeadTypes.values()) {
+			registry.registerAll(type.getItems().toArray(new Item[0]));
+		}
 
-    public static void register(Class<? extends Entity> EntityClass, String entityNameIn) {
-        EntityEntry entry = EntityEntryBuilder.create().entity(EntityClass).id(new ResourceLocation(Ref.MOD_ID, entityNameIn), modEntities++).name(LOCALIZE_PREFIX + entityNameIn).tracker(64, 1, true).build();
+		// Items
 
-        entrySet.add(entry);
-    }
-    
+		registry.registerAll(venisonRaw, venisonCooked, itemHirschgeistSkullWearable, antler, goatMilk, goatCheese, pheasantRaw, pheasantCooked);
+
+	}
+
+	@SubscribeEvent
+	public static void registerEntities(final RegistryEvent.Register<EntityEntry> event) {
+		final IForgeRegistry<EntityEntry> registry = event.getRegistry();
+
+		for (EntityContainer container : entityList) {
+			if (container.doRegister)
+				reg(container);
+		}
+		EntitySpawnPlacementRegistry.setPlacementType(EntityLammergeier.class, SpawnPlacementType.IN_AIR);
+		register(EntityTarantulaHair.class, "tarantulahair");
+		register(EntityBadgerDirt.class, "badgerdirt");
+
+		if (!entrySet.isEmpty()) {
+			for (final EntityEntry entityEntry : entrySet) {
+				registry.register(entityEntry);
+			}
+		}
+	}
+
+
+
+	// Entity Registration Helpers
+
+	private static final String LOCALIZE_PREFIX = Ref.MOD_ID + ".";
+
+	public static void reg(EntityContainer c) {
+		registerWithEgg(c.entityClazz, c.entityName, c.eggColorSolid, c.eggColorSpot, c.type);
+	}
+
+	public static void registerWithEgg(Class<? extends Entity> EntityClass, String entityNameIn, int solidColorIn, int spotColorIn, EnumCreatureType typeIn) {
+		EntityEntry entry = EntityEntryBuilder.create().entity(EntityClass).id(new ResourceLocation(Ref.MOD_ID, entityNameIn), modEntities++).name(LOCALIZE_PREFIX + entityNameIn).tracker(64, 1, true).egg(solidColorIn, spotColorIn).build();
+		if (typeIn == EnumCreatureType.WATER_CREATURE) {
+			EntitySpawnPlacementRegistry.setPlacementType(EntityClass, SpawnPlacementType.IN_WATER);
+		}
+		entrySet.add(entry);
+	}
+
+	public static void register(Class<? extends Entity> EntityClass, String entityNameIn) {
+		EntityEntry entry = EntityEntryBuilder.create().entity(EntityClass).id(new ResourceLocation(Ref.MOD_ID, entityNameIn), modEntities++).name(LOCALIZE_PREFIX + entityNameIn).tracker(64, 1, true).build();
+
+		entrySet.add(entry);
+	}
+
 }

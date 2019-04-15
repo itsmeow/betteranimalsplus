@@ -1,6 +1,5 @@
 package its_meow.betteranimalsplus.common.item;
 
-import its_meow.betteranimalsplus.BetterAnimalsPlusMod;
 import its_meow.betteranimalsplus.common.block.BlockAnimalSkull;
 import its_meow.betteranimalsplus.common.tileentity.TileEntityHead;
 import net.minecraft.block.Block;
@@ -28,9 +27,8 @@ public class ItemBlockSkull extends ItemBlock {
 	public ItemBlockSkull(Block block, boolean allowFloor, int typeNum) {
 		super(block);
 		if (block.getRegistryName() != null) {
-			this.setRegistryName(block.getRegistryName() + "_" + typeNum);
+			this.setRegistryName(block.getRegistryName() + (block.getRegistryName().toString().endsWith("_" + typeNum) ? "" : "_" + typeNum));
 		}
-		this.setCreativeTab(BetterAnimalsPlusMod.tab);
 		this.allowFloor = allowFloor;
 		this.typeNum = typeNum;
 	}
