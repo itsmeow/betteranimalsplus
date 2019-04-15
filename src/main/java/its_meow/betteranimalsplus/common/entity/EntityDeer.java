@@ -9,7 +9,6 @@ import its_meow.betteranimalsplus.util.HeadTypes;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIAvoidEntity;
-import net.minecraft.entity.ai.EntityAIEatGrass;
 import net.minecraft.entity.ai.EntityAILookIdle;
 import net.minecraft.entity.ai.EntityAIMate;
 import net.minecraft.entity.ai.EntityAIPanic;
@@ -30,13 +29,11 @@ import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
-public class EntityDeer extends EntityAnimalWithTypes {
-    
-    private EntityAIEatGrass eatTask = null;
-    public int eatTimer;
+
+public class EntityDeer extends EntityAnimalEatsGrassWithTypes {
 
     public EntityDeer(World worldIn) {
-        super(ModEntities.getEntityType(EntityDeer.class), worldIn);
+        super(ModEntities.getEntityType(EntityDeer.class), worldIn, 5);
         this.setSize(1.2F, 1.6F);
     }
 
@@ -103,7 +100,7 @@ public class EntityDeer extends EntityAnimalWithTypes {
         temptItems[4] = Items.GOLDEN_CARROT;
         this.tasks.addTask(3, new EntityAITempt(this, 0.45D, false, Ingredient.fromItems(temptItems)));
         this.tasks.addTask(4, new EntityAIAvoidEntity<EntityPlayer>(this, EntityPlayer.class, 20, 0.55D, 0.7D));
-        this.tasks.addTask(5, this.eatTask = new EntityAIEatGrass(this));
+        // Eat Grass at Priority 5
         this.tasks.addTask(5, new EntityAIWander(this, 0.45D));
         this.tasks.addTask(6, new EntityAILookIdle(this));
     }
@@ -130,14 +127,6 @@ public class EntityDeer extends EntityAnimalWithTypes {
                 this.entityDropItem(stack, 0.5F);
             }
         }
-    }
-
-    @Override
-    public void updateAITasks() {
-        if(this.eatTask != null) {
-            this.eatTimer = this.eatTask.getEatingGrassTimer();
-        }
-        super.updateAITasks();
     }
 
     @Override

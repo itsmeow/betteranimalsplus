@@ -17,7 +17,6 @@ import net.minecraft.entity.ai.EntityAIAttackMelee;
 import net.minecraft.entity.ai.EntityAIBase;
 import net.minecraft.entity.ai.EntityAIFollowParent;
 import net.minecraft.entity.ai.EntityAIHurtByTarget;
-import net.minecraft.entity.ai.EntityAILookIdle;
 import net.minecraft.entity.ai.EntityAIMate;
 import net.minecraft.entity.ai.EntityAIPanic;
 import net.minecraft.entity.ai.EntityAISwimming;
@@ -43,7 +42,7 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
-public class EntityGoat extends EntityAnimalWithTypes {
+public class EntityGoat extends EntityAnimalEatsGrassWithTypes {
 
     public EntityPlayer friend = null;
     public boolean hasBeenFed = false;
@@ -51,7 +50,7 @@ public class EntityGoat extends EntityAnimalWithTypes {
     private static final DataParameter<Boolean> ATTACKING = EntityDataManager.<Boolean>createKey(EntityGoat.class, DataSerializers.BOOLEAN);
 
     public EntityGoat(World worldIn) {
-        super(ModEntities.getEntityType(EntityGoat.class), worldIn);
+        super(ModEntities.getEntityType(EntityGoat.class), worldIn, 5);
         this.world = worldIn;
         this.setSize(1.2F, 1.2F);
         this.addTemptItems();
@@ -170,8 +169,8 @@ public class EntityGoat extends EntityAnimalWithTypes {
         }
         this.tasks.addTask(3, new EntityAITempt(this, 0.6D, false, Ingredient.fromItems(tempts)));
         this.tasks.addTask(4, new EntityAIFollowParent(this, 0.6D));
+        // Eats grass at priority 5
         this.tasks.addTask(5, new EntityAIWander(this, 0.6D));
-        this.tasks.addTask(6, new EntityAILookIdle(this));
         this.targetTasks.addTask(1, new GoatAIAttackForFriend(this));
         this.targetTasks.addTask(1, new AIHurtByTarget());
     }

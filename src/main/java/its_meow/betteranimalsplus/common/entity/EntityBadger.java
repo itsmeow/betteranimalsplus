@@ -132,7 +132,7 @@ public class EntityBadger extends EntityAnimalWithTypes implements IMob {
         public void tick() {
             tick++;
             badger.setDigOffset(tick);
-            if(tick % 20 == 0) { // Throw dirt every 1 second (20 ticks)
+            if(tick % 20 == 0) { // Throw dirt every second (20 ticks)
                 EntityBadgerDirt proj = new EntityBadgerDirt(badger.world, badger, stateId);
                 proj.setLocationAndAngles(badger.posX, badger.posY + 1, badger.posZ, 0, 0);
                 EntityLivingBase target = badger.getAttackTarget();

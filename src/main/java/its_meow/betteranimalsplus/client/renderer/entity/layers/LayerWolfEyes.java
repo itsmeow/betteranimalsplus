@@ -56,6 +56,6 @@ public class LayerWolfEyes implements LayerRenderer<EntityFeralWolf> {
 
     @Override
     public boolean shouldCombineTextures() {
-        return true;
+        return false;
     }
 }

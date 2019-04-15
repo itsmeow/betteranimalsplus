@@ -56,6 +56,6 @@ public class LayerTarantulaEyes implements LayerRenderer<EntityTarantula> {
 
     @Override
     public boolean shouldCombineTextures() {
-        return true;
+        return false;
     }
 }

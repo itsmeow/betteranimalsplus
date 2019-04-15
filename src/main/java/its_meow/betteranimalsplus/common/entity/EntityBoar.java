@@ -12,7 +12,6 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIAttackMelee;
 import net.minecraft.entity.ai.EntityAIFollowParent;
-import net.minecraft.entity.ai.EntityAILookIdle;
 import net.minecraft.entity.ai.EntityAIMate;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
 import net.minecraft.entity.ai.EntityAISwimming;
@@ -40,10 +39,10 @@ import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
 import net.minecraft.world.storage.loot.LootTableList;
 
-public class EntityBoar extends EntityAnimalWithTypes implements IMob {
+public class EntityBoar extends EntityAnimalEatsGrassWithTypes implements IMob {
 
 	public EntityBoar(World worldIn) {
-		super(ModEntities.getEntityType(EntityBoar.class), worldIn);
+		super(ModEntities.getEntityType(EntityBoar.class), worldIn, 6);
 		this.setSize(0.9F, 0.9F);
 	}
 
@@ -55,9 +54,9 @@ public class EntityBoar extends EntityAnimalWithTypes implements IMob {
 		}
 		this.tasks.addTask(3, new EntityAIMate(this, 1.0D));
 		this.tasks.addTask(5, new EntityAIFollowParent(this, 1.1D));
+		// Eats grass at priority 6
 		this.tasks.addTask(6, new EntityAIWanderAvoidWater(this, 1.0D));
 		this.tasks.addTask(7, new EntityAIWatchClosest(this, EntityPlayer.class, 6.0F));
-		this.tasks.addTask(8, new EntityAILookIdle(this));
 		if (!this.isChild() && this.getEntityWorld().getDifficulty() != EnumDifficulty.PEACEFUL) {
 			this.targetTasks.addTask(1,
 					new EntityAINearestAttackableTarget<>(this, EntityAnimal.class, 90, true, true,
