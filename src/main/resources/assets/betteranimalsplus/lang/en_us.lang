@@ -10,7 +10,6 @@ item.betteranimalsplus.goatmilk.name=Goat Milk
 item.betteranimalsplus.goatcheese.name=Goat Cheese
 item.betteranimalsplus.pheasantraw.name=Raw Pheasant
 item.betteranimalsplus.pheasantcooked.name=Cooked Pheasant
-
 #Blocks
 tile.betteranimalsplus.trillium.name=Trillium
 tile.betteranimalsplus.hirschgeistskull.name=Hirschgeist Skull
@@ -20,23 +19,22 @@ tile.betteranimalsplus.deerhead.name=Deer Head
 tile.betteranimalsplus.reindeerhead.name=Reindeer Head
 tile.betteranimalsplus.foxhead.name=Fox Head
 tile.betteranimalsplus.boarhead.name=Boar Head
-
 #Entities
-entity.betteranimalsplus.BrownBear.name=Brown Bear
-entity.betteranimalsplus.BlackBear.name=Black Bear
-entity.betteranimalsplus.KermodeBear.name=Kermode Bear
-entity.betteranimalsplus.Deer.name=Deer
-entity.betteranimalsplus.Lammergeier.name=Lammergeier
-entity.betteranimalsplus.FeralWolf.name=Feral Wolf
-entity.betteranimalsplus.Coyote.name=Coyote
-entity.betteranimalsplus.Fox.name=Fox
-entity.betteranimalsplus.Tarantula.name=Tarantula
-entity.betteranimalsplus.Hirschgeist.name=Hirschgeist
-entity.betteranimalsplus.Goat.name=Goat
-entity.betteranimalsplus.Jellyfish.name=Jellyfish
-entity.betteranimalsplus.Pheasant.name=Pheasant
-entity.betteranimalsplus.Reindeer.name=Reindeer
-entity.betteranimalsplus.Boar.name=Boar
-entity.betteranimalsplus.Squirrel.name=Squirrel
+entity.betteranimalsplus.brownbear.name=Brown Bear
+entity.betteranimalsplus.blackbear.name=Black Bear
+entity.betteranimalsplus.kermodebear.name=Kermode Bear
+entity.betteranimalsplus.deer.name=Deer
+entity.betteranimalsplus.lammergeier.name=Lammergeier
+entity.betteranimalsplus.feralwolf.name=Feral Wolf
+entity.betteranimalsplus.coyote.name=Coyote
+entity.betteranimalsplus.fox.name=Fox
+entity.betteranimalsplus.tarantula.name=Tarantula
+entity.betteranimalsplus.hirschgeist.name=Hirschgeist
+entity.betteranimalsplus.goat.name=Goat
+entity.betteranimalsplus.jellyfish.name=Jellyfish
+entity.betteranimalsplus.pheasant.name=Pheasant
+entity.betteranimalsplus.reindeer.name=Reindeer
+entity.betteranimalsplus.boar.name=Boar
+entity.betteranimalsplus.squirrel.name=Squirrel
 entity.betteranimalsplus.songbird.name=Songbird
 entity.betteranimalsplus.badger.name=Badger

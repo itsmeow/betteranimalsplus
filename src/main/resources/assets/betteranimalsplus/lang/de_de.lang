@@ -10,7 +10,6 @@ item.betteranimalsplus.goatmilk.name=Ziegenmilch
 item.betteranimalsplus.goatcheese.name=Ziegenkäse
 item.betteranimalsplus.pheasantraw.name=Roher Fasan
 item.betteranimalsplus.pheasantcooked.name=Gekochter Fasan
-
 #Blocks
 tile.betteranimalsplus.trillium.name=Trillium
 tile.betteranimalsplus.hirschgeistskull.name=Hirschgeist Schädel
@@ -20,22 +19,21 @@ tile.betteranimalsplus.deerhead.name=Rehkopf
 tile.betteranimalsplus.reindeerhead.name=Rentierkopf
 tile.betteranimalsplus.foxhead.name=Fuchskopf
 tile.betteranimalsplus.boarhead.name=Eberkopf
-
 #Entities
-entity.betteranimalsplus.BrownBear.name=Braunbär
-entity.betteranimalsplus.BlackBear.name=Schwarzbär
-entity.betteranimalsplus.KermodeBear.name=Geisterbär
-entity.betteranimalsplus.Deer.name=Hirsch
-entity.betteranimalsplus.Lammergeier.name=Bartgeier
-entity.betteranimalsplus.FeralWolf.name=Wilder Wolf
-entity.betteranimalsplus.Coyote.name=Präriehund
+entity.betteranimalsplus.brownbear.name=Braunbär
+entity.betteranimalsplus.blackbear.name=Schwarzbär
+entity.betteranimalsplus.kermodebear.name=Geisterbär
+entity.betteranimalsplus.deer.name=Hirsch
+entity.betteranimalsplus.lammergeier.name=Bartgeier
+entity.betteranimalsplus.feralwolf.name=Wilder Wolf
+entity.betteranimalsplus.coyote.name=Präriehund
 entity.betteranimalsplus.Trillium.name=Trillium
-entity.betteranimalsplus.Fox.name=Fuchs
-entity.betteranimalsplus.Tarantula.name=Vogelspinne
-entity.betteranimalsplus.Hirschgeist.name=Hirschgeist
-entity.betteranimalsplus.Goat.name=Ziege
-entity.betteranimalsplus.Jellyfish.name=Qualle
-entity.betteranimalsplus.Pheasant.name=Fasan
-entity.betteranimalsplus.Reindeer.name=Rentier
-entity.betteranimalsplus.Boar.name=Eber
-entity.betteranimalsplus.Squirrel.name=Eichhörnchen
+entity.betteranimalsplus.fox.name=Fuchs
+entity.betteranimalsplus.tarantula.name=Vogelspinne
+entity.betteranimalsplus.hirschgeist.name=Hirschgeist
+entity.betteranimalsplus.goat.name=Ziege
+entity.betteranimalsplus.jellyfish.name=Qualle
+entity.betteranimalsplus.pheasant.name=Fasan
+entity.betteranimalsplus.reindeer.name=Rentier
+entity.betteranimalsplus.boar.name=Eber
+entity.betteranimalsplus.squirrel.name=Eichhörnchen

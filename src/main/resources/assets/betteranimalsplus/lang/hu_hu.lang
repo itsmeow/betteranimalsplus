@@ -10,7 +10,6 @@ item.betteranimalsplus.goatmilk.name=Kecsketej
 item.betteranimalsplus.goatcheese.name=Kecskesajt
 item.betteranimalsplus.pheasantraw.name=Nyers Fácán
 item.betteranimalsplus.pheasantcooked.name=Sült Fácán
-
 #Blocks
 tile.betteranimalsplus.trillium.name=Hármasszirom
 tile.betteranimalsplus.hirschgeistskull.name=Szarvaslélek Koponya
@@ -20,22 +19,21 @@ tile.betteranimalsplus.deerhead.name=Õzfej
 tile.betteranimalsplus.reindeerhead.name=Rénszarvasfej
 tile.betteranimalsplus.foxhead.name=Rókafej
 tile.betteranimalsplus.boarhead.name=Vaddisznófej
-
 #Entities
-entity.betteranimalsplus.BrownBear.name=Barnamedve
-entity.betteranimalsplus.BlackBear.name=Feketemedve
-entity.betteranimalsplus.KermodeBear.name=Szellem Medve
-entity.betteranimalsplus.Deer.name=Õz
-entity.betteranimalsplus.Lammergeier.name=Szakállas Saskeselyû
-entity.betteranimalsplus.FeralWolf.name=Vad Farkas
-entity.betteranimalsplus.Coyote.name=Prérifarkas
+entity.betteranimalsplus.brownbear.name=Barnamedve
+entity.betteranimalsplus.blackbear.name=Feketemedve
+entity.betteranimalsplus.kermodebear.name=Szellem Medve
+entity.betteranimalsplus.deer.name=Õz
+entity.betteranimalsplus.lammergeier.name=Szakállas Saskeselyû
+entity.betteranimalsplus.feralwolf.name=Vad Farkas
+entity.betteranimalsplus.coyote.name=Prérifarkas
 entity.betteranimalsplus.Trillium.name=Hármasszirom
-entity.betteranimalsplus.Fox.name=Róka
-entity.betteranimalsplus.Tarantula.name=Tarantellapók
-entity.betteranimalsplus.Hirschgeist.name=Szarvaslélek
-entity.betteranimalsplus.Goat.name=Kecske
-entity.betteranimalsplus.Jellyfish.name=Medúza
-entity.betteranimalsplus.Pheasant.name=Fácán
-entity.betteranimalsplus.Reindeer.name=Rénszarvas
-entity.betteranimalsplus.Boar.name=Vaddisznó
-entity.betteranimalsplus.Squirrel.name=Mókus
+entity.betteranimalsplus.fox.name=Róka
+entity.betteranimalsplus.tarantula.name=Tarantellapók
+entity.betteranimalsplus.hirschgeist.name=Szarvaslélek
+entity.betteranimalsplus.goat.name=Kecske
+entity.betteranimalsplus.jellyfish.name=Medúza
+entity.betteranimalsplus.pheasant.name=Fácán
+entity.betteranimalsplus.reindeer.name=Rénszarvas
+entity.betteranimalsplus.boar.name=Vaddisznó
+entity.betteranimalsplus.squirrel.name=Mókus
