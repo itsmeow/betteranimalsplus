@@ -1,8 +1,6 @@
 package its_meow.betteranimalsplus.init;
 
-import static its_meow.betteranimalsplus.init.ModBlocks.genericskulls;
 import static its_meow.betteranimalsplus.init.ModBlocks.handoffate;
-import static its_meow.betteranimalsplus.init.ModBlocks.hirschgeistskull;
 import static its_meow.betteranimalsplus.init.ModBlocks.trillium;
 import static its_meow.betteranimalsplus.init.ModEntities.entityList;
 import static its_meow.betteranimalsplus.init.ModEntities.entrySet;
@@ -19,14 +17,14 @@ import static its_meow.betteranimalsplus.init.ModItems.venisonRaw;
 import com.google.common.base.Preconditions;
 
 import its_meow.betteranimalsplus.Ref;
-import its_meow.betteranimalsplus.common.block.BlockGenericSkull;
 import its_meow.betteranimalsplus.common.entity.EntityLammergeier;
 import its_meow.betteranimalsplus.common.entity.projectile.EntityBadgerDirt;
 import its_meow.betteranimalsplus.common.entity.projectile.EntityTarantulaHair;
 import its_meow.betteranimalsplus.common.tileentity.TileEntityHandOfFate;
-import its_meow.betteranimalsplus.common.tileentity.TileEntityHirschgeistSkull;
+import its_meow.betteranimalsplus.common.tileentity.TileEntityHead;
 import its_meow.betteranimalsplus.common.tileentity.TileEntityTrillium;
 import its_meow.betteranimalsplus.util.EntityContainer;
+import its_meow.betteranimalsplus.util.HeadTypes;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving.SpawnPlacementType;
@@ -50,23 +48,15 @@ public class BetterAnimalsPlusRegistrar {
     public static void registerBlocks(final RegistryEvent.Register<Block> event) {
         final IForgeRegistry<Block> registry = event.getRegistry();
 
-        ModBlocks.addGenericSkull(ModBlocks.deerhead);
-        ModBlocks.addGenericSkull(ModBlocks.wolfhead);
-        ModBlocks.addGenericSkull(ModBlocks.reindeerhead);
-        ModBlocks.addGenericSkull(ModBlocks.foxhead);
-        ModBlocks.addGenericSkull(ModBlocks.boarhead);
+        registry.registerAll(trillium, handoffate);
 
-        registry.registerAll(trillium, hirschgeistskull, handoffate);
-
-        genericskulls.keySet().forEach(b -> registry.register(b));
-
-        GameRegistry.registerTileEntity(TileEntityTrillium.class, new ResourceLocation(trillium.getRegistryName() + "tileentity"));
-        GameRegistry.registerTileEntity(TileEntityHirschgeistSkull.class, new ResourceLocation(hirschgeistskull.getRegistryName() + "tileentity"));
-        GameRegistry.registerTileEntity(TileEntityHandOfFate.class, new ResourceLocation(handoffate.getRegistryName() + "tileentity"));
-
-        for (BlockGenericSkull block : genericskulls.keySet()) {
-            GameRegistry.registerTileEntity(block.teClass, new ResourceLocation(block.getRegistryName() + "tileentity"));
+        for(HeadTypes type : HeadTypes.values()) {
+            registry.register(type.getBlock());
         }
+        
+        GameRegistry.registerTileEntity(TileEntityTrillium.class, new ResourceLocation(trillium.getRegistryName() + "tileentity"));
+        GameRegistry.registerTileEntity(TileEntityHandOfFate.class, new ResourceLocation(handoffate.getRegistryName() + "tileentity"));
+        GameRegistry.registerTileEntity(TileEntityHead.class, new ResourceLocation(Ref.MOD_ID, "head"));
     }
 
     @SubscribeEvent
@@ -74,7 +64,7 @@ public class BetterAnimalsPlusRegistrar {
         
         // ItemBlocks
         
-        final ItemBlock[] items = { new ItemBlock(trillium), hirschgeistskull.getItemBlock(), new ItemBlock(handoffate)};
+        final ItemBlock[] items = { new ItemBlock(trillium), new ItemBlock(handoffate)};
 
         final IForgeRegistry<Item> registry = event.getRegistry();
 
@@ -84,10 +74,8 @@ public class BetterAnimalsPlusRegistrar {
             registry.register(item.setRegistryName(registryName));
         }
 
-        for (final ItemBlock item : genericskulls.values()) {
-            final Block block = item.getBlock();
-            final ResourceLocation registryName = Preconditions.checkNotNull(block.getRegistryName(), "Block %s has null registry name", block);
-            registry.register(item.setRegistryName(registryName));
+        for(HeadTypes type : HeadTypes.values()) {
+            registry.registerAll(type.getItemSet().toArray(new Item[0]));
         }
         
         // Items

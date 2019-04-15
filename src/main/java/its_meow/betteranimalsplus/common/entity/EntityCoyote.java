@@ -4,7 +4,7 @@ import javax.annotation.Nullable;
 
 import com.google.common.base.Predicates;
 
-import its_meow.betteranimalsplus.init.ModBlocks;
+import its_meow.betteranimalsplus.util.HeadTypes;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.EntityList;
@@ -37,7 +37,6 @@ import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemMonsterPlacer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.SoundEvent;
@@ -110,12 +109,10 @@ public class EntityCoyote extends EntityFeralWolf {
         super.onDeath(cause);
         if (!world.isRemote && !this.isChild()) {
             if (this.rand.nextInt(12) == 0) {
-                ItemStack stack = new ItemStack(ModBlocks.wolfhead.getItemBlock());
-                stack.setTagCompound(new NBTTagCompound());
-                stack.getTagCompound().setInteger("TYPENUM", 4); // 4 is the id for coyote head
+                ItemStack stack = new ItemStack(HeadTypes.WOLFHEAD.getItem(4)); // 4 is ID for coyote
                 this.entityDropItem(stack, 0.5F);
             }
-        }
+}
     }
 
     @Override

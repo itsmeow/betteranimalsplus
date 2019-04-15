@@ -25,9 +25,6 @@ import its_meow.betteranimalsplus.client.renderer.entity.RenderTarantulaHair;
 import its_meow.betteranimalsplus.client.renderer.tileentity.RenderBlockHandOfFate;
 import its_meow.betteranimalsplus.client.renderer.tileentity.RenderBlockTrillium;
 import its_meow.betteranimalsplus.client.renderer.tileentity.RenderGenericHead;
-import its_meow.betteranimalsplus.client.renderer.tileentity.RenderGenericHeadFloor;
-import its_meow.betteranimalsplus.client.util.HeadItemMeshDefinition;
-import its_meow.betteranimalsplus.common.block.BlockGenericSkull;
 import its_meow.betteranimalsplus.common.entity.EntityBadger;
 import its_meow.betteranimalsplus.common.entity.EntityBear;
 import its_meow.betteranimalsplus.common.entity.EntityBearNeutral;
@@ -49,18 +46,16 @@ import its_meow.betteranimalsplus.common.entity.EntityTarantula;
 import its_meow.betteranimalsplus.common.entity.miniboss.hirschgeist.EntityHirschgeist;
 import its_meow.betteranimalsplus.common.entity.projectile.EntityBadgerDirt;
 import its_meow.betteranimalsplus.common.entity.projectile.EntityTarantulaHair;
-import its_meow.betteranimalsplus.common.item.ItemBlockSkull;
+import its_meow.betteranimalsplus.common.item.ItemBlockHeadType;
 import its_meow.betteranimalsplus.common.tileentity.TileEntityHandOfFate;
 import its_meow.betteranimalsplus.common.tileentity.TileEntityHead;
 import its_meow.betteranimalsplus.common.tileentity.TileEntityTrillium;
 import its_meow.betteranimalsplus.init.ModBlocks;
 import its_meow.betteranimalsplus.init.ModItems;
+import its_meow.betteranimalsplus.util.HeadTypes;
 import net.minecraft.block.Block;
-import net.minecraft.client.renderer.block.model.ModelBakery;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
@@ -77,22 +72,13 @@ public class ClientRegistrar {
         // Blocks
 
         initModel(ModBlocks.trillium, 0);
-        initModel(ModBlocks.hirschgeistskull, 0);
         initModel(ModBlocks.handoffate, 0);
 
         // Generics
-        
-        for (BlockGenericSkull skull : ModBlocks.genericskulls.keySet()) {
-            HeadItemMeshDefinition meshDefinition = new HeadItemMeshDefinition(skull);
-            ItemBlockSkull item = (ItemBlockSkull) skull.getItemBlock();
-            ModelBakery.registerItemVariants(item, meshDefinition.defaultModelResourceLocation);
-            for (int i = 1; i <= skull.texCount; i++) {
-                ItemStack stack = new ItemStack(item);
-                stack.setTagCompound(new NBTTagCompound());
-                stack.getTagCompound().setInteger("TYPENUM", i);
-                ModelBakery.registerItemVariants(item, meshDefinition.getModelLocation(stack));
-            }
-            ModelLoader.setCustomMeshDefinition(item, meshDefinition);
+        for(HeadTypes type : HeadTypes.values()) {
+        	for(ItemBlockHeadType item : type.getItemSet()) {
+        		 initModel(item, 0);
+        	}
         }
 
         // Items
@@ -111,11 +97,6 @@ public class ClientRegistrar {
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityTrillium.class, new RenderBlockTrillium());
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityHandOfFate.class, new RenderBlockHandOfFate());
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityHead.class, new RenderGenericHead());
-        for (BlockGenericSkull block : ModBlocks.genericskulls.keySet()) {
-            if (block.allowFloor) {
-                ClientRegistry.bindTileEntitySpecialRenderer(block.teClass.asSubclass(TileEntityHead.class), new RenderGenericHeadFloor());
-            }
-        }
         
         // Entities
         

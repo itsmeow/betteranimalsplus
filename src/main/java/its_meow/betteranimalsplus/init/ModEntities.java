@@ -36,22 +36,22 @@ public class ModEntities {
     public static LinkedHashSet<EntityContainer> entityList = new LinkedHashSet<EntityContainer>();
 
     static {
-    	add(EntityBear.class, "BrownBear", EnumCreatureType.CREATURE, 0x4F2900, 0x8E500E, BetterAnimalsPlusConfig.brownBearWeight, 1, 1, Type.FOREST);
-		add(EntityBearNeutral.class, "BlackBear", EnumCreatureType.CREATURE, 0x000000, 0x333333, BetterAnimalsPlusConfig.blackBearWeight, 1, 1, Type.FOREST);
-		add(EntityBearNeutralKermode.class, "KermodeBear", EnumCreatureType.CREATURE, 0xe8e8e8, 0xf7dabe, BetterAnimalsPlusConfig.kermodeBearWeight, 1, 1, Type.FOREST);
-		add(EntityDeer.class, "Deer", EnumCreatureType.CREATURE, 0x8e510b, 0xc6863b, BetterAnimalsPlusConfig.deerWeight, 1, 4,  Type.FOREST, Type.MAGICAL);
-		add(EntityLammergeier.class, "Lammergeier", EnumCreatureType.CREATURE, 0xd8d8d8, 0xd82b11, BetterAnimalsPlusConfig.lammergeierWeight, 1, 2, Type.HILLS, Type.MOUNTAIN);
-		add(EntityFeralWolf.class, "FeralWolf", EnumCreatureType.CREATURE, 0xbababa, 0x232323, BetterAnimalsPlusConfig.feralWolfWeight, 1, 6, Type.FOREST, Type.MAGICAL, Type.SPOOKY);
-		add(EntityCoyote.class, "Coyote", EnumCreatureType.CREATURE, 0x866a31, 0xb69762, BetterAnimalsPlusConfig.coyoteWeight, 1, 6, Type.SANDY, Type.PLAINS);
-		add(EntityFox.class, "Fox", EnumCreatureType.CREATURE, 0xe87422, 0x3f210c, BetterAnimalsPlusConfig.foxWeight, 1, 6, Type.FOREST, Type.MAGICAL);
-		add(EntityTarantula.class, "Tarantula", EnumCreatureType.MONSTER, 0x1e1e1e, 0x8c0c0c, BetterAnimalsPlusConfig.tarantulaWeight, 1, 3, Type.SANDY);
-		add(EntityHirschgeist.class, "Hirschgeist", EnumCreatureType.CREATURE, 0xfffff, 0x00000, BetterAnimalsPlusConfig.hirschgeistWeight, 1, 1, Type.FOREST);
-		add(EntityGoat.class, "Goat", EnumCreatureType.CREATURE, 0xffffff, 0xeeeeee, BetterAnimalsPlusConfig.goatWeight, 1, 4, Type.HILLS, Type.MOUNTAIN, Type.SAVANNA, Type.PLAINS, Type.FOREST);
-		add(EntityJellyfish.class, "Jellyfish", EnumCreatureType.WATER_CREATURE, 0x226fe2, 0xf2b3b3, BetterAnimalsPlusConfig.jellyFishWeight, 1, 1, Type.OCEAN);
-		add(EntityPheasant.class, "Pheasant", EnumCreatureType.CREATURE, 0x8e6b0b, 0xd8af3c, BetterAnimalsPlusConfig.pheasantWeight, 1, 3, Type.FOREST, Type.PLAINS, Type.SAVANNA);
-		add(EntityReindeer.class, "Reindeer", EnumCreatureType.CREATURE, 0x8e510b, 0x017700, BetterAnimalsPlusConfig.reindeerWeight, 1, 4, Type.SNOWY);
-		add(EntityBoar.class, "Boar", EnumCreatureType.CREATURE, 0x3d3c3b, 0xbca895, BetterAnimalsPlusConfig.boarWeight, 1, 4, Type.FOREST, Type.JUNGLE, Type.PLAINS, Type.SAVANNA);
-		add(EntitySquirrel.class, "Squirrel", EnumCreatureType.CREATURE, 0x89806f, 0xb2a489, BetterAnimalsPlusConfig.squirrelWeight, 1, 3, Type.FOREST);
+    	add(EntityBear.class, "brownbear", EnumCreatureType.CREATURE, 0x4F2900, 0x8E500E, BetterAnimalsPlusConfig.brownBearWeight, 1, 1, Type.FOREST);
+		add(EntityBearNeutral.class, "blackbear", EnumCreatureType.CREATURE, 0x000000, 0x333333, BetterAnimalsPlusConfig.blackBearWeight, 1, 1, Type.FOREST);
+		add(EntityBearNeutralKermode.class, "kermodeBear", EnumCreatureType.CREATURE, 0xe8e8e8, 0xf7dabe, BetterAnimalsPlusConfig.kermodeBearWeight, 1, 1, Type.FOREST);
+		add(EntityDeer.class, "deer", EnumCreatureType.CREATURE, 0x8e510b, 0xc6863b, BetterAnimalsPlusConfig.deerWeight, 1, 4,  Type.FOREST, Type.MAGICAL);
+		add(EntityLammergeier.class, "lammergeier", EnumCreatureType.CREATURE, 0xd8d8d8, 0xd82b11, BetterAnimalsPlusConfig.lammergeierWeight, 1, 2, Type.HILLS, Type.MOUNTAIN);
+		add(EntityFeralWolf.class, "feralwolf", EnumCreatureType.CREATURE, 0xbababa, 0x232323, BetterAnimalsPlusConfig.feralWolfWeight, 1, 6, Type.FOREST, Type.MAGICAL, Type.SPOOKY);
+		add(EntityCoyote.class, "coyote", EnumCreatureType.CREATURE, 0x866a31, 0xb69762, BetterAnimalsPlusConfig.coyoteWeight, 1, 6, Type.SANDY, Type.PLAINS);
+		add(EntityFox.class, "fox", EnumCreatureType.CREATURE, 0xe87422, 0x3f210c, BetterAnimalsPlusConfig.foxWeight, 1, 6, Type.FOREST, Type.MAGICAL);
+		add(EntityTarantula.class, "tarantula", EnumCreatureType.MONSTER, 0x1e1e1e, 0x8c0c0c, BetterAnimalsPlusConfig.tarantulaWeight, 1, 3, Type.SANDY);
+		add(EntityHirschgeist.class, "hirschgeist", EnumCreatureType.CREATURE, 0xfffff, 0x00000, BetterAnimalsPlusConfig.hirschgeistWeight, 1, 1, Type.FOREST);
+		add(EntityGoat.class, "goat", EnumCreatureType.CREATURE, 0xffffff, 0xeeeeee, BetterAnimalsPlusConfig.goatWeight, 1, 4, Type.HILLS, Type.MOUNTAIN, Type.SAVANNA, Type.PLAINS, Type.FOREST);
+		add(EntityJellyfish.class, "jellyfish", EnumCreatureType.WATER_CREATURE, 0x226fe2, 0xf2b3b3, BetterAnimalsPlusConfig.jellyFishWeight, 1, 1, Type.OCEAN);
+		add(EntityPheasant.class, "pheasant", EnumCreatureType.CREATURE, 0x8e6b0b, 0xd8af3c, BetterAnimalsPlusConfig.pheasantWeight, 1, 3, Type.FOREST, Type.PLAINS, Type.SAVANNA);
+		add(EntityReindeer.class, "reindeer", EnumCreatureType.CREATURE, 0x8e510b, 0x017700, BetterAnimalsPlusConfig.reindeerWeight, 1, 4, Type.SNOWY);
+		add(EntityBoar.class, "boar", EnumCreatureType.CREATURE, 0x3d3c3b, 0xbca895, BetterAnimalsPlusConfig.boarWeight, 1, 4, Type.FOREST, Type.JUNGLE, Type.PLAINS, Type.SAVANNA);
+		add(EntitySquirrel.class, "squirrel", EnumCreatureType.CREATURE, 0x89806f, 0xb2a489, BetterAnimalsPlusConfig.squirrelWeight, 1, 3, Type.FOREST);
         add(EntitySongbird.class, "songbird", EnumCreatureType.CREATURE, 0x46f4d2, 0x7df442, BetterAnimalsPlusConfig.songbirdWeight, 1, 4, Type.FOREST, Type.PLAINS);
         add(EntityBadger.class, "badger", EnumCreatureType.CREATURE, 0x0c0c0c, 0xd3d3d3, BetterAnimalsPlusConfig.badgerWeight, 2, 7, Type.FOREST, Type.PLAINS, Type.SAVANNA);
         add(EntityLamprey.class, "lamprey", EnumCreatureType.WATER_CREATURE, 0x0000ad, 0x0a0a0a, BetterAnimalsPlusConfig.lampreyWeight, 1, 1, Type.WATER);
