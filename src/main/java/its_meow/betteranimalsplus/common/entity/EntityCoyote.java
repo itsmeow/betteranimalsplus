@@ -4,7 +4,9 @@ import javax.annotation.Nullable;
 
 import com.google.common.base.Predicates;
 
+import its_meow.betteranimalsplus.config.BetterAnimalsPlusConfig;
 import its_meow.betteranimalsplus.init.ModEntities;
+import its_meow.betteranimalsplus.init.ModItems;
 import its_meow.betteranimalsplus.util.HeadTypes;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -87,7 +89,7 @@ public class EntityCoyote extends EntityFeralWolf {
 
     @Override
     public void setAttackTarget(EntityLivingBase entitylivingbaseIn) {
-        if (!this.isDaytime()) {
+        if (!this.isDaytime() || BetterAnimalsPlusConfig.coyotesHostileDaytime) {
             super.setAttackTarget(entitylivingbaseIn);
         } else if (!this.isTamed()) {
             super.setAttackTarget(null);
@@ -101,7 +103,7 @@ public class EntityCoyote extends EntityFeralWolf {
 
     @Override
     protected SoundEvent getAmbientSound() {
-        if (!this.isDaytime() && !this.isTamed()) {
+        if ((!this.isDaytime() || BetterAnimalsPlusConfig.coyotesHostileDaytime) && !this.isTamed()) {
             return SoundEvents.ENTITY_WOLF_GROWL;
         } else if (this.rand.nextInt(3) == 0) {
             return this.isTamed() && this.dataManager.get(EntityFeralWolf.DATA_HEALTH_ID).floatValue() < 10.0F
@@ -152,8 +154,12 @@ public class EntityCoyote extends EntityFeralWolf {
                 this.navigator.clearPath();
                 this.setAttackTarget((EntityLivingBase) null);
             }
-        } else if (itemstack.getItem() == Items.RABBIT) {
-            if (this.isDaytime()) {
+        } else if (itemstack.getItem() == Items.RABBIT || itemstack.getItem() == Items.CHICKEN || itemstack.getItem() == Items.COOKED_CHICKEN || itemstack.getItem() == Items.COOKED_RABBIT || itemstack.getItem() == ModItems.PHEASANT_RAW || itemstack.getItem() == ModItems.PHEASANT_COOKED) {
+            if(BetterAnimalsPlusConfig.coyotesHostileDaytime) {
+                if (!this.world.isRemote) {
+                    player.sendMessage(new TextComponentString("This coyote is always hostile. It cannot be tamed (server configuration)"));
+                }
+            } else if (this.isDaytime()) {
 
                 if (!player.isCreative()) {
                     itemstack.shrink(1);
@@ -178,9 +184,7 @@ public class EntityCoyote extends EntityFeralWolf {
                 return true;
             } else {
                 if (!this.world.isRemote) {
-                    player.sendMessage(new TextComponentString(
-                            "This coyote is currently hostile. Perhaps it could be tamed outside of its hunting hours?"));
-
+                    player.sendMessage(new TextComponentString("This coyote is currently hostile. Perhaps it could be tamed outside of its hunting hours?"));
                 }
                 return true;
             }
@@ -191,8 +195,7 @@ public class EntityCoyote extends EntityFeralWolf {
 
     @Override
     public boolean shouldAttackEntity(EntityLivingBase target, EntityLivingBase owner) {
-        if (!(target instanceof EntityCreeper) && !(target instanceof EntityGhast)
-                && (this.isTamed() || !this.isDaytime())) {
+        if (!(target instanceof EntityCreeper) && !(target instanceof EntityGhast) && (this.isTamed() || !this.isDaytime() || BetterAnimalsPlusConfig.coyotesHostileDaytime)) {
             if (target instanceof EntityCoyote) {
                 EntityCoyote entityferalwolf = (EntityCoyote) target;
 

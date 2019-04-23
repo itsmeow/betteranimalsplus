@@ -224,6 +224,7 @@ public class ModelSongbirdSmall extends ModelBase {
 
     @Override
     public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) {
+        boolean show = true;
         if (entity instanceof EntitySongbird) {
             EntitySongbird bird = (EntitySongbird) entity;
             if (bird.isFlying()) {
@@ -243,12 +244,9 @@ public class ModelSongbirdSmall extends ModelBase {
                 this.rLeg01.rotateAngleX = 0.2617993877991494F;
                 this.lLeg01.rotateAngleX = 0.2617993877991494F;
 
-                this.rWing01.rotateAngleZ = MathHelper.cos(f2 * 3F) * (float) Math.PI / 8F;
-                if ((Math.abs(bird.motionY) > 0 && (Math.abs(bird.motionX) > 0.05 || Math.abs(bird.motionZ) > 0.05))
-                        || Math.abs(bird.motionY) > 0.25) {
-                    float rotX = -((float) Math
-                            .atan(bird.motionY / Math.sqrt(Math.pow(bird.motionX, 2) + Math.pow(bird.motionZ, 2)))
-                            / 1.5F);
+                this.rWing01.rotateAngleZ = MathHelper.cos(f2) * (float) Math.PI / 8F;
+                if ((Math.abs(bird.motionY) > 0 && (Math.abs(bird.motionX) > 0.05 || Math.abs(bird.motionZ) > 0.05)) || Math.abs(bird.motionY) > 0.25) {
+                    float rotX = -((float) Math.atan(bird.motionY / Math.sqrt(Math.pow(bird.motionX, 2) + Math.pow(bird.motionZ, 2))) / 1.5F);
                     if (rotX < 0) {
                         rotX /= 3;
                     }
@@ -260,6 +258,7 @@ public class ModelSongbirdSmall extends ModelBase {
                 this.lWing01.rotateAngleZ = -this.rWing01.rotateAngleZ;
                 this.rWing02.rotateAngleZ = this.rWing01.rotateAngleZ * 0.5F;
                 this.lWing02.rotateAngleZ = -this.rWing01.rotateAngleZ * 0.5F;
+                show = false;
             } else {
                 this.setRotateAngle(rWing01, 0.0F, 1.0821041362364843F, -0.9424777960769379F);
                 this.setRotateAngle(lWing01, 0.0F, -1.0821041362364843F, 0.9424777960769379F);
@@ -285,9 +284,15 @@ public class ModelSongbirdSmall extends ModelBase {
                 }
 
                 this.rLeg01.rotateAngleX = MathHelper.cos(f * 0.6662F) * 1.4F * f1 / e + 0.2617993877991494F;
-                this.lLeg01.rotateAngleX = MathHelper.cos(f * 0.6662F + (float) Math.PI) * 1.4F * f1 / e
-                        + 0.2617993877991494F;
+                this.lLeg01.rotateAngleX = MathHelper.cos(f * 0.6662F + (float) Math.PI) * 1.4F * f1 / e + 0.2617993877991494F;
+                show = true;
             }
+            this.lLeg01.showModel = show;
+            this.lLeg02.showModel = show;
+            this.rLeg01.showModel = show;
+            this.rLeg02.showModel = show;
+            this.lFoot.showModel = show;
+            this.rFoot.showModel = show;
         }
         this.body.render(f5);
     }

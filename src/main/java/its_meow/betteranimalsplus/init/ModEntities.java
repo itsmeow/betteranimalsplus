@@ -101,7 +101,7 @@ public class ModEntities {
                 EnumCreatureType.CREATURE, 0x46f4d2, 0x7df442, BetterAnimalsPlusConfig.songbirdWeight, 1, 4,
                 BiomeDictionary.getBiomes(Type.FOREST), BiomeDictionary.getBiomes(Type.PLAINS)));
         ModEntities.entityList.add(new EntityContainer(EntityBadger.class, EntityBadger::new, "badger", 
-        		EnumCreatureType.CREATURE, 0x0c0c0c, 0xd3d3d3, BetterAnimalsPlusConfig.badgerWeight, 2, 7, 
+        		EnumCreatureType.CREATURE, 0x0c0c0c, 0xd3d3d3, BetterAnimalsPlusConfig.badgerWeight, 1, 2, 
         		BiomeDictionary.getBiomes(Type.FOREST), BiomeDictionary.getBiomes(Type.PLAINS), BiomeDictionary.getBiomes(Type.SAVANNA)));
         ModEntities.entityList.add(new EntityContainer(EntityLamprey.class, EntityLamprey::new, "lamprey", 
         		EnumCreatureType.WATER_CREATURE, 0x0000ad, 0x0a0a0a, BetterAnimalsPlusConfig.lampreyWeight, 1, 1, 

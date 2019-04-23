@@ -10,7 +10,16 @@
 - Deer no longer run without a single leg on the ground
 - Deer will eat grass
 - Goats will eat grass
+- Lammergeiers will now land on the ground before sitting
 - Fix some translations that were not working
+- Fixed bug with deer drops/loot table causing it to not exist or not drop
+- Fixed crashes with DataManager keys on Jellyfish
+- Fixed heads with corrupted or invalid NBT data causing client to crash
+- Fixed doSpawning config option doing nothing
+- Fixed deer head icons not matching their antlers
+- Removed doRegister from config
+- Added config option to make coyotes always hostile
+- Coyotes can now be tamed with cooked or raw chicken, rabbit, and pheasant as opposed to just raw rabbit.
 - Code refactors (as usual) that make development easier
 
 5.0.2

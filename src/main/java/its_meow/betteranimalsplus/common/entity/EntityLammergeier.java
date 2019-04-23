@@ -63,6 +63,7 @@ public class EntityLammergeier extends EntityTameableFlying implements IVariantT
     protected static final DataParameter<Float> DATA_HEALTH_ID = EntityDataManager.<Float>createKey(EntityLammergeier.class, DataSerializers.FLOAT);
 
     public boolean landedLast = false;
+    protected boolean readyToSit = false;
 
     // Forgive me for this godawful mess.
 
@@ -189,19 +190,24 @@ public class EntityLammergeier extends EntityTameableFlying implements IVariantT
                     }
                 }
             }
-
-            if (this.isOwner(player) && !this.isBeingRidden() && !this.world.isRemote
-                    && this.ticksExisted - this.lastTick > 13
-                    && (itemstack.getItem() == null || itemstack.getItem() != Items.MUTTON)) {
-                if (!this.isSitting() == false) {
-                    // ((LammerMoveHelper) this.getMoveHelper()).action = Action.WAIT;
+            if (this.isOwner(player) && !this.isBeingRidden() && !this.world.isRemote && this.ticksExisted - this.lastTick > 13 && (itemstack.getItem() == null || (itemstack.getItem() != Items.MUTTON))) {
+                if (!this.isSitting()) {
                     this.setAttackTarget((EntityLivingBase) null);
+                    this.navigator.clearPath();
+                    BlockPos landPos = this.getPosition();
+                    for(int y = (int) this.posY; y > 0 && y < 255; y--) {
+                        BlockPos curPos = new BlockPos(landPos.getX(), y, landPos.getZ());
+                        if(world.isAirBlock(curPos) && !world.isAirBlock(curPos.down())) {
+                            landPos = curPos;
+                            y = -1;
+                        }
+                    }
+                    this.navigator.setPath(this.navigator.getPathToPos(landPos), 1D);
+                    this.readyToSit = true;
+                } else {
+                    this.setSitting(!this.isSitting());
+                    this.navigator.clearPath();
                 }
-
-                this.setSitting(!this.isSitting());
-                // BetterAnimalsPlusMod.logger.log(Level.INFO,
-                // this.isSitting());
-                this.navigator.clearPath();
                 this.lastTick = this.ticksExisted;
             }
         } else if (itemstack.getItem() == Items.BONE && !this.isTamed()) {
@@ -346,6 +352,10 @@ public class EntityLammergeier extends EntityTameableFlying implements IVariantT
     public void tick() {
         super.tick();
         this.lastMotionY = this.motionY;
+        if(world.isAreaLoaded(this.getPosition(), this.getPosition().down()) && world.isAirBlock(this.getPosition()) && !world.isAirBlock(this.getPosition().down()) && this.readyToSit) {
+            this.readyToSit = false;
+            this.setSitting(true);
+        }
     }
 
     /**

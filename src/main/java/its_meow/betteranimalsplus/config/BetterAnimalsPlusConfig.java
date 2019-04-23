@@ -44,6 +44,7 @@ public class BetterAnimalsPlusConfig {
     public static int lampreyWeight = 7;
 
     public static boolean spawnTrillium = true;
+    public static boolean coyotesHostileDaytime = false;
 
     @SubscribeEvent
     public static void onLoad(final ModConfig.Loading configEvent) {

@@ -13,22 +13,23 @@ import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.passive.EntityWaterMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.MobEffects;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
+import net.minecraft.network.play.server.SPacketSetPassengers;
 import net.minecraft.pathfinding.PathNavigate;
 import net.minecraft.pathfinding.PathNavigateSwimmer;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 
 public class EntityLamprey extends EntityWaterMobWithTypes implements IMob {
-
-	private boolean resetPassengerState = true;
-	private float passengerX = 0.0F;
-	private float passengerZ = 0.0F;
-
+    
+    protected int lastAttack = 0;
+    
 	public EntityLamprey(World worldIn) {
 		super(ModEntities.getEntityType(EntityLamprey.class), worldIn);
 		this.setSize(1.0F, 0.7F);
@@ -36,7 +37,6 @@ public class EntityLamprey extends EntityWaterMobWithTypes implements IMob {
 
 	@Override
 	protected void initEntityAI() {
-		//this.tasks.addTask(0, new EntityAISwimming(this));
 		this.tasks.addTask(0, new EntityAIMoveTowardsTarget(this, 0.8D, 15F));
 		this.tasks.addTask(1, new EntityAIWatchClosest(this, EntityWaterMob.class, 10.0F));
 		this.targetTasks.addTask(0, new EntityAINearestAttackableTarget<EntityLivingBase>(this, EntityLivingBase.class, 100, true, true, e -> e instanceof EntityLivingBase && !(e instanceof IMob) && !(e instanceof EntityLamprey)));
@@ -48,7 +48,7 @@ public class EntityLamprey extends EntityWaterMobWithTypes implements IMob {
 		this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(3.0D);
 		this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.8D);
 		this.getAttributeMap().registerAttribute(SharedMonsterAttributes.ATTACK_DAMAGE);
-		this.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(1D);
+		this.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(0.5D);
 	}
 
 	@Override
@@ -61,15 +61,27 @@ public class EntityLamprey extends EntityWaterMobWithTypes implements IMob {
 		this.move(MoverType.SELF, this.motionX, this.motionY, this.motionZ);
 	}
 
+    @Override
+    protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
+        return SoundEvents.ENTITY_SQUID_HURT;
+    }
+
+    @Override
+    protected SoundEvent getDeathSound() {
+        return SoundEvents.ENTITY_SQUID_DEATH;
+    }
+
 	@Override
 	public boolean attackEntityAsMob(Entity entityIn)
 	{
 		float f = (float)this.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getValue();
+
 		if(entityIn instanceof EntityLivingBase) {
 			f += EnchantmentHelper.getModifierForCreature(this.getHeldItemMainhand(), ((EntityLivingBase)entityIn).getCreatureAttribute());
 		}
 		boolean flag = entityIn.attackEntityFrom(DamageSource.causeMobDamage(this), f);
 		if(flag) {
+		    this.lastAttack = this.ticksExisted;
 			if(entityIn instanceof EntityPlayer) {
 				EntityPlayer entityplayer = (EntityPlayer)entityIn;
 
@@ -101,58 +113,64 @@ public class EntityLamprey extends EntityWaterMobWithTypes implements IMob {
 	public void tick() {
 		super.tick();
 		if(!this.inWater) {
-			this.motionX *= 0.2F;
-			this.motionZ *= 0.2F;
-			if (!this.hasNoGravity()) {
-				this.motionY -= 0.08D;
-			}
+            this.motionX *= 0.2F;
+            this.motionZ *= 0.2F;
+            if (!this.hasNoGravity()) {
+                this.motionY -= 0.08D;
+            }
 
-			this.motionY *= 0.9800000190734863D;
-			if(this.isBeingRidden() && this.getRidingEntity() != null) {
-				this.getRidingEntity().stopRiding();
-			}
-		} else if(!world.isRemote) {
-			if(!this.navigator.noPath()) {
-				Vec3d target = this.navigator.getPath().getCurrentPos();
-				this.motionX = (target.x - this.posX) * 0.05F;
-				this.motionY = (target.y - this.posY) * 0.05F;
-				this.motionZ = (target.z - this.posZ) * 0.05F;
-			} else if(this.getMoveHelper().isUpdating()) {
-				this.motionX = (this.getMoveHelper().getX() - this.posX) * 0.05F;
-				this.motionZ = (this.getMoveHelper().getZ() - this.posZ) * 0.05F;
-				this.motionY = (this.getMoveHelper().getY() - this.posY) * 0.05F;
-			} else {
-				this.motionX *= 0.85F;
-				this.motionY *= 0.85F;
-				this.motionZ *= 0.85F;
-			}
-		}
+            this.motionY *= 0.9800000190734863D;
+        } else if(!world.isRemote) {
+            if(!this.navigator.noPath()) {
+                Vec3d target = this.navigator.getPath().getCurrentPos();
+                this.motionX = (target.x - this.posX) * 0.05F;
+                this.motionY = (target.y - this.posY) * 0.05F;
+                this.motionZ = (target.z - this.posZ) * 0.05F;
+            } else if(this.getMoveHelper().isUpdating()) {
+                this.motionX = (this.getMoveHelper().getX() - this.posX) * 0.05F;
+                this.motionZ = (this.getMoveHelper().getZ() - this.posZ) * 0.05F;
+                this.motionY = (this.getMoveHelper().getY() - this.posY) * 0.05F;
+            }
+        }
 	}
 
 	@Override
 	public void livingTick() {
 		super.livingTick();
-		if(!this.world.isRemote && this.getAttackTarget() != null) {
-			if(this.isRidingOrBeingRiddenBy(this.getAttackTarget())) {
-				if(this.getLastAttackedEntityTime() + 10F < this.ticksExisted) {
+		if(!this.world.isRemote && this.getAttackTarget() != null && !this.getAttackTarget().removed) {
+			if(this.getRidingEntity() != null && this.getRidingEntity() == this.getAttackTarget()) {
+			    float time = 20F; 
+			    if(!this.inWater) {
+			        time *= 2F * (Math.random() + 1F);
+			    } else {
+			        time += Math.random() * Math.random() * 2 * ((Math.random() < 0.5) ? -1 : 1);
+			    }
+				if(this.lastAttack + time < this.ticksExisted) {
 					this.attackEntityAsMob(this.getAttackTarget());
 				}
-			} else if(this.getDistanceSq(this.getAttackTarget()) < 2) {
+			} else if(this.getDistanceSq(this.getAttackTarget()) < 3) {
 				this.grabTarget(this.getAttackTarget());
 			}
 		}
 	}
 
-	public void grabTarget(Entity entity) {
+    @Override
+    public void dismountEntity(Entity entity) {
+        if(entity.canBeRiddenInWater(this) || this.getAttackTarget() == null) {
+            super.dismountEntity(entity);
+        }
+    }
+    
+    @Override
+    public boolean canBeRiddenInWater(Entity rider) {
+        return true;
+    }
+
+    public void grabTarget(Entity entity) {
 		if(entity == this.getAttackTarget() && !this.isRidingOrBeingRiddenBy(entity) && this.inWater) {
-			entity.startRiding(this);
-			this.resetPassengerState = true;
+			this.startRiding(entity);
+			this.getServer().getPlayerList().sendPacketToAllPlayers(new SPacketSetPassengers(entity));
 		}
-	}
-	
-	@Override
-	public boolean canRiderInteract() {
-		return true;
 	}
 	
 	@Override
@@ -160,29 +178,16 @@ public class EntityLamprey extends EntityWaterMobWithTypes implements IMob {
 		return false;
 	}
 
-	@Override
-	public void updatePassenger(Entity passenger) {
-		if(this.isPassenger(passenger)) {
-			if(this.resetPassengerState) {
-				this.resetPassengerState = false;
-				this.setOffsetFor(passenger);
-			}
-			passenger.setPosition(this.posX + (passengerX), this.posY, this.posZ + (passengerZ));
-		}
-	}
-
-	private void setOffsetFor(Entity passenger) {
-		boolean side = Math.random() >= 0.5;
-		float modX = Math.random() >= 0.5 ? 1F : -1F;
-		float modZ = Math.random() >= 0.5 ? 1F : -1F;
-		if(side) {
-			modX = Math.random() >= 0.5 ? 0.5F : -0.5F;
-		} else {
-			modZ = Math.random() >= 0.5 ? 0.5F : -0.5F;
-		}
-		this.passengerX = passenger.width * modX;
-		this.passengerZ = passenger.width * modZ;
-	}
+    @Override
+    public double getYOffset() {
+        if(getRidingEntity() != null && getRidingEntity() instanceof EntityPlayer) {
+            return getRidingEntity().height - 2.25F;
+        } else if(getRidingEntity() != null) {
+            return getRidingEntity().height * 0.5D - 1.25D;
+        } else {
+            return super.getYOffset();
+        }
+    }
 
 	@Override
 	protected boolean canTriggerWalking() {

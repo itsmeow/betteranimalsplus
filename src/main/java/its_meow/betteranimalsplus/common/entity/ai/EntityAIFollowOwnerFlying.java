@@ -55,6 +55,8 @@ public class EntityAIFollowOwnerFlying extends EntityAIBase {
             return false;
         } else if (this.tameable.getAttackTarget() != null && this.tameable.getAttackTarget().isAlive()) {
             return false;
+        } else if (!this.tameable.getNavigator().noPath()) {
+            return false;
         } else {
             this.owner = entitylivingbase;
             return true;

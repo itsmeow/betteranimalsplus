@@ -19,20 +19,25 @@ import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.Biome.SpawnListEntry;
 import net.minecraft.world.gen.Heightmap;
 import net.minecraftforge.common.ForgeConfigSpec;
+import net.minecraftforge.common.ForgeConfigSpec.BooleanValue;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import net.minecraftforge.registries.ForgeRegistries;
 
 public class EntityConfig {
 
     private HashMap<EntityContainer, EntityConfigurationSection> sections = new HashMap<EntityContainer, EntityConfigurationSection>();
-
+    private BooleanValue coyoteHostileDaytime;
+    
     EntityConfig(ForgeConfigSpec.Builder builder) {
-        for (EntityContainer cont : ModEntities.entityList) {
+        for(EntityContainer cont : ModEntities.entityList) {
             sections.put(cont, new EntityConfigurationSection(cont, builder));
         }
+        builder.push("coyote");
+        this.coyoteHostileDaytime = builder.comment("Makes coyote always hostile (removes ability to tame!)").worldRestart().define("coyoteHostileDaytime", false);
     }
 
     public void loadEntityData() {
+        BetterAnimalsPlusConfig.coyotesHostileDaytime = this.coyoteHostileDaytime.get();
         // Replace entity data
         for (EntityContainer container : this.sections.keySet()) {
             EntityConfigurationSection section = this.sections.get(container);
@@ -72,24 +77,15 @@ public class EntityConfig {
         if (!ModEntities.entryMap.isEmpty()) {
             for (EntityContainer entry : ModEntities.entryMap.keySet()) {
                 EntityType<?> type = ModEntities.entryMap.get(entry);
-
                 if (entry.doSpawning) {
-                    if (entry.type == EnumCreatureType.WATER_CREATURE && EntitySpawnPlacementRegistry
-                            .getPlacementType((EntityType<? extends EntityLiving>) type) == null) {
-                        EntitySpawnPlacementRegistry.register(type, SpawnPlacementType.IN_WATER,
-                                Heightmap.Type.OCEAN_FLOOR, null);
+                    if (entry.type == EnumCreatureType.WATER_CREATURE && EntitySpawnPlacementRegistry.getPlacementType((EntityType<? extends EntityLiving>) type) == null) {
+                        EntitySpawnPlacementRegistry.register(type, SpawnPlacementType.IN_WATER, Heightmap.Type.OCEAN_FLOOR, null);
                     }
                     for (Biome biome : entry.spawnBiomes) {
-                        // Method addSpawn = ObfuscationReflectionHelper.findMethod(Biome.class,
-                        // "addSpawn", EnumCreatureType.class, SpawnListEntry.class);
-                        // if(addSpawn == null) {
                         Method addSpawn = ObfuscationReflectionHelper.findMethod(Biome.class, "func_201866_a",
                                 EnumCreatureType.class, SpawnListEntry.class);
-                        // }
                         try {
-                            addSpawn.invoke(biome, entry.type,
-                                    new SpawnListEntry((EntityType<? extends EntityLiving>) type, entry.weight,
-                                            entry.minGroup, entry.maxGroup));
+                            addSpawn.invoke(biome, entry.type, new SpawnListEntry((EntityType<? extends EntityLiving>) type, entry.weight, entry.minGroup, entry.maxGroup));
                         } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
                             e.printStackTrace();
                         }

@@ -2,6 +2,7 @@ package its_meow.betteranimalsplus.client.renderer.entity.layers;
 
 import its_meow.betteranimalsplus.client.renderer.entity.RenderCoyote;
 import its_meow.betteranimalsplus.common.entity.EntityCoyote;
+import its_meow.betteranimalsplus.config.BetterAnimalsPlusConfig;
 import its_meow.betteranimalsplus.init.ModTextures;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
@@ -22,7 +23,7 @@ public class LayerCoyoteEyes implements LayerRenderer<EntityCoyote> {
     @Override
     public void render(EntityCoyote entity, float limbSwing, float limbSwingAmount, float partialTicks,
             float ageInTicks, float netHeadYaw, float headPitch, float scale) {
-        if (!entity.isDaytime()) {
+        if (!entity.isDaytime() || BetterAnimalsPlusConfig.coyotesHostileDaytime) {
             if (!entity.isTamed() && !entity.isInvisible() && !entity.isChild()) {
                 this.wolfRenderer.bindTexture(ModTextures.coyote_eyes);
 

@@ -15,8 +15,13 @@ public class RenderLamprey extends RenderLiving<EntityLamprey> {
 	}
 
 	@Override
-	protected void preRenderCallback(EntityLamprey entitylivingbaseIn, float partialTickTime) {
+	protected void preRenderCallback(EntityLamprey entity, float partialTickTime) {
 		GlStateManager.scaled(0.5D, 0.5D, 0.5D);
+		
+		if(entity.getRidingEntity() != null) {
+            GlStateManager.rotatef(180, 0, 1, 0);
+            GlStateManager.translatef(0, 0, 0.5F);
+		}
 	}
 
 	@Override

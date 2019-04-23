@@ -123,7 +123,7 @@ public class EntityFeralWolf extends EntityTameableWithTypes implements IMob {
     @Override
     public void onDeath(DamageSource cause) {
         super.onDeath(cause);
-        if (!world.isRemote && !this.isChild()) {
+        if (!world.isRemote && !this.isChild() && !(this instanceof EntityCoyote)) {
             if (this.rand.nextInt(12) == 0) {
                 ItemStack stack = new ItemStack(HeadTypes.WOLFHEAD.getItem(this.getTypeNumber()));
                 this.entityDropItem(stack, 0.5F);
