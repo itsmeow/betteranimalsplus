@@ -248,7 +248,7 @@ public class EntityGoat extends EntityAnimalEatsGrassWithTypes {
 
     @Override
     public boolean writeUnlessRemoved(NBTTagCompound compound) {
-        compound.setBoolean("AttackSync", this.isAttackingFromServer());
+        compound.putBoolean("AttackSync", this.isAttackingFromServer());
         return super.writeUnlessRemoved(compound);
     }
 

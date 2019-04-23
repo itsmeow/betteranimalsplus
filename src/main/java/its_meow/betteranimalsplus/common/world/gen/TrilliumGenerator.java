@@ -17,7 +17,7 @@ import net.minecraft.world.gen.feature.NoFeatureConfig;
 public class TrilliumGenerator extends Feature<NoFeatureConfig> {
 
     @Override
-    public boolean func_212245_a(IWorld world, IChunkGenerator<? extends IChunkGenSettings> genSettings, Random rand,
+    public boolean place(IWorld world, IChunkGenerator<? extends IChunkGenSettings> genSettings, Random rand,
             BlockPos pos, NoFeatureConfig cfg) {
         for (IBlockState iblockstate = world.getBlockState(pos); (iblockstate.isAir(world, pos)
                 || iblockstate.isIn(BlockTags.LEAVES)) && pos.getY() > 0; iblockstate = world.getBlockState(pos)) {

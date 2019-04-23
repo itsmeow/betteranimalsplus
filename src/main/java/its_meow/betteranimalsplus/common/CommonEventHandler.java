@@ -17,7 +17,7 @@ public class CommonEventHandler {
             EntityBoar boar = (EntityBoar) e.getSource().getImmediateSource();
             boar.setInLove(null);
             BlockPos p = boar.getPosition();
-            boar.world.spawnParticle(Particles.HEART, p.getX(), p.getY(), p.getZ(), 0.0F, 0.05F, 0.0F);
+            boar.world.addParticle(Particles.HEART, p.getX(), p.getY(), p.getZ(), 0.0F, 0.05F, 0.0F);
         }
     }
 

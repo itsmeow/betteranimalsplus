@@ -108,7 +108,7 @@ public class TileEntityHandOfFate extends TileEntity {
     private void fireBurst() {
         Random rand = new Random();
         for (int i = 0; i < 100; i++) {
-            this.world.spawnParticle(Particles.FLAME, this.getPos().getX() + (rand.nextFloat() + 0.5F) / 2,
+            this.world.addParticle(Particles.FLAME, this.getPos().getX() + (rand.nextFloat() + 0.5F) / 2,
                     this.getPos().getY() + 1.5F, this.getPos().getZ() + (rand.nextFloat() + 0.5F) / 2, 0, 0.5F, 0);
         }
     }
@@ -116,16 +116,16 @@ public class TileEntityHandOfFate extends TileEntity {
     @Override
     public void read(NBTTagCompound compound) {
         super.read(compound);
-        if (compound.hasKey(this.keyOnFire)) {
+        if (compound.contains(this.keyOnFire)) {
             this.onFire = compound.getBoolean(this.keyOnFire);
         }
-        if (compound.hasKey(this.keyNetherWart)) {
+        if (compound.contains(this.keyNetherWart)) {
             this.hasNetherWart = compound.getBoolean(this.keyNetherWart);
         }
-        if (compound.hasKey(this.keyAntler)) {
+        if (compound.contains(this.keyAntler)) {
             this.hasAntler = compound.getBoolean(this.keyAntler);
         }
-        if (compound.hasKey(this.keyVenison)) {
+        if (compound.contains(this.keyVenison)) {
             this.hasVenison = compound.getBoolean(this.keyVenison);
         }
     }
@@ -133,10 +133,10 @@ public class TileEntityHandOfFate extends TileEntity {
     @Override
     public NBTTagCompound write(NBTTagCompound compound) {
         super.write(compound);
-        compound.setBoolean(this.keyOnFire, this.onFire);
-        compound.setBoolean(this.keyAntler, this.hasAntler);
-        compound.setBoolean(this.keyNetherWart, this.hasNetherWart);
-        compound.setBoolean(this.keyVenison, this.hasVenison);
+        compound.putBoolean(this.keyOnFire, this.onFire);
+        compound.putBoolean(this.keyAntler, this.hasAntler);
+        compound.putBoolean(this.keyNetherWart, this.hasNetherWart);
+        compound.putBoolean(this.keyVenison, this.hasVenison);
         return compound;
     }
 

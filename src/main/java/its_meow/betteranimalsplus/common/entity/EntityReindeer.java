@@ -478,7 +478,7 @@ public class EntityReindeer extends EntityAnimal implements IJumpingMount, IVari
         }
 
         if (this.isChild() && i > 0) {
-            this.world.spawnParticle(Particles.HAPPY_VILLAGER,
+            this.world.addParticle(Particles.HAPPY_VILLAGER,
                     this.posX + this.rand.nextFloat() * this.width * 2.0F - this.width,
                     this.posY + 0.5D + this.rand.nextFloat() * this.height,
                     this.posZ + this.rand.nextFloat() * this.width * 2.0F - this.width, 0.0D, 0.0D, 0.0D);
@@ -558,7 +558,7 @@ public class EntityReindeer extends EntityAnimal implements IJumpingMount, IVari
 
         super.livingTick();
         if (this.rand.nextInt(10) == 0) {
-            this.world.spawnParticle(Particles.POOF, this.posX + this.rand.nextInt(4) - 2F,
+            this.world.addParticle(Particles.POOF, this.posX + this.rand.nextInt(4) - 2F,
                     this.posY + this.rand.nextInt(4), this.posZ + this.rand.nextInt(4) - 2F, 0F, -0.2F, 0F);
         }
         if (!this.world.isRemote) {
@@ -799,11 +799,11 @@ public class EntityReindeer extends EntityAnimal implements IJumpingMount, IVari
 
     @Override
     public boolean writeUnlessRemoved(NBTTagCompound compound) {
-        compound.setBoolean("EatingHaystack", this.isEatingHaystack());
-        compound.setBoolean("Bred", this.isBreeding());
+        compound.putBoolean("EatingHaystack", this.isEatingHaystack());
+        compound.putBoolean("Bred", this.isBreeding());
 
         this.writeType(compound);
-        compound.setBoolean("IsParentRudolph", this.parentRudolph);
+        compound.putBoolean("IsParentRudolph", this.parentRudolph);
         return super.writeUnlessRemoved(compound);
     }
 
@@ -923,7 +923,7 @@ public class EntityReindeer extends EntityAnimal implements IJumpingMount, IVari
             double d0 = this.rand.nextGaussian() * 0.02D;
             double d1 = this.rand.nextGaussian() * 0.02D;
             double d2 = this.rand.nextGaussian() * 0.02D;
-            this.world.spawnParticle(enumparticletypes,
+            this.world.addParticle(enumparticletypes,
                     this.posX + this.rand.nextFloat() * this.width * 2.0F - this.width,
                     this.posY + 0.5D + this.rand.nextFloat() * this.height,
                     this.posZ + this.rand.nextFloat() * this.width * 2.0F - this.width, d0, d1, d2);

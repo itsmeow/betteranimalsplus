@@ -1239,9 +1239,9 @@ public class ModelHirschgeistMain extends ModelBase {
         if (entity instanceof EntityHirschgeist) {
             GlStateManager.color4f(1.0F, 1.0F, 1.0F, ((EntityHirschgeist) entity).isDaytime() ? 0.15F : 1.0F);
         }
-        Minecraft.getInstance().entityRenderer.setupFogColor(true);
+        Minecraft.getInstance().gameRenderer.setupFogColor(true);
         this.ectoplasm01.render(f5);
-        Minecraft.getInstance().entityRenderer.setupFogColor(false);
+        Minecraft.getInstance().gameRenderer.setupFogColor(false);
         i = entity.getBrightnessForRender();
         j = i % 65536;
         k = i / 65536;

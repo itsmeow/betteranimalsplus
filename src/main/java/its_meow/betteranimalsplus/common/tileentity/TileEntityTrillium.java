@@ -26,10 +26,10 @@ public class TileEntityTrillium extends TileEntity {
 
     public TileEntityTrillium() {
         super(ModTileEntities.TRILLIUM_TYPE);
-        if (!this.getTileData().hasKey(this.keyType)) {
+        if (!this.getTileData().contains(this.keyType)) {
             this.setType(new Random().nextInt(5));
         }
-        if (!this.getTileData().hasKey(this.keyModel)) {
+        if (!this.getTileData().contains(this.keyModel)) {
             this.modelNum = new Random().nextInt(3);
             this.markDirty();
         }
@@ -51,12 +51,12 @@ public class TileEntityTrillium extends TileEntity {
     @Override
     public void read(NBTTagCompound compound) {
         super.read(compound);
-        if (compound.hasKey(this.keyType)) {
+        if (compound.contains(this.keyType)) {
             this.typeNum = compound.getInt(this.keyType);
         } else {
             this.setType(new Random().nextInt(5)); // 1/5 chance
         }
-        if (compound.hasKey(this.keyModel)) {
+        if (compound.contains(this.keyModel)) {
             this.modelNum = compound.getInt(this.keyModel);
         } else {
             this.setModelNum(new Random().nextInt(3));
@@ -66,8 +66,8 @@ public class TileEntityTrillium extends TileEntity {
     @Override
     public NBTTagCompound write(NBTTagCompound compound) {
         super.write(compound);
-        compound.setInt(this.keyType, this.typeNum);
-        compound.setInt(this.keyModel, this.modelNum);
+        compound.putInt(this.keyType, this.typeNum);
+        compound.putInt(this.keyModel, this.modelNum);
         return compound;
     }
 

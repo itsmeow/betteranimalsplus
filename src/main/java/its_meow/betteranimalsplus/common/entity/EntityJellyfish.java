@@ -96,7 +96,7 @@ public class EntityJellyfish extends EntitySquid implements IVariantTypes {
     @Override
     public boolean writeUnlessRemoved(NBTTagCompound compound) {
         this.writeType(compound);
-        compound.setFloat("Size", this.getSize());
+        compound.putFloat("Size", this.getSize());
         return super.writeUnlessRemoved(compound);
     }
 

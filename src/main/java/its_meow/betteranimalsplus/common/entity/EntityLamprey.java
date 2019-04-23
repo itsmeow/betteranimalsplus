@@ -137,7 +137,7 @@ public class EntityLamprey extends EntityWaterMobWithTypes implements IMob {
 	@Override
 	public void livingTick() {
 		super.livingTick();
-		if(!this.world.isRemote && this.getAttackTarget() != null && !this.getAttackTarget().removed) {
+		if(!this.world.isRemote && this.getAttackTarget() != null && !this.getAttackTarget().isAlive()) {
 			if(this.getRidingEntity() != null && this.getRidingEntity() == this.getAttackTarget()) {
 			    float time = 20F; 
 			    if(!this.inWater) {

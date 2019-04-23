@@ -49,7 +49,7 @@ public class TileEntityHead extends TileEntity {
             this.textures.put(i, texture);
             i++;
         }
-        if (!this.getTileData().hasKey("TYPENUM")) {
+        if (!this.getTileData().contains("TYPENUM")) {
             this.setType(new Random().nextInt(type.textureCount) + 1);
             this.markDirty();
         }
@@ -98,16 +98,16 @@ public class TileEntityHead extends TileEntity {
     @Override
     public void read(NBTTagCompound compound) {
         super.read(compound);
-        if (compound.hasKey("TYPENUM")) {
+        if (compound.contains("TYPENUM")) {
             this.typeNum = compound.getInt("TYPENUM");
         } else {
             this.setType(new Random().nextInt(this.textures.size()) + 1);
         }
 
-        if (compound.hasKey("rotation")) {
+        if (compound.contains("rotation")) {
             this.rotation = compound.getFloat("rotation");
         }
-        if (compound.hasKey("GENERIC_TYPE")) {
+        if (compound.contains("GENERIC_TYPE")) {
 			this.type = HeadTypes.valueOf(compound.getString("GENERIC_TYPE"));
 
 			// Create with proper constructor for type
@@ -123,9 +123,9 @@ public class TileEntityHead extends TileEntity {
     @Override
     public NBTTagCompound write(NBTTagCompound compound) {
         super.write(compound);
-        compound.setInt("TYPENUM", this.typeNum);
-        compound.setFloat("rotation", rotation);
-        compound.setString("GENERIC_TYPE", type.name());
+        compound.putInt("TYPENUM", this.typeNum);
+        compound.putFloat("rotation", rotation);
+        compound.putString("GENERIC_TYPE", type.name());
         return compound;
     }
 

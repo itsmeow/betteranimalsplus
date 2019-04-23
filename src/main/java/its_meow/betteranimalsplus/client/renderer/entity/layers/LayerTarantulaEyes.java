@@ -39,10 +39,10 @@ public class LayerTarantulaEyes implements LayerRenderer<EntityTarantula> {
             int j = i % 65536;
             int k = i / 65536;
             OpenGlHelper.glMultiTexCoord2f(OpenGlHelper.GL_TEXTURE1, j, k);
-            Minecraft.getInstance().entityRenderer.setupFogColor(true);
+            Minecraft.getInstance().gameRenderer.setupFogColor(true);
             this.tarantulaRenderer.getMainModel().render(entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw,
                     headPitch, scale);
-            Minecraft.getInstance().entityRenderer.setupFogColor(false);
+            Minecraft.getInstance().gameRenderer.setupFogColor(false);
             i = entity.getBrightnessForRender();
             j = i % 65536;
             k = i / 65536;

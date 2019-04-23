@@ -61,7 +61,7 @@ public class HirschgeistAIFlameAttack extends EntityAIBase {
             this.areaEffectCloud.setOwner(this.attacker);
             this.areaEffectCloud.setRadius(3.0F);
             this.areaEffectCloud.setDuration(2000);
-            this.areaEffectCloud.func_195059_a(Particles.FLAME);
+            this.areaEffectCloud.setParticleData(Particles.FLAME);
             this.areaEffectCloud.addEffect(new PotionEffect(MobEffects.INSTANT_DAMAGE));
             /*
              * IBlockState blockstate = this.world.getBlockState(tPos);
@@ -91,7 +91,7 @@ public class HirschgeistAIFlameAttack extends EntityAIBase {
                 double d5 = d2 + this.attacker.getRNG().nextGaussian() / 2.0D;
 
                 for (int j = 0; j < 6; ++j) {
-                    this.attacker.world.spawnParticle(Particles.FLAME, d3, d4, d5, -vec3d.x * 0.07999999821186066D * j,
+                    this.attacker.world.addParticle(Particles.FLAME, d3, d4, d5, -vec3d.x * 0.07999999821186066D * j,
                             -vec3d.y * 0.6000000238418579D, -vec3d.z * 0.07999999821186066D * j);
                 }
 

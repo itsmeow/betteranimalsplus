@@ -41,7 +41,7 @@ public interface IVariantTypes {
     }
 
     default void writeType(NBTTagCompound compound) {
-        compound.setInt("TypeNumber", this.getTypeNumber());
+        compound.putInt("TypeNumber", this.getTypeNumber());
     }
 
     default void readType(NBTTagCompound compound) {

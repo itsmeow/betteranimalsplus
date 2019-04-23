@@ -454,7 +454,7 @@ public class EntityLammergeier extends EntityTameableFlying implements IVariantT
     @Override
     public boolean writeUnlessRemoved(NBTTagCompound compound) {
         this.writeType(compound);
-        compound.setByte("LammerFlying", this.dataManager.get(EntityLammergeier.FLYING).byteValue());
+        compound.putByte("LammerFlying", this.dataManager.get(EntityLammergeier.FLYING).byteValue());
         return super.writeUnlessRemoved(compound);
     }
 
