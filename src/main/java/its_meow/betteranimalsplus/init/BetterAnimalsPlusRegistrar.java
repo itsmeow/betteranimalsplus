@@ -109,15 +109,6 @@ public class BetterAnimalsPlusRegistrar {
 
 	private static void registerTE(IForgeRegistry<TileEntityType<?>> reg, TileEntityType<?> type) {
 		reg.register(type);
-		/*String id = type.getRegistryName().toString();
-		try {
-			Schema s = DataFixesManager.getDataFixer().getSchema(DataFixUtils.makeKey(1631));
-			HashMap<String, Supplier<TypeTemplate>> map = new HashMap<String, Supplier<TypeTemplate>>();
-			map.put(id, () -> s.findChoiceType(TypeReferences.BLOCK_ENTITY).template());
-			s.registerSimple(map, id);
-		} catch (IllegalArgumentException e) {
-			e.printStackTrace();
-		}*/
 	}
 
 }
