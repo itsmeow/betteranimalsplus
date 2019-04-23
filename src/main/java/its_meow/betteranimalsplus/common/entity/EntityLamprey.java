@@ -72,8 +72,7 @@ public class EntityLamprey extends EntityWaterMobWithTypes implements IMob {
     }
 
 	@Override
-	public boolean attackEntityAsMob(Entity entityIn)
-	{
+	public boolean attackEntityAsMob(Entity entityIn) {
 		float f = (float)this.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getValue();
 
 		if(entityIn instanceof EntityLivingBase) {
@@ -130,6 +129,10 @@ public class EntityLamprey extends EntityWaterMobWithTypes implements IMob {
                 this.motionX = (this.getMoveHelper().getX() - this.posX) * 0.05F;
                 this.motionZ = (this.getMoveHelper().getZ() - this.posZ) * 0.05F;
                 this.motionY = (this.getMoveHelper().getY() - this.posY) * 0.05F;
+            } else {
+                this.motionX *= 0.85F;
+                this.motionY *= 0.85F;
+                this.motionZ *= 0.85F;
             }
         }
 	}
@@ -137,7 +140,7 @@ public class EntityLamprey extends EntityWaterMobWithTypes implements IMob {
 	@Override
 	public void livingTick() {
 		super.livingTick();
-		if(!this.world.isRemote && this.getAttackTarget() != null && !this.getAttackTarget().isAlive()) {
+		if(!this.world.isRemote && this.getAttackTarget() != null && this.getAttackTarget().isAlive()) {
 			if(this.getRidingEntity() != null && this.getRidingEntity() == this.getAttackTarget()) {
 			    float time = 20F; 
 			    if(!this.inWater) {

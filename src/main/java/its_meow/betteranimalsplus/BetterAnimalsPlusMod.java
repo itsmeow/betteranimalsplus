@@ -88,7 +88,7 @@ public class BetterAnimalsPlusMod {
 	@SubscribeEvent
 	public static void onPlayerJoin(PlayerLoggedInEvent e) {
 	    if(e.getPlayer() instanceof EntityPlayerMP) {
-	        HANDLER.sendTo(new ClientConfigurationPacket(BetterAnimalsPlusConfig.coyotesHostileDaytime), ((EntityPlayerMP) e.getPlayer()).connection.netManager, NetworkDirection.LOGIN_TO_CLIENT);
+	        HANDLER.sendTo(new ClientConfigurationPacket(BetterAnimalsPlusConfig.coyotesHostileDaytime), ((EntityPlayerMP) e.getPlayer()).connection.netManager, NetworkDirection.PLAY_TO_CLIENT);
 	    }
 	}
 

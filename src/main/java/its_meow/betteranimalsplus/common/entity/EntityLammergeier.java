@@ -118,6 +118,13 @@ public class EntityLammergeier extends EntityTameableFlying implements IVariantT
         this.targetTasks.addTask(1, new EntityAIOwnerHurtByTarget(this));
         this.targetTasks.addTask(2, new EntityAIOwnerHurtTarget(this));
         this.targetTasks.addTask(3, new EntityLammergeier.EntityAIFindEntityNearestFlying(this, EntitySkeleton.class));
+    } 
+
+    @Override
+    public void setAttackTarget(EntityLivingBase entitylivingbaseIn) {
+        if(!this.isSitting()) {
+            super.setAttackTarget(entitylivingbaseIn);
+        }
     }
 
     @Override

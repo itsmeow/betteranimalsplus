@@ -27,7 +27,7 @@ public class ClientConfigurationPacket {
     
     public static class Handler {
         public static void handle(ClientConfigurationPacket msg, Supplier<NetworkEvent.Context> ctx) {
-            if(ctx.get().getDirection() != NetworkDirection.LOGIN_TO_CLIENT) {
+            if(ctx.get().getDirection() != NetworkDirection.PLAY_TO_CLIENT) {
                 return;
             }
             BetterAnimalsPlusConfig.coyotesHostileDaytime = msg.coyoteHostileDaytime;
