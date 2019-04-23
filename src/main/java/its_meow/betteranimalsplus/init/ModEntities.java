@@ -53,7 +53,7 @@ public class ModEntities {
 		add(EntityBoar.class, "boar", EnumCreatureType.CREATURE, 0x3d3c3b, 0xbca895, BetterAnimalsPlusConfig.boarWeight, 1, 4, Type.FOREST, Type.JUNGLE, Type.PLAINS, Type.SAVANNA);
 		add(EntitySquirrel.class, "squirrel", EnumCreatureType.CREATURE, 0x89806f, 0xb2a489, BetterAnimalsPlusConfig.squirrelWeight, 1, 3, Type.FOREST);
         add(EntitySongbird.class, "songbird", EnumCreatureType.CREATURE, 0x46f4d2, 0x7df442, BetterAnimalsPlusConfig.songbirdWeight, 1, 4, Type.FOREST, Type.PLAINS);
-        add(EntityBadger.class, "badger", EnumCreatureType.CREATURE, 0x0c0c0c, 0xd3d3d3, BetterAnimalsPlusConfig.badgerWeight, 2, 7, Type.FOREST, Type.PLAINS, Type.SAVANNA);
+        add(EntityBadger.class, "badger", EnumCreatureType.CREATURE, 0x0c0c0c, 0xd3d3d3, BetterAnimalsPlusConfig.badgerWeight, 1, 2, Type.FOREST, Type.PLAINS, Type.SAVANNA);
         add(EntityLamprey.class, "lamprey", EnumCreatureType.WATER_CREATURE, 0x0000ad, 0x0a0a0a, BetterAnimalsPlusConfig.lampreyWeight, 1, 1, Type.WATER);
     }
     

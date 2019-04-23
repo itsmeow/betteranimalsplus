@@ -91,9 +91,8 @@ public class BetterAnimalsPlusRegistrar {
 	public static void registerEntities(final RegistryEvent.Register<EntityEntry> event) {
 		final IForgeRegistry<EntityEntry> registry = event.getRegistry();
 
-		for (EntityContainer container : entityList) {
-			if (container.doRegister)
-				reg(container);
+		for(EntityContainer container : entityList) {
+		    reg(container);
 		}
 		EntitySpawnPlacementRegistry.setPlacementType(EntityLammergeier.class, SpawnPlacementType.IN_AIR);
 		register(EntityTarantulaHair.class, "tarantulahair");

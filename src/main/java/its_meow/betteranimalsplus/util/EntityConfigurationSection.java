@@ -8,7 +8,6 @@ public class EntityConfigurationSection {
 
     public Class<? extends Entity> entityClazz;
     public String categoryName;
-    public boolean doRegister;
     public boolean doSpawning;
     public int min;
     public int max;
@@ -19,13 +18,8 @@ public class EntityConfigurationSection {
         this.categoryName = entity.getName();
         config.addCustomCategoryComment(this.categoryName, "");
         this.entityClazz = entity;
-        this.loadRegister();
         this.loadSpawning();
         this.loadSpawnValues(weight, min, max, biomesList);
-    }
-
-    public void loadRegister() {
-        this.doRegister = config.getBoolean("doRegistration", this.categoryName, true, "If set to false, the entity is removed (will remove from existing worlds!)");
     }
 
     public void loadSpawning() {

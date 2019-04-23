@@ -15,10 +15,12 @@ import its_meow.betteranimalsplus.init.ModBlocks;
 import its_meow.betteranimalsplus.init.ModEntities;
 import its_meow.betteranimalsplus.init.ModItems;
 import its_meow.betteranimalsplus.init.ModOreDictSmelting;
+import its_meow.betteranimalsplus.network.ClientConfigurationPacket;
 import its_meow.betteranimalsplus.util.EntityContainer;
 import its_meow.betteranimalsplus.util.HeadTypes;
 import its_meow.betteranimalsplus.world.gen.TrilliumGenerator;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemMonsterPlacer;
 import net.minecraft.item.ItemStack;
@@ -35,13 +37,20 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
+import net.minecraftforge.fml.common.network.NetworkRegistry;
+import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.relauncher.Side;
 
 @Mod.EventBusSubscriber(modid = Ref.MOD_ID)
 @Mod(modid = Ref.MOD_ID, name = Ref.NAME, version = Ref.VERSION, acceptedMinecraftVersions = Ref.acceptedMCV, updateJSON = Ref.updateJSON)
 public class BetterAnimalsPlusMod {
 
     public static final int FIXER_VERSION = 2;
+    public static final SimpleNetworkWrapper NETWORK_INSTANCE = NetworkRegistry.INSTANCE.newSimpleChannel(Ref.MOD_ID);
+    public static int packets = 0;
 
 	@Instance(Ref.MOD_ID)
     public static BetterAnimalsPlusMod mod;
@@ -78,6 +87,7 @@ public class BetterAnimalsPlusMod {
         File directory = event.getModConfigurationDirectory();
         config = new Configuration(new File(directory.getPath(), "betteranimalsplus.cfg"));
         BetterAnimalsPlusConfig.readConfig(true);
+        NETWORK_INSTANCE.registerMessage(ClientConfigurationPacket.class, ClientConfigurationPacket.class, packets++, Side.CLIENT);
     }
 
     @EventHandler
@@ -104,6 +114,13 @@ public class BetterAnimalsPlusMod {
 	@EventHandler
 	public static void serverStart(FMLServerStartingEvent e) {
 		BetterAnimalsPlusConfig.readConfig(false);
+	}
+	
+	@SubscribeEvent
+	public static void onPlayerJoin(PlayerLoggedInEvent e) {
+	    if(e.player instanceof EntityPlayerMP) {
+	        NETWORK_INSTANCE.sendTo(new ClientConfigurationPacket(BetterAnimalsPlusConfig.coyotesHostileDaytime), (EntityPlayerMP) e.player);
+	    }
 	}
 
 }
