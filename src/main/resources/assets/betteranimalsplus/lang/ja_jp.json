@@ -40,6 +40,9 @@
     "entity.betteranimalsplus.reindeer": "トナカイ",
     "entity.betteranimalsplus.boar": "イノシシ",
     "entity.betteranimalsplus.squirrel": "リス",
+	"entity.betteranimalsplus.songbird": "小鳥",
+	"entity.betteranimalsplus.badger.name": "アナグマ",
+	"entity.betteranimalsplus.lamprey.name": "ヤツメウナギ",
 	
 	"misc.betteranimalsplus.eggorder": "%sのスポーンエッグ"
 }

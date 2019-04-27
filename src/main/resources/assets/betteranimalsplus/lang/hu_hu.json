@@ -40,6 +40,9 @@
     "entity.betteranimalsplus.reindeer": "Rénszarvas",
     "entity.betteranimalsplus.boar": "Vaddisznó",
     "entity.betteranimalsplus.squirrel": "Mókus",
+	"entity.betteranimalsplus.songbird": "Énekesmadár",
+	"entity.betteranimalsplus.badger.name": "Borz",
+	"entity.betteranimalsplus.lamprey.name": "Ingola",
 	
 	"misc.betteranimalsplus.eggorder": "%sidéző tojás"
 }
