@@ -5,7 +5,7 @@
   "description": "Companion mod to Better Animals adding new creatures with the Better Animals art style.",
   "version": "${version}",
   "mcversion": "${mcversion}",
-  "url": "http://itsmeow.net16.net",
+  "url": "https://minecraft.curseforge.com/projects/betteranimalsplus",
   "updateUrl": "https://minecraft.curseforge.com/projects/betteranimalsplus",
   "authorList": ["cybercat5555", "its_meow (hiotewdew)"],
   "credits": "Cybercat5555: Design, Modeling, Texturing, Ideas; its_meow: Programming, AI, Functionality",
