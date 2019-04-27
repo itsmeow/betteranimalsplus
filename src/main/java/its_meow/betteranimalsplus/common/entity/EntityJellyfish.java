@@ -5,10 +5,11 @@ import java.util.Random;
 import javax.annotation.Nullable;
 
 import its_meow.betteranimalsplus.init.ModEntities;
-import net.minecraft.entity.EntityType;
 import net.minecraft.entity.IEntityLivingData;
+import net.minecraft.entity.MoverType;
+import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIBase;
-import net.minecraft.entity.passive.EntitySquid;
+import net.minecraft.entity.passive.EntityWaterMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.MobEffects;
 import net.minecraft.init.SoundEvents;
@@ -18,25 +19,48 @@ import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.DifficultyInstance;
+import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
-public class EntityJellyfish extends EntitySquid implements IVariantTypes {
+public class EntityJellyfish extends EntityWaterMob implements IVariantTypes {
 	
     protected static final DataParameter<Integer> TYPE_NUMBER = EntityDataManager.<Integer>createKey(EntityJellyfish.class, DataSerializers.VARINT);
     protected static final DataParameter<Float> SIZE = EntityDataManager.<Float>createKey(EntityJellyfish.class, DataSerializers.FLOAT);
     protected int attackCooldown = 0;
+    
+    public float jellyYaw;
+    public float prevJellyYaw;
+    public float jellyRotation;
+    public float prevJellyRotation;
+    private float randomMotionSpeed;
+    private float rotationVelocity;
+    private float rotateSpeed;
+    private float randomMotionVecX;
+    private float randomMotionVecY;
+    private float randomMotionVecZ;
 
     public EntityJellyfish(World worldIn) {
-        super(worldIn);
+        super(ModEntities.getEntityType(EntityJellyfish.class), worldIn);
+        this.setSize(0.8F, 0.8F);
+        rotationVelocity = (1.0F / (rand.nextFloat() + 1.0F) * 0.2F);
     }
-
-    @Override
-    public EntityType<?> getType() {
-        return ModEntities.getEntityType(EntityJellyfish.class);
+    
+    protected void registerAttributes() {
+        super.registerAttributes();
+        getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(10.0D);
+    }
+    
+    public float getEyeHeight() {
+        return height * 0.5F;
+    }
+    
+    protected boolean canTriggerWalking() {
+        return false;
     }
 
     @Override
@@ -51,7 +75,62 @@ public class EntityJellyfish extends EntitySquid implements IVariantTypes {
             this.attackCooldown--;
         }
     }
+    
+    public void livingTick() {
+        super.livingTick();
 
+        prevJellyYaw = jellyYaw;
+        prevJellyRotation = jellyRotation;
+
+        jellyRotation += rotationVelocity;
+        if (jellyRotation > 6.283185307179586D) {
+            if (world.isRemote) {
+                jellyRotation = 6.2831855F;
+            } else {
+                jellyRotation = ((float) (jellyRotation - 6.283185307179586D));
+                if (rand.nextInt(10) == 0) {
+                    rotationVelocity = (1.0F / (rand.nextFloat() + 1.0F) * 0.2F);
+                }
+                world.setEntityState(this, (byte) 19);
+            }
+        }
+        if (isInWaterOrBubbleColumn()) {
+            if (jellyRotation < 3.1415927F) {
+                float lvt_1_1_ = jellyRotation / 3.1415927F;
+                if (lvt_1_1_ > 0.75D) {
+                    randomMotionSpeed = 1.0F;
+                    rotateSpeed = 1.0F;
+                } else {
+                    rotateSpeed *= 0.8F;
+                }
+            } else {
+                randomMotionSpeed *= 0.9F;
+                rotateSpeed *= 0.99F;
+            }
+            if (!world.isRemote) {
+                motionX = (randomMotionVecX * randomMotionSpeed);
+                motionY = (randomMotionVecY * randomMotionSpeed);
+                motionZ = (randomMotionVecZ * randomMotionSpeed);
+            }
+            float lvt_1_2_ = MathHelper.sqrt(motionX * motionX + motionZ * motionZ);
+
+            renderYawOffset += (-(float) MathHelper.atan2(motionX, motionZ) * 57.295776F - renderYawOffset) * 0.1F;
+            rotationYaw = renderYawOffset;
+            jellyYaw = ((float) (jellyYaw + 3.141592653589793D * rotateSpeed * 1.5D));
+        } else {
+            if (!world.isRemote) {
+                motionX = 0.0D;
+                motionZ = 0.0D;
+                if (isPotionActive(MobEffects.LEVITATION)) {
+                    motionY += 0.05D * (getActivePotionEffect(MobEffects.LEVITATION).getAmplifier() + 1) - motionY;
+                } else if (!hasNoGravity()) {
+                    motionY -= 0.08D;
+                }
+                motionY *= 0.9800000190734863D;
+            }
+        }
+    }
+    
     @Override
     public void onCollideWithPlayer(EntityPlayer entity) {
         super.onCollideWithPlayer(entity);
@@ -67,11 +146,32 @@ public class EntityJellyfish extends EntitySquid implements IVariantTypes {
     protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
         return SoundEvents.ENTITY_SLIME_SQUISH;
     }
+    
+    public void travel(float p_191986_1_, float p_191986_2_, float p_191986_3_) {
+        move(MoverType.SELF, motionX, motionY, motionZ);
+    }
 
-    @Override
-    @Nullable
-    protected ResourceLocation getLootTable() {
-        return null;
+    public boolean canSpawn(IWorld p_205020_1_, boolean p_205020_2_) {
+        return (posY > 45.0D) && (posY < p_205020_1_.getSeaLevel());
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    public void handleStatusUpdate(byte p_70103_1_) {
+        if (p_70103_1_ == 19) {
+            jellyRotation = 0.0F;
+        } else {
+            super.handleStatusUpdate(p_70103_1_);
+        }
+    }
+
+    public void setMovementVector(float p_175568_1_, float p_175568_2_, float p_175568_3_) {
+        randomMotionVecX = p_175568_1_;
+        randomMotionVecY = p_175568_2_;
+        randomMotionVecZ = p_175568_3_;
+    }
+
+    public boolean hasMovementVector() {
+        return (randomMotionVecX != 0.0F) || (randomMotionVecY != 0.0F) || (randomMotionVecZ != 0.0F);
     }
 
     /* NBT AND TYPE CODE: */

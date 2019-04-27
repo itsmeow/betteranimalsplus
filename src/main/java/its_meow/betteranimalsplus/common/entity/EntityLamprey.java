@@ -1,5 +1,9 @@
 package its_meow.betteranimalsplus.common.entity;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import its_meow.betteranimalsplus.common.entity.miniboss.hirschgeist.EntityHirschgeist;
 import its_meow.betteranimalsplus.init.ModEntities;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
@@ -9,6 +13,8 @@ import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIMoveTowardsTarget;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
+import net.minecraft.entity.monster.EntityEnderman;
+import net.minecraft.entity.monster.EntitySkeleton;
 import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.passive.EntityWaterMob;
 import net.minecraft.entity.player.EntityPlayer;
@@ -39,7 +45,12 @@ public class EntityLamprey extends EntityWaterMobWithTypes implements IMob {
 	protected void initEntityAI() {
 		this.tasks.addTask(0, new EntityAIMoveTowardsTarget(this, 0.8D, 15F));
 		this.tasks.addTask(1, new EntityAIWatchClosest(this, EntityWaterMob.class, 10.0F));
-		this.targetTasks.addTask(0, new EntityAINearestAttackableTarget<EntityLivingBase>(this, EntityLivingBase.class, 100, true, true, e -> e instanceof EntityLivingBase && !(e instanceof IMob) && !(e instanceof EntityLamprey)));
+		Set<Class<? extends EntityLivingBase>> blackList = new HashSet<Class<? extends EntityLivingBase>>();
+        blackList.add(EntitySkeleton.class);
+        blackList.add(EntityEnderman.class);
+        blackList.add(EntityHirschgeist.class);
+        blackList.add(EntityJellyfish.class);
+        this.targetTasks.addTask(0, new EntityAINearestAttackableTarget<EntityLivingBase>(this, EntityLivingBase.class, 100, true, true, e -> e instanceof EntityLivingBase && !(e instanceof IMob) && !(e instanceof EntityLamprey) && !(blackList.contains(e.getClass()))));
 	}
 
 	@Override
