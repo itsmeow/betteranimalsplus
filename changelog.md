@@ -2,6 +2,7 @@
 -
 - Added Badgers
 - Added Lampreys
+- Added Songbirds
 - Trillium now match biome grass color
 - Lammergeiers have new animations
 - Deer are breedable (wheat)
