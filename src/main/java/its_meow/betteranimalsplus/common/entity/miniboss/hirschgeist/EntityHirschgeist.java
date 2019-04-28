@@ -107,7 +107,7 @@ public class EntityHirschgeist extends EntityLiving implements IMob {
         if (this.isDaytime() && FMLCommonHandler.instance().getSide() == Side.CLIENT && FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT) {
             if (source.getTrueSource() instanceof EntityPlayer) {
                 EntityPlayer player = (EntityPlayer) source.getTrueSource();
-                player.sendMessage(new TextComponentString("The " + I18n.format("entity.betteranimalsplus.Hirschgeist.name") + " is immortal in the daytime. Try fighting it later."));
+                player.sendMessage(new TextComponentString("The " + I18n.format("entity.betteranimalsplus.hirschgeist.name") + " is immortal in the daytime. Try fighting it later."));
             }
         }
         return this.isDaytime() ? false : super.attackEntityFrom(source, amount);
