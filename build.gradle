@@ -19,7 +19,7 @@ apply plugin: 'net.minecraftforge.gradle.forge'
 //Only edit below this line, the above code adds and enables the necessary things for Forge to be setup.
 
 
-version = "1.12.2-6.0.0"
+version = "1.12.2-6.0.1"
 group = "its_meow.betteranimalsplus"
 archivesBaseName = "betteranimalsplus"
 

@@ -1,3 +1,8 @@
+6.0.1 (1.12 only)
+-
+- Fix crash from Lamprey moving (unknown cause)
+- Fix invalid lang key on Hirschgeist daytime attack message
+
 6.0.0
 -
 - Added Badgers
