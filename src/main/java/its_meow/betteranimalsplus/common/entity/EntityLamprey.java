@@ -42,7 +42,7 @@ public class EntityLamprey extends EntityWaterMobWithTypes implements IMob {
     @Override
     protected void initEntityAI() {
         //this.tasks.addTask(0, new EntityAISwimming(this));
-        this.tasks.addTask(0, new EntityAIMoveTowardsAttackTarget(this, 0.8D, true));
+        this.tasks.addTask(0, new EntityAIMoveTowardsAttackTarget(this, 0.8D, 30));
         this.tasks.addTask(1, new EntityAIWatchClosest(this, EntityWaterMob.class, 10.0F));
         Set<Class<? extends EntityLivingBase>> blackList = new HashSet<Class<? extends EntityLivingBase>>();
         blackList.add(EntitySkeleton.class);
