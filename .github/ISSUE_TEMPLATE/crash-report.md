@@ -7,7 +7,7 @@ about: Create a crash report for Better Animals Plus
 **Describe what you were doing before the crash**
 [eg. Loading game, creating world, spawning a certain mob, hurting a mob, walking around]
 
-**To Reproduce**
+**To Reproduce** (Required unless unknown)
 Steps to reproduce the behavior (if possible):
 1. Spawn '...'
 2. Click on '....'
@@ -17,9 +17,9 @@ Steps to reproduce the behavior (if possible):
 Get your minecraft crash log and paste it here.
 
 **Versions:**
- - OS: [e.g. Windows, Mac, Linux (include distribution)]
+ - Forge Version: (check log if unknown)
  - MC Version:
  - Mod Version:
 
 **Additional context**
-Add any other context about the problem here.
+Add any other context about the problem here. This may be skipped/removed.
