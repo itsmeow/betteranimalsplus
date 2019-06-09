@@ -7,7 +7,6 @@ import javax.annotation.Nullable;
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.IEntityOwnable;
-import net.minecraft.entity.passive.EntityTameable;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
@@ -15,7 +14,7 @@ import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
 
-public abstract class EntityTameableWithTypes extends EntityTameable implements IVariantTypes, IEntityOwnable {
+public abstract class EntityTameableWithTypes extends EntityTameableBetterAnimalsPlus implements IVariantTypes, IEntityOwnable {
 
     protected static final DataParameter<Integer> TYPE_NUMBER = EntityDataManager.<Integer>createKey(EntityTameableWithTypes.class, DataSerializers.VARINT);
 

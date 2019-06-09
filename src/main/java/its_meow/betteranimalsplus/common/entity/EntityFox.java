@@ -216,7 +216,7 @@ public class EntityFox extends EntityTameableWithTypes {
 
 		if(this.isTamed() && !this.world.isRemote) {
 			if(this.isOwner(player)) {
-				if(this.isBreedingItem(stack) && !this.isInLove() && !this.isChild()) {
+				if(isTamingItem(EntityFox.class, stack.getItem()) && !this.isInLove() && !this.isChild()) {
 					if(this.isSitting()) {
 						this.aiSit.setSitting(false);
 					}
@@ -238,7 +238,7 @@ public class EntityFox extends EntityTameableWithTypes {
 					}
 				}
 			}
-		} else if(this.isBreedingItem(stack)) {
+		} else if(isTamingItem(EntityFox.class, stack.getItem())) {
 			this.consumeItemFromStack(player, stack);
 
 			if (!this.world.isRemote) {

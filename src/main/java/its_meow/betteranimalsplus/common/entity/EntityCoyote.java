@@ -5,7 +5,6 @@ import javax.annotation.Nullable;
 import com.google.common.base.Predicates;
 
 import its_meow.betteranimalsplus.config.BetterAnimalsPlusConfig;
-import its_meow.betteranimalsplus.init.ModItems;
 import its_meow.betteranimalsplus.util.HeadTypes;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityAgeable;
@@ -143,7 +142,7 @@ public class EntityCoyote extends EntityFeralWolf {
                 this.navigator.clearPath();
                 this.setAttackTarget((EntityLivingBase) null);
             }
-        } else if (itemstack.getItem() == Items.RABBIT || itemstack.getItem() == Items.CHICKEN || itemstack.getItem() == Items.COOKED_CHICKEN || itemstack.getItem() == Items.COOKED_RABBIT || itemstack.getItem() == ModItems.pheasantRaw || itemstack.getItem() == ModItems.pheasantCooked) {
+        } else if(isTamingItem(EntityCoyote.class, itemstack.getItem())) {
             if(BetterAnimalsPlusConfig.coyotesHostileDaytime) {
                 if (!this.world.isRemote) {
                     player.sendMessage(new TextComponentString("This coyote is always hostile. It cannot be tamed (server configuration)"));

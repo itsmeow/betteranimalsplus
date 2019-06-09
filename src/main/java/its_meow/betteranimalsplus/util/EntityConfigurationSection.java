@@ -13,13 +13,21 @@ public class EntityConfigurationSection {
     public int max;
     public int weight;
     public String[] biomesList;
+    public String[] tameItems;
 
-    public EntityConfigurationSection(Class<? extends Entity> entity, int min, int max, int weight, String[] biomesList) {
+    public EntityConfigurationSection(Class<? extends Entity> entity, int min, int max, int weight, String[] tameItems, String[] biomesList) {
         this.categoryName = entity.getName();
         config.addCustomCategoryComment(this.categoryName, "");
         this.entityClazz = entity;
         this.loadSpawning();
         this.loadSpawnValues(weight, min, max, biomesList);
+        if(tameItems.length > 0) {
+            this.loadTamingItems(tameItems);
+        }
+    }
+
+    public void loadTamingItems(String[] tameItems) {
+        this.tameItems = config.getStringList("tameItems", this.categoryName, tameItems, "List of acceptable item IDs to use for taming");
     }
 
     public void loadSpawning() {
