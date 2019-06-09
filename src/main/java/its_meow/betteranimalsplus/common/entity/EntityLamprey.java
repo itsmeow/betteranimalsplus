@@ -5,6 +5,7 @@ import java.util.Set;
 
 import its_meow.betteranimalsplus.common.entity.ai.EntityAIFindEntityNearestPredicate;
 import its_meow.betteranimalsplus.common.entity.ai.EntityAIMoveTowardsAttackTarget;
+import its_meow.betteranimalsplus.common.entity.ai.EntityAIWanderWaterEntity;
 import its_meow.betteranimalsplus.common.entity.miniboss.hirschgeist.EntityHirschgeist;
 import its_meow.betteranimalsplus.init.ModLootTables;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -46,6 +47,7 @@ public class EntityLamprey extends EntityWaterMobWithTypes implements IMob {
         //this.tasks.addTask(0, new EntityAISwimming(this));
         this.tasks.addTask(0, new EntityAIMoveTowardsAttackTarget(this, 0.8D, 30));
         this.tasks.addTask(1, new EntityAIWatchClosest(this, EntityWaterMob.class, 10.0F));
+        this.tasks.addTask(2, new EntityAIWanderWaterEntity(this, 0.5D));
         Set<Class<? extends EntityLivingBase>> blackList = new HashSet<Class<? extends EntityLivingBase>>();
         blackList.add(EntitySkeleton.class);
         blackList.add(EntityEnderman.class);
