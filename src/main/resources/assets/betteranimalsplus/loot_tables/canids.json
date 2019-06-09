@@ -2,7 +2,7 @@
 {
     "pools": [
         {
-            "name": "main",
+            "name": "canids",
             "rolls": {
                 "min": 0,
                 "max": 1

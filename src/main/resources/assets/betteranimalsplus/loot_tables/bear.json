@@ -2,7 +2,7 @@
 {
 	"pools": [
 		{
-			"name": "main",
+			"name": "bear",
 			"rolls": {
 				"min": 1,
 				"max": 1
