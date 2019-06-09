@@ -26,11 +26,11 @@ public class RenderGenericHead extends TileEntitySpecialRenderer<TileEntityHead>
 	public void render(TileEntityHead te, double x, double y, double z, float partialTicks, int destroyStage, float alpha) {
 
 		IBlockState iblockstate = te.getWorld().getBlockState(te.getPos());
-		if(iblockstate == null) {
+		if(iblockstate == null || !(iblockstate.getBlock() instanceof BlockAnimalSkull)) {
 			return;
 		}
-		boolean flag = iblockstate.getBlock() instanceof BlockAnimalSkull;
-		EnumFacing enumfacing = flag ? iblockstate.getValue(BlockAnimalSkull.FACING) : null;
+		EnumFacing enumfacing = iblockstate.getValue(BlockAnimalSkull.FACING); 
+		enumfacing = enumfacing == null ? EnumFacing.NORTH : enumfacing;
 		float rotation = -enumfacing.getHorizontalAngle();
 		rotation = (enumfacing == EnumFacing.NORTH || enumfacing == EnumFacing.SOUTH) ? enumfacing.getOpposite().getHorizontalAngle() : rotation;
 		rotation = (enumfacing == EnumFacing.UP) ? te.getSkullRotation() : rotation;
@@ -59,7 +59,7 @@ public class RenderGenericHead extends TileEntitySpecialRenderer<TileEntityHead>
 
 		GlStateManager.pushMatrix();
 		GlStateManager.disableCull();
-		this.translateHead(x, y, z, facing, 1.5F + yOffset, type);
+		translateHead(x, y, z, facing, 1.5F + yOffset, type);
 
 		GlStateManager.enableRescaleNormal();
 		GlStateManager.scale(-1.0F, -1.0F, 1.0F);
@@ -78,7 +78,7 @@ public class RenderGenericHead extends TileEntitySpecialRenderer<TileEntityHead>
 
 	}
 
-	private void translateHead(float x, float y, float z, EnumFacing face, float yOffset, HeadTypes type) {
+	private static void translateHead(float x, float y, float z, EnumFacing face, float yOffset, HeadTypes type) {
         if (face == null) {
             GlStateManager.translate(x + 0.5F, y + 0.25F + yOffset + 0.3F, z + 1.0F);
             return;
