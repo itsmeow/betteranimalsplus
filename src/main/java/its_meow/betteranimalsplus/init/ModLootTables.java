@@ -13,5 +13,6 @@ public class ModLootTables {
     public static final ResourceLocation pheasant = new ResourceLocation(Ref.MOD_ID, "pheasant");
     public static final ResourceLocation reindeer = new ResourceLocation(Ref.MOD_ID, "reindeer");
     public static final ResourceLocation songbird = new ResourceLocation(Ref.MOD_ID, "songbird");
+    public static final ResourceLocation lamprey = new ResourceLocation(Ref.MOD_ID, "lamprey");
 
 }
