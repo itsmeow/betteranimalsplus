@@ -4,31 +4,31 @@ import its_meow.betteranimalsplus.common.entity.miniboss.hirschgeist.ai.Hirschge
 import its_meow.betteranimalsplus.common.entity.miniboss.hirschgeist.ai.HirschgeistAIFlameAttack;
 import its_meow.betteranimalsplus.init.ModEntities;
 import its_meow.betteranimalsplus.init.ModLootTables;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.BlockState;
 import net.minecraft.client.resources.I18n;
-import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.MobEntity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIFindEntityNearestPlayer;
-import net.minecraft.entity.ai.EntityAISwimming;
-import net.minecraft.entity.ai.EntityAIWatchClosest;
+import net.minecraft.entity.ai.goal.SwimGoal;
+import net.minecraft.entity.ai.goal.LookAtGoal;
 import net.minecraft.entity.monster.IMob;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.SoundEvents;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.util.SoundEvents;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.fml.common.thread.SidedThreadGroups;
 import net.minecraftforge.fml.loading.FMLEnvironment;
 
-public class EntityHirschgeist extends EntityLiving implements IMob {
+public class EntityHirschgeist extends MobEntity implements IMob {
 
     public EntityHirschgeist(World worldIn) {
         super(ModEntities.getEntityType(EntityHirschgeist.class), worldIn);
@@ -38,10 +38,10 @@ public class EntityHirschgeist extends EntityLiving implements IMob {
     @Override
     public void initEntityAI() {
         super.initEntityAI();
-        this.tasks.addTask(1, new EntityAISwimming(this));
+        this.tasks.addTask(1, new SwimGoal(this));
         this.tasks.addTask(2, new HirschgeistAIAttackMelee(this, 0.7D));
         this.tasks.addTask(2, new HirschgeistAIFlameAttack(this));
-        this.tasks.addTask(3, new EntityAIWatchClosest(this, EntityPlayer.class, 15F));
+        this.tasks.addTask(3, new LookAtGoal(this, PlayerEntity.class, 15F));
         this.targetTasks.addTask(1, new EntityAIFindEntityNearestPlayer(this));
     }
 
@@ -93,7 +93,7 @@ public class EntityHirschgeist extends EntityLiving implements IMob {
     }
 
     @Override
-    protected void playStepSound(BlockPos pos, IBlockState state) {
+    protected void playStepSound(BlockPos pos, BlockState state) {
         this.playSound(SoundEvents.ENTITY_SHEEP_STEP, 0.5F, 0.6F);
     }
 
@@ -111,9 +111,9 @@ public class EntityHirschgeist extends EntityLiving implements IMob {
     public boolean attackEntityFrom(DamageSource source, float amount) {
         if (this.isDaytime() && FMLEnvironment.dist == Dist.CLIENT
                 && Thread.currentThread().getThreadGroup() == SidedThreadGroups.CLIENT) {
-            if (source.getTrueSource() instanceof EntityPlayer) {
-                EntityPlayer player = (EntityPlayer) source.getTrueSource();
-                player.sendMessage(new TextComponentString("The " + I18n.format("entity.betteranimalsplus.Hirschgeist")
+            if (source.getTrueSource() instanceof PlayerEntity) {
+                PlayerEntity player = (PlayerEntity) source.getTrueSource();
+                player.sendMessage(new StringTextComponent("The " + I18n.format("entity.betteranimalsplus.Hirschgeist")
                         + " is immortal in the daytime. Try fighting it later."));
             }
         }
@@ -121,7 +121,7 @@ public class EntityHirschgeist extends EntityLiving implements IMob {
     }
 
     @Override
-    public void setAttackTarget(EntityLivingBase entityIn) {
+    public void setAttackTarget(LivingEntity entityIn) {
         super.setAttackTarget(this.isDaytime() ? null : entityIn);
     }
 

@@ -9,15 +9,16 @@ import its_meow.betteranimalsplus.common.world.gen.TrilliumGenerator;
 import its_meow.betteranimalsplus.config.BetterAnimalsPlusConfig;
 import its_meow.betteranimalsplus.init.ModItems;
 import its_meow.betteranimalsplus.network.ClientConfigurationPacket;
-import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemSpawnEgg;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.SpawnEggItem;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.feature.NoFeatureConfig;
-import net.minecraft.world.gen.placement.FrequencyConfig;
+import net.minecraft.world.gen.placement.IPlacementConfig;
+import net.minecraft.world.gen.placement.Placement;
 import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModLoadingContext;
@@ -69,7 +70,7 @@ public class BetterAnimalsPlusMod {
         @Override
         public void fill(NonNullList<ItemStack> toDisplay) {
             super.fill(toDisplay);
-            for (ItemSpawnEgg egg : ModItems.eggs.keySet()) {
+            for (SpawnEggItem egg : ModItems.eggs.keySet()) {
                 ItemStack stack = new ItemStack(egg);
                 toDisplay.add(stack);
             }
@@ -78,17 +79,15 @@ public class BetterAnimalsPlusMod {
 
     private void setup(final FMLCommonSetupEvent event) {
         HANDLER.registerMessage(packets++, ClientConfigurationPacket.class, ClientConfigurationPacket::encode, ClientConfigurationPacket::decode, ClientConfigurationPacket.Handler::handle);
-        BiomeDictionary.getBiomes(BiomeDictionary.Type.SWAMP).forEach(
-                biome -> biome.addFeature(net.minecraft.world.gen.GenerationStage.Decoration.VEGETAL_DECORATION,
-                        Biome.createCompositeFeature(new TrilliumGenerator(), new NoFeatureConfig(), Biome.TOP_SOLID,
-                                new FrequencyConfig(3))));
+        BiomeDictionary.getBiomes(BiomeDictionary.Type.SWAMP).forEach(biome -> biome.addFeature(net.minecraft.world.gen.GenerationStage.Decoration.VEGETAL_DECORATION,
+                        Biome.createDecoratedFeature(new TrilliumGenerator(), new NoFeatureConfig(), Placement.TOP_SOLID_HEIGHTMAP, IPlacementConfig.NO_PLACEMENT_CONFIG)));
         BetterAnimalsPlusMod.logger.log(Level.INFO, "Overspawning lammergeiers...");
     }
 	
 	@SubscribeEvent
 	public static void onPlayerJoin(PlayerLoggedInEvent e) {
-	    if(e.getPlayer() instanceof EntityPlayerMP) {
-	        HANDLER.sendTo(new ClientConfigurationPacket(BetterAnimalsPlusConfig.coyotesHostileDaytime), ((EntityPlayerMP) e.getPlayer()).connection.netManager, NetworkDirection.PLAY_TO_CLIENT);
+	    if(e.getPlayer() instanceof ServerPlayerEntity) {
+	        HANDLER.sendTo(new ClientConfigurationPacket(BetterAnimalsPlusConfig.coyotesHostileDaytime), ((ServerPlayerEntity) e.getPlayer()).connection.netManager, NetworkDirection.PLAY_TO_CLIENT);
 	    }
 	}
 

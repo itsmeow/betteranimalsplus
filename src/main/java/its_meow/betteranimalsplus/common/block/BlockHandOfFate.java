@@ -2,21 +2,20 @@ package its_meow.betteranimalsplus.common.block;
 
 import its_meow.betteranimalsplus.common.tileentity.TileEntityHandOfFate;
 import its_meow.betteranimalsplus.init.ModItems;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockHorizontal;
+import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.BlockFaceShape;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
+import net.minecraft.block.BlockState;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.block.Blocks;
+import net.minecraft.item.Items;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.state.StateContainer.Builder;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumBlockRenderType;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
+import net.minecraft.block.BlockRenderType;
+import net.minecraft.util.Direction;
+import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
@@ -26,7 +25,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
-public class BlockHandOfFate extends BlockHorizontal {
+public class BlockHandOfFate extends HorizontalBlock {
 
     private static VoxelShape SHAPE;
 
@@ -38,22 +37,22 @@ public class BlockHandOfFate extends BlockHorizontal {
     public BlockHandOfFate() {
         super(Properties.create(Material.IRON).hardnessAndResistance(3.0F, 2.0F));
         this.setRegistryName("handoffate");
-        this.setDefaultState(this.getDefaultState().with(BlockHorizontal.HORIZONTAL_FACING, EnumFacing.NORTH));
+        this.setDefaultState(this.getDefaultState().with(HorizontalBlock.HORIZONTAL_FACING, Direction.NORTH));
     }
 
     @Override
-    public VoxelShape getShape(IBlockState state, IBlockReader worldIn, BlockPos pos) {
+    public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos) {
         return SHAPE;
     }
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public boolean hasCustomBreakingProgress(IBlockState state) {
+    public boolean hasCustomBreakingProgress(BlockState state) {
         return true;
     }
 
     @Override
-    public int getLightValue(IBlockState state, IWorldReader world, BlockPos pos) {
+    public int getLightValue(BlockState state, IWorldReader world, BlockPos pos) {
         TileEntity te = world.getTileEntity(pos);
         if (te instanceof TileEntityHandOfFate) {
             TileEntityHandOfFate tehof = (TileEntityHandOfFate) te;
@@ -65,18 +64,18 @@ public class BlockHandOfFate extends BlockHorizontal {
     }
 
     @Override
-    protected void fillStateContainer(Builder<Block, IBlockState> builder) {
-        builder.add(BlockHorizontal.HORIZONTAL_FACING);
+    protected void fillStateContainer(Builder<Block, BlockState> builder) {
+        builder.add(HorizontalBlock.HORIZONTAL_FACING);
     }
 
     @Override
-    public int getOpacity(IBlockState state, IBlockReader world, BlockPos pos) {
+    public int getOpacity(BlockState state, IBlockReader world, BlockPos pos) {
         return 1;
     }
 
     @Override
-    public boolean onBlockActivated(IBlockState state, World worldIn, BlockPos pos, EntityPlayer playerIn,
-            EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+    public boolean onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity playerIn,
+                                    Hand hand, Direction facing, float hitX, float hitY, float hitZ) {
         ItemStack held = playerIn.getHeldItem(hand);
         if (held.getItem() == Items.FLINT_AND_STEEL) {
             if (!playerIn.isCreative()) {
@@ -139,37 +138,37 @@ public class BlockHandOfFate extends BlockHorizontal {
     }
 
     @Override
-    public IBlockState getStateForPlacement(BlockItemUseContext context) {
+    public BlockState getStateForPlacement(BlockItemUseContext context) {
         return this.getDefaultState().with(HORIZONTAL_FACING, context.getPlacementHorizontalFacing());
     }
 
     @Override
-    public boolean isFullCube(IBlockState state) {
+    public boolean isFullCube(BlockState state) {
         return false;
     }
 
     @Override
-    public boolean isTopSolid(IBlockState state) {
+    public boolean isTopSolid(BlockState state) {
         return false;
     }
 
     @Override
-    public EnumBlockRenderType getRenderType(IBlockState state) {
-        return EnumBlockRenderType.ENTITYBLOCK_ANIMATED;
+    public BlockRenderType getRenderType(BlockState state) {
+        return BlockRenderType.ENTITYBLOCK_ANIMATED;
     }
     
     @Override
-    public BlockFaceShape getBlockFaceShape(IBlockReader worldIn, IBlockState state, BlockPos pos, EnumFacing face) {
+    public BlockFaceShape getBlockFaceShape(IBlockReader worldIn, BlockState state, BlockPos pos, Direction face) {
         return BlockFaceShape.UNDEFINED;
     }
     
     @Override
-    public boolean isNormalCube(IBlockState state) {
+    public boolean isNormalCube(BlockState state) {
         return false;
     }
 
     @Override
-    public boolean isSolid(IBlockState state) {
+    public boolean isSolid(BlockState state) {
         return false;
     }
 
@@ -179,12 +178,12 @@ public class BlockHandOfFate extends BlockHorizontal {
     }
 
     @Override
-    public boolean hasTileEntity(IBlockState state) {
+    public boolean hasTileEntity(BlockState state) {
         return true;
     }
 
     @Override
-    public TileEntity createTileEntity(IBlockState state, IBlockReader worldIn) {
+    public TileEntity createTileEntity(BlockState state, IBlockReader worldIn) {
         return new TileEntityHandOfFate();
     }
 

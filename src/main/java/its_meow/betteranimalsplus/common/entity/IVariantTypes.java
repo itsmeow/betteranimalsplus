@@ -4,8 +4,8 @@ import java.util.Random;
 
 import javax.annotation.Nullable;
 
-import net.minecraft.entity.IEntityLivingData;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.entity.ILivingEntityData;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.EntityDataManager;
 
@@ -40,11 +40,11 @@ public interface IVariantTypes {
         return this;
     }
 
-    default void writeType(NBTTagCompound compound) {
+    default void writeType(CompoundNBT compound) {
         compound.putInt("TypeNumber", this.getTypeNumber());
     }
 
-    default void readType(NBTTagCompound compound) {
+    default void readType(CompoundNBT compound) {
         this.setType(compound.getInt("TypeNumber"));
     }
     
@@ -56,7 +56,7 @@ public interface IVariantTypes {
         return this.getRNGI().nextInt(getVariantMax()) + 1;
     }
 
-    public static class TypeData implements IEntityLivingData {
+    public static class TypeData implements ILivingEntityData {
         public int typeData;
 
         public TypeData(int type) {
@@ -65,7 +65,7 @@ public interface IVariantTypes {
     }
 
     @Nullable
-    default IEntityLivingData initData(IEntityLivingData livingdata) {
+    default ILivingEntityData initData(ILivingEntityData livingdata) {
 
         if (!this.isChildI()) {
             int i = this.getRandomType();

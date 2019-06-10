@@ -9,11 +9,9 @@ import java.util.List;
 import its_meow.betteranimalsplus.BetterAnimalsPlusMod;
 import its_meow.betteranimalsplus.init.ModEntities;
 import its_meow.betteranimalsplus.util.EntityContainer;
-import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.EntitySpawnPlacementRegistry;
-import net.minecraft.entity.EntitySpawnPlacementRegistry.SpawnPlacementType;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.EnumCreatureType;
+import net.minecraft.entity.*;
+import net.minecraft.entity.EntityClassification;
+import net.minecraft.entity.MobEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.Biome.SpawnListEntry;
@@ -78,14 +76,15 @@ public class EntityConfig {
             for (EntityContainer entry : ModEntities.entryMap.keySet()) {
                 EntityType<?> type = ModEntities.entryMap.get(entry);
                 if (entry.doSpawning) {
-                    if (entry.type == EnumCreatureType.WATER_CREATURE && EntitySpawnPlacementRegistry.getPlacementType((EntityType<? extends EntityLiving>) type) == null) {
-                        EntitySpawnPlacementRegistry.register(type, SpawnPlacementType.IN_WATER, Heightmap.Type.OCEAN_FLOOR, null);
+                    if (entry.type == EntityClassification.WATER_CREATURE && EntitySpawnPlacementRegistry.getPlacementType((EntityType<? extends MobEntity>) type) == null) {
+                        //TODO: reimplement once AT is back
+                        //EntitySpawnPlacementRegistry.register(type, EntitySpawnPlacementRegistry.PlacementType.IN_WATER, Heightmap.Type.OCEAN_FLOOR, null);
                     }
                     for (Biome biome : entry.spawnBiomes) {
                         Method addSpawn = ObfuscationReflectionHelper.findMethod(Biome.class, "func_201866_a",
-                                EnumCreatureType.class, SpawnListEntry.class);
+                                EntityClassification.class, SpawnListEntry.class);
                         try {
-                            addSpawn.invoke(biome, entry.type, new SpawnListEntry((EntityType<? extends EntityLiving>) type, entry.weight, entry.minGroup, entry.maxGroup));
+                            addSpawn.invoke(biome, entry.type, new SpawnListEntry((EntityType<? extends MobEntity>) type, entry.weight, entry.minGroup, entry.maxGroup));
                         } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
                             e.printStackTrace();
                         }

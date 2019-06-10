@@ -6,13 +6,13 @@ import its_meow.betteranimalsplus.common.entity.EntityCoyote;
 import its_meow.betteranimalsplus.config.BetterAnimalsPlusConfig;
 import its_meow.betteranimalsplus.init.ModTextures;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.entity.RenderLiving;
-import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraft.client.renderer.entity.EntityRendererManager;
+import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.util.ResourceLocation;
 
-public class RenderCoyote extends RenderLiving<EntityCoyote> {
+public class RenderCoyote extends MobRenderer<EntityCoyote> {
 
-    public RenderCoyote(RenderManager manager) {
+    public RenderCoyote(EntityRendererManager manager) {
         super(manager, new ModelCustomWolf(), 0.5F);
         this.addLayer(new LayerCoyoteEyes(this));
     }

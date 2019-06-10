@@ -7,21 +7,21 @@ import its_meow.betteranimalsplus.Ref;
 import its_meow.betteranimalsplus.common.tileentity.TileEntityHead;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.SoundType;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemWallOrFloor;
+import net.minecraft.item.WallOrFloorItem;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumActionResult;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.util.ActionResultType;
+import net.minecraft.util.Direction;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class ItemBlockSkull extends ItemWallOrFloor {
+public class ItemBlockSkull extends WallOrFloorItem {
 
     public final boolean allowFloor;
     public final int typeNum;
@@ -46,13 +46,13 @@ public class ItemBlockSkull extends ItemWallOrFloor {
 
     @Override
     @Nullable
-    protected IBlockState getStateForPlacement(BlockItemUseContext ctx) {
-        IBlockState returnedState = null;
+    protected BlockState getStateForPlacement(BlockItemUseContext ctx) {
+        BlockState returnedState = null;
         World world = ctx.getWorld();
         BlockPos clickPos = ctx.getPos();
-        for (EnumFacing side : ctx.getNearestLookingDirections()) {
-            IBlockState newState;
-            if (side == EnumFacing.DOWN && !this.allowFloor)
+        for (Direction side : ctx.getNearestLookingDirections()) {
+            BlockState newState;
+            if (side == Direction.DOWN && !this.allowFloor)
                 return returnedState;
             newState = this.getBlock().getStateForPlacement(ctx);
             if (newState == null || !newState.isValidPosition(world, clickPos))
@@ -60,33 +60,33 @@ public class ItemBlockSkull extends ItemWallOrFloor {
             returnedState = newState;
             break;
         }
-        return returnedState != null && world.checkNoEntityCollision(returnedState, clickPos) ? returnedState : null;
+        return returnedState;
     }
 
     @Override
-    public EnumActionResult tryPlace(BlockItemUseContext ctx) {
+    public ActionResultType tryPlace(BlockItemUseContext ctx) {
         if (!ctx.canPlace()) {
-            return EnumActionResult.FAIL;
+            return ActionResultType.FAIL;
         } else {
-            IBlockState iblockstate = this.getStateForPlacement(ctx);
+            BlockState iblockstate = this.getStateForPlacement(ctx);
             if (iblockstate == null) {
-                return EnumActionResult.FAIL;
+                return ActionResultType.FAIL;
             } else if (!this.placeBlock(ctx, iblockstate)) {
-                return EnumActionResult.FAIL;
-            } else if (ctx.getFace() == EnumFacing.UP && !this.allowFloor) {
-                return EnumActionResult.FAIL;
+                return ActionResultType.FAIL;
+            } else if (ctx.getFace() == Direction.UP && !this.allowFloor) {
+                return ActionResultType.FAIL;
             } else {
                 BlockPos blockpos = ctx.getPos();
                 World world = ctx.getWorld();
-                EntityPlayer player = ctx.getPlayer();
+                PlayerEntity player = ctx.getPlayer();
                 ItemStack stack = ctx.getItem();
-                IBlockState iblockstate1 = world.getBlockState(blockpos);
+                BlockState iblockstate1 = world.getBlockState(blockpos);
                 Block block = iblockstate1.getBlock();
                 if (block == iblockstate.getBlock()) {
                     this.onBlockPlaced(blockpos, world, player, stack, iblockstate1);
                     block.onBlockPlacedBy(world, blockpos, iblockstate1, player, stack);
-                    if (player instanceof EntityPlayerMP) {
-                        CriteriaTriggers.PLACED_BLOCK.trigger((EntityPlayerMP) player, blockpos, stack);
+                    if (player instanceof ServerPlayerEntity) {
+                        CriteriaTriggers.PLACED_BLOCK.trigger((ServerPlayerEntity) player, blockpos, stack);
                     }
                     TileEntity tile = world.getTileEntity(blockpos);
                     this.populateTile(stack, ctx.getFace(), player, tile);
@@ -96,17 +96,17 @@ public class ItemBlockSkull extends ItemWallOrFloor {
                 world.playSound(player, blockpos, soundtype.getPlaceSound(), SoundCategory.BLOCKS,
                         (soundtype.getVolume() + 1.0F) / 2.0F, soundtype.getPitch() * 0.8F);
                 stack.shrink(1);
-                return EnumActionResult.SUCCESS;
+                return ActionResultType.SUCCESS;
             }
         }
     }
 
-    protected void populateTile(ItemStack stack, EnumFacing side, EntityPlayer player, TileEntity tile) {
+    protected void populateTile(ItemStack stack, Direction side, PlayerEntity player, TileEntity tile) {
         if (tile instanceof TileEntityHead) {
             TileEntityHead tileSkull = (TileEntityHead) tile;
             float rotation = 0;
-            if (side == EnumFacing.UP || side == EnumFacing.DOWN) {
-                rotation = EnumFacing.fromAngle(player.rotationYawHead).getHorizontalAngle();
+            if (side == Direction.UP || side == Direction.DOWN) {
+                rotation = Direction.fromAngle(player.rotationYawHead).getHorizontalAngle();
             } else {
                 rotation = (int) side.getHorizontalAngle();
             }

@@ -2,13 +2,14 @@ package its_meow.betteranimalsplus.client.renderer.tileentity;
 
 import java.util.Random;
 
+import com.mojang.blaze3d.platform.GlStateManager;
+
 import its_meow.betteranimalsplus.client.model.ModelHandOfFate;
 import its_meow.betteranimalsplus.common.tileentity.TileEntityHandOfFate;
 import its_meow.betteranimalsplus.init.ModTextures;
-import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
 import net.minecraft.entity.Entity;
-import net.minecraft.init.Particles;
+import net.minecraft.particles.ParticleTypes;
 
 public class RenderBlockHandOfFate extends TileEntityRenderer<TileEntityHandOfFate> {
 
@@ -36,7 +37,7 @@ public class RenderBlockHandOfFate extends TileEntityRenderer<TileEntityHandOfFa
         this.mainModel.render((Entity) null, (float) x + 0.5F, (float) y + 1.5F, (float) z + 0.5F, rotate, 0F, 0.0625F);
 
         if (tileentity.isOnFire() && this.i % 5 == 0) {
-            tileentity.getWorld().addParticle(Particles.FLAME,
+            tileentity.getWorld().addParticle(ParticleTypes.FLAME,
                     tileentity.getPos().getX() + (this.rand.nextFloat() + 0.5F) / 2,
                     tileentity.getPos().getY() + this.rand.nextFloat(),
                     tileentity.getPos().getZ() + (this.rand.nextFloat() + 0.5F) / 2, 0, 0.02F, 0);

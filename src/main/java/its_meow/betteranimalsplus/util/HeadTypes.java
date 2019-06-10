@@ -19,7 +19,8 @@ import its_meow.betteranimalsplus.common.block.BlockGenericSkull;
 import its_meow.betteranimalsplus.common.item.ItemBlockHeadType;
 import its_meow.betteranimalsplus.common.tileentity.TileEntityHead;
 import its_meow.betteranimalsplus.init.ModTextures;
-import net.minecraft.client.renderer.entity.model.ModelBase;
+import net.minecraft.client.renderer.entity.model.EntityModel;
+import net.minecraft.entity.Entity;
 
 public enum HeadTypes {
 
@@ -75,10 +76,10 @@ public enum HeadTypes {
     private ArrayList<Pair<BlockGenericSkull, ItemBlockHeadType>> heads = new ArrayList<Pair<BlockGenericSkull, ItemBlockHeadType>>();
     private Set<ItemBlockHeadType> items = new HashSet<ItemBlockHeadType>();
     private Set<BlockGenericSkull> blocks = new HashSet<BlockGenericSkull>();
-    private final Supplier<Supplier<Class<? extends ModelBase>>> modelSupplier;
+    private final Supplier<Supplier<Class<? extends EntityModel<Entity>>>> modelSupplier;
 
     HeadTypes(String name, boolean allowFloor, int texCount,
-            Supplier<Supplier<Class<? extends ModelBase>>> modelSupplier,
+            Supplier<Supplier<Class<? extends EntityModel<Entity>>>> modelSupplier,
             Function<HeadTypes, TileEntityHead> teFactory) {
         this.name = name;
         this.allowFloor = allowFloor;
@@ -110,7 +111,7 @@ public enum HeadTypes {
         return blocks;
     }
 
-    public Supplier<Supplier<Class<? extends ModelBase>>> getModelSupplier() {
+    public Supplier<Supplier<Class<? extends EntityModel<Entity>>>> getModelSupplier() {
         return modelSupplier;
     }
 

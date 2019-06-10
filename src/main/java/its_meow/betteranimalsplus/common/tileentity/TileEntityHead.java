@@ -6,10 +6,11 @@ import java.util.function.Function;
 
 import its_meow.betteranimalsplus.init.ModTileEntities;
 import its_meow.betteranimalsplus.util.HeadTypes;
-import net.minecraft.client.renderer.entity.model.ModelBase;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.client.renderer.entity.model.EntityModel;
+import net.minecraft.entity.Entity;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.NetworkManager;
-import net.minecraft.network.play.server.SPacketUpdateTileEntity;
+import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -20,7 +21,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 public class TileEntityHead extends TileEntity {
 
-    private Class<? extends ModelBase> modelT = null;
+    private Class<? extends EntityModel<Entity>> modelT = null;
     protected int typeNum = 0;
     private float offset;
     private float rotation = 0;
@@ -57,7 +58,7 @@ public class TileEntityHead extends TileEntity {
         this.textureFunc = textureFunc;
     }
 
-    public ModelBase getModel() {
+    public EntityModel<Entity> getModel() {
         try {
             return this.modelT.newInstance();
         } catch (InstantiationException e) {
@@ -96,7 +97,7 @@ public class TileEntityHead extends TileEntity {
     }
 
     @Override
-    public void read(NBTTagCompound compound) {
+    public void read(CompoundNBT compound) {
         super.read(compound);
         if (compound.contains("TYPENUM")) {
             this.typeNum = compound.getInt("TYPENUM");
@@ -121,7 +122,7 @@ public class TileEntityHead extends TileEntity {
     }
 
     @Override
-    public NBTTagCompound write(NBTTagCompound compound) {
+    public CompoundNBT write(CompoundNBT compound) {
         super.write(compound);
         compound.putInt("TYPENUM", this.typeNum);
         compound.putFloat("rotation", rotation);
@@ -130,27 +131,27 @@ public class TileEntityHead extends TileEntity {
     }
 
     @Override
-    public SPacketUpdateTileEntity getUpdatePacket() {
-        NBTTagCompound tag = new NBTTagCompound();
+    public SUpdateTileEntityPacket getUpdatePacket() {
+        CompoundNBT tag = new CompoundNBT();
         this.write(tag);
-        return new SPacketUpdateTileEntity(this.pos, 1, tag);
+        return new SUpdateTileEntityPacket(this.pos, 1, tag);
     }
 
     @Override
-    public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity packet) {
+    public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket packet) {
         this.read(packet.getNbtCompound());
         this.world.getPendingBlockTicks().scheduleTick(this.pos, this.getBlockState().getBlock(), 100);
     }
 
     @Override
-    public NBTTagCompound getUpdateTag() {
-        NBTTagCompound tag = new NBTTagCompound();
+    public CompoundNBT getUpdateTag() {
+        CompoundNBT tag = new CompoundNBT();
         this.write(tag);
         return tag;
     }
 
     @Override
-    public void handleUpdateTag(NBTTagCompound tag) {
+    public void handleUpdateTag(CompoundNBT tag) {
         this.read(tag);
     }
 

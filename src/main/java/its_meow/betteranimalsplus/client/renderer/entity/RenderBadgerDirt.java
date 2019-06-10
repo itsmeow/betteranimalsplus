@@ -1,13 +1,13 @@
 package its_meow.betteranimalsplus.client.renderer.entity;
 
 import its_meow.betteranimalsplus.common.entity.projectile.EntityBadgerDirt;
-import net.minecraft.client.renderer.entity.Render;
-import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraft.client.renderer.entity.EntityRenderer;
+import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.util.ResourceLocation;
 
-public class RenderBadgerDirt extends Render<EntityBadgerDirt> {
+public class RenderBadgerDirt extends EntityRenderer<EntityBadgerDirt> {
 
-    public RenderBadgerDirt(RenderManager renderManager) {
+    public RenderBadgerDirt(EntityRendererManager renderManager) {
         super(renderManager);
     }
 

@@ -4,13 +4,13 @@ import its_meow.betteranimalsplus.client.model.ModelFox;
 import its_meow.betteranimalsplus.common.entity.EntityFox;
 import its_meow.betteranimalsplus.init.ModTextures;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.entity.RenderLiving;
-import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraft.client.renderer.entity.EntityRendererManager;
+import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.util.ResourceLocation;
 
-public class RenderFox extends RenderLiving<EntityFox> {
+public class RenderFox extends MobRenderer<EntityFox> {
 
-    public RenderFox(RenderManager manager) {
+    public RenderFox(EntityRendererManager manager) {
         super(manager, new ModelFox(), 0.5F);
     }
 

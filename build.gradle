@@ -12,7 +12,7 @@ apply plugin: 'net.minecraftforge.gradle'
 //Only edit below this line, the above code adds and enables the necessary things for Forge to be setup.
 apply plugin: 'eclipse'
 
-version = '1.13-6.0.0'
+version = '1.14-6.0.0'
 group = 'its_meow.betteranimalsplus'
 archivesBaseName = 'betteranimalsplus'
 
@@ -21,7 +21,7 @@ sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = co
 sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
 
 minecraft {
-    mappings channel: 'snapshot', version: '20190423-1.13.2'
+    mappings channel: 'snapshot', version: '20190609-1.14.2'
 	
     runs {
         client {
@@ -49,7 +49,7 @@ minecraft {
 }
 
 dependencies {
-    minecraft 'net.minecraftforge:forge:1.13.2-25.0.191'
+    minecraft 'net.minecraftforge:forge:1.14.2-26.0.13'
 }
 
 tasks.withType(JavaCompile) {

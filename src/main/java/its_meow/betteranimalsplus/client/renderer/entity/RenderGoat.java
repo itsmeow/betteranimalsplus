@@ -6,13 +6,13 @@ import its_meow.betteranimalsplus.client.model.ModelGoat;
 import its_meow.betteranimalsplus.common.entity.EntityGoat;
 import its_meow.betteranimalsplus.init.ModTextures;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.entity.RenderLiving;
-import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraft.client.renderer.entity.EntityRendererManager;
+import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.util.ResourceLocation;
 
-public class RenderGoat extends RenderLiving<EntityGoat> {
+public class RenderGoat extends MobRenderer<EntityGoat> {
 
-    public RenderGoat(RenderManager rendermanagerIn) {
+    public RenderGoat(EntityRendererManager rendermanagerIn) {
         super(rendermanagerIn, new ModelGoat(), 0.5F);
     }
 

@@ -7,36 +7,33 @@ import javax.annotation.Nullable;
 import its_meow.betteranimalsplus.init.ModEntities;
 import its_meow.betteranimalsplus.init.ModItems;
 import its_meow.betteranimalsplus.init.ModLootTables;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.BlockState;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityCreature;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.CreatureEntity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.EntityAIAttackMelee;
-import net.minecraft.entity.ai.EntityAIBase;
-import net.minecraft.entity.ai.EntityAIFollowParent;
-import net.minecraft.entity.ai.EntityAIHurtByTarget;
-import net.minecraft.entity.ai.EntityAIMate;
-import net.minecraft.entity.ai.EntityAIPanic;
-import net.minecraft.entity.ai.EntityAISwimming;
-import net.minecraft.entity.ai.EntityAITempt;
-import net.minecraft.entity.ai.EntityAIWander;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Items;
-import net.minecraft.init.SoundEvents;
+import net.minecraft.entity.ai.goal.Goal;
+import net.minecraft.entity.ai.goal.FollowParentGoal;
+import net.minecraft.entity.ai.goal.HurtByTargetGoal;
+import net.minecraft.entity.ai.goal.BreedGoal;
+import net.minecraft.entity.ai.goal.PanicGoal;
+import net.minecraft.entity.ai.goal.SwimGoal;
+import net.minecraft.entity.ai.goal.TemptGoal;
+import net.minecraft.entity.ai.goal.RandomWalkingGoal;
+import net.minecraft.entity.ai.goal.MeleeAttackGoal;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.Items;
+import net.minecraft.util.SoundEvents;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.EnumHand;
-import net.minecraft.util.IItemProvider;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.SoundEvent;
+import net.minecraft.util.*;
+import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
@@ -45,7 +42,7 @@ import net.minecraft.world.World;
 public class EntityGoat extends EntityAnimalEatsGrassWithTypes {
 	
     protected static final DataParameter<Boolean> ATTACKING = EntityDataManager.<Boolean>createKey(EntityGoat.class, DataSerializers.BOOLEAN);
-    public EntityPlayer friend = null;
+    public PlayerEntity friend = null;
     public boolean hasBeenFed = false;
     private ArrayList<Item> temptItems = null;
 
@@ -77,24 +74,24 @@ public class EntityGoat extends EntityAnimalEatsGrassWithTypes {
     public boolean attackEntityAsMob(Entity entityIn) {
         Vec3d pos = this.getPositionVector();
         Vec3d targetPos = entityIn.getPositionVector();
-        ((EntityLivingBase) entityIn).knockBack(entityIn, 0.8F, pos.x - targetPos.x, pos.z - targetPos.z);
+        ((LivingEntity) entityIn).knockBack(entityIn, 0.8F, pos.x - targetPos.x, pos.z - targetPos.z);
 
         // Vanilla attack code for mobs
 
         float f = (float) this.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getValue();
         int i = 0;
 
-        if (entityIn instanceof EntityLivingBase) {
+        if (entityIn instanceof LivingEntity) {
             f += EnchantmentHelper.getModifierForCreature(this.getHeldItemMainhand(),
-                    ((EntityLivingBase) entityIn).getCreatureAttribute());
+                    ((LivingEntity) entityIn).getCreatureAttribute());
             i += EnchantmentHelper.getKnockbackModifier(this);
         }
 
         boolean flag = entityIn.attackEntityFrom(DamageSource.causeMobDamage(this), f);
 
         if (flag) {
-            if (i > 0 && entityIn instanceof EntityLivingBase) {
-                ((EntityLivingBase) entityIn).knockBack(this, i * 0.5F, MathHelper.sin(this.rotationYaw * 0.017453292F),
+            if (i > 0 && entityIn instanceof LivingEntity) {
+                ((LivingEntity) entityIn).knockBack(this, i * 0.5F, MathHelper.sin(this.rotationYaw * 0.017453292F),
                         -MathHelper.cos(this.rotationYaw * 0.017453292F));
                 this.motionX *= 0.6D;
                 this.motionZ *= 0.6D;
@@ -106,8 +103,8 @@ public class EntityGoat extends EntityAnimalEatsGrassWithTypes {
                 entityIn.setFire(j * 4);
             }
 
-            if (entityIn instanceof EntityPlayer) {
-                EntityPlayer entityplayer = (EntityPlayer) entityIn;
+            if (entityIn instanceof PlayerEntity) {
+                PlayerEntity entityplayer = (PlayerEntity) entityIn;
                 ItemStack itemstack = this.getHeldItemMainhand();
                 ItemStack itemstack1 = entityplayer.isHandActive() ? entityplayer.getActiveItemStack()
                         : ItemStack.EMPTY;
@@ -131,13 +128,13 @@ public class EntityGoat extends EntityAnimalEatsGrassWithTypes {
     }
 
     @Override
-    public void setAttackTarget(EntityLivingBase entitylivingbaseIn) {
+    public void setAttackTarget(LivingEntity entitylivingbaseIn) {
         this.setAttackingOnClient(entitylivingbaseIn != null);
         super.setAttackTarget(entitylivingbaseIn);
     }
 
     @Override
-    protected void playStepSound(BlockPos pos, IBlockState state) {
+    protected void playStepSound(BlockPos pos, BlockState state) {
         this.playSound(SoundEvents.ENTITY_SHEEP_STEP, 0.15F, 1.0F);
     }
 
@@ -156,10 +153,10 @@ public class EntityGoat extends EntityAnimalEatsGrassWithTypes {
     @Override
     protected void initEntityAI() {
         super.initEntityAI();
-        this.tasks.addTask(0, new EntityAISwimming(this));
-        this.tasks.addTask(1, new EntityAIPanic(this, 0.8D));
-        this.tasks.addTask(2, new EntityAIMate(this, 1.0D));
-        this.tasks.addTask(2, new EntityAIAttackMelee(this, 0.7D, true));
+        this.tasks.addTask(0, new SwimGoal(this));
+        this.tasks.addTask(1, new PanicGoal(this, 0.8D));
+        this.tasks.addTask(2, new BreedGoal(this, 1.0D));
+        this.tasks.addTask(2, new MeleeAttackGoal(this, 0.7D, true));
         if (this.temptItems == null) {
             this.addTemptItems();
         }
@@ -167,10 +164,10 @@ public class EntityGoat extends EntityAnimalEatsGrassWithTypes {
         for (int i = 0; i < this.temptItems.size(); i++) {
             tempts[i] = this.temptItems.get(i);
         }
-        this.tasks.addTask(3, new EntityAITempt(this, 0.6D, false, Ingredient.fromItems(tempts)));
-        this.tasks.addTask(4, new EntityAIFollowParent(this, 0.6D));
+        this.tasks.addTask(3, new TemptGoal(this, 0.6D, false, Ingredient.fromItems(tempts)));
+        this.tasks.addTask(4, new FollowParentGoal(this, 0.6D));
         // Eats grass at priority 5
-        this.tasks.addTask(5, new EntityAIWander(this, 0.6D));
+        this.tasks.addTask(5, new RandomWalkingGoal(this, 0.6D));
         this.targetTasks.addTask(1, new GoatAIAttackForFriend(this));
         this.targetTasks.addTask(1, new AIHurtByTarget());
     }
@@ -200,7 +197,7 @@ public class EntityGoat extends EntityAnimalEatsGrassWithTypes {
     }
 
     @Override
-    public boolean processInteract(EntityPlayer player, EnumHand hand) {
+    public boolean processInteract(PlayerEntity player, Hand hand) {
         ItemStack itemstack = player.getHeldItem(hand);
 
         if (itemstack.getItem() == Items.BUCKET && !player.isCreative() && !this.isChild()) {
@@ -247,18 +244,18 @@ public class EntityGoat extends EntityAnimalEatsGrassWithTypes {
     }
 
     @Override
-    public boolean writeUnlessRemoved(NBTTagCompound compound) {
+    public boolean writeUnlessRemoved(CompoundNBT compound) {
         compound.putBoolean("AttackSync", this.isAttackingFromServer());
         return super.writeUnlessRemoved(compound);
     }
 
     @Override
-    public void read(NBTTagCompound compound) {
+    public void read(CompoundNBT compound) {
         super.read(compound);
         this.setAttackingOnClient(compound.getBoolean("AttackSync"));
     }
 
-    public static class GoatAIAttackForFriend extends EntityAIBase {
+    public static class GoatAIAttackForFriend extends Goal {
 
         EntityGoat goat = null;
 
@@ -283,7 +280,7 @@ public class EntityGoat extends EntityAnimalEatsGrassWithTypes {
 
     }
 
-    class AIHurtByTarget extends EntityAIHurtByTarget {
+    class AIHurtByTarget extends HurtByTargetGoal {
 
         public AIHurtByTarget() {
             super(EntityGoat.this, false);
@@ -303,7 +300,7 @@ public class EntityGoat extends EntityAnimalEatsGrassWithTypes {
         }
 
         @Override
-        protected void setEntityAttackTarget(EntityCreature creatureIn, EntityLivingBase entityLivingBaseIn) {
+        protected void setEntityAttackTarget(CreatureEntity creatureIn, LivingEntity entityLivingBaseIn) {
             if (creatureIn instanceof EntityGoat && !creatureIn.isChild()) {
                 super.setEntityAttackTarget(creatureIn, entityLivingBaseIn);
             }

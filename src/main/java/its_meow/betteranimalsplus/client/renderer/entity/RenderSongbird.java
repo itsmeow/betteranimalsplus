@@ -5,16 +5,16 @@ import its_meow.betteranimalsplus.client.model.ModelSongbirdSmall;
 import its_meow.betteranimalsplus.common.entity.EntitySongbird;
 import its_meow.betteranimalsplus.init.ModTextures;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.entity.RenderLiving;
-import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraft.client.renderer.entity.MobRenderer;
+import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.util.ResourceLocation;
 
-public class RenderSongbird extends RenderLiving<EntitySongbird> {
+public class RenderSongbird extends MobRenderer<EntitySongbird> {
 
     public static final ModelSongbird SONG_BIRD = new ModelSongbird();
     public static final ModelSongbirdSmall SMALL_SONG_BIRD = new ModelSongbirdSmall();
 
-    public RenderSongbird(RenderManager mgr) {
+    public RenderSongbird(EntityRendererManager mgr) {
         super(mgr, SONG_BIRD, 0.3F);
     }
 

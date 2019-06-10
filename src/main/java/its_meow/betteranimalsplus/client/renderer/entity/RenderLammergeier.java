@@ -5,13 +5,13 @@ import javax.annotation.Nonnull;
 import its_meow.betteranimalsplus.client.model.ModelLammergeier;
 import its_meow.betteranimalsplus.common.entity.EntityLammergeier;
 import its_meow.betteranimalsplus.init.ModTextures;
-import net.minecraft.client.renderer.entity.RenderLiving;
-import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraft.client.renderer.entity.EntityRendererManager;
+import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.util.ResourceLocation;
 
-public class RenderLammergeier extends RenderLiving<EntityLammergeier> {
+public class RenderLammergeier extends MobRenderer<EntityLammergeier> {
 
-    public RenderLammergeier(RenderManager rendermanagerIn) {
+    public RenderLammergeier(EntityRendererManager rendermanagerIn) {
         super(rendermanagerIn, new ModelLammergeier(), 0.3F);
     }
 

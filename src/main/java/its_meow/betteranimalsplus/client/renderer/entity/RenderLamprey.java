@@ -4,13 +4,13 @@ import its_meow.betteranimalsplus.client.model.ModelLamprey;
 import its_meow.betteranimalsplus.common.entity.EntityLamprey;
 import its_meow.betteranimalsplus.init.ModTextures;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.entity.RenderLiving;
-import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraft.client.renderer.entity.MobRenderer;
+import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.util.ResourceLocation;
 
-public class RenderLamprey extends RenderLiving<EntityLamprey> {
+public class RenderLamprey extends MobRenderer<EntityLamprey> {
 
-	public RenderLamprey(RenderManager rendermanager) {
+	public RenderLamprey(EntityRendererManager rendermanager) {
 		super(rendermanager, new ModelLamprey(), 0.4F);
 	}
 

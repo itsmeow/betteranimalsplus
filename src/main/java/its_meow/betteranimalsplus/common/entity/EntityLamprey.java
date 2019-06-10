@@ -7,28 +7,28 @@ import its_meow.betteranimalsplus.common.entity.miniboss.hirschgeist.EntityHirsc
 import its_meow.betteranimalsplus.init.ModEntities;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MoverType;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.EntityAIMoveTowardsTarget;
-import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
-import net.minecraft.entity.ai.EntityAIWatchClosest;
-import net.minecraft.entity.monster.EntityEnderman;
-import net.minecraft.entity.monster.EntitySkeleton;
+import net.minecraft.entity.ai.goal.LookAtGoal;
+import net.minecraft.entity.ai.goal.MoveTowardsTargetGoal;
+import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal;
+import net.minecraft.entity.monster.EndermanEntity;
+import net.minecraft.entity.monster.SkeletonEntity;
 import net.minecraft.entity.monster.IMob;
-import net.minecraft.entity.passive.EntityWaterMob;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.MobEffects;
-import net.minecraft.init.SoundEvents;
+import net.minecraft.entity.passive.WaterMobEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.pathfinding.PathNavigator;
+import net.minecraft.pathfinding.SwimmerPathNavigator;
+import net.minecraft.potion.Effects;
+import net.minecraft.util.SoundEvents;
 import net.minecraft.item.ItemStack;
-import net.minecraft.network.play.server.SPacketSetPassengers;
-import net.minecraft.pathfinding.PathNavigate;
-import net.minecraft.pathfinding.PathNavigateSwimmer;
-import net.minecraft.potion.PotionEffect;
+import net.minecraft.network.play.server.SSetPassengersPacket;
+import net.minecraft.potion.EffectInstance;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.EnumDifficulty;
+import net.minecraft.world.Difficulty;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 
@@ -43,14 +43,14 @@ public class EntityLamprey extends EntityWaterMobWithTypes implements IMob {
 
 	@Override
 	protected void initEntityAI() {
-		this.tasks.addTask(0, new EntityAIMoveTowardsTarget(this, 0.8D, 15F));
-		this.tasks.addTask(1, new EntityAIWatchClosest(this, EntityWaterMob.class, 10.0F));
-		Set<Class<? extends EntityLivingBase>> blackList = new HashSet<Class<? extends EntityLivingBase>>();
-        blackList.add(EntitySkeleton.class);
-        blackList.add(EntityEnderman.class);
+		this.tasks.addTask(0, new MoveTowardsTargetGoal(this, 0.8D, 15F));
+		this.tasks.addTask(1, new LookAtGoal(this, WaterMobEntity.class, 10.0F));
+		Set<Class<? extends LivingEntity>> blackList = new HashSet<Class<? extends LivingEntity>>();
+        blackList.add(SkeletonEntity.class);
+        blackList.add(EndermanEntity.class);
         blackList.add(EntityHirschgeist.class);
         blackList.add(EntityJellyfish.class);
-        this.targetTasks.addTask(0, new EntityAINearestAttackableTarget<EntityLivingBase>(this, EntityLivingBase.class, 100, true, true, e -> e instanceof EntityLivingBase && !(e instanceof IMob) && !(e instanceof EntityLamprey) && !(blackList.contains(e.getClass()))));
+        this.targetTasks.addTask(0, new NearestAttackableTargetGoal<LivingEntity>(this, LivingEntity.class, 100, true, true, e -> e instanceof LivingEntity && !(e instanceof IMob) && !(e instanceof EntityLamprey) && !(blackList.contains(e.getClass()))));
 	}
 
 	@Override
@@ -63,8 +63,8 @@ public class EntityLamprey extends EntityWaterMobWithTypes implements IMob {
 	}
 
 	@Override
-	protected PathNavigate createNavigator(World worldIn) {
-		return new PathNavigateSwimmer(this, worldIn);
+	protected PathNavigator createNavigator(World worldIn) {
+		return new SwimmerPathNavigator(this, worldIn);
 	}
 	
 	@Override
@@ -86,24 +86,24 @@ public class EntityLamprey extends EntityWaterMobWithTypes implements IMob {
 	public boolean attackEntityAsMob(Entity entityIn) {
 		float f = (float)this.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getValue();
 
-		if(entityIn instanceof EntityLivingBase) {
-			f += EnchantmentHelper.getModifierForCreature(this.getHeldItemMainhand(), ((EntityLivingBase)entityIn).getCreatureAttribute());
+		if(entityIn instanceof LivingEntity) {
+			f += EnchantmentHelper.getModifierForCreature(this.getHeldItemMainhand(), ((LivingEntity)entityIn).getCreatureAttribute());
 		}
 		boolean flag = entityIn.attackEntityFrom(DamageSource.causeMobDamage(this), f);
 		if(flag) {
 		    this.lastAttack = this.ticksExisted;
-			if(entityIn instanceof EntityPlayer) {
-				EntityPlayer entityplayer = (EntityPlayer)entityIn;
+			if(entityIn instanceof PlayerEntity) {
+				PlayerEntity entityplayer = (PlayerEntity)entityIn;
 
 				int weakTicks = 0;
-				if (this.world.getDifficulty() == EnumDifficulty.EASY) {
+				if (this.world.getDifficulty() == Difficulty.EASY) {
 					weakTicks = 200;
-				} else if (this.world.getDifficulty() == EnumDifficulty.NORMAL) {
+				} else if (this.world.getDifficulty() == Difficulty.NORMAL) {
 					weakTicks = 300;
-				} else if (this.world.getDifficulty() == EnumDifficulty.HARD) {
+				} else if (this.world.getDifficulty() == Difficulty.HARD) {
 					weakTicks = 600;
 				}
-				entityplayer.addPotionEffect(new PotionEffect(MobEffects.WEAKNESS, weakTicks, 1, false, false));
+				entityplayer.addPotionEffect(new EffectInstance(Effects.WEAKNESS, weakTicks, 1, false, false));
 				ItemStack itemstack = this.getHeldItemMainhand();
 				ItemStack itemstack1 = entityplayer.isHandActive() ? entityplayer.getActiveItemStack() : ItemStack.EMPTY;
 				if(!itemstack.isEmpty() && !itemstack1.isEmpty() && itemstack.getItem().canDisableShield(itemstack, itemstack1, entityplayer, this) && itemstack1.getItem().isShield(itemstack1, entityplayer)) {
@@ -183,7 +183,7 @@ public class EntityLamprey extends EntityWaterMobWithTypes implements IMob {
     public void grabTarget(Entity entity) {
 		if(entity == this.getAttackTarget() && !this.isRidingOrBeingRiddenBy(entity) && this.inWater) {
 			this.startRiding(entity);
-			this.getServer().getPlayerList().sendPacketToAllPlayers(new SPacketSetPassengers(entity));
+			this.getServer().getPlayerList().sendPacketToAllPlayers(new SSetPassengersPacket(entity));
 		}
 	}
 	
@@ -194,7 +194,7 @@ public class EntityLamprey extends EntityWaterMobWithTypes implements IMob {
 
     @Override
     public double getYOffset() {
-        if(getRidingEntity() != null && getRidingEntity() instanceof EntityPlayer) {
+        if(getRidingEntity() != null && getRidingEntity() instanceof PlayerEntity) {
             return getRidingEntity().height - 2.25F;
         } else if(getRidingEntity() != null) {
             return getRidingEntity().height * 0.5D - 1.25D;

@@ -6,15 +6,15 @@ import its_meow.betteranimalsplus.client.model.ModelDeer;
 import its_meow.betteranimalsplus.common.entity.EntityDeer;
 import its_meow.betteranimalsplus.init.ModTextures;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.entity.RenderLiving;
-import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraft.client.renderer.entity.MobRenderer;
+import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.util.ResourceLocation;
 
-public class RenderDeer extends RenderLiving<EntityDeer> {
+public class RenderDeer extends MobRenderer<EntityDeer> {
 
     private boolean isChristmas = false;
 
-    public RenderDeer(RenderManager rendermanagerIn) {
+    public RenderDeer(EntityRendererManager rendermanagerIn) {
         super(rendermanagerIn, new ModelDeer(), 1F);
         Calendar calendar = Calendar.getInstance();
 

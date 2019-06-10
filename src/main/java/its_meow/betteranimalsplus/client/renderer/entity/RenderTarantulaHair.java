@@ -7,14 +7,14 @@ import its_meow.betteranimalsplus.init.ModTextures;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.entity.Render;
-import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraft.client.renderer.entity.EntityRenderer;
+import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.ResourceLocation;
 
-public class RenderTarantulaHair extends Render<EntityTarantulaHair> {
+public class RenderTarantulaHair extends EntityRenderer<EntityTarantulaHair> {
 
-    public RenderTarantulaHair(RenderManager renderManager) {
+    public RenderTarantulaHair(EntityRendererManager renderManager) {
         super(renderManager);
     }
 

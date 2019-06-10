@@ -4,13 +4,13 @@ import its_meow.betteranimalsplus.client.model.ModelReindeer;
 import its_meow.betteranimalsplus.common.entity.EntityReindeer;
 import its_meow.betteranimalsplus.init.ModTextures;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.entity.RenderLiving;
-import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraft.client.renderer.entity.MobRenderer;
+import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.util.ResourceLocation;
 
-public class RenderReindeer extends RenderLiving<EntityReindeer> {
+public class RenderReindeer extends MobRenderer<EntityReindeer> {
 
-    public RenderReindeer(RenderManager rendermanagerIn) {
+    public RenderReindeer(EntityRendererManager rendermanagerIn) {
         super(rendermanagerIn, new ModelReindeer(), 1F);
     }
 

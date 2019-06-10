@@ -4,13 +4,13 @@ import its_meow.betteranimalsplus.client.model.ModelTarantula;
 import its_meow.betteranimalsplus.client.renderer.entity.layers.LayerTarantulaEyes;
 import its_meow.betteranimalsplus.common.entity.EntityTarantula;
 import its_meow.betteranimalsplus.init.ModTextures;
-import net.minecraft.client.renderer.entity.RenderLiving;
-import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraft.client.renderer.entity.MobRenderer;
+import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.util.ResourceLocation;
 
-public class RenderTarantula extends RenderLiving<EntityTarantula> {
+public class RenderTarantula extends MobRenderer<EntityTarantula> {
 
-    public RenderTarantula(RenderManager rendermanagerIn) {
+    public RenderTarantula(EntityRendererManager rendermanagerIn) {
         super(rendermanagerIn, new ModelTarantula(), 1F);
         this.addLayer(new LayerTarantulaEyes(this));
     }

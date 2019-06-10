@@ -1,14 +1,14 @@
 package its_meow.betteranimalsplus.common.entity;
 
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.BlockState;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.MoverType;
-import net.minecraft.entity.passive.EntityTameable;
+import net.minecraft.entity.passive.TameableEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 
-public abstract class EntityTameableFlying extends EntityTameable {
+public abstract class EntityTameableFlying extends TameableEntity {
 
     public EntityTameableFlying(EntityType<?> type, World worldIn) {
         super(type, worldIn);
@@ -34,7 +34,7 @@ public abstract class EntityTameableFlying extends EntityTameable {
             if (this.onGround) {
                 BlockPos underPos = new BlockPos(MathHelper.floor(this.posX),
                         MathHelper.floor(this.getBoundingBox().minY) - 1, MathHelper.floor(this.posZ));
-                IBlockState underState = this.world.getBlockState(underPos);
+                BlockState underState = this.world.getBlockState(underPos);
                 f = underState.getBlock().getSlipperiness(underState, this.world, underPos, this) * 0.91F;
             }
 
@@ -45,7 +45,7 @@ public abstract class EntityTameableFlying extends EntityTameable {
             if (this.onGround) {
                 BlockPos underPos = new BlockPos(MathHelper.floor(this.posX),
                         MathHelper.floor(this.getBoundingBox().minY) - 1, MathHelper.floor(this.posZ));
-                IBlockState underState = this.world.getBlockState(underPos);
+                BlockState underState = this.world.getBlockState(underPos);
                 f = underState.getBlock().getSlipperiness(underState, this.world, underPos, this) * 0.91F;
             }
 

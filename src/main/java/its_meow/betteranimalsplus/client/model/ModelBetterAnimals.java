@@ -2,9 +2,9 @@ package its_meow.betteranimalsplus.client.model;
 
 import its_meow.betteranimalsplus.util.ModMathHelper;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.entity.model.ModelBase;
-import net.minecraft.client.renderer.entity.model.ModelRenderer;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.client.renderer.entity.model.EntityModel;
+import net.minecraft.client.renderer.entity.model.RendererModel;
+import net.minecraft.entity.LivingEntity;
 
 /**
  * <em><b>Copyright (c) 2018 Ocelot5836.</b></em>
@@ -18,7 +18,7 @@ import net.minecraft.entity.EntityLivingBase;
  *
  *         Permission Granted for use in Better Animals Plus
  */
-public class ModelBetterAnimals extends ModelBase {
+public class ModelBetterAnimals<T extends LivingEntity> extends EntityModel<T> {
 
     /**
      * Gets the number of ticks the entity has existed for, plus the time since the
@@ -28,7 +28,7 @@ public class ModelBetterAnimals extends ModelBase {
      *             existed.
      * @return TicksExisted + partialTicks of the entity.
      */
-    public static float getIdleProgress(EntityLivingBase base) {
+    public static float getIdleProgress(LivingEntity base) {
         return base.ticksExisted + Minecraft.getInstance().getRenderPartialTicks();
     }
 
@@ -40,7 +40,7 @@ public class ModelBetterAnimals extends ModelBase {
      *             progress from.
      * @return How far along the entity is from completing its swing.
      */
-    public static float getSwingProgress(EntityLivingBase base) {
+    public static float getSwingProgress(LivingEntity base) {
         return base.limbSwing - base.limbSwingAmount * (1.0F - Minecraft.getInstance().getRenderPartialTicks());
     }
 
@@ -53,7 +53,7 @@ public class ModelBetterAnimals extends ModelBase {
      *             swing progress from.
      * @return The time since the last limb swing of the entity was completed.
      */
-    public static float getSwingProgressPrev(EntityLivingBase base) {
+    public static float getSwingProgressPrev(LivingEntity base) {
         return base.prevLimbSwingAmount
                 + (base.limbSwingAmount - base.prevLimbSwingAmount) * Minecraft.getInstance().getRenderPartialTicks();
     }
@@ -65,7 +65,7 @@ public class ModelBetterAnimals extends ModelBase {
      * @param base - The entity from which to get the head yaw rotation from.
      * @return The value of the yaw rotation the head is at.
      */
-    public static float getHeadYaw(EntityLivingBase base) {
+    public static float getHeadYaw(LivingEntity base) {
         float yawOffset = ModMathHelper.interpolateRotation(base.prevRenderYawOffset, base.renderYawOffset,
                 Minecraft.getInstance().getRenderPartialTicks());
         float yawHead = ModMathHelper.interpolateRotation(base.prevRotationYawHead, base.rotationYawHead,
@@ -80,7 +80,7 @@ public class ModelBetterAnimals extends ModelBase {
      * @param base - The entity from which to get the head pitch rotation from.
      * @return The value of the pitch rotation the head is at.
      */
-    public static float getHeadPitch(EntityLivingBase base) {
+    public static float getHeadPitch(LivingEntity base) {
         return base.prevRotationPitch
                 + (base.rotationPitch - base.prevRotationPitch) * Minecraft.getInstance().getRenderPartialTicks();
     }
@@ -94,8 +94,8 @@ public class ModelBetterAnimals extends ModelBase {
      * @return ticksExisted + partialTicks of the object.
      */
     public static float idleProgress(Object o) {
-        if (o != null && o instanceof EntityLivingBase) {
-            return ModelBetterAnimals.getIdleProgress((EntityLivingBase) o);
+        if (o != null && o instanceof LivingEntity) {
+            return ModelBetterAnimals.getIdleProgress((LivingEntity) o);
         }
 
         return 0F;
@@ -109,8 +109,8 @@ public class ModelBetterAnimals extends ModelBase {
      * @return How far along the object is from completing its swing.
      */
     public static float swingProgress(Object o) {
-        if (o != null && o instanceof EntityLivingBase) {
-            return ModelBetterAnimals.getSwingProgress((EntityLivingBase) o);
+        if (o != null && o instanceof LivingEntity) {
+            return ModelBetterAnimals.getSwingProgress((LivingEntity) o);
         }
 
         return 0F;
@@ -124,8 +124,8 @@ public class ModelBetterAnimals extends ModelBase {
      * @return The time since the object's last swing was completed.
      */
     public static float swingProgressPrev(Object o) {
-        if (o != null && o instanceof EntityLivingBase) {
-            return ModelBetterAnimals.getSwingProgressPrev((EntityLivingBase) o);
+        if (o != null && o instanceof LivingEntity) {
+            return ModelBetterAnimals.getSwingProgressPrev((LivingEntity) o);
         }
 
         return 0F;
@@ -139,8 +139,8 @@ public class ModelBetterAnimals extends ModelBase {
      * @return The yaw rotation of the object.
      */
     public static float headYaw(Object o) {
-        if (o != null && o instanceof EntityLivingBase) {
-            return ModelBetterAnimals.getHeadYaw((EntityLivingBase) o);
+        if (o != null && o instanceof LivingEntity) {
+            return ModelBetterAnimals.getHeadYaw((LivingEntity) o);
         }
 
         return 0F;
@@ -154,8 +154,8 @@ public class ModelBetterAnimals extends ModelBase {
      * @return The pitch rotation of the object.
      */
     public static float headPitch(Object o) {
-        if (o != null && o instanceof EntityLivingBase) {
-            return ModelBetterAnimals.getHeadPitch((EntityLivingBase) o);
+        if (o != null && o instanceof LivingEntity) {
+            return ModelBetterAnimals.getHeadPitch((LivingEntity) o);
         }
 
         return 0F;
@@ -169,7 +169,7 @@ public class ModelBetterAnimals extends ModelBase {
      * @param y             The y angle
      * @param z             The z angle
      */
-    public void setRotateAngle(ModelRenderer modelRenderer, float x, float y, float z) {
+    public void setRotateAngle(RendererModel modelRenderer, float x, float y, float z) {
         modelRenderer.rotateAngleX = x;
         modelRenderer.rotateAngleY = y;
         modelRenderer.rotateAngleZ = z;

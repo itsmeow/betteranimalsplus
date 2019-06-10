@@ -2,25 +2,24 @@ package its_meow.betteranimalsplus.common.entity;
 
 import its_meow.betteranimalsplus.init.ModEntities;
 import net.minecraft.block.Block;
-import net.minecraft.entity.EntityAgeable;
+import net.minecraft.block.Blocks;
+import net.minecraft.entity.AgeableEntity;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.EntityAIAvoidEntity;
-import net.minecraft.entity.ai.EntityAIMate;
-import net.minecraft.entity.ai.EntityAIPanic;
-import net.minecraft.entity.ai.EntityAISwimming;
-import net.minecraft.entity.ai.EntityAITempt;
-import net.minecraft.entity.ai.EntityAIWanderAvoidWater;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
+import net.minecraft.entity.ai.goal.*;
+import net.minecraft.entity.ai.goal.TemptGoal;
+import net.minecraft.entity.ai.goal.WaterAvoidingRandomWalkingGoal;
+import net.minecraft.entity.ai.goal.AvoidEntityGoal;
+import net.minecraft.entity.ai.goal.BreedGoal;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.pathfinding.PathNavigate;
-import net.minecraft.pathfinding.PathNavigateClimber;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.pathfinding.ClimberPathNavigator;
+import net.minecraft.pathfinding.PathNavigator;
+import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -38,12 +37,12 @@ public class EntitySquirrel extends EntityAnimalWithTypes {
 
     @Override
     protected void initEntityAI() {
-        this.tasks.addTask(1, new EntityAISwimming(this));
-        this.tasks.addTask(2, new EntityAIPanic(this, 0.72D));
-        this.tasks.addTask(3, new EntityAIMate(this, 0.5D));
-        this.tasks.addTask(4, new EntityAITempt(this, 0.5D, Ingredient.fromItems(Items.WHEAT_SEEDS), false));
-        this.tasks.addTask(5, new EntityAIAvoidEntity<>(this, EntityPlayer.class, 10F, 0.5D, 0.7D));
-        this.tasks.addTask(6, new EntityAIWanderAvoidWater(this, 0.5D));
+        this.tasks.addTask(1, new SwimGoal(this));
+        this.tasks.addTask(2, new PanicGoal(this, 0.72D));
+        this.tasks.addTask(3, new BreedGoal(this, 0.5D));
+        this.tasks.addTask(4, new TemptGoal(this, 0.5D, Ingredient.fromItems(Items.WHEAT_SEEDS), false));
+        this.tasks.addTask(5, new AvoidEntityGoal<>(this, PlayerEntity.class, 10F, 0.5D, 0.7D));
+        this.tasks.addTask(6, new WaterAvoidingRandomWalkingGoal(this, 0.5D));
     }
 
     @Override
@@ -68,7 +67,7 @@ public class EntitySquirrel extends EntityAnimalWithTypes {
 
         if (!this.world.isRemote) {
             boolean nearLog = false;
-            for (EnumFacing facing : EnumFacing.values()) {
+            for (Direction facing : Direction.values()) {
                 BlockPos pos = this.getPosition().offset(facing);
                 Block block = this.world.getBlockState(pos).getBlock();
                 if (block == Blocks.ACACIA_LOG || block == Blocks.BIRCH_LOG || block == Blocks.DARK_OAK_LOG
@@ -116,12 +115,12 @@ public class EntitySquirrel extends EntityAnimalWithTypes {
     }
 
     @Override
-    protected PathNavigate createNavigator(World worldIn) {
-        return new PathNavigateClimber(this, worldIn);
+    protected PathNavigator createNavigator(World worldIn) {
+        return new ClimberPathNavigator(this, worldIn);
     }
 
     @Override
-    public EntityAgeable createChild(EntityAgeable ageable) {
+    public AgeableEntity createChild(AgeableEntity ageable) {
         EntitySquirrel squirrel = new EntitySquirrel(this.world);
         if (ageable instanceof EntitySquirrel) {
             EntitySquirrel other = (EntitySquirrel) ageable;

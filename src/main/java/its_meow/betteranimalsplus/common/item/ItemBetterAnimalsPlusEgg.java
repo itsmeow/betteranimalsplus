@@ -3,13 +3,13 @@ package its_meow.betteranimalsplus.common.item;
 import its_meow.betteranimalsplus.util.EntityContainer;
 import net.minecraft.entity.EntityType;
 import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemSpawnEgg;
+import net.minecraft.item.SpawnEggItem;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraft.util.text.TranslationTextComponent;
 
-public class ItemBetterAnimalsPlusEgg extends ItemSpawnEgg {
+public class ItemBetterAnimalsPlusEgg extends SpawnEggItem {
 
     private final EntityType<?> type;
 
@@ -31,17 +31,17 @@ public class ItemBetterAnimalsPlusEgg extends ItemSpawnEgg {
 
     @Override
     public ITextComponent getDisplayName(ItemStack stack) {
-        return new TextComponentTranslation("misc.betteranimalsplus.eggorder",
-                new TextComponentTranslation(this.getTranslationKey(stack)));
+        return new TranslationTextComponent("misc.betteranimalsplus.eggorder",
+                new TranslationTextComponent(this.getTranslationKey(stack)));
     }
 
     @Override
-    public EntityType<?> getType(NBTTagCompound tag) {
+    public EntityType<?> getType(CompoundNBT tag) {
         return this.type;
     }
 
     @Override
-    public boolean hasType(NBTTagCompound tag, EntityType<?> type) {
+    public boolean hasType(CompoundNBT tag, EntityType<?> type) {
         return type == this.type;
     }
 

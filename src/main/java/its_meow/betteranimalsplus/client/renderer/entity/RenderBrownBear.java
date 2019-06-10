@@ -6,13 +6,13 @@ import its_meow.betteranimalsplus.client.model.ModelBear;
 import its_meow.betteranimalsplus.common.entity.EntityBear;
 import its_meow.betteranimalsplus.init.ModTextures;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.entity.RenderLiving;
-import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraft.client.renderer.entity.EntityRendererManager;
+import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.util.ResourceLocation;
 
-public class RenderBrownBear extends RenderLiving<EntityBear> {
+public class RenderBrownBear extends MobRenderer<EntityBear> {
 
-    public RenderBrownBear(RenderManager rendermanagerIn) {
+    public RenderBrownBear(EntityRendererManager rendermanagerIn) {
         super(rendermanagerIn, new ModelBear(), 1F);
     }
 

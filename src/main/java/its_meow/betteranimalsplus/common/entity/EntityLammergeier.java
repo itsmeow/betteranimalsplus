@@ -13,44 +13,38 @@ import its_meow.betteranimalsplus.common.entity.ai.LammerMoveHelper;
 import its_meow.betteranimalsplus.init.ModEntities;
 import its_meow.betteranimalsplus.init.ModLootTables;
 import its_meow.betteranimalsplus.util.PolarVector3D;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.BlockState;
 import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityAgeable;
-import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.IEntityLivingData;
-import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.EntityAIBase;
-import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
-import net.minecraft.entity.ai.EntityAIOwnerHurtByTarget;
-import net.minecraft.entity.ai.EntityAIOwnerHurtTarget;
-import net.minecraft.entity.ai.EntityAISit;
-import net.minecraft.entity.ai.EntityAITarget;
-import net.minecraft.entity.ai.EntityMoveHelper;
+import net.minecraft.entity.*;
+import net.minecraft.entity.AgeableEntity;
+import net.minecraft.entity.MobEntity;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.ILivingEntityData;
+import net.minecraft.entity.ai.controller.MovementController;
+import net.minecraft.entity.ai.goal.*;
+import net.minecraft.entity.ai.goal.SitGoal;
+import net.minecraft.entity.ai.goal.TargetGoal;
 import net.minecraft.entity.ai.attributes.IAttributeInstance;
-import net.minecraft.entity.monster.EntityCreeper;
-import net.minecraft.entity.monster.EntityGhast;
-import net.minecraft.entity.monster.EntitySkeleton;
-import net.minecraft.entity.passive.AbstractHorse;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.entity.projectile.EntityArrow;
-import net.minecraft.init.Items;
-import net.minecraft.init.SoundEvents;
+import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal;
+import net.minecraft.entity.monster.CreeperEntity;
+import net.minecraft.entity.monster.GhastEntity;
+import net.minecraft.entity.monster.SkeletonEntity;
+import net.minecraft.entity.passive.horse.AbstractHorseEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.entity.projectile.AbstractArrowEntity;
+import net.minecraft.item.Items;
+import net.minecraft.pathfinding.PathNavigator;
+import net.minecraft.util.*;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.pathfinding.Path;
-import net.minecraft.pathfinding.PathNavigate;
-import net.minecraft.pathfinding.PathNavigateFlying;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.EnumHand;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.SoundEvent;
+import net.minecraft.pathfinding.FlyingPathNavigator;
+import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.DifficultyInstance;
@@ -94,8 +88,8 @@ public class EntityLammergeier extends EntityTameableFlying implements IVariantT
     }
 
     @Override
-    protected PathNavigate createNavigator(World worldIn) {
-        PathNavigateFlying pathnavigateflying = new PathNavigateFlying(this, worldIn);
+    protected PathNavigator createNavigator(World worldIn) {
+        FlyingPathNavigator pathnavigateflying = new FlyingPathNavigator(this, worldIn);
         pathnavigateflying.setCanOpenDoors(false);
         pathnavigateflying.setCanSwim(true);
         pathnavigateflying.setCanEnterDoors(true);
@@ -109,19 +103,19 @@ public class EntityLammergeier extends EntityTameableFlying implements IVariantT
 
     @Override
     protected void initEntityAI() {
-        this.aiSit = new EntityAISit(this);
+        this.aiSit = new SitGoal(this);
         this.tasks.addTask(1, this.aiSit);
         this.tasks.addTask(2, new EntityLammergeier.AIMeleeAttack(this));
         this.tasks.addTask(3, new EntityAIFollowOwnerFlying(this, 0.5D, 10.0F, 50.0F));
         this.tasks.addTask(5, new EntityLammergeier.AIRandomFly(this));
         this.tasks.addTask(7, new EntityLammergeier.AILookAround(this));
-        this.targetTasks.addTask(1, new EntityAIOwnerHurtByTarget(this));
-        this.targetTasks.addTask(2, new EntityAIOwnerHurtTarget(this));
-        this.targetTasks.addTask(3, new EntityLammergeier.EntityAIFindEntityNearestFlying(this, EntitySkeleton.class));
+        this.targetTasks.addTask(1, new OwnerHurtByTargetGoal(this));
+        this.targetTasks.addTask(2, new OwnerHurtTargetGoal(this));
+        this.targetTasks.addTask(3, new EntityLammergeier.EntityAIFindEntityNearestFlying(this, SkeletonEntity.class));
     } 
 
     @Override
-    public void setAttackTarget(EntityLivingBase entitylivingbaseIn) {
+    public void setAttackTarget(LivingEntity entitylivingbaseIn) {
         if(!this.isSitting()) {
             super.setAttackTarget(entitylivingbaseIn);
         }
@@ -166,7 +160,7 @@ public class EntityLammergeier extends EntityTameableFlying implements IVariantT
                 this.setSitting(false);
             }
 
-            if (entity != null && !(entity instanceof EntityPlayer) && !(entity instanceof EntityArrow)) {
+            if (entity != null && !(entity instanceof PlayerEntity) && !(entity instanceof AbstractArrowEntity)) {
                 amount = (amount + 1.0F) / 2.0F;
             }
 
@@ -179,7 +173,7 @@ public class EntityLammergeier extends EntityTameableFlying implements IVariantT
     public double lastMotionY = 0;
 
     @Override
-    public boolean processInteract(EntityPlayer player, EnumHand hand) {
+    public boolean processInteract(PlayerEntity player, Hand hand) {
         ItemStack itemstack = player.getHeldItem(hand);
 
         if (this.isTamed()) {
@@ -199,7 +193,7 @@ public class EntityLammergeier extends EntityTameableFlying implements IVariantT
             }
             if (this.isOwner(player) && !this.isBeingRidden() && !this.world.isRemote && this.ticksExisted - this.lastTick > 13 && (itemstack.getItem() == null || (itemstack.getItem() != Items.MUTTON))) {
                 if (!this.isSitting()) {
-                    this.setAttackTarget((EntityLivingBase) null);
+                    this.setAttackTarget((LivingEntity) null);
                     this.navigator.clearPath();
                     BlockPos landPos = this.getPosition();
                     for(int y = (int) this.posY; y > 0 && y < 255; y--) {
@@ -228,7 +222,7 @@ public class EntityLammergeier extends EntityTameableFlying implements IVariantT
                     // this.setOwnerId(player.getUniqueID());
                     this.navigator.clearPath();
                     // ((LammerMoveHelper) this.getMoveHelper()).action = Action.WAIT;
-                    this.setAttackTarget((EntityLivingBase) null);
+                    this.setAttackTarget((LivingEntity) null);
                     this.setSitting(true);
                     this.setHealth(20.0F);
                     this.playTameEffect(true);
@@ -255,8 +249,8 @@ public class EntityLammergeier extends EntityTameableFlying implements IVariantT
     }
 
     @Override
-    public boolean shouldAttackEntity(EntityLivingBase target, EntityLivingBase owner) {
-        if (!(target instanceof EntityCreeper) && !(target instanceof EntityGhast)) {
+    public boolean shouldAttackEntity(LivingEntity target, LivingEntity owner) {
+        if (!(target instanceof CreeperEntity) && !(target instanceof GhastEntity)) {
             if (target instanceof EntityLammergeier) {
                 EntityLammergeier entitylam = (EntityLammergeier) target;
 
@@ -265,11 +259,11 @@ public class EntityLammergeier extends EntityTameableFlying implements IVariantT
                 }
             }
 
-            if (target instanceof EntityPlayer && owner instanceof EntityPlayer
-                    && !((EntityPlayer) owner).canAttackPlayer((EntityPlayer) target)) {
+            if (target instanceof PlayerEntity && owner instanceof PlayerEntity
+                    && !((PlayerEntity) owner).canAttackPlayer((PlayerEntity) target)) {
                 return false;
             } else {
-                return !(target instanceof AbstractHorse) || !((AbstractHorse) target).isTame();
+                return !(target instanceof AbstractHorseEntity) || !((AbstractHorseEntity) target).isTame();
             }
         } else {
             return false;
@@ -281,17 +275,17 @@ public class EntityLammergeier extends EntityTameableFlying implements IVariantT
         float f = (float) this.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getValue();
         int i = 0;
 
-        if (entityIn instanceof EntityLivingBase) {
+        if (entityIn instanceof LivingEntity) {
             f += EnchantmentHelper.getModifierForCreature(this.getHeldItemMainhand(),
-                    ((EntityLivingBase) entityIn).getCreatureAttribute());
+                    ((LivingEntity) entityIn).getCreatureAttribute());
             i += EnchantmentHelper.getKnockbackModifier(this);
         }
 
         boolean flag = entityIn.attackEntityFrom(DamageSource.causeMobDamage(this), f);
 
         if (flag) {
-            if (i > 0 && entityIn instanceof EntityLivingBase) {
-                ((EntityLivingBase) entityIn).knockBack(this, i * 0.5F, MathHelper.sin(this.rotationYaw * 0.017453292F),
+            if (i > 0 && entityIn instanceof LivingEntity) {
+                ((LivingEntity) entityIn).knockBack(this, i * 0.5F, MathHelper.sin(this.rotationYaw * 0.017453292F),
                         -MathHelper.cos(this.rotationYaw * 0.017453292F));
                 this.motionX *= 0.6D;
                 this.motionZ *= 0.6D;
@@ -303,8 +297,8 @@ public class EntityLammergeier extends EntityTameableFlying implements IVariantT
                 entityIn.setFire(j * 4);
             }
 
-            if (entityIn instanceof EntityPlayer) {
-                EntityPlayer entityplayer = (EntityPlayer) entityIn;
+            if (entityIn instanceof PlayerEntity) {
+                PlayerEntity entityplayer = (PlayerEntity) entityIn;
                 ItemStack itemstack = this.getHeldItemMainhand();
                 ItemStack itemstack1 = entityplayer.isHandActive() ? entityplayer.getActiveItemStack()
                         : ItemStack.EMPTY;
@@ -349,7 +343,7 @@ public class EntityLammergeier extends EntityTameableFlying implements IVariantT
     }
 
     @Override
-    protected void updateFallState(double y, boolean onGroundIn, IBlockState state, BlockPos pos) {
+    protected void updateFallState(double y, boolean onGroundIn, BlockState state, BlockPos pos) {
         if (!this.getFlying()) {
             super.updateFallState(y, onGroundIn, state, pos);
         }
@@ -418,7 +412,7 @@ public class EntityLammergeier extends EntityTameableFlying implements IVariantT
                 }
             } else {
                 this.setFlying(true);
-                this.world.playEvent((EntityPlayer) null, 1025, blockpos, 0);
+                this.world.playEvent((PlayerEntity) null, 1025, blockpos, 0);
             }
         } else {
             if (this.rand.nextInt(20) == 0 && this.world.getBlockState(blockpos1).isNormalCube()) {
@@ -459,14 +453,14 @@ public class EntityLammergeier extends EntityTameableFlying implements IVariantT
      * (abstract) Protected helper method to write subclass entity data to NBT.
      */
     @Override
-    public boolean writeUnlessRemoved(NBTTagCompound compound) {
+    public boolean writeUnlessRemoved(CompoundNBT compound) {
         this.writeType(compound);
         compound.putByte("LammerFlying", this.dataManager.get(EntityLammergeier.FLYING).byteValue());
         return super.writeUnlessRemoved(compound);
     }
 
     @Override
-    public void read(NBTTagCompound compound) {
+    public void read(CompoundNBT compound) {
         super.read(compound);
         this.readType(compound);
         this.dataManager.set(EntityLammergeier.FLYING, Byte.valueOf(compound.getByte("LammerFlying")));
@@ -485,8 +479,8 @@ public class EntityLammergeier extends EntityTameableFlying implements IVariantT
 
     @Override
     @Nullable
-    public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, @Nullable IEntityLivingData livingdata,
-            NBTTagCompound compound) {
+    public ILivingEntityData onInitialSpawn(DifficultyInstance difficulty, @Nullable ILivingEntityData livingdata,
+                                            CompoundNBT compound) {
         return this.initData(super.onInitialSpawn(difficulty, livingdata, compound));
     }
 
@@ -496,9 +490,9 @@ public class EntityLammergeier extends EntityTameableFlying implements IVariantT
             passenger.setPosition(this.posX + this.motionX, this.posY - passenger.height - 0.05 + this.motionY,
                     this.posZ + this.motionZ);
             this.motionY += Math.abs(passenger.motionY);
-            if (passenger instanceof EntityLivingBase
+            if (passenger instanceof LivingEntity
                     && (this.getAttackTarget() == null || this.getAttackTarget() != passenger)) {
-                this.setAttackTarget((EntityLivingBase) passenger);
+                this.setAttackTarget((LivingEntity) passenger);
             }
             if (this.world.isRemote) {
                 this.applyOrientationToEntity(passenger);
@@ -506,7 +500,7 @@ public class EntityLammergeier extends EntityTameableFlying implements IVariantT
         }
     }
 
-    static class AIMeleeAttack extends net.minecraft.entity.ai.EntityAIAttackMelee {
+    static class AIMeleeAttack extends MeleeAttackGoal {
         protected World world;
         protected EntityLammergeier attacker;
         /**
@@ -533,7 +527,7 @@ public class EntityLammergeier extends EntityTameableFlying implements IVariantT
          */
         @Override
         public boolean shouldExecute() {
-            EntityLivingBase entitylivingbase = this.attacker.getAttackTarget();
+            LivingEntity entitylivingbase = this.attacker.getAttackTarget();
 
             if (entitylivingbase == null) {
                 return false;
@@ -549,15 +543,15 @@ public class EntityLammergeier extends EntityTameableFlying implements IVariantT
          */
         @Override
         public boolean shouldContinueExecuting() {
-            EntityLivingBase entitylivingbase = this.attacker.getAttackTarget();
+            LivingEntity entitylivingbase = this.attacker.getAttackTarget();
 
             if (entitylivingbase == null) {
                 return false;
             } else if (!entitylivingbase.isAlive()) {
                 return false;
             } else {
-                return !(entitylivingbase instanceof EntityPlayer) || !((EntityPlayer) entitylivingbase).isSpectator()
-                        && !((EntityPlayer) entitylivingbase).isCreative();
+                return !(entitylivingbase instanceof PlayerEntity) || !((PlayerEntity) entitylivingbase).isSpectator()
+                        && !((PlayerEntity) entitylivingbase).isCreative();
             }
         }
 
@@ -575,11 +569,11 @@ public class EntityLammergeier extends EntityTameableFlying implements IVariantT
          */
         @Override
         public void resetTask() {
-            EntityLivingBase entitylivingbase = this.attacker.getAttackTarget();
+            LivingEntity entitylivingbase = this.attacker.getAttackTarget();
 
-            if (entitylivingbase instanceof EntityPlayer && (((EntityPlayer) entitylivingbase).isSpectator()
-                    || ((EntityPlayer) entitylivingbase).isCreative())) {
-                this.attacker.setAttackTarget((EntityLivingBase) null);
+            if (entitylivingbase instanceof PlayerEntity && (((PlayerEntity) entitylivingbase).isSpectator()
+                    || ((PlayerEntity) entitylivingbase).isCreative())) {
+                this.attacker.setAttackTarget((LivingEntity) null);
             }
         }
 
@@ -588,7 +582,7 @@ public class EntityLammergeier extends EntityTameableFlying implements IVariantT
          * Keep ticking a continuous task that has already been started
          */
         public void tick() {
-            EntityLivingBase entitylivingbase = this.attacker.getAttackTarget();
+            LivingEntity entitylivingbase = this.attacker.getAttackTarget();
 
             double targetX = entitylivingbase.posX;
             double targetY = entitylivingbase.posY;
@@ -642,8 +636,8 @@ public class EntityLammergeier extends EntityTameableFlying implements IVariantT
                 this.liftY = entitylivingbase.posY;
                 // Remove targets of the entity (to avoid something stupid like
                 // a skeleton shooting while being eaten by a bird)
-                if (entitylivingbase instanceof EntityLiving) {
-                    EntityLiving el = (EntityLiving) entitylivingbase;
+                if (entitylivingbase instanceof MobEntity) {
+                    MobEntity el = (MobEntity) entitylivingbase;
                     el.setAttackTarget(null);
                     el.setRevengeTarget(null);
                 }
@@ -679,7 +673,7 @@ public class EntityLammergeier extends EntityTameableFlying implements IVariantT
         }
     }
 
-    static class AILookAround extends EntityAIBase {
+    static class AILookAround extends Goal {
 
         private final EntityLammergeier parentEntity;
 
@@ -707,7 +701,7 @@ public class EntityLammergeier extends EntityTameableFlying implements IVariantT
                             this.parentEntity.motionZ)) * (180F / (float) Math.PI);
                     this.parentEntity.renderYawOffset = this.parentEntity.rotationYaw;
                 } else {
-                    EntityLivingBase entitylivingbase = this.parentEntity.getOwner();
+                    LivingEntity entitylivingbase = this.parentEntity.getOwner();
                     if (entitylivingbase != null) {
 
                         if (entitylivingbase.getDistanceSq(this.parentEntity) < 4096.0D) {
@@ -720,7 +714,7 @@ public class EntityLammergeier extends EntityTameableFlying implements IVariantT
                     }
                 }
             } else {
-                EntityLivingBase entitylivingbase = this.parentEntity.getAttackTarget();
+                LivingEntity entitylivingbase = this.parentEntity.getAttackTarget();
 
                 if (entitylivingbase.getDistanceSq(this.parentEntity) < 4096.0D) {
                     double d1 = entitylivingbase.posX - this.parentEntity.posX;
@@ -732,7 +726,7 @@ public class EntityLammergeier extends EntityTameableFlying implements IVariantT
         }
     }
 
-    static class AIRandomFly extends EntityAIBase {
+    static class AIRandomFly extends Goal {
 
         private final EntityLammergeier parentEntity;
 
@@ -746,7 +740,7 @@ public class EntityLammergeier extends EntityTameableFlying implements IVariantT
          */
         @Override
         public boolean shouldExecute() {
-            EntityMoveHelper entitymovehelper = this.parentEntity.getMoveHelper();
+            MovementController entitymovehelper = this.parentEntity.getMoveHelper();
 
             if (this.parentEntity.isTamed()) {
                 return false;
@@ -813,7 +807,7 @@ public class EntityLammergeier extends EntityTameableFlying implements IVariantT
         private static BlockPos getTopSolidOrLiquidBlock(World world, BlockPos pos) {
             for (int i = world.getHeight(); i > world.getSeaLevel(); i--) {
                 BlockPos pos2 = new BlockPos(pos.getX(), i, pos.getZ());
-                IBlockState state = world.getBlockState(pos2.down());
+                BlockState state = world.getBlockState(pos2.down());
                 if (world.isAirBlock(pos2) && state.isTopSolid() && world.canSeeSky(pos2)) {
                     return pos2;
                 }
@@ -822,19 +816,19 @@ public class EntityLammergeier extends EntityTameableFlying implements IVariantT
         }
     }
 
-    static class EntityAIFindEntityNearestFlying extends EntityAIBase {
+    static class EntityAIFindEntityNearestFlying extends Goal {
 
         private final EntityLammergeier mob;
-        private final Predicate<EntityLivingBase> predicate;
-        private final EntityAINearestAttackableTarget.Sorter sorter;
-        private EntityLivingBase target;
-        private final Class<? extends EntityLivingBase> classToCheck;
+        private final Predicate<LivingEntity> predicate;
+        private final NearestAttackableTargetGoal.Sorter sorter;
+        private LivingEntity target;
+        private final Class<? extends LivingEntity> classToCheck;
 
-        public EntityAIFindEntityNearestFlying(EntityLammergeier mobIn, Class<? extends EntityLivingBase> p_i45884_2_) {
+        public EntityAIFindEntityNearestFlying(EntityLammergeier mobIn, Class<? extends LivingEntity> p_i45884_2_) {
             // super(mobIn, p_i45884_2_);
             this.mob = mobIn;
             this.classToCheck = p_i45884_2_;
-            this.predicate = (@Nullable EntityLivingBase p_apply_1_) -> {
+            this.predicate = (@Nullable LivingEntity p_apply_1_) -> {
                 double d0 = EntityAIFindEntityNearestFlying.this.getFollowRange();
 
                 if (p_apply_1_.isSneaking()) {
@@ -845,12 +839,12 @@ public class EntityLammergeier extends EntityTameableFlying implements IVariantT
                     return false;
                 } else {
                     return p_apply_1_.getDistance(EntityAIFindEntityNearestFlying.this.mob) > d0 ? false
-                            : EntityAITarget.isSuitableTarget(EntityAIFindEntityNearestFlying.this.mob, p_apply_1_,
+                            : TargetGoal.isSuitableTarget(EntityAIFindEntityNearestFlying.this.mob, p_apply_1_,
                                     false, true);
                 }
             };
 
-            this.sorter = new EntityAINearestAttackableTarget.Sorter(mobIn);
+            this.sorter = new NearestAttackableTargetGoal.Sorter(mobIn);
         }
 
         @Override
@@ -860,7 +854,7 @@ public class EntityLammergeier extends EntityTameableFlying implements IVariantT
             }
 
             double d0 = this.getFollowRange();
-            List<EntityLivingBase> list = this.mob.world.<EntityLivingBase>getEntitiesWithinAABB(this.classToCheck,
+            List<LivingEntity> list = this.mob.world.<LivingEntity>getEntitiesWithinAABB(this.classToCheck,
                     this.mob.getBoundingBox().grow(d0, d0, d0), this.predicate);
             Collections.sort(list, this.sorter);
 
@@ -877,7 +871,7 @@ public class EntityLammergeier extends EntityTameableFlying implements IVariantT
          */
         @Override
         public boolean shouldContinueExecuting() {
-            EntityLivingBase entitylivingbase = this.mob.getAttackTarget();
+            LivingEntity entitylivingbase = this.mob.getAttackTarget();
 
             if (entitylivingbase == null) {
                 return false;
@@ -892,8 +886,8 @@ public class EntityLammergeier extends EntityTameableFlying implements IVariantT
                     this.mob.setAttackTarget(null);
                     return false;
                 } else {
-                    return !(entitylivingbase instanceof EntityPlayerMP)
-                            || !((EntityPlayerMP) entitylivingbase).interactionManager.isCreative();
+                    return !(entitylivingbase instanceof ServerPlayerEntity)
+                            || !((ServerPlayerEntity) entitylivingbase).interactionManager.isCreative();
                 }
             }
         }
@@ -913,7 +907,7 @@ public class EntityLammergeier extends EntityTameableFlying implements IVariantT
          */
         @Override
         public void resetTask() {
-            this.mob.setAttackTarget((EntityLivingBase) null);
+            this.mob.setAttackTarget((LivingEntity) null);
             super.startExecuting();
         }
 
@@ -925,7 +919,7 @@ public class EntityLammergeier extends EntityTameableFlying implements IVariantT
     }
 
     @Override
-    public EntityAgeable createChild(EntityAgeable ageable) {
+    public AgeableEntity createChild(AgeableEntity ageable) {
         return null;
     }
 

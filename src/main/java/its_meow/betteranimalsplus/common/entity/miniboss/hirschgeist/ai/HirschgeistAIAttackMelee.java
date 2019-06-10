@@ -1,14 +1,14 @@
 package its_meow.betteranimalsplus.common.entity.miniboss.hirschgeist.ai;
 
 import its_meow.betteranimalsplus.common.entity.miniboss.hirschgeist.EntityHirschgeist;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.ai.EntityAIBase;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.ai.goal.Goal;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.pathfinding.Path;
-import net.minecraft.util.EnumHand;
+import net.minecraft.util.Hand;
 import net.minecraft.world.World;
 
-public class HirschgeistAIAttackMelee extends EntityAIBase {
+public class HirschgeistAIAttackMelee extends Goal {
 
     World world;
     protected EntityHirschgeist attacker;
@@ -46,7 +46,7 @@ public class HirschgeistAIAttackMelee extends EntityAIBase {
      */
     @Override
     public boolean shouldExecute() {
-        EntityLivingBase entitylivingbase = this.attacker.getAttackTarget();
+        LivingEntity entitylivingbase = this.attacker.getAttackTarget();
 
         if (entitylivingbase == null) {
             return false;
@@ -80,7 +80,7 @@ public class HirschgeistAIAttackMelee extends EntityAIBase {
      */
     @Override
     public boolean shouldContinueExecuting() {
-        EntityLivingBase entitylivingbase = this.attacker.getAttackTarget();
+        LivingEntity entitylivingbase = this.attacker.getAttackTarget();
 
         if (entitylivingbase == null) {
             return false;
@@ -91,8 +91,8 @@ public class HirschgeistAIAttackMelee extends EntityAIBase {
         } else if (!this.longMemory) {
             return !this.attacker.getNavigator().noPath();
         } else {
-            return !(entitylivingbase instanceof EntityPlayer) || !((EntityPlayer) entitylivingbase).isSpectator()
-                    && !((EntityPlayer) entitylivingbase).isCreative();
+            return !(entitylivingbase instanceof PlayerEntity) || !((PlayerEntity) entitylivingbase).isSpectator()
+                    && !((PlayerEntity) entitylivingbase).isCreative();
         }
     }
 
@@ -111,11 +111,11 @@ public class HirschgeistAIAttackMelee extends EntityAIBase {
      */
     @Override
     public void resetTask() {
-        EntityLivingBase entitylivingbase = this.attacker.getAttackTarget();
+        LivingEntity entitylivingbase = this.attacker.getAttackTarget();
 
-        if (entitylivingbase instanceof EntityPlayer && (((EntityPlayer) entitylivingbase).isSpectator()
-                || ((EntityPlayer) entitylivingbase).isCreative())) {
-            this.attacker.setAttackTarget((EntityLivingBase) null);
+        if (entitylivingbase instanceof PlayerEntity && (((PlayerEntity) entitylivingbase).isSpectator()
+                || ((PlayerEntity) entitylivingbase).isCreative())) {
+            this.attacker.setAttackTarget((LivingEntity) null);
         }
 
         this.attacker.getNavigator().clearPath();
@@ -126,7 +126,7 @@ public class HirschgeistAIAttackMelee extends EntityAIBase {
      */
     @Override
     public void tick() {
-        EntityLivingBase entitylivingbase = this.attacker.getAttackTarget();
+        LivingEntity entitylivingbase = this.attacker.getAttackTarget();
         this.attacker.getLookHelper().setLookPositionWithEntity(entitylivingbase, 30.0F, 30.0F);
         double d0 = this.attacker.getDistanceSq(entitylivingbase.posX, entitylivingbase.getBoundingBox().minY,
                 entitylivingbase.posZ);
@@ -172,19 +172,19 @@ public class HirschgeistAIAttackMelee extends EntityAIBase {
         this.checkAndPerformAttack(entitylivingbase, d0);
     }
 
-    protected void checkAndPerformAttack(EntityLivingBase target, double sqDistance) {
+    protected void checkAndPerformAttack(LivingEntity target, double sqDistance) {
         double d0 = this.getAttackReachSqr(target);
 
         if (sqDistance <= d0 && this.attackTick <= 0) {
             this.attackTick = 20;
-            this.attacker.swingArm(EnumHand.MAIN_HAND);
+            this.attacker.swingArm(Hand.MAIN_HAND);
             this.attacker.attackEntityAsMob(target);
             target.knockBack(target, 3, this.attacker.posX - target.posX, this.attacker.posZ - target.posZ);
             target.setFire(5);
         }
     }
 
-    protected double getAttackReachSqr(EntityLivingBase attackTarget) {
+    protected double getAttackReachSqr(LivingEntity attackTarget) {
         return 12D;
     }
 

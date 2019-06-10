@@ -6,14 +6,14 @@ import its_meow.betteranimalsplus.client.model.ModelPheasant;
 import its_meow.betteranimalsplus.common.entity.EntityPheasant;
 import its_meow.betteranimalsplus.init.ModTextures;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.entity.RenderLiving;
-import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraft.client.renderer.entity.EntityRendererManager;
+import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
 
-public class RenderPheasant extends RenderLiving<EntityPheasant> {
+public class RenderPheasant extends MobRenderer<EntityPheasant> {
 
-    public RenderPheasant(RenderManager rendermanagerIn) {
+    public RenderPheasant(EntityRendererManager rendermanagerIn) {
         super(rendermanagerIn, new ModelPheasant(), 0.5F);
     }
 

@@ -9,7 +9,7 @@ import net.minecraft.block.Block;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.World;
 
 public class ItemBlockHeadType extends ItemBlockSkull {
@@ -29,7 +29,7 @@ public class ItemBlockHeadType extends ItemBlockSkull {
     @Override
     public void addInformation(ItemStack stack, World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
         if(type == HeadTypes.HIRSCHGEIST) {
-            tooltip.add(new TextComponentString("It can be worn via placing it into an empty crafting table"));
+            tooltip.add(new StringTextComponent("It can be worn via placing it into an empty crafting table"));
         }
         super.addInformation(stack, worldIn, tooltip, flagIn);
     }

@@ -2,25 +2,25 @@ package its_meow.betteranimalsplus.common.entity.ai;
 
 import its_meow.betteranimalsplus.common.entity.EntityLammergeier;
 import its_meow.betteranimalsplus.util.SimpleTeleporter;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.state.BlockFaceShape;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.ai.EntityAIBase;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.pathfinding.PathNavigateFlying;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.ai.goal.Goal;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.pathfinding.FlyingPathNavigator;
 import net.minecraft.pathfinding.PathNodeType;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 
-public class EntityAIFollowOwnerFlying extends EntityAIBase {
+public class EntityAIFollowOwnerFlying extends Goal {
 
     private final EntityLammergeier tameable;
-    private EntityLivingBase owner;
+    private LivingEntity owner;
     World world;
     private final double followSpeed;
-    private final PathNavigateFlying petPathfinder;
+    private final FlyingPathNavigator petPathfinder;
     private int timeToRecalcPath;
     float maxDist;
     float minDist;
@@ -32,7 +32,7 @@ public class EntityAIFollowOwnerFlying extends EntityAIBase {
         this.tameable = tameableIn;
         this.world = tameableIn.world;
         this.followSpeed = followSpeedIn;
-        this.petPathfinder = (PathNavigateFlying) tameableIn.getNavigator();
+        this.petPathfinder = (FlyingPathNavigator) tameableIn.getNavigator();
         this.minDist = minDistIn;
         this.maxDist = maxDistIn;
         this.setMutexBits(4);
@@ -43,11 +43,11 @@ public class EntityAIFollowOwnerFlying extends EntityAIBase {
      */
     @Override
     public boolean shouldExecute() {
-        EntityLivingBase entitylivingbase = this.tameable.getOwner();
+        LivingEntity entitylivingbase = this.tameable.getOwner();
 
         if (entitylivingbase == null) {
             return false;
-        } else if (entitylivingbase instanceof EntityPlayer && ((EntityPlayer) entitylivingbase).isSpectator()) {
+        } else if (entitylivingbase instanceof PlayerEntity && ((PlayerEntity) entitylivingbase).isSpectator()) {
             return false;
         } else if (this.tameable.isSitting()) {
             return false;
@@ -145,8 +145,8 @@ public class EntityAIFollowOwnerFlying extends EntityAIBase {
 
     protected boolean isTeleportFriendlyBlock(int x, int p_192381_2_, int y, int p_192381_4_, int p_192381_5_) {
         BlockPos blockpos = new BlockPos(x + p_192381_4_, y - 1, p_192381_2_ + p_192381_5_);
-        IBlockState iblockstate = this.world.getBlockState(blockpos);
-        return iblockstate.getBlockFaceShape(this.world, blockpos, EnumFacing.DOWN) == BlockFaceShape.SOLID
+        BlockState iblockstate = this.world.getBlockState(blockpos);
+        return iblockstate.getBlockFaceShape(this.world, blockpos, Direction.DOWN) == BlockFaceShape.SOLID
                 && iblockstate.canEntitySpawn(this.tameable) && this.world.isAirBlock(blockpos.up())
                 && this.world.isAirBlock(blockpos.up(2));
     }

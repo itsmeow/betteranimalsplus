@@ -10,8 +10,8 @@ import its_meow.betteranimalsplus.util.EntityContainer;
 import its_meow.betteranimalsplus.util.HeadTypes;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityType;
+import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemBlock;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.event.RegistryEvent;
@@ -41,11 +41,11 @@ public class BetterAnimalsPlusRegistrar {
 	 */
 	@SubscribeEvent
 	public static void registerItemBlocks(final RegistryEvent.Register<Item> event) {
-		final ItemBlock[] items = { ModItems.ITEMBLOCK_TRILLIUM, ModItems.ITEMBLOCK_HAND_OF_FATE };
+		final BlockItem[] items = { ModItems.ITEMBLOCK_TRILLIUM, ModItems.ITEMBLOCK_HAND_OF_FATE };
 
 		final IForgeRegistry<Item> registry = event.getRegistry();
 
-		for (final ItemBlock item : items) {
+		for (final BlockItem item : items) {
 			Block block = item.getBlock();
 			ResourceLocation loc = item.getRegistryName();
 			if (item.getRegistryName() == null) {

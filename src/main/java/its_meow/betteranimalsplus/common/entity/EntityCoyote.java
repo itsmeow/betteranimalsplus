@@ -9,39 +9,37 @@ import its_meow.betteranimalsplus.init.ModEntities;
 import its_meow.betteranimalsplus.init.ModItems;
 import its_meow.betteranimalsplus.util.HeadTypes;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.ai.EntityAIAttackMelee;
-import net.minecraft.entity.ai.EntityAIFollowOwner;
-import net.minecraft.entity.ai.EntityAIHurtByTarget;
-import net.minecraft.entity.ai.EntityAILeapAtTarget;
-import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
-import net.minecraft.entity.ai.EntityAIOwnerHurtByTarget;
-import net.minecraft.entity.ai.EntityAIOwnerHurtTarget;
-import net.minecraft.entity.ai.EntityAISit;
-import net.minecraft.entity.ai.EntityAISwimming;
-import net.minecraft.entity.ai.EntityAITargetNonTamed;
-import net.minecraft.entity.ai.EntityAIWanderAvoidWater;
-import net.minecraft.entity.ai.EntityAIWatchClosest;
-import net.minecraft.entity.monster.AbstractIllager;
-import net.minecraft.entity.monster.AbstractSkeleton;
-import net.minecraft.entity.monster.EntityCreeper;
-import net.minecraft.entity.monster.EntityGhast;
-import net.minecraft.entity.passive.AbstractHorse;
-import net.minecraft.entity.passive.EntityAnimal;
-import net.minecraft.entity.passive.EntityChicken;
-import net.minecraft.entity.passive.EntityRabbit;
-import net.minecraft.entity.passive.EntitySheep;
-import net.minecraft.entity.passive.EntityVillager;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Items;
-import net.minecraft.init.SoundEvents;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.ai.goal.*;
+import net.minecraft.entity.ai.goal.HurtByTargetGoal;
+import net.minecraft.entity.ai.goal.LeapAtTargetGoal;
+import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal;
+import net.minecraft.entity.ai.goal.OwnerHurtByTargetGoal;
+import net.minecraft.entity.ai.goal.OwnerHurtTargetGoal;
+import net.minecraft.entity.ai.goal.SitGoal;
+import net.minecraft.entity.ai.goal.SwimGoal;
+import net.minecraft.entity.ai.goal.NonTamedTargetGoal;
+import net.minecraft.entity.ai.goal.WaterAvoidingRandomWalkingGoal;
+import net.minecraft.entity.ai.goal.LookAtGoal;
+import net.minecraft.entity.merchant.villager.VillagerEntity;
+import net.minecraft.entity.monster.AbstractIllagerEntity;
+import net.minecraft.entity.monster.AbstractSkeletonEntity;
+import net.minecraft.entity.monster.CreeperEntity;
+import net.minecraft.entity.monster.GhastEntity;
+import net.minecraft.entity.passive.*;
+import net.minecraft.entity.passive.horse.AbstractHorseEntity;
+import net.minecraft.entity.passive.ChickenEntity;
+import net.minecraft.entity.passive.RabbitEntity;
+import net.minecraft.entity.passive.SheepEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.Items;
+import net.minecraft.util.*;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.EnumHand;
-import net.minecraft.util.SoundEvent;
-import net.minecraft.util.text.TextComponentString;
-import net.minecraft.world.EnumDifficulty;
+import net.minecraft.util.Hand;
+import net.minecraft.util.SoundEvents;
+import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.world.Difficulty;
 import net.minecraft.world.World;
 
 public class EntityCoyote extends EntityFeralWolf {
@@ -54,31 +52,31 @@ public class EntityCoyote extends EntityFeralWolf {
 
     @Override
     protected void initEntityAI() {
-        this.aiSit = new EntityAISit(this);
-        this.tasks.addTask(1, new EntityAISwimming(this));
+        this.aiSit = new SitGoal(this);
+        this.tasks.addTask(1, new SwimGoal(this));
         this.tasks.addTask(2, this.aiSit);
-        this.tasks.addTask(4, new EntityAILeapAtTarget(this, 0.4F));
-        this.tasks.addTask(5, new EntityAIAttackMelee(this, 1.0D, true));
-        this.tasks.addTask(6, new EntityAIFollowOwner(this, 1.0D, 10.0F, 2.0F));
-        this.tasks.addTask(8, new EntityAIWanderAvoidWater(this, 1.0D));
-        this.tasks.addTask(10, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
-        this.targetTasks.addTask(1, new EntityAIOwnerHurtByTarget(this));
-        this.targetTasks.addTask(2, new EntityAIOwnerHurtTarget(this));
-        this.targetTasks.addTask(3, new EntityAIHurtByTarget(this, true, new Class[0]));
+        this.tasks.addTask(4, new LeapAtTargetGoal(this, 0.4F));
+        this.tasks.addTask(5, new MeleeAttackGoal(this, 1.0D, true));
+        this.tasks.addTask(6, new FollowOwnerGoal(this, 1.0D, 10.0F, 2.0F));
+        this.tasks.addTask(8, new WaterAvoidingRandomWalkingGoal(this, 1.0D));
+        this.tasks.addTask(10, new LookAtGoal(this, PlayerEntity.class, 8.0F));
+        this.targetTasks.addTask(1, new OwnerHurtByTargetGoal(this));
+        this.targetTasks.addTask(2, new OwnerHurtTargetGoal(this));
+        this.targetTasks.addTask(3, new HurtByTargetGoal(this, true, new Class[0]));
         this.targetTasks.addTask(4,
-                new EntityAITargetNonTamed<EntityPlayer>(this, EntityPlayer.class, false, Predicates.alwaysTrue()));
+                new NonTamedTargetGoal<PlayerEntity>(this, PlayerEntity.class, false, Predicates.alwaysTrue()));
         this.targetTasks.addTask(4,
-                new EntityAITargetNonTamed<EntityAnimal>(this, EntityAnimal.class, false,
-                        (@Nullable Entity p_apply_1_) -> p_apply_1_ instanceof EntitySheep
-                                || p_apply_1_ instanceof EntityRabbit));
+                new NonTamedTargetGoal<AnimalEntity>(this, AnimalEntity.class, false,
+                        (@Nullable Entity p_apply_1_) -> p_apply_1_ instanceof SheepEntity
+                                || p_apply_1_ instanceof RabbitEntity));
         this.targetTasks.addTask(4,
-                new EntityAITargetNonTamed<EntityVillager>(this, EntityVillager.class, false, Predicates.alwaysTrue()));
-        this.targetTasks.addTask(4, new EntityAITargetNonTamed<AbstractIllager>(this, AbstractIllager.class, false,
+                new NonTamedTargetGoal<VillagerEntity>(this, VillagerEntity.class, false, Predicates.alwaysTrue()));
+        this.targetTasks.addTask(4, new NonTamedTargetGoal<AbstractIllagerEntity>(this, AbstractIllagerEntity.class, false,
                 Predicates.alwaysTrue()));
         this.targetTasks.addTask(4,
-                new EntityAITargetNonTamed<EntityChicken>(this, EntityChicken.class, false, Predicates.alwaysTrue()));
+                new NonTamedTargetGoal<ChickenEntity>(this, ChickenEntity.class, false, Predicates.alwaysTrue()));
         this.targetTasks.addTask(5,
-                new EntityAINearestAttackableTarget<AbstractSkeleton>(this, AbstractSkeleton.class, false));
+                new NearestAttackableTargetGoal<AbstractSkeletonEntity>(this, AbstractSkeletonEntity.class, false));
 
     }
 
@@ -88,7 +86,7 @@ public class EntityCoyote extends EntityFeralWolf {
     }
 
     @Override
-    public void setAttackTarget(EntityLivingBase entitylivingbaseIn) {
+    public void setAttackTarget(LivingEntity entitylivingbaseIn) {
         if (!this.isDaytime() || BetterAnimalsPlusConfig.coyotesHostileDaytime) {
             super.setAttackTarget(entitylivingbaseIn);
         } else if (!this.isTamed()) {
@@ -96,7 +94,7 @@ public class EntityCoyote extends EntityFeralWolf {
         } else {
             super.setAttackTarget(entitylivingbaseIn);
         }
-        if (this.world.getDifficulty() == EnumDifficulty.PEACEFUL) {
+        if (this.world.getDifficulty() == Difficulty.PEACEFUL) {
             super.setAttackTarget(null);
         }
     }
@@ -127,7 +125,7 @@ public class EntityCoyote extends EntityFeralWolf {
     }
 
     @Override
-    public boolean processInteract(EntityPlayer player, EnumHand hand) {
+    public boolean processInteract(PlayerEntity player, Hand hand) {
         ItemStack itemstack = player.getHeldItem(hand);
 
         if (this.isTamed()) {
@@ -152,12 +150,12 @@ public class EntityCoyote extends EntityFeralWolf {
                 this.aiSit.setSitting(!this.isSitting());
                 this.isJumping = false;
                 this.navigator.clearPath();
-                this.setAttackTarget((EntityLivingBase) null);
+                this.setAttackTarget((LivingEntity) null);
             }
         } else if (itemstack.getItem() == Items.RABBIT || itemstack.getItem() == Items.CHICKEN || itemstack.getItem() == Items.COOKED_CHICKEN || itemstack.getItem() == Items.COOKED_RABBIT || itemstack.getItem() == ModItems.PHEASANT_RAW || itemstack.getItem() == ModItems.PHEASANT_COOKED) {
             if(BetterAnimalsPlusConfig.coyotesHostileDaytime) {
                 if (!this.world.isRemote) {
-                    player.sendMessage(new TextComponentString("This coyote is always hostile. It cannot be tamed (server configuration)"));
+                    player.sendMessage(new StringTextComponent("This coyote is always hostile. It cannot be tamed (server configuration)"));
                 }
             } else if (this.isDaytime()) {
 
@@ -170,7 +168,7 @@ public class EntityCoyote extends EntityFeralWolf {
                             && !net.minecraftforge.event.ForgeEventFactory.onAnimalTame(this, player)) {
                         this.setTamedBy(player);
                         this.navigator.clearPath();
-                        this.setAttackTarget((EntityLivingBase) null);
+                        this.setAttackTarget((LivingEntity) null);
                         this.aiSit.setSitting(true);
                         this.setHealth(20.0F);
                         this.playTameEffect(true);
@@ -184,7 +182,7 @@ public class EntityCoyote extends EntityFeralWolf {
                 return true;
             } else {
                 if (!this.world.isRemote) {
-                    player.sendMessage(new TextComponentString("This coyote is currently hostile. Perhaps it could be tamed outside of its hunting hours?"));
+                    player.sendMessage(new StringTextComponent("This coyote is currently hostile. Perhaps it could be tamed outside of its hunting hours?"));
                 }
                 return true;
             }
@@ -194,8 +192,8 @@ public class EntityCoyote extends EntityFeralWolf {
     }
 
     @Override
-    public boolean shouldAttackEntity(EntityLivingBase target, EntityLivingBase owner) {
-        if (!(target instanceof EntityCreeper) && !(target instanceof EntityGhast) && (this.isTamed() || !this.isDaytime() || BetterAnimalsPlusConfig.coyotesHostileDaytime)) {
+    public boolean shouldAttackEntity(LivingEntity target, LivingEntity owner) {
+        if (!(target instanceof CreeperEntity) && !(target instanceof GhastEntity) && (this.isTamed() || !this.isDaytime() || BetterAnimalsPlusConfig.coyotesHostileDaytime)) {
             if (target instanceof EntityCoyote) {
                 EntityCoyote entityferalwolf = (EntityCoyote) target;
 
@@ -204,11 +202,11 @@ public class EntityCoyote extends EntityFeralWolf {
                 }
             }
 
-            if (target instanceof EntityPlayer && owner instanceof EntityPlayer
-                    && !((EntityPlayer) owner).canAttackPlayer((EntityPlayer) target)) {
+            if (target instanceof PlayerEntity && owner instanceof PlayerEntity
+                    && !((PlayerEntity) owner).canAttackPlayer((PlayerEntity) target)) {
                 return false;
             } else {
-                return !(target instanceof AbstractHorse) || !((AbstractHorse) target).isTame();
+                return !(target instanceof AbstractHorseEntity) || !((AbstractHorseEntity) target).isTame();
             }
         } else {
             return false;

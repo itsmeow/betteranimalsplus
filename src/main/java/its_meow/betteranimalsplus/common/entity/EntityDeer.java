@@ -6,22 +6,21 @@ import javax.annotation.Nullable;
 import its_meow.betteranimalsplus.init.ModEntities;
 import its_meow.betteranimalsplus.init.ModLootTables;
 import its_meow.betteranimalsplus.util.HeadTypes;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.BlockState;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.EntityAIAvoidEntity;
-import net.minecraft.entity.ai.EntityAILookIdle;
-import net.minecraft.entity.ai.EntityAIMate;
-import net.minecraft.entity.ai.EntityAIPanic;
-import net.minecraft.entity.ai.EntityAISwimming;
-import net.minecraft.entity.ai.EntityAITempt;
-import net.minecraft.entity.ai.EntityAIWander;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Items;
-import net.minecraft.init.SoundEvents;
+import net.minecraft.entity.ai.goal.*;
+import net.minecraft.entity.ai.goal.SwimGoal;
+import net.minecraft.entity.ai.goal.TemptGoal;
+import net.minecraft.entity.ai.goal.RandomWalkingGoal;
+import net.minecraft.entity.ai.goal.AvoidEntityGoal;
+import net.minecraft.entity.ai.goal.LookRandomlyGoal;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.Items;
+import net.minecraft.util.SoundEvents;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.EnumHand;
+import net.minecraft.util.Hand;
 import net.minecraft.util.IItemProvider;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
@@ -64,7 +63,7 @@ public class EntityDeer extends EntityAnimalEatsGrassWithTypes {
     }
 
     @Override
-    public boolean processInteract(EntityPlayer player, EnumHand hand) {
+    public boolean processInteract(PlayerEntity player, Hand hand) {
         ItemStack stack = player.getHeldItem(hand);
         boolean isEmpty = stack.isEmpty();
         if (!isEmpty) {
@@ -82,27 +81,27 @@ public class EntityDeer extends EntityAnimalEatsGrassWithTypes {
     }
 
     @Override
-    protected void playStepSound(BlockPos pos, IBlockState state) {
+    protected void playStepSound(BlockPos pos, BlockState state) {
         this.playSound(SoundEvents.ENTITY_SHEEP_STEP, 0.15F, 1.0F);
     }
 
     @Override
     protected void initEntityAI() {
         super.initEntityAI();
-        this.tasks.addTask(0, new EntityAISwimming(this));
-        this.tasks.addTask(1, new EntityAIMate(this, 0.45D));
-        this.tasks.addTask(2, new EntityAIPanic(this, 0.65D));
+        this.tasks.addTask(0, new SwimGoal(this));
+        this.tasks.addTask(1, new BreedGoal(this, 0.45D));
+        this.tasks.addTask(2, new PanicGoal(this, 0.65D));
         IItemProvider[] temptItems = new IItemProvider[5];
         temptItems[0] = Items.APPLE;
         temptItems[1] = Items.GOLDEN_APPLE;
         temptItems[2] = Items.CARROT;
         temptItems[3] = Items.CARROT_ON_A_STICK;
         temptItems[4] = Items.GOLDEN_CARROT;
-        this.tasks.addTask(3, new EntityAITempt(this, 0.45D, false, Ingredient.fromItems(temptItems)));
-        this.tasks.addTask(4, new EntityAIAvoidEntity<EntityPlayer>(this, EntityPlayer.class, 20, 0.55D, 0.7D));
+        this.tasks.addTask(3, new TemptGoal(this, 0.45D, false, Ingredient.fromItems(temptItems)));
+        this.tasks.addTask(4, new AvoidEntityGoal<PlayerEntity>(this, PlayerEntity.class, 20, 0.55D, 0.7D));
         // Eat Grass at Priority 5
-        this.tasks.addTask(5, new EntityAIWander(this, 0.45D));
-        this.tasks.addTask(6, new EntityAILookIdle(this));
+        this.tasks.addTask(5, new RandomWalkingGoal(this, 0.45D));
+        this.tasks.addTask(6, new LookRandomlyGoal(this));
     }
 
     @Override

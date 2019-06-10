@@ -2,29 +2,29 @@ package its_meow.betteranimalsplus.common.entity;
 
 import its_meow.betteranimalsplus.common.entity.projectile.EntityTarantulaHair;
 import its_meow.betteranimalsplus.init.ModEntities;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.IEntityLivingData;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.ILivingEntityData;
 import net.minecraft.entity.IRangedAttackMob;
-import net.minecraft.entity.ai.EntityAIAttackMelee;
-import net.minecraft.entity.ai.EntityAIAttackRanged;
-import net.minecraft.entity.ai.EntityAIHurtByTarget;
-import net.minecraft.entity.ai.EntityAILeapAtTarget;
-import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
-import net.minecraft.entity.ai.EntityAISwimming;
-import net.minecraft.entity.ai.EntityAIWanderAvoidWater;
-import net.minecraft.entity.ai.EntityAIWatchClosest;
-import net.minecraft.entity.monster.EntityIronGolem;
-import net.minecraft.entity.monster.EntitySpider;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.SoundEvents;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.entity.ai.goal.HurtByTargetGoal;
+import net.minecraft.entity.ai.goal.MeleeAttackGoal;
+import net.minecraft.entity.ai.goal.RangedAttackGoal;
+import net.minecraft.entity.ai.goal.LeapAtTargetGoal;
+import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal;
+import net.minecraft.entity.ai.goal.SwimGoal;
+import net.minecraft.entity.ai.goal.WaterAvoidingRandomWalkingGoal;
+import net.minecraft.entity.ai.goal.LookAtGoal;
+import net.minecraft.entity.monster.SpiderEntity;
+import net.minecraft.entity.passive.IronGolemEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.util.SoundEvents;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
-import net.minecraft.world.storage.loot.LootTableList;
+import net.minecraft.world.storage.loot.LootTables;
 
-public class EntityTarantula extends EntitySpider implements IRangedAttackMob {
+public class EntityTarantula extends SpiderEntity implements IRangedAttackMob {
 
     public EntityTarantula(World worldIn) {
         super(ModEntities.getEntityType(EntityTarantula.class), worldIn);
@@ -32,21 +32,21 @@ public class EntityTarantula extends EntitySpider implements IRangedAttackMob {
 
     @Override
     protected void initEntityAI() {
-        this.tasks.addTask(1, new EntityAISwimming(this));
-        EntityAIAttackRanged atkrange = new EntityAIAttackRanged(this, 1.0D, 160, 15.0F);
+        this.tasks.addTask(1, new SwimGoal(this));
+        RangedAttackGoal atkrange = new RangedAttackGoal(this, 1.0D, 160, 15.0F);
         atkrange.setMutexBits(4); // Allow it to run at the same time as melee attacks
         this.tasks.addTask(3, atkrange);
-        this.tasks.addTask(3, new EntityAILeapAtTarget(this, 0.4F));
-        this.tasks.addTask(3, new EntityAIAttackMelee(this, 0.8D, false));
-        this.tasks.addTask(5, new EntityAIWanderAvoidWater(this, 0.8D));
-        this.tasks.addTask(6, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
-        this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, false, new Class[0]));
-        this.targetTasks.addTask(2, new EntityAINearestAttackableTarget<>(this, EntityPlayer.class, true));
-        this.targetTasks.addTask(3, new EntityAINearestAttackableTarget<>(this, EntityIronGolem.class, true));
+        this.tasks.addTask(3, new LeapAtTargetGoal(this, 0.4F));
+        this.tasks.addTask(3, new MeleeAttackGoal(this, 0.8D, false));
+        this.tasks.addTask(5, new WaterAvoidingRandomWalkingGoal(this, 0.8D));
+        this.tasks.addTask(6, new LookAtGoal(this, PlayerEntity.class, 8.0F));
+        this.targetTasks.addTask(1, new HurtByTargetGoal(this, false, new Class[0]));
+        this.targetTasks.addTask(2, new NearestAttackableTargetGoal<>(this, PlayerEntity.class, true));
+        this.targetTasks.addTask(3, new NearestAttackableTargetGoal<>(this, IronGolemEntity.class, true));
     }
 
     @Override
-    public void attackEntityWithRangedAttack(EntityLivingBase target, float distanceFactor) {
+    public void attackEntityWithRangedAttack(LivingEntity target, float distanceFactor) {
         EntityTarantulaHair entityhair = new EntityTarantulaHair(this.world, this);
         entityhair.setLocationAndAngles(this.posX, this.posY + 1, this.posZ, 0, 0);
         double d0 = target.posY + target.getEyeHeight() - 1.100000023841858D;
@@ -66,12 +66,12 @@ public class EntityTarantula extends EntitySpider implements IRangedAttackMob {
 
     @Override
     protected ResourceLocation getLootTable() {
-        return LootTableList.ENTITIES_SPIDER;
+        return LootTables.ENTITIES_SPIDER;
     }
 
     @Override
-    public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, IEntityLivingData entityLivingData,
-            NBTTagCompound itemNbt) {
+    public ILivingEntityData onInitialSpawn(DifficultyInstance difficulty, ILivingEntityData entityLivingData,
+                                            CompoundNBT itemNbt) {
         this.setLocationAndAngles(this.posX, this.posY, this.posZ, this.rotationYaw, 0F);
         return super.onInitialSpawn(difficulty, entityLivingData, itemNbt);
     }

@@ -4,13 +4,13 @@ import its_meow.betteranimalsplus.client.model.ModelBadger;
 import its_meow.betteranimalsplus.common.entity.EntityBadger;
 import its_meow.betteranimalsplus.init.ModTextures;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.entity.RenderLiving;
-import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraft.client.renderer.entity.MobRenderer;
+import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.util.ResourceLocation;
 
-public class RenderBadger extends RenderLiving<EntityBadger> {
+public class RenderBadger extends MobRenderer<EntityBadger> {
 
-    public RenderBadger(RenderManager mgr) {
+    public RenderBadger(EntityRendererManager mgr) {
         super(mgr, new ModelBadger(), 0.4F);
     }
 

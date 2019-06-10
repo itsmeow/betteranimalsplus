@@ -1,9 +1,9 @@
 package its_meow.betteranimalsplus.util;
 
 import its_meow.betteranimalsplus.init.ModItems;
-import net.minecraft.init.Items;
-import net.minecraft.init.SoundEvents;
-import net.minecraft.inventory.EntityEquipmentSlot;
+import net.minecraft.item.Items;
+import net.minecraft.util.SoundEvents;
+import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.IArmorMaterial;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.SoundEvent;
@@ -11,12 +11,12 @@ import net.minecraft.util.SoundEvent;
 public class ArmorMaterialBone implements IArmorMaterial {
 
     @Override
-    public int getDamageReductionAmount(EntityEquipmentSlot arg0) {
+    public int getDamageReductionAmount(EquipmentSlotType arg0) {
         return 2;
     }
 
     @Override
-    public int getDurability(EntityEquipmentSlot arg0) {
+    public int getDurability(EquipmentSlotType arg0) {
         return 50;
     }
 

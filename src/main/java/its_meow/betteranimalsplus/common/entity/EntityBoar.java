@@ -5,29 +5,27 @@ import javax.annotation.Nullable;
 import its_meow.betteranimalsplus.init.ModEntities;
 import its_meow.betteranimalsplus.util.HeadTypes;
 import net.minecraft.block.Block;
+import net.minecraft.block.Blocks;
 import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityAgeable;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.EntityAIAttackMelee;
-import net.minecraft.entity.ai.EntityAIFollowParent;
-import net.minecraft.entity.ai.EntityAIMate;
-import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
-import net.minecraft.entity.ai.EntityAISwimming;
-import net.minecraft.entity.ai.EntityAIWanderAvoidWater;
-import net.minecraft.entity.ai.EntityAIWatchClosest;
-import net.minecraft.entity.effect.EntityLightningBolt;
-import net.minecraft.entity.monster.EntityPigZombie;
+import net.minecraft.entity.*;
+import net.minecraft.entity.AgeableEntity;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.ai.goal.*;
+import net.minecraft.entity.ai.goal.FollowParentGoal;
+import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal;
+import net.minecraft.entity.ai.goal.SwimGoal;
+import net.minecraft.entity.ai.goal.WaterAvoidingRandomWalkingGoal;
+import net.minecraft.entity.ai.goal.LookAtGoal;
+import net.minecraft.entity.effect.LightningBoltEntity;
+import net.minecraft.entity.monster.ZombiePigmanEntity;
 import net.minecraft.entity.monster.IMob;
-import net.minecraft.entity.passive.EntityAnimal;
-import net.minecraft.entity.passive.EntityChicken;
-import net.minecraft.entity.passive.EntityPig;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
-import net.minecraft.init.SoundEvents;
-import net.minecraft.inventory.EntityEquipmentSlot;
+import net.minecraft.entity.passive.AnimalEntity;
+import net.minecraft.entity.passive.ChickenEntity;
+import net.minecraft.entity.passive.PigEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.Items;
+import net.minecraft.util.SoundEvents;
+import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
@@ -35,9 +33,9 @@ import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.EnumDifficulty;
+import net.minecraft.world.Difficulty;
 import net.minecraft.world.World;
-import net.minecraft.world.storage.loot.LootTableList;
+import net.minecraft.world.storage.loot.LootTables;
 
 public class EntityBoar extends EntityAnimalWithTypes implements IMob {
 
@@ -48,26 +46,26 @@ public class EntityBoar extends EntityAnimalWithTypes implements IMob {
 
 	@Override
 	protected void initEntityAI() {
-		this.tasks.addTask(0, new EntityAISwimming(this));
-		if (!this.isChild() && this.getEntityWorld().getDifficulty() != EnumDifficulty.PEACEFUL) {
-			this.tasks.addTask(2, new EntityAIAttackMelee(this, 1.2D, false));
+		this.tasks.addTask(0, new SwimGoal(this));
+		if (!this.isChild() && this.getEntityWorld().getDifficulty() != Difficulty.PEACEFUL) {
+			this.tasks.addTask(2, new MeleeAttackGoal(this, 1.2D, false));
 		}
-		this.tasks.addTask(3, new EntityAIMate(this, 1.0D));
-		this.tasks.addTask(5, new EntityAIFollowParent(this, 1.1D));
+		this.tasks.addTask(3, new BreedGoal(this, 1.0D));
+		this.tasks.addTask(5, new FollowParentGoal(this, 1.1D));
 		// Eats grass at priority 6
-		this.tasks.addTask(6, new EntityAIWanderAvoidWater(this, 1.0D));
-		this.tasks.addTask(7, new EntityAIWatchClosest(this, EntityPlayer.class, 6.0F));
-		if (!this.isChild() && this.getEntityWorld().getDifficulty() != EnumDifficulty.PEACEFUL) {
+		this.tasks.addTask(6, new WaterAvoidingRandomWalkingGoal(this, 1.0D));
+		this.tasks.addTask(7, new LookAtGoal(this, PlayerEntity.class, 6.0F));
+		if (!this.isChild() && this.getEntityWorld().getDifficulty() != Difficulty.PEACEFUL) {
 			this.targetTasks.addTask(1,
-					new EntityAINearestAttackableTarget<>(this, EntityAnimal.class, 90, true, true,
-							(@Nullable Entity in) -> in instanceof EntityChicken || in instanceof EntityPheasant
-							|| in instanceof EntityAnimal && ((EntityAnimal) in).isChild()
-							&& !(in instanceof EntityBoar || in instanceof EntityPig)));
+					new NearestAttackableTargetGoal<>(this, AnimalEntity.class, 90, true, true,
+							(@Nullable Entity in) -> in instanceof ChickenEntity || in instanceof EntityPheasant
+							|| in instanceof AnimalEntity && ((AnimalEntity) in).isChild()
+							&& !(in instanceof EntityBoar || in instanceof PigEntity)));
 			this.targetTasks.addTask(2,
-					new EntityAINearestAttackableTarget<>(this, EntityLivingBase.class, 50, true, true,
-							(@Nullable Entity in) -> in instanceof EntityAnimal
-							&& !(in instanceof EntityBoar || in instanceof EntityPig)
-							|| in instanceof EntityPlayer));
+					new NearestAttackableTargetGoal<>(this, LivingEntity.class, 50, true, true,
+							(@Nullable Entity in) -> in instanceof AnimalEntity
+							&& !(in instanceof EntityBoar || in instanceof PigEntity)
+							|| in instanceof PlayerEntity));
 		}
 	}
 
@@ -116,31 +114,31 @@ public class EntityBoar extends EntityAnimalWithTypes implements IMob {
 	@Override
 	@Nullable
 	protected ResourceLocation getLootTable() {
-		return LootTableList.ENTITIES_PIG;
+		return LootTables.ENTITIES_PIG;
 	}
 
 	@Override
 	public boolean attackEntityAsMob(Entity entityIn) {
 		Vec3d pos = this.getPositionVector();
 		Vec3d targetPos = entityIn.getPositionVector();
-		((EntityLivingBase) entityIn).knockBack(entityIn, 0.8F, pos.x - targetPos.x, pos.z - targetPos.z);
+		((LivingEntity) entityIn).knockBack(entityIn, 0.8F, pos.x - targetPos.x, pos.z - targetPos.z);
 
 		// Vanilla attack code for mobs
 
 		float f = (float) this.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getValue();
 		int i = 0;
 
-		if (entityIn instanceof EntityLivingBase) {
+		if (entityIn instanceof LivingEntity) {
 			f += EnchantmentHelper.getModifierForCreature(this.getHeldItemMainhand(),
-					((EntityLivingBase) entityIn).getCreatureAttribute());
+					((LivingEntity) entityIn).getCreatureAttribute());
 			i += EnchantmentHelper.getKnockbackModifier(this);
 		}
 
 		boolean flag = entityIn.attackEntityFrom(DamageSource.causeMobDamage(this), f);
 
 		if (flag) {
-			if (i > 0 && entityIn instanceof EntityLivingBase) {
-				((EntityLivingBase) entityIn).knockBack(this, i * 0.5F, MathHelper.sin(this.rotationYaw * 0.017453292F),
+			if (i > 0 && entityIn instanceof LivingEntity) {
+				((LivingEntity) entityIn).knockBack(this, i * 0.5F, MathHelper.sin(this.rotationYaw * 0.017453292F),
 						-MathHelper.cos(this.rotationYaw * 0.017453292F));
 				this.motionX *= 0.6D;
 				this.motionZ *= 0.6D;
@@ -152,8 +150,8 @@ public class EntityBoar extends EntityAnimalWithTypes implements IMob {
 				entityIn.setFire(j * 4);
 			}
 
-			if (entityIn instanceof EntityPlayer) {
-				EntityPlayer entityplayer = (EntityPlayer) entityIn;
+			if (entityIn instanceof PlayerEntity) {
+				PlayerEntity entityplayer = (PlayerEntity) entityIn;
 				ItemStack itemstack = this.getHeldItemMainhand();
 				ItemStack itemstack1 = entityplayer.isHandActive() ? entityplayer.getActiveItemStack()
 						: ItemStack.EMPTY;
@@ -180,10 +178,10 @@ public class EntityBoar extends EntityAnimalWithTypes implements IMob {
 	 * Called when a lightning bolt hits the entity.
 	 */
 	@Override
-	public void onStruckByLightning(EntityLightningBolt lightningBolt) {
+	public void onStruckByLightning(LightningBoltEntity lightningBolt) {
 		if (!this.world.isRemote && !this.dead) {
-			EntityPigZombie entitypigzombie = new EntityPigZombie(this.world);
-			entitypigzombie.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, new ItemStack(Items.GOLDEN_SWORD));
+			ZombiePigmanEntity entitypigzombie = new ZombiePigmanEntity(this.world);
+			entitypigzombie.setItemStackToSlot(EquipmentSlotType.MAINHAND, new ItemStack(Items.GOLDEN_SWORD));
 			entitypigzombie.setLocationAndAngles(this.posX, this.posY, this.posZ, this.rotationYaw, this.rotationPitch);
 			entitypigzombie.setNoAI(this.isAIDisabled());
 
@@ -213,13 +211,13 @@ public class EntityBoar extends EntityAnimalWithTypes implements IMob {
 	}
 
 	@Override
-	public EntityAgeable createChild(EntityAgeable ageable) {
+	public AgeableEntity createChild(AgeableEntity ageable) {
 		if (ageable instanceof EntityBoar) {
 			EntityBoar boar = new EntityBoar(this.world);
 			boar.setType(this.getTypeNumber());
 			return boar;
-		} else if (ageable instanceof EntityPig) {
-			EntityPig pig = new EntityPig(this.world);
+		} else if (ageable instanceof PigEntity) {
+			PigEntity pig = new PigEntity(this.world);
 			EntityBoar boar = new EntityBoar(this.world);
 			boar.setType(this.getTypeNumber());
 			return this.rand.nextBoolean() ? pig : boar;
@@ -229,9 +227,9 @@ public class EntityBoar extends EntityAnimalWithTypes implements IMob {
 	}
 
 	@Override
-	public boolean canMateWith(EntityAnimal otherAnimal) {
+	public boolean canMateWith(AnimalEntity otherAnimal) {
 		if (otherAnimal != this) {
-			if (otherAnimal instanceof EntityBoar || otherAnimal instanceof EntityPig) {
+			if (otherAnimal instanceof EntityBoar || otherAnimal instanceof PigEntity) {
 				if (otherAnimal.isInLove() && this.isInLove()) {
 					return true;
 				}

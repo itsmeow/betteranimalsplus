@@ -8,30 +8,27 @@ import com.google.common.collect.Sets;
 
 import its_meow.betteranimalsplus.init.ModEntities;
 import its_meow.betteranimalsplus.init.ModLootTables;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockLeaves;
-import net.minecraft.block.BlockLog;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.*;
+import net.minecraft.block.LeavesBlock;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.EntityAIAvoidEntity;
-import net.minecraft.entity.ai.EntityAIMate;
-import net.minecraft.entity.ai.EntityAIPanic;
-import net.minecraft.entity.ai.EntityAISwimming;
-import net.minecraft.entity.ai.EntityAIWanderAvoidWaterFlying;
-import net.minecraft.entity.ai.EntityAIWatchClosest;
-import net.minecraft.entity.ai.EntityFlyHelper;
-import net.minecraft.entity.passive.EntityAnimal;
+import net.minecraft.entity.ai.goal.*;
+import net.minecraft.entity.ai.goal.SwimGoal;
+import net.minecraft.entity.ai.goal.WaterAvoidingRandomFlyingGoal;
+import net.minecraft.entity.ai.goal.LookAtGoal;
+import net.minecraft.entity.ai.controller.FlyingMovementController;
+import net.minecraft.entity.ai.goal.PanicGoal;
+import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.passive.IFlyingAnimal;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
-import net.minecraft.init.SoundEvents;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.block.Blocks;
+import net.minecraft.item.Items;
+import net.minecraft.pathfinding.FlyingPathNavigator;
+import net.minecraft.util.Hand;
+import net.minecraft.util.SoundEvents;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.pathfinding.PathNavigate;
-import net.minecraft.pathfinding.PathNavigateFlying;
-import net.minecraft.util.EnumHand;
+import net.minecraft.pathfinding.PathNavigator;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
@@ -46,24 +43,24 @@ public class EntitySongbird extends EntityAnimalWithTypes implements IFlyingAnim
     public EntitySongbird(World worldIn) {
         super(ModEntities.getEntityType(EntitySongbird.class), worldIn);
         this.setSize(0.5F, 0.5F);
-        this.moveHelper = new EntityFlyHelper(this);
+        this.moveHelper = new FlyingMovementController(this);
     }
 
     @Override
     protected void initEntityAI() {
-        this.tasks.addTask(0, new EntityAISwimming(this));
-        this.tasks.addTask(1, new EntityAIPanic(this, 1.25D));
+        this.tasks.addTask(0, new SwimGoal(this));
+        this.tasks.addTask(1, new PanicGoal(this, 1.25D));
         Predicate<Entity> avoidPredicate = input -> {
-            boolean result1 = (input instanceof EntityPlayer);
-            boolean result2 = !SEEDS.contains(((EntityPlayer) input).getHeldItem(EnumHand.MAIN_HAND).getItem())
-                    && !SEEDS.contains(((EntityPlayer) input).getHeldItem(EnumHand.OFF_HAND).getItem());
+            boolean result1 = (input instanceof PlayerEntity);
+            boolean result2 = !SEEDS.contains(((PlayerEntity) input).getHeldItem(Hand.MAIN_HAND).getItem())
+                    && !SEEDS.contains(((PlayerEntity) input).getHeldItem(Hand.OFF_HAND).getItem());
             return result1 && result2;
         };
-        this.tasks.addTask(2, new EntityAIAvoidEntity<EntityPlayer>(this, EntityPlayer.class, avoidPredicate, 10F, 0.8D,
+        this.tasks.addTask(2, new AvoidEntityGoal<PlayerEntity>(this, PlayerEntity.class, avoidPredicate, 10F, 0.8D,
                 1D, Predicates.alwaysTrue()));
-        this.tasks.addTask(3, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
-        this.tasks.addTask(4, new EntityAIMate(this, 0.4F));
-        this.tasks.addTask(5, new EntityAIWanderAvoidWaterFlying(this, 1.0D));
+        this.tasks.addTask(3, new LookAtGoal(this, PlayerEntity.class, 8.0F));
+        this.tasks.addTask(4, new BreedGoal(this, 0.4F));
+        this.tasks.addTask(5, new WaterAvoidingRandomFlyingGoal(this, 1.0D));
     }
 
     @Override
@@ -83,7 +80,7 @@ public class EntitySongbird extends EntityAnimalWithTypes implements IFlyingAnim
         BlockPos blockpos = new BlockPos(i, j, k);
         if(!world.isBlockLoaded(new BlockPos(blockpos))) {
             Block block = this.world.getBlockState(blockpos.down()).getBlock();
-            return block instanceof BlockLeaves || block == Blocks.GRASS || block instanceof BlockLog
+            return block instanceof LeavesBlock || block == Blocks.GRASS || block instanceof LogBlock
                     || block == Blocks.AIR && this.world.getLight(blockpos) > 8 && super.canSpawn(world, b);
         } else {
             return super.canSpawn(world, b);
@@ -91,8 +88,8 @@ public class EntitySongbird extends EntityAnimalWithTypes implements IFlyingAnim
     }
 
     @Override
-    protected PathNavigate createNavigator(World worldIn) {
-        PathNavigateFlying pathnavigateflying = new PathNavigateFlying(this, worldIn);
+    protected PathNavigator createNavigator(World worldIn) {
+        FlyingPathNavigator pathnavigateflying = new FlyingPathNavigator(this, worldIn);
         pathnavigateflying.setCanOpenDoors(false);
         pathnavigateflying.setCanSwim(true);
         pathnavigateflying.setCanEnterDoors(true);
@@ -109,11 +106,11 @@ public class EntitySongbird extends EntityAnimalWithTypes implements IFlyingAnim
     }
 
     @Override
-    protected void updateFallState(double y, boolean onGroundIn, IBlockState state, BlockPos pos) {
+    protected void updateFallState(double y, boolean onGroundIn, BlockState state, BlockPos pos) {
     }
 
     @Override
-    protected void playStepSound(BlockPos pos, IBlockState state) {
+    protected void playStepSound(BlockPos pos, BlockState state) {
         this.playSound(SoundEvents.ENTITY_PARROT_STEP, 0.15F, 1.0F);
     }
 
@@ -143,7 +140,7 @@ public class EntitySongbird extends EntityAnimalWithTypes implements IFlyingAnim
     }
 
     @Override
-    public boolean canMateWith(EntityAnimal otherAnimal) {
+    public boolean canMateWith(AnimalEntity otherAnimal) {
         if (super.canMateWith(otherAnimal)) {
             if (!(otherAnimal instanceof EntitySongbird)) {
                 return false;

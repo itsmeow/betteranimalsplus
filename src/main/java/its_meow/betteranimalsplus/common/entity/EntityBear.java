@@ -7,36 +7,32 @@ import com.google.common.base.Predicates;
 import its_meow.betteranimalsplus.init.ModEntities;
 import its_meow.betteranimalsplus.init.ModLootTables;
 import net.minecraft.block.Block;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityCreature;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.IEntityLivingData;
-import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.EntityAIAttackMelee;
-import net.minecraft.entity.ai.EntityAIHurtByTarget;
-import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
-import net.minecraft.entity.ai.EntityAISwimming;
-import net.minecraft.entity.ai.EntityAIWander;
-import net.minecraft.entity.ai.EntityAIWatchClosest;
-import net.minecraft.entity.monster.EntityMob;
-import net.minecraft.entity.passive.EntityChicken;
-import net.minecraft.entity.passive.EntityPig;
-import net.minecraft.entity.passive.EntityRabbit;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.SoundEvents;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.entity.*;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.ILivingEntityData;
+import net.minecraft.entity.ai.goal.*;
+import net.minecraft.entity.ai.goal.SwimGoal;
+import net.minecraft.entity.ai.goal.RandomWalkingGoal;
+import net.minecraft.entity.ai.goal.LookAtGoal;
+import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal;
+import net.minecraft.entity.monster.MonsterEntity;
+import net.minecraft.entity.passive.ChickenEntity;
+import net.minecraft.entity.passive.PigEntity;
+import net.minecraft.entity.passive.RabbitEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.util.SoundEvents;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.EnumHand;
+import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.Difficulty;
 import net.minecraft.world.DifficultyInstance;
-import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 
-public class EntityBear extends EntityMob {
+public class EntityBear extends MonsterEntity {
 
     private int warningSoundTicks;
     
@@ -52,24 +48,24 @@ public class EntityBear extends EntityMob {
 
     @Override
     protected void initEntityAI() {
-        this.tasks.addTask(0, new EntityAISwimming(this));
+        this.tasks.addTask(0, new SwimGoal(this));
         this.tasks.addTask(1, new EntityBear.AIMeleeAttack());
-        this.tasks.addTask(5, new EntityAIWander(this, 1.0D));
-        this.tasks.addTask(6, new EntityAIWatchClosest(this, EntityPlayer.class, 6.0F));
+        this.tasks.addTask(5, new RandomWalkingGoal(this, 1.0D));
+        this.tasks.addTask(6, new LookAtGoal(this, PlayerEntity.class, 6.0F));
         this.targetTasks.addTask(1, new EntityBear.AIHurtByTarget());
-        this.targetTasks.addTask(2, new EntityAINearestAttackableTarget<EntityPlayer>(this, EntityPlayer.class, 90,
+        this.targetTasks.addTask(2, new NearestAttackableTargetGoal<PlayerEntity>(this, PlayerEntity.class, 90,
                 true, true, Predicates.alwaysTrue()));
-        this.targetTasks.addTask(3, new EntityAINearestAttackableTarget<EntityDeer>(this, EntityDeer.class, 90, true,
+        this.targetTasks.addTask(3, new NearestAttackableTargetGoal<EntityDeer>(this, EntityDeer.class, 90, true,
                 true, Predicates.alwaysTrue()));
-        this.targetTasks.addTask(4, new EntityAINearestAttackableTarget<EntityPig>(this, EntityPig.class, 90, true,
+        this.targetTasks.addTask(4, new NearestAttackableTargetGoal<PigEntity>(this, PigEntity.class, 90, true,
                 true, Predicates.alwaysTrue()));
-        this.targetTasks.addTask(5, new EntityAINearestAttackableTarget<EntityChicken>(this, EntityChicken.class, 90,
+        this.targetTasks.addTask(5, new NearestAttackableTargetGoal<ChickenEntity>(this, ChickenEntity.class, 90,
                 true, true, Predicates.alwaysTrue()));
-        this.targetTasks.addTask(6, new EntityAINearestAttackableTarget<EntityRabbit>(this, EntityRabbit.class, 90,
+        this.targetTasks.addTask(6, new NearestAttackableTargetGoal<RabbitEntity>(this, RabbitEntity.class, 90,
                 true, true, Predicates.alwaysTrue()));
-        this.targetTasks.addTask(3, new EntityAINearestAttackableTarget<EntityFox>(this, EntityFox.class, 90, true,
+        this.targetTasks.addTask(3, new NearestAttackableTargetGoal<EntityFox>(this, EntityFox.class, 90, true,
                 true, Predicates.alwaysTrue()));
-        this.targetTasks.addTask(5, new EntityAINearestAttackableTarget<EntityPheasant>(this, EntityPheasant.class, 90,
+        this.targetTasks.addTask(5, new NearestAttackableTargetGoal<EntityPheasant>(this, EntityPheasant.class, 90,
                 true, true, Predicates.alwaysTrue()));
     }
 
@@ -96,7 +92,7 @@ public class EntityBear extends EntityMob {
      */
     @Override
     public boolean canSpawn(IWorld world, boolean b) {
-        return this.world.getDifficulty() != EnumDifficulty.PEACEFUL;
+        return this.world.getDifficulty() != Difficulty.PEACEFUL;
     }
 
     /**
@@ -109,8 +105,8 @@ public class EntityBear extends EntityMob {
         } else {
             Entity entity = source.getTrueSource();
 
-            if (entity instanceof EntityPlayer) {
-                this.setAttackTarget((EntityPlayer) entity);
+            if (entity instanceof PlayerEntity) {
+                this.setAttackTarget((PlayerEntity) entity);
                 this.playWarningSound();
             }
 
@@ -154,16 +150,16 @@ public class EntityBear extends EntityMob {
     }
 
     @Override
-    public boolean processInteract(EntityPlayer player, EnumHand hand) {
+    public boolean processInteract(PlayerEntity player, Hand hand) {
         return false;
     }
 
     @Override
-    public boolean isPreventingPlayerRest(EntityPlayer playerIn) {
-        return this.world.getDifficulty() != EnumDifficulty.PEACEFUL && this.getAttackingEntity() == playerIn;
+    public boolean isPreventingPlayerRest(PlayerEntity playerIn) {
+        return this.world.getDifficulty() != Difficulty.PEACEFUL && this.getAttackingEntity() == playerIn;
     }
 
-    public class AIHurtByTarget extends EntityAIHurtByTarget {
+    public class AIHurtByTarget extends HurtByTargetGoal {
 
         public AIHurtByTarget() {
             super(EntityBear.this, false);
@@ -179,21 +175,21 @@ public class EntityBear extends EntityMob {
         }
 
         @Override
-        protected void setEntityAttackTarget(EntityCreature creatureIn, EntityLivingBase entityLivingBaseIn) {
+        protected void setEntityAttackTarget(CreatureEntity creatureIn, LivingEntity entityLivingBaseIn) {
             if (creatureIn instanceof EntityBear) {
                 super.setEntityAttackTarget(creatureIn, entityLivingBaseIn);
             }
         }
     }
 
-    public class AIMeleeAttack extends EntityAIAttackMelee {
+    public class AIMeleeAttack extends MeleeAttackGoal {
 
         public AIMeleeAttack() {
             super(EntityBear.this, 1.25D, true);
         }
 
         @Override
-        protected void checkAndPerformAttack(EntityLivingBase p_190102_1_, double p_190102_2_) {
+        protected void checkAndPerformAttack(LivingEntity p_190102_1_, double p_190102_2_) {
             double d0 = this.getAttackReachSqr(p_190102_1_);
 
             if (p_190102_2_ <= d0 && this.attackTick <= 0) {
@@ -222,14 +218,14 @@ public class EntityBear extends EntityMob {
         }
 
         @Override
-        protected double getAttackReachSqr(EntityLivingBase attackTarget) {
+        protected double getAttackReachSqr(LivingEntity attackTarget) {
             return 10.0F + attackTarget.width;
         }
     }
 
     @Override
-    public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, IEntityLivingData entityLivingData,
-            NBTTagCompound itemNbt) {
+    public ILivingEntityData onInitialSpawn(DifficultyInstance difficulty, ILivingEntityData entityLivingData,
+                                            CompoundNBT itemNbt) {
         this.setLocationAndAngles(this.posX, this.posY, this.posZ, this.rotationYaw, 0F);
         return super.onInitialSpawn(difficulty, entityLivingData, itemNbt);
     }

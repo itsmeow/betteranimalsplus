@@ -6,13 +6,13 @@ import its_meow.betteranimalsplus.client.model.ModelSquirrel;
 import its_meow.betteranimalsplus.common.entity.EntitySquirrel;
 import its_meow.betteranimalsplus.init.ModTextures;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.entity.RenderLiving;
-import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraft.client.renderer.entity.EntityRendererManager;
+import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.util.ResourceLocation;
 
-public class RenderSquirrel extends RenderLiving<EntitySquirrel> {
+public class RenderSquirrel extends MobRenderer<EntitySquirrel> {
 
-    public RenderSquirrel(RenderManager rendermanagerIn) {
+    public RenderSquirrel(EntityRendererManager rendermanagerIn) {
         super(rendermanagerIn, new ModelSquirrel(), 0.3F);
     }
 

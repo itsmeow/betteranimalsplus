@@ -2,21 +2,22 @@ package its_meow.betteranimalsplus.client.renderer.tileentity;
 
 import java.awt.Color;
 
+import com.mojang.blaze3d.platform.GlStateManager;
+
 import its_meow.betteranimalsplus.client.model.ModelTrillium;
 import its_meow.betteranimalsplus.client.model.ModelTrilliumMulti;
 import its_meow.betteranimalsplus.client.model.ModelTrilliumMulti2;
 import its_meow.betteranimalsplus.common.tileentity.TileEntityTrillium;
 import its_meow.betteranimalsplus.init.ModTextures;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.entity.model.ModelBase;
+import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
 import net.minecraft.entity.Entity;
 
 public class RenderBlockTrillium extends TileEntityRenderer<TileEntityTrillium> {
 
-    public static ModelTrillium singleT = new ModelTrillium();
-    public static ModelTrilliumMulti doubleT = new ModelTrilliumMulti();
-    public static ModelTrilliumMulti2 tripleT = new ModelTrilliumMulti2();
+    public static ModelTrillium<Entity> singleT = new ModelTrillium<Entity>();
+    public static ModelTrilliumMulti<Entity> doubleT = new ModelTrilliumMulti<Entity>();
+    public static ModelTrilliumMulti2<Entity> tripleT = new ModelTrilliumMulti2<Entity>();
 
     @Override
     public void render(TileEntityTrillium tileentity, double x, double y, double z, float partialTicks,
@@ -26,7 +27,7 @@ public class RenderBlockTrillium extends TileEntityRenderer<TileEntityTrillium> 
             rotate = tileentity.getRotation();
         }
         int modelNum = tileentity.getModelNum();
-        ModelBase mainModel = (modelNum == 0 ? doubleT : (modelNum == 1 ? singleT : tripleT));
+        EntityModel<Entity> mainModel = (modelNum == 0 ? doubleT : (modelNum == 1 ? singleT : tripleT));
 
         GlStateManager.pushMatrix();
         {

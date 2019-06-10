@@ -1,58 +1,57 @@
 package its_meow.betteranimalsplus.client.renderer.entity.layers;
 
-import its_meow.betteranimalsplus.client.renderer.entity.RenderCoyote;
+import com.mojang.blaze3d.platform.GLX;
+import com.mojang.blaze3d.platform.GlStateManager;
+
+import its_meow.betteranimalsplus.client.model.ModelCustomWolf;
 import its_meow.betteranimalsplus.common.entity.EntityCoyote;
 import its_meow.betteranimalsplus.config.BetterAnimalsPlusConfig;
 import its_meow.betteranimalsplus.init.ModTextures;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.OpenGlHelper;
+import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.client.renderer.entity.IEntityRenderer;
 import net.minecraft.client.renderer.entity.layers.LayerRenderer;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public class LayerCoyoteEyes implements LayerRenderer<EntityCoyote> {
+public class LayerCoyoteEyes<T extends EntityCoyote, M extends ModelCustomWolf<T>> extends LayerRenderer<T, M> {
 
-    private final RenderCoyote wolfRenderer;
-
-    public LayerCoyoteEyes(RenderCoyote wolfRendererIn) {
-        this.wolfRenderer = wolfRendererIn;
-    }
+    public LayerCoyoteEyes(IEntityRenderer<T, M> p_i50921_1_) {
+        super(p_i50921_1_);
+     }
 
     @Override
-    public void render(EntityCoyote entity, float limbSwing, float limbSwingAmount, float partialTicks,
-            float ageInTicks, float netHeadYaw, float headPitch, float scale) {
-        if (!entity.isDaytime() || BetterAnimalsPlusConfig.coyotesHostileDaytime) {
-            if (!entity.isTamed() && !entity.isInvisible() && !entity.isChild()) {
-                this.wolfRenderer.bindTexture(ModTextures.coyote_eyes);
-
+    public void func_212842_a_(T p_212842_1_, float p_212842_2_, float p_212842_3_, float p_212842_4_, float p_212842_5_, float p_212842_6_, float p_212842_7_, float p_212842_8_) {
+        if (!p_212842_1_.isDaytime() || BetterAnimalsPlusConfig.coyotesHostileDaytime) {
+            if (!p_212842_1_.isTamed() && !p_212842_1_.isInvisible() && !p_212842_1_.isChild()) {
+                this.func_215333_a(ModTextures.wolf_eyes);
                 GlStateManager.enableBlend();
-                GlStateManager.enableAlphaTest();
+                GlStateManager.disableAlphaTest();
                 GlStateManager.blendFunc(GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ONE);
-
-                if (entity.isInvisible()) {
-                    GlStateManager.depthMask(false);
+                if (p_212842_1_.isInvisible()) {
+                   GlStateManager.depthMask(false);
                 } else {
-                    GlStateManager.depthMask(true);
+                   GlStateManager.depthMask(true);
                 }
 
                 int i = 61680;
                 int j = i % 65536;
                 int k = i / 65536;
-                OpenGlHelper.glMultiTexCoord2f(OpenGlHelper.GL_TEXTURE1, j, k);
-                Minecraft.getInstance().gameRenderer.setupFogColor(true);
-                this.wolfRenderer.getMainModel().render(entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw,
-                        headPitch, scale);
-                Minecraft.getInstance().gameRenderer.setupFogColor(false);
-                i = entity.getBrightnessForRender();
+                GLX.glMultiTexCoord2f(GLX.GL_TEXTURE1, (float)j, (float)k);
+                GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+                GameRenderer gamerenderer = Minecraft.getInstance().gameRenderer;
+                gamerenderer.setupFogColor(true);
+                ((ModelCustomWolf<T>)this.func_215332_c()).render(p_212842_1_, p_212842_2_, p_212842_3_, p_212842_5_, p_212842_6_, p_212842_7_, p_212842_8_);
+                gamerenderer.setupFogColor(false);
+                i = p_212842_1_.getBrightnessForRender();
                 j = i % 65536;
                 k = i / 65536;
-                OpenGlHelper.glMultiTexCoord2f(OpenGlHelper.GL_TEXTURE1, j, k);
-                this.wolfRenderer.setLightmap(entity);
+                GLX.glMultiTexCoord2f(GLX.GL_TEXTURE1, (float)j, (float)k);
+                this.func_215334_a(p_212842_1_);
+                GlStateManager.depthMask(true);
                 GlStateManager.disableBlend();
-                GlStateManager.disableAlphaTest();
-
+                GlStateManager.enableAlphaTest();
             }
         }
     }

@@ -5,17 +5,17 @@ import java.util.Set;
 import java.util.function.Function;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.EnumCreatureType;
+import net.minecraft.entity.MobEntity;
+import net.minecraft.entity.EntityClassification;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 
 public class EntityContainer {
 
     public Class<? extends Entity> entityClazz;
-    public Function<? super World, ? extends EntityLiving> entityFunction;
+    public Function<? super World, ? extends MobEntity> entityFunction;
     public String entityName;
-    public EnumCreatureType type;
+    public EntityClassification type;
     public int eggColorSolid;
     public int eggColorSpot;
     public int weight;
@@ -25,9 +25,9 @@ public class EntityContainer {
     public boolean doSpawning = true;
 
     @SafeVarargs
-    public EntityContainer(Class<? extends EntityLiving> EntityClass, Function<? super World, ? extends EntityLiving> func,
-            String entityNameIn, EnumCreatureType type, int solidColorIn, int spotColorIn, int prob, int min, int max,
-            Set<Biome>... biomes) {
+    public EntityContainer(Class<? extends MobEntity> EntityClass, Function<? super World, ? extends MobEntity> func,
+                           String entityNameIn, EntityClassification type, int solidColorIn, int spotColorIn, int prob, int min, int max,
+                           Set<Biome>... biomes) {
         this.entityClazz = EntityClass;
         this.entityFunction = func;
         this.entityName = entityNameIn;

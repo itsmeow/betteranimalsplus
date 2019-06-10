@@ -9,48 +9,46 @@ import com.google.common.base.Predicates;
 import its_meow.betteranimalsplus.init.ModEntities;
 import its_meow.betteranimalsplus.util.HeadTypes;
 import net.minecraft.block.Block;
+import net.minecraft.entity.AgeableEntity;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityAgeable;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.EntityAIAttackMelee;
-import net.minecraft.entity.ai.EntityAIFollowOwner;
-import net.minecraft.entity.ai.EntityAIHurtByTarget;
-import net.minecraft.entity.ai.EntityAILeapAtTarget;
-import net.minecraft.entity.ai.EntityAIMate;
-import net.minecraft.entity.ai.EntityAIOwnerHurtByTarget;
-import net.minecraft.entity.ai.EntityAIOwnerHurtTarget;
-import net.minecraft.entity.ai.EntityAISit;
-import net.minecraft.entity.ai.EntityAISwimming;
-import net.minecraft.entity.ai.EntityAITargetNonTamed;
-import net.minecraft.entity.ai.EntityAIWanderAvoidWater;
-import net.minecraft.entity.ai.EntityAIWatchClosest;
-import net.minecraft.entity.monster.EntityCreeper;
-import net.minecraft.entity.monster.EntityGhast;
-import net.minecraft.entity.passive.AbstractHorse;
-import net.minecraft.entity.passive.EntityChicken;
-import net.minecraft.entity.passive.EntityRabbit;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.projectile.EntityArrow;
-import net.minecraft.init.Items;
+import net.minecraft.entity.ai.goal.FollowOwnerGoal;
+import net.minecraft.entity.ai.goal.HurtByTargetGoal;
+import net.minecraft.entity.ai.goal.LeapAtTargetGoal;
+import net.minecraft.entity.ai.goal.BreedGoal;
+import net.minecraft.entity.ai.goal.OwnerHurtByTargetGoal;
+import net.minecraft.entity.ai.goal.OwnerHurtTargetGoal;
+import net.minecraft.entity.ai.goal.SitGoal;
+import net.minecraft.entity.ai.goal.SwimGoal;
+import net.minecraft.entity.ai.goal.NonTamedTargetGoal;
+import net.minecraft.entity.ai.goal.WaterAvoidingRandomWalkingGoal;
+import net.minecraft.entity.ai.goal.LookAtGoal;
+import net.minecraft.entity.ai.goal.MeleeAttackGoal;
+import net.minecraft.entity.monster.CreeperEntity;
+import net.minecraft.entity.monster.GhastEntity;
+import net.minecraft.entity.passive.ChickenEntity;
+import net.minecraft.entity.passive.RabbitEntity;
+import net.minecraft.entity.passive.horse.AbstractHorseEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.projectile.AbstractArrowEntity;
+import net.minecraft.item.Items;
 import net.minecraft.init.Particles;
-import net.minecraft.init.SoundEvents;
+import net.minecraft.util.*;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.particles.BasicParticleType;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.EnumHand;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.SoundEvent;
+import net.minecraft.util.Hand;
+import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.world.EnumDifficulty;
+import net.minecraft.world.Difficulty;
 import net.minecraft.world.World;
-import net.minecraft.world.WorldServer;
-import net.minecraft.world.storage.loot.LootTableList;
+import net.minecraft.world.ServerWorld;
+import net.minecraft.world.storage.loot.LootTables;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -74,23 +72,23 @@ public class EntityFox extends EntityTameableWithTypes {
 
     @Override
     protected void initEntityAI() {
-        this.aiSit = new EntityAISit(this);
-        this.tasks.addTask(1, new EntityAISwimming(this));
+        this.aiSit = new SitGoal(this);
+        this.tasks.addTask(1, new SwimGoal(this));
         this.tasks.addTask(2, this.aiSit);
-        this.tasks.addTask(3, new EntityAIMate(this, 1.0D));
-        this.tasks.addTask(3, new EntityAIMate(this, 1.0D));
-        this.tasks.addTask(4, new EntityAILeapAtTarget(this, 0.4F));
-        this.tasks.addTask(5, new EntityAIAttackMelee(this, 1.0D, true));
-        this.tasks.addTask(6, new EntityAIFollowOwner(this, 1.0D, 10.0F, 2.0F));
-        this.tasks.addTask(8, new EntityAIWanderAvoidWater(this, 1.0D));
-        this.tasks.addTask(10, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
-        this.targetTasks.addTask(1, new EntityAIOwnerHurtByTarget(this));
-        this.targetTasks.addTask(2, new EntityAIOwnerHurtTarget(this));
-        this.targetTasks.addTask(3, new EntityAIHurtByTarget(this, true, new Class[0]));
+        this.tasks.addTask(3, new BreedGoal(this, 1.0D));
+        this.tasks.addTask(3, new BreedGoal(this, 1.0D));
+        this.tasks.addTask(4, new LeapAtTargetGoal(this, 0.4F));
+        this.tasks.addTask(5, new MeleeAttackGoal(this, 1.0D, true));
+        this.tasks.addTask(6, new FollowOwnerGoal(this, 1.0D, 10.0F, 2.0F));
+        this.tasks.addTask(8, new WaterAvoidingRandomWalkingGoal(this, 1.0D));
+        this.tasks.addTask(10, new LookAtGoal(this, PlayerEntity.class, 8.0F));
+        this.targetTasks.addTask(1, new OwnerHurtByTargetGoal(this));
+        this.targetTasks.addTask(2, new OwnerHurtTargetGoal(this));
+        this.targetTasks.addTask(3, new HurtByTargetGoal(this, true, new Class[0]));
         this.targetTasks.addTask(4,
-                new EntityAITargetNonTamed<EntityRabbit>(this, EntityRabbit.class, false, Predicates.alwaysTrue()));
+                new NonTamedTargetGoal<RabbitEntity>(this, RabbitEntity.class, false, Predicates.alwaysTrue()));
         this.targetTasks.addTask(4,
-                new EntityAITargetNonTamed<EntityChicken>(this, EntityChicken.class, false, Predicates.alwaysTrue()));
+                new NonTamedTargetGoal<ChickenEntity>(this, ChickenEntity.class, false, Predicates.alwaysTrue()));
     }
 
     @Override
@@ -119,8 +117,8 @@ public class EntityFox extends EntityTameableWithTypes {
     }
 
     @Override
-    public void setAttackTarget(EntityLivingBase entitylivingbaseIn) {
-        if (this.world.getDifficulty() == EnumDifficulty.PEACEFUL) {
+    public void setAttackTarget(LivingEntity entitylivingbaseIn) {
+        if (this.world.getDifficulty() == Difficulty.PEACEFUL) {
             super.setAttackTarget(null);
         } else {
             super.setAttackTarget(entitylivingbaseIn);
@@ -173,7 +171,7 @@ public class EntityFox extends EntityTameableWithTypes {
     @Override
     @Nullable
     protected ResourceLocation getLootTable() {
-        return LootTableList.ENTITIES_WOLF;
+        return LootTables.ENTITIES_WOLF;
     }
 
     /**
@@ -304,7 +302,7 @@ public class EntityFox extends EntityTameableWithTypes {
                 this.aiSit.setSitting(false);
             }
 
-            if (entity != null && !(entity instanceof EntityPlayer) && !(entity instanceof EntityArrow)) {
+            if (entity != null && !(entity instanceof PlayerEntity) && !(entity instanceof AbstractArrowEntity)) {
                 amount = (amount + 1.0F) / 2.0F;
             }
 
@@ -338,7 +336,7 @@ public class EntityFox extends EntityTameableWithTypes {
     }
 
     @Override
-    public boolean processInteract(EntityPlayer player, EnumHand hand) {
+    public boolean processInteract(PlayerEntity player, Hand hand) {
         ItemStack stack = player.getHeldItem(hand);
 
 
@@ -354,7 +352,7 @@ public class EntityFox extends EntityTameableWithTypes {
                     this.aiSit.setSitting(!this.isSitting());
                     this.isJumping = false;
                     this.navigator.clearPath();
-                    this.setAttackTarget((EntityLivingBase) null);
+                    this.setAttackTarget((LivingEntity) null);
                 } else if(!stack.isEmpty() && stack.getItem() instanceof ItemFood) {
                     ItemFood itemfood = (ItemFood) stack.getItem();
 
@@ -374,7 +372,7 @@ public class EntityFox extends EntityTameableWithTypes {
                         && !net.minecraftforge.event.ForgeEventFactory.onAnimalTame(this, player)) {
                     this.setTamedBy(player);
                     this.navigator.clearPath();
-                    this.setAttackTarget((EntityLivingBase) null);
+                    this.setAttackTarget((LivingEntity) null);
                     this.aiSit.setSitting(true);
                     this.setHealth(20.0F);
                     this.playTameEffect(true);
@@ -399,7 +397,7 @@ public class EntityFox extends EntityTameableWithTypes {
             double d2 = this.rand.nextGaussian() * 0.02D;
 
             if(!this.world.isRemote) {
-                ((WorldServer)this.world).<BasicParticleType>spawnParticle(Particles.HAPPY_VILLAGER, this.posX + (double)(this.rand.nextFloat() * this.width * 2.0F) - (double)this.width, this.posY + 0.5D + (double)(this.rand.nextFloat() * this.height), this.posZ + (double)(this.rand.nextFloat() * this.width * 2.0F) - (double)this.width, 1, d0, d1, d2, 1);
+                ((ServerWorld)this.world).<BasicParticleType>spawnParticle(Particles.HAPPY_VILLAGER, this.posX + (double)(this.rand.nextFloat() * this.width * 2.0F) - (double)this.width, this.posY + 0.5D + (double)(this.rand.nextFloat() * this.height), this.posZ + (double)(this.rand.nextFloat() * this.width * 2.0F) - (double)this.width, 1, d0, d1, d2, 1);
             }
         }
     }
@@ -442,8 +440,8 @@ public class EntityFox extends EntityTameableWithTypes {
     }
 
     @Override
-    public boolean shouldAttackEntity(EntityLivingBase target, EntityLivingBase owner) {
-        if (!(target instanceof EntityCreeper) && !(target instanceof EntityGhast)) {
+    public boolean shouldAttackEntity(LivingEntity target, LivingEntity owner) {
+        if (!(target instanceof CreeperEntity) && !(target instanceof GhastEntity)) {
             if (target instanceof EntityFox) {
                 EntityFox entityfox = (EntityFox) target;
 
@@ -452,11 +450,11 @@ public class EntityFox extends EntityTameableWithTypes {
                 }
             }
 
-            if (target instanceof EntityPlayer && owner instanceof EntityPlayer
-                    && !((EntityPlayer) owner).canAttackPlayer((EntityPlayer) target)) {
+            if (target instanceof PlayerEntity && owner instanceof PlayerEntity
+                    && !((PlayerEntity) owner).canAttackPlayer((PlayerEntity) target)) {
                 return false;
             } else {
-                return !(target instanceof AbstractHorse) || !((AbstractHorse) target).isTame();
+                return !(target instanceof AbstractHorseEntity) || !((AbstractHorseEntity) target).isTame();
             }
         } else {
             return false;
@@ -464,12 +462,12 @@ public class EntityFox extends EntityTameableWithTypes {
     }
 
     @Override
-    public boolean canBeLeashedTo(EntityPlayer player) {
+    public boolean canBeLeashedTo(PlayerEntity player) {
         return this.isTamed() && super.canBeLeashedTo(player);
     }
 
     @Override
-    public EntityAgeable createChild(EntityAgeable ageable) {
+    public AgeableEntity createChild(AgeableEntity ageable) {
         if(!(ageable instanceof IVariantTypes)) return null;
         EntityFox fox = (EntityFox) new EntityFox(this.world).setType(this.getOffspringType(this, (IVariantTypes) ageable));
         UUID uuid = this.getOwnerId();

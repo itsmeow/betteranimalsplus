@@ -5,19 +5,19 @@ import java.util.Random;
 import javax.annotation.Nullable;
 
 import its_meow.betteranimalsplus.init.ModEntities;
-import net.minecraft.entity.IEntityLivingData;
+import net.minecraft.entity.ILivingEntityData;
 import net.minecraft.entity.MoverType;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.EntityAIBase;
-import net.minecraft.entity.passive.EntityWaterMob;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.MobEffects;
-import net.minecraft.init.SoundEvents;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.entity.ai.goal.Goal;
+import net.minecraft.entity.passive.WaterMobEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.potion.Effects;
+import net.minecraft.util.SoundEvents;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.potion.PotionEffect;
+import net.minecraft.potion.EffectInstance;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.MathHelper;
@@ -27,7 +27,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
-public class EntityJellyfish extends EntityWaterMob implements IVariantTypes {
+public class EntityJellyfish extends WaterMobEntity implements IVariantTypes {
 	
     protected static final DataParameter<Integer> TYPE_NUMBER = EntityDataManager.<Integer>createKey(EntityJellyfish.class, DataSerializers.VARINT);
     protected static final DataParameter<Float> SIZE = EntityDataManager.<Float>createKey(EntityJellyfish.class, DataSerializers.FLOAT);
@@ -121,8 +121,8 @@ public class EntityJellyfish extends EntityWaterMob implements IVariantTypes {
             if (!world.isRemote) {
                 motionX = 0.0D;
                 motionZ = 0.0D;
-                if (isPotionActive(MobEffects.LEVITATION)) {
-                    motionY += 0.05D * (getActivePotionEffect(MobEffects.LEVITATION).getAmplifier() + 1) - motionY;
+                if (isPotionActive(Effects.LEVITATION)) {
+                    motionY += 0.05D * (getActivePotionEffect(Effects.LEVITATION).getAmplifier() + 1) - motionY;
                 } else if (!hasNoGravity()) {
                     motionY -= 0.08D;
                 }
@@ -132,12 +132,12 @@ public class EntityJellyfish extends EntityWaterMob implements IVariantTypes {
     }
     
     @Override
-    public void onCollideWithPlayer(EntityPlayer entity) {
+    public void onCollideWithPlayer(PlayerEntity entity) {
         super.onCollideWithPlayer(entity);
         if (!entity.isCreative() && this.attackCooldown == 0) {
             entity.attackEntityFrom(DamageSource.causeMobDamage(this), 2.0F);
-            entity.addPotionEffect(new PotionEffect(MobEffects.POISON, 200, 0, false, false));
-            entity.addPotionEffect(new PotionEffect(MobEffects.BLINDNESS, 90, 2, false, false));
+            entity.addPotionEffect(new EffectInstance(Effects.POISON, 200, 0, false, false));
+            entity.addPotionEffect(new EffectInstance(Effects.BLINDNESS, 90, 2, false, false));
             this.attackCooldown = 80;
         }
     }
@@ -194,14 +194,14 @@ public class EntityJellyfish extends EntityWaterMob implements IVariantTypes {
     }
 
     @Override
-    public boolean writeUnlessRemoved(NBTTagCompound compound) {
+    public boolean writeUnlessRemoved(CompoundNBT compound) {
         this.writeType(compound);
         compound.putFloat("Size", this.getSize());
         return super.writeUnlessRemoved(compound);
     }
 
     @Override
-    public void read(NBTTagCompound compound) {
+    public void read(CompoundNBT compound) {
         super.read(compound);
         this.readType(compound);
         float size = compound.getFloat("Size");
@@ -210,8 +210,8 @@ public class EntityJellyfish extends EntityWaterMob implements IVariantTypes {
 
     @Override
     @Nullable
-    public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, @Nullable IEntityLivingData livingdata,
-            NBTTagCompound compound) {
+    public ILivingEntityData onInitialSpawn(DifficultyInstance difficulty, @Nullable ILivingEntityData livingdata,
+                                            CompoundNBT compound) {
         livingdata = super.onInitialSpawn(difficulty, livingdata, compound);
         if (!this.isChild()) {
             int i = this.rand.nextInt(6) + 1; // Values 1 to 6
@@ -231,7 +231,7 @@ public class EntityJellyfish extends EntityWaterMob implements IVariantTypes {
         return livingdata;
     }
 
-    public static class JellyfishData implements IEntityLivingData {
+    public static class JellyfishData implements ILivingEntityData {
 
         public int typeData;
         public float size;
@@ -242,7 +242,7 @@ public class EntityJellyfish extends EntityWaterMob implements IVariantTypes {
         }
     }
 
-    static class AIMoveRandom extends EntityAIBase {
+    static class AIMoveRandom extends Goal {
 
         private final EntityJellyfish entity;
 

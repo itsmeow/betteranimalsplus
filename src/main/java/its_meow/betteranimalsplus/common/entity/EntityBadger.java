@@ -5,29 +5,27 @@ import javax.annotation.Nullable;
 import its_meow.betteranimalsplus.common.entity.projectile.EntityBadgerDirt;
 import its_meow.betteranimalsplus.init.ModEntities;
 import net.minecraft.block.Block;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.EntityAIAttackMelee;
-import net.minecraft.entity.ai.EntityAIBase;
-import net.minecraft.entity.ai.EntityAIHurtByTarget;
-import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
-import net.minecraft.entity.ai.EntityAISwimming;
-import net.minecraft.entity.ai.EntityAIWander;
-import net.minecraft.entity.ai.EntityAIWatchClosest;
+import net.minecraft.entity.ai.goal.*;
+import net.minecraft.entity.ai.goal.Goal;
+import net.minecraft.entity.ai.goal.RandomWalkingGoal;
+import net.minecraft.entity.ai.goal.LookAtGoal;
+import net.minecraft.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.entity.monster.IMob;
-import net.minecraft.entity.passive.EntityAnimal;
-import net.minecraft.entity.passive.EntityChicken;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.SoundEvents;
+import net.minecraft.entity.passive.AnimalEntity;
+import net.minecraft.entity.passive.ChickenEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.util.SoundEvents;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.world.EnumDifficulty;
+import net.minecraft.world.Difficulty;
 import net.minecraft.world.World;
 
 public class EntityBadger extends EntityAnimalWithTypes implements IMob {
@@ -39,16 +37,16 @@ public class EntityBadger extends EntityAnimalWithTypes implements IMob {
 
 	@Override
 	protected void initEntityAI() {
-		this.tasks.addTask(0, new EntityAISwimming(this));
-		if (!this.isChild() && this.getEntityWorld().getDifficulty() != EnumDifficulty.PEACEFUL) {
+		this.tasks.addTask(0, new SwimGoal(this));
+		if (!this.isChild() && this.getEntityWorld().getDifficulty() != Difficulty.PEACEFUL) {
 			this.tasks.addTask(1, new EntityAIBadgerDigDirtThrow(this));
-			this.tasks.addTask(3, new EntityAIAttackMelee(this, 0.5D, true));
+			this.tasks.addTask(3, new MeleeAttackGoal(this, 0.5D, true));
 		}
-		this.tasks.addTask(3, new EntityAIWander(this, 0.4D));
-		this.tasks.addTask(4, new EntityAIWatchClosest(this, EntityPlayer.class, 6.0F));
-		if (!this.isChild() && this.getEntityWorld().getDifficulty() != EnumDifficulty.PEACEFUL) {
-			this.targetTasks.addTask(0, new EntityAIHurtByTarget(this, true, new Class[0]));
-			this.targetTasks.addTask(1, new EntityAINearestAttackableTarget<EntityAnimal>(this, EntityAnimal.class, 90, true, true, (@Nullable Entity in) -> in instanceof EntityChicken || in instanceof EntityPheasant || (in instanceof EntityAnimal && ((EntityAnimal) in).isChild() && !(in instanceof EntityBadger))));
+		this.tasks.addTask(3, new RandomWalkingGoal(this, 0.4D));
+		this.tasks.addTask(4, new LookAtGoal(this, PlayerEntity.class, 6.0F));
+		if (!this.isChild() && this.getEntityWorld().getDifficulty() != Difficulty.PEACEFUL) {
+			this.targetTasks.addTask(0, new HurtByTargetGoal(this, true, new Class[0]));
+			this.targetTasks.addTask(1, new NearestAttackableTargetGoal<AnimalEntity>(this, AnimalEntity.class, 90, true, true, (@Nullable Entity in) -> in instanceof ChickenEntity || in instanceof EntityPheasant || (in instanceof AnimalEntity && ((AnimalEntity) in).isChild() && !(in instanceof EntityBadger))));
 		}
 	}
 
@@ -67,16 +65,16 @@ public class EntityBadger extends EntityAnimalWithTypes implements IMob {
 		float f = (float) this.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getValue();
 		int i = 0;
 
-		if (entityIn instanceof EntityLivingBase) {
-			f += EnchantmentHelper.getModifierForCreature(this.getHeldItemMainhand(), ((EntityLivingBase) entityIn).getCreatureAttribute());
+		if (entityIn instanceof LivingEntity) {
+			f += EnchantmentHelper.getModifierForCreature(this.getHeldItemMainhand(), ((LivingEntity) entityIn).getCreatureAttribute());
 			i += EnchantmentHelper.getKnockbackModifier(this);
 		}
 
 		boolean flag = entityIn.attackEntityFrom(DamageSource.causeMobDamage(this), f);
 
 		if (flag) {
-			if (i > 0 && entityIn instanceof EntityLivingBase) {
-				((EntityLivingBase) entityIn).knockBack(this, i * 0.5F, MathHelper.sin(this.rotationYaw * 0.017453292F), (-MathHelper.cos(this.rotationYaw * 0.017453292F)));
+			if (i > 0 && entityIn instanceof LivingEntity) {
+				((LivingEntity) entityIn).knockBack(this, i * 0.5F, MathHelper.sin(this.rotationYaw * 0.017453292F), (-MathHelper.cos(this.rotationYaw * 0.017453292F)));
 				this.motionX *= 0.6D;
 				this.motionZ *= 0.6D;
 			}
@@ -87,8 +85,8 @@ public class EntityBadger extends EntityAnimalWithTypes implements IMob {
 				entityIn.setFire(j * 4);
 			}
 
-			if (entityIn instanceof EntityPlayer) {
-				EntityPlayer entityplayer = (EntityPlayer) entityIn;
+			if (entityIn instanceof PlayerEntity) {
+				PlayerEntity entityplayer = (PlayerEntity) entityIn;
 				ItemStack itemstack = this.getHeldItemMainhand();
 				ItemStack itemstack1 = entityplayer.isHandActive() ? entityplayer.getActiveItemStack() : ItemStack.EMPTY;
 
@@ -118,7 +116,7 @@ public class EntityBadger extends EntityAnimalWithTypes implements IMob {
 		return new EntityBadger(this.world);
 	}
 
-	public static class EntityAIBadgerDigDirtThrow extends EntityAIBase {
+	public static class EntityAIBadgerDigDirtThrow extends Goal {
 
 		private final EntityBadger badger;
 		public int tick = 0;
@@ -135,7 +133,7 @@ public class EntityBadger extends EntityAnimalWithTypes implements IMob {
 			World world = badger.world;
 			BlockPos below = badger.getPosition().down();
 			if(world.isBlockLoaded(below)) {
-				IBlockState state = world.getBlockState(below);
+				BlockState state = world.getBlockState(below);
 				double dist = badger.getAttackTarget() == null ? 0 : Math.sqrt(badger.getPosition().distanceSq(badger.getAttackTarget().getPosition()));
 				return badger.getAttackTarget() != null && dist < 10 && dist > 2 && (state.getBlock() == Blocks.DIRT || state.getBlock() == Blocks.GRASS_BLOCK || state.getBlock() == Blocks.SAND || state.getBlock() == Blocks.GRAVEL || state.getBlock() == Blocks.MYCELIUM);
 			}
@@ -148,7 +146,7 @@ public class EntityBadger extends EntityAnimalWithTypes implements IMob {
 			World world = badger.world;
 			BlockPos below = badger.getPosition().down();
 			if(world.isBlockLoaded(below)) {
-				IBlockState state = world.getBlockState(below);
+				BlockState state = world.getBlockState(below);
 				if(state.getBlock() == Blocks.DIRT || state.getBlock() == Blocks.GRASS_BLOCK || state.getBlock() == Blocks.SAND || state.getBlock() == Blocks.GRAVEL || state.getBlock() == Blocks.MYCELIUM) {
 					if(state.getBlock() == Blocks.GRASS_BLOCK) {
 						state = Blocks.DIRT.getDefaultState();
@@ -166,7 +164,7 @@ public class EntityBadger extends EntityAnimalWithTypes implements IMob {
 			World world = badger.world;
 			BlockPos below = badger.getPosition().down();
 			if(world.isBlockLoaded(below)) {
-				IBlockState state = world.getBlockState(below);
+				BlockState state = world.getBlockState(below);
 				if(state.getBlock() == Blocks.DIRT || state.getBlock() == Blocks.GRASS_BLOCK || state.getBlock() == Blocks.SAND || state.getBlock() == Blocks.GRAVEL || state.getBlock() == Blocks.MYCELIUM) {
 					if(state.getBlock() == Blocks.GRASS_BLOCK) {
 						state = Blocks.DIRT.getDefaultState();
@@ -180,7 +178,7 @@ public class EntityBadger extends EntityAnimalWithTypes implements IMob {
 		@Override
 		public void tick() {
 			tick++;
-			EntityLivingBase t = badger.getAttackTarget();             
+			LivingEntity t = badger.getAttackTarget();
 			if(tick % 15 == 0) { // Throw dirt every second (20 ticks)
 				EntityBadgerDirt proj = new EntityBadgerDirt(badger.world, badger, stateId);
 				proj.setLocationAndAngles(badger.posX, badger.posY + 1, badger.posZ, 0, 0);

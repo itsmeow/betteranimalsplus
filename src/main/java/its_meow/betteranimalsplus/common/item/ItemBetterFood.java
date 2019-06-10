@@ -1,26 +1,35 @@
 package its_meow.betteranimalsplus.common.item;
 
 import its_meow.betteranimalsplus.BetterAnimalsPlusMod;
-import net.minecraft.item.EnumAction;
-import net.minecraft.item.ItemFood;
+import net.minecraft.item.Food;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.UseAction;
 
-public class ItemBetterFood extends ItemFood {
+public class ItemBetterFood extends Item {
 
     public final int itemUseDuration;
 
     public ItemBetterFood(String name, int foodToFill, float saturationMultiplier, int eatLength, boolean isMeat) {
-        super(foodToFill, saturationMultiplier, isMeat, new Properties().group(BetterAnimalsPlusMod.group));
+        super(new Item.Properties().group(BetterAnimalsPlusMod.group).food(createFood(foodToFill, saturationMultiplier, isMeat)));
         this.setRegistryName(name);
         this.itemUseDuration = eatLength;
+    }
+
+    private static Food createFood(int foodToFill, float saturationMultiplier, boolean isMeat) {
+        Food.Builder builder = new Food.Builder().hunger(foodToFill).saturation(saturationMultiplier);
+        if(isMeat) {
+            builder.meat();
+        }
+        return builder.build();
     }
 
     public int getMaxItemUseDuration(ItemStack stack) {
         return this.itemUseDuration;
     }
 
-    public EnumAction getItemUseAction(ItemStack stack) {
-        return EnumAction.EAT;
+    public UseAction getItemUseAction(ItemStack stack) {
+        return UseAction.EAT;
     }
 
 }

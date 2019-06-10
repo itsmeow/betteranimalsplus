@@ -3,11 +3,11 @@ package its_meow.betteranimalsplus.common.entity.ai;
 import java.util.Random;
 
 import its_meow.betteranimalsplus.common.entity.EntityLammergeier;
-import net.minecraft.entity.ai.EntityMoveHelper;
+import net.minecraft.entity.ai.controller.MovementController;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.MathHelper;
 
-public class LammerMoveHelper extends EntityMoveHelper {
+public class LammerMoveHelper extends MovementController {
 
     private final EntityLammergeier parentEntity;
 
@@ -18,7 +18,7 @@ public class LammerMoveHelper extends EntityMoveHelper {
 
     @Override
     public boolean isUpdating() {
-        return this.action == EntityMoveHelper.Action.MOVE_TO;
+        return this.action == MovementController.Action.MOVE_TO;
     }
 
     @Override
@@ -26,13 +26,13 @@ public class LammerMoveHelper extends EntityMoveHelper {
         if (this.action == Action.JUMPING) {
             this.action = Action.MOVE_TO;
         }
-        if (this.action == EntityMoveHelper.Action.MOVE_TO && !this.parentEntity.isSitting()) {
+        if (this.action == MovementController.Action.MOVE_TO && !this.parentEntity.isSitting()) {
             double d0 = this.posX - this.parentEntity.posX;
             double d1 = this.posY - this.parentEntity.posY;
             double d2 = this.posZ - this.parentEntity.posZ;
             double d3 = d0 * d0 + d1 * d1 + d2 * d2;
             if (d3 <= 1.0D || d3 >= 3600.0D || this.posY > 500.0D) {
-                this.action = EntityMoveHelper.Action.WAIT;
+                this.action = MovementController.Action.WAIT;
             }
             d3 = MathHelper.sqrt(d3);
             if (this.isNotColliding(this.posX, this.posY, this.posZ, d3)) {
@@ -58,7 +58,7 @@ public class LammerMoveHelper extends EntityMoveHelper {
                             this.parentEntity.posY + rand.nextInt(2) - 1, this.parentEntity.posZ + rand.nextInt(2) - 1,
                             0.5D);
                 }
-                this.action = EntityMoveHelper.Action.WAIT;
+                this.action = MovementController.Action.WAIT;
             }
         }
     }

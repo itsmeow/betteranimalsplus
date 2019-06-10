@@ -6,13 +6,13 @@ import its_meow.betteranimalsplus.client.model.ModelHirschgeistMain;
 import its_meow.betteranimalsplus.common.entity.miniboss.hirschgeist.EntityHirschgeist;
 import its_meow.betteranimalsplus.init.ModTextures;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.entity.RenderLiving;
-import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraft.client.renderer.entity.EntityRendererManager;
+import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.util.ResourceLocation;
 
-public class RenderHirschgeist extends RenderLiving<EntityHirschgeist> {
+public class RenderHirschgeist extends MobRenderer<EntityHirschgeist> {
 
-    public RenderHirschgeist(RenderManager rendermanagerIn) {
+    public RenderHirschgeist(EntityRendererManager rendermanagerIn) {
         super(rendermanagerIn, new ModelHirschgeistMain(), 1F);
     }
 

@@ -9,50 +9,50 @@ import its_meow.betteranimalsplus.init.ModItems;
 import its_meow.betteranimalsplus.util.HeadTypes;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.EntityAIAttackMelee;
-import net.minecraft.entity.ai.EntityAIFollowOwner;
-import net.minecraft.entity.ai.EntityAIHurtByTarget;
-import net.minecraft.entity.ai.EntityAILeapAtTarget;
-import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
-import net.minecraft.entity.ai.EntityAIOwnerHurtByTarget;
-import net.minecraft.entity.ai.EntityAIOwnerHurtTarget;
-import net.minecraft.entity.ai.EntityAISit;
-import net.minecraft.entity.ai.EntityAISwimming;
-import net.minecraft.entity.ai.EntityAITargetNonTamed;
-import net.minecraft.entity.ai.EntityAIWanderAvoidWater;
-import net.minecraft.entity.ai.EntityAIWatchClosest;
-import net.minecraft.entity.monster.AbstractIllager;
-import net.minecraft.entity.monster.AbstractSkeleton;
-import net.minecraft.entity.monster.EntityCreeper;
-import net.minecraft.entity.monster.EntityGhast;
+import net.minecraft.entity.ai.goal.FollowOwnerGoal;
+import net.minecraft.entity.ai.goal.HurtByTargetGoal;
+import net.minecraft.entity.ai.goal.LeapAtTargetGoal;
+import net.minecraft.entity.ai.goal.LookAtGoal;
+import net.minecraft.entity.ai.goal.MeleeAttackGoal;
+import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal;
+import net.minecraft.entity.ai.goal.NonTamedTargetGoal;
+import net.minecraft.entity.ai.goal.OwnerHurtByTargetGoal;
+import net.minecraft.entity.ai.goal.OwnerHurtTargetGoal;
+import net.minecraft.entity.ai.goal.SitGoal;
+import net.minecraft.entity.ai.goal.SwimGoal;
+import net.minecraft.entity.ai.goal.WaterAvoidingRandomWalkingGoal;
+import net.minecraft.entity.merchant.villager.VillagerEntity;
+import net.minecraft.entity.monster.AbstractIllagerEntity;
+import net.minecraft.entity.monster.AbstractSkeletonEntity;
+import net.minecraft.entity.monster.CreeperEntity;
+import net.minecraft.entity.monster.GhastEntity;
 import net.minecraft.entity.monster.IMob;
-import net.minecraft.entity.passive.AbstractHorse;
-import net.minecraft.entity.passive.EntityAnimal;
-import net.minecraft.entity.passive.EntityChicken;
-import net.minecraft.entity.passive.EntityRabbit;
-import net.minecraft.entity.passive.EntitySheep;
-import net.minecraft.entity.passive.EntityVillager;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.projectile.EntityArrow;
-import net.minecraft.init.Items;
-import net.minecraft.init.Particles;
-import net.minecraft.init.SoundEvents;
-import net.minecraft.inventory.EntityEquipmentSlot;
+import net.minecraft.entity.passive.AnimalEntity;
+import net.minecraft.entity.passive.ChickenEntity;
+import net.minecraft.entity.passive.RabbitEntity;
+import net.minecraft.entity.passive.SheepEntity;
+import net.minecraft.entity.passive.horse.AbstractHorseEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.projectile.AbstractArrowEntity;
+import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
+import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.EnumHand;
+import net.minecraft.util.Hand;
 import net.minecraft.util.SoundEvent;
+import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.text.TextComponentString;
-import net.minecraft.world.EnumDifficulty;
+import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.world.Difficulty;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -91,33 +91,33 @@ public class EntityFeralWolf extends EntityTameableWithTypes implements IMob {
 
     @Override
     protected void initEntityAI() {
-        this.aiSit = new EntityAISit(this);
-        this.tasks.addTask(1, new EntityAISwimming(this));
+        this.aiSit = new SitGoal(this);
+        this.tasks.addTask(1, new SwimGoal(this));
         this.tasks.addTask(2, this.aiSit);
-        this.tasks.addTask(4, new EntityAILeapAtTarget(this, 0.4F));
-        this.tasks.addTask(5, new EntityAIAttackMelee(this, 1.0D, true));
-        this.tasks.addTask(6, new EntityAIFollowOwner(this, 1.0D, 10.0F, 2.0F));
-        this.tasks.addTask(8, new EntityAIWanderAvoidWater(this, 1.0D));
-        this.tasks.addTask(10, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
-        this.targetTasks.addTask(1, new EntityAIOwnerHurtByTarget(this));
-        this.targetTasks.addTask(2, new EntityAIOwnerHurtTarget(this));
-        this.targetTasks.addTask(3, new EntityAIHurtByTarget(this, true, new Class[0]));
+        this.tasks.addTask(4, new LeapAtTargetGoal(this, 0.4F));
+        this.tasks.addTask(5, new MeleeAttackGoal(this, 1.0D, true));
+        this.tasks.addTask(6, new FollowOwnerGoal(this, 1.0D, 10.0F, 2.0F));
+        this.tasks.addTask(8, new WaterAvoidingRandomWalkingGoal(this, 1.0D));
+        this.tasks.addTask(10, new LookAtGoal(this, PlayerEntity.class, 8.0F));
+        this.targetTasks.addTask(1, new OwnerHurtByTargetGoal(this));
+        this.targetTasks.addTask(2, new OwnerHurtTargetGoal(this));
+        this.targetTasks.addTask(3, new HurtByTargetGoal(this, true, new Class[0]));
         this.targetTasks.addTask(4,
-                new EntityAITargetNonTamed<EntityPlayer>(this, EntityPlayer.class, false, Predicates.alwaysTrue()));
+                new NonTamedTargetGoal<PlayerEntity>(this, PlayerEntity.class, false, Predicates.alwaysTrue()));
         this.targetTasks.addTask(4,
-                new EntityAITargetNonTamed<EntityAnimal>(this, EntityAnimal.class, false,
-                        (@Nullable Entity p_apply_1_) -> p_apply_1_ instanceof EntitySheep
-                                || p_apply_1_ instanceof EntityRabbit));
+                new NonTamedTargetGoal<AnimalEntity>(this, AnimalEntity.class, false,
+                        (@Nullable Entity p_apply_1_) -> p_apply_1_ instanceof SheepEntity
+                                || p_apply_1_ instanceof RabbitEntity));
         this.targetTasks.addTask(4,
-                new EntityAITargetNonTamed<EntityVillager>(this, EntityVillager.class, false, Predicates.alwaysTrue()));
-        this.targetTasks.addTask(4, new EntityAITargetNonTamed<AbstractIllager>(this, AbstractIllager.class, false,
+                new NonTamedTargetGoal<VillagerEntity>(this, VillagerEntity.class, false, Predicates.alwaysTrue()));
+        this.targetTasks.addTask(4, new NonTamedTargetGoal<AbstractIllagerEntity>(this, AbstractIllagerEntity.class, false,
                 Predicates.alwaysTrue()));
         this.targetTasks.addTask(4,
-                new EntityAITargetNonTamed<EntityChicken>(this, EntityChicken.class, false, Predicates.alwaysTrue()));
+                new NonTamedTargetGoal<ChickenEntity>(this, ChickenEntity.class, false, Predicates.alwaysTrue()));
         this.targetTasks.addTask(4,
-                new EntityAITargetNonTamed<EntityGoat>(this, EntityGoat.class, false, Predicates.alwaysTrue()));
+                new NonTamedTargetGoal<EntityGoat>(this, EntityGoat.class, false, Predicates.alwaysTrue()));
         this.targetTasks.addTask(5,
-                new EntityAINearestAttackableTarget<AbstractSkeleton>(this, AbstractSkeleton.class, false));
+                new NearestAttackableTargetGoal<AbstractSkeletonEntity>(this, AbstractSkeletonEntity.class, false));
     }
 
     @Override
@@ -131,8 +131,8 @@ public class EntityFeralWolf extends EntityTameableWithTypes implements IMob {
         }
     }
 
-    public boolean isPreventingPlayerRest(EntityPlayer playerIn) {
-        return this.world.getDifficulty() != EnumDifficulty.PEACEFUL && !this.isTamed()
+    public boolean isPreventingPlayerRest(PlayerEntity playerIn) {
+        return this.world.getDifficulty() != Difficulty.PEACEFUL && !this.isTamed()
                 && this.getAttackTarget() != null && playerIn.getDistanceSq(this) <= 50D;
     }
 
@@ -151,7 +151,7 @@ public class EntityFeralWolf extends EntityTameableWithTypes implements IMob {
             this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(10.0D);
         }
 
-        this.getAttributeMap().registerAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(5.0D);
+        this.getAttributes().registerAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(5.0D);
     }
 
     @Override
@@ -250,10 +250,10 @@ public class EntityFeralWolf extends EntityTameableWithTypes implements IMob {
                 int i = (int) (MathHelper.sin((this.timeWolfIsShaking - 0.4F) * (float) Math.PI) * 7.0F);
 
                 for (int j = 0; j < i; ++j) {
-                    float f1 = (this.rand.nextFloat() * 2.0F - 1.0F) * this.width * 0.5F;
-                    float f2 = (this.rand.nextFloat() * 2.0F - 1.0F) * this.width * 0.5F;
-                    this.world.addParticle(Particles.SPLASH, this.posX + f1, f + 0.8F, this.posZ + f2, this.motionX,
-                            this.motionY, this.motionZ);
+                    float f1 = (this.rand.nextFloat() * 2.0F - 1.0F) * this.getWidth() * 0.5F;
+                    float f2 = (this.rand.nextFloat() * 2.0F - 1.0F) * this.getWidth() * 0.5F;
+                    this.world.addParticle(ParticleTypes.SPLASH, this.posX + f1, f + 0.8F, this.posZ + f2, this.getMotion().getX(),
+                            this.getMotion().getY(), this.getMotion().getZ());
                 }
             }
         }
@@ -325,7 +325,7 @@ public class EntityFeralWolf extends EntityTameableWithTypes implements IMob {
                 this.aiSit.setSitting(false);
             }
 
-            if (entity != null && !(entity instanceof EntityPlayer) && !(entity instanceof EntityArrow)) {
+            if (entity != null && !(entity instanceof PlayerEntity) && !(entity instanceof AbstractArrowEntity)) {
                 amount = (amount + 1.0F) / 2.0F;
             }
 
@@ -359,7 +359,7 @@ public class EntityFeralWolf extends EntityTameableWithTypes implements IMob {
     }
 
     @Override
-    public boolean processInteract(EntityPlayer player, EnumHand hand) {
+    public boolean processInteract(PlayerEntity player, Hand hand) {
         ItemStack itemstack = player.getHeldItem(hand);
 
         if (this.isTamed()) {
@@ -384,11 +384,11 @@ public class EntityFeralWolf extends EntityTameableWithTypes implements IMob {
                 this.aiSit.setSitting(!this.isSitting());
                 this.isJumping = false;
                 this.navigator.clearPath();
-                this.setAttackTarget((EntityLivingBase) null);
+                this.setAttackTarget((LivingEntity) null);
             }
         } else if (itemstack.getItem() == Items.BONE) {
             boolean wearingPowerHead = false;
-            ItemStack stack = player.getItemStackFromSlot(EntityEquipmentSlot.HEAD);
+            ItemStack stack = player.getItemStackFromSlot(EquipmentSlotType.HEAD);
             if (stack.getItem() == Items.DRAGON_HEAD) {
                 wearingPowerHead = true;
             }
@@ -407,7 +407,7 @@ public class EntityFeralWolf extends EntityTameableWithTypes implements IMob {
                             && !net.minecraftforge.event.ForgeEventFactory.onAnimalTame(this, player)) {
                         this.setTamedBy(player);
                         this.navigator.clearPath();
-                        this.setAttackTarget((EntityLivingBase) null);
+                        this.setAttackTarget((LivingEntity) null);
                         this.aiSit.setSitting(true);
                         this.setHealth(20.0F);
                         this.playTameEffect(true);
@@ -421,7 +421,7 @@ public class EntityFeralWolf extends EntityTameableWithTypes implements IMob {
                 return true;
             } else {
                 if (!this.world.isRemote) {
-                    player.sendMessage(new TextComponentString(
+                    player.sendMessage(new StringTextComponent(
                             "You cannot tame feral wolves without proving your prowess. Discover a mighty enemy, defeat it, and wear its head. Feral Wolves only bow to the protector of the forests."));
                 }
             }
@@ -468,13 +468,13 @@ public class EntityFeralWolf extends EntityTameableWithTypes implements IMob {
     }
 
     @Override
-    public boolean canMateWith(EntityAnimal otherAnimal) {
+    public boolean canMateWith(AnimalEntity otherAnimal) {
         return false;
     }
 
     @Override
-    public boolean shouldAttackEntity(EntityLivingBase target, EntityLivingBase owner) {
-        if (!(target instanceof EntityCreeper) && !(target instanceof EntityGhast)) {
+    public boolean shouldAttackEntity(LivingEntity target, LivingEntity owner) {
+        if (!(target instanceof CreeperEntity) && !(target instanceof GhastEntity)) {
             if (target instanceof EntityFeralWolf) {
                 EntityFeralWolf entityferalwolf = (EntityFeralWolf) target;
 
@@ -483,11 +483,11 @@ public class EntityFeralWolf extends EntityTameableWithTypes implements IMob {
                 }
             }
 
-            if (target instanceof EntityPlayer && owner instanceof EntityPlayer
-                    && !((EntityPlayer) owner).canAttackPlayer((EntityPlayer) target)) {
+            if (target instanceof PlayerEntity && owner instanceof PlayerEntity
+                    && !((PlayerEntity) owner).canAttackPlayer((PlayerEntity) target)) {
                 return false;
             } else {
-                return !(target instanceof AbstractHorse) || !((AbstractHorse) target).isTame();
+                return !(target instanceof AbstractHorseEntity) || !((AbstractHorseEntity) target).isTame();
             }
         } else {
             return false;
@@ -495,7 +495,7 @@ public class EntityFeralWolf extends EntityTameableWithTypes implements IMob {
     }
 
     @Override
-    public boolean canBeLeashedTo(EntityPlayer player) {
+    public boolean canBeLeashedTo(PlayerEntity player) {
         return this.isTamed() && super.canBeLeashedTo(player);
     }
 

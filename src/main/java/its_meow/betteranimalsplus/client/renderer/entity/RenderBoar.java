@@ -4,13 +4,13 @@ import its_meow.betteranimalsplus.client.model.ModelBoar;
 import its_meow.betteranimalsplus.common.entity.EntityBoar;
 import its_meow.betteranimalsplus.init.ModTextures;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.entity.RenderLiving;
-import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraft.client.renderer.entity.MobRenderer;
+import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.util.ResourceLocation;
 
-public class RenderBoar extends RenderLiving<EntityBoar> {
+public class RenderBoar extends MobRenderer<EntityBoar> {
 
-    public RenderBoar(RenderManager rendermanagerIn) {
+    public RenderBoar(EntityRendererManager rendermanagerIn) {
         super(rendermanagerIn, new ModelBoar(), 0.6F);
     }
 
