@@ -1,15 +1,15 @@
 package its_meow.betteranimalsplus.client.model;
 
+import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.entity.model.RendererModel;
-import net.minecraft.client.renderer.model.Model;
-import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.math.MathHelper;
 
 /**
  * Lamprey - Batman
  * Created using Tabula 5.1.0
  */
-public class ModelLamprey extends Model {
+public class ModelLamprey<T extends LivingEntity> extends EntityModel<T> {
     public RendererModel body01;
     public RendererModel body02;
     public RendererModel head;
@@ -93,13 +93,13 @@ public class ModelLamprey extends Model {
     }
 
     @Override
-    public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) { 
+    public void render(T entity, float f, float f1, float f2, float f3, float f4, float f5) { 
         this.body01.render(f5);
     }
     
     @Override
-    public void setRotationAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor, Entity entityIn) {
-        super.setRotationAngles(limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor, entityIn);
+    public void setRotationAngles(T entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor) {
+        super.setRotationAngles(entityIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor);
         this.body01.rotateAngleY = MathHelper.cos(ageInTicks * 0.3F) * (float) Math.PI * 0.05F;
         this.body02.rotateAngleY = MathHelper.sin(ageInTicks * 0.3F * (float) Math.PI) * 0.05F;
         this.tail01.rotateAngleY = this.body01.rotateAngleY * 0.5F;

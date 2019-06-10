@@ -1,15 +1,15 @@
 package its_meow.betteranimalsplus.client.model;
 
 import its_meow.betteranimalsplus.common.entity.EntityPheasant;
+import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.entity.model.RendererModel;
-import net.minecraft.client.renderer.model.Model;
-import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.math.MathHelper;
 
 /**
  * pheasant - cybercat5555 Created using Tabula 5.1.0
  */
-public class ModelPheasant extends Model {
+public class ModelPheasant<T extends LivingEntity> extends EntityModel<T> {
 
     public RendererModel body;
     public RendererModel tail01;
@@ -264,13 +264,13 @@ public class ModelPheasant extends Model {
     }
 
     @Override
-    public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) {
+    public void render(T entity, float f, float f1, float f2, float f3, float f4, float f5) {
         this.body.render(f5);
     }
 
     @Override
-    public void setRotationAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw,
-            float headPitch, float scaleFactor, Entity entityIn) {
+    public void setRotationAngles(T entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw,
+            float headPitch, float scaleFactor) {
         if (entityIn instanceof EntityPheasant) {
             EntityPheasant ent = (EntityPheasant) entityIn;
             float peckTime = ent.getPeckTime();

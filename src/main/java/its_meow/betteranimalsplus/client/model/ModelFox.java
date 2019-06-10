@@ -2,14 +2,13 @@ package its_meow.betteranimalsplus.client.model;
 
 import its_meow.betteranimalsplus.common.entity.EntityFox;
 import net.minecraft.client.renderer.entity.model.RendererModel;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.math.MathHelper;
 
 /**
  * fox - cybercat5555 Created using Tabula 5.1.0
  */
-public class ModelFox extends ModelBetterAnimals {
+public class ModelFox<T extends LivingEntity> extends ModelBetterAnimals<T> {
 
     public RendererModel body;
     public RendererModel rear;
@@ -296,7 +295,7 @@ public class ModelFox extends ModelBetterAnimals {
     }
 
     @Override
-    public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) {
+    public void render(T entity, float f, float f1, float f2, float f3, float f4, float f5) {
         this.body.render(f5);
     }
 
@@ -318,8 +317,8 @@ public class ModelFox extends ModelBetterAnimals {
     }
 
     @Override
-    public void setRotationAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw,
-            float headPitch, float scaleFactor, Entity entity) {
+    public void setRotationAngles(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw,
+            float headPitch, float scaleFactor) {
         float swingModifier = 0.9f;
         if (entity instanceof LivingEntity) {
             LivingEntity living = (LivingEntity) entity;

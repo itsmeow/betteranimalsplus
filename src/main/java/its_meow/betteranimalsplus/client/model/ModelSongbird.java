@@ -1,16 +1,15 @@
 package its_meow.betteranimalsplus.client.model;
 
 import its_meow.betteranimalsplus.common.entity.EntitySongbird;
+import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.entity.model.RendererModel;
-import net.minecraft.client.renderer.model.Model;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.math.MathHelper;
 
 /**
  * songbird - cybercat5555 Created using Tabula 5.1.0
  */
-public class ModelSongbird extends Model {
+public class ModelSongbird<T extends LivingEntity> extends EntityModel<T> {
     public RendererModel body;
     public RendererModel tailBase;
     public RendererModel lLeg01;
@@ -223,7 +222,7 @@ public class ModelSongbird extends Model {
     }
 
     @Override
-    public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) {
+    public void render(T entity, float f, float f1, float f2, float f3, float f4, float f5) {
         boolean show = true;
         if (entity instanceof EntitySongbird) {
             EntitySongbird bird = (EntitySongbird) entity;
@@ -245,8 +244,8 @@ public class ModelSongbird extends Model {
                 this.lLeg01.rotateAngleX = 0.2617993877991494F;
 
                 this.rWing01.rotateAngleZ = MathHelper.cos(f2) * (float) Math.PI / 5F;
-                if ((Math.abs(bird.motionY) > 0 && (Math.abs(bird.motionX) > 0.05 || Math.abs(bird.motionZ) > 0.05)) || Math.abs(bird.motionY) > 0.25) {
-                    float rotX = -((float) Math.atan(bird.motionY / Math.sqrt(Math.pow(bird.motionX, 2) + Math.pow(bird.motionZ, 2))) / 1.5F);
+                if ((Math.abs(bird.getMotion().getY()) > 0 && (Math.abs(bird.getMotion().getX()) > 0.05 || Math.abs(bird.getMotion().getZ()) > 0.05)) || Math.abs(bird.getMotion().getY()) > 0.25) {
+                    float rotX = -((float) Math.atan(bird.getMotion().getY() / Math.sqrt(Math.pow(bird.getMotion().getX(), 2) + Math.pow(bird.getMotion().getZ(), 2))) / 1.5F);
                     if (rotX < 0) {
                         rotX /= 3;
                     }
@@ -273,8 +272,8 @@ public class ModelSongbird extends Model {
                 float e = 1.0F;
 
                 if (flag) {
-                    e = (float) (entity.motionX * entity.motionX + entity.motionY * entity.motionY
-                            + entity.motionZ * entity.motionZ);
+                    e = (float) (entity.getMotion().getX() * entity.getMotion().getX() + entity.getMotion().getY() * entity.getMotion().getY()
+                            + entity.getMotion().getZ() * entity.getMotion().getZ());
                     e = e / 0.2F;
                     e = e * e * e;
                 }

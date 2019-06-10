@@ -2,7 +2,6 @@ package its_meow.betteranimalsplus.client.model;
 
 import its_meow.betteranimalsplus.common.entity.EntityFeralWolf;
 import net.minecraft.client.renderer.entity.model.RendererModel;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.math.MathHelper;
 
 /**
@@ -252,8 +251,7 @@ public class ModelCustomWolf<T extends EntityFeralWolf> extends ModelBetterAnima
         this.rArm01.rotateAngleX = MathHelper.cos(newLimbSwing * 0.8665F + (float) Math.PI) * swingModifier * limbSwingAmount + 0.22759093446006054F;
         this.neck.rotateAngleX = -0.6F;
 
-        this.head.rotateAngleX = (float) Math.toRadians(ModelBetterAnimals.getHeadPitch(entity));
-        + 0.6f;
+        this.head.rotateAngleX = (float) Math.toRadians(ModelBetterAnimals.getHeadPitch(entity)) + 0.6F;
         this.head.rotateAngleY = netHeadYaw * 0.017453292F;
 
         if (entity instanceof EntityFeralWolf) {

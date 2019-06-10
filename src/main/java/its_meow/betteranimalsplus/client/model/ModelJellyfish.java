@@ -1,13 +1,13 @@
 package its_meow.betteranimalsplus.client.model;
 
+import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.entity.model.RendererModel;
-import net.minecraft.client.renderer.model.Model;
-import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
 
 /**
  * Jellyfish - Batman Created using Tabula 5.1.0
  */
-public class ModelJellyfish extends Model {
+public class ModelJellyfish<T extends LivingEntity> extends EntityModel<T> {
 
     public RendererModel main;
     public RendererModel top01;
@@ -123,7 +123,7 @@ public class ModelJellyfish extends Model {
     }
 
     @Override
-    public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) {
+    public void render(T entity, float f, float f1, float f2, float f3, float f4, float f5) {
         this.main.render(f5);
     }
 

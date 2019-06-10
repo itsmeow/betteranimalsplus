@@ -1,14 +1,15 @@
 package its_meow.betteranimalsplus.client.model;
 
-import net.minecraft.client.renderer.GlStateManager;
+import com.mojang.blaze3d.platform.GlStateManager;
+
+import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.entity.model.RendererModel;
-import net.minecraft.client.renderer.model.Model;
 import net.minecraft.entity.Entity;
 
 /**
  * handoffate - cybercat5555 Created using Tabula 5.1.0
  */
-public class ModelHandOfFate extends Model {
+public class ModelHandOfFate<T extends Entity> extends EntityModel<T> {
 
     public RendererModel bowlBase;
     public RendererModel bowlWall01;

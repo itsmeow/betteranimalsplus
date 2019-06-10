@@ -1,16 +1,15 @@
 package its_meow.betteranimalsplus.client.model;
 
 import its_meow.betteranimalsplus.common.entity.EntityLammergeier;
+import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.entity.model.RendererModel;
-import net.minecraft.client.renderer.model.Model;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.math.MathHelper;
 
 /**
  * lammergeier - cybercat5555 Created using Tabula 5.1.0
  */
-public class ModelLammergeier extends Model {
+public class ModelLammergeier<T extends LivingEntity> extends EntityModel<T> {
 
     public boolean isFlying = false;
 
@@ -577,33 +576,33 @@ public class ModelLammergeier extends Model {
     }
 
     @Override
-    public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) {
+    public void render(T entity, float f, float f1, float f2, float f3, float f4, float f5) {
         this.body.render(f5);
     }
 
     boolean lastFlying = false;
 
     @Override
-    public void setRotationAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw,
-            float headPitch, float scaleFactor, Entity entityIn) {
+    public void setRotationAngles(T entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw,
+            float headPitch, float scaleFactor) {
 
         EntityLammergeier lammergeier = (EntityLammergeier) entityIn;
         this.rLeg01.offsetY = 0.0F;
         this.lLeg01.offsetY = 0.0F;
-        this.isFlying = !entityIn.getEntityWorld().isBlockFullCube(entityIn.getPosition().down());
+        this.isFlying = !entityIn.getEntityWorld().getBlockState(entityIn.getPosition().down()).isSolid();
 
         if (this.isFlying) {
             this.rWing01.rotateAngleZ = MathHelper.cos(ageInTicks * 0.3F) * (float) Math.PI * 0.25F;
 
-            if ((Math.abs(lammergeier.motionY) > 0
-                    && (Math.abs(lammergeier.motionX) > 0.05 || Math.abs(lammergeier.motionZ) > 0.05))
-                    || Math.abs(lammergeier.motionY) > 0.25) {
-                float rotX = -((float) Math.atan(lammergeier.motionY
-                        / Math.sqrt(Math.pow(lammergeier.motionX, 2) + Math.pow(lammergeier.motionZ, 2))) / 1.5F);
+            if ((Math.abs(lammergeier.getMotion().getY()) > 0
+                    && (Math.abs(lammergeier.getMotion().getX()) > 0.05 || Math.abs(lammergeier.getMotion().getZ()) > 0.05))
+                    || Math.abs(lammergeier.getMotion().getY()) > 0.25) {
+                float rotX = -((float) Math.atan(lammergeier.getMotion().getY()
+                        / Math.sqrt(Math.pow(lammergeier.getMotion().getX(), 2) + Math.pow(lammergeier.getMotion().getZ(), 2))) / 1.5F);
                 if (rotX < 0) {
                     rotX /= 3;
                 }
-                if (Math.abs(lammergeier.motionY + lammergeier.lastMotionY) > 0.05 && lammergeier.motionY < 0) {
+                if (Math.abs(lammergeier.getMotion().getY() + lammergeier.lastMotionY) > 0.05 && lammergeier.getMotion().getY() < 0) {
                     this.rWing01.rotateAngleZ = MathHelper.cos(225 * 0.3F) * (float) Math.PI * 0.25F;
                 }
                 this.body.rotateAngleX = rotX;
@@ -625,8 +624,8 @@ public class ModelLammergeier extends Model {
             float f = 1.0F;
 
             if (flag) {
-                f = (float) (entityIn.motionX * entityIn.motionX + entityIn.motionY * entityIn.motionY
-                        + entityIn.motionZ * entityIn.motionZ);
+                f = (float) (entityIn.getMotion().getX() * entityIn.getMotion().getX() + entityIn.getMotion().getY() * entityIn.getMotion().getY()
+                        + entityIn.getMotion().getZ() * entityIn.getMotion().getZ());
                 f = f / 0.2F;
                 f = f * f * f;
             }
@@ -648,7 +647,7 @@ public class ModelLammergeier extends Model {
         }
 
         this.lastFlying = this.isFlying;
-        super.setRotationAngles(limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor, entityIn);
+        super.setRotationAngles(entityIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor);
     }
 
     /**

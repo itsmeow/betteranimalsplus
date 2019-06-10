@@ -1,16 +1,15 @@
 package its_meow.betteranimalsplus.client.model;
 
 import its_meow.betteranimalsplus.common.entity.EntityReindeer;
+import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.entity.model.RendererModel;
-import net.minecraft.client.renderer.model.Model;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.math.MathHelper;
 
 /**
  * reindeer - cybercat5555 Created using Tabula 5.1.0
  */
-public class ModelReindeer extends Model {
+public class ModelReindeer<T extends LivingEntity> extends EntityModel<T> {
 
     public RendererModel body;
     public RendererModel ass;
@@ -413,7 +412,7 @@ public class ModelReindeer extends Model {
     }
 
     @Override
-    public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) {
+    public void render(T entity, float f, float f1, float f2, float f3, float f4, float f5) {
         this.body.render(f5);
     }
 
@@ -440,7 +439,7 @@ public class ModelReindeer extends Model {
      * method.
      */
     @Override
-    public void setLivingAnimations(LivingEntity entitylivingbaseIn, float limbSwing, float limbSwingAmount,
+    public void setLivingAnimations(T entitylivingbaseIn, float limbSwing, float limbSwingAmount,
                                     float partialTickTime) {
         super.setLivingAnimations(entitylivingbaseIn, limbSwing, limbSwingAmount, partialTickTime);
         float f = this.updateReindeerRotation(entitylivingbaseIn.prevRenderYawOffset,
