@@ -29,7 +29,7 @@ public class EntityBearNeutral extends EntityBear {
     private int warningSoundTicks;
 
     public EntityBearNeutral(World worldIn) {
-        super(ModEntities.getEntityType(EntityBearNeutral.class), worldIn);
+        super(ModEntities.getEntityType("blackbear"), worldIn);
         //this.setSize(2F, 1.5F);
     }
 

@@ -45,8 +45,8 @@ import net.minecraft.world.World;
 public class EntityCoyote extends EntityFeralWolf {
 
     public EntityCoyote(World worldIn) {
-        super(ModEntities.getEntityType(EntityCoyote.class), worldIn);
-        this.setSize(0.8F, 0.9F);
+        super(ModEntities.getEntityType("coyote"), worldIn);
+        //this.setSize(0.8F, 0.9F);
         this.setTamed(false);
     }
 

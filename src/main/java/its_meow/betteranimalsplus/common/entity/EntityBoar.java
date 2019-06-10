@@ -7,41 +7,43 @@ import its_meow.betteranimalsplus.util.HeadTypes;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.entity.*;
 import net.minecraft.entity.AgeableEntity;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.ai.goal.*;
+import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.goal.BreedGoal;
 import net.minecraft.entity.ai.goal.FollowParentGoal;
+import net.minecraft.entity.ai.goal.LookAtGoal;
+import net.minecraft.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal;
 import net.minecraft.entity.ai.goal.SwimGoal;
 import net.minecraft.entity.ai.goal.WaterAvoidingRandomWalkingGoal;
-import net.minecraft.entity.ai.goal.LookAtGoal;
 import net.minecraft.entity.effect.LightningBoltEntity;
-import net.minecraft.entity.monster.ZombiePigmanEntity;
 import net.minecraft.entity.monster.IMob;
+import net.minecraft.entity.monster.ZombiePigmanEntity;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.passive.ChickenEntity;
 import net.minecraft.entity.passive.PigEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Items;
-import net.minecraft.util.SoundEvents;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
+import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.World;
-import net.minecraft.world.storage.loot.LootTables;
 
 public class EntityBoar extends EntityAnimalWithTypes implements IMob {
 
 	public EntityBoar(World worldIn) {
-		super(ModEntities.getEntityType(EntityBoar.class), worldIn);
-		this.setSize(0.9F, 0.9F);
+		super(ModEntities.getEntityType("boar"), worldIn);
+		//this.setSize(0.9F, 0.9F);
 	}
 
 	@Override
@@ -57,13 +59,13 @@ public class EntityBoar extends EntityAnimalWithTypes implements IMob {
 		this.goalSelector.addGoal(7, new LookAtGoal(this, PlayerEntity.class, 6.0F));
 		if (!this.isChild() && this.getEntityWorld().getDifficulty() != Difficulty.PEACEFUL) {
 			this.targetSelector.addGoal(1,
-					new NearestAttackableTargetGoal<>(this, AnimalEntity.class, 90, true, true,
-							(@Nullable Entity in) -> in instanceof ChickenEntity || in instanceof EntityPheasant
+					new NearestAttackableTargetGoal<AnimalEntity>(this, AnimalEntity.class, 90, true, true,
+							(@Nullable LivingEntity in) -> in instanceof ChickenEntity || in instanceof EntityPheasant
 							|| in instanceof AnimalEntity && ((AnimalEntity) in).isChild()
 							&& !(in instanceof EntityBoar || in instanceof PigEntity)));
 			this.targetSelector.addGoal(2,
-					new NearestAttackableTargetGoal<>(this, LivingEntity.class, 50, true, true,
-							(@Nullable Entity in) -> in instanceof AnimalEntity
+					new NearestAttackableTargetGoal<LivingEntity>(this, LivingEntity.class, 50, true, true,
+							(@Nullable LivingEntity in) -> in instanceof AnimalEntity
 							&& !(in instanceof EntityBoar || in instanceof PigEntity)
 							|| in instanceof PlayerEntity));
 		}
@@ -114,7 +116,7 @@ public class EntityBoar extends EntityAnimalWithTypes implements IMob {
 	@Override
 	@Nullable
 	protected ResourceLocation getLootTable() {
-		return LootTables.ENTITIES_PIG;
+		return null; //TODO: Find pig
 	}
 
 	@Override
@@ -140,8 +142,7 @@ public class EntityBoar extends EntityAnimalWithTypes implements IMob {
 			if (i > 0 && entityIn instanceof LivingEntity) {
 				((LivingEntity) entityIn).knockBack(this, i * 0.5F, MathHelper.sin(this.rotationYaw * 0.017453292F),
 						-MathHelper.cos(this.rotationYaw * 0.017453292F));
-				this.motionX *= 0.6D;
-				this.motionZ *= 0.6D;
+				this.setMotion(this.getMotion().getX() * 0.6D, this.getMotion().getY(), this.getMotion().getZ() * 0.6D);
 			}
 
 			int j = EnchantmentHelper.getFireAspectModifier(this);
@@ -180,7 +181,7 @@ public class EntityBoar extends EntityAnimalWithTypes implements IMob {
 	@Override
 	public void onStruckByLightning(LightningBoltEntity lightningBolt) {
 		if (!this.world.isRemote && !this.dead) {
-			ZombiePigmanEntity entitypigzombie = new ZombiePigmanEntity(this.world);
+			ZombiePigmanEntity entitypigzombie = new ZombiePigmanEntity(EntityType.ZOMBIE_PIGMAN, this.world);
 			entitypigzombie.setItemStackToSlot(EquipmentSlotType.MAINHAND, new ItemStack(Items.GOLDEN_SWORD));
 			entitypigzombie.setLocationAndAngles(this.posX, this.posY, this.posZ, this.rotationYaw, this.rotationPitch);
 			entitypigzombie.setNoAI(this.isAIDisabled());
@@ -190,7 +191,7 @@ public class EntityBoar extends EntityAnimalWithTypes implements IMob {
 				entitypigzombie.setCustomNameVisible(true);
 			}
 
-			this.world.spawnEntity(entitypigzombie);
+			this.world.addEntity(entitypigzombie);
 			this.remove();
 		}
 	}
@@ -217,7 +218,7 @@ public class EntityBoar extends EntityAnimalWithTypes implements IMob {
 			boar.setType(this.getTypeNumber());
 			return boar;
 		} else if (ageable instanceof PigEntity) {
-			PigEntity pig = new PigEntity(this.world);
+			PigEntity pig = new PigEntity(EntityType.PIG, this.world);
 			EntityBoar boar = new EntityBoar(this.world);
 			boar.setType(this.getTypeNumber());
 			return this.rand.nextBoolean() ? pig : boar;

@@ -41,7 +41,7 @@ public class EntityBear extends MonsterEntity {
     private int warningSoundTicks;
     
     public EntityBear(World worldIn) {
-        super(ModEntities.getEntityType(EntityBear.class), worldIn);
+        super(ModEntities.getEntityType("brownbear"), worldIn);
         //this.setSize(2F, 2F);
     }
     

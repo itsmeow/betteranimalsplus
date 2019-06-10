@@ -4,16 +4,15 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.function.Function;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.EntityClassification;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 
-public class EntityContainer {
+public class EntityContainer<T extends LivingEntity> {
 
-    public Class<? extends Entity> entityClazz;
-    public Function<? super World, ? extends MobEntity> entityFunction;
+    public Class<T> entityClazz;
+    public Function<? super World, T> entityFunction;
     public String entityName;
     public EntityClassification type;
     public int eggColorSolid;
@@ -25,7 +24,7 @@ public class EntityContainer {
     public boolean doSpawning = true;
 
     @SafeVarargs
-    public EntityContainer(Class<? extends MobEntity> EntityClass, Function<? super World, ? extends MobEntity> func,
+    public EntityContainer(Class<T> EntityClass, Function<? super World, T> func,
                            String entityNameIn, EntityClassification type, int solidColorIn, int spotColorIn, int prob, int min, int max,
                            Set<Biome>... biomes) {
         this.entityClazz = EntityClass;

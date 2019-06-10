@@ -35,7 +35,7 @@ import net.minecraft.world.World;
 public class EntityBadger extends EntityAnimalWithTypes implements IMob {
 
     public EntityBadger(World worldIn) {
-        super(ModEntities.getEntityType(EntityBadger.class), worldIn);
+        super(ModEntities.getEntityType("badger"), worldIn);
         //this.setSize(0.8F, 0.8F);
     }
 

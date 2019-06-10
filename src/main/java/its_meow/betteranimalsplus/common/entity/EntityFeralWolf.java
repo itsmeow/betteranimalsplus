@@ -38,7 +38,7 @@ import net.minecraft.entity.passive.horse.AbstractHorseEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.AbstractArrowEntity;
 import net.minecraft.inventory.EquipmentSlotType;
-import net.minecraft.item.ItemFood;
+import net.minecraft.item.Food;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.network.datasync.DataParameter;
@@ -76,15 +76,17 @@ public class EntityFeralWolf extends EntityTameableWithTypes implements IMob {
      */
     protected float timeWolfIsShaking;
     protected float prevTimeWolfIsShaking;
+    
+    public SitGoal aiSit;
 
     public EntityFeralWolf(World worldIn) {
-        super(ModEntities.getEntityType(EntityFeralWolf.class), worldIn);
+        super(ModEntities.getEntityType("feralwolf"), worldIn);
         this.world = worldIn;
-        this.setSize(0.8F, 0.9F);
+        //this.setSize(0.8F, 0.9F);
         this.setTamed(false);
     }
 
-    public EntityFeralWolf(EntityType<? extends Entity> type, World worldIn) {
+    public EntityFeralWolf(EntityType<? extends EntityFeralWolf> type, World worldIn) {
         super(type, worldIn);
         this.world = worldIn;
     }
@@ -101,12 +103,12 @@ public class EntityFeralWolf extends EntityTameableWithTypes implements IMob {
         this.goalSelector.addGoal(10, new LookAtGoal(this, PlayerEntity.class, 8.0F));
         this.targetSelector.addGoal(1, new OwnerHurtByTargetGoal(this));
         this.targetSelector.addGoal(2, new OwnerHurtTargetGoal(this));
-        this.targetSelector.addGoal(3, new HurtByTargetGoal(this, true, new Class[0]));
+        this.targetSelector.addGoal(3, new HurtByTargetGoal(this, new Class[0]));
         this.targetSelector.addGoal(4,
                 new NonTamedTargetGoal<PlayerEntity>(this, PlayerEntity.class, false, Predicates.alwaysTrue()));
         this.targetSelector.addGoal(4,
                 new NonTamedTargetGoal<AnimalEntity>(this, AnimalEntity.class, false,
-                        (@Nullable Entity p_apply_1_) -> p_apply_1_ instanceof SheepEntity
+                        (@Nullable LivingEntity p_apply_1_) -> p_apply_1_ instanceof SheepEntity
                                 || p_apply_1_ instanceof RabbitEntity));
         this.targetSelector.addGoal(4,
                 new NonTamedTargetGoal<VillagerEntity>(this, VillagerEntity.class, false, Predicates.alwaysTrue()));
@@ -297,11 +299,6 @@ public class EntityFeralWolf extends EntityTameableWithTypes implements IMob {
                 * 0.15F * (float) Math.PI;
     }
 
-    @Override
-    public float getEyeHeight() {
-        return this.height * 0.8F;
-    }
-
     /**
      * The speed it takes to move the entityliving's rotationPitch through the
      * faceEntity method. This is only currently use in wolves.
@@ -364,23 +361,22 @@ public class EntityFeralWolf extends EntityTameableWithTypes implements IMob {
 
         if (this.isTamed()) {
             if (!itemstack.isEmpty()) {
-                if (itemstack.getItem() instanceof ItemFood) {
-                    ItemFood itemfood = (ItemFood) itemstack.getItem();
+                if (itemstack.getItem().isFood()) {
+                    Food food = itemstack.getItem().getFood();
 
-                    if (itemfood.isMeat()
-                            && this.dataManager.get(EntityFeralWolf.DATA_HEALTH_ID).floatValue() < 20.0F) {
+                    if (food.isMeat() && this.dataManager.get(EntityFeralWolf.DATA_HEALTH_ID).floatValue() < 20.0F) {
                         if (!player.isCreative()) {
                             itemstack.shrink(1);
                         }
 
-                        this.heal(itemfood.getHealAmount(itemstack));
+                        this.heal(food.getHealing());
                         return true;
                     }
                 }
             }
 
             if (this.isOwner(player) && !this.world.isRemote && !this.isBreedingItem(itemstack)
-                    && (!(itemstack.getItem() instanceof ItemFood) || !((ItemFood) itemstack.getItem()).isMeat())) {
+                    && (!(itemstack.getItem().isFood()) || !(itemstack.getItem().getFood().isMeat()))) {
                 this.aiSit.setSitting(!this.isSitting());
                 this.isJumping = false;
                 this.navigator.clearPath();
@@ -459,7 +455,7 @@ public class EntityFeralWolf extends EntityTameableWithTypes implements IMob {
 
     @Override
     public boolean isBreedingItem(ItemStack stack) {
-        return stack.getItem() instanceof ItemFood && ((ItemFood) stack.getItem()).isMeat();
+        return stack.getItem().isFood() && stack.getItem().getFood().isMeat();
     }
 
     @Override
