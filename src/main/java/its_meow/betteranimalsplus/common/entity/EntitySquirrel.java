@@ -36,13 +36,13 @@ public class EntitySquirrel extends EntityAnimalWithTypes {
     }
 
     @Override
-    protected void initEntityAI() {
-        this.tasks.addTask(1, new SwimGoal(this));
-        this.tasks.addTask(2, new PanicGoal(this, 0.72D));
-        this.tasks.addTask(3, new BreedGoal(this, 0.5D));
-        this.tasks.addTask(4, new TemptGoal(this, 0.5D, Ingredient.fromItems(Items.WHEAT_SEEDS), false));
-        this.tasks.addTask(5, new AvoidEntityGoal<>(this, PlayerEntity.class, 10F, 0.5D, 0.7D));
-        this.tasks.addTask(6, new WaterAvoidingRandomWalkingGoal(this, 0.5D));
+    protected void registerGoals() {
+        this.goalSelector.addGoal(1, new SwimGoal(this));
+        this.goalSelector.addGoal(2, new PanicGoal(this, 0.72D));
+        this.goalSelector.addGoal(3, new BreedGoal(this, 0.5D));
+        this.goalSelector.addGoal(4, new TemptGoal(this, 0.5D, Ingredient.fromItems(Items.WHEAT_SEEDS), false));
+        this.goalSelector.addGoal(5, new AvoidEntityGoal<>(this, PlayerEntity.class, 10F, 0.5D, 0.7D));
+        this.goalSelector.addGoal(6, new WaterAvoidingRandomWalkingGoal(this, 0.5D));
     }
 
     @Override

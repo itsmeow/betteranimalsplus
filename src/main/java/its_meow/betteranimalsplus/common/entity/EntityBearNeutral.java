@@ -5,22 +5,21 @@ import com.google.common.base.Predicates;
 import its_meow.betteranimalsplus.init.ModEntities;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.CreatureEntity;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.ai.goal.*;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.goal.HurtByTargetGoal;
-import net.minecraft.entity.ai.goal.SwimGoal;
-import net.minecraft.entity.ai.goal.RandomWalkingGoal;
 import net.minecraft.entity.ai.goal.LookAtGoal;
+import net.minecraft.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal;
+import net.minecraft.entity.ai.goal.RandomWalkingGoal;
+import net.minecraft.entity.ai.goal.SwimGoal;
 import net.minecraft.entity.passive.ChickenEntity;
 import net.minecraft.entity.passive.RabbitEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.SoundEvents;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.Hand;
 import net.minecraft.util.SoundEvent;
+import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.World;
@@ -31,24 +30,24 @@ public class EntityBearNeutral extends EntityBear {
 
     public EntityBearNeutral(World worldIn) {
         super(ModEntities.getEntityType(EntityBearNeutral.class), worldIn);
-        this.setSize(2F, 1.5F);
+        //this.setSize(2F, 1.5F);
     }
 
-    public EntityBearNeutral(EntityType<?> type, World worldIn) {
+    public EntityBearNeutral(EntityType<? extends EntityBearNeutral> type, World worldIn) {
         super(type, worldIn);
-        this.setSize(2F, 1.5F);
+        //this.setSize(2F, 1.5F);
     }
 
     @Override
-    protected void initEntityAI() {
-        this.tasks.addTask(0, new SwimGoal(this));
-        this.tasks.addTask(1, new EntityBearNeutral.AIMeleeAttack());
-        this.targetTasks.addTask(1, new EntityBearNeutral.AIHurtByTarget());
-        this.tasks.addTask(5, new RandomWalkingGoal(this, 0.5D));
-        this.tasks.addTask(6, new LookAtGoal(this, PlayerEntity.class, 6.0F));
-        this.targetTasks.addTask(2, new NearestAttackableTargetGoal<ChickenEntity>(this, ChickenEntity.class, true));
-        this.targetTasks.addTask(3, new NearestAttackableTargetGoal<RabbitEntity>(this, RabbitEntity.class, true));
-        this.targetTasks.addTask(4, new NearestAttackableTargetGoal<EntityPheasant>(this, EntityPheasant.class, 90,
+    protected void registerGoals() {
+        this.goalSelector.addGoal(0, new SwimGoal(this));
+        this.goalSelector.addGoal(1, new EntityBearNeutral.AIMeleeAttack());
+        this.targetSelector.addGoal(1, new HurtByTargetGoal(this, EntityBear.class));
+        this.goalSelector.addGoal(5, new RandomWalkingGoal(this, 0.5D));
+        this.goalSelector.addGoal(6, new LookAtGoal(this, PlayerEntity.class, 6.0F));
+        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<ChickenEntity>(this, ChickenEntity.class, true));
+        this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<RabbitEntity>(this, RabbitEntity.class, true));
+        this.targetSelector.addGoal(4, new NearestAttackableTargetGoal<EntityPheasant>(this, EntityPheasant.class, 90,
                 true, true, Predicates.alwaysTrue()));
     }
 
@@ -135,29 +134,6 @@ public class EntityBearNeutral extends EntityBear {
         return this.world.getDifficulty() != Difficulty.PEACEFUL && this.getAttackTarget() == playerIn;
     }
 
-    public class AIHurtByTarget extends HurtByTargetGoal {
-
-        public AIHurtByTarget() {
-            super(EntityBearNeutral.this, false);
-        }
-
-        /**
-         * Execute a one shot task or start executing a continuous task
-         */
-        @Override
-        public void startExecuting() {
-            super.startExecuting();
-
-        }
-
-        @Override
-        protected void setEntityAttackTarget(CreatureEntity creatureIn, LivingEntity entityLivingBaseIn) {
-            if (creatureIn instanceof EntityBearNeutral) {
-                super.setEntityAttackTarget(creatureIn, entityLivingBaseIn);
-            }
-        }
-    }
-
     public class AIMeleeAttack extends MeleeAttackGoal {
 
         public AIMeleeAttack() {
@@ -170,7 +146,7 @@ public class EntityBearNeutral extends EntityBear {
 
             if (p_190102_2_ <= d0 && this.attackTick <= 0) {
                 this.attackTick = 20;
-                this.attacker.attackEntityAsMob(p_190102_1_);
+                this.field_75441_b.attackEntityAsMob(p_190102_1_);
             } else if (p_190102_2_ <= d0 * 2.0D) {
                 if (this.attackTick <= 0) {
                     this.attackTick = 20;
@@ -195,7 +171,7 @@ public class EntityBearNeutral extends EntityBear {
 
         @Override
         protected double getAttackReachSqr(LivingEntity attackTarget) {
-            return 4.0F + attackTarget.width;
+            return 4.0F + attackTarget.getWidth();
         }
     }
 }

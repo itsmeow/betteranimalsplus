@@ -86,22 +86,22 @@ public class EntityDeer extends EntityAnimalEatsGrassWithTypes {
     }
 
     @Override
-    protected void initEntityAI() {
-        super.initEntityAI();
-        this.tasks.addTask(0, new SwimGoal(this));
-        this.tasks.addTask(1, new BreedGoal(this, 0.45D));
-        this.tasks.addTask(2, new PanicGoal(this, 0.65D));
+    protected void registerGoals() {
+        super.registerGoals();
+        this.goalSelector.addGoal(0, new SwimGoal(this));
+        this.goalSelector.addGoal(1, new BreedGoal(this, 0.45D));
+        this.goalSelector.addGoal(2, new PanicGoal(this, 0.65D));
         IItemProvider[] temptItems = new IItemProvider[5];
         temptItems[0] = Items.APPLE;
         temptItems[1] = Items.GOLDEN_APPLE;
         temptItems[2] = Items.CARROT;
         temptItems[3] = Items.CARROT_ON_A_STICK;
         temptItems[4] = Items.GOLDEN_CARROT;
-        this.tasks.addTask(3, new TemptGoal(this, 0.45D, false, Ingredient.fromItems(temptItems)));
-        this.tasks.addTask(4, new AvoidEntityGoal<PlayerEntity>(this, PlayerEntity.class, 20, 0.55D, 0.7D));
+        this.goalSelector.addGoal(3, new TemptGoal(this, 0.45D, false, Ingredient.fromItems(temptItems)));
+        this.goalSelector.addGoal(4, new AvoidEntityGoal<PlayerEntity>(this, PlayerEntity.class, 20, 0.55D, 0.7D));
         // Eat Grass at Priority 5
-        this.tasks.addTask(5, new RandomWalkingGoal(this, 0.45D));
-        this.tasks.addTask(6, new LookRandomlyGoal(this));
+        this.goalSelector.addGoal(5, new RandomWalkingGoal(this, 0.45D));
+        this.goalSelector.addGoal(6, new LookRandomlyGoal(this));
     }
 
     @Override

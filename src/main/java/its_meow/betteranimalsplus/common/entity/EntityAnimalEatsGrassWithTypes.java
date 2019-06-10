@@ -54,9 +54,9 @@ public abstract class EntityAnimalEatsGrassWithTypes extends EntityAnimalWithTyp
     }
 
 	@Override
-	protected void initEntityAI() {
-		super.initEntityAI();
-		this.tasks.addTask(taskPriority, this.eatTask = new EatGrassGoal(this));
+	protected void registerGoals() {
+		super.registerGoals();
+		this.goalSelector.addGoal(taskPriority, this.eatTask = new EatGrassGoal(this));
 	}
 
 }

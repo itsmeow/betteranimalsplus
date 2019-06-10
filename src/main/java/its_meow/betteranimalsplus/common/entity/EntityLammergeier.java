@@ -102,16 +102,16 @@ public class EntityLammergeier extends EntityTameableFlying implements IVariantT
     }
 
     @Override
-    protected void initEntityAI() {
+    protected void registerGoals() {
         this.aiSit = new SitGoal(this);
-        this.tasks.addTask(1, this.aiSit);
-        this.tasks.addTask(2, new EntityLammergeier.AIMeleeAttack(this));
-        this.tasks.addTask(3, new EntityAIFollowOwnerFlying(this, 0.5D, 10.0F, 50.0F));
-        this.tasks.addTask(5, new EntityLammergeier.AIRandomFly(this));
-        this.tasks.addTask(7, new EntityLammergeier.AILookAround(this));
-        this.targetTasks.addTask(1, new OwnerHurtByTargetGoal(this));
-        this.targetTasks.addTask(2, new OwnerHurtTargetGoal(this));
-        this.targetTasks.addTask(3, new EntityLammergeier.EntityAIFindEntityNearestFlying(this, SkeletonEntity.class));
+        this.goalSelector.addGoal(1, this.aiSit);
+        this.goalSelector.addGoal(2, new EntityLammergeier.AIMeleeAttack(this));
+        this.goalSelector.addGoal(3, new EntityAIFollowOwnerFlying(this, 0.5D, 10.0F, 50.0F));
+        this.goalSelector.addGoal(5, new EntityLammergeier.AIRandomFly(this));
+        this.goalSelector.addGoal(7, new EntityLammergeier.AILookAround(this));
+        this.targetSelector.addGoal(1, new OwnerHurtByTargetGoal(this));
+        this.targetSelector.addGoal(2, new OwnerHurtTargetGoal(this));
+        this.targetSelector.addGoal(3, new EntityLammergeier.EntityAIFindEntityNearestFlying(this, SkeletonEntity.class));
     } 
 
     @Override
@@ -370,9 +370,9 @@ public class EntityLammergeier extends EntityTameableFlying implements IVariantT
     @Override
     protected void registerAttributes() {
         super.registerAttributes();
-        this.getAttributeMap().registerAttribute(SharedMonsterAttributes.ATTACK_SPEED);
-        this.getAttributeMap().registerAttribute(SharedMonsterAttributes.ATTACK_DAMAGE);
-        this.getAttributeMap().registerAttribute(SharedMonsterAttributes.FLYING_SPEED);
+        this.getAttributes().registerAttribute(SharedMonsterAttributes.ATTACK_SPEED);
+        this.getAttributes().registerAttribute(SharedMonsterAttributes.ATTACK_DAMAGE);
+        this.getAttributes().registerAttribute(SharedMonsterAttributes.FLYING_SPEED);
         this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(this.isTamed() ? 15.0D : 6.0D);
         this.getAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(50.0D);
         this.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(2.0D);

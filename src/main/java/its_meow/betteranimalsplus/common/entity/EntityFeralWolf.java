@@ -90,33 +90,33 @@ public class EntityFeralWolf extends EntityTameableWithTypes implements IMob {
     }
 
     @Override
-    protected void initEntityAI() {
+    protected void registerGoals() {
         this.aiSit = new SitGoal(this);
-        this.tasks.addTask(1, new SwimGoal(this));
-        this.tasks.addTask(2, this.aiSit);
-        this.tasks.addTask(4, new LeapAtTargetGoal(this, 0.4F));
-        this.tasks.addTask(5, new MeleeAttackGoal(this, 1.0D, true));
-        this.tasks.addTask(6, new FollowOwnerGoal(this, 1.0D, 10.0F, 2.0F));
-        this.tasks.addTask(8, new WaterAvoidingRandomWalkingGoal(this, 1.0D));
-        this.tasks.addTask(10, new LookAtGoal(this, PlayerEntity.class, 8.0F));
-        this.targetTasks.addTask(1, new OwnerHurtByTargetGoal(this));
-        this.targetTasks.addTask(2, new OwnerHurtTargetGoal(this));
-        this.targetTasks.addTask(3, new HurtByTargetGoal(this, true, new Class[0]));
-        this.targetTasks.addTask(4,
+        this.goalSelector.addGoal(1, new SwimGoal(this));
+        this.goalSelector.addGoal(2, this.aiSit);
+        this.goalSelector.addGoal(4, new LeapAtTargetGoal(this, 0.4F));
+        this.goalSelector.addGoal(5, new MeleeAttackGoal(this, 1.0D, true));
+        this.goalSelector.addGoal(6, new FollowOwnerGoal(this, 1.0D, 10.0F, 2.0F));
+        this.goalSelector.addGoal(8, new WaterAvoidingRandomWalkingGoal(this, 1.0D));
+        this.goalSelector.addGoal(10, new LookAtGoal(this, PlayerEntity.class, 8.0F));
+        this.targetSelector.addGoal(1, new OwnerHurtByTargetGoal(this));
+        this.targetSelector.addGoal(2, new OwnerHurtTargetGoal(this));
+        this.targetSelector.addGoal(3, new HurtByTargetGoal(this, true, new Class[0]));
+        this.targetSelector.addGoal(4,
                 new NonTamedTargetGoal<PlayerEntity>(this, PlayerEntity.class, false, Predicates.alwaysTrue()));
-        this.targetTasks.addTask(4,
+        this.targetSelector.addGoal(4,
                 new NonTamedTargetGoal<AnimalEntity>(this, AnimalEntity.class, false,
                         (@Nullable Entity p_apply_1_) -> p_apply_1_ instanceof SheepEntity
                                 || p_apply_1_ instanceof RabbitEntity));
-        this.targetTasks.addTask(4,
+        this.targetSelector.addGoal(4,
                 new NonTamedTargetGoal<VillagerEntity>(this, VillagerEntity.class, false, Predicates.alwaysTrue()));
-        this.targetTasks.addTask(4, new NonTamedTargetGoal<AbstractIllagerEntity>(this, AbstractIllagerEntity.class, false,
+        this.targetSelector.addGoal(4, new NonTamedTargetGoal<AbstractIllagerEntity>(this, AbstractIllagerEntity.class, false,
                 Predicates.alwaysTrue()));
-        this.targetTasks.addTask(4,
+        this.targetSelector.addGoal(4,
                 new NonTamedTargetGoal<ChickenEntity>(this, ChickenEntity.class, false, Predicates.alwaysTrue()));
-        this.targetTasks.addTask(4,
+        this.targetSelector.addGoal(4,
                 new NonTamedTargetGoal<EntityGoat>(this, EntityGoat.class, false, Predicates.alwaysTrue()));
-        this.targetTasks.addTask(5,
+        this.targetSelector.addGoal(5,
                 new NearestAttackableTargetGoal<AbstractSkeletonEntity>(this, AbstractSkeletonEntity.class, false));
     }
 

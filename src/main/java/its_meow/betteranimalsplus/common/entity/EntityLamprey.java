@@ -42,15 +42,15 @@ public class EntityLamprey extends EntityWaterMobWithTypes implements IMob {
 	}
 
 	@Override
-	protected void initEntityAI() {
-		this.tasks.addTask(0, new MoveTowardsTargetGoal(this, 0.8D, 15F));
-		this.tasks.addTask(1, new LookAtGoal(this, WaterMobEntity.class, 10.0F));
+	protected void registerGoals() {
+		this.goalSelector.addGoal(0, new MoveTowardsTargetGoal(this, 0.8D, 15F));
+		this.goalSelector.addGoal(1, new LookAtGoal(this, WaterMobEntity.class, 10.0F));
 		Set<Class<? extends LivingEntity>> blackList = new HashSet<Class<? extends LivingEntity>>();
         blackList.add(SkeletonEntity.class);
         blackList.add(EndermanEntity.class);
         blackList.add(EntityHirschgeist.class);
         blackList.add(EntityJellyfish.class);
-        this.targetTasks.addTask(0, new NearestAttackableTargetGoal<LivingEntity>(this, LivingEntity.class, 100, true, true, e -> e instanceof LivingEntity && !(e instanceof IMob) && !(e instanceof EntityLamprey) && !(blackList.contains(e.getClass()))));
+        this.targetSelector.addGoal(0, new NearestAttackableTargetGoal<LivingEntity>(this, LivingEntity.class, 100, true, true, e -> e instanceof LivingEntity && !(e instanceof IMob) && !(e instanceof EntityLamprey) && !(blackList.contains(e.getClass()))));
 	}
 
 	@Override
@@ -58,7 +58,7 @@ public class EntityLamprey extends EntityWaterMobWithTypes implements IMob {
 		super.registerAttributes();
 		this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(3.0D);
 		this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.8D);
-		this.getAttributeMap().registerAttribute(SharedMonsterAttributes.ATTACK_DAMAGE);
+		this.getAttributes().registerAttribute(SharedMonsterAttributes.ATTACK_DAMAGE);
 		this.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(0.5D);
 	}
 

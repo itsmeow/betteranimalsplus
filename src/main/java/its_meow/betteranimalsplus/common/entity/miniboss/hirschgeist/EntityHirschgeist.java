@@ -36,13 +36,13 @@ public class EntityHirschgeist extends MobEntity implements IMob {
     }
 
     @Override
-    public void initEntityAI() {
-        super.initEntityAI();
-        this.tasks.addTask(1, new SwimGoal(this));
-        this.tasks.addTask(2, new HirschgeistAIAttackMelee(this, 0.7D));
-        this.tasks.addTask(2, new HirschgeistAIFlameAttack(this));
-        this.tasks.addTask(3, new LookAtGoal(this, PlayerEntity.class, 15F));
-        this.targetTasks.addTask(1, new EntityAIFindEntityNearestPlayer(this));
+    public void registerGoals() {
+        super.registerGoals();
+        this.goalSelector.addGoal(1, new SwimGoal(this));
+        this.goalSelector.addGoal(2, new HirschgeistAIAttackMelee(this, 0.7D));
+        this.goalSelector.addGoal(2, new HirschgeistAIFlameAttack(this));
+        this.goalSelector.addGoal(3, new LookAtGoal(this, PlayerEntity.class, 15F));
+        this.targetSelector.addGoal(1, new EntityAIFindEntityNearestPlayer(this));
     }
 
     @Override
@@ -51,7 +51,7 @@ public class EntityHirschgeist extends MobEntity implements IMob {
         this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(150.0D);
         this.getAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(50.0D);
         this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.65D);
-        this.getAttributeMap().registerAttribute(SharedMonsterAttributes.ATTACK_DAMAGE);
+        this.getAttributes().registerAttribute(SharedMonsterAttributes.ATTACK_DAMAGE);
         this.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(6.0D);
     }
 

@@ -1,5 +1,7 @@
 package its_meow.betteranimalsplus.common.entity;
 
+import java.util.EnumSet;
+
 import javax.annotation.Nullable;
 
 import its_meow.betteranimalsplus.common.entity.projectile.EntityBadgerDirt;
@@ -11,18 +13,20 @@ import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.ai.goal.Goal;
-import net.minecraft.entity.ai.goal.RandomWalkingGoal;
+import net.minecraft.entity.ai.goal.HurtByTargetGoal;
 import net.minecraft.entity.ai.goal.LookAtGoal;
 import net.minecraft.entity.ai.goal.MeleeAttackGoal;
+import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal;
+import net.minecraft.entity.ai.goal.RandomWalkingGoal;
+import net.minecraft.entity.ai.goal.SwimGoal;
 import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.passive.ChickenEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.SoundEvents;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.Difficulty;
@@ -32,21 +36,21 @@ public class EntityBadger extends EntityAnimalWithTypes implements IMob {
 
     public EntityBadger(World worldIn) {
         super(ModEntities.getEntityType(EntityBadger.class), worldIn);
-        this.setSize(0.8F, 0.8F);
+        //this.setSize(0.8F, 0.8F);
     }
 
 	@Override
-	protected void initEntityAI() {
-		this.tasks.addTask(0, new SwimGoal(this));
+	protected void registerGoals() {
+		this.goalSelector.addGoal(0, new SwimGoal(this));
 		if (!this.isChild() && this.getEntityWorld().getDifficulty() != Difficulty.PEACEFUL) {
-			this.tasks.addTask(1, new EntityAIBadgerDigDirtThrow(this));
-			this.tasks.addTask(3, new MeleeAttackGoal(this, 0.5D, true));
+			this.goalSelector.addGoal(1, new EntityAIBadgerDigDirtThrow(this));
+			this.goalSelector.addGoal(3, new MeleeAttackGoal(this, 0.5D, true));
 		}
-		this.tasks.addTask(3, new RandomWalkingGoal(this, 0.4D));
-		this.tasks.addTask(4, new LookAtGoal(this, PlayerEntity.class, 6.0F));
+		this.goalSelector.addGoal(3, new RandomWalkingGoal(this, 0.4D));
+		this.goalSelector.addGoal(4, new LookAtGoal(this, PlayerEntity.class, 6.0F));
 		if (!this.isChild() && this.getEntityWorld().getDifficulty() != Difficulty.PEACEFUL) {
-			this.targetTasks.addTask(0, new HurtByTargetGoal(this, true, new Class[0]));
-			this.targetTasks.addTask(1, new NearestAttackableTargetGoal<AnimalEntity>(this, AnimalEntity.class, 90, true, true, (@Nullable Entity in) -> in instanceof ChickenEntity || in instanceof EntityPheasant || (in instanceof AnimalEntity && ((AnimalEntity) in).isChild() && !(in instanceof EntityBadger))));
+			this.targetSelector.addGoal(0, new HurtByTargetGoal(this, new Class[0]));
+			this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<AnimalEntity>(this, AnimalEntity.class, 90, true, true, (@Nullable LivingEntity in) -> in instanceof ChickenEntity || in instanceof EntityPheasant || (in instanceof AnimalEntity && ((AnimalEntity) in).isChild() && !(in instanceof EntityBadger))));
 		}
 	}
 
@@ -55,7 +59,7 @@ public class EntityBadger extends EntityAnimalWithTypes implements IMob {
 		super.registerAttributes();
 		this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(12.0D);
 		this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.4D);
-		this.getAttributeMap().registerAttribute(SharedMonsterAttributes.ATTACK_DAMAGE);
+		this.getAttributes().registerAttribute(SharedMonsterAttributes.ATTACK_DAMAGE);
 		this.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(2.5D);
 	}
 
@@ -75,8 +79,7 @@ public class EntityBadger extends EntityAnimalWithTypes implements IMob {
 		if (flag) {
 			if (i > 0 && entityIn instanceof LivingEntity) {
 				((LivingEntity) entityIn).knockBack(this, i * 0.5F, MathHelper.sin(this.rotationYaw * 0.017453292F), (-MathHelper.cos(this.rotationYaw * 0.017453292F)));
-				this.motionX *= 0.6D;
-				this.motionZ *= 0.6D;
+				this.setMotion(this.getMotion().getX() * 0.6D, this.getMotion().getY(), this.getMotion().getZ() * 0.6D);
 			}
 
 			int j = EnchantmentHelper.getFireAspectModifier(this);
@@ -124,7 +127,7 @@ public class EntityBadger extends EntityAnimalWithTypes implements IMob {
 
 		public EntityAIBadgerDigDirtThrow(EntityBadger badger) {
 			this.badger = badger;
-			this.setMutexBits(3);
+			this.setMutexFlags(EnumSet.of(Goal.Flag.MOVE, Goal.Flag.TARGET));
 		}
 
 		@Override
@@ -132,7 +135,7 @@ public class EntityBadger extends EntityAnimalWithTypes implements IMob {
 			tick = 0;
 			World world = badger.world;
 			BlockPos below = badger.getPosition().down();
-			if(world.isBlockLoaded(below)) {
+			if(world.isBlockPresent(below)) {
 				BlockState state = world.getBlockState(below);
 				double dist = badger.getAttackTarget() == null ? 0 : Math.sqrt(badger.getPosition().distanceSq(badger.getAttackTarget().getPosition()));
 				return badger.getAttackTarget() != null && dist < 10 && dist > 2 && (state.getBlock() == Blocks.DIRT || state.getBlock() == Blocks.GRASS_BLOCK || state.getBlock() == Blocks.SAND || state.getBlock() == Blocks.GRAVEL || state.getBlock() == Blocks.MYCELIUM);
@@ -145,7 +148,7 @@ public class EntityBadger extends EntityAnimalWithTypes implements IMob {
 			boolean onDiggable = false;
 			World world = badger.world;
 			BlockPos below = badger.getPosition().down();
-			if(world.isBlockLoaded(below)) {
+			if(world.isBlockPresent(below)) {
 				BlockState state = world.getBlockState(below);
 				if(state.getBlock() == Blocks.DIRT || state.getBlock() == Blocks.GRASS_BLOCK || state.getBlock() == Blocks.SAND || state.getBlock() == Blocks.GRAVEL || state.getBlock() == Blocks.MYCELIUM) {
 					if(state.getBlock() == Blocks.GRASS_BLOCK) {
@@ -163,7 +166,7 @@ public class EntityBadger extends EntityAnimalWithTypes implements IMob {
 		public void startExecuting() {
 			World world = badger.world;
 			BlockPos below = badger.getPosition().down();
-			if(world.isBlockLoaded(below)) {
+			if(world.isBlockPresent(below)) {
 				BlockState state = world.getBlockState(below);
 				if(state.getBlock() == Blocks.DIRT || state.getBlock() == Blocks.GRASS_BLOCK || state.getBlock() == Blocks.SAND || state.getBlock() == Blocks.GRAVEL || state.getBlock() == Blocks.MYCELIUM) {
 					if(state.getBlock() == Blocks.GRASS_BLOCK) {
@@ -189,7 +192,7 @@ public class EntityBadger extends EntityAnimalWithTypes implements IMob {
 				float f = MathHelper.sqrt(d1 * d1 + d3 * d3) * 0.2F;
 				proj.shoot(d1, d2 + f, d3, 0.6F, 4.8F);
 				badger.playSound(SoundEvents.BLOCK_GRASS_BREAK, 1.0F, 1.0F / (badger.getRNG().nextFloat() * 0.4F + 0.8F));
-				badger.world.spawnEntity(proj);
+				badger.world.addEntity(proj);
 			}
 			if(tick % 5 == 0) {
 				badger.playSound(SoundEvents.BLOCK_GRASS_BREAK, 1.0F, 1.0F / (badger.getRNG().nextFloat() * 0.4F + 0.8F));

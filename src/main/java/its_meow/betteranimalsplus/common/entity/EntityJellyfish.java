@@ -64,8 +64,8 @@ public class EntityJellyfish extends WaterMobEntity implements IVariantTypes {
     }
 
     @Override
-    protected void initEntityAI() {
-        this.tasks.addTask(0, new EntityJellyfish.AIMoveRandom(this));
+    protected void registerGoals() {
+        this.goalSelector.addGoal(0, new EntityJellyfish.AIMoveRandom(this));
     }
 
     @Override

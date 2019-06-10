@@ -84,13 +84,13 @@ public class EntityReindeer extends AnimalEntity implements IJumpingMount, IVari
     }
 
     @Override
-    protected void initEntityAI() {
-        this.tasks.addTask(0, new SwimGoal(this));
-        this.tasks.addTask(1, new PanicGoal(this, 1.2D));
-        this.tasks.addTask(2, new BreedGoal(this, 1.0D, EntityReindeer.class));
-        this.tasks.addTask(4, new FollowParentGoal(this, 1.0D));
-        this.tasks.addTask(6, new WaterAvoidingRandomWalkingGoal(this, 0.7D));
-        this.tasks.addTask(7, new LookAtGoal(this, PlayerEntity.class, 6.0F));
+    protected void registerGoals() {
+        this.goalSelector.addGoal(0, new SwimGoal(this));
+        this.goalSelector.addGoal(1, new PanicGoal(this, 1.2D));
+        this.goalSelector.addGoal(2, new BreedGoal(this, 1.0D, EntityReindeer.class));
+        this.goalSelector.addGoal(4, new FollowParentGoal(this, 1.0D));
+        this.goalSelector.addGoal(6, new WaterAvoidingRandomWalkingGoal(this, 0.7D));
+        this.goalSelector.addGoal(7, new LookAtGoal(this, PlayerEntity.class, 6.0F));
     }
 
     @Override
@@ -393,7 +393,7 @@ public class EntityReindeer extends AnimalEntity implements IJumpingMount, IVari
     @Override
     protected void registerAttributes() {
         super.registerAttributes();
-        this.getAttributeMap().registerAttribute(EntityReindeer.JUMP_STRENGTH);
+        this.getAttributes().registerAttribute(EntityReindeer.JUMP_STRENGTH);
         this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(53.0D);
         this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.22499999403953552D);
     }
@@ -809,7 +809,7 @@ public class EntityReindeer extends AnimalEntity implements IJumpingMount, IVari
 
         this.parentRudolph = compound.getBoolean("IsParentRudolph");
 
-        IAttributeInstance iattributeinstance = this.getAttributeMap().getAttributeInstanceByName("Speed");
+        IAttributeInstance iattributeinstance = this.getAttributes().getAttributeInstanceByName("Speed");
 
         if (iattributeinstance != null) {
             this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED)

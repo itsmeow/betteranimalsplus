@@ -31,18 +31,18 @@ public class EntityTarantula extends SpiderEntity implements IRangedAttackMob {
     }
 
     @Override
-    protected void initEntityAI() {
-        this.tasks.addTask(1, new SwimGoal(this));
+    protected void registerGoals() {
+        this.goalSelector.addGoal(1, new SwimGoal(this));
         RangedAttackGoal atkrange = new RangedAttackGoal(this, 1.0D, 160, 15.0F);
         atkrange.setMutexBits(4); // Allow it to run at the same time as melee attacks
-        this.tasks.addTask(3, atkrange);
-        this.tasks.addTask(3, new LeapAtTargetGoal(this, 0.4F));
-        this.tasks.addTask(3, new MeleeAttackGoal(this, 0.8D, false));
-        this.tasks.addTask(5, new WaterAvoidingRandomWalkingGoal(this, 0.8D));
-        this.tasks.addTask(6, new LookAtGoal(this, PlayerEntity.class, 8.0F));
-        this.targetTasks.addTask(1, new HurtByTargetGoal(this, false, new Class[0]));
-        this.targetTasks.addTask(2, new NearestAttackableTargetGoal<>(this, PlayerEntity.class, true));
-        this.targetTasks.addTask(3, new NearestAttackableTargetGoal<>(this, IronGolemEntity.class, true));
+        this.goalSelector.addGoal(3, atkrange);
+        this.goalSelector.addGoal(3, new LeapAtTargetGoal(this, 0.4F));
+        this.goalSelector.addGoal(3, new MeleeAttackGoal(this, 0.8D, false));
+        this.goalSelector.addGoal(5, new WaterAvoidingRandomWalkingGoal(this, 0.8D));
+        this.goalSelector.addGoal(6, new LookAtGoal(this, PlayerEntity.class, 8.0F));
+        this.targetSelector.addGoal(1, new HurtByTargetGoal(this, false, new Class[0]));
+        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, PlayerEntity.class, true));
+        this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, IronGolemEntity.class, true));
     }
 
     @Override

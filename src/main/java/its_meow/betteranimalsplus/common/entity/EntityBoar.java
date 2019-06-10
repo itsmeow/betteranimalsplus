@@ -45,23 +45,23 @@ public class EntityBoar extends EntityAnimalWithTypes implements IMob {
 	}
 
 	@Override
-	protected void initEntityAI() {
-		this.tasks.addTask(0, new SwimGoal(this));
+	protected void registerGoals() {
+		this.goalSelector.addGoal(0, new SwimGoal(this));
 		if (!this.isChild() && this.getEntityWorld().getDifficulty() != Difficulty.PEACEFUL) {
-			this.tasks.addTask(2, new MeleeAttackGoal(this, 1.2D, false));
+			this.goalSelector.addGoal(2, new MeleeAttackGoal(this, 1.2D, false));
 		}
-		this.tasks.addTask(3, new BreedGoal(this, 1.0D));
-		this.tasks.addTask(5, new FollowParentGoal(this, 1.1D));
+		this.goalSelector.addGoal(3, new BreedGoal(this, 1.0D));
+		this.goalSelector.addGoal(5, new FollowParentGoal(this, 1.1D));
 		// Eats grass at priority 6
-		this.tasks.addTask(6, new WaterAvoidingRandomWalkingGoal(this, 1.0D));
-		this.tasks.addTask(7, new LookAtGoal(this, PlayerEntity.class, 6.0F));
+		this.goalSelector.addGoal(6, new WaterAvoidingRandomWalkingGoal(this, 1.0D));
+		this.goalSelector.addGoal(7, new LookAtGoal(this, PlayerEntity.class, 6.0F));
 		if (!this.isChild() && this.getEntityWorld().getDifficulty() != Difficulty.PEACEFUL) {
-			this.targetTasks.addTask(1,
+			this.targetSelector.addGoal(1,
 					new NearestAttackableTargetGoal<>(this, AnimalEntity.class, 90, true, true,
 							(@Nullable Entity in) -> in instanceof ChickenEntity || in instanceof EntityPheasant
 							|| in instanceof AnimalEntity && ((AnimalEntity) in).isChild()
 							&& !(in instanceof EntityBoar || in instanceof PigEntity)));
-			this.targetTasks.addTask(2,
+			this.targetSelector.addGoal(2,
 					new NearestAttackableTargetGoal<>(this, LivingEntity.class, 50, true, true,
 							(@Nullable Entity in) -> in instanceof AnimalEntity
 							&& !(in instanceof EntityBoar || in instanceof PigEntity)
@@ -74,7 +74,7 @@ public class EntityBoar extends EntityAnimalWithTypes implements IMob {
 		super.registerAttributes();
 		this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(12.0D);
 		this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.38D);
-		this.getAttributeMap().registerAttribute(SharedMonsterAttributes.ATTACK_DAMAGE);
+		this.getAttributes().registerAttribute(SharedMonsterAttributes.ATTACK_DAMAGE);
 		this.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(3.5D);
 	}
 

@@ -2,14 +2,15 @@ package its_meow.betteranimalsplus.common.entity.projectile;
 
 import its_meow.betteranimalsplus.Ref;
 import net.minecraft.block.Block;
-import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.ThrowableEntity;
-import net.minecraft.potion.Effects;
-import net.minecraft.init.Particles;
 import net.minecraft.particles.BlockParticleData;
+import net.minecraft.particles.ParticleTypes;
 import net.minecraft.potion.EffectInstance;
+import net.minecraft.potion.Effects;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.Difficulty;
@@ -19,20 +20,25 @@ import net.minecraft.world.World;
 public class EntityBadgerDirt extends ThrowableEntity {
 
 
-    public static final EntityType<?> DIRT_TYPE = EntityType.Builder.create(EntityBadgerDirt.class, EntityBadgerDirt::new).tracker(64, 1, true).build("badgerdirt").setRegistryName(Ref.MOD_ID, "badgerdirt");
+    public static EntityType<EntityBadgerDirt> DIRT_TYPE = EntityType.Builder.<EntityBadgerDirt>create(EntityClassification.MISC).setTrackingRange(64).setUpdateInterval(1).setShouldReceiveVelocityUpdates(true).build("badgerdirt");
+    static { 
+        DIRT_TYPE.setRegistryName(Ref.MOD_ID, "badgerdirt"); 
+    }
     
 	protected int stateId = -1;
+	
+	public LivingEntity thrower;
 
     public EntityBadgerDirt(World worldIn) {
         super(DIRT_TYPE, worldIn);
-        this.setSize(1.2F, 1.2F);
+        //this.setSize(1.2F, 1.2F);
     }
 
     public EntityBadgerDirt(World worldIn, LivingEntity throwerIn, int stateId) {
         super(DIRT_TYPE, worldIn);
         this.thrower = throwerIn;
         this.stateId = stateId;
-        this.setSize(1.2F, 1.2F);
+        //this.setSize(1.2F, 1.2F);
     }
 
     @Override
@@ -41,7 +47,7 @@ public class EntityBadgerDirt extends ThrowableEntity {
         if(stateId != -1 && !this.world.isRemote) {
             ServerWorld worldS = (ServerWorld) world;
             for(int i = 0; i < 100; i++) {
-                worldS.<BlockParticleData>spawnParticle(new BlockParticleData(Particles.BLOCK, Block.getStateById(stateId)), this.posX + Math.random(), this.posY + Math.random(), this.posZ + Math.random(), 1, 0D, 0D, 0D, 0D);
+                worldS.<BlockParticleData>spawnParticle(new BlockParticleData(ParticleTypes.BLOCK, Block.getStateById(stateId)), this.posX + Math.random(), this.posY + Math.random(), this.posZ + Math.random(), 1, 0D, 0D, 0D, 0D);
             }
         }
     }

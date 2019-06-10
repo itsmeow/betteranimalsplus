@@ -47,26 +47,26 @@ public class EntitySongbird extends EntityAnimalWithTypes implements IFlyingAnim
     }
 
     @Override
-    protected void initEntityAI() {
-        this.tasks.addTask(0, new SwimGoal(this));
-        this.tasks.addTask(1, new PanicGoal(this, 1.25D));
+    protected void registerGoals() {
+        this.goalSelector.addGoal(0, new SwimGoal(this));
+        this.goalSelector.addGoal(1, new PanicGoal(this, 1.25D));
         Predicate<Entity> avoidPredicate = input -> {
             boolean result1 = (input instanceof PlayerEntity);
             boolean result2 = !SEEDS.contains(((PlayerEntity) input).getHeldItem(Hand.MAIN_HAND).getItem())
                     && !SEEDS.contains(((PlayerEntity) input).getHeldItem(Hand.OFF_HAND).getItem());
             return result1 && result2;
         };
-        this.tasks.addTask(2, new AvoidEntityGoal<PlayerEntity>(this, PlayerEntity.class, avoidPredicate, 10F, 0.8D,
+        this.goalSelector.addGoal(2, new AvoidEntityGoal<PlayerEntity>(this, PlayerEntity.class, avoidPredicate, 10F, 0.8D,
                 1D, Predicates.alwaysTrue()));
-        this.tasks.addTask(3, new LookAtGoal(this, PlayerEntity.class, 8.0F));
-        this.tasks.addTask(4, new BreedGoal(this, 0.4F));
-        this.tasks.addTask(5, new WaterAvoidingRandomFlyingGoal(this, 1.0D));
+        this.goalSelector.addGoal(3, new LookAtGoal(this, PlayerEntity.class, 8.0F));
+        this.goalSelector.addGoal(4, new BreedGoal(this, 0.4F));
+        this.goalSelector.addGoal(5, new WaterAvoidingRandomFlyingGoal(this, 1.0D));
     }
 
     @Override
     protected void registerAttributes() {
         super.registerAttributes();
-        this.getAttributeMap().registerAttribute(SharedMonsterAttributes.FLYING_SPEED);
+        this.getAttributes().registerAttribute(SharedMonsterAttributes.FLYING_SPEED);
         this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(6.0D);
         this.getAttribute(SharedMonsterAttributes.FLYING_SPEED).setBaseValue(0.4D);
         this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.2D);

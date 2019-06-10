@@ -45,14 +45,14 @@ public class EntityPheasant extends EntityAnimalWithTypes {
     }
 
     @Override
-    protected void initEntityAI() {
-        this.tasks.addTask(0, new SwimGoal(this));
-        this.tasks.addTask(1, new PanicGoal(this, 1.4D));
-        this.tasks.addTask(2, new BreedGoal(this, 1.0D));
-        this.tasks.addTask(3, new TemptGoal(this, 1.0D, Ingredient.fromItems(Items.PUMPKIN_SEEDS), false));
-        this.tasks.addTask(4, new FollowParentGoal(this, 1.1D));
-        this.tasks.addTask(5, new WaterAvoidingRandomWalkingGoal(this, 1.0D));
-        this.tasks.addTask(6, new LookAtGoal(this, PlayerEntity.class, 6.0F));
+    protected void registerGoals() {
+        this.goalSelector.addGoal(0, new SwimGoal(this));
+        this.goalSelector.addGoal(1, new PanicGoal(this, 1.4D));
+        this.goalSelector.addGoal(2, new BreedGoal(this, 1.0D));
+        this.goalSelector.addGoal(3, new TemptGoal(this, 1.0D, Ingredient.fromItems(Items.PUMPKIN_SEEDS), false));
+        this.goalSelector.addGoal(4, new FollowParentGoal(this, 1.1D));
+        this.goalSelector.addGoal(5, new WaterAvoidingRandomWalkingGoal(this, 1.0D));
+        this.goalSelector.addGoal(6, new LookAtGoal(this, PlayerEntity.class, 6.0F));
     }
 
     @Override

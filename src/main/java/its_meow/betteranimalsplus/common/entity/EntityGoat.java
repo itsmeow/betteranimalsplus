@@ -151,12 +151,12 @@ public class EntityGoat extends EntityAnimalEatsGrassWithTypes {
     }
 
     @Override
-    protected void initEntityAI() {
-        super.initEntityAI();
-        this.tasks.addTask(0, new SwimGoal(this));
-        this.tasks.addTask(1, new PanicGoal(this, 0.8D));
-        this.tasks.addTask(2, new BreedGoal(this, 1.0D));
-        this.tasks.addTask(2, new MeleeAttackGoal(this, 0.7D, true));
+    protected void registerGoals() {
+        super.registerGoals();
+        this.goalSelector.addGoal(0, new SwimGoal(this));
+        this.goalSelector.addGoal(1, new PanicGoal(this, 0.8D));
+        this.goalSelector.addGoal(2, new BreedGoal(this, 1.0D));
+        this.goalSelector.addGoal(2, new MeleeAttackGoal(this, 0.7D, true));
         if (this.temptItems == null) {
             this.addTemptItems();
         }
@@ -164,12 +164,12 @@ public class EntityGoat extends EntityAnimalEatsGrassWithTypes {
         for (int i = 0; i < this.temptItems.size(); i++) {
             tempts[i] = this.temptItems.get(i);
         }
-        this.tasks.addTask(3, new TemptGoal(this, 0.6D, false, Ingredient.fromItems(tempts)));
-        this.tasks.addTask(4, new FollowParentGoal(this, 0.6D));
+        this.goalSelector.addGoal(3, new TemptGoal(this, 0.6D, false, Ingredient.fromItems(tempts)));
+        this.goalSelector.addGoal(4, new FollowParentGoal(this, 0.6D));
         // Eats grass at priority 5
-        this.tasks.addTask(5, new RandomWalkingGoal(this, 0.6D));
-        this.targetTasks.addTask(1, new GoatAIAttackForFriend(this));
-        this.targetTasks.addTask(1, new AIHurtByTarget());
+        this.goalSelector.addGoal(5, new RandomWalkingGoal(this, 0.6D));
+        this.targetSelector.addGoal(1, new GoatAIAttackForFriend(this));
+        this.targetSelector.addGoal(1, new AIHurtByTarget());
     }
 
     @Override
@@ -177,7 +177,7 @@ public class EntityGoat extends EntityAnimalEatsGrassWithTypes {
         super.registerAttributes();
         this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(14.0D);
         this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.5D);
-        this.getAttributeMap().registerAttribute(SharedMonsterAttributes.ATTACK_DAMAGE);
+        this.getAttributes().registerAttribute(SharedMonsterAttributes.ATTACK_DAMAGE);
         this.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(0.8D);
     }
 

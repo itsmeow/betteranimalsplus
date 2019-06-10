@@ -7,25 +7,29 @@ import com.google.common.base.Predicates;
 import its_meow.betteranimalsplus.init.ModEntities;
 import its_meow.betteranimalsplus.init.ModLootTables;
 import net.minecraft.block.Block;
-import net.minecraft.entity.*;
-import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ILivingEntityData;
-import net.minecraft.entity.ai.goal.*;
-import net.minecraft.entity.ai.goal.SwimGoal;
-import net.minecraft.entity.ai.goal.RandomWalkingGoal;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.SpawnReason;
+import net.minecraft.entity.ai.goal.HurtByTargetGoal;
 import net.minecraft.entity.ai.goal.LookAtGoal;
+import net.minecraft.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal;
+import net.minecraft.entity.ai.goal.RandomWalkingGoal;
+import net.minecraft.entity.ai.goal.SwimGoal;
 import net.minecraft.entity.monster.MonsterEntity;
 import net.minecraft.entity.passive.ChickenEntity;
 import net.minecraft.entity.passive.PigEntity;
 import net.minecraft.entity.passive.RabbitEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.SoundEvents;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
+import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.DifficultyInstance;
@@ -38,34 +42,34 @@ public class EntityBear extends MonsterEntity {
     
     public EntityBear(World worldIn) {
         super(ModEntities.getEntityType(EntityBear.class), worldIn);
-        this.setSize(2F, 2F);
+        //this.setSize(2F, 2F);
     }
     
-    public EntityBear(EntityType<?> type, World worldIn) {
+    public EntityBear(EntityType<? extends EntityBear> type, World worldIn) {
         super(type, worldIn);
-        this.setSize(2F, 2F);
+        //this.setSize(2F, 2F);
     }
 
     @Override
-    protected void initEntityAI() {
-        this.tasks.addTask(0, new SwimGoal(this));
-        this.tasks.addTask(1, new EntityBear.AIMeleeAttack());
-        this.tasks.addTask(5, new RandomWalkingGoal(this, 1.0D));
-        this.tasks.addTask(6, new LookAtGoal(this, PlayerEntity.class, 6.0F));
-        this.targetTasks.addTask(1, new EntityBear.AIHurtByTarget());
-        this.targetTasks.addTask(2, new NearestAttackableTargetGoal<PlayerEntity>(this, PlayerEntity.class, 90,
+    protected void registerGoals() {
+        this.goalSelector.addGoal(0, new SwimGoal(this));
+        this.goalSelector.addGoal(1, new EntityBear.AIMeleeAttack());
+        this.goalSelector.addGoal(5, new RandomWalkingGoal(this, 1.0D));
+        this.goalSelector.addGoal(6, new LookAtGoal(this, PlayerEntity.class, 6.0F));
+        this.targetSelector.addGoal(1, new HurtByTargetGoal(this, EntityBear.class));
+        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<PlayerEntity>(this, PlayerEntity.class, 90,
                 true, true, Predicates.alwaysTrue()));
-        this.targetTasks.addTask(3, new NearestAttackableTargetGoal<EntityDeer>(this, EntityDeer.class, 90, true,
+        this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<EntityDeer>(this, EntityDeer.class, 90, true,
                 true, Predicates.alwaysTrue()));
-        this.targetTasks.addTask(4, new NearestAttackableTargetGoal<PigEntity>(this, PigEntity.class, 90, true,
+        this.targetSelector.addGoal(4, new NearestAttackableTargetGoal<PigEntity>(this, PigEntity.class, 90, true,
                 true, Predicates.alwaysTrue()));
-        this.targetTasks.addTask(5, new NearestAttackableTargetGoal<ChickenEntity>(this, ChickenEntity.class, 90,
+        this.targetSelector.addGoal(5, new NearestAttackableTargetGoal<ChickenEntity>(this, ChickenEntity.class, 90,
                 true, true, Predicates.alwaysTrue()));
-        this.targetTasks.addTask(6, new NearestAttackableTargetGoal<RabbitEntity>(this, RabbitEntity.class, 90,
+        this.targetSelector.addGoal(6, new NearestAttackableTargetGoal<RabbitEntity>(this, RabbitEntity.class, 90,
                 true, true, Predicates.alwaysTrue()));
-        this.targetTasks.addTask(3, new NearestAttackableTargetGoal<EntityFox>(this, EntityFox.class, 90, true,
+        this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<EntityFox>(this, EntityFox.class, 90, true,
                 true, Predicates.alwaysTrue()));
-        this.targetTasks.addTask(5, new NearestAttackableTargetGoal<EntityPheasant>(this, EntityPheasant.class, 90,
+        this.targetSelector.addGoal(5, new NearestAttackableTargetGoal<EntityPheasant>(this, EntityPheasant.class, 90,
                 true, true, Predicates.alwaysTrue()));
     }
 
@@ -76,7 +80,7 @@ public class EntityBear extends MonsterEntity {
         this.getAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(20.0D);
         this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.3D);
         this.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(6.0D);
-        this.getAttributeMap().registerAttribute(SharedMonsterAttributes.ATTACK_SPEED);
+        this.getAttributes().registerAttribute(SharedMonsterAttributes.ATTACK_SPEED);
         this.getAttribute(SharedMonsterAttributes.ATTACK_SPEED).setBaseValue(1D);
     }
 
@@ -84,15 +88,6 @@ public class EntityBear extends MonsterEntity {
     @Nullable
     protected ResourceLocation getLootTable() {
         return ModLootTables.bear;
-    }
-
-    /**
-     * Checks if the entity's current position is a valid location to spawn this
-     * entity.
-     */
-    @Override
-    public boolean canSpawn(IWorld world, boolean b) {
-        return this.world.getDifficulty() != Difficulty.PEACEFUL;
     }
 
     /**
@@ -159,29 +154,6 @@ public class EntityBear extends MonsterEntity {
         return this.world.getDifficulty() != Difficulty.PEACEFUL && this.getAttackingEntity() == playerIn;
     }
 
-    public class AIHurtByTarget extends HurtByTargetGoal {
-
-        public AIHurtByTarget() {
-            super(EntityBear.this, false);
-        }
-
-        /**
-         * Execute a one shot task or start executing a continuous task
-         */
-        @Override
-        public void startExecuting() {
-            super.startExecuting();
-
-        }
-
-        @Override
-        protected void setEntityAttackTarget(CreatureEntity creatureIn, LivingEntity entityLivingBaseIn) {
-            if (creatureIn instanceof EntityBear) {
-                super.setEntityAttackTarget(creatureIn, entityLivingBaseIn);
-            }
-        }
-    }
-
     public class AIMeleeAttack extends MeleeAttackGoal {
 
         public AIMeleeAttack() {
@@ -194,7 +166,7 @@ public class EntityBear extends MonsterEntity {
 
             if (p_190102_2_ <= d0 && this.attackTick <= 0) {
                 this.attackTick = 20;
-                this.attacker.attackEntityAsMob(p_190102_1_);
+                this.field_75441_b.attackEntityAsMob(p_190102_1_);
             } else if (p_190102_2_ <= d0 * 2.0D) {
                 if (this.attackTick <= 0) {
                     this.attackTick = 20;
@@ -219,15 +191,15 @@ public class EntityBear extends MonsterEntity {
 
         @Override
         protected double getAttackReachSqr(LivingEntity attackTarget) {
-            return 10.0F + attackTarget.width;
+            return 10.0F + attackTarget.getWidth();
         }
     }
 
     @Override
-    public ILivingEntityData onInitialSpawn(DifficultyInstance difficulty, ILivingEntityData entityLivingData,
+    public ILivingEntityData onInitialSpawn(IWorld world, DifficultyInstance difficulty, SpawnReason reason, ILivingEntityData entityLivingData,
                                             CompoundNBT itemNbt) {
         this.setLocationAndAngles(this.posX, this.posY, this.posZ, this.rotationYaw, 0F);
-        return super.onInitialSpawn(difficulty, entityLivingData, itemNbt);
+        return super.onInitialSpawn(world, difficulty, reason, entityLivingData, itemNbt);
     }
 
 }
