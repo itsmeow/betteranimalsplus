@@ -1,18 +1,20 @@
 package its_meow.betteranimalsplus.client.renderer.entity;
 
+import com.mojang.blaze3d.platform.GlStateManager;
+
 import its_meow.betteranimalsplus.client.model.ModelSongbird;
 import its_meow.betteranimalsplus.client.model.ModelSongbirdSmall;
 import its_meow.betteranimalsplus.common.entity.EntitySongbird;
 import its_meow.betteranimalsplus.init.ModTextures;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
+import net.minecraft.client.renderer.entity.MobRenderer;
+import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.util.ResourceLocation;
 
-public class RenderSongbird extends MobRenderer<EntitySongbird> {
+public class RenderSongbird extends MobRenderer<EntitySongbird, EntityModel<EntitySongbird>> {
 
-    public static final ModelSongbird SONG_BIRD = new ModelSongbird();
-    public static final ModelSongbirdSmall SMALL_SONG_BIRD = new ModelSongbirdSmall();
+    public static final EntityModel<EntitySongbird> SONG_BIRD = new ModelSongbird<EntitySongbird>();
+    public static final EntityModel<EntitySongbird> SMALL_SONG_BIRD = new ModelSongbirdSmall<EntitySongbird>();
 
     public RenderSongbird(EntityRendererManager mgr) {
         super(mgr, SONG_BIRD, 0.3F);
@@ -20,7 +22,7 @@ public class RenderSongbird extends MobRenderer<EntitySongbird> {
 
     @Override
     protected void preRenderCallback(EntitySongbird entity, float partialTickTime) {
-        if (this.getMainModel().isChild) {
+        if (this.field_77045_g.isChild) {
             GlStateManager.scaled(0.35D, 0.35D, 0.35D);
         } else {
             GlStateManager.scaled(0.5D, 0.5D, 0.5D);
@@ -30,9 +32,9 @@ public class RenderSongbird extends MobRenderer<EntitySongbird> {
     @Override
     public void doRender(EntitySongbird entity, double x, double y, double z, float entityYaw, float partialTicks) {
         if (entity.getTypeNumber() > 4) {
-            this.mainModel = SMALL_SONG_BIRD;
+            this.field_77045_g = SMALL_SONG_BIRD;
         } else {
-            this.mainModel = SONG_BIRD;
+            this.field_77045_g = SONG_BIRD;
         }
         super.doRender(entity, x, y, z, entityYaw, partialTicks);
     }

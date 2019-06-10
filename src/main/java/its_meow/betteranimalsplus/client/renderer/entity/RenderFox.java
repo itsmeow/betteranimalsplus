@@ -1,22 +1,23 @@
 package its_meow.betteranimalsplus.client.renderer.entity;
 
+import com.mojang.blaze3d.platform.GlStateManager;
+
 import its_meow.betteranimalsplus.client.model.ModelFox;
 import its_meow.betteranimalsplus.common.entity.EntityFox;
 import its_meow.betteranimalsplus.init.ModTextures;
-import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.util.ResourceLocation;
 
-public class RenderFox extends MobRenderer<EntityFox> {
+public class RenderFox extends MobRenderer<EntityFox, ModelFox<EntityFox>> {
 
     public RenderFox(EntityRendererManager manager) {
-        super(manager, new ModelFox(), 0.5F);
+        super(manager, new ModelFox<EntityFox>(), 0.5F);
     }
 
     @Override
     protected void preRenderCallback(EntityFox entitylivingbaseIn, float partialTickTime) {
-        if (this.getMainModel().isChild) {
+        if (this.field_77045_g.isChild) {
             GlStateManager.scaled(0.6D, 0.6D, 0.6D);
         } else {
             GlStateManager.scaled(1.0D, 1.0D, 1.0D);

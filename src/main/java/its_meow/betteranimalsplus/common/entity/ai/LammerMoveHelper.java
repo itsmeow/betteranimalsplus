@@ -6,6 +6,7 @@ import its_meow.betteranimalsplus.common.entity.EntityLammergeier;
 import net.minecraft.entity.ai.controller.MovementController;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3d;
 
 public class LammerMoveHelper extends MovementController {
 
@@ -36,18 +37,19 @@ public class LammerMoveHelper extends MovementController {
             }
             d3 = MathHelper.sqrt(d3);
             if (this.isNotColliding(this.posX, this.posY, this.posZ, d3)) {
-                this.parentEntity.motionX += d0 / d3 * 0.1D;
-                this.parentEntity.motionY += d1 / d3 * 0.1D + (this.parentEntity.getAttackTarget() == null ? 0.0D
+                double motionXAdd = d0 / d3 * 0.1D;
+                double motionYAdd = d1 / d3 * 0.1D + (this.parentEntity.getAttackTarget() == null ? 0.0D
                         : this.parentEntity.getAttackTarget().isRidingOrBeingRiddenBy(this.parentEntity) ? 0.1D : 0D);
-                this.parentEntity.motionZ += d2 / d3 * 0.1D;
+                double motionZAdd = d2 / d3 * 0.1D;
+                this.parentEntity.setMotion(this.parentEntity.getMotion().getX() + motionXAdd, this.parentEntity.getMotion().getY() + motionYAdd, this.parentEntity.getMotion().getZ() + motionZAdd);
             } else {
-                this.parentEntity.motionY += 0.05;
+                this.parentEntity.setMotion(this.parentEntity.getMotion().add(new Vec3d(0, 0.05, 0)));
                 if (this.parentEntity.getEntityWorld().getBlockState(this.parentEntity.getPosition().up()).isSolid()) {
-                    this.parentEntity.motionX += d0 / d3 * 0.1D;
-                    this.parentEntity.motionY -= 0.05 + (this.parentEntity.getAttackTarget() == null ? 0.0D
-                            : this.parentEntity.getAttackTarget().isRidingOrBeingRiddenBy(this.parentEntity) ? 0.1D
-                                    : 0D);
-                    this.parentEntity.motionZ += d2 / d3 * 0.1D;
+                    double motionXAdd = d0 / d3 * 0.1D;
+                    double motionYAdd = d1 / d3 * 0.1D + (this.parentEntity.getAttackTarget() == null ? 0.0D
+                            : this.parentEntity.getAttackTarget().isRidingOrBeingRiddenBy(this.parentEntity) ? 0.1D : 0D);
+                    double motionZAdd = d2 / d3 * 0.1D;
+                    this.parentEntity.setMotion(this.parentEntity.getMotion().getX() + motionXAdd, this.parentEntity.getMotion().getY() + motionYAdd, this.parentEntity.getMotion().getZ() + motionZAdd);
                 }
                 if (this.parentEntity.posX == this.parentEntity.lastTickPosX
                         && this.parentEntity.posY == this.parentEntity.lastTickPosY
@@ -75,7 +77,7 @@ public class LammerMoveHelper extends MovementController {
         for (int i = 1; i < isNotColliding; ++i) {
             axisalignedbb = axisalignedbb.offset(d0, d1, d2);
 
-            if (this.parentEntity.world.getCollisionBoxes(this.parentEntity, axisalignedbb, 0, 0, 0).count() != 0) {
+            if (this.parentEntity.world.getEntitiesWithinAABBExcludingEntity(this.parentEntity, axisalignedbb).size() != 0) {
                 return false;
             }
         }

@@ -2,10 +2,11 @@ package its_meow.betteranimalsplus.client.renderer.entity;
 
 import javax.annotation.Nonnull;
 
+import com.mojang.blaze3d.platform.GlStateManager;
+
 import its_meow.betteranimalsplus.common.entity.projectile.EntityTarantulaHair;
 import its_meow.betteranimalsplus.init.ModTextures;
 import net.minecraft.client.renderer.BufferBuilder;
-import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
@@ -40,11 +41,6 @@ public class RenderTarantulaHair extends EntityRenderer<EntityTarantulaHair> {
         GlStateManager.scalef(0.05625F, 0.05625F, 0.05625F);
         GlStateManager.translatef(-4.0F, 0.0F, 0.0F);
 
-        if (this.renderOutlines) {
-            GlStateManager.enableColorMaterial();
-            GlStateManager.enableOutlineMode(this.getTeamColor(entity));
-        }
-
         GlStateManager.normal3f(0.05625F, 0.0F, 0.0F);
         bufferbuilder.begin(7, DefaultVertexFormats.POSITION_TEX);
         bufferbuilder.pos(-7.0D, -2.0D, -2.0D).tex(0.0D, 0.15625D).endVertex();
@@ -69,11 +65,6 @@ public class RenderTarantulaHair extends EntityRenderer<EntityTarantulaHair> {
             bufferbuilder.pos(8.0D, 2.0D, 0.0D).tex(0.5D, 0.15625D).endVertex();
             bufferbuilder.pos(-8.0D, 2.0D, 0.0D).tex(0.0D, 0.15625D).endVertex();
             tessellator.draw();
-        }
-
-        if (this.renderOutlines) {
-            GlStateManager.disableOutlineMode();
-            GlStateManager.disableColorMaterial();
         }
 
         GlStateManager.disableRescaleNormal();

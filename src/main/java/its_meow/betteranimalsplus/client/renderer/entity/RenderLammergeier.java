@@ -9,10 +9,10 @@ import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.util.ResourceLocation;
 
-public class RenderLammergeier extends MobRenderer<EntityLammergeier> {
+public class RenderLammergeier extends MobRenderer<EntityLammergeier, ModelLammergeier<EntityLammergeier>> {
 
     public RenderLammergeier(EntityRendererManager rendermanagerIn) {
-        super(rendermanagerIn, new ModelLammergeier(), 0.3F);
+        super(rendermanagerIn, new ModelLammergeier<EntityLammergeier>(), 0.3F);
     }
 
     @Override

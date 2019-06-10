@@ -1,22 +1,23 @@
 package its_meow.betteranimalsplus.client.renderer.entity;
 
+import com.mojang.blaze3d.platform.GlStateManager;
+
 import its_meow.betteranimalsplus.client.model.ModelBoar;
 import its_meow.betteranimalsplus.common.entity.EntityBoar;
 import its_meow.betteranimalsplus.init.ModTextures;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
+import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.util.ResourceLocation;
 
-public class RenderBoar extends MobRenderer<EntityBoar> {
+public class RenderBoar extends MobRenderer<EntityBoar, ModelBoar<EntityBoar>> {
 
     public RenderBoar(EntityRendererManager rendermanagerIn) {
-        super(rendermanagerIn, new ModelBoar(), 0.6F);
+        super(rendermanagerIn, new ModelBoar<EntityBoar>(), 0.6F);
     }
 
     @Override
     protected void preRenderCallback(EntityBoar entitylivingbaseIn, float partialTickTime) {
-        if (this.getMainModel().isChild) {
+        if (this.field_77045_g.isChild) {
             GlStateManager.scaled(0.6D, 0.6D, 0.6D);
         } else {
             GlStateManager.scaled(1.0D, 1.0D, 1.0D);

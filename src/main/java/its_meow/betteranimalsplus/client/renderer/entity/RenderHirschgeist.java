@@ -2,18 +2,19 @@ package its_meow.betteranimalsplus.client.renderer.entity;
 
 import javax.annotation.Nonnull;
 
+import com.mojang.blaze3d.platform.GlStateManager;
+
 import its_meow.betteranimalsplus.client.model.ModelHirschgeistMain;
 import its_meow.betteranimalsplus.common.entity.miniboss.hirschgeist.EntityHirschgeist;
 import its_meow.betteranimalsplus.init.ModTextures;
-import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.util.ResourceLocation;
 
-public class RenderHirschgeist extends MobRenderer<EntityHirschgeist> {
+public class RenderHirschgeist extends MobRenderer<EntityHirschgeist, ModelHirschgeistMain<EntityHirschgeist>> {
 
     public RenderHirschgeist(EntityRendererManager rendermanagerIn) {
-        super(rendermanagerIn, new ModelHirschgeistMain(), 1F);
+        super(rendermanagerIn, new ModelHirschgeistMain<EntityHirschgeist>(), 1F);
     }
 
     /**

@@ -5,20 +5,22 @@ import java.util.Map;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 
-import net.minecraft.block.*;
-import net.minecraft.block.ContainerBlock;
-import net.minecraft.block.material.Material;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.ContainerBlock;
+import net.minecraft.block.SoundType;
+import net.minecraft.block.material.Material;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.state.DirectionProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.block.BlockRenderType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.Mirror;
 import net.minecraft.util.Rotation;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.IBlockReader;
 import net.minecraftforge.api.distmarker.Dist;
@@ -40,7 +42,8 @@ public class BlockAnimalSkull extends ContainerBlock {
     }
 
     @Override
-    public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos) {
+    public VoxelShape getShape(BlockState state, IBlockReader world, BlockPos pos,
+            ISelectionContext ctx) {
         return SHAPES.get(state.get(FACING));
     }
 
@@ -55,12 +58,7 @@ public class BlockAnimalSkull extends ContainerBlock {
     }
 
     @Override
-    public boolean isFullCube(BlockState state) {
-        return false;
-    }
-
-    @Override
-    public boolean isTopSolid(BlockState state) {
+    public boolean isNormalCube(BlockState p_220081_1_, IBlockReader p_220081_2_, BlockPos p_220081_3_) {
         return false;
     }
 
@@ -103,7 +101,6 @@ public class BlockAnimalSkull extends ContainerBlock {
         return state.with(FACING, rotation.rotate(state.get(FACING)));
     }
 
-    @SuppressWarnings("deprecation")
     @Override
     public BlockState mirror(BlockState state, Mirror mirror) {
         return state.rotate(mirror.toRotation(state.get(FACING)));

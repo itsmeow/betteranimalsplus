@@ -1,15 +1,14 @@
 package its_meow.betteranimalsplus.common.entity.ai;
 
+import java.util.EnumSet;
+
 import its_meow.betteranimalsplus.common.entity.EntityLammergeier;
-import its_meow.betteranimalsplus.util.SimpleTeleporter;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.state.BlockFaceShape;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.pathfinding.FlyingPathNavigator;
 import net.minecraft.pathfinding.PathNodeType;
-import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
@@ -35,7 +34,7 @@ public class EntityAIFollowOwnerFlying extends Goal {
         this.petPathfinder = (FlyingPathNavigator) tameableIn.getNavigator();
         this.minDist = minDistIn;
         this.maxDist = maxDistIn;
-        this.setMutexBits(4);
+        this.setMutexFlags(EnumSet.of(Goal.Flag.MOVE));
     }
 
     /**
@@ -124,9 +123,7 @@ public class EntityAIFollowOwnerFlying extends Goal {
                                     if ((l < 1 || i1 < 1 || l > 3 || i1 > 3)
                                             && this.isTeleportFriendlyBlock(i, j, k, l, i1)) {
                                         if (this.tameable.getEntityWorld() != this.owner.getEntityWorld()) {
-                                            this.tameable.changeDimension(
-                                                    this.owner.getEntityWorld().getDimension().getType(),
-                                                    new SimpleTeleporter());
+                                            this.tameable.changeDimension(this.owner.getEntityWorld().getDimension().getType());
                                         }
                                         this.tameable.setLocationAndAngles(i + l + 0.5F, k, j + i1 + 0.5F,
                                                 this.tameable.rotationYaw, this.tameable.rotationPitch);
@@ -146,8 +143,7 @@ public class EntityAIFollowOwnerFlying extends Goal {
     protected boolean isTeleportFriendlyBlock(int x, int p_192381_2_, int y, int p_192381_4_, int p_192381_5_) {
         BlockPos blockpos = new BlockPos(x + p_192381_4_, y - 1, p_192381_2_ + p_192381_5_);
         BlockState iblockstate = this.world.getBlockState(blockpos);
-        return iblockstate.getBlockFaceShape(this.world, blockpos, Direction.DOWN) == BlockFaceShape.SOLID
-                && iblockstate.canEntitySpawn(this.tameable) && this.world.isAirBlock(blockpos.up())
+        return iblockstate.isSolid() && iblockstate.canEntitySpawn(tameable.world, blockpos, this.tameable.getType()) && this.world.isAirBlock(blockpos.up())
                 && this.world.isAirBlock(blockpos.up(2));
     }
 }

@@ -2,24 +2,25 @@ package its_meow.betteranimalsplus.client.renderer.entity;
 
 import javax.annotation.Nonnull;
 
+import com.mojang.blaze3d.platform.GlStateManager;
+
 import its_meow.betteranimalsplus.client.model.ModelPheasant;
 import its_meow.betteranimalsplus.common.entity.EntityPheasant;
 import its_meow.betteranimalsplus.init.ModTextures;
-import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
 
-public class RenderPheasant extends MobRenderer<EntityPheasant> {
+public class RenderPheasant extends MobRenderer<EntityPheasant, ModelPheasant<EntityPheasant>> {
 
     public RenderPheasant(EntityRendererManager rendermanagerIn) {
-        super(rendermanagerIn, new ModelPheasant(), 0.5F);
+        super(rendermanagerIn, new ModelPheasant<EntityPheasant>(), 0.5F);
     }
 
     @Override
     protected void preRenderCallback(EntityPheasant entitylivingbaseIn, float partialTickTime) {
-        if (this.getMainModel().isChild) {
+        if (this.field_77045_g.isChild) {
             GlStateManager.scaled(0.5D, 0.5D, 0.5D);
         } else {
             GlStateManager.scaled(1.0D, 1.0D, 1.0D);

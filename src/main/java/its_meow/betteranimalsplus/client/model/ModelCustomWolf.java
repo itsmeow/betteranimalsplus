@@ -2,12 +2,13 @@ package its_meow.betteranimalsplus.client.model;
 
 import its_meow.betteranimalsplus.common.entity.EntityFeralWolf;
 import net.minecraft.client.renderer.entity.model.RendererModel;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.math.MathHelper;
 
 /**
  * newwolf - cybercat5555 Created using Tabula 5.1.0
  */
-public class ModelCustomWolf<T extends EntityFeralWolf> extends ModelBetterAnimals<T> {
+public class ModelCustomWolf<T extends LivingEntity> extends ModelBetterAnimals<T> {
 
     public RendererModel chest;
     public RendererModel lArm01;
@@ -221,28 +222,28 @@ public class ModelCustomWolf<T extends EntityFeralWolf> extends ModelBetterAnima
 
     @Override
     public void render(T entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw,
-    float headPitch, float scale) {
+            float headPitch, float scale) {
         super.render(entityIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale);
         this.setRotationAngles(entityIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale);
         this.chest.render(scale);
     }
 
     @Override
-    public void setLivingAnimations(EntityFeralWolf entityferalwolf, float limbSwing, float limbSwingAmount,
-    float partialTickTime) {
-
-        if (!entityferalwolf.isTamed()) {
-            this.tail01.rotateAngleY = 0.0F;
-        } else {
-            this.tail01.rotateAngleY = MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount;
+    public void setLivingAnimations(LivingEntity entity, float limbSwing, float limbSwingAmount,
+            float partialTickTime) {
+        if(entity instanceof EntityFeralWolf) {
+            EntityFeralWolf entityferalwolf = (EntityFeralWolf) entity;
+            if (!entityferalwolf.isTamed()) {
+                this.tail01.rotateAngleY = 0.0F;
+            } else {
+                this.tail01.rotateAngleY = MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount;
+            }
         }
     }
 
-
-
     @Override
-    public void setRotationAngles(EntityFeralWolf entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw,
-    float headPitch, float scaleFactor) {
+    public void setRotationAngles(LivingEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw,
+            float headPitch, float scaleFactor) {
         float swingModifier = 0.9f;
         float newLimbSwing = limbSwing + ModelBetterAnimals.getSwingProgressPrev(entity);
         this.lHindLeg01.rotateAngleX = MathHelper.sin(newLimbSwing * 0.8665F + (float) Math.PI) * swingModifier * limbSwingAmount - 0.22759093446006054F;

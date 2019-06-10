@@ -2,20 +2,21 @@ package its_meow.betteranimalsplus.client.renderer.entity;
 
 import java.util.Calendar;
 
+import com.mojang.blaze3d.platform.GlStateManager;
+
 import its_meow.betteranimalsplus.client.model.ModelDeer;
 import its_meow.betteranimalsplus.common.entity.EntityDeer;
 import its_meow.betteranimalsplus.init.ModTextures;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
+import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.util.ResourceLocation;
 
-public class RenderDeer extends MobRenderer<EntityDeer> {
+public class RenderDeer extends MobRenderer<EntityDeer, ModelDeer<EntityDeer>> {
 
     private boolean isChristmas = false;
 
     public RenderDeer(EntityRendererManager rendermanagerIn) {
-        super(rendermanagerIn, new ModelDeer(), 1F);
+        super(rendermanagerIn, new ModelDeer<EntityDeer>(), 1F);
         Calendar calendar = Calendar.getInstance();
 
         if (calendar.get(2) + 1 == 12 && calendar.get(5) >= 24 && calendar.get(5) <= 26) {
@@ -25,7 +26,7 @@ public class RenderDeer extends MobRenderer<EntityDeer> {
 
     @Override
     protected void preRenderCallback(EntityDeer entitylivingbaseIn, float partialTickTime) {
-        if (this.getMainModel().isChild) {
+        if (this.field_77045_g.isChild) {
             GlStateManager.scaled(0.6D, 0.6D, 0.6D);
         } else {
             GlStateManager.scaled(1.0D, 1.0D, 1.0D);
@@ -36,7 +37,7 @@ public class RenderDeer extends MobRenderer<EntityDeer> {
     protected ResourceLocation getEntityTexture(EntityDeer entity) {
         int type = entity.getTypeNumber();
         if (!this.isChristmas) {
-            if (this.getMainModel().isChild) {
+            if (this.field_77045_g.isChild) {
                 return ModTextures.deer_1;
             }
             if (type == 1) {
@@ -44,7 +45,7 @@ public class RenderDeer extends MobRenderer<EntityDeer> {
             }
             return ModTextures.deer_2;
         } else {
-            if (this.getMainModel().isChild) {
+            if (this.field_77045_g.isChild) {
                 return ModTextures.deer_1_christmas;
             }
             if (type == 1) {

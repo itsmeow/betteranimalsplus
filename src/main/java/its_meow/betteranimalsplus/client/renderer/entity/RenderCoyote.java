@@ -1,19 +1,20 @@
 package its_meow.betteranimalsplus.client.renderer.entity;
 
+import com.mojang.blaze3d.platform.GlStateManager;
+
 import its_meow.betteranimalsplus.client.model.ModelCustomWolf;
 import its_meow.betteranimalsplus.client.renderer.entity.layers.LayerCoyoteEyes;
 import its_meow.betteranimalsplus.common.entity.EntityCoyote;
 import its_meow.betteranimalsplus.config.BetterAnimalsPlusConfig;
 import its_meow.betteranimalsplus.init.ModTextures;
-import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.util.ResourceLocation;
 
-public class RenderCoyote extends MobRenderer<EntityCoyote> {
+public class RenderCoyote extends MobRenderer<EntityCoyote, ModelCustomWolf<EntityCoyote>> {
 
     public RenderCoyote(EntityRendererManager manager) {
-        super(manager, new ModelCustomWolf(), 0.5F);
+        super(manager, new ModelCustomWolf<EntityCoyote>(), 0.5F);
         this.addLayer(new LayerCoyoteEyes(this));
     }
     

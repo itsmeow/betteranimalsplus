@@ -9,10 +9,10 @@ import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.util.ResourceLocation;
 
-public class RenderBlackBear extends MobRenderer<EntityBearNeutral> {
+public class RenderBlackBear extends MobRenderer<EntityBearNeutral, ModelBear<EntityBearNeutral>> {
 
     public RenderBlackBear(EntityRendererManager rendermanagerIn) {
-        super(rendermanagerIn, new ModelBear(), 1F);
+        super(rendermanagerIn, new ModelBear<EntityBearNeutral>(), 1F);
     }
 
     @Override

@@ -14,9 +14,9 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public class LayerWolfEyes<M extends ModelCustomWolf<EntityFeralWolf>> extends LayerRenderer<EntityFeralWolf, M> {
+public class LayerWolfEyes extends LayerRenderer<EntityFeralWolf, ModelCustomWolf<EntityFeralWolf>> {
 
-    public LayerWolfEyes(IEntityRenderer<EntityFeralWolf, M> p_i50921_1_) {
+    public LayerWolfEyes(IEntityRenderer<EntityFeralWolf, ModelCustomWolf<EntityFeralWolf>> p_i50921_1_) {
        super(p_i50921_1_);
     }
 

@@ -1,17 +1,18 @@
 package its_meow.betteranimalsplus.client.renderer.entity;
 
+import com.mojang.blaze3d.platform.GlStateManager;
+
 import its_meow.betteranimalsplus.client.model.ModelLamprey;
 import its_meow.betteranimalsplus.common.entity.EntityLamprey;
 import its_meow.betteranimalsplus.init.ModTextures;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
+import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.util.ResourceLocation;
 
-public class RenderLamprey extends MobRenderer<EntityLamprey> {
+public class RenderLamprey extends MobRenderer<EntityLamprey, ModelLamprey<EntityLamprey>> {
 
 	public RenderLamprey(EntityRendererManager rendermanager) {
-		super(rendermanager, new ModelLamprey(), 0.4F);
+		super(rendermanager, new ModelLamprey<EntityLamprey>(), 0.4F);
 	}
 
 	@Override

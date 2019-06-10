@@ -1,22 +1,23 @@
 package its_meow.betteranimalsplus.client.renderer.entity;
 
+import com.mojang.blaze3d.platform.GlStateManager;
+
 import its_meow.betteranimalsplus.client.model.ModelReindeer;
 import its_meow.betteranimalsplus.common.entity.EntityReindeer;
 import its_meow.betteranimalsplus.init.ModTextures;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
+import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.util.ResourceLocation;
 
-public class RenderReindeer extends MobRenderer<EntityReindeer> {
+public class RenderReindeer extends MobRenderer<EntityReindeer, ModelReindeer<EntityReindeer>> {
 
     public RenderReindeer(EntityRendererManager rendermanagerIn) {
-        super(rendermanagerIn, new ModelReindeer(), 1F);
+        super(rendermanagerIn, new ModelReindeer<EntityReindeer>(), 1F);
     }
 
     @Override
     protected void preRenderCallback(EntityReindeer entitylivingbaseIn, float partialTickTime) {
-        if (this.getMainModel().isChild) {
+        if (this.field_77045_g.isChild) {
             GlStateManager.scaled(0.7D, 0.7D, 0.7D);
         } else {
             GlStateManager.scaled(1.3D, 1.3D, 1.3D);

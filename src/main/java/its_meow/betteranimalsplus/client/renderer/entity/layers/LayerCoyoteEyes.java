@@ -15,14 +15,14 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public class LayerCoyoteEyes<T extends EntityCoyote, M extends ModelCustomWolf<T>> extends LayerRenderer<T, M> {
+public class LayerCoyoteEyes extends LayerRenderer<EntityCoyote, ModelCustomWolf<EntityCoyote>> {
 
-    public LayerCoyoteEyes(IEntityRenderer<T, M> p_i50921_1_) {
+    public LayerCoyoteEyes(IEntityRenderer<EntityCoyote, ModelCustomWolf<EntityCoyote>> p_i50921_1_) {
         super(p_i50921_1_);
      }
 
     @Override
-    public void func_212842_a_(T p_212842_1_, float p_212842_2_, float p_212842_3_, float p_212842_4_, float p_212842_5_, float p_212842_6_, float p_212842_7_, float p_212842_8_) {
+    public void func_212842_a_(EntityCoyote p_212842_1_, float p_212842_2_, float p_212842_3_, float p_212842_4_, float p_212842_5_, float p_212842_6_, float p_212842_7_, float p_212842_8_) {
         if (!p_212842_1_.isDaytime() || BetterAnimalsPlusConfig.coyotesHostileDaytime) {
             if (!p_212842_1_.isTamed() && !p_212842_1_.isInvisible() && !p_212842_1_.isChild()) {
                 this.func_215333_a(ModTextures.wolf_eyes);
@@ -42,7 +42,7 @@ public class LayerCoyoteEyes<T extends EntityCoyote, M extends ModelCustomWolf<T
                 GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
                 GameRenderer gamerenderer = Minecraft.getInstance().gameRenderer;
                 gamerenderer.setupFogColor(true);
-                ((ModelCustomWolf<T>)this.func_215332_c()).render(p_212842_1_, p_212842_2_, p_212842_3_, p_212842_5_, p_212842_6_, p_212842_7_, p_212842_8_);
+                ((ModelCustomWolf<EntityCoyote>)this.func_215332_c()).render(p_212842_1_, p_212842_2_, p_212842_3_, p_212842_5_, p_212842_6_, p_212842_7_, p_212842_8_);
                 gamerenderer.setupFogColor(false);
                 i = p_212842_1_.getBrightnessForRender();
                 j = i % 65536;

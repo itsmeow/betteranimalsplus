@@ -2,23 +2,24 @@ package its_meow.betteranimalsplus.client.renderer.entity;
 
 import javax.annotation.Nonnull;
 
+import com.mojang.blaze3d.platform.GlStateManager;
+
 import its_meow.betteranimalsplus.client.model.ModelGoat;
 import its_meow.betteranimalsplus.common.entity.EntityGoat;
 import its_meow.betteranimalsplus.init.ModTextures;
-import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.util.ResourceLocation;
 
-public class RenderGoat extends MobRenderer<EntityGoat> {
+public class RenderGoat extends MobRenderer<EntityGoat, ModelGoat<EntityGoat>> {
 
     public RenderGoat(EntityRendererManager rendermanagerIn) {
-        super(rendermanagerIn, new ModelGoat(), 0.5F);
+        super(rendermanagerIn, new ModelGoat<EntityGoat>(), 0.5F);
     }
 
     @Override
     protected void preRenderCallback(EntityGoat entitylivingbaseIn, float partialTickTime) {
-        if (this.getMainModel().isChild) {
+        if (this.field_77045_g.isChild) {
             GlStateManager.scaled(0.5D, 0.5D, 0.5D);
         } else {
             GlStateManager.scaled(1.0D, 1.0D, 1.0D);

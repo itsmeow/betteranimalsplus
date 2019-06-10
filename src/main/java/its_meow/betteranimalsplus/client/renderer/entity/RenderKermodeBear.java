@@ -5,14 +5,14 @@ import javax.annotation.Nonnull;
 import its_meow.betteranimalsplus.client.model.ModelBear;
 import its_meow.betteranimalsplus.common.entity.EntityBearNeutralKermode;
 import its_meow.betteranimalsplus.init.ModTextures;
-import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
+import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.util.ResourceLocation;
 
-public class RenderKermodeBear extends MobRenderer<EntityBearNeutralKermode> {
+public class RenderKermodeBear extends MobRenderer<EntityBearNeutralKermode, ModelBear<EntityBearNeutralKermode>> {
 
     public RenderKermodeBear(EntityRendererManager rendermanagerIn) {
-        super(rendermanagerIn, new ModelBear(), 1F);
+        super(rendermanagerIn, new ModelBear<EntityBearNeutralKermode>(), 1F);
     }
 
     @Override

@@ -2,18 +2,19 @@ package its_meow.betteranimalsplus.client.renderer.entity;
 
 import javax.annotation.Nonnull;
 
+import com.mojang.blaze3d.platform.GlStateManager;
+
 import its_meow.betteranimalsplus.client.model.ModelBear;
 import its_meow.betteranimalsplus.common.entity.EntityBear;
 import its_meow.betteranimalsplus.init.ModTextures;
-import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.util.ResourceLocation;
 
-public class RenderBrownBear extends MobRenderer<EntityBear> {
+public class RenderBrownBear extends MobRenderer<EntityBear, ModelBear<EntityBear>> {
 
     public RenderBrownBear(EntityRendererManager rendermanagerIn) {
-        super(rendermanagerIn, new ModelBear(), 1F);
+        super(rendermanagerIn, new ModelBear<EntityBear>(), 1F);
     }
 
     @Override

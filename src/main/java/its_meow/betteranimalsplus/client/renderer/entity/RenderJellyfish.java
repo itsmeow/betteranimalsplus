@@ -2,18 +2,19 @@ package its_meow.betteranimalsplus.client.renderer.entity;
 
 import javax.annotation.Nonnull;
 
+import com.mojang.blaze3d.platform.GlStateManager;
+
 import its_meow.betteranimalsplus.client.model.ModelJellyfish;
 import its_meow.betteranimalsplus.common.entity.EntityJellyfish;
 import its_meow.betteranimalsplus.init.ModTextures;
-import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.util.ResourceLocation;
 
-public class RenderJellyfish extends MobRenderer<EntityJellyfish> {
+public class RenderJellyfish extends MobRenderer<EntityJellyfish, ModelJellyfish<EntityJellyfish>> {
 
     public RenderJellyfish(EntityRendererManager rendermanagerIn) {
-        super(rendermanagerIn, new ModelJellyfish(), 0.5F);
+        super(rendermanagerIn, new ModelJellyfish<EntityJellyfish>(), 0.5F);
     }
 
     @Override

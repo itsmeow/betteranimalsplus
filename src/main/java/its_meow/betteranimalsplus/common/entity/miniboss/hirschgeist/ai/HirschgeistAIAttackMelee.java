@@ -1,5 +1,7 @@
 package its_meow.betteranimalsplus.common.entity.miniboss.hirschgeist.ai;
 
+import java.util.EnumSet;
+
 import its_meow.betteranimalsplus.common.entity.miniboss.hirschgeist.EntityHirschgeist;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.goal.Goal;
@@ -38,7 +40,7 @@ public class HirschgeistAIAttackMelee extends Goal {
         this.attacker = creature;
         this.world = creature.world;
         this.speedTowardsTarget = speedIn;
-        this.setMutexBits(3);
+        this.setMutexFlags(EnumSet.of(Goal.Flag.MOVE, Goal.Flag.TARGET));
     }
 
     /**

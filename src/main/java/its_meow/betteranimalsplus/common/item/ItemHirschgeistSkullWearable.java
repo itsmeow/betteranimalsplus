@@ -26,14 +26,13 @@ public class ItemHirschgeistSkullWearable extends ArmorItem {
         this.setRegistryName("hirschgeistskullwearable");
     }
 
-    @SuppressWarnings({ "unchecked", "rawtypes" })
     @Override
     @OnlyIn(Dist.CLIENT)
-    public BipedModel<?> getArmorModel(LivingEntity entityLiving, ItemStack itemStack, EquipmentSlotType armorSlot, BipedModel defaultModel) {
+    public <A extends BipedModel<?>> A getArmorModel(LivingEntity entityLiving, ItemStack itemStack, EquipmentSlotType armorSlot, A defaultModel) {
         if(itemStack != null) {
             if(itemStack.getItem() instanceof ArmorItem) {
 
-                BipedModel<?> armorModel = ClientLifecycleHandler.armorModel;
+                A armorModel = ClientLifecycleHandler.getArmorModel();
                 armorModel.field_78115_e.showModel = armorSlot == EquipmentSlotType.HEAD;
                 armorModel.bipedHeadwear.showModel = armorSlot == EquipmentSlotType.HEAD;
                 armorModel.field_78116_c.showModel = armorSlot == EquipmentSlotType.CHEST
@@ -54,7 +53,7 @@ public class ItemHirschgeistSkullWearable extends ArmorItem {
                 return armorModel;
             }
         }
-        return null;
+        return super.getArmorModel(entityLiving, itemStack, armorSlot, defaultModel);
     }
 
     @Override

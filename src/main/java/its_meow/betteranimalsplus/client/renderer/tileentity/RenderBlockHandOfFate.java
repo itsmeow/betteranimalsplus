@@ -13,11 +13,11 @@ import net.minecraft.particles.ParticleTypes;
 
 public class RenderBlockHandOfFate extends TileEntityRenderer<TileEntityHandOfFate> {
 
-    ModelHandOfFate mainModel;
-    Random rand = null;
+    private ModelHandOfFate<Entity> mainModel;
+    private Random rand = null;
 
     public RenderBlockHandOfFate() {
-        this.mainModel = new ModelHandOfFate();
+        this.mainModel = new ModelHandOfFate<Entity>();
         this.rand = new Random();
     }
 

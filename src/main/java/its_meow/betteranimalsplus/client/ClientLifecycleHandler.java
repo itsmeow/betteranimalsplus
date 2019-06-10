@@ -52,13 +52,20 @@ import its_meow.betteranimalsplus.common.entity.projectile.EntityTarantulaHair;
 import its_meow.betteranimalsplus.common.tileentity.TileEntityHandOfFate;
 import its_meow.betteranimalsplus.common.tileentity.TileEntityHead;
 import its_meow.betteranimalsplus.common.tileentity.TileEntityTrillium;
+import net.minecraft.client.renderer.entity.model.BipedModel;
+import net.minecraft.entity.LivingEntity;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 
 public class ClientLifecycleHandler {
 
-    public static final ModelHirschgeistHelmet armorModel = new ModelHirschgeistHelmet();
+    public static final ModelHirschgeistHelmet<LivingEntity> armorModel = new ModelHirschgeistHelmet<LivingEntity>();
+
+    @SuppressWarnings("unchecked")
+    public static <A extends BipedModel<?>> A getArmorModel() {
+        return (A) armorModel;
+    }
 
     public void clientSetup(final FMLClientSetupEvent event) {
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityTrillium.class, new RenderBlockTrillium());

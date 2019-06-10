@@ -1,12 +1,14 @@
 package its_meow.betteranimalsplus.common.entity.miniboss.hirschgeist.ai;
 
+import java.util.EnumSet;
+
 import its_meow.betteranimalsplus.common.entity.miniboss.hirschgeist.EntityHirschgeist;
 import net.minecraft.entity.AreaEffectCloudEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.goal.Goal;
-import net.minecraft.potion.Effects;
-import net.minecraft.init.Particles;
+import net.minecraft.particles.ParticleTypes;
 import net.minecraft.potion.EffectInstance;
+import net.minecraft.potion.Effects;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
@@ -20,7 +22,7 @@ public class HirschgeistAIFlameAttack extends Goal {
     public HirschgeistAIFlameAttack(EntityHirschgeist creature) {
         this.attacker = creature;
         this.world = creature.world;
-        this.setMutexBits(4);
+        this.setMutexFlags(EnumSet.of(Goal.Flag.TARGET));
     }
 
     @Override
@@ -61,14 +63,14 @@ public class HirschgeistAIFlameAttack extends Goal {
             this.areaEffectCloud.setOwner(this.attacker);
             this.areaEffectCloud.setRadius(3.0F);
             this.areaEffectCloud.setDuration(2000);
-            this.areaEffectCloud.setParticleData(Particles.FLAME);
+            this.areaEffectCloud.setParticleData(ParticleTypes.FLAME);
             this.areaEffectCloud.addEffect(new EffectInstance(Effects.INSTANT_DAMAGE));
             /*
              * IBlockState blockstate = this.world.getBlockState(tPos);
              * if(blockstate.getBlock() == Blocks.AIR) { IBlockState fire =
              * Blocks.FIRE.getDefaultState(); world.setBlockState(tPos, fire); }
              */
-            this.attacker.world.spawnEntity(this.areaEffectCloud);
+            this.attacker.world.addEntity(this.areaEffectCloud);
         }
 
         if (this.world.isRemote) {
@@ -91,7 +93,7 @@ public class HirschgeistAIFlameAttack extends Goal {
                 double d5 = d2 + this.attacker.getRNG().nextGaussian() / 2.0D;
 
                 for (int j = 0; j < 6; ++j) {
-                    this.attacker.world.addParticle(Particles.FLAME, d3, d4, d5, -vec3d.x * 0.07999999821186066D * j,
+                    this.attacker.world.addParticle(ParticleTypes.FLAME, d3, d4, d5, -vec3d.x * 0.07999999821186066D * j,
                             -vec3d.y * 0.6000000238418579D, -vec3d.z * 0.07999999821186066D * j);
                 }
 

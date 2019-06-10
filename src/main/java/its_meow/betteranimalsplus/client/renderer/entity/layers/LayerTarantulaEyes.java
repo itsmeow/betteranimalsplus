@@ -4,23 +4,23 @@ import com.mojang.blaze3d.platform.GLX;
 import com.mojang.blaze3d.platform.GlStateManager;
 
 import its_meow.betteranimalsplus.client.model.ModelTarantula;
+import its_meow.betteranimalsplus.common.entity.EntityTarantula;
 import its_meow.betteranimalsplus.init.ModTextures;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.entity.IEntityRenderer;
 import net.minecraft.client.renderer.entity.layers.LayerRenderer;
-import net.minecraft.entity.LivingEntity;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public class LayerTarantulaEyes<T extends LivingEntity, M extends ModelTarantula<T>> extends LayerRenderer<T, M> {
+public class LayerTarantulaEyes extends LayerRenderer<EntityTarantula, ModelTarantula<EntityTarantula>> {
 
-    public LayerTarantulaEyes(IEntityRenderer<T, M> p_i50921_1_) {
+    public LayerTarantulaEyes(IEntityRenderer<EntityTarantula, ModelTarantula<EntityTarantula>> p_i50921_1_) {
        super(p_i50921_1_);
     }
 
-    public void func_212842_a_(T p_212842_1_, float p_212842_2_, float p_212842_3_, float p_212842_4_, float p_212842_5_, float p_212842_6_, float p_212842_7_, float p_212842_8_) {
+    public void func_212842_a_(EntityTarantula p_212842_1_, float p_212842_2_, float p_212842_3_, float p_212842_4_, float p_212842_5_, float p_212842_6_, float p_212842_7_, float p_212842_8_) {
        this.func_215333_a(ModTextures.tarantula_eyes);
        GlStateManager.enableBlend();
        GlStateManager.disableAlphaTest();
@@ -38,7 +38,7 @@ public class LayerTarantulaEyes<T extends LivingEntity, M extends ModelTarantula
        GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
        GameRenderer gamerenderer = Minecraft.getInstance().gameRenderer;
        gamerenderer.setupFogColor(true);
-       ((ModelTarantula<T>)this.func_215332_c()).render(p_212842_1_, p_212842_2_, p_212842_3_, p_212842_5_, p_212842_6_, p_212842_7_, p_212842_8_);
+       ((ModelTarantula<EntityTarantula>)this.func_215332_c()).render(p_212842_1_, p_212842_2_, p_212842_3_, p_212842_5_, p_212842_6_, p_212842_7_, p_212842_8_);
        gamerenderer.setupFogColor(false);
        i = p_212842_1_.getBrightnessForRender();
        j = i % 65536;
