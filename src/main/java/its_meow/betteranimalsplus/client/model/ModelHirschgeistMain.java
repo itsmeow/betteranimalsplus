@@ -1225,32 +1225,37 @@ public class ModelHirschgeistMain<T extends LivingEntity> extends EntityModel<T>
     public void render(T entity, float f, float f1, float f2, float f3, float f4, float f5) {
         this.spine01.render(f5);
 
-        GlStateManager.enableBlend();
-        GlStateManager.disableAlphaTest();
-        GlStateManager.blendFunc(GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ONE);
-        if(entity.isInvisible()) {
-           GlStateManager.depthMask(false);
-        } else {
-           GlStateManager.depthMask(true);
-        }
+        if(entity instanceof EntityHirschgeist) {
+            EntityHirschgeist hg = (EntityHirschgeist) entity;
+            if(!hg.isDaytime()) {
+                GlStateManager.enableBlend();
+                GlStateManager.disableAlphaTest();
+                GlStateManager.blendFunc(GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ONE);
+                if(entity.isInvisible()) {
+                    GlStateManager.depthMask(false);
+                } else {
+                    GlStateManager.depthMask(true);
+                }
 
-        int i = 61680;
-        int j = i % 65536;
-        int k = i / 65536;
-        GLX.glMultiTexCoord2f(GLX.GL_TEXTURE1, (float)j, (float)k);
-        GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
-        GameRenderer gamerenderer = Minecraft.getInstance().gameRenderer;
-        gamerenderer.setupFogColor(true);
-        this.ectoplasm01.render(f5);
-        gamerenderer.setupFogColor(false);
-        i = entity.getBrightnessForRender();
-        j = i % 65536;
-        k = i / 65536;
-        GLX.glMultiTexCoord2f(GLX.GL_TEXTURE1, (float)j, (float)k);
-        //this.func_215334_a(entity);
-        GlStateManager.depthMask(true);
-        GlStateManager.disableBlend();
-        GlStateManager.enableAlphaTest();
+                int i = 61680;
+                int j = i % 65536;
+                int k = i / 65536;
+                GLX.glMultiTexCoord2f(GLX.GL_TEXTURE1, (float)j, (float)k);
+                GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+                GameRenderer gamerenderer = Minecraft.getInstance().gameRenderer;
+                gamerenderer.setupFogColor(true);
+                this.ectoplasm01.render(f5);
+                gamerenderer.setupFogColor(false);
+                i = entity.getBrightnessForRender();
+                j = i % 65536;
+                k = i / 65536;
+                GLX.glMultiTexCoord2f(GLX.GL_TEXTURE1, (float)j, (float)k);
+                //this.func_215334_a(entity);
+                GlStateManager.depthMask(true);
+                GlStateManager.disableBlend();
+                GlStateManager.enableAlphaTest();
+            }
+        }
 
         this.setRotationAngles(entity, f, f1, f2, f3, f4, f5);
     }
