@@ -32,7 +32,7 @@ public class BetterAnimalsPlusRegistrar {
 		registry.registerAll(ModBlocks.TRILLIUM, ModBlocks.HAND_OF_FATE);
 
 		for (HeadTypes type : HeadTypes.values()) {
-			//registry.registerAll(type.getBlockSet().toArray(new Block[0]));
+			registry.registerAll(type.getBlockSet().toArray(new Block[0]));
 		}
 	}
 
