@@ -8,35 +8,36 @@ import its_meow.betteranimalsplus.config.BetterAnimalsPlusConfig;
 import its_meow.betteranimalsplus.init.ModEntities;
 import its_meow.betteranimalsplus.init.ModItems;
 import its_meow.betteranimalsplus.util.HeadTypes;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.ai.goal.*;
+import net.minecraft.entity.ai.goal.FollowOwnerGoal;
 import net.minecraft.entity.ai.goal.HurtByTargetGoal;
 import net.minecraft.entity.ai.goal.LeapAtTargetGoal;
+import net.minecraft.entity.ai.goal.LookAtGoal;
+import net.minecraft.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal;
+import net.minecraft.entity.ai.goal.NonTamedTargetGoal;
 import net.minecraft.entity.ai.goal.OwnerHurtByTargetGoal;
 import net.minecraft.entity.ai.goal.OwnerHurtTargetGoal;
 import net.minecraft.entity.ai.goal.SitGoal;
 import net.minecraft.entity.ai.goal.SwimGoal;
-import net.minecraft.entity.ai.goal.NonTamedTargetGoal;
 import net.minecraft.entity.ai.goal.WaterAvoidingRandomWalkingGoal;
-import net.minecraft.entity.ai.goal.LookAtGoal;
 import net.minecraft.entity.merchant.villager.VillagerEntity;
 import net.minecraft.entity.monster.AbstractIllagerEntity;
 import net.minecraft.entity.monster.AbstractSkeletonEntity;
 import net.minecraft.entity.monster.CreeperEntity;
 import net.minecraft.entity.monster.GhastEntity;
-import net.minecraft.entity.passive.*;
-import net.minecraft.entity.passive.horse.AbstractHorseEntity;
+import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.passive.ChickenEntity;
 import net.minecraft.entity.passive.RabbitEntity;
 import net.minecraft.entity.passive.SheepEntity;
+import net.minecraft.entity.passive.horse.AbstractHorseEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Items;
-import net.minecraft.util.*;
-import net.minecraft.item.ItemFood;
+import net.minecraft.item.Food;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.Hand;
+import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.Difficulty;
@@ -62,12 +63,12 @@ public class EntityCoyote extends EntityFeralWolf {
         this.goalSelector.addGoal(10, new LookAtGoal(this, PlayerEntity.class, 8.0F));
         this.targetSelector.addGoal(1, new OwnerHurtByTargetGoal(this));
         this.targetSelector.addGoal(2, new OwnerHurtTargetGoal(this));
-        this.targetSelector.addGoal(3, new HurtByTargetGoal(this, true, new Class[0]));
+        this.targetSelector.addGoal(3, new HurtByTargetGoal(this, new Class[0]));
         this.targetSelector.addGoal(4,
                 new NonTamedTargetGoal<PlayerEntity>(this, PlayerEntity.class, false, Predicates.alwaysTrue()));
         this.targetSelector.addGoal(4,
                 new NonTamedTargetGoal<AnimalEntity>(this, AnimalEntity.class, false,
-                        (@Nullable Entity p_apply_1_) -> p_apply_1_ instanceof SheepEntity
+                        (@Nullable LivingEntity p_apply_1_) -> p_apply_1_ instanceof SheepEntity
                                 || p_apply_1_ instanceof RabbitEntity));
         this.targetSelector.addGoal(4,
                 new NonTamedTargetGoal<VillagerEntity>(this, VillagerEntity.class, false, Predicates.alwaysTrue()));
@@ -130,23 +131,23 @@ public class EntityCoyote extends EntityFeralWolf {
 
         if (this.isTamed()) {
             if (!itemstack.isEmpty()) {
-                if (itemstack.getItem() instanceof ItemFood) {
-                    ItemFood itemfood = (ItemFood) itemstack.getItem();
+                if (itemstack.getItem().isFood()) {
+                    Food food = itemstack.getItem().getFood();
 
-                    if (itemfood.isMeat()
+                    if (food.isMeat()
                             && this.dataManager.get(EntityFeralWolf.DATA_HEALTH_ID).floatValue() < 20.0F) {
                         if (!player.isCreative()) {
                             itemstack.shrink(1);
                         }
 
-                        this.heal(itemfood.getHealAmount(itemstack));
+                        this.heal(food.getHealing());
                         return true;
                     }
                 }
             }
 
             if (this.isOwner(player) && !this.world.isRemote && !this.isBreedingItem(itemstack)
-                    && (!(itemstack.getItem() instanceof ItemFood) || !((ItemFood) itemstack.getItem()).isMeat())) {
+                    && (!(itemstack.getItem().isFood()) || !itemstack.getItem().getFood().isMeat())) {
                 this.aiSit.setSitting(!this.isSitting());
                 this.isJumping = false;
                 this.navigator.clearPath();

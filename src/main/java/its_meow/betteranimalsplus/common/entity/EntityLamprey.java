@@ -14,22 +14,21 @@ import net.minecraft.entity.ai.goal.LookAtGoal;
 import net.minecraft.entity.ai.goal.MoveTowardsTargetGoal;
 import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal;
 import net.minecraft.entity.monster.EndermanEntity;
-import net.minecraft.entity.monster.SkeletonEntity;
 import net.minecraft.entity.monster.IMob;
+import net.minecraft.entity.monster.SkeletonEntity;
 import net.minecraft.entity.passive.WaterMobEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.pathfinding.PathNavigator;
-import net.minecraft.pathfinding.SwimmerPathNavigator;
-import net.minecraft.potion.Effects;
-import net.minecraft.util.SoundEvents;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.play.server.SSetPassengersPacket;
+import net.minecraft.pathfinding.PathNavigator;
+import net.minecraft.pathfinding.SwimmerPathNavigator;
 import net.minecraft.potion.EffectInstance;
+import net.minecraft.potion.Effects;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.SoundEvent;
+import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.Difficulty;
-import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 
 public class EntityLamprey extends EntityWaterMobWithTypes implements IMob {
@@ -37,8 +36,8 @@ public class EntityLamprey extends EntityWaterMobWithTypes implements IMob {
     protected int lastAttack = 0;
     
 	public EntityLamprey(World worldIn) {
-		super(ModEntities.getEntityType(EntityLamprey.class), worldIn);
-		this.setSize(1.0F, 0.7F);
+		super(ModEntities.getEntityType("lamprey"), worldIn);
+		//this.setSize(1.0F, 0.7F);
 	}
 
 	@Override
@@ -68,8 +67,8 @@ public class EntityLamprey extends EntityWaterMobWithTypes implements IMob {
 	}
 	
 	@Override
-	public void travel(float strafe, float vertical, float forward) {
-		this.move(MoverType.SELF, this.motionX, this.motionY, this.motionZ);
+	public void travel(Vec3d vec) {
+		this.move(MoverType.SELF, this.getMotion());
 	}
 
     @Override
@@ -123,27 +122,19 @@ public class EntityLamprey extends EntityWaterMobWithTypes implements IMob {
 	public void tick() {
 		super.tick();
 		if(!this.inWater) {
-            this.motionX *= 0.2F;
-            this.motionZ *= 0.2F;
+		    this.setMotion(this.getMotion().getX() * 0.2F, this.getMotion().getY(), this.getMotion().getZ() * 0.2F);
             if (!this.hasNoGravity()) {
-                this.motionY -= 0.08D;
+                this.setMotion(this.getMotion().getX(), this.getMotion().getY() - 0.08D, this.getMotion().getZ());
             }
-
-            this.motionY *= 0.9800000190734863D;
+            this.setMotion(this.getMotion().getX(), this.getMotion().getY() * 0.9800000190734863D, this.getMotion().getZ());
         } else if(!world.isRemote) {
             if(!this.navigator.noPath()) {
                 Vec3d target = this.navigator.getPath().getCurrentPos();
-                this.motionX = (target.x - this.posX) * 0.05F;
-                this.motionY = (target.y - this.posY) * 0.05F;
-                this.motionZ = (target.z - this.posZ) * 0.05F;
+                this.setMotion((target.x - this.posX) * 0.05F, (target.y - this.posY) * 0.05F, (target.z - this.posZ) * 0.05F);
             } else if(this.getMoveHelper().isUpdating()) {
-                this.motionX = (this.getMoveHelper().getX() - this.posX) * 0.05F;
-                this.motionZ = (this.getMoveHelper().getZ() - this.posZ) * 0.05F;
-                this.motionY = (this.getMoveHelper().getY() - this.posY) * 0.05F;
+                this.setMotion((this.getMoveHelper().getX() - this.posX) * 0.05F, (this.getMoveHelper().getY() - this.posY) * 0.05F, (this.getMoveHelper().getZ() - this.posZ) * 0.05F);
             } else {
-                this.motionX *= 0.85F;
-                this.motionY *= 0.85F;
-                this.motionZ *= 0.85F;
+                this.setMotion(this.getMotion().getX() * 0.85F, this.getMotion().getY() * 0.85F, this.getMotion().getZ() * 0.85F);
             }
         }
 	}
@@ -195,9 +186,9 @@ public class EntityLamprey extends EntityWaterMobWithTypes implements IMob {
     @Override
     public double getYOffset() {
         if(getRidingEntity() != null && getRidingEntity() instanceof PlayerEntity) {
-            return getRidingEntity().height - 2.25F;
+            return getRidingEntity().getHeight() - 2.25F;
         } else if(getRidingEntity() != null) {
-            return getRidingEntity().height * 0.5D - 1.25D;
+            return getRidingEntity().getHeight() * 0.5D - 1.25D;
         } else {
             return super.getYOffset();
         }
@@ -206,11 +197,6 @@ public class EntityLamprey extends EntityWaterMobWithTypes implements IMob {
 	@Override
 	protected boolean canTriggerWalking() {
 		return false;
-	}
-
-	@Override
-	public boolean canSpawn(IWorld worldIn, boolean p_205020_2_) {
-		return this.posY > 45.0D && this.posY < (double)worldIn.getSeaLevel();
 	}
 
 	@Override

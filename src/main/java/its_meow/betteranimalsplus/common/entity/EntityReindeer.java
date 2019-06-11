@@ -11,42 +11,51 @@ import its_meow.betteranimalsplus.init.ModEntities;
 import its_meow.betteranimalsplus.init.ModLootTables;
 import its_meow.betteranimalsplus.util.HeadTypes;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.*;
-import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.AgeableEntity;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.IJumpingMount;
 import net.minecraft.entity.ILivingEntityData;
-import net.minecraft.entity.ai.goal.BreedGoal;
-import net.minecraft.entity.ai.goal.PanicGoal;
-import net.minecraft.entity.ai.goal.SwimGoal;
-import net.minecraft.entity.ai.goal.WaterAvoidingRandomWalkingGoal;
-import net.minecraft.entity.ai.goal.LookAtGoal;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.MobEntity;
+import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.attributes.IAttribute;
 import net.minecraft.entity.ai.attributes.IAttributeInstance;
 import net.minecraft.entity.ai.attributes.RangedAttribute;
+import net.minecraft.entity.ai.goal.BreedGoal;
 import net.minecraft.entity.ai.goal.FollowParentGoal;
+import net.minecraft.entity.ai.goal.LookAtGoal;
+import net.minecraft.entity.ai.goal.PanicGoal;
+import net.minecraft.entity.ai.goal.SwimGoal;
+import net.minecraft.entity.ai.goal.WaterAvoidingRandomWalkingGoal;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Items;
-import net.minecraft.potion.Effects;
-import net.minecraft.init.Particles;
-import net.minecraft.util.*;
 import net.minecraft.item.Item;
-import net.minecraft.item.SpawnEggItem;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
+import net.minecraft.item.SpawnEggItem;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.particles.BasicParticleType;
+import net.minecraft.particles.ParticleTypes;
+import net.minecraft.potion.Effects;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.Hand;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.world.DifficultyInstance;
+import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -78,8 +87,8 @@ public class EntityReindeer extends AnimalEntity implements IJumpingMount, IVari
     public boolean parentRudolph = false;
 
     public EntityReindeer(World worldIn) {
-        super(ModEntities.getEntityType(EntityReindeer.class), worldIn);
-        this.setSize(1.3964844F, 1.8F);
+        super(ModEntities.getEntityType("reindeer"), worldIn);
+        //this.setSize(1.3964844F, 1.8F);
         this.stepHeight = 1.0F;
     }
 
@@ -198,15 +207,6 @@ public class EntityReindeer extends AnimalEntity implements IJumpingMount, IVari
 
     public float getReindeerSize() {
         return 0.5F;
-    }
-
-    /**
-     * "Sets the scale for an ageable entity according to the boolean parameter,
-     * which says if it's a child."
-     */
-    @Override
-    public void setScaleForAge(boolean child) {
-        this.setScale(child ? this.getReindeerSize() : 1.0F);
     }
 
     public boolean isReindeerJumping() {
@@ -472,10 +472,10 @@ public class EntityReindeer extends AnimalEntity implements IJumpingMount, IVari
         }
 
         if (this.isChild() && i > 0) {
-            this.world.addParticle(Particles.HAPPY_VILLAGER,
-                    this.posX + this.rand.nextFloat() * this.width * 2.0F - this.width,
-                    this.posY + 0.5D + this.rand.nextFloat() * this.height,
-                    this.posZ + this.rand.nextFloat() * this.width * 2.0F - this.width, 0.0D, 0.0D, 0.0D);
+            this.world.addParticle(ParticleTypes.HAPPY_VILLAGER,
+                    this.posX + this.rand.nextFloat() * this.getWidth() * 2.0F - this.getWidth(),
+                    this.posY + 0.5D + this.rand.nextFloat() * this.getHeight(),
+                    this.posZ + this.rand.nextFloat() * this.getWidth() * 2.0F - this.getWidth(), 0.0D, 0.0D, 0.0D);
 
             if (!this.world.isRemote) {
                 this.addGrowth(i);
@@ -552,7 +552,7 @@ public class EntityReindeer extends AnimalEntity implements IJumpingMount, IVari
 
         super.livingTick();
         if (this.rand.nextInt(10) == 0) {
-            this.world.addParticle(Particles.POOF, this.posX + this.rand.nextInt(4) - 2F,
+            this.world.addParticle(ParticleTypes.POOF, this.posX + this.rand.nextInt(4) - 2F,
                     this.posY + this.rand.nextInt(4), this.posZ + this.rand.nextInt(4) - 2F, 0F, -0.2F, 0F);
         }
         if (!this.world.isRemote) {
@@ -702,7 +702,7 @@ public class EntityReindeer extends AnimalEntity implements IJumpingMount, IVari
     }
 
     @Override
-    public void travel(float strafe, float vertical, float forward) {
+    public void travel(Vec3d vec) {
         if (this.isBeingRidden() && this.canBeSteered()) {
             LivingEntity entitylivingbase = (LivingEntity) this.getControllingPassenger();
             this.rotationYaw = entitylivingbase.rotationYaw;
@@ -711,34 +711,32 @@ public class EntityReindeer extends AnimalEntity implements IJumpingMount, IVari
             this.setRotation(this.rotationYaw, this.rotationPitch);
             this.renderYawOffset = this.rotationYaw;
             this.rotationYawHead = this.renderYawOffset;
-            strafe = entitylivingbase.moveStrafing * 0.5F;
-            forward = entitylivingbase.moveForward;
+            vec = vec.add(entitylivingbase.moveStrafing * 0.5F - vec.x, vec.y, vec.z);
+            vec = vec.add(vec.x, vec.y, entitylivingbase.moveForward - vec.z);
 
-            if (forward <= 0.0F) {
-                forward *= 0.25F;
+            if (vec.z <= 0.0F) {
+                vec = vec.mul(1, 1, 0.25F);
                 this.gallopTime = 0;
             }
 
             if (this.onGround && this.jumpPower == 0.0F && this.isRearing() && !this.allowStandSliding) {
-                strafe = 0.0F;
-                forward = 0.0F;
+                vec = vec.mul(0, 1, 0);
             }
 
             if (this.jumpPower > 0.0F && !this.isReindeerJumping() && this.onGround) {
-                this.motionY = this.getReindeerJumpStrength() * this.jumpPower;
+                this.setMotion(this.getMotion().add(0, this.getReindeerJumpStrength() * this.jumpPower - this.getMotion().y, 0));
 
                 if (this.isPotionActive(Effects.JUMP_BOOST)) {
-                    this.motionY += (this.getActivePotionEffect(Effects.JUMP_BOOST).getAmplifier() + 1) * 0.1F;
+                    this.setMotion(this.getMotion().add(0, (this.getActivePotionEffect(Effects.JUMP_BOOST).getAmplifier() + 1) * 0.1F, 0));
                 }
 
                 this.setReindeerJumping(true);
                 this.isAirBorne = true;
 
-                if (forward > 0.0F) {
+                if (vec.z > 0.0F) {
                     float f = MathHelper.sin(this.rotationYaw * 0.017453292F);
                     float f1 = MathHelper.cos(this.rotationYaw * 0.017453292F);
-                    this.motionX += -0.4F * f * this.jumpPower;
-                    this.motionZ += 0.4F * f1 * this.jumpPower;
+                    this.setMotion(this.getMotion().add(-0.4F * f * this.jumpPower, 0, 0.4F * f1 * this.jumpPower));
                     this.playSound(SoundEvents.ENTITY_HORSE_JUMP, 0.4F, 1.0F);
                 }
 
@@ -749,11 +747,9 @@ public class EntityReindeer extends AnimalEntity implements IJumpingMount, IVari
 
             if (this.canPassengerSteer()) {
                 this.setAIMoveSpeed((float) this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).getValue());
-                super.travel(strafe, vertical, forward);
+                super.travel(vec);
             } else if (entitylivingbase instanceof PlayerEntity) {
-                this.motionX = 0.0D;
-                this.motionY = 0.0D;
-                this.motionZ = 0.0D;
+                this.setMotion(0,0,0);
             }
 
             if (this.onGround) {
@@ -774,7 +770,7 @@ public class EntityReindeer extends AnimalEntity implements IJumpingMount, IVari
             this.limbSwing += this.limbSwingAmount;
         } else {
             this.jumpMovementFactor = 0.02F;
-            super.travel(strafe, vertical, forward);
+            super.travel(vec);
         }
     }
 
@@ -911,16 +907,16 @@ public class EntityReindeer extends AnimalEntity implements IJumpingMount, IVari
      */
     @OnlyIn(Dist.CLIENT)
     protected void spawnReindeerParticles(boolean p_110216_1_) {
-        BasicParticleType enumparticletypes = p_110216_1_ ? Particles.HEART : Particles.SMOKE;
+        BasicParticleType enumparticletypes = p_110216_1_ ? ParticleTypes.HEART : ParticleTypes.SMOKE;
 
         for (int i = 0; i < 7; ++i) {
             double d0 = this.rand.nextGaussian() * 0.02D;
             double d1 = this.rand.nextGaussian() * 0.02D;
             double d2 = this.rand.nextGaussian() * 0.02D;
             this.world.addParticle(enumparticletypes,
-                    this.posX + this.rand.nextFloat() * this.width * 2.0F - this.width,
-                    this.posY + 0.5D + this.rand.nextFloat() * this.height,
-                    this.posZ + this.rand.nextFloat() * this.width * 2.0F - this.width, d0, d1, d2);
+                    this.posX + this.rand.nextFloat() * this.getWidth() * 2.0F - this.getWidth(),
+                    this.posY + 0.5D + this.rand.nextFloat() * this.getHeight(),
+                    this.posZ + this.rand.nextFloat() * this.getWidth() * 2.0F - this.getWidth(), d0, d1, d2);
         }
     }
 
@@ -994,11 +990,6 @@ public class EntityReindeer extends AnimalEntity implements IJumpingMount, IVari
         return false;
     }
 
-    @Override
-    public float getEyeHeight() {
-        return this.height;
-    }
-
     public boolean wearsArmor() {
         return false;
     }
@@ -1025,9 +1016,9 @@ public class EntityReindeer extends AnimalEntity implements IJumpingMount, IVari
      */
     @Override
     @Nullable
-    public ILivingEntityData onInitialSpawn(DifficultyInstance difficulty, @Nullable ILivingEntityData livingdata,
+    public ILivingEntityData onInitialSpawn(IWorld world, DifficultyInstance difficulty, SpawnReason reason, @Nullable ILivingEntityData livingdata,
                                             CompoundNBT compound) {
-        livingdata = super.onInitialSpawn(difficulty, livingdata, compound);
+        livingdata = super.onInitialSpawn(world, difficulty, reason, livingdata, compound);
 
         if (!this.isChild()) {
             Calendar calendar = Calendar.getInstance();

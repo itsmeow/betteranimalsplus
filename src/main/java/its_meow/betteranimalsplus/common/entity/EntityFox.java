@@ -2,8 +2,6 @@ package its_meow.betteranimalsplus.common.entity;
 
 import java.util.UUID;
 
-import javax.annotation.Nullable;
-
 import com.google.common.base.Predicates;
 
 import its_meow.betteranimalsplus.init.ModEntities;
@@ -13,18 +11,18 @@ import net.minecraft.entity.AgeableEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.goal.BreedGoal;
 import net.minecraft.entity.ai.goal.FollowOwnerGoal;
 import net.minecraft.entity.ai.goal.HurtByTargetGoal;
 import net.minecraft.entity.ai.goal.LeapAtTargetGoal;
-import net.minecraft.entity.ai.goal.BreedGoal;
+import net.minecraft.entity.ai.goal.LookAtGoal;
+import net.minecraft.entity.ai.goal.MeleeAttackGoal;
+import net.minecraft.entity.ai.goal.NonTamedTargetGoal;
 import net.minecraft.entity.ai.goal.OwnerHurtByTargetGoal;
 import net.minecraft.entity.ai.goal.OwnerHurtTargetGoal;
 import net.minecraft.entity.ai.goal.SitGoal;
 import net.minecraft.entity.ai.goal.SwimGoal;
-import net.minecraft.entity.ai.goal.NonTamedTargetGoal;
 import net.minecraft.entity.ai.goal.WaterAvoidingRandomWalkingGoal;
-import net.minecraft.entity.ai.goal.LookAtGoal;
-import net.minecraft.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.entity.monster.CreeperEntity;
 import net.minecraft.entity.monster.GhastEntity;
 import net.minecraft.entity.passive.ChickenEntity;
@@ -32,23 +30,23 @@ import net.minecraft.entity.passive.RabbitEntity;
 import net.minecraft.entity.passive.horse.AbstractHorseEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.AbstractArrowEntity;
-import net.minecraft.item.Items;
-import net.minecraft.init.Particles;
-import net.minecraft.util.*;
-import net.minecraft.item.ItemFood;
+import net.minecraft.item.Food;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.particles.BasicParticleType;
+import net.minecraft.particles.ParticleTypes;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.Hand;
+import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.Difficulty;
-import net.minecraft.world.World;
 import net.minecraft.world.ServerWorld;
-import net.minecraft.world.storage.loot.LootTables;
+import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -62,11 +60,12 @@ public class EntityFox extends EntityTameableWithTypes {
     protected boolean isShaking;
     protected float timeWolfIsShaking;
     protected float prevTimeWolfIsShaking;
+    public SitGoal aiSit;
 
     public EntityFox(World worldIn) {
-        super(ModEntities.getEntityType(EntityFox.class), worldIn);
+        super(ModEntities.getEntityType("fox"), worldIn);
         this.world = worldIn;
-        this.setSize(0.8F, 0.9F);
+        //this.setSize(0.8F, 0.9F);
         this.setTamed(false);
     }
 
@@ -84,7 +83,7 @@ public class EntityFox extends EntityTameableWithTypes {
         this.goalSelector.addGoal(10, new LookAtGoal(this, PlayerEntity.class, 8.0F));
         this.targetSelector.addGoal(1, new OwnerHurtByTargetGoal(this));
         this.targetSelector.addGoal(2, new OwnerHurtTargetGoal(this));
-        this.targetSelector.addGoal(3, new HurtByTargetGoal(this, true, new Class[0]));
+        this.targetSelector.addGoal(3, new HurtByTargetGoal(this, new Class[0]));
         this.targetSelector.addGoal(4,
                 new NonTamedTargetGoal<RabbitEntity>(this, RabbitEntity.class, false, Predicates.alwaysTrue()));
         this.targetSelector.addGoal(4,
@@ -168,12 +167,6 @@ public class EntityFox extends EntityTameableWithTypes {
         return 0.4F;
     }
 
-    @Override
-    @Nullable
-    protected ResourceLocation getLootTable() {
-        return LootTables.ENTITIES_WOLF;
-    }
-
     /**
      * Called frequently so the entity can update its state every tick as required.
      * For example, zombies and skeletons use this to react to sunlight and start to
@@ -227,10 +220,10 @@ public class EntityFox extends EntityTameableWithTypes {
                 int i = (int) (MathHelper.sin((this.timeWolfIsShaking - 0.4F) * (float) Math.PI) * 7.0F);
 
                 for (int j = 0; j < i; ++j) {
-                    float f1 = (this.rand.nextFloat() * 2.0F - 1.0F) * this.width * 0.5F;
-                    float f2 = (this.rand.nextFloat() * 2.0F - 1.0F) * this.width * 0.5F;
-                    this.world.addParticle(Particles.SPLASH, this.posX + f1, f + 0.8F, this.posZ + f2, this.motionX,
-                            this.motionY, this.motionZ);
+                    float f1 = (this.rand.nextFloat() * 2.0F - 1.0F) * this.getWidth() * 0.5F;
+                    float f2 = (this.rand.nextFloat() * 2.0F - 1.0F) * this.getWidth()* 0.5F;
+                    this.world.addParticle(ParticleTypes.SPLASH, this.posX + f1, f + 0.8F, this.posZ + f2, this.getMotion().getX(),
+                            this.getMotion().getY(), this.getMotion().getZ());
                 }
             }
         }
@@ -272,11 +265,6 @@ public class EntityFox extends EntityTameableWithTypes {
     public float getInterestedAngle(float p_70917_1_) {
         return (this.headRotationCourseOld + (this.headRotationCourse - this.headRotationCourseOld) * p_70917_1_)
                 * 0.15F * (float) Math.PI;
-    }
-
-    @Override
-    public float getEyeHeight() {
-        return this.height * 0.8F;
     }
 
     /**
@@ -348,17 +336,17 @@ public class EntityFox extends EntityTameableWithTypes {
                     }
                     this.setInLove(player);
                     this.consumeItemFromStack(player, stack);
-                } else if(!this.world.isRemote && !(stack.getItem() instanceof ItemFood || this.dataManager.get(DATA_HEALTH_ID).floatValue() < this.getMaxHealth())) {
+                } else if(!this.world.isRemote && !(stack.getItem().isFood() || this.dataManager.get(DATA_HEALTH_ID).floatValue() < this.getMaxHealth())) {
                     this.aiSit.setSitting(!this.isSitting());
                     this.isJumping = false;
                     this.navigator.clearPath();
                     this.setAttackTarget((LivingEntity) null);
-                } else if(!stack.isEmpty() && stack.getItem() instanceof ItemFood) {
-                    ItemFood itemfood = (ItemFood) stack.getItem();
+                } else if(!stack.isEmpty() && stack.getItem().isFood()) {
+                    Food food = stack.getItem().getFood();
 
-                    if(itemfood.isMeat() && this.dataManager.get(DATA_HEALTH_ID).floatValue() < this.getMaxHealth()) {
+                    if(food.isMeat() && this.dataManager.get(DATA_HEALTH_ID).floatValue() < this.getMaxHealth()) {
                         this.consumeItemFromStack(player, stack);
-                        this.heal(itemfood.getHealAmount(stack));
+                        this.heal(food.getHealing());
                         this.playHealEffect();
                         return true;
                     }
@@ -397,7 +385,7 @@ public class EntityFox extends EntityTameableWithTypes {
             double d2 = this.rand.nextGaussian() * 0.02D;
 
             if(!this.world.isRemote) {
-                ((ServerWorld)this.world).<BasicParticleType>spawnParticle(Particles.HAPPY_VILLAGER, this.posX + (double)(this.rand.nextFloat() * this.width * 2.0F) - (double)this.width, this.posY + 0.5D + (double)(this.rand.nextFloat() * this.height), this.posZ + (double)(this.rand.nextFloat() * this.width * 2.0F) - (double)this.width, 1, d0, d1, d2, 1);
+                ((ServerWorld)this.world).<BasicParticleType>spawnParticle(ParticleTypes.HAPPY_VILLAGER, this.posX + (double)(this.rand.nextFloat() * this.getWidth() * 2.0F) - (double)this.getWidth(), this.posY + 0.5D + (double)(this.rand.nextFloat() * this.getHeight()), this.posZ + (double)(this.rand.nextFloat() * this.getWidth() * 2.0F) - (double)this.getWidth(), 1, d0, d1, d2, 1);
             }
         }
     }

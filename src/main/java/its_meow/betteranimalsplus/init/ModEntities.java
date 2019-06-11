@@ -39,6 +39,7 @@ public class ModEntities {
     public static LinkedHashMap<String, EntityType<? extends LivingEntity>> entryMap = new LinkedHashMap<>();
     public static ArrayList<EntityContainer<?>> entityList = new ArrayList<>();
     public static ArrayList<EntityType<? extends LivingEntity>> entrySet = new ArrayList<EntityType<? extends LivingEntity>>();
+    public static LinkedHashMap<EntityContainer<?>, EntityType<? extends LivingEntity>> entryMapContainers = new LinkedHashMap<>();
 
     public static <T extends LivingEntity> EntityType<T> getEntityType(String name) {
         return (EntityType<T>) entryMap.get(name);
@@ -118,12 +119,13 @@ public class ModEntities {
 
         if (c != null) {
             ModEntities.entryMap.put(c.entityName, entry);
+            ModEntities.entryMapContainers.put(c, entry);
         }
         ModEntities.entrySet.add(entry);
     }
 
-    private static <T extends LivingEntity> EntityType<T> createEntityType(Class<T> EntityClass, Function<? super World, T> func, String entityNameIn, EntityContainer<T> container) {
-        EntityType<T> type =  EntityType.Builder.<T>create(container.type).setTrackingRange(64).setUpdateInterval(1).setShouldReceiveVelocityUpdates(true).build(entityNameIn);
+    private static <T extends LivingEntity> EntityType<T> createEntityType(Class<T> EntityClass, Function<World, T> func, String entityNameIn, EntityContainer<T> container) {
+        EntityType<T> type =  EntityType.Builder.<T>create((etype, world) -> func.apply(world), container.type).setTrackingRange(64).setUpdateInterval(1).setShouldReceiveVelocityUpdates(true).build(entityNameIn);
         type.setRegistryName(Ref.MOD_ID + ":" + entityNameIn.toLowerCase());
         return type;
     }

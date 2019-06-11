@@ -9,13 +9,13 @@ import java.util.List;
 import its_meow.betteranimalsplus.BetterAnimalsPlusMod;
 import its_meow.betteranimalsplus.init.ModEntities;
 import its_meow.betteranimalsplus.util.EntityContainer;
-import net.minecraft.entity.*;
 import net.minecraft.entity.EntityClassification;
+import net.minecraft.entity.EntitySpawnPlacementRegistry;
+import net.minecraft.entity.EntityType;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.Biome.SpawnListEntry;
-import net.minecraft.world.gen.Heightmap;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.common.ForgeConfigSpec.BooleanValue;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
@@ -23,11 +23,11 @@ import net.minecraftforge.registries.ForgeRegistries;
 
 public class EntityConfig {
 
-    private HashMap<EntityContainer, EntityConfigurationSection> sections = new HashMap<EntityContainer, EntityConfigurationSection>();
+    private HashMap<EntityContainer<?>, EntityConfigurationSection> sections = new HashMap<EntityContainer<?>, EntityConfigurationSection>();
     private BooleanValue coyoteHostileDaytime;
     
     EntityConfig(ForgeConfigSpec.Builder builder) {
-        for(EntityContainer cont : ModEntities.entityList) {
+        for(EntityContainer<?> cont : ModEntities.entityList) {
             sections.put(cont, new EntityConfigurationSection(cont, builder));
         }
         builder.push("coyote");
@@ -37,7 +37,7 @@ public class EntityConfig {
     public void loadEntityData() {
         BetterAnimalsPlusConfig.coyotesHostileDaytime = this.coyoteHostileDaytime.get();
         // Replace entity data
-        for (EntityContainer container : this.sections.keySet()) {
+        for (EntityContainer<?> container : this.sections.keySet()) {
             EntityConfigurationSection section = this.sections.get(container);
             container.maxGroup = section.max.get();
             container.minGroup = section.min.get();
@@ -73,8 +73,8 @@ public class EntityConfig {
 
         // Add spawns based on new container data
         if (!ModEntities.entryMap.isEmpty()) {
-            for (EntityContainer entry : ModEntities.entryMap.keySet()) {
-                EntityType<?> type = ModEntities.entryMap.get(entry);
+            for(EntityContainer<?> entry : ModEntities.entryMapContainers.keySet()) {
+                EntityType<?> type = ModEntities.entryMapContainers.get(entry);
                 if (entry.doSpawning) {
                     if (entry.type == EntityClassification.WATER_CREATURE && EntitySpawnPlacementRegistry.getPlacementType((EntityType<? extends MobEntity>) type) == null) {
                         //TODO: reimplement once AT is back

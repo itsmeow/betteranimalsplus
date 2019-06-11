@@ -2,6 +2,7 @@ package its_meow.betteranimalsplus.common.entity.projectile;
 
 import its_meow.betteranimalsplus.Ref;
 import net.minecraft.block.Block;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -54,18 +55,18 @@ public class EntityBadgerDirt extends ThrowableEntity {
 
     @Override
     protected void onImpact(RayTraceResult result) {
-        if (result.entity != null) {
+        if (result.getType() == RayTraceResult.Type.ENTITY && result.hitInfo instanceof Entity) {
             int i = 2;
-            result.entity.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getThrower()), i);
+            ((Entity) result.hitInfo).attackEntityFrom(DamageSource.causeThrownDamage(this, this.getThrower()), i);
             if(Math.random() >= 0.5 && !this.world.isRemote) {
-                if (result.entity instanceof PlayerEntity) {
-                    PlayerEntity player = (PlayerEntity) result.entity;
+                if (result.hitInfo instanceof PlayerEntity) {
+                    PlayerEntity player = (PlayerEntity) result.hitInfo;
                     int blindnessTicks = 0;
-                    if (result.entity.getEntityWorld().getDifficulty() == Difficulty.EASY) {
+                    if (player.getEntityWorld().getDifficulty() == Difficulty.EASY) {
                         blindnessTicks = 10;
-                    } else if (result.entity.getEntityWorld().getDifficulty() == Difficulty.NORMAL) {
+                    } else if (player.getEntityWorld().getDifficulty() == Difficulty.NORMAL) {
                         blindnessTicks = 20;
-                    } else if (result.entity.getEntityWorld().getDifficulty() == Difficulty.HARD) {
+                    } else if (player.getEntityWorld().getDifficulty() == Difficulty.HARD) {
                         blindnessTicks = 35;
                     }
                     player.addPotionEffect(new EffectInstance(Effects.BLINDNESS, blindnessTicks, 2, false, false));
@@ -77,6 +78,11 @@ public class EntityBadgerDirt extends ThrowableEntity {
             this.world.setEntityState(this, (byte) 3);
             this.remove();
         }
+    }
+
+    @Override
+    protected void registerData() {
+        
     }
 
 }

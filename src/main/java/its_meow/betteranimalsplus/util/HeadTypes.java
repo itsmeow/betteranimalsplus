@@ -114,5 +114,15 @@ public enum HeadTypes {
     public Supplier<Supplier<Class<? extends EntityModel<Entity>>>> getModelSupplier() {
         return modelSupplier;
     }
+    
+    public static BlockGenericSkull[] getAllBlocks() {
+        ArrayList<BlockGenericSkull> blocks = new ArrayList<>();
+        for(HeadTypes type : HeadTypes.values()) {
+            blocks.addAll(type.getBlockSet());
+        }
+        BlockGenericSkull[] list = new BlockGenericSkull[blocks.size()];
+        list = blocks.toArray(list);
+        return list;
+    }
 
 }

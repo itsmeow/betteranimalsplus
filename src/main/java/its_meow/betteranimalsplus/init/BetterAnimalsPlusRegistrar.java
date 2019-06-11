@@ -32,7 +32,7 @@ public class BetterAnimalsPlusRegistrar {
 		registry.registerAll(ModBlocks.TRILLIUM, ModBlocks.HAND_OF_FATE);
 
 		for (HeadTypes type : HeadTypes.values()) {
-			registry.registerAll(type.getBlockSet().toArray(new Block[0]));
+			//registry.registerAll(type.getBlockSet().toArray(new Block[0]));
 		}
 	}
 
@@ -71,8 +71,8 @@ public class BetterAnimalsPlusRegistrar {
 				ModItems.ANTLER, ModItems.GOAT_MILK, ModItems.GOAT_CHEESE, ModItems.PHEASANT_RAW,
 				ModItems.PHEASANT_COOKED);
 
-		for (EntityContainer ent : ModEntities.entityList) {
-			ItemBetterAnimalsPlusEgg egg = new ItemBetterAnimalsPlusEgg(ModEntities.getEntityType(ent.entityClazz),
+		for (EntityContainer<?> ent : ModEntities.entityList) {
+			ItemBetterAnimalsPlusEgg egg = new ItemBetterAnimalsPlusEgg(ModEntities.getEntityType(ent.entityName),
 					ent.eggColorSolid, ent.eggColorSpot, ent);
 			egg.setRegistryName(ent.entityName.toLowerCase().toString() + "_spawn_egg");
 			registry.register(egg);
@@ -101,8 +101,8 @@ public class BetterAnimalsPlusRegistrar {
 		registry.register(EntityTarantulaHair.HAIR_TYPE);
 		registry.register(EntityBadgerDirt.DIRT_TYPE);
 
-		for (EntityContainer entry : ModEntities.entryMap.keySet()) {
-			EntityType<?> type = ModEntities.entryMap.get(entry);
+		for (EntityContainer<?> entry : ModEntities.entryMapContainers.keySet()) {
+			EntityType<?> type = ModEntities.entryMapContainers.get(entry);
 			registry.register(type);
 		}
 	}

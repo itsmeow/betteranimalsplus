@@ -5,22 +5,26 @@ import java.util.Random;
 import javax.annotation.Nullable;
 
 import its_meow.betteranimalsplus.init.ModEntities;
+import net.minecraft.entity.EntitySize;
 import net.minecraft.entity.ILivingEntityData;
 import net.minecraft.entity.MoverType;
+import net.minecraft.entity.Pose;
 import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.entity.passive.WaterMobEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.potion.Effects;
-import net.minecraft.util.SoundEvents;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.potion.EffectInstance;
+import net.minecraft.potion.Effects;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.SoundEvent;
+import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
@@ -45,7 +49,7 @@ public class EntityJellyfish extends WaterMobEntity implements IVariantTypes {
     private float randomMotionVecZ;
 
     public EntityJellyfish(World worldIn) {
-        super(ModEntities.getEntityType(EntityJellyfish.class), worldIn);
+        super(ModEntities.getEntityType("jellyfish"), worldIn);
         this.setSize(0.8F, 0.8F);
         rotationVelocity = (1.0F / (rand.nextFloat() + 1.0F) * 0.2F);
     }
@@ -53,10 +57,6 @@ public class EntityJellyfish extends WaterMobEntity implements IVariantTypes {
     protected void registerAttributes() {
         super.registerAttributes();
         getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(10.0D);
-    }
-    
-    public float getEyeHeight() {
-        return height * 0.5F;
     }
     
     protected boolean canTriggerWalking() {
@@ -76,6 +76,7 @@ public class EntityJellyfish extends WaterMobEntity implements IVariantTypes {
         }
     }
     
+    @Override
     public void livingTick() {
         super.livingTick();
 
@@ -108,25 +109,22 @@ public class EntityJellyfish extends WaterMobEntity implements IVariantTypes {
                 rotateSpeed *= 0.99F;
             }
             if (!world.isRemote) {
-                motionX = (randomMotionVecX * randomMotionSpeed);
-                motionY = (randomMotionVecY * randomMotionSpeed);
-                motionZ = (randomMotionVecZ * randomMotionSpeed);
+                this.setMotion((randomMotionVecX * randomMotionSpeed), (randomMotionVecY * randomMotionSpeed), (randomMotionVecZ * randomMotionSpeed));
             }
-            float lvt_1_2_ = MathHelper.sqrt(motionX * motionX + motionZ * motionZ);
+            //float lvt_1_2_ = MathHelper.sqrt(this.getMotion().getX() * this.getMotion().getX() + this.getMotion().getZ() * this.getMotion().getZ());
 
-            renderYawOffset += (-(float) MathHelper.atan2(motionX, motionZ) * 57.295776F - renderYawOffset) * 0.1F;
+            renderYawOffset += (-(float) MathHelper.atan2(this.getMotion().getX(), this.getMotion().getZ()) * 57.295776F - renderYawOffset) * 0.1F;
             rotationYaw = renderYawOffset;
             jellyYaw = ((float) (jellyYaw + 3.141592653589793D * rotateSpeed * 1.5D));
         } else {
             if (!world.isRemote) {
-                motionX = 0.0D;
-                motionZ = 0.0D;
+                this.setMotion(0, this.getMotion().getY(), 0); 
                 if (isPotionActive(Effects.LEVITATION)) {
-                    motionY += 0.05D * (getActivePotionEffect(Effects.LEVITATION).getAmplifier() + 1) - motionY;
+                    this.setMotion(this.getMotion().getX(), this.getMotion().getY() + 0.05D * (getActivePotionEffect(Effects.LEVITATION).getAmplifier() + 1) - this.getMotion().getY(), this.getMotion().getZ());
                 } else if (!hasNoGravity()) {
-                    motionY -= 0.08D;
+                    this.setMotion(this.getMotion().getX(), this.getMotion().getY() - 0.08D, this.getMotion().getZ());
                 }
-                motionY *= 0.9800000190734863D;
+                this.setMotion(this.getMotion().getX(), this.getMotion().getY() * 0.9800000190734863D, this.getMotion().getZ());
             }
         }
     }
@@ -147,12 +145,9 @@ public class EntityJellyfish extends WaterMobEntity implements IVariantTypes {
         return SoundEvents.ENTITY_SLIME_SQUISH;
     }
     
-    public void travel(float p_191986_1_, float p_191986_2_, float p_191986_3_) {
-        move(MoverType.SELF, motionX, motionY, motionZ);
-    }
-
-    public boolean canSpawn(IWorld p_205020_1_, boolean p_205020_2_) {
-        return (posY > 45.0D) && (posY < p_205020_1_.getSeaLevel());
+    @Override
+    public void travel(Vec3d vec) {
+        move(MoverType.SELF, this.getMotion());
     }
 
     @OnlyIn(Dist.CLIENT)
@@ -163,7 +158,7 @@ public class EntityJellyfish extends WaterMobEntity implements IVariantTypes {
             super.handleStatusUpdate(p_70103_1_);
         }
     }
-
+    
     public void setMovementVector(float p_175568_1_, float p_175568_2_, float p_175568_3_) {
         randomMotionVecX = p_175568_1_;
         randomMotionVecY = p_175568_2_;
@@ -183,20 +178,20 @@ public class EntityJellyfish extends WaterMobEntity implements IVariantTypes {
         this.dataManager.register(EntityJellyfish.SIZE, Float.valueOf(1));
     }
 
-    public float getSize() {
-        return this.dataManager.get(EntityJellyfish.SIZE).floatValue();
+    @Override
+    public EntitySize getSize(Pose pose) {
+        float size = this.dataManager.get(EntityJellyfish.SIZE).floatValue();
+        return EntitySize.fixed(size, size);
     }
 
-    @Override
     public void setSize(float width, float height) {
         this.dataManager.set(EntityJellyfish.SIZE, Float.valueOf(width));
-        super.setSize(width, height);
     }
 
     @Override
     public boolean writeUnlessRemoved(CompoundNBT compound) {
         this.writeType(compound);
-        compound.putFloat("Size", this.getSize());
+        compound.putFloat("Size", this.getSize(Pose.STANDING).width);
         return super.writeUnlessRemoved(compound);
     }
 
@@ -210,9 +205,8 @@ public class EntityJellyfish extends WaterMobEntity implements IVariantTypes {
 
     @Override
     @Nullable
-    public ILivingEntityData onInitialSpawn(DifficultyInstance difficulty, @Nullable ILivingEntityData livingdata,
-                                            CompoundNBT compound) {
-        livingdata = super.onInitialSpawn(difficulty, livingdata, compound);
+    public ILivingEntityData onInitialSpawn(IWorld world, DifficultyInstance difficulty, SpawnReason reason, @Nullable ILivingEntityData livingdata, CompoundNBT compound) {
+        livingdata = super.onInitialSpawn(world, difficulty, reason, livingdata, compound);
         if (!this.isChild()) {
             int i = this.rand.nextInt(6) + 1; // Values 1 to 6
             float rand = (this.rand.nextInt(30) + 1F) / 50F + 0.05F;

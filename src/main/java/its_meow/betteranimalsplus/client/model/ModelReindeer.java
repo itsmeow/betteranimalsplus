@@ -419,7 +419,7 @@ public class ModelReindeer<T extends LivingEntity> extends EntityModel<T> {
     /**
      * Fixes and offsets a rotation
      */
-    private float updateReindeerRotation(float p_110683_1_, float p_110683_2_, float p_110683_3_) {
+    private static float updateReindeerRotation(float p_110683_1_, float p_110683_2_, float p_110683_3_) {
         float f;
 
         for (f = p_110683_2_ - p_110683_1_; f < -180.0F; f += 360.0F) {
@@ -442,9 +442,9 @@ public class ModelReindeer<T extends LivingEntity> extends EntityModel<T> {
     public void setLivingAnimations(T entitylivingbaseIn, float limbSwing, float limbSwingAmount,
                                     float partialTickTime) {
         super.setLivingAnimations(entitylivingbaseIn, limbSwing, limbSwingAmount, partialTickTime);
-        float f = this.updateReindeerRotation(entitylivingbaseIn.prevRenderYawOffset,
+        float f = ModelReindeer.updateReindeerRotation(entitylivingbaseIn.prevRenderYawOffset,
                 entitylivingbaseIn.renderYawOffset, partialTickTime);
-        float f1 = this.updateReindeerRotation(entitylivingbaseIn.prevRotationYawHead,
+        float f1 = ModelReindeer.updateReindeerRotation(entitylivingbaseIn.prevRotationYawHead,
                 entitylivingbaseIn.rotationYawHead, partialTickTime);
         float f2 = entitylivingbaseIn.prevRotationPitch
                 + (entitylivingbaseIn.rotationPitch - entitylivingbaseIn.prevRotationPitch) * partialTickTime;

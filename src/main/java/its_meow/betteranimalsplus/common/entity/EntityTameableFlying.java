@@ -6,28 +6,25 @@ import net.minecraft.entity.MoverType;
 import net.minecraft.entity.passive.TameableEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 public abstract class EntityTameableFlying extends TameableEntity {
 
-    public EntityTameableFlying(EntityType<?> type, World worldIn) {
+    public EntityTameableFlying(EntityType<? extends TameableEntity> type, World worldIn) {
         super(type, worldIn);
     }
 
     @Override
-    public void travel(float strafe, float vertical, float forward) {
+    public void travel(Vec3d vec) {
         if (this.isInWater()) {
-            this.moveRelative(strafe, vertical, forward, 0.02F);
-            this.move(MoverType.SELF, this.motionX, this.motionY, this.motionZ);
-            this.motionX *= 0.800000011920929D;
-            this.motionY *= 0.800000011920929D;
-            this.motionZ *= 0.800000011920929D;
+            this.moveRelative(0.02F, vec);
+            this.move(MoverType.SELF, this.getMotion());
+            this.setMotion(this.getMotion().mul(0.800000011920929D, 0.800000011920929D, 0.800000011920929D));
         } else if (this.isInLava()) {
-            this.moveRelative(strafe, vertical, forward, 0.02F);
-            this.move(MoverType.SELF, this.motionX, this.motionY, this.motionZ);
-            this.motionX *= 0.5D;
-            this.motionY *= 0.5D;
-            this.motionZ *= 0.5D;
+            this.moveRelative(0.02F, vec);
+            this.move(MoverType.SELF, this.getMotion());
+            this.setMotion(this.getMotion().mul(0.5D, 0.5D, 0.5D));
         } else {
             float f = 0.91F;
 
@@ -39,7 +36,7 @@ public abstract class EntityTameableFlying extends TameableEntity {
             }
 
             float f1 = 0.16277136F / (f * f * f);
-            this.moveRelative(strafe, vertical, forward, this.onGround ? 0.1F * f1 : 0.02F);
+            this.moveRelative(this.onGround ? 0.1F * f1 : 0.02F, vec);
             f = 0.91F;
 
             if (this.onGround) {
@@ -49,10 +46,8 @@ public abstract class EntityTameableFlying extends TameableEntity {
                 f = underState.getBlock().getSlipperiness(underState, this.world, underPos, this) * 0.91F;
             }
 
-            this.move(MoverType.SELF, this.motionX, this.motionY, this.motionZ);
-            this.motionX *= f;
-            this.motionY *= f;
-            this.motionZ *= f;
+            this.move(MoverType.SELF, this.getMotion());
+            this.setMotion(this.getMotion().mul(f, f, f));
         }
 
         this.prevLimbSwingAmount = this.limbSwingAmount;

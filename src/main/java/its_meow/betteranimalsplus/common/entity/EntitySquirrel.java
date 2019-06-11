@@ -30,8 +30,8 @@ public class EntitySquirrel extends EntityAnimalWithTypes {
     private int climbTimeWithoutLog = 0;
 
     public EntitySquirrel(World worldIn) {
-        super(ModEntities.getEntityType(EntitySquirrel.class), worldIn);
-        this.setSize(0.5F, 0.5F);
+        super(ModEntities.getEntityType("squirrel"), worldIn);
+        //this.setSize(0.5F, 0.5F);
 
     }
 

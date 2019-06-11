@@ -18,7 +18,7 @@ public class EntityConfigurationSection {
     public ForgeConfigSpec.IntValue weight;
     public ForgeConfigSpec.ConfigValue<List<? extends String>> biomesList;
 
-    public EntityConfigurationSection(EntityContainer container, ForgeConfigSpec.Builder builder) {
+    public EntityConfigurationSection(EntityContainer<?> container, ForgeConfigSpec.Builder builder) {
         builder.push(container.entityName);
 
         this.entityName = container.entityName;
@@ -32,7 +32,7 @@ public class EntityConfigurationSection {
         doSpawning = builder.comment("Disables natural spawning").worldRestart().define("doSpawning", true);
     }
 
-    public void loadSpawnValues(ForgeConfigSpec.Builder builder, EntityContainer container) {
+    public void loadSpawnValues(ForgeConfigSpec.Builder builder, EntityContainer<?> container) {
         weight = builder.comment("The spawn chance compared to other animals (typically between 6-20)").worldRestart()
                 .defineInRange("weight", container.weight, 1, 9999);
         min = builder.comment("Must be greater than 0").worldRestart().defineInRange("minGroup", container.minGroup, 1,

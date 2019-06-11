@@ -13,7 +13,7 @@ public class ItemBetterAnimalsPlusEgg extends SpawnEggItem {
 
     private final EntityType<?> type;
 
-    public ItemBetterAnimalsPlusEgg(EntityType<?> type, int eggSolid, int eggSpot, EntityContainer container) {
+    public ItemBetterAnimalsPlusEgg(EntityType<?> type, int eggSolid, int eggSpot, EntityContainer<?> container) {
         super(type, eggSolid, eggSpot, new Properties().group(ItemGroup.MISC));
         this.type = type;
     }

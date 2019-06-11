@@ -6,23 +6,22 @@ import its_meow.betteranimalsplus.init.ModEntities;
 import its_meow.betteranimalsplus.init.ModLootTables;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.resources.I18n;
-import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.EntityAIFindEntityNearestPlayer;
-import net.minecraft.entity.ai.goal.SwimGoal;
 import net.minecraft.entity.ai.goal.LookAtGoal;
+import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal;
+import net.minecraft.entity.ai.goal.SwimGoal;
 import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.SoundEvents;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
+import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.fml.common.thread.SidedThreadGroups;
@@ -31,7 +30,7 @@ import net.minecraftforge.fml.loading.FMLEnvironment;
 public class EntityHirschgeist extends MobEntity implements IMob {
 
     public EntityHirschgeist(World worldIn) {
-        super(ModEntities.getEntityType(EntityHirschgeist.class), worldIn);
+        super(ModEntities.getEntityType("hirschgeist"), worldIn);
         // this.setSize(3, 4);
     }
 
@@ -42,7 +41,7 @@ public class EntityHirschgeist extends MobEntity implements IMob {
         this.goalSelector.addGoal(2, new HirschgeistAIAttackMelee(this, 0.7D));
         this.goalSelector.addGoal(2, new HirschgeistAIFlameAttack(this));
         this.goalSelector.addGoal(3, new LookAtGoal(this, PlayerEntity.class, 15F));
-        this.targetSelector.addGoal(1, new EntityAIFindEntityNearestPlayer(this));
+        this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<PlayerEntity>(this, PlayerEntity.class, false));
     }
 
     @Override
@@ -67,18 +66,9 @@ public class EntityHirschgeist extends MobEntity implements IMob {
     public void livingTick() {
         super.livingTick();
         if (this.isDaytime()) {
-            this.setSize(1, 2);
+            //this.setSize(1, 2);
         } else {
-            this.setSize(3, 4);
-        }
-    }
-
-    @Override
-    public boolean canSpawn(IWorld world, boolean b) {
-        if (this.world.getEntitiesWithinAABB(EntityHirschgeist.class, this.getBoundingBox().grow(150)).size() == 1) {
-            return false;
-        } else {
-            return false;
+            //this.setSize(3, 4);
         }
     }
 
@@ -128,8 +118,7 @@ public class EntityHirschgeist extends MobEntity implements IMob {
     public Vec3d getHeadLookVec(float p_184665_1_) {
         Vec3d vec3d;
         if (this.getAttackTarget() != null) {
-            BlockPos blockpos = this.getAttackTarget().getPosition();
-            float f = Math.max(MathHelper.sqrt(this.getDistanceSqToCenter(blockpos)) / 4.0F, 1.0F);
+            float f = Math.max(MathHelper.sqrt(this.getDistanceSq(this.getAttackTarget())) / 4.0F, 1.0F);
             float f1 = 6.0F / f;
             float f2 = this.rotationPitch;
             this.rotationPitch = -f1 * 1.5F * 5.0F;

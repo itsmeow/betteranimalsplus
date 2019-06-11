@@ -8,29 +8,33 @@ import com.google.common.collect.Sets;
 
 import its_meow.betteranimalsplus.init.ModEntities;
 import its_meow.betteranimalsplus.init.ModLootTables;
-import net.minecraft.block.*;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.block.LeavesBlock;
-import net.minecraft.entity.Entity;
+import net.minecraft.block.LogBlock;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.goal.*;
+import net.minecraft.entity.SpawnReason;
+import net.minecraft.entity.ai.controller.FlyingMovementController;
+import net.minecraft.entity.ai.goal.AvoidEntityGoal;
+import net.minecraft.entity.ai.goal.BreedGoal;
+import net.minecraft.entity.ai.goal.LookAtGoal;
+import net.minecraft.entity.ai.goal.PanicGoal;
 import net.minecraft.entity.ai.goal.SwimGoal;
 import net.minecraft.entity.ai.goal.WaterAvoidingRandomFlyingGoal;
-import net.minecraft.entity.ai.goal.LookAtGoal;
-import net.minecraft.entity.ai.controller.FlyingMovementController;
-import net.minecraft.entity.ai.goal.PanicGoal;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.passive.IFlyingAnimal;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.block.Blocks;
-import net.minecraft.item.Items;
-import net.minecraft.pathfinding.FlyingPathNavigator;
-import net.minecraft.util.Hand;
-import net.minecraft.util.SoundEvents;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
+import net.minecraft.pathfinding.FlyingPathNavigator;
 import net.minecraft.pathfinding.PathNavigator;
+import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
+import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.IWorld;
@@ -41,16 +45,16 @@ public class EntitySongbird extends EntityAnimalWithTypes implements IFlyingAnim
     protected static final Set<Item> SEEDS = Sets.newHashSet(Items.WHEAT_SEEDS, Items.MELON_SEEDS, Items.PUMPKIN_SEEDS, Items.BEETROOT_SEEDS);
 
     public EntitySongbird(World worldIn) {
-        super(ModEntities.getEntityType(EntitySongbird.class), worldIn);
-        this.setSize(0.5F, 0.5F);
-        this.moveHelper = new FlyingMovementController(this);
+        super(ModEntities.getEntityType("songbird"), worldIn);
+        //this.setSize(0.5F, 0.5F);
+        this.moveController = new FlyingMovementController(this);
     }
 
     @Override
     protected void registerGoals() {
         this.goalSelector.addGoal(0, new SwimGoal(this));
         this.goalSelector.addGoal(1, new PanicGoal(this, 1.25D));
-        Predicate<Entity> avoidPredicate = input -> {
+        Predicate<LivingEntity> avoidPredicate = input -> {
             boolean result1 = (input instanceof PlayerEntity);
             boolean result2 = !SEEDS.contains(((PlayerEntity) input).getHeldItem(Hand.MAIN_HAND).getItem())
                     && !SEEDS.contains(((PlayerEntity) input).getHeldItem(Hand.OFF_HAND).getItem());
@@ -73,17 +77,17 @@ public class EntitySongbird extends EntityAnimalWithTypes implements IFlyingAnim
     }
 
     @Override
-    public boolean canSpawn(IWorld world, boolean b) {
+    public boolean canSpawn(IWorld world, SpawnReason reason, BlockPos pos) {
         int i = MathHelper.floor(this.posX);
         int j = MathHelper.floor(this.getBoundingBox().minY);
         int k = MathHelper.floor(this.posZ);
         BlockPos blockpos = new BlockPos(i, j, k);
-        if(!world.isBlockLoaded(new BlockPos(blockpos))) {
+        if(world instanceof World && !((World) world).isBlockPresent(new BlockPos(blockpos))) {
             Block block = this.world.getBlockState(blockpos.down()).getBlock();
             return block instanceof LeavesBlock || block == Blocks.GRASS || block instanceof LogBlock
-                    || block == Blocks.AIR && this.world.getLight(blockpos) > 8 && super.canSpawn(world, b);
+                    || block == Blocks.AIR && this.world.getLight(blockpos) > 8 && super.canSpawn(world, reason, pos);
         } else {
-            return super.canSpawn(world, b);
+            return super.canSpawn(world, reason, pos);
         }
     }
 

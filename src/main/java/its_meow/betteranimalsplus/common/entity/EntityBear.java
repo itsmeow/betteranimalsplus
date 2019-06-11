@@ -39,12 +39,12 @@ import net.minecraft.world.World;
 public class EntityBear extends MonsterEntity {
 
     private int warningSoundTicks;
-    
+
     public EntityBear(World worldIn) {
         super(ModEntities.getEntityType("brownbear"), worldIn);
         //this.setSize(2F, 2F);
     }
-    
+
     public EntityBear(EntityType<? extends EntityBear> type, World worldIn) {
         super(type, worldIn);
         //this.setSize(2F, 2F);
@@ -58,19 +58,19 @@ public class EntityBear extends MonsterEntity {
         this.goalSelector.addGoal(6, new LookAtGoal(this, PlayerEntity.class, 6.0F));
         this.targetSelector.addGoal(1, new HurtByTargetGoal(this, EntityBear.class));
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<PlayerEntity>(this, PlayerEntity.class, 90,
-                true, true, Predicates.alwaysTrue()));
+        true, true, Predicates.alwaysTrue()));
         this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<EntityDeer>(this, EntityDeer.class, 90, true,
-                true, Predicates.alwaysTrue()));
+        true, Predicates.alwaysTrue()));
         this.targetSelector.addGoal(4, new NearestAttackableTargetGoal<PigEntity>(this, PigEntity.class, 90, true,
-                true, Predicates.alwaysTrue()));
+        true, Predicates.alwaysTrue()));
         this.targetSelector.addGoal(5, new NearestAttackableTargetGoal<ChickenEntity>(this, ChickenEntity.class, 90,
-                true, true, Predicates.alwaysTrue()));
+        true, true, Predicates.alwaysTrue()));
         this.targetSelector.addGoal(6, new NearestAttackableTargetGoal<RabbitEntity>(this, RabbitEntity.class, 90,
-                true, true, Predicates.alwaysTrue()));
+        true, true, Predicates.alwaysTrue()));
         this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<EntityFox>(this, EntityFox.class, 90, true,
-                true, Predicates.alwaysTrue()));
+        true, Predicates.alwaysTrue()));
         this.targetSelector.addGoal(5, new NearestAttackableTargetGoal<EntityPheasant>(this, EntityPheasant.class, 90,
-                true, true, Predicates.alwaysTrue()));
+        true, true, Predicates.alwaysTrue()));
     }
 
     @Override
@@ -88,6 +88,10 @@ public class EntityBear extends MonsterEntity {
     @Nullable
     protected ResourceLocation getLootTable() {
         return ModLootTables.bear;
+    }
+
+    public boolean canSpawn(IWorld p_213380_1_, SpawnReason p_213380_2_) {
+        return p_213380_1_.getDifficulty() != Difficulty.PEACEFUL;
     }
 
     /**
@@ -197,7 +201,7 @@ public class EntityBear extends MonsterEntity {
 
     @Override
     public ILivingEntityData onInitialSpawn(IWorld world, DifficultyInstance difficulty, SpawnReason reason, ILivingEntityData entityLivingData,
-                                            CompoundNBT itemNbt) {
+    CompoundNBT itemNbt) {
         this.setLocationAndAngles(this.posX, this.posY, this.posZ, this.rotationYaw, 0F);
         return super.onInitialSpawn(world, difficulty, reason, entityLivingData, itemNbt);
     }

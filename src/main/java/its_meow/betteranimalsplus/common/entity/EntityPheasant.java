@@ -38,10 +38,10 @@ public class EntityPheasant extends EntityAnimalWithTypes {
     public float wingRotDelta = 0.3F;
 
     public EntityPheasant(World worldIn) {
-        super(ModEntities.getEntityType(EntityPheasant.class), worldIn);
+        super(ModEntities.getEntityType("pheasant"), worldIn);
         this.setPeckTime(this.getNewPeck());
         this.setPathPriority(PathNodeType.WATER, 0.0F);
-        this.setSize(1F, this.isChild() ? 0.8F : 1F);
+        //this.setSize(1F, this.isChild() ? 0.8F : 1F);
     }
 
     @Override
@@ -67,11 +67,6 @@ public class EntityPheasant extends EntityAnimalWithTypes {
     }
 
     @Override
-    public float getEyeHeight() {
-        return this.height;
-    }
-
-    @Override
     public void livingTick() {
         super.livingTick();
         this.oFlap = this.wingRotation;
@@ -85,8 +80,8 @@ public class EntityPheasant extends EntityAnimalWithTypes {
 
         this.wingRotDelta = (float) (this.wingRotDelta * 0.9D);
 
-        if (!this.onGround && this.motionY < 0.0D) {
-            this.motionY *= 0.6D;
+        if (!this.onGround && this.getMotion().getY() < 0.0D) {
+            this.setMotion(this.getMotion().getX(), this.getMotion().getY() * 0.6D, this.getMotion().getZ());
         }
 
         this.wingRotation += this.wingRotDelta * 2.0F;

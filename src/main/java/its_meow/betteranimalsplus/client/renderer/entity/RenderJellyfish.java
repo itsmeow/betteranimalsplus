@@ -9,6 +9,7 @@ import its_meow.betteranimalsplus.common.entity.EntityJellyfish;
 import its_meow.betteranimalsplus.init.ModTextures;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.MobRenderer;
+import net.minecraft.entity.Pose;
 import net.minecraft.util.ResourceLocation;
 
 public class RenderJellyfish extends MobRenderer<EntityJellyfish, ModelJellyfish<EntityJellyfish>> {
@@ -19,7 +20,7 @@ public class RenderJellyfish extends MobRenderer<EntityJellyfish, ModelJellyfish
 
     @Override
     protected void preRenderCallback(EntityJellyfish entitylivingbaseIn, float partialTickTime) {
-        float s = entitylivingbaseIn.getSize();
+        float s = entitylivingbaseIn.getSize(Pose.STANDING).width;
         GlStateManager.scalef(s, s, s);
         GlStateManager.translatef(0, 1F, 0);
     }

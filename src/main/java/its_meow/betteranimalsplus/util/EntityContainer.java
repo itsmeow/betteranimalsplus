@@ -12,7 +12,7 @@ import net.minecraft.world.biome.Biome;
 public class EntityContainer<T extends LivingEntity> {
 
     public Class<T> entityClazz;
-    public Function<? super World, T> entityFunction;
+    public Function<World, T> entityFunction;
     public String entityName;
     public EntityClassification type;
     public int eggColorSolid;
@@ -24,7 +24,7 @@ public class EntityContainer<T extends LivingEntity> {
     public boolean doSpawning = true;
 
     @SafeVarargs
-    public EntityContainer(Class<T> EntityClass, Function<? super World, T> func,
+    public EntityContainer(Class<T> EntityClass, Function<World, T> func,
                            String entityNameIn, EntityClassification type, int solidColorIn, int spotColorIn, int prob, int min, int max,
                            Set<Biome>... biomes) {
         this.entityClazz = EntityClass;
