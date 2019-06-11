@@ -37,10 +37,10 @@ public class EntityTarantula extends SpiderEntity implements IRangedAttackMob {
     protected void registerGoals() {
         this.goalSelector.addGoal(1, new SwimGoal(this));
         RangedAttackGoal atkrange = new RangedAttackGoal(this, 1.0D, 160, 15.0F);
-        atkrange.setMutexFlags(EnumSet.of(Goal.Flag.LOOK)); // Allow it to run at the same time as melee attacks
-        this.goalSelector.addGoal(3, atkrange);
+        atkrange.setMutexFlags(EnumSet.of(Goal.Flag.TARGET)); // Allow it to run at the same time as melee attacks
+        this.goalSelector.addGoal(2, atkrange);
         this.goalSelector.addGoal(3, new LeapAtTargetGoal(this, 0.4F));
-        this.goalSelector.addGoal(3, new MeleeAttackGoal(this, 0.8D, false));
+        this.goalSelector.addGoal(4, new MeleeAttackGoal(this, 0.8D, false));
         this.goalSelector.addGoal(5, new WaterAvoidingRandomWalkingGoal(this, 0.8D));
         this.goalSelector.addGoal(6, new LookAtGoal(this, PlayerEntity.class, 8.0F));
         this.targetSelector.addGoal(1, new HurtByTargetGoal(this, new Class[0]));
