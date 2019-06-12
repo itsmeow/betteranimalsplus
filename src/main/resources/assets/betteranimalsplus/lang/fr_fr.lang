@@ -1,24 +1,24 @@
 #Creative Tabs
-itemGroup.Better Animals+=Meilleurs animaux+
+itemGroup.Better Animals+=Better Animals+
 
 #Items
 item.betteranimalsplus.venisonraw.name=Chevreuil cru
 item.betteranimalsplus.venisoncooked.name=Chevreuil cuit
 item.betteranimalsplus.hirschgeistskullwearable.name=Crâne d'Hirschgeist portable
 item.betteranimalsplus.antler.name=Bois
-item.betteranimalsplus.goatmilk.name=Lait de Chèvre
-item.betteranimalsplus.goatcheese.name=Fromage de Chèvre
+item.betteranimalsplus.goatmilk.name=Lait de chèvre
+item.betteranimalsplus.goatcheese.name=Fromage de chèvre
 item.betteranimalsplus.pheasantraw.name=Faisan cru
 item.betteranimalsplus.pheasantcooked.name=Faisan cuit
 #Blocks
 tile.betteranimalsplus.trillium.name=Trillium
 tile.betteranimalsplus.hirschgeistskull.name=Crâne d'Hirschgeist
 tile.betteranimalsplus.handoffate.name=Main du destin
-tile.betteranimalsplus.wolfhead.name=Tête de Loup
-tile.betteranimalsplus.deerhead.name=Tête de Cerf
-tile.betteranimalsplus.reindeerhead.name=Tête de Renne
-tile.betteranimalsplus.foxhead.name=Tête de Renard
-tile.betteranimalsplus.boarhead.name=Tête de Sanglier
+tile.betteranimalsplus.wolfhead.name=Tête de loup
+tile.betteranimalsplus.deerhead.name=Tête de cerf
+tile.betteranimalsplus.reindeerhead.name=Tête de renne
+tile.betteranimalsplus.foxhead.name=Tête de renard
+tile.betteranimalsplus.boarhead.name=Tête de sanglier
 #Entities
 entity.betteranimalsplus.brownbear.name=Ours brun
 entity.betteranimalsplus.blackbear.name=Ours noir
