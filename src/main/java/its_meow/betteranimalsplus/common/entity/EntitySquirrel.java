@@ -31,8 +31,6 @@ public class EntitySquirrel extends EntityAnimalWithTypes {
 
     public EntitySquirrel(World worldIn) {
         super(ModEntities.getEntityType("squirrel"), worldIn);
-        //this.setSize(0.5F, 0.5F);
-
     }
 
     @Override

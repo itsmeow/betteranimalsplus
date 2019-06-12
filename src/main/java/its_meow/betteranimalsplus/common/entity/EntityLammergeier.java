@@ -68,8 +68,6 @@ public class EntityLammergeier extends EntityTameableFlying implements IVariantT
 
     public EntityLammergeier(World worldIn) {
         super(ModEntities.getEntityType("lammergeier"), worldIn);
-        //this.setSize(1F, 1F);
-        // this.moveHelper = new EntityFlyHelper(this);
         this.moveController = new LammerMoveHelper(this);
     }
 

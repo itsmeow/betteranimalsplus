@@ -88,7 +88,6 @@ public class EntityReindeer extends AnimalEntity implements IJumpingMount, IVari
 
     public EntityReindeer(World worldIn) {
         super(ModEntities.getEntityType("reindeer"), worldIn);
-        //this.setSize(1.3964844F, 1.8F);
         this.stepHeight = 1.0F;
     }
 

@@ -6,8 +6,10 @@ import its_meow.betteranimalsplus.init.ModEntities;
 import its_meow.betteranimalsplus.init.ModLootTables;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.resources.I18n;
+import net.minecraft.entity.EntitySize;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
+import net.minecraft.entity.Pose;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.goal.LookAtGoal;
 import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal;
@@ -31,7 +33,6 @@ public class EntityHirschgeist extends MobEntity implements IMob {
 
     public EntityHirschgeist(World worldIn) {
         super(ModEntities.getEntityType("hirschgeist"), worldIn);
-        // this.setSize(3, 4);
     }
 
     @Override
@@ -55,21 +56,13 @@ public class EntityHirschgeist extends MobEntity implements IMob {
     }
 
     public boolean isDaytime() {
-        long time = this.world.getDayTime() % 24000L; // Time can go over values
-                                                      // of 24000, so divide
-                                                      // and take the
-                                                      // remainder
+        long time = this.world.getDayTime() % 24000L; // Time can go over value of 24000, so divide and take the remainder
         return !(time >= 13000L && time <= 23000L);
     }
 
     @Override
-    public void livingTick() {
-        super.livingTick();
-        if (this.isDaytime()) {
-            //this.setSize(1, 2);
-        } else {
-            //this.setSize(3, 4);
-        }
+    public EntitySize getSize(Pose p_213305_1_) {
+        return this.isDaytime() ? EntitySize.flexible(1F, 2F).scale(this.func_213355_cm()) : this.getType().getSize().scale(this.func_213355_cm());
     }
 
     @Override
@@ -104,7 +97,7 @@ public class EntityHirschgeist extends MobEntity implements IMob {
             if (source.getTrueSource() instanceof PlayerEntity) {
                 PlayerEntity player = (PlayerEntity) source.getTrueSource();
                 player.sendMessage(new StringTextComponent("The " + I18n.format("entity.betteranimalsplus.Hirschgeist")
-                        + " is immortal in the daytime. Try fighting it later."));
+                + " is immortal in the daytime. Try fighting it later."));
             }
         }
         return this.isDaytime() ? false : super.attackEntityFrom(source, amount);

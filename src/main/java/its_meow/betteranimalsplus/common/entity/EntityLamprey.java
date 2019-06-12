@@ -37,7 +37,6 @@ public class EntityLamprey extends EntityWaterMobWithTypes implements IMob {
     
 	public EntityLamprey(World worldIn) {
 		super(ModEntities.getEntityType("lamprey"), worldIn);
-		//this.setSize(1.0F, 0.7F);
 	}
 
 	@Override

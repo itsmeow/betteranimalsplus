@@ -47,7 +47,6 @@ public class EntityCoyote extends EntityFeralWolf {
 
     public EntityCoyote(World worldIn) {
         super(ModEntities.getEntityType("coyote"), worldIn);
-        //this.setSize(0.8F, 0.9F);
         this.setTamed(false);
     }
 

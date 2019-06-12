@@ -46,7 +46,6 @@ public class EntitySongbird extends EntityAnimalWithTypes implements IFlyingAnim
 
     public EntitySongbird(World worldIn) {
         super(ModEntities.getEntityType("songbird"), worldIn);
-        //this.setSize(0.5F, 0.5F);
         this.moveController = new FlyingMovementController(this);
     }
 

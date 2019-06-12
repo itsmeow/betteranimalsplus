@@ -82,7 +82,6 @@ public class EntityFeralWolf extends EntityTameableWithTypes implements IMob {
     public EntityFeralWolf(World worldIn) {
         super(ModEntities.getEntityType("feralwolf"), worldIn);
         this.world = worldIn;
-        //this.setSize(0.8F, 0.9F);
         this.setTamed(false);
     }
 

@@ -42,12 +42,10 @@ public class EntityBear extends MonsterEntity {
 
     public EntityBear(World worldIn) {
         super(ModEntities.getEntityType("brownbear"), worldIn);
-        //this.setSize(2F, 2F);
     }
 
     public EntityBear(EntityType<? extends EntityBear> type, World worldIn) {
         super(type, worldIn);
-        //this.setSize(2F, 2F);
     }
 
     @Override

@@ -30,12 +30,10 @@ public class EntityBearNeutral extends EntityBear {
 
     public EntityBearNeutral(World worldIn) {
         super(ModEntities.getEntityType("blackbear"), worldIn);
-        //this.setSize(2F, 1.5F);
     }
 
     public EntityBearNeutral(EntityType<? extends EntityBearNeutral> type, World worldIn) {
         super(type, worldIn);
-        //this.setSize(2F, 1.5F);
     }
 
     @Override

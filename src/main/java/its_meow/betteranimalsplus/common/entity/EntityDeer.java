@@ -33,7 +33,6 @@ public class EntityDeer extends EntityAnimalEatsGrassWithTypes {
 
     public EntityDeer(World worldIn) {
         super(ModEntities.getEntityType("deer"), worldIn, 5);
-        //this.setSize(1.2F, 1.6F);
     }
 
     public int getEatTime() {

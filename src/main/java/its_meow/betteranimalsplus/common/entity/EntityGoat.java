@@ -52,7 +52,6 @@ public class EntityGoat extends EntityAnimalEatsGrassWithTypes {
     public EntityGoat(World worldIn) {
         super(ModEntities.getEntityType("goat"), worldIn, 5);
         this.world = worldIn;
-        //this.setSize(1.2F, 1.2F);
         this.addTemptItems();
     }
 

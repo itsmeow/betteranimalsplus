@@ -36,7 +36,6 @@ public class EntityBadger extends EntityAnimalWithTypes implements IMob {
 
     public EntityBadger(World worldIn) {
         super(ModEntities.getEntityType("badger"), worldIn);
-        //this.setSize(0.8F, 0.8F);
     }
 
 	@Override

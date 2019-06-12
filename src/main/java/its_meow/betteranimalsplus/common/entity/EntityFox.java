@@ -65,7 +65,6 @@ public class EntityFox extends EntityTameableWithTypes {
     public EntityFox(World worldIn) {
         super(ModEntities.getEntityType("fox"), worldIn);
         this.world = worldIn;
-        //this.setSize(0.8F, 0.9F);
         this.setTamed(false);
     }
 

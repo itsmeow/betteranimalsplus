@@ -43,7 +43,6 @@ public class EntityBoar extends EntityAnimalWithTypes implements IMob {
 
 	public EntityBoar(World worldIn) {
 		super(ModEntities.getEntityType("boar"), worldIn);
-		//this.setSize(0.9F, 0.9F);
 	}
 
 	@Override
@@ -54,7 +53,6 @@ public class EntityBoar extends EntityAnimalWithTypes implements IMob {
 		}
 		this.goalSelector.addGoal(3, new BreedGoal(this, 1.0D));
 		this.goalSelector.addGoal(5, new FollowParentGoal(this, 1.1D));
-		// Eats grass at priority 6
 		this.goalSelector.addGoal(6, new WaterAvoidingRandomWalkingGoal(this, 1.0D));
 		this.goalSelector.addGoal(7, new LookAtGoal(this, PlayerEntity.class, 6.0F));
 		if (!this.isChild() && this.getEntityWorld().getDifficulty() != Difficulty.PEACEFUL) {

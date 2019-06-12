@@ -41,7 +41,6 @@ public class EntityPheasant extends EntityAnimalWithTypes {
         super(ModEntities.getEntityType("pheasant"), worldIn);
         this.setPeckTime(this.getNewPeck());
         this.setPathPriority(PathNodeType.WATER, 0.0F);
-        //this.setSize(1F, this.isChild() ? 0.8F : 1F);
     }
 
     @Override

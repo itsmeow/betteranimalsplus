@@ -22,10 +22,12 @@ public class EntityContainer<T extends LivingEntity> {
     public int maxGroup;
     public Biome[] spawnBiomes = {};
     public boolean doSpawning = true;
+    public float width;
+    public float height;
 
     @SafeVarargs
     public EntityContainer(Class<T> EntityClass, Function<World, T> func,
-                           String entityNameIn, EntityClassification type, int solidColorIn, int spotColorIn, int prob, int min, int max,
+                           String entityNameIn, EntityClassification type, int solidColorIn, int spotColorIn, int prob, int min, int max, float width, float height, 
                            Set<Biome>... biomes) {
         this.entityClazz = EntityClass;
         this.entityFunction = func;
@@ -36,6 +38,8 @@ public class EntityContainer<T extends LivingEntity> {
         this.minGroup = min;
         this.maxGroup = max;
         this.type = type;
+        this.width = width;
+        this.height = height;
 
         // Convert biomes to single array
 
