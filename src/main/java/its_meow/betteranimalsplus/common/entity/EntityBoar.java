@@ -114,7 +114,7 @@ public class EntityBoar extends EntityAnimalWithTypes implements IMob {
 	@Override
 	@Nullable
 	protected ResourceLocation getLootTable() {
-		return null; //TODO: Find pig
+		return EntityType.PIG.getLootTable();
 	}
 
 	@Override
