@@ -19,7 +19,6 @@
     "block.betteranimalsplus.wolfhead": "Wolfskopf",
     "block.betteranimalsplus.deerhead": "Rehkopf",
     "block.betteranimalsplus.reindeerhead": "Rentierkopf",
-    "block.betteranimalsplus.foxhead": "Fuchskopf",
     "block.betteranimalsplus.boarhead": "Eberkopf",
 
     "_comment": "Entities",
@@ -31,7 +30,6 @@
     "entity.betteranimalsplus.feralwolf": "Wilder Wolf",
     "entity.betteranimalsplus.coyote": "Präriehund",
     "entity.betteranimalsplus.trillium": "Trillium",
-    "entity.betteranimalsplus.fox": "Fuchs",
     "entity.betteranimalsplus.tarantula": "Vogelspinne",
     "entity.betteranimalsplus.hirschgeist": "Hirschgeist",
     "entity.betteranimalsplus.goat": "Ziege",

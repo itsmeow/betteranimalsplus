@@ -19,7 +19,6 @@
     "block.betteranimalsplus.wolfhead": "Голова волка",
     "block.betteranimalsplus.deerhead": "Голова оленя",
     "block.betteranimalsplus.reindeerhead": "Голова северного оленя",
-    "block.betteranimalsplus.foxhead": "Голова лисы",
     "block.betteranimalsplus.boarhead": "Голова кабана",
 
     "_comment": "Entities",
@@ -30,7 +29,6 @@
     "entity.betteranimalsplus.lammergeier": "Бородач",
     "entity.betteranimalsplus.feralwolf": "Дикий волк",
     "entity.betteranimalsplus.coyote": "Койот",
-    "entity.betteranimalsplus.fox": "Лиса",
     "entity.betteranimalsplus.tarantula": "Тарантул",
     "entity.betteranimalsplus.hirschgeist": "Хиршгейст",
     "entity.betteranimalsplus.goat": "Коза",

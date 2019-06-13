@@ -65,8 +65,6 @@ public class EntityBear extends MonsterEntity {
         true, true, Predicates.alwaysTrue()));
         this.targetSelector.addGoal(6, new NearestAttackableTargetGoal<RabbitEntity>(this, RabbitEntity.class, 90,
         true, true, Predicates.alwaysTrue()));
-        this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<EntityFox>(this, EntityFox.class, 90, true,
-        true, Predicates.alwaysTrue()));
         this.targetSelector.addGoal(5, new NearestAttackableTargetGoal<EntityPheasant>(this, EntityPheasant.class, 90,
         true, true, Predicates.alwaysTrue()));
     }

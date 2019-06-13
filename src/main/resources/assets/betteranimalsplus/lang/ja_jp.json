@@ -19,7 +19,6 @@
     "block.betteranimalsplus.wolfhead": "オオカミの頭",
     "block.betteranimalsplus.deerhead": "シカの頭",
     "block.betteranimalsplus.reindeerhead": "トナカイの頭",
-    "block.betteranimalsplus.foxhead": "キツネの頭",
     "block.betteranimalsplus.boarhead": "イノシシの頭",
 
     "_comment": "Entities",
@@ -31,7 +30,6 @@
     "entity.betteranimalsplus.feralwolf": "野良オオカミ",
     "entity.betteranimalsplus.coyote": "コヨーテ",
     "entity.betteranimalsplus.trillium": "エンレイソウ",
-    "entity.betteranimalsplus.fox": "キツネ",
     "entity.betteranimalsplus.tarantula": "タランチュラ",
     "entity.betteranimalsplus.hirschgeist": "ヒルシュガイスト",
     "entity.betteranimalsplus.goat": "ヤギ",

@@ -19,7 +19,6 @@
     "block.betteranimalsplus.wolfhead": "Farkasfej",
     "block.betteranimalsplus.deerhead": "Õzfej",
     "block.betteranimalsplus.reindeerhead": "Rénszarvasfej",
-    "block.betteranimalsplus.foxhead": "Rókafej",
     "block.betteranimalsplus.boarhead": "Vaddisznófej",
 
     "_comment": "Entities",
@@ -31,7 +30,6 @@
     "entity.betteranimalsplus.feralwolf": "Vad Farkas",
     "entity.betteranimalsplus.coyote": "Prérifarkas",
     "entity.betteranimalsplus.trillium": "Hármasszirom",
-    "entity.betteranimalsplus.fox": "Róka",
     "entity.betteranimalsplus.tarantula": "Tarantellapók",
     "entity.betteranimalsplus.hirschgeist": "Szarvaslélek",
     "entity.betteranimalsplus.goat": "Kecske",

@@ -19,7 +19,6 @@
     "block.betteranimalsplus.wolfhead": "Cabeça de Lobo",
     "block.betteranimalsplus.deerhead": "Cabeça de Veado",
     "block.betteranimalsplus.reindeerhead": "Cabeça de Rena",
-    "block.betteranimalsplus.foxhead": "Cabeça de Raposa",
     "block.betteranimalsplus.boarhead": "Cabeça de Javali",
 
     "_comment": "Entities",
@@ -30,7 +29,6 @@
     "entity.betteranimalsplus.lammergeier": "Abutre-Barbudo",
     "entity.betteranimalsplus.feralwolf": "Lobo Feroz",
     "entity.betteranimalsplus.coyote": "Coiote",
-    "entity.betteranimalsplus.fox": "Raposa",
     "entity.betteranimalsplus.tarantula": "Tarântula",
     "entity.betteranimalsplus.hirschgeist": "Hirschgeist",
     "entity.betteranimalsplus.goat": "Cabra",

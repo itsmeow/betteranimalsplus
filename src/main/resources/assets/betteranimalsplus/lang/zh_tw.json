@@ -19,7 +19,6 @@
     "block.betteranimalsplus.wolfhead": "野狼的頭",
     "block.betteranimalsplus.deerhead": "鹿的頭",
     "block.betteranimalsplus.reindeerhead": "馴鹿的頭",
-    "block.betteranimalsplus.foxhead": "狐狸的頭",
     "block.betteranimalsplus.boarhead": "野豬的頭",
 
     "_comment": "Entities",
@@ -30,7 +29,6 @@
     "entity.betteranimalsplus.lammergeier": "胡兀鷲",
     "entity.betteranimalsplus.feralwolf": "野狼",
     "entity.betteranimalsplus.coyote": "郊狼",
-    "entity.betteranimalsplus.fox": "狐狸",
     "entity.betteranimalsplus.tarantula": "捕鳥蛛",
     "entity.betteranimalsplus.hirschgeist": "菲森蓋斯特",
     "entity.betteranimalsplus.goat": "山羊",

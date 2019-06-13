@@ -13,7 +13,6 @@ import its_meow.betteranimalsplus.common.entity.EntityBoar;
 import its_meow.betteranimalsplus.common.entity.EntityCoyote;
 import its_meow.betteranimalsplus.common.entity.EntityDeer;
 import its_meow.betteranimalsplus.common.entity.EntityFeralWolf;
-import its_meow.betteranimalsplus.common.entity.EntityFox;
 import its_meow.betteranimalsplus.common.entity.EntityGoat;
 import its_meow.betteranimalsplus.common.entity.EntityJellyfish;
 import its_meow.betteranimalsplus.common.entity.EntityLammergeier;
@@ -67,9 +66,6 @@ public class ModEntities {
         ModEntities.entityList.add(new EntityContainer<EntityCoyote>(EntityCoyote.class, EntityCoyote::new, "coyote",
                 EntityClassification.CREATURE, 0x866a31, 0xb69762, BetterAnimalsPlusConfig.coyoteWeight, 1, 6, 0.8F, 0.9F,
                 BiomeDictionary.getBiomes(Type.SANDY), BiomeDictionary.getBiomes(Type.PLAINS)));
-        ModEntities.entityList.add(new EntityContainer<EntityFox>(EntityFox.class, EntityFox::new, "fox",
-                EntityClassification.CREATURE, 0xe87422, 0x3f210c, BetterAnimalsPlusConfig.foxWeight, 1, 6, 0.8F, 0.9F,
-                BiomeDictionary.getBiomes(Type.FOREST), BiomeDictionary.getBiomes(Type.MAGICAL)));
         ModEntities.entityList.add(new EntityContainer<EntityTarantula>(EntityTarantula.class, EntityTarantula::new, "tarantula",
                 EntityClassification.MONSTER, 0x1e1e1e, 0x8c0c0c, BetterAnimalsPlusConfig.tarantulaWeight, 1, 3, 1.4F, 0.9F,
                 BiomeDictionary.getBiomes(Type.SANDY)));

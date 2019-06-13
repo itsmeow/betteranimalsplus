@@ -68,12 +68,6 @@ public class ModTextures {
     public static final ResourceLocation trillium_yellow = new ResourceLocation(
             ModTextures.entitytex + "flora/trillium_yellow.png");
 
-    // Fox Variants
-    public static final ResourceLocation fox_1 = new ResourceLocation(ModTextures.entitytex + "fox_1.png");
-    public static final ResourceLocation fox_2 = new ResourceLocation(ModTextures.entitytex + "fox_2.png");
-    public static final ResourceLocation fox_3 = new ResourceLocation(ModTextures.entitytex + "fox_3.png");
-    public static final ResourceLocation fox_4 = new ResourceLocation(ModTextures.entitytex + "fox_4.png");
-
     // Tarantula Hair
     public static final ResourceLocation tarantula_hair = new ResourceLocation(
             ModTextures.entitytex + "projectile/tarantula_hair.png");

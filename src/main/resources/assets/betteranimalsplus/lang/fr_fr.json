@@ -19,7 +19,6 @@
     "block.betteranimalsplus.wolfhead": "Tête de Loup",
     "block.betteranimalsplus.deerhead": "Tête de Cerf",
     "block.betteranimalsplus.reindeerhead": "Tête de Renne",
-    "block.betteranimalsplus.foxhead": "Tête de Renard",
     "block.betteranimalsplus.boarhead": "Tête de Sanglier",
 
     "_comment": "Entities",
@@ -30,7 +29,6 @@
     "entity.betteranimalsplus.lammergeier": "Gypaète",
     "entity.betteranimalsplus.feralwolf": "Loup farouche",
     "entity.betteranimalsplus.coyote": "Coyote",
-    "entity.betteranimalsplus.fox": "Renard",
     "entity.betteranimalsplus.tarantula": "Tarentule",
     "entity.betteranimalsplus.hirschgeist": "Hirschgeist",
     "entity.betteranimalsplus.goat": "Chèvre",

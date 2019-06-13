@@ -1,9 +1,0 @@
-{
-    "variants": {
-        "facing=east":  { "model": "minecraft:block/soul_sand" },
-        "facing=west":  { "model": "minecraft:block/soul_sand" },
-        "facing=north":  { "model": "minecraft:block/soul_sand" },
-        "facing=south":  { "model": "minecraft:block/soul_sand" },
-        "facing=up":  { "model": "minecraft:block/soul_sand" }
-    }
-}

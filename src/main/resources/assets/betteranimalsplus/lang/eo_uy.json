@@ -19,7 +19,6 @@
     "block.betteranimalsplus.wolfhead": "Kapo de Lupo",
     "block.betteranimalsplus.deerhead": "Kapo de Cervo",
     "block.betteranimalsplus.reindeerhead": "Kapo de Norda Cervo",
-    "block.betteranimalsplus.foxhead": "Kapo de Vulpo",
     "block.betteranimalsplus.boarhead": "Kapo de Porkviro",
 
     "_comment": "Entities",
@@ -31,7 +30,6 @@
     "entity.betteranimalsplus.feralwolf": "Sovaĝa Lupo",
     "entity.betteranimalsplus.coyote": "Kojoto",
     "entity.betteranimalsplus.trillium": "Trilliumo",
-    "entity.betteranimalsplus.fox": "Vulpo",
     "entity.betteranimalsplus.tarantula": "Tarantulo",
     "entity.betteranimalsplus.hirschgeist": "Hirschgeisto",
     "entity.betteranimalsplus.goat": "Kapro",

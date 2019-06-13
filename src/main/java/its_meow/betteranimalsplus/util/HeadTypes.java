@@ -11,7 +11,6 @@ import org.apache.commons.lang3.tuple.Pair;
 
 import its_meow.betteranimalsplus.client.model.ModelBoarHead;
 import its_meow.betteranimalsplus.client.model.ModelDeerHead;
-import its_meow.betteranimalsplus.client.model.ModelFoxHead;
 import its_meow.betteranimalsplus.client.model.ModelHirschgeistSkull;
 import its_meow.betteranimalsplus.client.model.ModelReindeerHead;
 import its_meow.betteranimalsplus.client.model.ModelWolfHead;
@@ -27,10 +26,6 @@ public enum HeadTypes {
     WOLFHEAD("wolfhead", true, 4, () -> () -> ModelWolfHead.class,
             type -> new TileEntityHead(type, 0F, ModTextures.wolf_black, ModTextures.wolf_snowy,
                     ModTextures.wolf_timber, ModTextures.coyote_hostile)),
-
-    FOXHEAD("foxhead", true, 4, () -> () -> ModelFoxHead.class,
-            type -> new TileEntityHead(type, -0.1F, ModTextures.fox_1, ModTextures.fox_2, ModTextures.fox_3,
-                    ModTextures.fox_4)),
 
     BOARHEAD("boarhead", false, 4, () -> () -> ModelBoarHead.class,
             type -> new TileEntityHead(type, 0F, ModTextures.boar_1, ModTextures.boar_2, ModTextures.boar_3,
