@@ -125,7 +125,7 @@ public class ModEntities {
     }
 
     private static <T extends LivingEntity> EntityType<T> createEntityType(Class<T> EntityClass, Function<World, T> func, String entityNameIn, EntityContainer<T> container) {
-        EntityType<T> type =  EntityType.Builder.<T>create((etype, world) -> func.apply(world), container.type).setTrackingRange(64).setUpdateInterval(1).setShouldReceiveVelocityUpdates(true).size(container.width, container.height).build(entityNameIn);
+        EntityType<T> type =  EntityType.Builder.<T>create((etype, world) -> func.apply(world), container.type).setTrackingRange(64).setUpdateInterval(1).setShouldReceiveVelocityUpdates(true).size(container.width, container.height).setCustomClientFactory((e, world) -> func.apply(world)).build(entityNameIn);
         type.setRegistryName(Ref.MOD_ID + ":" + entityNameIn.toLowerCase());
         return type;
     }

@@ -1,18 +1,20 @@
 package its_meow.betteranimalsplus.common.entity.projectile;
 
 import its_meow.betteranimalsplus.Ref;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.ThrowableEntity;
+import net.minecraft.network.IPacket;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.math.EntityRayTraceResult;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.network.NetworkHooks;
 
 public class EntityTarantulaHair extends ThrowableEntity {
 
@@ -38,18 +40,19 @@ public class EntityTarantulaHair extends ThrowableEntity {
      */
     @Override
     protected void onImpact(RayTraceResult result) {
-        if (result.getType() == RayTraceResult.Type.ENTITY && result.hitInfo instanceof Entity) {
+        if(result instanceof EntityRayTraceResult) {
+            EntityRayTraceResult rayR = (EntityRayTraceResult) result;
             int i = 8;
-            ((Entity) result.hitInfo).attackEntityFrom(DamageSource.causeThrownDamage(this, this.getThrower()), i);
+            rayR.getEntity().attackEntityFrom(DamageSource.causeThrownDamage(this, this.getThrower()), i);
             if(!this.world.isRemote) {
-                if (result.hitInfo instanceof PlayerEntity) {
-                    PlayerEntity player = (PlayerEntity) result.hitInfo;
+                if(rayR.getEntity() instanceof PlayerEntity) {
+                    PlayerEntity player = (PlayerEntity) rayR.getEntity();
                     int blindnessTicks = 0;
-                    if (player.getEntityWorld().getDifficulty() == Difficulty.EASY) {
+                    if(player.getEntityWorld().getDifficulty() == Difficulty.EASY) {
                         blindnessTicks = 40;
-                    } else if (player.getEntityWorld().getDifficulty() == Difficulty.NORMAL) {
+                    } else if(player.getEntityWorld().getDifficulty() == Difficulty.NORMAL) {
                         blindnessTicks = 60;
-                    } else if (player.getEntityWorld().getDifficulty() == Difficulty.HARD) {
+                    } else if(player.getEntityWorld().getDifficulty() == Difficulty.HARD) {
                         blindnessTicks = 80;
                     }
                     player.addPotionEffect(new EffectInstance(Effects.BLINDNESS, blindnessTicks, 10, false, false));
@@ -64,8 +67,13 @@ public class EntityTarantulaHair extends ThrowableEntity {
     }
 
     @Override
+    public IPacket<?> createSpawnPacket() {
+        return NetworkHooks.getEntitySpawningPacket(this);
+    }
+
+    @Override
     protected void registerData() {
-        
+
     }
 
 }
