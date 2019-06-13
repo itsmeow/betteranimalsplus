@@ -16,6 +16,7 @@ import net.minecraft.entity.MobEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.Biome.SpawnListEntry;
+import net.minecraft.world.gen.Heightmap;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.common.ForgeConfigSpec.BooleanValue;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
@@ -77,8 +78,7 @@ public class EntityConfig {
                 EntityType<?> type = ModEntities.entryMapContainers.get(entry);
                 if (entry.doSpawning) {
                     if (entry.type == EntityClassification.WATER_CREATURE && EntitySpawnPlacementRegistry.getPlacementType((EntityType<? extends MobEntity>) type) == null) {
-                        //TODO: reimplement once AT is back
-                        //EntitySpawnPlacementRegistry.register(type, EntitySpawnPlacementRegistry.PlacementType.IN_WATER, Heightmap.Type.OCEAN_FLOOR, null);
+                        EntitySpawnPlacementRegistry.register(type, EntitySpawnPlacementRegistry.PlacementType.IN_WATER, Heightmap.Type.OCEAN_FLOOR); // thanks lex :D https://github.com/MinecraftForge/MinecraftForge/pull/5799
                     }
                     for (Biome biome : entry.spawnBiomes) {
                         Method addSpawn = ObfuscationReflectionHelper.findMethod(Biome.class, "func_201866_a",

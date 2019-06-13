@@ -12,7 +12,7 @@ apply plugin: 'net.minecraftforge.gradle'
 //Only edit below this line, the above code adds and enables the necessary things for Forge to be setup.
 apply plugin: 'eclipse'
 
-version = '1.14-6.0.0'
+version = '1.14.2-6.0.0'
 group = 'its_meow.betteranimalsplus'
 archivesBaseName = 'betteranimalsplus'
 
@@ -49,7 +49,7 @@ minecraft {
 }
 
 dependencies {
-    minecraft 'net.minecraftforge:forge:1.14.2-26.0.13'
+    minecraft 'net.minecraftforge:forge:1.14.2-26.0.23'
 }
 
 tasks.withType(JavaCompile) {
