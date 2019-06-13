@@ -1,3 +1,15 @@
+6.0.2
+-
+- Added configuration for taming items
+- Fixed milk bucket not being returned (again)
+- Fixed crashes caused by animal heads
+- Fixed taming items that are replaced by mods not working even though they match
+- Fixed some broken loot tables
+- Lamprey now drop fish
+- Lamprey no longer spawn in the ocean by default (please re-generate configs for this)
+- Lamprey now wander when not attacking
+- Updated French Translation (Thanks to @Neerwan on GitHub)
+
 6.0.1 (1.12 only)
 -
 - Fix crash from Lamprey moving (unknown cause)

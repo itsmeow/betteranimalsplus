@@ -19,9 +19,9 @@ apply plugin: 'net.minecraftforge.gradle.forge'
 //Only edit below this line, the above code adds and enables the necessary things for Forge to be setup.
 
 
-version = "1.12.2-6.0.1"
-group = "its_meow.betteranimalsplus"
-archivesBaseName = "betteranimalsplus"
+version = "${project.mc_version}-${project.mod_version}"
+group = "${project.maven_group}"
+archivesBaseName = "${project.mod_id}"
 
 sourceCompatibility = targetCompatibility = '1.8'
 compileJava {
@@ -29,9 +29,10 @@ compileJava {
 }
 
 minecraft {
-    version = "1.12.2-14.23.5.2825"
+    version = "${project.mc_version}-${project.forge_version}"
     runDir = "run"
-    mappings = "snapshot_20171003"
+    mappings = "${project.mcp_mappings}"
+    replace "@VERSION@", "${project.mod_version}"
 }
 
 repositories {
@@ -81,7 +82,7 @@ tasks.withType(JavaCompile) {
 }
 
 processResources {
-    inputs.property "version", project.version
+    inputs.property "version", "${project.mod_version}"
     inputs.property "mcversion", project.minecraft.version
 
     from(sourceSets.main.resources.srcDirs) {
