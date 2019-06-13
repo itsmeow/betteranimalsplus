@@ -33,16 +33,7 @@ public class ItemHirschgeistSkullWearable extends ArmorItem {
             if(itemStack.getItem() instanceof ArmorItem) {
 
                 A armorModel = ClientLifecycleHandler.getArmorModel();
-                armorModel.field_78115_e.showModel = armorSlot == EquipmentSlotType.HEAD;
-                armorModel.bipedHeadwear.showModel = armorSlot == EquipmentSlotType.HEAD;
-                armorModel.field_78116_c.showModel = armorSlot == EquipmentSlotType.CHEST
-                        || armorSlot == EquipmentSlotType.CHEST;
-                armorModel.bipedRightArm.showModel = armorSlot == EquipmentSlotType.CHEST;
-                armorModel.bipedLeftArm.showModel = armorSlot == EquipmentSlotType.CHEST;
-                armorModel.bipedRightLeg.showModel = armorSlot == EquipmentSlotType.LEGS
-                        || armorSlot == EquipmentSlotType.FEET;
-                armorModel.bipedLeftLeg.showModel = armorSlot == EquipmentSlotType.LEGS
-                        || armorSlot == EquipmentSlotType.FEET;
+                armorModel.field_78116_c.showModel = true;
 
                 armorModel.isSneak = defaultModel.isSneak;
                 armorModel.field_217113_d = defaultModel.field_217113_d;

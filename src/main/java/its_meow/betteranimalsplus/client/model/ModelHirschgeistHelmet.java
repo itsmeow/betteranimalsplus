@@ -278,7 +278,13 @@ public class ModelHirschgeistHelmet<T extends LivingEntity> extends BipedModel<T
         this.lAnter03a.addChild(this.lAnter03c);
         this.lAnter05a1.addChild(this.lAnter05a2);
 
-        this.field_78115_e.addChild(this.head01);
+        this.field_78116_c.addChild(this.head01);
+    }
+
+    @Override
+    public void render(T p_78088_1_, float p_78088_2_, float p_78088_3_, float p_78088_4_, float p_78088_5_, float p_78088_6_, float p_78088_7_) {
+        this.field_78116_c.showModel = true;
+        super.render(p_78088_1_, p_78088_2_, p_78088_3_, p_78088_4_, p_78088_5_, p_78088_6_, p_78088_7_);
     }
 
     /**
