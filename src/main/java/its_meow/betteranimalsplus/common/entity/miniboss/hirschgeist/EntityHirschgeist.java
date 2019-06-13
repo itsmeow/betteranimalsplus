@@ -6,10 +6,8 @@ import its_meow.betteranimalsplus.init.ModEntities;
 import its_meow.betteranimalsplus.init.ModLootTables;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.resources.I18n;
-import net.minecraft.entity.EntitySize;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
-import net.minecraft.entity.Pose;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.goal.LookAtGoal;
 import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal;
@@ -26,7 +24,6 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.fml.common.thread.SidedThreadGroups;
 import net.minecraftforge.fml.loading.FMLEnvironment;
 
 public class EntityHirschgeist extends MobEntity implements IMob {
@@ -61,11 +58,6 @@ public class EntityHirschgeist extends MobEntity implements IMob {
     }
 
     @Override
-    public EntitySize getSize(Pose p_213305_1_) {
-        return this.isDaytime() ? EntitySize.flexible(1F, 2F).scale(this.func_213355_cm()) : this.getType().getSize().scale(this.func_213355_cm());
-    }
-
-    @Override
     protected SoundEvent getAmbientSound() {
         return SoundEvents.ENTITY_SKELETON_HORSE_AMBIENT;
     }
@@ -92,11 +84,10 @@ public class EntityHirschgeist extends MobEntity implements IMob {
 
     @Override
     public boolean attackEntityFrom(DamageSource source, float amount) {
-        if (this.isDaytime() && FMLEnvironment.dist == Dist.CLIENT
-                && Thread.currentThread().getThreadGroup() == SidedThreadGroups.CLIENT) {
+        if (this.isDaytime() && FMLEnvironment.dist == Dist.CLIENT && this.world.isRemote) {
             if (source.getTrueSource() instanceof PlayerEntity) {
                 PlayerEntity player = (PlayerEntity) source.getTrueSource();
-                player.sendMessage(new StringTextComponent("The " + I18n.format("entity.betteranimalsplus.Hirschgeist")
+                player.sendMessage(new StringTextComponent("The " + I18n.format("entity.betteranimalsplus.hirschgeist")
                 + " is immortal in the daytime. Try fighting it later."));
             }
         }

@@ -22,7 +22,7 @@ public class HirschgeistAIFlameAttack extends Goal {
     public HirschgeistAIFlameAttack(EntityHirschgeist creature) {
         this.attacker = creature;
         this.world = creature.world;
-        this.setMutexFlags(EnumSet.of(Goal.Flag.TARGET));
+        this.setMutexFlags(EnumSet.of(Goal.Flag.LOOK));
     }
 
     @Override
