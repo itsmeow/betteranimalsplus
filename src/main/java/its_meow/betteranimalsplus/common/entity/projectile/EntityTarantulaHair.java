@@ -18,7 +18,7 @@ import net.minecraftforge.fml.network.NetworkHooks;
 
 public class EntityTarantulaHair extends ThrowableEntity {
 
-    public static EntityType<EntityTarantulaHair> HAIR_TYPE = EntityType.Builder.<EntityTarantulaHair>create(EntityClassification.MISC).setTrackingRange(64).setUpdateInterval(1).setShouldReceiveVelocityUpdates(true).build("tarantulahair");
+    public static EntityType<EntityTarantulaHair> HAIR_TYPE = EntityType.Builder.<EntityTarantulaHair>create((type, world) -> new EntityTarantulaHair(world), EntityClassification.MISC).setTrackingRange(64).setUpdateInterval(1).setShouldReceiveVelocityUpdates(true).size(0.5F, 0.5F).setCustomClientFactory((type, world) -> new EntityTarantulaHair(world)).build("tarantulahair");
 
     static {
         HAIR_TYPE.setRegistryName(Ref.MOD_ID, "tarantulahair");

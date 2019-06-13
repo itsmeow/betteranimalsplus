@@ -23,7 +23,7 @@ import net.minecraftforge.fml.network.NetworkHooks;
 public class EntityBadgerDirt extends ThrowableEntity {
 
 
-    public static EntityType<EntityBadgerDirt> DIRT_TYPE = EntityType.Builder.<EntityBadgerDirt>create(EntityClassification.MISC).setTrackingRange(64).setUpdateInterval(1).setShouldReceiveVelocityUpdates(true).build("badgerdirt");
+    public static EntityType<EntityBadgerDirt> DIRT_TYPE = EntityType.Builder.<EntityBadgerDirt>create((type, world) -> new EntityBadgerDirt(world), EntityClassification.MISC).setTrackingRange(64).setUpdateInterval(1).setShouldReceiveVelocityUpdates(true).size(1.2F, 1.2F).setCustomClientFactory((type, world) -> new EntityBadgerDirt(world)).build("badgerdirt");
     static { 
         DIRT_TYPE.setRegistryName(Ref.MOD_ID, "badgerdirt"); 
     }
@@ -34,14 +34,12 @@ public class EntityBadgerDirt extends ThrowableEntity {
 
     public EntityBadgerDirt(World worldIn) {
         super(DIRT_TYPE, worldIn);
-        //this.setSize(1.2F, 1.2F);
     }
 
     public EntityBadgerDirt(World worldIn, LivingEntity throwerIn, int stateId) {
         super(DIRT_TYPE, worldIn);
         this.thrower = throwerIn;
         this.stateId = stateId;
-        //this.setSize(1.2F, 1.2F);
     }
 
     @Override
