@@ -14,6 +14,9 @@ import static its_meow.betteranimalsplus.init.ModItems.pheasantRaw;
 import static its_meow.betteranimalsplus.init.ModItems.venisonCooked;
 import static its_meow.betteranimalsplus.init.ModItems.venisonRaw;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import com.google.common.base.Preconditions;
 
 import its_meow.betteranimalsplus.Ref;
@@ -44,6 +47,8 @@ import net.minecraftforge.registries.IForgeRegistry;
 
 @EventBusSubscriber(modid = Ref.MOD_ID)
 public class BetterAnimalsPlusRegistrar {
+    
+    public static final Set<Item> HIDE_ITEMS = new HashSet<Item>();
 
 	@SubscribeEvent
 	public static void registerBlocks(final RegistryEvent.Register<Block> event) {
@@ -77,7 +82,9 @@ public class BetterAnimalsPlusRegistrar {
 		}
 
 		for(HeadTypes type : HeadTypes.values()) {
-			registry.register(new Item().setRegistryName(Ref.MOD_ID, type.name));
+		    Item item = new Item().setRegistryName(Ref.MOD_ID, type.name);
+		    HIDE_ITEMS.add(item);
+			registry.register(item);
 			registry.registerAll(type.getItems().toArray(new Item[0]));
 		}
 
