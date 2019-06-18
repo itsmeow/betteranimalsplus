@@ -25,7 +25,6 @@ import its_meow.betteranimalsplus.common.entity.miniboss.hirschgeist.EntityHirsc
 import its_meow.betteranimalsplus.config.BetterAnimalsPlusConfig;
 import its_meow.betteranimalsplus.util.EntityContainer;
 import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.EnumCreatureType;
 import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.BiomeDictionary.Type;
@@ -36,7 +35,7 @@ public class ModEntities {
 
     public static LinkedHashSet<EntityEntry> entrySet = new LinkedHashSet<EntityEntry>();
     public static LinkedHashSet<EntityContainer> entityList = new LinkedHashSet<EntityContainer>();
-    public static LinkedHashMap<Class<? extends EntityLivingBase>, EntityContainer> entityMap = new LinkedHashMap<Class<? extends EntityLivingBase>, EntityContainer>();
+    public static LinkedHashMap<String, EntityContainer> entityMap = new LinkedHashMap<String, EntityContainer>();
 
     static {
     	add(EntityBear.class, "brownbear", EnumCreatureType.CREATURE, 0x4F2900, 0x8E500E, BetterAnimalsPlusConfig.brownBearWeight, 1, 1, null, Type.FOREST);
@@ -76,7 +75,7 @@ public class ModEntities {
     public static void add(Class<? extends EntityLiving> EntityClass, String entityNameIn, EnumCreatureType type, int solidColorIn, int spotColorIn, int prob, int min, int max, String[] tameItems, BiomeDictionary.Type... types) {
     	EntityContainer cont = new EntityContainer(EntityClass, entityNameIn, type, solidColorIn, spotColorIn, prob, min, max, tameItems, types);
         entityList.add(cont);
-        entityMap.put(EntityClass, cont);
+        entityMap.put(entityNameIn, cont);
     }
 
 }

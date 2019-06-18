@@ -234,7 +234,7 @@ public class EntityFeralWolf extends EntityTameableWithTypes implements IMob {
                 this.navigator.clearPath();
                 this.setAttackTarget((EntityLivingBase) null);
             }
-        } else if(isTamingItem(EntityFeralWolf.class, itemstack.getItem())) {
+        } else if(isTamingItem("feralwolf", itemstack.getItem())) {
             boolean wearingPowerHead = false;
             ItemStack stack = player.getItemStackFromSlot(EntityEquipmentSlot.HEAD);
             if (stack.getItem() == Items.SKULL) {

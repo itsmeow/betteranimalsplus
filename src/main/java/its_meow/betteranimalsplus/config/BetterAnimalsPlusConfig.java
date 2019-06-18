@@ -3,6 +3,7 @@ package its_meow.betteranimalsplus.config;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import its_meow.betteranimalsplus.BetterAnimalsPlusMod;
 import its_meow.betteranimalsplus.Ref;
@@ -103,6 +104,15 @@ public class BetterAnimalsPlusConfig {
                 }
             }
         }
+    }
+
+    public static Map<String, String[]> getTameItemsMap() {
+        Map<String, String[]> map = new HashMap<String, String[]>();
+        for(EntityContainer cont : sections.keySet()) {
+            EntityConfigurationSection section = sections.get(cont);
+            map.put(cont.entityName, section.tameItems);
+        }
+        return map;
     }
 
 }

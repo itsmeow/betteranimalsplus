@@ -119,7 +119,7 @@ public class BetterAnimalsPlusMod {
 	@SubscribeEvent
 	public static void onPlayerJoin(PlayerLoggedInEvent e) {
 	    if(e.player instanceof EntityPlayerMP) {
-	        NETWORK_INSTANCE.sendTo(new ClientConfigurationPacket(BetterAnimalsPlusConfig.coyotesHostileDaytime), (EntityPlayerMP) e.player);
+	        NETWORK_INSTANCE.sendTo(new ClientConfigurationPacket(BetterAnimalsPlusConfig.coyotesHostileDaytime, BetterAnimalsPlusConfig.getTameItemsMap()), (EntityPlayerMP) e.player);
 	    }
 	}
 

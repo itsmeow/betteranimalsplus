@@ -142,7 +142,7 @@ public class EntityCoyote extends EntityFeralWolf {
                 this.navigator.clearPath();
                 this.setAttackTarget((EntityLivingBase) null);
             }
-        } else if(isTamingItem(EntityCoyote.class, itemstack.getItem())) {
+        } else if(isTamingItem("coyote", itemstack.getItem())) {
             if(BetterAnimalsPlusConfig.coyotesHostileDaytime) {
                 if (!this.world.isRemote) {
                     player.sendMessage(new TextComponentString("This coyote is always hostile. It cannot be tamed (server configuration)"));
