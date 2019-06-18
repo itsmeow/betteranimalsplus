@@ -1,3 +1,8 @@
+6.0.3
+-
+- Fixed random crash killing tameable animals
+- Fixed desync of taming item config for servers and clients
+
 6.0.2
 -
 - Added configuration for taming items
@@ -10,7 +15,7 @@
 - Lamprey now wander when not attacking
 - Updated French Translation (Thanks to @Neerwan on GitHub)
 
-6.0.1 (1.12 only)
+6.0.1
 -
 - Fix crash from Lamprey moving (unknown cause)
 - Fix invalid lang key on Hirschgeist daytime attack message
