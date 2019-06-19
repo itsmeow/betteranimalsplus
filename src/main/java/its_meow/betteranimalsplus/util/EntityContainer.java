@@ -24,11 +24,12 @@ public class EntityContainer<T extends LivingEntity> {
     public boolean doSpawning = true;
     public float width;
     public float height;
+    public String[] tameItems;
 
     @SafeVarargs
     public EntityContainer(Class<T> EntityClass, Function<World, T> func,
                            String entityNameIn, EntityClassification type, int solidColorIn, int spotColorIn, int prob, int min, int max, float width, float height, 
-                           Set<Biome>... biomes) {
+                           String[] tameItems, Set<Biome>... biomes) {
         this.entityClazz = EntityClass;
         this.entityFunction = func;
         this.entityName = entityNameIn;
@@ -40,6 +41,12 @@ public class EntityContainer<T extends LivingEntity> {
         this.type = type;
         this.width = width;
         this.height = height;
+        
+        if(tameItems == null) {
+            this.tameItems = new String[0];
+        } else {
+            this.tameItems = tameItems;
+        }
 
         // Convert biomes to single array
 

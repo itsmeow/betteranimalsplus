@@ -60,9 +60,9 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 public class EntityFeralWolf extends EntityTameableWithTypes implements IMob {
 
     protected static final DataParameter<Float> DATA_HEALTH_ID = EntityDataManager
-            .<Float>createKey(EntityFeralWolf.class, DataSerializers.FLOAT);
+    .<Float>createKey(EntityFeralWolf.class, DataSerializers.FLOAT);
     protected static final DataParameter<Integer> TYPE_NUMBER = EntityDataManager
-            .<Integer>createKey(EntityFeralWolf.class, DataSerializers.VARINT);
+    .<Integer>createKey(EntityFeralWolf.class, DataSerializers.VARINT);
 
     /** Float used to smooth the rotation of the wolf head */
     protected float headRotationCourse;
@@ -76,7 +76,7 @@ public class EntityFeralWolf extends EntityTameableWithTypes implements IMob {
      */
     protected float timeWolfIsShaking;
     protected float prevTimeWolfIsShaking;
-    
+
     public SitGoal aiSit;
 
     public EntityFeralWolf(World worldIn) {
@@ -103,29 +103,20 @@ public class EntityFeralWolf extends EntityTameableWithTypes implements IMob {
         this.targetSelector.addGoal(1, new OwnerHurtByTargetGoal(this));
         this.targetSelector.addGoal(2, new OwnerHurtTargetGoal(this));
         this.targetSelector.addGoal(3, new HurtByTargetGoal(this, new Class[0]));
-        this.targetSelector.addGoal(4,
-                new NonTamedTargetGoal<PlayerEntity>(this, PlayerEntity.class, false, Predicates.alwaysTrue()));
-        this.targetSelector.addGoal(4,
-                new NonTamedTargetGoal<AnimalEntity>(this, AnimalEntity.class, false,
-                        (@Nullable LivingEntity p_apply_1_) -> p_apply_1_ instanceof SheepEntity
-                                || p_apply_1_ instanceof RabbitEntity));
-        this.targetSelector.addGoal(4,
-                new NonTamedTargetGoal<VillagerEntity>(this, VillagerEntity.class, false, Predicates.alwaysTrue()));
-        this.targetSelector.addGoal(4, new NonTamedTargetGoal<AbstractIllagerEntity>(this, AbstractIllagerEntity.class, false,
-                Predicates.alwaysTrue()));
-        this.targetSelector.addGoal(4,
-                new NonTamedTargetGoal<ChickenEntity>(this, ChickenEntity.class, false, Predicates.alwaysTrue()));
-        this.targetSelector.addGoal(4,
-                new NonTamedTargetGoal<EntityGoat>(this, EntityGoat.class, false, Predicates.alwaysTrue()));
-        this.targetSelector.addGoal(5,
-                new NearestAttackableTargetGoal<AbstractSkeletonEntity>(this, AbstractSkeletonEntity.class, false));
+        this.targetSelector.addGoal(4, new NonTamedTargetGoal<PlayerEntity>(this, PlayerEntity.class, false, Predicates.alwaysTrue()));
+        this.targetSelector.addGoal(4, new NonTamedTargetGoal<AnimalEntity>(this, AnimalEntity.class, false, (@Nullable LivingEntity p_apply_1_) -> p_apply_1_ instanceof SheepEntity || p_apply_1_ instanceof RabbitEntity));
+        this.targetSelector.addGoal(4, new NonTamedTargetGoal<VillagerEntity>(this, VillagerEntity.class, false, Predicates.alwaysTrue()));
+        this.targetSelector.addGoal(4, new NonTamedTargetGoal<AbstractIllagerEntity>(this, AbstractIllagerEntity.class, false, Predicates.alwaysTrue()));
+        this.targetSelector.addGoal(4, new NonTamedTargetGoal<ChickenEntity>(this, ChickenEntity.class, false, Predicates.alwaysTrue()));
+        this.targetSelector.addGoal(4, new NonTamedTargetGoal<EntityGoat>(this, EntityGoat.class, false, Predicates.alwaysTrue()));
+        this.targetSelector.addGoal(5, new NearestAttackableTargetGoal<AbstractSkeletonEntity>(this, AbstractSkeletonEntity.class, false));
     }
 
     @Override
     public void onDeath(DamageSource cause) {
         super.onDeath(cause);
-        if (!world.isRemote && !this.isChild() && !(this instanceof EntityCoyote)) {
-            if (this.rand.nextInt(12) == 0) {
+        if(!world.isRemote && !this.isChild() && !(this instanceof EntityCoyote)) {
+            if(this.rand.nextInt(12) == 0) {
                 ItemStack stack = new ItemStack(HeadTypes.WOLFHEAD.getItem(this.getTypeNumber()));
                 this.entityDropItem(stack, 0.5F);
             }
@@ -134,7 +125,7 @@ public class EntityFeralWolf extends EntityTameableWithTypes implements IMob {
 
     public boolean isPreventingPlayerRest(PlayerEntity playerIn) {
         return this.world.getDifficulty() != Difficulty.PEACEFUL && !this.isTamed()
-                && this.getAttackTarget() != null && playerIn.getDistanceSq(this) <= 50D;
+        && this.getAttackTarget() != null && playerIn.getDistanceSq(this) <= 50D;
     }
 
     protected boolean isValidLightLevel() {
@@ -146,7 +137,7 @@ public class EntityFeralWolf extends EntityTameableWithTypes implements IMob {
         super.registerAttributes();
         this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.30000001192092896D);
 
-        if (this.isTamed()) {
+        if(this.isTamed()) {
             this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(30.0D);
         } else {
             this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(10.0D);
@@ -172,12 +163,10 @@ public class EntityFeralWolf extends EntityTameableWithTypes implements IMob {
 
     @Override
     protected SoundEvent getAmbientSound() {
-        if (!this.isTamed() || this.getAttackTarget() != null) {
+        if(!this.isTamed() || this.getAttackTarget() != null) {
             return SoundEvents.ENTITY_WOLF_GROWL;
-        } else if (this.rand.nextInt(3) == 0) {
-            return this.isTamed() && this.dataManager.get(EntityFeralWolf.DATA_HEALTH_ID).floatValue() < 10.0F
-                    ? SoundEvents.ENTITY_WOLF_WHINE
-                    : SoundEvents.ENTITY_WOLF_PANT;
+        } else if(this.rand.nextInt(3) == 0) {
+            return this.isTamed() && this.dataManager.get(EntityFeralWolf.DATA_HEALTH_ID).floatValue() < 10.0F ? SoundEvents.ENTITY_WOLF_WHINE : SoundEvents.ENTITY_WOLF_PANT;
         } else {
             return SoundEvents.ENTITY_WOLF_AMBIENT;
         }
@@ -207,7 +196,7 @@ public class EntityFeralWolf extends EntityTameableWithTypes implements IMob {
     public void livingTick() {
         super.livingTick();
 
-        if (!this.world.isRemote && this.isWet && !this.isShaking && !this.hasPath() && this.onGround) {
+        if(!this.world.isRemote && this.isWet && !this.isShaking && !this.hasPath() && this.onGround) {
             this.isShaking = true;
             this.timeWolfIsShaking = 0.0F;
             this.prevTimeWolfIsShaking = 0.0F;
@@ -225,36 +214,35 @@ public class EntityFeralWolf extends EntityTameableWithTypes implements IMob {
 
         this.headRotationCourse += (0.0F - this.headRotationCourse) * 0.4F;
 
-        if (this.isWet()) {
+        if(this.isWet()) {
             this.isWet = true;
             this.isShaking = false;
             this.timeWolfIsShaking = 0.0F;
             this.prevTimeWolfIsShaking = 0.0F;
-        } else if ((this.isWet || this.isShaking) && this.isShaking) {
-            if (this.timeWolfIsShaking == 0.0F) {
+        } else if((this.isWet || this.isShaking) && this.isShaking) {
+            if(this.timeWolfIsShaking == 0.0F) {
                 this.playSound(SoundEvents.ENTITY_WOLF_SHAKE, this.getSoundVolume(),
-                        (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 1.0F);
+                (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 1.0F);
             }
 
             this.prevTimeWolfIsShaking = this.timeWolfIsShaking;
             this.timeWolfIsShaking += 0.05F;
 
-            if (this.prevTimeWolfIsShaking >= 2.0F) {
+            if(this.prevTimeWolfIsShaking >= 2.0F) {
                 this.isWet = false;
                 this.isShaking = false;
                 this.prevTimeWolfIsShaking = 0.0F;
                 this.timeWolfIsShaking = 0.0F;
             }
 
-            if (this.timeWolfIsShaking > 0.4F) {
+            if(this.timeWolfIsShaking > 0.4F) {
                 float f = (float) this.getBoundingBox().minY;
                 int i = (int) (MathHelper.sin((this.timeWolfIsShaking - 0.4F) * (float) Math.PI) * 7.0F);
 
-                for (int j = 0; j < i; ++j) {
+                for(int j = 0; j < i; ++j) {
                     float f1 = (this.rand.nextFloat() * 2.0F - 1.0F) * this.getWidth() * 0.5F;
                     float f2 = (this.rand.nextFloat() * 2.0F - 1.0F) * this.getWidth() * 0.5F;
-                    this.world.addParticle(ParticleTypes.SPLASH, this.posX + f1, f + 0.8F, this.posZ + f2, this.getMotion().getX(),
-                            this.getMotion().getY(), this.getMotion().getZ());
+                    this.world.addParticle(ParticleTypes.SPLASH, this.posX + f1, f + 0.8F, this.posZ + f2, this.getMotion().getX(), this.getMotion().getY(), this.getMotion().getZ());
                 }
             }
         }
@@ -274,28 +262,27 @@ public class EntityFeralWolf extends EntityTameableWithTypes implements IMob {
     @OnlyIn(Dist.CLIENT)
     public float getShadingWhileWet(float p_70915_1_) {
         return 0.75F + (this.prevTimeWolfIsShaking + (this.timeWolfIsShaking - this.prevTimeWolfIsShaking) * p_70915_1_)
-                / 2.0F * 0.25F;
+        / 2.0F * 0.25F;
     }
 
     @OnlyIn(Dist.CLIENT)
     public float getShakeAngle(float p_70923_1_, float p_70923_2_) {
-        float f = (this.prevTimeWolfIsShaking + (this.timeWolfIsShaking - this.prevTimeWolfIsShaking) * p_70923_1_
-                + p_70923_2_) / 1.8F;
+        float f = (this.prevTimeWolfIsShaking + (this.timeWolfIsShaking - this.prevTimeWolfIsShaking) * p_70923_1_ + p_70923_2_) / 1.8F;
 
-        if (f < 0.0F) {
+        if(f < 0.0F) {
             f = 0.0F;
-        } else if (f > 1.0F) {
+        } else if(f > 1.0F) {
             f = 1.0F;
         }
 
         return MathHelper.sin(f * (float) Math.PI) * MathHelper.sin(f * (float) Math.PI * 11.0F) * 0.15F
-                * (float) Math.PI;
+        * (float) Math.PI;
     }
 
     @OnlyIn(Dist.CLIENT)
     public float getInterestedAngle(float p_70917_1_) {
         return (this.headRotationCourseOld + (this.headRotationCourse - this.headRotationCourseOld) * p_70917_1_)
-                * 0.15F * (float) Math.PI;
+        * 0.15F * (float) Math.PI;
     }
 
     /**
@@ -312,16 +299,16 @@ public class EntityFeralWolf extends EntityTameableWithTypes implements IMob {
      */
     @Override
     public boolean attackEntityFrom(DamageSource source, float amount) {
-        if (this.isInvulnerableTo(source)) {
+        if(this.isInvulnerableTo(source)) {
             return false;
         } else {
             Entity entity = source.getTrueSource();
 
-            if (this.aiSit != null) {
+            if(this.aiSit != null) {
                 this.aiSit.setSitting(false);
             }
 
-            if (entity != null && !(entity instanceof PlayerEntity) && !(entity instanceof AbstractArrowEntity)) {
+            if(entity != null && !(entity instanceof PlayerEntity) && !(entity instanceof AbstractArrowEntity)) {
                 amount = (amount + 1.0F) / 2.0F;
             }
 
@@ -332,9 +319,9 @@ public class EntityFeralWolf extends EntityTameableWithTypes implements IMob {
     @Override
     public boolean attackEntityAsMob(Entity entityIn) {
         boolean flag = entityIn.attackEntityFrom(DamageSource.causeMobDamage(this),
-                (int) this.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getValue());
+        (int) this.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getValue());
 
-        if (flag) {
+        if(flag) {
             this.applyEnchantments(this, entityIn);
         }
 
@@ -345,7 +332,7 @@ public class EntityFeralWolf extends EntityTameableWithTypes implements IMob {
     public void setTamed(boolean tamed) {
         super.setTamed(tamed);
 
-        if (tamed) {
+        if(tamed) {
             this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(30.0D);
         } else {
             this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(10.0D);
@@ -358,13 +345,13 @@ public class EntityFeralWolf extends EntityTameableWithTypes implements IMob {
     public boolean processInteract(PlayerEntity player, Hand hand) {
         ItemStack itemstack = player.getHeldItem(hand);
 
-        if (this.isTamed()) {
-            if (!itemstack.isEmpty()) {
-                if (itemstack.getItem().isFood()) {
+        if(this.isTamed()) {
+            if(!itemstack.isEmpty()) {
+                if(itemstack.getItem().isFood()) {
                     Food food = itemstack.getItem().getFood();
 
-                    if (food.isMeat() && this.dataManager.get(EntityFeralWolf.DATA_HEALTH_ID).floatValue() < 20.0F) {
-                        if (!player.isCreative()) {
+                    if(food.isMeat() && this.dataManager.get(EntityFeralWolf.DATA_HEALTH_ID).floatValue() < 20.0F) {
+                        if(!player.isCreative()) {
                             itemstack.shrink(1);
                         }
 
@@ -374,32 +361,32 @@ public class EntityFeralWolf extends EntityTameableWithTypes implements IMob {
                 }
             }
 
-            if (this.isOwner(player) && !this.world.isRemote && !this.isBreedingItem(itemstack)
-                    && (!(itemstack.getItem().isFood()) || !(itemstack.getItem().getFood().isMeat()))) {
+            if(this.isOwner(player) && !this.world.isRemote && !this.isBreedingItem(itemstack)
+            && (!(itemstack.getItem().isFood()) || !(itemstack.getItem().getFood().isMeat()))) {
                 this.aiSit.setSitting(!this.isSitting());
                 this.isJumping = false;
                 this.navigator.clearPath();
                 this.setAttackTarget((LivingEntity) null);
             }
-        } else if (itemstack.getItem() == Items.BONE) {
+        } else if(isTamingItem("feralwolf", itemstack.getItem())) {
             boolean wearingPowerHead = false;
             ItemStack stack = player.getItemStackFromSlot(EquipmentSlotType.HEAD);
-            if (stack.getItem() == Items.DRAGON_HEAD) {
+            if(stack.getItem() == Items.DRAGON_HEAD) {
                 wearingPowerHead = true;
             }
-            if (stack.getItem() == ModItems.HIRSCHGEIST_SKULL_WEARABLE) {
+            if(stack.getItem() == ModItems.HIRSCHGEIST_SKULL_WEARABLE) {
                 wearingPowerHead = true;
             }
 
-            if (wearingPowerHead) { // player.isWearing(part))
+            if(wearingPowerHead) { // player.isWearing(part))
 
-                if (!player.isCreative()) {
+                if(!player.isCreative()) {
                     itemstack.shrink(1);
                 }
 
-                if (!this.world.isRemote) {
-                    if (this.rand.nextInt(100) <= 14
-                            && !net.minecraftforge.event.ForgeEventFactory.onAnimalTame(this, player)) {
+                if(!this.world.isRemote) {
+                    if(this.rand.nextInt(100) <= 14
+                    && !net.minecraftforge.event.ForgeEventFactory.onAnimalTame(this, player)) {
                         this.setTamedBy(player);
                         this.navigator.clearPath();
                         this.setAttackTarget((LivingEntity) null);
@@ -415,9 +402,8 @@ public class EntityFeralWolf extends EntityTameableWithTypes implements IMob {
 
                 return true;
             } else {
-                if (!this.world.isRemote) {
-                    player.sendMessage(new StringTextComponent(
-                            "You cannot tame feral wolves without proving your prowess. Discover a mighty enemy, defeat it, and wear its head. Feral Wolves only bow to the protector of the forests."));
+                if(!this.world.isRemote) {
+                    player.sendMessage(new StringTextComponent("You cannot tame feral wolves without proving your prowess. Discover a mighty enemy, defeat it, and wear its head. Feral Wolves only bow to the protector of the forests."));
                 }
             }
         }
@@ -431,7 +417,7 @@ public class EntityFeralWolf extends EntityTameableWithTypes implements IMob {
     @Override
     @OnlyIn(Dist.CLIENT)
     public void handleStatusUpdate(byte id) {
-        if (id == 8) {
+        if(id == 8) {
             this.isShaking = true;
             this.timeWolfIsShaking = 0.0F;
             this.prevTimeWolfIsShaking = 0.0F;
@@ -442,13 +428,13 @@ public class EntityFeralWolf extends EntityTameableWithTypes implements IMob {
 
     @OnlyIn(Dist.CLIENT)
     public float getTailRotation() {
-        if (!this.isTamed()) {
+        if(!this.isTamed()) {
             return -0.15F;
         } else {
             return this.isTamed()
-                    ? 0.25F - (this.getMaxHealth() - this.dataManager.get(EntityFeralWolf.DATA_HEALTH_ID).floatValue())
-                            * 0.04F
-                    : -0.85F;
+            ? 0.25F - (this.getMaxHealth() - this.dataManager.get(EntityFeralWolf.DATA_HEALTH_ID).floatValue())
+            * 0.04F
+            : -0.85F;
         }
     }
 
@@ -469,17 +455,17 @@ public class EntityFeralWolf extends EntityTameableWithTypes implements IMob {
 
     @Override
     public boolean shouldAttackEntity(LivingEntity target, LivingEntity owner) {
-        if (!(target instanceof CreeperEntity) && !(target instanceof GhastEntity)) {
-            if (target instanceof EntityFeralWolf) {
+        if(!(target instanceof CreeperEntity) && !(target instanceof GhastEntity)) {
+            if(target instanceof EntityFeralWolf) {
                 EntityFeralWolf entityferalwolf = (EntityFeralWolf) target;
 
-                if (entityferalwolf.isTamed() && entityferalwolf.getOwner() == owner) {
+                if(entityferalwolf.isTamed() && entityferalwolf.getOwner() == owner) {
                     return false;
                 }
             }
 
-            if (target instanceof PlayerEntity && owner instanceof PlayerEntity
-                    && !((PlayerEntity) owner).canAttackPlayer((PlayerEntity) target)) {
+            if(target instanceof PlayerEntity && owner instanceof PlayerEntity
+            && !((PlayerEntity) owner).canAttackPlayer((PlayerEntity) target)) {
                 return false;
             } else {
                 return !(target instanceof AbstractHorseEntity) || !((AbstractHorseEntity) target).isTame();

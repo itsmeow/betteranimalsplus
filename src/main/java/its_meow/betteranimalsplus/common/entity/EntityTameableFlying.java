@@ -3,15 +3,14 @@ package its_meow.betteranimalsplus.common.entity;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.MoverType;
-import net.minecraft.entity.passive.TameableEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
-public abstract class EntityTameableFlying extends TameableEntity {
+public abstract class EntityTameableFlying extends EntityTameableBetterAnimalsPlus {
 
-    public EntityTameableFlying(EntityType<? extends TameableEntity> type, World worldIn) {
+    public EntityTameableFlying(EntityType<? extends EntityTameableFlying> type, World worldIn) {
         super(type, worldIn);
     }
 

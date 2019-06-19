@@ -6,7 +6,6 @@ import com.google.common.base.Predicates;
 
 import its_meow.betteranimalsplus.config.BetterAnimalsPlusConfig;
 import its_meow.betteranimalsplus.init.ModEntities;
-import its_meow.betteranimalsplus.init.ModItems;
 import its_meow.betteranimalsplus.util.HeadTypes;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.goal.FollowOwnerGoal;
@@ -34,7 +33,6 @@ import net.minecraft.entity.passive.horse.AbstractHorseEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Food;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.Hand;
 import net.minecraft.util.SoundEvent;
@@ -118,7 +116,7 @@ public class EntityCoyote extends EntityFeralWolf {
         super.onDeath(cause);
         if (!world.isRemote && !this.isChild()) {
             if (this.rand.nextInt(12) == 0) {
-                ItemStack stack = new ItemStack(HeadTypes.WOLFHEAD.getItem(4));
+                ItemStack stack = new ItemStack(HeadTypes.WOLFHEAD.getItem(3));
                 this.entityDropItem(stack, 0.5F);
             }
         }
@@ -152,7 +150,7 @@ public class EntityCoyote extends EntityFeralWolf {
                 this.navigator.clearPath();
                 this.setAttackTarget((LivingEntity) null);
             }
-        } else if (itemstack.getItem() == Items.RABBIT || itemstack.getItem() == Items.CHICKEN || itemstack.getItem() == Items.COOKED_CHICKEN || itemstack.getItem() == Items.COOKED_RABBIT || itemstack.getItem() == ModItems.PHEASANT_RAW || itemstack.getItem() == ModItems.PHEASANT_COOKED) {
+        } else if (isTamingItem("coyote", itemstack.getItem())) {
             if(BetterAnimalsPlusConfig.coyotesHostileDaytime) {
                 if (!this.world.isRemote) {
                     player.sendMessage(new StringTextComponent("This coyote is always hostile. It cannot be tamed (server configuration)"));

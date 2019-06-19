@@ -1,9 +1,14 @@
 package its_meow.betteranimalsplus.config;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.apache.commons.lang3.tuple.Pair;
 
 import its_meow.betteranimalsplus.BetterAnimalsPlusMod;
 import its_meow.betteranimalsplus.Ref;
+import its_meow.betteranimalsplus.init.ModEntities;
+import its_meow.betteranimalsplus.util.EntityContainer;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -52,6 +57,22 @@ public class BetterAnimalsPlusConfig {
         if (configEvent.getConfig().getSpec() == SERVER_CONFIG) {
             ENTITY_CONFIG.onWorldLoad();
         }
+    }
+    
+    @SubscribeEvent
+    public static void onLoad(final ModConfig.ConfigReloading configEvent) {
+        BetterAnimalsPlusMod.logger.debug("Reloading {} {}", Ref.MOD_ID, configEvent.getConfig().getFileName());
+        if (configEvent.getConfig().getSpec() == SERVER_CONFIG) {
+            ENTITY_CONFIG.loadEntityData();
+        }
+    }
+    
+    public static Map<String, String[]> getTameItemsMap() {
+        Map<String, String[]> map = new HashMap<String, String[]>();
+        for(EntityContainer<?> cont : ModEntities.entityList) {
+            map.put(cont.entityName, cont.tameItems);
+        }
+        return map;
     }
 
 }

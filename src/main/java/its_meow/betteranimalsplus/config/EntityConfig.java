@@ -24,9 +24,9 @@ import net.minecraftforge.registries.ForgeRegistries;
 
 public class EntityConfig {
 
-    private HashMap<EntityContainer<?>, EntityConfigurationSection> sections = new HashMap<EntityContainer<?>, EntityConfigurationSection>();
-    private BooleanValue coyoteHostileDaytime;
-    
+    public HashMap<EntityContainer<?>, EntityConfigurationSection> sections = new HashMap<EntityContainer<?>, EntityConfigurationSection>();
+    public BooleanValue coyoteHostileDaytime;
+
     EntityConfig(ForgeConfigSpec.Builder builder) {
         for(EntityContainer<?> cont : ModEntities.entityList) {
             sections.put(cont, new EntityConfigurationSection(cont, builder));
@@ -44,6 +44,11 @@ public class EntityConfig {
             container.minGroup = section.min.get();
             container.weight = section.weight.get();
             container.doSpawning = section.doSpawning.get();
+            if(section.tameItems != null) {
+                List<String> tames = section.tameItems.get();
+                if(tames != null)
+                    container.tameItems = tames.toArray(new String[0]);
+            }
 
             // Parse biomes
             List<Biome> biomesList = new ArrayList<Biome>();
@@ -51,7 +56,7 @@ public class EntityConfig {
                 Biome biome = ForgeRegistries.BIOMES.getValue(new ResourceLocation(biomeID));
                 if (biome == null) { // Could not get biome with ID
                     BetterAnimalsPlusMod.logger.error("Invalid biome configuration entered for entity \""
-                            + container.entityName + "\" (biome was mistyped or a biome mod was removed?): " + biomeID);
+                    + container.entityName + "\" (biome was mistyped or a biome mod was removed?): " + biomeID);
                 } else { // Valid biome
                     biomesList.add(biome);
                 }
@@ -82,7 +87,7 @@ public class EntityConfig {
                     }
                     for (Biome biome : entry.spawnBiomes) {
                         Method addSpawn = ObfuscationReflectionHelper.findMethod(Biome.class, "func_201866_a",
-                                EntityClassification.class, SpawnListEntry.class);
+                        EntityClassification.class, SpawnListEntry.class);
                         try {
                             addSpawn.invoke(biome, entry.type, new SpawnListEntry((EntityType<? extends MobEntity>) type, entry.weight, entry.minGroup, entry.maxGroup));
                         } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {

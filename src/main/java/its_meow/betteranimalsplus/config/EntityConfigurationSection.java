@@ -1,6 +1,7 @@
 package its_meow.betteranimalsplus.config;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import com.google.common.base.Predicate;
@@ -8,6 +9,7 @@ import com.google.common.base.Predicate;
 import its_meow.betteranimalsplus.util.EntityContainer;
 import net.minecraft.world.biome.Biome;
 import net.minecraftforge.common.ForgeConfigSpec;
+import net.minecraftforge.common.ForgeConfigSpec.ConfigValue;
 
 public class EntityConfigurationSection {
 
@@ -17,6 +19,7 @@ public class EntityConfigurationSection {
     public ForgeConfigSpec.IntValue max;
     public ForgeConfigSpec.IntValue weight;
     public ForgeConfigSpec.ConfigValue<List<? extends String>> biomesList;
+    public ConfigValue<List<String>> tameItems;
 
     public EntityConfigurationSection(EntityContainer<?> container, ForgeConfigSpec.Builder builder) {
         builder.push(container.entityName);
@@ -24,8 +27,15 @@ public class EntityConfigurationSection {
         this.entityName = container.entityName;
         this.loadSpawning(builder);
         this.loadSpawnValues(builder, container);
-
+        if(container.tameItems.length > 0) {
+            this.loadTamingItems(builder, container.tameItems);
+        }
+        
         builder.pop();
+    }
+    
+    public void loadTamingItems(ForgeConfigSpec.Builder builder, String[] tameItems) {
+        this.tameItems = builder.comment("List of acceptable item IDs to use for taming").worldRestart().define("tameItems", Arrays.asList(tameItems), (Predicate<Object>) input -> input instanceof String);
     }
 
     public void loadSpawning(ForgeConfigSpec.Builder builder) {

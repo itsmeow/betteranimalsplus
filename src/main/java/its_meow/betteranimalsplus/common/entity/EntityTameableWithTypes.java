@@ -8,7 +8,6 @@ import net.minecraft.entity.AgeableEntity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ILivingEntityData;
 import net.minecraft.entity.SpawnReason;
-import net.minecraft.entity.passive.TameableEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
@@ -17,11 +16,11 @@ import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 
-public abstract class EntityTameableWithTypes extends TameableEntity implements IVariantTypes {
+public abstract class EntityTameableWithTypes extends EntityTameableBetterAnimalsPlus implements IVariantTypes {
 
     protected static final DataParameter<Integer> TYPE_NUMBER = EntityDataManager.<Integer>createKey(EntityTameableWithTypes.class, DataSerializers.VARINT);
 
-    public EntityTameableWithTypes(EntityType<? extends TameableEntity> entityType, World worldIn) {
+    public EntityTameableWithTypes(EntityType<? extends EntityTameableWithTypes> entityType, World worldIn) {
         super(entityType, worldIn);
     }
 
