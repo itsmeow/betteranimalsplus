@@ -24,8 +24,11 @@ public class RenderGenericHead extends TileEntityRenderer<TileEntityHead> {
     public void render(TileEntityHead te, double x, double y, double z, float partialTicks, int destroyStage) {
 
         BlockState iblockstate = te.getBlockState();
-        boolean flag = iblockstate.getBlock() instanceof BlockAnimalSkull;
-        Direction enumfacing = flag ? iblockstate.get(BlockAnimalSkull.FACING_EXCEPT_DOWN) : null;
+        if(iblockstate == null || !(iblockstate.getBlock() instanceof BlockAnimalSkull)) {
+            return;
+        }
+        Direction enumfacing = iblockstate.get(BlockAnimalSkull.FACING_EXCEPT_DOWN);
+        enumfacing = enumfacing == null ? Direction.NORTH : enumfacing;
         float rotation = -enumfacing.getHorizontalAngle();
         rotation = (enumfacing == Direction.NORTH || enumfacing == Direction.SOUTH)
                 ? enumfacing.getOpposite().getHorizontalAngle()
