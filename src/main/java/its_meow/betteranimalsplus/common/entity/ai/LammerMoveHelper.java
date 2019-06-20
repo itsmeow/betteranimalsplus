@@ -1,11 +1,8 @@
 package its_meow.betteranimalsplus.common.entity.ai;
 
-import java.util.Random;
-
 import its_meow.betteranimalsplus.common.entity.EntityLammergeier;
 import net.minecraft.entity.ai.controller.MovementController;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3d;
 
 public class LammerMoveHelper extends MovementController {
 
@@ -16,64 +13,18 @@ public class LammerMoveHelper extends MovementController {
         this.parentEntity = lam;
     }
 
-    @Override
-    public boolean isUpdating() {
-        return this.action == MovementController.Action.MOVE_TO;
-    }
-
-    @Override
     public void tick() {
-        if (this.action == Action.JUMPING) {
-            this.action = Action.MOVE_TO;
+        if (this.action != MovementController.Action.MOVE_TO) {
+            return;
         }
-        if (this.action == LammerMoveHelper.Action.MOVE_TO && !this.parentEntity.isSitting()) {
-            double d0 = this.posX - this.parentEntity.posX;
-            double d1 = this.posY - this.parentEntity.posY;
-            double d2 = this.posZ - this.parentEntity.posZ;
-            double d3 = d0 * d0 + d1 * d1 + d2 * d2;
-            if (d3 <= 1.0D || d3 >= 3600.0D || this.posY > 500.0D) {
-                this.action = LammerMoveHelper.Action.WAIT;
-            }
-            d3 = MathHelper.sqrt(d3);
-            if (this.isNotColliding(this.posX, this.posY, this.posZ, d3)) {
-                this.parentEntity.addVelocity(d0 / d3 * 0.1D, d1 / d3 * 0.1D + (this.parentEntity.getAttackTarget() == null ? 0.0D
-                        : this.parentEntity.getAttackTarget().isRidingOrBeingRiddenBy(this.parentEntity) ? 0.1D : 0D), d2 / d3 * 0.1D);
-            } else {
-                this.parentEntity.addVelocity(0, 0.05, 0);
-                if (this.parentEntity.getEntityWorld().getBlockState(this.parentEntity.getPosition().up()).isSolid()) {
-                    this.parentEntity.addVelocity(d0 / d3 * 0.1D, -(0.05 + (this.parentEntity.getAttackTarget() == null ? 0.0D : this.parentEntity.getAttackTarget().isRidingOrBeingRiddenBy(this.parentEntity) ? 0.1D : 0D)), d2 / d3 * 0.1D);
-                }
-                if (this.parentEntity.posX == this.parentEntity.lastTickPosX
-                        && this.parentEntity.posY == this.parentEntity.lastTickPosY
-                        && this.parentEntity.posZ == this.parentEntity.lastTickPosZ) {
-                    Random rand = this.parentEntity.getRNG();
 
-                    this.setMoveTo(this.parentEntity.posX + rand.nextInt(2) - 1,
-                            this.parentEntity.posY + rand.nextInt(2) - 1, this.parentEntity.posZ + rand.nextInt(2) - 1,
-                            0.5D);
-                }
-                this.action = LammerMoveHelper.Action.WAIT;
-            }
+
+        Vec3d vec = new Vec3d(this.posX - this.parentEntity.posX, this.posY - this.parentEntity.posY, this.posZ - this.parentEntity.posZ);
+        vec = vec.normalize();
+        if(vec.getX() < 0.25 && vec.getY() < 0.25 && vec.getZ() < 0.25) {
+            this.action = Action.WAIT;
         }
+        this.parentEntity.setMotion(vec.scale(0.5D));
     }
 
-    /**
-     * Checks if entity bounding box is not colliding with terrain
-     */
-    private boolean isNotColliding(double x, double y, double z, double isNotColliding) {
-        double d0 = (x - this.parentEntity.posX) / isNotColliding;
-        double d1 = (y - this.parentEntity.posY) / isNotColliding;
-        double d2 = (z - this.parentEntity.posZ) / isNotColliding;
-        AxisAlignedBB axisalignedbb = this.parentEntity.getBoundingBox();
-
-        for (int i = 1; i < isNotColliding; ++i) {
-            axisalignedbb = axisalignedbb.offset(d0, d1, d2);
-
-            if (this.parentEntity.world.getEntitiesWithinAABBExcludingEntity(this.parentEntity, axisalignedbb).size() != 0) {
-                return false;
-            }
-        }
-
-        return true;
-    }
 }

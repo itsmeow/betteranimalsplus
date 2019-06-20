@@ -1,6 +1,5 @@
 package its_meow.betteranimalsplus.common.entity;
 
-import net.minecraft.block.BlockState;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.MoverType;
 import net.minecraft.util.math.BlockPos;
@@ -14,47 +13,38 @@ public abstract class EntityTameableFlying extends EntityTameableBetterAnimalsPl
         super(type, worldIn);
     }
 
-    @Override
-    public void travel(Vec3d vec) {
-        if (this.isInWater()) {
-            this.moveRelative(0.02F, vec);
+    public void travel(Vec3d p_213352_1_) {
+        if(this.isInWater()) {
+            this.moveRelative(0.02F, p_213352_1_);
             this.move(MoverType.SELF, this.getMotion());
-            this.setMotion(this.getMotion().mul(0.800000011920929D, 0.800000011920929D, 0.800000011920929D));
-        } else if (this.isInLava()) {
-            this.moveRelative(0.02F, vec);
+            this.setMotion(this.getMotion().scale((double) 0.8F));
+        } else if(this.isInLava()) {
+            this.moveRelative(0.02F, p_213352_1_);
             this.move(MoverType.SELF, this.getMotion());
-            this.setMotion(this.getMotion().mul(0.5D, 0.5D, 0.5D));
+            this.setMotion(this.getMotion().scale(0.5D));
         } else {
+            BlockPos ground = new BlockPos(this.posX, this.getBoundingBox().minY - 1.0D, this.posZ);
             float f = 0.91F;
-
-            if (this.onGround) {
-                BlockPos underPos = new BlockPos(MathHelper.floor(this.posX),
-                        MathHelper.floor(this.getBoundingBox().minY) - 1, MathHelper.floor(this.posZ));
-                BlockState underState = this.world.getBlockState(underPos);
-                f = underState.getBlock().getSlipperiness(underState, this.world, underPos, this) * 0.91F;
+            if(this.onGround) {
+                f = this.world.getBlockState(ground).getSlipperiness(world, ground, this) * 0.91F;
             }
 
-            float f1 = 0.16277136F / (f * f * f);
-            this.moveRelative(this.onGround ? 0.1F * f1 : 0.02F, vec);
+            float f1 = 0.16277137F / (f * f * f);
             f = 0.91F;
-
-            if (this.onGround) {
-                BlockPos underPos = new BlockPos(MathHelper.floor(this.posX),
-                        MathHelper.floor(this.getBoundingBox().minY) - 1, MathHelper.floor(this.posZ));
-                BlockState underState = this.world.getBlockState(underPos);
-                f = underState.getBlock().getSlipperiness(underState, this.world, underPos, this) * 0.91F;
+            if(this.onGround) {
+                f = this.world.getBlockState(ground).getSlipperiness(world, ground, this) * 0.91F;
             }
 
+            this.moveRelative(this.onGround ? 0.1F * f1 : 0.02F, p_213352_1_);
             this.move(MoverType.SELF, this.getMotion());
-            this.setMotion(this.getMotion().mul(f, f, f));
+            this.setMotion(this.getMotion().scale((double) f));
         }
 
         this.prevLimbSwingAmount = this.limbSwingAmount;
         double d1 = this.posX - this.prevPosX;
         double d0 = this.posZ - this.prevPosZ;
         float f2 = MathHelper.sqrt(d1 * d1 + d0 * d0) * 4.0F;
-
-        if (f2 > 1.0F) {
+        if(f2 > 1.0F) {
             f2 = 1.0F;
         }
 

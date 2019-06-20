@@ -21,7 +21,6 @@ import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.controller.MovementController;
 import net.minecraft.entity.ai.goal.Goal;
-import net.minecraft.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal;
 import net.minecraft.entity.ai.goal.OwnerHurtByTargetGoal;
 import net.minecraft.entity.ai.goal.OwnerHurtTargetGoal;
@@ -54,14 +53,16 @@ import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 
 public class EntityLammergeier extends EntityTameableFlying implements IVariantTypes {
-    
+
     protected static final DataParameter<Integer> TYPE_NUMBER = EntityDataManager.<Integer>createKey(EntityLammergeier.class, DataSerializers.VARINT);
     protected static final DataParameter<Byte> FLYING = EntityDataManager.<Byte>createKey(EntityLammergeier.class, DataSerializers.BYTE);
     protected static final DataParameter<Float> DATA_HEALTH_ID = EntityDataManager.<Float>createKey(EntityLammergeier.class, DataSerializers.FLOAT);
 
     public boolean landedLast = false;
     protected boolean readyToSit = false;
-    
+    public float lastRotX = 0;
+    public float rotX = 0;
+
     public SitGoal aiSit;
 
     // Forgive me for this godawful mess.
@@ -135,8 +136,8 @@ public class EntityLammergeier extends EntityTameableFlying implements IVariantT
     @Override
     protected SoundEvent getAmbientSound() {
         return this.isTamed() && this.dataManager.get(EntityLammergeier.DATA_HEALTH_ID).floatValue() < 6.0F
-                ? SoundEvents.ENTITY_PARROT_HURT
-                : null;
+        ? SoundEvents.ENTITY_PARROT_HURT
+        : null;
     }
 
     @Override
@@ -263,7 +264,7 @@ public class EntityLammergeier extends EntityTameableFlying implements IVariantT
             }
 
             if (target instanceof PlayerEntity && owner instanceof PlayerEntity
-                    && !((PlayerEntity) owner).canAttackPlayer((PlayerEntity) target)) {
+            && !((PlayerEntity) owner).canAttackPlayer((PlayerEntity) target)) {
                 return false;
             } else {
                 return !(target instanceof AbstractHorseEntity) || !((AbstractHorseEntity) target).isTame();
@@ -280,7 +281,7 @@ public class EntityLammergeier extends EntityTameableFlying implements IVariantT
 
         if (entityIn instanceof LivingEntity) {
             f += EnchantmentHelper.getModifierForCreature(this.getHeldItemMainhand(),
-                    ((LivingEntity) entityIn).getCreatureAttribute());
+            ((LivingEntity) entityIn).getCreatureAttribute());
             i += EnchantmentHelper.getKnockbackModifier(this);
         }
 
@@ -289,7 +290,7 @@ public class EntityLammergeier extends EntityTameableFlying implements IVariantT
         if (flag) {
             if (i > 0 && entityIn instanceof LivingEntity) {
                 ((LivingEntity) entityIn).knockBack(this, i * 0.5F, MathHelper.sin(this.rotationYaw * 0.017453292F),
-                        -MathHelper.cos(this.rotationYaw * 0.017453292F));
+                -MathHelper.cos(this.rotationYaw * 0.017453292F));
                 this.setMotion(this.getMotion().getX() * 0.6D, this.getMotion().getY(), this.getMotion().getZ() * 0.6D);
             }
 
@@ -303,11 +304,11 @@ public class EntityLammergeier extends EntityTameableFlying implements IVariantT
                 PlayerEntity entityplayer = (PlayerEntity) entityIn;
                 ItemStack itemstack = this.getHeldItemMainhand();
                 ItemStack itemstack1 = entityplayer.isHandActive() ? entityplayer.getActiveItemStack()
-                        : ItemStack.EMPTY;
+                : ItemStack.EMPTY;
 
                 if (!itemstack.isEmpty() && !itemstack1.isEmpty()
-                        && itemstack.getItem().canDisableShield(itemstack, itemstack1, entityplayer, this)
-                        && itemstack1.getItem().isShield(itemstack1, entityplayer)) {
+                && itemstack.getItem().canDisableShield(itemstack, itemstack1, entityplayer, this)
+                && itemstack1.getItem().isShield(itemstack1, entityplayer)) {
                     float f1 = 0.25F + EnchantmentHelper.getEfficiencyModifier(this) * 0.05F;
 
                     if (this.rand.nextFloat() < f1) {
@@ -353,12 +354,23 @@ public class EntityLammergeier extends EntityTameableFlying implements IVariantT
 
     @Override
     public void tick() {
+        if ((Math.abs(this.getMotion().getY()) > 0 && (Math.abs(this.getMotion().getX()) > 0.05 || Math.abs(this.getMotion().getZ()) > 0.05)) || Math.abs(this.getMotion().getY()) > 0.25) {
+            float x = -((float) Math.atan(this.getMotion().getY()
+            / Math.sqrt(Math.pow(this.getMotion().getX(), 2) + Math.pow(this.getMotion().getZ(), 2))) / 1.5F);
+            if (x < 0) {
+                x /= 3;
+            }
+            rotX = x;
+        } else {
+            rotX = 0;
+        }
         super.tick();
         this.lastMotionY = this.getMotion().getY();
         if(world.isBlockPresent(this.getPosition()) && world.isBlockPresent(this.getPosition().down()) && world.isAirBlock(this.getPosition()) && !world.isAirBlock(this.getPosition().down()) && this.readyToSit) {
             this.readyToSit = false;
             this.setSitting(true);
         }
+        lastRotX = rotX;
     }
 
     /**
@@ -487,21 +499,19 @@ public class EntityLammergeier extends EntityTameableFlying implements IVariantT
 
     @Override
     public void updatePassenger(Entity passenger) {
-        if (this.isPassenger(passenger)) {
-            passenger.setPosition(this.posX + this.getMotion().getX(), this.posY - passenger.getHeight() - 0.05 + this.getMotion().getY(),
-                    this.posZ + this.getMotion().getZ());
-            this.setMotion(this.getMotion().getX(), this.getMotion().getY() + Math.abs(passenger.getMotion().getY()), this.getMotion().getZ());
-            if (passenger instanceof LivingEntity
-                    && (this.getAttackTarget() == null || this.getAttackTarget() != passenger)) {
-                this.setAttackTarget((LivingEntity) passenger);
-            }
-            if (this.world.isRemote) {
-                this.applyOrientationToEntity(passenger);
-            }
+        passenger.setPosition(this.posX + this.getMotion().getX(), this.posY - passenger.getHeight() - 0.05 + this.getMotion().getY(),
+        this.posZ + this.getMotion().getZ());
+        this.setMotion(this.getMotion().getX(), this.getMotion().getY() + Math.abs(passenger.getMotion().getY()), this.getMotion().getZ());
+        if (passenger instanceof LivingEntity
+        && (this.getAttackTarget() == null || this.getAttackTarget() != passenger)) {
+            this.setAttackTarget((LivingEntity) passenger);
+        }
+        if (this.world.isRemote) {
+            this.applyOrientationToEntity(passenger);
         }
     }
 
-    static class AIMeleeAttack extends MeleeAttackGoal {
+    static class AIMeleeAttack extends Goal {
         protected World world;
         protected EntityLammergeier attacker;
         /**
@@ -517,7 +527,6 @@ public class EntityLammergeier extends EntityTameableFlying implements IVariantT
         protected double liftY = 0;
 
         public AIMeleeAttack(EntityLammergeier lam) {
-            super(lam, 0.5D, false);
             this.attacker = lam;
             this.world = lam.getEntityWorld();
             this.setMutexFlags(EnumSet.of(Goal.Flag.MOVE, Goal.Flag.TARGET));
@@ -552,7 +561,7 @@ public class EntityLammergeier extends EntityTameableFlying implements IVariantT
                 return false;
             } else {
                 return !(entitylivingbase instanceof PlayerEntity) || !((PlayerEntity) entitylivingbase).isSpectator()
-                        && !((PlayerEntity) entitylivingbase).isCreative();
+                && !((PlayerEntity) entitylivingbase).isCreative();
             }
         }
 
@@ -573,7 +582,7 @@ public class EntityLammergeier extends EntityTameableFlying implements IVariantT
             LivingEntity entitylivingbase = this.attacker.getAttackTarget();
 
             if (entitylivingbase instanceof PlayerEntity && (((PlayerEntity) entitylivingbase).isSpectator()
-                    || ((PlayerEntity) entitylivingbase).isCreative())) {
+            || ((PlayerEntity) entitylivingbase).isCreative())) {
                 this.attacker.setAttackTarget((LivingEntity) null);
             }
         }
@@ -590,7 +599,7 @@ public class EntityLammergeier extends EntityTameableFlying implements IVariantT
             double targetZ = entitylivingbase.posZ;
 
             if (entitylivingbase.getDistanceSq(this.attacker) < 4096.0D) // If the distance is less than 4096 square
-                                                                         // blocks rotate towards them
+                // blocks rotate towards them
             {
                 double d1 = entitylivingbase.posX - this.attacker.posX;
                 double d2 = entitylivingbase.posZ - this.attacker.posZ;
@@ -599,7 +608,7 @@ public class EntityLammergeier extends EntityTameableFlying implements IVariantT
             }
 
             double distanceToTarget = this.attacker.getDistanceSq(entitylivingbase.posX, entitylivingbase.posY,
-                    entitylivingbase.posZ);
+            entitylivingbase.posZ);
 
             // Reduce time till attack
             this.attackTick--;
@@ -616,21 +625,19 @@ public class EntityLammergeier extends EntityTameableFlying implements IVariantT
             }
 
             // If the entity is not grabbing a target, set it to move to its target
-            if (!attacker.getMoveHelper().isUpdating()) {
-                if (attacker.getPassengers().size() == 0) {
-                    this.attacker.getMoveHelper().setMoveTo(targetX, targetY, targetZ, 1.0D);
-                } else { // If the entity is grabbing a target, set it to move upwards
-                    this.attacker.getMoveHelper().setMoveTo(targetX, this.liftY + 15, targetZ, 5.0D);
-                }
+            if (attacker.getPassengers().size() == 0) {
+                this.attacker.getMoveHelper().setMoveTo(targetX, targetY, targetZ, 1.0D);
+            } else { // If the entity is grabbing a target, set it to move upwards
+                this.attacker.getMoveHelper().setMoveTo(targetX, this.liftY + 15, targetZ, 5.0D);
             }
 
             // If the entity is in range and entity is not grabbing a target and
             // the target's height is less than 3 blocks
             if (distanceToTarget <= reachToTarget && attacker.getPassengers().size() == 0
-                    && entitylivingbase.getHeight() <= 3 && this.attackTick == 20) {
+            && entitylivingbase.getHeight() <= 3 && this.attackTick == 20) {
                 // Move the entity upwards to avoid being stuck in the ground
                 this.attacker.setLocationAndAngles(this.attacker.posX, this.attacker.posY + entitylivingbase.getHeight() + 2,
-                        this.attacker.posZ, this.attacker.rotationYaw, this.attacker.rotationPitch);
+                this.attacker.posZ, this.attacker.rotationYaw, this.attacker.rotationPitch);
                 // Grab the target
                 entitylivingbase.startRiding(this.attacker, true);
                 // Set liftY so entity can continue moving up from the spot
@@ -641,6 +648,7 @@ public class EntityLammergeier extends EntityTameableFlying implements IVariantT
                     MobEntity el = (MobEntity) entitylivingbase;
                     el.setAttackTarget(null);
                     el.setRevengeTarget(null);
+                    el.getNavigator().clearPath();
                 }
                 // Move upwards
                 this.attacker.getMoveHelper().setMoveTo(targetX, this.liftY + 15, targetZ, 5.0D);
@@ -649,7 +657,7 @@ public class EntityLammergeier extends EntityTameableFlying implements IVariantT
             // If the entity is grabbing a target and the block above is solid
             // (stuck)
             if (attacker.getPassengers().size() == 0
-                    && this.attacker.getEntityWorld().getBlockState(this.attacker.getPosition().up()).isNormalCube(world, this.attacker.getPosition().up())) {
+            && this.attacker.getEntityWorld().getBlockState(this.attacker.getPosition().up()).isNormalCube(world, this.attacker.getPosition().up())) {
                 // Release target
                 entitylivingbase.stopRiding();
                 // Remove target
@@ -657,8 +665,8 @@ public class EntityLammergeier extends EntityTameableFlying implements IVariantT
                 // Create a random target position
                 Random random = this.attacker.getRNG();
                 BlockPos rPos = this.attacker
-                        .fromPolarCoordinates(new PolarVector3D(this.attacker.rotationYaw + (random.nextInt(40) - 20),
-                                random.nextInt(40) - 20, random.nextInt(15) + 1 + random.nextFloat()));
+                .fromPolarCoordinates(new PolarVector3D(this.attacker.rotationYaw + (random.nextInt(40) - 20),
+                random.nextInt(40) - 20, random.nextInt(15) + 1 + random.nextFloat()));
                 BlockPos pos = this.attacker.getPosition();
                 rPos = rPos.add(pos);
                 // Move to random target position
@@ -671,6 +679,10 @@ public class EntityLammergeier extends EntityTameableFlying implements IVariantT
                 entitylivingbase.stopRiding();
             }
 
+        }
+
+        protected double getAttackReachSqr(LivingEntity attackTarget) {
+            return (double)(this.attacker.getWidth() * 2.0F * this.attacker.getWidth() * 2.0F + attackTarget.getWidth());
         }
     }
 
@@ -699,7 +711,7 @@ public class EntityLammergeier extends EntityTameableFlying implements IVariantT
             if (this.parentEntity.getAttackTarget() == null) {
                 if (!this.parentEntity.isTamed()) {
                     this.parentEntity.rotationYaw = -((float) MathHelper.atan2(this.parentEntity.getMotion().getX(),
-                            this.parentEntity.getMotion().getZ())) * (180F / (float) Math.PI);
+                    this.parentEntity.getMotion().getZ())) * (180F / (float) Math.PI);
                     this.parentEntity.renderYawOffset = this.parentEntity.rotationYaw;
                 } else {
                     LivingEntity entitylivingbase = this.parentEntity.getOwner();
@@ -709,7 +721,7 @@ public class EntityLammergeier extends EntityTameableFlying implements IVariantT
                             double d1 = entitylivingbase.posX - this.parentEntity.posX;
                             double d2 = entitylivingbase.posZ - this.parentEntity.posZ;
                             this.parentEntity.rotationYaw = -((float) MathHelper.atan2(d1, d2))
-                                    * (180F / (float) Math.PI);
+                            * (180F / (float) Math.PI);
                             this.parentEntity.renderYawOffset = this.parentEntity.rotationYaw;
                         }
                     }
@@ -742,7 +754,6 @@ public class EntityLammergeier extends EntityTameableFlying implements IVariantT
         @Override
         public boolean shouldExecute() {
             MovementController entitymovehelper = this.parentEntity.getMoveHelper();
-
             if (this.parentEntity.isTamed()) {
                 return false;
             }
@@ -773,8 +784,8 @@ public class EntityLammergeier extends EntityTameableFlying implements IVariantT
             if (random.nextInt(30) != 1 && !this.parentEntity.landedLast) {
                 this.parentEntity.setFlying(true);
                 BlockPos rPos = this.parentEntity.fromPolarCoordinates(
-                        new PolarVector3D(this.parentEntity.rotationYaw + (random.nextInt(50) - 25),
-                                random.nextInt(30) - 10, random.nextInt(50) + 1 + random.nextFloat()));
+                new PolarVector3D(this.parentEntity.rotationYaw + (random.nextInt(50) - 25),
+                random.nextInt(30) - 10, random.nextInt(50) + 1 + random.nextFloat()));
                 BlockPos pos = this.parentEntity.getPosition();
                 rPos = rPos.add(pos);
                 this.parentEntity.getMoveHelper().setMoveTo(rPos.getX(), rPos.getY(), rPos.getZ(), 1.0D);

@@ -594,21 +594,13 @@ public class ModelLammergeier<T extends LivingEntity> extends EntityModel<T> {
         if (this.isFlying) {
             this.rWing01.rotateAngleZ = MathHelper.cos(ageInTicks * 0.3F) * (float) Math.PI * 0.25F;
 
-            if ((Math.abs(lammergeier.getMotion().getY()) > 0
-                    && (Math.abs(lammergeier.getMotion().getX()) > 0.05 || Math.abs(lammergeier.getMotion().getZ()) > 0.05))
+            if ((Math.abs(lammergeier.getMotion().getY()) > 0 && (Math.abs(lammergeier.getMotion().getX()) > 0.05 || Math.abs(lammergeier.getMotion().getZ()) > 0.05))
                     || Math.abs(lammergeier.getMotion().getY()) > 0.25) {
-                float rotX = -((float) Math.atan(lammergeier.getMotion().getY()
-                        / Math.sqrt(Math.pow(lammergeier.getMotion().getX(), 2) + Math.pow(lammergeier.getMotion().getZ(), 2))) / 1.5F);
-                if (rotX < 0) {
-                    rotX /= 3;
-                }
                 if (Math.abs(lammergeier.getMotion().getY() + lammergeier.lastMotionY) > 0.05 && lammergeier.getMotion().getY() < 0) {
                     this.rWing01.rotateAngleZ = MathHelper.cos(225 * 0.3F) * (float) Math.PI * 0.25F;
                 }
-                this.body.rotateAngleX = rotX;
-            } else {
-                this.body.rotateAngleX = 0;
             }
+            this.body.rotateAngleX = (float) MathHelper.clampedLerp(lammergeier.lastRotX, lammergeier.rotX, limbSwing);
             this.lWing01.rotateAngleZ = -this.rWing01.rotateAngleZ;
             this.rWing02.rotateAngleZ = this.rWing01.rotateAngleZ * 0.5F;
             this.lWing02.rotateAngleZ = -this.rWing01.rotateAngleZ * 0.5F;
