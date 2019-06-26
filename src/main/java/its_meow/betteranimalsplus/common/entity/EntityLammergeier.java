@@ -64,6 +64,7 @@ public class EntityLammergeier extends EntityTameableFlying implements IVariantT
     public float rotX = 0;
 
     public SitGoal aiSit;
+    private NearestAttackableTargetGoal<SkeletonEntity> targetSkeletons;
 
     // Forgive me for this godawful mess.
 
@@ -115,7 +116,8 @@ public class EntityLammergeier extends EntityTameableFlying implements IVariantT
         this.goalSelector.addGoal(7, new EntityLammergeier.AILookAround(this));
         this.targetSelector.addGoal(1, new OwnerHurtByTargetGoal(this));
         this.targetSelector.addGoal(2, new OwnerHurtTargetGoal(this));
-        this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<SkeletonEntity>(this, SkeletonEntity.class, false));
+        this.targetSkeletons = new NearestAttackableTargetGoal<SkeletonEntity>(this, SkeletonEntity.class, false);
+        this.targetSelector.addGoal(3, targetSkeletons);
     } 
 
     @Override
@@ -488,6 +490,7 @@ public class EntityLammergeier extends EntityTameableFlying implements IVariantT
         } else {
             this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(6.0D);
         }
+        this.goalSelector.removeGoal(targetSkeletons);
 
     }
 
@@ -626,9 +629,9 @@ public class EntityLammergeier extends EntityTameableFlying implements IVariantT
 
             // If the entity is not grabbing a target, set it to move to its target
             if (attacker.getPassengers().size() == 0) {
-                this.attacker.getMoveHelper().setMoveTo(targetX, targetY, targetZ, 1.0D);
+                this.attacker.getMoveHelper().setMoveTo(targetX, targetY, targetZ, 0.4D);
             } else { // If the entity is grabbing a target, set it to move upwards
-                this.attacker.getMoveHelper().setMoveTo(targetX, this.liftY + 15, targetZ, 5.0D);
+                this.attacker.getMoveHelper().setMoveTo(targetX, this.liftY + 15, targetZ, 0.4D);
             }
 
             // If the entity is in range and entity is not grabbing a target and
@@ -651,7 +654,7 @@ public class EntityLammergeier extends EntityTameableFlying implements IVariantT
                     el.getNavigator().clearPath();
                 }
                 // Move upwards
-                this.attacker.getMoveHelper().setMoveTo(targetX, this.liftY + 15, targetZ, 5.0D);
+                this.attacker.getMoveHelper().setMoveTo(targetX, this.liftY + 15, targetZ, 0.4D);
             }
 
             // If the entity is grabbing a target and the block above is solid
@@ -670,7 +673,7 @@ public class EntityLammergeier extends EntityTameableFlying implements IVariantT
                 BlockPos pos = this.attacker.getPosition();
                 rPos = rPos.add(pos);
                 // Move to random target position
-                this.attacker.getMoveHelper().setMoveTo(rPos.getX(), rPos.getY(), rPos.getZ(), 1.0D);
+                this.attacker.getMoveHelper().setMoveTo(rPos.getX(), rPos.getY(), rPos.getZ(), 0.4D);
             }
 
             // If we've about reached the target lifting point and have a target

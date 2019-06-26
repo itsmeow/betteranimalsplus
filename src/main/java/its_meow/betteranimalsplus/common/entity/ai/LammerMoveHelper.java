@@ -21,10 +21,10 @@ public class LammerMoveHelper extends MovementController {
 
         Vec3d vec = new Vec3d(this.posX - this.parentEntity.posX, this.posY - this.parentEntity.posY, this.posZ - this.parentEntity.posZ);
         vec = vec.normalize();
-        if(vec.getX() < 0.25 && vec.getY() < 0.25 && vec.getZ() < 0.25) {
+        if(vec.length() < 2) {
             this.action = Action.WAIT;
         }
-        this.parentEntity.setMotion(vec.scale(0.5D));
+        this.parentEntity.setMotion(vec.scale(0.25D));
     }
 
 }
