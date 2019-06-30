@@ -91,6 +91,9 @@ public class ClientRegistrar {
         initModel(ModItems.goatCheese, 0);
         initModel(ModItems.pheasantRaw, 0);
         initModel(ModItems.pheasantCooked, 0);
+        initModel(ModItems.WOLF_CAPE_CLASSIC, 0);
+        initModel(ModItems.WOLF_CAPE_TIMBER, 0);
+        initModel(ModItems.WOLF_CAPE_BLACK, 0);
         
         // Tile Entities
         

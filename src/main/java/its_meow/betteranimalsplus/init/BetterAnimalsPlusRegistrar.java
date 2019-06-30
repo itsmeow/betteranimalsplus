@@ -5,6 +5,9 @@ import static its_meow.betteranimalsplus.init.ModBlocks.trillium;
 import static its_meow.betteranimalsplus.init.ModEntities.entityList;
 import static its_meow.betteranimalsplus.init.ModEntities.entrySet;
 import static its_meow.betteranimalsplus.init.ModEntities.modEntities;
+import static its_meow.betteranimalsplus.init.ModItems.WOLF_CAPE_BLACK;
+import static its_meow.betteranimalsplus.init.ModItems.WOLF_CAPE_CLASSIC;
+import static its_meow.betteranimalsplus.init.ModItems.WOLF_CAPE_TIMBER;
 import static its_meow.betteranimalsplus.init.ModItems.antler;
 import static its_meow.betteranimalsplus.init.ModItems.goatCheese;
 import static its_meow.betteranimalsplus.init.ModItems.goatMilk;
@@ -90,7 +93,7 @@ public class BetterAnimalsPlusRegistrar {
 
 		// Items
 
-		registry.registerAll(venisonRaw, venisonCooked, itemHirschgeistSkullWearable, antler, goatMilk, goatCheese, pheasantRaw, pheasantCooked);
+		registry.registerAll(venisonRaw, venisonCooked, itemHirschgeistSkullWearable, antler, goatMilk, goatCheese, pheasantRaw, pheasantCooked, WOLF_CAPE_CLASSIC, WOLF_CAPE_TIMBER, WOLF_CAPE_BLACK);
 
 	}
 
