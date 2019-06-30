@@ -10,6 +10,9 @@ item.betteranimalsplus.goatmilk.name=Goat Milk
 item.betteranimalsplus.goatcheese.name=Goat Cheese
 item.betteranimalsplus.pheasantraw.name=Raw Pheasant
 item.betteranimalsplus.pheasantcooked.name=Cooked Pheasant
+item.betteranimalsplus.wolfcape1.name=Wolf Cape (Classic)
+item.betteranimalsplus.wolfcape2.name=Wolf Cape (Timber)
+item.betteranimalsplus.wolfcape3.name=Wolf Cape (Black)
 #Blocks
 tile.betteranimalsplus.trillium.name=Trillium
 tile.betteranimalsplus.hirschgeistskull.name=Hirschgeist Skull
@@ -19,6 +22,7 @@ tile.betteranimalsplus.deerhead.name=Deer Head
 tile.betteranimalsplus.reindeerhead.name=Reindeer Head
 tile.betteranimalsplus.foxhead.name=Fox Head
 tile.betteranimalsplus.boarhead.name=Boar Head
+tile.betteranimalsplus.bearhead.name=Bear Head
 #Entities
 entity.betteranimalsplus.brownbear.name=Brown Bear
 entity.betteranimalsplus.blackbear.name=Black Bear
