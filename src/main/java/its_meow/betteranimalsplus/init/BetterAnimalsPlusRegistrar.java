@@ -58,6 +58,7 @@ public class BetterAnimalsPlusRegistrar {
 		for (HeadTypes type : HeadTypes.values()) {
 			registry.registerAll(type.getItemSet().toArray(new Item[0]));
 		}
+
 	}
 
 	/*
@@ -69,7 +70,7 @@ public class BetterAnimalsPlusRegistrar {
 
 		registry.registerAll(ModItems.VENISON_RAW, ModItems.VENISON_COOKED, ModItems.HIRSCHGEIST_SKULL_WEARABLE,
 				ModItems.ANTLER, ModItems.GOAT_MILK, ModItems.GOAT_CHEESE, ModItems.PHEASANT_RAW,
-				ModItems.PHEASANT_COOKED);
+				ModItems.PHEASANT_COOKED, ModItems.WOLF_CAPE_CLASSIC, ModItems.WOLF_CAPE_TIMBER, ModItems.WOLF_CAPE_BLACK);
 
 		for (EntityContainer<?> ent : ModEntities.entityList) {
 			ItemBetterAnimalsPlusEgg egg = new ItemBetterAnimalsPlusEgg(ModEntities.getEntityType(ent.entityName),

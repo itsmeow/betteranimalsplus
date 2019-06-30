@@ -5,13 +5,14 @@ import java.util.LinkedHashMap;
 import its_meow.betteranimalsplus.BetterAnimalsPlusMod;
 import its_meow.betteranimalsplus.common.item.ItemBetterFood;
 import its_meow.betteranimalsplus.common.item.ItemHirschgeistSkullWearable;
+import its_meow.betteranimalsplus.common.item.ItemWolfCape;
 import net.minecraft.entity.Entity;
-import net.minecraft.item.*;
-import net.minecraft.item.Item.Properties;
 import net.minecraft.item.BlockItem;
+import net.minecraft.item.Item;
+import net.minecraft.item.Item.Properties;
+import net.minecraft.item.Items;
 import net.minecraft.item.MilkBucketItem;
 import net.minecraft.item.SpawnEggItem;
-import net.minecraft.item.Items;
 
 public class ModItems {
 
@@ -33,5 +34,9 @@ public class ModItems {
             new Properties().group(BetterAnimalsPlusMod.group));
 
     public static LinkedHashMap<SpawnEggItem, Class<? extends Entity>> eggs = new LinkedHashMap<SpawnEggItem, Class<? extends Entity>>();
+
+    public static final ItemWolfCape WOLF_CAPE_CLASSIC = new ItemWolfCape(1);
+    public static final ItemWolfCape WOLF_CAPE_TIMBER = new ItemWolfCape(2);
+    public static final ItemWolfCape WOLF_CAPE_BLACK = new ItemWolfCape(3);
 
 }
