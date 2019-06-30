@@ -139,5 +139,8 @@ public class ModTextures {
     public static final ResourceLocation lamprey_1 = new ResourceLocation(entitytex + "lamprey_1.png");
     public static final ResourceLocation lamprey_2 = new ResourceLocation(entitytex + "lamprey_2.png");
     public static final ResourceLocation lamprey_3 = new ResourceLocation(entitytex + "lamprey_3.png");
+    
+    // Nautilus
+    public static final ResourceLocation nautilus = new ResourceLocation(entitytex + "nautilus.png");
 
 }

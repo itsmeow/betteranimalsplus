@@ -35,6 +35,7 @@ public class BetterAnimalsPlusConfig {
     public static int songbirdWeight = 11;
     public static int badgerWeight = 7;
     public static int lampreyWeight = 7;
+    public static int nautilusWeight = 4;
 
     public static boolean spawnTrillium = true;
     public static boolean coyotesHostileDaytime = false;
