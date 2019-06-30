@@ -9,6 +9,9 @@
     "item.betteranimalsplus.goatcheese": "Goat Cheese",
     "item.betteranimalsplus.pheasantraw": "Raw Pheasant",
     "item.betteranimalsplus.pheasantcooked": "Cooked Pheasant",
+    "item.betteranimalsplus.wolfcape1.name": "Wolf Cape (Classic)",
+    "item.betteranimalsplus.wolfcape2.name": "Wolf Cape (Timber)",
+    "item.betteranimalsplus.wolfcape3.name": "Wolf Cape (Black)",
 
     "block.betteranimalsplus.trillium": "Trillium",
     "block.betteranimalsplus.hirschgeistskull": "Hirschgeist Skull",
@@ -17,6 +20,7 @@
     "block.betteranimalsplus.deerhead": "Deer Head",
     "block.betteranimalsplus.reindeerhead": "Reindeer Head",
     "block.betteranimalsplus.boarhead": "Boar Head",
+    "block.betteranimalsplus.bearhead": "Bear Head",
 
     "entity.betteranimalsplus.brownbear": "Brown Bear",
     "entity.betteranimalsplus.blackbear": "Black Bear",

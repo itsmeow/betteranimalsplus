@@ -9,6 +9,7 @@ import java.util.function.Supplier;
 
 import org.apache.commons.lang3.tuple.Pair;
 
+import its_meow.betteranimalsplus.client.model.ModelBearHead;
 import its_meow.betteranimalsplus.client.model.ModelBoarHead;
 import its_meow.betteranimalsplus.client.model.ModelDeerHead;
 import its_meow.betteranimalsplus.client.model.ModelHirschgeistSkull;
@@ -30,6 +31,9 @@ public enum HeadTypes {
     BOARHEAD("boarhead", false, 4, () -> () -> ModelBoarHead.class,
             type -> new TileEntityHead(type, 0F, ModTextures.boar_1, ModTextures.boar_2, ModTextures.boar_3,
                     ModTextures.boar_4)),
+    
+    BEARHEAD("bearhead", false, 3, () -> () -> ModelBearHead.class,
+            type -> new TileEntityHead(type, 0F, ModTextures.bear_brown, ModTextures.bear_black, ModTextures.bear_kermode)),
 
     DEERHEAD("deerhead", false, 2, () -> () -> ModelDeerHead.class, type -> new TileEntityHead(type, 0F, (typeNum -> {
         Calendar calendar = Calendar.getInstance();
@@ -73,9 +77,7 @@ public enum HeadTypes {
     private Set<BlockGenericSkull> blocks = new HashSet<BlockGenericSkull>();
     private final Supplier<Supplier<Class<? extends EntityModel<Entity>>>> modelSupplier;
 
-    HeadTypes(String name, boolean allowFloor, int texCount,
-            Supplier<Supplier<Class<? extends EntityModel<Entity>>>> modelSupplier,
-            Function<HeadTypes, TileEntityHead> teFactory) {
+    HeadTypes(String name, boolean allowFloor, int texCount, Supplier<Supplier<Class<? extends EntityModel<Entity>>>> modelSupplier, Function<HeadTypes, TileEntityHead> teFactory) {
         this.name = name;
         this.allowFloor = allowFloor;
         this.teFactory = teFactory;
@@ -109,7 +111,7 @@ public enum HeadTypes {
     public Supplier<Supplier<Class<? extends EntityModel<Entity>>>> getModelSupplier() {
         return modelSupplier;
     }
-    
+
     public static BlockGenericSkull[] getAllBlocks() {
         ArrayList<BlockGenericSkull> blocks = new ArrayList<>();
         for(HeadTypes type : HeadTypes.values()) {

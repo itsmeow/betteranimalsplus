@@ -48,8 +48,17 @@ minecraft {
     }
 }
 
+repositories {
+    maven {
+        name = "JEI"
+        url = "http://dvs1.progwml6.com/files/maven"
+    }
+}
+
 dependencies {
     minecraft "net.minecraftforge:forge:${project.mc_version}-${project.forge_version}"
+    compileOnly fg.deobf("mezz.jei:jei-${mc_version}:${jei_version}:api")
+    runtimeOnly fg.deobf("mezz.jei:jei-${mc_version}:${jei_version}")
 }
 
 tasks.withType(JavaCompile) {
