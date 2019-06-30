@@ -8,6 +8,7 @@ import java.util.function.Supplier;
 
 import org.apache.commons.lang3.tuple.Pair;
 
+import its_meow.betteranimalsplus.client.model.ModelBearHead;
 import its_meow.betteranimalsplus.client.model.ModelBoarHead;
 import its_meow.betteranimalsplus.client.model.ModelDeerHead;
 import its_meow.betteranimalsplus.client.model.ModelFoxHead;
@@ -22,9 +23,8 @@ import net.minecraft.client.model.ModelBase;
 
 public enum HeadTypes {
 
-
-	// Double supplier avoids loading ModelBase which does not exist on the server
-	WOLFHEAD("wolfhead", true, 4, () -> () -> ModelWolfHead.class,
+    // Double supplier avoids loading ModelBase which does not exist on the server
+    WOLFHEAD("wolfhead", true, 4, () -> () -> ModelWolfHead.class,
             type -> new TileEntityHead(type, 0F, ModTextures.wolf_black, ModTextures.wolf_snowy,
                     ModTextures.wolf_timber, ModTextures.coyote_hostile)),
 
@@ -35,6 +35,9 @@ public enum HeadTypes {
     BOARHEAD("boarhead", false, 4, () -> () -> ModelBoarHead.class,
             type -> new TileEntityHead(type, 0F, ModTextures.boar_1, ModTextures.boar_2, ModTextures.boar_3,
                     ModTextures.boar_4)),
+
+    BEARHEAD("bearhead", false, 3, () -> () -> ModelBearHead.class,
+            type -> new TileEntityHead(type, 0F, ModTextures.bear_brown, ModTextures.bear_black, ModTextures.bear_kermode)),
 
     DEERHEAD("deerhead", false, 2, () -> () -> ModelDeerHead.class, type -> new TileEntityHead(type, 0F, (typeNum -> {
         Calendar calendar = Calendar.getInstance();
@@ -71,49 +74,49 @@ public enum HeadTypes {
 
 
 
-	public final String name;
-	public final boolean allowFloor;
-	public final int textureCount;
-	public final Function<HeadTypes, TileEntityHead> teFactory;
-	private final Supplier<Supplier<Class<? extends ModelBase>>> modelSupplier;
-	private HashMap<Integer, Pair<BlockGenericSkull, ItemBlockHeadType>> heads = new HashMap<Integer, Pair<BlockGenericSkull, ItemBlockHeadType>>();
-	private ArrayList<ItemBlockHeadType> items = new ArrayList<ItemBlockHeadType>();
-	private ArrayList<BlockGenericSkull> blocks = new ArrayList<BlockGenericSkull>();
+    public final String name;
+    public final boolean allowFloor;
+    public final int textureCount;
+    public final Function<HeadTypes, TileEntityHead> teFactory;
+    private final Supplier<Supplier<Class<? extends ModelBase>>> modelSupplier;
+    private HashMap<Integer, Pair<BlockGenericSkull, ItemBlockHeadType>> heads = new HashMap<Integer, Pair<BlockGenericSkull, ItemBlockHeadType>>();
+    private ArrayList<ItemBlockHeadType> items = new ArrayList<ItemBlockHeadType>();
+    private ArrayList<BlockGenericSkull> blocks = new ArrayList<BlockGenericSkull>();
 
-	HeadTypes(String name, boolean allowFloor, int texCount, Supplier<Supplier<Class<? extends ModelBase>>> modelSupplier,
-	          Function<HeadTypes, TileEntityHead> teFactory) {
-		this.name = name;
-		this.allowFloor = allowFloor;
-		this.teFactory = teFactory;
-		this.textureCount = texCount;
-		this.modelSupplier = modelSupplier;
-		for (int i = 1; i <= texCount; i++) {
-			BlockGenericSkull block = new BlockGenericSkull(this, i);
-			blocks.add(block);
-			ItemBlockHeadType item = new ItemBlockHeadType(block, this, i);
-			heads.put(i, Pair.of(block, item));
-			items.add(item);
-		}
-	}
+    HeadTypes(String name, boolean allowFloor, int texCount, Supplier<Supplier<Class<? extends ModelBase>>> modelSupplier,
+            Function<HeadTypes, TileEntityHead> teFactory) {
+        this.name = name;
+        this.allowFloor = allowFloor;
+        this.teFactory = teFactory;
+        this.textureCount = texCount;
+        this.modelSupplier = modelSupplier;
+        for (int i = 1; i <= texCount; i++) {
+            BlockGenericSkull block = new BlockGenericSkull(this, i);
+            blocks.add(block);
+            ItemBlockHeadType item = new ItemBlockHeadType(block, this, i);
+            heads.put(i, Pair.of(block, item));
+            items.add(item);
+        }
+    }
 
-	public BlockGenericSkull getBlock(int i) {
-		return heads.get(i).getLeft();
-	}
+    public BlockGenericSkull getBlock(int i) {
+        return heads.get(i).getLeft();
+    }
 
-	public ItemBlockHeadType getItem(int i) {
-		return heads.get(i).getRight();
-	}
+    public ItemBlockHeadType getItem(int i) {
+        return heads.get(i).getRight();
+    }
 
-	public ArrayList<ItemBlockHeadType> getItems() {
-		return items;
-	}
+    public ArrayList<ItemBlockHeadType> getItems() {
+        return items;
+    }
 
-	public ArrayList<BlockGenericSkull> getBlocks() {
-		return blocks;
-	}
+    public ArrayList<BlockGenericSkull> getBlocks() {
+        return blocks;
+    }
 
-	public Supplier<Supplier<Class<? extends ModelBase>>> getModelSupplier() {
-		return modelSupplier;
-	}
+    public Supplier<Supplier<Class<? extends ModelBase>>> getModelSupplier() {
+        return modelSupplier;
+    }
 
 }
