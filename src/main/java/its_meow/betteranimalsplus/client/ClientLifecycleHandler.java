@@ -17,6 +17,7 @@ import its_meow.betteranimalsplus.client.renderer.entity.RenderJellyfish;
 import its_meow.betteranimalsplus.client.renderer.entity.RenderKermodeBear;
 import its_meow.betteranimalsplus.client.renderer.entity.RenderLammergeier;
 import its_meow.betteranimalsplus.client.renderer.entity.RenderLamprey;
+import its_meow.betteranimalsplus.client.renderer.entity.RenderNautilus;
 import its_meow.betteranimalsplus.client.renderer.entity.RenderNothing;
 import its_meow.betteranimalsplus.client.renderer.entity.RenderPheasant;
 import its_meow.betteranimalsplus.client.renderer.entity.RenderReindeer;
@@ -39,6 +40,7 @@ import its_meow.betteranimalsplus.common.entity.EntityGoat;
 import its_meow.betteranimalsplus.common.entity.EntityJellyfish;
 import its_meow.betteranimalsplus.common.entity.EntityLammergeier;
 import its_meow.betteranimalsplus.common.entity.EntityLamprey;
+import its_meow.betteranimalsplus.common.entity.EntityNautilus;
 import its_meow.betteranimalsplus.common.entity.EntityPheasant;
 import its_meow.betteranimalsplus.common.entity.EntityReindeer;
 import its_meow.betteranimalsplus.common.entity.EntitySongbird;
@@ -89,6 +91,7 @@ public class ClientLifecycleHandler {
         RenderingRegistry.registerEntityRenderingHandler(EntityBadger.class, RenderBadger::new);
         RenderingRegistry.registerEntityRenderingHandler(EntityBadgerDirt.class, RenderNothing<EntityBadgerDirt>::new);
         RenderingRegistry.registerEntityRenderingHandler(EntityLamprey.class, RenderLamprey::new);
+        RenderingRegistry.registerEntityRenderingHandler(EntityNautilus.class, RenderNautilus::new);
         BetterAnimalsPlusMod.logger.log(Level.INFO, "Rendering squirrel physics...");
     }
 
