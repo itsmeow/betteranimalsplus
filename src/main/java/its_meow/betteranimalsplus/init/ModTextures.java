@@ -162,5 +162,11 @@ public class ModTextures {
     
     // Nautilus
     public static final ResourceLocation nautilus = new ResourceLocation(entitytex + "nautilus.png");
+    
+    // Crab Variants
+    public static final ResourceLocation crab_1 = new ResourceLocation(entitytex + "crab_1.png");
+    public static final ResourceLocation crab_2 = new ResourceLocation(entitytex + "crab_2.png");
+    public static final ResourceLocation crab_3 = new ResourceLocation(entitytex + "crab_3.png");
+    public static final ResourceLocation crab_4 = new ResourceLocation(entitytex + "crab_4.png");
 
 }
