@@ -25,7 +25,7 @@ import net.minecraft.world.World;
 public class EntityCrab extends EntityAnimalWithTypes {
 
     public int snipTime = 0;
-    protected static final DataParameter<Boolean> CRAB_RAVE = EntityDataManager.<Boolean>createKey(EntityCrab.class, DataSerializers.BOOLEAN);
+    protected static final DataParameter<Integer> CRAB_RAVE = EntityDataManager.<Integer>createKey(EntityCrab.class, DataSerializers.VARINT);
 
     public EntityCrab(World world) {
         super(world);
@@ -63,7 +63,7 @@ public class EntityCrab extends EntityAnimalWithTypes {
     @Override
     protected void entityInit() {
         super.entityInit();
-        this.dataManager.register(CRAB_RAVE, Boolean.valueOf(false));
+        this.dataManager.register(CRAB_RAVE, Integer.valueOf(0));
     }
 
     @Override
@@ -132,12 +132,12 @@ public class EntityCrab extends EntityAnimalWithTypes {
         }
     }
     
-    public boolean getIsCrabRave() {
-        return this.dataManager.get(CRAB_RAVE).booleanValue();
+    public int getIsCrabRave() {
+        return this.dataManager.get(CRAB_RAVE).intValue();
     }
 
-    private void setCrabRave(boolean in) {
-        this.dataManager.set(CRAB_RAVE, Boolean.valueOf(in));
+    private void setCrabRave(int in) {
+        this.dataManager.set(CRAB_RAVE, Integer.valueOf(in));
     }
 
     public boolean canBreatheUnderwater() {
@@ -157,7 +157,7 @@ public class EntityCrab extends EntityAnimalWithTypes {
     }
 
     protected boolean canDespawn() {
-        return !this.getIsCrabRave() && !this.hasCustomName();
+        return this.getIsCrabRave() == 0 && !this.hasCustomName();
     }
 
     protected int getExperiencePoints(EntityPlayer player) {
@@ -174,7 +174,7 @@ public class EntityCrab extends EntityAnimalWithTypes {
     }
 
     public void crabRave() {
-        this.setCrabRave(true);
+        this.setCrabRave(this.getRNG().nextInt(3) + 1);
         this.tasks.taskEntries.clear();
         this.targetTasks.taskEntries.clear();
         this.setAttackTarget(null);
@@ -182,7 +182,7 @@ public class EntityCrab extends EntityAnimalWithTypes {
     }
     
     public void unCrabRave() {
-        this.setCrabRave(false);
+        this.setCrabRave(0);
         this.initEntityAI();
     }
 
