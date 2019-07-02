@@ -52,7 +52,9 @@ public abstract class EntityAnimalWithTypes extends AnimalEntity implements IVar
     @Override
     public AgeableEntity createChild(AgeableEntity ageable) {
         if(!(ageable instanceof IVariantTypes)) return null;
-        return (AgeableEntity) getBaseChild().setType(this.getOffspringType(this, (IVariantTypes) ageable));
+        IVariantTypes child = getBaseChild();
+        if(child == null) return null;
+        return (AgeableEntity) child.setType(this.getOffspringType(this, (IVariantTypes) ageable));
     }
     
     protected abstract IVariantTypes getBaseChild();
