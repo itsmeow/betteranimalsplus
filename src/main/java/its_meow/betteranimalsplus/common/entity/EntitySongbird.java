@@ -35,8 +35,10 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
+import net.minecraftforge.common.BiomeDictionary;
+import net.minecraftforge.common.BiomeDictionary.Type;
 
-public class EntitySongbird extends EntityAnimalWithTypes implements EntityFlying {
+public class EntitySongbird extends EntityAnimalWithSelectiveTypes implements EntityFlying {
 
     protected static final Set<Item> SEEDS = Sets.newHashSet(Items.WHEAT_SEEDS, Items.MELON_SEEDS, Items.PUMPKIN_SEEDS, Items.BEETROOT_SEEDS);
 
@@ -165,6 +167,19 @@ public class EntitySongbird extends EntityAnimalWithTypes implements EntityFlyin
     @Override
     protected IVariantTypes getBaseChild() {
         return new EntitySongbird(this.world);
+    }
+
+    @Override
+    protected int[] getTypesFor(Set<BiomeDictionary.Type> types) {
+        if(types.contains(Type.FOREST) && !types.contains(Type.CONIFEROUS)) {
+            return new int[] {2, 6, 7, 8};
+        } else if(types.contains(Type.CONIFEROUS) && !types.contains(Type.SNOWY)) {
+            return new int[] {1, 9};
+        } else if(types.contains(Type.CONIFEROUS) && types.contains(Type.SNOWY)) {
+            return new int[] {3, 4, 5};
+        } else {
+            return new int[] {1, 2, 3, 4, 5, 6, 7, 8, 9};
+        }
     }
 
 }

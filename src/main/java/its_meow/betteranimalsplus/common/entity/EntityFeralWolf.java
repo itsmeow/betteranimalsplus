@@ -1,5 +1,7 @@
 package its_meow.betteranimalsplus.common.entity;
 
+import java.util.Set;
+
 import javax.annotation.Nullable;
 
 import com.google.common.base.Predicates;
@@ -50,10 +52,12 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
+import net.minecraftforge.common.BiomeDictionary;
+import net.minecraftforge.common.BiomeDictionary.Type;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class EntityFeralWolf extends EntityTameableWithTypes implements IMob {
+public class EntityFeralWolf extends EntityTameableWithSelectiveTypes implements IMob {
 
     protected static final DataParameter<Float> DATA_HEALTH_ID = EntityDataManager.<Float>createKey(EntityFeralWolf.class, DataSerializers.FLOAT);
 
@@ -336,6 +340,21 @@ public class EntityFeralWolf extends EntityTameableWithTypes implements IMob {
     @Override
     protected IVariantTypes getBaseChild() {
         return null;
+    }
+    
+    @Override
+    protected int[] getTypesFor(Set<BiomeDictionary.Type> types) {
+        if(types.contains(Type.FOREST) && !types.contains(Type.CONIFEROUS)) {
+            return new int[] {3};
+        } else if(types.contains(Type.CONIFEROUS) && !types.contains(Type.SNOWY)) {
+            return new int[] {1, 3};
+        } else if(types.contains(Type.CONIFEROUS) && types.contains(Type.SNOWY)) {
+            return new int[] {2, 3};
+        } else if(types.contains(Type.SNOWY) && !types.contains(Type.CONIFEROUS)) { 
+            return new int[] {2};
+        } else {
+            return new int[] {1, 2, 3};
+        }
     }
 
 }

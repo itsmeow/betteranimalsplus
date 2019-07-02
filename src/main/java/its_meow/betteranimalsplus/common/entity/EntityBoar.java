@@ -1,5 +1,7 @@
 package its_meow.betteranimalsplus.common.entity;
 
+import java.util.Set;
+
 import javax.annotation.Nullable;
 
 import its_meow.betteranimalsplus.util.HeadTypes;
@@ -38,8 +40,10 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
 import net.minecraft.world.storage.loot.LootTableList;
+import net.minecraftforge.common.BiomeDictionary;
+import net.minecraftforge.common.BiomeDictionary.Type;
 
-public class EntityBoar extends EntityAnimalWithTypes implements IMob {
+public class EntityBoar extends EntityAnimalWithSelectiveTypes implements IMob {
 
 	public EntityBoar(World worldIn) {
 		super(worldIn);
@@ -240,5 +244,22 @@ public class EntityBoar extends EntityAnimalWithTypes implements IMob {
 	protected IVariantTypes getBaseChild() {
 		return null;
 	}
+	
+    @Override
+    protected int[] getTypesFor(Set<BiomeDictionary.Type> types) {
+        if(types.contains(Type.FOREST) && !types.contains(Type.CONIFEROUS)) {
+            return new int[] {1, 2, 3};
+        } else if(types.contains(Type.CONIFEROUS) && !types.contains(Type.SNOWY)) {
+            return new int[] {1, 2, 3};
+        } else if(types.contains(Type.CONIFEROUS) && types.contains(Type.SNOWY)) {
+            return new int[] {1, 4};
+        } else if(types.contains(Type.SNOWY) && !types.contains(Type.CONIFEROUS)) { 
+            return new int[] {4};
+        } else if(types.contains(Type.SAVANNA) || types.contains(Type.PLAINS)) {
+            return new int[] {1, 2, 3};
+        } else {
+            return new int[] {1, 2, 3, 4};
+        }
+    }
 
 }

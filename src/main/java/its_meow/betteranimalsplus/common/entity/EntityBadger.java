@@ -1,5 +1,7 @@
 package its_meow.betteranimalsplus.common.entity;
 
+import java.util.Set;
+
 import javax.annotation.Nullable;
 
 import its_meow.betteranimalsplus.common.entity.projectile.EntityBadgerDirt;
@@ -28,8 +30,10 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
+import net.minecraftforge.common.BiomeDictionary;
+import net.minecraftforge.common.BiomeDictionary.Type;
 
-public class EntityBadger extends EntityAnimalWithTypes implements IMob {
+public class EntityBadger extends EntityAnimalWithSelectiveTypes implements IMob {
 
 	public EntityBadger(World worldIn) {
 		super(worldIn);
@@ -203,5 +207,18 @@ public class EntityBadger extends EntityAnimalWithTypes implements IMob {
 		}
 
 	}
+	
+    @Override
+    protected int[] getTypesFor(Set<BiomeDictionary.Type> types) {
+        if(types.contains(Type.FOREST) && !types.contains(Type.CONIFEROUS)) {
+            return new int[] {2};
+        } else if(types.contains(Type.CONIFEROUS) && !types.contains(Type.SNOWY)) {
+            return new int[] {1};
+        } else if(types.contains(Type.CONIFEROUS) && types.contains(Type.SNOWY)) {
+            return new int[] {1};
+        } else {
+            return new int[] {1, 2, 3};
+        }
+    }
 
 }
