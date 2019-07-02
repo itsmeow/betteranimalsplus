@@ -25,6 +25,7 @@ import java.util.Set;
 import com.google.common.base.Preconditions;
 
 import its_meow.betteranimalsplus.Ref;
+import its_meow.betteranimalsplus.common.entity.EmptyEntity;
 import its_meow.betteranimalsplus.common.entity.EntityLammergeier;
 import its_meow.betteranimalsplus.common.entity.projectile.EntityBadgerDirt;
 import its_meow.betteranimalsplus.common.entity.projectile.EntityTarantulaHair;
@@ -112,6 +113,9 @@ public class BetterAnimalsPlusRegistrar {
 		EntitySpawnPlacementRegistry.setPlacementType(EntityLammergeier.class, SpawnPlacementType.IN_AIR);
 		register(EntityTarantulaHair.class, "tarantulahair");
 		register(EntityBadgerDirt.class, "badgerdirt");
+		register(EmptyEntity.class, "brownbear");
+		register(EmptyEntity.class, "blackbear");
+		register(EmptyEntity.class, "kermodebear");
 
 		if (!entrySet.isEmpty()) {
 			for (final EntityEntry entityEntry : entrySet) {

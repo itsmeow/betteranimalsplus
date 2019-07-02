@@ -8,6 +8,7 @@ import org.apache.logging.log4j.Logger;
 
 import its_meow.betteranimalsplus.common.item.ItemBlockHeadType;
 import its_meow.betteranimalsplus.config.BetterAnimalsPlusConfig;
+import its_meow.betteranimalsplus.fixers.BearDataFixer;
 import its_meow.betteranimalsplus.fixers.HeadBlockDataFixer;
 import its_meow.betteranimalsplus.fixers.HeadItemDataFixer;
 import its_meow.betteranimalsplus.fixers.HeadTileDataFixer;
@@ -100,6 +101,7 @@ public class BetterAnimalsPlusMod {
         fixer.registerFix(FixTypes.CHUNK, new HeadBlockDataFixer());
         fixer.registerFix(FixTypes.BLOCK_ENTITY, new HeadTileDataFixer());
         fixer.registerFix(FixTypes.ITEM_INSTANCE, new HeadItemDataFixer());
+        fixer.registerFix(FixTypes.ENTITY, new BearDataFixer());
         logger.log(Level.INFO, "Overspawning lammergeiers...");
     }
 

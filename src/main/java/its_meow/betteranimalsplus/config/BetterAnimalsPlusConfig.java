@@ -16,9 +16,7 @@ import net.minecraftforge.common.config.Configuration;
 
 public class BetterAnimalsPlusConfig {
 
-    public static int brownBearWeight = 7;
-    public static int blackBearWeight = 5;
-    public static int kermodeBearWeight = 4;
+    public static int bearWeight = 6;
     public static int deerWeight = 16;
     public static int lammergeierWeight = 7;
     public static int feralWolfWeight = 7;

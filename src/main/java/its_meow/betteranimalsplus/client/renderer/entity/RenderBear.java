@@ -10,16 +10,22 @@ import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.util.ResourceLocation;
 
-public class RenderBrownBear extends RenderLiving<EntityBear> {
+public class RenderBear extends RenderLiving<EntityBear> {
 
-    public RenderBrownBear(RenderManager rendermanagerIn) {
+    public RenderBear(RenderManager rendermanagerIn) {
         super(rendermanagerIn, new ModelBear(), 1F);
     }
 
     @Override
     @Nonnull
     protected ResourceLocation getEntityTexture(@Nonnull EntityBear entity) {
-        return ModTextures.bear_brown;
+        int type = entity.getTypeNumber();
+        switch(type) {
+        case 1: return ModTextures.bear_brown;
+        case 2: return ModTextures.bear_black;
+        case 3: return ModTextures.bear_kermode;
+        default: return ModTextures.bear_brown;
+        }
     }
 
     /**
@@ -27,10 +33,12 @@ public class RenderBrownBear extends RenderLiving<EntityBear> {
      * rendered.
      */
     @Override
-    protected void preRenderCallback(EntityBear entitylivingbaseIn, float partialTickTime) {
-        float scale = 1.3F;
-        GlStateManager.scale(scale, scale, scale);
-        super.preRenderCallback(entitylivingbaseIn, partialTickTime);
+    protected void preRenderCallback(EntityBear bear, float partialTickTime) {
+        if(bear.getTypeNumber() == 1) {
+            float scale = 1.3F;
+            GlStateManager.scale(scale, scale, scale);
+        }
+        super.preRenderCallback(bear, partialTickTime);
     }
 
 }
