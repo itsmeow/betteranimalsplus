@@ -3,6 +3,7 @@ package its_meow.betteranimalsplus.init;
 import java.util.LinkedHashMap;
 
 import its_meow.betteranimalsplus.BetterAnimalsPlusMod;
+import its_meow.betteranimalsplus.Ref;
 import its_meow.betteranimalsplus.common.item.ItemBetterFood;
 import its_meow.betteranimalsplus.common.item.ItemHirschgeistSkullWearable;
 import its_meow.betteranimalsplus.common.item.ItemWolfCape;
@@ -12,7 +13,10 @@ import net.minecraft.item.Item;
 import net.minecraft.item.Item.Properties;
 import net.minecraft.item.Items;
 import net.minecraft.item.MilkBucketItem;
+import net.minecraft.item.MusicDiscItem;
+import net.minecraft.item.Rarity;
 import net.minecraft.item.SpawnEggItem;
+import net.minecraft.util.ResourceLocation;
 
 public class ModItems {
 
@@ -39,4 +43,10 @@ public class ModItems {
     public static final ItemWolfCape WOLF_CAPE_TIMBER = new ItemWolfCape(2);
     public static final ItemWolfCape WOLF_CAPE_BLACK = new ItemWolfCape(3);
 
+    public static final ItemBetterFood CRAB_MEAT_RAW = new ItemBetterFood("crab_meat_raw", 2, 1, 16, true);
+    public static final ItemBetterFood CRAB_MEAT_COOKED = new ItemBetterFood("crab_meat_cooked", 5, 1.2F, 16, true);
+
+    public static final MusicDiscItem RECORD_CRAB_RAVE = new MusicDiscItem(15, ModSoundEvents.CRAB_RAVE, new Item.Properties().maxStackSize(1).rarity(Rarity.RARE)) {}; static {
+        RECORD_CRAB_RAVE.setRegistryName(new ResourceLocation(Ref.MOD_ID, "record_crab_rave"));
+    }
 }

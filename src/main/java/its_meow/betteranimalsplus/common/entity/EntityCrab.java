@@ -1,6 +1,7 @@
 package its_meow.betteranimalsplus.common.entity;
 
 import its_meow.betteranimalsplus.init.ModEntities;
+import its_meow.betteranimalsplus.init.ModLootTables;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -13,11 +14,14 @@ import net.minecraft.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.entity.ai.goal.RandomWalkingGoal;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.network.datasync.DataParameter;
+import net.minecraft.network.datasync.DataSerializers;
+import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.pathfinding.PathNodeType;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.Hand;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.IWorld;
@@ -26,7 +30,7 @@ import net.minecraft.world.World;
 public class EntityCrab extends EntityAnimalWithTypes {
 
     public int snipTime = 0;
-    public boolean crabRave = false;
+    protected static final DataParameter<Boolean> CRAB_RAVE = EntityDataManager.<Boolean>createKey(EntityCrab.class, DataSerializers.BOOLEAN);
 
     public EntityCrab(World world) {
         super(ModEntities.getEntityType("crab"), world);
@@ -59,6 +63,12 @@ public class EntityCrab extends EntityAnimalWithTypes {
         this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.3D);
         this.getAttributes().registerAttribute(SharedMonsterAttributes.ATTACK_DAMAGE);
         this.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(3D);
+    }
+    
+    @Override
+    protected void registerData() {
+        super.registerData();
+        this.dataManager.register(CRAB_RAVE, Boolean.valueOf(false));
     }
 
     @Override
@@ -119,6 +129,14 @@ public class EntityCrab extends EntityAnimalWithTypes {
             snipTime = 0;
         }
     }
+    
+    public boolean getIsCrabRave() {
+        return this.dataManager.get(CRAB_RAVE).booleanValue();
+    }
+
+    private void setCrabRave(boolean in) {
+        this.dataManager.set(CRAB_RAVE, Boolean.valueOf(in));
+    }
 
     @Override
     public boolean canBreatheUnderwater() {
@@ -137,7 +155,7 @@ public class EntityCrab extends EntityAnimalWithTypes {
 
     @Override
     public boolean canDespawn(double distance) {
-        return !this.hasCustomName() && distance > 30D;
+        return !this.getIsCrabRave() && !this.hasCustomName() && distance > 30D;
     }
 
     @Override
@@ -155,27 +173,19 @@ public class EntityCrab extends EntityAnimalWithTypes {
         return 4;
     }
 
-    @Override
-    public boolean processInteract(PlayerEntity player, Hand hand) {
-        if(hand == Hand.MAIN_HAND) {
-            if(!crabRave) {
-                this.crabRave();
-            } else {
-                crabRave = false;
-            }
-        }
-        return super.processInteract(player, hand);
-    }
-
     public void crabRave() {
-        crabRave = true;
+        this.setCrabRave(true);
         this.setAttackTarget(null);
         this.navigator.clearPath();
+    }
+    
+    public void unCrabRave() {
+        this.setCrabRave(false);
     }
 
     @Override
     public boolean isAIDisabled() {
-        return crabRave;
+        return this.getIsCrabRave();
     }
 
     @Override
@@ -212,6 +222,11 @@ public class EntityCrab extends EntityAnimalWithTypes {
                 super.setAttackTarget(mob, living);
             }
         }
+    }
+
+    @Override
+    protected ResourceLocation getLootTable() {
+        return ModLootTables.CRAB;
     }
 
 }
