@@ -1,18 +1,21 @@
 package its_meow.betteranimalsplus.common.entity;
 
+import java.util.Set;
+
 import its_meow.betteranimalsplus.init.ModEntities;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.AgeableEntity;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.goal.*;
-import net.minecraft.entity.ai.goal.TemptGoal;
-import net.minecraft.entity.ai.goal.WaterAvoidingRandomWalkingGoal;
 import net.minecraft.entity.ai.goal.AvoidEntityGoal;
 import net.minecraft.entity.ai.goal.BreedGoal;
+import net.minecraft.entity.ai.goal.PanicGoal;
+import net.minecraft.entity.ai.goal.SwimGoal;
+import net.minecraft.entity.ai.goal.TemptGoal;
+import net.minecraft.entity.ai.goal.WaterAvoidingRandomWalkingGoal;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
@@ -22,8 +25,10 @@ import net.minecraft.pathfinding.PathNavigator;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.common.BiomeDictionary;
+import net.minecraftforge.common.BiomeDictionary.Type;
 
-public class EntitySquirrel extends EntityAnimalWithTypes {
+public class EntitySquirrel extends EntityAnimalWithSelectiveTypes {
 
     protected static final DataParameter<Byte> CLIMBING = EntityDataManager.<Byte>createKey(EntitySquirrel.class, DataSerializers.BYTE);
 
@@ -146,6 +151,17 @@ public class EntitySquirrel extends EntityAnimalWithTypes {
     @Override
     protected IVariantTypes getBaseChild() {
         return null; // This is not used, createChild is overriden
+    }
+    
+    @Override
+    protected int[] getTypesFor(Set<BiomeDictionary.Type> types) {
+        if(types.contains(Type.FOREST) && !types.contains(Type.CONIFEROUS)) {
+            return new int[] {1, 3};
+        } else if(types.contains(Type.CONIFEROUS) && !types.contains(Type.SNOWY)) {
+            return new int[] {2};
+        } else {
+            return new int[] {1, 2, 3};
+        }
     }
 
 }

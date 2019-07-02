@@ -82,5 +82,24 @@ public interface IVariantTypes {
 
         return livingdata;
     }
+    
+    @Nullable
+    default ILivingEntityData initData(ILivingEntityData livingdata, int type) {
+
+        if (!this.isChildI()) {
+            int i = type;
+
+            if (livingdata instanceof TypeData) {
+                i = ((TypeData) livingdata).typeData;
+            } else {
+                livingdata = new TypeData(i);
+            }
+
+            this.setType(i);
+
+        }
+
+        return livingdata;
+    }
 
 }
