@@ -7,21 +7,21 @@ public class BearDataFixer implements IFixableData {
 
     @Override
     public int getFixVersion() {
-        return 2;
+        return 3;
     }
 
     @Override
     public NBTTagCompound fixTagCompound(NBTTagCompound compound) {
         if(compound.hasKey("id")) {
             String id = compound.getString("id");
-            if(id.equals("brownbear")) {
-                compound.setString("id", "bear");
+            if(id.equals("betteranimalsplus:brownbear")) {
+                compound.setString("id", "betteranimalsplus:bear");
                 compound.setInteger("TypeNumber", 1);
-            } else if(id.equals("blackbear")) {
-                compound.setString("id", "bear");
+            } else if(id.equals("betteranimalsplus:blackbear")) {
+                compound.setString("id", "betteranimalsplus:bear");
                 compound.setInteger("TypeNumber", 2);
-            } else if(id.equals("kermodebear")) {
-                compound.setString("id", "bear");
+            } else if(id.equals("betteranimalsplus:kermodebear")) {
+                compound.setString("id", "betteranimalsplus:bear");
                 compound.setInteger("TypeNumber", 3);
             }
         }
