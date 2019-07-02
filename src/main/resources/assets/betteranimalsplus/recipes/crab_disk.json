@@ -1,0 +1,22 @@
+{
+    "_comment": [
+        "Curd Goat Milk to Goat Cheese with fungus"
+    ],
+    "type": "minecraft:crafting_shapeless",
+    "group": "betteranimalsplus:record_crab_rave",
+    "ingredients": [
+        {
+            "item": "betteranimalsplus:crab_meat_raw",
+            "data": 0
+        },
+        {
+            "item": "minecraft:record_cat",
+            "data": 0
+        }
+    ],
+    "result": {
+        "item": "betteranimalsplus:record_crab_rave",
+        "data": 0,
+        "count": 1
+    }
+}

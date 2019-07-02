@@ -1,5 +1,6 @@
 package its_meow.betteranimalsplus.common.entity;
 
+import its_meow.betteranimalsplus.init.ModLootTables;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityCreature;
@@ -11,9 +12,12 @@ import net.minecraft.entity.ai.EntityAIHurtByTarget;
 import net.minecraft.entity.ai.EntityAIWander;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.network.datasync.DataParameter;
+import net.minecraft.network.datasync.DataSerializers;
+import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.pathfinding.PathNodeType;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.EnumHand;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
@@ -21,7 +25,7 @@ import net.minecraft.world.World;
 public class EntityCrab extends EntityAnimalWithTypes {
 
     public int snipTime = 0;
-    public boolean crabRave = false;
+    protected static final DataParameter<Boolean> CRAB_RAVE = EntityDataManager.<Boolean>createKey(EntityCrab.class, DataSerializers.BOOLEAN);
 
     public EntityCrab(World world) {
         super(world);
@@ -54,6 +58,12 @@ public class EntityCrab extends EntityAnimalWithTypes {
         this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.3D);
         this.getAttributeMap().registerAttribute(SharedMonsterAttributes.ATTACK_DAMAGE);
         this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(3D);
+    }
+    
+    @Override
+    protected void entityInit() {
+        super.entityInit();
+        this.dataManager.register(CRAB_RAVE, Boolean.valueOf(false));
     }
 
     @Override
@@ -121,6 +131,14 @@ public class EntityCrab extends EntityAnimalWithTypes {
             snipTime = 0;
         }
     }
+    
+    public boolean getIsCrabRave() {
+        return this.dataManager.get(CRAB_RAVE).booleanValue();
+    }
+
+    private void setCrabRave(boolean in) {
+        this.dataManager.set(CRAB_RAVE, Boolean.valueOf(in));
+    }
 
     public boolean canBreatheUnderwater() {
         return true;
@@ -139,7 +157,7 @@ public class EntityCrab extends EntityAnimalWithTypes {
     }
 
     protected boolean canDespawn() {
-        return !this.hasCustomName();
+        return !this.getIsCrabRave() && !this.hasCustomName();
     }
 
     protected int getExperiencePoints(EntityPlayer player) {
@@ -155,25 +173,17 @@ public class EntityCrab extends EntityAnimalWithTypes {
         return 4;
     }
 
-    @Override
-    public boolean processInteract(EntityPlayer player, EnumHand hand) {
-        if(hand == EnumHand.MAIN_HAND) {
-            if(!crabRave) {
-                this.crabRave();
-            } else {
-                crabRave = false;
-                this.initEntityAI();
-            }
-        }
-        return super.processInteract(player, hand);
-    }
-
     public void crabRave() {
-        crabRave = true;
+        this.setCrabRave(true);
         this.tasks.taskEntries.clear();
         this.targetTasks.taskEntries.clear();
         this.setAttackTarget(null);
         this.navigator.clearPath();
+    }
+    
+    public void unCrabRave() {
+        this.setCrabRave(false);
+        this.initEntityAI();
     }
 
     @Override
@@ -210,6 +220,11 @@ public class EntityCrab extends EntityAnimalWithTypes {
                 super.setEntityAttackTarget(creatureIn, entityLivingBaseIn);
             }
         }
+    }
+
+    @Override
+    protected ResourceLocation getLootTable() {
+        return ModLootTables.CRAB;
     }
 
 }

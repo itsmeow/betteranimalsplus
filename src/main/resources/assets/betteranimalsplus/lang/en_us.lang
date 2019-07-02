@@ -13,6 +13,9 @@ item.betteranimalsplus.pheasantcooked.name=Cooked Pheasant
 item.betteranimalsplus.wolfcape1.name=Wolf Cape (Classic)
 item.betteranimalsplus.wolfcape2.name=Wolf Cape (Timber)
 item.betteranimalsplus.wolfcape3.name=Wolf Cape (Black)
+item.record.crabrave.desc=Crab Rave
+item.betteranimalsplus.crab_meat_raw.name=Raw Crab Meat
+item.betteranimalsplus.crab_meat_cooked.name=Cooked Crab Meat
 #Blocks
 tile.betteranimalsplus.trillium.name=Trillium
 tile.betteranimalsplus.hirschgeistskull.name=Hirschgeist Skull

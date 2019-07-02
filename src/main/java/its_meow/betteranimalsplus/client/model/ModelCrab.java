@@ -263,7 +263,7 @@ public class ModelCrab extends ModelBase {
     public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) {
         GlStateManager.pushMatrix();
         GlStateManager.translate(0F, -0.05F, 0F);
-        if(entity instanceof EntityCrab && ((EntityCrab) entity).crabRave) {
+        if(entity instanceof EntityCrab && ((EntityCrab) entity).getIsCrabRave()) {
             GlStateManager.pushMatrix();
             {
                 GlStateManager.translate(0, -0.25, 0);
@@ -349,7 +349,7 @@ public class ModelCrab extends ModelBase {
     public void setRotationAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor, Entity entity) {
         if(entity instanceof EntityCrab) {
             EntityCrab crab = (EntityCrab) entity;
-            if(!crab.crabRave) {
+            if(!crab.getIsCrabRave()) {
                 this.rLeg00a.rotateAngleY = -0.3141592653589793F;
                 this.lLeg00a.rotateAngleY = 0.3141592653589793F;
                 this.rLeg01a.rotateAngleY = -0.13962634015954636F;

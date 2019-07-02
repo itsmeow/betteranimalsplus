@@ -5,6 +5,8 @@ import static its_meow.betteranimalsplus.init.ModBlocks.trillium;
 import static its_meow.betteranimalsplus.init.ModEntities.entityList;
 import static its_meow.betteranimalsplus.init.ModEntities.entrySet;
 import static its_meow.betteranimalsplus.init.ModEntities.modEntities;
+import static its_meow.betteranimalsplus.init.ModItems.CRAB_MEAT_COOKED;
+import static its_meow.betteranimalsplus.init.ModItems.CRAB_MEAT_RAW;
 import static its_meow.betteranimalsplus.init.ModItems.WOLF_CAPE_BLACK;
 import static its_meow.betteranimalsplus.init.ModItems.WOLF_CAPE_CLASSIC;
 import static its_meow.betteranimalsplus.init.ModItems.WOLF_CAPE_TIMBER;
@@ -40,6 +42,7 @@ import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundEvent;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -90,10 +93,12 @@ public class BetterAnimalsPlusRegistrar {
 			registry.register(item);
 			registry.registerAll(type.getItems().toArray(new Item[0]));
 		}
+		
+		HIDE_ITEMS.add(ModItems.RECORD_CRAB_RAVE);
 
 		// Items
 
-		registry.registerAll(venisonRaw, venisonCooked, itemHirschgeistSkullWearable, antler, goatMilk, goatCheese, pheasantRaw, pheasantCooked, WOLF_CAPE_CLASSIC, WOLF_CAPE_TIMBER, WOLF_CAPE_BLACK);
+		registry.registerAll(venisonRaw, venisonCooked, itemHirschgeistSkullWearable, antler, goatMilk, goatCheese, pheasantRaw, pheasantCooked, WOLF_CAPE_CLASSIC, WOLF_CAPE_TIMBER, WOLF_CAPE_BLACK, CRAB_MEAT_COOKED, CRAB_MEAT_RAW, ModItems.RECORD_CRAB_RAVE);
 
 	}
 
@@ -115,7 +120,10 @@ public class BetterAnimalsPlusRegistrar {
 		}
 	}
 
-
+	@SubscribeEvent
+	public static void registerSounds(final RegistryEvent.Register<SoundEvent> event) {
+	    event.getRegistry().register(ModSoundEvents.CRAB_RAVE.setRegistryName(new ResourceLocation(Ref.MOD_ID, "crabrave")));
+	}
 
 	// Entity Registration Helpers
 
