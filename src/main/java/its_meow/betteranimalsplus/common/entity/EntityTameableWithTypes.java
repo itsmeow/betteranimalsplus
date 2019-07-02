@@ -48,7 +48,9 @@ public abstract class EntityTameableWithTypes extends EntityTameableBetterAnimal
     @Override
     public EntityAgeable createChild(EntityAgeable ageable) {
         if(!(ageable instanceof IVariantTypes)) return null;
-        return (EntityAgeable) getBaseChild().setType(this.getOffspringType(this, (IVariantTypes) ageable));
+        IVariantTypes child = getBaseChild();
+        if(child == null) return null;
+        return (EntityAgeable) child.setType(this.getOffspringType(this, (IVariantTypes) ageable));
     }
 
     protected abstract IVariantTypes getBaseChild();

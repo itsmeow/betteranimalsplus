@@ -88,13 +88,7 @@ public interface IVariantTypes {
 
         if (!this.isChildI()) {
             int i = type;
-
-            if (livingdata instanceof TypeData) {
-                i = ((TypeData) livingdata).typeData;
-            } else {
-                livingdata = new TypeData(i);
-            }
-
+            livingdata = new TypeData(i);
             this.setType(i);
 
         }
