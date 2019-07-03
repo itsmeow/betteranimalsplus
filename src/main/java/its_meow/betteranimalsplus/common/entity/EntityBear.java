@@ -85,7 +85,6 @@ public class EntityBear extends EntityMob {
         }
     }
 
-
     @Override
     public boolean attackEntityFrom(DamageSource source, float amount) {
         if (this.isEntityInvulnerable(source)) {
