@@ -27,7 +27,8 @@ tile.betteranimalsplus.foxhead.name=Fox Head
 tile.betteranimalsplus.boarhead.name=Boar Head
 tile.betteranimalsplus.bearhead.name=Bear Head
 #Entities
-entity.betteranimalsplus.bear.name=Bear
+entity.betteranimalsplus.brownbear.name=Brown Bear
+entity.betteranimalsplus.blackbear.name=Black Bear
 entity.betteranimalsplus.deer.name=Deer
 entity.betteranimalsplus.lammergeier.name=Lammergeier
 entity.betteranimalsplus.feralwolf.name=Feral Wolf
