@@ -113,8 +113,6 @@ public class BetterAnimalsPlusRegistrar {
 		EntitySpawnPlacementRegistry.setPlacementType(EntityLammergeier.class, SpawnPlacementType.IN_AIR);
 		register(EntityTarantulaHair.class, "tarantulahair");
 		register(EntityBadgerDirt.class, "badgerdirt");
-		register(EmptyEntity.class, "brownbear");
-		register(EmptyEntity.class, "blackbear");
 		register(EmptyEntity.class, "kermodebear");
 
 		if (!entrySet.isEmpty()) {
