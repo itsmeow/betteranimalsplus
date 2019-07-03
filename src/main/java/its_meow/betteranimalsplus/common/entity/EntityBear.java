@@ -6,6 +6,7 @@ import com.google.common.base.Predicates;
 
 import its_meow.betteranimalsplus.init.ModEntities;
 import its_meow.betteranimalsplus.init.ModLootTables;
+import its_meow.betteranimalsplus.util.HeadTypes;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -24,6 +25,7 @@ import net.minecraft.entity.passive.ChickenEntity;
 import net.minecraft.entity.passive.PigEntity;
 import net.minecraft.entity.passive.RabbitEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.Hand;
@@ -90,9 +92,6 @@ public class EntityBear extends MonsterEntity {
         return p_213380_1_.getDifficulty() != Difficulty.PEACEFUL;
     }
 
-    /**
-     * Called when the entity is attacked.
-     */
     @Override
     public boolean attackEntityFrom(DamageSource source, float amount) {
         if (this.isInvulnerableTo(source)) {
@@ -200,6 +199,17 @@ public class EntityBear extends MonsterEntity {
     CompoundNBT itemNbt) {
         this.setLocationAndAngles(this.posX, this.posY, this.posZ, this.rotationYaw, 0F);
         return super.onInitialSpawn(world, difficulty, reason, entityLivingData, itemNbt);
+    }
+    
+    @Override
+    public void onDeath(DamageSource cause) {
+        super.onDeath(cause);
+        if (!world.isRemote && !this.isChild()) {
+            if (this.rand.nextInt(12) == 0) {
+                ItemStack stack = new ItemStack(HeadTypes.BEARHEAD.getItem(1));
+                this.entityDropItem(stack, 0.5F);
+            }
+        }
     }
 
 }
