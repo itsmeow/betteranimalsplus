@@ -8,7 +8,6 @@ import its_meow.betteranimalsplus.Ref;
 import its_meow.betteranimalsplus.common.entity.EntityBadger;
 import its_meow.betteranimalsplus.common.entity.EntityBear;
 import its_meow.betteranimalsplus.common.entity.EntityBearNeutral;
-import its_meow.betteranimalsplus.common.entity.EntityBearNeutralKermode;
 import its_meow.betteranimalsplus.common.entity.EntityBoar;
 import its_meow.betteranimalsplus.common.entity.EntityCoyote;
 import its_meow.betteranimalsplus.common.entity.EntityCrab;
@@ -53,9 +52,6 @@ public class ModEntities {
                 BiomeDictionary.getBiomes(Type.FOREST)));
         ModEntities.entityList.add(new EntityContainer<EntityBearNeutral>(EntityBearNeutral.class, EntityBearNeutral::new, "blackbear",
                 EntityClassification.CREATURE, 0x000000, 0x333333, BetterAnimalsPlusConfig.blackBearWeight, 1, 1, 2F, 1.5F, null,
-                BiomeDictionary.getBiomes(Type.FOREST)));
-        ModEntities.entityList.add(new EntityContainer<EntityBearNeutralKermode>(EntityBearNeutralKermode.class, EntityBearNeutralKermode::new, "kermodebear",
-                EntityClassification.CREATURE, 0xe8e8e8, 0xf7dabe, BetterAnimalsPlusConfig.kermodeBearWeight,1, 1, 2F, 1.5F, null,
                 BiomeDictionary.getBiomes(Type.FOREST)));
         ModEntities.entityList.add(new EntityContainer<EntityDeer>(EntityDeer.class, EntityDeer::new, "deer",
                 EntityClassification.CREATURE, 0x8e510b, 0xc6863b, BetterAnimalsPlusConfig.deerWeight, 1, 4, 1.2F, 1.6F, null,

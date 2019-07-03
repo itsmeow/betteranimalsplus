@@ -19,8 +19,8 @@ public abstract class EntityAnimalWithSelectiveTypes extends EntityAnimalWithTyp
     
     @Override
     public ILivingEntityData onInitialSpawn(IWorld world, DifficultyInstance difficulty, SpawnReason reason, ILivingEntityData livingdata, CompoundNBT compound) {
-        int validTypes[] = this.getTypesFor(BiomeDictionary.getTypes(world.getBiome(this.getPosition())));
-        return this.initData(super.onInitialSpawn(world, difficulty, reason, livingdata, compound), validTypes[this.getRNG().nextInt(validTypes.length)]);
+        //int validTypes[] = this.getTypesFor(BiomeDictionary.getTypes(world.getBiome(this.getPosition())));
+        return this.initData(super.onInitialSpawn(world, difficulty, reason, livingdata, compound));//, validTypes[this.getRNG().nextInt(validTypes.length)]);
     }
 
     protected abstract int[] getTypesFor(Set<BiomeDictionary.Type> biome);

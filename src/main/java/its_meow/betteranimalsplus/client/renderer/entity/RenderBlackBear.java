@@ -18,7 +18,12 @@ public class RenderBlackBear extends MobRenderer<EntityBearNeutral, ModelBear<En
     @Override
     @Nonnull
     protected ResourceLocation getEntityTexture(@Nonnull EntityBearNeutral entity) {
-        return ModTextures.bear_black;
+        int type = entity.getTypeNumber();
+        switch(type) {
+        case 1: return ModTextures.bear_black;
+        case 2: return ModTextures.bear_kermode;
+        default: return ModTextures.bear_black;
+        }
     }
 
 }

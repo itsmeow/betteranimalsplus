@@ -19,9 +19,9 @@ public abstract class EntityTameableWithSelectiveTypes extends EntityTameableWit
     
     @Override
     public ILivingEntityData onInitialSpawn(IWorld world, DifficultyInstance difficulty, SpawnReason reason, ILivingEntityData livingdata, CompoundNBT compound) {
-        int validTypes[] = this.getTypesFor(BiomeDictionary.getTypes(world.getBiome(this.getPosition())));
-        int type = validTypes[this.getRNG().nextInt(validTypes.length)];
-        return this.initData(super.onInitialSpawn(world, difficulty, reason, livingdata, compound), type);
+        //int validTypes[] = this.getTypesFor(BiomeDictionary.getTypes(world.getBiome(this.getPosition())));
+        //int type = validTypes[this.getRNG().nextInt(validTypes.length)];
+        return this.initData(super.onInitialSpawn(world, difficulty, reason, livingdata, compound));//, type);
     }
 
     protected abstract int[] getTypesFor(Set<BiomeDictionary.Type> types);

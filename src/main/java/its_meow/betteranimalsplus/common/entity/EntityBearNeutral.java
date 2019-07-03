@@ -1,39 +1,36 @@
 package its_meow.betteranimalsplus.common.entity;
 
+import java.util.Random;
+
+import javax.annotation.Nullable;
+
 import com.google.common.base.Predicates;
 
 import its_meow.betteranimalsplus.init.ModEntities;
-import net.minecraft.block.Block;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.ILivingEntityData;
+import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.goal.HurtByTargetGoal;
 import net.minecraft.entity.ai.goal.LookAtGoal;
-import net.minecraft.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal;
 import net.minecraft.entity.ai.goal.RandomWalkingGoal;
 import net.minecraft.entity.ai.goal.SwimGoal;
 import net.minecraft.entity.passive.ChickenEntity;
 import net.minecraft.entity.passive.RabbitEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.Hand;
-import net.minecraft.util.SoundEvent;
-import net.minecraft.util.SoundEvents;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.Difficulty;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.network.datasync.DataParameter;
+import net.minecraft.network.datasync.DataSerializers;
+import net.minecraft.network.datasync.EntityDataManager;
+import net.minecraft.world.DifficultyInstance;
+import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 
-public class EntityBearNeutral extends EntityBear {
+public class EntityBearNeutral extends EntityBear implements IVariantTypes {
 
-    private int warningSoundTicks;
+    protected static final DataParameter<Integer> TYPE_NUMBER = EntityDataManager.<Integer>createKey(EntityBearNeutral.class, DataSerializers.VARINT);
 
     public EntityBearNeutral(World worldIn) {
         super(ModEntities.getEntityType("blackbear"), worldIn);
-    }
-
-    public EntityBearNeutral(EntityType<? extends EntityBearNeutral> type, World worldIn) {
-        super(type, worldIn);
     }
 
     @Override
@@ -48,128 +45,67 @@ public class EntityBearNeutral extends EntityBear {
         this.targetSelector.addGoal(4, new NearestAttackableTargetGoal<EntityPheasant>(this, EntityPheasant.class, 90,
                 true, true, Predicates.alwaysTrue()));
     }
-
+    
     @Override
-    public void setAttackTarget(LivingEntity entitylivingbaseIn) {
-        if (this.world.getDifficulty() == Difficulty.PEACEFUL) {
-            super.setAttackTarget(null);
-        } else {
-            super.setAttackTarget(entitylivingbaseIn);
-        }
+    public boolean isChildI() {
+        return this.isChild();
     }
 
-    /**
-     * Checks if the entity's current position is a valid location to spawn this
-     * entity.
-     */
-    public boolean getCanSpawnHere() {
-        return this.world.getDifficulty() != Difficulty.PEACEFUL;
+    @Override
+    public Random getRNGI() {
+        return this.getRNG();
     }
 
-    /**
-     * Called when the entity is attacked.
-     */
     @Override
-    public boolean attackEntityFrom(DamageSource source, float amount) {
-        if (this.isInvulnerableTo(source)) {
-            return false;
-        } else {
-            Entity entity = source.getTrueSource();
+    public EntityDataManager getDataManagerI() {
+        return this.getDataManager();
+    }
 
-            if (entity instanceof PlayerEntity) {
-                this.setAttackTarget((PlayerEntity) entity);
-                this.playWarningSound();
+    @Override
+    public int getVariantMax() {
+        return 2;
+    }
+
+    @Override
+    public DataParameter<Integer> getDataKey() {
+        return TYPE_NUMBER;
+    }
+
+    @Override
+    @Nullable
+    public ILivingEntityData onInitialSpawn(IWorld world, DifficultyInstance difficulty, SpawnReason reason, @Nullable ILivingEntityData livingdata, CompoundNBT compound) {
+        int[] validTypes = {1, 2};
+        return this.initData(super.onInitialSpawn(world, difficulty, reason, livingdata, compound), this.getBiasedRandomType(validTypes));
+    }
+
+    private int getBiasedRandomType(int[] validTypes) { // Double bias against kermode spawn
+        int r = validTypes[this.getRNG().nextInt(validTypes.length)];
+        if(validTypes.length > 1) { // No point if only a single possibility
+            if(r == 2) {
+                r = validTypes[this.getRNG().nextInt(validTypes.length)];
             }
-
-            return super.attackEntityFrom(source, amount);
-        }
-    }
-
-    @Override
-    public void tick() {
-        super.tick();
-
-        if (this.warningSoundTicks > 0) {
-            --this.warningSoundTicks;
-        }
-    }
-
-    @Override
-    protected void playWarningSound() {
-        if (this.warningSoundTicks <= 0) {
-            this.playSound(SoundEvents.ENTITY_POLAR_BEAR_WARNING, 1.0F, 1.0F);
-            this.warningSoundTicks = 40;
-        }
-    }
-
-    @Override
-    protected SoundEvent getAmbientSound() {
-        return SoundEvents.ENTITY_POLAR_BEAR_AMBIENT;
-    }
-
-    @Override
-    protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
-        return SoundEvents.ENTITY_POLAR_BEAR_HURT;
-    }
-
-    @Override
-    protected SoundEvent getDeathSound() {
-        return SoundEvents.ENTITY_POLAR_BEAR_DEATH;
-    }
-
-    @Override
-    protected void playStepSound(BlockPos pos, Block blockIn) {
-        this.playSound(SoundEvents.ENTITY_POLAR_BEAR_STEP, 0.15F, 1.0F);
-    }
-
-    @Override
-    public boolean processInteract(PlayerEntity player, Hand hand) {
-        return false;
-    }
-
-    @Override
-    public boolean isPreventingPlayerRest(PlayerEntity playerIn) {
-        return this.world.getDifficulty() != Difficulty.PEACEFUL && this.getAttackTarget() == playerIn;
-    }
-
-    public class AIMeleeAttack extends MeleeAttackGoal {
-
-        public AIMeleeAttack() {
-            super(EntityBearNeutral.this, 1.25D, true);
-        }
-
-        @Override
-        protected void checkAndPerformAttack(LivingEntity p_190102_1_, double p_190102_2_) {
-            double d0 = this.getAttackReachSqr(p_190102_1_);
-
-            if (p_190102_2_ <= d0 && this.attackTick <= 0) {
-                this.attackTick = 20;
-                this.field_75441_b.attackEntityAsMob(p_190102_1_);
-            } else if (p_190102_2_ <= d0 * 2.0D) {
-                if (this.attackTick <= 0) {
-                    this.attackTick = 20;
-                }
-
-                if (this.attackTick <= 10) {
-                    EntityBearNeutral.this.playWarningSound();
-                }
-            } else {
-                this.attackTick = 20;
+            if(r == 2) {
+                r = validTypes[this.getRNG().nextInt(validTypes.length)];
             }
         }
+        return r;
+    }
+    
+    @Override
+    protected void registerData() {
+        super.registerData();
+        this.registerTypeKey();
+    }
 
-        /**
-         * Reset the task's internal state. Called when this task is interrupted by
-         * another one
-         */
-        @Override
-        public void resetTask() {
-            super.resetTask();
-        }
+    @Override
+    public boolean writeUnlessRemoved(CompoundNBT compound) {
+        this.writeType(compound);
+        return super.writeUnlessRemoved(compound);
+    }
 
-        @Override
-        protected double getAttackReachSqr(LivingEntity attackTarget) {
-            return 4.0F + attackTarget.getWidth();
-        }
+    @Override
+    public void read(CompoundNBT compound) {
+        super.read(compound);
+        this.readType(compound);
     }
 }
