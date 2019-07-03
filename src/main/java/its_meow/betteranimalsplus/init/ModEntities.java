@@ -5,6 +5,7 @@ import java.util.LinkedHashSet;
 
 import its_meow.betteranimalsplus.common.entity.EntityBadger;
 import its_meow.betteranimalsplus.common.entity.EntityBear;
+import its_meow.betteranimalsplus.common.entity.EntityBearNeutral;
 import its_meow.betteranimalsplus.common.entity.EntityBoar;
 import its_meow.betteranimalsplus.common.entity.EntityCoyote;
 import its_meow.betteranimalsplus.common.entity.EntityCrab;
@@ -38,8 +39,9 @@ public class ModEntities {
     public static LinkedHashMap<String, EntityContainer> entityMap = new LinkedHashMap<String, EntityContainer>();
 
     static {
-    	add(EntityBear.class, "bear", EnumCreatureType.CREATURE, 0x4F2900, 0x8E500E, BetterAnimalsPlusConfig.bearWeight, 1, 1, null, Type.FOREST);
-		add(EntityDeer.class, "deer", EnumCreatureType.CREATURE, 0x8e510b, 0xc6863b, BetterAnimalsPlusConfig.deerWeight, 1, 4, null, Type.FOREST, Type.MAGICAL);
+    	add(EntityBear.class, "brownbear", EnumCreatureType.CREATURE, 0x4F2900, 0x8E500E, BetterAnimalsPlusConfig.bearWeight, 1, 1, null, Type.FOREST);
+    	add(EntityBearNeutral.class, "blackbear", EnumCreatureType.CREATURE, 0x000000, 0x333333, BetterAnimalsPlusConfig.blackBearWeight, 1, 1, null, Type.FOREST);
+    	add(EntityDeer.class, "deer", EnumCreatureType.CREATURE, 0x8e510b, 0xc6863b, BetterAnimalsPlusConfig.deerWeight, 1, 4, null, Type.FOREST, Type.MAGICAL);
 		add(EntityLammergeier.class, "lammergeier", EnumCreatureType.CREATURE, 0xd8d8d8, 0xd82b11, BetterAnimalsPlusConfig.lammergeierWeight, 1, 2, new String[] {"minecraft:bone"}, Type.HILLS, Type.MOUNTAIN);
 		add(EntityFeralWolf.class, "feralwolf", EnumCreatureType.CREATURE, 0xbababa, 0x232323, BetterAnimalsPlusConfig.feralWolfWeight, 1, 6, new String[] {"minecraft:bone"}, Type.FOREST, Type.MAGICAL, Type.SPOOKY);
 		add(EntityCoyote.class, "coyote", EnumCreatureType.CREATURE, 0x866a31, 0xb69762, BetterAnimalsPlusConfig.coyoteWeight, 1, 6, new String[] {"minecraft:rabbit", "minecraft:chicken", "betteranimalsplus:pheasantraw", "minecraft:cooked_rabbit", "minecraft:cooked_chicken", "betteranimalsplus:pheasantcooked"}, Type.SANDY, Type.PLAINS);

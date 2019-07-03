@@ -14,15 +14,11 @@ public class BearDataFixer implements IFixableData {
     public NBTTagCompound fixTagCompound(NBTTagCompound compound) {
         if(compound.hasKey("id")) {
             String id = compound.getString("id");
-            if(id.equals("betteranimalsplus:brownbear")) {
-                compound.setString("id", "betteranimalsplus:bear");
+            if(id.equals("betteranimalsplus:blackbear")) {
                 compound.setInteger("TypeNumber", 1);
-            } else if(id.equals("betteranimalsplus:blackbear")) {
-                compound.setString("id", "betteranimalsplus:bear");
-                compound.setInteger("TypeNumber", 2);
             } else if(id.equals("betteranimalsplus:kermodebear")) {
-                compound.setString("id", "betteranimalsplus:bear");
-                compound.setInteger("TypeNumber", 3);
+                compound.setString("id", "betteranimalsplus:blackbear");
+                compound.setInteger("TypeNumber", 2);
             }
         }
         return compound;

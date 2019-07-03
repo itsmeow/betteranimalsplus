@@ -19,13 +19,7 @@ public class RenderBear extends RenderLiving<EntityBear> {
     @Override
     @Nonnull
     protected ResourceLocation getEntityTexture(@Nonnull EntityBear entity) {
-        int type = entity.getTypeNumber();
-        switch(type) {
-        case 1: return ModTextures.bear_brown;
-        case 2: return ModTextures.bear_black;
-        case 3: return ModTextures.bear_kermode;
-        default: return ModTextures.bear_brown;
-        }
+        return ModTextures.bear_brown;
     }
 
     /**
@@ -34,10 +28,8 @@ public class RenderBear extends RenderLiving<EntityBear> {
      */
     @Override
     protected void preRenderCallback(EntityBear bear, float partialTickTime) {
-        if(bear.getTypeNumber() == 1) {
-            float scale = 1.3F;
-            GlStateManager.scale(scale, scale, scale);
-        }
+        float scale = 1.3F;
+        GlStateManager.scale(scale, scale, scale);
         super.preRenderCallback(bear, partialTickTime);
     }
 

@@ -4,6 +4,7 @@ import its_meow.betteranimalsplus.Ref;
 import its_meow.betteranimalsplus.client.renderer.entity.RenderBadger;
 import its_meow.betteranimalsplus.client.renderer.entity.RenderBadgerDirt;
 import its_meow.betteranimalsplus.client.renderer.entity.RenderBear;
+import its_meow.betteranimalsplus.client.renderer.entity.RenderBlackBear;
 import its_meow.betteranimalsplus.client.renderer.entity.RenderBoar;
 import its_meow.betteranimalsplus.client.renderer.entity.RenderCoyote;
 import its_meow.betteranimalsplus.client.renderer.entity.RenderCrab;
@@ -27,6 +28,7 @@ import its_meow.betteranimalsplus.client.renderer.tileentity.RenderBlockTrillium
 import its_meow.betteranimalsplus.client.renderer.tileentity.RenderGenericHead;
 import its_meow.betteranimalsplus.common.entity.EntityBadger;
 import its_meow.betteranimalsplus.common.entity.EntityBear;
+import its_meow.betteranimalsplus.common.entity.EntityBearNeutral;
 import its_meow.betteranimalsplus.common.entity.EntityBoar;
 import its_meow.betteranimalsplus.common.entity.EntityCoyote;
 import its_meow.betteranimalsplus.common.entity.EntityCrab;
@@ -107,6 +109,7 @@ public class ClientRegistrar {
         // Entities
         
         RenderingRegistry.registerEntityRenderingHandler(EntityBear.class, RenderBear::new);
+        RenderingRegistry.registerEntityRenderingHandler(EntityBearNeutral.class, RenderBlackBear::new);
         RenderingRegistry.registerEntityRenderingHandler(EntityDeer.class, RenderDeer::new);
         RenderingRegistry.registerEntityRenderingHandler(EntityLammergeier.class, RenderLammergeier::new);
         RenderingRegistry.registerEntityRenderingHandler(EntityFeralWolf.class, RenderCustomWolf::new);
