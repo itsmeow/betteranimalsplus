@@ -129,7 +129,7 @@ public class HirschgeistAIAttackMelee extends Goal {
     @Override
     public void tick() {
         LivingEntity entitylivingbase = this.attacker.getAttackTarget();
-        this.attacker.getLookHelper().setLookPositionWithEntity(entitylivingbase, 30.0F, 30.0F);
+        this.attacker.getLookController().setLookPositionWithEntity(entitylivingbase, 30.0F, 30.0F);
         double d0 = this.attacker.getDistanceSq(entitylivingbase.posX, entitylivingbase.getBoundingBox().minY,
                 entitylivingbase.posZ);
         --this.delayCounter;

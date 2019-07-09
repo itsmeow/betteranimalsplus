@@ -296,9 +296,9 @@ public class EntityGoat extends EntityAnimalEatsGrassWithTypes {
         }
 
         @Override
-        protected void func_220793_a(MobEntity p_220793_1_, LivingEntity p_220793_2_) {
+        protected void setAttackTarget(MobEntity p_220793_1_, LivingEntity p_220793_2_) {
             if (p_220793_1_ instanceof EntityGoat && !p_220793_1_.isChild()) {
-                super.func_220793_a(p_220793_1_, p_220793_2_);
+                super.setAttackTarget(p_220793_1_, p_220793_2_);
             }
         }
     }

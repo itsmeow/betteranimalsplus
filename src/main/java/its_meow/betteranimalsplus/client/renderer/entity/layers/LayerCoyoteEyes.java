@@ -22,10 +22,10 @@ public class LayerCoyoteEyes extends LayerRenderer<EntityCoyote, ModelCustomWolf
      }
 
     @Override
-    public void func_212842_a_(EntityCoyote p_212842_1_, float p_212842_2_, float p_212842_3_, float p_212842_4_, float p_212842_5_, float p_212842_6_, float p_212842_7_, float p_212842_8_) {
+    public void render(EntityCoyote p_212842_1_, float p_212842_2_, float p_212842_3_, float p_212842_4_, float p_212842_5_, float p_212842_6_, float p_212842_7_, float p_212842_8_) {
         if (!p_212842_1_.isDaytime() || BetterAnimalsPlusConfig.coyotesHostileDaytime) {
             if (!p_212842_1_.isTamed() && !p_212842_1_.isInvisible() && !p_212842_1_.isChild()) {
-                this.func_215333_a(ModTextures.wolf_eyes);
+                this.bindTexture(ModTextures.wolf_eyes);
                 GlStateManager.enableBlend();
                 GlStateManager.disableAlphaTest();
                 GlStateManager.blendFunc(GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ONE);
@@ -42,7 +42,7 @@ public class LayerCoyoteEyes extends LayerRenderer<EntityCoyote, ModelCustomWolf
                 GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
                 GameRenderer gamerenderer = Minecraft.getInstance().gameRenderer;
                 gamerenderer.setupFogColor(true);
-                ((ModelCustomWolf<EntityCoyote>)this.func_215332_c()).render(p_212842_1_, p_212842_2_, p_212842_3_, p_212842_5_, p_212842_6_, p_212842_7_, p_212842_8_);
+                ((ModelCustomWolf<EntityCoyote>)this.getEntityModel()).render(p_212842_1_, p_212842_2_, p_212842_3_, p_212842_5_, p_212842_6_, p_212842_7_, p_212842_8_);
                 gamerenderer.setupFogColor(false);
                 i = p_212842_1_.getBrightnessForRender();
                 j = i % 65536;

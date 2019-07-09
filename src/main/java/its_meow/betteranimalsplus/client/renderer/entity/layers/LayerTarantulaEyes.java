@@ -20,8 +20,8 @@ public class LayerTarantulaEyes extends LayerRenderer<EntityTarantula, ModelTara
        super(p_i50921_1_);
     }
 
-    public void func_212842_a_(EntityTarantula p_212842_1_, float p_212842_2_, float p_212842_3_, float p_212842_4_, float p_212842_5_, float p_212842_6_, float p_212842_7_, float p_212842_8_) {
-       this.func_215333_a(ModTextures.tarantula_eyes);
+    public void render(EntityTarantula p_212842_1_, float p_212842_2_, float p_212842_3_, float p_212842_4_, float p_212842_5_, float p_212842_6_, float p_212842_7_, float p_212842_8_) {
+       this.bindTexture(ModTextures.tarantula_eyes);
        GlStateManager.enableBlend();
        GlStateManager.disableAlphaTest();
        GlStateManager.blendFunc(GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ONE);
@@ -38,7 +38,7 @@ public class LayerTarantulaEyes extends LayerRenderer<EntityTarantula, ModelTara
        GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
        GameRenderer gamerenderer = Minecraft.getInstance().gameRenderer;
        gamerenderer.setupFogColor(true);
-       ((ModelTarantula<EntityTarantula>)this.func_215332_c()).render(p_212842_1_, p_212842_2_, p_212842_3_, p_212842_5_, p_212842_6_, p_212842_7_, p_212842_8_);
+       ((ModelTarantula<EntityTarantula>)this.getEntityModel()).render(p_212842_1_, p_212842_2_, p_212842_3_, p_212842_5_, p_212842_6_, p_212842_7_, p_212842_8_);
        gamerenderer.setupFogColor(false);
        i = p_212842_1_.getBrightnessForRender();
        j = i % 65536;

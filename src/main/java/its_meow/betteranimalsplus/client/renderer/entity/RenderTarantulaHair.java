@@ -28,8 +28,8 @@ public class RenderTarantulaHair extends EntityRenderer<EntityTarantulaHair> {
         GlStateManager.pushMatrix();
         GlStateManager.disableLighting();
         GlStateManager.translatef((float)x, (float)y, (float)z);
-        GlStateManager.rotatef(MathHelper.func_219799_g(partialTicks, entity.prevRotationYaw, entity.rotationYaw) - 90.0F, 0.0F, 1.0F, 0.0F);
-        GlStateManager.rotatef(MathHelper.func_219799_g(partialTicks, entity.prevRotationPitch, entity.rotationPitch), 0.0F, 0.0F, 1.0F);
+        GlStateManager.rotatef(MathHelper.lerp(partialTicks, entity.prevRotationYaw, entity.rotationYaw) - 90.0F, 0.0F, 1.0F, 0.0F);
+        GlStateManager.rotatef(MathHelper.lerp(partialTicks, entity.prevRotationPitch, entity.rotationPitch), 0.0F, 0.0F, 1.0F);
         Tessellator tessellator = Tessellator.getInstance();
         BufferBuilder bufferbuilder = tessellator.getBuffer();
         GlStateManager.enableRescaleNormal();

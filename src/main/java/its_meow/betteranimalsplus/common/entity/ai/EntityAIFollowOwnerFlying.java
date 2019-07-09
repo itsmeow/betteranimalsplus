@@ -100,7 +100,7 @@ public class EntityAIFollowOwnerFlying extends Goal {
      */
     @Override
     public void tick() {
-        this.tameable.getLookHelper().setLookPositionWithEntity(this.owner, 10.0F, 20);
+        this.tameable.getLookController().setLookPositionWithEntity(this.owner, 10.0F, 20);
 
         if (!this.tameable.isSitting()) {
             if (--this.timeToRecalcPath <= 0) {

@@ -76,7 +76,7 @@ public class EntitySongbird extends EntityAnimalWithTypes implements IFlyingAnim
     }
 
     @Override
-    public boolean canSpawn(IWorld world, SpawnReason reason, BlockPos pos) {
+    public boolean canSpawn(IWorld world, SpawnReason reason) {
         int i = MathHelper.floor(this.posX);
         int j = MathHelper.floor(this.getBoundingBox().minY);
         int k = MathHelper.floor(this.posZ);
@@ -84,9 +84,9 @@ public class EntitySongbird extends EntityAnimalWithTypes implements IFlyingAnim
         if(world instanceof World && !((World) world).isBlockPresent(new BlockPos(blockpos))) {
             Block block = this.world.getBlockState(blockpos.down()).getBlock();
             return block instanceof LeavesBlock || block == Blocks.GRASS || block instanceof LogBlock
-                    || block == Blocks.AIR && this.world.getLight(blockpos) > 8 && super.canSpawn(world, reason, pos);
+                    || block == Blocks.AIR && this.world.getLight(blockpos) > 8 && super.canSpawn(world, reason);
         } else {
-            return super.canSpawn(world, reason, pos);
+            return super.canSpawn(world, reason);
         }
     }
 

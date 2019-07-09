@@ -36,7 +36,7 @@ public class ItemHirschgeistSkullWearable extends ArmorItem {
                 armorModel.field_78116_c.showModel = true;
 
                 armorModel.isSneak = defaultModel.isSneak;
-                armorModel.field_217113_d = defaultModel.field_217113_d;
+                armorModel.isSitting = defaultModel.isSitting;
                 armorModel.isChild = defaultModel.isChild;
                 armorModel.rightArmPose = defaultModel.rightArmPose;
                 armorModel.leftArmPose = defaultModel.leftArmPose;

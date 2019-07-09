@@ -181,7 +181,7 @@ public class EntityJellyfish extends WaterMobEntity implements IVariantTypes {
     @Override
     public EntitySize getSize(Pose pose) {
         float size = this.dataManager.get(EntityJellyfish.SIZE).floatValue();
-        return EntitySize.flexible(size, size).scale(this.func_213355_cm());
+        return EntitySize.flexible(size, size).scale(this.getRenderScale());
     }
 
     public void setSize(float width, float height) {

@@ -20,9 +20,9 @@ public class LayerWolfEyes extends LayerRenderer<EntityFeralWolf, ModelCustomWol
         super(p_i50921_1_);
     }
 
-    public void func_212842_a_(EntityFeralWolf p_212842_1_, float p_212842_2_, float p_212842_3_, float p_212842_4_, float p_212842_5_, float p_212842_6_, float p_212842_7_, float p_212842_8_) {
+    public void render(EntityFeralWolf p_212842_1_, float p_212842_2_, float p_212842_3_, float p_212842_4_, float p_212842_5_, float p_212842_6_, float p_212842_7_, float p_212842_8_) {
         if(!p_212842_1_.isTamed()) {
-            this.func_215333_a(ModTextures.wolf_eyes);
+            this.bindTexture(ModTextures.wolf_eyes);
             GlStateManager.enableBlend();
             GlStateManager.disableAlphaTest();
             GlStateManager.blendFunc(GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ONE);
@@ -39,7 +39,7 @@ public class LayerWolfEyes extends LayerRenderer<EntityFeralWolf, ModelCustomWol
             GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
             GameRenderer gamerenderer = Minecraft.getInstance().gameRenderer;
             gamerenderer.setupFogColor(true);
-            ((ModelCustomWolf<EntityFeralWolf>)this.func_215332_c()).render(p_212842_1_, p_212842_2_, p_212842_3_, p_212842_5_, p_212842_6_, p_212842_7_, p_212842_8_);
+            ((ModelCustomWolf<EntityFeralWolf>)this.getEntityModel()).render(p_212842_1_, p_212842_2_, p_212842_3_, p_212842_5_, p_212842_6_, p_212842_7_, p_212842_8_);
             gamerenderer.setupFogColor(false);
             i = p_212842_1_.getBrightnessForRender();
             j = i % 65536;
@@ -55,4 +55,5 @@ public class LayerWolfEyes extends LayerRenderer<EntityFeralWolf, ModelCustomWol
     public boolean shouldCombineTextures() {
         return false;
     }
+
 }
