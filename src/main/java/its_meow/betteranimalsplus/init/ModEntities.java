@@ -99,7 +99,7 @@ public class ModEntities {
                 BiomeDictionary.getBiomes(Type.FOREST), BiomeDictionary.getBiomes(Type.PLAINS), BiomeDictionary.getBiomes(Type.SAVANNA)));
         ModEntities.entityList.add(new EntityContainer<EntityLamprey>(EntityLamprey.class, EntityLamprey::new, "lamprey", 
                 EntityClassification.WATER_CREATURE, 0x0000ad, 0x0a0a0a, BetterAnimalsPlusConfig.lampreyWeight, 1, 1, 1.0F, 0.7F, null,
-                BiomeDictionary.getBiomes(Type.WATER)));
+                BiomeDictionary.getBiomes(Type.RIVER), BiomeDictionary.getBiomes(Type.SWAMP)));
 
         for (EntityContainer<?> container : ModEntities.entityList) {
             ModEntities.setupContainer((EntityContainer<LivingEntity>) container);
