@@ -1,14 +1,14 @@
 {
     "_comment": "Creative Tabs",
-    "itemGroup.Better Animals+": "Meilleurs animaux+",
+    "itemGroup.Better Animals+": "Better Animals+",
 
     "_comment": "Items",
     "item.betteranimalsplus.venisonraw": "Chevreuil cru",
     "item.betteranimalsplus.venisoncooked": "Chevreuil cuit",
     "item.betteranimalsplus.hirschgeistskullwearable": "Crâne d'Hirschgeist portable",
     "item.betteranimalsplus.antler": "Bois",
-    "item.betteranimalsplus.goatmilk": "Lait de Chèvre",
-    "item.betteranimalsplus.goatcheese": "Fromage de Chèvre",
+    "item.betteranimalsplus.goatmilk": "Lait de chèvre",
+    "item.betteranimalsplus.goatcheese": "Fromage de chèvre",
     "item.betteranimalsplus.pheasantraw": "Faisan cru",
     "item.betteranimalsplus.pheasantcooked": "Faisan cuit",
 
@@ -16,10 +16,10 @@
     "block.betteranimalsplus.trillium": "Trillium",
     "block.betteranimalsplus.hirschgeistskull": "Crâne d'Hirschgeist",
     "block.betteranimalsplus.handoffate": "Main du destin",
-    "block.betteranimalsplus.wolfhead": "Tête de Loup",
-    "block.betteranimalsplus.deerhead": "Tête de Cerf",
-    "block.betteranimalsplus.reindeerhead": "Tête de Renne",
-    "block.betteranimalsplus.boarhead": "Tête de Sanglier",
+    "block.betteranimalsplus.wolfhead": "Tête de loup",
+    "block.betteranimalsplus.deerhead": "Tête de cerf",
+    "block.betteranimalsplus.reindeerhead": "Tête de renne",
+    "block.betteranimalsplus.boarhead": "Tête de sanglier",
 
     "_comment": "Entities",
     "entity.betteranimalsplus.brownbear": "Ours brun",
@@ -40,6 +40,6 @@
     "entity.betteranimalsplus.songbird": "Oiseau chanteur",
     "entity.betteranimalsplus.badger": "Blaireau",
     "entity.betteranimalsplus.lamprey": "Lamproie",
-	
+
 	"misc.betteranimalsplus.eggorder": "Oeuf d'apparition de %s"
 }
