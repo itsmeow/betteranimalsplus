@@ -14,6 +14,7 @@ import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.goal.LookAtGoal;
 import net.minecraft.entity.ai.goal.MoveTowardsTargetGoal;
 import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal;
+import net.minecraft.entity.ai.goal.RandomWalkingGoal;
 import net.minecraft.entity.monster.EndermanEntity;
 import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.monster.SkeletonEntity;
@@ -45,6 +46,7 @@ public class EntityLamprey extends EntityWaterMobWithTypes implements IMob {
     protected void registerGoals() {
         this.goalSelector.addGoal(0, new MoveTowardsTargetGoal(this, 0.8D, 15F));
         this.goalSelector.addGoal(1, new LookAtGoal(this, WaterMobEntity.class, 10.0F));
+        this.goalSelector.addGoal(2, new RandomWalkingGoal(this, 0.5D));
         Set<Class<? extends LivingEntity>> blackList = new HashSet<Class<? extends LivingEntity>>();
         blackList.add(SkeletonEntity.class);
         blackList.add(EndermanEntity.class);
