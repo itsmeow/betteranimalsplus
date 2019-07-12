@@ -4,7 +4,6 @@
         "facing=west":  { "model": "minecraft:soul_sand" },
         "facing=north":  { "model": "minecraft:soul_sand" },
         "facing=south":  { "model": "minecraft:soul_sand" },
-        "facing=up":  { "model": "minecraft:soul_sand" },
-        "facing=down":  { "model": "minecraft:soul_sand" }
+        "facing=up":  { "model": "minecraft:soul_sand" }
     }
 }
