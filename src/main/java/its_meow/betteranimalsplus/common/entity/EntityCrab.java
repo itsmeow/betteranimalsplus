@@ -71,7 +71,6 @@ public class EntityCrab extends EntityAnimalWithTypes {
         this.dataManager.register(CRAB_RAVE, Integer.valueOf(0));
     }
 
-    @Override
     public boolean attackEntityAsMob(Entity entityIn) {
         if(snipTime == 0) {
             snipTime = 20;
@@ -93,16 +92,6 @@ public class EntityCrab extends EntityAnimalWithTypes {
         if(flag) {
             if(entityIn instanceof PlayerEntity) {
                 PlayerEntity entityplayer = (PlayerEntity)entityIn;
-
-                int weakTicks = 0;
-                if (this.world.getDifficulty() == Difficulty.EASY) {
-                    weakTicks = 200;
-                } else if (this.world.getDifficulty() == Difficulty.NORMAL) {
-                    weakTicks = 300;
-                } else if (this.world.getDifficulty() == Difficulty.HARD) {
-                    weakTicks = 600;
-                }
-                entityplayer.addPotionEffect(new EffectInstance(Effects.WEAKNESS, weakTicks, 1, false, false));
                 ItemStack itemstack = this.getHeldItemMainhand();
                 ItemStack itemstack1 = entityplayer.isHandActive() ? entityplayer.getActiveItemStack() : ItemStack.EMPTY;
                 if(!itemstack.isEmpty() && !itemstack1.isEmpty() && itemstack.getItem().canDisableShield(itemstack, itemstack1, entityplayer, this) && itemstack1.getItem().isShield(itemstack1, entityplayer)) {
@@ -185,7 +174,7 @@ public class EntityCrab extends EntityAnimalWithTypes {
 
     @Override
     public boolean isAIDisabled() {
-        return this.getIsCrabRave() == 0;
+        return this.getIsCrabRave() != 0;
     }
 
     @Override

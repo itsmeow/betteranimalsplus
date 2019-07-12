@@ -3,17 +3,14 @@
     "group": "betteranimalsplus:record_crab_rave",
     "ingredients": [
         {
-            "item": "betteranimalsplus:crab_meat_raw",
-            "data": 0
+            "item": "betteranimalsplus:crab_meat_raw"
         },
         {
-            "item": "minecraft:record_cat",
-            "data": 0
+            "item": "minecraft:music_disc_cat"
         }
     ],
     "result": {
         "item": "betteranimalsplus:record_crab_rave",
-        "data": 0,
         "count": 1
     }
 }
