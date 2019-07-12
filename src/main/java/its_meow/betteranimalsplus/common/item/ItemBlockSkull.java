@@ -68,6 +68,9 @@ public class ItemBlockSkull extends WallOrFloorItem {
         if (!ctx.canPlace()) {
             return ActionResultType.FAIL;
         } else {
+            if (ctx.getFace() == Direction.DOWN) { 
+                return ActionResultType.FAIL;
+            }
             BlockState iblockstate = this.getStateForPlacement(ctx);
             if (iblockstate == null) {
                 return ActionResultType.FAIL;
