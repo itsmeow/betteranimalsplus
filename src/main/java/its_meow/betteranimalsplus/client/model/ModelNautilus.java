@@ -150,69 +150,90 @@ public class ModelNautilus<T extends LivingEntity> extends EntityModel<T> {
     @Override
     public void render(T entity, float f, float f1, float f2, float f3, float f4, float f5) { 
         GlStateManager.pushMatrix();
-        GlStateManager.translatef(this.rTentacle01a.offsetX, this.rTentacle01a.offsetY, this.rTentacle01a.offsetZ);
-        GlStateManager.translatef(this.rTentacle01a.rotationPointX * f5, this.rTentacle01a.rotationPointY * f5, this.rTentacle01a.rotationPointZ * f5);
-        GlStateManager.scaled(0.8D, 0.8D, 0.8D);
-        GlStateManager.translatef(-this.rTentacle01a.offsetX, -this.rTentacle01a.offsetY, -this.rTentacle01a.offsetZ);
-        GlStateManager.translatef(-this.rTentacle01a.rotationPointX * f5, -this.rTentacle01a.rotationPointY * f5, -this.rTentacle01a.rotationPointZ * f5);
-        this.rTentacle01a.render(f5);
-        GlStateManager.popMatrix();
-        GlStateManager.pushMatrix();
-        GlStateManager.translatef(this.lTentacle02a.offsetX, this.lTentacle02a.offsetY, this.lTentacle02a.offsetZ);
-        GlStateManager.translatef(this.lTentacle02a.rotationPointX * f5, this.lTentacle02a.rotationPointY * f5, this.lTentacle02a.rotationPointZ * f5);
-        GlStateManager.scaled(0.9D, 0.9D, 0.9D);
-        GlStateManager.translatef(-this.lTentacle02a.offsetX, -this.lTentacle02a.offsetY, -this.lTentacle02a.offsetZ);
-        GlStateManager.translatef(-this.lTentacle02a.rotationPointX * f5, -this.lTentacle02a.rotationPointY * f5, -this.lTentacle02a.rotationPointZ * f5);
-        this.lTentacle02a.render(f5);
-        GlStateManager.popMatrix();
-        GlStateManager.pushMatrix();
-        GlStateManager.translatef(this.rTentacle04a.offsetX, this.rTentacle04a.offsetY, this.rTentacle04a.offsetZ);
-        GlStateManager.translatef(this.rTentacle04a.rotationPointX * f5, this.rTentacle04a.rotationPointY * f5, this.rTentacle04a.rotationPointZ * f5);
-        GlStateManager.scaled(0.9D, 0.9D, 0.9D);
-        GlStateManager.translatef(-this.rTentacle04a.offsetX, -this.rTentacle04a.offsetY, -this.rTentacle04a.offsetZ);
-        GlStateManager.translatef(-this.rTentacle04a.rotationPointX * f5, -this.rTentacle04a.rotationPointY * f5, -this.rTentacle04a.rotationPointZ * f5);
-        this.rTentacle04a.render(f5);
-        GlStateManager.popMatrix();
-        GlStateManager.pushMatrix();
-        GlStateManager.translatef(this.lTentacle04a.offsetX, this.lTentacle04a.offsetY, this.lTentacle04a.offsetZ);
-        GlStateManager.translatef(this.lTentacle04a.rotationPointX * f5, this.lTentacle04a.rotationPointY * f5, this.lTentacle04a.rotationPointZ * f5);
-        GlStateManager.scaled(0.9D, 0.9D, 0.9D);
-        GlStateManager.translatef(-this.lTentacle04a.offsetX, -this.lTentacle04a.offsetY, -this.lTentacle04a.offsetZ);
-        GlStateManager.translatef(-this.lTentacle04a.rotationPointX * f5, -this.lTentacle04a.rotationPointY * f5, -this.lTentacle04a.rotationPointZ * f5);
-        this.lTentacle04a.render(f5);
-        GlStateManager.popMatrix();
-        GlStateManager.pushMatrix();
-        GlStateManager.translatef(this.rTentacle02a.offsetX, this.rTentacle02a.offsetY, this.rTentacle02a.offsetZ);
-        GlStateManager.translatef(this.rTentacle02a.rotationPointX * f5, this.rTentacle02a.rotationPointY * f5, this.rTentacle02a.rotationPointZ * f5);
-        GlStateManager.scaled(0.9D, 0.9D, 0.9D);
-        GlStateManager.translatef(-this.rTentacle02a.offsetX, -this.rTentacle02a.offsetY, -this.rTentacle02a.offsetZ);
-        GlStateManager.translatef(-this.rTentacle02a.rotationPointX * f5, -this.rTentacle02a.rotationPointY * f5, -this.rTentacle02a.rotationPointZ * f5);
-        this.rTentacle02a.render(f5);
-        GlStateManager.popMatrix();
-        GlStateManager.pushMatrix();
-        GlStateManager.translatef(this.rTentacle03a.offsetX, this.rTentacle03a.offsetY, this.rTentacle03a.offsetZ);
-        GlStateManager.translatef(this.rTentacle03a.rotationPointX * f5, this.rTentacle03a.rotationPointY * f5, this.rTentacle03a.rotationPointZ * f5);
-        GlStateManager.scaled(0.9D, 0.9D, 0.9D);
-        GlStateManager.translatef(-this.rTentacle03a.offsetX, -this.rTentacle03a.offsetY, -this.rTentacle03a.offsetZ);
-        GlStateManager.translatef(-this.rTentacle03a.rotationPointX * f5, -this.rTentacle03a.rotationPointY * f5, -this.rTentacle03a.rotationPointZ * f5);
-        this.rTentacle03a.render(f5);
-        GlStateManager.popMatrix();
-        GlStateManager.pushMatrix();
-        GlStateManager.translatef(this.lTentacle01a.offsetX, this.lTentacle01a.offsetY, this.lTentacle01a.offsetZ);
-        GlStateManager.translatef(this.lTentacle01a.rotationPointX * f5, this.lTentacle01a.rotationPointY * f5, this.lTentacle01a.rotationPointZ * f5);
-        GlStateManager.scaled(0.8D, 0.8D, 0.8D);
-        GlStateManager.translatef(-this.lTentacle01a.offsetX, -this.lTentacle01a.offsetY, -this.lTentacle01a.offsetZ);
-        GlStateManager.translatef(-this.lTentacle01a.rotationPointX * f5, -this.lTentacle01a.rotationPointY * f5, -this.lTentacle01a.rotationPointZ * f5);
-        this.lTentacle01a.render(f5);
-        GlStateManager.popMatrix();
-        this.shell.render(f5);
-        GlStateManager.pushMatrix();
-        GlStateManager.translatef(this.lTentacle03a.offsetX, this.lTentacle03a.offsetY, this.lTentacle03a.offsetZ);
-        GlStateManager.translatef(this.lTentacle03a.rotationPointX * f5, this.lTentacle03a.rotationPointY * f5, this.lTentacle03a.rotationPointZ * f5);
-        GlStateManager.scaled(0.9D, 0.9D, 0.9D);
-        GlStateManager.translatef(-this.lTentacle03a.offsetX, -this.lTentacle03a.offsetY, -this.lTentacle03a.offsetZ);
-        GlStateManager.translatef(-this.lTentacle03a.rotationPointX * f5, -this.lTentacle03a.rotationPointY * f5, -this.lTentacle03a.rotationPointZ * f5);
-        this.lTentacle03a.render(f5);
+        {
+            GlStateManager.translated(0, 0.1, 0);
+            GlStateManager.pushMatrix();
+            {
+                GlStateManager.translated(this.rTentacle01a.offsetX, this.rTentacle01a.offsetY, this.rTentacle01a.offsetZ);
+                GlStateManager.translated(this.rTentacle01a.rotationPointX * f5, this.rTentacle01a.rotationPointY * f5, this.rTentacle01a.rotationPointZ * f5);
+                GlStateManager.scaled(0.8D, 0.8D, 0.8D);
+                GlStateManager.translated(-this.rTentacle01a.offsetX, -this.rTentacle01a.offsetY, -this.rTentacle01a.offsetZ);
+                GlStateManager.translated(-this.rTentacle01a.rotationPointX * f5, -this.rTentacle01a.rotationPointY * f5, -this.rTentacle01a.rotationPointZ * f5);
+                this.rTentacle01a.render(f5);
+            }
+            GlStateManager.popMatrix();
+            GlStateManager.pushMatrix();
+            {
+                GlStateManager.translated(this.lTentacle02a.offsetX, this.lTentacle02a.offsetY, this.lTentacle02a.offsetZ);
+                GlStateManager.translated(this.lTentacle02a.rotationPointX * f5, this.lTentacle02a.rotationPointY * f5, this.lTentacle02a.rotationPointZ * f5);
+                GlStateManager.scaled(0.9D, 0.9D, 0.9D);
+                GlStateManager.translated(-this.lTentacle02a.offsetX, -this.lTentacle02a.offsetY, -this.lTentacle02a.offsetZ);
+                GlStateManager.translated(-this.lTentacle02a.rotationPointX * f5, -this.lTentacle02a.rotationPointY * f5, -this.lTentacle02a.rotationPointZ * f5);
+                this.lTentacle02a.render(f5);
+            }
+            GlStateManager.popMatrix();
+            GlStateManager.pushMatrix();
+            {
+                GlStateManager.translated(this.rTentacle04a.offsetX, this.rTentacle04a.offsetY, this.rTentacle04a.offsetZ);
+                GlStateManager.translated(this.rTentacle04a.rotationPointX * f5, this.rTentacle04a.rotationPointY * f5, this.rTentacle04a.rotationPointZ * f5);
+                GlStateManager.scaled(0.9D, 0.9D, 0.9D);
+                GlStateManager.translated(-this.rTentacle04a.offsetX, -this.rTentacle04a.offsetY, -this.rTentacle04a.offsetZ);
+                GlStateManager.translated(-this.rTentacle04a.rotationPointX * f5, -this.rTentacle04a.rotationPointY * f5, -this.rTentacle04a.rotationPointZ * f5);
+                this.rTentacle04a.render(f5);
+            }
+            GlStateManager.popMatrix();
+            GlStateManager.pushMatrix();
+            {
+                GlStateManager.translated(this.lTentacle04a.offsetX, this.lTentacle04a.offsetY, this.lTentacle04a.offsetZ);
+                GlStateManager.translated(this.lTentacle04a.rotationPointX * f5, this.lTentacle04a.rotationPointY * f5, this.lTentacle04a.rotationPointZ * f5);
+                GlStateManager.scaled(0.9D, 0.9D, 0.9D);
+                GlStateManager.translated(-this.lTentacle04a.offsetX, -this.lTentacle04a.offsetY, -this.lTentacle04a.offsetZ);
+                GlStateManager.translated(-this.lTentacle04a.rotationPointX * f5, -this.lTentacle04a.rotationPointY * f5, -this.lTentacle04a.rotationPointZ * f5);
+                this.lTentacle04a.render(f5);
+            }
+            GlStateManager.popMatrix();
+            GlStateManager.pushMatrix();
+            {
+                GlStateManager.translated(this.rTentacle02a.offsetX, this.rTentacle02a.offsetY, this.rTentacle02a.offsetZ);
+                GlStateManager.translated(this.rTentacle02a.rotationPointX * f5, this.rTentacle02a.rotationPointY * f5, this.rTentacle02a.rotationPointZ * f5);
+                GlStateManager.scaled(0.9D, 0.9D, 0.9D);
+                GlStateManager.translated(-this.rTentacle02a.offsetX, -this.rTentacle02a.offsetY, -this.rTentacle02a.offsetZ);
+                GlStateManager.translated(-this.rTentacle02a.rotationPointX * f5, -this.rTentacle02a.rotationPointY * f5, -this.rTentacle02a.rotationPointZ * f5);
+                this.rTentacle02a.render(f5);
+            }
+            GlStateManager.popMatrix();
+            GlStateManager.pushMatrix();
+            {
+                GlStateManager.translated(this.rTentacle03a.offsetX, this.rTentacle03a.offsetY, this.rTentacle03a.offsetZ);
+                GlStateManager.translated(this.rTentacle03a.rotationPointX * f5, this.rTentacle03a.rotationPointY * f5, this.rTentacle03a.rotationPointZ * f5);
+                GlStateManager.scaled(0.9D, 0.9D, 0.9D);
+                GlStateManager.translated(-this.rTentacle03a.offsetX, -this.rTentacle03a.offsetY, -this.rTentacle03a.offsetZ);
+                GlStateManager.translated(-this.rTentacle03a.rotationPointX * f5, -this.rTentacle03a.rotationPointY * f5, -this.rTentacle03a.rotationPointZ * f5);
+                this.rTentacle03a.render(f5);
+            }
+            GlStateManager.popMatrix();
+            GlStateManager.pushMatrix();
+            {
+                GlStateManager.translated(this.lTentacle01a.offsetX, this.lTentacle01a.offsetY, this.lTentacle01a.offsetZ);
+                GlStateManager.translated(this.lTentacle01a.rotationPointX * f5, this.lTentacle01a.rotationPointY * f5, this.lTentacle01a.rotationPointZ * f5);
+                GlStateManager.scaled(0.8D, 0.8D, 0.8D);
+                GlStateManager.translated(-this.lTentacle01a.offsetX, -this.lTentacle01a.offsetY, -this.lTentacle01a.offsetZ);
+                GlStateManager.translated(-this.lTentacle01a.rotationPointX * f5, -this.lTentacle01a.rotationPointY * f5, -this.lTentacle01a.rotationPointZ * f5);
+                this.lTentacle01a.render(f5);
+            }
+            GlStateManager.popMatrix();
+            this.shell.render(f5);
+            GlStateManager.pushMatrix();
+            {
+                GlStateManager.translated(this.lTentacle03a.offsetX, this.lTentacle03a.offsetY, this.lTentacle03a.offsetZ);
+                GlStateManager.translated(this.lTentacle03a.rotationPointX * f5, this.lTentacle03a.rotationPointY * f5, this.lTentacle03a.rotationPointZ * f5);
+                GlStateManager.scaled(0.9D, 0.9D, 0.9D);
+                GlStateManager.translated(-this.lTentacle03a.offsetX, -this.lTentacle03a.offsetY, -this.lTentacle03a.offsetZ);
+                GlStateManager.translated(-this.lTentacle03a.rotationPointX * f5, -this.lTentacle03a.rotationPointY * f5, -this.lTentacle03a.rotationPointZ * f5);
+                this.lTentacle03a.render(f5);
+            }
+            GlStateManager.popMatrix();
+        }
         GlStateManager.popMatrix();
     }
 

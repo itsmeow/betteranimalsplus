@@ -101,8 +101,9 @@ public class ModEntities {
         ModEntities.entityList.add(new EntityContainer<EntityLamprey>(EntityLamprey.class, EntityLamprey::new, "lamprey", 
                 EntityClassification.WATER_CREATURE, 0x0000ad, 0x0a0a0a, BetterAnimalsPlusConfig.lampreyWeight, 1, 1, 1.0F, 0.7F, null,
                 BiomeDictionary.getBiomes(Type.RIVER), BiomeDictionary.getBiomes(Type.SWAMP)));
-        ModEntities.entityList.add(new EntityContainer<EntityNautilus>(EntityNautilus.class, EntityNautilus::new, "nautilus", EntityClassification.WATER_CREATURE, 0xFF9659, 0x241682, BetterAnimalsPlusConfig.nautilusWeight, 1, 1, 0.75F, 0.85F, null, 
-            BiomeDictionary.getBiomes(Type.OCEAN)));
+        ModEntities.entityList.add(new EntityContainer<EntityNautilus>(EntityNautilus.class, EntityNautilus::new, "nautilus",
+                EntityClassification.WATER_CREATURE, 0xFF9659, 0x241682, BetterAnimalsPlusConfig.nautilusWeight, 1, 1, 0.75F, 0.75F, null, 
+                BiomeDictionary.getBiomes(Type.OCEAN)));
 
         for (EntityContainer<?> container : ModEntities.entityList) {
             ModEntities.setupContainer((EntityContainer<LivingEntity>) container);
