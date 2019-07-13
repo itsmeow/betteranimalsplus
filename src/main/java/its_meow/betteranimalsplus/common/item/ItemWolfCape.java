@@ -37,13 +37,13 @@ public class ItemWolfCape extends ItemArmor {
             if (itemStack.getItem() instanceof ItemArmor) {
 
                 ModelBiped armorModel = ModelWolfCape.INSTANCE;
-                armorModel.bipedHead.showModel = armorSlot == EntityEquipmentSlot.HEAD;
-                armorModel.bipedHeadwear.showModel = armorSlot == EntityEquipmentSlot.HEAD;
-                armorModel.bipedBody.showModel = (armorSlot == EntityEquipmentSlot.CHEST) || (armorSlot == EntityEquipmentSlot.CHEST);
-                armorModel.bipedRightArm.showModel = armorSlot == EntityEquipmentSlot.CHEST;
-                armorModel.bipedLeftArm.showModel = armorSlot == EntityEquipmentSlot.CHEST;
-                armorModel.bipedRightLeg.showModel = (armorSlot == EntityEquipmentSlot.LEGS) || (armorSlot == EntityEquipmentSlot.FEET);
-                armorModel.bipedLeftLeg.showModel = (armorSlot == EntityEquipmentSlot.LEGS) || (armorSlot == EntityEquipmentSlot.FEET);
+                armorModel.bipedHead.showModel = false;
+                armorModel.bipedHeadwear.showModel = false;
+                armorModel.bipedBody.showModel = true;
+                armorModel.bipedRightArm.showModel = false;
+                armorModel.bipedLeftArm.showModel = false;
+                armorModel.bipedRightLeg.showModel = false;
+                armorModel.bipedLeftLeg.showModel = false;
 
                 armorModel.isSneak = defaultModel.isSneak;
                 armorModel.isRiding = defaultModel.isRiding;

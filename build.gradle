@@ -63,6 +63,9 @@ repositories {
     maven {
         url "http://maven.tterrag.com/"
     }
+    maven {
+        url "http://maven.thiakil.com/"
+    }
 }
 
 dependencies {
@@ -70,6 +73,7 @@ dependencies {
     deobfProvided "mezz.jei:jei_1.12.2:4.15.0.268:api"
     runtime "mezz.jei:jei_1.12.2:4.15.0.268"
     deobfCompile "com.github.glitchfiend.biomesoplenty:BiomesOPlenty:1.12.2-7.0.1.2399:universal"
+    deobfCompile "com.azanor.baubles:Baubles:1.12-1.5.2"
 }
 
 tasks.withType(JavaCompile) {

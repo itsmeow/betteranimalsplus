@@ -1,6 +1,7 @@
 package its_meow.betteranimalsplus;
 
 import java.io.File;
+import java.util.function.Supplier;
 
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
@@ -16,6 +17,7 @@ import its_meow.betteranimalsplus.init.ModBlocks;
 import its_meow.betteranimalsplus.init.ModEntities;
 import its_meow.betteranimalsplus.init.ModItems;
 import its_meow.betteranimalsplus.init.ModOreDictSmelting;
+import its_meow.betteranimalsplus.integration.BaubleIntegration;
 import its_meow.betteranimalsplus.network.ClientConfigurationPacket;
 import its_meow.betteranimalsplus.util.EntityContainer;
 import its_meow.betteranimalsplus.util.HeadTypes;
@@ -31,6 +33,7 @@ import net.minecraft.util.datafix.FixTypes;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.common.util.ModFixs;
 import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.Mod.Instance;
@@ -89,6 +92,13 @@ public class BetterAnimalsPlusMod {
         config = new Configuration(new File(directory.getPath(), "betteranimalsplus.cfg"));
         BetterAnimalsPlusConfig.readConfig(true);
         NETWORK_INSTANCE.registerMessage(ClientConfigurationPacket.class, ClientConfigurationPacket.class, packets++, Side.CLIENT);
+
+        if(Loader.isModLoaded("baubles")) {
+            Supplier<Runnable> registerBaubleHandler = () -> () -> {
+                BaubleIntegration.preInit();
+            };
+            registerBaubleHandler.get().run();
+        }
     }
 
     @EventHandler

@@ -1,4 +1,4 @@
-package its_meow.betteranimalsplus;
+package its_meow.betteranimalsplus.integration;
 
 import its_meow.betteranimalsplus.init.BetterAnimalsPlusRegistrar;
 import mezz.jei.api.IModPlugin;
@@ -9,9 +9,9 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
 @JEIPlugin
-public class BetterAnimalsPlusJEIPlugin implements IModPlugin {
+public class IntegrationJEI implements IModPlugin {
     
-    public BetterAnimalsPlusJEIPlugin() {}
+    public IntegrationJEI() {}
 
     @Override
     public void register(IModRegistry registry) {

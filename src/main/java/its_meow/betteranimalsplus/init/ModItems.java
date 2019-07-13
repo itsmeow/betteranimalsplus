@@ -22,9 +22,9 @@ public class ModItems {
     public static final ItemBetterFood pheasantRaw = new ItemBetterFood("pheasantraw", 3, 0, 32, true);
     public static final ItemBetterFood pheasantCooked = new ItemBetterFood("pheasantcooked", 7, 1.2F, 32, true);
 
-    public static final ItemWolfCape WOLF_CAPE_CLASSIC = new ItemWolfCape(1);
-    public static final ItemWolfCape WOLF_CAPE_TIMBER = new ItemWolfCape(2);
-    public static final ItemWolfCape WOLF_CAPE_BLACK = new ItemWolfCape(3);
+    public static ItemWolfCape WOLF_CAPE_CLASSIC = new ItemWolfCape(1);
+    public static ItemWolfCape WOLF_CAPE_TIMBER = new ItemWolfCape(2);
+    public static ItemWolfCape WOLF_CAPE_BLACK = new ItemWolfCape(3);
 
     public static final ItemBetterFood CRAB_MEAT_RAW = new ItemBetterFood("crab_meat_raw", 2, 1, 16, true);
     public static final ItemBetterFood CRAB_MEAT_COOKED = new ItemBetterFood("crab_meat_cooked", 5, 1.2F, 16, true);
