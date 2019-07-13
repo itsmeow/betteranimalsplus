@@ -6,12 +6,9 @@ import its_meow.betteranimalsplus.init.ModItems;
 public class BaubleIntegration {
 
     public static void preInit() {
-        ItemWolfCapeBaubles classic = new ItemWolfCapeBaubles(1);
-        ItemWolfCapeBaubles timber = new ItemWolfCapeBaubles(2);
-        ItemWolfCapeBaubles black = new ItemWolfCapeBaubles(3);
-        ModItems.WOLF_CAPE_CLASSIC = classic;
-        ModItems.WOLF_CAPE_TIMBER = timber;
-        ModItems.WOLF_CAPE_BLACK = black;
+        ModItems.WOLF_CAPE_CLASSIC = new ItemWolfCapeBaubles(1);
+        ModItems.WOLF_CAPE_TIMBER = new ItemWolfCapeBaubles(2);
+        ModItems.WOLF_CAPE_BLACK = new ItemWolfCapeBaubles(3);
     }
 
 }
