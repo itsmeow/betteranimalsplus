@@ -13,6 +13,7 @@ import its_meow.betteranimalsplus.common.entity.EntityDeer;
 import its_meow.betteranimalsplus.common.entity.EntityFeralWolf;
 import its_meow.betteranimalsplus.common.entity.EntityFox;
 import its_meow.betteranimalsplus.common.entity.EntityGoat;
+import its_meow.betteranimalsplus.common.entity.EntityHorseshoeCrab;
 import its_meow.betteranimalsplus.common.entity.EntityJellyfish;
 import its_meow.betteranimalsplus.common.entity.EntityLammergeier;
 import its_meow.betteranimalsplus.common.entity.EntityLamprey;
@@ -59,6 +60,7 @@ public class ModEntities {
         add(EntityLamprey.class, "lamprey", EnumCreatureType.WATER_CREATURE, 0x0000ad, 0x0a0a0a, BetterAnimalsPlusConfig.lampreyWeight, 1, 1, null, Type.OCEAN, Type.SWAMP);
         add(EntityNautilus.class, "nautilus", EnumCreatureType.WATER_CREATURE, 0xff9659, 0x241682, BetterAnimalsPlusConfig.nautilusWeight, 1, 1, null, Type.OCEAN);
         add(EntityCrab.class, "crab", EnumCreatureType.CREATURE, 0xe21d16, 0x2d0504, BetterAnimalsPlusConfig.crabWeight, 1, 3, null, Type.BEACH, Type.SWAMP);
+        add(EntityHorseshoeCrab.class, "horseshoecrab", EnumCreatureType.CREATURE, 0xba1111, 0x520807, BetterAnimalsPlusConfig.horseshoeCrabWeight, 1, 3, null, Type.BEACH);
     }
     
     /**
