@@ -15,6 +15,7 @@ import net.minecraft.util.math.MathHelper;
 public class ModelWolfCape extends ModelBiped {
 
     public static final ModelWolfCape INSTANCE = new ModelWolfCape();
+    public static final ModelWolfCape INSTANCE_BAUBLE = new ModelWolfCape();
 
     public ModelRenderer wolfCapeMain;
     public ModelRenderer wolfCapeLower;
