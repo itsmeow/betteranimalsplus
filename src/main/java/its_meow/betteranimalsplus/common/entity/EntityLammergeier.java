@@ -651,7 +651,8 @@ public class EntityLammergeier extends EntityTameableFlying implements IVariantT
                     MobEntity el = (MobEntity) entitylivingbase;
                     el.setAttackTarget(null);
                     el.setRevengeTarget(null);
-                    el.getNavigator().clearPath();
+                    el.getNavigator().clearPath(); 
+                    el.setNoAI(true);
                 }
                 // Move upwards
                 this.attacker.getMoveHelper().setMoveTo(targetX, this.liftY + 15, targetZ, 0.4D);
@@ -663,6 +664,10 @@ public class EntityLammergeier extends EntityTameableFlying implements IVariantT
             && this.attacker.getEntityWorld().getBlockState(this.attacker.getPosition().up()).isNormalCube(world, this.attacker.getPosition().up())) {
                 // Release target
                 entitylivingbase.stopRiding();
+                if (entitylivingbase instanceof MobEntity) {
+                    MobEntity el = (MobEntity) entitylivingbase;
+                    el.setNoAI(false);
+                }
                 // Remove target
                 this.attacker.setAttackTarget(null);
                 // Create a random target position
@@ -680,6 +685,10 @@ public class EntityLammergeier extends EntityTameableFlying implements IVariantT
             // grabbed, or have completed movement, drop the entity
             if (Math.abs(this.attacker.posY - (this.liftY + 15)) <= 3 && attacker.getPassengers().size() > 0) {
                 entitylivingbase.stopRiding();
+                if (entitylivingbase instanceof MobEntity) {
+                    MobEntity el = (MobEntity) entitylivingbase;
+                    el.setNoAI(false);
+                }
             }
 
         }
