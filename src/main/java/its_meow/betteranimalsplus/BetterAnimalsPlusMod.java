@@ -94,10 +94,9 @@ public class BetterAnimalsPlusMod {
         NETWORK_INSTANCE.registerMessage(ClientConfigurationPacket.class, ClientConfigurationPacket.class, packets++, Side.CLIENT);
 
         if(Loader.isModLoaded("baubles")) {
-            Supplier<Runnable> registerBaubleHandler = () -> () -> {
-                BaubleIntegration.preInit();
-            };
-            registerBaubleHandler.get().run();
+            // fuk u JVM get rekt
+            Supplier<Supplier<Runnable>> registerBaubleHandler = () -> () -> BaubleIntegration::preInit;
+            registerBaubleHandler.get().get().run();
         }
     }
 
