@@ -4,6 +4,7 @@ import its_meow.betteranimalsplus.init.ModEntities;
 import net.minecraft.entity.ai.goal.AvoidEntityGoal;
 import net.minecraft.entity.ai.goal.RandomWalkingGoal;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 
 public class EntityHorseshoeCrab extends EntityCrabBase {
@@ -14,7 +15,7 @@ public class EntityHorseshoeCrab extends EntityCrabBase {
     
     @Override
     protected void registerGoals() {
-        this.goalSelector.addGoal(1, new AvoidEntityGoal<PlayerEntity>(this, PlayerEntity.class, 20F, 0.8F, 1.0F));
+        this.goalSelector.addGoal(1, new AvoidEntityGoal<PlayerEntity>(this, PlayerEntity.class, 20F, 0.44F, 0.55F));
         this.goalSelector.addGoal(2, new RandomWalkingGoal(this, 0.3D));
     }
 
@@ -26,6 +27,11 @@ public class EntityHorseshoeCrab extends EntityCrabBase {
     @Override
     protected IVariantTypes getBaseChild() {
         return new EntityHorseshoeCrab(world);
+    }
+    
+    @Override
+    protected ResourceLocation getLootTable() {
+        return null;
     }
 
 }

@@ -78,6 +78,7 @@ public class ModelHorseshoeCrab<T extends LivingEntity> extends EntityModel<T> {
 
     @Override
     public void render(T entity, float f, float f1, float f2, float f3, float f4, float f5) { 
+        this.tail00.rotateAngleY = (float) Math.sin(f * 0.5F) * f1 * 0.5F;
         this.spine.render(f5);
     }
 
