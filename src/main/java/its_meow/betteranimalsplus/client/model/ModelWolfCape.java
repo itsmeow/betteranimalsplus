@@ -160,7 +160,7 @@ public class ModelWolfCape extends ModelBiped {
 
             GlStateManager.translate(0F, 0.05F, -0.1F);
             float angle = 6.0F + f2 / 2.0F + f1;
-            angle = angle > 110F ? 110F : angle;
+            angle = angle > 90F ? 90F : angle;
             GlStateManager.rotate(angle, 1.0F, 0.0F, 0.0F);
             GlStateManager.rotate(f3 / 2.0F, 0.0F, 0.0F, 1.0F);
             //GlStateManager.rotate(-f3 / 2.0F, 0.0F, 1.0F, 0.0F);
