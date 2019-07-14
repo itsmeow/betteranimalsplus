@@ -14,11 +14,11 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
-public abstract class EntityCrabBase extends EntityAnimalWithTypes {
+public abstract class EntityCrabLikeBase extends EntityAnimalWithTypes {
 
     public int snipTime = 0;
 
-    public EntityCrabBase(World worldIn) {
+    public EntityCrabLikeBase(World worldIn) {
         super(worldIn);
         this.setPathPriority(PathNodeType.WATER, 10F);
     }
