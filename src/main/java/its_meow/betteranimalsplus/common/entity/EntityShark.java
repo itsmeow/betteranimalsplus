@@ -5,6 +5,7 @@ import java.util.Random;
 import javax.annotation.Nullable;
 
 import its_meow.betteranimalsplus.common.entity.ai.EntityAIMoveTowardsAttackTarget;
+import its_meow.betteranimalsplus.common.entity.ai.EntityAIWanderWaterEntity;
 import its_meow.betteranimalsplus.util.PolarVector3D;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
@@ -12,8 +13,8 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIFindEntityNearest;
-import net.minecraft.entity.ai.EntityAIWander;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
@@ -38,9 +39,10 @@ public class EntityShark extends EntitySharkBase implements IVariantTypes {
         super.initEntityAI();
         this.tasks.addTask(0, new EntityAIMoveTowardsAttackTarget(this, 0.8D, 40F));
         this.tasks.addTask(1, new EntityAIWatchClosest(this, EntityLiving.class, 15F));
-        this.tasks.addTask(2, new EntityAIWander(this, 0.55D));
+        this.tasks.addTask(2, new EntityAIWanderWaterEntity(this, 0.55D));
         //this.targetTasks.addTask(0, new EntityAIHurtByTarget(this, false, new Class[0]));
         this.targetTasks.addTask(1, new EntityAIFindEntityNearest(this, EntityLiving.class));
+        this.targetTasks.addTask(1, new EntityAIFindEntityNearest(this, EntityPlayer.class));
     }
 
     @Override
@@ -72,7 +74,7 @@ public class EntityShark extends EntitySharkBase implements IVariantTypes {
     @Override
     public void updatePassenger(Entity passenger) {
         if(this.isPassenger(passenger)) {
-            BlockPos pos = this.fromPolarCoordinates(new PolarVector3D(this.rotationYaw, 0F, 2F));
+            BlockPos pos = this.fromPolarCoordinates(new PolarVector3D(this.rotationYaw, this.rotationPitch, 2F));
             passenger.setPosition(this.posX + this.motionX + pos.getX(), this.posY - (this.height / 2) + this.motionY, this.posZ + this.motionZ + pos.getZ());
             this.motionY += Math.abs(passenger.motionY);
             if (passenger instanceof EntityLivingBase && (this.getAttackTarget() == null || this.getAttackTarget() != passenger)) {
@@ -86,8 +88,8 @@ public class EntityShark extends EntitySharkBase implements IVariantTypes {
 
     public BlockPos fromPolarCoordinates(PolarVector3D polar) {
         double r = polar.getR();
-        double lat = polar.getThetaY() / 360;
-        double lon = polar.getThetaX() / 360;
+        double lat = polar.getThetaY();
+        double lon = polar.getThetaX();
         double x = r * Math.sin(lat) * Math.cos(lon);
         double y = r * Math.sin(lat) * Math.sin(lon);
         double z = r * Math.cos(lat);

@@ -1,7 +1,7 @@
 package its_meow.betteranimalsplus.common.entity;
 
-import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.MoverType;
+import net.minecraft.entity.passive.EntityWaterMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.pathfinding.PathNavigate;
 import net.minecraft.pathfinding.PathNavigateSwimmer;
@@ -9,7 +9,7 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
-public class EntityBasicWaterCreature extends EntityCreature {
+public class EntityBasicWaterCreature extends EntityWaterMob {
 
     public EntityBasicWaterCreature(World world) {
         super(world);
