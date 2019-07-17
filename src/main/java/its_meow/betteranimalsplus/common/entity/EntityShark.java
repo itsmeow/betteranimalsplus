@@ -7,19 +7,21 @@ import javax.annotation.Nullable;
 import com.google.common.base.Predicates;
 
 import its_meow.betteranimalsplus.init.ModEntities;
+import its_meow.betteranimalsplus.util.PolarVector3D;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.ILivingEntityData;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.SpawnReason;
-import net.minecraft.entity.ai.goal.HurtByTargetGoal;
-import net.minecraft.entity.ai.goal.MeleeAttackGoal;
+import net.minecraft.entity.ai.goal.LookAtGoal;
+import net.minecraft.entity.ai.goal.MoveTowardsTargetGoal;
 import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal;
 import net.minecraft.entity.ai.goal.RandomWalkingGoal;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.world.Difficulty;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
@@ -28,6 +30,7 @@ public class EntityShark extends EntitySharkBase implements IVariantTypes {
 
     protected static final DataParameter<Integer> TYPE_NUMBER = EntityDataManager.<Integer>createKey(EntityShark.class, DataSerializers.VARINT);
     private float lastAttack = 0;
+    private float lastGrab = 0;
 
     public EntityShark(World world) {
         super(ModEntities.getEntityType("sharK"), world);
@@ -36,13 +39,10 @@ public class EntityShark extends EntitySharkBase implements IVariantTypes {
     @Override
     protected void registerGoals() {
         super.registerGoals();
-
-        if (this.getEntityWorld().getDifficulty() != Difficulty.PEACEFUL) {
-            this.goalSelector.addGoal(0, new MeleeAttackGoal(this, 0.8D, true));
-            this.goalSelector.addGoal(1, new RandomWalkingGoal(this, 0.55D));
-            this.targetSelector.addGoal(0, new HurtByTargetGoal(this, new Class[0]));
-            this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<LivingEntity>(this, LivingEntity.class, 90, false, false, Predicates.alwaysTrue()));
-        }
+        this.goalSelector.addGoal(0, new MoveTowardsTargetGoal(this, 0.8D, 40F));
+        this.goalSelector.addGoal(1, new LookAtGoal(this, LivingEntity.class, 15F));
+        this.goalSelector.addGoal(2, new RandomWalkingGoal(this, 0.55D));
+        this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<LivingEntity>(this, LivingEntity.class, 90, false, false, Predicates.alwaysTrue()));
     }
 
     @Override
@@ -59,15 +59,56 @@ public class EntityShark extends EntitySharkBase implements IVariantTypes {
         super.livingTick();
         if(!this.world.isRemote && this.getAttackTarget() != null && this.getAttackTarget().isAlive()) {
             if(this.getPassengers().contains(this.getAttackTarget())) {
-                float time = 10F; 
-                time *= 2F * (Math.random() + 1F);
+                float time = 20F; 
+                time *= 5F * (Math.random() + 1F);
                 if(this.lastAttack + time < this.ticksExisted) {
-                    this.attackEntityAsMob(this.getAttackTarget());
+                    //this.attackEntityAsMob(this.getAttackTarget());
                 }
-            } else if(this.getDistanceSq(this.getAttackTarget()) < 6) {
-                this.getAttackTarget().startRiding(this);
+            } else if(lastGrab  + 60F < this.ticksExisted && this.getDistanceSq(this.getAttackTarget()) < 10) {
+                this.getAttackTarget().startRiding(this, true);
+                lastGrab = this.ticksExisted;
             }
         }
+    }
+
+    @Override
+    public void updatePassenger(Entity passenger) {
+        if(this.isPassenger(passenger)) {
+            BlockPos pos = this.fromPolarCoordinates(new PolarVector3D(this.rotationYaw, 0F, 2F));
+            passenger.setPosition(this.posX + this.getMotion().getX() + pos.getX(), this.posY - (this.getHeight() / 2) + this.getMotion().getY(), this.posZ + this.getMotion().getZ() + pos.getZ());
+            this.addVelocity(0, Math.abs(passenger.getMotion().getY()), 0);
+            if (passenger instanceof LivingEntity && (this.getAttackTarget() == null || this.getAttackTarget() != passenger)) {
+                this.setAttackTarget((LivingEntity) passenger);
+            }
+            if (this.world.isRemote) {
+                this.applyOrientationToEntity(passenger);
+            }
+        }
+    }
+
+    public BlockPos fromPolarCoordinates(PolarVector3D polar) {
+        double r = polar.getR();
+        double lat = polar.getThetaY() / 360;
+        double lon = polar.getThetaX() / 360;
+        double x = r * Math.sin(lat) * Math.cos(lon);
+        double y = r * Math.sin(lat) * Math.sin(lon);
+        double z = r * Math.cos(lat);
+        return new BlockPos(x, y, z);
+    }
+
+    @Override
+    public boolean canRiderInteract() {
+        return true;
+    }
+
+    @Override
+    public boolean shouldRiderSit() {
+        return false;
+    }
+
+    @Override
+    public boolean canBeRiddenInWater(Entity rider) {
+        return true;
     }
 
     @Override
