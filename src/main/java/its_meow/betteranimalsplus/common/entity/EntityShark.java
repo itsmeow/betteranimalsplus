@@ -4,9 +4,7 @@ import java.util.Random;
 
 import javax.annotation.Nullable;
 
-import its_meow.betteranimalsplus.common.entity.ai.EntityAIMoveTowardsAttackTarget;
 import its_meow.betteranimalsplus.common.entity.ai.EntityAIWanderWaterEntity;
-import its_meow.betteranimalsplus.util.PolarVector3D;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
@@ -31,16 +29,14 @@ public class EntityShark extends EntitySharkBase implements IVariantTypes {
 
     public EntityShark(World world) {
         super(world);
-        this.setSize(3F, 1.5F);
+        this.setSize(2.5F, 1.2F);
     }
 
     @Override
     protected void initEntityAI() {
         super.initEntityAI();
-        this.tasks.addTask(0, new EntityAIMoveTowardsAttackTarget(this, 0.8D, 40F));
         this.tasks.addTask(1, new EntityAIWatchClosest(this, EntityLiving.class, 15F));
         this.tasks.addTask(2, new EntityAIWanderWaterEntity(this, 0.55D));
-        //this.targetTasks.addTask(0, new EntityAIHurtByTarget(this, false, new Class[0]));
         this.targetTasks.addTask(1, new EntityAIFindEntityNearest(this, EntityLiving.class));
         this.targetTasks.addTask(1, new EntityAIFindEntityNearest(this, EntityPlayer.class));
     }
@@ -59,14 +55,16 @@ public class EntityShark extends EntitySharkBase implements IVariantTypes {
         super.onLivingUpdate();
         if(!this.world.isRemote && this.getAttackTarget() != null && !this.getAttackTarget().isDead) {
             if(this.getPassengers().contains(this.getAttackTarget())) {
-                float time = 20F; 
+                float time = 60F; 
                 time *= 5F * (Math.random() + 1F);
                 if(this.lastAttack + time < this.ticksExisted) {
-                    //this.attackEntityAsMob(this.getAttackTarget());
+                    this.attackEntityAsMob(this.getAttackTarget());
                 }
             } else if(lastGrab  + 60F < this.ticksExisted && this.getDistanceSq(this.getAttackTarget()) < 10) {
                 this.getAttackTarget().startRiding(this, true);
                 lastGrab = this.ticksExisted;
+            } else {
+                this.getMoveHelper().setMoveTo(this.getAttackTarget().posX, this.getAttackTarget().posY, this.getAttackTarget().posZ, 0.1D);
             }
         }
     }
@@ -74,7 +72,8 @@ public class EntityShark extends EntitySharkBase implements IVariantTypes {
     @Override
     public void updatePassenger(Entity passenger) {
         if(this.isPassenger(passenger)) {
-            BlockPos pos = this.fromPolarCoordinates(new PolarVector3D(this.rotationYaw, this.rotationPitch, 2F));
+            BlockPos pos = this.getPosition().offset(this.getHorizontalFacing()).subtract(this.getPosition());
+            pos = pos.add(pos.getX(), 0, pos.getZ());
             passenger.setPosition(this.posX + this.motionX + pos.getX(), this.posY - (this.height / 2) + this.motionY, this.posZ + this.motionZ + pos.getZ());
             this.motionY += Math.abs(passenger.motionY);
             if (passenger instanceof EntityLivingBase && (this.getAttackTarget() == null || this.getAttackTarget() != passenger)) {
@@ -86,14 +85,10 @@ public class EntityShark extends EntitySharkBase implements IVariantTypes {
         }
     }
 
-    public BlockPos fromPolarCoordinates(PolarVector3D polar) {
-        double r = polar.getR();
-        double lat = polar.getThetaY();
-        double lon = polar.getThetaX();
-        double x = r * Math.sin(lat) * Math.cos(lon);
-        double y = r * Math.sin(lat) * Math.sin(lon);
-        double z = r * Math.cos(lat);
-        return new BlockPos(x, y, z);
+    public BlockPos getOffset(float l, float w, float a1) {
+        double y = (w * l) / (l * Math.tan(a1)) + w;
+        double x = y / Math.tan(a1);
+        return new BlockPos(x, 0, y);
     }
 
     @Override
