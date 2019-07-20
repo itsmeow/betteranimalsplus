@@ -103,6 +103,9 @@ public class ClientRegistrar {
         initModel(ModItems.CRAB_MEAT_COOKED, 0);
         initModel(ModItems.CRAB_MEAT_RAW, 0);
         initModel(ModItems.RECORD_CRAB_RAVE, 0);
+        initModel(ModItems.WOLF_PELT_SNOWY, 0);
+        initModel(ModItems.WOLF_PELT_TIMBER, 0);
+        initModel(ModItems.WOLF_PELT_BLACK, 0);
         
         // Tile Entities
         

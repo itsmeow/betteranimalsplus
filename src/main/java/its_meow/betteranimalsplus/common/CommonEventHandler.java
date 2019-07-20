@@ -6,11 +6,19 @@ import its_meow.betteranimalsplus.Ref;
 import its_meow.betteranimalsplus.common.entity.EntityBoar;
 import its_meow.betteranimalsplus.common.entity.EntityCrab;
 import its_meow.betteranimalsplus.init.ModItems;
+import its_meow.betteranimalsplus.init.ModLootTables;
 import net.minecraft.block.BlockJukebox.TileEntityJukebox;
 import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.storage.loot.LootEntry;
+import net.minecraft.world.storage.loot.LootEntryTable;
+import net.minecraft.world.storage.loot.LootPool;
+import net.minecraft.world.storage.loot.LootTableList;
+import net.minecraft.world.storage.loot.RandomValueRange;
+import net.minecraft.world.storage.loot.conditions.LootCondition;
+import net.minecraftforge.event.LootTableLoadEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -48,6 +56,13 @@ public class CommonEventHandler {
                     }
                 }
             }
+        }
+    }
+    
+    @SubscribeEvent
+    public static void onLootLoad(LootTableLoadEvent event) {
+        if(event.getName().equals(LootTableList.ENTITIES_WOLF)) {
+            event.getTable().addPool(new LootPool(new LootEntry[] {new LootEntryTable(ModLootTables.WOLF_SNOWY, 1, 0, new LootCondition[0], "betteranimalsplus_wolf_snowy_inject_entry")}, new LootCondition[0], new RandomValueRange(1), new RandomValueRange(0), "snowy_pelt"));
         }
     }
 

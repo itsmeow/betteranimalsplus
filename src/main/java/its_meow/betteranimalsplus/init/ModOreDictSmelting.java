@@ -26,5 +26,8 @@ public class ModOreDictSmelting {
         OreDictionary.registerOre("foodGoatCheese", ModItems.goatCheese);
         OreDictionary.registerOre("foodVenisonraw", ModItems.venisonRaw);
         OreDictionary.registerOre("foodVenisoncooked", ModItems.venisonCooked);
+        OreDictionary.registerOre("peltWolf", ModItems.WOLF_PELT_BLACK);
+        OreDictionary.registerOre("peltWolf", ModItems.WOLF_PELT_SNOWY);
+        OreDictionary.registerOre("peltWolf", ModItems.WOLF_PELT_TIMBER);
     }
 }

@@ -16,6 +16,9 @@ item.betteranimalsplus.wolfcape3.name=Wolf Cape (Black)
 item.record.crabrave.desc=Crab Rave
 item.betteranimalsplus.crab_meat_raw.name=Raw Crab Meat
 item.betteranimalsplus.crab_meat_cooked.name=Cooked Crab Meat
+item.betteranimalsplus.wolf_pelt_snowy.name=Snowy Wolf Pelt
+item.betteranimalsplus.wolf_pelt_timber.name=Timber Wolf Pelt
+item.betteranimalsplus.wolf_pelt_black.name=Black Wolf Pelt
 #Blocks
 tile.betteranimalsplus.trillium.name=Trillium
 tile.betteranimalsplus.hirschgeistskull.name=Hirschgeist Skull

@@ -34,4 +34,8 @@ public class ModItems {
         RECORD_CRAB_RAVE.setCreativeTab(null);
         RECORD_CRAB_RAVE.setUnlocalizedName("record");
     }
+    
+    public static final Item WOLF_PELT_SNOWY = new Item().setRegistryName("wolf_pelt_snowy").setUnlocalizedName(Ref.MOD_ID + "." + "wolf_pelt_snowy").setCreativeTab(BetterAnimalsPlusMod.tab);
+    public static final Item WOLF_PELT_TIMBER = new Item().setRegistryName("wolf_pelt_timber").setUnlocalizedName(Ref.MOD_ID + "." + "wolf_pelt_timber").setCreativeTab(BetterAnimalsPlusMod.tab);
+    public static final Item WOLF_PELT_BLACK = new Item().setRegistryName("wolf_pelt_black").setUnlocalizedName(Ref.MOD_ID + "." + "wolf_pelt_black").setCreativeTab(BetterAnimalsPlusMod.tab);
 }

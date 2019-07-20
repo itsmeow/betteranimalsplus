@@ -7,6 +7,7 @@ import javax.annotation.Nullable;
 import com.google.common.base.Predicates;
 
 import its_meow.betteranimalsplus.init.ModItems;
+import its_meow.betteranimalsplus.init.ModLootTables;
 import its_meow.betteranimalsplus.util.HeadTypes;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
@@ -47,6 +48,7 @@ import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
@@ -354,6 +356,16 @@ public class EntityFeralWolf extends EntityTameableWithSelectiveTypes implements
             return new int[] {2};
         } else {
             return new int[] {1, 2, 3};
+        }
+    }
+
+    @Override
+    protected ResourceLocation getLootTable() {
+        switch(this.getTypeNumber()) {
+        case 1: return ModLootTables.WOLF_BLACK;
+        case 2: return ModLootTables.WOLF_SNOWY;
+        case 3: return ModLootTables.WOLF_TIMBER;
+        default: return super.getLootTable();
         }
     }
 
