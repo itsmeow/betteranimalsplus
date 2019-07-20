@@ -1,6 +1,6 @@
 package its_meow.betteranimalsplus.common.entity.projectile;
 
-import its_meow.betteranimalsplus.Ref;
+import its_meow.betteranimalsplus.init.ModEntities;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -18,11 +18,7 @@ import net.minecraftforge.fml.network.NetworkHooks;
 
 public class EntityTarantulaHair extends ThrowableEntity {
 
-    public static EntityType<EntityTarantulaHair> HAIR_TYPE = EntityType.Builder.<EntityTarantulaHair>create((type, world) -> new EntityTarantulaHair(world), EntityClassification.MISC).setTrackingRange(64).setUpdateInterval(1).setShouldReceiveVelocityUpdates(true).size(0.5F, 0.5F).setCustomClientFactory((type, world) -> new EntityTarantulaHair(world)).build("tarantulahair");
-
-    static {
-        HAIR_TYPE.setRegistryName(Ref.MOD_ID, "tarantulahair");
-    }
+    public static EntityType<EntityTarantulaHair> HAIR_TYPE = ModEntities.<EntityTarantulaHair>createEntityType(EntityTarantulaHair.class, EntityTarantulaHair::new, "tarantulahair", EntityClassification.MISC, 64, 1, true, 0.5F, 0.5F);
 
     public LivingEntity thrower;
 

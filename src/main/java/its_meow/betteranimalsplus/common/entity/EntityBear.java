@@ -165,7 +165,7 @@ public class EntityBear extends MonsterEntity {
 
             if (p_190102_2_ <= d0 && this.attackTick <= 0) {
                 this.attackTick = 20;
-                this.field_75441_b.attackEntityAsMob(p_190102_1_);
+                this.attacker.attackEntityAsMob(p_190102_1_);
             } else if (p_190102_2_ <= d0 * 2.0D) {
                 if (this.attackTick <= 0) {
                     this.attackTick = 20;

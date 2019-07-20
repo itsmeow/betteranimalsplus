@@ -19,7 +19,7 @@ public class RenderGoat extends MobRenderer<EntityGoat, ModelGoat<EntityGoat>> {
 
     @Override
     protected void preRenderCallback(EntityGoat entitylivingbaseIn, float partialTickTime) {
-        if (this.field_77045_g.isChild) {
+        if (this.entityModel.isChild) {
             GlStateManager.scaled(0.5D, 0.5D, 0.5D);
         } else {
             GlStateManager.scaled(1.0D, 1.0D, 1.0D);

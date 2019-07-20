@@ -1,6 +1,6 @@
 package its_meow.betteranimalsplus.common.entity.projectile;
 
-import its_meow.betteranimalsplus.Ref;
+import its_meow.betteranimalsplus.init.ModEntities;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntityType;
@@ -16,17 +16,14 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.EntityRayTraceResult;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.Difficulty;
-import net.minecraft.world.ServerWorld;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.fml.network.NetworkHooks;
 
 public class EntityBadgerDirt extends ThrowableEntity {
 
 
-    public static EntityType<EntityBadgerDirt> DIRT_TYPE = EntityType.Builder.<EntityBadgerDirt>create((type, world) -> new EntityBadgerDirt(world), EntityClassification.MISC).setTrackingRange(64).setUpdateInterval(1).setShouldReceiveVelocityUpdates(true).size(1.2F, 1.2F).setCustomClientFactory((type, world) -> new EntityBadgerDirt(world)).build("badgerdirt");
-    static { 
-        DIRT_TYPE.setRegistryName(Ref.MOD_ID, "badgerdirt"); 
-    }
+    public static EntityType<EntityBadgerDirt> DIRT_TYPE = ModEntities.<EntityBadgerDirt>createEntityType(EntityBadgerDirt.class, EntityBadgerDirt::new, "badgerdirt", EntityClassification.MISC, 64, 1, true, 1.2F, 1.2F);
 
     protected int stateId = -1;
 

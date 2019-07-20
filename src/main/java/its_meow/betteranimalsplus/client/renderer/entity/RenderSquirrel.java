@@ -19,7 +19,7 @@ public class RenderSquirrel extends MobRenderer<EntitySquirrel, ModelSquirrel<En
 
     @Override
     protected void preRenderCallback(EntitySquirrel entitylivingbaseIn, float partialTickTime) {
-        if (this.field_77045_g.isChild) {
+        if (this.entityModel.isChild) {
             GlStateManager.scaled(0.35D, 0.35D, 0.35D);
         } else {
             GlStateManager.scaled(0.5D, 0.5D, 0.5D);

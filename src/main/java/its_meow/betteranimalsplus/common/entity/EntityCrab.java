@@ -40,12 +40,12 @@ public class EntityCrab extends EntityAnimalWithTypes {
         this.goalSelector.addGoal(0, new MeleeAttackGoal(this, 0.9D, true) {
             @Override
             public boolean shouldExecute() {
-                return super.shouldExecute() && this.field_75441_b.getHealth() > this.field_75441_b.getMaxHealth() / 2F;
+                return super.shouldExecute() && this.attacker.getHealth() > this.attacker.getMaxHealth() / 2F;
             }
 
             @Override
             public boolean shouldContinueExecuting() {
-                return super.shouldContinueExecuting() && this.field_75441_b.getHealth() > this.field_75441_b.getMaxHealth() / 2F;
+                return super.shouldContinueExecuting() && this.attacker.getHealth() > this.attacker.getMaxHealth() / 2F;
             }
         });
         this.goalSelector.addGoal(1, new AvoidEntityGoal<PlayerEntity>(this, PlayerEntity.class, 20F, 0.8F, 1.0F));

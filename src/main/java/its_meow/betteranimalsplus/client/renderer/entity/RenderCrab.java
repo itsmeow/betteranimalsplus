@@ -17,7 +17,7 @@ public class RenderCrab extends MobRenderer<EntityCrab, ModelCrab<EntityCrab>> {
 	
     @Override
     protected void preRenderCallback(EntityCrab entity, float partialTickTime) {
-        if (this.field_77045_g.isChild) {
+        if (this.entityModel.isChild) {
             GlStateManager.scaled(0.45D, 0.45D, 0.45D);
         } else {
             GlStateManager.scaled(1.0D, 1.0D, 1.0D);

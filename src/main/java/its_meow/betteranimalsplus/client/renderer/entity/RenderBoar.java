@@ -17,7 +17,7 @@ public class RenderBoar extends MobRenderer<EntityBoar, ModelBoar<EntityBoar>> {
 
     @Override
     protected void preRenderCallback(EntityBoar entitylivingbaseIn, float partialTickTime) {
-        if (this.field_77045_g.isChild) {
+        if (this.entityModel.isChild) {
             GlStateManager.scaled(0.6D, 0.6D, 0.6D);
         } else {
             GlStateManager.scaled(1.0D, 1.0D, 1.0D);

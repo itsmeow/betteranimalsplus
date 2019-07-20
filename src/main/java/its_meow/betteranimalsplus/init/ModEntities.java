@@ -1,9 +1,12 @@
 package its_meow.betteranimalsplus.init;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.function.Function;
 
+import its_meow.betteranimalsplus.BetterAnimalsPlusMod;
 import its_meow.betteranimalsplus.Ref;
 import its_meow.betteranimalsplus.common.entity.EntityBadger;
 import its_meow.betteranimalsplus.common.entity.EntityBear;
@@ -26,12 +29,14 @@ import its_meow.betteranimalsplus.common.entity.EntityTarantula;
 import its_meow.betteranimalsplus.common.entity.miniboss.hirschgeist.EntityHirschgeist;
 import its_meow.betteranimalsplus.config.BetterAnimalsPlusConfig;
 import its_meow.betteranimalsplus.util.EntityContainer;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.BiomeDictionary.Type;
+import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 
 @SuppressWarnings("unchecked")
 public class ModEntities {
@@ -125,11 +130,37 @@ public class ModEntities {
         }
         ModEntities.entrySet.add(entry);
     }
+    
+    private static Field type$serializable = null;
 
-    private static <T extends LivingEntity> EntityType<T> createEntityType(Class<T> EntityClass, Function<World, T> func, String entityNameIn, EntityContainer<T> container) {
-        EntityType<T> type =  EntityType.Builder.<T>create((etype, world) -> func.apply(world), container.type).setTrackingRange(64).setUpdateInterval(1).setShouldReceiveVelocityUpdates(true).size(container.width, container.height).setCustomClientFactory((e, world) -> func.apply(world)).build(entityNameIn);
+    public static <T extends LivingEntity> EntityType<T> createEntityType(Class<T> EntityClass, Function<World, T> func, String entityNameIn, EntityContainer<T> container) {
+        return createEntityType(EntityClass, func, entityNameIn, container.type, 64, 1, true, container.width, container.height);
+    }
+    
+    public static <T extends Entity> EntityType<T> createEntityType(Class<T> EntityClass, Function<World, T> func, String entityNameIn, EntityClassification classification, int trackingRange, int updateInterval, boolean velUpdates, float width, float height) {
+        EntityType<T> type =  EntityType.Builder.<T>create((etype, world) -> func.apply(world), classification).setTrackingRange(trackingRange).setUpdateInterval(updateInterval).setShouldReceiveVelocityUpdates(velUpdates).size(width, height).setCustomClientFactory((e, world) -> func.apply(world)).disableSerialization().build(Ref.MOD_ID + ":" + entityNameIn.toLowerCase());
         type.setRegistryName(Ref.MOD_ID + ":" + entityNameIn.toLowerCase());
+        
+        // It's okay, I hate it too
+        try {
+            if(type$serializable == null) {
+                type$serializable = ObfuscationReflectionHelper.findField(EntityType.class, "field_200733_aL");
+            }
+            setFinalField(type$serializable, type, true);
+        } catch(Exception e) {
+            BetterAnimalsPlusMod.logger.warn("Unable to set serializable for " + entityNameIn + ". This could result in possible saving issues with entities!");
+        }
         return type;
     }
+    
+    private static void setFinalField(Field field, Object object, Object newValue) throws Exception {
+        field.setAccessible(true);
+
+        Field modifiersField = Field.class.getDeclaredField("modifiers");
+        modifiersField.setAccessible(true);
+        modifiersField.setInt(field, field.getModifiers() & ~Modifier.FINAL);
+
+        field.set(object, newValue);
+     }
 
 }

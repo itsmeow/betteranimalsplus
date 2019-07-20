@@ -17,7 +17,7 @@ public class RenderBadger extends MobRenderer<EntityBadger, ModelBadger<EntityBa
 
     @Override
     protected void preRenderCallback(EntityBadger entitylivingbaseIn, float partialTickTime) {
-        if (this.field_77045_g.isChild) {
+        if (this.entityModel.isChild) {
             GlStateManager.scaled(0.35D, 0.35D, 0.35D);
         } else {
             GlStateManager.scaled(0.7D, 0.7D, 0.7D);

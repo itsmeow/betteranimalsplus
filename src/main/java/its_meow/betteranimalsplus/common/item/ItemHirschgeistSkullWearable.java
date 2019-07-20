@@ -33,7 +33,7 @@ public class ItemHirschgeistSkullWearable extends ArmorItem {
             if(itemStack.getItem() instanceof ArmorItem) {
 
                 A armorModel = ClientLifecycleHandler.getArmorModel();
-                armorModel.field_78116_c.showModel = true;
+                armorModel.bipedHead.showModel = true;
 
                 armorModel.isSneak = defaultModel.isSneak;
                 armorModel.isSitting = defaultModel.isSitting;

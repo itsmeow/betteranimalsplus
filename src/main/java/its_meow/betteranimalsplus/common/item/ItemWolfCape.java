@@ -29,7 +29,7 @@ public class ItemWolfCape extends ArmorItem {
 
                 @SuppressWarnings("unchecked")
                 A armorModel = (A) ModelWolfCape.INSTANCE;
-                armorModel.field_78115_e.showModel = true;
+                armorModel.bipedHead.showModel = true;
 
                 armorModel.isSneak = defaultModel.isSneak;
                 armorModel.isSitting = defaultModel.isSitting;

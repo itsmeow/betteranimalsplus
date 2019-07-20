@@ -17,7 +17,7 @@ public class RenderReindeer extends MobRenderer<EntityReindeer, ModelReindeer<En
 
     @Override
     protected void preRenderCallback(EntityReindeer entitylivingbaseIn, float partialTickTime) {
-        if (this.field_77045_g.isChild) {
+        if (this.entityModel.isChild) {
             GlStateManager.scaled(0.7D, 0.7D, 0.7D);
         } else {
             GlStateManager.scaled(1.3D, 1.3D, 1.3D);

@@ -22,7 +22,7 @@ public class RenderSongbird extends MobRenderer<EntitySongbird, EntityModel<Enti
 
     @Override
     protected void preRenderCallback(EntitySongbird entity, float partialTickTime) {
-        if (this.field_77045_g.isChild) {
+        if (this.entityModel.isChild) {
             GlStateManager.scaled(0.35D, 0.35D, 0.35D);
         } else {
             GlStateManager.scaled(0.5D, 0.5D, 0.5D);
@@ -32,9 +32,9 @@ public class RenderSongbird extends MobRenderer<EntitySongbird, EntityModel<Enti
     @Override
     public void doRender(EntitySongbird entity, double x, double y, double z, float entityYaw, float partialTicks) {
         if (entity.getTypeNumber() > 4) {
-            this.field_77045_g = SMALL_SONG_BIRD;
+            this.entityModel = SMALL_SONG_BIRD;
         } else {
-            this.field_77045_g = SONG_BIRD;
+            this.entityModel = SONG_BIRD;
         }
         super.doRender(entity, x, y, z, entityYaw, partialTicks);
     }

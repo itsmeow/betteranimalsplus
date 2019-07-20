@@ -26,7 +26,7 @@ public class RenderDeer extends MobRenderer<EntityDeer, ModelDeer<EntityDeer>> {
 
     @Override
     protected void preRenderCallback(EntityDeer entitylivingbaseIn, float partialTickTime) {
-        if (this.field_77045_g.isChild) {
+        if (this.entityModel.isChild) {
             GlStateManager.scaled(0.6D, 0.6D, 0.6D);
         } else {
             GlStateManager.scaled(1.0D, 1.0D, 1.0D);
@@ -37,7 +37,7 @@ public class RenderDeer extends MobRenderer<EntityDeer, ModelDeer<EntityDeer>> {
     protected ResourceLocation getEntityTexture(EntityDeer entity) {
         int type = entity.getTypeNumber();
         if (!this.isChristmas) {
-            if (this.field_77045_g.isChild) {
+            if (this.entityModel.isChild) {
                 return ModTextures.deer_1;
             }
             if (type == 1) {
@@ -45,7 +45,7 @@ public class RenderDeer extends MobRenderer<EntityDeer, ModelDeer<EntityDeer>> {
             }
             return ModTextures.deer_2;
         } else {
-            if (this.field_77045_g.isChild) {
+            if (this.entityModel.isChild) {
                 return ModTextures.deer_1_christmas;
             }
             if (type == 1) {

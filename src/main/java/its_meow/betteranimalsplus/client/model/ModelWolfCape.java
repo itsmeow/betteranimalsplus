@@ -138,7 +138,7 @@ public class ModelWolfCape<T extends LivingEntity> extends BipedModel<T> {
         this.wolfCapeArmR2.addChild(this.rClaw03);
         this.wolfCapeArmR2.addChild(this.rClaw02);
         this.wolfCapeArmL2.addChild(this.lClaw02);
-        this.field_78115_e.addChild(this.wolfCapeMain);
+        this.bipedBody.addChild(this.wolfCapeMain);
         
         //this.bipedBody.addChild(this.wolfCapeArmL1);
         //this.bipedBody.addChild(this.wolfCapeArmR1);
