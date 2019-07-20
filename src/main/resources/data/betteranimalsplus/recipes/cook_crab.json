@@ -1,0 +1,9 @@
+{
+  "type": "smelting",
+  "ingredient": {
+    "item": "betteranimalsplus:crab_meat_raw"
+  },
+  "result": "betteranimalsplus:crab_meat_cooked",
+  "experience": 0,
+  "cookingtime": 200
+}

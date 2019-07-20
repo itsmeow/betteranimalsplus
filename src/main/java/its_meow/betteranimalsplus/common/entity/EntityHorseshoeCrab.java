@@ -7,7 +7,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 
-public class EntityHorseshoeCrab extends EntityCrabBase {
+public class EntityHorseshoeCrab extends EntityCrabLikeBase {
 
     public EntityHorseshoeCrab(World world) {
         super(ModEntities.getEntityType("horseshoecrab"), world);

@@ -14,7 +14,7 @@ import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.pathfinding.PathNodeType;
 import net.minecraft.world.World;
 
-public class EntityCrab extends EntityCrabBase {
+public class EntityCrab extends EntityCrabLikeBase {
 
     protected static final DataParameter<Integer> CRAB_RAVE = EntityDataManager.<Integer>createKey(EntityCrab.class, DataSerializers.VARINT);
 

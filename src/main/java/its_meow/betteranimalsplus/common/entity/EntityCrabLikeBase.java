@@ -17,11 +17,11 @@ import net.minecraft.world.IWorld;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
 
-public abstract class EntityCrabBase extends EntityAnimalWithTypes {
+public abstract class EntityCrabLikeBase extends EntityAnimalWithTypes {
 
     public int snipTime = 0;
 
-    public EntityCrabBase(EntityType<? extends EntityCrabBase> type, World worldIn) {
+    public EntityCrabLikeBase(EntityType<? extends EntityCrabLikeBase> type, World worldIn) {
         super(type, worldIn);
         this.setPathPriority(PathNodeType.WATER, 10F);
     }
