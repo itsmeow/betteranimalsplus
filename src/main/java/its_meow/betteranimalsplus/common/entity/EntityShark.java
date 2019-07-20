@@ -7,7 +7,7 @@ import javax.annotation.Nullable;
 import com.google.common.base.Predicates;
 
 import its_meow.betteranimalsplus.init.ModEntities;
-import net.minecraft.entity.Entity;
+import its_meow.betteranimalsplus.init.ModLootTables;
 import net.minecraft.entity.ILivingEntityData;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -20,7 +20,7 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
@@ -30,6 +30,7 @@ public class EntityShark extends EntitySharkBase implements IVariantTypes {
     protected static final DataParameter<Integer> TYPE_NUMBER = EntityDataManager.<Integer>createKey(EntityShark.class, DataSerializers.VARINT);
     private float lastAttack = 0;
     private float lastGrab = 0;
+    private float lastTickHealth = 0;
 
     public EntityShark(World world) {
         super(ModEntities.getEntityType("shark"), world);
@@ -56,57 +57,24 @@ public class EntityShark extends EntitySharkBase implements IVariantTypes {
     @Override
     public void livingTick() {
         super.livingTick();
-        if(!this.world.isRemote && this.getAttackTarget() != null && this.getAttackTarget().isAlive()) {
+        if(!this.world.isRemote && this.getAttackTarget() != null && this.getAttackTarget().isAlive() && this.isAlive()) {
             if(this.getPassengers().contains(this.getAttackTarget())) {
-                float time = 60F; 
+                float time = 80F;
                 time *= 5F * (Math.random() + 1F);
                 if(this.lastAttack + time < this.ticksExisted) {
                     this.attackEntityAsMob(this.getAttackTarget());
                 }
-            } else if(lastGrab  + 60F < this.ticksExisted && this.getDistanceSq(this.getAttackTarget()) < 10) {
+            } else if(lastGrab + 60F < this.ticksExisted && this.getDistanceSq(this.getAttackTarget()) < 10) {
                 this.getAttackTarget().startRiding(this, true);
                 lastGrab = this.ticksExisted;
             } else {
                 this.getMoveHelper().setMoveTo(this.getAttackTarget().posX, this.getAttackTarget().posY, this.getAttackTarget().posZ, 0.1D);
             }
-        }
-    }
-
-    @Override
-    public void updatePassenger(Entity passenger) {
-        if(this.isPassenger(passenger)) {
-            BlockPos pos = this.getPosition().offset(this.getHorizontalFacing()).subtract(this.getPosition());
-            pos = pos.add(pos.getX(), 0, pos.getZ());
-            passenger.setPosition(this.posX + this.getMotion().getX() + pos.getX(), this.posY - (this.getHeight() / 2) + this.getMotion().getY(), this.posZ + this.getMotion().getZ() + pos.getZ());
-            this.addVelocity(0, Math.abs(passenger.getMotion().getY()), 0);
-            if (passenger instanceof LivingEntity && (this.getAttackTarget() == null || this.getAttackTarget() != passenger)) {
-                this.setAttackTarget((LivingEntity) passenger);
-            }
-            if (this.world.isRemote) {
-                this.applyOrientationToEntity(passenger);
+            if(lastTickHealth - 4F > this.getHealth()) {
+                this.getAttackTarget().dismountEntity(this.getRidingEntity());
             }
         }
-    }
-
-    public BlockPos getOffset(float l, float w, float a1) {
-        double y = (w * l) / (l * Math.tan(a1)) + w;
-        double x = y / Math.tan(a1);
-        return new BlockPos(x, 0, y);
-    }
-
-    @Override
-    public boolean canRiderInteract() {
-        return true;
-    }
-
-    @Override
-    public boolean shouldRiderSit() {
-        return false;
-    }
-
-    @Override
-    public boolean canBeRiddenInWater(Entity rider) {
-        return true;
+        this.lastTickHealth = this.getHealth();
     }
 
     @Override
@@ -155,6 +123,11 @@ public class EntityShark extends EntitySharkBase implements IVariantTypes {
     @Override
     public int getVariantMax() {
         return 3;
+    }
+
+    @Override
+    protected ResourceLocation getLootTable() {
+        return ModLootTables.SHARK;
     }
 
 }

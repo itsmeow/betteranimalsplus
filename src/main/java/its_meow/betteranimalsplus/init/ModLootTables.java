@@ -21,5 +21,28 @@ public class ModLootTables {
     public static final ResourceLocation WOLF_SNOWY = new ResourceLocation(Ref.MOD_ID, "wolf_snowy");
     public static final ResourceLocation WOLF_TIMBER = new ResourceLocation(Ref.MOD_ID, "wolf_timber");
     public static final ResourceLocation WOLF_BLACK = new ResourceLocation(Ref.MOD_ID, "wolf_black");
+<<<<<<< HEAD
+=======
+    
+    public static final ResourceLocation SHARK = new ResourceLocation(Ref.MOD_ID, "shark");
+    
+    public static void register() {
+        LootTableList.register(bear);
+        LootTableList.register(deer);
+        LootTableList.register(lammergeier);
+        LootTableList.register(hirschgeist);
+        LootTableList.register(goat);
+        LootTableList.register(pheasant);
+        LootTableList.register(reindeer);
+        LootTableList.register(songbird);
+        LootTableList.register(lamprey);
+        LootTableList.register(NAUTILUS);
+        LootTableList.register(CRAB);
+        LootTableList.register(WOLF_SNOWY);
+        LootTableList.register(WOLF_TIMBER);
+        LootTableList.register(WOLF_BLACK);
+        LootTableList.register(SHARK);
+    }
+>>>>>>> 10112e4... Tweak sharks
 
 }
