@@ -23,6 +23,8 @@ public class ModLootTables {
     public static final ResourceLocation WOLF_TIMBER = new ResourceLocation(Ref.MOD_ID, "wolf_timber");
     public static final ResourceLocation WOLF_BLACK = new ResourceLocation(Ref.MOD_ID, "wolf_black");
     
+    public static final ResourceLocation SHARK = new ResourceLocation(Ref.MOD_ID, "shark");
+    
     public static void register() {
         LootTableList.register(bear);
         LootTableList.register(deer);
@@ -38,6 +40,7 @@ public class ModLootTables {
         LootTableList.register(WOLF_SNOWY);
         LootTableList.register(WOLF_TIMBER);
         LootTableList.register(WOLF_BLACK);
+        LootTableList.register(SHARK);
     }
 
 }
