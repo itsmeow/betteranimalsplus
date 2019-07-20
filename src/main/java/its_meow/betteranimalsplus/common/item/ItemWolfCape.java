@@ -2,11 +2,13 @@ package its_meow.betteranimalsplus.common.item;
 
 import its_meow.betteranimalsplus.BetterAnimalsPlusMod;
 import its_meow.betteranimalsplus.client.model.ModelWolfCape;
+import its_meow.betteranimalsplus.init.ModItems;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.EntityEquipmentSlot;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.util.EnumHelper;
@@ -23,6 +25,7 @@ public class ItemWolfCape extends ItemArmor {
         this.setUnlocalizedName("betteranimalsplus.wolfcape" + variant);
         this.setRegistryName("wolfcape" + variant);
         this.setCreativeTab(BetterAnimalsPlusMod.tab);
+        this.canRepair = true;
     }
 
     @Override
@@ -55,6 +58,18 @@ public class ItemWolfCape extends ItemArmor {
             }
         }
         return null;
+    }
+
+    @Override
+    public boolean getIsRepairable(ItemStack toRepair, ItemStack repair) {
+        Item matchPelt = null;
+        switch(this.variant) {
+        case 1: matchPelt = ModItems.WOLF_PELT_SNOWY; break;
+        case 2: matchPelt = ModItems.WOLF_PELT_TIMBER; break;
+        case 3: matchPelt = ModItems.WOLF_PELT_BLACK; break;
+        default: return false;
+        }
+        return repair.getItem() == matchPelt;
     }
 
 }
