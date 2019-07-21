@@ -175,8 +175,9 @@ public class ModTextures {
     public static final ResourceLocation horseshoe_crab_3 = new ResourceLocation(entitytex + "horseshoe_crab_3.png");
     
     // Shark Variants
-    public static final ResourceLocation shark_1 = new ResourceLocation(entitytex + "shark_1.png");
-    public static final ResourceLocation shark_2 = new ResourceLocation(entitytex + "shark_2.png");
-    public static final ResourceLocation shark_3 = new ResourceLocation(entitytex + "shark_3.png");
+    public static final ResourceLocation shark_blue = new ResourceLocation(entitytex + "shark_blue.png");
+    public static final ResourceLocation shark_bull = new ResourceLocation(entitytex + "shark_bull.png");
+    public static final ResourceLocation shark_tiger = new ResourceLocation(entitytex + "shark_tiger.png");
+    public static final ResourceLocation shark_whitetip = new ResourceLocation(entitytex + "shark_whitetip.png");
 
 }
