@@ -70,7 +70,9 @@ public class BetterAnimalsPlusRegistrar {
 
         registry.registerAll(ModItems.VENISON_RAW, ModItems.VENISON_COOKED, ModItems.HIRSCHGEIST_SKULL_WEARABLE,
         ModItems.ANTLER, ModItems.GOAT_MILK, ModItems.GOAT_CHEESE, ModItems.PHEASANT_RAW,
-        ModItems.PHEASANT_COOKED, ModItems.WOLF_CAPE_CLASSIC, ModItems.WOLF_CAPE_TIMBER, ModItems.WOLF_CAPE_BLACK, ModItems.CRAB_MEAT_RAW, ModItems.CRAB_MEAT_COOKED, ModItems.RECORD_CRAB_RAVE, ModItems.WOLF_PELT_SNOWY, ModItems.WOLF_PELT_TIMBER, ModItems.WOLF_PELT_BLACK);
+        ModItems.PHEASANT_COOKED, ModItems.CRAB_MEAT_RAW, ModItems.CRAB_MEAT_COOKED, ModItems.WOLF_PELT_SNOWY, ModItems.WOLF_PELT_TIMBER, ModItems.WOLF_PELT_BLACK, 
+        ModItems.WOLF_CAPE_CLASSIC, ModItems.WOLF_CAPE_TIMBER, ModItems.WOLF_CAPE_BLACK, ModItems.RECORD_CRAB_RAVE,
+        ModItems.BEAR_SKIN_BROWN, ModItems.BEAR_SKIN_BLACK, ModItems.BEAR_SKIN_KERMODE, ModItems.BEAR_CAPE_BROWN, ModItems.BEAR_CAPE_BLACK, ModItems.BEAR_CAPE_KERMODE);
 
         for (EntityContainer<?> ent : ModEntities.entityList) {
             ItemBetterAnimalsPlusEgg egg = new ItemBetterAnimalsPlusEgg(ModEntities.getEntityType(ent.entityName),

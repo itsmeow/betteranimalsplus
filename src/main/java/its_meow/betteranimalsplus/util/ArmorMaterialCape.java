@@ -6,11 +6,13 @@ import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
 
-public class ArmorMaterialWolfCape implements IArmorMaterial {
+public class ArmorMaterialCape implements IArmorMaterial {
     
-    private int variant = 0;
+    private final String name;
+    private final String variant;
     
-    public ArmorMaterialWolfCape(int variant) {
+    public ArmorMaterialCape(String name, String variant) {
+        this.name = name;
         this.variant = variant;
     }
 
@@ -46,7 +48,7 @@ public class ArmorMaterialWolfCape implements IArmorMaterial {
 
     @Override
     public String getName() {
-        return "betteranimalsplus:wolfcape" + variant;
+        return "betteranimalsplus:" + name + variant;
     }
 
 }

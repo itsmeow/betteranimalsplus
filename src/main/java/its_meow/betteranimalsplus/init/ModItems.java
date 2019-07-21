@@ -4,8 +4,10 @@ import java.util.LinkedHashMap;
 
 import its_meow.betteranimalsplus.BetterAnimalsPlusMod;
 import its_meow.betteranimalsplus.Ref;
+import its_meow.betteranimalsplus.common.item.ItemBearCape;
 import its_meow.betteranimalsplus.common.item.ItemBetterFood;
 import its_meow.betteranimalsplus.common.item.ItemHirschgeistSkullWearable;
+import its_meow.betteranimalsplus.common.item.ItemNamedSimple;
 import its_meow.betteranimalsplus.common.item.ItemWolfCape;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.BlockItem;
@@ -23,8 +25,7 @@ public class ModItems {
     public static final ItemBetterFood VENISON_RAW = new ItemBetterFood("venisonraw", 4, 0, 32, true);
     public static final ItemBetterFood VENISON_COOKED = new ItemBetterFood("venisoncooked", 8, 1.2F, 32, true);
     public static final ItemHirschgeistSkullWearable HIRSCHGEIST_SKULL_WEARABLE = new ItemHirschgeistSkullWearable();
-    public static final Item ANTLER = new Item(new Properties().group(BetterAnimalsPlusMod.group))
-            .setRegistryName("antler");
+    public static final Item ANTLER = new ItemNamedSimple("antler");
     public static final Item GOAT_MILK = new MilkBucketItem(
             new Properties().containerItem(Items.BUCKET).group(BetterAnimalsPlusMod.group).maxStackSize(1))
                     .setRegistryName("goatmilk");
@@ -38,10 +39,22 @@ public class ModItems {
             new Properties().group(BetterAnimalsPlusMod.group));
 
     public static LinkedHashMap<SpawnEggItem, Class<? extends Entity>> eggs = new LinkedHashMap<SpawnEggItem, Class<? extends Entity>>();
+    
+    public static final Item WOLF_PELT_SNOWY = new ItemNamedSimple("wolf_pelt_snowy");
+    public static final Item WOLF_PELT_TIMBER = new ItemNamedSimple("wolf_pelt_timber");
+    public static final Item WOLF_PELT_BLACK = new ItemNamedSimple("wolf_pelt_black");
 
-    public static final ItemWolfCape WOLF_CAPE_CLASSIC = new ItemWolfCape(1);
-    public static final ItemWolfCape WOLF_CAPE_TIMBER = new ItemWolfCape(2);
-    public static final ItemWolfCape WOLF_CAPE_BLACK = new ItemWolfCape(3);
+    public static ItemWolfCape WOLF_CAPE_CLASSIC = new ItemWolfCape("snowy", WOLF_PELT_SNOWY);
+    public static ItemWolfCape WOLF_CAPE_TIMBER = new ItemWolfCape("timber", WOLF_PELT_TIMBER);
+    public static ItemWolfCape WOLF_CAPE_BLACK = new ItemWolfCape("black", WOLF_PELT_BLACK);
+    
+    public static final Item BEAR_SKIN_BROWN = new ItemNamedSimple("bear_skin_brown");
+    public static final Item BEAR_SKIN_BLACK = new ItemNamedSimple("bear_skin_black");
+    public static final Item BEAR_SKIN_KERMODE = new ItemNamedSimple("bear_skin_kermode");
+    
+    public static ItemBearCape BEAR_CAPE_BROWN = new ItemBearCape("brown", BEAR_SKIN_BROWN);
+    public static ItemBearCape BEAR_CAPE_BLACK = new ItemBearCape("black", BEAR_SKIN_BLACK);
+    public static ItemBearCape BEAR_CAPE_KERMODE = new ItemBearCape("kermode", BEAR_SKIN_KERMODE);
 
     public static final ItemBetterFood CRAB_MEAT_RAW = new ItemBetterFood("crab_meat_raw", 2, 1, 16, true);
     public static final ItemBetterFood CRAB_MEAT_COOKED = new ItemBetterFood("crab_meat_cooked", 5, 1.2F, 16, true);
@@ -49,8 +62,5 @@ public class ModItems {
     public static final MusicDiscItem RECORD_CRAB_RAVE = new MusicDiscItem(15, ModSoundEvents.CRAB_RAVE, new Item.Properties().maxStackSize(1).rarity(Rarity.RARE)) {}; static {
         RECORD_CRAB_RAVE.setRegistryName(new ResourceLocation(Ref.MOD_ID, "record_crab_rave"));
     }
-    
-    public static final Item WOLF_PELT_SNOWY = new Item(new Item.Properties().group(BetterAnimalsPlusMod.group)).setRegistryName("wolf_pelt_snowy");
-    public static final Item WOLF_PELT_TIMBER = new Item(new Item.Properties().group(BetterAnimalsPlusMod.group)).setRegistryName("wolf_pelt_timber");
-    public static final Item WOLF_PELT_BLACK = new Item(new Item.Properties().group(BetterAnimalsPlusMod.group)).setRegistryName("wolf_pelt_black");
+
 }

@@ -5,7 +5,6 @@ import net.minecraft.util.ResourceLocation;
 
 public class ModLootTables {
 
-    public static final ResourceLocation bear = new ResourceLocation(Ref.MOD_ID, "bear");
     public static final ResourceLocation deer = new ResourceLocation(Ref.MOD_ID, "deer");
     public static final ResourceLocation lammergeier = new ResourceLocation(Ref.MOD_ID, "lammergeier");
     public static final ResourceLocation hirschgeist = new ResourceLocation(Ref.MOD_ID, "hirschgeist");
@@ -21,6 +20,11 @@ public class ModLootTables {
     public static final ResourceLocation WOLF_SNOWY = new ResourceLocation(Ref.MOD_ID, "wolf_snowy");
     public static final ResourceLocation WOLF_TIMBER = new ResourceLocation(Ref.MOD_ID, "wolf_timber");
     public static final ResourceLocation WOLF_BLACK = new ResourceLocation(Ref.MOD_ID, "wolf_black");
+    
+    // Bears
+    public static final ResourceLocation BEAR_BROWN = new ResourceLocation(Ref.MOD_ID, "bear_brown");
+    public static final ResourceLocation BEAR_BLACK = new ResourceLocation(Ref.MOD_ID, "bear_black");
+    public static final ResourceLocation BEAR_KERMODE = new ResourceLocation(Ref.MOD_ID, "bear_kermode");
     
     public static final ResourceLocation SHARK = new ResourceLocation(Ref.MOD_ID, "shark");
 

@@ -85,7 +85,7 @@ public class EntityBear extends MonsterEntity {
     @Override
     @Nullable
     protected ResourceLocation getLootTable() {
-        return ModLootTables.bear;
+        return ModLootTables.BEAR_BROWN;
     }
 
     public boolean canSpawn(IWorld p_213380_1_, SpawnReason p_213380_2_) {
