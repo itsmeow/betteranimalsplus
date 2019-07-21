@@ -4,6 +4,9 @@ import java.util.Random;
 
 import javax.annotation.Nullable;
 
+import com.google.common.base.Predicates;
+
+import its_meow.betteranimalsplus.common.entity.ai.EntityAIFindEntityNearestPredicate;
 import its_meow.betteranimalsplus.common.entity.ai.EntityAIWanderWaterEntity;
 import its_meow.betteranimalsplus.init.ModLootTables;
 import net.minecraft.entity.EntityLiving;
@@ -11,11 +14,13 @@ import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIFindEntityNearest;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
+import net.minecraft.entity.item.EntityBoat;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
@@ -37,7 +42,7 @@ public class EntityShark extends EntitySharkBase implements IVariantTypes {
         super.initEntityAI();
         this.tasks.addTask(1, new EntityAIWatchClosest(this, EntityLiving.class, 15F));
         this.tasks.addTask(2, new EntityAIWanderWaterEntity(this, 0.55D));
-        this.targetTasks.addTask(1, new EntityAIFindEntityNearest(this, EntityLiving.class));
+        this.targetTasks.addTask(1, new EntityAIFindEntityNearestPredicate(this, EntityLiving.class, Predicates.alwaysTrue(), true));
         this.targetTasks.addTask(1, new EntityAIFindEntityNearest(this, EntityPlayer.class));
     }
 
@@ -47,21 +52,28 @@ public class EntityShark extends EntitySharkBase implements IVariantTypes {
         this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(30D);
         this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.75D);
         this.getAttributeMap().registerAttribute(SharedMonsterAttributes.ATTACK_DAMAGE);
-        this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(8D);
+        this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(6D);
     }
 
     @Override
     public void onLivingUpdate() {
         super.onLivingUpdate();
         if(!this.world.isRemote && this.getAttackTarget() != null && !this.getAttackTarget().isDead && !this.isDead) {
+            boolean isBoat = this.getAttackTarget() instanceof EntityPlayer && this.getAttackTarget().isRiding() && this.getAttackTarget().getRidingEntity() instanceof EntityBoat;
+            float grabDelay = isBoat ? 20F : 60F;
             if(this.getPassengers().contains(this.getAttackTarget())) {
                 float time = 80F;
                 time *= 5F * (Math.random() + 1F);
                 if(this.lastAttack + time < this.ticksExisted) {
                     this.attackEntityAsMob(this.getAttackTarget());
                 }
-            } else if(lastGrab + 60F < this.ticksExisted && this.getDistanceSq(this.getAttackTarget()) < 10) {
-                this.getAttackTarget().startRiding(this, true);
+            } else if(lastGrab + grabDelay < this.ticksExisted && this.getDistanceSq(this.getAttackTarget()) < 5) {
+                if(isBoat) {
+                    EntityBoat boat = (EntityBoat) this.getAttackTarget().getRidingEntity();
+                    boat.attackEntityFrom(DamageSource.causeMobDamage(this), 3F);
+                } else if(!this.getAttackTarget().getIsInvulnerable()){
+                    this.getAttackTarget().startRiding(this, false);
+                }
                 lastGrab = this.ticksExisted;
             } else {
                 this.getMoveHelper().setMoveTo(this.getAttackTarget().posX, this.getAttackTarget().posY, this.getAttackTarget().posZ, 0.1D);
@@ -117,7 +129,7 @@ public class EntityShark extends EntitySharkBase implements IVariantTypes {
 
     @Override
     public int getVariantMax() {
-        return 3;
+        return 4;
     }
 
     @Override
