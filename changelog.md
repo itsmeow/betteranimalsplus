@@ -1,3 +1,17 @@
+7.0.0
+-
+- Added crabs
+- Added nautilus
+- Added sharks
+- Added horseshoe crabs
+- Added bear heads
+- Added wolf capes (with baubles support)
+- Added wolf pelts, used for crafting capes or wool and leather, drops from wolves
+- Added crab meat, drops from crabs
+- Added Italian translation, thanks to Gaber373!
+- Moved kermode bear into black bear egg as a rare variant
+- Renamed creative tab and mod info name from "Better Animals+" to "Better Animals Plus"
+
 6.0.3
 -
 - Fixed random crash killing tameable animals
