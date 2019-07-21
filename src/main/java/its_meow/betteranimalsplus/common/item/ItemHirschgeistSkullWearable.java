@@ -8,9 +8,7 @@ import its_meow.betteranimalsplus.init.ModItems;
 import its_meow.betteranimalsplus.util.ArmorMaterialBone;
 import net.minecraft.client.renderer.entity.model.BipedModel;
 import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.inventory.EquipmentSlotType;
-import net.minecraft.item.ArmorItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.util.text.ITextComponent;
@@ -19,32 +17,11 @@ import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
-public class ItemHirschgeistSkullWearable extends ArmorItem {
+public class ItemHirschgeistSkullWearable extends ItemModeledArmor {
 
     public ItemHirschgeistSkullWearable() {
         super(new ArmorMaterialBone(), EquipmentSlotType.HEAD, new Properties().group(BetterAnimalsPlusMod.group));
         this.setRegistryName("hirschgeistskullwearable");
-    }
-
-    @Override
-    @OnlyIn(Dist.CLIENT)
-    public <A extends BipedModel<?>> A getArmorModel(LivingEntity entityLiving, ItemStack itemStack, EquipmentSlotType armorSlot, A defaultModel) {
-        if(itemStack != null) {
-            if(itemStack.getItem() instanceof ArmorItem) {
-
-                A armorModel = ClientLifecycleHandler.getArmorModel();
-                armorModel.bipedHead.showModel = true;
-
-                armorModel.isSneak = defaultModel.isSneak;
-                armorModel.isSitting = defaultModel.isSitting;
-                armorModel.isChild = defaultModel.isChild;
-                armorModel.rightArmPose = defaultModel.rightArmPose;
-                armorModel.leftArmPose = defaultModel.leftArmPose;
-
-                return armorModel;
-            }
-        }
-        return super.getArmorModel(entityLiving, itemStack, armorSlot, defaultModel);
     }
 
     @Override
@@ -56,6 +33,25 @@ public class ItemHirschgeistSkullWearable extends ArmorItem {
     @Override
     public boolean getIsRepairable(ItemStack toRepair, ItemStack repair) {
         return repair.getItem() == Items.BONE || repair.getItem() == ModItems.ANTLER;
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    @Override
+    protected <A extends BipedModel<?>> A getBaseModelInstance() {
+        return ClientLifecycleHandler.getArmorModel();
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    @Override
+    protected <A extends BipedModel<?>> A displays(A armorModel, EquipmentSlotType slot) {
+        armorModel.bipedHead.showModel = true;
+        armorModel.bipedHeadwear.showModel = true;
+        armorModel.bipedBody.showModel = false;
+        armorModel.bipedRightArm.showModel = false;
+        armorModel.bipedLeftArm.showModel = false;
+        armorModel.bipedRightLeg.showModel = false;
+        armorModel.bipedLeftLeg.showModel = false;
+        return armorModel;
     }
 
 }

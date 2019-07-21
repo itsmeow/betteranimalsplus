@@ -5,15 +5,13 @@ import its_meow.betteranimalsplus.client.model.ModelWolfCape;
 import its_meow.betteranimalsplus.init.ModItems;
 import its_meow.betteranimalsplus.util.ArmorMaterialWolfCape;
 import net.minecraft.client.renderer.entity.model.BipedModel;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.inventory.EquipmentSlotType;
-import net.minecraft.item.ArmorItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
-public class ItemWolfCape extends ArmorItem {
+public class ItemWolfCape extends ItemModeledArmor {
 
     public final int variant;
     
@@ -23,26 +21,17 @@ public class ItemWolfCape extends ArmorItem {
         this.setRegistryName("wolfcape" + variant);
     }
 
-    @Override
     @OnlyIn(Dist.CLIENT)
-    public <A extends BipedModel<?>> A getArmorModel(LivingEntity entityLiving, ItemStack itemStack, EquipmentSlotType armorSlot, A defaultModel) {
-        if(itemStack != null) {
-            if(itemStack.getItem() instanceof ArmorItem) {
-
-                @SuppressWarnings("unchecked")
-                A armorModel = (A) ModelWolfCape.INSTANCE;
-                armorModel.bipedHead.showModel = true;
-
-                armorModel.isSneak = defaultModel.isSneak;
-                armorModel.isSitting = defaultModel.isSitting;
-                armorModel.isChild = defaultModel.isChild;
-                armorModel.rightArmPose = defaultModel.rightArmPose;
-                armorModel.leftArmPose = defaultModel.leftArmPose;
-
-                return armorModel;
-            }
-        }
-        return super.getArmorModel(entityLiving, itemStack, armorSlot, defaultModel);
+    @Override
+    protected <A extends BipedModel<?>> A displays(A armorModel, EquipmentSlotType slot) {
+        armorModel.bipedHead.showModel = false;
+        armorModel.bipedHeadwear.showModel = false;
+        armorModel.bipedBody.showModel = true;
+        armorModel.bipedRightArm.showModel = false;
+        armorModel.bipedLeftArm.showModel = false;
+        armorModel.bipedRightLeg.showModel = false;
+        armorModel.bipedLeftLeg.showModel = false;
+        return armorModel;
     }
 
     @Override
@@ -55,6 +44,13 @@ public class ItemWolfCape extends ArmorItem {
         default: return false;
         }
         return repair.getItem() == matchPelt;
+    }
+
+    @SuppressWarnings("unchecked")
+    @OnlyIn(Dist.CLIENT)
+    @Override
+    protected <A extends BipedModel<?>> A getBaseModelInstance() {
+        return (A) ModelWolfCape.INSTANCE;
     }
 
 }
