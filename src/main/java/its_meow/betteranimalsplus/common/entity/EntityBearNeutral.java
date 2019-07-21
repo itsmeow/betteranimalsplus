@@ -6,6 +6,7 @@ import javax.annotation.Nullable;
 
 import com.google.common.base.Predicates;
 
+import its_meow.betteranimalsplus.init.ModLootTables;
 import its_meow.betteranimalsplus.util.HeadTypes;
 import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
@@ -20,6 +21,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
 
@@ -113,6 +115,15 @@ public class EntityBearNeutral extends EntityBear implements IVariantTypes {
                 ItemStack stack = new ItemStack(HeadTypes.BEARHEAD.getItem(this.getTypeNumber() + 1));
                 this.entityDropItem(stack, 0.5F);
             }
+        }
+    }
+    
+    @Override
+    protected ResourceLocation getLootTable() {
+        switch(this.getTypeNumber()) {
+        case 1: return ModLootTables.BEAR_BLACK;
+        case 2: return ModLootTables.BEAR_KERMODE;
+        default: return ModLootTables.BEAR_BLACK;
         }
     }
 

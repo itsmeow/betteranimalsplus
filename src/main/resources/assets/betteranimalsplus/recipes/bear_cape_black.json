@@ -10,12 +10,12 @@
     {
         "c":
         {
-        	"item": "betteranimalsplus:wolf_pelt_timber"
+        	"item": "betteranimalsplus:bear_skin_black"
         }
     },
     "result":
     {
-        "item": "betteranimalsplus:wolf_cape_timber",
+        "item": "betteranimalsplus:bear_cape_black",
         "count": 1
     }
 }

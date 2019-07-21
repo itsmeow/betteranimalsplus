@@ -1,0 +1,16 @@
+{
+	"type": "minecraft:crafting_shapeless",
+	"ingredients": [
+	    {
+	        "item": "betteranimalsplus:bear_skin_kermode"
+	    },
+	    {
+	        "item": "betteranimalsplus:bear_skin_kermode"
+	    }
+	],
+	"result": {
+	    "item": "minecraft:leather",
+		"data": 0,
+		"count": 2
+	}
+}

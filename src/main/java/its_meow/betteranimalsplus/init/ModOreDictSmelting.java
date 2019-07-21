@@ -29,5 +29,17 @@ public class ModOreDictSmelting {
         OreDictionary.registerOre("peltWolf", ModItems.WOLF_PELT_BLACK);
         OreDictionary.registerOre("peltWolf", ModItems.WOLF_PELT_SNOWY);
         OreDictionary.registerOre("peltWolf", ModItems.WOLF_PELT_TIMBER);
+        OreDictionary.registerOre("peltBear", ModItems.BEAR_SKIN_BROWN);
+        OreDictionary.registerOre("peltBear", ModItems.BEAR_SKIN_BLACK);
+        OreDictionary.registerOre("peltBear", ModItems.BEAR_SKIN_KERMODE);
+        OreDictionary.registerOre("skinBear", ModItems.BEAR_SKIN_BROWN);
+        OreDictionary.registerOre("skinBear", ModItems.BEAR_SKIN_BLACK);
+        OreDictionary.registerOre("skinBear", ModItems.BEAR_SKIN_KERMODE);
+        OreDictionary.registerOre("peltBearBrown", ModItems.BEAR_SKIN_BROWN);
+        OreDictionary.registerOre("peltBearBlack", ModItems.BEAR_SKIN_BLACK);
+        OreDictionary.registerOre("peltBearKermode", ModItems.BEAR_SKIN_KERMODE);
+        OreDictionary.registerOre("skinBearBrown", ModItems.BEAR_SKIN_BROWN);
+        OreDictionary.registerOre("skinBearBlack", ModItems.BEAR_SKIN_BLACK);
+        OreDictionary.registerOre("skinBearKermode", ModItems.BEAR_SKIN_KERMODE);
     }
 }

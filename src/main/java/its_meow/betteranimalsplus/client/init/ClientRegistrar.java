@@ -106,6 +106,12 @@ public class ClientRegistrar {
         initModel(ModItems.WOLF_PELT_SNOWY, 0);
         initModel(ModItems.WOLF_PELT_TIMBER, 0);
         initModel(ModItems.WOLF_PELT_BLACK, 0);
+        initModel(ModItems.BEAR_SKIN_BLACK, 0);
+        initModel(ModItems.BEAR_SKIN_BROWN, 0);
+        initModel(ModItems.BEAR_SKIN_KERMODE, 0);
+        initModel(ModItems.BEAR_CAPE_BLACK, 0);
+        initModel(ModItems.BEAR_CAPE_BROWN, 0);
+        initModel(ModItems.BEAR_CAPE_KERMODE, 0);
         
         // Tile Entities
         

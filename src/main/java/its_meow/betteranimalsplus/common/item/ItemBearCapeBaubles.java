@@ -5,7 +5,7 @@ import baubles.api.BaublesApi;
 import baubles.api.IBauble;
 import baubles.api.render.IRenderBauble;
 import its_meow.betteranimalsplus.Ref;
-import its_meow.betteranimalsplus.client.model.ModelWolfCape;
+import its_meow.betteranimalsplus.client.model.ModelBearCape;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.renderer.GlStateManager;
@@ -20,12 +20,12 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class ItemWolfCapeBaubles extends ItemWolfCape implements IBauble, IRenderBauble {
+public class ItemBearCapeBaubles extends ItemBearCape implements IBauble, IRenderBauble {
 
-    public ItemWolfCapeBaubles(String variant, Item repairItem) {
+    public ItemBearCapeBaubles(String variant, Item repairItem) {
         super(variant, repairItem);
     }
-
+    
     @Override
     public BaubleType getBaubleType(ItemStack itemstack) {
         return BaubleType.BODY;
@@ -52,7 +52,7 @@ public class ItemWolfCapeBaubles extends ItemWolfCape implements IBauble, IRende
             if(texturemanager != null) {
                 texturemanager.bindTexture(getTexture(variant));
             }
-            ModelBiped model = ModelWolfCape.INSTANCE_BAUBLE;
+            ModelBiped model = ModelBearCape.INSTANCE_BAUBLE;
             this.displays(model, slot);
 
             model.isSneak = living.isSneaking();
@@ -74,16 +74,16 @@ public class ItemWolfCapeBaubles extends ItemWolfCape implements IBauble, IRende
         }
     }
 
-    private static final ResourceLocation WOLF_CAPE_SNOWY = new ResourceLocation(Ref.MOD_ID, "textures/models/armor/wolf_cape_classic_layer_1.png");
-    private static final ResourceLocation WOLF_CAPE_TIMBER = new ResourceLocation(Ref.MOD_ID, "textures/models/armor/wolf_cape_timber_layer_1.png");
-    private static final ResourceLocation WOLF_CAPE_BLACK = new ResourceLocation(Ref.MOD_ID, "textures/models/armor/wolf_cape_black_layer_1.png");
+    private static final ResourceLocation BEAR_CAPE_BROWN = new ResourceLocation(Ref.MOD_ID, "textures/models/armor/bear_cape_brown_layer_1.png");
+    private static final ResourceLocation BEAR_CAPE_BLACK = new ResourceLocation(Ref.MOD_ID, "textures/models/armor/bear_cape_black_layer_1.png");
+    private static final ResourceLocation BEAR_CAPE_KERMODE = new ResourceLocation(Ref.MOD_ID, "textures/models/armor/bear_cape_kermode_layer_1.png");
 
     private static ResourceLocation getTexture(String variant) {
         switch(variant) {
-        case "classic": return WOLF_CAPE_SNOWY;
-        case "timber": return WOLF_CAPE_TIMBER;
-        case "black": return WOLF_CAPE_BLACK;
-        default: return WOLF_CAPE_SNOWY;
+        case "brown": return BEAR_CAPE_BROWN;
+        case "black": return BEAR_CAPE_BLACK;
+        case "kermode": return BEAR_CAPE_KERMODE;
+        default: return BEAR_CAPE_BROWN;
         }
     }
 

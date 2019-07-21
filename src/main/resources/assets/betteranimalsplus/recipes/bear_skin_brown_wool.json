@@ -1,0 +1,13 @@
+{
+	"type": "minecraft:crafting_shapeless",
+	"ingredients": [
+	    {
+	        "item": "betteranimalsplus:bear_skin_brown"
+	    }
+	],
+	"result": {
+	    "item": "minecraft:wool",
+		"data": 12,
+		"count": 1
+	}
+}

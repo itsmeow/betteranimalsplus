@@ -71,7 +71,7 @@ public class EntityBear extends EntityMob {
     @Override
     @Nullable
     protected ResourceLocation getLootTable() {
-        return ModLootTables.bear;
+        return ModLootTables.BEAR_BROWN;
     }
 
     @Override
