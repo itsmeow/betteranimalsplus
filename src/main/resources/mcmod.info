@@ -1,7 +1,7 @@
 [
 {
   "modid": "betteranimalsplus",
-  "name": "Better Animals+",
+  "name": "Better Animals Plus",
   "description": "Companion mod to Better Animals adding new creatures with the Better Animals art style.",
   "version": "${version}",
   "mcversion": "${mcversion}",
