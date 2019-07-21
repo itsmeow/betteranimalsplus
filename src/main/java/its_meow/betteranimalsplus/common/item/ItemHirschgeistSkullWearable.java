@@ -13,6 +13,8 @@ import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.EnumHelper;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ItemHirschgeistSkullWearable extends ItemModeledArmor {
     
@@ -37,11 +39,13 @@ public class ItemHirschgeistSkullWearable extends ItemModeledArmor {
     }
 
     @Override
+    @SideOnly(Side.CLIENT)
     protected ModelBiped getBaseModelInstance() {
         return ModelHirschgeistHelmet.INSTANCE;
     }
 
     @Override
+    @SideOnly(Side.CLIENT)
     protected ModelBiped displays(ModelBiped armorModel, EntityEquipmentSlot slot) {
         armorModel.bipedHead.showModel = true;
         armorModel.bipedHeadwear.showModel = true;

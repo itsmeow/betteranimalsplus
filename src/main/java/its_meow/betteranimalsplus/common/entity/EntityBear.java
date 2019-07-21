@@ -77,6 +77,10 @@ public class EntityBear extends EntityMob {
     @Override
     public void onDeath(DamageSource cause) {
         super.onDeath(cause);
+        this.doDropHead();
+    }
+    
+    protected void doDropHead() {
         if (!world.isRemote && !this.isChild()) {
             if (this.rand.nextInt(12) == 0) {
                 ItemStack stack = new ItemStack(HeadTypes.BEARHEAD.getItem(1));

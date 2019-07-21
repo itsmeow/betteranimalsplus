@@ -105,12 +105,12 @@ public class EntityBearNeutral extends EntityBear implements IVariantTypes {
         super.readEntityFromNBT(compound);
         this.readType(compound);
     }
-    
+
     @Override
-    public void onDeath(DamageSource cause) {
-        super.onDeath(cause);
+    public void doDropHead() {
         if (!world.isRemote && !this.isChild()) {
             if (this.rand.nextInt(12) == 0) {
+                int type = this.getTypeNumber();
                 ItemStack stack = new ItemStack(HeadTypes.BEARHEAD.getItem(this.getTypeNumber() + 1));
                 this.entityDropItem(stack, 0.5F);
             }
