@@ -98,13 +98,19 @@ public enum HeadTypes {
             items.add(item);
         }
     }
+    
+    public Pair<BlockGenericSkull, ItemBlockHeadType> getPair(int i) {
+        return heads.get(i);
+    }
 
     public BlockGenericSkull getBlock(int i) {
-        return heads.get(i).getLeft();
+        if(getPair(i) == null) return null;
+        return getPair(i).getLeft();
     }
 
     public ItemBlockHeadType getItem(int i) {
-        return heads.get(i).getRight();
+        if(getPair(i) == null) return null;
+        return getPair(i).getRight();
     }
 
     public ArrayList<ItemBlockHeadType> getItems() {
