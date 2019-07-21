@@ -1,0 +1,54 @@
+#Creative Tabs
+itemGroup.Better Animals+=Animali Migliorati +
+
+#Items
+item.betteranimalsplus.venisonraw.name=Carne di Cervo Cruda
+item.betteranimalsplus.venisoncooked.name=Carne di Cervo Cotta
+item.betteranimalsplus.hirschgeistskullwearable.name=Teschio di Hirschgeist (Indossabile)
+item.betteranimalsplus.antler.name=Corna
+item.betteranimalsplus.goatmilk.name=Latte di Pecora
+item.betteranimalsplus.goatcheese.name=Formaggio di Pecora
+item.betteranimalsplus.pheasantraw.name=Fagiano Crudo
+item.betteranimalsplus.pheasantcooked.name=Fagiano Cotto
+item.betteranimalsplus.wolfcape1.name=Mantello di Pelle di Lupo (Classica)
+item.betteranimalsplus.wolfcape2.name=Mantello di Pelle di Lupo (Grigio)
+item.betteranimalsplus.wolfcape3.name=Mantello di Pelle di Lupo (Nero)
+item.record.crabrave.desc=Crab Rave
+item.betteranimalsplus.crab_meat_raw.name=Carne di Granchio Cruda 
+item.betteranimalsplus.crab_meat_cooked.name=Carne di Granchio Cotta 
+item.betteranimalsplus.wolf_pelt_snowy.name=Pelliccia del Lupo delle Nevi
+item.betteranimalsplus.wolf_pelt_timber.name=Pelliccia del Lupo Grigio
+item.betteranimalsplus.wolf_pelt_black.name=Pelliccia del Lupo Nero
+#Blocks
+tile.betteranimalsplus.trillium.name=Trillium
+tile.betteranimalsplus.hirschgeistskull.name=Teschio di Hirschgeist
+tile.betteranimalsplus.handoffate.name=Mano del Destino
+tile.betteranimalsplus.wolfhead.name=Testa di Lupo
+tile.betteranimalsplus.deerhead.name=Testa di Cervo
+tile.betteranimalsplus.reindeerhead.name=Testa di Renna
+tile.betteranimalsplus.foxhead.name=Testa di Volpe
+tile.betteranimalsplus.boarhead.name=Testa di Cinghiale
+tile.betteranimalsplus.bearhead.name=Testa d'Orso
+#Entities
+entity.betteranimalsplus.brownbear.name=Orso Bruno
+entity.betteranimalsplus.blackbear.name=Orso Nero
+entity.betteranimalsplus.deer.name=Cervo
+entity.betteranimalsplus.lammergeier.name=Gipeto
+entity.betteranimalsplus.feralwolf.name=Lupo Ferale
+entity.betteranimalsplus.coyote.name=Coyote
+entity.betteranimalsplus.fox.name=Volpe
+entity.betteranimalsplus.tarantula.name=Tarantola
+entity.betteranimalsplus.hirschgeist.name=Hirschgeist
+entity.betteranimalsplus.goat.name=Capra
+entity.betteranimalsplus.jellyfish.name=Medusa
+entity.betteranimalsplus.pheasant.name=Fagiano
+entity.betteranimalsplus.reindeer.name=Renna
+entity.betteranimalsplus.boar.name=Cinghiale
+entity.betteranimalsplus.squirrel.name=Scoiattolo
+entity.betteranimalsplus.songbird.name=Passero
+entity.betteranimalsplus.badger.name=Tasso
+entity.betteranimalsplus.lamprey.name=Lampreda
+entity.betteranimalsplus.nautilus.name=Nautilus
+entity.betteranimalsplus.crab.name=Granchio
+entity.betteranimalsplus.horseshoecrab.name=Granchio a Ferro di Cavallo
+entity.betteranimalsplus.shark.name=Squalo
