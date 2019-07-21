@@ -7,58 +7,22 @@ import its_meow.betteranimalsplus.client.model.ModelHirschgeistHelmet;
 import its_meow.betteranimalsplus.init.ModItems;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.EntityEquipmentSlot;
-import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.EnumHelper;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class ItemHirschgeistSkullWearable extends ItemArmor {
+public class ItemHirschgeistSkullWearable extends ItemModeledArmor {
+    
+    public static final ArmorMaterial BONE_ARMOR = EnumHelper.addArmorMaterial("bone", "betteranimalsplus:hirschgeistskull", 15, new int[] { 1, 4, 5, 2 }, 12, SoundEvents.ITEM_ARMOR_EQUIP_GENERIC, 0.1F);
 
     public ItemHirschgeistSkullWearable() {
-        super(EnumHelper.addArmorMaterial("bone", "betteranimalsplus:hirschgeistskull", 15, new int[] { 1, 4, 5, 2 }, 12, SoundEvents.ITEM_ARMOR_EQUIP_GENERIC, 0.1F), -1, EntityEquipmentSlot.HEAD);
+        super(BONE_ARMOR, EntityEquipmentSlot.HEAD, true);
         this.setUnlocalizedName("betteranimalsplus.hirschgeistskullwearable");
         this.setRegistryName("hirschgeistskullwearable");
         this.setCreativeTab(BetterAnimalsPlusMod.tab);
-        this.canRepair = true;
-    }
-
-    @Override
-    public boolean isValidArmor(ItemStack stack, EntityEquipmentSlot armorType, Entity entity) {
-        return armorType == EntityEquipmentSlot.HEAD;
-    }
-
-    @Override
-    @SideOnly(Side.CLIENT)
-    public ModelBiped getArmorModel(EntityLivingBase entityLiving, ItemStack itemStack, EntityEquipmentSlot armorSlot, ModelBiped defaultModel) {
-        if (itemStack != null) {
-            if (itemStack.getItem() instanceof ItemArmor) {
-
-                ModelBiped armorModel = ModelHirschgeistHelmet.INSTANCE;
-                armorModel.bipedHead.showModel = armorSlot == EntityEquipmentSlot.HEAD;
-                armorModel.bipedHeadwear.showModel = armorSlot == EntityEquipmentSlot.HEAD;
-                armorModel.bipedBody.showModel = (armorSlot == EntityEquipmentSlot.CHEST) || (armorSlot == EntityEquipmentSlot.CHEST);
-                armorModel.bipedRightArm.showModel = armorSlot == EntityEquipmentSlot.CHEST;
-                armorModel.bipedLeftArm.showModel = armorSlot == EntityEquipmentSlot.CHEST;
-                armorModel.bipedRightLeg.showModel = (armorSlot == EntityEquipmentSlot.LEGS) || (armorSlot == EntityEquipmentSlot.FEET);
-                armorModel.bipedLeftLeg.showModel = (armorSlot == EntityEquipmentSlot.LEGS) || (armorSlot == EntityEquipmentSlot.FEET);
-
-                armorModel.isSneak = defaultModel.isSneak;
-                armorModel.isRiding = defaultModel.isRiding;
-                armorModel.isChild = defaultModel.isChild;
-                armorModel.rightArmPose = defaultModel.rightArmPose;
-                armorModel.leftArmPose = defaultModel.leftArmPose;
-
-                return armorModel;
-            }
-        }
-        return null;
     }
 
     @Override
@@ -70,6 +34,23 @@ public class ItemHirschgeistSkullWearable extends ItemArmor {
     @Override
     public boolean getIsRepairable(ItemStack toRepair, ItemStack repair) {
         return repair.getItem() == Items.BONE || repair.getItem() == ModItems.antler;
+    }
+
+    @Override
+    protected ModelBiped getBaseModelInstance() {
+        return ModelHirschgeistHelmet.INSTANCE;
+    }
+
+    @Override
+    protected ModelBiped displays(ModelBiped armorModel, EntityEquipmentSlot slot) {
+        armorModel.bipedHead.showModel = true;
+        armorModel.bipedHeadwear.showModel = true;
+        armorModel.bipedBody.showModel = false;
+        armorModel.bipedRightArm.showModel = false;
+        armorModel.bipedLeftArm.showModel = false;
+        armorModel.bipedRightLeg.showModel = false;
+        armorModel.bipedLeftLeg.showModel = false;
+        return armorModel;
     }
 
 }
