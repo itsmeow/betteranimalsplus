@@ -1,6 +1,6 @@
 html {
     font-family: 'Verdana', sans-serif;
-    background-color: #1c1c1c;
+	background-color: #1c1c1c;
     color: #e2e2e2;
 }
 
@@ -21,24 +21,16 @@ article {
 }
 
 header {
-	z-index:-2;
-}
-
-main {
-	background-color:#1c1c1c;
+	position:fixed;
+	background-color: #1c1c1c;
+	width:100%;
+	z-index:2;
 }
 
 main article {
 	width: 80%;
 	margin:auto;
-}
-
-iframe {
-    margin: none;
-    padding: none;
-    border: none;
-	background-color:#1c1c1c;
-	display:block;
+	background-color: #1c1c1c;
 }
 
 .content {
@@ -49,7 +41,13 @@ iframe {
 
 .banner-pane {
 	width:100%;
-	z-index:-9;
+	position:fixed;
+	z-index:-1;
+	margin-top:40px;
+}
+
+.banner-pane-filler .banner-back {
+	background-color: transparent;
 }
 
 .banner-back {
