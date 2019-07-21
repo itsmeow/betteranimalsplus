@@ -91,6 +91,15 @@ public class EntityBear extends MonsterEntity {
     public boolean canSpawn(IWorld p_213380_1_, SpawnReason p_213380_2_) {
         return p_213380_1_.getDifficulty() != Difficulty.PEACEFUL;
     }
+    
+    protected void doDropHead() {
+        if (!world.isRemote && !this.isChild()) {
+            if (this.rand.nextInt(12) == 0) {
+                ItemStack stack = new ItemStack(HeadTypes.BEARHEAD.getItem(1));
+                this.entityDropItem(stack, 0.5F);
+            }
+        }
+    }
 
     @Override
     public boolean attackEntityFrom(DamageSource source, float amount) {
@@ -204,12 +213,7 @@ public class EntityBear extends MonsterEntity {
     @Override
     public void onDeath(DamageSource cause) {
         super.onDeath(cause);
-        if (!world.isRemote && !this.isChild()) {
-            if (this.rand.nextInt(12) == 0) {
-                ItemStack stack = new ItemStack(HeadTypes.BEARHEAD.getItem(1));
-                this.entityDropItem(stack, 0.5F);
-            }
-        }
+        this.doDropHead();
     }
 
 }
