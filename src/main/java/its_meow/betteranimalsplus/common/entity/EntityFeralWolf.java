@@ -122,8 +122,12 @@ public class EntityFeralWolf extends EntityTameableWithSelectiveTypes implements
     @Override
     public void onDeath(DamageSource cause) {
         super.onDeath(cause);
-        if(!world.isRemote && !this.isChild() && !(this instanceof EntityCoyote)) {
-            if(this.rand.nextInt(12) == 0) {
+        this.doHeadDrop();
+    }
+    
+    public void doHeadDrop() {
+        if (!world.isRemote && !this.isChild()) {
+            if (this.rand.nextInt(12) == 0) {
                 ItemStack stack = new ItemStack(HeadTypes.WOLFHEAD.getItem(this.getTypeNumber()));
                 this.entityDropItem(stack, 0.5F);
             }

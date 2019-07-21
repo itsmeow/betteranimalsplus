@@ -33,7 +33,6 @@ import net.minecraft.entity.passive.horse.AbstractHorseEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Food;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.DamageSource;
 import net.minecraft.util.Hand;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
@@ -112,8 +111,7 @@ public class EntityCoyote extends EntityFeralWolf {
     }
 
     @Override
-    public void onDeath(DamageSource cause) {
-        super.onDeath(cause);
+    public void doHeadDrop() {
         if (!world.isRemote && !this.isChild()) {
             if (this.rand.nextInt(12) == 0) {
                 ItemStack stack = new ItemStack(HeadTypes.WOLFHEAD.getItem(3));
