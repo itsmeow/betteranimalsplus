@@ -140,6 +140,9 @@ public class EntityLamprey extends EntityWaterMobWithTypes implements IMob {
                 this.setMotion(this.getMotion().getX() * 0.85F, this.getMotion().getY() * 0.85F, this.getMotion().getZ() * 0.85F);
             }
         }
+        if(!this.isAlive() && this.getRidingEntity() != null) {
+            this.dismountEntity(this.getRidingEntity());
+        }
     }
 
     @Override
