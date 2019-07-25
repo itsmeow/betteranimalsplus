@@ -102,7 +102,7 @@ public class BetterAnimalsPlusRegistrar {
 		registry.registerAll(venisonRaw, venisonCooked, itemHirschgeistSkullWearable, antler, goatMilk, goatCheese, pheasantRaw, 
 		    pheasantCooked, ModItems.WOLF_PELT_SNOWY, ModItems.WOLF_PELT_TIMBER, ModItems.WOLF_PELT_BLACK, WOLF_CAPE_CLASSIC, WOLF_CAPE_TIMBER, WOLF_CAPE_BLACK, 
 		    ModItems.BEAR_SKIN_BROWN, ModItems.BEAR_SKIN_BLACK, ModItems.BEAR_SKIN_KERMODE, ModItems.BEAR_CAPE_KERMODE, ModItems.BEAR_CAPE_BROWN, ModItems.BEAR_CAPE_BLACK, ModItems.BEAR_CAPE_KERMODE, 
-		    CRAB_MEAT_COOKED, CRAB_MEAT_RAW, ModItems.RECORD_CRAB_RAVE);
+		    CRAB_MEAT_RAW, CRAB_MEAT_COOKED, ModItems.RECORD_CRAB_RAVE);
 
 	}
 
