@@ -3,7 +3,10 @@
         "replace": false,
         "category": "record",
         "sounds": [
-            "betteranimalsplus:crabrave"
+        	{
+            	"name": "betteranimalsplus:crabrave",
+            	"stream": true
+            }
         ]
     }
 }
