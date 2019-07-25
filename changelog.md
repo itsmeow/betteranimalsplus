@@ -7,10 +7,13 @@
 - Added bear heads
 - Added wolf capes (with baubles support)
 - Added wolf pelts, used for crafting capes or wool and leather, drops from wolves
+- Added bear capes (with baubles support)
+- Added bear skin, used for crafting bear capes or woll and leather, drops from bears
 - Added crab meat, drops from crabs
 - Added Italian translation, thanks to Gaber373!
 - Moved kermode bear into black bear egg as a rare variant
 - Renamed creative tab and mod info name from "Better Animals+" to "Better Animals Plus"
+- Added a secret with crabs (try mixing the disk of the skeleton and creeper with the raw crustacean) *wink*
 
 6.0.3
 -
