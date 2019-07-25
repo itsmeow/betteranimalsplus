@@ -104,6 +104,9 @@ public class EntityLamprey extends EntityWaterMobWithTypes implements IMob {
                 this.motionY = (this.getMoveHelper().getY() - this.posY) * 0.05F;
             }
         }
+        if(this.isDead && this.isRiding()) {
+            this.dismountRidingEntity();
+        }
     }
 
     @Override
