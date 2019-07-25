@@ -20,8 +20,8 @@ public class RenderShark extends RenderLiving<EntityShark> {
         switch(type) {
         case 1: GlStateManager.scale(0.8D, 0.7D, 0.8D); break;
         case 2: GlStateManager.scale(0.6D, 0.6D, 0.6D); break;
-        case 3: GlStateManager.scale(0.8D, 0.8D, 0.8D); break;
-        case 4: GlStateManager.scale(1.1D, 1.1D, 1.1D); break;
+        case 3: GlStateManager.scale(1.1D, 1.1D, 1.1D); break;
+        case 4: GlStateManager.scale(0.8D, 0.8D, 0.8D); break;
         }
     }
 
