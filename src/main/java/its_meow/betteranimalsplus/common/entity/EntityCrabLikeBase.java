@@ -14,7 +14,6 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.IWorld;
-import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
 
 public abstract class EntityCrabLikeBase extends EntityAnimalWithTypes {
@@ -92,11 +91,6 @@ public abstract class EntityCrabLikeBase extends EntityAnimalWithTypes {
     @Override
     public boolean canSpawn(IWorld p_213380_1_, SpawnReason p_213380_2_) {
         return true;
-    }
-
-    @Override
-    public boolean isNotColliding(IWorldReader reader) {
-        return this.world.checkNoEntityCollision(this);
     }
 
     @Override
