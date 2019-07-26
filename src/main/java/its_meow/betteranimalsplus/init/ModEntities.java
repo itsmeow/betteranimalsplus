@@ -115,7 +115,7 @@ public class ModEntities {
                 EntityClassification.CREATURE, 0xba1111, 0x520807, BetterAnimalsPlusConfig.horseshoeCrabWeight, 1, 3, 1F, 0.65F, null,
                 BiomeDictionary.getBiomes(Type.BEACH)));
         ModEntities.entityList.add(new EntityContainer<EntityShark>(EntityShark.class, EntityShark::new, "shark",
-                EntityClassification.WATER_CREATURE, 0x787878, 0xbdbdbd, BetterAnimalsPlusConfig.sharkWeight, 1, 1, 3F, 1.5F, null,
+                EntityClassification.WATER_CREATURE, 0x787878, 0xbdbdbd, BetterAnimalsPlusConfig.sharkWeight, 1, 1, 2.5F, 1.2F, null,
                 BiomeDictionary.getBiomes(Type.OCEAN)));
 
         for (EntityContainer<?> container : ModEntities.entityList) {

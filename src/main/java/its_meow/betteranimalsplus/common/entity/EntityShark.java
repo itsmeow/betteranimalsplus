@@ -7,7 +7,6 @@ import javax.annotation.Nullable;
 import com.google.common.base.Predicates;
 
 import its_meow.betteranimalsplus.init.ModEntities;
-import its_meow.betteranimalsplus.util.PolarVector3D;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.ILivingEntityData;
 import net.minecraft.entity.LivingEntity;
@@ -59,14 +58,16 @@ public class EntityShark extends EntitySharkBase implements IVariantTypes {
         super.livingTick();
         if(!this.world.isRemote && this.getAttackTarget() != null && this.getAttackTarget().isAlive()) {
             if(this.getPassengers().contains(this.getAttackTarget())) {
-                float time = 20F; 
+                float time = 60F; 
                 time *= 5F * (Math.random() + 1F);
                 if(this.lastAttack + time < this.ticksExisted) {
-                    //this.attackEntityAsMob(this.getAttackTarget());
+                    this.attackEntityAsMob(this.getAttackTarget());
                 }
             } else if(lastGrab  + 60F < this.ticksExisted && this.getDistanceSq(this.getAttackTarget()) < 10) {
                 this.getAttackTarget().startRiding(this, true);
                 lastGrab = this.ticksExisted;
+            } else {
+                this.getMoveHelper().setMoveTo(this.getAttackTarget().posX, this.getAttackTarget().posY, this.getAttackTarget().posZ, 0.1D);
             }
         }
     }
@@ -74,7 +75,8 @@ public class EntityShark extends EntitySharkBase implements IVariantTypes {
     @Override
     public void updatePassenger(Entity passenger) {
         if(this.isPassenger(passenger)) {
-            BlockPos pos = this.fromPolarCoordinates(new PolarVector3D(this.rotationYaw, 0F, 2F));
+            BlockPos pos = this.getPosition().offset(this.getHorizontalFacing()).subtract(this.getPosition());
+            pos = pos.add(pos.getX(), 0, pos.getZ());
             passenger.setPosition(this.posX + this.getMotion().getX() + pos.getX(), this.posY - (this.getHeight() / 2) + this.getMotion().getY(), this.posZ + this.getMotion().getZ() + pos.getZ());
             this.addVelocity(0, Math.abs(passenger.getMotion().getY()), 0);
             if (passenger instanceof LivingEntity && (this.getAttackTarget() == null || this.getAttackTarget() != passenger)) {
@@ -86,14 +88,10 @@ public class EntityShark extends EntitySharkBase implements IVariantTypes {
         }
     }
 
-    public BlockPos fromPolarCoordinates(PolarVector3D polar) {
-        double r = polar.getR();
-        double lat = polar.getThetaY() / 360;
-        double lon = polar.getThetaX() / 360;
-        double x = r * Math.sin(lat) * Math.cos(lon);
-        double y = r * Math.sin(lat) * Math.sin(lon);
-        double z = r * Math.cos(lat);
-        return new BlockPos(x, y, z);
+    public BlockPos getOffset(float l, float w, float a1) {
+        double y = (w * l) / (l * Math.tan(a1)) + w;
+        double x = y / Math.tan(a1);
+        return new BlockPos(x, 0, y);
     }
 
     @Override
