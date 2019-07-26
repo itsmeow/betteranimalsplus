@@ -1,16 +1,24 @@
 package its_meow.betteranimalsplus.common;
 
 import java.util.List;
+import java.util.Random;
 
 import its_meow.betteranimalsplus.Ref;
 import its_meow.betteranimalsplus.common.entity.EntityBoar;
 import its_meow.betteranimalsplus.common.entity.EntityCrab;
 import its_meow.betteranimalsplus.init.ModItems;
+import its_meow.betteranimalsplus.init.ModLootTables;
 import net.minecraft.block.Blocks;
+import net.minecraft.entity.EntityType;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.tileentity.JukeboxTileEntity;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.storage.loot.IRandomRange;
+import net.minecraft.world.storage.loot.LootPool;
+import net.minecraft.world.storage.loot.TableLootEntry;
+import net.minecraftforge.event.LootTableLoadEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -48,6 +56,24 @@ public class CommonEventHandler {
                     }
                 }
             }
+        }
+    }
+    
+    @SubscribeEvent
+    public static void onLootLoad(LootTableLoadEvent event) {
+        if(event.getName().equals(EntityType.WOLF.getLootTable())) {
+            
+            event.getTable().addPool(LootPool.builder().rolls(new IRandomRange() {
+                @Override
+                public int generateInt(Random rand) {
+                    return 1;
+                }
+
+                @Override
+                public ResourceLocation func_215830_a() {
+                    return IRandomRange.CONSTANT;
+                }
+            }).name("snowy_pelt").addEntry(TableLootEntry.builder(ModLootTables.WOLF_SNOWY)).build());
         }
     }
 

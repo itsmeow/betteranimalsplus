@@ -16,5 +16,10 @@ public class ModLootTables {
     public static final ResourceLocation lamprey = new ResourceLocation(Ref.MOD_ID, "lamprey");
     public static final ResourceLocation NAUTILUS = new ResourceLocation(Ref.MOD_ID, "nautilus");
     public static final ResourceLocation CRAB = new ResourceLocation(Ref.MOD_ID, "crab");
+    
+    // Wolves
+    public static final ResourceLocation WOLF_SNOWY = new ResourceLocation(Ref.MOD_ID, "wolf_snowy");
+    public static final ResourceLocation WOLF_TIMBER = new ResourceLocation(Ref.MOD_ID, "wolf_timber");
+    public static final ResourceLocation WOLF_BLACK = new ResourceLocation(Ref.MOD_ID, "wolf_black");
 
 }

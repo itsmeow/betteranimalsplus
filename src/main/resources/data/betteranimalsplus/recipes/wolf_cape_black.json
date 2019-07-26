@@ -1,0 +1,21 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern":
+    [
+        "c c",
+        "ccc",
+        " c "
+    ],
+    "key":
+    {
+        "c":
+        {
+        	"item": "betteranimalsplus:wolf_pelt_black"
+        }
+    },
+    "result":
+    {
+        "item": "betteranimalsplus:wolfcape3",
+        "count": 1
+    }
+}

@@ -1,0 +1,12 @@
+{
+	"type": "minecraft:crafting_shapeless",
+	"ingredients": [
+	    {
+	        "item": "betteranimalsplus:wolf_pelt_black"
+	    }
+	],
+	"result": {
+	    "item": "minecraft:black_wool",
+		"count": 1
+	}
+}

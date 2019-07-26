@@ -49,4 +49,8 @@ public class ModItems {
     public static final MusicDiscItem RECORD_CRAB_RAVE = new MusicDiscItem(15, ModSoundEvents.CRAB_RAVE, new Item.Properties().maxStackSize(1).rarity(Rarity.RARE)) {}; static {
         RECORD_CRAB_RAVE.setRegistryName(new ResourceLocation(Ref.MOD_ID, "record_crab_rave"));
     }
+    
+    public static final Item WOLF_PELT_SNOWY = new Item(new Item.Properties().group(BetterAnimalsPlusMod.group)).setRegistryName("wolf_pelt_snowy");
+    public static final Item WOLF_PELT_TIMBER = new Item(new Item.Properties().group(BetterAnimalsPlusMod.group)).setRegistryName("wolf_pelt_timber");
+    public static final Item WOLF_PELT_BLACK = new Item(new Item.Properties().group(BetterAnimalsPlusMod.group)).setRegistryName("wolf_pelt_black");
 }
