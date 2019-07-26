@@ -8,14 +8,9 @@ import com.google.common.collect.Sets;
 
 import its_meow.betteranimalsplus.init.ModEntities;
 import its_meow.betteranimalsplus.init.ModLootTables;
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.LeavesBlock;
-import net.minecraft.block.LogBlock;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.controller.FlyingMovementController;
 import net.minecraft.entity.ai.goal.AvoidEntityGoal;
 import net.minecraft.entity.ai.goal.BreedGoal;
@@ -36,8 +31,6 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.BiomeDictionary.Type;
@@ -77,7 +70,7 @@ public class EntitySongbird extends EntityAnimalWithSelectiveTypes implements IF
         this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.2D);
     }
 
-    @Override
+    /*@Override
     public boolean canSpawn(IWorld world, SpawnReason reason) {
         int i = MathHelper.floor(this.posX);
         int j = MathHelper.floor(this.getBoundingBox().minY);
@@ -90,7 +83,7 @@ public class EntitySongbird extends EntityAnimalWithSelectiveTypes implements IF
         } else {
             return super.canSpawn(world, reason);
         }
-    }
+    }*/
 
     @Override
     protected PathNavigator createNavigator(World worldIn) {
