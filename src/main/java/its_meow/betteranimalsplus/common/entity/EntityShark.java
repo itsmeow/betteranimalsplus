@@ -32,7 +32,7 @@ public class EntityShark extends EntitySharkBase implements IVariantTypes {
     private float lastGrab = 0;
 
     public EntityShark(World world) {
-        super(ModEntities.getEntityType("sharK"), world);
+        super(ModEntities.getEntityType("shark"), world);
     }
 
     @Override
