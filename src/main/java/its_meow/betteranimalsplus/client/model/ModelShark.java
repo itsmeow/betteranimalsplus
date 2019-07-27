@@ -3,6 +3,7 @@ package its_meow.betteranimalsplus.client.model;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.entity.model.RendererModel;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.util.math.MathHelper;
 
 /**
  * shark - BOTMON
@@ -220,7 +221,17 @@ public class ModelShark<T extends LivingEntity> extends EntityModel<T> {
     }
 
     @Override
-    public void render(T entity, float f, float f1, float f2, float f3, float f4, float f5) { 
+    public void render(T entity, float f, float f1, float f2, float f3, float f4, float f5) {
+        if(entity.getMotion().getX() > 0.03F || entity.getMotion().getZ() > 0.03F) {
+            float mul = 100F;
+            this.tail00.rotateAngleY = MathHelper.cos(f2 * 0.0025F * mul) * 0.15F;
+            this.tail01.rotateAngleY = MathHelper.cos(f2 * 0.0025F * mul) * 0.15F;
+            this.tail02.rotateAngleY = MathHelper.cos(f2 * 0.0025F * mul) * 0.15F;
+        } else {
+            this.tail00.rotateAngleY = 0F;
+            this.tail01.rotateAngleY = 0F;
+            this.tail02.rotateAngleY = 0F;
+        }
         this.body.render(f5);
     }
 
