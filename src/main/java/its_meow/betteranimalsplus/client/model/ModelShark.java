@@ -222,7 +222,7 @@ public class ModelShark extends ModelBase {
 
     @Override
     public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) {
-        if(entity.motionX > 0.03F || entity.motionY > 0.03F) {
+        if(entity.motionX > 0.03F || entity.motionZ > 0.03F) {
             float mul = 100F;
             this.tail00.rotateAngleY = MathHelper.cos(f2 * 0.0025F * mul) * 0.15F;
             this.tail01.rotateAngleY = MathHelper.cos(f2 * 0.0025F * mul) * 0.15F;
