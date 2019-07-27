@@ -43,7 +43,7 @@ public class ArmorMaterialCape implements IArmorMaterial {
 
     @Override
     public int getDurability(EquipmentSlotType slotIn) {
-        return 0;
+        return 81; // leather chestplate https://minecraft.gamepedia.com/Armor#Durability
     }
 
     @Override
