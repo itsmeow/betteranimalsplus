@@ -44,7 +44,7 @@ public class ModItems {
     public static final Item WOLF_PELT_TIMBER = new ItemNamedSimple("wolf_pelt_timber");
     public static final Item WOLF_PELT_BLACK = new ItemNamedSimple("wolf_pelt_black");
 
-    public static ItemWolfCape WOLF_CAPE_CLASSIC = new ItemWolfCape("snowy", WOLF_PELT_SNOWY);
+    public static ItemWolfCape WOLF_CAPE_CLASSIC = new ItemWolfCape("classic", WOLF_PELT_SNOWY);
     public static ItemWolfCape WOLF_CAPE_TIMBER = new ItemWolfCape("timber", WOLF_PELT_TIMBER);
     public static ItemWolfCape WOLF_CAPE_BLACK = new ItemWolfCape("black", WOLF_PELT_BLACK);
     
