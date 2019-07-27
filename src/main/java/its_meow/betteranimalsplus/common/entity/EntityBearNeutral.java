@@ -117,7 +117,7 @@ public class EntityBearNeutral extends EntityBear implements IVariantTypes {
     public void doDropHead() {
         if (!world.isRemote && !this.isChild()) {
             if (this.rand.nextInt(12) == 0) {
-                ItemStack stack = new ItemStack(HeadTypes.BEARHEAD.getItem(this.getTypeNumber() + 1));
+                ItemStack stack = new ItemStack(HeadTypes.BEARHEAD.getItem(this.getTypeNumber()));
                 this.entityDropItem(stack, 0.5F);
             }
         }
