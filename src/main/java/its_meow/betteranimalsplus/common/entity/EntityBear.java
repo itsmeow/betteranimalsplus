@@ -95,7 +95,7 @@ public class EntityBear extends MonsterEntity {
     protected void doDropHead() {
         if (!world.isRemote && !this.isChild()) {
             if (this.rand.nextInt(12) == 0) {
-                ItemStack stack = new ItemStack(HeadTypes.BEARHEAD.getItem(0));
+                ItemStack stack = new ItemStack(HeadTypes.BEARHEAD.getItem(1));
                 this.entityDropItem(stack, 0.5F);
             }
         }

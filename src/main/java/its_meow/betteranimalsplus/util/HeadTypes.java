@@ -2,7 +2,9 @@ package its_meow.betteranimalsplus.util;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.function.Supplier;
@@ -72,7 +74,7 @@ public enum HeadTypes {
     public final boolean allowFloor;
     public final int textureCount;
     public final Function<HeadTypes, TileEntityHead> teFactory;
-    private ArrayList<Pair<BlockGenericSkull, ItemBlockHeadType>> heads = new ArrayList<Pair<BlockGenericSkull, ItemBlockHeadType>>();
+    private Map<Integer, Pair<BlockGenericSkull, ItemBlockHeadType>> heads = new HashMap<Integer, Pair<BlockGenericSkull, ItemBlockHeadType>>();
     private Set<ItemBlockHeadType> items = new HashSet<ItemBlockHeadType>();
     private Set<BlockGenericSkull> blocks = new HashSet<BlockGenericSkull>();
     private final Supplier<Supplier<Class<? extends EntityModel<Entity>>>> modelSupplier;
@@ -86,7 +88,7 @@ public enum HeadTypes {
         for (int i = 1; i <= texCount; i++) {
             BlockGenericSkull block = new BlockGenericSkull(this, i);
             ItemBlockHeadType item = new ItemBlockHeadType(block, this, i);
-            heads.add(Pair.of(block, item));
+            heads.put(i, Pair.of(block, item));
             blocks.add(block);
             items.add(item);
         }
