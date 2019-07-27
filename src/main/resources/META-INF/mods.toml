@@ -8,7 +8,7 @@ authors="cybercat5555, its_meow (hiotewdew)" #optional
 [[mods]] #mandatory
 modId="betteranimalsplus" #mandatory
 version="${file.jarVersion}" #mandatory
-displayName="Better Animals+" #mandatory
+displayName="Better Animals Plus" #mandatory
 updateJSONURL="http://modmanagement.net16.net/updateJSON5.json" #optional
 # The description text for the mod (multi line!) (#mandatory)
 description='''
