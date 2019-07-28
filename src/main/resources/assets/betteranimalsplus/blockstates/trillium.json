@@ -2,9 +2,9 @@
 {
     "forge_marker": 1,
     "variants": {
-        "facing=north": { "model": "minecraft:fern" },
-        "facing=east": { "model": "minecraft:fern" },
-        "facing=south": { "model": "minecraft:fern" },
-        "facing=west": { "model": "minecraft:fern" }
+        "facing=north": { "model": "minecraft:block/fern" },
+        "facing=east": { "model": "minecraft:block/fern" },
+        "facing=south": { "model": "minecraft:block/fern" },
+        "facing=west": { "model": "minecraft:block/fern" }
     }
 }
