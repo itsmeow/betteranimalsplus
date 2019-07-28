@@ -10,10 +10,13 @@
 - Added bear capes (with baubles support)
 - Added bear skin, used for crafting bear capes or woll and leather, drops from bears
 - Added crab meat, drops from crabs
+- Added a configuration option to allow variants to be selected based on biomes (white feral wolves -> snowy biomes), off by default
 - Added Italian translation, thanks to Gaber373!
 - Moved kermode bear into black bear egg as a rare variant
 - Renamed creative tab and mod info name from "Better Animals+" to "Better Animals Plus"
 - Added a secret with crabs (try mixing the disk of the skeleton and creeper with the raw crustacean) *wink*
+- Fixed lampreys not dismounting upon death properly
+- Fixed bears sometimes dropping the wrong head type
 
 6.0.3
 -
