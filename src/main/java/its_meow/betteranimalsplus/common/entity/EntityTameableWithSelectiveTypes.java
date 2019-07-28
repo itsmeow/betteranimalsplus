@@ -2,6 +2,7 @@ package its_meow.betteranimalsplus.common.entity;
 
 import java.util.Set;
 
+import its_meow.betteranimalsplus.config.BetterAnimalsPlusConfig;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ILivingEntityData;
 import net.minecraft.entity.SpawnReason;
@@ -12,16 +13,15 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.BiomeDictionary;
 
 public abstract class EntityTameableWithSelectiveTypes extends EntityTameableWithTypes {
-    
+
     public EntityTameableWithSelectiveTypes(EntityType<? extends EntityTameableWithSelectiveTypes> type, World world) {
         super(type, world);
     }
-    
+
     @Override
     public ILivingEntityData onInitialSpawn(IWorld world, DifficultyInstance difficulty, SpawnReason reason, ILivingEntityData livingdata, CompoundNBT compound) {
-        //int validTypes[] = this.getTypesFor(BiomeDictionary.getTypes(world.getBiome(this.getPosition())));
-        //int type = validTypes[this.getRNG().nextInt(validTypes.length)];
-        return this.initData(super.onInitialSpawn(world, difficulty, reason, livingdata, compound));//, type);
+        int validTypes[] = this.getTypesFor(BiomeDictionary.getTypes(world.getBiome(this.getPosition())));
+        return BetterAnimalsPlusConfig.biomeBasedVariants ? this.initData(super.onInitialSpawn(world, difficulty, reason, livingdata, compound), validTypes[this.getRNG().nextInt(validTypes.length)]) : this.initData(super.onInitialSpawn(world, difficulty, reason, livingdata, compound));
     }
 
     protected abstract int[] getTypesFor(Set<BiomeDictionary.Type> types);

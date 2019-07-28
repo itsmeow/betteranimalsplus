@@ -53,6 +53,7 @@ public class BetterAnimalsPlusConfig {
 
     public static boolean spawnTrillium = true;
     public static boolean coyotesHostileDaytime = false;
+    public static boolean biomeBasedVariants = false;
 
     @SubscribeEvent
     public static void onLoad(final ModConfig.Loading configEvent) {
