@@ -12,7 +12,6 @@ import its_meow.betteranimalsplus.init.ModLootTables;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.EntityAIFindEntityNearest;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.item.EntityBoat;
 import net.minecraft.entity.player.EntityPlayer;
@@ -41,9 +40,22 @@ public class EntityShark extends EntitySharkBase implements IVariantTypes {
     protected void initEntityAI() {
         super.initEntityAI();
         this.tasks.addTask(1, new EntityAIWatchClosest(this, EntityLiving.class, 15F));
-        this.tasks.addTask(2, new EntityAIWanderWaterEntity(this, 0.55D));
+        this.tasks.addTask(2, new EntityAIWanderWaterEntity(this, 0.65D));
         this.targetTasks.addTask(1, new EntityAIFindEntityNearestPredicate(this, EntityLiving.class, Predicates.alwaysTrue(), true));
-        this.targetTasks.addTask(1, new EntityAIFindEntityNearest(this, EntityPlayer.class));
+        this.targetTasks.addTask(1, new EntityAIFindEntityNearestPredicate(this, EntityPlayer.class, entity -> {
+            return this.shouldAttackForHealth(entity.getHealth());
+        }, true));
+    }
+
+    public boolean shouldAttackForHealth(float health) {
+        int type = this.getTypeNumber();
+        switch(type) {
+        case 1: return health <= 8F;// blue
+        case 2: return health <= 13F;// bull
+        case 3: return health <= 10; // tiger
+        case 4: return health <= 16F;// whitetip
+        default: return false;
+        }
     }
 
     @Override
