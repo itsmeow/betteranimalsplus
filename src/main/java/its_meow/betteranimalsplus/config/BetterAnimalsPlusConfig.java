@@ -41,6 +41,7 @@ public class BetterAnimalsPlusConfig {
 
     public static boolean spawnTrillium = true;
     public static boolean coyotesHostileDaytime = false;
+    public static boolean biomeBasedVariants = false;
 
     public static HashMap<EntityContainer, EntityConfigurationSection> sections = new HashMap<EntityContainer, EntityConfigurationSection>();
 
@@ -64,6 +65,7 @@ public class BetterAnimalsPlusConfig {
 
     public static void worldLoadConfig(Configuration cfg) {
         coyotesHostileDaytime = cfg.getBoolean("coyotesHostileInDaytime", "its_meow.betteranimalsplus.common.entity.entitycoyote", false, "Enable to make coyotes always hostile (this also makes them untameable!");
+        biomeBasedVariants = cfg.getBoolean("biomeBasedVariants", "misc", false, "Setting to true enables biome based variant spawning. This will make some entities choose variants based on the biome they spawn in. However, it will also affect eggs, possibly reducing the amount of visible content.");
         for(EntityContainer container : ModEntities.entityList) {
             container.populateBiomes();
             String[] biomeStrings = new String[container.spawnBiomes.length];
