@@ -222,7 +222,7 @@ public class ModelShark extends ModelBase {
 
     @Override
     public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) {
-        if(entity.motionX > 0.03F || entity.motionZ > 0.03F) {
+        if(entity.motionX > 0.02F || entity.motionZ > 0.02F) {
             float mul = 100F;
             this.tail00.rotateAngleY = MathHelper.cos(f2 * 0.0025F * mul) * 0.15F;
             this.tail01.rotateAngleY = MathHelper.cos(f2 * 0.0025F * mul) * 0.15F;
@@ -231,6 +231,14 @@ public class ModelShark extends ModelBase {
             this.tail00.rotateAngleY = 0F;
             this.tail01.rotateAngleY = 0F;
             this.tail02.rotateAngleY = 0F;
+        }
+        if(entity.getPassengers().size() == 0) {
+            float mul = 0.05F;
+            float div = 20F;
+            float add = entity.getUniqueID().hashCode() * 0.0001F;
+            this.lowerJaw.rotateAngleX = (float) Math.cos(f2 * (mul + 0.05F) + add) / div;
+        } else {
+            this.lowerJaw.rotateAngleX = (float) Math.PI / 4F;
         }
         this.body.render(f5);
     }
