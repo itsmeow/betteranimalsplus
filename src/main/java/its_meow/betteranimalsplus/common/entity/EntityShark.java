@@ -42,8 +42,12 @@ public class EntityShark extends EntitySharkBase implements IVariantTypes {
         super.registerGoals();
         this.goalSelector.addGoal(0, new MoveTowardsTargetGoal(this, 0.8D, 40F));
         this.goalSelector.addGoal(1, new LookAtGoal(this, LivingEntity.class, 15F));
-        this.goalSelector.addGoal(2, new RandomWalkingGoal(this, 0.55D));
-        this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<LivingEntity>(this, LivingEntity.class, 100, false, false, e -> !(e instanceof EntitySharkBase)));
+        this.goalSelector.addGoal(2, new RandomWalkingGoal(this, 0.65D));
+        this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<LivingEntity>(this, LivingEntity.class, 100, false, false, e -> {
+            if(e instanceof EntitySharkBase) return false;
+            if(e instanceof PlayerEntity) return shouldAttackForHealth(e.getHealth());
+            return true;
+        }));
     }
 
     @Override
@@ -53,6 +57,17 @@ public class EntityShark extends EntitySharkBase implements IVariantTypes {
         this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.75D);
         this.getAttributes().registerAttribute(SharedMonsterAttributes.ATTACK_DAMAGE);
         this.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(6D);
+    }
+    
+    public boolean shouldAttackForHealth(float health) {
+        int type = this.getTypeNumber();
+        switch(type) {
+        case 1: return health <= 8F;// blue
+        case 2: return health <= 13F;// bull
+        case 3: return health <= 10; // tiger
+        case 4: return health <= 16F;// whitetip
+        default: return false;
+        }
     }
 
     @Override
