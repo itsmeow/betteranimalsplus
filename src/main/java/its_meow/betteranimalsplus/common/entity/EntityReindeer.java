@@ -169,17 +169,17 @@ public class EntityReindeer extends AnimalEntity implements IJumpingMount, IVari
     public AgeableEntity createChild(AgeableEntity ageable) {
         EntityReindeer reindeer = new EntityReindeer(this.world);
         this.setOffspringAttributes(ageable, reindeer);
-        if (ageable instanceof EntityReindeer) {
+        if(ageable instanceof EntityReindeer) {
             EntityReindeer other = (EntityReindeer) ageable;
-            if (other.getTypeNumber() > 4) { // if one of them is red-nosed make
+            if(other.getTypeNumber() > 4) { // if one of them is red-nosed make
                                              // that one take dominance
                 reindeer.setType(other.getTypeNumber());
             } else { // none are red-nosed, just use this one's type
                 reindeer.setType(this.getTypeNumber());
             }
 
-            if (other.getCustomName().getString().equalsIgnoreCase("rudolph")
-                    || this.getCustomName().getString().equalsIgnoreCase("rudolph")) {
+            if((other.hasCustomName() && other.getCustomName().getString().equalsIgnoreCase("rudolph"))
+                    || (this.hasCustomName() && this.getCustomName().getString().equalsIgnoreCase("rudolph"))) {
                 reindeer.parentRudolph = true;
             }
         } else { // same as above
