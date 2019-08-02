@@ -18,9 +18,11 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockReader;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.fml.loading.FMLEnvironment;
 
 public class TileEntityHead extends TileEntity {
 
+    @OnlyIn(Dist.CLIENT)
     private Class<? extends EntityModel<Entity>> modelT = null;
     protected int typeNum = 0;
     private float offset;
@@ -30,20 +32,22 @@ public class TileEntityHead extends TileEntity {
     public HeadTypes type;
 
     public HashMap<Integer, ResourceLocation> textures;
-    
+
     public TileEntityHead() {
-    	super(ModTileEntities.HEAD_TYPE);
+        super(ModTileEntities.HEAD_TYPE);
     }
-    
+
     public TileEntityHead(HeadTypes type, float yOffset, ResourceLocation... textureList) {
         this(type, yOffset, null, textureList);
     }
 
     public TileEntityHead(HeadTypes type, float yOffset, Function<Integer, ResourceLocation> textureFunc,
-            ResourceLocation... textureList) {
+    ResourceLocation... textureList) {
         super(ModTileEntities.HEAD_TYPE);
         this.type = type;
-        this.modelT = type.getModelSupplier().get().get();
+        if(FMLEnvironment.dist == Dist.CLIENT) {
+            this.modelT = type.getModelSupplier().get().get();
+        }
         this.textures = new HashMap<>();
         int i = 1;
         for (ResourceLocation texture : textureList) {
@@ -58,6 +62,7 @@ public class TileEntityHead extends TileEntity {
         this.textureFunc = textureFunc;
     }
 
+    @OnlyIn(Dist.CLIENT)
     public EntityModel<Entity> getModel() {
         try {
             return this.modelT.newInstance();
@@ -109,15 +114,17 @@ public class TileEntityHead extends TileEntity {
             this.rotation = compound.getFloat("rotation");
         }
         if (compound.contains("GENERIC_TYPE")) {
-			this.type = HeadTypes.valueOf(compound.getString("GENERIC_TYPE"));
+            this.type = HeadTypes.valueOf(compound.getString("GENERIC_TYPE"));
 
-			// Create with proper constructor for type
-			TileEntityHead te2 = type.teFactory.apply(type);
-			// Copy from TE
-			this.modelT = te2.modelT;
-			this.textures = te2.textures;
-			this.offset = te2.offset;
-			this.textureFunc = te2.textureFunc;
+            // Create with proper constructor for type
+            TileEntityHead te2 = type.teFactory.apply(type);
+            // Copy from TE
+            if(FMLEnvironment.dist == Dist.CLIENT) {
+                this.modelT = te2.modelT;
+            }
+            this.textures = te2.textures;
+            this.offset = te2.offset;
+            this.textureFunc = te2.textureFunc;
         }
     }
 

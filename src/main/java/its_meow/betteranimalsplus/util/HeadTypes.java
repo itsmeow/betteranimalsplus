@@ -23,6 +23,9 @@ import its_meow.betteranimalsplus.common.tileentity.TileEntityHead;
 import its_meow.betteranimalsplus.init.ModTextures;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.entity.Entity;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.fml.loading.FMLEnvironment;
 
 public enum HeadTypes {
 
@@ -77,14 +80,17 @@ public enum HeadTypes {
     private Map<Integer, Pair<BlockGenericSkull, ItemBlockHeadType>> heads = new HashMap<Integer, Pair<BlockGenericSkull, ItemBlockHeadType>>();
     private Set<ItemBlockHeadType> items = new HashSet<ItemBlockHeadType>();
     private Set<BlockGenericSkull> blocks = new HashSet<BlockGenericSkull>();
-    private final Supplier<Supplier<Class<? extends EntityModel<Entity>>>> modelSupplier;
+    @OnlyIn(Dist.CLIENT)
+    private Supplier<Supplier<Class<? extends EntityModel<Entity>>>> modelSupplier;
 
     HeadTypes(String name, boolean allowFloor, int texCount, Supplier<Supplier<Class<? extends EntityModel<Entity>>>> modelSupplier, Function<HeadTypes, TileEntityHead> teFactory) {
         this.name = name;
         this.allowFloor = allowFloor;
         this.teFactory = teFactory;
         this.textureCount = texCount;
-        this.modelSupplier = modelSupplier;
+        if(FMLEnvironment.dist == Dist.CLIENT) {
+            this.modelSupplier = modelSupplier;
+        }
         for (int i = 1; i <= texCount; i++) {
             BlockGenericSkull block = new BlockGenericSkull(this, i);
             ItemBlockHeadType item = new ItemBlockHeadType(block, this, i);
@@ -116,6 +122,7 @@ public enum HeadTypes {
         return blocks;
     }
 
+    @OnlyIn(Dist.CLIENT)
     public Supplier<Supplier<Class<? extends EntityModel<Entity>>>> getModelSupplier() {
         return modelSupplier;
     }
