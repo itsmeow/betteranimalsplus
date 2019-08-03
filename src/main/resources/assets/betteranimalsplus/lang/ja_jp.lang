@@ -1,5 +1,5 @@
 #Creative Tabs
-itemGroup.Better Animals+=Better Animals+
+itemGroup.Better Animals+=Better Animals Plus
 
 #Items
 item.betteranimalsplus.venisonraw.name=生の鹿肉
@@ -10,6 +10,21 @@ item.betteranimalsplus.goatmilk.name=ヤギのミルク
 item.betteranimalsplus.goatcheese.name=ヤギのチーズ
 item.betteranimalsplus.pheasantraw.name=生のキジ肉
 item.betteranimalsplus.pheasantcooked.name=焼きキジ
+item.betteranimalsplus.wolf_cape_classic.name=オオカミのケープ（普通）
+item.betteranimalsplus.wolf_cape_timber.name=オオカミのケープ（森林）
+item.betteranimalsplus.wolf_cape_black.name=オオカミのケープ（黒）
+item.record.crabrave.desc=Crab Rave
+item.betteranimalsplus.crab_meat_raw.name=生のカニ
+item.betteranimalsplus.crab_meat_cooked.name=焼きガニ
+item.betteranimalsplus.wolf_pelt_snowy.name=雪オオカミの毛皮
+item.betteranimalsplus.wolf_pelt_timber.name=森林オオカミの毛皮
+item.betteranimalsplus.wolf_pelt_black.name=黒オオカミの毛皮
+item.betteranimalsplus.bear_cape_brown.name=ヒグマのケープ
+item.betteranimalsplus.bear_cape_black.name=クロクマのケープ
+item.betteranimalsplus.bear_cape_kermode.name=スピリットベアのケープ
+item.betteranimalsplus.bear_skin_brown.name=ヒグマの毛皮
+item.betteranimalsplus.bear_skin_black.name=クロクマの毛皮
+item.betteranimalsplus.bear_skin_kermode.name=スピリットベアの毛皮
 
 #Blocks
 tile.betteranimalsplus.trillium.name=エンレイソウ
@@ -20,6 +35,7 @@ tile.betteranimalsplus.deerhead.name=シカの頭
 tile.betteranimalsplus.reindeerhead.name=トナカイの頭
 tile.betteranimalsplus.foxhead.name=キツネの頭
 tile.betteranimalsplus.boarhead.name=イノシシの頭
+tile.betteranimalsplus.bearhead.name=くまの頭
 
 #Entities
 entity.betteranimalsplus.brownbear.name=ヒグマ
@@ -42,3 +58,7 @@ entity.betteranimalsplus.squirrel.name=リス
 entity.betteranimalsplus.songbird.name=小鳥
 entity.betteranimalsplus.badger.name=アナグマ
 entity.betteranimalsplus.lamprey.name=ヤツメウナギ
+entity.betteranimalsplus.nautilus.name=オウムガイ
+entity.betteranimalsplus.crab.name=カニ
+entity.betteranimalsplus.horseshoecrab.name=カブトガニ
+entity.betteranimalsplus.shark.name=サメ
