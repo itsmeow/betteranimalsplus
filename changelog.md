@@ -9,6 +9,7 @@
 - 1.14: Fixed sided crash on server when using entity heads
 - 1.14: Fixed crash from breeding unnamed reindeer
 - 1.14: Fixed modded biomes not auto-generating in configs (also preventing spawns in modded biomes)
+- 1.14: Fixed water entities not always spawning in water properly
 
 7.0.0
 -
