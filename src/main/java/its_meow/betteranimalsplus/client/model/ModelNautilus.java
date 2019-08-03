@@ -150,6 +150,7 @@ public class ModelNautilus extends ModelBase {
     public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) { 
         GlStateManager.pushMatrix();
         {
+            GlStateManager.rotate(180F, 0F, 1F, 0F);
             GlStateManager.translate(0, 0.1, 0);
             GlStateManager.pushMatrix();
             {

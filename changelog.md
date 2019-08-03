@@ -3,6 +3,8 @@
 - Updated Russian Translation
 - Updated Japanese Translation
 - Added config to allow goat to dispense vanilla milk instead
+- Flipped the nautilus so it swims in the right direction
+- 1.12: Fixed lamprey spawning in ocean again, darn things!
 - 1.12: Fixed snowy/classic wolf cape having broken texture and recipes
 - 1.14: Fixed sided crash on server when using entity heads
 - 1.14: Fixed crash from breeding unnamed reindeer
