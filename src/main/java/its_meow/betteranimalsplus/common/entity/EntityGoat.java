@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import javax.annotation.Nullable;
 
+import its_meow.betteranimalsplus.config.BetterAnimalsPlusConfig;
 import its_meow.betteranimalsplus.init.ModEntities;
 import its_meow.betteranimalsplus.init.ModItems;
 import its_meow.betteranimalsplus.init.ModLootTables;
@@ -201,23 +202,25 @@ public class EntityGoat extends EntityAnimalEatsGrassWithTypes {
     public boolean processInteract(PlayerEntity player, Hand hand) {
         ItemStack itemstack = player.getHeldItem(hand);
 
-        if (itemstack.getItem() == Items.BUCKET && !player.isCreative() && !this.isChild()) {
+        if(itemstack.getItem() == Items.BUCKET && !player.isCreative() && !this.isChild()) {
             player.playSound(SoundEvents.ENTITY_COW_MILK, 1.0F, 1.0F);
             itemstack.shrink(1);
+            
+            Item milk = BetterAnimalsPlusConfig.goatVanillaMilk ? Items.MILK_BUCKET : ModItems.GOAT_MILK;
 
-            if (itemstack.isEmpty()) {
-                player.setHeldItem(hand, new ItemStack(ModItems.GOAT_MILK));
-            } else if (!player.inventory.addItemStackToInventory(new ItemStack(ModItems.GOAT_MILK))) {
-                player.dropItem(new ItemStack(ModItems.GOAT_MILK), false);
+            if(itemstack.isEmpty()) {
+                player.setHeldItem(hand, new ItemStack(milk));
+            } else if(!player.inventory.addItemStackToInventory(new ItemStack(milk))) {
+                player.dropItem(new ItemStack(milk), false);
             }
 
             return true;
-        } else if (this.temptItems.contains(itemstack.getItem()) && !this.isChild()) {
+        } else if(this.temptItems.contains(itemstack.getItem()) && !this.isChild()) {
             this.hasBeenFed = true;
             this.friend = player;
-            if (itemstack.getItem() == Items.WHEAT) {
+            if(itemstack.getItem() == Items.WHEAT) {
                 this.setInLove(player);
-                if (!player.isCreative()) {
+                if(!player.isCreative()) {
                     itemstack.shrink(1);
                 }
             }

@@ -26,6 +26,7 @@ public class EntityConfig {
     public HashMap<EntityContainer<?>, EntityConfigurationSection> sections = new HashMap<EntityContainer<?>, EntityConfigurationSection>();
     public BooleanValue coyoteHostileDaytime;
     public BooleanValue biomeBasedVariants;
+    public BooleanValue goatVanillaMilk;
     public ForgeConfigSpec.Builder builder;
 
     EntityConfig(ForgeConfigSpec.Builder builder) {
@@ -35,6 +36,9 @@ public class EntityConfig {
         }
         builder.push("coyote");
         this.coyoteHostileDaytime = builder.comment("Makes coyote always hostile (removes ability to tame!)").worldRestart().define("coyoteHostileDaytime", false);
+        builder.pop();
+        builder.push("goat");
+        this.goatVanillaMilk = builder.comment("Enabling this will cause goats to give out vanilla milk instead of goat milk.").worldRestart().define("goatVanillaMilk", false);
         builder.pop();
         builder.push("misc");
         this.biomeBasedVariants = builder.comment("Setting to true enables biome based variant spawning. This will make some entities choose variants based on the biome they spawn in. However, it will also affect eggs, possibly reducing the amount of visible content.").worldRestart().define("biomeBasedVariants", false);
@@ -49,6 +53,7 @@ public class EntityConfig {
 
         BetterAnimalsPlusConfig.coyotesHostileDaytime = this.coyoteHostileDaytime.get();
         BetterAnimalsPlusConfig.biomeBasedVariants = this.biomeBasedVariants.get();
+        BetterAnimalsPlusConfig.goatVanillaMilk = this.goatVanillaMilk.get();
 
         // Replace entity data
 
