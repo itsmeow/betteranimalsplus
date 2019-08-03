@@ -58,7 +58,7 @@ public class ModEntities {
 		add(EntitySquirrel.class, "squirrel", EnumCreatureType.CREATURE, 0x89806f, 0xb2a489, BetterAnimalsPlusConfig.squirrelWeight, 1, 3, null, Type.FOREST);
         add(EntitySongbird.class, "songbird", EnumCreatureType.CREATURE, 0x46f4d2, 0x7df442, BetterAnimalsPlusConfig.songbirdWeight, 1, 4, null, Type.FOREST, Type.PLAINS);
         add(EntityBadger.class, "badger", EnumCreatureType.CREATURE, 0x0c0c0c, 0xd3d3d3, BetterAnimalsPlusConfig.badgerWeight, 1, 2, null, Type.FOREST, Type.PLAINS, Type.SAVANNA);
-        add(EntityLamprey.class, "lamprey", EnumCreatureType.WATER_CREATURE, 0x0000ad, 0x0a0a0a, BetterAnimalsPlusConfig.lampreyWeight, 1, 1, null, Type.OCEAN, Type.SWAMP);
+        add(EntityLamprey.class, "lamprey", EnumCreatureType.WATER_CREATURE, 0x0000ad, 0x0a0a0a, BetterAnimalsPlusConfig.lampreyWeight, 1, 1, null, Type.RIVER, Type.SWAMP);
         add(EntityNautilus.class, "nautilus", EnumCreatureType.WATER_CREATURE, 0xff9659, 0x241682, BetterAnimalsPlusConfig.nautilusWeight, 1, 1, null, Type.OCEAN);
         add(EntityCrab.class, "crab", EnumCreatureType.CREATURE, 0xe21d16, 0x2d0504, BetterAnimalsPlusConfig.crabWeight, 1, 3, null, Type.BEACH, Type.SWAMP);
         add(EntityHorseshoeCrab.class, "horseshoecrab", EnumCreatureType.CREATURE, 0xba1111, 0x520807, BetterAnimalsPlusConfig.horseshoeCrabWeight, 1, 3, null, Type.BEACH);
