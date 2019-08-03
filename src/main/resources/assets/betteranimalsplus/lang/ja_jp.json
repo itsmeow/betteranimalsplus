@@ -1,6 +1,6 @@
 {
     "_comment": "Creative Tabs",
-    "itemGroup.Better Animals+": "Better Animals+",
+    "itemGroup.Better Animals+": "Better Animals Plus",
 
     "_comment": "Items",
     "item.betteranimalsplus.venisonraw": "生の鹿肉",
@@ -11,6 +11,21 @@
     "item.betteranimalsplus.goatcheese": "ヤギのチーズ",
     "item.betteranimalsplus.pheasantraw": "生のキジ肉",
     "item.betteranimalsplus.pheasantcooked": "焼きキジ",
+	"item.betteranimalsplus.wolf_cape_classic": "オオカミのケープ（普通）",
+	"item.betteranimalsplus.wolf_cape_timber": "オオカミのケープ（森林）",
+    "item.betteranimalsplus.record_crab_rave": "Music Disc",
+    "item.betteranimalsplus.record_crab_rave.desc": "Crab Rave",
+    "item.betteranimalsplus.crab_meat_raw": "生のカニ",
+    "item.betteranimalsplus.crab_meat_cooked": "焼きガニ",
+    "item.betteranimalsplus.wolf_pelt_snowy": "雪オオカミの毛皮",
+	"item.betteranimalsplus.wolf_pelt_timber": "森林オオカミの毛皮",
+	"item.betteranimalsplus.wolf_pelt_black": "黒オオカミの毛皮",
+	"item.betteranimalsplus.bear_skin_brown": "ヒグマの毛皮",
+	"item.betteranimalsplus.bear_skin_black": "クロクマの毛皮",
+	"item.betteranimalsplus.bear_skin_kermode": "スピリットベアの毛皮",
+	"item.betteranimalsplus.bear_cape_brown": "ヒグマのケープ",
+    "item.betteranimalsplus.bear_cape_black": "クロクマのケープ",
+    "item.betteranimalsplus.bear_cape_kermode": "スピリットベアのケープ",
 
     "_comment": "Blocks",
     "block.betteranimalsplus.trillium": "エンレイソウ",
@@ -41,6 +56,10 @@
 	"entity.betteranimalsplus.songbird": "小鳥",
 	"entity.betteranimalsplus.badger.name": "アナグマ",
 	"entity.betteranimalsplus.lamprey.name": "ヤツメウナギ",
+	"entity.betteranimalsplus.nautilus": "オウムガイ",
+    "entity.betteranimalsplus.crab": "カニ",
+    "entity.betteranimalsplus.horseshoecrab": "カブトガニ",
+    "entity.betteranimalsplus.shark": "サメ",
 	
 	"misc.betteranimalsplus.eggorder": "%sのスポーンエッグ"
 }
