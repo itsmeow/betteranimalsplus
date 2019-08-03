@@ -4,6 +4,7 @@ import java.util.HashSet;
 
 import javax.annotation.Nullable;
 
+import its_meow.betteranimalsplus.config.BetterAnimalsPlusConfig;
 import its_meow.betteranimalsplus.init.ModItems;
 import its_meow.betteranimalsplus.init.ModLootTables;
 import net.minecraft.block.Block;
@@ -193,23 +194,25 @@ public class EntityGoat extends EntityAnimalEatsGrassWithTypes {
     public boolean processInteract(EntityPlayer player, EnumHand hand) {
         ItemStack itemstack = player.getHeldItem(hand);
 
-        if (itemstack.getItem() == Items.BUCKET && !player.capabilities.isCreativeMode && !this.isChild()) {
+        if(itemstack.getItem() == Items.BUCKET && !player.capabilities.isCreativeMode && !this.isChild()) {
             player.playSound(SoundEvents.ENTITY_COW_MILK, 1.0F, 1.0F);
             itemstack.shrink(1);
+            
+            Item milk = BetterAnimalsPlusConfig.goatVanillaMilk ? Items.MILK_BUCKET : ModItems.goatMilk;
 
-            if (itemstack.isEmpty()) {
-                player.setHeldItem(hand, new ItemStack(ModItems.goatMilk));
-            } else if (!player.inventory.addItemStackToInventory(new ItemStack(ModItems.goatMilk))) {
-                player.dropItem(new ItemStack(ModItems.goatMilk), false);
+            if(itemstack.isEmpty()) {
+                player.setHeldItem(hand, new ItemStack(milk));
+            } else if(!player.inventory.addItemStackToInventory(new ItemStack(milk))) {
+                player.dropItem(new ItemStack(milk), false);
             }
 
             return true;
-        } else if (this.temptItems.contains(itemstack.getItem()) && !this.isChild()) {
+        } else if(this.temptItems.contains(itemstack.getItem()) && !this.isChild()) {
             this.hasBeenFed = true;
             this.friend = player;
-            if (itemstack.getItem() == Items.WHEAT) {
+            if(itemstack.getItem() == Items.WHEAT) {
                 this.setInLove(player);
-                if (!player.capabilities.isCreativeMode) {
+                if(!player.capabilities.isCreativeMode) {
                     itemstack.shrink(1);
                 }
             }
