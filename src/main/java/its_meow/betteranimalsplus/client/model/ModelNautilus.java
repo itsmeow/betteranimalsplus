@@ -151,6 +151,7 @@ public class ModelNautilus<T extends LivingEntity> extends EntityModel<T> {
     public void render(T entity, float f, float f1, float f2, float f3, float f4, float f5) { 
         GlStateManager.pushMatrix();
         {
+            GlStateManager.rotatef(180F, 0F, 1F, 0F);
             GlStateManager.translated(0, 0.1, 0);
             GlStateManager.pushMatrix();
             {
