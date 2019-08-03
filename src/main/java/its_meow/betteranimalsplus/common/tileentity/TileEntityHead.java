@@ -23,7 +23,7 @@ import net.minecraftforge.fml.loading.FMLEnvironment;
 public class TileEntityHead extends TileEntity {
 
     @OnlyIn(Dist.CLIENT)
-    private Class<? extends EntityModel<Entity>> modelT = null;
+    private Class<? extends EntityModel<Entity>> modelT;
     protected int typeNum = 0;
     private float offset;
     private float rotation = 0;
