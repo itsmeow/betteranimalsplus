@@ -8,6 +8,7 @@ import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
+import net.minecraftforge.common.BiomeDictionary;
 
 public class EntityContainer<T extends LivingEntity> {
 
@@ -20,6 +21,7 @@ public class EntityContainer<T extends LivingEntity> {
     public int weight;
     public int minGroup;
     public int maxGroup;
+    public BiomeDictionary.Type[] types = {};
     public Biome[] spawnBiomes = {};
     public boolean doSpawning = true;
     public float width;
@@ -29,7 +31,7 @@ public class EntityContainer<T extends LivingEntity> {
     @SafeVarargs
     public EntityContainer(Class<T> EntityClass, Function<World, T> func,
                            String entityNameIn, EntityClassification type, int solidColorIn, int spotColorIn, int prob, int min, int max, float width, float height, 
-                           String[] tameItems, Set<Biome>... biomes) {
+                           String[] tameItems, BiomeDictionary.Type... biomeTypes) {
         this.entityClazz = EntityClass;
         this.entityFunction = func;
         this.entityName = entityNameIn;
@@ -47,18 +49,24 @@ public class EntityContainer<T extends LivingEntity> {
         } else {
             this.tameItems = tameItems;
         }
-
-        // Convert biomes to single array
-
+        this.types = biomeTypes;
+    }
+    
+    public String[] getBiomeIDs() {
         Set<Biome> biomesetAdd = new HashSet<>();
-        for (Set<Biome> biomeset : biomes) {
-            biomesetAdd.addAll(biomeset);
+        for(BiomeDictionary.Type type : types) {
+            biomesetAdd.addAll(BiomeDictionary.getBiomes(type));
         }
         try {
             this.spawnBiomes = biomesetAdd.toArray(this.spawnBiomes);
-        } catch (NullPointerException e) {
+        } catch(NullPointerException e) {
             this.spawnBiomes = new Biome[0];
         }
+        String[] biomeStrings = new String[spawnBiomes.length];
+        for(int i = 0; i < spawnBiomes.length; i++) {
+            biomeStrings[i] = spawnBiomes[i].getRegistryName().toString();
+        }
+        return biomeStrings;
     }
 
 }

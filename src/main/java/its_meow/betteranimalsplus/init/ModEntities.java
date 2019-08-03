@@ -36,7 +36,6 @@ import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.world.World;
-import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.BiomeDictionary.Type;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 
@@ -56,67 +55,67 @@ public class ModEntities {
     static {
         ModEntities.entityList.add(new EntityContainer<EntityBear>(EntityBear.class, EntityBear::new, "brownbear",
                 EntityClassification.CREATURE, 0x4F2900, 0x8E500E, BetterAnimalsPlusConfig.brownBearWeight, 1, 1, 2F, 2F, null,
-                BiomeDictionary.getBiomes(Type.FOREST)));
+                Type.FOREST));
         ModEntities.entityList.add(new EntityContainer<EntityBearNeutral>(EntityBearNeutral.class, EntityBearNeutral::new, "blackbear",
                 EntityClassification.CREATURE, 0x000000, 0x333333, BetterAnimalsPlusConfig.blackBearWeight, 1, 1, 2F, 1.5F, null,
-                BiomeDictionary.getBiomes(Type.FOREST)));
+                Type.FOREST));
         ModEntities.entityList.add(new EntityContainer<EntityDeer>(EntityDeer.class, EntityDeer::new, "deer",
                 EntityClassification.CREATURE, 0x8e510b, 0xc6863b, BetterAnimalsPlusConfig.deerWeight, 1, 4, 1.2F, 1.6F, null,
-                BiomeDictionary.getBiomes(Type.FOREST), BiomeDictionary.getBiomes(Type.MAGICAL)));
+                Type.FOREST, Type.MAGICAL));
         ModEntities.entityList.add(new EntityContainer<EntityLammergeier>(EntityLammergeier.class, EntityLammergeier::new, "lammergeier",
                 EntityClassification.CREATURE, 0xd8d8d8, 0xd82b11, BetterAnimalsPlusConfig.lammergeierWeight, 1, 2, 1F, 1F, new String[] {"minecraft:bone"},
-                BiomeDictionary.getBiomes(Type.HILLS), BiomeDictionary.getBiomes(Type.MOUNTAIN)));
+                Type.HILLS, Type.MOUNTAIN));
         ModEntities.entityList.add(new EntityContainer<EntityFeralWolf>(EntityFeralWolf.class, EntityFeralWolf::new, "feralwolf",
                 EntityClassification.CREATURE, 0xbababa, 0x232323, BetterAnimalsPlusConfig.feralWolfWeight, 1, 6, 0.8F, 0.9F, new String[] {"minecraft:bone"},
-                BiomeDictionary.getBiomes(Type.FOREST), BiomeDictionary.getBiomes(Type.MAGICAL), BiomeDictionary.getBiomes(Type.SPOOKY)));
+                Type.FOREST, Type.MAGICAL, Type.SPOOKY));
         ModEntities.entityList.add(new EntityContainer<EntityCoyote>(EntityCoyote.class, EntityCoyote::new, "coyote",
                 EntityClassification.CREATURE, 0x866a31, 0xb69762, BetterAnimalsPlusConfig.coyoteWeight, 1, 6, 0.8F, 0.9F, new String[] {"minecraft:rabbit", "minecraft:chicken", "betteranimalsplus:pheasantraw", "minecraft:cooked_rabbit", "minecraft:cooked_chicken", "betteranimalsplus:pheasantcooked"},
-                BiomeDictionary.getBiomes(Type.SANDY), BiomeDictionary.getBiomes(Type.PLAINS)));
+                Type.SANDY, Type.PLAINS));
         ModEntities.entityList.add(new EntityContainer<EntityTarantula>(EntityTarantula.class, EntityTarantula::new, "tarantula",
                 EntityClassification.MONSTER, 0x1e1e1e, 0x8c0c0c, BetterAnimalsPlusConfig.tarantulaWeight, 1, 3, 1.4F, 0.9F, null,
-                BiomeDictionary.getBiomes(Type.SANDY)));
+                Type.SANDY));
         ModEntities.entityList.add(new EntityContainer<EntityHirschgeist>(EntityHirschgeist.class, EntityHirschgeist::new, "hirschgeist",
                 EntityClassification.CREATURE, 0xfffff, 0x00000, BetterAnimalsPlusConfig.hirschgeistWeight, 1, 1, 3F, 4F, null,
-                BiomeDictionary.getBiomes(Type.FOREST)));
+                Type.FOREST));
         ModEntities.entityList.add(new EntityContainer<EntityGoat>(EntityGoat.class, EntityGoat::new, "goat", 
                 EntityClassification.CREATURE, 0xffffff,0xeeeeee, BetterAnimalsPlusConfig.goatWeight, 1, 4, 1.2F, 1.2F, null,
-                BiomeDictionary.getBiomes(Type.HILLS),BiomeDictionary.getBiomes(Type.MOUNTAIN), BiomeDictionary.getBiomes(Type.SAVANNA), BiomeDictionary.getBiomes(Type.PLAINS), BiomeDictionary.getBiomes(Type.FOREST)));
+                Type.HILLS,Type.MOUNTAIN, Type.SAVANNA, Type.PLAINS, Type.FOREST));
         ModEntities.entityList.add(new EntityContainer<EntityJellyfish>(EntityJellyfish.class, EntityJellyfish::new, "jellyfish",
                 EntityClassification.WATER_CREATURE, 0x226fe2, 0xf2b3b3, BetterAnimalsPlusConfig.jellyFishWeight, 1, 1, 0.8F, 0.8F, null,
-                BiomeDictionary.getBiomes(Type.OCEAN)));
+                Type.OCEAN));
         ModEntities.entityList.add(new EntityContainer<EntityPheasant>(EntityPheasant.class, EntityPheasant::new, "pheasant",
                 EntityClassification.CREATURE, 0x8e6b0b, 0xd8af3c, BetterAnimalsPlusConfig.pheasantWeight, 1, 3, 1F, 1F, null,
-                BiomeDictionary.getBiomes(Type.FOREST), BiomeDictionary.getBiomes(Type.PLAINS), BiomeDictionary.getBiomes(Type.SAVANNA)));
+                Type.FOREST, Type.PLAINS, Type.SAVANNA));
         ModEntities.entityList.add(new EntityContainer<EntityReindeer>(EntityReindeer.class, EntityReindeer::new, "reindeer",
                 EntityClassification.CREATURE, 0x8e510b, 0x017700, BetterAnimalsPlusConfig.reindeerWeight, 1, 4, 1.3964844F, 1.8F, null,
-                BiomeDictionary.getBiomes(Type.SNOWY)));
+                Type.SNOWY));
         ModEntities.entityList.add(new EntityContainer<EntityBoar>(EntityBoar.class, EntityBoar::new, "boar",
                 EntityClassification.CREATURE, 0x3d3c3b, 0xbca895, BetterAnimalsPlusConfig.boarWeight, 1, 4, 0.9F, 0.9F, null,
-                BiomeDictionary.getBiomes(Type.FOREST), BiomeDictionary.getBiomes(Type.JUNGLE), BiomeDictionary.getBiomes(Type.PLAINS), BiomeDictionary.getBiomes(Type.SAVANNA)));
+                Type.FOREST, Type.JUNGLE, Type.PLAINS, Type.SAVANNA));
         ModEntities.entityList.add(new EntityContainer<EntitySquirrel>(EntitySquirrel.class, EntitySquirrel::new, "squirrel",
                 EntityClassification.CREATURE, 0x89806f, 0xb2a489, BetterAnimalsPlusConfig.squirrelWeight, 1, 3, 0.5F, 0.5F, null,
-                BiomeDictionary.getBiomes(Type.FOREST)));
+                Type.FOREST));
         ModEntities.entityList.add(new EntityContainer<EntitySongbird>(EntitySongbird.class, EntitySongbird::new, "songbird",
                 EntityClassification.CREATURE, 0x46f4d2, 0x7df442, BetterAnimalsPlusConfig.songbirdWeight, 1, 4, 0.5F, 0.5F, null,
-                BiomeDictionary.getBiomes(Type.FOREST), BiomeDictionary.getBiomes(Type.PLAINS)));
+                Type.FOREST, Type.PLAINS));
         ModEntities.entityList.add(new EntityContainer<EntityBadger>(EntityBadger.class, EntityBadger::new, "badger", 
                 EntityClassification.CREATURE, 0x0c0c0c, 0xd3d3d3, BetterAnimalsPlusConfig.badgerWeight, 1, 2, 0.8F, 0.8F, null,
-                BiomeDictionary.getBiomes(Type.FOREST), BiomeDictionary.getBiomes(Type.PLAINS), BiomeDictionary.getBiomes(Type.SAVANNA)));
+                Type.FOREST, Type.PLAINS, Type.SAVANNA));
         ModEntities.entityList.add(new EntityContainer<EntityLamprey>(EntityLamprey.class, EntityLamprey::new, "lamprey", 
                 EntityClassification.WATER_CREATURE, 0x0000ad, 0x0a0a0a, BetterAnimalsPlusConfig.lampreyWeight, 1, 1, 1.0F, 0.7F, null,
-                BiomeDictionary.getBiomes(Type.RIVER), BiomeDictionary.getBiomes(Type.SWAMP)));
+                Type.RIVER, Type.SWAMP));
         ModEntities.entityList.add(new EntityContainer<EntityNautilus>(EntityNautilus.class, EntityNautilus::new, "nautilus",
                 EntityClassification.WATER_CREATURE, 0xFF9659, 0x241682, BetterAnimalsPlusConfig.nautilusWeight, 1, 1, 0.75F, 0.75F, null, 
-                BiomeDictionary.getBiomes(Type.OCEAN)));
+                Type.OCEAN));
         ModEntities.entityList.add(new EntityContainer<EntityCrab>(EntityCrab.class, EntityCrab::new, "crab",
                 EntityClassification.CREATURE, 0xe21d16, 0x2d0504, BetterAnimalsPlusConfig.crabWeight, 1, 3, 1F, 0.65F, null,
-                BiomeDictionary.getBiomes(Type.BEACH), BiomeDictionary.getBiomes(Type.SWAMP)));
+                Type.BEACH, Type.SWAMP));
         ModEntities.entityList.add(new EntityContainer<EntityHorseshoeCrab>(EntityHorseshoeCrab.class, EntityHorseshoeCrab::new, "horseshoecrab",
                 EntityClassification.CREATURE, 0xba1111, 0x520807, BetterAnimalsPlusConfig.horseshoeCrabWeight, 1, 3, 1F, 0.65F, null,
-                BiomeDictionary.getBiomes(Type.BEACH)));
+                Type.BEACH));
         ModEntities.entityList.add(new EntityContainer<EntityShark>(EntityShark.class, EntityShark::new, "shark",
                 EntityClassification.WATER_CREATURE, 0x787878, 0xbdbdbd, BetterAnimalsPlusConfig.sharkWeight, 1, 1, 2.5F, 1.2F, null,
-                BiomeDictionary.getBiomes(Type.OCEAN)));
+                Type.OCEAN));
 
         for (EntityContainer<?> container : ModEntities.entityList) {
             ModEntities.setupContainer((EntityContainer<LivingEntity>) container);

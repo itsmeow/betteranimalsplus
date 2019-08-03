@@ -1,13 +1,11 @@
 package its_meow.betteranimalsplus.config;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import com.google.common.base.Predicate;
 
 import its_meow.betteranimalsplus.util.EntityContainer;
-import net.minecraft.world.biome.Biome;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.common.ForgeConfigSpec.ConfigValue;
 
@@ -20,11 +18,13 @@ public class EntityConfigurationSection {
     public ForgeConfigSpec.IntValue weight;
     public ForgeConfigSpec.ConfigValue<List<? extends String>> biomesList;
     public ConfigValue<List<String>> tameItems;
+    public List<String> biomeStrings;
 
     public EntityConfigurationSection(EntityContainer<?> container, ForgeConfigSpec.Builder builder) {
         builder.push(container.entityName);
 
         this.entityName = container.entityName;
+        this.biomeStrings = Arrays.asList(container.getBiomeIDs());
         this.loadSpawning(builder);
         this.loadSpawnValues(builder, container);
         if(container.tameItems.length > 0) {
@@ -49,12 +49,8 @@ public class EntityConfigurationSection {
                 9999);
         max = builder.comment("Must be greater or equal to min value!").worldRestart().defineInRange("maxGroup",
                 container.maxGroup, 1, 9999);
-        ArrayList<String> biomes = new ArrayList<String>();
-        for (Biome biome : container.spawnBiomes) {
-            biomes.add(biome.getRegistryName().toString());
-        }
         biomesList = builder.comment("Enter biome Resource Locations. Supports modded biomes.").worldRestart()
-                .defineList("spawnBiomes", biomes, (Predicate<Object>) input -> input instanceof String);
+                .defineList("spawnBiomes", biomeStrings, (Predicate<Object>) input -> input instanceof String);
     }
 
 }
