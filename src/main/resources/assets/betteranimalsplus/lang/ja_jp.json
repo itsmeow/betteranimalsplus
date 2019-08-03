@@ -13,7 +13,7 @@
     "item.betteranimalsplus.pheasantcooked": "焼きキジ",
 	"item.betteranimalsplus.wolf_cape_classic": "オオカミのケープ（普通）",
 	"item.betteranimalsplus.wolf_cape_timber": "オオカミのケープ（森林）",
-    "item.betteranimalsplus.record_crab_rave": "Music Disc",
+    "item.betteranimalsplus.record_crab_rave": "音楽ディスク",
     "item.betteranimalsplus.record_crab_rave.desc": "Crab Rave",
     "item.betteranimalsplus.crab_meat_raw": "生のカニ",
     "item.betteranimalsplus.crab_meat_cooked": "焼きガニ",
@@ -35,7 +35,7 @@
     "block.betteranimalsplus.deerhead": "シカの頭",
     "block.betteranimalsplus.reindeerhead": "トナカイの頭",
     "block.betteranimalsplus.boarhead": "イノシシの頭",
-    "block.betteranimalsplus.bearhead": "くまの頭",
+    "block.betteranimalsplus.bearhead": "クマの頭",
 
     "_comment": "Entities",
     "entity.betteranimalsplus.brownbear": "ヒグマ",
