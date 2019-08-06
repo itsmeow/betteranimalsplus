@@ -8,6 +8,7 @@ import its_meow.betteranimalsplus.init.ModEntities;
 import its_meow.betteranimalsplus.init.ModLootTables;
 import net.minecraft.entity.ILivingEntityData;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.goal.LookAtGoal;
@@ -86,7 +87,14 @@ public class EntityShark extends EntitySharkBase implements IVariantTypes {
                 if(isBoat) {
                     BoatEntity boat = (BoatEntity) this.getAttackTarget().getRidingEntity();
                     boat.attackEntityFrom(DamageSource.causeMobDamage(this), 3F);
-                } else if(!this.getAttackTarget().isInvulnerable()){
+                } else if(!this.getAttackTarget().isInvulnerable()) {
+                    if (this.getAttackTarget() instanceof MobEntity) {
+                        MobEntity el = (MobEntity) this.getAttackTarget();
+                        el.setAttackTarget(null);
+                        el.setRevengeTarget(null);
+                        el.getNavigator().clearPath(); 
+                        el.setNoAI(true);
+                    }
                     this.getAttackTarget().startRiding(this, false);
                 }
                 lastGrab = this.ticksExisted;
@@ -94,7 +102,11 @@ public class EntityShark extends EntitySharkBase implements IVariantTypes {
                 this.getMoveHelper().setMoveTo(this.getAttackTarget().posX, this.getAttackTarget().posY, this.getAttackTarget().posZ, 0.1D);
             }
             if(lastTickHealth - 4F > this.getHealth()) {
-                this.getAttackTarget().dismountEntity(this.getRidingEntity());
+                this.getAttackTarget().dismountEntity(this);
+                if (this.getAttackTarget() instanceof MobEntity) {
+                    MobEntity el = (MobEntity) this.getAttackTarget();
+                    el.setNoAI(false);
+                }
             }
         }
         this.lastTickHealth = this.getHealth();
