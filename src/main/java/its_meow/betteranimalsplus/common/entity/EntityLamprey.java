@@ -194,7 +194,6 @@ public class EntityLamprey extends EntityWaterMobWithTypes implements IMob {
     public void grabTarget(Entity entity) {
         if(entity == this.getAttackTarget() && !this.isRidingOrBeingRiddenBy(entity) && this.inWater) {
             this.startRiding(entity);
-            this.getServer().getPlayerList().sendPacketToAllPlayers(new SPacketSetPassengers(entity));
         }
     }
 
