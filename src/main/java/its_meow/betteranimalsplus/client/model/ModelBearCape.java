@@ -146,16 +146,19 @@ public class ModelBearCape extends ModelBiped {
             GlStateManager.rotate(angle, 1.0F, 0.0F, 0.0F);
             GlStateManager.rotate(f3 / 2.0F, 0.0F, 0.0F, 1.0F);
             //GlStateManager.rotate(-f3 / 2.0F, 0.0F, 1.0F, 0.0F);
+            this.bearCapeArmL1.showModel = false;
+            this.bearCapeArmR1.showModel = false;
+            this.bearCapeMain.showModel = true;
             super.render(entity, limbSwing, limbSwingAmount, ageInTicks, f33, f44, f55);
             GlStateManager.popMatrix();
             this.bearCapeArmL1.showModel = true;
             this.bearCapeArmR1.showModel = true;
             this.bearCapeMain.showModel = false;
             super.render(entity, limbSwing, limbSwingAmount, ageInTicks, f33, f44, f55);
-            this.bearCapeArmL1.showModel = false;
-            this.bearCapeArmR1.showModel = false;
-            this.bearCapeMain.showModel = true;
         } else {
+            this.bearCapeArmL1.showModel = true;
+            this.bearCapeArmR1.showModel = true;
+            this.bearCapeMain.showModel = true;
             super.render(entity, limbSwing, limbSwingAmount, ageInTicks, f33, f44, f55);
         }
     }
