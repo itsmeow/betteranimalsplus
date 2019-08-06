@@ -1,3 +1,11 @@
+7.0.2
+-
+- Updated German Translation
+- (Maybe?) Fixed "received passengers for unknown entity" spam
+- 1.12: Fixed bear cape not rendering "arms" on armor stand
+- 1.14: Fixed crash with shark dismounting targets
+- 1.14: Fixed random crash with shark when grabbing some entities like skeletons
+
 7.0.1
 -
 - Updated Russian Translation
