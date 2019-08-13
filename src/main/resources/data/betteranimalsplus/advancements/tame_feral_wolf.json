@@ -1,0 +1,36 @@
+{
+  "display": {
+    "description": [
+      {"text":"Tame a Feral Wolf\n","color":"gray"},
+      {"text":"I mean, it's in the name! How?!?","italic":true,"color":"white"}
+    ],
+    "title": {
+      "text": "Taming the Untameable",
+      "bold": false,
+      "color": "green"
+    },
+    "icon": {
+      "item": "betteranimalsplus:wolfhead_3"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "tame_feralwolf": {
+      "trigger": "minecraft:tame_animal",
+      "conditions": {
+        "entity": {
+          "type": "betteranimalsplus:feralwolf"
+        }
+      }
+    }
+  },
+  "requirements": [
+    [
+      "tame_feralwolf"
+    ]
+  ],
+  "parent": "betteranimalsplus:hirschgeist_killed_by_player"
+}

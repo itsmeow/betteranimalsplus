@@ -8,6 +8,7 @@ import its_meow.betteranimalsplus.client.ClientLifecycleHandler;
 import its_meow.betteranimalsplus.common.world.gen.TrilliumGenerator;
 import its_meow.betteranimalsplus.config.BetterAnimalsPlusConfig;
 import its_meow.betteranimalsplus.init.ModItems;
+import its_meow.betteranimalsplus.init.ModTriggers;
 import its_meow.betteranimalsplus.network.ClientConfigurationPacket;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemGroup;
@@ -56,6 +57,7 @@ public class BetterAnimalsPlusMod {
 
         BetterAnimalsPlusConfig.setupConfig();
         ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, BetterAnimalsPlusConfig.SERVER_CONFIG);
+        ModTriggers.register();
         
         BetterAnimalsPlusMod.logger.log(Level.INFO, "Injecting super coyotes...");
     }

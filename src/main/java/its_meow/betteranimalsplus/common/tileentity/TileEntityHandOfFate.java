@@ -5,8 +5,11 @@ import java.util.Random;
 import its_meow.betteranimalsplus.common.entity.miniboss.hirschgeist.EntityHirschgeist;
 import its_meow.betteranimalsplus.init.ModBlocks;
 import its_meow.betteranimalsplus.init.ModTileEntities;
+import its_meow.betteranimalsplus.init.ModTriggers;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.HorizontalBlock;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SUpdateTileEntityPacket;
@@ -59,39 +62,42 @@ public class TileEntityHandOfFate extends TileEntity {
         return this.hasNetherWart;
     }
 
-    public void setHasNetherWart(boolean hasNetherWart) {
+    public void setHasNetherWart(PlayerEntity player, boolean hasNetherWart) {
         this.hasNetherWart = hasNetherWart;
         this.markDirty();
-        this.checkHasAllThree();
+        this.checkHasAllThree(player);
     }
 
     public boolean hasAntler() {
         return this.hasAntler;
     }
 
-    public void setHasAntler(boolean hasAntler) {
+    public void setHasAntler(PlayerEntity player, boolean hasAntler) {
         this.hasAntler = hasAntler;
         this.markDirty();
-        this.checkHasAllThree();
+        this.checkHasAllThree(player);
     }
 
     public boolean hasVenison() {
         return this.hasVenison;
     }
 
-    public void setHasVenison(boolean hasVenison) {
+    public void setHasVenison(PlayerEntity player, boolean hasVenison) {
         this.hasVenison = hasVenison;
         this.markDirty();
-        this.checkHasAllThree();
+        this.checkHasAllThree(player);
     }
 
-    private void checkHasAllThree() {
+    private void checkHasAllThree(PlayerEntity player) {
         if (this.hasVenison && this.hasAntler && this.hasNetherWart && this.isOnFire()) {
-            this.setHasVenison(false);
-            this.setHasAntler(false);
-            this.setHasNetherWart(false);
+            this.setHasVenison(player, false);
+            this.setHasAntler(player, false);
+            this.setHasNetherWart(player, false);
             this.fireBurst();
             this.spawnHirschgeist();
+            if(!world.isRemote && player instanceof ServerPlayerEntity) {
+                ModTriggers.HAND_OF_FATE_SUMMON.trigger((ServerPlayerEntity) player);
+            }
         }
     }
 

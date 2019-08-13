@@ -1,0 +1,31 @@
+{
+    "display": {
+        "title": {
+            "text": "More Macho than Putin",
+            "color": "gold",
+            "bold": true
+        },
+        "description": [
+            {"text":"Punch a bear... to death!\n","color":"gray"},
+            {"text":"He only rides them, you kill them! With your fists!","italic":true,"color":"white"}
+        ],
+        "icon": {
+            "item": "betteranimalsplus:bearhead_2"
+        },
+        "frame": "challenge",
+        "show_toast": true,
+        "announce_to_chat": true,
+        "hidden": false
+    },
+    "criteria": {
+        "punch_bear_death": {
+            "trigger": "betteranimalsplus:punch_bear_death"
+        }
+    },
+    "requirements": [
+        [
+            "punch_bear_death"
+        ]
+    ],
+    "parent": "betteranimalsplus:bear_punch"
+}

@@ -1,0 +1,38 @@
+{
+    "display": {
+        "title": {
+        	"text": "Unfriendly Cube",
+        	"color": "green",
+        	"bold": false
+        },
+        "description": [
+            {"text":"Get stung by a jellyfish\n","color":"gray"},
+            {"text":"You should've listened to mom, don't touch the jellyfish! Also, no, PLEASE don't pee on the sting!","italic":true,"color":"white"}
+        ],
+        "icon": {
+            "item": "betteranimalsplus:jellyfish_spawn_egg"
+        },
+        "frame": "task",
+        "show_toast": true,
+        "announce_to_chat": true,
+        "hidden": false
+    },
+    "criteria": {
+        "jellyfish_sting": {
+            "trigger": "minecraft:entity_hurt_player",
+            "conditions": {
+                "damage": {
+                    "source_entity": {
+                        "type": "betteranimalsplus:jellyfish"
+                    }
+                }
+            }
+        }
+    },
+    "requirements": [
+        [
+            "jellyfish_sting"
+        ]
+    ],
+    "parent": "betteranimalsplus:root"
+}

@@ -1,0 +1,38 @@
+{
+    "display": {
+        "title": {
+        	"text": "Get Badgered",
+        	"color": "green",
+        	"bold": false
+        },
+        "description": [
+            {"text":"Get dirt thrown at you by a Badger\n","color":"gray"},
+            {"text":"Honey badger don't care!","italic":true,"color":"white"}
+        ],
+        "icon": {
+            "item": "betteranimalsplus:badger_spawn_egg"
+        },
+        "frame": "task",
+        "show_toast": true,
+        "announce_to_chat": true,
+        "hidden": false
+    },
+    "criteria": {
+        "badger_attack": {
+            "trigger": "minecraft:entity_hurt_player",
+            "conditions": {
+                "damage": {
+                    "direct_entity": {
+                        "type": "betteranimalsplus:badgerdirt"
+                    }
+                }
+            }
+        }
+    },
+    "requirements": [
+        [
+            "badger_attack"
+        ]
+    ],
+    "parent": "betteranimalsplus:root"
+}

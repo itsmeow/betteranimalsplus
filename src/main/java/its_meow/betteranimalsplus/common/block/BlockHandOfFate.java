@@ -107,7 +107,7 @@ public class BlockHandOfFate extends HorizontalBlock {
                     if (!player.isCreative()) {
                         held.shrink(1);
                     }
-                    tehof.setHasNetherWart(true);
+                    tehof.setHasNetherWart(player, true);
                     return true;
                 }
             }
@@ -119,7 +119,7 @@ public class BlockHandOfFate extends HorizontalBlock {
                     if (!player.isCreative()) {
                         held.shrink(1);
                     }
-                    tehof.setHasAntler(true);
+                    tehof.setHasAntler(player, true);
                     return true;
                 }
             }
@@ -131,7 +131,7 @@ public class BlockHandOfFate extends HorizontalBlock {
                     if (!player.isCreative()) {
                         held.shrink(1);
                     }
-                    tehof.setHasVenison(true);
+                    tehof.setHasVenison(player, true);
                     return true;
                 }
             }

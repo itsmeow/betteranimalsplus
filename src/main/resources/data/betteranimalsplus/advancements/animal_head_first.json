@@ -1,0 +1,225 @@
+{
+    "display": {
+        "title": {
+        	"text": "Taxidermist",
+        	"color": "green",
+        	"bold": false
+        },
+        "description": [
+            {"text":"Get your first animal head\n","color":"gray"},
+            {"text":"That's... kind of creepy.","italic":true,"color":"white"}
+        ],
+        "icon": {
+            "item": "betteranimalsplus:deerhead_1"
+        },
+        "frame": "task",
+        "show_toast": true,
+        "announce_to_chat": true,
+        "hidden": false
+    },
+  "criteria": {
+        "head1": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "betteranimalsplus:wolfhead_1"
+                    }
+                ]
+            }
+        },
+        "head2": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "betteranimalsplus:wolfhead_2"
+                    }
+                ]
+            }
+        },
+        "head3": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "betteranimalsplus:wolfhead_3"
+                    }
+                ]
+            }
+        },
+        "head4": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "betteranimalsplus:wolfhead_4"
+                    }
+                ]
+            }
+        },
+        "head5": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "betteranimalsplus:bearhead_1"
+                    }
+                ]
+            }
+        },
+        "head6": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "betteranimalsplus:bearhead_2"
+                    }
+                ]
+            }
+        },
+        "head7": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "betteranimalsplus:bearhead_3"
+                    }
+                ]
+            }
+        },
+        "head8": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "betteranimalsplus:deerhead_1"
+                    }
+                ]
+            }
+        },
+        "head9": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "betteranimalsplus:deerhead_2"
+                    }
+                ]
+            }
+        },
+        "head10": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "betteranimalsplus:reindeerhead_1"
+                    }
+                ]
+            }
+        },
+        "head11": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "betteranimalsplus:reindeerhead_2"
+                    }
+                ]
+            }
+        },
+        "head12": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "betteranimalsplus:reindeerhead_3"
+                    }
+                ]
+            }
+        },
+        "head13": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "betteranimalsplus:reindeerhead_4"
+                    }
+                ]
+            }
+        },
+        "head14": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "betteranimalsplus:boarhead_1"
+                    }
+                ]
+            }
+        },
+        "head15": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "betteranimalsplus:boarhead_2"
+                    }
+                ]
+            }
+        },
+        "head16": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "betteranimalsplus:boarhead_3"
+                    }
+                ]
+            }
+        },
+        "head17": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "betteranimalsplus:boarhead_4"
+                    }
+                ]
+            }
+        },
+        "head22": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "betteranimalsplus:hirschgeistskull_1"
+                    }
+                ]
+            }
+        }
+    },
+    "requirements": [
+        [
+            "head1",
+            "head2",
+            "head3",
+            "head4",
+            "head5",
+            "head6",
+            "head7",
+            "head8",
+            "head9",
+            "head10",
+            "head11",
+            "head12",
+            "head13",
+            "head14",
+            "head15",
+            "head16",
+            "head17",
+            "head22"
+        ]
+    ],
+    "parent": "betteranimalsplus:root"
+}

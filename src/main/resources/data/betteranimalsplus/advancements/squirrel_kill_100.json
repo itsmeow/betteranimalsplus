@@ -1,0 +1,625 @@
+{
+    "display": {
+        "title": {
+            "text": "Chronic Abuser",
+            "color": "dark_blue",
+            "bold": true
+        },
+        "description": [
+            {"text":"Kill 100 squirrels\n","color":"gray"},
+            {"text":"I know this is an advancement, but you really don't have to get all of the advancements. Please stop.","italic":true,"color":"white"}
+        ],
+        "icon": {
+            "item": "betteranimalsplus:squirrel_spawn_egg"
+        },
+        "frame": "challenge",
+        "show_toast": true,
+        "announce_to_chat": true,
+        "hidden": false
+    },
+    "criteria": {
+    "squirrel_kill1": {
+      "trigger": "betteranimalsplus:squirrel_kill1"
+    },
+    "squirrel_kill2": {
+      "trigger": "betteranimalsplus:squirrel_kill2"
+    },
+    "squirrel_kill3": {
+      "trigger": "betteranimalsplus:squirrel_kill3"
+    },
+    "squirrel_kill4": {
+      "trigger": "betteranimalsplus:squirrel_kill4"
+    },
+    "squirrel_kill5": {
+      "trigger": "betteranimalsplus:squirrel_kill5"
+    },
+    "squirrel_kill6": {
+      "trigger": "betteranimalsplus:squirrel_kill6"
+    },
+    "squirrel_kill7": {
+      "trigger": "betteranimalsplus:squirrel_kill7"
+    },
+    "squirrel_kill8": {
+      "trigger": "betteranimalsplus:squirrel_kill8"
+    },
+    "squirrel_kill9": {
+      "trigger": "betteranimalsplus:squirrel_kill9"
+    },
+    "squirrel_kill10": {
+      "trigger": "betteranimalsplus:squirrel_kill10"
+    },
+    "squirrel_kill11": {
+      "trigger": "betteranimalsplus:squirrel_kill11"
+    },
+    "squirrel_kill12": {
+      "trigger": "betteranimalsplus:squirrel_kill12"
+    },
+    "squirrel_kill13": {
+      "trigger": "betteranimalsplus:squirrel_kill13"
+    },
+    "squirrel_kill14": {
+      "trigger": "betteranimalsplus:squirrel_kill14"
+    },
+    "squirrel_kill15": {
+      "trigger": "betteranimalsplus:squirrel_kill15"
+    },
+    "squirrel_kill16": {
+      "trigger": "betteranimalsplus:squirrel_kill16"
+    },
+    "squirrel_kill17": {
+      "trigger": "betteranimalsplus:squirrel_kill17"
+    },
+    "squirrel_kill18": {
+      "trigger": "betteranimalsplus:squirrel_kill18"
+    },
+    "squirrel_kill19": {
+      "trigger": "betteranimalsplus:squirrel_kill19"
+    },
+    "squirrel_kill20": {
+      "trigger": "betteranimalsplus:squirrel_kill20"
+    },
+    "squirrel_kill21": {
+      "trigger": "betteranimalsplus:squirrel_kill21"
+    },
+    "squirrel_kill22": {
+      "trigger": "betteranimalsplus:squirrel_kill22"
+    },
+    "squirrel_kill23": {
+      "trigger": "betteranimalsplus:squirrel_kill23"
+    },
+    "squirrel_kill24": {
+      "trigger": "betteranimalsplus:squirrel_kill24"
+    },
+    "squirrel_kill25": {
+      "trigger": "betteranimalsplus:squirrel_kill25"
+    },
+    "squirrel_kill26": {
+      "trigger": "betteranimalsplus:squirrel_kill26"
+    },
+    "squirrel_kill27": {
+      "trigger": "betteranimalsplus:squirrel_kill27"
+    },
+    "squirrel_kill28": {
+      "trigger": "betteranimalsplus:squirrel_kill28"
+    },
+    "squirrel_kill29": {
+      "trigger": "betteranimalsplus:squirrel_kill29"
+    },
+    "squirrel_kill30": {
+      "trigger": "betteranimalsplus:squirrel_kill30"
+    },
+    "squirrel_kill31": {
+      "trigger": "betteranimalsplus:squirrel_kill31"
+    },
+    "squirrel_kill32": {
+      "trigger": "betteranimalsplus:squirrel_kill32"
+    },
+    "squirrel_kill33": {
+      "trigger": "betteranimalsplus:squirrel_kill33"
+    },
+    "squirrel_kill34": {
+      "trigger": "betteranimalsplus:squirrel_kill34"
+    },
+    "squirrel_kill35": {
+      "trigger": "betteranimalsplus:squirrel_kill35"
+    },
+    "squirrel_kill36": {
+      "trigger": "betteranimalsplus:squirrel_kill36"
+    },
+    "squirrel_kill37": {
+      "trigger": "betteranimalsplus:squirrel_kill37"
+    },
+    "squirrel_kill38": {
+      "trigger": "betteranimalsplus:squirrel_kill38"
+    },
+    "squirrel_kill39": {
+      "trigger": "betteranimalsplus:squirrel_kill39"
+    },
+    "squirrel_kill40": {
+      "trigger": "betteranimalsplus:squirrel_kill40"
+    },
+    "squirrel_kill41": {
+      "trigger": "betteranimalsplus:squirrel_kill41"
+    },
+    "squirrel_kill42": {
+      "trigger": "betteranimalsplus:squirrel_kill42"
+    },
+    "squirrel_kill43": {
+      "trigger": "betteranimalsplus:squirrel_kill43"
+    },
+    "squirrel_kill44": {
+      "trigger": "betteranimalsplus:squirrel_kill44"
+    },
+    "squirrel_kill45": {
+      "trigger": "betteranimalsplus:squirrel_kill45"
+    },
+    "squirrel_kill46": {
+      "trigger": "betteranimalsplus:squirrel_kill46"
+    },
+    "squirrel_kill47": {
+      "trigger": "betteranimalsplus:squirrel_kill47"
+    },
+    "squirrel_kill48": {
+      "trigger": "betteranimalsplus:squirrel_kill48"
+    },
+    "squirrel_kill49": {
+      "trigger": "betteranimalsplus:squirrel_kill49"
+    },
+    "squirrel_kill50": {
+      "trigger": "betteranimalsplus:squirrel_kill50"
+    },
+    "squirrel_kill51": {
+      "trigger": "betteranimalsplus:squirrel_kill51"
+    },
+    "squirrel_kill52": {
+      "trigger": "betteranimalsplus:squirrel_kill52"
+    },
+    "squirrel_kill53": {
+      "trigger": "betteranimalsplus:squirrel_kill53"
+    },
+    "squirrel_kill54": {
+      "trigger": "betteranimalsplus:squirrel_kill54"
+    },
+    "squirrel_kill55": {
+      "trigger": "betteranimalsplus:squirrel_kill55"
+    },
+    "squirrel_kill56": {
+      "trigger": "betteranimalsplus:squirrel_kill56"
+    },
+    "squirrel_kill57": {
+      "trigger": "betteranimalsplus:squirrel_kill57"
+    },
+    "squirrel_kill58": {
+      "trigger": "betteranimalsplus:squirrel_kill58"
+    },
+    "squirrel_kill59": {
+      "trigger": "betteranimalsplus:squirrel_kill59"
+    },
+    "squirrel_kill60": {
+      "trigger": "betteranimalsplus:squirrel_kill60"
+    },
+    "squirrel_kill61": {
+      "trigger": "betteranimalsplus:squirrel_kill61"
+    },
+    "squirrel_kill62": {
+      "trigger": "betteranimalsplus:squirrel_kill62"
+    },
+    "squirrel_kill63": {
+      "trigger": "betteranimalsplus:squirrel_kill63"
+    },
+    "squirrel_kill64": {
+      "trigger": "betteranimalsplus:squirrel_kill64"
+    },
+    "squirrel_kill65": {
+      "trigger": "betteranimalsplus:squirrel_kill65"
+    },
+    "squirrel_kill66": {
+      "trigger": "betteranimalsplus:squirrel_kill66"
+    },
+    "squirrel_kill67": {
+      "trigger": "betteranimalsplus:squirrel_kill67"
+    },
+    "squirrel_kill68": {
+      "trigger": "betteranimalsplus:squirrel_kill68"
+    },
+    "squirrel_kill69": {
+      "trigger": "betteranimalsplus:squirrel_kill69"
+    },
+    "squirrel_kill70": {
+      "trigger": "betteranimalsplus:squirrel_kill70"
+    },
+    "squirrel_kill71": {
+      "trigger": "betteranimalsplus:squirrel_kill71"
+    },
+    "squirrel_kill72": {
+      "trigger": "betteranimalsplus:squirrel_kill72"
+    },
+    "squirrel_kill73": {
+      "trigger": "betteranimalsplus:squirrel_kill73"
+    },
+    "squirrel_kill74": {
+      "trigger": "betteranimalsplus:squirrel_kill74"
+    },
+    "squirrel_kill75": {
+      "trigger": "betteranimalsplus:squirrel_kill75"
+    },
+    "squirrel_kill76": {
+      "trigger": "betteranimalsplus:squirrel_kill76"
+    },
+    "squirrel_kill77": {
+      "trigger": "betteranimalsplus:squirrel_kill77"
+    },
+    "squirrel_kill78": {
+      "trigger": "betteranimalsplus:squirrel_kill78"
+    },
+    "squirrel_kill79": {
+      "trigger": "betteranimalsplus:squirrel_kill79"
+    },
+    "squirrel_kill80": {
+      "trigger": "betteranimalsplus:squirrel_kill80"
+    },
+    "squirrel_kill81": {
+      "trigger": "betteranimalsplus:squirrel_kill81"
+    },
+    "squirrel_kill82": {
+      "trigger": "betteranimalsplus:squirrel_kill82"
+    },
+    "squirrel_kill83": {
+      "trigger": "betteranimalsplus:squirrel_kill83"
+    },
+    "squirrel_kill84": {
+      "trigger": "betteranimalsplus:squirrel_kill84"
+    },
+    "squirrel_kill85": {
+      "trigger": "betteranimalsplus:squirrel_kill85"
+    },
+    "squirrel_kill86": {
+      "trigger": "betteranimalsplus:squirrel_kill86"
+    },
+    "squirrel_kill87": {
+      "trigger": "betteranimalsplus:squirrel_kill87"
+    },
+    "squirrel_kill88": {
+      "trigger": "betteranimalsplus:squirrel_kill88"
+    },
+    "squirrel_kill89": {
+      "trigger": "betteranimalsplus:squirrel_kill89"
+    },
+    "squirrel_kill90": {
+      "trigger": "betteranimalsplus:squirrel_kill90"
+    },
+    "squirrel_kill91": {
+      "trigger": "betteranimalsplus:squirrel_kill91"
+    },
+    "squirrel_kill92": {
+      "trigger": "betteranimalsplus:squirrel_kill92"
+    },
+    "squirrel_kill93": {
+      "trigger": "betteranimalsplus:squirrel_kill93"
+    },
+    "squirrel_kill94": {
+      "trigger": "betteranimalsplus:squirrel_kill94"
+    },
+    "squirrel_kill95": {
+      "trigger": "betteranimalsplus:squirrel_kill95"
+    },
+    "squirrel_kill96": {
+      "trigger": "betteranimalsplus:squirrel_kill96"
+    },
+    "squirrel_kill97": {
+      "trigger": "betteranimalsplus:squirrel_kill97"
+    },
+    "squirrel_kill98": {
+      "trigger": "betteranimalsplus:squirrel_kill98"
+    },
+    "squirrel_kill99": {
+      "trigger": "betteranimalsplus:squirrel_kill99"
+    },
+    "squirrel_kill100": {
+      "trigger": "betteranimalsplus:squirrel_kill100"
+    }
+  },
+  "requirements": [
+    [
+      "squirrel_kill1"
+    ],
+    [
+      "squirrel_kill2"
+    ],
+    [
+      "squirrel_kill3"
+    ],
+    [
+      "squirrel_kill4"
+    ],
+    [
+      "squirrel_kill5"
+    ],
+    [
+      "squirrel_kill6"
+    ],
+    [
+      "squirrel_kill7"
+    ],
+    [
+      "squirrel_kill8"
+    ],
+    [
+      "squirrel_kill9"
+    ],
+    [
+      "squirrel_kill10"
+    ],
+    [
+      "squirrel_kill11"
+    ],
+    [
+      "squirrel_kill12"
+    ],
+    [
+      "squirrel_kill13"
+    ],
+    [
+      "squirrel_kill14"
+    ],
+    [
+      "squirrel_kill15"
+    ],
+    [
+      "squirrel_kill16"
+    ],
+    [
+      "squirrel_kill17"
+    ],
+    [
+      "squirrel_kill18"
+    ],
+    [
+      "squirrel_kill19"
+    ],
+    [
+      "squirrel_kill20"
+    ],
+    [
+      "squirrel_kill21"
+    ],
+    [
+      "squirrel_kill22"
+    ],
+    [
+      "squirrel_kill23"
+    ],
+    [
+      "squirrel_kill24"
+    ],
+    [
+      "squirrel_kill25"
+    ],
+    [
+      "squirrel_kill26"
+    ],
+    [
+      "squirrel_kill27"
+    ],
+    [
+      "squirrel_kill28"
+    ],
+    [
+      "squirrel_kill29"
+    ],
+    [
+      "squirrel_kill30"
+    ],
+    [
+      "squirrel_kill31"
+    ],
+    [
+      "squirrel_kill32"
+    ],
+    [
+      "squirrel_kill33"
+    ],
+    [
+      "squirrel_kill34"
+    ],
+    [
+      "squirrel_kill35"
+    ],
+    [
+      "squirrel_kill36"
+    ],
+    [
+      "squirrel_kill37"
+    ],
+    [
+      "squirrel_kill38"
+    ],
+    [
+      "squirrel_kill39"
+    ],
+    [
+      "squirrel_kill40"
+    ],
+    [
+      "squirrel_kill41"
+    ],
+    [
+      "squirrel_kill42"
+    ],
+    [
+      "squirrel_kill43"
+    ],
+    [
+      "squirrel_kill44"
+    ],
+    [
+      "squirrel_kill45"
+    ],
+    [
+      "squirrel_kill46"
+    ],
+    [
+      "squirrel_kill47"
+    ],
+    [
+      "squirrel_kill48"
+    ],
+    [
+      "squirrel_kill49"
+    ],
+    [
+      "squirrel_kill50"
+    ],
+    [
+      "squirrel_kill51"
+    ],
+    [
+      "squirrel_kill52"
+    ],
+    [
+      "squirrel_kill53"
+    ],
+    [
+      "squirrel_kill54"
+    ],
+    [
+      "squirrel_kill55"
+    ],
+    [
+      "squirrel_kill56"
+    ],
+    [
+      "squirrel_kill57"
+    ],
+    [
+      "squirrel_kill58"
+    ],
+    [
+      "squirrel_kill59"
+    ],
+    [
+      "squirrel_kill60"
+    ],
+    [
+      "squirrel_kill61"
+    ],
+    [
+      "squirrel_kill62"
+    ],
+    [
+      "squirrel_kill63"
+    ],
+    [
+      "squirrel_kill64"
+    ],
+    [
+      "squirrel_kill65"
+    ],
+    [
+      "squirrel_kill66"
+    ],
+    [
+      "squirrel_kill67"
+    ],
+    [
+      "squirrel_kill68"
+    ],
+    [
+      "squirrel_kill69"
+    ],
+    [
+      "squirrel_kill70"
+    ],
+    [
+      "squirrel_kill71"
+    ],
+    [
+      "squirrel_kill72"
+    ],
+    [
+      "squirrel_kill73"
+    ],
+    [
+      "squirrel_kill74"
+    ],
+    [
+      "squirrel_kill75"
+    ],
+    [
+      "squirrel_kill76"
+    ],
+    [
+      "squirrel_kill77"
+    ],
+    [
+      "squirrel_kill78"
+    ],
+    [
+      "squirrel_kill79"
+    ],
+    [
+      "squirrel_kill80"
+    ],
+    [
+      "squirrel_kill81"
+    ],
+    [
+      "squirrel_kill82"
+    ],
+    [
+      "squirrel_kill83"
+    ],
+    [
+      "squirrel_kill84"
+    ],
+    [
+      "squirrel_kill85"
+    ],
+    [
+      "squirrel_kill86"
+    ],
+    [
+      "squirrel_kill87"
+    ],
+    [
+      "squirrel_kill88"
+    ],
+    [
+      "squirrel_kill89"
+    ],
+    [
+      "squirrel_kill90"
+    ],
+    [
+      "squirrel_kill91"
+    ],
+    [
+      "squirrel_kill92"
+    ],
+    [
+      "squirrel_kill93"
+    ],
+    [
+      "squirrel_kill94"
+    ],
+    [
+      "squirrel_kill95"
+    ],
+    [
+      "squirrel_kill96"
+    ],
+    [
+      "squirrel_kill97"
+    ],
+    [
+      "squirrel_kill98"
+    ],
+    [
+      "squirrel_kill99"
+    ],
+    [
+      "squirrel_kill100"
+    ]
+  ],
+    "parent": "betteranimalsplus:root"
+}
