@@ -166,7 +166,7 @@ public class EntityLamprey extends EntityWaterMobWithTypes implements IMob {
 
     @Override
     public void dismountEntity(Entity entity) {
-        if(entity.canBeRiddenInWater(this) || this.getAttackTarget() == null) {
+        if((entity.canBeRiddenInWater(this) || this.getAttackTarget() == null) && this.world.isAreaLoaded(this.getPosition(), 10)) {
             super.dismountEntity(entity);
         }
     }
