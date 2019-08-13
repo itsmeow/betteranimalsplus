@@ -18,6 +18,7 @@ import its_meow.betteranimalsplus.init.ModEntities;
 import its_meow.betteranimalsplus.init.ModItems;
 import its_meow.betteranimalsplus.init.ModLootTables;
 import its_meow.betteranimalsplus.init.ModOreDictSmelting;
+import its_meow.betteranimalsplus.init.ModTriggers;
 import its_meow.betteranimalsplus.integration.BaubleIntegration;
 import its_meow.betteranimalsplus.network.ClientConfigurationPacket;
 import its_meow.betteranimalsplus.util.EntityContainer;
@@ -94,6 +95,7 @@ public class BetterAnimalsPlusMod {
         BetterAnimalsPlusConfig.readConfig(true);
         NETWORK_INSTANCE.registerMessage(ClientConfigurationPacket.class, ClientConfigurationPacket.class, packets++, Side.CLIENT);
         ModLootTables.register();
+        ModTriggers.register();
 
         if(Loader.isModLoaded("baubles")) {
             // fuk u JVM get rekt

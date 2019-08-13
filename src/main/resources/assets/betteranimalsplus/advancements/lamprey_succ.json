@@ -1,0 +1,39 @@
+{
+    "display": {
+        "title": {
+        	"text": "Unpleasant Sucking",
+        	"color": "green",
+        	"bold": false
+        },
+        "description": [
+            {"text":"Get too close to a lamprey\n","color":"gray"},
+            {"text":"Oh my god! What is that!?!?","italic":true,"color":"white"}
+        ],
+        "icon": {
+            "item": "minecraft:spawn_egg",
+            "nbt": "{\"EntityTag\":{\"id\":\"betteranimalsplus:lamprey\"}}"
+        },
+        "frame": "task",
+        "show_toast": true,
+        "announce_to_chat": true,
+        "hidden": false
+    },
+    "criteria": {
+        "lamprey_succ": {
+            "trigger": "minecraft:entity_hurt_player",
+            "conditions": {
+                "damage": {
+                    "source_entity": {
+                        "type": "betteranimalsplus:lamprey"
+                    }
+                }
+            }
+        }
+    },
+    "requirements": [
+        [
+            "lamprey_succ"
+        ]
+    ],
+    "parent": "betteranimalsplus:root"
+}

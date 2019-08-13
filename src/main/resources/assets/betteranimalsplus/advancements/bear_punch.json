@@ -1,0 +1,31 @@
+{
+    "display": {
+        "title": [
+        {"text": "Un","color": "green","bold": false},
+        {"text": "bear","color": "green","bold": true},
+        {"text": "able Death Soon","color": "green","bold": false}
+        ],
+        "description": [
+            {"text":"Punch a bear\n","color":"gray"},
+            {"text":"What have you done?","italic":true,"color":"white"}
+        ],
+        "icon": {
+            "item": "betteranimalsplus:bearhead_1"
+        },
+        "frame": "task",
+        "show_toast": true,
+        "announce_to_chat": true,
+        "hidden": false
+    },
+    "criteria": {
+        "punch_bear": {
+            "trigger": "betteranimalsplus:punch_bear"
+        }
+    },
+    "requirements": [
+        [
+            "punch_bear"
+        ]
+    ],
+    "parent": "betteranimalsplus:root"
+}

@@ -1,0 +1,32 @@
+{
+    "display": {
+        "title": {
+        	"text": "Evil Ritual",
+        	"color": "dark_red",
+        	"bold": true
+        },
+        "description": [
+            {"text":"Use the Hand Of Fate to spawn the Hirschgeist\n","color":"gray"},
+            {"text":"You have pleased Manos, and he rewards you with a ghost deer. Congratulations.\n\n","italic":true,"color":"white"},
+            {"text":"Growth of soulsand and the remains of the deer, combined with fire, and a hand of fear, will summon the Hirschgeist- from its world to here.","italic":false,"color":"dark_gray"}
+        ],
+        "icon": {
+            "item": "betteranimalsplus:handoffate"
+        },
+        "frame": "goal",
+        "show_toast": true,
+        "announce_to_chat": true,
+        "hidden": false
+    },
+    "criteria": {
+        "summon_hg": {
+            "trigger": "betteranimalsplus:hand_of_fate_summon"
+        }
+    },
+    "requirements": [
+        [
+            "summon_hg"
+        ]
+    ],
+    "parent": "betteranimalsplus:root"
+}

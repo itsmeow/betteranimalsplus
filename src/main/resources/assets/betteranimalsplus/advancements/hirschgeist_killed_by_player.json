@@ -1,0 +1,45 @@
+
+
+{
+  "display": {
+    "title": {
+      "text": "Even Deader?",
+      "color": "gold",
+      "bold": true
+    },
+    "description": [
+      {
+        "text": "Succeed in your battle against the deer god\n",
+        "color": "gray"
+      },
+      {
+        "text": "You had a bone to pick- and you won! Congratulations.",
+        "italic": true,
+        "color": "gold"
+      }
+    ],
+    "icon": {
+      "item": "betteranimalsplus:hirschgeistskull_1"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "hg_killed": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "entity": {
+          "type": "betteranimalsplus:hirschgeist"
+        }
+      }
+    }
+  },
+  "requirements": [
+    [
+      "hg_killed"
+    ]
+  ],
+  "parent": "betteranimalsplus:hand_of_fate_summon"
+}

@@ -1,0 +1,54 @@
+{
+    "display": {
+        "title": [
+        {"text": "Un","color": "green","bold": false},
+        {"text": "bear","color": "green","bold": true},
+        {"text": "able Death Now","color": "green","bold": false}
+        ],
+        "description": [
+            {"text":"Get killed by a bear\n","color":"gray"},
+            {"text":"Not so macho, but I'm sure you're working on it!","italic":true,"color":"white"}
+        ],
+        "icon": {
+            "item": "betteranimalsplus:bearhead_3"
+        },
+        "frame": "task",
+        "show_toast": true,
+        "announce_to_chat": true,
+        "hidden": false
+    },
+    "criteria": {
+        "bear_kill1": {
+            "trigger": "minecraft:entity_killed_player",
+            "conditions": {
+                "entity": {
+                    "type": "betteranimalsplus:brownbear"
+                }
+            }
+        },
+        "bear_kill2": {
+            "trigger": "minecraft:entity_killed_player",
+            "conditions": {
+                "entity": {
+                    "type": "betteranimalsplus:blackbear"
+                }
+            }
+        },
+        "bear_kill3": {
+            "trigger": "minecraft:entity_killed_player",
+            "conditions": {
+                "entity": {
+                    "type": "minecraft:polar_bear"
+                }
+            }
+        }
+    },
+    "requirements": [
+        [
+            "bear_kill1",
+            "bear_kill2",
+            "bear_kill3"
+        ]
+    ],
+    "parent": "betteranimalsplus:bear_punch"
+}
