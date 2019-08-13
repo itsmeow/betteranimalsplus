@@ -1,0 +1,31 @@
+{
+  "display": {
+    "description": [
+      {"text":"Ride a reindeer\n","color":"gray"},
+      {"text":"That's a pretty odd horse...\n","color":"white","italic":true}
+    ],
+    "title": {
+      "text": "Strange Steed",
+      "bold": false,
+      "color": "green"
+    },
+    "icon": {
+      "item": "betteranimalsplus:reindeerhead_4"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "ride_reindeer": {
+      "trigger": "betteranimalsplus:ride_reindeer"
+    }
+  },
+  "requirements": [
+    [
+      "ride_reindeer"
+    ]
+  ],
+  "parent": "betteranimalsplus:root"
+}

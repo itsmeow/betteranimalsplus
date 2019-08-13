@@ -1,0 +1,43 @@
+{
+  "display": {
+    "description": [
+      {"text":"Kill a fox\n","color":"gray"},
+      {"text":"We once had the most beautiful foxes, you know. This video will teach you the ways.\n","color":"white","italic":true},
+      {"text": "https://www.youtube.com/watch?v=mcBE2z_8Zus", "color":"dark_gray"}
+    ],
+    "title": {
+      "text": "Doing Your Duty",
+      "bold": false,
+      "color": "green"
+    },
+    "icon": {
+      "item": "minecraft:diamond"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": true
+  },
+  "criteria": {
+    "kill_fox": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "entity": {
+          "type": "minecraft:fox"
+        }
+      }
+    },
+    "no_bam": {
+      "trigger": "betteranimalsplus:no_bam"
+    }
+  },
+  "requirements": [
+    [
+      "kill_fox"
+    ],
+    [
+      "no_bam"
+    ]
+  ],
+  "parent": "betteranimalsplus:root"
+}

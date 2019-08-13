@@ -1,0 +1,38 @@
+{
+    "display": {
+        "title": {
+        	"text": "Getting Crabby",
+        	"color": "red",
+        	"bold": false
+        },
+        "description": [
+            {"text":"Craft the secret crab rave disk\n","color":"gray"},
+            {"text":"Now we have to play it! Quick, get the crabs and a jukebox!","italic":true,"color":"white"}
+        ],
+        "icon": {
+            "item": "betteranimalsplus:record_crab_rave"
+        },
+        "frame": "goal",
+        "show_toast": true,
+        "announce_to_chat": true,
+        "hidden": true
+    },
+  "criteria": {
+        "get_disk": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "betteranimalsplus:record_crab_rave"
+                    }
+                ]
+            }
+        }
+    },
+    "requirements": [
+        [
+            "get_disk"
+        ]
+    ],
+    "parent": "betteranimalsplus:root"
+}

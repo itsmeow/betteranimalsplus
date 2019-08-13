@@ -9,6 +9,7 @@ import com.google.common.base.Predicate;
 
 import its_meow.betteranimalsplus.init.ModEntities;
 import its_meow.betteranimalsplus.init.ModLootTables;
+import its_meow.betteranimalsplus.init.ModTriggers;
 import its_meow.betteranimalsplus.util.HeadTypes;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -34,6 +35,7 @@ import net.minecraft.entity.ai.goal.SwimGoal;
 import net.minecraft.entity.ai.goal.WaterAvoidingRandomWalkingGoal;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -511,6 +513,9 @@ public class EntityReindeer extends AnimalEntity implements IJumpingMount, IVari
         player.rotationPitch = this.rotationPitch;
         this.setEatingHaystack(false);
         this.setRearing(false);
+        if(player instanceof ServerPlayerEntity) {
+            ModTriggers.RIDE_REINDEER.trigger((ServerPlayerEntity) player);
+        }
 
         if (!this.world.isRemote) {
             player.startRiding(this);

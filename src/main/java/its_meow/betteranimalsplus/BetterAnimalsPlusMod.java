@@ -10,6 +10,8 @@ import its_meow.betteranimalsplus.config.BetterAnimalsPlusConfig;
 import its_meow.betteranimalsplus.init.ModItems;
 import its_meow.betteranimalsplus.init.ModTriggers;
 import its_meow.betteranimalsplus.network.ClientConfigurationPacket;
+import its_meow.betteranimalsplus.network.ClientRequestBAMPacket;
+import its_meow.betteranimalsplus.network.ServerNoBAMPacket;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
@@ -24,6 +26,7 @@ import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.event.entity.player.PlayerEvent.PlayerLoggedInEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DeferredWorkQueue;
+import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
@@ -80,6 +83,14 @@ public class BetterAnimalsPlusMod {
 
     private void setup(final FMLCommonSetupEvent event) {
         HANDLER.registerMessage(packets++, ClientConfigurationPacket.class, ClientConfigurationPacket::encode, ClientConfigurationPacket::decode, ClientConfigurationPacket.Handler::handle);
+        HANDLER.registerMessage(packets++, ServerNoBAMPacket.class, (pkt, buf) -> {}, pkt -> {return new ServerNoBAMPacket();}, (pkt, ctx) -> {
+            ModTriggers.NO_BAM.trigger(ctx.get().getSender());
+        });
+        HANDLER.registerMessage(packets++, ClientRequestBAMPacket.class, (pkt, buf) -> {}, pkt -> {return new ClientRequestBAMPacket();}, (pkt, ctx) -> {
+            if(!ModList.get().isLoaded("betteranimals")) {
+                HANDLER.sendToServer(new ServerNoBAMPacket());
+            }
+        });
         DeferredWorkQueue.runLater(() -> {
             BiomeDictionary.getBiomes(BiomeDictionary.Type.SWAMP).forEach(biome -> biome.addFeature(net.minecraft.world.gen.GenerationStage.Decoration.VEGETAL_DECORATION,
             Biome.createDecoratedFeature(new TrilliumGenerator(), new NoFeatureConfig(), Placement.TOP_SOLID_HEIGHTMAP, IPlacementConfig.NO_PLACEMENT_CONFIG)));
@@ -91,6 +102,7 @@ public class BetterAnimalsPlusMod {
 	public static void onPlayerJoin(PlayerLoggedInEvent e) {
 	    if(e.getPlayer() instanceof ServerPlayerEntity) {
 	        HANDLER.sendTo(new ClientConfigurationPacket(BetterAnimalsPlusConfig.coyotesHostileDaytime, BetterAnimalsPlusConfig.getTameItemsMap()), ((ServerPlayerEntity) e.getPlayer()).connection.netManager, NetworkDirection.PLAY_TO_CLIENT);
+	        HANDLER.sendTo(new ClientRequestBAMPacket(), ((ServerPlayerEntity) e.getPlayer()).connection.netManager, NetworkDirection.PLAY_TO_CLIENT);
 	    }
 	}
 

@@ -88,6 +88,9 @@ public class CommonEventHandler {
                     }
                 } else if(held) {
                     List<EntityCrab> crabs = event.getWorld().getEntitiesWithinAABB(EntityCrab.class, event.getPlayer().getBoundingBox().grow(50));
+                    if(event.getPlayer() instanceof ServerPlayerEntity) {
+                        ModTriggers.USE_CRAB_DISK.trigger((ServerPlayerEntity) event.getPlayer());
+                    }
                     for(EntityCrab crab : crabs) {
                         crab.crabRave();
                     }

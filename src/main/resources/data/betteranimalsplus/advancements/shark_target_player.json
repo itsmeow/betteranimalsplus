@@ -1,0 +1,31 @@
+{
+    "display": {
+        "title": {
+        	"text": "Jaws",
+        	"color": "green",
+        	"bold": true
+        },
+        "description": [
+            {"text":"Get targeted by a shark\n","color":"gray"},
+            {"text":"Da-dun.... Da-dun...","color":"dark_red","italic":true,"bold":true}
+        ],
+        "icon": {
+            "item": "betteranimalsplus:shark_spawn_egg"
+        },
+        "frame": "task",
+        "show_toast": true,
+        "announce_to_chat": true,
+        "hidden": false
+    },
+  "criteria": {
+        "targeted": {
+            "trigger": "betteranimalsplus:shark_targeted"
+        }
+    },
+    "requirements": [
+        [
+            "targeted"
+        ]
+    ],
+    "parent": "betteranimalsplus:root"
+}

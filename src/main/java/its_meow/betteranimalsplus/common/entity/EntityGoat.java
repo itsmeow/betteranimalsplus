@@ -8,6 +8,7 @@ import its_meow.betteranimalsplus.config.BetterAnimalsPlusConfig;
 import its_meow.betteranimalsplus.init.ModEntities;
 import its_meow.betteranimalsplus.init.ModItems;
 import its_meow.betteranimalsplus.init.ModLootTables;
+import its_meow.betteranimalsplus.init.ModTriggers;
 import net.minecraft.block.BlockState;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
@@ -24,6 +25,7 @@ import net.minecraft.entity.ai.goal.RandomWalkingGoal;
 import net.minecraft.entity.ai.goal.SwimGoal;
 import net.minecraft.entity.ai.goal.TemptGoal;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -270,6 +272,9 @@ public class EntityGoat extends EntityAnimalEatsGrassWithTypes {
         @Override
         public void startExecuting() {
             this.goat.setAttackTarget(this.goat.friend.getAttackingEntity());
+            if(this.goat.friend instanceof ServerPlayerEntity) {
+                ModTriggers.GOAT_FIGHT_FRIEND.trigger((ServerPlayerEntity) this.goat.friend);
+            }
         }
 
         @Override
