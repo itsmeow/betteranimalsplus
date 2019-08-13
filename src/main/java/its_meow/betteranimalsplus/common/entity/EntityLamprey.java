@@ -19,8 +19,10 @@ import net.minecraft.entity.monster.EntitySkeleton;
 import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.passive.EntityWaterMob;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
+import net.minecraft.network.play.server.SPacketSetPassengers;
 import net.minecraft.pathfinding.PathNavigate;
 import net.minecraft.pathfinding.PathNavigateSwimmer;
 import net.minecraft.potion.Potion;
@@ -193,6 +195,9 @@ public class EntityLamprey extends EntityWaterMobWithTypes implements IMob {
     public void grabTarget(Entity entity) {
         if(entity == this.getAttackTarget() && !this.isRidingOrBeingRiddenBy(entity) && this.inWater) {
             this.startRiding(entity);
+            if(entity instanceof EntityPlayerMP) {
+               ((EntityPlayerMP) entity).connection.sendPacket(new SPacketSetPassengers(entity));
+            }
         }
     }
 
