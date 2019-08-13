@@ -1,0 +1,37 @@
+{
+  "display": {
+    "description": [
+      {"text":"Tame a Fox\n","color":"gray"},
+      {"text":"I mean, it LOOKS better. In the words of Ulandos, the new ones look like a: \"Retarded Squirrel\" [am I allowed to say that? it's a quote, I didn't say it!]\n","color":"white","italic":true},
+      {"text": "https://www.youtube.com/watch?v=mcBE2z_8Zus", "color":"dark_gray"}
+    ],
+    "title": {
+      "text": "Better Than 1.14!",
+      "bold": false,
+      "color": "green"
+    },
+    "icon": {
+      "item": "betteranimalsplus:foxhead_1"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "tame_fox": {
+      "trigger": "minecraft:tame_animal",
+      "conditions": {
+        "entity": {
+          "type": "betteranimalsplus:fox"
+        }
+      }
+    }
+  },
+  "requirements": [
+    [
+      "tame_fox"
+    ]
+  ],
+  "parent": "betteranimalsplus:root"
+}

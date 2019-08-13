@@ -1,10 +1,12 @@
 package its_meow.betteranimalsplus.common.entity;
 
+import its_meow.betteranimalsplus.init.ModTriggers;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.BlockPos;
@@ -105,6 +107,14 @@ public abstract class EntitySharkBase extends EntityBasicWaterCreature {
         }
 
         return flag;
+    }
+
+    @Override
+    public void setAttackTarget(EntityLivingBase entitylivingbaseIn) {
+        if(entitylivingbaseIn instanceof EntityPlayerMP) {
+            ModTriggers.SHARK_TARGETED.trigger((EntityPlayerMP) entitylivingbaseIn);
+        }
+        super.setAttackTarget(entitylivingbaseIn);
     }
 
 }

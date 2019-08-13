@@ -1,0 +1,36 @@
+{
+  "display": {
+    "description": [
+      {"text":"Tame a Lammergeier\n","color":"gray"},
+      {"text":"And anyone who stands in your way!","color":"white","italic":true}
+    ],
+    "title": {
+      "text": "One Who Breaks Bones",
+      "bold": false,
+      "color": "green"
+    },
+    "icon": {
+      "item": "minecraft:bone"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "tame_lammergeier": {
+      "trigger": "minecraft:tame_animal",
+      "conditions": {
+        "entity": {
+          "type": "betteranimalsplus:lammergeier"
+        }
+      }
+    }
+  },
+  "requirements": [
+    [
+      "tame_lammergeier"
+    ]
+  ],
+  "parent": "betteranimalsplus:root"
+}

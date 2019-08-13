@@ -1,0 +1,31 @@
+{
+  "display": {
+    "description": [
+      {"text":"Feed a goat, and then have it fight for you!\n","color":"gray"},
+      {"text":"pls give more food, i impaled zombs 4 u\n","color":"white","italic":true}
+    ],
+    "title": {
+      "text": "Thx 4 da food",
+      "bold": false,
+      "color": "green"
+    },
+    "icon": {
+      "item": "minecraft:wheat"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "goat_fight_friend": {
+      "trigger": "betteranimalsplus:goat_fight_friend"
+    }
+  },
+  "requirements": [
+    [
+      "goat_fight_friend"
+    ]
+  ],
+  "parent": "betteranimalsplus:goat_killed_player"
+}
