@@ -43,14 +43,14 @@ public class CommonEventHandler {
             TileEntity te = event.getWorld().getTileEntity(event.getPos());
             if(te instanceof JukeboxTileEntity) {
                 JukeboxTileEntity box = (JukeboxTileEntity) te;
-                boolean held = event.getEntityPlayer().getHeldItem(event.getHand()).getItem() == ModItems.RECORD_CRAB_RAVE;
+                boolean held = event.getPlayer().getHeldItem(event.getHand()).getItem() == ModItems.RECORD_CRAB_RAVE;
                 if(box.getRecord().getItem() == ModItems.RECORD_CRAB_RAVE) {
-                    List<EntityCrab> crabs = event.getWorld().getEntitiesWithinAABB(EntityCrab.class, event.getEntityPlayer().getBoundingBox().grow(50));
+                    List<EntityCrab> crabs = event.getWorld().getEntitiesWithinAABB(EntityCrab.class, event.getPlayer().getBoundingBox().grow(50));
                     for(EntityCrab crab : crabs) {
                         crab.unCrabRave();
                     }
                 } else if(held) {
-                    List<EntityCrab> crabs = event.getWorld().getEntitiesWithinAABB(EntityCrab.class, event.getEntityPlayer().getBoundingBox().grow(50));
+                    List<EntityCrab> crabs = event.getWorld().getEntitiesWithinAABB(EntityCrab.class, event.getPlayer().getBoundingBox().grow(50));
                     for(EntityCrab crab : crabs) {
                         crab.crabRave();
                     }
