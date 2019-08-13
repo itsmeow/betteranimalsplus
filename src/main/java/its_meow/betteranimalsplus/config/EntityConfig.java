@@ -108,7 +108,7 @@ public class EntityConfig {
                     if (entry.type == EntityClassification.WATER_CREATURE && EntitySpawnPlacementRegistry.getPlacementType((EntityType<? extends MobEntity>) type) == null) {
                         // This thing breaks every other day
                         try {
-                            EntitySpawnPlacementRegistry.<MobEntity>register((EntityType<MobEntity>) type, EntitySpawnPlacementRegistry.PlacementType.IN_WATER, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, (t, w, s, b, r) -> true);
+                            EntitySpawnPlacementRegistry.<MobEntity>register((EntityType<MobEntity>) type, EntitySpawnPlacementRegistry.PlacementType.IN_WATER, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, (t, w, s, b, r) -> b.getY() > 45 && b.getY() < w.getSeaLevel());
                         } catch(Exception e) { // Just in case
                             e.printStackTrace();
                         }
