@@ -10,8 +10,7 @@
             {"text":"Da-dun.... Da-dun...","color":"dark_red","italic":true,"bold":true}
         ],
         "icon": {
-            "item": "minecraft:spawn_egg",
-            "nbt": "{\"EntityTag\":{\"id\":\"betteranimalsplus:shark\"}}"
+            "item": "betteranimalsplus:advancement_icon_shark"
         },
         "frame": "task",
         "show_toast": true,

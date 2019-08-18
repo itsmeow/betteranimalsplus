@@ -10,8 +10,7 @@
             {"text":"A goat? Really?","italic":true,"color":"white"}
         ],
         "icon": {
-            "item": "minecraft:spawn_egg",
-            "nbt": "{\"EntityTag\":{\"id\":\"betteranimalsplus:goat\"}}"
+            "item": "betteranimalsplus:advancement_icon_goat"
         },
         "frame": "task",
         "show_toast": true,

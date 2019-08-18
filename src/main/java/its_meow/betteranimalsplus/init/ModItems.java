@@ -1,7 +1,11 @@
 package its_meow.betteranimalsplus.init;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import its_meow.betteranimalsplus.BetterAnimalsPlusMod;
 import its_meow.betteranimalsplus.Ref;
+import its_meow.betteranimalsplus.common.item.ItemAdvancementIcon;
 import its_meow.betteranimalsplus.common.item.ItemBearCape;
 import its_meow.betteranimalsplus.common.item.ItemBetterFood;
 import its_meow.betteranimalsplus.common.item.ItemHirschgeistSkullWearable;
@@ -48,4 +52,6 @@ public class ModItems {
         RECORD_CRAB_RAVE.setCreativeTab(null);
         RECORD_CRAB_RAVE.setUnlocalizedName("record");
     }
+    
+    public static Map<String, ItemAdvancementIcon> ADVANCEMENT_ICONS = new HashMap<String, ItemAdvancementIcon>();
 }

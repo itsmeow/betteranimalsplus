@@ -52,6 +52,7 @@ import its_meow.betteranimalsplus.common.entity.EntityTarantula;
 import its_meow.betteranimalsplus.common.entity.miniboss.hirschgeist.EntityHirschgeist;
 import its_meow.betteranimalsplus.common.entity.projectile.EntityBadgerDirt;
 import its_meow.betteranimalsplus.common.entity.projectile.EntityTarantulaHair;
+import its_meow.betteranimalsplus.common.item.ItemAdvancementIcon;
 import its_meow.betteranimalsplus.common.item.ItemBlockHeadType;
 import its_meow.betteranimalsplus.common.tileentity.TileEntityHandOfFate;
 import its_meow.betteranimalsplus.common.tileentity.TileEntityHead;
@@ -112,6 +113,10 @@ public class ClientRegistrar {
         initModel(ModItems.BEAR_CAPE_BLACK, 0);
         initModel(ModItems.BEAR_CAPE_BROWN, 0);
         initModel(ModItems.BEAR_CAPE_KERMODE, 0);
+        
+        for(ItemAdvancementIcon icon : ModItems.ADVANCEMENT_ICONS.values()) {
+            initModel(icon, 0);
+        }
         
         // Tile Entities
         
