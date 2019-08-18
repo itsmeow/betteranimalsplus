@@ -180,10 +180,12 @@ public class EntityLamprey extends EntityWaterMobWithTypes implements IMob {
 
     @Override
     public void dismountRidingEntity() {
-        if(this.getRidingEntity() != null && !this.getRidingEntity().shouldDismountInWater(this)) {
-            super.dismountRidingEntity();
-        } else if(this.getAttackTarget() == null) {
-            super.dismountRidingEntity();
+        if(this.world.isChunkGeneratedAt(this.chunkCoordX, this.chunkCoordZ)) {
+            if(this.getRidingEntity() != null && !this.getRidingEntity().shouldDismountInWater(this)) {
+                super.dismountRidingEntity();
+            } else if(this.getAttackTarget() == null) {
+                super.dismountRidingEntity();
+            }
         }
     }
 
@@ -196,7 +198,7 @@ public class EntityLamprey extends EntityWaterMobWithTypes implements IMob {
         if(entity == this.getAttackTarget() && !this.isRidingOrBeingRiddenBy(entity) && this.inWater) {
             this.startRiding(entity);
             if(entity instanceof EntityPlayerMP) {
-               ((EntityPlayerMP) entity).connection.sendPacket(new SPacketSetPassengers(entity));
+                ((EntityPlayerMP) entity).connection.sendPacket(new SPacketSetPassengers(entity));
             }
         }
     }
@@ -234,7 +236,7 @@ public class EntityLamprey extends EntityWaterMobWithTypes implements IMob {
     public int getVariantMax() {
         return 3;
     }
-    
+
     @Override
     protected ResourceLocation getLootTable() {
         return ModLootTables.lamprey;
