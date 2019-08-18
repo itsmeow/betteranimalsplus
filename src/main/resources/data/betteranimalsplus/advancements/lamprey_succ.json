@@ -10,7 +10,7 @@
             {"text":"Oh my god! What is that!?!?","italic":true,"color":"white"}
         ],
         "icon": {
-            "item": "betteranimalsplus:lamprey_spawn_egg"
+            "item": "betteranimalsplus:advancement_icon_lamprey"
         },
         "frame": "task",
         "show_toast": true,

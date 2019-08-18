@@ -74,7 +74,8 @@ public class BetterAnimalsPlusRegistrar {
         ModItems.PHEASANT_COOKED, ModItems.CRAB_MEAT_RAW, ModItems.CRAB_MEAT_COOKED, ModItems.WOLF_PELT_SNOWY, ModItems.WOLF_PELT_TIMBER, ModItems.WOLF_PELT_BLACK, 
         ModItems.WOLF_CAPE_CLASSIC, ModItems.WOLF_CAPE_TIMBER, ModItems.WOLF_CAPE_BLACK, ModItems.RECORD_CRAB_RAVE,
         ModItems.BEAR_SKIN_BROWN, ModItems.BEAR_SKIN_BLACK, ModItems.BEAR_SKIN_KERMODE, ModItems.BEAR_CAPE_BROWN, ModItems.BEAR_CAPE_BLACK, ModItems.BEAR_CAPE_KERMODE, 
-        new ItemAdvancementIcon("advancement_icon_jellyfish"), new ItemAdvancementIcon("advancement_icon_jellyfish_cross"), new ItemAdvancementIcon("advancement_icon_goat"), new ItemAdvancementIcon("advancement_icon_shark"));
+        new ItemAdvancementIcon("advancement_icon_jellyfish"), new ItemAdvancementIcon("advancement_icon_jellyfish_cross"), new ItemAdvancementIcon("advancement_icon_goat"), 
+        new ItemAdvancementIcon("advancement_icon_shark"), new ItemAdvancementIcon("advancement_icon_lamprey"), new ItemAdvancementIcon("advancement_icon_squirrel"), new ItemAdvancementIcon("advancement_icon_badger"));
 
         for (EntityContainer<?> ent : ModEntities.entityList) {
             ItemBetterAnimalsPlusEgg egg = new ItemBetterAnimalsPlusEgg(ModEntities.getEntityType(ent.entityName),
