@@ -19,7 +19,7 @@
       }
     ],
     "icon": {
-      "item": "betteranimalsplus:jellyfish_spawn_egg"
+        "item": "betteranimalsplus:advancement_icon_jellyfish_cross"
     },
     "frame": "task",
     "show_toast": true,

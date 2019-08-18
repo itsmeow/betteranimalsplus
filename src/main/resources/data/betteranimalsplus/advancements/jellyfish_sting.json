@@ -10,7 +10,7 @@
             {"text":"You should've listened to mom, don't touch the jellyfish! Also, no, PLEASE don't pee on the sting!","italic":true,"color":"white"}
         ],
         "icon": {
-            "item": "betteranimalsplus:jellyfish_spawn_egg"
+            "item": "betteranimalsplus:advancement_icon_jellyfish"
         },
         "frame": "task",
         "show_toast": true,
