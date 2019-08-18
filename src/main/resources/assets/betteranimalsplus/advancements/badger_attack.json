@@ -10,8 +10,7 @@
             {"text":"Honey badger don't care!","italic":true,"color":"white"}
         ],
         "icon": {
-            "item": "minecraft:spawn_egg",
-            "nbt": "{\"EntityTag\":{\"id\":\"betteranimalsplus:badger\"}}"
+            "item": "betteranimalsplus:advancement_icon_badger"
         },
         "frame": "task",
         "show_toast": true,

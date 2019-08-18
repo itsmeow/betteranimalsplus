@@ -10,8 +10,7 @@
             {"text":"I know this is an advancement, but you really don't have to get all of the advancements. Please stop.","italic":true,"color":"white"}
         ],
         "icon": {
-            "item": "minecraft:spawn_egg",
-            "nbt": "{\"EntityTag\":{\"id\":\"betteranimalsplus:squirrel\"}}"
+            "item": "betteranimalsplus:advancement_icon_squirrel"
         },
         "frame": "challenge",
         "show_toast": true,

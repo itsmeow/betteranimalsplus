@@ -10,8 +10,7 @@
             {"text":"Oh my god! What is that!?!?","italic":true,"color":"white"}
         ],
         "icon": {
-            "item": "minecraft:spawn_egg",
-            "nbt": "{\"EntityTag\":{\"id\":\"betteranimalsplus:lamprey\"}}"
+            "item": "betteranimalsplus:advancement_icon_lamprey"
         },
         "frame": "task",
         "show_toast": true,
