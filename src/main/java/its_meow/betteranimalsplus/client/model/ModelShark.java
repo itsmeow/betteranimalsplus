@@ -222,6 +222,15 @@ public class ModelShark extends ModelBase {
 
     @Override
     public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) {
+        if ((Math.abs(entity.motionY) > 0 && (Math.abs(entity.motionX) > 0.05 || Math.abs(entity.motionZ) > 0.05)) || Math.abs(entity.motionY) > 0.25) {
+            float rotX = -((float) Math.atan(entity.motionY / Math.sqrt(Math.pow(entity.motionX, 2) + Math.pow(entity.motionZ, 2))) / 1.5F);
+            if (rotX < 0) {
+                rotX /= 3;
+            }
+            this.body.rotateAngleX = rotX + 0.022863813201125717F;
+        } else {
+            this.body.rotateAngleX = 0.022863813201125717F;
+        }
         if(entity.motionX > 0.02F || entity.motionZ > 0.02F) {
             float mul = 100F;
             this.tail00.rotateAngleY = MathHelper.cos(f2 * 0.0025F * mul) * 0.15F;
