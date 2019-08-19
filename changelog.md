@@ -1,3 +1,14 @@
+7.1.0
+-
+- Added 25 advancements
+- Entities killed by lamprey no longer drop items, to reduce clutter and lag
+- Updated shark animations so their pitch relative to their trajectory
+- Fixed lamprey not syncing grabs properly since 7.0.2
+- Updated Chinese (simplified) translation
+- 1.14: Fixed placement conditions for water entities (fixes things spawning outside of water)
+- 1.14: Defer addition of biome generation features to prevent concurrent modification (fixes crash during loading sometimes)
+- 1.14: Fix dismount firing on lampreys if the chunk is not loaded (fixes crash when loading new areas)
+
 7.0.2
 -
 - Updated German Translation
