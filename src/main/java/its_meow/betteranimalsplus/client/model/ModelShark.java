@@ -222,6 +222,15 @@ public class ModelShark<T extends LivingEntity> extends EntityModel<T> {
 
     @Override
     public void render(T entity, float f, float f1, float f2, float f3, float f4, float f5) {
+        if ((Math.abs(entity.getMotion().getY()) > 0 && (Math.abs(entity.getMotion().getX()) > 0.05 || Math.abs(entity.getMotion().getZ()) > 0.05)) || Math.abs(entity.getMotion().getY()) > 0.25) {
+            float rotX = -((float) Math.atan(entity.getMotion().getY() / Math.sqrt(Math.pow(entity.getMotion().getX(), 2) + Math.pow(entity.getMotion().getZ(), 2))) / 1.5F);
+            if (rotX < 0) {
+                rotX /= 3;
+            }
+            this.body.rotateAngleX = rotX + 0.022863813201125717F;
+        } else {
+            this.body.rotateAngleX = 0.022863813201125717F;
+        }
         if(entity.getMotion().getX() > 0.02F || entity.getMotion().getZ() > 0.02F) {
             float mul = 100F;
             this.tail00.rotateAngleY = MathHelper.cos(f2 * 0.0025F * mul) * 0.15F;
