@@ -741,7 +741,7 @@ public class EntityLammergeier extends EntityTameableFlying implements IVariantT
             } else {
                 LivingEntity entitylivingbase = this.parentEntity.getAttackTarget();
 
-                if (entitylivingbase.getDistance(this.parentEntity) < 80.0D) {
+                if (entitylivingbase.getDistance(this.parentEntity) < 80.0D && entitylivingbase.isAlive()) {
                     double d1 = entitylivingbase.posX - this.parentEntity.posX;
                     double d2 = entitylivingbase.posZ - this.parentEntity.posZ;
                     this.parentEntity.rotationYaw = -((float) MathHelper.atan2(d1, d2)) * (180F / (float) Math.PI);
@@ -752,10 +752,10 @@ public class EntityLammergeier extends EntityTameableFlying implements IVariantT
                         this.parentEntity.getMotion().getZ())) * (180F / (float) Math.PI);
                         this.parentEntity.renderYawOffset = this.parentEntity.rotationYaw;
                     } else {
-                        if (entitylivingbase != null) {
-                            if (entitylivingbase.getDistanceSq(this.parentEntity) < 4096.0D) {
-                                double d1 = entitylivingbase.posX - this.parentEntity.posX;
-                                double d2 = entitylivingbase.posZ - this.parentEntity.posZ;
+                        if (this.parentEntity.getOwner() != null) {
+                            if (this.parentEntity.getOwner().getDistanceSq(this.parentEntity) < 4096.0D) {
+                                double d1 = this.parentEntity.getOwner().posX - this.parentEntity.posX;
+                                double d2 = this.parentEntity.getOwner().posZ - this.parentEntity.posZ;
                                 this.parentEntity.rotationYaw = -((float) MathHelper.atan2(d1, d2))
                                 * (180F / (float) Math.PI);
                                 this.parentEntity.renderYawOffset = this.parentEntity.rotationYaw;
