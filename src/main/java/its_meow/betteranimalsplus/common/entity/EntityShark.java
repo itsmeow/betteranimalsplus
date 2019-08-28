@@ -42,9 +42,21 @@ public class EntityShark extends EntitySharkBase implements IVariantTypes {
         this.tasks.addTask(1, new EntityAIWatchClosest(this, EntityLiving.class, 15F));
         this.tasks.addTask(2, new EntityAIWanderWaterEntity(this, 0.65D));
         this.targetTasks.addTask(1, new EntityAIFindEntityNearestPredicate(this, EntityLiving.class, Predicates.alwaysTrue(), true));
-        this.targetTasks.addTask(1, new EntityAIFindEntityNearestPredicate(this, EntityPlayer.class, entity -> {
-            return this.shouldAttackForHealth(entity.getHealth());
-        }, true));
+        this.targetTasks.addTask(1, new EntityAIFindEntityNearestPredicate(this, EntityPlayer.class, e -> this.shouldAttackForHealth(e.getHealth()), true));
+    }
+
+    @Override
+    public boolean attackEntityFrom(DamageSource source, float amount) {
+        if(super.attackEntityFrom(source, amount)) {
+            if(source.getTrueSource() instanceof EntityPlayer) {
+                EntityPlayer player = (EntityPlayer) source.getTrueSource();
+                if(!player.capabilities.isCreativeMode && !player.isInvisible()) {
+                    this.setAttackTarget(player);
+                }
+            }
+            return true;
+        }
+        return false;
     }
 
     public boolean shouldAttackForHealth(float health) {
