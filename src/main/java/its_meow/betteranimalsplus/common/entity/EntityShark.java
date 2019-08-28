@@ -101,7 +101,7 @@ public class EntityShark extends EntitySharkBase implements IVariantTypes {
                 if(isBoat) {
                     BoatEntity boat = (BoatEntity) this.getAttackTarget().getRidingEntity();
                     boat.attackEntityFrom(DamageSource.causeMobDamage(this), 3F);
-                } else if(!this.getAttackTarget().isInvulnerable()) {
+                } else if(!this.getAttackTarget().isInvulnerable() && this.getAttackTarget().getWidth() < 2.5 && this.getAttackTarget().getHeight() < 2.5) {
                     if (this.getAttackTarget() instanceof MobEntity) {
                         MobEntity el = (MobEntity) this.getAttackTarget();
                         el.setAttackTarget(null);
@@ -110,6 +110,8 @@ public class EntityShark extends EntitySharkBase implements IVariantTypes {
                         el.setNoAI(true);
                     }
                     this.getAttackTarget().startRiding(this, false);
+                } else if(!this.getAttackTarget().isInvulnerable()) {
+                    this.attackEntityAsMob(this.getAttackTarget());
                 }
                 lastGrab = this.ticksExisted;
             } else {
