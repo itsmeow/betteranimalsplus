@@ -161,4 +161,9 @@ public class EntityPheasant extends EntityAnimalWithTypes {
         return new EntityPheasant(this.world);
     }
 
+    @Override
+    protected String getContainerName() {
+        return "pheasant";
+    }
+
 }

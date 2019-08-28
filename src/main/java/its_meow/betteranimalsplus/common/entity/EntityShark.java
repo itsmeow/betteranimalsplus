@@ -179,4 +179,9 @@ public class EntityShark extends EntitySharkBase implements IVariantTypes {
         return ModLootTables.SHARK;
     }
 
+    @Override
+    protected String getContainerName() {
+        return "shark";
+    }
+
 }

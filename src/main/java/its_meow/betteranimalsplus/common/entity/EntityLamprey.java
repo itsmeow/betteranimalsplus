@@ -218,4 +218,9 @@ public class EntityLamprey extends EntityWaterMobWithTypes implements IMob {
         return ModLootTables.lamprey;
     }
 
+    @Override
+    protected String getContainerName() {
+        return "lamprey";
+    }
+
 }

@@ -202,6 +202,11 @@ public class EntityBear extends MonsterEntity {
             return 10.0F + attackTarget.getWidth();
         }
     }
+    
+    @Override
+    public boolean canDespawn(double range) {
+        return ModEntities.entityMap.containsKey("brownbear") ? ModEntities.entityMap.get("brownbear").despawn : false;
+    }
 
     @Override
     public ILivingEntityData onInitialSpawn(IWorld world, DifficultyInstance difficulty, SpawnReason reason, ILivingEntityData entityLivingData,

@@ -69,5 +69,10 @@ public class EntityTarantula extends SpiderEntity implements IRangedAttackMob {
         this.setLocationAndAngles(this.posX, this.posY, this.posZ, this.rotationYaw, 0F);
         return super.onInitialSpawn(world, difficulty, reason, entityLivingData, itemNbt);
     }
+    
+    @Override
+    public boolean canDespawn(double range) {
+        return ModEntities.entityMap.containsKey("tarantula") ? ModEntities.entityMap.get("tarantula").despawn : false;
+    }
 
 }

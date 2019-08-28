@@ -148,7 +148,7 @@ public class EntityCoyote extends EntityFeralWolf {
                 this.navigator.clearPath();
                 this.setAttackTarget((LivingEntity) null);
             }
-        } else if (isTamingItem("coyote", itemstack.getItem())) {
+        } else if(this.isTamingItem(itemstack.getItem())) {
             if(BetterAnimalsPlusConfig.coyotesHostileDaytime) {
                 if (!this.world.isRemote) {
                     player.sendMessage(new StringTextComponent("This coyote is always hostile. It cannot be tamed (server configuration)"));
@@ -185,6 +185,11 @@ public class EntityCoyote extends EntityFeralWolf {
         }
 
         return false;
+    }
+
+    @Override
+    protected String getContainerName() {
+        return "coyote";
     }
 
     @Override

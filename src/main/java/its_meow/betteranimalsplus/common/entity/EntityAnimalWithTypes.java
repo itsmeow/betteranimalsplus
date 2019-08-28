@@ -4,6 +4,7 @@ import java.util.Random;
 
 import javax.annotation.Nullable;
 
+import its_meow.betteranimalsplus.init.ModEntities;
 import net.minecraft.entity.AgeableEntity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ILivingEntityData;
@@ -77,6 +78,13 @@ public abstract class EntityAnimalWithTypes extends AnimalEntity implements IVar
     @Override
     public DataParameter<Integer> getDataKey() {
         return TYPE_NUMBER;
+    }
+    
+    protected abstract String getContainerName();
+
+    @Override
+    public boolean canDespawn(double range) {
+        return ModEntities.entityMap.containsKey(this.getContainerName()) ? ModEntities.entityMap.get(this.getContainerName()).despawn : false;
     }
     
 }

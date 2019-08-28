@@ -34,4 +34,9 @@ public class EntityHorseshoeCrab extends EntityCrabLikeBase {
         return null;
     }
 
+    @Override
+    protected String getContainerName() {
+        return "horseshoecrab";
+    }
+
 }

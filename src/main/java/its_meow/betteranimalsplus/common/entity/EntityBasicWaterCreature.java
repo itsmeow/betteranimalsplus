@@ -1,5 +1,6 @@
 package its_meow.betteranimalsplus.common.entity;
 
+import its_meow.betteranimalsplus.init.ModEntities;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.MoverType;
 import net.minecraft.entity.passive.WaterMobEntity;
@@ -8,7 +9,7 @@ import net.minecraft.pathfinding.SwimmerPathNavigator;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
-public class EntityBasicWaterCreature extends WaterMobEntity {
+public abstract class EntityBasicWaterCreature extends WaterMobEntity {
 
     public EntityBasicWaterCreature(EntityType<? extends WaterMobEntity> type, World world) {
         super(type, world);
@@ -44,5 +45,13 @@ public class EntityBasicWaterCreature extends WaterMobEntity {
             }
         }
     }
+
+    protected abstract String getContainerName();
+
+    @Override
+    public boolean canDespawn(double range) {
+        return ModEntities.entityMap.containsKey(this.getContainerName()) ? ModEntities.entityMap.get(this.getContainerName()).despawn : false;
+    }
+
 
 }

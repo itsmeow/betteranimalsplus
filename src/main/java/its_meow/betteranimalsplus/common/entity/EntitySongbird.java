@@ -183,4 +183,9 @@ public class EntitySongbird extends EntityAnimalWithSelectiveTypes implements IF
         }
     }
 
+    @Override
+    protected String getContainerName() {
+        return "songbird";
+    }
+
 }

@@ -84,4 +84,9 @@ public class EntityNautilus extends WaterMobEntity {
         return ModLootTables.NAUTILUS;
     }
 
+    @Override
+    public boolean canDespawn(double range) {
+        return ModEntities.entityMap.containsKey("nautilus") ? ModEntities.entityMap.get("nautilus").despawn : false;
+    }
+
 }

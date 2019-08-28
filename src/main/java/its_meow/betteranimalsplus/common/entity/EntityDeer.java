@@ -143,4 +143,9 @@ public class EntityDeer extends EntityAnimalEatsGrassWithTypes {
         return new EntityDeer(this.world);
     }
 
+    @Override
+    protected String getContainerName() {
+        return "deer";
+    }
+
 }

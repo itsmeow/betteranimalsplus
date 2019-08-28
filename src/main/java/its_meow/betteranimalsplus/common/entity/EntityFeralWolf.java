@@ -379,7 +379,7 @@ public class EntityFeralWolf extends EntityTameableWithSelectiveTypes implements
                 this.navigator.clearPath();
                 this.setAttackTarget((LivingEntity) null);
             }
-        } else if(isTamingItem("feralwolf", itemstack.getItem())) {
+        } else if(this.isTamingItem(itemstack.getItem())) {
             boolean wearingPowerHead = false;
             ItemStack stack = player.getItemStackFromSlot(EquipmentSlotType.HEAD);
             if(stack.getItem() == Items.DRAGON_HEAD) {
@@ -524,6 +524,11 @@ public class EntityFeralWolf extends EntityTameableWithSelectiveTypes implements
         case 3: return ModLootTables.WOLF_TIMBER;
         default: return super.getLootTable();
         }
+    }
+
+    @Override
+    protected String getContainerName() {
+        return "feralwolf";
     }
 
 }

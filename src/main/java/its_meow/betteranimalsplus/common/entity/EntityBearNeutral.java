@@ -131,5 +131,10 @@ public class EntityBearNeutral extends EntityBear implements IVariantTypes {
         default: return ModLootTables.BEAR_BLACK;
         }
     }
+    
+    @Override
+    public boolean canDespawn(double range) {
+        return ModEntities.entityMap.containsKey("blackbear") ? ModEntities.entityMap.get("blackbear").despawn : false;
+    }
 
 }

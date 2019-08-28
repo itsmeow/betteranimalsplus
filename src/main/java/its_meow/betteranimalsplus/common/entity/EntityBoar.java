@@ -275,4 +275,9 @@ public class EntityBoar extends EntityAnimalWithSelectiveTypes implements IMob {
         }
     }
 
+    @Override
+    protected String getContainerName() {
+        return "boar";
+    }
+
 }

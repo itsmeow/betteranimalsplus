@@ -13,8 +13,8 @@ public abstract class EntityTameableBetterAnimalsPlus extends TameableEntity {
         super(type, world);
     }
 
-    public static boolean isTamingItem(String type, Item item) {
-        EntityContainer<?> container = ModEntities.entityMap.get(type);
+    public boolean isTamingItem(Item item) {
+        EntityContainer<?> container = ModEntities.entityMap.get(this.getContainerName());
         if(container != null) {
             String[] items = container.tameItems;
             String id = item.getRegistryName().toString();
@@ -25,6 +25,13 @@ public abstract class EntityTameableBetterAnimalsPlus extends TameableEntity {
             }
         }
         return false;
+    }
+    
+    protected abstract String getContainerName();
+
+    @Override
+    public boolean canDespawn(double range) {
+        return ModEntities.entityMap.containsKey(this.getContainerName()) ? ModEntities.entityMap.get(this.getContainerName()).despawn : false;
     }
 
 }

@@ -321,4 +321,9 @@ public class EntityGoat extends EntityAnimalEatsGrassWithTypes {
         return new EntityGoat(this.world);
     }
 
+    @Override
+    protected String getContainerName() {
+        return "goat";
+    }
+
 }
