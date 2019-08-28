@@ -7,7 +7,7 @@
                 {
 					"type": "item",
 					"name": "minecraft:cod",
-					"weight": 500,
+					"weight": 24,
 					"functions": [
 						{
 							"function": "set_count",
