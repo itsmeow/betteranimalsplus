@@ -766,7 +766,7 @@ public class EntityLammergeier extends EntityTameableFlying implements IVariantT
         @Override
         public boolean shouldExecute() {
             MovementController entitymovehelper = this.parentEntity.getMoveHelper();
-            if (this.parentEntity.isTamed()) {
+            if (this.parentEntity.isTamed() || !this.parentEntity.getFlying()) {
                 return false;
             }
             if (this.parentEntity.getAttackTarget() == null) {

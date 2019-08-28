@@ -15,6 +15,7 @@ public class LammerMoveHelper extends MovementController {
 
     public void tick() {
         if (this.action != MovementController.Action.MOVE_TO) {
+            this.parentEntity.setMotion(0, 0, 0);
             return;
         }
 
