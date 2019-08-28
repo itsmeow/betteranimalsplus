@@ -17,20 +17,20 @@ public class ModTriggers {
     public static final CustomTrigger RIDE_REINDEER = new CustomTrigger(Ref.MOD_ID + ":ride_reindeer");
     public static final CustomTrigger GOAT_FIGHT_FRIEND = new CustomTrigger(Ref.MOD_ID + ":goat_fight_friend");
     public static final CustomTrigger NO_BAM = new CustomTrigger(Ref.MOD_ID + ":no_bam");
+    public static final CustomTrigger BADGERDIRT_IMPACT = new CustomTrigger(Ref.MOD_ID + ":badgerdirt_impact");
     public static final Map<Integer, CustomTrigger> SQUIRREL_KILL_TRIGGERS = new HashMap<Integer, CustomTrigger>();
 
     public static void register() {
-        CriteriaTriggers.register(HAND_OF_FATE_SUMMON);
-        CriteriaTriggers.register(PUNCH_BEAR);
-        CriteriaTriggers.register(PUNCH_BEAR_DEATH);
-        CriteriaTriggers.register(USE_CRAB_DISK);
-        CriteriaTriggers.register(SHARK_TARGETED);
-        CriteriaTriggers.register(RIDE_REINDEER);
-        CriteriaTriggers.register(GOAT_FIGHT_FRIEND);
-        CriteriaTriggers.register(NO_BAM);
+        registerTriggers(HAND_OF_FATE_SUMMON,PUNCH_BEAR, PUNCH_BEAR_DEATH, USE_CRAB_DISK, SHARK_TARGETED, RIDE_REINDEER, GOAT_FIGHT_FRIEND, NO_BAM, BADGERDIRT_IMPACT);
         for(int i = 1; i <= 100; i++) {
             CustomTrigger trigger = new CustomTrigger(Ref.MOD_ID + ":squirrel_kill" + i);
             SQUIRREL_KILL_TRIGGERS.put(i, trigger);
+            CriteriaTriggers.register(trigger);
+        }
+    }
+    
+    private static void registerTriggers(CustomTrigger... triggers) {
+        for(CustomTrigger trigger : triggers) {
             CriteriaTriggers.register(trigger);
         }
     }

@@ -19,14 +19,7 @@
     },
     "criteria": {
         "badger_attack": {
-            "trigger": "minecraft:entity_hurt_player",
-            "conditions": {
-                "damage": {
-                    "direct_entity": {
-                        "type": "betteranimalsplus:badgerdirt"
-                    }
-                }
-            }
+            "trigger": "betteranimalsplus:badgerdirt_impact"
         }
     },
     "requirements": [

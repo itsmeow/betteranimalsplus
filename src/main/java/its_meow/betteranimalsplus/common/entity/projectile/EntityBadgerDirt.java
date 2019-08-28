@@ -1,11 +1,13 @@
 package its_meow.betteranimalsplus.common.entity.projectile;
 
 import its_meow.betteranimalsplus.init.ModEntities;
+import its_meow.betteranimalsplus.init.ModTriggers;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.entity.projectile.ThrowableEntity;
 import net.minecraft.network.IPacket;
 import net.minecraft.particles.BlockParticleData;
@@ -69,6 +71,10 @@ public class EntityBadgerDirt extends ThrowableEntity {
                     }
                     player.addPotionEffect(new EffectInstance(Effects.BLINDNESS, blindnessTicks, 2, false, false));
                 }
+            }
+
+            if(rayR.getEntity() instanceof ServerPlayerEntity) {
+                ModTriggers.BADGERDIRT_IMPACT.trigger((ServerPlayerEntity) rayR.getEntity());
             }
         }
 
