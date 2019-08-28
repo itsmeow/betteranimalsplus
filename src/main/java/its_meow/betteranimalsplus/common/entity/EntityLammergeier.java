@@ -111,7 +111,7 @@ public class EntityLammergeier extends EntityTameableFlying implements IVariantT
         this.aiSit = new SitGoal(this);
         this.goalSelector.addGoal(1, this.aiSit);
         this.goalSelector.addGoal(2, new EntityLammergeier.AIMeleeAttack(this));
-        this.goalSelector.addGoal(3, new EntityAIFollowOwnerFlying(this, 0.5D, 10.0F, 50.0F));
+        this.goalSelector.addGoal(3, new EntityAIFollowOwnerFlying(this, 2D, 10.0F, 50.0F));
         this.goalSelector.addGoal(5, new EntityLammergeier.AIRandomFly(this));
         this.goalSelector.addGoal(7, new EntityLammergeier.AILookAround(this));
         this.targetSelector.addGoal(1, new OwnerHurtByTargetGoal(this));
@@ -741,11 +741,27 @@ public class EntityLammergeier extends EntityTameableFlying implements IVariantT
             } else {
                 LivingEntity entitylivingbase = this.parentEntity.getAttackTarget();
 
-                if (entitylivingbase.getDistanceSq(this.parentEntity) < 4096.0D) {
+                if (entitylivingbase.getDistance(this.parentEntity) < 80.0D) {
                     double d1 = entitylivingbase.posX - this.parentEntity.posX;
                     double d2 = entitylivingbase.posZ - this.parentEntity.posZ;
                     this.parentEntity.rotationYaw = -((float) MathHelper.atan2(d1, d2)) * (180F / (float) Math.PI);
                     this.parentEntity.renderYawOffset = this.parentEntity.rotationYaw;
+                } else {
+                    if (!this.parentEntity.isTamed()) {
+                        this.parentEntity.rotationYaw = -((float) MathHelper.atan2(this.parentEntity.getMotion().getX(),
+                        this.parentEntity.getMotion().getZ())) * (180F / (float) Math.PI);
+                        this.parentEntity.renderYawOffset = this.parentEntity.rotationYaw;
+                    } else {
+                        if (entitylivingbase != null) {
+                            if (entitylivingbase.getDistanceSq(this.parentEntity) < 4096.0D) {
+                                double d1 = entitylivingbase.posX - this.parentEntity.posX;
+                                double d2 = entitylivingbase.posZ - this.parentEntity.posZ;
+                                this.parentEntity.rotationYaw = -((float) MathHelper.atan2(d1, d2))
+                                * (180F / (float) Math.PI);
+                                this.parentEntity.renderYawOffset = this.parentEntity.rotationYaw;
+                            }
+                        }
+                    }
                 }
             }
         }

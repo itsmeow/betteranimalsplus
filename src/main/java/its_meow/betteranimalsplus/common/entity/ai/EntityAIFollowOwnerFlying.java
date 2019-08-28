@@ -67,7 +67,7 @@ public class EntityAIFollowOwnerFlying extends Goal {
      */
     @Override
     public boolean shouldContinueExecuting() {
-        if (this.tameable.getAttackTarget() != null) {
+        if (this.tameable.getAttackTarget() != null && this.tameable.getAttackTarget().isAlive()) {
             return false;
         }
         return !this.petPathfinder.noPath() && this.tameable.getDistanceSq(this.owner) > this.maxDist * this.maxDist
@@ -106,10 +106,9 @@ public class EntityAIFollowOwnerFlying extends Goal {
             if (--this.timeToRecalcPath <= 0) {
                 this.timeToRecalcPath = 10;
 
-                // Attempt to find a path
-                if (!this.petPathfinder.tryMoveToXYZ(this.owner.posX, this.owner.posY + 2, this.owner.posZ,
-                        this.followSpeed)) {
-                    // Failed to find path
+                //this.petPathfinder.tryMoveToXYZ(this.owner.posX, this.owner.posY + 2, this.owner.posZ, this.followSpeed);
+                this.tameable.getMoveHelper().setMoveTo(this.owner.posX, this.owner.posY + 2, this.owner.posZ, this.followSpeed);
+                if(tameable.getDistance(this.owner) > 100 || this.tameable.getEntityWorld() != this.owner.getEntityWorld()) {
                     if (!this.tameable.getLeashed() && this.tameable.getRidingEntity() == null) {
                         // Distance too large, teleport!
                         if (this.tameable.getDistanceSq(this.owner) >= 144.0D
