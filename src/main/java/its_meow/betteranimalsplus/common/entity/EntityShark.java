@@ -52,6 +52,20 @@ public class EntityShark extends EntitySharkBase implements IVariantTypes {
     }
 
     @Override
+    public boolean attackEntityFrom(DamageSource source, float amount) {
+        if(super.attackEntityFrom(source, amount)) {
+            if(source.getTrueSource() instanceof PlayerEntity) {
+                PlayerEntity player = (PlayerEntity) source.getTrueSource();
+                if(!player.isCreative() && !player.isInvisible()) {
+                    this.setAttackTarget(player);
+                }
+            }
+            return true;
+        }
+        return false;
+    }
+
+    @Override
     protected void registerAttributes() {
         super.registerAttributes();
         this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(30D);
