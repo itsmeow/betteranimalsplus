@@ -4,6 +4,7 @@ import java.util.Random;
 
 import javax.annotation.Nullable;
 
+import its_meow.betteranimalsplus.init.ModEntities;
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.IEntityOwnable;
@@ -72,6 +73,13 @@ public abstract class EntityTameableWithTypes extends EntityTameableBetterAnimal
     @Override
     public DataParameter<Integer> getDataKey() {
         return TYPE_NUMBER;
+    }
+    
+    protected abstract String getContainerName();
+
+    @Override
+    protected boolean canDespawn() {
+        return ModEntities.entityMap.containsKey(this.getContainerName()) ? ModEntities.entityMap.get(this.getContainerName()).despawn : false;
     }
 
 }

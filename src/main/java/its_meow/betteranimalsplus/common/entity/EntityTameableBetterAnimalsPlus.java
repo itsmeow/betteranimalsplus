@@ -14,8 +14,8 @@ public abstract class EntityTameableBetterAnimalsPlus extends EntityTameable {
         super(worldIn);
     }
 
-    public static boolean isTamingItem(String entityName, Item item) {
-        EntityContainer container = ModEntities.entityMap.get(entityName);
+    public boolean isTamingItem(Item item) {
+        EntityContainer container = ModEntities.entityMap.get(this.getContainerName());
         EntityConfigurationSection section = BetterAnimalsPlusConfig.sections.get(container);
         if(section != null) {
             String[] items = section.tameItems;
@@ -27,6 +27,13 @@ public abstract class EntityTameableBetterAnimalsPlus extends EntityTameable {
             }
         }
         return false;
+    }
+    
+    protected abstract String getContainerName();
+
+    @Override
+    protected boolean canDespawn() {
+        return ModEntities.entityMap.containsKey(this.getContainerName()) ? ModEntities.entityMap.get(this.getContainerName()).despawn : false;
     }
 
 }

@@ -1,6 +1,7 @@
 package its_meow.betteranimalsplus.common.entity;
 
 import its_meow.betteranimalsplus.common.entity.ai.EntityAIWanderWaterEntity;
+import its_meow.betteranimalsplus.init.ModEntities;
 import its_meow.betteranimalsplus.init.ModLootTables;
 import net.minecraft.entity.MoverType;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -88,6 +89,11 @@ public class EntityNautilus extends EntityWaterMob {
     @Override
     protected ResourceLocation getLootTable() {
         return ModLootTables.NAUTILUS;
+    }
+
+    @Override
+    protected boolean canDespawn() {
+        return ModEntities.entityMap.containsKey("nautilus") ? ModEntities.entityMap.get("nautilus").despawn : false;
     }
 
 }

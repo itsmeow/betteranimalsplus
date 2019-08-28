@@ -74,7 +74,7 @@ public class BetterAnimalsPlusConfig {
             for(int i = 0; i < container.spawnBiomes.length; i++) {
                 biomeStrings[i] = container.spawnBiomes[i].getRegistryName().toString();
             }
-            EntityConfigurationSection configSection = new EntityConfigurationSection(container.entityClazz, container.minGroup, container.maxGroup, container.weight, container.tameItems, biomeStrings);
+            EntityConfigurationSection configSection = new EntityConfigurationSection(container.entityClazz, container.minGroup, container.maxGroup, container.weight, container.despawn, container.tameItems, biomeStrings);
             sections.put(container, configSection);
         }
         for(EntityContainer container : sections.keySet()) {
@@ -83,6 +83,7 @@ public class BetterAnimalsPlusConfig {
             container.minGroup = section.min;
             container.weight = section.weight;
             container.doSpawning = section.doSpawning;
+            container.despawn = section.allowDespawning;
 
             // Parse biomes
             List<Biome> biomesList = new ArrayList<Biome>();

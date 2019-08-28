@@ -228,7 +228,7 @@ public class EntityLammergeier extends EntityTameableFlying implements IVariantT
                 }
                 this.lastTick = this.ticksExisted;
             }
-        } else if (itemstack.getItem() == Items.BONE && !this.isTamed()) {
+        } else if (this.isTamingItem(itemstack.getItem()) && !this.isTamed()) {
             if (!player.capabilities.isCreativeMode) {
                 itemstack.shrink(1);
             }
@@ -928,6 +928,11 @@ public class EntityLammergeier extends EntityTameableFlying implements IVariantT
     @Override
     public EntityDataManager getDataManagerI() {
         return this.getDataManager();
+    }
+
+    @Override
+    protected String getContainerName() {
+        return "lammergeier";
     }
 
 }

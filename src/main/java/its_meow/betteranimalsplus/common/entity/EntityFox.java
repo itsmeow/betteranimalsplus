@@ -216,7 +216,7 @@ public class EntityFox extends EntityTameableWithTypes {
 
 		if(this.isTamed() && !this.world.isRemote) {
 			if(this.isOwner(player)) {
-				if(isTamingItem("fox", stack.getItem()) && !this.isInLove() && !this.isChild()) {
+				if(this.isTamingItem(stack.getItem()) && !this.isInLove() && !this.isChild()) {
 					if(this.isSitting()) {
 						this.aiSit.setSitting(false);
 					}
@@ -238,7 +238,7 @@ public class EntityFox extends EntityTameableWithTypes {
 					}
 				}
 			}
-		} else if(isTamingItem("fox", stack.getItem())) {
+		} else if(this.isTamingItem(stack.getItem())) {
 			this.consumeItemFromStack(player, stack);
 
 			if (!this.world.isRemote) {
@@ -343,4 +343,9 @@ public class EntityFox extends EntityTameableWithTypes {
 	protected IVariantTypes getBaseChild() {
 		return null; // Unused with custom logic here
 	}
+
+    @Override
+    protected String getContainerName() {
+        return "fox";
+    }
 }

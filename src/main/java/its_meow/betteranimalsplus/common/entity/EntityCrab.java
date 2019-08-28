@@ -112,4 +112,9 @@ public class EntityCrab extends EntityCrabLikeBase {
         }
     }
 
+    @Override
+    protected String getContainerName() {
+        return "crab";
+    }
+
 }

@@ -4,6 +4,7 @@ import java.util.Random;
 
 import javax.annotation.Nullable;
 
+import its_meow.betteranimalsplus.init.ModEntities;
 import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.ai.EntityAIBase;
 import net.minecraft.entity.passive.EntitySquid;
@@ -195,6 +196,11 @@ public class EntityJellyfish extends EntitySquid implements IVariantTypes {
     @Override
     public EntityDataManager getDataManagerI() {
         return this.getDataManager();
+    }
+
+    @Override
+    protected boolean canDespawn() {
+        return ModEntities.entityMap.containsKey("jellyfish") ? ModEntities.entityMap.get("jellyfish").despawn : false;
     }
 
 }

@@ -185,4 +185,9 @@ public class EntitySquirrel extends EntityAnimalWithSelectiveTypes {
         }
     }
 
+    @Override
+    protected String getContainerName() {
+        return "squirrel";
+    }
+
 }

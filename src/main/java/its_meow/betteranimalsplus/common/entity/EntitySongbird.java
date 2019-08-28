@@ -182,4 +182,9 @@ public class EntitySongbird extends EntityAnimalWithSelectiveTypes implements En
         }
     }
 
+    @Override
+    protected String getContainerName() {
+        return "songbird";
+    }
+
 }

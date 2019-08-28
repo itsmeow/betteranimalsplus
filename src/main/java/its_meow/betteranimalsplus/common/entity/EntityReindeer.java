@@ -7,6 +7,7 @@ import javax.annotation.Nullable;
 
 import com.google.common.base.Predicate;
 
+import its_meow.betteranimalsplus.init.ModEntities;
 import its_meow.betteranimalsplus.init.ModLootTables;
 import its_meow.betteranimalsplus.init.ModTriggers;
 import its_meow.betteranimalsplus.util.HeadTypes;
@@ -1059,6 +1060,11 @@ public class EntityReindeer extends EntityAnimal implements IJumpingMount, IVari
     @Override
     public EntityDataManager getDataManagerI() {
         return this.getDataManager();
+    }
+    
+    @Override
+    protected boolean canDespawn() {
+        return ModEntities.entityMap.containsKey("reindeer") ? ModEntities.entityMap.get("reindeer").despawn : false;
     }
 
 }

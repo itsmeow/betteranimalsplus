@@ -1,5 +1,6 @@
 package its_meow.betteranimalsplus.common.entity;
 
+import its_meow.betteranimalsplus.init.ModEntities;
 import net.minecraft.entity.MoverType;
 import net.minecraft.entity.passive.EntityWaterMob;
 import net.minecraft.entity.player.EntityPlayer;
@@ -9,7 +10,7 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
-public class EntityBasicWaterCreature extends EntityWaterMob {
+public abstract class EntityBasicWaterCreature extends EntityWaterMob {
 
     public EntityBasicWaterCreature(World world) {
         super(world);
@@ -67,8 +68,11 @@ public class EntityBasicWaterCreature extends EntityWaterMob {
         return 120;
     }
 
+    protected abstract String getContainerName();
+
+    @Override
     protected boolean canDespawn() {
-        return true;
+        return ModEntities.entityMap.containsKey(this.getContainerName()) ? ModEntities.entityMap.get(this.getContainerName()).despawn : false;
     }
 
     protected int getExperiencePoints(EntityPlayer player) {

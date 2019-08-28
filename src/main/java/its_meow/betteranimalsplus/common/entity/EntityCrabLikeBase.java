@@ -1,5 +1,6 @@
 package its_meow.betteranimalsplus.common.entity;
 
+import its_meow.betteranimalsplus.init.ModEntities;
 import its_meow.betteranimalsplus.init.ModLootTables;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
@@ -119,11 +120,6 @@ public abstract class EntityCrabLikeBase extends EntityAnimalWithTypes {
     }
 
     @Override
-    protected boolean canDespawn() {
-        return !this.hasCustomName();
-    }
-
-    @Override
     protected int getExperiencePoints(EntityPlayer player) {
         return 1 + this.world.rand.nextInt(3);
     }
@@ -135,6 +131,13 @@ public abstract class EntityCrabLikeBase extends EntityAnimalWithTypes {
     @Override
     protected ResourceLocation getLootTable() {
         return ModLootTables.CRAB;
+    }
+    
+    protected abstract String getContainerName();
+
+    @Override
+    protected boolean canDespawn() {
+        return !this.hasCustomName() && ModEntities.entityMap.containsKey(this.getContainerName()) ? ModEntities.entityMap.get(this.getContainerName()).despawn : false;
     }
 
 }

@@ -4,6 +4,7 @@ import javax.annotation.Nullable;
 
 import com.google.common.base.Predicates;
 
+import its_meow.betteranimalsplus.init.ModEntities;
 import its_meow.betteranimalsplus.init.ModLootTables;
 import its_meow.betteranimalsplus.util.HeadTypes;
 import net.minecraft.block.Block;
@@ -211,6 +212,11 @@ public class EntityBear extends EntityMob {
         protected double getAttackReachSqr(EntityLivingBase attackTarget) {
             return 10.0F + attackTarget.width;
         }
+    }
+    
+    @Override
+    protected boolean canDespawn() {
+        return ModEntities.entityMap.containsKey("brownbear") ? ModEntities.entityMap.get("brownbear").despawn : false;
     }
 
 }

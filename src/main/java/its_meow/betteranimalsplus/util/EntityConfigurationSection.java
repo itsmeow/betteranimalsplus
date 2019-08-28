@@ -14,8 +14,9 @@ public class EntityConfigurationSection {
     public int weight;
     public String[] biomesList;
     public String[] tameItems;
+    public boolean allowDespawning;
 
-    public EntityConfigurationSection(Class<? extends Entity> entity, int min, int max, int weight, String[] tameItems, String[] biomesList) {
+    public EntityConfigurationSection(Class<? extends Entity> entity, int min, int max, int weight, boolean despawn, String[] tameItems, String[] biomesList) {
         this.categoryName = entity.getName();
         config.addCustomCategoryComment(this.categoryName, "");
         this.entityClazz = entity;
@@ -24,6 +25,7 @@ public class EntityConfigurationSection {
         if(tameItems.length > 0) {
             this.loadTamingItems(tameItems);
         }
+        this.allowDespawning = config.getBoolean("allowDespawning", this.categoryName, despawn, "True to despawn this entity when no one is nearby");
     }
 
     public void loadTamingItems(String[] tameItems) {

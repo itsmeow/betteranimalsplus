@@ -6,6 +6,7 @@ import javax.annotation.Nullable;
 
 import com.google.common.base.Predicates;
 
+import its_meow.betteranimalsplus.init.ModEntities;
 import its_meow.betteranimalsplus.init.ModLootTables;
 import its_meow.betteranimalsplus.util.HeadTypes;
 import net.minecraft.entity.IEntityLivingData;
@@ -111,7 +112,6 @@ public class EntityBearNeutral extends EntityBear implements IVariantTypes {
     public void doDropHead() {
         if (!world.isRemote && !this.isChild()) {
             if (this.rand.nextInt(12) == 0) {
-                int type = this.getTypeNumber();
                 ItemStack stack = new ItemStack(HeadTypes.BEARHEAD.getItem(this.getTypeNumber() + 1));
                 this.entityDropItem(stack, 0.5F);
             }
@@ -125,6 +125,11 @@ public class EntityBearNeutral extends EntityBear implements IVariantTypes {
         case 2: return ModLootTables.BEAR_KERMODE;
         default: return ModLootTables.BEAR_BLACK;
         }
+    }
+    
+    @Override
+    protected boolean canDespawn() {
+        return ModEntities.entityMap.containsKey("blackbear") ? ModEntities.entityMap.get("blackbear").despawn : false;
     }
 
 }

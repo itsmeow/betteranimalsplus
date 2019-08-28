@@ -23,9 +23,10 @@ public class EntityContainer {
 	public boolean doSpawning = true;
 	public BiomeDictionary.Type[] types = {};
 	public String[] tameItems;
+    public boolean despawn;
 
 	@SafeVarargs
-	public EntityContainer(Class<? extends EntityLiving> EntityClass, String entityNameIn, EnumCreatureType type, int solidColorIn, int spotColorIn, int prob, int min, int max, String[] tameItems, BiomeDictionary.Type... types) {
+	public EntityContainer(Class<? extends EntityLiving> EntityClass, String entityNameIn, EnumCreatureType type, int solidColorIn, int spotColorIn, int prob, int min, int max, boolean despawn, String[] tameItems, BiomeDictionary.Type... types) {
 		this.entityClazz = EntityClass;
 		this.entityName = entityNameIn;
 		this.eggColorSolid = solidColorIn;
@@ -41,6 +42,7 @@ public class EntityContainer {
 		}
 
 		this.types = types;
+		this.despawn = despawn;
 	}
 
 	public void populateBiomes() {
