@@ -19,6 +19,7 @@ public class EntityConfigurationSection {
     public ForgeConfigSpec.ConfigValue<List<? extends String>> biomesList;
     public ConfigValue<List<String>> tameItems;
     public List<String> biomeStrings;
+    public ForgeConfigSpec.BooleanValue doDespawn;
 
     public EntityConfigurationSection(EntityContainer<?> container, ForgeConfigSpec.Builder builder) {
         builder.push(container.entityName);
@@ -30,6 +31,7 @@ public class EntityConfigurationSection {
         if(container.tameItems.length > 0) {
             this.loadTamingItems(builder, container.tameItems);
         }
+        doDespawn = builder.comment("True if this entity can despawn freely when no players are nearby.").worldRestart().define("doDespawn", container.despawn);
         
         builder.pop();
     }

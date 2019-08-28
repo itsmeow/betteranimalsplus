@@ -27,10 +27,11 @@ public class EntityContainer<T extends LivingEntity> {
     public float width;
     public float height;
     public String[] tameItems;
+    public boolean despawn;
 
     @SafeVarargs
     public EntityContainer(Class<T> EntityClass, Function<World, T> func,
-                           String entityNameIn, EntityClassification type, int solidColorIn, int spotColorIn, int prob, int min, int max, float width, float height, 
+                           String entityNameIn, EntityClassification type, int solidColorIn, int spotColorIn, int prob, int min, int max, float width, float height, boolean despawn,
                            String[] tameItems, BiomeDictionary.Type... biomeTypes) {
         this.entityClazz = EntityClass;
         this.entityFunction = func;
@@ -43,6 +44,7 @@ public class EntityContainer<T extends LivingEntity> {
         this.type = type;
         this.width = width;
         this.height = height;
+        this.despawn = despawn;
         
         if(tameItems == null) {
             this.tameItems = new String[0];

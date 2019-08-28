@@ -64,6 +64,7 @@ public class EntityConfig {
             container.minGroup = section.min.get();
             container.weight = section.weight.get();
             container.doSpawning = section.doSpawning.get();
+            container.despawn = section.doDespawn.get();
             if(section.tameItems != null) {
                 List<String> tames = section.tameItems.get();
                 if(tames != null)
