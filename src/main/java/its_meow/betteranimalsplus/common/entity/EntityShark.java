@@ -95,8 +95,10 @@ public class EntityShark extends EntitySharkBase implements IVariantTypes {
                 if(isBoat) {
                     EntityBoat boat = (EntityBoat) this.getAttackTarget().getRidingEntity();
                     boat.attackEntityFrom(DamageSource.causeMobDamage(this), 3F);
-                } else if(!this.getAttackTarget().getIsInvulnerable()){
+                } else if(!this.getAttackTarget().getIsInvulnerable() && this.getAttackTarget().width < 2.5 && this.getAttackTarget().height < 2.5){
                     this.getAttackTarget().startRiding(this, false);
+                } else if(!this.getAttackTarget().getIsInvulnerable()) {
+                    this.attackEntityAsMob(this.getAttackTarget());
                 }
                 lastGrab = this.ticksExisted;
             } else {
