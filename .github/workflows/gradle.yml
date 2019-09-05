@@ -13,5 +13,7 @@ jobs:
       uses: actions/setup-java@v1
       with:
         java-version: 1.8
+    - name: Setup CI Workspace
+      run: gradlew setupCIWorkspace
     - name: Build with Gradle
-      run: gradlew setupCIWorkspace build
+      run: gradlew build
