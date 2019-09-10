@@ -1,3 +1,13 @@
+7.1.1
+-
+- Sharks will now retaliate
+- Added a configuration option under all entities for despawn allowance
+- Sharks now have limits on the size of things they can grab
+- 1.14: Fixed "Get Badgered" happening whenever you take damage
+- 1.14: Increased nautilus shell drop rate from nautilus (1/500 to 1/25)
+- 1.14: Made lammergeiers less derpy and broken
+- 1.14: Fixed crash with Forge 28.0.92+ (28.0.92+ REQUIRED for the mod from now on!)
+
 7.1.0
 -
 - Added 25 advancements
