@@ -1,5 +1,5 @@
 modLoader="javafml" #mandatory
-loaderVersion="[24,)" #mandatory (24 is current forge version)
+loaderVersion="[28.0.92,)" #mandatory
 issueTrackerURL="http://github.com/itsmeow/betteranimalsplus/issues" #optional
 displayURL="https://minecraft.curseforge.com/projects/betteranimalsplus" #optional
 logoFile="betteranimalsplus.png" #optional
