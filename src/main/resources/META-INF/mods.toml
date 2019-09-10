@@ -1,5 +1,5 @@
 modLoader="javafml" #mandatory
-loaderVersion="[28.0.92,)" #mandatory
+loaderVersion="[24,)" #mandatory
 issueTrackerURL="http://github.com/itsmeow/betteranimalsplus/issues" #optional
 displayURL="https://minecraft.curseforge.com/projects/betteranimalsplus" #optional
 logoFile="betteranimalsplus.png" #optional
@@ -13,3 +13,9 @@ updateJSONURL="http://modmanagement.net16.net/updateJSON5.json" #optional
 # The description text for the mod (multi line!) (#mandatory)
 description='''
 Companion mod to Better Animals adding new creatures with the Better Animals art style.'''
+[[dependencies.betteranimalsplus]]
+    modId="forge"
+    mandatory=true
+    versionRange="[28.0.92,)"
+    ordering="NONE"
+    side="BOTH"
