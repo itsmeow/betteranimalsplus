@@ -53,7 +53,7 @@ public class CommonEventHandler {
                     ModTriggers.PUNCH_BEAR_DEATH.trigger(player);
                 }
             } else if(e.getEntity() instanceof EntitySquirrel && !player.getAdvancements().getProgress(player.server.getAdvancementManager().getAdvancement(new ResourceLocation("betteranimalsplus:squirrel_kill_100"))).isDone()) {
-                CompoundNBT pTag = player.getPersistantData();
+                CompoundNBT pTag = player.getPersistentData();
                 if(!pTag.contains("betteranimalsplus", Constants.NBT.TAG_COMPOUND)) {
                     pTag.put("betteranimalsplus", new CompoundNBT());
                 }
@@ -131,8 +131,8 @@ public class CommonEventHandler {
     
     @SubscribeEvent
     public static void onPlayerRespawn(PlayerEvent.Clone event) {
-        if(event.getOriginal().getPersistantData().contains("betteranimalsplus", Constants.NBT.TAG_COMPOUND)) {
-            event.getPlayer().getPersistantData().put("betteranimalsplus", event.getOriginal().getPersistantData().getCompound("betteranimalsplus"));
+        if(event.getOriginal().getPersistentData().contains("betteranimalsplus", Constants.NBT.TAG_COMPOUND)) {
+            event.getPlayer().getPersistentData().put("betteranimalsplus", event.getOriginal().getPersistentData().getCompound("betteranimalsplus"));
         }
     }
     

@@ -16,6 +16,6 @@ Companion mod to Better Animals adding new creatures with the Better Animals art
 [[dependencies.betteranimalsplus]]
     modId="forge"
     mandatory=true
-    versionRange="[28.0.92,)"
+    versionRange="[28.1.0,)"
     ordering="NONE"
     side="BOTH"
