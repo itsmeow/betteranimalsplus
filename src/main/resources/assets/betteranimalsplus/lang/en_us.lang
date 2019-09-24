@@ -35,6 +35,7 @@ tile.betteranimalsplus.reindeerhead.name=Reindeer Head
 tile.betteranimalsplus.foxhead.name=Fox Head
 tile.betteranimalsplus.boarhead.name=Boar Head
 tile.betteranimalsplus.bearhead.name=Bear Head
+tile.betteranimalsplus.moosehead.name=Moose Head
 #Entities
 entity.betteranimalsplus.brownbear.name=Brown Bear
 entity.betteranimalsplus.blackbear.name=Black Bear
@@ -58,3 +59,4 @@ entity.betteranimalsplus.nautilus.name=Nautilus
 entity.betteranimalsplus.crab.name=Crab
 entity.betteranimalsplus.horseshoecrab.name=Horseshoe Crab
 entity.betteranimalsplus.shark.name=Shark
+entity.betteranimalsplus.moose.name=Moose

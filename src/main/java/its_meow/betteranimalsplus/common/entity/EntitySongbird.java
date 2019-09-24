@@ -155,7 +155,7 @@ public class EntitySongbird extends EntityAnimalWithSelectiveTypes implements En
 
     @Override
     public int getVariantMax() {
-        return 9;
+        return 10;
     }
 
 
@@ -174,11 +174,11 @@ public class EntitySongbird extends EntityAnimalWithSelectiveTypes implements En
         if(types.contains(Type.FOREST) && !types.contains(Type.CONIFEROUS)) {
             return new int[] {2, 6, 7, 8};
         } else if(types.contains(Type.CONIFEROUS) && !types.contains(Type.SNOWY)) {
-            return new int[] {1, 9};
+            return new int[] {1, 9, 10};
         } else if(types.contains(Type.CONIFEROUS) && types.contains(Type.SNOWY)) {
             return new int[] {3, 4, 5};
         } else {
-            return new int[] {1, 2, 3, 4, 5, 6, 7, 8, 9};
+            return new int[] {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
         }
     }
 
