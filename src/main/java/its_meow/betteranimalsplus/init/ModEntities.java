@@ -21,6 +21,7 @@ import its_meow.betteranimalsplus.common.entity.EntityHorseshoeCrab;
 import its_meow.betteranimalsplus.common.entity.EntityJellyfish;
 import its_meow.betteranimalsplus.common.entity.EntityLammergeier;
 import its_meow.betteranimalsplus.common.entity.EntityLamprey;
+import its_meow.betteranimalsplus.common.entity.EntityMoose;
 import its_meow.betteranimalsplus.common.entity.EntityNautilus;
 import its_meow.betteranimalsplus.common.entity.EntityPheasant;
 import its_meow.betteranimalsplus.common.entity.EntityReindeer;
@@ -116,6 +117,9 @@ public class ModEntities {
         ModEntities.entityList.add(new EntityContainer<EntityShark>(EntityShark.class, EntityShark::new, "shark",
                 EntityClassification.WATER_CREATURE, 0x787878, 0xbdbdbd, BetterAnimalsPlusConfig.sharkWeight, 1, 1, 2.5F, 1.2F, true, null,
                 Type.OCEAN));
+        ModEntities.entityList.add(new EntityContainer<EntityMoose>(EntityMoose.class, EntityMoose::new, "moose",
+                EntityClassification.CREATURE, 0x46351c, 0x97866e, BetterAnimalsPlusConfig.mooseWeight, 1, 1, 2.25F, 3F, false, null,
+                Type.SWAMP));
 
         for (EntityContainer<?> container : ModEntities.entityList) {
             ModEntities.setupContainer((EntityContainer<LivingEntity>) container);

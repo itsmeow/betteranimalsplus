@@ -149,7 +149,8 @@ public class ModTextures {
     public static final ResourceLocation songbird_small_3 = new ResourceLocation(entitytex + "songbird_small_3.png");
     public static final ResourceLocation songbird_small_4 = new ResourceLocation(entitytex + "songbird_small_4.png");
     public static final ResourceLocation songbird_small_5 = new ResourceLocation(entitytex + "songbird_small_5.png");
-    
+    public static final ResourceLocation songbird_small_6 = new ResourceLocation(entitytex + "songbird_small_6.png");
+
     // Badger Variants
     public static final ResourceLocation badger_1 = new ResourceLocation(entitytex + "badger_1.png");
     public static final ResourceLocation badger_2 = new ResourceLocation(entitytex + "badger_2.png");
@@ -179,5 +180,11 @@ public class ModTextures {
     public static final ResourceLocation shark_bull = new ResourceLocation(entitytex + "shark_bull.png");
     public static final ResourceLocation shark_tiger = new ResourceLocation(entitytex + "shark_tiger.png");
     public static final ResourceLocation shark_whitetip = new ResourceLocation(entitytex + "shark_whitetip.png");
+    
+    // Moose Variants
+    public static final ResourceLocation moose_1 = new ResourceLocation(entitytex + "moose_1.png");
+    public static final ResourceLocation moose_2 = new ResourceLocation(entitytex + "moose_2.png");
+    public static final ResourceLocation moose_3 = new ResourceLocation(entitytex + "moose_3.png");
+    public static final ResourceLocation moose_4 = new ResourceLocation(entitytex + "moose_4.png");
 
 }

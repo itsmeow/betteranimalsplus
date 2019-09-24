@@ -60,6 +60,8 @@ public class RenderSongbird extends MobRenderer<EntitySongbird, EntityModel<Enti
             return ModTextures.songbird_small_4;
         case 9:
             return ModTextures.songbird_small_5;
+        case 10:
+            return ModTextures.songbird_small_6;
         default:
             return ModTextures.songbird_1;
         }

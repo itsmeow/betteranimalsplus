@@ -34,6 +34,7 @@
     "block.betteranimalsplus.reindeerhead": "Reindeer Head",
     "block.betteranimalsplus.boarhead": "Boar Head",
     "block.betteranimalsplus.bearhead": "Bear Head",
+    "block.betteranimalsplus.moosehead": "Moose Head",
 
     "entity.betteranimalsplus.brownbear": "Brown Bear",
     "entity.betteranimalsplus.blackbear": "Black Bear",
@@ -56,6 +57,7 @@
     "entity.betteranimalsplus.crab": "Crab",
     "entity.betteranimalsplus.horseshoecrab": "Horseshoe Crab",
     "entity.betteranimalsplus.shark": "Shark",
+    "entity.betteranimalsplus.moose": "Moose",
     
     "misc.betteranimalsplus.eggorder": "%s Spawn Egg"
 }

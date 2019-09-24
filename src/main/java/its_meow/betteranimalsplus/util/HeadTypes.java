@@ -15,6 +15,7 @@ import its_meow.betteranimalsplus.client.model.ModelBearHead;
 import its_meow.betteranimalsplus.client.model.ModelBoarHead;
 import its_meow.betteranimalsplus.client.model.ModelDeerHead;
 import its_meow.betteranimalsplus.client.model.ModelHirschgeistSkull;
+import its_meow.betteranimalsplus.client.model.ModelMooseHead;
 import its_meow.betteranimalsplus.client.model.ModelReindeerHead;
 import its_meow.betteranimalsplus.client.model.ModelWolfHead;
 import its_meow.betteranimalsplus.common.block.BlockGenericSkull;
@@ -69,6 +70,8 @@ public enum HeadTypes {
                     }
                 }
             }), ModTextures.reindeer_1, ModTextures.reindeer_2, ModTextures.reindeer_3, ModTextures.reindeer_4)),
+    
+    MOOSEHEAD("moosehead", false, 4, () -> () -> ModelMooseHead.class, type -> new TileEntityHead(type, -1.35F, ModTextures.moose_1, ModTextures.moose_2, ModTextures.moose_3, ModTextures.moose_4)),
 
     HIRSCHGEIST("hirschgeistskull", true, 1, () -> () -> ModelHirschgeistSkull.class,
             type -> new TileEntityHead(type, -0.2F, ModTextures.hirschgeist));
