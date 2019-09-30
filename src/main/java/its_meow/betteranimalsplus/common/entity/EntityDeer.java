@@ -89,7 +89,7 @@ public class EntityDeer extends EntityAnimalEatsGrassWithTypes {
                 ItemStack stack = new ItemStack(HeadTypes.DEERHEAD.getItem(this.getTypeNumber()));
                 this.entityDropItem(stack, 0.5F);
             }
-}
+        }
     }
 
     @Override
