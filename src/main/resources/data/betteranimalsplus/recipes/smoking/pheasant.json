@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:smoking",
+  "ingredient": {
+    "item": "betteranimalsplus:pheasantraw"
+  },
+  "result": "betteranimalsplus:pheasantcooked",
+  "experience": 0.3
+}
