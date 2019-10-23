@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:campfire_cooking",
+  "ingredient": {
+    "item": "betteranimalsplus:venisonraw"
+  },
+  "result": "betteranimalsplus:venisoncooked",
+  "experience": 0.3
+}
