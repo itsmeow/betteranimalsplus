@@ -105,7 +105,7 @@ public class ModEntities {
                 EntityClassification.WATER_CREATURE, 0x0000ad, 0x0a0a0a, BetterAnimalsPlusConfig.lampreyWeight, 1, 1, 1.0F, 0.7F, true, null,
                 Type.RIVER, Type.SWAMP));
         ModEntities.entityList.add(new EntityContainer<EntityNautilus>(EntityNautilus.class, EntityNautilus::new, "nautilus",
-                EntityClassification.WATER_CREATURE, 0xFF9659, 0x241682, BetterAnimalsPlusConfig.nautilusWeight, 1, 1, 0.75F, 0.75F, false, null, 
+                EntityClassification.WATER_CREATURE, 0xFF9659, 0x241682, BetterAnimalsPlusConfig.nautilusWeight, 1, 1, 0.75F, 0.75F, true, null, 
                 Type.OCEAN));
         ModEntities.entityList.add(new EntityContainer<EntityCrab>(EntityCrab.class, EntityCrab::new, "crab",
                 EntityClassification.CREATURE, 0xe21d16, 0x2d0504, BetterAnimalsPlusConfig.crabWeight, 1, 3, 1F, 0.65F, true, null,
