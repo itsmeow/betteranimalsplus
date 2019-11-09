@@ -6,11 +6,13 @@ import java.util.Map;
 
 import its_meow.betteranimalsplus.BetterAnimalsPlusMod;
 import its_meow.betteranimalsplus.Ref;
+import its_meow.betteranimalsplus.common.entity.projectile.EntityPheasantEgg;
 import its_meow.betteranimalsplus.common.item.ItemAdvancementIcon;
 import its_meow.betteranimalsplus.common.item.ItemBearCape;
 import its_meow.betteranimalsplus.common.item.ItemBetterFood;
 import its_meow.betteranimalsplus.common.item.ItemHirschgeistSkullWearable;
 import its_meow.betteranimalsplus.common.item.ItemNamedSimple;
+import its_meow.betteranimalsplus.common.item.ItemThrowableCustomEgg;
 import its_meow.betteranimalsplus.common.item.ItemWolfCape;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.BlockItem;
@@ -65,6 +67,8 @@ public class ModItems {
     public static final MusicDiscItem RECORD_CRAB_RAVE = new MusicDiscItem(15, ModSoundEvents.CRAB_RAVE, new Item.Properties().maxStackSize(1).rarity(Rarity.RARE)) {}; static {
         RECORD_CRAB_RAVE.setRegistryName(new ResourceLocation(Ref.MOD_ID, "record_crab_rave"));
     }
+    
+    public static final ItemThrowableCustomEgg PHEASANT_EGG = new ItemThrowableCustomEgg("pheasant_egg", player -> new EntityPheasantEgg(player.world, player));
     
     public static Map<String, ItemAdvancementIcon> ADVANCEMENT_ICONS = new HashMap<String, ItemAdvancementIcon>();
 }

@@ -4,6 +4,7 @@ import com.google.common.base.Preconditions;
 
 import its_meow.betteranimalsplus.Ref;
 import its_meow.betteranimalsplus.common.entity.projectile.EntityBadgerDirt;
+import its_meow.betteranimalsplus.common.entity.projectile.EntityPheasantEgg;
 import its_meow.betteranimalsplus.common.entity.projectile.EntityTarantulaHair;
 import its_meow.betteranimalsplus.common.item.ItemAdvancementIcon;
 import its_meow.betteranimalsplus.common.item.ItemBetterAnimalsPlusEgg;
@@ -69,13 +70,37 @@ public class BetterAnimalsPlusRegistrar {
     public static void registerItems(final RegistryEvent.Register<Item> event) {
         final IForgeRegistry<Item> registry = event.getRegistry();
 
-        registry.registerAll(ModItems.VENISON_RAW, ModItems.VENISON_COOKED, ModItems.HIRSCHGEIST_SKULL_WEARABLE,
-        ModItems.ANTLER, ModItems.GOAT_MILK, ModItems.GOAT_CHEESE, ModItems.PHEASANT_RAW,
-        ModItems.PHEASANT_COOKED, ModItems.CRAB_MEAT_RAW, ModItems.CRAB_MEAT_COOKED, ModItems.WOLF_PELT_SNOWY, ModItems.WOLF_PELT_TIMBER, ModItems.WOLF_PELT_BLACK, 
-        ModItems.WOLF_CAPE_CLASSIC, ModItems.WOLF_CAPE_TIMBER, ModItems.WOLF_CAPE_BLACK, ModItems.RECORD_CRAB_RAVE,
-        ModItems.BEAR_SKIN_BROWN, ModItems.BEAR_SKIN_BLACK, ModItems.BEAR_SKIN_KERMODE, ModItems.BEAR_CAPE_BROWN, ModItems.BEAR_CAPE_BLACK, ModItems.BEAR_CAPE_KERMODE, 
-        new ItemAdvancementIcon("advancement_icon_jellyfish"), new ItemAdvancementIcon("advancement_icon_jellyfish_cross"), new ItemAdvancementIcon("advancement_icon_goat"), 
-        new ItemAdvancementIcon("advancement_icon_shark"), new ItemAdvancementIcon("advancement_icon_lamprey"), new ItemAdvancementIcon("advancement_icon_squirrel"), new ItemAdvancementIcon("advancement_icon_badger"));
+        registry.registerAll(ModItems.VENISON_RAW,
+        ModItems.VENISON_COOKED,
+        ModItems.HIRSCHGEIST_SKULL_WEARABLE,
+        ModItems.ANTLER,
+        ModItems.GOAT_MILK,
+        ModItems.GOAT_CHEESE,
+        ModItems.PHEASANT_RAW,
+        ModItems.PHEASANT_COOKED,
+        ModItems.CRAB_MEAT_RAW,
+        ModItems.CRAB_MEAT_COOKED,
+        ModItems.WOLF_PELT_SNOWY,
+        ModItems.WOLF_PELT_TIMBER,
+        ModItems.WOLF_PELT_BLACK, 
+        ModItems.WOLF_CAPE_CLASSIC,
+        ModItems.WOLF_CAPE_TIMBER,
+        ModItems.WOLF_CAPE_BLACK,
+        ModItems.RECORD_CRAB_RAVE,
+        ModItems.BEAR_SKIN_BROWN,
+        ModItems.BEAR_SKIN_BLACK,
+        ModItems.BEAR_SKIN_KERMODE,
+        ModItems.BEAR_CAPE_BROWN,
+        ModItems.BEAR_CAPE_BLACK,
+        ModItems.BEAR_CAPE_KERMODE,
+        ModItems.PHEASANT_EGG,
+        new ItemAdvancementIcon("advancement_icon_jellyfish"),
+        new ItemAdvancementIcon("advancement_icon_jellyfish_cross"),
+        new ItemAdvancementIcon("advancement_icon_goat"), 
+        new ItemAdvancementIcon("advancement_icon_shark"),
+        new ItemAdvancementIcon("advancement_icon_lamprey"),
+        new ItemAdvancementIcon("advancement_icon_squirrel"),
+        new ItemAdvancementIcon("advancement_icon_badger"));
 
         for (EntityContainer<?> ent : ModEntities.entityList) {
             ItemBetterAnimalsPlusEgg egg = new ItemBetterAnimalsPlusEgg(ModEntities.getEntityType(ent.entityName),
@@ -85,7 +110,6 @@ public class BetterAnimalsPlusRegistrar {
             ModItems.eggs.put(egg, ent.entityClazz);
         }
     }
-
 
     @SubscribeEvent
     public static void registerSounds(final RegistryEvent.Register<SoundEvent> event) {
@@ -112,6 +136,7 @@ public class BetterAnimalsPlusRegistrar {
 
         registry.register(EntityTarantulaHair.HAIR_TYPE);
         registry.register(EntityBadgerDirt.DIRT_TYPE);
+        registry.register(EntityPheasantEgg.PHEASANT_EGG_TYPE);
 
         for (EntityContainer<?> entry : ModEntities.entryMapContainers.keySet()) {
             EntityType<?> type = ModEntities.entryMapContainers.get(entry);

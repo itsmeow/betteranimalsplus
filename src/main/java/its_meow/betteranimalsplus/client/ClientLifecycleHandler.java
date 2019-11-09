@@ -54,10 +54,13 @@ import its_meow.betteranimalsplus.common.entity.EntitySquirrel;
 import its_meow.betteranimalsplus.common.entity.EntityTarantula;
 import its_meow.betteranimalsplus.common.entity.miniboss.hirschgeist.EntityHirschgeist;
 import its_meow.betteranimalsplus.common.entity.projectile.EntityBadgerDirt;
+import its_meow.betteranimalsplus.common.entity.projectile.EntityPheasantEgg;
 import its_meow.betteranimalsplus.common.entity.projectile.EntityTarantulaHair;
 import its_meow.betteranimalsplus.common.tileentity.TileEntityHandOfFate;
 import its_meow.betteranimalsplus.common.tileentity.TileEntityHead;
 import its_meow.betteranimalsplus.common.tileentity.TileEntityTrillium;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.entity.SpriteRenderer;
 import net.minecraft.client.renderer.entity.model.BipedModel;
 import net.minecraft.entity.LivingEntity;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
@@ -86,7 +89,7 @@ public class ClientLifecycleHandler {
         RenderingRegistry.registerEntityRenderingHandler(EntityTarantulaHair.class, RenderTarantulaHair::new);
         RenderingRegistry.registerEntityRenderingHandler(EntityTarantula.class, RenderTarantula::new);
         RenderingRegistry.registerEntityRenderingHandler(EntityHirschgeist.class, RenderHirschgeist::new);
-        RenderingRegistry.registerEntityRenderingHandler(EntityGoat.class, RenderGoat::new);    
+        RenderingRegistry.registerEntityRenderingHandler(EntityGoat.class, RenderGoat::new);
         RenderingRegistry.registerEntityRenderingHandler(EntityJellyfish.class, RenderJellyfish::new);
         RenderingRegistry.registerEntityRenderingHandler(EntityPheasant.class, RenderPheasant::new);
         RenderingRegistry.registerEntityRenderingHandler(EntityReindeer.class, RenderReindeer::new);
@@ -101,6 +104,7 @@ public class ClientLifecycleHandler {
         RenderingRegistry.registerEntityRenderingHandler(EntityHorseshoeCrab.class, RenderHorseshoeCrab::new);
         RenderingRegistry.registerEntityRenderingHandler(EntityShark.class, RenderShark::new);
         RenderingRegistry.registerEntityRenderingHandler(EntityMoose.class, RenderMoose::new);
+        RenderingRegistry.registerEntityRenderingHandler(EntityPheasantEgg.class, mgr -> new SpriteRenderer<>(mgr, Minecraft.getInstance().getItemRenderer()));
         BetterAnimalsPlusMod.logger.log(Level.INFO, "Rendering squirrel physics...");
     }
 

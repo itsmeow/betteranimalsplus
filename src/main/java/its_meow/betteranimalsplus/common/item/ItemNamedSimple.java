@@ -9,5 +9,10 @@ public class ItemNamedSimple extends Item {
         super(new Item.Properties().group(BetterAnimalsPlusMod.group));
         this.setRegistryName(name);
     }
+    
+    public ItemNamedSimple(String name, Item.Properties properties) {
+        super(properties.group(BetterAnimalsPlusMod.group));
+        this.setRegistryName(name);
+    }
 
 }
