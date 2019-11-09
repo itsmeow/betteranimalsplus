@@ -13,11 +13,12 @@ import org.apache.commons.lang3.tuple.Pair;
 
 import its_meow.betteranimalsplus.client.model.ModelBearHead;
 import its_meow.betteranimalsplus.client.model.ModelBoarHead;
+import its_meow.betteranimalsplus.client.model.ModelCoyoteHead;
 import its_meow.betteranimalsplus.client.model.ModelDeerHead;
+import its_meow.betteranimalsplus.client.model.ModelFeralWolfHead;
 import its_meow.betteranimalsplus.client.model.ModelHirschgeistSkull;
 import its_meow.betteranimalsplus.client.model.ModelMooseHead;
 import its_meow.betteranimalsplus.client.model.ModelReindeerHead;
-import its_meow.betteranimalsplus.client.model.ModelWolfHead;
 import its_meow.betteranimalsplus.common.block.BlockGenericSkull;
 import its_meow.betteranimalsplus.common.item.ItemBlockHeadType;
 import its_meow.betteranimalsplus.common.tileentity.TileEntityHead;
@@ -30,9 +31,12 @@ import net.minecraftforge.fml.loading.FMLEnvironment;
 
 public enum HeadTypes {
 
-    WOLFHEAD("wolfhead", true, 4, () -> () -> ModelWolfHead.class,
+    WOLFHEAD("wolfhead", true, 3, () -> () -> ModelFeralWolfHead.class,
             type -> new TileEntityHead(type, 0F, ModTextures.wolf_black, ModTextures.wolf_snowy,
-                    ModTextures.wolf_timber, ModTextures.coyote_hostile)),
+                    ModTextures.wolf_timber)),
+    
+    COYOTEHEAD("coyotehead", true, 1, () -> () -> ModelCoyoteHead.class,
+            type -> new TileEntityHead(type, 0F, ModTextures.coyote_hostile)),
 
     BOARHEAD("boarhead", false, 4, () -> () -> ModelBoarHead.class,
             type -> new TileEntityHead(type, 0F, ModTextures.boar_1, ModTextures.boar_2, ModTextures.boar_3,
@@ -48,7 +52,6 @@ public enum HeadTypes {
         } else {
             return typeNum == 1 ? ModTextures.deer_1 : ModTextures.deer_2;
         }
-
     }))),
 
     REINDEERHEAD("reindeerhead", false, 4, () -> () -> ModelReindeerHead.class,

@@ -100,7 +100,8 @@ public class BetterAnimalsPlusRegistrar {
         new ItemAdvancementIcon("advancement_icon_shark"),
         new ItemAdvancementIcon("advancement_icon_lamprey"),
         new ItemAdvancementIcon("advancement_icon_squirrel"),
-        new ItemAdvancementIcon("advancement_icon_badger"));
+        new ItemAdvancementIcon("advancement_icon_badger")
+        );
 
         for (EntityTypeContainer<?> container : ModEntities.ENTITIES.values()) {
             ItemBetterAnimalsPlusEgg egg = new ItemBetterAnimalsPlusEgg(container);

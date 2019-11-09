@@ -3,7 +3,7 @@ package its_meow.betteranimalsplus.client.renderer.entity.layers;
 import com.mojang.blaze3d.platform.GLX;
 import com.mojang.blaze3d.platform.GlStateManager;
 
-import its_meow.betteranimalsplus.client.model.ModelCustomWolf;
+import its_meow.betteranimalsplus.client.model.ModelCoyote;
 import its_meow.betteranimalsplus.common.entity.EntityCoyote;
 import its_meow.betteranimalsplus.config.BetterAnimalsPlusConfig;
 import its_meow.betteranimalsplus.init.ModTextures;
@@ -15,9 +15,9 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public class LayerCoyoteEyes extends LayerRenderer<EntityCoyote, ModelCustomWolf<EntityCoyote>> {
+public class LayerCoyoteEyes extends LayerRenderer<EntityCoyote, ModelCoyote<EntityCoyote>> {
 
-    public LayerCoyoteEyes(IEntityRenderer<EntityCoyote, ModelCustomWolf<EntityCoyote>> p_i50921_1_) {
+    public LayerCoyoteEyes(IEntityRenderer<EntityCoyote, ModelCoyote<EntityCoyote>> p_i50921_1_) {
         super(p_i50921_1_);
      }
 
@@ -25,7 +25,7 @@ public class LayerCoyoteEyes extends LayerRenderer<EntityCoyote, ModelCustomWolf
     public void render(EntityCoyote p_212842_1_, float p_212842_2_, float p_212842_3_, float p_212842_4_, float p_212842_5_, float p_212842_6_, float p_212842_7_, float p_212842_8_) {
         if (!p_212842_1_.isDaytime() || BetterAnimalsPlusConfig.coyotesHostileDaytime) {
             if (!p_212842_1_.isTamed() && !p_212842_1_.isInvisible() && !p_212842_1_.isChild()) {
-                this.bindTexture(ModTextures.wolf_eyes);
+                this.bindTexture(ModTextures.coyote_eyes);
                 GlStateManager.enableBlend();
                 GlStateManager.disableAlphaTest();
                 GlStateManager.blendFunc(GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ONE);
@@ -42,7 +42,7 @@ public class LayerCoyoteEyes extends LayerRenderer<EntityCoyote, ModelCustomWolf
                 GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
                 GameRenderer gamerenderer = Minecraft.getInstance().gameRenderer;
                 gamerenderer.setupFogColor(true);
-                ((ModelCustomWolf<EntityCoyote>)this.getEntityModel()).render(p_212842_1_, p_212842_2_, p_212842_3_, p_212842_5_, p_212842_6_, p_212842_7_, p_212842_8_);
+                ((ModelCoyote<EntityCoyote>)this.getEntityModel()).render(p_212842_1_, p_212842_2_, p_212842_3_, p_212842_5_, p_212842_6_, p_212842_7_, p_212842_8_);
                 gamerenderer.setupFogColor(false);
                 i = p_212842_1_.getBrightnessForRender();
                 j = i % 65536;

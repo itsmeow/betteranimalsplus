@@ -53,7 +53,7 @@
             "conditions": {
                 "items": [
                     {
-                        "item": "betteranimalsplus:wolfhead_4"
+                        "item": "betteranimalsplus:coyotehead_1"
                     }
                 ]
             }
@@ -187,13 +187,95 @@
                     }
                 ]
             }
+        },
+        "head18": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "betteranimalsplus:foxhead_1"
+                    }
+                ]
+            }
+        },
+        "head19": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "betteranimalsplus:foxhead_2"
+                    }
+                ]
+            }
+        },
+        "head20": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "betteranimalsplus:foxhead_3"
+                    }
+                ]
+            }
+        },
+        "head21": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "betteranimalsplus:foxhead_4"
+                    }
+                ]
+            }
+        },
+        "head22": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "betteranimalsplus:moosehead_1"
+                    }
+                ]
+            }
+        },
+        "head23": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "betteranimalsplus:moosehead_2"
+                    }
+                ]
+            }
+        },
+        "head24": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "betteranimalsplus:moosehead_3"
+                    }
+                ]
+            }
+        },
+        "head25": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "betteranimalsplus:moosehead_4"
+                    }
+                ]
+            }
         }
     },
     "requirements": [
         [
             "head1",
             "head2",
-            "head3",
+            "head3"
+        ],
+        [
             "head4"
         ],
         [
@@ -216,6 +298,18 @@
             "head15",
             "head16",
             "head17"
+        ],
+        [
+            "head18",
+            "head19",
+            "head20",
+            "head21"
+        ],
+        [
+            "head22",
+            "head23",
+            "head24",
+            "head25"
         ]
     ],
     "parent": "betteranimalsplus:animal_head_first"

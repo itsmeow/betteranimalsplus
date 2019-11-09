@@ -7,7 +7,7 @@ import net.minecraft.entity.Entity;
 /**
  * HeadWolf - cybercat5555 Created using Tabula 5.1.0
  */
-public class ModelWolfHead extends EntityModel<Entity> {
+public class ModelCoyoteHead extends EntityModel<Entity> {
 
     public RendererModel head;
     public RendererModel muzzleUpper;
@@ -20,7 +20,7 @@ public class ModelWolfHead extends EntityModel<Entity> {
     public RendererModel rEar02;
     public RendererModel rEar03;
 
-    public ModelWolfHead() {
+    public ModelCoyoteHead() {
         this.textureWidth = 64;
         this.textureHeight = 64;
         this.head = new RendererModel(this, 45, 24);

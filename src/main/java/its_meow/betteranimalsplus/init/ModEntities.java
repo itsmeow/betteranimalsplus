@@ -66,7 +66,7 @@ public class ModEntities {
                 EntityClassification.CREATURE, 0xd8d8d8, 0xd82b11, 7, 1, 2, 1F, 1F, false, new String[] {"minecraft:bone"}, null,
                 Type.HILLS, Type.MOUNTAIN));
         public static final EntityTypeContainerTameable<EntityFeralWolf> FERAL_WOLF = setupContainer(new EntityTypeContainerTameable<EntityFeralWolf>(EntityFeralWolf.class, EntityFeralWolf::new, "feralwolf",
-                EntityClassification.CREATURE, 0xbababa, 0x232323, 7, 1, 6, 0.8F, 0.9F, false, new String[] {"minecraft:bone"}, null,
+                EntityClassification.CREATURE, 0xbababa, 0x232323, 7, 1, 6, 1.35F, 1.5F, false, new String[] {"minecraft:bone"}, null,
                 Type.FOREST, Type.MAGICAL, Type.SPOOKY));
         public static final EntityTypeContainerTameable<EntityCoyote> COYOTE = setupContainer(new EntityTypeContainerTameable<EntityCoyote>(EntityCoyote.class, EntityCoyote::new, "coyote",
                 EntityClassification.CREATURE, 0x866a31, 0xb69762, 5, 1, 6, 0.8F, 0.9F, false, new String[] {"minecraft:rabbit", "minecraft:chicken", "betteranimalsplus:pheasantraw", "minecraft:cooked_rabbit", "minecraft:cooked_chicken", "betteranimalsplus:pheasantcooked"}, new CustomConfigurationHolder() {

@@ -3,7 +3,7 @@ package its_meow.betteranimalsplus.client.renderer.entity.layers;
 import com.mojang.blaze3d.platform.GLX;
 import com.mojang.blaze3d.platform.GlStateManager;
 
-import its_meow.betteranimalsplus.client.model.ModelCustomWolf;
+import its_meow.betteranimalsplus.client.model.ModelFeralWolf;
 import its_meow.betteranimalsplus.common.entity.EntityFeralWolf;
 import its_meow.betteranimalsplus.init.ModTextures;
 import net.minecraft.client.Minecraft;
@@ -14,9 +14,9 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public class LayerWolfEyes extends LayerRenderer<EntityFeralWolf, ModelCustomWolf<EntityFeralWolf>> {
+public class LayerWolfEyes extends LayerRenderer<EntityFeralWolf, ModelFeralWolf<EntityFeralWolf>> {
 
-    public LayerWolfEyes(IEntityRenderer<EntityFeralWolf, ModelCustomWolf<EntityFeralWolf>> p_i50921_1_) {
+    public LayerWolfEyes(IEntityRenderer<EntityFeralWolf, ModelFeralWolf<EntityFeralWolf>> p_i50921_1_) {
         super(p_i50921_1_);
     }
 
@@ -39,7 +39,7 @@ public class LayerWolfEyes extends LayerRenderer<EntityFeralWolf, ModelCustomWol
             GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
             GameRenderer gamerenderer = Minecraft.getInstance().gameRenderer;
             gamerenderer.setupFogColor(true);
-            ((ModelCustomWolf<EntityFeralWolf>)this.getEntityModel()).render(p_212842_1_, p_212842_2_, p_212842_3_, p_212842_5_, p_212842_6_, p_212842_7_, p_212842_8_);
+            ((ModelFeralWolf<EntityFeralWolf>)this.getEntityModel()).render(p_212842_1_, p_212842_2_, p_212842_3_, p_212842_5_, p_212842_6_, p_212842_7_, p_212842_8_);
             gamerenderer.setupFogColor(false);
             i = p_212842_1_.getBrightnessForRender();
             j = i % 65536;

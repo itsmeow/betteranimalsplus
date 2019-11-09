@@ -1,5 +1,6 @@
 package its_meow.betteranimalsplus.client.model;
 
+import its_meow.betteranimalsplus.common.entity.EntityCoyote;
 import its_meow.betteranimalsplus.common.entity.EntityFeralWolf;
 import net.minecraft.client.renderer.entity.model.RendererModel;
 import net.minecraft.entity.LivingEntity;
@@ -8,8 +9,7 @@ import net.minecraft.util.math.MathHelper;
 /**
  * newwolf - cybercat5555 Created using Tabula 5.1.0
  */
-public class ModelCustomWolf<T extends LivingEntity> extends ModelBetterAnimals<T> {
-
+public class ModelCoyote<T extends LivingEntity> extends ModelBetterAnimals<T> {
     public RendererModel chest;
     public RendererModel lArm01;
     public RendererModel body;
@@ -45,7 +45,7 @@ public class ModelCustomWolf<T extends LivingEntity> extends ModelBetterAnimals<
     public RendererModel rArm01_1;
     public RendererModel rForepaw;
 
-    public ModelCustomWolf() {
+    public ModelCoyote() {
         this.textureWidth = 64;
         this.textureHeight = 64;
         this.rEar02 = new RendererModel(this, 0, 0);
@@ -229,7 +229,7 @@ public class ModelCustomWolf<T extends LivingEntity> extends ModelBetterAnimals<
     }
 
     @Override
-    public void setLivingAnimations(LivingEntity entity, float limbSwing, float limbSwingAmount,
+    public void setLivingAnimations(T entity, float limbSwing, float limbSwingAmount,
             float partialTickTime) {
         if(entity instanceof EntityFeralWolf) {
             EntityFeralWolf entityferalwolf = (EntityFeralWolf) entity;
@@ -242,7 +242,7 @@ public class ModelCustomWolf<T extends LivingEntity> extends ModelBetterAnimals<
     }
 
     @Override
-    public void setRotationAngles(LivingEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw,
+    public void setRotationAngles(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw,
             float headPitch, float scaleFactor) {
         float swingModifier = 0.9f;
         float newLimbSwing = limbSwing + ModelBetterAnimals.getSwingProgressPrev(entity);
@@ -255,26 +255,26 @@ public class ModelCustomWolf<T extends LivingEntity> extends ModelBetterAnimals<
         this.head.rotateAngleX = (float) Math.toRadians(ModelBetterAnimals.getHeadPitch(entity)) + 0.6F;
         this.head.rotateAngleY = netHeadYaw * 0.017453292F;
 
-        if (entity instanceof EntityFeralWolf) {
-            EntityFeralWolf wolf = (EntityFeralWolf) entity;
+        if (entity instanceof EntityCoyote) {
+            EntityCoyote wolf = (EntityCoyote) entity;
             this.tail01.rotateAngleX = ageInTicks;
             if (wolf.isSitting()) {
-                ModelCustomWolf.setRotateAngle360(this.neck, 30, 0, 0);
-                ModelCustomWolf.setRotateAngle360(this.chest, -40, 0, 0);
-                ModelCustomWolf.setRotateAngle360(this.body, -40, 0, 0);
-                ModelCustomWolf.setRotateAngle360(this.tail01, 90, 0, 0);
-                ModelCustomWolf.setRotateAngle360(this.lArm01, 36, 0, -5);
-                ModelCustomWolf.setRotateAngle360(this.lArm01_1, -26, 0, 5);
-                ModelCustomWolf.setRotateAngle360(this.lForepaw, 28, 0, 0);
-                ModelCustomWolf.setRotateAngle360(this.rArm01, 36, 0, 5);
-                ModelCustomWolf.setRotateAngle360(this.rArm01_1, -26, 0, -5);
-                ModelCustomWolf.setRotateAngle360(this.rForepaw, 28, 0, 0);
-                ModelCustomWolf.setRotateAngle360(this.lHindLeg01, -13, 0, -16);
+                ModelCoyote.setRotateAngle360(this.neck, 30, 0, 0);
+                ModelCoyote.setRotateAngle360(this.chest, -40, 0, 0);
+                ModelCoyote.setRotateAngle360(this.body, -40, 0, 0);
+                ModelCoyote.setRotateAngle360(this.tail01, 90, 0, 0);
+                ModelCoyote.setRotateAngle360(this.lArm01, 36, 0, -5);
+                ModelCoyote.setRotateAngle360(this.lArm01_1, -26, 0, 5);
+                ModelCoyote.setRotateAngle360(this.lForepaw, 28, 0, 0);
+                ModelCoyote.setRotateAngle360(this.rArm01, 36, 0, 5);
+                ModelCoyote.setRotateAngle360(this.rArm01_1, -26, 0, -5);
+                ModelCoyote.setRotateAngle360(this.rForepaw, 28, 0, 0);
+                ModelCoyote.setRotateAngle360(this.lHindLeg01, -13, 0, -16);
                 this.setRotateAngle(this.lHindLeg02, 0.8996066167365371F, 0.0F, 0.0F);
-                ModelCustomWolf.setRotateAngle360(this.lHindpaw, 90, 0, 0);
-                ModelCustomWolf.setRotateAngle360(this.rHindLeg01, -13, 0, 16);
+                ModelCoyote.setRotateAngle360(this.lHindpaw, 90, 0, 0);
+                ModelCoyote.setRotateAngle360(this.rHindLeg01, -13, 0, 16);
                 this.setRotateAngle(this.rHindLeg02, 0.8996066167365371F, 0.0F, 0.0F);
-                ModelCustomWolf.setRotateAngle360(this.rHindpaw, 90, 0, 0);
+                ModelCoyote.setRotateAngle360(this.rHindpaw, 90, 0, 0);
                 this.head.rotateAngleX -= Math.toRadians(20);
                 this.chest.setRotationPoint(0F, 16.8F, -0.8F);
             } else {
@@ -302,15 +302,15 @@ public class ModelCustomWolf<T extends LivingEntity> extends ModelBetterAnimals<
      * This is a helper function from Tabula to set the rotation of model parts
      */
     @Override
-    public void setRotateAngle(RendererModel modelRenderer, float x, float y, float z) {
-        modelRenderer.rotateAngleX = x;
-        modelRenderer.rotateAngleY = y;
-        modelRenderer.rotateAngleZ = z;
+    public void setRotateAngle(RendererModel RendererModel, float x, float y, float z) {
+        RendererModel.rotateAngleX = x;
+        RendererModel.rotateAngleY = y;
+        RendererModel.rotateAngleZ = z;
     }
 
-    public static void setRotateAngle360(RendererModel modelRenderer, float x, float y, float z) {
-        modelRenderer.rotateAngleX = (float) Math.toRadians(x);
-        modelRenderer.rotateAngleY = (float) Math.toRadians(y);
-        modelRenderer.rotateAngleZ = (float) Math.toRadians(z);
+    public static void setRotateAngle360(RendererModel RendererModel, float x, float y, float z) {
+        RendererModel.rotateAngleX = (float) Math.toRadians(x);
+        RendererModel.rotateAngleY = (float) Math.toRadians(y);
+        RendererModel.rotateAngleZ = (float) Math.toRadians(z);
     }
 }

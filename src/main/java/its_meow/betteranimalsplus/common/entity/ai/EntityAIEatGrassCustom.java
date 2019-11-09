@@ -38,12 +38,11 @@ public class EntityAIEatGrassCustom extends Goal {
 
     @Override
     public boolean shouldExecute() {
-        if(this.eater.getRNG().nextInt(this.eater.isChild() ? childChance : adultChance) != 0) {
-            return false;
-        } else {
+        if(this.eater.getRNG().nextInt(this.eater.isChild() ? childChance : adultChance) == 0) {
             BlockPos blockpos = getPosition.apply(eater);
             return IS_GRASS.test(this.world.getBlockState(blockpos)) || this.world.getBlockState(blockpos.down()).getBlock() == Blocks.GRASS_BLOCK;
         }
+        return false;
     }
 
     @Override
