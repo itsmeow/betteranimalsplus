@@ -1,7 +1,7 @@
 package its_meow.betteranimalsplus.common.entity;
 
+import its_meow.betteranimalsplus.common.entity.ai.EntityAIEatGrassCustom;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.ai.goal.EatGrassGoal;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
@@ -10,7 +10,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 public abstract class EntityAnimalEatsGrassWithTypes extends EntityAnimalWithTypes {
 
 	public final int taskPriority;
-	private EatGrassGoal eatTask = null;
+	private EntityAIEatGrassCustom eatTask = null;
 	public int eatTimer;
 
 	public EntityAnimalEatsGrassWithTypes(EntityType<? extends AnimalEntity> entityType, World worldIn, int taskPriority) {
@@ -56,7 +56,11 @@ public abstract class EntityAnimalEatsGrassWithTypes extends EntityAnimalWithTyp
 	@Override
 	protected void registerGoals() {
 		super.registerGoals();
-		this.goalSelector.addGoal(taskPriority, this.eatTask = new EatGrassGoal(this));
+		this.goalSelector.addGoal(taskPriority, this.eatTask = this.provideEatTask());
+	}
+	
+	protected EntityAIEatGrassCustom provideEatTask() {
+	    return new EntityAIEatGrassCustom(this, 50, 500);
 	}
 
 }

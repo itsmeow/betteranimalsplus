@@ -2,6 +2,7 @@ package its_meow.betteranimalsplus.common.entity;
 
 import javax.annotation.Nullable;
 
+import its_meow.betteranimalsplus.common.entity.ai.EntityAIEatGrassCustom;
 import its_meow.betteranimalsplus.init.ModEntities;
 import its_meow.betteranimalsplus.util.HeadTypes;
 import net.minecraft.entity.Entity;
@@ -18,15 +19,16 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.Direction;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 
-public class EntityMoose extends EntityAnimalWithTypes {
+public class EntityMoose extends EntityAnimalEatsGrassWithTypes {
 
     public EntityMoose(World worldIn) {
-        super(ModEntities.getEntityType("moose"), worldIn);
+        super(ModEntities.getEntityType("moose"), worldIn, 5);
     }
     
     @Override
@@ -46,6 +48,13 @@ public class EntityMoose extends EntityAnimalWithTypes {
         this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.6D);
         this.getAttributes().registerAttribute(SharedMonsterAttributes.ATTACK_DAMAGE);
         this.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(4.5D);
+    }
+    
+    protected EntityAIEatGrassCustom provideEatTask() {
+        return new EntityAIEatGrassCustom(this, 50, 50, eater -> {
+            Direction facing = eater.getHorizontalFacing();
+            return eater.getPosition().offset(facing).offset(facing);
+        });
     }
     
     @Override
