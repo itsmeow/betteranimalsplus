@@ -31,6 +31,7 @@ import its_meow.betteranimalsplus.common.entity.projectile.EntityBadgerDirt;
 import its_meow.betteranimalsplus.common.entity.projectile.EntityPheasantEgg;
 import its_meow.betteranimalsplus.common.entity.projectile.EntityTarantulaHair;
 import its_meow.betteranimalsplus.common.item.ItemAdvancementIcon;
+import its_meow.betteranimalsplus.common.item.ItemHiddenItem;
 import its_meow.betteranimalsplus.common.tileentity.TileEntityHandOfFate;
 import its_meow.betteranimalsplus.common.tileentity.TileEntityHead;
 import its_meow.betteranimalsplus.common.tileentity.TileEntityTrillium;
@@ -72,6 +73,8 @@ public class BetterAnimalsPlusRegistrar {
             registry.register(new Block(Material.CLOTH).setRegistryName(Ref.MOD_ID, type.name));
             registry.registerAll(type.getBlocks().toArray(new Block[0]));
         }
+        
+        registry.register(new Block(Material.CLOTH).setRegistryName(Ref.MOD_ID, "wolfhead_4"));
 
         GameRegistry.registerTileEntity(TileEntityTrillium.class, new ResourceLocation(trillium.getRegistryName() + "tileentity"));
         GameRegistry.registerTileEntity(TileEntityHandOfFate.class, new ResourceLocation(handoffate.getRegistryName() + "tileentity"));
@@ -135,7 +138,8 @@ public class BetterAnimalsPlusRegistrar {
         new ItemAdvancementIcon("advancement_icon_shark"),
         new ItemAdvancementIcon("advancement_icon_lamprey"),
         new ItemAdvancementIcon("advancement_icon_squirrel"),
-        new ItemAdvancementIcon("advancement_icon_badger")
+        new ItemAdvancementIcon("advancement_icon_badger"),
+        new ItemHiddenItem("wolfhead_4")
         );
 
     }

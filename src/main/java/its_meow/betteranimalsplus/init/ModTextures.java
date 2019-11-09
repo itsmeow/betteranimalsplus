@@ -28,9 +28,6 @@ public class ModTextures {
     public static final ResourceLocation wolf_black = new ResourceLocation(entitytex + "feral_wolf_black.png");
     public static final ResourceLocation wolf_snowy = new ResourceLocation(entitytex + "feral_wolf_snowy.png");
     public static final ResourceLocation wolf_timber = new ResourceLocation(entitytex + "feral_wolf_timber.png");
-    public static final ResourceLocation wolf_black_tame = new ResourceLocation(entitytex + "feral_wolf_black_tame.png");
-    public static final ResourceLocation wolf_snowy_tame = new ResourceLocation(entitytex + "feral_wolf_snowy_tame.png");
-    public static final ResourceLocation wolf_timber_tame = new ResourceLocation(entitytex + "feral_wolf_timber_tame.png");
     public static final ResourceLocation wolf_black_neutral = new ResourceLocation(entitytex + "feral_wolf_black_neutral.png");
     public static final ResourceLocation wolf_snowy_neutral = new ResourceLocation(entitytex + "feral_wolf_snowy_neutral.png");
     public static final ResourceLocation wolf_timber_neutral = new ResourceLocation(entitytex + "feral_wolf_timber_neutral.png");

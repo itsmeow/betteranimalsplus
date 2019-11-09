@@ -53,7 +53,7 @@
             "conditions": {
                 "items": [
                     {
-                        "item": "betteranimalsplus:wolfhead_4"
+                        "item": "betteranimalsplus:coyotehead_1"
                     }
                 ]
             }
@@ -237,6 +237,46 @@
                     }
                 ]
             }
+        },
+        "head23": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "betteranimalsplus:moosehead_1"
+                    }
+                ]
+            }
+        },
+        "head24": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "betteranimalsplus:moosehead_2"
+                    }
+                ]
+            }
+        },
+        "head25": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "betteranimalsplus:moosehead_3"
+                    }
+                ]
+            }
+        },
+        "head26": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "betteranimalsplus:moosehead_4"
+                    }
+                ]
+            }
         }
     },
     "requirements": [
@@ -262,7 +302,11 @@
             "head19",
             "head20",
             "head21",
-            "head22"
+            "head22",
+            "head23",
+            "head24",
+            "head25",
+            "head26"
         ]
     ],
     "parent": "betteranimalsplus:root"

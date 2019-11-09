@@ -4,7 +4,7 @@ import its_meow.betteranimalsplus.BetterAnimalsPlusMod;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.datafix.IFixableData;
 
-public class SnowyCapeDataFixer implements IFixableData {
+public class CoyoteHeadItemDataFixer implements IFixableData {
 
     @Override
     public int getFixVersion() {
@@ -14,11 +14,11 @@ public class SnowyCapeDataFixer implements IFixableData {
     @Override
     public NBTTagCompound fixTagCompound(NBTTagCompound compound) {
         String id = compound.getString("id");
-        if(id.equals("wolf_cape_snowy")) {
-            compound.setString("id", "wolf_cape_classic");
-            BetterAnimalsPlusMod.logger.debug("Fixed snowy/classic cape ItemStack ID from wolf_cape_snowy to wolf_cape_classic");
+        if(id.equals("betteranimalsplus:wolfhead_4")) {
+            String newId = "betteranimalsplus:coyotehead_1";
+            compound.setString("id", newId);
+            BetterAnimalsPlusMod.logger.debug("Fixed head ItemStack {} to {}", id, newId);
         }
-
         return compound;
     }
 

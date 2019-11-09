@@ -1,6 +1,6 @@
 package its_meow.betteranimalsplus.client.renderer.entity;
 
-import its_meow.betteranimalsplus.client.model.ModelCustomWolf;
+import its_meow.betteranimalsplus.client.model.ModelCoyote;
 import its_meow.betteranimalsplus.client.renderer.entity.layers.LayerCoyoteEyes;
 import its_meow.betteranimalsplus.common.entity.EntityCoyote;
 import its_meow.betteranimalsplus.config.BetterAnimalsPlusConfig;
@@ -12,7 +12,7 @@ import net.minecraft.util.ResourceLocation;
 public class RenderCoyote extends RenderLiving<EntityCoyote> {
 
     public RenderCoyote(RenderManager manager) {
-        super(manager, new ModelCustomWolf(), 0.5F);
+        super(manager, new ModelCoyote(), 0.5F);
         this.addLayer(new LayerCoyoteEyes(this));
     }
     

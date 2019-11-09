@@ -108,7 +108,7 @@ public class EntityCoyote extends EntityFeralWolf {
     public void doHeadDrop() {
         if (!world.isRemote && !this.isChild()) {
             if (this.rand.nextInt(12) == 0) {
-                ItemStack stack = new ItemStack(HeadTypes.WOLFHEAD.getItem(4)); // 4 is ID for coyote
+                ItemStack stack = new ItemStack(HeadTypes.COYOTEHEAD.getItem(1));
                 this.entityDropItem(stack, 0.5F);
             }
         }

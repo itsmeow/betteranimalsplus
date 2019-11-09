@@ -1,6 +1,6 @@
 package its_meow.betteranimalsplus.client.renderer.entity;
 
-import its_meow.betteranimalsplus.client.model.ModelCustomWolf;
+import its_meow.betteranimalsplus.client.model.ModelFeralWolf;
 import its_meow.betteranimalsplus.client.renderer.entity.layers.LayerWolfEyes;
 import its_meow.betteranimalsplus.common.entity.EntityFeralWolf;
 import its_meow.betteranimalsplus.init.ModTextures;
@@ -11,7 +11,7 @@ import net.minecraft.util.ResourceLocation;
 public class RenderCustomWolf extends RenderLiving<EntityFeralWolf> {
 
     public RenderCustomWolf(RenderManager manager) {
-        super(manager, new ModelCustomWolf(), 0.5F);
+        super(manager, new ModelFeralWolf(), 0.5F);
         this.addLayer(new LayerWolfEyes(this));
     }
 

@@ -11,6 +11,9 @@ import its_meow.betteranimalsplus.common.entity.projectile.EntityPheasantEgg;
 import its_meow.betteranimalsplus.common.item.ItemBlockHeadType;
 import its_meow.betteranimalsplus.config.BetterAnimalsPlusConfig;
 import its_meow.betteranimalsplus.fixers.BearDataFixer;
+import its_meow.betteranimalsplus.fixers.CoyoteHeadBlockDataFixer;
+import its_meow.betteranimalsplus.fixers.CoyoteHeadItemDataFixer;
+import its_meow.betteranimalsplus.fixers.CoyoteHeadTileDataFixer;
 import its_meow.betteranimalsplus.fixers.HeadBlockDataFixer;
 import its_meow.betteranimalsplus.fixers.HeadItemDataFixer;
 import its_meow.betteranimalsplus.fixers.HeadTileDataFixer;
@@ -60,7 +63,7 @@ import net.minecraftforge.fml.relauncher.Side;
 @Mod(modid = Ref.MOD_ID, name = Ref.NAME, version = Ref.VERSION, acceptedMinecraftVersions = Ref.acceptedMCV, updateJSON = Ref.updateJSON)
 public class BetterAnimalsPlusMod {
 
-    public static final int FIXER_VERSION = 3;
+    public static final int FIXER_VERSION = 4;
     public static final SimpleNetworkWrapper NETWORK_INSTANCE = NetworkRegistry.INSTANCE.newSimpleChannel(Ref.MOD_ID);
     public static int packets = 0;
 
@@ -126,6 +129,10 @@ public class BetterAnimalsPlusMod {
         fixer.registerFix(FixTypes.BLOCK_ENTITY, new HeadTileDataFixer());
         fixer.registerFix(FixTypes.ITEM_INSTANCE, new HeadItemDataFixer());
         fixer.registerFix(FixTypes.ENTITY, new BearDataFixer());
+        // coyote fixes
+        fixer.registerFix(FixTypes.CHUNK, new CoyoteHeadBlockDataFixer());
+        fixer.registerFix(FixTypes.BLOCK_ENTITY, new CoyoteHeadTileDataFixer());
+        fixer.registerFix(FixTypes.ITEM_INSTANCE, new CoyoteHeadItemDataFixer());
         logger.log(Level.INFO, "Overspawning lammergeiers...");
     }
 

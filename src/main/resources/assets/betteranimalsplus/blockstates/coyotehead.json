@@ -1,6 +1,6 @@
 {
     "variants": {
         "normal":  { "model": "minecraft:soul_sand" },
-        "inventory": { "model": "betteranimalsplus:items/coyotehead" }
+        "inventory": { "model": "betteranimalsplus:items/coyotehead_1" }
     }
 }
