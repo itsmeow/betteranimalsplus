@@ -27,7 +27,7 @@ public class EntityMoose extends EntityAnimalEatsGrassWithTypes {
         super(worldIn, 5);
         this.setSize(2.25F, 3F);
     }
-    
+
     @Override
     protected void initEntityAI() {
         super.initEntityAI();
@@ -46,14 +46,19 @@ public class EntityMoose extends EntityAnimalEatsGrassWithTypes {
         this.getAttributeMap().registerAttribute(SharedMonsterAttributes.ATTACK_DAMAGE);
         this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(4.5D);
     }
-    
+
+    @Override
+    protected float getWaterSlowDown() {
+        return 0.98F;
+    }
+
     protected EntityAIEatGrassCustom provideEatTask() {
         return new EntityAIEatGrassCustom(this, 50, 50, eater -> {
             EnumFacing facing = eater.getHorizontalFacing();
             return eater.getPosition().offset(facing).offset(facing);
         });
     }
-    
+
     @Override
     public boolean attackEntityAsMob(Entity entityIn) {
         Vec3d pos = this.getPositionVector();
@@ -66,8 +71,8 @@ public class EntityMoose extends EntityAnimalEatsGrassWithTypes {
     @Override
     public void onDeath(DamageSource cause) {
         super.onDeath(cause);
-        if (!world.isRemote && !this.isChild()) {
-            if (this.rand.nextInt(12) == 0) {
+        if(!world.isRemote && !this.isChild()) {
+            if(this.rand.nextInt(12) == 0) {
                 ItemStack stack = new ItemStack(HeadTypes.MOOSEHEAD.getItem(this.getTypeNumber()));
                 this.entityDropItem(stack, 0.5F);
             }
@@ -88,11 +93,11 @@ public class EntityMoose extends EntityAnimalEatsGrassWithTypes {
     protected String getContainerName() {
         return "moose";
     }
-    
+
     @Override
     @Nullable
     public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, @Nullable IEntityLivingData livingdata) {
-        int validTypes[] = {1, 2, 3, 4};
+        int validTypes[] = { 1, 2, 3, 4 };
         return this.initData(super.onInitialSpawn(difficulty, livingdata), getBiasedRandomType(validTypes));
     }
 
