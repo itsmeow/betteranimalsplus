@@ -15,6 +15,9 @@ buildscript {
         classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
     }
 }
+plugins {
+    id 'org.ajoberstar.grgit' version '3.1.1'
+}
 apply plugin: 'net.minecraftforge.gradle.forge'
 //Only edit below this line, the above code adds and enables the necessary things for Forge to be setup.
 
@@ -82,6 +85,21 @@ tasks.withType(JavaCompile) {
     '-Xlint:deprecation', // deprecation, rawtypes, cast, unchecked, all
     '-Xlint:unchecked',
   ]
+}
+
+task setupGithubActions(type: Exec) {
+    def getVersion = {
+        //TAG-offset-hash
+        def raw = grgit.describe(longDescr: true, tags:true, match: ["[1-9].[0-9].[0-9]", "[1-9][0-9].[1-9][0-9].[1-9][0-9]", "[0-9].[1-9][0-9].[1-9][0-9]", "[0-9].[0-9].[1-9][0-9]", "[0-9].[1-9][0-9].[0-9]", "[1-9][0-9].[0-9].[0-9]"])
+        def desc = (raw == null ? '0.0-0-unknown' : grgit.describe(longDescr: true, tags:true, match: ["[1-9].[0-9].[0-9]", "[1-9][0-9].[1-9][0-9].[1-9][0-9]", "[0-9].[1-9][0-9].[1-9][0-9]", "[0-9].[0-9].[1-9][0-9]", "[0-9].[1-9][0-9].[0-9]", "[1-9][0-9].[0-9].[0-9]"])).split('-') as List
+        def hash = desc.remove(desc.size() - 1)
+        def offset = desc.remove(desc.size() - 1)
+        def tag = desc.join('-')
+        return "${tag}.${offset}".toString() //Bake the response instead of making it dynamic
+    }
+    project.mod_version = getVersion();
+    version = "${project.mc_version}-${project.mod_version}";
+    commandLine "echo", "##[set-output name=version;]${project.version}"
 }
 
 processResources {
