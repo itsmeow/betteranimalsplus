@@ -395,7 +395,7 @@ public class EntityReindeer extends AnimalEntity implements IJumpingMount, IVari
     protected void registerAttributes() {
         super.registerAttributes();
         this.getAttributes().registerAttribute(EntityReindeer.JUMP_STRENGTH);
-        this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(53.0D);
+        this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(30.0D);
         this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.22499999403953552D);
     }
 
