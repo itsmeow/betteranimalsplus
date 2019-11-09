@@ -2,6 +2,7 @@ package its_meow.betteranimalsplus.common.entity;
 
 import javax.annotation.Nullable;
 
+import its_meow.betteranimalsplus.init.ModItems;
 import its_meow.betteranimalsplus.init.ModLootTables;
 import net.minecraft.block.Block;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -29,19 +30,21 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 
 public class EntityPheasant extends EntityAnimalWithTypes {
-    
+
     protected static final DataParameter<Integer> PECK_TIME = EntityDataManager.<Integer>createKey(EntityPheasant.class, DataSerializers.VARINT);
     public float wingRotation;
     public float destPos;
     public float oFlapSpeed;
     public float oFlap;
     public float wingRotDelta = 0.3F;
+    public int timeUntilNextEgg;
 
     public EntityPheasant(World worldIn) {
         super(worldIn);
         this.setPeckTime(this.getNewPeck());
         this.setPathPriority(PathNodeType.WATER, 0.0F);
         this.setSize(1F, this.isChild() ? 0.8F : 1F);
+        this.timeUntilNextEgg = this.rand.nextInt(6000) + 6000;
     }
 
     @Override
@@ -79,26 +82,32 @@ public class EntityPheasant extends EntityAnimalWithTypes {
         this.destPos = (float) (this.destPos + (this.onGround ? -1 : 4) * 0.3D);
         this.destPos = MathHelper.clamp(this.destPos, 0.0F, 1.0F);
 
-        if (!this.onGround && this.wingRotDelta < 1.0F) {
+        if(!this.onGround && this.wingRotDelta < 1.0F) {
             this.wingRotDelta = 0.3F;
         }
 
         this.wingRotDelta = (float) (this.wingRotDelta * 0.9D);
 
-        if (!this.onGround && this.motionY < 0.0D) {
+        if(!this.onGround && this.motionY < 0.0D) {
             this.motionY *= 0.6D;
         }
 
         this.wingRotation += this.wingRotDelta * 2.0F;
 
-        if (!this.onGround || this.getMoveHelper().isUpdating()) {
-            if (this.getPeckTime() <= 61) {
+        if(!this.onGround || this.getMoveHelper().isUpdating()) {
+            if(this.getPeckTime() <= 61) {
                 this.setPeckTime(80);
             }
         }
 
-        if (!this.world.isRemote && this.setPeckTime(this.getPeckTime() - 1) <= 0) {
+        if(!this.world.isRemote && this.setPeckTime(this.getPeckTime() - 1) <= 0) {
             this.setPeckTime(this.getNewPeck());
+        }
+
+        if(!this.world.isRemote && !this.isChild() && --this.timeUntilNextEgg <= 0) {
+            this.playSound(SoundEvents.ENTITY_CHICKEN_EGG, 1.0F, (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 1.0F);
+            this.dropItem(ModItems.PHEASANT_EGG, 1);
+            this.timeUntilNextEgg = this.rand.nextInt(6000) + 6000;
         }
     }
 
@@ -106,9 +115,9 @@ public class EntityPheasant extends EntityAnimalWithTypes {
     public boolean processInteract(EntityPlayer player, EnumHand hand) {
         ItemStack itemstack = player.getHeldItem(hand);
 
-        if (itemstack.getItem() == Items.PUMPKIN_SEEDS && !this.isChild()) {
+        if(itemstack.getItem() == Items.PUMPKIN_SEEDS && !this.isChild()) {
             this.setInLove(player);
-            if (!player.capabilities.isCreativeMode) {
+            if(!player.capabilities.isCreativeMode) {
                 itemstack.shrink(1);
             }
             return true;

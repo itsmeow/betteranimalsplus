@@ -7,6 +7,7 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import its_meow.betteranimalsplus.common.entity.projectile.EntityPheasantEgg;
 import its_meow.betteranimalsplus.common.item.ItemBlockHeadType;
 import its_meow.betteranimalsplus.config.BetterAnimalsPlusConfig;
 import its_meow.betteranimalsplus.fixers.BearDataFixer;
@@ -24,7 +25,11 @@ import its_meow.betteranimalsplus.network.ClientConfigurationPacket;
 import its_meow.betteranimalsplus.util.EntityContainer;
 import its_meow.betteranimalsplus.util.HeadTypes;
 import its_meow.betteranimalsplus.world.gen.TrilliumGenerator;
+import net.minecraft.block.BlockDispenser;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.dispenser.BehaviorProjectileDispense;
+import net.minecraft.dispenser.IPosition;
+import net.minecraft.entity.IProjectile;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemMonsterPlacer;
@@ -32,6 +37,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.datafix.FixTypes;
+import net.minecraft.world.World;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.common.util.ModFixs;
 import net.minecraftforge.fml.common.FMLCommonHandler;
@@ -58,7 +64,7 @@ public class BetterAnimalsPlusMod {
     public static final SimpleNetworkWrapper NETWORK_INSTANCE = NetworkRegistry.INSTANCE.newSimpleChannel(Ref.MOD_ID);
     public static int packets = 0;
 
-	@Instance(Ref.MOD_ID)
+    @Instance(Ref.MOD_ID)
     public static BetterAnimalsPlusMod mod;
 
     public static CreativeTabs tab = new CreativeTabs("Better Animals+") {
@@ -71,11 +77,11 @@ public class BetterAnimalsPlusMod {
         public void displayAllRelevantItems(NonNullList<ItemStack> toDisplay) {
             super.displayAllRelevantItems(toDisplay);
             for(HeadTypes type : HeadTypes.values()) {
-            	for(ItemBlockHeadType item : type.getItems()) {
-            		toDisplay.add(new ItemStack(item));
-            	}
+                for(ItemBlockHeadType item : type.getItems()) {
+                    toDisplay.add(new ItemStack(item));
+                }
             }
-            for (EntityContainer cont : ModEntities.entityList) {
+            for(EntityContainer cont : ModEntities.entityList) {
                 ItemStack stack = new ItemStack(Items.SPAWN_EGG);
                 ItemMonsterPlacer.applyEntityIdToItemStack(stack, new ResourceLocation(Ref.MOD_ID, cont.entityName));
                 toDisplay.add(stack);
@@ -96,6 +102,11 @@ public class BetterAnimalsPlusMod {
         NETWORK_INSTANCE.registerMessage(ClientConfigurationPacket.class, ClientConfigurationPacket.class, packets++, Side.CLIENT);
         ModLootTables.register();
         ModTriggers.register();
+        BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.putObject(ModItems.PHEASANT_EGG, new BehaviorProjectileDispense() {
+            protected IProjectile getProjectileEntity(World worldIn, IPosition position, ItemStack stackIn) {
+                return new EntityPheasantEgg(worldIn, position.getX(), position.getY(), position.getZ());
+            }
+        });
 
         if(Loader.isModLoaded("baubles")) {
             // fuk u JVM get rekt
@@ -107,7 +118,7 @@ public class BetterAnimalsPlusMod {
     @EventHandler
     public void init(FMLInitializationEvent e) {
         ModOreDictSmelting.register();
-        if (BetterAnimalsPlusConfig.spawnTrillium) {
+        if(BetterAnimalsPlusConfig.spawnTrillium) {
             GameRegistry.registerWorldGenerator(new TrilliumGenerator(ModBlocks.trillium), 1);
         }
         ModFixs fixer = FMLCommonHandler.instance().getDataFixer().init(Ref.MOD_ID, FIXER_VERSION);
@@ -120,22 +131,22 @@ public class BetterAnimalsPlusMod {
 
     @EventHandler
     public void postInit(FMLPostInitializationEvent e) {
-        if (config.hasChanged()) {
+        if(config.hasChanged()) {
             config.save();
         }
         logger.log(Level.INFO, "Crazy bird creation complete.");
     }
-	
-	@EventHandler
-	public static void serverStart(FMLServerStartingEvent e) {
-		BetterAnimalsPlusConfig.readConfig(false);
-	}
-	
-	@SubscribeEvent
-	public static void onPlayerJoin(PlayerLoggedInEvent e) {
-	    if(e.player instanceof EntityPlayerMP) {
-	        NETWORK_INSTANCE.sendTo(new ClientConfigurationPacket(BetterAnimalsPlusConfig.coyotesHostileDaytime, BetterAnimalsPlusConfig.getTameItemsMap()), (EntityPlayerMP) e.player);
-	    }
-	}
+
+    @EventHandler
+    public static void serverStart(FMLServerStartingEvent e) {
+        BetterAnimalsPlusConfig.readConfig(false);
+    }
+
+    @SubscribeEvent
+    public static void onPlayerJoin(PlayerLoggedInEvent e) {
+        if(e.player instanceof EntityPlayerMP) {
+            NETWORK_INSTANCE.sendTo(new ClientConfigurationPacket(BetterAnimalsPlusConfig.coyotesHostileDaytime, BetterAnimalsPlusConfig.getTameItemsMap()), (EntityPlayerMP) e.player);
+        }
+    }
 
 }
