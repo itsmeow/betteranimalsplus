@@ -30,6 +30,7 @@ import its_meow.betteranimalsplus.common.entity.EntityLammergeier;
 import its_meow.betteranimalsplus.common.entity.projectile.EntityBadgerDirt;
 import its_meow.betteranimalsplus.common.entity.projectile.EntityPheasantEgg;
 import its_meow.betteranimalsplus.common.entity.projectile.EntityTarantulaHair;
+import its_meow.betteranimalsplus.common.entity.projectile.EntityTurkeyEgg;
 import its_meow.betteranimalsplus.common.item.ItemAdvancementIcon;
 import its_meow.betteranimalsplus.common.item.ItemHiddenItem;
 import its_meow.betteranimalsplus.common.tileentity.TileEntityHandOfFate;
@@ -157,6 +158,7 @@ public class BetterAnimalsPlusRegistrar {
         register(EntityBadgerDirt.class, "badgerdirt");
         register(EmptyEntity.class, "kermodebear");
         register(EntityPheasantEgg.class, "pheasantegg");
+        register(EntityTurkeyEgg.class, "turkeyegg");
 
         if(!entrySet.isEmpty()) {
             for(final EntityEntry entityEntry : entrySet) {
