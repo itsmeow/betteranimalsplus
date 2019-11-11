@@ -163,5 +163,11 @@ public class ModTextures {
     public static final ResourceLocation moose_2 = new ResourceLocation(entitytex + "moose_2.png");
     public static final ResourceLocation moose_3 = new ResourceLocation(entitytex + "moose_3.png");
     public static final ResourceLocation moose_4 = new ResourceLocation(entitytex + "moose_4.png");
+    
+    // Turkey Variants
+    public static final ResourceLocation turkey_1 = new ResourceLocation(entitytex + "turkey_1.png");
+    public static final ResourceLocation turkey_2 = new ResourceLocation(entitytex + "turkey_2.png");
+    public static final ResourceLocation turkey_3 = new ResourceLocation(entitytex + "turkey_3.png");
+    public static final ResourceLocation turkey_4 = new ResourceLocation(entitytex + "turkey_4.png");
 
 }

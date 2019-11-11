@@ -25,6 +25,7 @@ import its_meow.betteranimalsplus.common.entity.EntityShark;
 import its_meow.betteranimalsplus.common.entity.EntitySongbird;
 import its_meow.betteranimalsplus.common.entity.EntitySquirrel;
 import its_meow.betteranimalsplus.common.entity.EntityTarantula;
+import its_meow.betteranimalsplus.common.entity.EntityTurkey;
 import its_meow.betteranimalsplus.common.entity.miniboss.hirschgeist.EntityHirschgeist;
 import its_meow.betteranimalsplus.config.BetterAnimalsPlusConfig;
 import its_meow.betteranimalsplus.util.EntityContainer;
@@ -65,6 +66,7 @@ public class ModEntities {
         add(EntityHorseshoeCrab.class, "horseshoecrab", EnumCreatureType.CREATURE, 0xba1111, 0x520807, BetterAnimalsPlusConfig.horseshoeCrabWeight, 1, 3, true, null, Type.BEACH);
         add(EntityShark.class, "shark", EnumCreatureType.WATER_CREATURE, 0x787878, 0xbdbdbd, BetterAnimalsPlusConfig.sharkWeight, 1, 1, true, null, Type.OCEAN);
         add(EntityMoose.class, "moose", EnumCreatureType.CREATURE, 0x46351c, 0x97866e, BetterAnimalsPlusConfig.mooseWeight, 1, 1, false, null, Type.SWAMP);
+        add(EntityTurkey.class, "turkey", EnumCreatureType.CREATURE, 0x857445, 0x5099ba, BetterAnimalsPlusConfig.turkeyWeight, 1, 3, false, null, Type.FOREST);
     }
     
     /**

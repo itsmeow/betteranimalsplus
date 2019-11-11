@@ -26,6 +26,7 @@ import its_meow.betteranimalsplus.client.renderer.entity.RenderSongbird;
 import its_meow.betteranimalsplus.client.renderer.entity.RenderSquirrel;
 import its_meow.betteranimalsplus.client.renderer.entity.RenderTarantula;
 import its_meow.betteranimalsplus.client.renderer.entity.RenderTarantulaHair;
+import its_meow.betteranimalsplus.client.renderer.entity.RenderTurkey;
 import its_meow.betteranimalsplus.client.renderer.tileentity.RenderBlockHandOfFate;
 import its_meow.betteranimalsplus.client.renderer.tileentity.RenderBlockTrillium;
 import its_meow.betteranimalsplus.client.renderer.tileentity.RenderGenericHead;
@@ -51,6 +52,7 @@ import its_meow.betteranimalsplus.common.entity.EntityShark;
 import its_meow.betteranimalsplus.common.entity.EntitySongbird;
 import its_meow.betteranimalsplus.common.entity.EntitySquirrel;
 import its_meow.betteranimalsplus.common.entity.EntityTarantula;
+import its_meow.betteranimalsplus.common.entity.EntityTurkey;
 import its_meow.betteranimalsplus.common.entity.miniboss.hirschgeist.EntityHirschgeist;
 import its_meow.betteranimalsplus.common.entity.projectile.EntityBadgerDirt;
 import its_meow.betteranimalsplus.common.entity.projectile.EntityPheasantEgg;
@@ -158,6 +160,7 @@ public class ClientRegistrar {
         RenderingRegistry.registerEntityRenderingHandler(EntityShark.class, RenderShark::new);
         RenderingRegistry.registerEntityRenderingHandler(EntityMoose.class, RenderMoose::new);
         RenderingRegistry.registerEntityRenderingHandler(EntityPheasantEgg.class, mgr -> new RenderSnowball<EntityPheasantEgg>(mgr, ModItems.PHEASANT_EGG, Minecraft.getMinecraft().getRenderItem()));
+        RenderingRegistry.registerEntityRenderingHandler(EntityTurkey.class, RenderTurkey::new);
     }
 
     public static void initModel(Item item) {
