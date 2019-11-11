@@ -168,7 +168,7 @@ public class EntityTurkey extends EntityAnimalWithTypes {
 
     @Override
     public int getVariantMax() {
-        return 2;
+        return 4;
     }
 
     @Override
