@@ -28,6 +28,7 @@ import its_meow.betteranimalsplus.common.entity.EntityShark;
 import its_meow.betteranimalsplus.common.entity.EntitySongbird;
 import its_meow.betteranimalsplus.common.entity.EntitySquirrel;
 import its_meow.betteranimalsplus.common.entity.EntityTarantula;
+import its_meow.betteranimalsplus.common.entity.EntityTurkey;
 import its_meow.betteranimalsplus.common.entity.miniboss.hirschgeist.EntityHirschgeist;
 import its_meow.betteranimalsplus.config.BetterAnimalsPlusConfig;
 import its_meow.betteranimalsplus.util.EntityTypeContainer;
@@ -139,6 +140,9 @@ public class ModEntities {
         public static final EntityTypeContainer<EntityMoose> MOOSE = setupContainer(new EntityTypeContainer<EntityMoose>(EntityMoose.class, EntityMoose::new, "moose",
                 EntityClassification.CREATURE, 0x46351c, 0x97866e, 8, 1, 1, 2.25F, 3F, false, null,
                 Type.SWAMP));
+        public static final EntityTypeContainer<EntityTurkey> TURKEY = setupContainer(new EntityTypeContainer<EntityTurkey>(EntityTurkey.class, EntityTurkey::new, "turkey",
+                EntityClassification.CREATURE, 0x857445, 0x5099ba, 11, 1, 3, 1F, 1F, false, null,
+                Type.FOREST));
 
     /*
      * ##########################################################
