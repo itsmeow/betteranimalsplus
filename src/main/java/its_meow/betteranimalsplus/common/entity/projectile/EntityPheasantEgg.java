@@ -52,6 +52,7 @@ public class EntityPheasantEgg extends EntityThrowable {
                     EntityPheasant entity = new EntityPheasant(this.world);
                     entity.setGrowingAge(-24000);
                     entity.setLocationAndAngles(this.posX, this.posY, this.posZ, this.rotationYaw, 0.0F);
+                    entity.setType(entity.getRandomType());
                     this.world.spawnEntity(entity);
                 }
             }
