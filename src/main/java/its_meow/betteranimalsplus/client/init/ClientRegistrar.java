@@ -57,6 +57,7 @@ import its_meow.betteranimalsplus.common.entity.miniboss.hirschgeist.EntityHirsc
 import its_meow.betteranimalsplus.common.entity.projectile.EntityBadgerDirt;
 import its_meow.betteranimalsplus.common.entity.projectile.EntityPheasantEgg;
 import its_meow.betteranimalsplus.common.entity.projectile.EntityTarantulaHair;
+import its_meow.betteranimalsplus.common.entity.projectile.EntityTurkeyEgg;
 import its_meow.betteranimalsplus.common.item.ItemAdvancementIcon;
 import its_meow.betteranimalsplus.common.item.ItemBlockHeadType;
 import its_meow.betteranimalsplus.common.tileentity.TileEntityHandOfFate;
@@ -121,7 +122,8 @@ public class ClientRegistrar {
         initModel(ModItems.BEAR_CAPE_BROWN);
         initModel(ModItems.BEAR_CAPE_KERMODE);
         initModel(ModItems.PHEASANT_EGG);
-        
+        initModel(ModItems.TURKEY_EGG);
+
         for(ItemAdvancementIcon icon : ModItems.ADVANCEMENT_ICONS.values()) {
             initModel(icon);
         }
@@ -161,6 +163,7 @@ public class ClientRegistrar {
         RenderingRegistry.registerEntityRenderingHandler(EntityMoose.class, RenderMoose::new);
         RenderingRegistry.registerEntityRenderingHandler(EntityPheasantEgg.class, mgr -> new RenderSnowball<EntityPheasantEgg>(mgr, ModItems.PHEASANT_EGG, Minecraft.getMinecraft().getRenderItem()));
         RenderingRegistry.registerEntityRenderingHandler(EntityTurkey.class, RenderTurkey::new);
+        RenderingRegistry.registerEntityRenderingHandler(EntityTurkeyEgg.class, mgr -> new RenderSnowball<EntityTurkeyEgg>(mgr, ModItems.TURKEY_EGG, Minecraft.getMinecraft().getRenderItem()));
     }
 
     public static void initModel(Item item) {
