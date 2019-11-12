@@ -27,5 +27,7 @@ public class ModLootTables {
     public static final ResourceLocation BEAR_KERMODE = new ResourceLocation(Ref.MOD_ID, "bear_kermode");
     
     public static final ResourceLocation SHARK = new ResourceLocation(Ref.MOD_ID, "shark");
+    
+    public static final ResourceLocation TURKEY = new ResourceLocation(Ref.MOD_ID, "turkey");
 
 }

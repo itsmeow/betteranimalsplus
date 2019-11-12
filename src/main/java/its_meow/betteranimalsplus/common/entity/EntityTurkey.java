@@ -4,12 +4,17 @@ import javax.annotation.Nullable;
 
 import its_meow.betteranimalsplus.init.ModEntities;
 import its_meow.betteranimalsplus.init.ModItems;
+import its_meow.betteranimalsplus.init.ModLootTables;
 import its_meow.betteranimalsplus.util.EntityTypeContainer;
 import net.minecraft.block.BlockState;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.goal.BreedGoal;
 import net.minecraft.entity.ai.goal.FollowParentGoal;
+import net.minecraft.entity.ai.goal.HurtByTargetGoal;
 import net.minecraft.entity.ai.goal.LookAtGoal;
+import net.minecraft.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.entity.ai.goal.PanicGoal;
 import net.minecraft.entity.ai.goal.SwimGoal;
 import net.minecraft.entity.ai.goal.TemptGoal;
@@ -40,6 +45,8 @@ public class EntityTurkey extends EntityAnimalWithTypes {
     public float oFlap;
     public float wingRotDelta = 0.3F;
     public int timeUntilNextEgg;
+    public int attacksLeft = 0;
+    public int lastAttackTime = 0;
 
     public EntityTurkey(World worldIn) {
         super(ModEntities.TURKEY.entityType, worldIn);
@@ -50,13 +57,49 @@ public class EntityTurkey extends EntityAnimalWithTypes {
 
     @Override
     protected void registerGoals() {
+        super.registerGoals();
         this.goalSelector.addGoal(0, new SwimGoal(this));
-        this.goalSelector.addGoal(1, new PanicGoal(this, 1.4D));
-        this.goalSelector.addGoal(2, new BreedGoal(this, 1.0D));
-        this.goalSelector.addGoal(3, new TemptGoal(this, 1.0D, Ingredient.fromItems(Items.PUMPKIN_SEEDS), false));
-        this.goalSelector.addGoal(4, new FollowParentGoal(this, 1.1D));
-        this.goalSelector.addGoal(5, new WaterAvoidingRandomWalkingGoal(this, 1.0D));
-        this.goalSelector.addGoal(6, new LookAtGoal(this, PlayerEntity.class, 6.0F));
+        this.goalSelector.addGoal(1, new MeleeAttackGoal(this, 1.1D, false) {
+            @Override
+            public void startExecuting() {
+                attacksLeft = this.attacker.getRNG().nextInt(2) + 1;
+                super.startExecuting();
+            }
+
+            @Override
+            public boolean shouldExecute() {
+                return super.shouldExecute() && this.attacker.ticksExisted - lastAttackTime > 300;
+            }
+
+            @Override
+            public boolean shouldContinueExecuting() {
+                return attacksLeft > 0 && super.shouldContinueExecuting();
+            }
+
+            @Override
+            protected void checkAndPerformAttack(LivingEntity p_190102_1_, double p_190102_2_) {
+                if(attacksLeft > 0) {
+                    super.checkAndPerformAttack(p_190102_1_, p_190102_2_);
+                } else {
+                    this.resetTask();
+                }
+            }
+
+            @Override
+            public void resetTask() {
+                super.resetTask();
+                if(attacksLeft <= 0) {
+                    this.attacker.setAttackTarget(null);
+                }
+            }
+        });
+        this.goalSelector.addGoal(2, new PanicGoal(this, 1.4D));
+        this.goalSelector.addGoal(3, new BreedGoal(this, 1.0D));
+        this.goalSelector.addGoal(4, new TemptGoal(this, 1.0D, Ingredient.fromItems(Items.PUMPKIN_SEEDS), false));
+        this.goalSelector.addGoal(5, new FollowParentGoal(this, 1.1D));
+        this.goalSelector.addGoal(6, new WaterAvoidingRandomWalkingGoal(this, 1.0D));
+        this.goalSelector.addGoal(7, new LookAtGoal(this, PlayerEntity.class, 6.0F));
+        this.targetSelector.addGoal(0, new HurtByTargetGoal(this, new Class[0]));
     }
 
     @Override
@@ -64,6 +107,18 @@ public class EntityTurkey extends EntityAnimalWithTypes {
         super.registerAttributes();
         this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(4.0D);
         this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.25D);
+        this.getAttributes().registerAttribute(SharedMonsterAttributes.ATTACK_DAMAGE);
+        this.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(1D);
+    }
+
+    @Override
+    public boolean attackEntityAsMob(Entity entityIn) {
+        if(attacksLeft > 0) {
+            attacksLeft--;
+        }
+        float f = (float) this.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getValue();
+        this.lastAttackTime = this.ticksExisted;
+        return entityIn.attackEntityFrom(DamageSource.causeMobDamage(this), f);
     }
 
     private int getNewPeck() {
@@ -144,7 +199,7 @@ public class EntityTurkey extends EntityAnimalWithTypes {
     @Override
     @Nullable
     protected ResourceLocation getLootTable() {
-        return null;//return ModLootTables.turkey;
+        return ModLootTables.TURKEY;
     }
 
     @Override
