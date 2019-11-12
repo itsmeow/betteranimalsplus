@@ -113,8 +113,10 @@ task setupGithubActions() {
         log = log + "[`" + commit.abbreviatedId + "`](https://github.com/itsmeow/betteranimalsplus/commit/" + commit.id + ") " + commit.shortMessage + " - " + commit.author.name + "\\n";
     }
     doLast {
-        //commandLine "echo", "##[set-output name=version;]${project.version}";
-        //commandLine "echo", "##[set-output name=commitlog;]" + "{\"content\":\"A new alpha is available!\",\"embed\":{\"author\":{\"name\":\"itsmeow\",\"url\":\"https://itsmeow.dev/\",\"icon_url\":\"https://itsmeow.dev/icon.png\"},\"title\":\"betteranimalsplus-alpha-${project.version}\",\"url\":\"https://github.com/itsmeow/betteranimalsplus/releases/tag/alpha-${project.version}\",\"color\":14700288,\"description\":\"" + log + "\"}}";
+        exec {
+            commandLine "echo", "##[set-output name=version;]${project.version}";
+            commandLine "echo", "##[set-output name=commitlog;]" + "{\"content\":\"A new alpha is available!\",\"embed\":{\"author\":{\"name\":\"itsmeow\",\"url\":\"https://itsmeow.dev/\",\"icon_url\":\"https://itsmeow.dev/icon.png\"},\"title\":\"betteranimalsplus-alpha-${project.version}\",\"url\":\"https://github.com/itsmeow/betteranimalsplus/releases/tag/alpha-${project.version}\",\"color\":14700288,\"description\":\"" + log + "\"}}";
+        }
     }
 }
 
