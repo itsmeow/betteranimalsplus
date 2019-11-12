@@ -87,7 +87,7 @@ tasks.withType(JavaCompile) {
   ]
 }
 
-task setupGithubActions(type: Exec) {
+task setupGithubActions() {
     def getVersion = {
         //TAG-offset-hash
         def raw = grgit.describe(longDescr: true, tags:true, match: ["[1-9].[0-9].[0-9]", "[1-9][0-9].[1-9][0-9].[1-9][0-9]", "[0-9].[1-9][0-9].[1-9][0-9]", "[0-9].[0-9].[1-9][0-9]", "[0-9].[1-9][0-9].[0-9]", "[1-9][0-9].[0-9].[0-9]"])
@@ -98,18 +98,24 @@ task setupGithubActions(type: Exec) {
         return "${tag}.${offset}".toString() //Bake the response instead of making it dynamic
     }
     project.mod_version = getVersion();
-    version = "${project.mc_version}-${project.mod_version}";
-    commandLine "echo", "##[set-output name=version;]${project.version}";
+    project.version = "${project.mc_version}-${project.mod_version}";
     def getLastTag = {
-        def raw2 = grgit.describe(longDescr: true, tags:true])
-        def desc2 = (raw == null ? 'HEAD' : grgit.describe(longDescr: true, tags:true])).split('-') as List
+        def raw = grgit.describe(longDescr: true, tags:true)
+        def desc = (raw == null ? 'HEAD' : grgit.describe(longDescr: true, tags:true)).split('-') as List
         desc.remove(desc.size() - 1)
         desc.remove(desc.size() - 1)
-        def tag2 = desc.join('-')
-        return tag2;
+        def tag = desc.join('-')
+        return tag;
     }
-    def log = "{'content': '" + grgit.log(includes: ['HEAD'], excludes: [getLastTag()]).toString() + "'}";
-    commandLine "echo", "##[set-output name=commitlog;]" + log;
+    def rawLog = grgit.log(includes: ['HEAD'], excludes: [getLastTag()]);
+    def log = "";
+    for(org.ajoberstar.grgit.Commit commit : rawLog) {
+        log = log + "[`" + commit.abbreviatedId + "`](https://github.com/itsmeow/betteranimalsplus/commit/" + commit.id + ") " + commit.shortMessage + " - " + commit.author.name + "\\n";
+    }
+    doLast {
+        //commandLine "echo", "##[set-output name=version;]${project.version}";
+        //commandLine "echo", "##[set-output name=commitlog;]" + "{\"content\":\"A new alpha is available!\",\"embed\":{\"author\":{\"name\":\"itsmeow\",\"url\":\"https://itsmeow.dev/\",\"icon_url\":\"https://itsmeow.dev/icon.png\"},\"title\":\"betteranimalsplus-alpha-${project.version}\",\"url\":\"https://github.com/itsmeow/betteranimalsplus/releases/tag/alpha-${project.version}\",\"color\":14700288,\"description\":\"" + log + "\"}}";
+    }
 }
 
 processResources {
