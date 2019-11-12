@@ -13,6 +13,8 @@ jobs:
       uses: actions/setup-java@v1
       with:
         java-version: 1.8
+    - name: Setup Build
+      run: chmod 777 gradlew
     - name: Build with Gradle
       id: build
       run: ./gradlew setupGithubActions build
