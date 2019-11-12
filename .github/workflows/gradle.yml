@@ -40,7 +40,7 @@ jobs:
         asset_content_type: application/java-archive
     - name: Push Changelog to Discord
       id: changelog-webhook
-      uses: joelwmale/webhook-action@master
+      uses: itsmeow/webhook-action@master
       env:
         WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
         data: ${{ steps.build.outputs.commitlog }}
