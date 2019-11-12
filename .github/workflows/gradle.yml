@@ -41,4 +41,4 @@ jobs:
       uses: joelwmale/webhook-action@master
       env:
         WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
-        data: "{'content': 'Test Webhook!'}"
+        data: ${{ steps.build.outputs.commitlog }}

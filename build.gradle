@@ -99,7 +99,17 @@ task setupGithubActions(type: Exec) {
     }
     project.mod_version = getVersion();
     version = "${project.mc_version}-${project.mod_version}";
-    commandLine "echo", "##[set-output name=version;]${project.version}"
+    commandLine "echo", "##[set-output name=version;]${project.version}";
+    def getLastTag = {
+        def raw2 = grgit.describe(longDescr: true, tags:true])
+        def desc2 = (raw == null ? 'HEAD' : grgit.describe(longDescr: true, tags:true])).split('-') as List
+        desc.remove(desc.size() - 1)
+        desc.remove(desc.size() - 1)
+        def tag2 = desc.join('-')
+        return tag2;
+    }
+    def log = "{'content': '" + grgit.log(includes: ['HEAD'], excludes: [getLastTag()]).toString() + "'}";
+    commandLine "echo", "##[set-output name=commitlog;]" + log;
 }
 
 processResources {
