@@ -29,10 +29,9 @@ public class TrilliumGenerator implements IWorldGenerator {
 
     @Override
     public void generate(Random random, int chunkX, int chunkZ, World world, IChunkGenerator chunkGenerator, IChunkProvider chunkProvider) {
-        int x = (chunkX * 16) + 8 + (random.nextInt(16) - 8);
-        int z = (chunkZ * 16) + 8 + (random.nextInt(16) - 8);
-        int y = 64;
-        BlockPos blockpos = new BlockPos(x, y, z);
+        int x = (chunkX * 16) + 8 + random.nextInt(16);
+        int z = (chunkZ * 16) + 8 + random.nextInt(16);
+        BlockPos blockpos = new BlockPos(x, 64, z);
         if (BiomeDictionary.hasType(world.getBiome(blockpos), BiomeDictionary.Type.SWAMP)) {
             for (int i = 0; i < 64; ++i) {
                 blockpos = new BlockPos(x, i, z);
