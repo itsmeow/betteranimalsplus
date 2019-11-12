@@ -2,6 +2,8 @@ package its_meow.betteranimalsplus.init;
 
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
+import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 import its_meow.betteranimalsplus.common.entity.EntityBadger;
 import its_meow.betteranimalsplus.common.entity.EntityBear;
@@ -31,6 +33,7 @@ import its_meow.betteranimalsplus.config.BetterAnimalsPlusConfig;
 import its_meow.betteranimalsplus.util.EntityContainer;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EnumCreatureType;
+import net.minecraft.world.biome.Biome;
 import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.BiomeDictionary.Type;
 import net.minecraftforge.fml.common.registry.EntityEntry;
@@ -66,7 +69,7 @@ public class ModEntities {
         add(EntityHorseshoeCrab.class, "horseshoecrab", EnumCreatureType.CREATURE, 0xba1111, 0x520807, BetterAnimalsPlusConfig.horseshoeCrabWeight, 1, 3, true, null, Type.BEACH);
         add(EntityShark.class, "shark", EnumCreatureType.WATER_CREATURE, 0x787878, 0xbdbdbd, BetterAnimalsPlusConfig.sharkWeight, 1, 1, true, null, Type.OCEAN);
         add(EntityMoose.class, "moose", EnumCreatureType.CREATURE, 0x46351c, 0x97866e, BetterAnimalsPlusConfig.mooseWeight, 1, 1, false, null, Type.SWAMP);
-        add(EntityTurkey.class, "turkey", EnumCreatureType.CREATURE, 0x857445, 0x5099ba, BetterAnimalsPlusConfig.turkeyWeight, 1, 3, false, null, Type.FOREST);
+        add(EntityTurkey.class, "turkey", EnumCreatureType.CREATURE, 0x857445, 0x5099ba, BetterAnimalsPlusConfig.turkeyWeight, 2, 5, false, null, () -> BiomeDictionary.getBiomes(Type.FOREST).stream().filter(biome -> !BiomeDictionary.getTypes(biome).contains(Type.SNOWY)).collect(Collectors.toList()).toArray(new Biome[0]));
     }
     
     /**
@@ -85,6 +88,26 @@ public class ModEntities {
      */
     public static void add(Class<? extends EntityLiving> EntityClass, String entityNameIn, EnumCreatureType type, int solidColorIn, int spotColorIn, int prob, int min, int max, boolean despawn, String[] tameItems, BiomeDictionary.Type... types) {
     	EntityContainer cont = new EntityContainer(EntityClass, entityNameIn, type, solidColorIn, spotColorIn, prob, min, max, despawn, tameItems, types);
+        entityList.add(cont);
+        entityMap.put(entityNameIn, cont);
+    }
+    
+    /**
+     * Use this to add new entities to be registered
+     * @param EntityClass - The class of the entity
+     * @param entityNameIn - The name of the entity. Should be lower case.
+     * @param type - The type of the entity (EnumCreatureType). This is only used for spawning types. Typically use CREATURE.
+     * @param solidColorIn - The solid color if the egg (back color) in integer format. You can specify in decimal or hexadecimal form. (0 or 0x000000)
+     * @param spotColorIn - The spot color of the egg in integer format. See solid color for more.
+     * @param prob - The random selection spawning weight used at spawn time. E.g. a spawn weight of 20 is 20x more likely to spawn than a weight of 1, and 2x more than 10.
+     * @param min - The minimum amount of these that can spawn at once (in a group). Must be at least 1 and less than or equal to the maximum.
+     * @param max - The maximum amount of these that can spawn at once (in a group). Must be at least 1 and greater to or equal to the minimum.
+     * @param despawn - If the entity despawns by default
+     * @param tameItems - List of items to tame this animal or null/empty array
+     * @param biomeSupplier - A function providing a list of default spawn biomes.
+     */
+    public static void add(Class<? extends EntityLiving> EntityClass, String entityNameIn, EnumCreatureType type, int solidColorIn, int spotColorIn, int prob, int min, int max, boolean despawn, String[] tameItems, Supplier<Biome[]> biomeSupplier) {
+        EntityContainer cont = new EntityContainer(EntityClass, entityNameIn, type, solidColorIn, spotColorIn, prob, min, max, despawn, tameItems, biomeSupplier);
         entityList.add(cont);
         entityMap.put(entityNameIn, cont);
     }
