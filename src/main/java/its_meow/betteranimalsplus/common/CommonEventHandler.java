@@ -17,6 +17,7 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.passive.PolarBearEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.tileentity.JukeboxTileEntity;
@@ -96,6 +97,30 @@ public class CommonEventHandler {
                     }
                     for(EntityCrab crab : crabs) {
                         crab.crabRave();
+                    }
+                }
+            }
+        }
+    }
+
+    @SubscribeEvent
+    public static void onItemUsed(PlayerInteractEvent.RightClickItem event) {
+        if (ExternalObjectHolders.PORTABLE_JUKEBOX != null && event.getItemStack().getItem() == ExternalObjectHolders.PORTABLE_JUKEBOX) {
+            if (event.getItemStack().getChildTag("Disc") != null) {
+                if (ItemStack.read(event.getItemStack().getChildTag("Disc")).getItem() == ModItems.RECORD_CRAB_RAVE) {
+                    if (event.getPlayer().isSneaking()) {
+                        List<EntityCrab> crabs = event.getWorld().getEntitiesWithinAABB(EntityCrab.class, event.getPlayer().getBoundingBox().grow(50));
+                        for (EntityCrab crab : crabs) {
+                            crab.unCrabRave();
+                        }
+                    } else {
+                        List<EntityCrab> crabs = event.getWorld().getEntitiesWithinAABB(EntityCrab.class, event.getPlayer().getBoundingBox().grow(50));
+                        if(event.getPlayer() instanceof ServerPlayerEntity) {
+                            ModTriggers.USE_CRAB_DISK.trigger((ServerPlayerEntity) event.getPlayer());
+                        }
+                        for(EntityCrab crab : crabs) {
+                            crab.crabRave();
+                        }
                     }
                 }
             }
