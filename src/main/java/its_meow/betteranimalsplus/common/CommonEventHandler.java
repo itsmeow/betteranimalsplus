@@ -17,6 +17,7 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.passive.PolarBearEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.particles.ParticleTypes;
@@ -36,9 +37,13 @@ import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.registries.ObjectHolder;
 
 @Mod.EventBusSubscriber(modid = Ref.MOD_ID)
 public class CommonEventHandler {
+
+    @ObjectHolder("essentialfeatures:portable_jukebox")
+    public static Item PORTABLE_JUKEBOX;
 
     @SubscribeEvent
     public static void onDeathOfEntity(LivingDeathEvent e) {
@@ -105,7 +110,7 @@ public class CommonEventHandler {
 
     @SubscribeEvent
     public static void onItemUsed(PlayerInteractEvent.RightClickItem event) {
-        if (ExternalObjectHolders.PORTABLE_JUKEBOX != null && event.getItemStack().getItem() == ExternalObjectHolders.PORTABLE_JUKEBOX) {
+        if (PORTABLE_JUKEBOX != null && event.getItemStack().getItem() == PORTABLE_JUKEBOX) {
             if (event.getItemStack().getChildTag("Disc") != null) {
                 if (ItemStack.read(event.getItemStack().getChildTag("Disc")).getItem() == ModItems.RECORD_CRAB_RAVE) {
                     if (event.getPlayer().isSneaking()) {
