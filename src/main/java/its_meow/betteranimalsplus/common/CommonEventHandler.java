@@ -17,6 +17,8 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.passive.PolarBearEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.tileentity.JukeboxTileEntity;
@@ -35,9 +37,13 @@ import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.registries.ObjectHolder;
 
 @Mod.EventBusSubscriber(modid = Ref.MOD_ID)
 public class CommonEventHandler {
+
+    @ObjectHolder("essentialfeatures:portable_jukebox")
+    public static Item PORTABLE_JUKEBOX;
 
     @SubscribeEvent
     public static void onDeathOfEntity(LivingDeathEvent e) {
@@ -96,6 +102,30 @@ public class CommonEventHandler {
                     }
                     for(EntityCrab crab : crabs) {
                         crab.crabRave();
+                    }
+                }
+            }
+        }
+    }
+
+    @SubscribeEvent
+    public static void onItemUsed(PlayerInteractEvent.RightClickItem event) {
+        if (PORTABLE_JUKEBOX != null && event.getItemStack().getItem() == PORTABLE_JUKEBOX) {
+            if (event.getItemStack().getChildTag("Disc") != null) {
+                if (ItemStack.read(event.getItemStack().getChildTag("Disc")).getItem() == ModItems.RECORD_CRAB_RAVE) {
+                    if (event.getPlayer().isSneaking()) {
+                        List<EntityCrab> crabs = event.getWorld().getEntitiesWithinAABB(EntityCrab.class, event.getPlayer().getBoundingBox().grow(50));
+                        for (EntityCrab crab : crabs) {
+                            crab.unCrabRave();
+                        }
+                    } else {
+                        List<EntityCrab> crabs = event.getWorld().getEntitiesWithinAABB(EntityCrab.class, event.getPlayer().getBoundingBox().grow(50));
+                        if(event.getPlayer() instanceof ServerPlayerEntity) {
+                            ModTriggers.USE_CRAB_DISK.trigger((ServerPlayerEntity) event.getPlayer());
+                        }
+                        for(EntityCrab crab : crabs) {
+                            crab.crabRave();
+                        }
                     }
                 }
             }
