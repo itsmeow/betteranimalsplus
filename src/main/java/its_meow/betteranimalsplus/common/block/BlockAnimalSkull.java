@@ -82,6 +82,9 @@ public class BlockAnimalSkull extends ContainerBlock {
 
         for (Direction enumfacing : aenumfacing) {
             Direction enumfacing1 = enumfacing.getOpposite();
+            if(enumfacing1 == Direction.DOWN) {
+                return null;
+            }
             iblockstate = iblockstate.with(FACING_EXCEPT_DOWN, enumfacing1);
             if (!iblockreader.getBlockState(blockpos.offset(enumfacing)).isReplaceable(context)) {
                 return iblockstate;
