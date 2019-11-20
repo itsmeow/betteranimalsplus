@@ -39,6 +39,7 @@ import net.minecraft.world.World;
 public class EntityTurkey extends EntityAnimalWithTypes {
 
     protected static final DataParameter<Integer> PECK_TIME = EntityDataManager.<Integer>createKey(EntityTurkey.class, DataSerializers.VARINT);
+    protected static final DataParameter<Boolean> ATTACKING = EntityDataManager.<Boolean>createKey(EntityTurkey.class, DataSerializers.BOOLEAN);
     public float wingRotation;
     public float destPos;
     public float oFlapSpeed;
@@ -115,6 +116,20 @@ public class EntityTurkey extends EntityAnimalWithTypes {
         this.getAttributes().registerAttribute(SharedMonsterAttributes.ATTACK_DAMAGE);
         this.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(1D);
     }
+    
+    @Override
+    public void setAttackTarget(LivingEntity entity) {
+        this.setAttackingOnClient(entity != null);
+        super.setAttackTarget(entity);
+    }
+    
+    public boolean isAttackingFromServer() {
+        return this.dataManager.get(ATTACKING).booleanValue();
+    }
+
+    public void setAttackingOnClient(boolean in) {
+        this.dataManager.set(ATTACKING, Boolean.valueOf(in));
+    }
 
     @Override
     public boolean attackEntityAsMob(Entity entityIn) {
@@ -150,7 +165,7 @@ public class EntityTurkey extends EntityAnimalWithTypes {
 
         this.wingRotation += this.wingRotDelta * 2.0F;
 
-        if(!this.onGround || this.getMoveHelper().isUpdating()) {
+        if(!this.onGround || this.getMoveHelper().isUpdating() || this.getAttackTarget() != null) {
             if(this.getPeckTime() <= 61) {
                 this.setPeckTime(80);
             }
@@ -210,15 +225,16 @@ public class EntityTurkey extends EntityAnimalWithTypes {
     @Override
     protected void registerData() {
         super.registerData();
-        this.dataManager.register(EntityTurkey.PECK_TIME, Integer.valueOf(0));
+        this.dataManager.register(PECK_TIME, Integer.valueOf(0));
+        this.dataManager.register(ATTACKING, Boolean.valueOf(false));
     }
 
     public int getPeckTime() {
-        return this.dataManager.get(EntityTurkey.PECK_TIME).intValue();
+        return this.dataManager.get(PECK_TIME).intValue();
     }
 
     public int setPeckTime(int time) {
-        this.dataManager.set(EntityTurkey.PECK_TIME, Integer.valueOf(time));
+        this.dataManager.set(PECK_TIME, Integer.valueOf(time));
         return time;
     }
 
