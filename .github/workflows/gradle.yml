@@ -10,12 +10,13 @@ jobs:
     steps:
     - name: Create a Release
       id: create_release
-      uses: Sander0542/create-release@target_commitish
+      uses: meeDamian/github-release@v1.0.1
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        
       with:
-        tag_name: alpha-1.14.4-7.2.1.48
-        release_name: betteranimalsplus-alpha-1.14.4-7.2.1.48
+        token: ${{ secrets.GITHUB_TOKEN }}
+        tag: alpha-1.14.4-7.2.1.48
+        name: betteranimalsplus-alpha-1.14.4-7.2.1.48
         draft: false
         prerelease: true
-        target_commitish: ${{ github.sha }}
+        commitish: ${{ github.sha }}
