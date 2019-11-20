@@ -23,8 +23,8 @@ jobs:
       uses: meeDamian/github-release@v1.0.1
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
-        tag: alpha-1.14.4-7.2.1.48
-        name: betteranimalsplus-alpha-1.14.4-7.2.1.48
+        tag: alpha-${{ steps.build.outputs.version }}
+        name: betteranimalsplus-alpha-${{ steps.build.outputs.version }}
         draft: false
         prerelease: true
         commitish: ${{ github.sha }}
