@@ -69,6 +69,41 @@ tasks.withType(JavaCompile) {
   ]
 }
 
+task setupGithubActions() {
+    def getVersion = {
+        //TAG-offset-hash
+        def raw = grgit.describe(longDescr: true, tags:true, match: ["[1-9].[0-9].[0-9]", "[1-9][0-9].[1-9][0-9].[1-9][0-9]", "[0-9].[1-9][0-9].[1-9][0-9]", "[0-9].[0-9].[1-9][0-9]", "[0-9].[1-9][0-9].[0-9]", "[1-9][0-9].[0-9].[0-9]"])
+        def desc = (raw == null ? '0.0-0-unknown' : grgit.describe(longDescr: true, tags:true, match: ["[1-9].[0-9].[0-9]", "[1-9][0-9].[1-9][0-9].[1-9][0-9]", "[0-9].[1-9][0-9].[1-9][0-9]", "[0-9].[0-9].[1-9][0-9]", "[0-9].[1-9][0-9].[0-9]", "[1-9][0-9].[0-9].[0-9]"])).split('-') as List
+        def hash = desc.remove(desc.size() - 1)
+        def offset = desc.remove(desc.size() - 1)
+        def tag = desc.join('-')
+        return "${tag}.${offset}".toString() //Bake the response instead of making it dynamic
+    }
+    project.mod_version = getVersion();
+    project.version = "${project.mc_version}-${project.mod_version}";
+    def getLastTag = {
+        def raw = grgit.describe(longDescr: true, tags:true)
+        def desc = (raw == null ? 'HEAD' : grgit.describe(longDescr: true, tags:true)).split('-') as List
+        desc.remove(desc.size() - 1)
+        desc.remove(desc.size() - 1)
+        def tag = desc.join('-')
+        return tag;
+    }
+    def rawLog = grgit.log(includes: ['HEAD'], excludes: [getLastTag()]);
+    def log = "";
+    for(org.ajoberstar.grgit.Commit commit : rawLog) {
+        log = log + "[`" + commit.abbreviatedId + "`](https://github.com/itsmeow/betteranimalsplus/commit/" + commit.id + ") " + commit.shortMessage + " - " + commit.author.name + "\\n";
+    }
+    doLast {
+        exec {
+            commandLine "echo", "##[set-output name=version;]${project.version}";
+        }
+        exec {
+            commandLine "echo", "##[set-output name=commitlog;]" + "{\"embeds\":[{\"author\":{\"name\":\"itsmeow\",\"url\":\"https://itsmeow.dev/\",\"icon_url\":\"https://itsmeow.dev/icon.png\"},\"title\":\"betteranimalsplus-alpha-${project.version}\",\"url\":\"https://github.com/itsmeow/betteranimalsplus/releases/tag/alpha-${project.version}\",\"color\":14700288,\"description\":\"" + log + "\"}]}";
+        }
+    }
+}
+
 jar {
     manifest {
         attributes(["Specification-Title": archivesBaseName,
