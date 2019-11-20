@@ -28,7 +28,7 @@ jobs:
         release_name: betteranimalsplus-alpha-${{ steps.build.outputs.version }}
         draft: false
         prerelease: true
-        commitish: 1.14
+        commitish: ${{ github.sha }}
     - name: Upload Release Asset
       id: upload-release-asset
       uses: actions/upload-release-asset@v1.0.1
