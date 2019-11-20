@@ -89,7 +89,12 @@ public class EntityTurkey extends EntityAnimalWithTypes {
                 }
             }
         });
-        this.tasks.addTask(2, new EntityAIPanic(this, 1.4D));
+        this.tasks.addTask(2, new EntityAIPanic(this, 1.4D) {
+            @Override
+            public boolean shouldExecute() {
+                return this.creature.getAttackTarget() == null && super.shouldExecute();
+            }
+        });
         this.tasks.addTask(3, new EntityAIMate(this, 1.0D));
         this.tasks.addTask(4, new EntityAITempt(this, 1.0D, Items.PUMPKIN_SEEDS, false));
         this.tasks.addTask(5, new EntityAIFollowParent(this, 1.1D));
