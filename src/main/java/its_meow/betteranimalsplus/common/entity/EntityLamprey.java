@@ -105,12 +105,12 @@ public class EntityLamprey extends EntityWaterMobWithTypes implements IMob {
             }
         }
         if(!this.world.isRemote && this.isDead && this.isRiding()) {
-            this.dismountRidingEntity();
             for(EntityPlayerMP player : this.world.getMinecraftServer().getPlayerList().getPlayers()) {
                 if(player.world == this.world && player.getDistance(this) <= 64) {
                     player.connection.sendPacket(new SPacketSetPassengers(this.getRidingEntity()));
                 }
             }
+            this.dismountRidingEntity();
         }
     }
 
