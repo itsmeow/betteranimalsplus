@@ -294,6 +294,39 @@ public class ModelTurkey extends ModelBase {
             } else {
                 this.neck.rotateAngleX = -1.0471975511965976F;
             }
+            if(ent.isAttackingFromServer()) {
+                this.setRotateAngle(tail01, 0.9424777960769379F, 0.0F, 0.0F);
+                this.setRotateAngle(rTailFeather01, 0.0F, -0.06981317007977318F, 0.0F);
+                this.setRotateAngle(lTailFeather04, 0.0F, 1.0471975511965976F, 0.0F);
+                this.setRotateAngle(tail02, 0.45378560551852565F, 0.0F, 0.0F);
+                this.setRotateAngle(rTailFeather05, 0.0F, -1.3089969389957472F, 0.0F);
+                this.setRotateAngle(lTailFeather02, 0.0F, 0.296705972839036F, 0.0F);
+                this.setRotateAngle(rTailFeather02, 0.0F, -0.296705972839036F, 0.0F);
+                this.setRotateAngle(rTailFeather03, 0.0F, -0.6981317007977318F, 0.0F);
+                this.setRotateAngle(hackles, 0.7330382858376184F, 0.0F, 0.0F);
+                this.setRotateAngle(lTailFeather03, 0.0F, 0.6981317007977318F, 0.0F);
+                this.setRotateAngle(lTailFeather05, 0.0F, 1.3089969389957472F, 0.0F);
+                this.setRotateAngle(lTailFeather01, 0.0F, 0.06981317007977318F, 0.0F);
+                this.setRotateAngle(rTailFeather04, 0.0F, -1.0471975511965976F, 0.0F);
+            } else {
+                this.setRotateAngle(rTailFeather04, 0.0F, -0.17453292519943295F, 0.0F);
+                this.setRotateAngle(lTailFeather01, 0.0F, 0.017453292519943295F, 0.0F);
+                this.setRotateAngle(lTailFeather05, 0.0F, 0.2617993877991494F, 0.0F);
+                this.setRotateAngle(lTailFeather03, 0.0F, 0.12217304763960307F, 0.0F);
+                this.setRotateAngle(hackles, 0.17453292519943295F, 0.0F, 0.0F);
+                this.setRotateAngle(rTailFeather03, 0.0F, -0.12217304763960307F, 0.0F);
+                this.setRotateAngle(rTailFeather02, 0.0F, -0.05235987755982988F, 0.0F);
+                this.setRotateAngle(lTailFeather02, 0.0F, 0.05235987755982988F, 0.0F);
+                this.setRotateAngle(rTailFeather05, 0.0F, -0.2617993877991494F, 0.0F);
+                this.setRotateAngle(tail02, 0.12217304763960307F, 0.0F, 0.0F);
+                this.setRotateAngle(lTailFeather04, 0.0F, 0.17453292519943295F, 0.0F);
+                this.setRotateAngle(rTailFeather02, 0.0F, -0.05235987755982988F, 0.0F);
+                this.setRotateAngle(lTailFeather02, 0.0F, 0.05235987755982988F, 0.0F);
+                this.setRotateAngle(tail02, 0.12217304763960307F, 0.0F, 0.0F);
+                this.setRotateAngle(lTailFeather04, 0.0F, 0.17453292519943295F, 0.0F);
+                this.setRotateAngle(rTailFeather01, 0.0F, -0.017453292519943295F, 0.0F);
+                this.setRotateAngle(tail01, 0.0F, 0.0F, 0.0F);
+            }
         }
         this.head.rotateAngleX = headPitch * 0.017453292F + 0.2617993877991494F;
         this.rLeg01.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount;

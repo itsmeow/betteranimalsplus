@@ -36,6 +36,7 @@ import net.minecraft.world.World;
 public class EntityTurkey extends EntityAnimalWithTypes {
 
     protected static final DataParameter<Integer> PECK_TIME = EntityDataManager.<Integer>createKey(EntityTurkey.class, DataSerializers.VARINT);
+    protected static final DataParameter<Boolean> ATTACKING = EntityDataManager.<Boolean>createKey(EntityTurkey.class, DataSerializers.BOOLEAN);
     public float wingRotation;
     public float destPos;
     public float oFlapSpeed;
@@ -111,6 +112,20 @@ public class EntityTurkey extends EntityAnimalWithTypes {
         this.getAttributeMap().registerAttribute(SharedMonsterAttributes.ATTACK_DAMAGE);
         this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(1D);
     }
+    
+    @Override
+    public void setAttackTarget(EntityLivingBase entitylivingbaseIn) {
+        this.setAttackingOnClient(entitylivingbaseIn != null);
+        super.setAttackTarget(entitylivingbaseIn);
+    }
+    
+    public boolean isAttackingFromServer() {
+        return this.dataManager.get(ATTACKING).booleanValue();
+    }
+
+    public void setAttackingOnClient(boolean in) {
+        this.dataManager.set(ATTACKING, Boolean.valueOf(in));
+    }
 
     @Override
     public boolean attackEntityAsMob(Entity entityIn) {
@@ -151,7 +166,7 @@ public class EntityTurkey extends EntityAnimalWithTypes {
 
         this.wingRotation += this.wingRotDelta * 2.0F;
 
-        if(!this.onGround || this.getMoveHelper().isUpdating()) {
+        if(!this.onGround || this.getMoveHelper().isUpdating() || this.getAttackTarget() != null) {
             if(this.getPeckTime() <= 61) {
                 this.setPeckTime(80);
             }
@@ -212,6 +227,7 @@ public class EntityTurkey extends EntityAnimalWithTypes {
     protected void entityInit() {
         super.entityInit();
         this.dataManager.register(PECK_TIME, Integer.valueOf(0));
+        this.dataManager.register(ATTACKING, Boolean.valueOf(false));
     }
 
     public int getPeckTime() {
