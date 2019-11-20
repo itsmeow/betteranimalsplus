@@ -11,8 +11,6 @@ jobs:
     - name: Create a Release
       id: create_release
       uses: meeDamian/github-release@v1.0.1
-      env:
-        
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
         tag: alpha-1.14.4-7.2.1.48
