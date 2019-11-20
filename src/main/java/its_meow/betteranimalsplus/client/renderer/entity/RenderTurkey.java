@@ -22,7 +22,7 @@ public class RenderTurkey extends RenderLiving<EntityTurkey> {
         if (this.getMainModel().isChild) {
             GlStateManager.scale(0.5D, 0.5D, 0.5D);
         } else {
-            GlStateManager.scale(1.0D, 1.0D, 1.0D);
+            GlStateManager.scale(0.8D, 0.8D, 0.8D);
         }
     }
 
