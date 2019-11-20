@@ -23,7 +23,7 @@ public class RenderTurkey extends MobRenderer<EntityTurkey, ModelTurkey<EntityTu
         if (this.entityModel.isChild) {
             GlStateManager.scaled(0.5D, 0.5D, 0.5D);
         } else {
-            GlStateManager.scaled(1.0D, 1.0D, 1.0D);
+            GlStateManager.scaled(0.8D, 0.8D, 0.8D);
         }
     }
 
