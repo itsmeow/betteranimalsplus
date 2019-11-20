@@ -29,6 +29,7 @@ jobs:
         prerelease: true
         commitish: ${{ github.sha }}
         files: build/libs/betteranimalsplus-${{ steps.build.outputs.version }}.jar
+        gzip: false
     - name: Push Changelog to Discord
       id: changelog-webhook
       uses: itsmeow/webhook-action@master
