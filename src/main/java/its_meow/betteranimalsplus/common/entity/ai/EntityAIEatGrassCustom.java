@@ -42,7 +42,7 @@ public class EntityAIEatGrassCustom extends Goal {
             return false;
         } else {
             BlockPos blockpos = getPosition.apply(eater);
-            return IS_GRASS.test(this.world.getBlockState(blockpos)) || this.world.getBlockState(blockpos.down()).getBlock() == Blocks.GRASS;
+            return IS_GRASS.test(this.world.getBlockState(blockpos)) || this.world.getBlockState(blockpos.down()).getBlock() == Blocks.GRASS_BLOCK;
         }
     }
 
@@ -79,9 +79,9 @@ public class EntityAIEatGrassCustom extends Goal {
                 this.eater.eatGrassBonus();
             } else {
                 BlockPos blockpos1 = blockpos.down();
-                if(this.world.getBlockState(blockpos1).getBlock() == Blocks.GRASS) {
+                if(this.world.getBlockState(blockpos1).getBlock() == Blocks.GRASS_BLOCK) {
                     if(net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(this.world, this.eater)) {
-                        this.world.playEvent(2001, blockpos1, Block.getStateId(Blocks.GRASS.getDefaultState()));
+                        this.world.playEvent(2001, blockpos1, Block.getStateId(Blocks.GRASS_BLOCK.getDefaultState()));
                         this.world.setBlockState(blockpos1, Blocks.DIRT.getDefaultState(), 2);
                     }
                     this.eater.eatGrassBonus();
