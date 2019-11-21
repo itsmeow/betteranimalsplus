@@ -2,8 +2,7 @@ package its_meow.betteranimalsplus.common.entity.ai;
 
 import java.util.EnumSet;
 import java.util.function.Function;
-
-import com.google.common.base.Predicate;
+import java.util.function.Predicate;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -16,8 +15,6 @@ import net.minecraft.world.World;
 
 public class EntityAIEatGrassCustom extends Goal {
 
-    // wtf jvm
-    @SuppressWarnings("unchecked")
     private static final Predicate<BlockState> IS_GRASS = (Predicate<BlockState>) BlockStateMatcher.forBlock(Blocks.GRASS);
     protected final MobEntity eater;
     protected final World world;
@@ -39,25 +36,29 @@ public class EntityAIEatGrassCustom extends Goal {
         this.setMutexFlags(EnumSet.of(Goal.Flag.MOVE, Goal.Flag.LOOK, Goal.Flag.JUMP));
     }
 
+    @Override
     public boolean shouldExecute() {
         if(this.eater.getRNG().nextInt(this.eater.isChild() ? childChance : adultChance) != 0) {
             return false;
         } else {
             BlockPos blockpos = getPosition.apply(eater);
-            return IS_GRASS.apply(this.world.getBlockState(blockpos)) || this.world.getBlockState(blockpos.down()).getBlock() == Blocks.GRASS;
+            return IS_GRASS.test(this.world.getBlockState(blockpos)) || this.world.getBlockState(blockpos.down()).getBlock() == Blocks.GRASS;
         }
     }
 
+    @Override
     public void startExecuting() {
         this.eatingGrassTimer = 40;
         this.world.setEntityState(this.eater, (byte) 10);
         this.eater.getNavigator().clearPath();
     }
 
+    @Override
     public void resetTask() {
         this.eatingGrassTimer = 0;
     }
 
+    @Override
     public boolean shouldContinueExecuting() {
         return this.eatingGrassTimer > 0;
     }
@@ -66,11 +67,12 @@ public class EntityAIEatGrassCustom extends Goal {
         return this.eatingGrassTimer;
     }
 
-    public void updateTask() {
+    @Override
+    public void tick() {
         this.eatingGrassTimer = Math.max(0, this.eatingGrassTimer - 1);
         if(this.eatingGrassTimer == 4) {
             BlockPos blockpos = this.getPosition.apply(eater);
-            if(IS_GRASS.apply(this.world.getBlockState(blockpos))) {
+            if(IS_GRASS.test(this.world.getBlockState(blockpos))) {
                 if(net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(this.world, this.eater)) {
                     this.world.destroyBlock(blockpos, false);
                 }
