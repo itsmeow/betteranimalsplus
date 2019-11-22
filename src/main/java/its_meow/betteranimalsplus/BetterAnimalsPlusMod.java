@@ -3,6 +3,8 @@ package its_meow.betteranimalsplus;
 import java.io.File;
 import java.util.function.Supplier;
 
+import its_meow.betteranimalsplus.integration.ThaumcraftIntegration;
+import net.minecraftforge.common.MinecraftForge;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -106,6 +108,7 @@ public class BetterAnimalsPlusMod {
         NETWORK_INSTANCE.registerMessage(ClientConfigurationPacket.class, ClientConfigurationPacket.class, packets++, Side.CLIENT);
         ModLootTables.register();
         ModTriggers.register();
+        if (Loader.isModLoaded("thaumcraft")) MinecraftForge.EVENT_BUS.register(new ThaumcraftIntegration());
         BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.putObject(ModItems.PHEASANT_EGG, new BehaviorProjectileDispense() {
             protected IProjectile getProjectileEntity(World worldIn, IPosition position, ItemStack stackIn) {
                 return new EntityPheasantEgg(worldIn, position.getX(), position.getY(), position.getZ());
