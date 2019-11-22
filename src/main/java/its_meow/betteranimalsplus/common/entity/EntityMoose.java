@@ -50,7 +50,12 @@ public class EntityMoose extends EntityAnimalEatsGrassWithTypes {
         this.getAttributes().registerAttribute(SharedMonsterAttributes.ATTACK_DAMAGE);
         this.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(4.5D);
     }
-    
+
+    @Override
+    protected float getWaterSlowDown() {
+        return 0.98F;
+    }
+
     protected EntityAIEatGrassCustom provideEatTask() {
         return new EntityAIEatGrassCustom(this, 50, 50, eater -> {
             Direction facing = eater.getHorizontalFacing();
