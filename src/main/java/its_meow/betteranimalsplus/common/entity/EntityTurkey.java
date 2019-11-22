@@ -93,7 +93,12 @@ public class EntityTurkey extends EntityAnimalWithTypes {
                 }
             }
         });
-        this.goalSelector.addGoal(2, new PanicGoal(this, 1.4D));
+        this.goalSelector.addGoal(2, new PanicGoal(this, 1.4D) {
+            @Override
+            public boolean shouldExecute() {
+                return this.creature.getAttackTarget() == null && super.shouldExecute();
+            }
+        });
         this.goalSelector.addGoal(3, new BreedGoal(this, 1.0D));
         this.goalSelector.addGoal(4, new TemptGoal(this, 1.0D, Ingredient.fromItems(Items.PUMPKIN_SEEDS), false));
         this.goalSelector.addGoal(5, new FollowParentGoal(this, 1.1D));
