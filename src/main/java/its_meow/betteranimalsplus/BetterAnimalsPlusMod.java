@@ -72,6 +72,8 @@ public class BetterAnimalsPlusMod {
         ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, BetterAnimalsPlusConfig.SERVER_CONFIG);
         ModTriggers.register();
         
+        BetterAnimalsPlusConfig.setupConfig();
+        
         BetterAnimalsPlusMod.logger.log(Level.INFO, "Injecting super coyotes...");
     }
 
@@ -123,7 +125,7 @@ public class BetterAnimalsPlusMod {
     }
     
     private void loadComplete(final FMLLoadCompleteEvent event) {
-        BetterAnimalsPlusConfig.setupConfig();
+        BetterAnimalsPlusMod.logger.log(Level.INFO, "Finished crazy bird creation!");
     }
 	
 	@SubscribeEvent
