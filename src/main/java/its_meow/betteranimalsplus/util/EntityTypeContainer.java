@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.function.Supplier;
 
 import javax.annotation.Nullable;
 
@@ -34,7 +35,6 @@ public class EntityTypeContainer<T extends LivingEntity> {
     public int spawnWeight;
     public int spawnMinGroup;
     public int spawnMaxGroup;
-    protected final Set<Biome> biomes = new HashSet<Biome>();
     public boolean doSpawning = true;
     public final float width;
     public final float height;
@@ -45,17 +45,23 @@ public class EntityTypeContainer<T extends LivingEntity> {
     protected EntityConfiguration config;
 
     protected final CustomConfigurationHolder customConfig;
+    
+    protected Supplier<Set<Biome>> defaultBiomeSupplier;
 
     public EntityTypeContainer(Class<T> EntityClass, Function<World, T> func,
     String entityNameIn, EntityClassification type, int solidColorIn, int spotColorIn, int prob, int min, int max, float width, float height, boolean despawn, @Nullable CustomConfigurationHolder customConfig, BiomeDictionary.Type... biomeTypes) {
         this(EntityClass, func, entityNameIn, type, solidColorIn, spotColorIn, prob, min, max, width, height, despawn, customConfig, toBiomes(biomeTypes));
     }
 
-    public EntityTypeContainer(Class<T> EntityClass, Function<World, T> func, String entityNameIn, EntityClassification type, int solidColorIn, int spotColorIn, int prob, int min, int max, float width, float height, boolean despawn, @Nullable CustomConfigurationHolder customConfig, Biome... biomes) {
-        this(EntityClass, func, entityNameIn, type, solidColorIn, spotColorIn, prob, min, max, width, height, despawn, customConfig, toBiomes(biomes));
+    @SafeVarargs
+    public EntityTypeContainer(Class<T> EntityClass, Function<World, T> func, String entityNameIn, EntityClassification type, int solidColorIn, int spotColorIn, int prob, int min, int max, float width, float height, boolean despawn, @Nullable CustomConfigurationHolder customConfig, Supplier<Biome[]>... biomes) {
+        this(EntityClass, func, entityNameIn, type, solidColorIn, spotColorIn, prob, min, max, width, height, despawn, customConfig, toBiomes(biomes[0]));
+        if(biomes.length != 1) {
+            throw new RuntimeException("STOP IT MEOW, FIX THIS.");
+        }
     }
 
-    public EntityTypeContainer(Class<T> EntityClass, Function<World, T> func, String entityNameIn, EntityClassification type, int solidColorIn, int spotColorIn, int prob, int min, int max, float width, float height, boolean despawn, @Nullable CustomConfigurationHolder customConfig, Set<Biome> biomes) {
+    public EntityTypeContainer(Class<T> EntityClass, Function<World, T> func, String entityNameIn, EntityClassification type, int solidColorIn, int spotColorIn, int prob, int min, int max, float width, float height, boolean despawn, @Nullable CustomConfigurationHolder customConfig, Supplier<Set<Biome>> biomes) {
         this.entityClass = EntityClass;
         this.factory = func;
         this.entityName = entityNameIn;
@@ -69,7 +75,7 @@ public class EntityTypeContainer<T extends LivingEntity> {
         this.height = height;
         this.despawn = despawn;
         this.customConfig = customConfig;
-        this.biomes.addAll(biomes);
+        this.defaultBiomeSupplier = biomes;
     }
 
     public void initConfiguration(ForgeConfigSpec.Builder builder) {
@@ -124,23 +130,27 @@ public class EntityTypeContainer<T extends LivingEntity> {
         }
     }
 
-    protected static Set<Biome> toBiomes(BiomeDictionary.Type[] biomeTypes) {
-        Set<Biome> biomes = new HashSet<Biome>();
-        for(BiomeDictionary.Type type : biomeTypes) {
-            biomes.addAll(BiomeDictionary.getBiomes(type));
-        }
-        return biomes;
+    protected static Supplier<Set<Biome>> toBiomes(BiomeDictionary.Type[] biomeTypes) {
+        return () -> {
+            Set<Biome> biomes = new HashSet<Biome>();
+            for(BiomeDictionary.Type type : biomeTypes) {
+                biomes.addAll(BiomeDictionary.getBiomes(type));
+            }
+            return biomes;
+        };
     }
 
-    protected static Set<Biome> toBiomes(Biome[] biomes2) {
-        Set<Biome> biomes = new HashSet<Biome>();
-        biomes.addAll(Lists.newArrayList(biomes2));
-        return biomes;
+    protected static Supplier<Set<Biome>> toBiomes(Supplier<Biome[]> biomes2) {
+        return () -> {
+            Set<Biome> biomes = new HashSet<Biome>();
+            biomes.addAll(Lists.newArrayList(biomes2.get()));
+            return biomes;
+        };
     }
 
     public String[] getBiomeIDs() {
         try {
-            spawnBiomes = biomes.toArray(new Biome[0]);
+            spawnBiomes = defaultBiomeSupplier.get().toArray(new Biome[0]);
         } catch(NullPointerException e) {
             spawnBiomes = new Biome[0];
         }

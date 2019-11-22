@@ -3,7 +3,9 @@ package its_meow.betteranimalsplus.init;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import its_meow.betteranimalsplus.BetterAnimalsPlusMod;
 import its_meow.betteranimalsplus.Ref;
@@ -39,6 +41,9 @@ import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.world.World;
+import net.minecraft.world.biome.Biome;
+import net.minecraft.world.biome.Biomes;
+import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.BiomeDictionary.Type;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.common.ForgeConfigSpec.Builder;
@@ -139,10 +144,10 @@ public class ModEntities {
                 Type.OCEAN));
         public static final EntityTypeContainer<EntityMoose> MOOSE = setupContainer(new EntityTypeContainer<EntityMoose>(EntityMoose.class, EntityMoose::new, "moose",
                 EntityClassification.CREATURE, 0x46351c, 0x97866e, 8, 1, 1, 2.25F, 3F, false, null,
-                Type.SWAMP));
+                () -> {List<Biome> list = BiomeDictionary.getBiomes(Type.SWAMP).stream().collect(Collectors.toList());list.add(Biomes.GIANT_SPRUCE_TAIGA); list.add(Biomes.GIANT_SPRUCE_TAIGA_HILLS);list.add(Biomes.GIANT_TREE_TAIGA);list.add(Biomes.GIANT_TREE_TAIGA_HILLS);return list.toArray(new Biome[0]);}));
         public static final EntityTypeContainer<EntityTurkey> TURKEY = setupContainer(new EntityTypeContainer<EntityTurkey>(EntityTurkey.class, EntityTurkey::new, "turkey",
                 EntityClassification.CREATURE, 0x857445, 0x5099ba, 11, 1, 3, 1F, 1F, false, null,
-                Type.FOREST));
+                () -> BiomeDictionary.getBiomes(Type.FOREST).stream().filter(biome -> !BiomeDictionary.getTypes(biome).contains(Type.SNOWY)).collect(Collectors.toList()).toArray(new Biome[0])));
 
     /*
      * ##########################################################

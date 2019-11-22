@@ -41,6 +41,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.network.NetworkDirection;
 import net.minecraftforge.fml.network.NetworkRegistry;
@@ -64,10 +65,10 @@ public class BetterAnimalsPlusMod {
     public BetterAnimalsPlusMod() {
 
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
+        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::loadComplete);
         FMLJavaModLoadingContext.get().getModEventBus()
                 .<FMLClientSetupEvent>addListener(e -> new ClientLifecycleHandler().clientSetup(e));
 
-        BetterAnimalsPlusConfig.setupConfig();
         ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, BetterAnimalsPlusConfig.SERVER_CONFIG);
         ModTriggers.register();
         
@@ -119,6 +120,10 @@ public class BetterAnimalsPlusMod {
             }
          });
         BetterAnimalsPlusMod.logger.log(Level.INFO, "Overspawning lammergeiers...");
+    }
+    
+    private void loadComplete(final FMLLoadCompleteEvent event) {
+        BetterAnimalsPlusConfig.setupConfig();
     }
 	
 	@SubscribeEvent
