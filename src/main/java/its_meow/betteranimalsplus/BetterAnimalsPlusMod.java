@@ -92,13 +92,15 @@ public class BetterAnimalsPlusMod {
 
     private void setup(final FMLCommonSetupEvent event) {
         HANDLER.registerMessage(packets++, ClientConfigurationPacket.class, ClientConfigurationPacket::encode, ClientConfigurationPacket::decode, ClientConfigurationPacket.Handler::handle);
-        HANDLER.registerMessage(packets++, ServerNoBAMPacket.class, (pkt, buf) -> {}, pkt -> {return new ServerNoBAMPacket();}, (pkt, ctx) -> {
+        HANDLER.registerMessage(packets++, ServerNoBAMPacket.class, (pkt, buf) -> {}, buf -> new ServerNoBAMPacket(), (pkt, ctx) -> {
             ModTriggers.NO_BAM.trigger(ctx.get().getSender());
+            ctx.get().setPacketHandled(true);
         });
-        HANDLER.registerMessage(packets++, ClientRequestBAMPacket.class, (pkt, buf) -> {}, pkt -> {return new ClientRequestBAMPacket();}, (pkt, ctx) -> {
+        HANDLER.<ClientRequestBAMPacket>registerMessage(packets++, ClientRequestBAMPacket.class, (pkt, buf) -> {}, buf -> new ClientRequestBAMPacket(), (pkt, ctx) -> {
             if(!ModList.get().isLoaded("betteranimals")) {
                 HANDLER.sendToServer(new ServerNoBAMPacket());
             }
+            ctx.get().setPacketHandled(true);
         });
         DeferredWorkQueue.runLater(() -> {
             BiomeDictionary.getBiomes(BiomeDictionary.Type.SWAMP).forEach(biome -> biome.addFeature(net.minecraft.world.gen.GenerationStage.Decoration.VEGETAL_DECORATION,

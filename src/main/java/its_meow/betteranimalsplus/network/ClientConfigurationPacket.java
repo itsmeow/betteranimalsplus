@@ -64,10 +64,7 @@ public class ClientConfigurationPacket {
     }
     
     public static class Handler {
-        public static void handle(ClientConfigurationPacket msg, Supplier<NetworkEvent.Context> ctx) {
-            if(ctx.get().getDirection() != NetworkDirection.PLAY_TO_CLIENT) {
-                return;
-            }
+        public static boolean handle(ClientConfigurationPacket msg, Supplier<NetworkEvent.Context> ctx) {
             BetterAnimalsPlusConfig.coyotesHostileDaytime = msg.coyoteHostileDaytime;
             for(String key : msg.tameItems.keySet()) {
                 String[] items = msg.tameItems.get(key);
@@ -77,6 +74,7 @@ public class ClientConfigurationPacket {
                     cont2.setTameItems(items);
                 }
             }
+            return true;
         }
     }
 
