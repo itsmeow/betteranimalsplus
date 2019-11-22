@@ -22,7 +22,7 @@ import net.minecraftforge.common.ForgeConfigSpec.ConfigValue;
 public class EntityTypeContainerTameable<T extends LivingEntity> extends EntityTypeContainer<T> {
 
     protected String[] tameItemsStore;
-    protected ConfigValue<List<String>> tameItems;
+    protected ConfigValue<List<? extends String>> tameItems;
     protected String[] defaultTameItems;
 
     public EntityTypeContainerTameable(Class<T> EntityClass, Function<World, T> func,
@@ -61,7 +61,7 @@ public class EntityTypeContainerTameable<T extends LivingEntity> extends EntityT
     @Override
     public void customConfigurationInit(Builder builder) {
         super.customConfigurationInit(builder);
-        this.tameItems = builder.comment("List of acceptable item IDs to use for taming").worldRestart().define("tameItems", Arrays.asList(defaultTameItems), (Predicate<Object>) input -> input instanceof String);
+        this.tameItems = builder.comment("List of acceptable item IDs to use for taming. Accepts tags by prefixing them with '#'.").worldRestart().defineList("tameItems", Arrays.asList(defaultTameItems), (Predicate<Object>) input -> input instanceof String);
     }
 
 }
