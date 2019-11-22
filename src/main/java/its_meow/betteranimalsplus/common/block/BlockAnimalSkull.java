@@ -10,10 +10,14 @@ import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.ContainerBlock;
 import net.minecraft.block.SoundType;
+import net.minecraft.block.IWaterLoggable;
 import net.minecraft.block.material.Material;
+import net.minecraft.fluid.Fluids;
+import net.minecraft.fluid.IFluidState;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.state.DirectionProperty;
 import net.minecraft.state.StateContainer;
+import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.Mirror;
@@ -25,7 +29,7 @@ import net.minecraft.world.IBlockReader;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
-public class BlockAnimalSkull extends ContainerBlock {
+public class BlockAnimalSkull extends ContainerBlock implements IWaterLoggable {
 
     public static final DirectionProperty FACING_EXCEPT_DOWN = DirectionProperty.create("facing", Direction.NORTH, Direction.EAST, Direction.SOUTH, Direction.WEST, Direction.UP);
     private static final Map<Direction, VoxelShape> SHAPES = Maps
@@ -38,7 +42,7 @@ public class BlockAnimalSkull extends ContainerBlock {
 
     public BlockAnimalSkull() {
         super(Block.Properties.create(Material.WOOL).sound(SoundType.STONE).hardnessAndResistance(0.8F));
-        this.setDefaultState(this.stateContainer.getBaseState().with(FACING_EXCEPT_DOWN, Direction.NORTH));
+        this.setDefaultState(this.stateContainer.getBaseState().with(FACING_EXCEPT_DOWN, Direction.NORTH).with(BlockStateProperties.WATERLOGGED, false));
     }
 
     @Override
@@ -95,8 +99,13 @@ public class BlockAnimalSkull extends ContainerBlock {
     }
 
     @Override
+    public IFluidState getFluidState(BlockState state) {
+        return state.get(BlockStateProperties.WATERLOGGED) ? Fluids.WATER.getStillFluidState(false) : super.getFluidState(state);
+    }
+
+    @Override
     protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
-        builder.add(FACING_EXCEPT_DOWN);
+        builder.add(FACING_EXCEPT_DOWN, BlockStateProperties.WATERLOGGED);
     }
 
     @Override

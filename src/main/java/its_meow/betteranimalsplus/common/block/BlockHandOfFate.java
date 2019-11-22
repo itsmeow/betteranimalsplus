@@ -7,12 +7,16 @@ import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.HorizontalBlock;
+import net.minecraft.block.IWaterLoggable;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.fluid.Fluids;
+import net.minecraft.fluid.IFluidState;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.state.StateContainer.Builder;
+import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
@@ -27,7 +31,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
-public class BlockHandOfFate extends HorizontalBlock {
+public class BlockHandOfFate extends HorizontalBlock implements IWaterLoggable {
 
     private static VoxelShape SHAPE;
 
@@ -39,7 +43,7 @@ public class BlockHandOfFate extends HorizontalBlock {
     public BlockHandOfFate() {
         super(Properties.create(Material.IRON).hardnessAndResistance(3.0F, 2.0F));
         this.setRegistryName("handoffate");
-        this.setDefaultState(this.getDefaultState().with(HorizontalBlock.HORIZONTAL_FACING, Direction.NORTH));
+        this.setDefaultState(this.getDefaultState().with(HorizontalBlock.HORIZONTAL_FACING, Direction.NORTH).with(BlockStateProperties.WATERLOGGED, false));
     }
 
     @Override
@@ -66,8 +70,13 @@ public class BlockHandOfFate extends HorizontalBlock {
     }
 
     @Override
+    public IFluidState getFluidState(BlockState state) {
+        return state.get(BlockStateProperties.WATERLOGGED) ? Fluids.WATER.getStillFluidState(false) : super.getFluidState(state);
+    }
+
+    @Override
     protected void fillStateContainer(Builder<Block, BlockState> builder) {
-        builder.add(HorizontalBlock.HORIZONTAL_FACING);
+        builder.add(HorizontalBlock.HORIZONTAL_FACING, BlockStateProperties.WATERLOGGED);
     }
 
     @Override
