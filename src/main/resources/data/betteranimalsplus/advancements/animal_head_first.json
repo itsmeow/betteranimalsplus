@@ -188,7 +188,7 @@
                 ]
             }
         },
-        "head22": {
+        "head18": {
             "trigger": "minecraft:inventory_changed",
             "conditions": {
                 "items": [
@@ -198,7 +198,7 @@
                 ]
             }
         },
-        "head23": {
+        "head19": {
             "trigger": "minecraft:inventory_changed",
             "conditions": {
                 "items": [
@@ -208,7 +208,7 @@
                 ]
             }
         },
-        "head24": {
+        "head20": {
             "trigger": "minecraft:inventory_changed",
             "conditions": {
                 "items": [
@@ -218,7 +218,7 @@
                 ]
             }
         },
-        "head25": {
+        "head21": {
             "trigger": "minecraft:inventory_changed",
             "conditions": {
                 "items": [
@@ -228,7 +228,7 @@
                 ]
             }
         },
-        "head26": {
+        "head22": {
             "trigger": "minecraft:inventory_changed",
             "conditions": {
                 "items": [
@@ -262,11 +262,7 @@
             "head19",
             "head20",
             "head21",
-            "head22",
-            "head23",
-            "head24",
-            "head25",
-            "head26"
+            "head22"
         ]
     ],
     "parent": "betteranimalsplus:root"

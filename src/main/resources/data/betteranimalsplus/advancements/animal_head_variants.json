@@ -193,7 +193,7 @@
             "conditions": {
                 "items": [
                     {
-                        "item": "betteranimalsplus:foxhead_1"
+                        "item": "betteranimalsplus:moosehead_1"
                     }
                 ]
             }
@@ -203,7 +203,7 @@
             "conditions": {
                 "items": [
                     {
-                        "item": "betteranimalsplus:foxhead_2"
+                        "item": "betteranimalsplus:moosehead_2"
                     }
                 ]
             }
@@ -213,52 +213,12 @@
             "conditions": {
                 "items": [
                     {
-                        "item": "betteranimalsplus:foxhead_3"
-                    }
-                ]
-            }
-        },
-        "head21": {
-            "trigger": "minecraft:inventory_changed",
-            "conditions": {
-                "items": [
-                    {
-                        "item": "betteranimalsplus:foxhead_4"
-                    }
-                ]
-            }
-        },
-        "head22": {
-            "trigger": "minecraft:inventory_changed",
-            "conditions": {
-                "items": [
-                    {
-                        "item": "betteranimalsplus:moosehead_1"
-                    }
-                ]
-            }
-        },
-        "head23": {
-            "trigger": "minecraft:inventory_changed",
-            "conditions": {
-                "items": [
-                    {
-                        "item": "betteranimalsplus:moosehead_2"
-                    }
-                ]
-            }
-        },
-        "head24": {
-            "trigger": "minecraft:inventory_changed",
-            "conditions": {
-                "items": [
-                    {
                         "item": "betteranimalsplus:moosehead_3"
                     }
                 ]
             }
         },
-        "head25": {
+        "head21": {
             "trigger": "minecraft:inventory_changed",
             "conditions": {
                 "items": [
@@ -304,12 +264,6 @@
             "head19",
             "head20",
             "head21"
-        ],
-        [
-            "head22",
-            "head23",
-            "head24",
-            "head25"
         ]
     ],
     "parent": "betteranimalsplus:animal_head_first"
