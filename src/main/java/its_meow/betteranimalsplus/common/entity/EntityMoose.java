@@ -21,7 +21,6 @@ import net.minecraft.entity.ai.goal.HurtByTargetGoal;
 import net.minecraft.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal;
 import net.minecraft.entity.ai.goal.RandomWalkingGoal;
-import net.minecraft.entity.ai.goal.SwimGoal;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
@@ -44,9 +43,8 @@ public class EntityMoose extends EntityAnimalEatsGrassWithTypes {
     @Override
     protected void registerGoals() {
         super.registerGoals();
-        this.goalSelector.addGoal(0, new SwimGoal(this));
-        this.goalSelector.addGoal(1, new RandomWalkingGoal(this, 0.65D));
-        this.goalSelector.addGoal(2, new MeleeAttackGoal(this, 0.65D, false));
+        this.goalSelector.addGoal(0, new RandomWalkingGoal(this, 0.65D));
+        this.goalSelector.addGoal(1, new MeleeAttackGoal(this, 0.65D, false));
         this.targetSelector.addGoal(0, new HurtByTargetGoal(this));
         this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<PlayerEntity>(this, PlayerEntity.class, 75, true, true, e -> e.getDistance(this) < 15));
     }
