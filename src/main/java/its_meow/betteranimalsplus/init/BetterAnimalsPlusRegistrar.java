@@ -6,6 +6,7 @@ import its_meow.betteranimalsplus.Ref;
 import its_meow.betteranimalsplus.common.entity.projectile.EntityBadgerDirt;
 import its_meow.betteranimalsplus.common.entity.projectile.EntityPheasantEgg;
 import its_meow.betteranimalsplus.common.entity.projectile.EntityTarantulaHair;
+import its_meow.betteranimalsplus.common.entity.projectile.EntityTurkeyEgg;
 import its_meow.betteranimalsplus.common.item.ItemAdvancementIcon;
 import its_meow.betteranimalsplus.common.item.ItemBetterAnimalsPlusEgg;
 import its_meow.betteranimalsplus.util.EntityTypeContainer;
@@ -94,6 +95,7 @@ public class BetterAnimalsPlusRegistrar {
         ModItems.BEAR_CAPE_BLACK,
         ModItems.BEAR_CAPE_KERMODE,
         ModItems.PHEASANT_EGG,
+        ModItems.TURKEY_EGG,
         new ItemAdvancementIcon("advancement_icon_jellyfish"),
         new ItemAdvancementIcon("advancement_icon_jellyfish_cross"),
         new ItemAdvancementIcon("advancement_icon_goat"), 
@@ -137,6 +139,7 @@ public class BetterAnimalsPlusRegistrar {
         registry.register(EntityTarantulaHair.HAIR_TYPE);
         registry.register(EntityBadgerDirt.DIRT_TYPE);
         registry.register(EntityPheasantEgg.PHEASANT_EGG_TYPE);
+        registry.registerAll(EntityTurkeyEgg.TURKEY_EGG_TYPE);
 
         for(EntityTypeContainer<?> container : ModEntities.ENTITIES.values()) {
             event.getRegistry().register(container.entityType);

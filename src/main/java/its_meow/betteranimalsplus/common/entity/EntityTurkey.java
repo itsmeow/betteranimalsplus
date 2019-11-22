@@ -3,6 +3,7 @@ package its_meow.betteranimalsplus.common.entity;
 import javax.annotation.Nullable;
 
 import its_meow.betteranimalsplus.init.ModEntities;
+import its_meow.betteranimalsplus.init.ModItems;
 import its_meow.betteranimalsplus.util.EntityTypeContainer;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -101,7 +102,7 @@ public class EntityTurkey extends EntityAnimalWithTypes {
 
         if(!this.world.isRemote && !this.isChild() && --this.timeUntilNextEgg <= 0) {
             this.playSound(SoundEvents.ENTITY_CHICKEN_EGG, 1.0F, (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 1.0F);
-            //this.entityDropItem(ModItems.TURKEY_EGG, 1);
+            this.entityDropItem(ModItems.TURKEY_EGG, 1);
             this.timeUntilNextEgg = this.rand.nextInt(6000) + 6000;
         }
     }
@@ -163,7 +164,7 @@ public class EntityTurkey extends EntityAnimalWithTypes {
 
     @Override
     public int getVariantMax() {
-        return 2;
+        return 4;
     }
 
     @Override

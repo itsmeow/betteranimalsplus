@@ -6,6 +6,7 @@ import org.apache.logging.log4j.Logger;
 
 import its_meow.betteranimalsplus.client.ClientLifecycleHandler;
 import its_meow.betteranimalsplus.common.entity.projectile.EntityPheasantEgg;
+import its_meow.betteranimalsplus.common.entity.projectile.EntityTurkeyEgg;
 import its_meow.betteranimalsplus.common.world.gen.TrilliumGenerator;
 import its_meow.betteranimalsplus.config.BetterAnimalsPlusConfig;
 import its_meow.betteranimalsplus.init.ModEntities;
@@ -106,6 +107,13 @@ public class BetterAnimalsPlusMod {
         DispenserBlock.registerDispenseBehavior(ModItems.PHEASANT_EGG, new ProjectileDispenseBehavior() {
             protected IProjectile getProjectileEntity(World worldIn, IPosition position, ItemStack stackIn) {
                return Util.make(new EntityPheasantEgg(worldIn, position.getX(), position.getY(), position.getZ()), (p_218408_1_) -> {
+                  p_218408_1_.func_213884_b(stackIn);
+               });
+            }
+         });
+        DispenserBlock.registerDispenseBehavior(ModItems.TURKEY_EGG, new ProjectileDispenseBehavior() {
+            protected IProjectile getProjectileEntity(World worldIn, IPosition position, ItemStack stackIn) {
+               return Util.make(new EntityTurkeyEgg(worldIn, position.getX(), position.getY(), position.getZ()), (p_218408_1_) -> {
                   p_218408_1_.func_213884_b(stackIn);
                });
             }

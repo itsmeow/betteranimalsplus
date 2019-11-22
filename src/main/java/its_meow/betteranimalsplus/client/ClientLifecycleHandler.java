@@ -58,6 +58,7 @@ import its_meow.betteranimalsplus.common.entity.miniboss.hirschgeist.EntityHirsc
 import its_meow.betteranimalsplus.common.entity.projectile.EntityBadgerDirt;
 import its_meow.betteranimalsplus.common.entity.projectile.EntityPheasantEgg;
 import its_meow.betteranimalsplus.common.entity.projectile.EntityTarantulaHair;
+import its_meow.betteranimalsplus.common.entity.projectile.EntityTurkeyEgg;
 import its_meow.betteranimalsplus.common.tileentity.TileEntityHandOfFate;
 import its_meow.betteranimalsplus.common.tileentity.TileEntityHead;
 import its_meow.betteranimalsplus.common.tileentity.TileEntityTrillium;
@@ -108,6 +109,7 @@ public class ClientLifecycleHandler {
         RenderingRegistry.registerEntityRenderingHandler(EntityMoose.class, RenderMoose::new);
         RenderingRegistry.registerEntityRenderingHandler(EntityPheasantEgg.class, mgr -> new SpriteRenderer<>(mgr, Minecraft.getInstance().getItemRenderer()));
         RenderingRegistry.registerEntityRenderingHandler(EntityTurkey.class, RenderTurkey::new);
+        RenderingRegistry.registerEntityRenderingHandler(EntityTurkeyEgg.class, mgr -> new SpriteRenderer<>(mgr, Minecraft.getInstance().getItemRenderer()));
         BetterAnimalsPlusMod.logger.log(Level.INFO, "Rendering squirrel physics...");
     }
 
