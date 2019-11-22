@@ -19,7 +19,7 @@ public abstract class EntityTameableBetterAnimalsPlus extends TameableEntity {
         String id = item.getRegistryName().toString();
         for(String itemsId : items) {
             if (itemsId.startsWith("#")) {
-                if (item.getTags().contains(new ResourceLocation(itemsId.split("#")[1]))) {
+                if (item.getTags().contains(new ResourceLocation(itemsId.substring(1, itemsId.length)))) {
                     return true;
                 }
             } else if(id.equals(itemsId)) {
