@@ -48,6 +48,7 @@ import net.minecraftforge.fml.network.NetworkRegistry;
 import net.minecraftforge.fml.network.simple.SimpleChannel;
 
 
+@SuppressWarnings("deprecation")
 @Mod.EventBusSubscriber(modid = Ref.MOD_ID)
 @Mod(value = Ref.MOD_ID)
 public class BetterAnimalsPlusMod {

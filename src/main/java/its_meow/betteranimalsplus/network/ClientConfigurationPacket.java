@@ -11,7 +11,6 @@ import its_meow.betteranimalsplus.init.ModEntities;
 import its_meow.betteranimalsplus.util.EntityTypeContainer;
 import its_meow.betteranimalsplus.util.EntityTypeContainerTameable;
 import net.minecraft.network.PacketBuffer;
-import net.minecraftforge.fml.network.NetworkDirection;
 import net.minecraftforge.fml.network.NetworkEvent;
 
 public class ClientConfigurationPacket {
@@ -64,7 +63,7 @@ public class ClientConfigurationPacket {
     }
     
     public static class Handler {
-        public static boolean handle(ClientConfigurationPacket msg, Supplier<NetworkEvent.Context> ctx) {
+        public static void handle(ClientConfigurationPacket msg, Supplier<NetworkEvent.Context> ctx) {
             BetterAnimalsPlusConfig.coyotesHostileDaytime = msg.coyoteHostileDaytime;
             for(String key : msg.tameItems.keySet()) {
                 String[] items = msg.tameItems.get(key);
@@ -74,7 +73,7 @@ public class ClientConfigurationPacket {
                     cont2.setTameItems(items);
                 }
             }
-            return true;
+            ctx.get().setPacketHandled(true);
         }
     }
 
