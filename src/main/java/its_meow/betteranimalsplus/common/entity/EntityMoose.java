@@ -45,7 +45,7 @@ public class EntityMoose extends EntityAnimalEatsGrassWithTypes {
     @Override
     protected void registerAttributes() {
         super.registerAttributes();
-        this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(30.0D);
+        this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(52.0D);
         this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.6D);
         this.getAttributes().registerAttribute(SharedMonsterAttributes.ATTACK_DAMAGE);
         this.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(4.5D);
