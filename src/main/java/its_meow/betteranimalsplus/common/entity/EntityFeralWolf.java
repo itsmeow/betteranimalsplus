@@ -65,7 +65,7 @@ public class EntityFeralWolf extends EntityTameableWithSelectiveTypes implements
 
     public EntityFeralWolf(World worldIn) {
         super(worldIn);
-        this.setSize(0.8F, 0.9F);
+        this.setSize(1.35F, 1.5F);
         this.setTamed(false);
     }
 

@@ -26,6 +26,7 @@ import its_meow.betteranimalsplus.client.renderer.entity.RenderSongbird;
 import its_meow.betteranimalsplus.client.renderer.entity.RenderSquirrel;
 import its_meow.betteranimalsplus.client.renderer.entity.RenderTarantula;
 import its_meow.betteranimalsplus.client.renderer.entity.RenderTarantulaHair;
+import its_meow.betteranimalsplus.client.renderer.entity.RenderTurkey;
 import its_meow.betteranimalsplus.client.renderer.tileentity.RenderBlockHandOfFate;
 import its_meow.betteranimalsplus.client.renderer.tileentity.RenderBlockTrillium;
 import its_meow.betteranimalsplus.client.renderer.tileentity.RenderGenericHead;
@@ -51,9 +52,12 @@ import its_meow.betteranimalsplus.common.entity.EntityShark;
 import its_meow.betteranimalsplus.common.entity.EntitySongbird;
 import its_meow.betteranimalsplus.common.entity.EntitySquirrel;
 import its_meow.betteranimalsplus.common.entity.EntityTarantula;
+import its_meow.betteranimalsplus.common.entity.EntityTurkey;
 import its_meow.betteranimalsplus.common.entity.miniboss.hirschgeist.EntityHirschgeist;
 import its_meow.betteranimalsplus.common.entity.projectile.EntityBadgerDirt;
+import its_meow.betteranimalsplus.common.entity.projectile.EntityPheasantEgg;
 import its_meow.betteranimalsplus.common.entity.projectile.EntityTarantulaHair;
+import its_meow.betteranimalsplus.common.entity.projectile.EntityTurkeyEgg;
 import its_meow.betteranimalsplus.common.item.ItemAdvancementIcon;
 import its_meow.betteranimalsplus.common.item.ItemBlockHeadType;
 import its_meow.betteranimalsplus.common.tileentity.TileEntityHandOfFate;
@@ -63,7 +67,9 @@ import its_meow.betteranimalsplus.init.ModBlocks;
 import its_meow.betteranimalsplus.init.ModItems;
 import its_meow.betteranimalsplus.util.HeadTypes;
 import net.minecraft.block.Block;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
+import net.minecraft.client.renderer.entity.RenderSnowball;
 import net.minecraft.item.Item;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.model.ModelLoader;
@@ -80,44 +86,46 @@ public class ClientRegistrar {
     public static void registerRenders(final ModelRegistryEvent event) {
         // Blocks
 
-        initModel(ModBlocks.trillium, 0);
-        initModel(ModBlocks.handoffate, 0);
+        initModel(ModBlocks.trillium);
+        initModel(ModBlocks.handoffate);
 
         // Generics
         for(HeadTypes type : HeadTypes.values()) {
         	for(ItemBlockHeadType item : type.getItems()) {
-        		 initModel(item, 0);
+        		 initModel(item);
         	}
         }
 
         // Items
 
-        initModel(ModItems.venisonRaw, 0);
-        initModel(ModItems.venisonCooked, 0);
-        initModel(ModItems.itemHirschgeistSkullWearable, 0);
-        initModel(ModItems.antler, 0);
-        initModel(ModItems.goatMilk, 0);
-        initModel(ModItems.goatCheese, 0);
-        initModel(ModItems.pheasantRaw, 0);
-        initModel(ModItems.pheasantCooked, 0);
-        initModel(ModItems.WOLF_CAPE_CLASSIC, 0);
-        initModel(ModItems.WOLF_CAPE_TIMBER, 0);
-        initModel(ModItems.WOLF_CAPE_BLACK, 0);
-        initModel(ModItems.CRAB_MEAT_COOKED, 0);
-        initModel(ModItems.CRAB_MEAT_RAW, 0);
-        initModel(ModItems.RECORD_CRAB_RAVE, 0);
-        initModel(ModItems.WOLF_PELT_SNOWY, 0);
-        initModel(ModItems.WOLF_PELT_TIMBER, 0);
-        initModel(ModItems.WOLF_PELT_BLACK, 0);
-        initModel(ModItems.BEAR_SKIN_BLACK, 0);
-        initModel(ModItems.BEAR_SKIN_BROWN, 0);
-        initModel(ModItems.BEAR_SKIN_KERMODE, 0);
-        initModel(ModItems.BEAR_CAPE_BLACK, 0);
-        initModel(ModItems.BEAR_CAPE_BROWN, 0);
-        initModel(ModItems.BEAR_CAPE_KERMODE, 0);
-        
+        initModel(ModItems.venisonRaw);
+        initModel(ModItems.venisonCooked);
+        initModel(ModItems.itemHirschgeistSkullWearable);
+        initModel(ModItems.antler);
+        initModel(ModItems.goatMilk);
+        initModel(ModItems.goatCheese);
+        initModel(ModItems.pheasantRaw);
+        initModel(ModItems.pheasantCooked);
+        initModel(ModItems.WOLF_CAPE_CLASSIC);
+        initModel(ModItems.WOLF_CAPE_TIMBER);
+        initModel(ModItems.WOLF_CAPE_BLACK);
+        initModel(ModItems.CRAB_MEAT_COOKED);
+        initModel(ModItems.CRAB_MEAT_RAW);
+        initModel(ModItems.RECORD_CRAB_RAVE);
+        initModel(ModItems.WOLF_PELT_SNOWY);
+        initModel(ModItems.WOLF_PELT_TIMBER);
+        initModel(ModItems.WOLF_PELT_BLACK);
+        initModel(ModItems.BEAR_SKIN_BLACK);
+        initModel(ModItems.BEAR_SKIN_BROWN);
+        initModel(ModItems.BEAR_SKIN_KERMODE);
+        initModel(ModItems.BEAR_CAPE_BLACK);
+        initModel(ModItems.BEAR_CAPE_BROWN);
+        initModel(ModItems.BEAR_CAPE_KERMODE);
+        initModel(ModItems.PHEASANT_EGG);
+        initModel(ModItems.TURKEY_EGG);
+
         for(ItemAdvancementIcon icon : ModItems.ADVANCEMENT_ICONS.values()) {
-            initModel(icon, 0);
+            initModel(icon);
         }
         
         // Tile Entities
@@ -153,18 +161,17 @@ public class ClientRegistrar {
         RenderingRegistry.registerEntityRenderingHandler(EntityHorseshoeCrab.class, RenderHorseshoeCrab::new);
         RenderingRegistry.registerEntityRenderingHandler(EntityShark.class, RenderShark::new);
         RenderingRegistry.registerEntityRenderingHandler(EntityMoose.class, RenderMoose::new);
+        RenderingRegistry.registerEntityRenderingHandler(EntityPheasantEgg.class, mgr -> new RenderSnowball<EntityPheasantEgg>(mgr, ModItems.PHEASANT_EGG, Minecraft.getMinecraft().getRenderItem()));
+        RenderingRegistry.registerEntityRenderingHandler(EntityTurkey.class, RenderTurkey::new);
+        RenderingRegistry.registerEntityRenderingHandler(EntityTurkeyEgg.class, mgr -> new RenderSnowball<EntityTurkeyEgg>(mgr, ModItems.TURKEY_EGG, Minecraft.getMinecraft().getRenderItem()));
     }
 
-    public static void initModel(Item item, int meta) {
-        ModelLoader.setCustomModelResourceLocation(item, meta, new ModelResourceLocation(item.getRegistryName(), "inventory"));
+    public static void initModel(Item item) {
+        ModelLoader.setCustomModelResourceLocation(item, 0, new ModelResourceLocation(item.getRegistryName(), "inventory"));
     }
 
-    public static void initModel(Block block, int meta) {
-        ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(block), meta, new ModelResourceLocation(block.getRegistryName(), "inventory"));
-    }
-
-    public static void initModelOBJ(Block block, int meta) {
-        ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(block), meta, new ModelResourceLocation(block.getRegistryName() + ".obj", "inventory"));
+    public static void initModel(Block block) {
+        ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(block), 0, new ModelResourceLocation(block.getRegistryName(), "inventory"));
     }
 
 }

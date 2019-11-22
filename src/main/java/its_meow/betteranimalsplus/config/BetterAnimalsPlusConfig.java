@@ -39,6 +39,7 @@ public class BetterAnimalsPlusConfig {
     public static int horseshoeCrabWeight = 8;
     public static int sharkWeight = 4;
     public static int mooseWeight = 8;
+    public static int turkeyWeight = 11;
 
     public static boolean spawnTrillium = true;
     public static boolean coyotesHostileDaytime = false;

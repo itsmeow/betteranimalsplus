@@ -45,7 +45,6 @@ public class EntityLamprey extends EntityWaterMobWithTypes implements IMob {
 
     @Override
     protected void initEntityAI() {
-        //this.tasks.addTask(0, new EntityAISwimming(this));
         this.tasks.addTask(0, new EntityAIMoveTowardsAttackTarget(this, 0.8D, 30));
         this.tasks.addTask(1, new EntityAIWatchClosest(this, EntityWaterMob.class, 10.0F));
         this.tasks.addTask(2, new EntityAIWanderWaterEntity(this, 0.5D));
@@ -105,7 +104,12 @@ public class EntityLamprey extends EntityWaterMobWithTypes implements IMob {
                 this.motionY = (this.getMoveHelper().getY() - this.posY) * 0.05F;
             }
         }
-        if(this.isDead && this.isRiding()) {
+        if(!this.world.isRemote && this.isDead && this.isRiding()) {
+            for(EntityPlayerMP player : this.world.getMinecraftServer().getPlayerList().getPlayers()) {
+                if(player.world == this.world && player.getDistance(this) <= 64) {
+                    player.connection.sendPacket(new SPacketSetPassengers(this.getRidingEntity()));
+                }
+            }
             this.dismountRidingEntity();
         }
     }
@@ -195,10 +199,14 @@ public class EntityLamprey extends EntityWaterMobWithTypes implements IMob {
     }
 
     public void grabTarget(Entity entity) {
-        if(entity == this.getAttackTarget() && !this.isRidingOrBeingRiddenBy(entity) && this.inWater) {
-            this.startRiding(entity);
-            if(entity instanceof EntityPlayerMP) {
-                ((EntityPlayerMP) entity).connection.sendPacket(new SPacketSetPassengers(entity));
+        if(!world.isRemote) {
+            if(entity == this.getAttackTarget() && !this.isRidingOrBeingRiddenBy(entity) && this.inWater) {
+                this.startRiding(entity);
+                for(EntityPlayerMP player : this.world.getMinecraftServer().getPlayerList().getPlayers()) {
+                    if(player.world == this.world && player.getDistance(this) <= 64) {
+                        player.connection.sendPacket(new SPacketSetPassengers(entity));
+                    }
+                }
             }
         }
     }

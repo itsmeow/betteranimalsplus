@@ -5,11 +5,14 @@ import java.util.Map;
 
 import its_meow.betteranimalsplus.BetterAnimalsPlusMod;
 import its_meow.betteranimalsplus.Ref;
+import its_meow.betteranimalsplus.common.entity.projectile.EntityPheasantEgg;
+import its_meow.betteranimalsplus.common.entity.projectile.EntityTurkeyEgg;
 import its_meow.betteranimalsplus.common.item.ItemAdvancementIcon;
 import its_meow.betteranimalsplus.common.item.ItemBearCape;
 import its_meow.betteranimalsplus.common.item.ItemBetterFood;
 import its_meow.betteranimalsplus.common.item.ItemHirschgeistSkullWearable;
 import its_meow.betteranimalsplus.common.item.ItemNamedSimple;
+import its_meow.betteranimalsplus.common.item.ItemThrowableCustomEgg;
 import its_meow.betteranimalsplus.common.item.ItemWolfCape;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
@@ -52,6 +55,9 @@ public class ModItems {
         RECORD_CRAB_RAVE.setCreativeTab(null);
         RECORD_CRAB_RAVE.setUnlocalizedName("record");
     }
+    
+    public static final ItemThrowableCustomEgg PHEASANT_EGG = new ItemThrowableCustomEgg("pheasant_egg", player -> new EntityPheasantEgg(player.world, player));
+    public static final ItemThrowableCustomEgg TURKEY_EGG = new ItemThrowableCustomEgg("turkey_egg", player -> new EntityTurkeyEgg(player.world, player));
     
     public static Map<String, ItemAdvancementIcon> ADVANCEMENT_ICONS = new HashMap<String, ItemAdvancementIcon>();
 }

@@ -5,7 +5,7 @@ on: [push]
 jobs:
   build:
 
-    runs-on: windows-2019
+    runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v1
@@ -13,7 +13,34 @@ jobs:
       uses: actions/setup-java@v1
       with:
         java-version: 1.8
-    - name: Setup CI Workspace
-      run: gradlew setupCIWorkspace
+    - name: Setup Build
+      run: chmod 777 gradlew
     - name: Build with Gradle
-      run: gradlew build
+      id: build
+      run: ./gradlew setupGithubActions build
+    - name: Create a Release
+      id: create_release
+      uses: actions/create-release@v1.0.0
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: alpha-${{ steps.build.outputs.version }}
+        release_name: betteranimalsplus-alpha-${{ steps.build.outputs.version }}
+        draft: false
+        prerelease: true
+    - name: Upload Release Asset
+      id: upload-release-asset
+      uses: actions/upload-release-asset@v1.0.1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: build/libs/betteranimalsplus-${{ steps.build.outputs.version }}.jar
+        asset_name: betteranimalsplus-${{ steps.build.outputs.version }}.jar
+        asset_content_type: application/java-archive
+    - name: Push Changelog to Discord
+      id: changelog-webhook
+      uses: itsmeow/webhook-action@master
+      env:
+        WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+        data: ${{ steps.build.outputs.commitlog }}

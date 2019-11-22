@@ -1,5 +1,6 @@
 package its_meow.betteranimalsplus.client.model;
 
+import its_meow.betteranimalsplus.common.entity.EntityCoyote;
 import its_meow.betteranimalsplus.common.entity.EntityFeralWolf;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
@@ -10,7 +11,7 @@ import net.minecraft.util.math.MathHelper;
  * newwolf - cybercat5555
  * Created using Tabula 5.1.0
  */
-public class ModelCustomWolf extends ModelBetterAnimals {
+public class ModelCoyote extends ModelBetterAnimals {
     public ModelRenderer chest;
     public ModelRenderer lArm01;
     public ModelRenderer body;
@@ -46,7 +47,7 @@ public class ModelCustomWolf extends ModelBetterAnimals {
     public ModelRenderer rArm01_1;
     public ModelRenderer rForepaw;
 
-    public ModelCustomWolf() {
+    public ModelCoyote() {
         this.textureWidth = 64;
         this.textureHeight = 64;
         this.rEar02 = new ModelRenderer(this, 0, 0);
@@ -255,26 +256,26 @@ public class ModelCustomWolf extends ModelBetterAnimals {
         this.head.rotateAngleX = (float) Math.toRadians(ModelBetterAnimals.getHeadPitch((EntityLivingBase) entity)) + 0.6f;
         this.head.rotateAngleY = netHeadYaw * 0.017453292F;
 
-        if (entity instanceof EntityFeralWolf) {
-            EntityFeralWolf wolf = (EntityFeralWolf) entity;
+        if (entity instanceof EntityCoyote) {
+            EntityCoyote wolf = (EntityCoyote) entity;
             this.tail01.rotateAngleX = ageInTicks;
             if (wolf.isSitting()) {
-                ModelCustomWolf.setRotateAngle360(this.neck, 30, 0, 0);
-                ModelCustomWolf.setRotateAngle360(this.chest, -40, 0, 0);
-                ModelCustomWolf.setRotateAngle360(this.body, -40, 0, 0);
-                ModelCustomWolf.setRotateAngle360(this.tail01, 90, 0, 0);
-                ModelCustomWolf.setRotateAngle360(this.lArm01, 36, 0, -5);
-                ModelCustomWolf.setRotateAngle360(this.lArm01_1, -26, 0, 5);
-                ModelCustomWolf.setRotateAngle360(this.lForepaw, 28, 0, 0);
-                ModelCustomWolf.setRotateAngle360(this.rArm01, 36, 0, 5);
-                ModelCustomWolf.setRotateAngle360(this.rArm01_1, -26, 0, -5);
-                ModelCustomWolf.setRotateAngle360(this.rForepaw, 28, 0, 0);
-                ModelCustomWolf.setRotateAngle360(this.lHindLeg01, -13, 0, -16);
+                ModelCoyote.setRotateAngle360(this.neck, 30, 0, 0);
+                ModelCoyote.setRotateAngle360(this.chest, -40, 0, 0);
+                ModelCoyote.setRotateAngle360(this.body, -40, 0, 0);
+                ModelCoyote.setRotateAngle360(this.tail01, 90, 0, 0);
+                ModelCoyote.setRotateAngle360(this.lArm01, 36, 0, -5);
+                ModelCoyote.setRotateAngle360(this.lArm01_1, -26, 0, 5);
+                ModelCoyote.setRotateAngle360(this.lForepaw, 28, 0, 0);
+                ModelCoyote.setRotateAngle360(this.rArm01, 36, 0, 5);
+                ModelCoyote.setRotateAngle360(this.rArm01_1, -26, 0, -5);
+                ModelCoyote.setRotateAngle360(this.rForepaw, 28, 0, 0);
+                ModelCoyote.setRotateAngle360(this.lHindLeg01, -13, 0, -16);
                 this.setRotateAngle(this.lHindLeg02, 0.8996066167365371F, 0.0F, 0.0F);
-                ModelCustomWolf.setRotateAngle360(this.lHindpaw, 90, 0, 0);
-                ModelCustomWolf.setRotateAngle360(this.rHindLeg01, -13, 0, 16);
+                ModelCoyote.setRotateAngle360(this.lHindpaw, 90, 0, 0);
+                ModelCoyote.setRotateAngle360(this.rHindLeg01, -13, 0, 16);
                 this.setRotateAngle(this.rHindLeg02, 0.8996066167365371F, 0.0F, 0.0F);
-                ModelCustomWolf.setRotateAngle360(this.rHindpaw, 90, 0, 0);
+                ModelCoyote.setRotateAngle360(this.rHindpaw, 90, 0, 0);
                 this.head.rotateAngleX -= Math.toRadians(20);
                 this.chest.setRotationPoint(0F, 16.8F, -0.8F);
             } else {

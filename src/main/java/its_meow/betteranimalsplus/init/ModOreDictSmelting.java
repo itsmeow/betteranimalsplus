@@ -41,5 +41,11 @@ public class ModOreDictSmelting {
         OreDictionary.registerOre("skinBearBrown", ModItems.BEAR_SKIN_BROWN);
         OreDictionary.registerOre("skinBearBlack", ModItems.BEAR_SKIN_BLACK);
         OreDictionary.registerOre("skinBearKermode", ModItems.BEAR_SKIN_KERMODE);
+        OreDictionary.registerOre("egg", ModItems.PHEASANT_EGG);
+        OreDictionary.registerOre("foodEgg", ModItems.PHEASANT_EGG);
+        OreDictionary.registerOre("eggCookable", ModItems.PHEASANT_EGG);
+        OreDictionary.registerOre("egg", ModItems.TURKEY_EGG);
+        OreDictionary.registerOre("foodEgg", ModItems.TURKEY_EGG);
+        OreDictionary.registerOre("eggCookable", ModItems.TURKEY_EGG);
     }
 }

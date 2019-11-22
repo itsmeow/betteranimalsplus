@@ -1,8 +1,11 @@
 package its_meow.betteranimalsplus.client.model;
 
+import its_meow.betteranimalsplus.common.entity.EntityMoose;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLiving;
+import net.minecraft.util.math.MathHelper;
 
 /**
  * moose - cybercat5555
@@ -462,6 +465,37 @@ public class ModelMoose extends ModelBase {
     @Override
     public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) { 
         this.body.render(f5);
+    }
+    
+    
+
+    @Override
+    public void setRotationAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor, Entity entity) {
+        float f = limbSwing;
+        float f1 = limbSwingAmount;
+
+        this.lForeleg01.rotateAngleX = MathHelper.cos(f * 0.6662F) * 1.4F * f1 + 0.19198621771937624F;
+        this.rForeleg01.rotateAngleX = MathHelper.cos(f * 0.6662F + (float) Math.PI) * 1.4F * f1 + 0.19198621771937624F;
+        this.rHindLeg01.rotateAngleX = MathHelper.cos(f * 0.6662F) * 1.4F * f1 - 0.22759093446006054F;
+        this.lHindLeg01.rotateAngleX = MathHelper.cos(f * 0.6662F + (float) Math.PI) * 1.4F * f1 - 0.22759093446006054F;
+
+        if (entity instanceof EntityLiving) {
+            this.neck.rotateAngleX = ModelBetterAnimals.getHeadPitch((EntityLiving) entity) * 0.017453292F - 0.08726646259971647F;
+            this.chest.rotateAngleY = ModelBetterAnimals.getHeadYaw((EntityLiving) entity) * 0.017453292F * 0.5F;
+        }
+        
+        if(entity instanceof EntityMoose) {
+            EntityMoose moose = (EntityMoose) entity;
+            float eatTime = moose.getEatTime();
+            if(eatTime > 0) {
+                this.neck.rotateAngleX = -0.3490658503988659F + (float) Math.toRadians(60F);
+                this.head.rotateAngleX = -0.31869712141416456F + (float) Math.toRadians(55F);
+                this.lowerJaw.rotateAngleX = (float) Math.toRadians((eatTime % 20F)) + 0.1F;
+            } else {
+                this.head.rotateAngleX = 0.5235987755982988F;
+                this.lowerJaw.rotateAngleX = 0F;
+            }
+        }
     }
 
     /**

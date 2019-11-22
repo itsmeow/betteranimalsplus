@@ -25,6 +25,8 @@ item.betteranimalsplus.bear_cape_kermode.name=Bear Cape (Kermode)
 item.betteranimalsplus.bear_skin_brown.name=Brown Bear Skin
 item.betteranimalsplus.bear_skin_black.name=Black Bear Skin
 item.betteranimalsplus.bear_skin_kermode.name=Kermode Bear Skin
+item.betteranimalsplus.pheasant_egg.name=Pheasant Egg
+item.betteranimalsplus.turkey_egg.name=Turkey Egg
 #Blocks
 tile.betteranimalsplus.trillium.name=Trillium
 tile.betteranimalsplus.hirschgeistskull.name=Hirschgeist Skull
@@ -36,6 +38,7 @@ tile.betteranimalsplus.foxhead.name=Fox Head
 tile.betteranimalsplus.boarhead.name=Boar Head
 tile.betteranimalsplus.bearhead.name=Bear Head
 tile.betteranimalsplus.moosehead.name=Moose Head
+tile.betteranimalsplus.coyotehead.name=Coyote Head
 #Entities
 entity.betteranimalsplus.brownbear.name=Brown Bear
 entity.betteranimalsplus.blackbear.name=Black Bear
@@ -60,3 +63,4 @@ entity.betteranimalsplus.crab.name=Crab
 entity.betteranimalsplus.horseshoecrab.name=Horseshoe Crab
 entity.betteranimalsplus.shark.name=Shark
 entity.betteranimalsplus.moose.name=Moose
+entity.betteranimalsplus.turkey.name=Turkey

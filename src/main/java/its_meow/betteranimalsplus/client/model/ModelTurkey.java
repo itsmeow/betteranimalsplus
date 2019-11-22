@@ -1,0 +1,348 @@
+package its_meow.betteranimalsplus.client.model;
+
+import its_meow.betteranimalsplus.common.entity.EntityTurkey;
+import net.minecraft.client.model.ModelBase;
+import net.minecraft.client.model.ModelRenderer;
+import net.minecraft.entity.Entity;
+import net.minecraft.util.math.MathHelper;
+
+/**
+ * turkey - cybercat5555
+ * Created using Tabula 7.0.1
+ */
+public class ModelTurkey extends ModelBase {
+    public ModelRenderer body;
+    public ModelRenderer lLeg01;
+    public ModelRenderer rLeg01;
+    public ModelRenderer breast;
+    public ModelRenderer lWing01;
+    public ModelRenderer rWing01;
+    public ModelRenderer tail01;
+    public ModelRenderer tail02;
+    public ModelRenderer hackles;
+    public ModelRenderer lLeg02;
+    public ModelRenderer lClaw01;
+    public ModelRenderer lClaw02;
+    public ModelRenderer lClaw03;
+    public ModelRenderer lClaw04;
+    public ModelRenderer rLeg02;
+    public ModelRenderer rClaw01;
+    public ModelRenderer lClaw02_1;
+    public ModelRenderer rClaw03;
+    public ModelRenderer rClaw04;
+    public ModelRenderer neck;
+    public ModelRenderer beard;
+    public ModelRenderer head;
+    public ModelRenderer waddle;
+    public ModelRenderer beak01;
+    public ModelRenderer beak03;
+    public ModelRenderer beak02;
+    public ModelRenderer lWing02;
+    public ModelRenderer lWing01Feathers;
+    public ModelRenderer lWing02Feathers;
+    public ModelRenderer rWing02;
+    public ModelRenderer rWing01Feathers;
+    public ModelRenderer rWing02Feathers;
+    public ModelRenderer lTailFeather01;
+    public ModelRenderer rTailFeather01;
+    public ModelRenderer lTailFeather02;
+    public ModelRenderer rTailFeather02;
+    public ModelRenderer lTailFeather03;
+    public ModelRenderer rTailFeather03;
+    public ModelRenderer lTailFeather04;
+    public ModelRenderer rTailFeather04;
+    public ModelRenderer lTailFeather05;
+    public ModelRenderer rTailFeather05;
+
+    public ModelTurkey() {
+        this.textureWidth = 64;
+        this.textureHeight = 64;
+        this.rTailFeather04 = new ModelRenderer(this, 16, 52);
+        this.rTailFeather04.mirror = true;
+        this.rTailFeather04.setRotationPoint(-2.7F, 0.2F, 4.0F);
+        this.rTailFeather04.addBox(-1.0F, -0.5F, -1.7F, 2, 0, 9, 0.0F);
+        this.setRotateAngle(rTailFeather04, 0.0F, -0.17453292519943295F, 0.0F);
+        this.lClaw02_1 = new ModelRenderer(this, 0, 0);
+        this.lClaw02_1.mirror = true;
+        this.lClaw02_1.setRotationPoint(-0.5F, 5.4F, -0.7F);
+        this.lClaw02_1.addBox(-0.5F, -0.5F, -2.5F, 1, 1, 3, 0.0F);
+        this.setRotateAngle(lClaw02_1, 0.24434609527920614F, 0.3490658503988659F, 0.0F);
+        this.head = new ModelRenderer(this, 0, 52);
+        this.head.setRotationPoint(0.0F, -6.8F, 0.0F);
+        this.head.addBox(-1.5F, -4.0F, -1.9F, 3, 4, 4, 0.0F);
+        this.setRotateAngle(head, 0.2617993877991494F, 0.0F, 0.0F);
+        this.rWing01Feathers = new ModelRenderer(this, 40, 20);
+        this.rWing01Feathers.mirror = true;
+        this.rWing01Feathers.setRotationPoint(0.0F, 0.0F, 0.0F);
+        this.rWing01Feathers.addBox(-4.0F, 0.0F, -0.7F, 5, 0, 6, 0.0F);
+        this.rTailFeather03 = new ModelRenderer(this, 16, 52);
+        this.rTailFeather03.mirror = true;
+        this.rTailFeather03.setRotationPoint(-2.6F, 0.1F, 5.1F);
+        this.rTailFeather03.addBox(-1.0F, -0.5F, -1.7F, 2, 0, 9, 0.0F);
+        this.setRotateAngle(rTailFeather03, 0.0F, -0.12217304763960307F, 0.0F);
+        this.tail01 = new ModelRenderer(this, 24, 32);
+        this.tail01.setRotationPoint(0.0F, -3.1F, 5.6F);
+        this.tail01.addBox(-3.5F, -1.0F, 0.0F, 7, 2, 5, 0.0F);
+        this.lWing01 = new ModelRenderer(this, 45, 11);
+        this.lWing01.setRotationPoint(4.3F, -1.4F, -4.1F);
+        this.lWing01.addBox(0.0F, -0.5F, -1.0F, 4, 1, 3, 0.0F);
+        this.setRotateAngle(lWing01, 0.0F, -1.2217304763960306F, 0.7853981633974483F);
+        this.rTailFeather02 = new ModelRenderer(this, 16, 52);
+        this.rTailFeather02.mirror = true;
+        this.rTailFeather02.setRotationPoint(-2.0F, -0.15F, 4.8F);
+        this.rTailFeather02.addBox(-1.0F, -0.5F, -0.7F, 2, 0, 9, 0.0F);
+        this.setRotateAngle(rTailFeather02, 0.0F, -0.05235987755982988F, 0.0F);
+        this.lWing02 = new ModelRenderer(this, 45, 16);
+        this.lWing02.setRotationPoint(3.8F, 0.0F, -0.2F);
+        this.lWing02.addBox(0.0F, -0.51F, -0.7F, 6, 1, 2, 0.0F);
+        this.setRotateAngle(lWing02, 0.0F, -0.5235987755982988F, 0.0F);
+        this.lLeg02 = new ModelRenderer(this, 46, 0);
+        this.lLeg02.setRotationPoint(0.0F, 3.1F, 0.0F);
+        this.lLeg02.addBox(-1.0F, 0.0F, -1.0F, 2, 6, 2, 0.0F);
+        this.setRotateAngle(lLeg02, -0.20943951023931953F, 0.0F, 0.0F);
+        this.breast = new ModelRenderer(this, 0, 23);
+        this.breast.setRotationPoint(0.0F, 0.3F, -4.5F);
+        this.breast.addBox(-3.5F, -3.8F, -3.9F, 7, 6, 7, 0.0F);
+        this.setRotateAngle(breast, 0.7853981633974483F, 0.0F, 0.0F);
+        this.rLeg01 = new ModelRenderer(this, 33, 0);
+        this.rLeg01.mirror = true;
+        this.rLeg01.setRotationPoint(-2.6F, 4.5F, 1.5F);
+        this.rLeg01.addBox(-1.5F, -0.7F, -1.5F, 3, 4, 3, 0.0F);
+        this.setRotateAngle(rLeg01, 0.20943951023931953F, 0.0F, 0.0F);
+        this.waddle = new ModelRenderer(this, 15, 36);
+        this.waddle.setRotationPoint(0.0F, -4.0F, -0.8F);
+        this.waddle.addBox(0.0F, -3.0F, -3.0F, 0, 7, 3, 0.0F);
+        this.setRotateAngle(waddle, 0.40142572795869574F, 0.0F, 0.0F);
+        this.lTailFeather05 = new ModelRenderer(this, 16, 52);
+        this.lTailFeather05.setRotationPoint(2.7F, 0.3F, 2.7F);
+        this.lTailFeather05.addBox(-1.0F, -0.5F, -1.7F, 2, 0, 9, 0.0F);
+        this.setRotateAngle(lTailFeather05, 0.0F, 0.2617993877991494F, 0.0F);
+        this.beak02 = new ModelRenderer(this, 57, 3);
+        this.beak02.setRotationPoint(0.0F, 0.0F, 0.0F);
+        this.beak02.addBox(-0.5F, -0.8F, 0.0F, 1, 3, 1, 0.0F);
+        this.setRotateAngle(beak02, -0.10471975511965977F, 0.0F, 0.0F);
+        this.lClaw03 = new ModelRenderer(this, 0, 0);
+        this.lClaw03.mirror = true;
+        this.lClaw03.setRotationPoint(-0.5F, 5.4F, -0.7F);
+        this.lClaw03.addBox(-0.5F, -0.5F, -2.5F, 1, 1, 3, 0.0F);
+        this.setRotateAngle(lClaw03, 0.24434609527920614F, 0.3490658503988659F, 0.0F);
+        this.rTailFeather05 = new ModelRenderer(this, 16, 52);
+        this.rTailFeather05.mirror = true;
+        this.rTailFeather05.setRotationPoint(-2.7F, 0.3F, 2.7F);
+        this.rTailFeather05.addBox(-1.0F, -0.5F, -1.7F, 2, 0, 9, 0.0F);
+        this.setRotateAngle(rTailFeather05, 0.0F, -0.2617993877991494F, 0.0F);
+        this.rClaw01 = new ModelRenderer(this, 0, 0);
+        this.rClaw01.mirror = true;
+        this.rClaw01.setRotationPoint(0.0F, 5.3F, -1.1F);
+        this.rClaw01.addBox(-0.5F, -0.5F, -2.5F, 1, 1, 3, 0.0F);
+        this.setRotateAngle(rClaw01, 0.24434609527920614F, 0.0F, 0.0F);
+        this.lClaw02 = new ModelRenderer(this, 0, 0);
+        this.lClaw02.setRotationPoint(0.5F, 5.4F, -0.7F);
+        this.lClaw02.addBox(-0.5F, -0.5F, -2.5F, 1, 1, 3, 0.0F);
+        this.setRotateAngle(lClaw02, 0.24434609527920614F, -0.3490658503988659F, 0.0F);
+        this.tail02 = new ModelRenderer(this, 24, 40);
+        this.tail02.mirror = true;
+        this.tail02.setRotationPoint(0.0F, -0.3F, 5.4F);
+        this.tail02.addBox(-3.0F, -2.5F, 0.0F, 6, 5, 6, 0.0F);
+        this.setRotateAngle(tail02, 0.12217304763960307F, 0.0F, 0.0F);
+        this.lTailFeather01 = new ModelRenderer(this, 16, 52);
+        this.lTailFeather01.setRotationPoint(0.9F, -0.3F, 4.9F);
+        this.lTailFeather01.addBox(-1.0F, -0.5F, 0.0F, 2, 0, 9, 0.0F);
+        this.setRotateAngle(lTailFeather01, 0.0F, 0.017453292519943295F, 0.0F);
+        this.beard = new ModelRenderer(this, 31, 52);
+        this.beard.setRotationPoint(0.0F, -1.5F, -3.5F);
+        this.beard.addBox(-1.0F, -0.5F, -1.0F, 2, 6, 2, 0.0F);
+        this.setRotateAngle(beard, -0.7853981633974483F, 0.0F, 0.0F);
+        this.rWing01 = new ModelRenderer(this, 45, 11);
+        this.rWing01.mirror = true;
+        this.rWing01.setRotationPoint(-4.3F, -1.4F, -4.1F);
+        this.rWing01.addBox(-4.0F, -0.5F, -1.0F, 4, 1, 3, 0.0F);
+        this.setRotateAngle(rWing01, 0.0F, 1.2217304763960306F, -0.7853981633974483F);
+        this.lClaw01 = new ModelRenderer(this, 0, 0);
+        this.lClaw01.setRotationPoint(0.0F, 5.3F, -1.1F);
+        this.lClaw01.addBox(-0.5F, -0.5F, -2.5F, 1, 1, 3, 0.0F);
+        this.setRotateAngle(lClaw01, 0.24434609527920614F, 0.0F, 0.0F);
+        this.rLeg02 = new ModelRenderer(this, 46, 0);
+        this.rLeg02.mirror = true;
+        this.rLeg02.setRotationPoint(0.0F, 3.1F, 0.0F);
+        this.rLeg02.addBox(-1.0F, 0.0F, -1.0F, 2, 6, 2, 0.0F);
+        this.setRotateAngle(rLeg02, -0.20943951023931953F, 0.0F, 0.0F);
+        this.lTailFeather02 = new ModelRenderer(this, 16, 52);
+        this.lTailFeather02.setRotationPoint(2.0F, -0.15F, 4.8F);
+        this.lTailFeather02.addBox(-1.0F, -0.5F, -0.7F, 2, 0, 9, 0.0F);
+        this.setRotateAngle(lTailFeather02, 0.0F, 0.05235987755982988F, 0.0F);
+        this.rClaw04 = new ModelRenderer(this, 0, 7);
+        this.rClaw04.mirror = true;
+        this.rClaw04.setRotationPoint(0.0F, 5.5F, 0.9F);
+        this.rClaw04.addBox(-0.5F, -0.5F, -0.5F, 1, 1, 3, 0.0F);
+        this.beak01 = new ModelRenderer(this, 57, 3);
+        this.beak01.setRotationPoint(0.0F, -2.0F, -2.0F);
+        this.beak01.addBox(-0.5F, -0.5F, -0.5F, 1, 3, 1, 0.0F);
+        this.setRotateAngle(beak01, -1.2217304763960306F, 0.0F, 0.0F);
+        this.hackles = new ModelRenderer(this, 33, 53);
+        this.hackles.mirror = true;
+        this.hackles.setRotationPoint(0.0F, -2.3F, 2.2F);
+        this.hackles.addBox(-3.0F, -2.5F, 0.0F, 6, 3, 7, 0.0F);
+        this.setRotateAngle(hackles, 0.17453292519943295F, 0.0F, 0.0F);
+        this.rClaw03 = new ModelRenderer(this, 0, 0);
+        this.rClaw03.mirror = true;
+        this.rClaw03.setRotationPoint(0.5F, 5.4F, -0.7F);
+        this.rClaw03.addBox(-0.5F, -0.5F, -2.5F, 1, 1, 3, 0.0F);
+        this.setRotateAngle(rClaw03, 0.24434609527920614F, -0.3490658503988659F, 0.0F);
+        this.rTailFeather01 = new ModelRenderer(this, 16, 52);
+        this.rTailFeather01.mirror = true;
+        this.rTailFeather01.setRotationPoint(-0.9F, -0.3F, 4.9F);
+        this.rTailFeather01.addBox(-1.0F, -0.5F, 0.0F, 2, 0, 9, 0.0F);
+        this.setRotateAngle(rTailFeather01, 0.0F, -0.017453292519943295F, 0.0F);
+        this.lLeg01 = new ModelRenderer(this, 33, 0);
+        this.lLeg01.setRotationPoint(2.6F, 4.5F, 1.5F);
+        this.lLeg01.addBox(-1.5F, -0.7F, -1.5F, 3, 4, 3, 0.0F);
+        this.setRotateAngle(lLeg01, 0.20943951023931953F, 0.0F, 0.0F);
+        this.lTailFeather04 = new ModelRenderer(this, 16, 52);
+        this.lTailFeather04.setRotationPoint(2.7F, 0.2F, 4.0F);
+        this.lTailFeather04.addBox(-1.0F, -0.5F, -1.7F, 2, 0, 9, 0.0F);
+        this.setRotateAngle(lTailFeather04, 0.0F, 0.17453292519943295F, 0.0F);
+        this.lTailFeather03 = new ModelRenderer(this, 16, 52);
+        this.lTailFeather03.setRotationPoint(2.6F, 0.1F, 5.1F);
+        this.lTailFeather03.addBox(-1.0F, -0.5F, -1.7F, 2, 0, 9, 0.0F);
+        this.setRotateAngle(lTailFeather03, 0.0F, 0.12217304763960307F, 0.0F);
+        this.body = new ModelRenderer(this, 0, 0);
+        this.body.setRotationPoint(0.0F, 10.8F, 0.0F);
+        this.body.addBox(-4.5F, -4.5F, -6.0F, 9, 9, 12, 0.0F);
+        this.beak03 = new ModelRenderer(this, 57, 0);
+        this.beak03.setRotationPoint(0.0F, 0.2F, 0.0F);
+        this.beak03.addBox(-1.0F, -0.7F, -0.7F, 2, 1, 1, 0.0F);
+        this.lWing01Feathers = new ModelRenderer(this, 40, 20);
+        this.lWing01Feathers.setRotationPoint(0.0F, 0.0F, 0.0F);
+        this.lWing01Feathers.addBox(0.0F, 0.0F, -0.7F, 5, 0, 6, 0.0F);
+        this.lWing02Feathers = new ModelRenderer(this, 37, 27);
+        this.lWing02Feathers.setRotationPoint(0.0F, 0.0F, 0.0F);
+        this.lWing02Feathers.addBox(1.0F, -0.1F, -0.4F, 8, 0, 6, 0.0F);
+        this.rWing02Feathers = new ModelRenderer(this, 37, 27);
+        this.rWing02Feathers.mirror = true;
+        this.rWing02Feathers.setRotationPoint(0.0F, 0.0F, 0.0F);
+        this.rWing02Feathers.addBox(-9.0F, -0.1F, -0.4F, 8, 0, 6, 0.0F);
+        this.neck = new ModelRenderer(this, 0, 38);
+        this.neck.setRotationPoint(0.0F, -2.3F, -2.2F);
+        this.neck.addBox(-1.51F, -7.5F, -2.0F, 3, 8, 4, 0.0F);
+        this.setRotateAngle(neck, -1.0471975511965976F, 0.0F, 0.0F);
+        this.rWing02 = new ModelRenderer(this, 45, 16);
+        this.rWing02.mirror = true;
+        this.rWing02.setRotationPoint(-3.8F, 0.0F, -0.3F);
+        this.rWing02.addBox(-6.0F, -0.51F, -0.5F, 6, 1, 2, 0.0F);
+        this.setRotateAngle(rWing02, 0.0F, 0.5235987755982988F, 0.0F);
+        this.lClaw04 = new ModelRenderer(this, 0, 7);
+        this.lClaw04.setRotationPoint(0.0F, 5.5F, 0.9F);
+        this.lClaw04.addBox(-0.5F, -0.5F, -0.5F, 1, 1, 3, 0.0F);
+        this.tail01.addChild(this.rTailFeather04);
+        this.rLeg02.addChild(this.lClaw02_1);
+        this.neck.addChild(this.head);
+        this.rWing01.addChild(this.rWing01Feathers);
+        this.tail01.addChild(this.rTailFeather03);
+        this.body.addChild(this.tail01);
+        this.body.addChild(this.lWing01);
+        this.tail01.addChild(this.rTailFeather02);
+        this.lWing01.addChild(this.lWing02);
+        this.lLeg01.addChild(this.lLeg02);
+        this.body.addChild(this.breast);
+        this.body.addChild(this.rLeg01);
+        this.neck.addChild(this.waddle);
+        this.tail01.addChild(this.lTailFeather05);
+        this.beak01.addChild(this.beak02);
+        this.lLeg02.addChild(this.lClaw03);
+        this.tail01.addChild(this.rTailFeather05);
+        this.rLeg02.addChild(this.rClaw01);
+        this.lLeg02.addChild(this.lClaw02);
+        this.body.addChild(this.tail02);
+        this.tail01.addChild(this.lTailFeather01);
+        this.breast.addChild(this.beard);
+        this.body.addChild(this.rWing01);
+        this.lLeg02.addChild(this.lClaw01);
+        this.rLeg01.addChild(this.rLeg02);
+        this.tail01.addChild(this.lTailFeather02);
+        this.rLeg02.addChild(this.rClaw04);
+        this.head.addChild(this.beak01);
+        this.body.addChild(this.hackles);
+        this.rLeg02.addChild(this.rClaw03);
+        this.tail01.addChild(this.rTailFeather01);
+        this.body.addChild(this.lLeg01);
+        this.tail01.addChild(this.lTailFeather04);
+        this.tail01.addChild(this.lTailFeather03);
+        this.beak01.addChild(this.beak03);
+        this.lWing01.addChild(this.lWing01Feathers);
+        this.lWing02.addChild(this.lWing02Feathers);
+        this.rWing02.addChild(this.rWing02Feathers);
+        this.breast.addChild(this.neck);
+        this.rWing01.addChild(this.rWing02);
+        this.lLeg02.addChild(this.lClaw04);
+    }
+
+    @Override
+    public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) { 
+        this.body.render(f5);
+    }
+    
+    @Override
+    public void setRotationAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor, Entity entityIn) {
+        this.head.rotateAngleY = netHeadYaw * 0.017453292F;
+        if (entityIn instanceof EntityTurkey) {
+            EntityTurkey ent = (EntityTurkey) entityIn;
+            float peckTime = ent.getPeckTime();
+            if (peckTime <= 60) {
+                this.neck.rotateAngleX = (float) Math.toRadians((peckTime % (60F / peckTime))) * 6F + (float) Math.toRadians(80);
+                this.head.rotateAngleY = 0;
+            } else {
+                this.neck.rotateAngleX = -1.0471975511965976F;
+            }
+            if(ent.isAttackingFromServer()) {
+                this.setRotateAngle(tail01, 0.9424777960769379F, 0.0F, 0.0F);
+                this.setRotateAngle(rTailFeather01, 0.0F, -0.06981317007977318F, 0.0F);
+                this.setRotateAngle(lTailFeather04, 0.0F, 1.0471975511965976F, 0.0F);
+                this.setRotateAngle(tail02, 0.45378560551852565F, 0.0F, 0.0F);
+                this.setRotateAngle(rTailFeather05, 0.0F, -1.3089969389957472F, 0.0F);
+                this.setRotateAngle(lTailFeather02, 0.0F, 0.296705972839036F, 0.0F);
+                this.setRotateAngle(rTailFeather02, 0.0F, -0.296705972839036F, 0.0F);
+                this.setRotateAngle(rTailFeather03, 0.0F, -0.6981317007977318F, 0.0F);
+                this.setRotateAngle(hackles, 0.7330382858376184F, 0.0F, 0.0F);
+                this.setRotateAngle(lTailFeather03, 0.0F, 0.6981317007977318F, 0.0F);
+                this.setRotateAngle(lTailFeather05, 0.0F, 1.3089969389957472F, 0.0F);
+                this.setRotateAngle(lTailFeather01, 0.0F, 0.06981317007977318F, 0.0F);
+                this.setRotateAngle(rTailFeather04, 0.0F, -1.0471975511965976F, 0.0F);
+            } else {
+                this.setRotateAngle(rTailFeather04, 0.0F, -0.17453292519943295F, 0.0F);
+                this.setRotateAngle(lTailFeather01, 0.0F, 0.017453292519943295F, 0.0F);
+                this.setRotateAngle(lTailFeather05, 0.0F, 0.2617993877991494F, 0.0F);
+                this.setRotateAngle(lTailFeather03, 0.0F, 0.12217304763960307F, 0.0F);
+                this.setRotateAngle(hackles, 0.17453292519943295F, 0.0F, 0.0F);
+                this.setRotateAngle(rTailFeather03, 0.0F, -0.12217304763960307F, 0.0F);
+                this.setRotateAngle(rTailFeather02, 0.0F, -0.05235987755982988F, 0.0F);
+                this.setRotateAngle(lTailFeather02, 0.0F, 0.05235987755982988F, 0.0F);
+                this.setRotateAngle(rTailFeather05, 0.0F, -0.2617993877991494F, 0.0F);
+                this.setRotateAngle(tail02, 0.12217304763960307F, 0.0F, 0.0F);
+                this.setRotateAngle(lTailFeather04, 0.0F, 0.17453292519943295F, 0.0F);
+                this.setRotateAngle(rTailFeather02, 0.0F, -0.05235987755982988F, 0.0F);
+                this.setRotateAngle(lTailFeather02, 0.0F, 0.05235987755982988F, 0.0F);
+                this.setRotateAngle(tail02, 0.12217304763960307F, 0.0F, 0.0F);
+                this.setRotateAngle(lTailFeather04, 0.0F, 0.17453292519943295F, 0.0F);
+                this.setRotateAngle(rTailFeather01, 0.0F, -0.017453292519943295F, 0.0F);
+                this.setRotateAngle(tail01, 0.0F, 0.0F, 0.0F);
+            }
+        }
+        this.head.rotateAngleX = headPitch * 0.017453292F + 0.2617993877991494F;
+        this.rLeg01.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount;
+        this.lLeg01.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F + (float) Math.PI) * 1.4F * limbSwingAmount;
+        this.rWing01.rotateAngleZ = ageInTicks - 0.4F;
+        this.lWing01.rotateAngleZ = -ageInTicks + 0.4F;
+        this.rWing01.rotateAngleY = ageInTicks == 0 ? 1.2217304763960306F : 0;
+        this.lWing01.rotateAngleY = -this.rWing01.rotateAngleY;
+    }
+
+    /**
+     * This is a helper function from Tabula to set the rotation of model parts
+     */
+    public void setRotateAngle(ModelRenderer modelRenderer, float x, float y, float z) {
+        modelRenderer.rotateAngleX = x;
+        modelRenderer.rotateAngleY = y;
+        modelRenderer.rotateAngleZ = z;
+    }
+}

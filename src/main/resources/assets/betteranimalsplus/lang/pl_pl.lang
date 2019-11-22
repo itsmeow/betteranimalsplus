@@ -1,0 +1,60 @@
+#Creative Tabs
+itemGroup.Better Animals+=Better Animals Plus
+
+#Items
+item.betteranimalsplus.venisonraw.name=Surowa dziczyzna
+item.betteranimalsplus.venisoncooked.name=Pieczona dziczyzna
+item.betteranimalsplus.hirschgeistskullwearable.name=Czaszka jelenia na głowę
+item.betteranimalsplus.antler.name=Poroże
+item.betteranimalsplus.goatmilk.name=Kozie mleko
+item.betteranimalsplus.goatcheese.name=Kozi ser
+item.betteranimalsplus.pheasantraw.name=Surowy bażant
+item.betteranimalsplus.pheasantcooked.name=Pieczony bażant
+item.betteranimalsplus.wolf_cape_classic.name=Wilcza peleryna (zwykła)
+item.betteranimalsplus.wolf_cape_timber.name=Wilcza peleryna (Szara)
+item.betteranimalsplus.wolf_cape_black.name=Wilcza peleryna (Czarna)
+item.record.crabrave.desc=Odgłosy kraba
+item.betteranimalsplus.crab_meat_raw.name=Surowe krabie mięso
+item.betteranimalsplus.crab_meat_cooked.name=Pieczone krabie mięso
+item.betteranimalsplus.wolf_pelt_snowy.name=Skóra wilka śnieżnego
+item.betteranimalsplus.wolf_pelt_timber.name=Skóra wilka szarego
+item.betteranimalsplus.wolf_pelt_black.name=Futro czarnego wilka
+item.betteranimalsplus.bear_cape_brown.name=Niedźwiedzia peleryna (Brunatna)
+item.betteranimalsplus.bear_cape_black.name=Niedźwiedzia peleryna (Czarna)
+item.betteranimalsplus.bear_cape_kermode.name=Niedźwiedzia peleryna (Kermode)
+item.betteranimalsplus.bear_skin_brown.name=Skóra niedźwiedzia brunatnego
+item.betteranimalsplus.bear_skin_black.name=Skóra czarnego niedźwiedzia
+item.betteranimalsplus.bear_skin_kermode.name=Skóra niedźwiedzia (Kermode)
+#Blocks
+tile.betteranimalsplus.trillium.name=Trójlist
+tile.betteranimalsplus.hirschgeistskull.name=Czaszka Ducha Jelenia
+tile.betteranimalsplus.handoffate.name=Dłoń losu
+tile.betteranimalsplus.wolfhead.name=Wilcza głowa
+tile.betteranimalsplus.deerhead.name=Jelenia głowa
+tile.betteranimalsplus.reindeerhead.name=Głowa Renifera
+tile.betteranimalsplus.foxhead.name=Lisia głowa
+tile.betteranimalsplus.boarhead.name=Borsucza głowa
+tile.betteranimalsplus.bearhead.name=Niedźwiedzia głowa
+#Entities
+entity.betteranimalsplus.brownbear.name=Niedźwiedź Brunatny
+entity.betteranimalsplus.blackbear.name=Czarny Niedźwiedź
+entity.betteranimalsplus.deer.name=Jeleń
+entity.betteranimalsplus.lammergeier.name=Orłosęp
+entity.betteranimalsplus.feralwolf.name=Dziki Wilk
+entity.betteranimalsplus.coyote.name=Kojot
+entity.betteranimalsplus.fox.name=Lis
+entity.betteranimalsplus.tarantula.name=Tarantula
+entity.betteranimalsplus.hirschgeist.name=Duch Jelenia
+entity.betteranimalsplus.goat.name=Koza
+entity.betteranimalsplus.jellyfish.name=Meduza
+entity.betteranimalsplus.pheasant.name=Bażant
+entity.betteranimalsplus.reindeer.name=Renifer
+entity.betteranimalsplus.boar.name=Dzik
+entity.betteranimalsplus.squirrel.name=Wiewiórka
+entity.betteranimalsplus.songbird.name=Słowik
+entity.betteranimalsplus.badger.name=Borsuk
+entity.betteranimalsplus.lamprey.name=Minóg
+entity.betteranimalsplus.nautilus.name=Łodzik
+entity.betteranimalsplus.crab.name=Krab
+entity.betteranimalsplus.horseshoecrab.name=Skrzypłocz
+entity.betteranimalsplus.shark.name=Rekin

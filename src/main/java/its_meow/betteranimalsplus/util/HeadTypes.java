@@ -10,12 +10,13 @@ import org.apache.commons.lang3.tuple.Pair;
 
 import its_meow.betteranimalsplus.client.model.ModelBearHead;
 import its_meow.betteranimalsplus.client.model.ModelBoarHead;
+import its_meow.betteranimalsplus.client.model.ModelCoyoteHead;
 import its_meow.betteranimalsplus.client.model.ModelDeerHead;
+import its_meow.betteranimalsplus.client.model.ModelFeralWolfHead;
 import its_meow.betteranimalsplus.client.model.ModelFoxHead;
 import its_meow.betteranimalsplus.client.model.ModelHirschgeistSkull;
 import its_meow.betteranimalsplus.client.model.ModelMooseHead;
 import its_meow.betteranimalsplus.client.model.ModelReindeerHead;
-import its_meow.betteranimalsplus.client.model.ModelWolfHead;
 import its_meow.betteranimalsplus.common.block.BlockGenericSkull;
 import its_meow.betteranimalsplus.common.item.ItemBlockHeadType;
 import its_meow.betteranimalsplus.common.tileentity.TileEntityHead;
@@ -25,9 +26,12 @@ import net.minecraft.client.model.ModelBase;
 public enum HeadTypes {
 
     // Double supplier avoids loading ModelBase which does not exist on the server
-    WOLFHEAD("wolfhead", true, 4, () -> () -> ModelWolfHead.class,
+    WOLFHEAD("wolfhead", true, 3, () -> () -> ModelFeralWolfHead.class,
             type -> new TileEntityHead(type, 0F, ModTextures.wolf_black, ModTextures.wolf_snowy,
-                    ModTextures.wolf_timber, ModTextures.coyote_hostile)),
+                    ModTextures.wolf_timber)),
+    
+    COYOTEHEAD("coyotehead", true, 1, () -> () -> ModelCoyoteHead.class,
+    type -> new TileEntityHead(type, 0F, ModTextures.coyote_hostile)),
 
     FOXHEAD("foxhead", true, 4, () -> () -> ModelFoxHead.class,
             type -> new TileEntityHead(type, -0.1F, ModTextures.fox_1, ModTextures.fox_2, ModTextures.fox_3,
