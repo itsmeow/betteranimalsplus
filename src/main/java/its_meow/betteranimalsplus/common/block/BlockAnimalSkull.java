@@ -98,6 +98,7 @@ public class BlockAnimalSkull extends ContainerBlock implements IWaterLoggable {
         return null;
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public IFluidState getFluidState(BlockState state) {
         return state.get(BlockStateProperties.WATERLOGGED) ? Fluids.WATER.getStillFluidState(false) : super.getFluidState(state);

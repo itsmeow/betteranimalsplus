@@ -69,6 +69,7 @@ public class BlockHandOfFate extends HorizontalBlock implements IWaterLoggable {
         return super.getLightValue(state, world, pos);
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public IFluidState getFluidState(BlockState state) {
         return state.get(BlockStateProperties.WATERLOGGED) ? Fluids.WATER.getStillFluidState(false) : super.getFluidState(state);
