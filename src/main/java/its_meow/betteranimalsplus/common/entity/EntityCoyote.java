@@ -6,6 +6,7 @@ import com.google.common.base.Predicates;
 
 import its_meow.betteranimalsplus.config.BetterAnimalsPlusConfig;
 import its_meow.betteranimalsplus.init.ModEntities;
+import its_meow.betteranimalsplus.util.EntityTypeContainerTameable;
 import its_meow.betteranimalsplus.util.HeadTypes;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.goal.FollowOwnerGoal;
@@ -43,7 +44,7 @@ import net.minecraft.world.World;
 public class EntityCoyote extends EntityFeralWolf {
 
     public EntityCoyote(World worldIn) {
-        super(ModEntities.getEntityType("coyote"), worldIn);
+        super(ModEntities.COYOTE.entityType, worldIn);
         this.setTamed(false);
     }
 
@@ -188,8 +189,8 @@ public class EntityCoyote extends EntityFeralWolf {
     }
 
     @Override
-    protected String getContainerName() {
-        return "coyote";
+    protected EntityTypeContainerTameable<? extends EntityTameableBetterAnimalsPlus> getContainer() {
+        return ModEntities.COYOTE;
     }
 
     @Override

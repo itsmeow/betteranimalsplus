@@ -4,6 +4,7 @@ import java.util.Random;
 
 import javax.annotation.Nullable;
 
+import its_meow.betteranimalsplus.util.EntityTypeContainer;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ILivingEntityData;
 import net.minecraft.entity.MobEntity;
@@ -66,6 +67,13 @@ public abstract class EntityMobWithTypes extends MobEntity implements IVariantTy
     @Override
     public DataParameter<Integer> getDataKey() {
         return TYPE_NUMBER;
+    }
+    
+    protected abstract EntityTypeContainer<? extends EntityMobWithTypes> getContainer();
+
+    @Override
+    public boolean canDespawn(double range) {
+        return getContainer().despawn;
     }
     
 }

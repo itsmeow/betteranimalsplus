@@ -6,6 +6,7 @@ import java.util.Set;
 import its_meow.betteranimalsplus.common.entity.miniboss.hirschgeist.EntityHirschgeist;
 import its_meow.betteranimalsplus.init.ModEntities;
 import its_meow.betteranimalsplus.init.ModLootTables;
+import its_meow.betteranimalsplus.util.EntityTypeContainer;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -40,7 +41,7 @@ public class EntityLamprey extends EntityWaterMobWithTypes implements IMob {
     protected int lastAttack = 0;
 
     public EntityLamprey(World worldIn) {
-        super(ModEntities.getEntityType("lamprey"), worldIn);
+        super(ModEntities.LAMPREY.entityType, worldIn);
     }
 
     @Override
@@ -219,8 +220,8 @@ public class EntityLamprey extends EntityWaterMobWithTypes implements IMob {
     }
 
     @Override
-    protected String getContainerName() {
-        return "lamprey";
+    protected EntityTypeContainer<? extends EntityWaterMobWithTypes> getContainer() {
+        return ModEntities.LAMPREY;
     }
 
 }

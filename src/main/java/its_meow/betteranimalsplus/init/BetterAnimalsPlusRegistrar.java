@@ -8,7 +8,7 @@ import its_meow.betteranimalsplus.common.entity.projectile.EntityPheasantEgg;
 import its_meow.betteranimalsplus.common.entity.projectile.EntityTarantulaHair;
 import its_meow.betteranimalsplus.common.item.ItemAdvancementIcon;
 import its_meow.betteranimalsplus.common.item.ItemBetterAnimalsPlusEgg;
-import its_meow.betteranimalsplus.util.EntityContainer;
+import its_meow.betteranimalsplus.util.EntityTypeContainer;
 import its_meow.betteranimalsplus.util.HeadTypes;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityType;
@@ -102,12 +102,11 @@ public class BetterAnimalsPlusRegistrar {
         new ItemAdvancementIcon("advancement_icon_squirrel"),
         new ItemAdvancementIcon("advancement_icon_badger"));
 
-        for (EntityContainer<?> ent : ModEntities.entityList) {
-            ItemBetterAnimalsPlusEgg egg = new ItemBetterAnimalsPlusEgg(ModEntities.getEntityType(ent.entityName),
-            ent.eggColorSolid, ent.eggColorSpot, ent);
-            egg.setRegistryName(ent.entityName.toLowerCase().toString() + "_spawn_egg");
-            registry.register(egg);
-            ModItems.eggs.put(egg, ent.entityClazz);
+        for (EntityTypeContainer<?> container : ModEntities.ENTITIES.values()) {
+            ItemBetterAnimalsPlusEgg egg = new ItemBetterAnimalsPlusEgg(container);
+            egg.setRegistryName(container.entityName.toLowerCase().toString() + "_spawn_egg");
+            event.getRegistry().register(egg);
+            container.egg = egg;
         }
     }
 
@@ -138,9 +137,8 @@ public class BetterAnimalsPlusRegistrar {
         registry.register(EntityBadgerDirt.DIRT_TYPE);
         registry.register(EntityPheasantEgg.PHEASANT_EGG_TYPE);
 
-        for (EntityContainer<?> entry : ModEntities.entryMapContainers.keySet()) {
-            EntityType<?> type = ModEntities.entryMapContainers.get(entry);
-            registry.register(type);
+        for(EntityTypeContainer<?> container : ModEntities.ENTITIES.values()) {
+            event.getRegistry().register(container.entityType);
         }
     }
 

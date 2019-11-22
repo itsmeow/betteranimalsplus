@@ -18,7 +18,7 @@ import net.minecraft.world.World;
 public class EntityNautilus extends WaterMobEntity {
 
     public EntityNautilus(World world) {
-        super(ModEntities.getEntityType("nautilus"), world);
+        super(ModEntities.NAUTILUS.entityType, world);
     }
     
     @Override
@@ -86,7 +86,7 @@ public class EntityNautilus extends WaterMobEntity {
 
     @Override
     public boolean canDespawn(double range) {
-        return ModEntities.entityMap.containsKey("nautilus") ? ModEntities.entityMap.get("nautilus").despawn : false;
+        return ModEntities.NAUTILUS.despawn;
     }
 
 }

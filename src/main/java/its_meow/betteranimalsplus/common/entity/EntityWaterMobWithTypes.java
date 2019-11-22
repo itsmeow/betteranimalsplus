@@ -4,7 +4,7 @@ import java.util.Random;
 
 import javax.annotation.Nullable;
 
-import its_meow.betteranimalsplus.init.ModEntities;
+import its_meow.betteranimalsplus.util.EntityTypeContainer;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ILivingEntityData;
 import net.minecraft.entity.SpawnReason;
@@ -68,10 +68,10 @@ public abstract class EntityWaterMobWithTypes extends WaterMobEntity implements 
         return TYPE_NUMBER;
     }
     
-    protected abstract String getContainerName();
+    protected abstract EntityTypeContainer<? extends EntityWaterMobWithTypes> getContainer();
 
     @Override
     public boolean canDespawn(double range) {
-        return ModEntities.entityMap.containsKey(this.getContainerName()) ? ModEntities.entityMap.get(this.getContainerName()).despawn : false;
+        return getContainer().despawn;
     }
 }

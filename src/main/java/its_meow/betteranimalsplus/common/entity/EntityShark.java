@@ -6,6 +6,7 @@ import javax.annotation.Nullable;
 
 import its_meow.betteranimalsplus.init.ModEntities;
 import its_meow.betteranimalsplus.init.ModLootTables;
+import its_meow.betteranimalsplus.util.EntityTypeContainer;
 import net.minecraft.entity.ILivingEntityData;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
@@ -35,7 +36,7 @@ public class EntityShark extends EntitySharkBase implements IVariantTypes {
     private float lastTickHealth = 0;
 
     public EntityShark(World world) {
-        super(ModEntities.getEntityType("shark"), world);
+        super(ModEntities.SHARK.entityType, world);
     }
 
     @Override
@@ -182,8 +183,8 @@ public class EntityShark extends EntitySharkBase implements IVariantTypes {
     }
 
     @Override
-    protected String getContainerName() {
-        return "shark";
+    protected EntityTypeContainer<? extends EntityBasicWaterCreature> getContainer() {
+        return ModEntities.SHARK;
     }
 
 }

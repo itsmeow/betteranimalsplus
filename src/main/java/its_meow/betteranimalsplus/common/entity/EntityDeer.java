@@ -5,6 +5,7 @@ import javax.annotation.Nullable;
 
 import its_meow.betteranimalsplus.init.ModEntities;
 import its_meow.betteranimalsplus.init.ModLootTables;
+import its_meow.betteranimalsplus.util.EntityTypeContainer;
 import its_meow.betteranimalsplus.util.HeadTypes;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -32,7 +33,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 public class EntityDeer extends EntityAnimalEatsGrassWithTypes {
 
     public EntityDeer(World worldIn) {
-        super(ModEntities.getEntityType("deer"), worldIn, 5);
+        super(ModEntities.DEER.entityType, worldIn, 5);
     }
 
     public int getEatTime() {
@@ -144,8 +145,8 @@ public class EntityDeer extends EntityAnimalEatsGrassWithTypes {
     }
 
     @Override
-    protected String getContainerName() {
-        return "deer";
+    protected EntityTypeContainer<? extends EntityAnimalWithTypes> getContainer() {
+        return ModEntities.DEER;
     }
 
 }

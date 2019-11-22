@@ -1,7 +1,6 @@
 package its_meow.betteranimalsplus.common.entity;
 
-import its_meow.betteranimalsplus.init.ModEntities;
-import its_meow.betteranimalsplus.util.EntityContainer;
+import its_meow.betteranimalsplus.util.EntityTypeContainerTameable;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.passive.TameableEntity;
 import net.minecraft.item.Item;
@@ -14,24 +13,22 @@ public abstract class EntityTameableBetterAnimalsPlus extends TameableEntity {
     }
 
     public boolean isTamingItem(Item item) {
-        EntityContainer<?> container = ModEntities.entityMap.get(this.getContainerName());
-        if(container != null) {
-            String[] items = container.tameItems;
-            String id = item.getRegistryName().toString();
-            for(String itemsId : items) {
-                if(id.equals(itemsId)) {
-                    return true;
-                }
+        EntityTypeContainerTameable<?> container = getContainer();
+        String[] items = container.getTameItems();
+        String id = item.getRegistryName().toString();
+        for(String itemsId : items) {
+            if(id.equals(itemsId)) {
+                return true;
             }
         }
         return false;
     }
-    
-    protected abstract String getContainerName();
+
+    protected abstract EntityTypeContainerTameable<? extends EntityTameableBetterAnimalsPlus> getContainer();
 
     @Override
     public boolean canDespawn(double range) {
-        return ModEntities.entityMap.containsKey(this.getContainerName()) ? ModEntities.entityMap.get(this.getContainerName()).despawn : false;
+        return getContainer().despawn;
     }
 
 }

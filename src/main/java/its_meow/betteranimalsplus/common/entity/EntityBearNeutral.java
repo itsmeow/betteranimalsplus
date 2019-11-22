@@ -34,7 +34,7 @@ public class EntityBearNeutral extends EntityBear implements IVariantTypes {
     protected static final DataParameter<Integer> TYPE_NUMBER = EntityDataManager.<Integer>createKey(EntityBearNeutral.class, DataSerializers.VARINT);
 
     public EntityBearNeutral(World worldIn) {
-        super(ModEntities.getEntityType("blackbear"), worldIn);
+        super(ModEntities.BLACK_BEAR.entityType, worldIn);
     }
 
     @Override
@@ -134,7 +134,7 @@ public class EntityBearNeutral extends EntityBear implements IVariantTypes {
     
     @Override
     public boolean canDespawn(double range) {
-        return ModEntities.entityMap.containsKey("blackbear") ? ModEntities.entityMap.get("blackbear").despawn : false;
+        return ModEntities.ENTITIES.containsKey("blackbear") ? ModEntities.ENTITIES.get("blackbear").despawn : false;
     }
 
 }

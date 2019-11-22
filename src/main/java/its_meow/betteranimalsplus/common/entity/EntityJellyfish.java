@@ -49,7 +49,7 @@ public class EntityJellyfish extends WaterMobEntity implements IVariantTypes {
     private float randomMotionVecZ;
 
     public EntityJellyfish(World worldIn) {
-        super(ModEntities.getEntityType("jellyfish"), worldIn);
+        super(ModEntities.JELLYFISH.entityType, worldIn);
         this.setSize(0.8F, 0.8F);
         rotationVelocity = (1.0F / (rand.nextFloat() + 1.0F) * 0.2F);
     }
@@ -299,7 +299,7 @@ public class EntityJellyfish extends WaterMobEntity implements IVariantTypes {
 
     @Override
     public boolean canDespawn(double range) {
-        return ModEntities.entityMap.containsKey("jellyfish") ? ModEntities.entityMap.get("jellyfish").despawn : false;
+        return ModEntities.ENTITIES.containsKey("jellyfish") ? ModEntities.ENTITIES.get("jellyfish").despawn : false;
     }
 
 }

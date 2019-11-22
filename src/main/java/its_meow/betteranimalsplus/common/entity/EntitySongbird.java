@@ -8,6 +8,7 @@ import com.google.common.collect.Sets;
 
 import its_meow.betteranimalsplus.init.ModEntities;
 import its_meow.betteranimalsplus.init.ModLootTables;
+import its_meow.betteranimalsplus.util.EntityTypeContainer;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -47,7 +48,7 @@ public class EntitySongbird extends EntityAnimalWithSelectiveTypes implements IF
     protected static final Set<Item> SEEDS = Sets.newHashSet(Items.WHEAT_SEEDS, Items.MELON_SEEDS, Items.PUMPKIN_SEEDS, Items.BEETROOT_SEEDS);
 
     public EntitySongbird(World worldIn) {
-        super(ModEntities.getEntityType("songbird"), worldIn);
+        super(ModEntities.SONGBIRD.entityType, worldIn);
         this.moveController = new FlyingMovementController(this);
     }
 
@@ -184,8 +185,8 @@ public class EntitySongbird extends EntityAnimalWithSelectiveTypes implements IF
     }
 
     @Override
-    protected String getContainerName() {
-        return "songbird";
+    protected EntityTypeContainer<? extends EntityAnimalWithTypes> getContainer() {
+        return ModEntities.SONGBIRD;
     }
 
 }

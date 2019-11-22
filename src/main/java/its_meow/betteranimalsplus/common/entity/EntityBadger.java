@@ -7,6 +7,7 @@ import javax.annotation.Nullable;
 
 import its_meow.betteranimalsplus.common.entity.projectile.EntityBadgerDirt;
 import its_meow.betteranimalsplus.init.ModEntities;
+import its_meow.betteranimalsplus.util.EntityTypeContainer;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -38,7 +39,7 @@ import net.minecraftforge.common.BiomeDictionary.Type;
 public class EntityBadger extends EntityAnimalWithSelectiveTypes implements IMob {
 
     public EntityBadger(World worldIn) {
-        super(ModEntities.getEntityType("badger"), worldIn);
+        super(ModEntities.BADGER.entityType, worldIn);
     }
 
 	@Override
@@ -222,8 +223,8 @@ public class EntityBadger extends EntityAnimalWithSelectiveTypes implements IMob
     }
 
     @Override
-    protected String getContainerName() {
-        return "badger";
+    protected EntityTypeContainer<? extends EntityAnimalWithTypes> getContainer() {
+        return ModEntities.BADGER;
     }
 
 }

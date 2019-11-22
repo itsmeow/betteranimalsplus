@@ -5,6 +5,7 @@ import java.util.Set;
 import javax.annotation.Nullable;
 
 import its_meow.betteranimalsplus.init.ModEntities;
+import its_meow.betteranimalsplus.util.EntityTypeContainer;
 import its_meow.betteranimalsplus.util.HeadTypes;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
@@ -47,7 +48,7 @@ import net.minecraftforge.common.BiomeDictionary.Type;
 public class EntityBoar extends EntityAnimalWithSelectiveTypes implements IMob {
 
 	public EntityBoar(World worldIn) {
-		super(ModEntities.getEntityType("boar"), worldIn);
+		super(ModEntities.BOAR.entityType, worldIn);
 	}
 
 	@Override
@@ -276,8 +277,8 @@ public class EntityBoar extends EntityAnimalWithSelectiveTypes implements IMob {
     }
 
     @Override
-    protected String getContainerName() {
-        return "boar";
+    protected EntityTypeContainer<? extends EntityAnimalWithTypes> getContainer() {
+        return ModEntities.BOAR;
     }
 
 }

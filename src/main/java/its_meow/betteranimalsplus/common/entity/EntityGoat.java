@@ -9,6 +9,7 @@ import its_meow.betteranimalsplus.init.ModEntities;
 import its_meow.betteranimalsplus.init.ModItems;
 import its_meow.betteranimalsplus.init.ModLootTables;
 import its_meow.betteranimalsplus.init.ModTriggers;
+import its_meow.betteranimalsplus.util.EntityTypeContainer;
 import net.minecraft.block.BlockState;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
@@ -53,7 +54,7 @@ public class EntityGoat extends EntityAnimalEatsGrassWithTypes {
     private ArrayList<Item> temptItems = null;
 
     public EntityGoat(World worldIn) {
-        super(ModEntities.getEntityType("goat"), worldIn, 5);
+        super(ModEntities.GOAT.entityType, worldIn, 5);
         this.world = worldIn;
         this.addTemptItems();
     }
@@ -322,8 +323,8 @@ public class EntityGoat extends EntityAnimalEatsGrassWithTypes {
     }
 
     @Override
-    protected String getContainerName() {
-        return "goat";
+    protected EntityTypeContainer<? extends EntityAnimalWithTypes> getContainer() {
+        return ModEntities.GOAT;
     }
 
 }

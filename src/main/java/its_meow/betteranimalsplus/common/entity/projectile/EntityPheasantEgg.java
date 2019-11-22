@@ -1,5 +1,6 @@
 package its_meow.betteranimalsplus.common.entity.projectile;
 
+import its_meow.betteranimalsplus.common.entity.EntityPheasant;
 import its_meow.betteranimalsplus.init.ModEntities;
 import its_meow.betteranimalsplus.init.ModItems;
 import net.minecraft.entity.EntityClassification;
@@ -53,20 +54,20 @@ public class EntityPheasantEgg extends ProjectileItemEntity {
         }
 
         if(!this.world.isRemote) {
-            /*if(this.rand.nextInt(8) == 0) {
+            if(this.rand.nextInt(8) == 0) {
                 int i = 1;
                 if(this.rand.nextInt(32) == 0) {
                     i = 4;
                 }
 
                 for(int j = 0; j < i; ++j) {
-                    ChickenEntity chickenentity = EntityType.CHICKEN.create(this.world);
-                    chickenentity.setGrowingAge(-24000);
-                    chickenentity.setLocationAndAngles(this.posX, this.posY, this.posZ, this.rotationYaw, 0.0F);
-                    this.world.addEntity(chickenentity);
-                    // TODO: redo entity types so less annoying
+                    EntityPheasant pheasant = ModEntities.PHEASANT.entityType.create(this.world);
+                    pheasant.setGrowingAge(-24000);
+                    pheasant.setLocationAndAngles(this.posX, this.posY, this.posZ, this.rotationYaw, 0.0F);
+                    pheasant.setType(pheasant.getRandomType());
+                    this.world.addEntity(pheasant);
                 }
-            }*/
+            }
 
             this.world.setEntityState(this, (byte) 3);
             this.remove();

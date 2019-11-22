@@ -5,6 +5,7 @@ import javax.annotation.Nullable;
 import its_meow.betteranimalsplus.init.ModEntities;
 import its_meow.betteranimalsplus.init.ModItems;
 import its_meow.betteranimalsplus.init.ModLootTables;
+import its_meow.betteranimalsplus.util.EntityTypeContainer;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.goal.*;
@@ -40,7 +41,7 @@ public class EntityPheasant extends EntityAnimalWithTypes {
     public int timeUntilNextEgg;
 
     public EntityPheasant(World worldIn) {
-        super(ModEntities.getEntityType("pheasant"), worldIn);
+        super(ModEntities.PHEASANT.entityType, worldIn);
         this.setPeckTime(this.getNewPeck());
         this.setPathPriority(PathNodeType.WATER, 0.0F);
         this.timeUntilNextEgg = this.rand.nextInt(6000) + 6000;
@@ -171,8 +172,8 @@ public class EntityPheasant extends EntityAnimalWithTypes {
     }
 
     @Override
-    protected String getContainerName() {
-        return "pheasant";
+    protected EntityTypeContainer<? extends EntityAnimalWithTypes> getContainer() {
+        return ModEntities.PHEASANT;
     }
 
 }

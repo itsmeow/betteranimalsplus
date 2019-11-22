@@ -43,7 +43,7 @@ public class EntityBear extends MonsterEntity {
     private int warningSoundTicks;
 
     public EntityBear(World worldIn) {
-        super(ModEntities.getEntityType("brownbear"), worldIn);
+        super(ModEntities.BROWN_BEAR.entityType, worldIn);
     }
 
     public EntityBear(EntityType<? extends EntityBear> type, World worldIn) {
@@ -205,7 +205,7 @@ public class EntityBear extends MonsterEntity {
     
     @Override
     public boolean canDespawn(double range) {
-        return ModEntities.entityMap.containsKey("brownbear") ? ModEntities.entityMap.get("brownbear").despawn : false;
+        return ModEntities.ENTITIES.containsKey("brownbear") ? ModEntities.ENTITIES.get("brownbear").despawn : false;
     }
 
     @Override

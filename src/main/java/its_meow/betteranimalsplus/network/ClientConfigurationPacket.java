@@ -8,7 +8,8 @@ import com.google.common.base.Charsets;
 
 import its_meow.betteranimalsplus.config.BetterAnimalsPlusConfig;
 import its_meow.betteranimalsplus.init.ModEntities;
-import its_meow.betteranimalsplus.util.EntityContainer;
+import its_meow.betteranimalsplus.util.EntityTypeContainer;
+import its_meow.betteranimalsplus.util.EntityTypeContainerTameable;
 import net.minecraft.network.PacketBuffer;
 import net.minecraftforge.fml.network.NetworkDirection;
 import net.minecraftforge.fml.network.NetworkEvent;
@@ -70,9 +71,10 @@ public class ClientConfigurationPacket {
             BetterAnimalsPlusConfig.coyotesHostileDaytime = msg.coyoteHostileDaytime;
             for(String key : msg.tameItems.keySet()) {
                 String[] items = msg.tameItems.get(key);
-                EntityContainer<?> container = ModEntities.entityMap.get(key);
-                if(container != null) {
-                    container.tameItems = items;
+                EntityTypeContainer<?> container = ModEntities.ENTITIES.get(key);
+                if(container != null && container instanceof EntityTypeContainerTameable) {
+                    EntityTypeContainerTameable<?> cont2 = (EntityTypeContainerTameable<?>) container;
+                    cont2.setTameItems(items);
                 }
             }
         }

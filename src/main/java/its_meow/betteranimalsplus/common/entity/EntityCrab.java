@@ -1,6 +1,7 @@
 package its_meow.betteranimalsplus.common.entity;
 
 import its_meow.betteranimalsplus.init.ModEntities;
+import its_meow.betteranimalsplus.util.EntityTypeContainer;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.ai.goal.AvoidEntityGoal;
@@ -19,7 +20,7 @@ public class EntityCrab extends EntityCrabLikeBase {
     protected static final DataParameter<Integer> CRAB_RAVE = EntityDataManager.<Integer>createKey(EntityCrab.class, DataSerializers.VARINT);
 
     public EntityCrab(World world) {
-        super(ModEntities.getEntityType("crab"), world);
+        super(ModEntities.CRAB.entityType, world);
         this.setPathPriority(PathNodeType.WATER, 10F);
     }
 
@@ -118,8 +119,8 @@ public class EntityCrab extends EntityCrabLikeBase {
     }
 
     @Override
-    protected String getContainerName() {
-        return "crab";
+    protected EntityTypeContainer<? extends EntityAnimalWithTypes> getContainer() {
+        return ModEntities.CRAB;
     }
 
 }

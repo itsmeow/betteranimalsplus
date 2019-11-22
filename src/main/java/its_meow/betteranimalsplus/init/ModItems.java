@@ -1,7 +1,6 @@
 package its_meow.betteranimalsplus.init;
 
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.Map;
 
 import its_meow.betteranimalsplus.BetterAnimalsPlusMod;
@@ -14,7 +13,6 @@ import its_meow.betteranimalsplus.common.item.ItemHirschgeistSkullWearable;
 import its_meow.betteranimalsplus.common.item.ItemNamedSimple;
 import its_meow.betteranimalsplus.common.item.ItemThrowableCustomEgg;
 import its_meow.betteranimalsplus.common.item.ItemWolfCape;
-import net.minecraft.entity.Entity;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.Item.Properties;
@@ -22,7 +20,6 @@ import net.minecraft.item.Items;
 import net.minecraft.item.MilkBucketItem;
 import net.minecraft.item.MusicDiscItem;
 import net.minecraft.item.Rarity;
-import net.minecraft.item.SpawnEggItem;
 import net.minecraft.util.ResourceLocation;
 
 public class ModItems {
@@ -45,8 +42,6 @@ public class ModItems {
             new Properties().group(BetterAnimalsPlusMod.group));
     public static final BlockItem ITEMBLOCK_HAND_OF_FATE = new BlockItem(ModBlocks.HAND_OF_FATE,
             new Properties().group(BetterAnimalsPlusMod.group));
-
-    public static LinkedHashMap<SpawnEggItem, Class<? extends Entity>> eggs = new LinkedHashMap<SpawnEggItem, Class<? extends Entity>>();
     
     public static final Item WOLF_PELT_SNOWY = new ItemNamedSimple("wolf_pelt_snowy");
     public static final Item WOLF_PELT_TIMBER = new ItemNamedSimple("wolf_pelt_timber");

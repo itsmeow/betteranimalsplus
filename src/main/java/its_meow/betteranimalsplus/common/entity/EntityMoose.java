@@ -4,6 +4,7 @@ import javax.annotation.Nullable;
 
 import its_meow.betteranimalsplus.common.entity.ai.EntityAIEatGrassCustom;
 import its_meow.betteranimalsplus.init.ModEntities;
+import its_meow.betteranimalsplus.util.EntityTypeContainer;
 import its_meow.betteranimalsplus.util.HeadTypes;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.ILivingEntityData;
@@ -28,7 +29,7 @@ import net.minecraft.world.World;
 public class EntityMoose extends EntityAnimalEatsGrassWithTypes {
 
     public EntityMoose(World worldIn) {
-        super(ModEntities.getEntityType("moose"), worldIn, 5);
+        super(ModEntities.MOOSE.entityType, worldIn, 5);
     }
     
     @Override
@@ -86,12 +87,12 @@ public class EntityMoose extends EntityAnimalEatsGrassWithTypes {
     protected IVariantTypes getBaseChild() {
         return null;
     }
-
-    @Override
-    protected String getContainerName() {
-        return "moose";
-    }
     
+    @Override
+    protected EntityTypeContainer<? extends EntityAnimalWithTypes> getContainer() {
+        return ModEntities.MOOSE;
+    }
+
     @Override
     @Nullable
     public ILivingEntityData onInitialSpawn(IWorld world, DifficultyInstance difficulty, SpawnReason reason, @Nullable ILivingEntityData livingdata, CompoundNBT compound) {

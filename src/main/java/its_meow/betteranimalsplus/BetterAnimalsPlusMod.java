@@ -8,11 +8,13 @@ import its_meow.betteranimalsplus.client.ClientLifecycleHandler;
 import its_meow.betteranimalsplus.common.entity.projectile.EntityPheasantEgg;
 import its_meow.betteranimalsplus.common.world.gen.TrilliumGenerator;
 import its_meow.betteranimalsplus.config.BetterAnimalsPlusConfig;
+import its_meow.betteranimalsplus.init.ModEntities;
 import its_meow.betteranimalsplus.init.ModItems;
 import its_meow.betteranimalsplus.init.ModTriggers;
 import its_meow.betteranimalsplus.network.ClientConfigurationPacket;
 import its_meow.betteranimalsplus.network.ClientRequestBAMPacket;
 import its_meow.betteranimalsplus.network.ServerNoBAMPacket;
+import its_meow.betteranimalsplus.util.EntityTypeContainer;
 import net.minecraft.block.DispenserBlock;
 import net.minecraft.dispenser.IPosition;
 import net.minecraft.dispenser.ProjectileDispenseBehavior;
@@ -20,7 +22,6 @@ import net.minecraft.entity.IProjectile;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.SpawnEggItem;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Util;
@@ -81,8 +82,8 @@ public class BetterAnimalsPlusMod {
         @Override
         public void fill(NonNullList<ItemStack> toDisplay) {
             super.fill(toDisplay);
-            for (SpawnEggItem egg : ModItems.eggs.keySet()) {
-                ItemStack stack = new ItemStack(egg);
+            for(EntityTypeContainer<?> cont : ModEntities.ENTITIES.values()) {
+                ItemStack stack = new ItemStack(cont.egg);
                 toDisplay.add(stack);
             }
         }

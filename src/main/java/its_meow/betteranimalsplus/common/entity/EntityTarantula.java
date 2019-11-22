@@ -30,7 +30,7 @@ import net.minecraft.world.World;
 public class EntityTarantula extends SpiderEntity implements IRangedAttackMob {
 
     public EntityTarantula(World worldIn) {
-        super(ModEntities.getEntityType("tarantula"), worldIn);
+        super(ModEntities.TARANTULA.entityType, worldIn);
     }
 
     @Override
@@ -72,7 +72,7 @@ public class EntityTarantula extends SpiderEntity implements IRangedAttackMob {
     
     @Override
     public boolean canDespawn(double range) {
-        return ModEntities.entityMap.containsKey("tarantula") ? ModEntities.entityMap.get("tarantula").despawn : false;
+        return ModEntities.TARANTULA.despawn;
     }
 
 }

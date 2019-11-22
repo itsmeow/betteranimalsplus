@@ -9,6 +9,7 @@ import com.google.common.base.Predicates;
 import its_meow.betteranimalsplus.init.ModEntities;
 import its_meow.betteranimalsplus.init.ModItems;
 import its_meow.betteranimalsplus.init.ModLootTables;
+import its_meow.betteranimalsplus.util.EntityTypeContainerTameable;
 import its_meow.betteranimalsplus.util.HeadTypes;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
@@ -87,7 +88,7 @@ public class EntityFeralWolf extends EntityTameableWithSelectiveTypes implements
     public SitGoal aiSit;
 
     public EntityFeralWolf(World worldIn) {
-        super(ModEntities.getEntityType("feralwolf"), worldIn);
+        super(ModEntities.FERAL_WOLF.entityType, worldIn);
         this.world = worldIn;
         this.setTamed(false);
     }
@@ -527,8 +528,8 @@ public class EntityFeralWolf extends EntityTameableWithSelectiveTypes implements
     }
 
     @Override
-    protected String getContainerName() {
-        return "feralwolf";
+    protected EntityTypeContainerTameable<? extends EntityTameableBetterAnimalsPlus> getContainer() {
+        return ModEntities.FERAL_WOLF;
     }
 
 }

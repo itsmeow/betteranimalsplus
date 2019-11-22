@@ -89,7 +89,7 @@ public class EntityReindeer extends AnimalEntity implements IJumpingMount, IVari
     public boolean parentRudolph = false;
 
     public EntityReindeer(World worldIn) {
-        super(ModEntities.getEntityType("reindeer"), worldIn);
+        super(ModEntities.REINDEER.entityType, worldIn);
         this.stepHeight = 1.0F;
     }
 
@@ -1076,7 +1076,7 @@ public class EntityReindeer extends AnimalEntity implements IJumpingMount, IVari
     
     @Override
     public boolean canDespawn(double range) {
-        return ModEntities.entityMap.containsKey("reindeer") ? ModEntities.entityMap.get("reindeer").despawn : false;
+        return ModEntities.REINDEER.despawn;
     }
 
 }

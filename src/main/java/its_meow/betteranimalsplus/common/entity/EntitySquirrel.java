@@ -3,6 +3,7 @@ package its_meow.betteranimalsplus.common.entity;
 import java.util.Set;
 
 import its_meow.betteranimalsplus.init.ModEntities;
+import its_meow.betteranimalsplus.util.EntityTypeContainer;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.AgeableEntity;
@@ -35,7 +36,7 @@ public class EntitySquirrel extends EntityAnimalWithSelectiveTypes {
     private int climbTimeWithoutLog = 0;
 
     public EntitySquirrel(World worldIn) {
-        super(ModEntities.getEntityType("squirrel"), worldIn);
+        super(ModEntities.SQUIRREL.entityType, worldIn);
     }
 
     @Override
@@ -165,8 +166,8 @@ public class EntitySquirrel extends EntityAnimalWithSelectiveTypes {
     }
 
     @Override
-    protected String getContainerName() {
-        return "squirrel";
+    protected EntityTypeContainer<? extends EntityAnimalWithTypes> getContainer() {
+        return ModEntities.SQUIRREL;
     }
 
 }

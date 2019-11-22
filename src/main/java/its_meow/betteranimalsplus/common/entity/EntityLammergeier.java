@@ -9,6 +9,7 @@ import its_meow.betteranimalsplus.common.entity.ai.EntityAIFollowOwnerFlying;
 import its_meow.betteranimalsplus.common.entity.ai.LammerMoveHelper;
 import its_meow.betteranimalsplus.init.ModEntities;
 import its_meow.betteranimalsplus.init.ModLootTables;
+import its_meow.betteranimalsplus.util.EntityTypeContainerTameable;
 import its_meow.betteranimalsplus.util.PolarVector3D;
 import net.minecraft.block.BlockState;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -69,7 +70,7 @@ public class EntityLammergeier extends EntityTameableFlying implements IVariantT
     // Forgive me for this godawful mess.
 
     public EntityLammergeier(World worldIn) {
-        super(ModEntities.getEntityType("lammergeier"), worldIn);
+        super(ModEntities.LAMMERGEIER.entityType, worldIn);
         this.moveController = new LammerMoveHelper(this);
     }
 
@@ -979,8 +980,8 @@ public class EntityLammergeier extends EntityTameableFlying implements IVariantT
     }
 
     @Override
-    protected String getContainerName() {
-        return "lammergeier";
+    protected EntityTypeContainerTameable<? extends EntityTameableBetterAnimalsPlus> getContainer() {
+        return ModEntities.LAMMERGEIER;
     }
 
 }
