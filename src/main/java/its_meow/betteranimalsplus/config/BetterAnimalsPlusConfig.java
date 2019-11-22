@@ -14,6 +14,7 @@ import its_meow.betteranimalsplus.Ref;
 import its_meow.betteranimalsplus.init.ModEntities;
 import its_meow.betteranimalsplus.util.EntityTypeContainer;
 import its_meow.betteranimalsplus.util.EntityTypeContainerTameable;
+import net.minecraft.block.Blocks;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntitySpawnPlacementRegistry;
 import net.minecraft.entity.EntityType;
@@ -117,7 +118,7 @@ public class BetterAnimalsPlusConfig {
                         if(entry.spawnType == EntityClassification.WATER_CREATURE && EntitySpawnPlacementRegistry.getPlacementType((EntityType<? extends MobEntity>) type) == null) {
                             // This thing breaks every other day
                             try {
-                                EntitySpawnPlacementRegistry.<MobEntity>register((EntityType<MobEntity>) type, EntitySpawnPlacementRegistry.PlacementType.IN_WATER, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, (t, w, s, b, r) -> b.getY() > 45 && b.getY() < w.getSeaLevel());
+                                EntitySpawnPlacementRegistry.<MobEntity>register((EntityType<MobEntity>) type, EntitySpawnPlacementRegistry.PlacementType.IN_WATER, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, (t, w, s, b, r) -> b.getY() > 45 && b.getY() < w.getSeaLevel() && w.getBlockState(b).getBlock() == Blocks.WATER);
                             } catch(Exception e) { // Just in case
                                 e.printStackTrace();
                             }
