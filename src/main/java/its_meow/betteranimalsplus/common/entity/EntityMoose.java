@@ -67,7 +67,7 @@ public class EntityMoose extends EntityAnimalEatsGrassWithTypes {
     }
 
     protected EntityAIEatGrassCustom provideEatTask() {
-        return new EntityAIEatGrassCustom(this, 50, 50, eater -> {
+        return new EntityAIEatGrassCustom(this, 50, 500, eater -> {
             EnumFacing facing = eater.getHorizontalFacing();
             return eater.getPosition().offset(facing).offset(facing);
         });
