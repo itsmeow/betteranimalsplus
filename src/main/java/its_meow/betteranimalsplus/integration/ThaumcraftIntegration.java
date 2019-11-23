@@ -18,11 +18,17 @@ public class ThaumcraftIntegration {
 		event.register.registerObjectTag(new ItemStack(ModItems.TURKEY_EGG), new AspectList().add(Aspect.BEAST, 5).add(Aspect.LIFE, 5));
 		
 		event.register.registerObjectTag(new ItemStack(ModItems.CRAB_MEAT_RAW), new AspectList().add(Aspect.LIFE, 5).add(Aspect.BEAST, 5).add(Aspect.PROTECT, 5));
-		event.register.registerObjectTag(new ItemStack(ModItems.CRAB_MEAT_RAW), new AspectList().add(Aspect.LIFE, 5).add(Aspect.BEAST, 5).add(Aspect.CRAFT, 1));
+		event.register.registerObjectTag(new ItemStack(ModItems.CRAB_MEAT_COOKED), new AspectList().add(Aspect.LIFE, 5).add(Aspect.BEAST, 5).add(Aspect.CRAFT, 1));
 		
-		event.register.registerObjectTag(new ItemStack(ModItems.goatMilk), new AspectList().add(Aspect.METAL, 33).add(Aspect.LIFE, 10).add(Aspect.VOID, 5).add(Aspect.BEAST, 5).add(Aspect.WATER, 5));
-		event.register.registerObjectTag(new ItemStack(ModItems.goatCheese), new AspectList().add(Aspect.BEAST, 5).add(Aspect.LIFE, 5).add(Aspect.CRAFT, 5));
+		event.register.registerObjectTag(new ItemStack(ModItems.ANTLER), new AspectList().add(Aspect.AVERSION, 5).add(Aspect.BEAST, 5).add(Aspect.EARTH, 5));
 		
-		event.register.registerObjectTag(new ItemStack(ModBlocks.trillium), new AspectList().add(Aspect.PLANT, 5).add(Aspect.EARTH, 5));
+		event.register.registerObjectTag(new ItemStack(ModItems.GOAT_MILK), new AspectList().add(Aspect.METAL, 33).add(Aspect.LIFE, 10).add(Aspect.VOID, 5).add(Aspect.BEAST, 5).add(Aspect.WATER, 5));
+		event.register.registerObjectTag(new ItemStack(ModItems.GOAT_CHEESE), new AspectList().add(Aspect.BEAST, 5).add(Aspect.LIFE, 5).add(Aspect.CRAFT, 5));
+		
+		event.register.registerObjectTag(new ItemStack(ModBlocks.TRILLIUM), new AspectList().add(Aspect.PLANT, 5).add(Aspect.EARTH, 5));
+		event.register.registerObjectTag(new ItemStack(ModBlocks.TURKEY_RAW), new AspectList().add(Aspect.BEAST, 5).add(Aspect.LIFE, 5).add(Aspect.DESIRE, 5));
+		event.register.registerObjectTag(new ItemStack(ModBlocks.TURKEY_EATEN_RAW), new AspectList().add(Aspect.BEAST, 3).add(Aspect.LIFE, 3).add(Aspect.DESIRE, 3));
+		event.register.registerObjectTag(new ItemStack(ModBlocks.TURKEY_COOKED), new AspectList().add(Aspect.CRAFT, 5).add(Aspect.LIFE, 5).add(Aspect.DESIRE, 5));
+		event.register.registerObjectTag(new ItemStack(ModBlocks.TURKEY_EATEN_COOKED), new AspectList().add(Aspect.CRAFT, 3).add(Aspect.LIFE, 3).add(Aspect.DESIRE, 3));
 	}
 }
