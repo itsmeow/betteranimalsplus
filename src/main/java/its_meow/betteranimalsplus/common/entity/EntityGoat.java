@@ -200,7 +200,7 @@ public class EntityGoat extends EntityAnimalEatsGrassWithTypes {
             player.playSound(SoundEvents.ENTITY_COW_MILK, 1.0F, 1.0F);
             itemstack.shrink(1);
             
-            Item milk = BetterAnimalsPlusConfig.goatVanillaMilk ? Items.MILK_BUCKET : ModItems.goatMilk;
+            Item milk = BetterAnimalsPlusConfig.goatVanillaMilk ? Items.MILK_BUCKET : ModItems.GOAT_MILK;
 
             if(itemstack.isEmpty()) {
                 player.setHeldItem(hand, new ItemStack(milk));

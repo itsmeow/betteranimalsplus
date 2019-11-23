@@ -39,6 +39,10 @@ tile.betteranimalsplus.boarhead.name=Boar Head
 tile.betteranimalsplus.bearhead.name=Bear Head
 tile.betteranimalsplus.moosehead.name=Moose Head
 tile.betteranimalsplus.coyotehead.name=Coyote Head
+tile.betteranimalsplus.turkey_raw.name=Raw Turkey
+tile.betteranimalsplus.turkey_cooked.name=Cooked Turkey
+tile.betteranimalsplus.turkey_eaten_raw.name=Raw Half Eaten Turkey
+tile.betteranimalsplus.turkey_eaten_cooked.name=Cooked Half Eaten Turkey
 #Entities
 entity.betteranimalsplus.brownbear.name=Brown Bear
 entity.betteranimalsplus.blackbear.name=Black Bear

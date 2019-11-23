@@ -1,0 +1,23 @@
+{
+    "variants": {
+        "bites=0,facing=north": { "model": "betteranimalsplus:turkey_whole_cooked" },
+        "bites=1,facing=north": { "model": "betteranimalsplus:turkey_eaten_1_cooked" },
+        "bites=2,facing=north": { "model": "betteranimalsplus:turkey_eaten_2_cooked" },
+        "bites=3,facing=north": { "model": "betteranimalsplus:turkey_eaten_3_cooked" },
+        "bites=0,facing=east": { "model": "betteranimalsplus:turkey_whole_cooked", "y": 90 },
+        "bites=1,facing=east": { "model": "betteranimalsplus:turkey_eaten_1_cooked", "y": 90 },
+        "bites=2,facing=east": { "model": "betteranimalsplus:turkey_eaten_2_cooked", "y": 90 },
+        "bites=3,facing=east": { "model": "betteranimalsplus:turkey_eaten_3_cooked", "y": 90 },
+        "bites=0,facing=west": { "model": "betteranimalsplus:turkey_whole_cooked", "y": 270 },
+        "bites=1,facing=west": { "model": "betteranimalsplus:turkey_eaten_1_cooked", "y": 270 },
+        "bites=2,facing=west": { "model": "betteranimalsplus:turkey_eaten_2_cooked", "y": 270 },
+        "bites=3,facing=west": { "model": "betteranimalsplus:turkey_eaten_3_cooked", "y": 270 },
+        "bites=0,facing=south": { "model": "betteranimalsplus:turkey_whole_cooked", "y": 180 },
+        "bites=1,facing=south": { "model": "betteranimalsplus:turkey_eaten_1_cooked", "y": 180 },
+        "bites=2,facing=south": { "model": "betteranimalsplus:turkey_eaten_2_cooked", "y": 180 },
+        "bites=3,facing=south": { "model": "betteranimalsplus:turkey_eaten_3_cooked", "y": 180 },
+        "inventory": {
+           "model": "betteranimalsplus:turkey_whole_cooked"
+        }
+    }
+}

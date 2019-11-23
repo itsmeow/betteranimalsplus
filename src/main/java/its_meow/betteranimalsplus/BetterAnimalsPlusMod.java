@@ -74,7 +74,7 @@ public class BetterAnimalsPlusMod {
     public static CreativeTabs tab = new CreativeTabs("Better Animals+") {
         @Override
         public ItemStack getTabIconItem() {
-            return new ItemStack(ModItems.antler);
+            return new ItemStack(ModItems.ANTLER);
         }
 
         @Override
@@ -128,7 +128,7 @@ public class BetterAnimalsPlusMod {
     public void init(FMLInitializationEvent e) {
         ModOreDictSmelting.register();
         if(BetterAnimalsPlusConfig.spawnTrillium) {
-            GameRegistry.registerWorldGenerator(new TrilliumGenerator(ModBlocks.trillium), 1);
+            GameRegistry.registerWorldGenerator(new TrilliumGenerator(ModBlocks.TRILLIUM), 1);
         }
         ModFixs fixer = FMLCommonHandler.instance().getDataFixer().init(Ref.MOD_ID, FIXER_VERSION);
         fixer.registerFix(FixTypes.CHUNK, new HeadBlockDataFixer());

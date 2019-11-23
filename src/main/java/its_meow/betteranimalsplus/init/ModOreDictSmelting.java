@@ -8,24 +8,25 @@ public class ModOreDictSmelting {
 
     public static final void register() {
         // Smelting
-        GameRegistry.addSmelting(new ItemStack(ModItems.venisonRaw), new ItemStack(ModItems.venisonCooked), 0.0F);
-        GameRegistry.addSmelting(new ItemStack(ModItems.pheasantRaw), new ItemStack(ModItems.pheasantCooked), 0.0F);
+        GameRegistry.addSmelting(new ItemStack(ModItems.VENISON_RAW), new ItemStack(ModItems.VENISON_COOKED), 0.0F);
+        GameRegistry.addSmelting(new ItemStack(ModItems.PHEASANT_RAW), new ItemStack(ModItems.PHEASANT_COOKED), 0.0F);
         GameRegistry.addSmelting(new ItemStack(ModItems.CRAB_MEAT_RAW), new ItemStack(ModItems.CRAB_MEAT_COOKED), 0.0F);
+        GameRegistry.addSmelting(new ItemStack(ModItems.TURKEY_RAW), new ItemStack(ModItems.TURKEY_COOKED), 0.0F);
 
         // Register oredict
-        OreDictionary.registerOre("listAllmeatraw", ModItems.venisonRaw);
-        OreDictionary.registerOre("listAllmeatcooked", ModItems.venisonCooked);
-        OreDictionary.registerOre("listAllmeatraw", ModItems.pheasantRaw);
-        OreDictionary.registerOre("listAllmeatcooked", ModItems.pheasantCooked);
-        OreDictionary.registerOre("listAllvenisonraw", ModItems.venisonRaw);
-        OreDictionary.registerOre("listAllvenisoncooked", ModItems.venisonCooked);
-        OreDictionary.registerOre("listAllMilk", ModItems.goatMilk);
-        OreDictionary.registerOre("listAllGoatMilk", ModItems.goatMilk);
-        OreDictionary.registerOre("foodGoatMilk", ModItems.goatMilk);
-        OreDictionary.registerOre("foodCheese", ModItems.goatCheese);
-        OreDictionary.registerOre("foodGoatCheese", ModItems.goatCheese);
-        OreDictionary.registerOre("foodVenisonraw", ModItems.venisonRaw);
-        OreDictionary.registerOre("foodVenisoncooked", ModItems.venisonCooked);
+        OreDictionary.registerOre("listAllmeatraw", ModItems.VENISON_RAW);
+        OreDictionary.registerOre("listAllmeatcooked", ModItems.VENISON_COOKED);
+        OreDictionary.registerOre("listAllmeatraw", ModItems.PHEASANT_RAW);
+        OreDictionary.registerOre("listAllmeatcooked", ModItems.PHEASANT_COOKED);
+        OreDictionary.registerOre("listAllvenisonraw", ModItems.VENISON_RAW);
+        OreDictionary.registerOre("listAllvenisoncooked", ModItems.VENISON_COOKED);
+        OreDictionary.registerOre("listAllMilk", ModItems.GOAT_MILK);
+        OreDictionary.registerOre("listAllGoatMilk", ModItems.GOAT_MILK);
+        OreDictionary.registerOre("foodGoatMilk", ModItems.GOAT_MILK);
+        OreDictionary.registerOre("foodCheese", ModItems.GOAT_CHEESE);
+        OreDictionary.registerOre("foodGoatCheese", ModItems.GOAT_CHEESE);
+        OreDictionary.registerOre("foodVenisonraw", ModItems.VENISON_RAW);
+        OreDictionary.registerOre("foodVenisoncooked", ModItems.VENISON_COOKED);
         OreDictionary.registerOre("peltWolf", ModItems.WOLF_PELT_BLACK);
         OreDictionary.registerOre("peltWolf", ModItems.WOLF_PELT_SNOWY);
         OreDictionary.registerOre("peltWolf", ModItems.WOLF_PELT_TIMBER);

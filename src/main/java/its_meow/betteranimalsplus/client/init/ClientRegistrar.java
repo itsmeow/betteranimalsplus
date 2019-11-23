@@ -86,8 +86,12 @@ public class ClientRegistrar {
     public static void registerRenders(final ModelRegistryEvent event) {
         // Blocks
 
-        initModel(ModBlocks.trillium);
-        initModel(ModBlocks.handoffate);
+        initModel(ModBlocks.TRILLIUM);
+        initModel(ModBlocks.HAND_OF_FATE);
+        initModel(ModBlocks.TURKEY_COOKED);
+        initModel(ModBlocks.TURKEY_RAW);
+        initModel(ModBlocks.TURKEY_EATEN_COOKED);
+        initModel(ModBlocks.TURKEY_EATEN_RAW);
 
         // Generics
         for(HeadTypes type : HeadTypes.values()) {
@@ -98,14 +102,14 @@ public class ClientRegistrar {
 
         // Items
 
-        initModel(ModItems.venisonRaw);
-        initModel(ModItems.venisonCooked);
-        initModel(ModItems.itemHirschgeistSkullWearable);
-        initModel(ModItems.antler);
-        initModel(ModItems.goatMilk);
-        initModel(ModItems.goatCheese);
-        initModel(ModItems.pheasantRaw);
-        initModel(ModItems.pheasantCooked);
+        initModel(ModItems.VENISON_RAW);
+        initModel(ModItems.VENISON_COOKED);
+        initModel(ModItems.HIRSCHGEIST_SKULL_WEARABLE);
+        initModel(ModItems.ANTLER);
+        initModel(ModItems.GOAT_MILK);
+        initModel(ModItems.GOAT_CHEESE);
+        initModel(ModItems.PHEASANT_RAW);
+        initModel(ModItems.PHEASANT_COOKED);
         initModel(ModItems.WOLF_CAPE_CLASSIC);
         initModel(ModItems.WOLF_CAPE_TIMBER);
         initModel(ModItems.WOLF_CAPE_BLACK);

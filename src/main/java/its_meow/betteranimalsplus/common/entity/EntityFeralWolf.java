@@ -252,7 +252,7 @@ public class EntityFeralWolf extends EntityTameableWithSelectiveTypes implements
                     wearingPowerHead = true;
                 }
             }
-            if (stack.getItem() == ModItems.itemHirschgeistSkullWearable) {
+            if (stack.getItem() == ModItems.HIRSCHGEIST_SKULL_WEARABLE) {
                 wearingPowerHead = true;
             }
 
