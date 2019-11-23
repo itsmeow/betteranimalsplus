@@ -126,8 +126,8 @@ public class BetterAnimalsPlusMod {
         }
         if (Loader.isModLoaded("thaumcraft")) {
             // fuk u JVM get rekt pt 2
-            Supplier<Supplier<Runnable>> registerTCHandler = () -> () -> MinecraftForge.EVENT_BUS.register(new ThaumcraftIntegration());
-            registerTCHandler.get().get().run();
+            Supplier<Runnable> registerTCHandler = () -> () -> MinecraftForge.EVENT_BUS.register(new ThaumcraftIntegration());
+            registerTCHandler.get().run();
         }
     }
 
