@@ -1,0 +1,38 @@
+{
+	"credit": "Made with Blockbench",
+	"parent": "minecraft:block/block",
+	"ambientocclusion": false,
+	"textures": {
+		"particle": "betteranimalsplus:blocks/turkey_block_slice_3_cooked"
+	},
+	"elements": [
+		{
+			"name": "tail",
+			"from": [4.5, 0, 11],
+			"to": [11.5, 1, 14],
+			"rotation": {"angle": 0, "axis": "z", "origin": [0, 1, 0]},
+			"faces": {
+				"north": {"uv": [0.75, 5.25, 2.5, 5.5], "texture": "#particle"},
+				"east": {"uv": [0, 5.25, 0.75, 5.5], "texture": "#particle"},
+				"south": {"uv": [3.25, 5.25, 5, 5.5], "texture": "#particle"},
+				"west": {"uv": [2.5, 5.25, 3.25, 5.5], "texture": "#particle"},
+				"up": {"uv": [2.5, 5.25, 0.75, 4.5], "texture": "#particle"},
+				"down": {"uv": [4.25, 4.5, 2.5, 5.25], "texture": "#particle"}
+			}
+		},
+		{
+			"name": "breast",
+			"from": [4, 0, 2],
+			"to": [12, 2, 11],
+			"rotation": {"angle": 0, "axis": "z", "origin": [0, 2, 0]},
+			"faces": {
+				"north": {"uv": [2.25, 2.25, 4.25, 2.75], "texture": "#particle"},
+				"east": {"uv": [0, 2.25, 2.25, 2.75], "texture": "#particle"},
+				"south": {"uv": [6.5, 2.25, 8.5, 2.75], "texture": "#particle"},
+				"west": {"uv": [4.25, 2.25, 6.5, 2.75], "texture": "#particle"},
+				"up": {"uv": [4.25, 2.25, 2.25, 0], "texture": "#particle"},
+				"down": {"uv": [6.25, 0, 4.25, 2.25], "texture": "#particle"}
+			}
+		}
+	]
+}

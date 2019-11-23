@@ -7,6 +7,7 @@ import its_meow.betteranimalsplus.util.EntityContainer;
 import net.minecraft.entity.passive.EntityTameable;
 import net.minecraft.item.Item;
 import net.minecraft.world.World;
+import net.minecraftforge.oredict.OreDictionary;
 
 public abstract class EntityTameableBetterAnimalsPlus extends EntityTameable {
 
@@ -21,6 +22,11 @@ public abstract class EntityTameableBetterAnimalsPlus extends EntityTameable {
             String[] items = section.tameItems;
             String id = item.getRegistryName().toString();
             for(String itemsId : items) {
+                if (itemsId.startsWith("ore:")) {
+                    if (OreDictionary.getOres(itemsId.substring(4)).stream().anyMatch(itemStack -> itemStack.getItem() == item)) {
+                        return true;
+                    }
+                }
                 if(id.equals(itemsId)) {
                     return true;
                 }
