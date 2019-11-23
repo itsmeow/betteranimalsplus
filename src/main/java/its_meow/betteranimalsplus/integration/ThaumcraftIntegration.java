@@ -21,6 +21,16 @@ public class ThaumcraftIntegration {
 		event.register.registerObjectTag(new ItemStack(ModItems.CRAB_MEAT_COOKED), new AspectList().add(Aspect.LIFE, 5).add(Aspect.BEAST, 5).add(Aspect.CRAFT, 1));
 		
 		event.register.registerObjectTag(new ItemStack(ModItems.ANTLER), new AspectList().add(Aspect.AVERSION, 5).add(Aspect.BEAST, 5).add(Aspect.EARTH, 5));
+		event.register.registerObjectTag(new ItemStack(ModItems.WOLF_PELT_BLACK), new AspectList().add(Aspect.BEAST, 5).add(Aspect.CRAFT, 5));
+		event.register.registerObjectTag(new ItemStack(ModItems.WOLF_PELT_TIMBER), new AspectList().add(Aspect.BEAST, 5).add(Aspect.CRAFT, 5));
+		event.register.registerObjectTag(new ItemStack(ModItems.WOLF_PELT_SNOWY), new AspectList().add(Aspect.BEAST, 5).add(Aspect.CRAFT, 5));
+		event.register.registerObjectTag(new ItemStack(ModItems.BEAR_SKIN_BLACK), new AspectList().add(Aspect.BEAST, 5).add(Aspect.CRAFT, 5));
+		event.register.registerObjectTag(new ItemStack(ModItems.BEAR_SKIN_BROWN), new AspectList().add(Aspect.BEAST, 5).add(Aspect.CRAFT, 5));
+		event.register.registerObjectTag(new ItemStack(ModItems.BEAR_SKIN_KERMODE), new AspectList().add(Aspect.BEAST, 5).add(Aspect.CRAFT, 5));
+		event.register.registerObjectTag(new ItemStack(ModItems.TURKEY_COOKED), new AspectList().add(Aspect.CRAFT, 5).add(Aspect.LIFE, 5).add(Aspect.DESIRE, 5));
+		event.register.registerObjectTag(new ItemStack(ModItems.TURKEY_RAW), new AspectList().add(Aspect.BEAST, 5).add(Aspect.LIFE, 5).add(Aspect.DESIRE, 5));
+		event.register.registerObjectTag(new ItemStack(ModItems.PHEASANT_COOKED), new AspectList().add(Aspect.CRAFT, 5).add(Aspect.LIFE, 5).add(Aspect.DESIRE, 5));
+		event.register.registerObjectTag(new ItemStack(ModItems.PHEASANT_RAW), new AspectList().add(Aspect.BEAST, 5).add(Aspect.LIFE, 5).add(Aspect.DESIRE, 5));
 		
 		event.register.registerObjectTag(new ItemStack(ModItems.GOAT_MILK), new AspectList().add(Aspect.METAL, 33).add(Aspect.LIFE, 10).add(Aspect.VOID, 5).add(Aspect.BEAST, 5).add(Aspect.WATER, 5));
 		event.register.registerObjectTag(new ItemStack(ModItems.GOAT_CHEESE), new AspectList().add(Aspect.BEAST, 5).add(Aspect.LIFE, 5).add(Aspect.CRAFT, 5));
