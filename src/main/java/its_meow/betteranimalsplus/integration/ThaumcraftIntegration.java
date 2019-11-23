@@ -4,6 +4,7 @@ import its_meow.betteranimalsplus.init.ModBlocks;
 import its_meow.betteranimalsplus.init.ModItems;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import thaumcraft.api.ThaumcraftApi;
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;
 import thaumcraft.api.aspects.AspectRegistryEvent;
@@ -42,5 +43,7 @@ public class ThaumcraftIntegration {
 		event.register.registerObjectTag(new ItemStack(ModBlocks.TURKEY_EATEN_RAW), new AspectList().add(Aspect.BEAST, 3).add(Aspect.LIFE, 3).add(Aspect.DESIRE, 3));
 		event.register.registerObjectTag(new ItemStack(ModBlocks.TURKEY_COOKED), new AspectList().add(Aspect.CRAFT, 5).add(Aspect.LIFE, 5).add(Aspect.DESIRE, 5));
 		event.register.registerObjectTag(new ItemStack(ModBlocks.TURKEY_EATEN_COOKED), new AspectList().add(Aspect.CRAFT, 3).add(Aspect.LIFE, 3).add(Aspect.DESIRE, 3));
+		
+		ThaumcraftApi.registerEntityTag("betteranimalsplus.lammergeier", new AspectList().add(Aspect.BEAST, 5).add(Aspect.DEATH, 5).add(Aspect.FLIGHT, 5));
 	}
 }
