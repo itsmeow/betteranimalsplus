@@ -108,7 +108,6 @@ public class BetterAnimalsPlusMod {
         NETWORK_INSTANCE.registerMessage(ClientConfigurationPacket.class, ClientConfigurationPacket.class, packets++, Side.CLIENT);
         ModLootTables.register();
         ModTriggers.register();
-        if (Loader.isModLoaded("thaumcraft")) MinecraftForge.EVENT_BUS.register(new ThaumcraftIntegration());
         BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.putObject(ModItems.PHEASANT_EGG, new BehaviorProjectileDispense() {
             protected IProjectile getProjectileEntity(World worldIn, IPosition position, ItemStack stackIn) {
                 return new EntityPheasantEgg(worldIn, position.getX(), position.getY(), position.getZ());
@@ -124,6 +123,11 @@ public class BetterAnimalsPlusMod {
             // fuk u JVM get rekt
             Supplier<Supplier<Runnable>> registerBaubleHandler = () -> () -> BaubleIntegration::preInit;
             registerBaubleHandler.get().get().run();
+        }
+        if (Loader.isModLoaded("thaumcraft")) {
+            // fuk u JVM get rekt pt 2
+            Supplier<Supplier<Runnable>> registerTCHandler = () -> () -> MinecraftForge.EVENT_BUS.register(new ThaumcraftIntegration());
+            registerTCHandler.get().get().run();
         }
     }
 
