@@ -18,7 +18,7 @@ public abstract class ItemCape extends ItemModeledArmor {
     public ItemCape(String name, String variant, Item repairItem) {
         super(EnumHelper.addArmorMaterial(name + variant, "betteranimalsplus:" + name + variant, 5, new int[]{1, 2, 3, 1}, 15, SoundEvents.ITEM_ARMOR_EQUIP_LEATHER, 0.0F), EntityEquipmentSlot.CHEST, true);
         this.variant = variant;
-        this.setUnlocalizedName("betteranimalsplus." + name + variant);
+        this.setTranslationKey("betteranimalsplus." + name + variant);
         this.setRegistryName(name + variant);
         this.setCreativeTab(BetterAnimalsPlusMod.tab);
         this.repairItem = repairItem;

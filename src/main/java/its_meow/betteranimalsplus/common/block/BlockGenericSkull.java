@@ -20,7 +20,7 @@ public class BlockGenericSkull extends BlockAnimalSkull {
 	public BlockGenericSkull(HeadTypes type, int typeNum) {
 		this.typeNum = typeNum;
 		this.setRegistryName(type.name + "_" + typeNum);
-		this.setUnlocalizedName(Ref.MOD_ID + "." + type.name);
+		this.setTranslationKey(Ref.MOD_ID + "." + type.name);
 		this.type = type;
 	}
 

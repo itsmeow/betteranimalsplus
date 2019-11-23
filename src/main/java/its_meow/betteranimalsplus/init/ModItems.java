@@ -29,7 +29,7 @@ public class ModItems {
     public static final ItemBetterFood VENISON_COOKED = new ItemBetterFood("venisoncooked", 8, 1.2F, 32, true);
     public static final ItemHirschgeistSkullWearable HIRSCHGEIST_SKULL_WEARABLE = new ItemHirschgeistSkullWearable();
     public static final Item ANTLER = new ItemNamedSimple("antler");
-    public static final Item GOAT_MILK = new ItemBucketMilk().setRegistryName("goatmilk").setCreativeTab(BetterAnimalsPlusMod.tab).setUnlocalizedName(Ref.MOD_ID + "." + "goatmilk").setContainerItem(Items.BUCKET);
+    public static final Item GOAT_MILK = new ItemBucketMilk().setRegistryName("goatmilk").setCreativeTab(BetterAnimalsPlusMod.tab).setTranslationKey(Ref.MOD_ID + "." + "goatmilk").setContainerItem(Items.BUCKET);
     public static final ItemBetterFood GOAT_CHEESE = new ItemBetterFood("goatcheese", 3, 1, 15, false);
     public static final ItemBetterFood PHEASANT_RAW = new ItemBetterFood("pheasantraw", 3, 0, 32, true);
     public static final ItemBetterFood PHEASANT_COOKED = new ItemBetterFood("pheasantcooked", 7, 1.2F, 32, true);
@@ -56,7 +56,7 @@ public class ModItems {
     public static final ItemRecord RECORD_CRAB_RAVE = new ItemRecord("crabrave", ModSoundEvents.CRAB_RAVE) {}; static {
         RECORD_CRAB_RAVE.setRegistryName(new ResourceLocation(Ref.MOD_ID, "record_crab_rave"));
         RECORD_CRAB_RAVE.setCreativeTab(null);
-        RECORD_CRAB_RAVE.setUnlocalizedName("record");
+        RECORD_CRAB_RAVE.setTranslationKey("record");
     }
     
     public static final ItemThrowableCustomEgg PHEASANT_EGG = new ItemThrowableCustomEgg("pheasant_egg", player -> new EntityPheasantEgg(player.world, player));

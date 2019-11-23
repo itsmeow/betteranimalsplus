@@ -42,7 +42,7 @@ public class BlockHandOfFate extends Block {
         super(Material.IRON);
         this.translucent = true;
         this.fullBlock = false;
-        this.setUnlocalizedName("betteranimalsplus.handoffate");
+        this.setTranslationKey("betteranimalsplus.handoffate");
         this.setRegistryName("handoffate");
         this.setCreativeTab(BetterAnimalsPlusMod.tab);
         this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH));
@@ -92,7 +92,7 @@ public class BlockHandOfFate extends Block {
      */
     @Override
     public IBlockState getStateFromMeta(int meta) {
-        EnumFacing enumfacing = EnumFacing.getFront(meta);
+        EnumFacing enumfacing = EnumFacing.byIndex(meta);
 
         if (enumfacing.getAxis() == EnumFacing.Axis.Y) {
             enumfacing = EnumFacing.NORTH;

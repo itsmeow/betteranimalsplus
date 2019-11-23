@@ -73,7 +73,7 @@ public class BetterAnimalsPlusMod {
 
     public static CreativeTabs tab = new CreativeTabs("Better Animals+") {
         @Override
-        public ItemStack getTabIconItem() {
+        public ItemStack createIcon() {
             return new ItemStack(ModItems.ANTLER);
         }
 

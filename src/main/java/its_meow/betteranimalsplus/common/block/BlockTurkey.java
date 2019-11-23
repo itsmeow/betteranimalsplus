@@ -35,7 +35,7 @@ public class BlockTurkey extends Block {
     public BlockTurkey(String name) {
         super(Material.SPONGE);
         this.setRegistryName(Ref.MOD_ID, name);
-        this.setUnlocalizedName(Ref.MOD_ID + "." + name);
+        this.setTranslationKey(Ref.MOD_ID + "." + name);
         this.setDefaultState(this.blockState.getBaseState().withProperty(BITES, 0).withProperty(FACING, EnumFacing.NORTH));
     }
 
@@ -108,7 +108,7 @@ public class BlockTurkey extends Block {
 
     @Override
     public IBlockState getStateFromMeta(int meta) {
-        return this.getDefaultState().withProperty(BITES, meta & 3).withProperty(FACING, EnumFacing.getFront((meta >> 2 & 3) + 2));
+        return this.getDefaultState().withProperty(BITES, meta & 3).withProperty(FACING, EnumFacing.byIndex((meta >> 2 & 3) + 2));
     }
 
     @Override

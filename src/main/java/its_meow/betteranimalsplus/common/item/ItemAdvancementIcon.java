@@ -9,7 +9,7 @@ public class ItemAdvancementIcon extends Item {
 
     public ItemAdvancementIcon(String name) {
         this.setRegistryName(Ref.MOD_ID, name);
-        this.setUnlocalizedName(Ref.MOD_ID + "." + name);
+        this.setTranslationKey(Ref.MOD_ID + "." + name);
         BetterAnimalsPlusRegistrar.HIDE_ITEMS.add(this);
         ModItems.ADVANCEMENT_ICONS.put(name, this);
     }
