@@ -129,6 +129,7 @@ public class ClientRegistrar {
         initModel(ModItems.TURKEY_EGG);
         initModel(ModItems.TURKEY_LEG_RAW);
         initModel(ModItems.TURKEY_LEG_COOKED);
+        initModel(ModItems.FRIED_EGG);
 
         for(ItemAdvancementIcon icon : ModItems.ADVANCEMENT_ICONS.values()) {
             initModel(icon);

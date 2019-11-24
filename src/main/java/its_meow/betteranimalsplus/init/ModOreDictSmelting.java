@@ -49,5 +49,9 @@ public class ModOreDictSmelting {
         OreDictionary.registerOre("egg", ModItems.TURKEY_EGG);
         OreDictionary.registerOre("foodEgg", ModItems.TURKEY_EGG);
         OreDictionary.registerOre("eggCookable", ModItems.TURKEY_EGG);
+        
+        for(ItemStack item : OreDictionary.getOres("egg")) {
+            GameRegistry.addSmelting(item, new ItemStack(ModItems.FRIED_EGG), 0.3F);
+        }
     }
 }
