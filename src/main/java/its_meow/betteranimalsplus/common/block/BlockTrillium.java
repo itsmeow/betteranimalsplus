@@ -28,7 +28,7 @@ public class BlockTrillium extends BlockBush {
     public BlockTrillium() {
         super(Material.PLANTS);
         this.setRegistryName("trillium");
-        this.setUnlocalizedName("betteranimalsplus.trillium");
+        this.setTranslationKey("betteranimalsplus.trillium");
         this.translucent = true;
         this.fullBlock = false;
         this.setCreativeTab(BetterAnimalsPlusMod.tab);
@@ -67,7 +67,7 @@ public class BlockTrillium extends BlockBush {
      */
     @Override
     public IBlockState getStateFromMeta(int meta) {
-        EnumFacing enumfacing = EnumFacing.getFront(meta);
+        EnumFacing enumfacing = EnumFacing.byIndex(meta);
 
         if (enumfacing.getAxis() == EnumFacing.Axis.Y) {
             enumfacing = EnumFacing.NORTH;

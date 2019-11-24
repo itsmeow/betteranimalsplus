@@ -8,7 +8,7 @@ public class ItemHiddenItem extends Item {
     
     public ItemHiddenItem(String name) {
         this.setRegistryName(Ref.MOD_ID, name);
-        this.setUnlocalizedName(Ref.MOD_ID + "." + name);
+        this.setTranslationKey(Ref.MOD_ID + "." + name);
         BetterAnimalsPlusRegistrar.HIDE_ITEMS.add(this);
     }
     

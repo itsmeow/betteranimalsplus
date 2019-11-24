@@ -1,7 +1,5 @@
 package its_meow.betteranimalsplus.common.block;
 
-import javax.annotation.Nullable;
-
 import its_meow.betteranimalsplus.Ref;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockHorizontal;
@@ -17,7 +15,9 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumFacing.Axis;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
@@ -29,13 +29,32 @@ public class BlockTurkey extends Block {
 
     public static final PropertyInteger BITES = PropertyInteger.create("bites", 0, 3);
     public static final PropertyDirection FACING = BlockHorizontal.FACING;
-    protected static final AxisAlignedBB AABB = new AxisAlignedBB(0.0625D, 0.0D, 0.0625D, 0.9375D, 0.9375D, 0.9375D);
-    private BlockTurkey secondPart;
+    protected static final AxisAlignedBB[] X_AABBS = new AxisAlignedBB[] {
+        new AxisAlignedBB(0.0625D * 2, 0.0D, 0.0625D * 3, 1D - (0.0625D * 2), 0.0625D * 7D, 1D - (0.0625D * 3)),
+        new AxisAlignedBB(0.0625D * 2, 0.0D, 0.0625D * 3, 1D - (0.0625D * 2), 0.0625D * 7D, 1D - (0.0625D * 3)),
+        new AxisAlignedBB(0.0625D * 2, 0.0D, 0.0625D * 3, 1D - (0.0625D * 2), 0.0625D * 7D, 1D - (0.0625D * 3)),
+        new AxisAlignedBB(0.0625D * 2, 0.0D, 0.0625D * 3, 1D - (0.0625D * 2), 0.0625D * 7D, 1D - (0.0625D * 4)),
+        new AxisAlignedBB(0.0625D * 2, 0.0D, 0.0625D * 4, 1D - (0.0625D * 2), 0.0625D * 7D, 1D - (0.0625D * 4)),
+        new AxisAlignedBB(0.0625D * 2, 0.0D, 0.0625D * 4, 1D - (0.0625D * 2), 0.0625D * 5D, 1D - (0.0625D * 4)),
+        new AxisAlignedBB(0.0625D * 2, 0.0D, 0.0625D * 4, 1D - (0.0625D * 2), 0.0625D * 3D, 1D - (0.0625D * 4)),
+        new AxisAlignedBB(0.0625D * 2, 0.0D, 0.0625D * 4, 1D - (0.0625D * 2), 0.0625D * 2D, 1D - (0.0625D * 4))
+    };
+    protected static final AxisAlignedBB[] Y_AABBS = new AxisAlignedBB[] {
+        new AxisAlignedBB(0.0625D * 3, 0.0D, 0.0625D * 2, 1D - (0.0625D * 3), 0.0625D * 7D, 1D - (0.0625D * 2)),
+        new AxisAlignedBB(0.0625D * 3, 0.0D, 0.0625D * 2, 1D - (0.0625D * 3), 0.0625D * 7D, 1D - (0.0625D * 2)),
+        new AxisAlignedBB(0.0625D * 3, 0.0D, 0.0625D * 2, 1D - (0.0625D * 3), 0.0625D * 7D, 1D - (0.0625D * 2)),
+        new AxisAlignedBB(0.0625D * 4, 0.0D, 0.0625D * 2, 1D - (0.0625D * 3), 0.0625D * 7D, 1D - (0.0625D * 2)),
+        new AxisAlignedBB(0.0625D * 4, 0.0D, 0.0625D * 2, 1D - (0.0625D * 4), 0.0625D * 7D, 1D - (0.0625D * 2)),
+        new AxisAlignedBB(0.0625D * 4, 0.0D, 0.0625D * 2, 1D - (0.0625D * 4), 0.0625D * 5D, 1D - (0.0625D * 2)),
+        new AxisAlignedBB(0.0625D * 4, 0.0D, 0.0625D * 2, 1D - (0.0625D * 4), 0.0625D * 3D, 1D - (0.0625D * 2)),
+        new AxisAlignedBB(0.0625D * 4, 0.0D, 0.0625D * 2, 1D - (0.0625D * 4), 0.0625D * 2D, 1D - (0.0625D * 2))
+    };
+    protected BlockTurkey secondPart;
     
     public BlockTurkey(String name) {
         super(Material.SPONGE);
         this.setRegistryName(Ref.MOD_ID, name);
-        this.setUnlocalizedName(Ref.MOD_ID + "." + name);
+        this.setTranslationKey(Ref.MOD_ID + "." + name);
         this.setDefaultState(this.blockState.getBaseState().withProperty(BITES, 0).withProperty(FACING, EnumFacing.NORTH));
     }
 
@@ -46,7 +65,7 @@ public class BlockTurkey extends Block {
 
     @Override
     public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
-        return AABB;
+        return state.getValue(FACING).getAxis() == Axis.X ? X_AABBS[state.getValue(BITES) + (secondPart == null ? 4 : 0)] : Y_AABBS[state.getValue(BITES) + (secondPart == null ? 4 : 0)];
     }
 
     @Override
@@ -62,28 +81,35 @@ public class BlockTurkey extends Block {
     @Override
     public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
         if(!worldIn.isRemote) {
-            return eat(worldIn, pos, state, playerIn, secondPart);
+            return eat(worldIn, pos, state, playerIn);
         } else {
             ItemStack itemstack = playerIn.getHeldItem(hand);
-            return eat(worldIn, pos, state, playerIn, secondPart) || itemstack.isEmpty();
+            return eat(worldIn, pos, state, playerIn) || itemstack.isEmpty();
         }
     }
 
-    private static boolean eat(World worldIn, BlockPos pos, IBlockState state, EntityPlayer player, @Nullable BlockTurkey secondPart) {
+    protected boolean eat(World worldIn, BlockPos pos, IBlockState state, EntityPlayer player) {
         if(!player.canEat(false)) {
             return false;
         } else {
-            player.getFoodStats().addStats(2, 0.1F);
             int i = state.getValue(BITES);
 
             if(secondPart != null && i < 3) {
                 worldIn.setBlockState(pos, state.withProperty(BITES, i + 1), 3);
+                if(i < 2) {
+                    player.getFoodStats().addStats(2, 0.3F);
+                } else {
+                    player.getFoodStats().addStats(4, 0.3F);
+                }
             } else if(secondPart != null && i == 3) {
                 worldIn.setBlockState(pos, secondPart.getDefaultState().withProperty(FACING, state.getValue(FACING)));
+                player.getFoodStats().addStats(4, 0.3F);
             } else if(secondPart == null && i < 3) {
                 worldIn.setBlockState(pos, state.withProperty(BITES, i + 1), 3);
+                player.getFoodStats().addStats(4, 0.3F);
             } else {
                 worldIn.setBlockToAir(pos);
+                player.getFoodStats().addStats(4, 0.3F);
             }
 
             return true;
@@ -98,6 +124,7 @@ public class BlockTurkey extends Block {
     @Override
     public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos) {
         if(!canBlockStay(worldIn, pos)) {
+            this.dropBlockAsItem(worldIn, pos, state, 0);
             worldIn.setBlockToAir(pos);
         }
     }
@@ -108,7 +135,7 @@ public class BlockTurkey extends Block {
 
     @Override
     public IBlockState getStateFromMeta(int meta) {
-        return this.getDefaultState().withProperty(BITES, meta & 3).withProperty(FACING, EnumFacing.getFront((meta >> 2 & 3) + 2));
+        return this.getDefaultState().withProperty(BITES, meta & 3).withProperty(FACING, EnumFacing.byIndex((meta >> 2 & 3) + 2));
     }
 
     @Override
@@ -134,6 +161,13 @@ public class BlockTurkey extends Block {
     @Override
     public BlockFaceShape getBlockFaceShape(IBlockAccess worldIn, IBlockState state, BlockPos pos, EnumFacing face) {
         return BlockFaceShape.UNDEFINED;
+    }
+
+    @Override
+    public void getDrops(NonNullList<ItemStack> drops, IBlockAccess world, BlockPos pos, IBlockState state, int fortune) {
+        if(state.getValue(BITES) == 0 && secondPart != null) {
+            super.getDrops(drops, world, pos, state, fortune);
+        }
     }
 
 }

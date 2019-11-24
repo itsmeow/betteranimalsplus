@@ -26,7 +26,6 @@ import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.pathfinding.PathNodeType;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.EnumHand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
@@ -112,18 +111,18 @@ public class EntityTurkey extends EntityAnimalWithTypes {
         this.getAttributeMap().registerAttribute(SharedMonsterAttributes.ATTACK_DAMAGE);
         this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(1D);
     }
-    
+
     @Override
     public void setAttackTarget(EntityLivingBase entitylivingbaseIn) {
-        this.setAttackingOnClient(entitylivingbaseIn != null);
+        this.setTailUp(entitylivingbaseIn != null);
         super.setAttackTarget(entitylivingbaseIn);
     }
-    
-    public boolean isAttackingFromServer() {
+
+    public boolean isTailUp() {
         return this.dataManager.get(ATTACKING).booleanValue();
     }
 
-    public void setAttackingOnClient(boolean in) {
+    public void setTailUp(boolean in) {
         this.dataManager.set(ATTACKING, Boolean.valueOf(in));
     }
 
@@ -181,21 +180,18 @@ public class EntityTurkey extends EntityAnimalWithTypes {
             this.dropItem(ModItems.TURKEY_EGG, 1);
             this.timeUntilNextEgg = this.rand.nextInt(6000) + 6000;
         }
+        if(!world.isRemote) {
+            if(this.isInLove() && !this.isTailUp()) {
+                this.setTailUp(true);
+            }
+            if(!this.isInLove() && this.getAttackTarget() == null && this.isTailUp()) {
+                this.setTailUp(false);
+            }
+        }
     }
 
-    @Override
-    public boolean processInteract(EntityPlayer player, EnumHand hand) {
-        ItemStack itemstack = player.getHeldItem(hand);
-
-        if(itemstack.getItem() == Items.PUMPKIN_SEEDS && !this.isChild()) {
-            this.setInLove(player);
-            if(!player.capabilities.isCreativeMode) {
-                itemstack.shrink(1);
-            }
-            return true;
-        } else {
-            return super.processInteract(player, hand);
-        }
+    public boolean isBreedingItem(ItemStack stack) {
+        return stack.getItem() == Items.PUMPKIN_SEEDS;
     }
 
     @Override

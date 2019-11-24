@@ -60,7 +60,7 @@ public class EntityAIWanderWaterEntity extends EntityAIBase {
     protected Vec3d getPosition() {
         int i = 0;
         while(i < 5) {
-            Vec3d pos = this.entity.getPositionVector().addVector(Math.random() * 10, Math.random() * 2, Math.random() * 10);
+            Vec3d pos = this.entity.getPositionVector().add(Math.random() * 10, Math.random() * 2, Math.random() * 10);
             IBlockState state = this.entity.world.getBlockState(new BlockPos(pos));
             if(state.getBlock() == Blocks.WATER || state.getBlock() == Blocks.FLOWING_WATER) {
                 return pos;

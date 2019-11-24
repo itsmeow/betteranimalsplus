@@ -8,7 +8,7 @@ public class ItemNamedSimple extends Item {
     
     public ItemNamedSimple(String name) {
         this.setRegistryName(name);
-        this.setUnlocalizedName(Ref.MOD_ID + "." + name);
+        this.setTranslationKey(Ref.MOD_ID + "." + name);
         this.setCreativeTab(BetterAnimalsPlusMod.tab);
     }
 

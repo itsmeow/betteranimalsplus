@@ -82,7 +82,7 @@ public abstract class FlatteningFixer implements IFixableData {
 
             for (int tileEntityIndex = 0; tileEntityIndex < tileEntities.tagCount(); tileEntityIndex++) {
                 final NBTTagCompound tileEntityNBT = tileEntities.getCompoundTagAt(tileEntityIndex);
-                if (!tileEntityNBT.hasNoTags()) {
+                if (!tileEntityNBT.isEmpty()) {
                     final BlockPos pos = new BlockPos(tileEntityNBT.getInteger("x"), tileEntityNBT.getInteger("y"),
                             tileEntityNBT.getInteger("z"));
                     tileEntityMap.put(pos, Pair.of(tileEntityIndex, tileEntityNBT));
@@ -123,7 +123,7 @@ public abstract class FlatteningFixer implements IFixableData {
 
                             // Get the new block state from the flattening definition
                             final IBlockState newBlockState = flatteningDefinition.blockStateGetter.getBlockState(
-                                    flatteningDefinition.oldName.getResourcePath().toString(), flatteningDefinition.oldMetadata, tileEntityNBT);
+                                    flatteningDefinition.oldName.getPath().toString(), flatteningDefinition.oldMetadata, tileEntityNBT);
 
                             // Calculate the new block ID, block ID extension and metadata from the block
                             // state's ID

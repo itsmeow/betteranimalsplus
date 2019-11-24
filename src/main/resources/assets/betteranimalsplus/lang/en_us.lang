@@ -27,6 +27,9 @@ item.betteranimalsplus.bear_skin_black.name=Black Bear Skin
 item.betteranimalsplus.bear_skin_kermode.name=Kermode Bear Skin
 item.betteranimalsplus.pheasant_egg.name=Pheasant Egg
 item.betteranimalsplus.turkey_egg.name=Turkey Egg
+item.betteranimalsplus.turkey_leg_raw.name=Raw Turkey Leg
+item.betteranimalsplus.turkey_leg_cooked.name=Cooked Turkey Leg
+item.betteranimalsplus.fried_egg.name=Fried Egg
 #Blocks
 tile.betteranimalsplus.trillium.name=Trillium
 tile.betteranimalsplus.hirschgeistskull.name=Hirschgeist Skull

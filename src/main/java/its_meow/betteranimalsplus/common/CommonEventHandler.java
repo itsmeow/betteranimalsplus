@@ -53,7 +53,7 @@ public class CommonEventHandler {
                 if(player.getHeldItemMainhand().isEmpty()) {
                     ModTriggers.PUNCH_BEAR_DEATH.trigger(player);
                 }
-            } else if(e.getEntity() instanceof EntitySquirrel && !player.getAdvancements().getProgress(player.mcServer.getAdvancementManager().getAdvancement(new ResourceLocation("betteranimalsplus:squirrel_kill_100"))).isDone()) {
+            } else if(e.getEntity() instanceof EntitySquirrel && !player.getAdvancements().getProgress(player.server.getAdvancementManager().getAdvancement(new ResourceLocation("betteranimalsplus:squirrel_kill_100"))).isDone()) {
                 NBTTagCompound pTag = player.getEntityData();
                 if(!pTag.hasKey("betteranimalsplus", Constants.NBT.TAG_COMPOUND)) {
                     pTag.setTag("betteranimalsplus", new NBTTagCompound());
