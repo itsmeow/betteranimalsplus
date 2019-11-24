@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:smoking",
+  "ingredient": {
+    "tag": "forge:eggs"
+  },
+  "result": "betteranimalsplus:fried_egg",
+  "experience": 0
+}

@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:campfire_cooking",
+  "ingredient": {
+    "tag": "forge:eggs"
+  },
+  "result": "betteranimalsplus:fried_egg",
+  "experience": 0.3
+}
