@@ -12,6 +12,7 @@ public class ModOreDictSmelting {
         GameRegistry.addSmelting(new ItemStack(ModItems.PHEASANT_RAW), new ItemStack(ModItems.PHEASANT_COOKED), 0.0F);
         GameRegistry.addSmelting(new ItemStack(ModItems.CRAB_MEAT_RAW), new ItemStack(ModItems.CRAB_MEAT_COOKED), 0.0F);
         GameRegistry.addSmelting(new ItemStack(ModItems.TURKEY_RAW), new ItemStack(ModItems.TURKEY_COOKED), 0.0F);
+        GameRegistry.addSmelting(new ItemStack(ModItems.TURKEY_LEG_RAW), new ItemStack(ModItems.TURKEY_LEG_COOKED), 0.0F);
 
         // Register oredict
         OreDictionary.registerOre("listAllmeatraw", ModItems.VENISON_RAW);

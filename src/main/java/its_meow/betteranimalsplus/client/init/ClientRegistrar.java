@@ -127,6 +127,8 @@ public class ClientRegistrar {
         initModel(ModItems.BEAR_CAPE_KERMODE);
         initModel(ModItems.PHEASANT_EGG);
         initModel(ModItems.TURKEY_EGG);
+        initModel(ModItems.TURKEY_LEG_RAW);
+        initModel(ModItems.TURKEY_LEG_COOKED);
 
         for(ItemAdvancementIcon icon : ModItems.ADVANCEMENT_ICONS.values()) {
             initModel(icon);

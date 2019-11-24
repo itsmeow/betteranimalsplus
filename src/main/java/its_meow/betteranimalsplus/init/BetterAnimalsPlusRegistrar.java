@@ -106,6 +106,8 @@ public class BetterAnimalsPlusRegistrar {
         ModItems.RECORD_CRAB_RAVE,
         ModItems.PHEASANT_EGG,
         ModItems.TURKEY_EGG,
+        ModItems.TURKEY_LEG_RAW,
+        ModItems.TURKEY_LEG_COOKED,
         new ItemAdvancementIcon("advancement_icon_jellyfish"),
         new ItemAdvancementIcon("advancement_icon_jellyfish_cross"),
         new ItemAdvancementIcon("advancement_icon_goat"),
