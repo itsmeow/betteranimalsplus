@@ -1,0 +1,9 @@
+{
+  "type": "smelting",
+  "ingredient": {
+    "item": "betteranimalsplus:turkey_raw"
+  },
+  "result": "betteranimalsplus:turkey_cooked",
+  "experience": 0.3,
+  "cookingtime": 200
+}

@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "betteranimalsplus:turkey_cooked",
+          "conditions": [
+            {
+              "condition": "minecraft:block_state_property",
+              "block": "betteranimalsplus:turkey_cooked",
+              "properties": {
+                "bites": "0"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
