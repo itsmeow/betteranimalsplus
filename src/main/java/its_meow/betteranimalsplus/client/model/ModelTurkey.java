@@ -294,7 +294,7 @@ public class ModelTurkey extends ModelBase {
             } else {
                 this.neck.rotateAngleX = -1.0471975511965976F;
             }
-            if(ent.isAttackingFromServer()) {
+            if(ent.isTailUp()) {
                 this.setRotateAngle(tail01, 0.9424777960769379F, 0.0F, 0.0F);
                 this.setRotateAngle(rTailFeather01, 0.0F, -0.06981317007977318F, 0.0F);
                 this.setRotateAngle(lTailFeather04, 0.0F, 1.0471975511965976F, 0.0F);

@@ -22,7 +22,6 @@ import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.pathfinding.PathNodeType;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.EnumHand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
@@ -111,19 +110,8 @@ public class EntityPheasant extends EntityAnimalWithTypes {
         }
     }
 
-    @Override
-    public boolean processInteract(EntityPlayer player, EnumHand hand) {
-        ItemStack itemstack = player.getHeldItem(hand);
-
-        if(itemstack.getItem() == Items.PUMPKIN_SEEDS && !this.isChild()) {
-            this.setInLove(player);
-            if(!player.capabilities.isCreativeMode) {
-                itemstack.shrink(1);
-            }
-            return true;
-        } else {
-            return super.processInteract(player, hand);
-        }
+    public boolean isBreedingItem(ItemStack stack) {
+        return stack.getItem() == Items.PUMPKIN_SEEDS;
     }
 
     @Override
