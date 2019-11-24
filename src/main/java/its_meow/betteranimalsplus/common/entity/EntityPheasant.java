@@ -8,24 +8,25 @@ import its_meow.betteranimalsplus.init.ModLootTables;
 import its_meow.betteranimalsplus.util.EntityTypeContainer;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.goal.*;
+import net.minecraft.entity.ai.goal.BreedGoal;
+import net.minecraft.entity.ai.goal.FollowParentGoal;
+import net.minecraft.entity.ai.goal.LookAtGoal;
+import net.minecraft.entity.ai.goal.PanicGoal;
+import net.minecraft.entity.ai.goal.SwimGoal;
 import net.minecraft.entity.ai.goal.TemptGoal;
 import net.minecraft.entity.ai.goal.WaterAvoidingRandomWalkingGoal;
-import net.minecraft.entity.ai.goal.LookAtGoal;
-import net.minecraft.entity.ai.goal.FollowParentGoal;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Items;
-import net.minecraft.util.SoundEvents;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.pathfinding.PathNodeType;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
+import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
@@ -106,19 +107,8 @@ public class EntityPheasant extends EntityAnimalWithTypes {
         }
     }
 
-    @Override
-    public boolean processInteract(PlayerEntity player, Hand hand) {
-        ItemStack itemstack = player.getHeldItem(hand);
-
-        if(itemstack.getItem() == Items.PUMPKIN_SEEDS && !this.isChild()) {
-            this.setInLove(player);
-            if (!player.abilities.isCreativeMode) {
-                itemstack.shrink(1);
-            }
-            return true;
-        } else {
-            return super.processInteract(player, hand);
-        }
+    public boolean isBreedingItem(ItemStack stack) {
+        return stack.getItem() == Items.PUMPKIN_SEEDS;
     }
 
     @Override
