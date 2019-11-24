@@ -62,7 +62,7 @@ public class ModItems {
     public static final ItemThrowableCustomEgg PHEASANT_EGG = new ItemThrowableCustomEgg("pheasant_egg", player -> new EntityPheasantEgg(player.world, player));
     public static final ItemThrowableCustomEgg TURKEY_EGG = new ItemThrowableCustomEgg("turkey_egg", player -> new EntityTurkeyEgg(player.world, player));
     
-    public static final ItemBetterFood TURKEY_LEG_RAW = new ItemBetterFood("turkey_leg_raw", 3, 2, 16, true);
+    public static final ItemBetterFood TURKEY_LEG_RAW = new ItemBetterFood("turkey_leg_raw", 2, 0F, 16, true);
     public static final ItemBetterFood TURKEY_LEG_COOKED = new ItemBetterFood("turkey_leg_cooked", 4, 1.2F, 16, true);
     
     public static final ItemBetterFood FRIED_EGG = new ItemBetterFood("fried_egg", 5, 1.5F, 16, true);
