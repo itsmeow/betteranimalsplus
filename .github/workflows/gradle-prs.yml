@@ -5,7 +5,7 @@ on:
     paths-ignore:
     - '*.md'
     - 'LICENSE'
-    - '.github/ISSUE_TEMPLATE/**'
+    - '.github/**'
     - 'src/main/resources/**'
 
 jobs:
@@ -29,11 +29,11 @@ jobs:
       uses: itsmeow/webhook-action@master
       env:
         WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
-        data: ${{ '{"embeds":[{"title":"Pull Request Build (#' + github.event[0].number + ')","url":"' + github.event[0].url + '","description":"To Branch: ' + github.event[0].base.ref + '\nStatus: Successful","color":65280,"author":{"name":"' + github.event[0].user.login + '","url":"' + github.event[0].user.html_url + '","icon_url":"' + github.event[0].user.avatar_url + '"}}]}'  }}
+        data: {"embeds":[{"title":"Pull Request Build (#${{ github.event[0].number }})","url":"${{ github.event[0].url }}","description":"To Branch: ${{ github.event[0].base.ref }}\nStatus: Successful","color":65280,"author":{"name":"${{ github.event[0].user.login }}","url":"${{ github.event[0].user.html_url }}","icon_url":"${{ github.event[0].user.avatar_url }}"}}]}
     - name: Build Fail
       id: build-fail
       if: failure()
       uses: itsmeow/webhook-action@master
       env:
         WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
-        data: ${{ '{"embeds":[{"title":"Pull Request Build (#' + github.event[0].number + ')","url":"' + github.event[0].url + '","description":"To Branch: ' + github.event[0].base.ref + '\nStatus: Failed","color":16711680,"author":{"name":"' + github.event[0].user.login + '","url":"' + github.event[0].user.html_url + '","icon_url":"' + github.event[0].user.avatar_url + '"}}]}' }}
+        data: {"embeds":[{"title":"Pull Request Build (#${{ github.event[0].number }})","url":"${{ github.event[0].url }}","description":"To Branch: ${{ github.event[0].base.ref }}\nStatus: Failed","color":16711680,"author":{"name":"${{ github.event[0].user.login }}","url":"${{ github.event[0].user.html_url }}","icon_url":"${{ github.event[0].user.avatar_url }}"}}]}

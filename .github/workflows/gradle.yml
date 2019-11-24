@@ -5,7 +5,7 @@ on:
     paths-ignore:
     - '*.md'
     - 'LICENSE'
-    - '.github/ISSUE_TEMPLATE/**'
+    - '.github/**'
     - 'src/main/resources/**'
 
 jobs:
