@@ -61,6 +61,18 @@ public class ThaumcraftIntegration {
 		ThaumcraftApi.registerEntityTag("betteranimalsplus.badger", new AspectList().add(Aspect.BEAST, 10).add(Aspect.AVERSION, 10).add(Aspect.EARTH, 10));
 		ThaumcraftApi.registerEntityTag("betteranimalsplus.feralwolf", new AspectList().add(Aspect.BEAST, 20).add(Aspect.AVERSION, 20).add(Aspect.DARKNESS, 20));
 		ThaumcraftApi.registerEntityTag("betteranimalsplus.coyote", new AspectList().add(Aspect.BEAST, 20).add(Aspect.AVERSION, 20).add(Aspect.DARKNESS, 20));
+		ThaumcraftApi.registerEntityTag("betteranimalsplus.moose", new AspectList().add(Aspect.BEAST, 40).add(Aspect.AVERSION, 40).add(Aspect.EARTH, 40));
 		ThaumcraftApi.registerEntityTag("betteranimalsplus.shark", new AspectList().add(Aspect.BEAST, 35).add(Aspect.WATER, 35).add(Aspect.DARKNESS, 35).add(Aspect.AVERSION, 35));
+		ThaumcraftApi.registerEntityTag("betteranimalsplus.crab", new AspectList().add(Aspect.BEAST, 5).add(Aspect.WATER, 5).add(Aspect.PROTECT, 5));
+		ThaumcraftApi.registerEntityTag("betteranimalsplus.horseshoecrab", new AspectList().add(Aspect.BEAST, 5).add(Aspect.WATER, 5).add(Aspect.PROTECT, 5));
+		ThaumcraftApi.registerEntityTag("betteranimalsplus.nautilus", new AspectList().add(Aspect.BEAST, 5).add(Aspect.WATER, 5).add(Aspect.PROTECT, 5));
+		ThaumcraftApi.registerEntityTag("betteranimalsplus.reindeer", new AspectList().add(Aspect.BEAST, 35).add(Aspect.AVERSION, 35).add(Aspect.COLD, 35));
+		ThaumcraftApi.registerEntityTag("betteranimalsplus.pheasant", new AspectList().add(Aspect.BEAST, 5).add(Aspect.DESIRE, 5).add(Aspect.AIR, 5));
+		ThaumcraftApi.registerEntityTag("betteranimalsplus.goat", new AspectList().add(Aspect.BEAST, 20).add(Aspect.FIRE, 20).add(Aspect.DARKNESS, 20));
+		ThaumcraftApi.registerEntityTag("betteranimalsplus.deer", new AspectList().add(Aspect.BEAST, 25).add(Aspect.AVERSION, 25).add(Aspect.PLANT, 25));
+		ThaumcraftApi.registerEntityTag("betteranimalsplus.blackbear", new AspectList().add(Aspect.BEAST, 35).add(Aspect.AVERSION, 35).add(Aspect.EARTH, 35));
+		ThaumcraftApi.registerEntityTag("betteranimalsplus.brownbear", new AspectList().add(Aspect.BEAST, 35).add(Aspect.AVERSION, 35).add(Aspect.EARTH, 35));
+		ThaumcraftApi.registerEntityTag("betteranimalsplus.tarantula", new AspectList().add(Aspect.BEAST, 25).add(Aspect.AVERSION, 25).add(Aspect.PROTECT, 25));
+		ThaumcraftApi.registerEntityTag("betteranimalsplus.hirschgeist", new AspectList().add(Aspect.SOUL, 35).add(Aspect.MAGIC, 35).add(Aspect.DARKNESS, 35).add(Aspect.FIRE, 35));
 	}
 }
