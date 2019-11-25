@@ -53,5 +53,7 @@ public class ThaumcraftIntegration {
 		ThaumcraftApi.registerEntityTag("betteranimalsplus.turkey", new AspectList().add(Aspect.BEAST, 5).add(Aspect.DESIRE, 5).add(Aspect.AIR, 5));
 		ThaumcraftApi.registerEntityTag("betteranimalsplus.fox", new AspectList().add(Aspect.BEAST, 15).add(Aspect.DARKNESS, 15).add(Aspect.SENSES, 15));
 		ThaumcraftApi.registerEntityTag("betteranimalsplus.boar", new AspectList().add(Aspect.BEAST, 35).add(Aspect.AVERSION, 35).add(Aspect.EARTH, 35));
+		ThaumcraftApi.registerEntityTag("betteranimalsplus.jellyfish", new AspectList().add(Aspect.BEAST, 5).add(Aspect.WATER, 5).add(Aspect.AVERSION, 5));
+		ThaumcraftApi.registerEntityTag("betteranimalsplus.lamprey", new AspectList().add(Aspect.BEAST, 5).add(Aspect.WATER, 5).add(Aspect.AVERSION, 5));
 	}
 }
