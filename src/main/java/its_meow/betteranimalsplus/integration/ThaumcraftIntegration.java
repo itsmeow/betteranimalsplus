@@ -18,6 +18,8 @@ public class ThaumcraftIntegration {
 		event.register.registerObjectTag(new ItemStack(ModItems.PHEASANT_EGG), new AspectList().add(Aspect.BEAST, 5).add(Aspect.LIFE, 5));
 		event.register.registerObjectTag(new ItemStack(ModItems.TURKEY_EGG), new AspectList().add(Aspect.BEAST, 5).add(Aspect.LIFE, 5));
 		
+		event.register.registerObjectTag(new ItemStack(ModItems.FRIED_EGG), new AspectList().add(Aspect.BEAST, 5).add(Aspect.FIRE, 5));
+		
 		event.register.registerObjectTag(new ItemStack(ModItems.CRAB_MEAT_RAW), new AspectList().add(Aspect.LIFE, 5).add(Aspect.BEAST, 5).add(Aspect.PROTECT, 5));
 		event.register.registerObjectTag(new ItemStack(ModItems.CRAB_MEAT_COOKED), new AspectList().add(Aspect.LIFE, 5).add(Aspect.BEAST, 5).add(Aspect.CRAFT, 1));
 		
@@ -40,10 +42,16 @@ public class ThaumcraftIntegration {
 		
 		event.register.registerObjectTag(new ItemStack(ModBlocks.TRILLIUM), new AspectList().add(Aspect.PLANT, 5).add(Aspect.EARTH, 5));
 		event.register.registerObjectTag(new ItemStack(ModBlocks.TURKEY_RAW), new AspectList().add(Aspect.BEAST, 5).add(Aspect.LIFE, 5).add(Aspect.DESIRE, 5));
+		event.register.registerObjectTag(new ItemStack(ModItems.TURKEY_LEG_RAW), new AspectList().add(Aspect.BEAST, 5).add(Aspect.LIFE, 5).add(Aspect.DESIRE, 5));
+		event.register.registerObjectTag(new ItemStack(ModItems.TURKEY_LEG_COOKED), new AspectList().add(Aspect.CRAFT, 5).add(Aspect.LIFE, 5).add(Aspect.DESIRE, 5));
 		event.register.registerObjectTag(new ItemStack(ModBlocks.TURKEY_EATEN_RAW), new AspectList().add(Aspect.BEAST, 3).add(Aspect.LIFE, 3).add(Aspect.DESIRE, 3));
 		event.register.registerObjectTag(new ItemStack(ModBlocks.TURKEY_COOKED), new AspectList().add(Aspect.CRAFT, 5).add(Aspect.LIFE, 5).add(Aspect.DESIRE, 5));
 		event.register.registerObjectTag(new ItemStack(ModBlocks.TURKEY_EATEN_COOKED), new AspectList().add(Aspect.CRAFT, 3).add(Aspect.LIFE, 3).add(Aspect.DESIRE, 3));
+		event.register.registerObjectTag(new ItemStack(ModBlocks.HAND_OF_FATE), new AspectList().add(Aspect.MAGIC, 40).add(Aspect.SOUL, 40).add(Aspect.DESIRE, 40));
 		
 		ThaumcraftApi.registerEntityTag("betteranimalsplus.lammergeier", new AspectList().add(Aspect.BEAST, 5).add(Aspect.DEATH, 5).add(Aspect.FLIGHT, 5));
+		ThaumcraftApi.registerEntityTag("betteranimalsplus.turkey", new AspectList().add(Aspect.BEAST, 5).add(Aspect.DESIRE, 5).add(Aspect.AIR, 5));
+		ThaumcraftApi.registerEntityTag("betteranimalsplus.fox", new AspectList().add(Aspect.BEAST, 15).add(Aspect.DARKNESS, 15).add(Aspect.SENSES, 15));
+		ThaumcraftApi.registerEntityTag("betteranimalsplus.boar", new AspectList().add(Aspect.BEAST, 35).add(Aspect.AVERSION, 35).add(Aspect.EARTH, 35));
 	}
 }
