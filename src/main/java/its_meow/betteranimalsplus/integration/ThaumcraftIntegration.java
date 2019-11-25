@@ -2,6 +2,7 @@ package its_meow.betteranimalsplus.integration;
 
 import its_meow.betteranimalsplus.init.ModBlocks;
 import its_meow.betteranimalsplus.init.ModItems;
+import its_meow.betteranimalsplus.util.HeadTypes;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import thaumcraft.api.ThaumcraftApi;
@@ -55,5 +56,11 @@ public class ThaumcraftIntegration {
 		ThaumcraftApi.registerEntityTag("betteranimalsplus.boar", new AspectList().add(Aspect.BEAST, 35).add(Aspect.AVERSION, 35).add(Aspect.EARTH, 35));
 		ThaumcraftApi.registerEntityTag("betteranimalsplus.jellyfish", new AspectList().add(Aspect.BEAST, 5).add(Aspect.WATER, 5).add(Aspect.AVERSION, 5));
 		ThaumcraftApi.registerEntityTag("betteranimalsplus.lamprey", new AspectList().add(Aspect.BEAST, 5).add(Aspect.WATER, 5).add(Aspect.AVERSION, 5));
+		ThaumcraftApi.registerEntityTag("betteranimalsplus.songbird", new AspectList().add(Aspect.BEAST, 5).add(Aspect.AIR, 5).add(Aspect.FLIGHT, 5));
+		ThaumcraftApi.registerEntityTag("betteranimalsplus.squirrel", new AspectList().add(Aspect.BEAST, 5).add(Aspect.DESIRE, 5).add(Aspect.EARTH, 5));
+		ThaumcraftApi.registerEntityTag("betteranimalsplus.badger", new AspectList().add(Aspect.BEAST, 10).add(Aspect.AVERSION, 10).add(Aspect.EARTH, 10));
+		ThaumcraftApi.registerEntityTag("betteranimalsplus.feralwolf", new AspectList().add(Aspect.BEAST, 20).add(Aspect.AVERSION, 20).add(Aspect.DARKNESS, 20));
+		ThaumcraftApi.registerEntityTag("betteranimalsplus.coyote", new AspectList().add(Aspect.BEAST, 20).add(Aspect.AVERSION, 20).add(Aspect.DARKNESS, 20));
+		ThaumcraftApi.registerEntityTag("betteranimalsplus.shark", new AspectList().add(Aspect.BEAST, 35).add(Aspect.WATER, 35).add(Aspect.DARKNESS, 35).add(Aspect.AVERSION, 35));
 	}
 }
