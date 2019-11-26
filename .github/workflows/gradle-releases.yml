@@ -1,4 +1,4 @@
-name: Build Commit
+name: Build Release
 
 on:
   push:
@@ -48,11 +48,11 @@ jobs:
       uses: itsmeow/webhook-action@master
       env:
         WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
-        data: "{\"embeds\":[{\"title\":\"Release Build\",\"url\":\"${{ steps.create_release.outputs.html_url }}\",\"description\":\"Branch: ${{ github.event[0].base.ref }}\\nTag: ${{ steps.build.outputs.version }}\\nStatus: Successful\",\"color\":65280,\"author\":{\"name\":\"${{ github.event.user.login }}\",\"url\":\"${{ github.event.user.html_url }}\",\"icon_url\":\"${{ github.event.user.avatar_url }}\"}}]}"
+        data: "{\"embeds\":[{\"title\":\"Release Build\",\"url\":\"${{ steps.create_release.outputs.html_url }}\",\"description\":\"Branch: ${{ github.event.base.ref }}\\nTag: ${{ steps.build.outputs.version }}\\nStatus: Successful\",\"color\":65280,\"author\":{\"name\":\"${{ github.event.user.login }}\",\"url\":\"${{ github.event.user.html_url }}\",\"icon_url\":\"${{ github.event.user.avatar_url }}\"}}]}"
     - name: Build Fail
       id: build-fail
       if: failure()
       uses: itsmeow/webhook-action@master
       env:
-        data: "{\"embeds\":[{\"title\":\"Release Build\",\"url\":\"${{ steps.create_release.outputs.html_url }}\",\"description\":\"Branch: ${{ github.event[0].base.ref }}\\nTag: ${{ steps.build.outputs.version }}\\nStatus: Failed\",\"color\":16711680,\"author\":{\"name\":\"${{ github.event.user.login }}\",\"url\":\"${{ github.event.user.html_url }}\",\"icon_url\":\"${{ github.event.user.avatar_url }}\"}}]}"
+        data: "{\"embeds\":[{\"title\":\"Release Build\",\"url\":\"${{ steps.create_release.outputs.html_url }}\",\"description\":\"Branch: ${{ github.event.base.ref }}\\nTag: ${{ steps.build.outputs.version }}\\nStatus: Failed\",\"color\":16711680,\"author\":{\"name\":\"${{ github.event.user.login }}\",\"url\":\"${{ github.event.user.html_url }}\",\"icon_url\":\"${{ github.event.user.avatar_url }}\"}}]}"
         WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
