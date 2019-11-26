@@ -1,3 +1,44 @@
+8.0.0
+-
+- Add moose
+- Add turkey
+- Add new songbird variant
+- Add pheasant egg
+- Add turkey egg
+- Add fried egg
+- Add turkey legs
+- Add edible turkey block
+- Update models for Feral Wolf (and heads)
+- Lower reindeer health to 30
+- Split coyote head into its own head (on 1.14 this will request an ID change, you WILL lose any coyote heads upon updating!)
+- Add polish translation (slightly out of date)
+- Fix being able to breed pheasant with wheat instead of pumpkin seeds
+- Make deer drops better (always drop 2 antlers, sometimes venison)
+- Fix coyote dropping wolf pelts
+- Removed broken update checker
+- 1.12: Fix fox dropping wolf pelts
+- 1.12: Add oredictionary support to taming items config (format: "ore:oreName")
+- 1.12: Add Thaumcraft 6 Aspects
+- 1.12: Fix crash from Boar eating crops before the world is loaded
+- 1.12: Fix cascading worldgen lag
+- 1.12: Fix strange desync with lamprey
+- 1.14: Fix heads, hand of fate, and trillium not dropping ever
+- 1.14: Add campfire and smoker recipes for most cookables
+- 1.14: Make nautilus by default despawn again (oops!)
+- 1.14: Add Crab Rave support for Essential Features' Portable Jukebox
+- 1.14: Fix crash when placing heads on tall grass or two-high plants
+- 1.14: Internally rewrite configs and entity registration
+- 1.14: Fix config not always generating with modded biomes (delete configs to get a new one)
+- 1.14: Added waterlogging support for heads and hand of fate
+- 1.14: Fix tame items config not working
+- 1.14: Add tag support for tame item config (format: "#tagdomain:tagname")
+- 1.14: Fix some water mobs spawning on land
+- 1.14: Fix 'Unknown custom packet identifier' warnings in log
+
+7.1.2
+-
+- 1.14: Fixed crashes for forge 1.14.4-28.1.0+
+
 7.1.1
 -
 - Sharks will now retaliate
