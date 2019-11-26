@@ -35,6 +35,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Food;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Hand;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.text.StringTextComponent;
@@ -213,6 +214,11 @@ public class EntityCoyote extends EntityFeralWolf {
         } else {
             return false;
         }
+    }
+
+    @Override
+    protected ResourceLocation getLootTable() {
+        return null;
     }
 
 }
