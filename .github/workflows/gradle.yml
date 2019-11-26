@@ -7,6 +7,8 @@ on:
     - 'LICENSE'
     - '.github/**'
     - 'src/main/resources/**'
+    tags-ignore:
+    - '[0-9]+.[0-9]+.[0-9]+'
 
 jobs:
   build:
