@@ -3,6 +3,8 @@ package its_meow.betteranimalsplus;
 import java.io.File;
 import java.util.function.Supplier;
 
+import its_meow.betteranimalsplus.integration.ThaumcraftIntegration;
+import net.minecraftforge.common.MinecraftForge;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -121,6 +123,11 @@ public class BetterAnimalsPlusMod {
             // fuk u JVM get rekt
             Supplier<Supplier<Runnable>> registerBaubleHandler = () -> () -> BaubleIntegration::preInit;
             registerBaubleHandler.get().get().run();
+        }
+        if (Loader.isModLoaded("thaumcraft")) {
+            // fuk u JVM get rekt pt 2
+            Supplier<Runnable> registerTCHandler = () -> () -> MinecraftForge.EVENT_BUS.register(new ThaumcraftIntegration());
+            registerTCHandler.get().run();
         }
     }
 
