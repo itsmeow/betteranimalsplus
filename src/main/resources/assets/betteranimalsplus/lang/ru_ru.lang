@@ -1,5 +1,5 @@
 #Creative Tabs
-itemGroup.Better Animals+=Better Animals Plus
+itemGroup.Better Animals+=Better Animals+
 
 #Items
 item.betteranimalsplus.venisonraw.name=Сырая оленина
@@ -25,6 +25,11 @@ item.betteranimalsplus.bear_cape_kermode.name=Медвежий плащ (кер�
 item.betteranimalsplus.bear_skin_brown.name=Шкура бурого медведя
 item.betteranimalsplus.bear_skin_black.name=Шкура черного медведя
 item.betteranimalsplus.bear_skin_kermode.name=Шкура кермодского медведя
+item.betteranimalsplus.pheasant_egg.name=Яйцо фазана
+item.betteranimalsplus.turkey_egg.name=Яйцо индейки
+item.betteranimalsplus.turkey_leg_raw.name=Сырая ножка индейки
+item.betteranimalsplus.turkey_leg_cooked.name=Приготовленная Ножка Индейки
+item.betteranimalsplus.fried_egg.name=Жареное яйцо
 #Blocks
 tile.betteranimalsplus.trillium.name=Триллиум
 tile.betteranimalsplus.hirschgeistskull.name=Череп Хиршгейста
@@ -35,6 +40,12 @@ tile.betteranimalsplus.reindeerhead.name=Голова северного оле�
 tile.betteranimalsplus.foxhead.name=Голова лисы
 tile.betteranimalsplus.boarhead.name=Голова кабана
 tile.betteranimalsplus.bearhead.name=Голова медведя
+tile.betteranimalsplus.moosehead.name=Голова лося
+tile.betteranimalsplus.coyotehead.name=Голова койота
+tile.betteranimalsplus.turkey_raw.name=Сырая индейка
+tile.betteranimalsplus.turkey_cooked.name=Приготовленная индейка
+tile.betteranimalsplus.turkey_eaten_raw.name=Сырая наполовину съеденная индейка
+tile.betteranimalsplus.turkey_eaten_cooked.name=Приготовленная наполовину съеденная индейка
 #Entities
 entity.betteranimalsplus.brownbear.name=Бурый медведь
 entity.betteranimalsplus.blackbear.name=Черный медведь
@@ -58,3 +69,5 @@ entity.betteranimalsplus.nautilus.name=Наутилус
 entity.betteranimalsplus.crab.name=Краб
 entity.betteranimalsplus.horseshoecrab.name=Мечехвост
 entity.betteranimalsplus.shark.name=Акула
+entity.betteranimalsplus.moose.name=Лось
+entity.betteranimalsplus.turkey.name=Индейка
