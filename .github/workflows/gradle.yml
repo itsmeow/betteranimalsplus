@@ -1,6 +1,14 @@
 name: Java CI
 
-on: [push]
+on:
+  push:
+    paths-ignore:
+    - '*.md'
+    - 'LICENSE'
+    - '.github/**'
+    - 'src/main/resources/**'
+    tags-ignore:
+    - '[0-9]+.[0-9]+.[0-9]+-[0-9]+.[0-9]+.[0-9]+'
 
 jobs:
   build:
@@ -17,6 +25,8 @@ jobs:
       run: chmod 777 gradlew
     - name: Build with Gradle
       id: build
+      env:
+        USE_ALPHAS: true
       run: ./gradlew setupGithubActions build
     - name: Create a Release
       id: create_release
