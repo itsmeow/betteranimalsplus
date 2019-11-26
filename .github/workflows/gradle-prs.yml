@@ -23,4 +23,6 @@ jobs:
       run: chmod 777 gradlew
     - name: Build with Gradle
       id: build
+      env:
+        USE_ALPHAS: false
       run: ./gradlew build
