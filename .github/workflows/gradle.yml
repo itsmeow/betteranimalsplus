@@ -2,6 +2,8 @@ name: Java CI
 
 on:
   push:
+    branches: 
+    - 1.14
     paths-ignore:
     - '*.md'
     - 'LICENSE'
