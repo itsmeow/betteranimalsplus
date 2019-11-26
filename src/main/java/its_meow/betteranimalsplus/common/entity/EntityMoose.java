@@ -3,6 +3,7 @@ package its_meow.betteranimalsplus.common.entity;
 import javax.annotation.Nullable;
 
 import its_meow.betteranimalsplus.common.entity.ai.EntityAIEatGrassCustom;
+import its_meow.betteranimalsplus.init.ModLootTables;
 import its_meow.betteranimalsplus.util.HeadTypes;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.crash.CrashReport;
@@ -22,6 +23,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ReportedException;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
@@ -128,6 +130,11 @@ public class EntityMoose extends EntityAnimalEatsGrassWithTypes {
         blockpos$pooledmutableblockpos.release();
         blockpos$pooledmutableblockpos1.release();
         blockpos$pooledmutableblockpos2.release();
+    }
+
+    @Override
+    protected ResourceLocation getLootTable() {
+        return ModLootTables.MOOSE;
     }
 
     @Override
