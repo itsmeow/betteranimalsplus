@@ -17,10 +17,16 @@ public class ModOreDictSmelting {
         // Register oredict
         OreDictionary.registerOre("listAllmeatraw", ModItems.VENISON_RAW);
         OreDictionary.registerOre("listAllmeatcooked", ModItems.VENISON_COOKED);
+        OreDictionary.registerOre("listAllmeatraw", ModItems.TURKEY_RAW);
+        OreDictionary.registerOre("listAllmeatcooked", ModItems.TURKEY_COOKED);
+        OreDictionary.registerOre("listAllmeatraw", ModItems.TURKEY_LEG_RAW);
+        OreDictionary.registerOre("listAllmeatcooked", ModItems.TURKEY_LEG_COOKED);
         OreDictionary.registerOre("listAllmeatraw", ModItems.PHEASANT_RAW);
         OreDictionary.registerOre("listAllmeatcooked", ModItems.PHEASANT_COOKED);
         OreDictionary.registerOre("listAllvenisonraw", ModItems.VENISON_RAW);
         OreDictionary.registerOre("listAllvenisoncooked", ModItems.VENISON_COOKED);
+        OreDictionary.registerOre("listAllfishraw", ModItems.CRAB_MEAT_RAW);
+        OreDictionary.registerOre("listAllfishcooked", ModItems.CRAB_MEAT_COOKED);
         OreDictionary.registerOre("listAllMilk", ModItems.GOAT_MILK);
         OreDictionary.registerOre("listAllGoatMilk", ModItems.GOAT_MILK);
         OreDictionary.registerOre("foodGoatMilk", ModItems.GOAT_MILK);

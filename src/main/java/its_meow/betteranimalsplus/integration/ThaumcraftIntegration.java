@@ -38,6 +38,8 @@ public class ThaumcraftIntegration {
 		event.register.registerObjectTag(new ItemStack(ModItems.VENISON_COOKED), new AspectList().add(Aspect.CRAFT, 5).add(Aspect.LIFE, 5).add(Aspect.PROTECT, 5));
 		event.register.registerObjectTag(new ItemStack(ModItems.VENISON_RAW), new AspectList().add(Aspect.BEAST, 5).add(Aspect.LIFE, 5).add(Aspect.PROTECT, 5));
 		
+		event.register.registerObjectTag(new ItemStack(ModItems.HIRSCHGEIST_SKULL_WEARABLE), new AspectList().add(Aspect.SOUL, 25).add(Aspect.CRAFT, 25).add(Aspect.MAGIC, 25));
+		
 		event.register.registerObjectTag(new ItemStack(ModItems.GOAT_MILK), new AspectList().add(Aspect.METAL, 33).add(Aspect.LIFE, 10).add(Aspect.VOID, 5).add(Aspect.BEAST, 5).add(Aspect.WATER, 5));
 		event.register.registerObjectTag(new ItemStack(ModItems.GOAT_CHEESE), new AspectList().add(Aspect.BEAST, 5).add(Aspect.LIFE, 5).add(Aspect.CRAFT, 5));
 		
@@ -49,6 +51,39 @@ public class ThaumcraftIntegration {
 		event.register.registerObjectTag(new ItemStack(ModBlocks.TURKEY_COOKED), new AspectList().add(Aspect.CRAFT, 5).add(Aspect.LIFE, 5).add(Aspect.DESIRE, 5));
 		event.register.registerObjectTag(new ItemStack(ModBlocks.TURKEY_EATEN_COOKED), new AspectList().add(Aspect.CRAFT, 3).add(Aspect.LIFE, 3).add(Aspect.DESIRE, 3));
 		event.register.registerObjectTag(new ItemStack(ModBlocks.HAND_OF_FATE), new AspectList().add(Aspect.MAGIC, 40).add(Aspect.SOUL, 40).add(Aspect.DESIRE, 40));
+		
+		event.register.registerObjectTag(new ItemStack(HeadTypes.BEARHEAD.getItem(1)), new AspectList().add(Aspect.BEAST, 25).add(Aspect.SOUL, 25).add(Aspect.CRAFT, 25));
+		event.register.registerObjectTag(new ItemStack(HeadTypes.BEARHEAD.getItem(2)), new AspectList().add(Aspect.BEAST, 25).add(Aspect.SOUL, 25).add(Aspect.CRAFT, 25));
+		event.register.registerObjectTag(new ItemStack(HeadTypes.BEARHEAD.getItem(3)), new AspectList().add(Aspect.BEAST, 25).add(Aspect.SOUL, 25).add(Aspect.CRAFT, 25));
+		
+		event.register.registerObjectTag(new ItemStack(HeadTypes.BOARHEAD.getItem(1)), new AspectList().add(Aspect.BEAST, 25).add(Aspect.SOUL, 25).add(Aspect.CRAFT, 25));
+		event.register.registerObjectTag(new ItemStack(HeadTypes.BOARHEAD.getItem(2)), new AspectList().add(Aspect.BEAST, 25).add(Aspect.SOUL, 25).add(Aspect.CRAFT, 25));
+		event.register.registerObjectTag(new ItemStack(HeadTypes.BOARHEAD.getItem(3)), new AspectList().add(Aspect.BEAST, 25).add(Aspect.SOUL, 25).add(Aspect.CRAFT, 25));
+		event.register.registerObjectTag(new ItemStack(HeadTypes.BOARHEAD.getItem(4)), new AspectList().add(Aspect.BEAST, 25).add(Aspect.SOUL, 25).add(Aspect.CRAFT, 25));
+		
+		event.register.registerObjectTag(new ItemStack(HeadTypes.MOOSEHEAD.getItem(1)), new AspectList().add(Aspect.BEAST, 25).add(Aspect.SOUL, 25).add(Aspect.CRAFT, 25));
+		event.register.registerObjectTag(new ItemStack(HeadTypes.MOOSEHEAD.getItem(2)), new AspectList().add(Aspect.BEAST, 25).add(Aspect.SOUL, 25).add(Aspect.CRAFT, 25));
+		event.register.registerObjectTag(new ItemStack(HeadTypes.MOOSEHEAD.getItem(3)), new AspectList().add(Aspect.BEAST, 25).add(Aspect.SOUL, 25).add(Aspect.CRAFT, 25));
+		event.register.registerObjectTag(new ItemStack(HeadTypes.MOOSEHEAD.getItem(4)), new AspectList().add(Aspect.BEAST, 25).add(Aspect.SOUL, 25).add(Aspect.CRAFT, 25));
+		
+		event.register.registerObjectTag(new ItemStack(HeadTypes.DEERHEAD.getItem(1)), new AspectList().add(Aspect.BEAST, 25).add(Aspect.SOUL, 25).add(Aspect.CRAFT, 25));
+		event.register.registerObjectTag(new ItemStack(HeadTypes.DEERHEAD.getItem(2)), new AspectList().add(Aspect.BEAST, 25).add(Aspect.SOUL, 25).add(Aspect.CRAFT, 25));
+		
+		event.register.registerObjectTag(new ItemStack(HeadTypes.REINDEERHEAD.getItem(1)), new AspectList().add(Aspect.BEAST, 25).add(Aspect.SOUL, 25).add(Aspect.CRAFT, 25));
+		event.register.registerObjectTag(new ItemStack(HeadTypes.REINDEERHEAD.getItem(2)), new AspectList().add(Aspect.BEAST, 25).add(Aspect.SOUL, 25).add(Aspect.CRAFT, 25));
+		event.register.registerObjectTag(new ItemStack(HeadTypes.REINDEERHEAD.getItem(3)), new AspectList().add(Aspect.BEAST, 25).add(Aspect.SOUL, 25).add(Aspect.CRAFT, 25));
+		event.register.registerObjectTag(new ItemStack(HeadTypes.REINDEERHEAD.getItem(4)), new AspectList().add(Aspect.BEAST, 25).add(Aspect.SOUL, 25).add(Aspect.CRAFT, 25));
+		
+		event.register.registerObjectTag(new ItemStack(HeadTypes.FOXHEAD.getItem(1)), new AspectList().add(Aspect.BEAST, 25).add(Aspect.SOUL, 25).add(Aspect.CRAFT, 25));
+		event.register.registerObjectTag(new ItemStack(HeadTypes.FOXHEAD.getItem(2)), new AspectList().add(Aspect.BEAST, 25).add(Aspect.SOUL, 25).add(Aspect.CRAFT, 25));
+		event.register.registerObjectTag(new ItemStack(HeadTypes.FOXHEAD.getItem(3)), new AspectList().add(Aspect.BEAST, 25).add(Aspect.SOUL, 25).add(Aspect.CRAFT, 25));
+		event.register.registerObjectTag(new ItemStack(HeadTypes.FOXHEAD.getItem(4)), new AspectList().add(Aspect.BEAST, 25).add(Aspect.SOUL, 25).add(Aspect.CRAFT, 25));
+		
+		event.register.registerObjectTag(new ItemStack(HeadTypes.WOLFHEAD.getItem(1)), new AspectList().add(Aspect.BEAST, 25).add(Aspect.SOUL, 25).add(Aspect.CRAFT, 25));
+		event.register.registerObjectTag(new ItemStack(HeadTypes.WOLFHEAD.getItem(2)), new AspectList().add(Aspect.BEAST, 25).add(Aspect.SOUL, 25).add(Aspect.CRAFT, 25));
+		event.register.registerObjectTag(new ItemStack(HeadTypes.WOLFHEAD.getItem(3)), new AspectList().add(Aspect.BEAST, 25).add(Aspect.SOUL, 25).add(Aspect.CRAFT, 25));
+		
+		event.register.registerObjectTag(new ItemStack(HeadTypes.COYOTEHEAD.getItem(1)), new AspectList().add(Aspect.BEAST, 25).add(Aspect.SOUL, 25).add(Aspect.CRAFT, 25));
 		
 		ThaumcraftApi.registerEntityTag("betteranimalsplus.lammergeier", new AspectList().add(Aspect.BEAST, 5).add(Aspect.DEATH, 5).add(Aspect.FLIGHT, 5));
 		ThaumcraftApi.registerEntityTag("betteranimalsplus.turkey", new AspectList().add(Aspect.BEAST, 5).add(Aspect.DESIRE, 5).add(Aspect.AIR, 5));
