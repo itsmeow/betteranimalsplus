@@ -14,7 +14,9 @@ import thaumcraft.api.aspects.AspectRegistryEvent;
  * Created by Joseph on 11/22/2019.
  */
 public class ThaumcraftIntegration {
-	@SubscribeEvent
+
+	@SuppressWarnings("deprecation")
+    @SubscribeEvent
 	public void aspectRegistrationEvent(AspectRegistryEvent event) {
 		event.register.registerObjectTag(new ItemStack(ModItems.PHEASANT_EGG), new AspectList().add(Aspect.BEAST, 5).add(Aspect.LIFE, 5));
 		event.register.registerObjectTag(new ItemStack(ModItems.TURKEY_EGG), new AspectList().add(Aspect.BEAST, 5).add(Aspect.LIFE, 5));
