@@ -122,7 +122,13 @@ if(System.getenv('USE_ALPHAS').equals('true')) {
 	    }
 	}
 } else {
-	task setupGithubActions() {}
+	task setupGithubActions() {
+        doLast {
+	        exec {
+	            commandLine "echo", "##[set-output name=version;]${project.version}";
+	        }
+	    }
+    }
 	version = "${project.mc_version}-${project.mod_version}"
 }
 

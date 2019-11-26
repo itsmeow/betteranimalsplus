@@ -22,14 +22,15 @@ jobs:
       id: build
       env:
         USE_ALPHAS: false
-      run: ./gradlew build
+      run: ./gradlew setupGithubActions build
     - name: Create a Release
       id: create_release
       uses: actions/create-release@v1.0.0
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        release_name: betteranimalsplus-${{ github.ref }}
+        tag_name: ${{ github.ref }}
+        release_name: betteranimalsplus-${{ steps.build.outputs.version }}
         draft: false
         prerelease: false
     - name: Upload Release Asset
@@ -39,19 +40,19 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: build/libs/betteranimalsplus-${{ github.ref }}.jar
-        asset_name: betteranimalsplus-${{ github.ref }}.jar
+        asset_path: build/libs/betteranimalsplus-${{ steps.build.outputs.version }}.jar
+        asset_name: betteranimalsplus-${{ steps.build.outputs.version }}.jar
         asset_content_type: application/java-archive
     - name: Build Success
       id: build-success
       uses: itsmeow/webhook-action@master
       env:
         WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
-        data: "{\"embeds\":[{\"title\":\"Release Build\",\"url\":\"${{ steps.create_release.outputs.html_url }}\",\"description\":\"Branch: ${{ github.event[0].base.ref }}\nTag: ${{ github.ref }}\nStatus: Successful\",\"color\":65280,\"author\":{\"name\":\"${{ github.event[0].user.login }}\",\"url\":\"${{ github.event[0].user.html_url }}\",\"icon_url\":\"${{ github.event[0].user.avatar_url }}\"}}]}"
+        data: "{\"embeds\":[{\"title\":\"Release Build\",\"url\":\"${{ steps.create_release.outputs.html_url }}\",\"description\":\"Branch: ${{ github.event[0].base.ref }}\\nTag: ${{ steps.build.outputs.version }}\\nStatus: Successful\",\"color\":65280,\"author\":{\"name\":\"${{ github.event.user.login }}\",\"url\":\"${{ github.event.user.html_url }}\",\"icon_url\":\"${{ github.event.user.avatar_url }}\"}}]}"
     - name: Build Fail
       id: build-fail
       if: failure()
       uses: itsmeow/webhook-action@master
       env:
-        data: "{\"embeds\":[{\"title\":\"Release Build\",\"url\":\"${{ steps.create_release.outputs.html_url }}\",\"description\":\"Branch: ${{ github.event[0].base.ref }}\nTag: ${{ github.ref }}\nStatus: Failed\",\"color\":16711680,\"author\":{\"name\":\"${{ github.event[0].user.login }}\",\"url\":\"${{ github.event[0].user.html_url }}\",\"icon_url\":\"${{ github.event[0].user.avatar_url }}\"}}]}"
+        data: "{\"embeds\":[{\"title\":\"Release Build\",\"url\":\"${{ steps.create_release.outputs.html_url }}\",\"description\":\"Branch: ${{ github.event[0].base.ref }}\\nTag: ${{ steps.build.outputs.version }}\\nStatus: Failed\",\"color\":16711680,\"author\":{\"name\":\"${{ github.event.user.login }}\",\"url\":\"${{ github.event.user.html_url }}\",\"icon_url\":\"${{ github.event.user.avatar_url }}\"}}]}"
         WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
