@@ -12,7 +12,7 @@ public class LayerEyesTamed<T extends EntityTameable> extends LayerEyes<T> {
 
     @Override
     public void doRenderLayer(T entity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
-        if(entity.isTamed()) {
+        if(!entity.isTamed()) {
             super.doRenderLayer(entity, limbSwing, limbSwingAmount, partialTicks, ageInTicks, netHeadYaw, headPitch, scale);
         }
     }
