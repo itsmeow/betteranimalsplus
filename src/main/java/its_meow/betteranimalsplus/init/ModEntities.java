@@ -31,6 +31,7 @@ import its_meow.betteranimalsplus.common.entity.EntitySongbird;
 import its_meow.betteranimalsplus.common.entity.EntitySquirrel;
 import its_meow.betteranimalsplus.common.entity.EntityTarantula;
 import its_meow.betteranimalsplus.common.entity.EntityTurkey;
+import its_meow.betteranimalsplus.common.entity.EntityZotzpyre;
 import its_meow.betteranimalsplus.common.entity.miniboss.hirschgeist.EntityHirschgeist;
 import its_meow.betteranimalsplus.config.BetterAnimalsPlusConfig;
 import its_meow.betteranimalsplus.util.EntityTypeContainer;
@@ -148,6 +149,9 @@ public class ModEntities {
         public static final EntityTypeContainer<EntityTurkey> TURKEY = setupContainer(new EntityTypeContainer<EntityTurkey>(EntityTurkey.class, EntityTurkey::new, "turkey",
                 EntityClassification.CREATURE, 0x857445, 0x5099ba, 11, 1, 3, 1F, 1F, false, null,
                 () -> BiomeDictionary.getBiomes(Type.FOREST).stream().filter(biome -> !BiomeDictionary.getTypes(biome).contains(Type.SNOWY)).collect(Collectors.toList()).toArray(new Biome[0])));
+        public static final EntityTypeContainer<EntityZotzpyre> ZOTZPYRE = setupContainer(new EntityTypeContainer<EntityZotzpyre>(EntityZotzpyre.class, EntityZotzpyre::new, "zotzpyre",
+                EntityClassification.AMBIENT, 0x321e13, 0x543a28, 10, 1, 1, 1F, 1F, true, null,
+                Type.FOREST, Type.JUNGLE, Type.BEACH, Type.CONIFEROUS, Type.LUSH, Type.WASTELAND, Type.SWAMP, Type.HILLS, Type.MOUNTAIN));
 
     /*
      * ##########################################################

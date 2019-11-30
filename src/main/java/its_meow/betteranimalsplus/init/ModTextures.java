@@ -180,4 +180,12 @@ public class ModTextures {
     public static final ResourceLocation turkey_3 = new ResourceLocation(entitytex + "turkey_3.png");
     public static final ResourceLocation turkey_4 = new ResourceLocation(entitytex + "turkey_4.png");
 
+    // Zotzpyre Variants
+    public static final ResourceLocation zotzpyre_1 = new ResourceLocation(entitytex + "zotzpyre_1.png");
+    public static final ResourceLocation zotzpyre_2 = new ResourceLocation(entitytex + "zotzpyre_2.png");
+    public static final ResourceLocation zotzpyre_3 = new ResourceLocation(entitytex + "zotzpyre_3.png");
+    public static final ResourceLocation zotzpyre_4 = new ResourceLocation(entitytex + "zotzpyre_4.png");
+    public static final ResourceLocation zotzpyre_5 = new ResourceLocation(entitytex + "zotzpyre_5.png");
+    public static final ResourceLocation zotzpyre_eyes = new ResourceLocation(entitytex + "zotzpyre_eyes.png");
+
 }

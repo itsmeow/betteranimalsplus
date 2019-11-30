@@ -30,6 +30,7 @@ public class LayerEyes<T extends MobEntity, A extends EntityModel<T>> extends La
             GlStateManager.disableAlphaTest();
             GlStateManager.blendFunc(GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ONE);
             GlStateManager.depthMask(false);
+
             int i = 240;
             int j = i % 65536;
             int k = i / 65536;
