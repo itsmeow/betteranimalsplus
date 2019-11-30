@@ -29,6 +29,7 @@ import its_meow.betteranimalsplus.common.entity.EntitySongbird;
 import its_meow.betteranimalsplus.common.entity.EntitySquirrel;
 import its_meow.betteranimalsplus.common.entity.EntityTarantula;
 import its_meow.betteranimalsplus.common.entity.EntityTurkey;
+import its_meow.betteranimalsplus.common.entity.EntityZotzpyre;
 import its_meow.betteranimalsplus.common.entity.miniboss.hirschgeist.EntityHirschgeist;
 import its_meow.betteranimalsplus.config.BetterAnimalsPlusConfig;
 import its_meow.betteranimalsplus.util.EntityContainer;
@@ -72,6 +73,7 @@ public class ModEntities {
         add(EntityShark.class, "shark", EnumCreatureType.WATER_CREATURE, 0x787878, 0xbdbdbd, BetterAnimalsPlusConfig.sharkWeight, 1, 1, true, null, Type.OCEAN);
         add(EntityMoose.class, "moose", EnumCreatureType.CREATURE, 0x46351c, 0x97866e, BetterAnimalsPlusConfig.mooseWeight, 1, 1, false, null, () -> {List<Biome> list = BiomeDictionary.getBiomes(Type.SWAMP).stream().collect(Collectors.toList());list.add(Biomes.REDWOOD_TAIGA); list.add(Biomes.REDWOOD_TAIGA_HILLS);list.add(Biomes.MUTATED_REDWOOD_TAIGA);list.add(Biomes.MUTATED_REDWOOD_TAIGA_HILLS);return list.toArray(new Biome[0]);});
         add(EntityTurkey.class, "turkey", EnumCreatureType.CREATURE, 0x857445, 0x5099ba, BetterAnimalsPlusConfig.turkeyWeight, 2, 5, false, null, () -> BiomeDictionary.getBiomes(Type.FOREST).stream().filter(biome -> !BiomeDictionary.getTypes(biome).contains(Type.SNOWY)).collect(Collectors.toList()).toArray(new Biome[0]));
+        add(EntityZotzpyre.class, "zotzpyre", EnumCreatureType.AMBIENT, 0x321e13, 0x543a28, 10, 1, 1, true, null, Type.FOREST, Type.JUNGLE, Type.BEACH, Type.CONIFEROUS, Type.LUSH, Type.WASTELAND, Type.SWAMP, Type.HILLS, Type.MOUNTAIN);
     }
     
     /**

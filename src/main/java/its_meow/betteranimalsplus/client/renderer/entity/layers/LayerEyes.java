@@ -28,12 +28,6 @@ public class LayerEyes<T extends EntityLiving> implements LayerRenderer<T> {
             GlStateManager.blendFunc(GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ONE);
             GlStateManager.depthMask(false);
 
-            if (entity.isInvisible()) {
-                GlStateManager.depthMask(false);
-            } else {
-                GlStateManager.depthMask(true);
-            }
-
             int i = 240;
             int j = i % 65536;
             int k = i / 65536;
