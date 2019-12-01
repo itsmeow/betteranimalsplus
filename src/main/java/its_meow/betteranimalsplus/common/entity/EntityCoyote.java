@@ -39,6 +39,7 @@ import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemMonsterPlacer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.EnumDifficulty;
@@ -228,6 +229,11 @@ public class EntityCoyote extends EntityFeralWolf {
         } else {
             return false;
         }
+    }
+
+    @Override
+    protected ResourceLocation getLootTable() {
+        return null;
     }
 
 }

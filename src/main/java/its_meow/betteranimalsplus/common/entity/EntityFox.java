@@ -2,8 +2,6 @@ package its_meow.betteranimalsplus.common.entity;
 
 import java.util.UUID;
 
-import javax.annotation.Nullable;
-
 import com.google.common.base.Predicates;
 
 import its_meow.betteranimalsplus.util.HeadTypes;
@@ -41,13 +39,11 @@ import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.EnumParticleTypes;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
-import net.minecraft.world.storage.loot.LootTableList;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -148,19 +144,10 @@ public class EntityFox extends EntityTameableWithTypes {
 		return SoundEvents.ENTITY_WOLF_DEATH;
 	}
 
-	/**
-	 * Returns the volume for the sounds this mob makes.
-	 */
 	 @Override
 	 protected float getSoundVolume() {
 		 return 0.4F;
 	 }
-
-	@Override
-	@Nullable
-	protected ResourceLocation getLootTable() {
-		return LootTableList.ENTITIES_WOLF;
-	}
 
 	@Override
 	public float getEyeHeight() {
