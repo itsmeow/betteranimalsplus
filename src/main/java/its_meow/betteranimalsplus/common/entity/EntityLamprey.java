@@ -54,6 +54,7 @@ public class EntityLamprey extends EntityWaterMobWithTypes implements IMob {
         blackList.add(EndermanEntity.class);
         blackList.add(EntityHirschgeist.class);
         blackList.add(EntityJellyfish.class);
+        blackList.add(EntityBobbitWorm.class);
         this.targetSelector.addGoal(0, new NearestAttackableTargetGoal<LivingEntity>(this, LivingEntity.class, 100, true, true, e -> e instanceof LivingEntity && !(e instanceof IMob) && !(e instanceof EntityLamprey) && !(blackList.contains(e.getClass()))));
     }
 

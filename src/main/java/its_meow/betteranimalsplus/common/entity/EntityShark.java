@@ -46,7 +46,7 @@ public class EntityShark extends EntitySharkBase implements IVariantTypes {
         this.goalSelector.addGoal(1, new LookAtGoal(this, LivingEntity.class, 15F));
         this.goalSelector.addGoal(2, new RandomWalkingGoal(this, 0.65D));
         this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<LivingEntity>(this, LivingEntity.class, 100, false, false, e -> {
-            if(e instanceof EntitySharkBase) return false;
+            if(e instanceof EntitySharkBase || e instanceof EntityBobbitWorm) return false;
             if(e instanceof PlayerEntity) return shouldAttackForHealth(e.getHealth());
             return true;
         }));

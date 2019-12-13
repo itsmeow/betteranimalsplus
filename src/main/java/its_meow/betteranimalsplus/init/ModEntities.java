@@ -13,6 +13,7 @@ import its_meow.betteranimalsplus.common.entity.EntityBadger;
 import its_meow.betteranimalsplus.common.entity.EntityBear;
 import its_meow.betteranimalsplus.common.entity.EntityBearNeutral;
 import its_meow.betteranimalsplus.common.entity.EntityBoar;
+import its_meow.betteranimalsplus.common.entity.EntityBobbitWorm;
 import its_meow.betteranimalsplus.common.entity.EntityCoyote;
 import its_meow.betteranimalsplus.common.entity.EntityCrab;
 import its_meow.betteranimalsplus.common.entity.EntityDeer;
@@ -152,6 +153,9 @@ public class ModEntities {
         public static final EntityTypeContainer<EntityZotzpyre> ZOTZPYRE = setupContainer(new EntityTypeContainer<EntityZotzpyre>(EntityZotzpyre.class, EntityZotzpyre::new, "zotzpyre",
                 EntityClassification.AMBIENT, 0x321e13, 0x543a28, 10, 1, 1, 1F, 1F, true, null,
                 Type.FOREST, Type.JUNGLE, Type.BEACH, Type.CONIFEROUS, Type.LUSH, Type.WASTELAND, Type.SWAMP, Type.HILLS, Type.MOUNTAIN));
+        public static final EntityTypeContainer<EntityBobbitWorm> BOBBIT_WORM = setupContainer(new EntityTypeContainer<EntityBobbitWorm>(EntityBobbitWorm.class, EntityBobbitWorm::new, "bobbit_worm",
+                EntityClassification.WATER_CREATURE, 0xffe38f, 0x0f27bf, 2, 1, 1, 1F, 1F, true, null,
+                Type.OCEAN));
 
     /*
      * ##########################################################

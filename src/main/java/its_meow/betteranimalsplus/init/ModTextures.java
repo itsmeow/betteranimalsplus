@@ -187,5 +187,9 @@ public class ModTextures {
     public static final ResourceLocation zotzpyre_4 = new ResourceLocation(entitytex + "zotzpyre_4.png");
     public static final ResourceLocation zotzpyre_5 = new ResourceLocation(entitytex + "zotzpyre_5.png");
     public static final ResourceLocation zotzpyre_eyes = new ResourceLocation(entitytex + "zotzpyre_eyes.png");
+    
+    // Bobbit Worm Variants
+    public static final ResourceLocation bobbit_worm_1 = new ResourceLocation(entitytex + "bobbit_worm_1.png");
+    public static final ResourceLocation bobbit_worm_2 = new ResourceLocation(entitytex + "bobbit_worm_2.png");
 
 }
