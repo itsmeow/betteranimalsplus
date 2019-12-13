@@ -4,6 +4,8 @@ import its_meow.betteranimalsplus.common.entity.EntityZotzpyre;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLiving;
+import net.minecraft.util.math.MathHelper;
 
 /**
  * zotzpyre - cybercat5555
@@ -20,7 +22,7 @@ public class ModelZotzpyre extends ModelBase {
     public ModelRenderer mane03;
     public ModelRenderer mane04;
     public ModelRenderer lLeg01;
-    public ModelRenderer lLeg01_1;
+    public ModelRenderer rLeg01;
     public ModelRenderer tail01;
     public ModelRenderer lLeg02;
     public ModelRenderer lClaw01;
@@ -29,8 +31,8 @@ public class ModelZotzpyre extends ModelBase {
     public ModelRenderer lClaw04;
     public ModelRenderer lClaw05;
     public ModelRenderer rLeg02;
-    public ModelRenderer lClaw01_1;
-    public ModelRenderer lClaw02_1;
+    public ModelRenderer rClaw01;
+    public ModelRenderer rClaw02;
     public ModelRenderer rClaw03;
     public ModelRenderer rClaw04;
     public ModelRenderer rClaw05;
@@ -114,6 +116,7 @@ public class ModelZotzpyre extends ModelBase {
         this.rWingMembrane03.mirror = true;
         this.rWingMembrane03.setRotationPoint(0.2F, 0.0F, 1.0F);
         this.rWingMembrane03.addBox(-6.0F, -0.01F, 0.0F, 16, 0, 18, 0.0F);
+        this.rWingMembrane03.offsetY = -0.03F;
         this.setRotateAngle(rWingMembrane03, 0.0F, 0.40142572795869574F, 0.0F);
         this.lowerJaw = new ModelRenderer(this, 62, 8);
         this.lowerJaw.setRotationPoint(0.0F, 1.6F, -3.8F);
@@ -143,11 +146,11 @@ public class ModelZotzpyre extends ModelBase {
         this.nose.setRotationPoint(0.0F, 0.6F, -3.0F);
         this.nose.addBox(-1.5F, -3.0F, 0.0F, 3, 3, 0, 0.0F);
         this.setRotateAngle(nose, 0.10471975511965977F, 0.0F, 0.0F);
-        this.lClaw01_1 = new ModelRenderer(this, 97, 0);
-        this.lClaw01_1.mirror = true;
-        this.lClaw01_1.setRotationPoint(-0.2F, 7.8F, -0.8F);
-        this.lClaw01_1.addBox(-4.0F, -1.0F, -0.5F, 4, 2, 1, 0.0F);
-        this.setRotateAngle(lClaw01_1, 0.13962634015954636F, -0.6108652381980153F, -0.3490658503988659F);
+        this.rClaw01 = new ModelRenderer(this, 97, 0);
+        this.rClaw01.mirror = true;
+        this.rClaw01.setRotationPoint(-0.2F, 7.8F, -0.8F);
+        this.rClaw01.addBox(-4.0F, -1.0F, -0.5F, 4, 2, 1, 0.0F);
+        this.setRotateAngle(rClaw01, 0.13962634015954636F, -0.6108652381980153F, -0.3490658503988659F);
         this.rWing01 = new ModelRenderer(this, 43, 20);
         this.rWing01.mirror = true;
         this.rWing01.setRotationPoint(-4.5F, -2.2F, -7.0F);
@@ -174,11 +177,11 @@ public class ModelZotzpyre extends ModelBase {
         this.rWingMembrane02.setRotationPoint(-5.1F, 0.0F, 0.0F);
         this.rWingMembrane02.addBox(-6.0F, -0.0F, 0.0F, 12, 0, 26, 0.0F);
         this.setRotateAngle(rWingMembrane02, 0.0F, 0.5759586531581287F, 0.0F);
-        this.lClaw02_1 = new ModelRenderer(this, 97, 0);
-        this.lClaw02_1.mirror = true;
-        this.lClaw02_1.setRotationPoint(-1.2F, 7.8F, -0.6F);
-        this.lClaw02_1.addBox(-3.7F, -1.0F, -0.5F, 4, 2, 1, 0.0F);
-        this.setRotateAngle(lClaw02_1, 0.0F, -0.2617993877991494F, -0.3490658503988659F);
+        this.rClaw02 = new ModelRenderer(this, 97, 0);
+        this.rClaw02.mirror = true;
+        this.rClaw02.setRotationPoint(-1.2F, 7.8F, -0.6F);
+        this.rClaw02.addBox(-3.7F, -1.0F, -0.5F, 4, 2, 1, 0.0F);
+        this.setRotateAngle(rClaw02, 0.0F, -0.2617993877991494F, -0.3490658503988659F);
         this.rClaw05 = new ModelRenderer(this, 97, 0);
         this.rClaw05.mirror = true;
         this.rClaw05.setRotationPoint(-0.8F, 7.8F, 0.8F);
@@ -250,11 +253,11 @@ public class ModelZotzpyre extends ModelBase {
         this.rClaw03.setRotationPoint(-1.3F, 7.7F, 0.0F);
         this.rClaw03.addBox(-3.7F, -1.0F, -0.5F, 4, 2, 1, 0.0F);
         this.setRotateAngle(rClaw03, 0.0F, 0.0F, -0.3490658503988659F);
-        this.lLeg01_1 = new ModelRenderer(this, 73, 0);
-        this.lLeg01_1.mirror = true;
-        this.lLeg01_1.setRotationPoint(-3.2F, -1.6F, 5.6F);
-        this.lLeg01_1.addBox(-8.5F, -2.0F, -1.5F, 9, 4, 3, 0.0F);
-        this.setRotateAngle(lLeg01_1, 0.0F, -0.45378560551852565F, 0.03490658503988659F);
+        this.rLeg01 = new ModelRenderer(this, 73, 0);
+        this.rLeg01.mirror = true;
+        this.rLeg01.setRotationPoint(-3.2F, -1.6F, 5.6F);
+        this.rLeg01.addBox(-8.5F, -2.0F, -1.5F, 9, 4, 3, 0.0F);
+        this.setRotateAngle(rLeg01, 0.0F, -0.45378560551852565F, 0.03490658503988659F);
         this.rTeeth = new ModelRenderer(this, 63, 0);
         this.rTeeth.mirror = true;
         this.rTeeth.setRotationPoint(-0.4F, 1.3F, -0.8F);
@@ -292,6 +295,7 @@ public class ModelZotzpyre extends ModelBase {
         this.lWingMembrane03 = new ModelRenderer(this, 64, 46);
         this.lWingMembrane03.setRotationPoint(0.2F, 0.0F, 1.0F);
         this.lWingMembrane03.addBox(-10.0F, -0.01F, 0.0F, 16, 0, 18, 0.0F);
+        this.lWingMembrane03.offsetY = -0.03F;
         this.setRotateAngle(lWingMembrane03, 0.0F, -0.40142572795869574F, 0.0F);
         this.head.addChild(this.snout);
         this.rWing02.addChild(this.rFinger);
@@ -305,20 +309,20 @@ public class ModelZotzpyre extends ModelBase {
         this.chest.addChild(this.mane03);
         this.rWing02.addChild(this.rWingMembrane03);
         this.head.addChild(this.lowerJaw);
-        this.lLeg01_1.addChild(this.rLeg02);
+        this.rLeg01.addChild(this.rLeg02);
         this.lWing03.addChild(this.lWing04);
         this.snout.addChild(this.upperJaw02);
         this.tail01.addChild(this.tail01Membrane);
         this.head.addChild(this.rEar01);
         this.snout.addChild(this.nose);
-        this.rLeg02.addChild(this.lClaw01_1);
+        this.rLeg02.addChild(this.rClaw01);
         this.chest.addChild(this.rWing01);
         this.stomach.addChild(this.tail01);
         this.snout.addChild(this.upperJaw01);
         this.chest.addChild(this.mane04);
         this.chest.addChild(this.mane01);
         this.rWing02.addChild(this.rWingMembrane02);
-        this.rLeg02.addChild(this.lClaw02_1);
+        this.rLeg02.addChild(this.rClaw02);
         this.rLeg02.addChild(this.rClaw05);
         this.lLeg02.addChild(this.lClaw04);
         this.head.addChild(this.lEar01);
@@ -335,7 +339,7 @@ public class ModelZotzpyre extends ModelBase {
         this.lWing03.addChild(this.lWingMembrane01);
         this.chest.addChild(this.stomach);
         this.rLeg02.addChild(this.rClaw03);
-        this.stomach.addChild(this.lLeg01_1);
+        this.stomach.addChild(this.rLeg01);
         this.upperJaw02.addChild(this.rTeeth);
         this.lLeg02.addChild(this.lClaw02);
         this.upperJaw01.addChild(this.lTeeth);
@@ -357,98 +361,48 @@ public class ModelZotzpyre extends ModelBase {
         if(entity instanceof EntityZotzpyre) {
             EntityZotzpyre zotz = (EntityZotzpyre) entity;
             if((zotz.motionX > 0.05 || zotz.motionZ > 0.05) && !zotz.isRiding() || (!zotz.isRiding() && !zotz.onGround)) {
-                this.setRotateAngle(lWingMembrane03, 0.0F, -0.40142572795869574F, 0.0F);
                 this.setRotateAngle(lLeg01, 1.3962634015954636F, 0.08726646259971647F, 0.40142572795869574F);
-                this.setRotateAngle(rClaw05, -0.13962634015954636F, 0.6108652381980153F, -0.3490658503988659F);
-                this.setRotateAngle(lClaw03, 0.0F, 0.0F, 0.3490658503988659F);
-                this.setRotateAngle(mane03, -0.05235987755982988F, 0.0F, 0.0F);
-                this.setRotateAngle(lTeeth, 0.13962634015954636F, 0.0F, 0.0F);
                 this.setRotateAngle(lWing03, 0.0F, -0.9599310885968813F, 0.0F);
-                this.setRotateAngle(lClaw04, 0.0F, -0.2617993877991494F, 0.3490658503988659F);
-                this.setRotateAngle(lClaw02_1, 0.0F, -0.2617993877991494F, -0.3490658503988659F);
-                this.setRotateAngle(upperJaw01, -0.2617993877991494F, 0.13962634015954636F, 0.0F);
-                this.setRotateAngle(lFinger, 0.0F, -0.40142572795869574F, 0.6283185307179586F);
-                this.setRotateAngle(rEar02, 0.20943951023931953F, 0.0F, 0.17453292519943295F);
-                this.setRotateAngle(lWingMembrane01, 0.0F, -0.2617993877991494F, 0.0F);
-                this.setRotateAngle(rEar01, 0.0F, 0.13962634015954636F, -0.3490658503988659F);
-                this.setRotateAngle(lClaw02, 0.0F, 0.2617993877991494F, 0.3490658503988659F);
-                this.setRotateAngle(chest, 0.05235987755982988F, 0.0F, 0.0F);
-                this.setRotateAngle(lClaw05, -0.13962634015954636F, -0.6108652381980153F, 0.3490658503988659F);
-                this.setRotateAngle(nose, 0.10471975511965977F, 0.0F, 0.0F);
-                this.setRotateAngle(rWingMembrane01, 0.0F, 0.2617993877991494F, 0.0F);
-                this.setRotateAngle(rWingMembrane03, 0.0F, 0.40142572795869574F, 0.0F);
                 this.setRotateAngle(lWing02, 0.0F, 0.5235987755982988F, 0.0F);
-                this.setRotateAngle(head, -0.08726646259971647F, 0.0F, 0.0F);
-                this.setRotateAngle(mane02, 0.12217304763960307F, 0.0F, 0.0F);
-                this.setRotateAngle(lLeg01_1, 1.3962634015954636F, -0.08726646259971647F, -0.40142572795869574F);
-                this.setRotateAngle(lWing04, 0.0F, -0.3490658503988659F, 0.0F);
+                this.setRotateAngle(rLeg01, 1.3962634015954636F, -0.08726646259971647F, -0.40142572795869574F);
                 this.setRotateAngle(rWing03, 0.0F, 0.9599310885968813F, 0.0F);
-                this.setRotateAngle(lEar01, 0.0F, -0.13962634015954636F, 0.3490658503988659F);
                 this.setRotateAngle(rWing02, 0.0F, -0.5235987755982988F, 0.0F);
-                this.setRotateAngle(rWing04, 0.0F, 0.3490658503988659F, 0.0F);
-                this.setRotateAngle(upperJaw02, -0.2617993877991494F, -0.13962634015954636F, 0.0F);
-                this.setRotateAngle(stomach, -0.13962634015954636F, 0.0F, 0.0F);
-                this.setRotateAngle(rTeeth, 0.13962634015954636F, 0.0F, 0.0F);
-                this.setRotateAngle(snout, 0.2617993877991494F, 0.0F, 0.0F);
-                this.setRotateAngle(neck, 0.08726646259971647F, 0.0F, 0.0F);
-                this.setRotateAngle(rClaw03, 0.0F, 0.0F, -0.3490658503988659F);
-                this.setRotateAngle(rClaw04, 0.0F, 0.2617993877991494F, -0.3490658503988659F);
-                this.setRotateAngle(mane04, 0.08726646259971647F, 0.0F, 0.0F);
-                this.setRotateAngle(lClaw01_1, 0.13962634015954636F, -0.6108652381980153F, -0.3490658503988659F);
-                this.setRotateAngle(lClaw01, 0.13962634015954636F, 0.6108652381980153F, 0.3490658503988659F);
-                this.setRotateAngle(rFinger, 0.0F, 0.40142572795869574F, -0.6283185307179586F);
-                this.setRotateAngle(mane01, 0.2617993877991494F, 0.0F, 0.0F);
-                this.setRotateAngle(lEar02, 0.20943951023931953F, 0.0F, -0.17453292519943295F);
-            } else {
-                this.setRotateAngle(snout, 0.2617993877991494F, 0.0F, 0.0F);
-                this.setRotateAngle(rFinger, 0.0F, 0.40142572795869574F, -0.6283185307179586F);
+                
+                //
+                this.setRotateAngle(tail01, 0.0F, 0.0F, 0.0F);
+                this.setRotateAngle(tail02, 0.0F, 0.0F, 0.0F);
+                this.setRotateAngle(rWingMembrane02, 0.0F, 0.0F, 0.0F);
+                this.setRotateAngle(lWingMembrane02, 0.0F, 0.0F, 0.0F);
+                this.setRotateAngle(lWing01, 0.0F, 0.0F, 0.0F);
+                this.setRotateAngle(rWing01, 0.0F, 0.0F, 0.0F);
+                
+                //
                 this.setRotateAngle(head, -0.08726646259971647F, 0.0F, 0.0F);
-                this.setRotateAngle(lClaw01, 0.13962634015954636F, 0.6108652381980153F, 0.3490658503988659F);
-                this.setRotateAngle(rClaw04, 0.0F, 0.2617993877991494F, -0.3490658503988659F);
+            } else {
                 this.setRotateAngle(lWing02, 0.3490658503988659F, 0.6981317007977318F, 0.7853981633974483F);
-                this.setRotateAngle(rWingMembrane01, 0.0F, 0.2617993877991494F, 0.0F);
                 this.setRotateAngle(rWing03, 0.0F, 1.9547687622336491F, 0.0F);
-                this.setRotateAngle(mane03, -0.05235987755982988F, 0.0F, 0.0F);
-                this.setRotateAngle(rWingMembrane03, 0.0F, 0.40142572795869574F, 0.0F);
-                this.setRotateAngle(lWing04, 0.0F, -0.3490658503988659F, 0.0F);
-                this.setRotateAngle(upperJaw02, -0.2617993877991494F, -0.13962634015954636F, 0.0F);
-                this.setRotateAngle(rEar01, 0.0F, 0.13962634015954636F, -0.3490658503988659F);
-                this.setRotateAngle(nose, 0.10471975511965977F, 0.0F, 0.0F);
-                this.setRotateAngle(lClaw01_1, 0.13962634015954636F, -0.6108652381980153F, -0.3490658503988659F);
                 this.setRotateAngle(rWing01, -0.13962634015954636F, 0.5759586531581287F, -0.40142572795869574F);
                 this.setRotateAngle(tail01, -0.6283185307179586F, 0.0F, 0.0F);
-                this.setRotateAngle(upperJaw01, -0.2617993877991494F, 0.13962634015954636F, 0.0F);
-                this.setRotateAngle(mane04, 0.08726646259971647F, 0.0F, 0.0F);
-                this.setRotateAngle(mane01, 0.2617993877991494F, 0.0F, 0.0F);
                 this.setRotateAngle(rWingMembrane02, 0.0F, 0.5759586531581287F, 0.0F);
-                this.setRotateAngle(lClaw02_1, 0.0F, -0.2617993877991494F, -0.3490658503988659F);
-                this.setRotateAngle(rClaw05, -0.13962634015954636F, 0.6108652381980153F, -0.3490658503988659F);
-                this.setRotateAngle(lClaw04, 0.0F, -0.2617993877991494F, 0.3490658503988659F);
-                this.setRotateAngle(lEar01, 0.0F, -0.13962634015954636F, 0.3490658503988659F);
-                this.setRotateAngle(lClaw05, -0.13962634015954636F, -0.6108652381980153F, 0.3490658503988659F);
                 this.setRotateAngle(lLeg01, 0.0F, 0.45378560551852565F, -0.03490658503988659F);
-                this.setRotateAngle(mane02, 0.12217304763960307F, 0.0F, 0.0F);
                 this.setRotateAngle(lWingMembrane02, 0.0F, -0.5759586531581287F, 0.0F);
                 this.setRotateAngle(tail02, -0.3141592653589793F, 0.0F, 0.0F);
                 this.setRotateAngle(rWing02, 0.3490658503988659F, -0.6981317007977318F, -0.7853981633974483F);
-                this.setRotateAngle(rEar02, 0.20943951023931953F, 0.0F, 0.17453292519943295F);
-                this.setRotateAngle(chest, 0.05235987755982988F, 0.0F, 0.0F);
                 this.setRotateAngle(lWing01, -0.13962634015954636F, -0.5759586531581287F, 0.40142572795869574F);
                 this.setRotateAngle(lWing03, 0.0F, -1.9547687622336491F, 0.0F);
-                this.setRotateAngle(lWingMembrane01, 0.0F, -0.2617993877991494F, 0.0F);
-                this.setRotateAngle(stomach, -0.13962634015954636F, 0.0F, 0.0F);
-                this.setRotateAngle(rClaw03, 0.0F, 0.0F, -0.3490658503988659F);
-                this.setRotateAngle(lLeg01_1, 0.0F, -0.45378560551852565F, 0.03490658503988659F);
-                this.setRotateAngle(rTeeth, 0.13962634015954636F, 0.0F, 0.0F);
-                this.setRotateAngle(lClaw02, 0.0F, 0.2617993877991494F, 0.3490658503988659F);
-                this.setRotateAngle(lTeeth, 0.13962634015954636F, 0.0F, 0.0F);
-                this.setRotateAngle(rWing04, 0.0F, 0.3490658503988659F, 0.0F);
-                this.setRotateAngle(lClaw03, 0.0F, 0.0F, 0.3490658503988659F);
-                this.setRotateAngle(lFinger, 0.0F, -0.40142572795869574F, 0.6283185307179586F);
-                this.setRotateAngle(lEar02, 0.20943951023931953F, 0.0F, -0.17453292519943295F);
-                this.setRotateAngle(neck, 0.08726646259971647F, 0.0F, 0.0F);
-                this.setRotateAngle(lWingMembrane03, 0.0F, -0.40142572795869574F, 0.0F);
+                this.setRotateAngle(rLeg01, 0.0F, -0.45378560551852565F, 0.03490658503988659F);
+                this.lLeg01.rotateAngleX = MathHelper.sin(limbSwing * 0.8665F + (float) Math.PI) * limbSwingAmount;
+                this.rLeg01.rotateAngleX = MathHelper.cos(limbSwing * 0.8665F) * limbSwingAmount;
+                this.lWing01.rotateAngleX = MathHelper.sin(limbSwing * 0.8665F + (float) Math.PI) * limbSwingAmount - 0.13962634015954636F;
+                this.rWing01.rotateAngleX = MathHelper.cos(limbSwing * 0.8665F) * limbSwingAmount - 0.13962634015954636F;
             }
+            if(entity.isRiding()) {
+                this.lowerJaw.rotateAngleX = (float) Math.toRadians(45);
+            } else {
+                this.lowerJaw.rotateAngleX = 0F;
+            }
+            this.neck.rotateAngleX = ModelBetterAnimals.getHeadPitch((EntityLiving) entity) * 0.017453292F;
+            this.neck.rotateAngleY = ModelBetterAnimals.getHeadYaw((EntityLiving) entity) * 0.017453292F;
         }
     }
 
