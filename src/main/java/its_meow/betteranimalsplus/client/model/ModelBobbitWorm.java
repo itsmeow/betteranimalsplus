@@ -366,13 +366,17 @@ public class ModelBobbitWorm extends ModelBase {
         if(entity instanceof EntityBobbitWorm) {
             EntityBobbitWorm worm = (EntityBobbitWorm) entity;
             int attack = worm.getAttackState();
+            
+            float add = entity.getUniqueID().hashCode() * 0.001F;
             if(attack > 0) {
                 float angle = ((30 - attack) % 60) * 0.04F + 0.3839724354387525F;
                 this.lMandible00.rotateAngleY = angle;
                 this.rMandible00.rotateAngleY = -angle;
             } else {
-                this.lMandible00.rotateAngleY = 0.3839724354387525F;
-                this.rMandible00.rotateAngleY = -0.3839724354387525F;
+                float mul = 0.1F;
+                float div = 40F;
+                this.lMandible00.rotateAngleY = (float) Math.cos(ageInTicks * (mul + 0.03F) + add) / div + 0.3839724354387525F;
+                this.rMandible00.rotateAngleY = (float) Math.cos(ageInTicks * (mul) + add) / div - 0.3839724354387525F;
             }
             this.body.rotateAngleX = 0;
             this.body.offsetY = 0;
@@ -384,7 +388,6 @@ public class ModelBobbitWorm extends ModelBase {
             }
             float mul = 0.3F;
             float div = 20F;
-            float add = entity.getUniqueID().hashCode() * 0.001F;
             this.lAntenna00.rotateAngleX = (float) Math.cos(ageInTicks * (mul + 0.05F) + add) / div;
             this.lAntenna01.rotateAngleX = (float) Math.cos(ageInTicks * mul + add) / div;
             this.mAntenna.rotateAngleX = (float) Math.cos(ageInTicks * (mul + 0.1F) + add) / div;
