@@ -1,5 +1,8 @@
 package its_meow.betteranimalsplus.client.model;
 
+import its_meow.betteranimalsplus.common.entity.EntityShark;
+import its_meow.betteranimalsplus.util.ModMathHelper;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
@@ -222,16 +225,22 @@ public class ModelShark extends ModelBase {
 
     @Override
     public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) {
-        if ((Math.abs(entity.motionY) > 0 && (Math.abs(entity.motionX) > 0.05 || Math.abs(entity.motionZ) > 0.05)) || Math.abs(entity.motionY) > 0.25) {
-            float rotX = -((float) Math.atan(entity.motionY / Math.sqrt(Math.pow(entity.motionX, 2) + Math.pow(entity.motionZ, 2))) / 1.5F);
-            if (rotX < 0) {
-                rotX /= 3;
+        if(entity instanceof EntityShark) {
+            EntityShark shark = (EntityShark) entity;
+            if ((Math.abs(entity.motionY) > 0.01 && (Math.abs(entity.motionX) > 0.01 || Math.abs(entity.motionZ) > 0.01)) || Math.abs(entity.motionY) > 0.03) {
+                float rotX = -((float) Math.atan(entity.motionY / Math.sqrt(Math.pow(entity.motionX, 2) + Math.pow(entity.motionZ, 2))) / 1.5F);
+                if (rotX < 0) {
+                    rotX /= 2;
+                }
+                rotX += 0.022863813201125717F;
+                rotX = ModMathHelper.interpolateRotation(shark.lastBodyRotation, rotX, Minecraft.getMinecraft().getRenderPartialTicks());
+                this.body.rotateAngleX = rotX;
+                shark.lastBodyRotation = rotX;
+            } else {
+                this.body.rotateAngleX = 0.022863813201125717F;
             }
-            this.body.rotateAngleX = rotX + 0.022863813201125717F;
-        } else {
-            this.body.rotateAngleX = 0.022863813201125717F;
         }
-        if(entity.motionX > 0.02F || entity.motionZ > 0.02F) {
+        if(entity.motionX > 0.02F || entity.motionZ > 0.02F || Math.abs(entity.motionY) > 0.02F) {
             float mul = 100F;
             this.tail00.rotateAngleY = MathHelper.cos(f2 * 0.0025F * mul) * 0.15F;
             this.tail01.rotateAngleY = MathHelper.cos(f2 * 0.0025F * mul) * 0.15F;
