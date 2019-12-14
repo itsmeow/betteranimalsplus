@@ -112,5 +112,6 @@ public class ThaumcraftIntegration {
 		ThaumcraftApi.registerEntityTag("betteranimalsplus.tarantula", new AspectList().add(Aspect.BEAST, 25).add(Aspect.AVERSION, 25).add(Aspect.PROTECT, 25));
 		ThaumcraftApi.registerEntityTag("betteranimalsplus.zotzpyre", new AspectList().add(Aspect.BEAST, 20).add(Aspect.AVERSION, 20).add(Aspect.DARKNESS, 20).add(Aspect.FLIGHT, 20));
 		ThaumcraftApi.registerEntityTag("betteranimalsplus.hirschgeist", new AspectList().add(Aspect.SOUL, 35).add(Aspect.MAGIC, 35).add(Aspect.DARKNESS, 35).add(Aspect.FIRE, 35));
+		ThaumcraftApi.registerEntityTag("betteranimalsplus.bobbit_worm", new AspectList().add(Aspect.BEAST, 15).add(Aspect.WATER, 15).add(Aspect.DARKNESS, 15).add(Aspect.AVERSION, 15));
 	}
 }
