@@ -53,6 +53,7 @@ public class EntityLamprey extends EntityWaterMobWithTypes implements IMob {
         blackList.add(EntityEnderman.class);
         blackList.add(EntityHirschgeist.class);
         blackList.add(EntityJellyfish.class);
+        blackList.add(EntityBobbitWorm.class);
         this.targetTasks.addTask(0, new EntityAIFindEntityNearestPredicate(this, EntityLivingBase.class, e -> {
             if(e instanceof EntityLivingBase && !(e instanceof IMob) && !(e instanceof EntityLamprey)) {
                 if(!blackList.contains(e.getClass())) {

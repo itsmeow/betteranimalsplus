@@ -6,6 +6,7 @@ import its_meow.betteranimalsplus.client.renderer.entity.RenderBadgerDirt;
 import its_meow.betteranimalsplus.client.renderer.entity.RenderBear;
 import its_meow.betteranimalsplus.client.renderer.entity.RenderBlackBear;
 import its_meow.betteranimalsplus.client.renderer.entity.RenderBoar;
+import its_meow.betteranimalsplus.client.renderer.entity.RenderBobbitWorm;
 import its_meow.betteranimalsplus.client.renderer.entity.RenderCoyote;
 import its_meow.betteranimalsplus.client.renderer.entity.RenderCrab;
 import its_meow.betteranimalsplus.client.renderer.entity.RenderCustomWolf;
@@ -35,6 +36,7 @@ import its_meow.betteranimalsplus.common.entity.EntityBadger;
 import its_meow.betteranimalsplus.common.entity.EntityBear;
 import its_meow.betteranimalsplus.common.entity.EntityBearNeutral;
 import its_meow.betteranimalsplus.common.entity.EntityBoar;
+import its_meow.betteranimalsplus.common.entity.EntityBobbitWorm;
 import its_meow.betteranimalsplus.common.entity.EntityCoyote;
 import its_meow.betteranimalsplus.common.entity.EntityCrab;
 import its_meow.betteranimalsplus.common.entity.EntityDeer;
@@ -174,6 +176,7 @@ public class ClientRegistrar {
         RenderingRegistry.registerEntityRenderingHandler(EntityTurkey.class, RenderTurkey::new);
         RenderingRegistry.registerEntityRenderingHandler(EntityTurkeyEgg.class, mgr -> new RenderSnowball<EntityTurkeyEgg>(mgr, ModItems.TURKEY_EGG, Minecraft.getMinecraft().getRenderItem()));
         RenderingRegistry.registerEntityRenderingHandler(EntityZotzpyre.class, RenderZotzpyre::new);
+        RenderingRegistry.registerEntityRenderingHandler(EntityBobbitWorm.class, RenderBobbitWorm::new);
     }
 
     public static void initModel(Item item) {

@@ -4,8 +4,6 @@ import java.util.Random;
 
 import javax.annotation.Nullable;
 
-import com.google.common.base.Predicates;
-
 import its_meow.betteranimalsplus.common.entity.ai.EntityAIFindEntityNearestPredicate;
 import its_meow.betteranimalsplus.common.entity.ai.EntityAIWanderWaterEntity;
 import its_meow.betteranimalsplus.init.ModLootTables;
@@ -30,6 +28,7 @@ public class EntityShark extends EntitySharkBase implements IVariantTypes {
     private float lastAttack = 0;
     private float lastGrab = 0;
     private float lastTickHealth = 0;
+    public float lastBodyRotation = 0;
 
     public EntityShark(World world) {
         super(world);
@@ -41,7 +40,7 @@ public class EntityShark extends EntitySharkBase implements IVariantTypes {
         super.initEntityAI();
         this.tasks.addTask(1, new EntityAIWatchClosest(this, EntityLiving.class, 15F));
         this.tasks.addTask(2, new EntityAIWanderWaterEntity(this, 0.65D));
-        this.targetTasks.addTask(1, new EntityAIFindEntityNearestPredicate(this, EntityLiving.class, Predicates.alwaysTrue(), true));
+        this.targetTasks.addTask(1, new EntityAIFindEntityNearestPredicate(this, EntityLiving.class, e -> !(e instanceof EntityBobbitWorm), true));
         this.targetTasks.addTask(1, new EntityAIFindEntityNearestPredicate(this, EntityPlayer.class, e -> this.shouldAttackForHealth(e.getHealth()), true));
     }
 

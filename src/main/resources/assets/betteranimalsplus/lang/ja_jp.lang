@@ -25,7 +25,11 @@ item.betteranimalsplus.bear_cape_kermode.name=スピリットベアのケープ
 item.betteranimalsplus.bear_skin_brown.name=ヒグマの毛皮
 item.betteranimalsplus.bear_skin_black.name=クロクマの毛皮
 item.betteranimalsplus.bear_skin_kermode.name=スピリットベアの毛皮
-
+item.betteranimalsplus.pheasant_egg.name=キジの卵
+item.betteranimalsplus.turkey_egg.name=シチメンチョウの卵
+item.betteranimalsplus.turkey_leg_raw.name=生のシチメンチョウの足
+item.betteranimalsplus.turkey_leg_cooked.name=焼いたシチメンチョウの足
+item.betteranimalsplus.fried_egg.name=目玉焼き
 #Blocks
 tile.betteranimalsplus.trillium.name=エンレイソウ
 tile.betteranimalsplus.hirschgeistskull.name=ヒルシュガイストの頭蓋骨
@@ -36,7 +40,12 @@ tile.betteranimalsplus.reindeerhead.name=トナカイの頭
 tile.betteranimalsplus.foxhead.name=キツネの頭
 tile.betteranimalsplus.boarhead.name=イノシシの頭
 tile.betteranimalsplus.bearhead.name=クマの頭
-
+tile.betteranimalsplus.moosehead.name=ヘラジカの頭
+tile.betteranimalsplus.coyotehead.name=コヨーテの頭
+tile.betteranimalsplus.turkey_raw.name=生のシチメンチョウ肉
+tile.betteranimalsplus.turkey_cooked.name=焼きシチメンチョウ肉
+tile.betteranimalsplus.turkey_eaten_raw.name=食べかけの生のシチメンチョウ肉
+tile.betteranimalsplus.turkey_eaten_cooked.name=食べかけの焼きシチメンチョウ肉
 #Entities
 entity.betteranimalsplus.brownbear.name=ヒグマ
 entity.betteranimalsplus.blackbear.name=クロクマ
@@ -62,3 +71,7 @@ entity.betteranimalsplus.nautilus.name=オウムガイ
 entity.betteranimalsplus.crab.name=カニ
 entity.betteranimalsplus.horseshoecrab.name=カブトガニ
 entity.betteranimalsplus.shark.name=サメ
+entity.betteranimalsplus.moose.name=ヘラジカ
+entity.betteranimalsplus.turkey.name=シチメンチョウ
+entity.betteranimalsplus.zotzpyre.name=ソッツ
+entity.betteranimalsplus.bobbit_worm.name=オニイソメ
