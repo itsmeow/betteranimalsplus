@@ -25,7 +25,12 @@
     "item.betteranimalsplus.bear_cape_kermode": "Медвежий плащ (кермодский)",
     "item.betteranimalsplus.bear_skin_brown": "Шкура бурого медведя",
     "item.betteranimalsplus.bear_skin_black": "Шкура черного медведя",
-    "item.betteranimalsplus.bear_skin_kermode": "Шкура кермодского медведя",
+    "item.betteranimalsplus.bear_skin_kermode": "Шкура кермодского медведя",,
+    "item.betteranimalsplus.pheasant_egg": "Яйцо фазана",
+    "item.betteranimalsplus.turkey_egg": "Яйцо индейки",
+    "item.betteranimalsplus.turkey_leg_raw": "Сырая ножка индейки",
+    "item.betteranimalsplus.turkey_leg_cooked": "Приготовленная Ножка Индейки",
+    "item.betteranimalsplus.fried_egg": "Жареное яйцо",
 
     "_comment2": "Blocks",
     "block.betteranimalsplus.trillium": "Триллиум",
@@ -37,6 +42,10 @@
     "block.betteranimalsplus.foxhead": "Голова лисы",
     "block.betteranimalsplus.boarhead": "Голова кабана",
     "block.betteranimalsplus.bearhead": "Голова медведя",
+    "block.betteranimalsplus.moosehead": "Голова лося",
+    "block.betteranimalsplus.coyotehead": "Голова койота",
+    "block.betteranimalsplus.turkey_raw": "Сырая индейка",
+    "block.betteranimalsplus.turkey_cooked": "Приготовленная индейка",
 
     "_comment3": "Entities",
     "entity.betteranimalsplus.brownbear": "Бурый медведь",
@@ -61,6 +70,8 @@
     "entity.betteranimalsplus.crab": "Краб",
     "entity.betteranimalsplus.horseshoecrab": "Мечехвост",
     "entity.betteranimalsplus.shark": "Акула",
+    "entity.betteranimalsplus.moose": "Лось",
+    "entity.betteranimalsplus.turkey": "Индейка",
 
 	"misc.betteranimalsplus.eggorder": "Яйцо призыва %s"
 }
