@@ -1,3 +1,16 @@
+8.1.0
+-
+- Add zotzpyre
+- Add bobbit worm
+- Revamped shark animations to reduce choppiness
+- Added "Ultimate Succening" advancement for getting succed by a lamprey, bobbit worm, and zotzpyre
+- Added thaumcraft aspects for zotzpyre and bobbit
+- Update Spanish translation to 8.1.0 features
+- Update Russian translation for 8.0.0 features
+- Update Japanese translation for 8.1.0 features
+- Fix some entities with glowing eyes causing water behind them to be invisible
+- Fix rare crash caused by some mods with armor displays and modeled armor (capes/hirschgeist skull). Test case Modern Warfare mod.
+
 8.0.0
 -
 - Add moose
