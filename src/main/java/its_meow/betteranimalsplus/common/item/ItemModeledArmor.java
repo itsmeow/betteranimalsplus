@@ -20,7 +20,7 @@ public abstract class ItemModeledArmor extends ArmorItem {
     @OnlyIn(Dist.CLIENT)
     public <A extends BipedModel<?>> A getArmorModel(LivingEntity entityLiving, ItemStack itemStack, EquipmentSlotType armorSlot, A defaultModel) {
         if (itemStack != null) {
-            if (itemStack.getItem() instanceof ArmorItem) {
+            if (itemStack.getItem() instanceof ArmorItem && defaultModel != null && armorSlot != null) {
                 A armorModel = this.getBaseModelInstance();
                 armorModel = displays(armorModel, armorSlot);
 
