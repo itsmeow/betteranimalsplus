@@ -1,0 +1,64 @@
+{
+    "display": {
+        "title": {
+        	"text": "The Ultimate Succening",
+        	"color": "dark_red",
+        	"bold": true
+        },
+        "description": [
+            {"text":"Get succed by a Lamprey, a bobbit worm, and a zotzpyre\n","color":"gray"},
+            {"text":"I don't think I have any blood left to succ...","italic":true,"color":"white"}
+        ],
+        "icon": {
+            "item": "betteranimalsplus:advancement_icon_succening"
+        },
+        "frame": "challenge",
+        "show_toast": true,
+        "announce_to_chat": true,
+        "hidden": false
+    },
+    "criteria": {
+        "lamprey_succ": {
+            "trigger": "minecraft:entity_hurt_player",
+            "conditions": {
+                "damage": {
+                    "source_entity": {
+                        "type": "betteranimalsplus:lamprey"
+                    }
+                }
+            }
+        },
+        "zotz_succ": {
+            "trigger": "minecraft:entity_hurt_player",
+            "conditions": {
+                "damage": {
+                    "source_entity": {
+                        "type": "betteranimalsplus:zotzpyre"
+                    }
+                }
+            }
+        },
+        "bobbit_succ": {
+            "trigger": "minecraft:entity_hurt_player",
+            "conditions": {
+                "damage": {
+                    "source_entity": {
+                        "type": "betteranimalsplus:bobbit_worm"
+                    }
+                }
+            }
+        }
+    },
+    "requirements": [
+        [
+            "lamprey_succ"
+        ],
+        [
+            "zotz_succ"
+        ],
+        [
+            "bobbit_succ"
+        ]
+    ],
+    "parent": "betteranimalsplus:lamprey_succ"
+}
