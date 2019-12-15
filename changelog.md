@@ -8,6 +8,7 @@
 - Update Spanish translation to 8.1.0 features
 - Update Russian translation for 8.0.0 features
 - Update Japanese translation for 8.1.0 features
+- Update German translation for 8.0.0 features
 - Fix some entities with glowing eyes causing water behind them to be invisible
 - Fix rare crash caused by some mods with armor displays and modeled armor (capes/hirschgeist skull). Test case Modern Warfare mod.
 
