@@ -116,6 +116,7 @@ public class BetterAnimalsPlusRegistrar {
         new ItemAdvancementIcon("advancement_icon_lamprey"),
         new ItemAdvancementIcon("advancement_icon_squirrel"),
         new ItemAdvancementIcon("advancement_icon_badger"),
+        new ItemAdvancementIcon("advancement_icon_succening"),
         new ItemHiddenItem("wolfhead_4")
         );
         
