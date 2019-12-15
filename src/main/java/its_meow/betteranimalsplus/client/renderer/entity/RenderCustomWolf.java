@@ -3,7 +3,7 @@ package its_meow.betteranimalsplus.client.renderer.entity;
 import com.mojang.blaze3d.platform.GlStateManager;
 
 import its_meow.betteranimalsplus.client.model.ModelFeralWolf;
-import its_meow.betteranimalsplus.client.renderer.entity.layers.LayerWolfEyes;
+import its_meow.betteranimalsplus.client.renderer.entity.layers.LayerEyesCondition;
 import its_meow.betteranimalsplus.common.entity.EntityFeralWolf;
 import its_meow.betteranimalsplus.init.ModTextures;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
@@ -14,7 +14,7 @@ public class RenderCustomWolf extends MobRenderer<EntityFeralWolf, ModelFeralWol
 
     public RenderCustomWolf(EntityRendererManager manager) {
         super(manager, new ModelFeralWolf<EntityFeralWolf>(), 0.5F);
-        this.addLayer(new LayerWolfEyes(this));
+        this.addLayer(new LayerEyesCondition<EntityFeralWolf, ModelFeralWolf<EntityFeralWolf>>(this, ModTextures.wolf_eyes, e -> !e.isTamed()));
     }
 
     @Override

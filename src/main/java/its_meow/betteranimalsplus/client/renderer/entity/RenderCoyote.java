@@ -3,7 +3,7 @@ package its_meow.betteranimalsplus.client.renderer.entity;
 import com.mojang.blaze3d.platform.GlStateManager;
 
 import its_meow.betteranimalsplus.client.model.ModelCoyote;
-import its_meow.betteranimalsplus.client.renderer.entity.layers.LayerCoyoteEyes;
+import its_meow.betteranimalsplus.client.renderer.entity.layers.LayerEyesCondition;
 import its_meow.betteranimalsplus.common.entity.EntityCoyote;
 import its_meow.betteranimalsplus.config.BetterAnimalsPlusConfig;
 import its_meow.betteranimalsplus.init.ModTextures;
@@ -15,7 +15,7 @@ public class RenderCoyote extends MobRenderer<EntityCoyote, ModelCoyote<EntityCo
 
     public RenderCoyote(EntityRendererManager manager) {
         super(manager, new ModelCoyote<EntityCoyote>(), 0.5F);
-        this.addLayer(new LayerCoyoteEyes(this));
+        this.addLayer(new LayerEyesCondition<EntityCoyote, ModelCoyote<EntityCoyote>>(this, ModTextures.coyote_eyes, e -> !e.isTamed() && !(e.isDaytime() && !BetterAnimalsPlusConfig.coyotesHostileDaytime)));
     }
     
     @Override
