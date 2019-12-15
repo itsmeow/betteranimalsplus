@@ -193,6 +193,17 @@ public class EntityLamprey extends EntityWaterMobWithTypes implements IMob {
             }
         }
     }
+    
+    public void dismountAndSync() {
+        Entity mount = this.getRidingEntity();
+        this.dismountEntity(mount);
+        this.dismountRidingEntity();
+        for(EntityPlayerMP player : this.world.getMinecraftServer().getPlayerList().getPlayers()) {
+            if(player.world == this.world && player.getDistance(this) <= 128) {
+                player.connection.sendPacket(new SPacketSetPassengers(mount));
+            }
+        }
+    }
 
     @Override
     public boolean shouldDismountInWater(Entity rider) {
@@ -204,7 +215,7 @@ public class EntityLamprey extends EntityWaterMobWithTypes implements IMob {
             if(entity == this.getAttackTarget() && !this.isRidingOrBeingRiddenBy(entity) && this.inWater) {
                 this.startRiding(entity);
                 for(EntityPlayerMP player : this.world.getMinecraftServer().getPlayerList().getPlayers()) {
-                    if(player.world == this.world && player.getDistance(this) <= 64) {
+                    if(player.world == this.world && player.getDistance(this) <= 128) {
                         player.connection.sendPacket(new SPacketSetPassengers(entity));
                     }
                 }

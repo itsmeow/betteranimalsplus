@@ -86,13 +86,7 @@ public class EntityZotzpyre extends EntityAnimalWithTypes {
     public void onUpdate() {
         super.onUpdate();
         if(!this.world.isRemote && this.isDead && this.isRiding() || (!this.world.isRemote && this.isRiding() && this.getRidingEntity().isDead)) {
-            Entity riding = this.getRidingEntity();
             this.dismountZotz();
-            for(EntityPlayerMP player : this.world.getMinecraftServer().getPlayerList().getPlayers()) {
-                if(player.world == this.world && player.getDistance(this) <= 64) {
-                    player.connection.sendPacket(new SPacketSetPassengers(riding));
-                }
-            }
         }
         if(!this.world.isRemote) {
             this.setBesideClimbableBlock(this.collidedHorizontally);
@@ -218,9 +212,16 @@ public class EntityZotzpyre extends EntityAnimalWithTypes {
     }
     
     public void dismountZotz() {
+        Entity mount = this.getRidingEntity();
+        this.dismountEntity(mount);
         this.isFromZotz = true;
         this.dismountRidingEntity();
         this.isFromZotz  = false;
+        for(EntityPlayerMP player : this.world.getMinecraftServer().getPlayerList().getPlayers()) {
+            if(player.world == this.world && player.getDistance(this) <= 128) {
+                player.connection.sendPacket(new SPacketSetPassengers(mount));
+            }
+        }
     }
 
     @Override
@@ -280,15 +281,7 @@ public class EntityZotzpyre extends EntityAnimalWithTypes {
             return false;
         } else {
             if(amount > 3 && this.isRiding()) {
-                Entity riding = this.getRidingEntity();
                 this.dismountZotz();
-                if(world != null && !world.isRemote) {
-                    for(EntityPlayerMP player : this.world.getMinecraftServer().getPlayerList().getPlayers()) {
-                        if(player.world == this.world && player.getDistance(this) <= 64) {
-                            player.connection.sendPacket(new SPacketSetPassengers(riding));
-                        }
-                    }
-                }
             }
 
             return super.attackEntityFrom(source, amount);
