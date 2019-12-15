@@ -46,12 +46,6 @@
     "block.betteranimalsplus.coyotehead": "Kojote-Kopf",
     "block.betteranimalsplus.turkey_raw": "Roher Truthahn",
     "block.betteranimalsplus.turkey_cooked": "Gekochter Truthahn",
-    "block.betteranimalsplus.boarhead": "Eberkopf",
-    "block.betteranimalsplus.bearhead": "Bärenkopf",
-    "entity.betteranimalsplus.deer": "Hirsch",
-    "entity.betteranimalsplus.lammergeier": "Lammergeier",
-    "entity.betteranimalsplus.feralwolf": "Wilder Wolf",
-    "entity.betteranimalsplus.coyote": "Kojote",
 
     "_comment3": "Entities",
     "entity.betteranimalsplus.brownbear": "Braunbär",
@@ -59,7 +53,7 @@
     "entity.betteranimalsplus.deer": "Hirsch",
     "entity.betteranimalsplus.lammergeier": "Bartgeier",
     "entity.betteranimalsplus.feralwolf": "Wilder Wolf",
-    "entity.betteranimalsplus.coyote": "Präriehund",
+    "entity.betteranimalsplus.coyote": "Kojote",
     "entity.betteranimalsplus.tarantula": "Vogelspinne",
     "entity.betteranimalsplus.hirschgeist": "Hirschgeist",
     "entity.betteranimalsplus.goat": "Ziege",
@@ -77,6 +71,6 @@
     "entity.betteranimalsplus.shark": "Hai",
     "entity.betteranimalsplus.moose": "Elch",
     "entity.betteranimalsplus.turkey": "Truthahn",
-	
+
     "misc.betteranimalsplus.eggorder": "%s-Spawn-Ei"
 }
