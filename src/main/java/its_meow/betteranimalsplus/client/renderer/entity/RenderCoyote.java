@@ -1,7 +1,7 @@
 package its_meow.betteranimalsplus.client.renderer.entity;
 
 import its_meow.betteranimalsplus.client.model.ModelCoyote;
-import its_meow.betteranimalsplus.client.renderer.entity.layers.LayerEyesTamed;
+import its_meow.betteranimalsplus.client.renderer.entity.layers.LayerEyesCondition;
 import its_meow.betteranimalsplus.common.entity.EntityCoyote;
 import its_meow.betteranimalsplus.config.BetterAnimalsPlusConfig;
 import its_meow.betteranimalsplus.init.ModTextures;
@@ -13,7 +13,7 @@ public class RenderCoyote extends RenderLiving<EntityCoyote> {
 
     public RenderCoyote(RenderManager manager) {
         super(manager, new ModelCoyote(), 0.5F);
-        this.addLayer(new LayerEyesTamed<EntityCoyote>(this, ModTextures.coyote_eyes));
+        this.addLayer(new LayerEyesCondition<EntityCoyote>(this, ModTextures.coyote_eyes, e -> !e.isTamed() && !(e.isDaytime() && !BetterAnimalsPlusConfig.coyotesHostileDaytime)));
     }
     
     @Override
