@@ -26,6 +26,11 @@
 	"item.betteranimalsplus.bear_cape_brown": "ヒグマのケープ",
     "item.betteranimalsplus.bear_cape_black": "クロクマのケープ",
     "item.betteranimalsplus.bear_cape_kermode": "スピリットベアのケープ",
+    "item.betteranimalsplus.pheasant_egg": "キジの卵",
+    "item.betteranimalsplus.turkey_egg": "シチメンチョウの卵",
+    "item.betteranimalsplus.turkey_leg_raw": "生のシチメンチョウの足",
+    "item.betteranimalsplus.turkey_leg_cooked": "焼いたシチメンチョウの足",
+    "item.betteranimalsplus.fried_egg": "目玉焼き",
 
     "_comment": "Blocks",
     "block.betteranimalsplus.trillium": "エンレイソウ",
@@ -36,6 +41,10 @@
     "block.betteranimalsplus.reindeerhead": "トナカイの頭",
     "block.betteranimalsplus.boarhead": "イノシシの頭",
     "block.betteranimalsplus.bearhead": "クマの頭",
+    "block.betteranimalsplus.moosehead": "ヘラジカの頭",
+    "block.betteranimalsplus.coyotehead": "コヨーテの頭",
+    "block.betteranimalsplus.turkey_raw": "生のシチメンチョウ肉",
+    "block.betteranimalsplus.turkey_cooked": "焼きシチメンチョウ肉",
 
     "_comment": "Entities",
     "entity.betteranimalsplus.brownbear": "ヒグマ",
@@ -61,6 +70,10 @@
     "entity.betteranimalsplus.crab": "カニ",
     "entity.betteranimalsplus.horseshoecrab": "カブトガニ",
     "entity.betteranimalsplus.shark": "サメ",
+    "entity.betteranimalsplus.moose": "ヘラジカ",
+    "entity.betteranimalsplus.turkey": "シチメンチョウ",
+    "entity.betteranimalsplus.zotzpyre": "ソッツ",
+    "entity.betteranimalsplus.bobbit_worm": "オニイソメ",
 	
 	"misc.betteranimalsplus.eggorder": "%sのスポーンエッグ"
 }
