@@ -34,6 +34,7 @@ public class EntityShark extends EntitySharkBase implements IVariantTypes {
     private float lastAttack = 0;
     private float lastGrab = 0;
     private float lastTickHealth = 0;
+    public float lastBodyRotation = 0;
 
     public EntityShark(World world) {
         super(ModEntities.SHARK.entityType, world);
