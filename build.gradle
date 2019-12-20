@@ -99,12 +99,12 @@ if(System.getenv('USE_ALPHAS').equals('true')) {
             log = log + "[`" + commit.abbreviatedId + "`](https://github.com/itsmeow/betteranimalsplus/commit/" + commit.id + ") " + commit.shortMessage + " - " + commit.author.name + "\\n";
         }
 	    doLast {
-	        /*exec {
+	        exec {
 	            commandLine "echo", "##[set-output name=version;]${project.version}";
 	        }
 	        exec {
 	            commandLine "echo", "##[set-output name=commitlog;]" + "{\"embeds\":[{\"author\":{\"name\":\"itsmeow\",\"url\":\"https://itsmeow.dev/\",\"icon_url\":\"https://itsmeow.dev/icon.png\"},\"title\":\"betteranimalsplus-alpha-${project.version}\",\"url\":\"https://github.com/itsmeow/betteranimalsplus/releases/tag/alpha-${project.version}\",\"color\":14700288,\"description\":\"" + log + "\"}]}";
-	        }*/
+	        }
 	    }
 	}
 } else {
