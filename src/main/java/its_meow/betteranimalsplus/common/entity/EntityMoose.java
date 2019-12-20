@@ -136,6 +136,11 @@ public class EntityMoose extends EntityAnimalEatsGrassWithTypes {
     }
 
     @Override
+    public boolean canBreatheUnderwater() {
+        return true;
+    }
+
+    @Override
     protected ResourceLocation getLootTable() {
         return ModLootTables.MOOSE;
     }
