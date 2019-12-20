@@ -203,7 +203,7 @@ public class EntityZotzpyre extends EntityAnimalWithTypes {
             if(!this.isRiding()) {
                 this.startRiding(entity, true);
                 for(EntityPlayerMP player : this.world.getMinecraftServer().getPlayerList().getPlayers()) {
-                    if(player.world == this.world && player.getDistance(this) <= 64) {
+                    if(player.world == this.world && player.getDistance(this) <= 128) {
                         player.connection.sendPacket(new SPacketSetPassengers(entity));
                     }
                 }
