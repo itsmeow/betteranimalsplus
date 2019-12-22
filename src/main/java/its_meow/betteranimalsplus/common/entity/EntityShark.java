@@ -90,8 +90,8 @@ public class EntityShark extends EntitySharkBase {
             boolean isBoat = this.getAttackTarget() instanceof PlayerEntity && this.getAttackTarget().getRidingEntity() != null && this.getAttackTarget().getRidingEntity() instanceof BoatEntity;
             float grabDelay = isBoat ? 20F : 60F;
             if(this.getPassengers().contains(this.getAttackTarget())) {
-                float time = 80F;
-                time *= 5F * (Math.random() + 1F);
+                float time = 30F;
+                time *= (Math.random() + 1F);
                 if(this.lastAttack + time < this.ticksExisted) {
                     this.attackEntityAsMob(this.getAttackTarget());
                 }
