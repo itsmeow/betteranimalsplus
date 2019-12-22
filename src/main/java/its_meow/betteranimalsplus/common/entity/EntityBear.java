@@ -24,6 +24,7 @@ import net.minecraft.entity.monster.MonsterEntity;
 import net.minecraft.entity.passive.ChickenEntity;
 import net.minecraft.entity.passive.PigEntity;
 import net.minecraft.entity.passive.RabbitEntity;
+import net.minecraft.entity.passive.fish.SalmonEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
@@ -57,6 +58,8 @@ public class EntityBear extends MonsterEntity {
         this.goalSelector.addGoal(5, new RandomWalkingGoal(this, 1.0D));
         this.goalSelector.addGoal(6, new LookAtGoal(this, PlayerEntity.class, 6.0F));
         this.targetSelector.addGoal(1, new HurtByTargetGoal(this, EntityBear.class));
+        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<SalmonEntity>(this, SalmonEntity.class, 90,
+        true, true, Predicates.alwaysTrue()));
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<PlayerEntity>(this, PlayerEntity.class, 90,
         true, true, Predicates.alwaysTrue()));
         this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<EntityDeer>(this, EntityDeer.class, 90, true,
