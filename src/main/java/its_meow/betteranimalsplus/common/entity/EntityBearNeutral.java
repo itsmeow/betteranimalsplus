@@ -6,6 +6,7 @@ import javax.annotation.Nullable;
 
 import com.google.common.base.Predicates;
 
+import its_meow.betteranimalsplus.common.entity.ai.EntityAIEatBerries;
 import its_meow.betteranimalsplus.init.ModEntities;
 import its_meow.betteranimalsplus.init.ModLootTables;
 import its_meow.betteranimalsplus.util.HeadTypes;
@@ -41,6 +42,7 @@ public class EntityBearNeutral extends EntityBear implements IVariantTypes {
     protected void registerGoals() {
         this.goalSelector.addGoal(0, new SwimGoal(this));
         this.goalSelector.addGoal(1, new EntityBearNeutral.AIMeleeAttack());
+        this.goalSelector.addGoal(2, new EntityAIEatBerries(this, 1.0D, 12, 2));
         this.targetSelector.addGoal(1, new HurtByTargetGoal(this, EntityBear.class));
         this.goalSelector.addGoal(5, new RandomWalkingGoal(this, 0.5D));
         this.goalSelector.addGoal(6, new LookAtGoal(this, PlayerEntity.class, 6.0F));
