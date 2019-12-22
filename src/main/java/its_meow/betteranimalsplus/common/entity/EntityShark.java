@@ -1,34 +1,26 @@
 package its_meow.betteranimalsplus.common.entity;
 
-import java.util.Random;
-
-import javax.annotation.Nullable;
-
 import its_meow.betteranimalsplus.init.ModEntities;
 import its_meow.betteranimalsplus.init.ModLootTables;
 import its_meow.betteranimalsplus.util.EntityTypeContainer;
-import net.minecraft.entity.ILivingEntityData;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.goal.LookAtGoal;
+import net.minecraft.entity.ai.goal.LookRandomlyGoal;
 import net.minecraft.entity.ai.goal.MoveTowardsTargetGoal;
 import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal;
-import net.minecraft.entity.ai.goal.RandomWalkingGoal;
+import net.minecraft.entity.ai.goal.RandomSwimmingGoal;
 import net.minecraft.entity.item.BoatEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.DifficultyInstance;
-import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 
-public class EntityShark extends EntitySharkBase implements IVariantTypes {
+public class EntityShark extends EntitySharkBase {
 
     protected static final DataParameter<Integer> TYPE_NUMBER = EntityDataManager.<Integer>createKey(EntityShark.class, DataSerializers.VARINT);
     private float lastAttack = 0;
@@ -45,7 +37,8 @@ public class EntityShark extends EntitySharkBase implements IVariantTypes {
         super.registerGoals();
         this.goalSelector.addGoal(0, new MoveTowardsTargetGoal(this, 0.8D, 40F));
         this.goalSelector.addGoal(1, new LookAtGoal(this, LivingEntity.class, 15F));
-        this.goalSelector.addGoal(2, new RandomWalkingGoal(this, 0.65D));
+        this.goalSelector.addGoal(1, new LookRandomlyGoal(this));
+        this.goalSelector.addGoal(2, new RandomSwimmingGoal(this, 0.65D, 1));
         this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<LivingEntity>(this, LivingEntity.class, 100, false, false, e -> {
             if(e instanceof EntitySharkBase || e instanceof EntityBobbitWorm) return false;
             if(e instanceof PlayerEntity) return shouldAttackForHealth(e.getHealth());
@@ -90,6 +83,9 @@ public class EntityShark extends EntitySharkBase implements IVariantTypes {
     @Override
     public void livingTick() {
         super.livingTick();
+        if(this.getAttackTarget() != null && !this.getAttackTarget().isAlive()) {
+            this.setAttackTarget(null);
+        }
         if(!this.world.isRemote && this.getAttackTarget() != null && this.getAttackTarget().isAlive() && this.isAlive()) {
             boolean isBoat = this.getAttackTarget() instanceof PlayerEntity && this.getAttackTarget().getRidingEntity() != null && this.getAttackTarget().getRidingEntity() instanceof BoatEntity;
             float grabDelay = isBoat ? 20F : 60F;
@@ -116,8 +112,6 @@ public class EntityShark extends EntitySharkBase implements IVariantTypes {
                     this.attackEntityAsMob(this.getAttackTarget());
                 }
                 lastGrab = this.ticksExisted;
-            } else {
-                this.getMoveHelper().setMoveTo(this.getAttackTarget().posX, this.getAttackTarget().posY, this.getAttackTarget().posZ, 0.1D);
             }
             if(lastTickHealth - 4F > this.getHealth()) {
                 this.getAttackTarget().dismountEntity(this);
@@ -131,49 +125,6 @@ public class EntityShark extends EntitySharkBase implements IVariantTypes {
     }
 
     @Override
-    protected void registerData() {
-        super.registerData();
-        this.registerTypeKey();
-    }
-
-    @Override
-    public boolean writeUnlessRemoved(CompoundNBT compound) {
-        this.writeType(compound);
-        return super.writeUnlessRemoved(compound);
-    }
-
-    @Override
-    public void read(CompoundNBT compound) {
-        super.read(compound);
-        this.readType(compound);
-    }
-
-    @Override
-    @Nullable
-    public ILivingEntityData onInitialSpawn(IWorld world, DifficultyInstance difficulty, SpawnReason reason, @Nullable ILivingEntityData livingdata, CompoundNBT compound) {
-        return this.initData(super.onInitialSpawn(world, difficulty, reason, livingdata, compound));
-    }
-
-    public boolean isChildI() {
-        return this.isChild();
-    }
-
-    @Override
-    public Random getRNGI() {
-        return this.getRNG();
-    }
-
-    @Override
-    public EntityDataManager getDataManagerI() {
-        return this.getDataManager();
-    }
-
-    @Override
-    public DataParameter<Integer> getDataKey() {
-        return TYPE_NUMBER;
-    }
-
-    @Override
     public int getVariantMax() {
         return 4;
     }
@@ -184,7 +135,7 @@ public class EntityShark extends EntitySharkBase implements IVariantTypes {
     }
 
     @Override
-    protected EntityTypeContainer<? extends EntityBasicWaterCreature> getContainer() {
+    protected EntityTypeContainer<? extends EntityWaterMobPathingWithTypes> getContainer() {
         return ModEntities.SHARK;
     }
 

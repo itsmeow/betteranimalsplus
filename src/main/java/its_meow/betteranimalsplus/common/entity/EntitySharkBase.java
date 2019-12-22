@@ -18,7 +18,7 @@ import net.minecraft.world.Difficulty;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 
-public abstract class EntitySharkBase extends EntityBasicWaterCreature implements IMob {
+public abstract class EntitySharkBase extends EntityWaterMobPathingWithTypes implements IMob {
 
     public EntitySharkBase(EntityType<? extends EntitySharkBase> type, World world) {
         super(type, world);
@@ -30,7 +30,6 @@ public abstract class EntitySharkBase extends EntityBasicWaterCreature implement
             BlockPos pos = this.getPosition().offset(this.getHorizontalFacing()).subtract(this.getPosition());
             pos = pos.add(pos.getX(), 0, pos.getZ());
             passenger.setPosition(this.posX + this.getMotion().getX() + pos.getX(), this.posY - (this.getHeight() / 2) + this.getMotion().getY(), this.posZ + this.getMotion().getZ() + pos.getZ());
-            //this.addVelocity(0, Math.abs(passenger.getMotion().getY()), 0);
             if (passenger instanceof LivingEntity && (this.getAttackTarget() == null || this.getAttackTarget() != passenger)) {
                 this.setAttackTarget((LivingEntity) passenger);
             }
