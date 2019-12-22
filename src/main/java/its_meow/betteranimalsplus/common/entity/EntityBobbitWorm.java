@@ -95,7 +95,7 @@ public class EntityBobbitWorm extends EntityAnimalWithTypes {
             }
         }
         if(world.getBlockState(this.getPosition().down()).getBlock() == Blocks.WATER) {
-            return new Vec3d(this.getPosition().down());
+            return new Vec3d(this.posX, this.posY - 1D, this.posZ);
         }
         return null;
     }
@@ -112,7 +112,7 @@ public class EntityBobbitWorm extends EntityAnimalWithTypes {
 
     @Override
     public void travel(Vec3d vec) {
-        this.move(MoverType.SELF, vec);
+        this.move(MoverType.SELF, this.getMotion());
     }
 
     @Override
@@ -140,7 +140,7 @@ public class EntityBobbitWorm extends EntityAnimalWithTypes {
     @Override
     public void tick() {
         super.tick();
-        if(!this.inWater) {
+        if(!this.isInWater()) {
             this.setMotion(this.getMotion().getX() * 0.2F, this.getMotion().getY(), this.getMotion().getZ() * 0.2F);
             if(!this.hasNoGravity()) {
                 this.setMotion(this.getMotion().getX(), this.getMotion().getY() - 0.08D, this.getMotion().getZ());
