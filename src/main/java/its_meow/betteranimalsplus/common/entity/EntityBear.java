@@ -81,6 +81,11 @@ public class EntityBear extends EntityMob {
         this.doDropHead();
     }
     
+    @Override
+    protected float getWaterSlowDown() {
+        return 0.95F;
+    }
+    
     protected void doDropHead() {
         if (!world.isRemote && !this.isChild()) {
             if (this.rand.nextInt(12) == 0) {
