@@ -290,11 +290,7 @@ public class EntityFeralWolf extends EntityTameableWithSelectiveTypes implements
 
     @SideOnly(Side.CLIENT)
     public float getTailRotation() {
-        if (!this.isTamed()) {
-            return -0.15F;
-        } else {
-            return this.isTamed() ? (0.25F - (this.getMaxHealth() - this.dataManager.get(DATA_HEALTH_ID).floatValue()) * 0.04F) : -0.85F;
-        }
+        return this.isTamed() ? (1F - (this.getMaxHealth() - this.dataManager.get(DATA_HEALTH_ID).floatValue()) * 0.04F) : 0.25F;
     }
 
     @Override
