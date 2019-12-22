@@ -54,7 +54,11 @@ public class EntityBear extends MonsterEntity {
 
     @Override
     protected void registerGoals() {
-        this.goalSelector.addGoal(0, new SwimGoal(this));
+        this.goalSelector.addGoal(0, new SwimGoal(this) {
+            public boolean shouldExecute() {
+                return EntityBear.this.isInWater() && EntityBear.this.getSubmergedHeight() > 0.6 || EntityBear.this.isInLava();
+             }
+        });
         this.goalSelector.addGoal(1, new EntityBear.AIMeleeAttack());
         this.goalSelector.addGoal(2, new EntityAIEatBerries(this, 1.0D, 12, 2));
         this.goalSelector.addGoal(5, new RandomWalkingGoal(this, 1.0D));
@@ -207,7 +211,17 @@ public class EntityBear extends MonsterEntity {
             return 10.0F + attackTarget.getWidth();
         }
     }
-    
+
+    @Override
+    public boolean isInvulnerableTo(DamageSource source) {
+        return super.isInvulnerableTo(source) || source == DamageSource.SWEET_BERRY_BUSH;
+    }
+
+    @Override
+    protected float getWaterSlowDown() {
+        return 0.95F;
+    }
+
     @Override
     public boolean canDespawn(double range) {
         return ModEntities.ENTITIES.containsKey("brownbear") ? ModEntities.ENTITIES.get("brownbear").despawn : false;
