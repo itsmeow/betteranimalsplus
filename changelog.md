@@ -4,6 +4,9 @@
 - Add bobbit worm
 - Revamped shark animations to reduce choppiness
 - Added "Ultimate Succening" advancement for getting succed by a lamprey, bobbit worm, and zotzpyre
+- Boars will now more actively seek crops to eat them
+- Fixed feral wolf tail receding into body when tamed and added wagging for tamed wolves
+- Fixed sharks attacking slowly/holding enemies and doing nothing
 - Added thaumcraft aspects for zotzpyre and bobbit
 - Update Spanish translation to 8.1.0 features
 - Update Russian translation for 8.0.0 features
@@ -11,6 +14,8 @@
 - Update German translation for 8.0.0 features
 - Fix some entities with glowing eyes causing water behind them to be invisible
 - Fix rare crash caused by some mods with armor displays and modeled armor (capes/hirschgeist skull). Test case Modern Warfare mod.
+- 1.14: Rewrote shark movement AI
+- 1.14: Fixed some water mobs spawning on land (actually this time)
 
 8.0.0
 -
