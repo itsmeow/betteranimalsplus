@@ -7,6 +7,8 @@
 - Boars will now more actively seek crops to eat them
 - Fixed feral wolf tail receding into body when tamed and added wagging for tamed wolves
 - Fixed sharks attacking slowly/holding enemies and doing nothing
+- Reduced water slowdown of bears
+- Made squirrels immune to fall damage
 - Added thaumcraft aspects for zotzpyre and bobbit
 - Update Spanish translation to 8.1.0 features
 - Update Russian translation for 8.0.0 features
