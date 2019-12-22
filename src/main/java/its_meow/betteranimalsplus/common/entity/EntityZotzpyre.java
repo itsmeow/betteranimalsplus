@@ -292,17 +292,17 @@ public class EntityZotzpyre extends EntityAnimalWithTypes {
 
     public static boolean canSpawn(EntityType<EntityZotzpyre> type, IWorld world, SpawnReason reason, BlockPos pos, Random rand) {
         if (pos.getY() >= world.getSeaLevel() && !BiomeDictionary.getTypes(world.getBiome(pos)).contains(BiomeDictionary.Type.JUNGLE)) {
-           return false;
+            return false;
         } else {
-           int i = world.getLight(pos);
-           int j = 4;
-           if (rand.nextBoolean()) {
-              return false;
-           }
+            int i = world.getLight(pos);
+            int j = 4;
+            if (rand.nextBoolean()) {
+                return false;
+            }
 
-           return i > rand.nextInt(j) ? false : func_223315_a(type, world, reason, pos, rand);
+            return i > rand.nextInt(j) ? false : func_223315_a(type, world, reason, pos, rand);
         }
-     }
+    }
     
     @Override
     public boolean attackEntityFrom(DamageSource source, float amount) {
@@ -361,6 +361,11 @@ public class EntityZotzpyre extends EntityAnimalWithTypes {
     @Override
     protected EntityTypeContainer<? extends EntityAnimalWithTypes> getContainer() {
         return ModEntities.ZOTZPYRE;
+    }
+
+    @Override
+    public boolean canSpawn(IWorld worldIn, SpawnReason spawnReasonIn) {
+        return true;
     }
 
 }
