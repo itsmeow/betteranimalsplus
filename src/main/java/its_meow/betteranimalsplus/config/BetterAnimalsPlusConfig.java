@@ -1,7 +1,5 @@
 package its_meow.betteranimalsplus.config;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -27,7 +25,6 @@ import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
-import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.registries.ForgeRegistries;
 
@@ -115,21 +112,14 @@ public class BetterAnimalsPlusConfig {
                 for(EntityTypeContainer<?> entry : ModEntities.ENTITIES.values()) {
                     EntityType<?> type = entry.entityType;
                     if(entry.doSpawning) {
-                        if(entry.spawnType == EntityClassification.WATER_CREATURE && EntitySpawnPlacementRegistry.getPlacementType((EntityType<? extends MobEntity>) type) == null) {
-                            // This thing breaks every other day
-                            try {
-                                EntitySpawnPlacementRegistry.<MobEntity>register((EntityType<MobEntity>) type, EntitySpawnPlacementRegistry.PlacementType.IN_WATER, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, (t, w, s, b, r) -> b.getY() > 45 && b.getY() < w.getSeaLevel() && w.getBlockState(b).getBlock() == Blocks.WATER);
-                            } catch(Exception e) { // Just in case
-                                e.printStackTrace();
-                            }
+                        if(entry.spawnType == EntityClassification.WATER_CREATURE && EntitySpawnPlacementRegistry.getPlacementType((EntityType<? extends MobEntity>) type) == EntitySpawnPlacementRegistry.PlacementType.NO_RESTRICTIONS) {
+                            EntitySpawnPlacementRegistry.<MobEntity>register((EntityType<MobEntity>) type, EntitySpawnPlacementRegistry.PlacementType.IN_WATER, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, 
+                            (etype, world, reason, pos, rand) -> {
+                                return pos.getY() > 45 && pos.getY() < (world.getSeaLevel() - 1) && world.getBlockState(pos).getBlock() == Blocks.WATER;
+                            });
                         }
-                        Method addSpawn = ObfuscationReflectionHelper.findMethod(Biome.class, "func_201866_a", EntityClassification.class, SpawnListEntry.class);
                         for(Biome biome : entry.getBiomes()) {
-                            try {
-                                addSpawn.invoke(biome, entry.spawnType, new SpawnListEntry((EntityType<? extends MobEntity>) type, entry.spawnWeight, entry.spawnMinGroup, entry.spawnMaxGroup));
-                            } catch(IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-                                e.printStackTrace();
-                            }
+                            biome.addSpawn(entry.spawnType, new SpawnListEntry((EntityType<? extends MobEntity>) type, entry.spawnWeight, entry.spawnMinGroup, entry.spawnMaxGroup));
                         }
                     }
                 }
