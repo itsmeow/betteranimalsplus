@@ -4,6 +4,7 @@ import java.util.Set;
 
 import javax.annotation.Nullable;
 
+import its_meow.betteranimalsplus.common.entity.ai.EntityAIEatBerries;
 import its_meow.betteranimalsplus.init.ModEntities;
 import its_meow.betteranimalsplus.util.EntityTypeContainer;
 import its_meow.betteranimalsplus.util.HeadTypes;
@@ -64,6 +65,7 @@ public class EntityBoar extends EntityAnimalWithSelectiveTypes implements IMob {
         this.goalSelector.addGoal(3, new BreedGoal(this, 1.0D));
         this.goalSelector.addGoal(5, new FollowParentGoal(this, 1.1D));
         this.goalSelector.addGoal(7, new BoarAIEatCrops(this));
+        this.goalSelector.addGoal(7, new EntityAIEatBerries(this, 1.0D, 12, 2));
         this.goalSelector.addGoal(8, new WaterAvoidingRandomWalkingGoal(this, 1.0D));
         this.goalSelector.addGoal(9, new LookAtGoal(this, PlayerEntity.class, 6.0F));
         if (!this.isChild() && this.getEntityWorld().getDifficulty() != Difficulty.PEACEFUL) {
