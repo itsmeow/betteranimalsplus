@@ -14,6 +14,9 @@
 - Update German translation for 8.0.0 features
 - Fix some entities with glowing eyes causing water behind them to be invisible
 - Fix rare crash caused by some mods with armor displays and modeled armor (capes/hirschgeist skull). Test case Modern Warfare mod.
+- 1.14: Brown Bears, Black Bears, and boars will now eat berries similar to foxes
+- 1.14: Brown Bears and Black Bears are now immune to bush damage
+- 1.14: Brown Bears will now attack salmon
 - 1.14: Rewrote shark movement AI
 - 1.14: Fixed some water mobs spawning on land (actually this time)
 
