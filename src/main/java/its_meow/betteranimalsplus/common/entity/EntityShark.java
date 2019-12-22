@@ -85,8 +85,8 @@ public class EntityShark extends EntitySharkBase implements IVariantTypes {
             boolean isBoat = this.getAttackTarget() instanceof EntityPlayer && this.getAttackTarget().isRiding() && this.getAttackTarget().getRidingEntity() instanceof EntityBoat;
             float grabDelay = isBoat ? 20F : 60F;
             if(this.getPassengers().contains(this.getAttackTarget())) {
-                float time = 80F;
-                time *= 5F * (Math.random() + 1F);
+                float time = 30F;
+                time *= (Math.random() + 1F);
                 if(this.lastAttack + time < this.ticksExisted) {
                     this.attackEntityAsMob(this.getAttackTarget());
                 }
