@@ -202,24 +202,22 @@ public class EntityZotzpyre extends EntityAnimalWithTypes {
         if(!world.isRemote) {
             if(!this.isRiding()) {
                 this.startRiding(entity, true);
-                for(EntityPlayerMP player : this.world.getMinecraftServer().getPlayerList().getPlayers()) {
-                    if(player.world == this.world && player.getDistance(this) <= 128) {
-                        player.connection.sendPacket(new SPacketSetPassengers(entity));
-                    }
+                if(entity instanceof EntityPlayerMP) {
+                    ((EntityPlayerMP) entity).connection.sendPacket(new SPacketSetPassengers(entity));
                 }
             }
         }
     }
     
     public void dismountZotz() {
-        Entity mount = this.getRidingEntity();
-        this.dismountEntity(mount);
-        this.isFromZotz = true;
-        this.dismountRidingEntity();
-        this.isFromZotz  = false;
-        for(EntityPlayerMP player : this.world.getMinecraftServer().getPlayerList().getPlayers()) {
-            if(player.world == this.world && player.getDistance(this) <= 128) {
-                player.connection.sendPacket(new SPacketSetPassengers(mount));
+        if(!world.isRemote) {
+            Entity mount = this.getRidingEntity();
+            this.dismountEntity(mount);
+            this.isFromZotz = true;
+            this.dismountRidingEntity();
+            this.isFromZotz  = false;
+            if(mount instanceof EntityPlayerMP) {
+                ((EntityPlayerMP) mount).connection.sendPacket(new SPacketSetPassengers(mount));
             }
         }
     }
@@ -280,7 +278,7 @@ public class EntityZotzpyre extends EntityAnimalWithTypes {
         if(this.isEntityInvulnerable(source)) {
             return false;
         } else {
-            if(amount > 3 && this.isRiding()) {
+            if(amount > 3 && this.isRiding() && !this.world.isRemote) {
                 this.dismountZotz();
             }
 

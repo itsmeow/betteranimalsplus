@@ -1,3 +1,8 @@
+8.1.1
+-
+- 1.12: Fix crash with zotzpyre
+- 1.12: Fix most of "Received passengers for unknown entity" log spam
+
 8.1.0
 -
 - Add zotzpyre

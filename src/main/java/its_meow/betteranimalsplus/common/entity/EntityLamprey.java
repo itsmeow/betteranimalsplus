@@ -106,12 +106,7 @@ public class EntityLamprey extends EntityWaterMobWithTypes implements IMob {
             }
         }
         if(!this.world.isRemote && this.isDead && this.isRiding()) {
-            for(EntityPlayerMP player : this.world.getMinecraftServer().getPlayerList().getPlayers()) {
-                if(player.world == this.world && player.getDistance(this) <= 64) {
-                    player.connection.sendPacket(new SPacketSetPassengers(this.getRidingEntity()));
-                }
-            }
-            this.dismountRidingEntity();
+            this.dismountAndSync();
         }
     }
 
@@ -195,12 +190,12 @@ public class EntityLamprey extends EntityWaterMobWithTypes implements IMob {
     }
     
     public void dismountAndSync() {
-        Entity mount = this.getRidingEntity();
-        this.dismountEntity(mount);
-        this.dismountRidingEntity();
-        for(EntityPlayerMP player : this.world.getMinecraftServer().getPlayerList().getPlayers()) {
-            if(player.world == this.world && player.getDistance(this) <= 128) {
-                player.connection.sendPacket(new SPacketSetPassengers(mount));
+        if(!this.world.isRemote) {
+            Entity mount = this.getRidingEntity();
+            this.dismountEntity(mount);
+            this.dismountRidingEntity();
+            if(mount instanceof EntityPlayerMP) {
+                ((EntityPlayerMP) mount).connection.sendPacket(new SPacketSetPassengers(mount));
             }
         }
     }
@@ -214,10 +209,8 @@ public class EntityLamprey extends EntityWaterMobWithTypes implements IMob {
         if(!world.isRemote) {
             if(entity == this.getAttackTarget() && !this.isRidingOrBeingRiddenBy(entity) && this.inWater) {
                 this.startRiding(entity);
-                for(EntityPlayerMP player : this.world.getMinecraftServer().getPlayerList().getPlayers()) {
-                    if(player.world == this.world && player.getDistance(this) <= 128) {
-                        player.connection.sendPacket(new SPacketSetPassengers(entity));
-                    }
+                if(entity instanceof EntityPlayerMP) {
+                    ((EntityPlayerMP) entity).connection.sendPacket(new SPacketSetPassengers(entity));
                 }
             }
         }
