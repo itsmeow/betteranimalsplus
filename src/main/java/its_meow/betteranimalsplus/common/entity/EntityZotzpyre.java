@@ -19,6 +19,7 @@ import net.minecraft.entity.ai.goal.LookAtGoal;
 import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal;
 import net.minecraft.entity.ai.goal.WaterAvoidingRandomWalkingGoal;
 import net.minecraft.entity.monster.IMob;
+import net.minecraft.entity.passive.AmbientEntity;
 import net.minecraft.entity.passive.IFlyingAnimal;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
@@ -58,7 +59,7 @@ public class EntityZotzpyre extends EntityMonsterWithTypes {
         this.goalSelector.addGoal(2, new LookAtGoal(this, PlayerEntity.class, 8.0F));
         this.targetSelector.addGoal(0, new HurtByTargetGoal(this));
         this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<PlayerEntity>(this, PlayerEntity.class, true));
-        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<MobEntity>(this, MobEntity.class, 0, true, true, entity -> !(entity instanceof EntityZotzpyre) && !(entity instanceof IMob) && entity.getCreatureAttribute() != CreatureAttribute.UNDEAD));
+        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<MobEntity>(this, MobEntity.class, 0, true, true, entity -> !(entity instanceof EntityZotzpyre) && !(entity instanceof AmbientEntity) && !(entity instanceof IMob) && entity.getCreatureAttribute() != CreatureAttribute.UNDEAD));
     }
 
     protected PathNavigator createNavigator(World worldIn) {
