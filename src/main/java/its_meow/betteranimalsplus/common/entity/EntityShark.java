@@ -49,8 +49,8 @@ public class EntityShark extends EntitySharkBase {
     @Override
     public boolean attackEntityFrom(DamageSource source, float amount) {
         if(super.attackEntityFrom(source, amount)) {
-            if(source.getTrueSource() instanceof PlayerEntity) {
-                PlayerEntity player = (PlayerEntity) source.getTrueSource();
+            if(source.getImmediateSource() instanceof PlayerEntity) {
+                PlayerEntity player = (PlayerEntity) source.getImmediateSource();
                 if(!player.isCreative() && !player.isInvisible()) {
                     this.setAttackTarget(player);
                 }
