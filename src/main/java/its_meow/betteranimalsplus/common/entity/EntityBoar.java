@@ -243,6 +243,11 @@ public class EntityBoar extends EntityAnimalWithSelectiveTypes implements IMob {
     }
 
     @Override
+    public boolean isInvulnerableTo(DamageSource source) {
+        return super.isInvulnerableTo(source) || source == DamageSource.SWEET_BERRY_BUSH;
+    }
+
+    @Override
     public boolean isBreedingItem(ItemStack stack) {
         return stack.getItem() == Items.CARROT || stack.getItem() == Items.GOLDEN_CARROT;
     }
