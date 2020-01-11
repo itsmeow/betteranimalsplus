@@ -304,7 +304,7 @@ public class EntityZotzpyre extends EntityMonsterWithTypes {
         if (this.isInvulnerableTo(source)) {
             return false;
         } else {
-            if(amount > 3 && this.getRidingEntity() != null) {
+            if(amount > 3 && this.getRidingEntity() != null && !this.world.isRemote) {
                 this.dismountZotz();
             }
 
