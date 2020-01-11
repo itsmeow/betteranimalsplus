@@ -35,7 +35,7 @@ public class ItemThrowableCustomEgg extends ItemNamedSimple {
 
         if(!worldIn.isRemote) {
             ProjectileItemEntity ent = eggSupplier.apply(playerIn);
-            ent.func_213884_b(itemstack);
+            ent.setItem(itemstack);
             ent.shoot(playerIn, playerIn.rotationPitch, playerIn.rotationYaw, 0.0F, 1.5F, 1.0F);
             worldIn.addEntity(ent);
         }

@@ -113,14 +113,14 @@ public class BetterAnimalsPlusMod {
         DispenserBlock.registerDispenseBehavior(ModItems.PHEASANT_EGG, new ProjectileDispenseBehavior() {
             protected IProjectile getProjectileEntity(World worldIn, IPosition position, ItemStack stackIn) {
                return Util.make(new EntityPheasantEgg(worldIn, position.getX(), position.getY(), position.getZ()), (p_218408_1_) -> {
-                  p_218408_1_.func_213884_b(stackIn);
+                  p_218408_1_.setItem(stackIn);
                });
             }
          });
         DispenserBlock.registerDispenseBehavior(ModItems.TURKEY_EGG, new ProjectileDispenseBehavior() {
             protected IProjectile getProjectileEntity(World worldIn, IPosition position, ItemStack stackIn) {
                return Util.make(new EntityTurkeyEgg(worldIn, position.getX(), position.getY(), position.getZ()), (p_218408_1_) -> {
-                  p_218408_1_.func_213884_b(stackIn);
+                  p_218408_1_.setItem(stackIn);
                });
             }
          });

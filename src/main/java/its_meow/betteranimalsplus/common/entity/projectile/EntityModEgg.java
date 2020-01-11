@@ -4,7 +4,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.projectile.ProjectileItemEntity;
-import net.minecraft.item.Item;
 import net.minecraft.network.IPacket;
 import net.minecraft.particles.ItemParticleData;
 import net.minecraft.particles.ParticleTypes;
@@ -62,12 +61,6 @@ public abstract class EntityModEgg extends ProjectileItemEntity {
         }
 
     }
-
-    protected Item func_213885_i() {
-        return getEggItem();
-    }
-    
-    public abstract Item getEggItem();
     
     @Override
     public IPacket<?> createSpawnPacket() {

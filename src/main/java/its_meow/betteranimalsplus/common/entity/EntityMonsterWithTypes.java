@@ -7,8 +7,8 @@ import javax.annotation.Nullable;
 import its_meow.betteranimalsplus.util.EntityTypeContainer;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ILivingEntityData;
-import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.SpawnReason;
+import net.minecraft.entity.monster.MonsterEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
@@ -17,11 +17,11 @@ import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 
-public abstract class EntityMobWithTypes extends MobEntity implements IVariantTypes {
+public abstract class EntityMonsterWithTypes extends MonsterEntity implements IVariantTypes {
     
-    protected static final DataParameter<Integer> TYPE_NUMBER = EntityDataManager.<Integer>createKey(EntityMobWithTypes.class, DataSerializers.VARINT);
+    protected static final DataParameter<Integer> TYPE_NUMBER = EntityDataManager.<Integer>createKey(EntityMonsterWithTypes.class, DataSerializers.VARINT);
     
-    public EntityMobWithTypes(EntityType<? extends MobEntity> entityType, World worldIn) {
+    public EntityMonsterWithTypes(EntityType<? extends MonsterEntity> entityType, World worldIn) {
         super(entityType, worldIn);
     }
     
@@ -69,7 +69,7 @@ public abstract class EntityMobWithTypes extends MobEntity implements IVariantTy
         return TYPE_NUMBER;
     }
     
-    protected abstract EntityTypeContainer<? extends EntityMobWithTypes> getContainer();
+    protected abstract EntityTypeContainer<? extends EntityMonsterWithTypes> getContainer();
 
     @Override
     public boolean canDespawn(double range) {

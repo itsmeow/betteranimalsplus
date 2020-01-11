@@ -143,7 +143,7 @@ public class CommonEventHandler {
                 }
 
                 @Override
-                public ResourceLocation func_215830_a() {
+                public ResourceLocation getType() {
                     return IRandomRange.CONSTANT;
                 }
             }).name("snowy_pelt").addEntry(TableLootEntry.builder(ModLootTables.WOLF_SNOWY)).build());

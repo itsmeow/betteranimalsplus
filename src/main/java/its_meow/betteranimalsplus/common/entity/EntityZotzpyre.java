@@ -40,7 +40,7 @@ import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraftforge.common.BiomeDictionary;
 
-public class EntityZotzpyre extends EntityAnimalWithTypes {
+public class EntityZotzpyre extends EntityMonsterWithTypes {
 
     private static final DataParameter<Byte> CLIMBING = EntityDataManager.<Byte>createKey(EntityZotzpyre.class, DataSerializers.BYTE);
     protected int lastAttack = 0;
@@ -85,7 +85,6 @@ public class EntityZotzpyre extends EntityAnimalWithTypes {
     protected void registerAttributes() {
         super.registerAttributes();
         this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(20.0D);
-        this.getAttributes().registerAttribute(SharedMonsterAttributes.ATTACK_DAMAGE);
         this.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(3.0D);
     }
 
@@ -300,7 +299,7 @@ public class EntityZotzpyre extends EntityAnimalWithTypes {
                 return false;
             }
 
-            return i > rand.nextInt(j) ? false : func_223315_a(type, world, reason, pos, rand);
+            return i > rand.nextInt(j) ? false : func_223324_d(type, world, reason, pos, rand);
         }
     }
     
@@ -349,23 +348,8 @@ public class EntityZotzpyre extends EntityAnimalWithTypes {
     }
 
     @Override
-    protected IVariantTypes getBaseChild() {
-        return null;
-    }
-
-    @Override
-    public boolean canBeLeashedTo(PlayerEntity player) {
-        return false;
-    }
-
-    @Override
-    protected EntityTypeContainer<? extends EntityAnimalWithTypes> getContainer() {
+    protected EntityTypeContainer<? extends EntityMonsterWithTypes> getContainer() {
         return ModEntities.ZOTZPYRE;
-    }
-
-    @Override
-    public boolean canSpawn(IWorld worldIn, SpawnReason spawnReasonIn) {
-        return true;
     }
 
 }

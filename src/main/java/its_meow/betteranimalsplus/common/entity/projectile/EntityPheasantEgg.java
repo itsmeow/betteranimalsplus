@@ -30,7 +30,7 @@ public class EntityPheasantEgg extends EntityModEgg {
     }
 
     @Override
-    public Item getEggItem() {
+    public Item getDefaultItem() {
         return ModItems.PHEASANT_EGG;
     }
 

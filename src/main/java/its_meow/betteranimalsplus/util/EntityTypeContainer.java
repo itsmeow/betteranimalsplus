@@ -48,20 +48,7 @@ public class EntityTypeContainer<T extends LivingEntity> {
     
     protected Supplier<Set<Biome>> defaultBiomeSupplier;
 
-    public EntityTypeContainer(Class<T> EntityClass, Function<World, T> func,
-    String entityNameIn, EntityClassification type, int solidColorIn, int spotColorIn, int prob, int min, int max, float width, float height, boolean despawn, @Nullable CustomConfigurationHolder customConfig, BiomeDictionary.Type... biomeTypes) {
-        this(EntityClass, func, entityNameIn, type, solidColorIn, spotColorIn, prob, min, max, width, height, despawn, customConfig, toBiomes(biomeTypes));
-    }
-
-    @SafeVarargs
-    public EntityTypeContainer(Class<T> EntityClass, Function<World, T> func, String entityNameIn, EntityClassification type, int solidColorIn, int spotColorIn, int prob, int min, int max, float width, float height, boolean despawn, @Nullable CustomConfigurationHolder customConfig, Supplier<Biome[]>... biomes) {
-        this(EntityClass, func, entityNameIn, type, solidColorIn, spotColorIn, prob, min, max, width, height, despawn, customConfig, toBiomes(biomes[0]));
-        if(biomes.length != 1) {
-            throw new RuntimeException("STOP IT MEOW, FIX THIS.");
-        }
-    }
-
-    public EntityTypeContainer(Class<T> EntityClass, Function<World, T> func, String entityNameIn, EntityClassification type, int solidColorIn, int spotColorIn, int prob, int min, int max, float width, float height, boolean despawn, @Nullable CustomConfigurationHolder customConfig, Supplier<Set<Biome>> biomes) {
+    protected EntityTypeContainer(Class<T> EntityClass, Function<World, T> func, String entityNameIn, EntityClassification type, int solidColorIn, int spotColorIn, int prob, int min, int max, float width, float height, boolean despawn, @Nullable CustomConfigurationHolder customConfig, Supplier<Set<Biome>> biomes) {
         this.entityClass = EntityClass;
         this.factory = func;
         this.entityName = entityNameIn;
@@ -76,6 +63,94 @@ public class EntityTypeContainer<T extends LivingEntity> {
         this.despawn = despawn;
         this.customConfig = customConfig;
         this.defaultBiomeSupplier = biomes;
+    }
+    
+    public static class Builder<T extends LivingEntity> {
+        protected final Class<T> entityClass;
+        protected final String entityName;
+        protected final Function<World, T> factory;
+        protected EntityClassification spawnType;
+        protected int eggColorSolid;
+        protected int eggColorSpot;
+        protected int spawnWeight;
+        protected int spawnMinGroup;
+        protected int spawnMaxGroup;
+        protected float width;
+        protected float height;
+        protected boolean despawn;
+        protected CustomConfigurationHolder customConfig;
+        protected Supplier<Set<Biome>> defaultBiomeSupplier;
+        
+        protected Builder(Class<T> EntityClass, Function<World, T> func, String entityNameIn) {
+            this.entityClass = EntityClass;
+            this.factory = func;
+            this.entityName = entityNameIn;
+            this.eggColorSolid = 0x000000;
+            this.eggColorSpot = 0xffffff;
+            this.spawnWeight = 1;
+            this.spawnMinGroup = 1;
+            this.spawnMaxGroup = 1;
+            this.spawnType = EntityClassification.CREATURE;
+            this.width = 1;
+            this.height = 1;
+            this.despawn = false;
+            this.customConfig = null;
+            this.defaultBiomeSupplier = () -> new HashSet<Biome>();
+        }
+        
+        public Builder<T> spawn(EntityClassification type, int weight, int min, int max) {
+            this.spawnType = type;
+            this.spawnWeight = weight;
+            this.spawnMinGroup = min;
+            this.spawnMaxGroup = max;
+            return this;
+        }
+        
+        public Builder<T> egg(int solid, int spot) {
+            this.eggColorSolid = solid;
+            this.eggColorSpot = spot;
+            return this;
+        }
+        
+        public Builder<T> size(float width, float height) {
+            this.width = width;
+            this.height = height;
+            return this;
+        }
+        
+        public Builder<T> despawn() {
+            this.despawn = true;
+            return this;
+        }
+        
+        public Builder<T> config(CustomConfigurationHolder config) {
+            this.customConfig = config;
+            return this;
+        }
+        
+        public Builder<T> biomes(BiomeDictionary.Type... biomeTypes) {
+            this.defaultBiomeSupplier = toBiomes(biomeTypes);
+            return this;
+        }
+        
+        public Builder<T> biomesArray(Supplier<Biome[]> biomes) {
+            this.defaultBiomeSupplier = toBiomes(biomes);
+            return this;
+        }
+        
+        public Builder<T> biomes(Supplier<Set<Biome>> biomes) {
+            this.defaultBiomeSupplier = biomes;
+            return this;
+        }
+        
+        public EntityTypeContainer<T> build() {
+            return new EntityTypeContainer<T>(entityClass, factory, entityName, spawnType, eggColorSolid, eggColorSpot, spawnWeight, spawnMinGroup, spawnMaxGroup, width, height, despawn, customConfig, defaultBiomeSupplier);
+        }
+        
+        public static <T extends LivingEntity> Builder<T> create(Class<T> EntityClass, Function<World, T> func, String entityNameIn) {
+            return new Builder<T>(EntityClass, func, entityNameIn);
+        }
+        
     }
 
     public void initConfiguration(ForgeConfigSpec.Builder builder) {
