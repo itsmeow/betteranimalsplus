@@ -299,7 +299,7 @@ public class EntityJellyfish extends WaterMobEntity implements IVariantTypes {
 
     @Override
     public boolean canDespawn(double range) {
-        return ModEntities.ENTITIES.containsKey("jellyfish") ? ModEntities.ENTITIES.get("jellyfish").despawn : false;
+        return ModEntities.JELLYFISH.despawn && !this.hasCustomName();
     }
 
 }

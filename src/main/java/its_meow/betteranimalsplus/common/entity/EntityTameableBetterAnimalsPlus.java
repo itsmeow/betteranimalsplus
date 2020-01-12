@@ -33,7 +33,7 @@ public abstract class EntityTameableBetterAnimalsPlus extends TameableEntity {
 
     @Override
     public boolean canDespawn(double range) {
-        return getContainer().despawn;
+        return getContainer().despawn && !this.hasCustomName();
     }
 
 }

@@ -75,7 +75,7 @@ protected static final DataParameter<Integer> TYPE_NUMBER = EntityDataManager.<I
 
     @Override
     public boolean canDespawn(double range) {
-        return getContainer().despawn;
+        return getContainer().despawn && !this.hasCustomName();
     }
     
 }

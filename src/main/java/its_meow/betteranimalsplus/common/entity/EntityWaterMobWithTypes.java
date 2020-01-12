@@ -72,6 +72,6 @@ public abstract class EntityWaterMobWithTypes extends WaterMobEntity implements 
 
     @Override
     public boolean canDespawn(double range) {
-        return getContainer().despawn;
+        return getContainer().despawn && !this.hasCustomName();
     }
 }

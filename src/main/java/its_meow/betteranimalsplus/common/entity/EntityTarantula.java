@@ -72,7 +72,7 @@ public class EntityTarantula extends SpiderEntity implements IRangedAttackMob {
     
     @Override
     public boolean canDespawn(double range) {
-        return ModEntities.TARANTULA.despawn;
+        return ModEntities.TARANTULA.despawn && !this.hasCustomName();
     }
 
 }

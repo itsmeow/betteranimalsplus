@@ -73,7 +73,7 @@ public abstract class EntityMonsterWithTypes extends MonsterEntity implements IV
 
     @Override
     public boolean canDespawn(double range) {
-        return getContainer().despawn;
+        return getContainer().despawn && !this.hasCustomName();
     }
     
 }

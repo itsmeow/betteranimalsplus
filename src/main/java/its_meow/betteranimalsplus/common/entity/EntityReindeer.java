@@ -1076,7 +1076,7 @@ public class EntityReindeer extends AnimalEntity implements IJumpingMount, IVari
     
     @Override
     public boolean canDespawn(double range) {
-        return ModEntities.REINDEER.despawn;
+        return ModEntities.REINDEER.despawn && !this.hasCustomName();
     }
 
 }

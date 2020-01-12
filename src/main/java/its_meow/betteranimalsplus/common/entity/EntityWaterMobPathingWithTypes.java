@@ -71,6 +71,6 @@ public abstract class EntityWaterMobPathingWithTypes extends EntityWaterMobPathi
 
     @Override
     public boolean canDespawn(double range) {
-        return getContainer().despawn;
+        return getContainer().despawn && !this.hasCustomName();
     }
 }

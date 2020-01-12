@@ -86,7 +86,7 @@ public class EntityNautilus extends WaterMobEntity {
 
     @Override
     public boolean canDespawn(double range) {
-        return ModEntities.NAUTILUS.despawn;
+        return ModEntities.NAUTILUS.despawn && !this.hasCustomName();
     }
 
 }

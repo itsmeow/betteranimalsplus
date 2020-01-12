@@ -84,7 +84,7 @@ public abstract class EntityAnimalWithTypes extends AnimalEntity implements IVar
 
     @Override
     public boolean canDespawn(double range) {
-        return getContainer().despawn;
+        return getContainer().despawn && !this.hasCustomName();
     }
     
 }
