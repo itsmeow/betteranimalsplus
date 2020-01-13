@@ -10,12 +10,12 @@ import its_meow.betteranimalsplus.util.EntityTypeContainer;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.MoverType;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.goal.LookAtGoal;
+import net.minecraft.entity.ai.goal.LookRandomlyGoal;
 import net.minecraft.entity.ai.goal.MoveTowardsTargetGoal;
 import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal;
-import net.minecraft.entity.ai.goal.RandomWalkingGoal;
+import net.minecraft.entity.ai.goal.RandomSwimmingGoal;
 import net.minecraft.entity.monster.EndermanEntity;
 import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.monster.SkeletonEntity;
@@ -24,19 +24,16 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.play.server.SSetPassengersPacket;
-import net.minecraft.pathfinding.PathNavigator;
-import net.minecraft.pathfinding.SwimmerPathNavigator;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
-import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.World;
 
-public class EntityLamprey extends EntityWaterMobWithTypes implements IMob {
+public class EntityLamprey extends EntityWaterMobPathingWithTypes implements IMob {
 
     protected int lastAttack = 0;
 
@@ -48,7 +45,8 @@ public class EntityLamprey extends EntityWaterMobWithTypes implements IMob {
     protected void registerGoals() {
         this.goalSelector.addGoal(0, new MoveTowardsTargetGoal(this, 0.8D, 15F));
         this.goalSelector.addGoal(1, new LookAtGoal(this, WaterMobEntity.class, 10.0F));
-        this.goalSelector.addGoal(2, new RandomWalkingGoal(this, 0.5D));
+        this.goalSelector.addGoal(1, new LookRandomlyGoal(this));
+        this.goalSelector.addGoal(2, new RandomSwimmingGoal(this, 0.5D, 1));
         Set<Class<? extends LivingEntity>> blackList = new HashSet<Class<? extends LivingEntity>>();
         blackList.add(SkeletonEntity.class);
         blackList.add(EndermanEntity.class);
@@ -65,16 +63,6 @@ public class EntityLamprey extends EntityWaterMobWithTypes implements IMob {
         this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.8D);
         this.getAttributes().registerAttribute(SharedMonsterAttributes.ATTACK_DAMAGE);
         this.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(0.5D);
-    }
-
-    @Override
-    protected PathNavigator createNavigator(World worldIn) {
-        return new SwimmerPathNavigator(this, worldIn);
-    }
-
-    @Override
-    public void travel(Vec3d vec) {
-        this.move(MoverType.SELF, this.getMotion());
     }
 
     @Override
@@ -125,32 +113,11 @@ public class EntityLamprey extends EntityWaterMobWithTypes implements IMob {
     }
 
     @Override
-    public void tick() {
-        super.tick();
-        if(!this.inWater) {
-            this.setMotion(this.getMotion().getX() * 0.2F, this.getMotion().getY(), this.getMotion().getZ() * 0.2F);
-            if (!this.hasNoGravity()) {
-                this.setMotion(this.getMotion().getX(), this.getMotion().getY() - 0.08D, this.getMotion().getZ());
-            }
-            this.setMotion(this.getMotion().getX(), this.getMotion().getY() * 0.9800000190734863D, this.getMotion().getZ());
-        } else if(!world.isRemote) {
-            if(!this.navigator.noPath()) {
-                Vec3d target = this.navigator.getPath().getCurrentPos();
-                this.setMotion((target.x - this.posX) * 0.05F, (target.y - this.posY) * 0.05F, (target.z - this.posZ) * 0.05F);
-            } else if(this.getMoveHelper().isUpdating()) {
-                this.setMotion((this.getMoveHelper().getX() - this.posX) * 0.05F, (this.getMoveHelper().getY() - this.posY) * 0.05F, (this.getMoveHelper().getZ() - this.posZ) * 0.05F);
-            } else {
-                this.setMotion(this.getMotion().getX() * 0.85F, this.getMotion().getY() * 0.85F, this.getMotion().getZ() * 0.85F);
-            }
-        }
+    public void livingTick() {
+        super.livingTick();
         if(!this.isAlive() && this.getRidingEntity() != null) {
             this.dismountEntity(this.getRidingEntity());
         }
-    }
-
-    @Override
-    public void livingTick() {
-        super.livingTick();
         if(!this.world.isRemote && this.getAttackTarget() != null && this.getAttackTarget().isAlive()) {
             if(this.getRidingEntity() != null && this.getRidingEntity() == this.getAttackTarget()) {
                 float time = 20F; 
@@ -209,6 +176,11 @@ public class EntityLamprey extends EntityWaterMobWithTypes implements IMob {
     protected boolean canTriggerWalking() {
         return false;
     }
+    
+    @Override
+    public boolean canRiderInteract() {
+        return true;
+    }
 
     @Override
     public int getVariantMax() {
@@ -221,7 +193,7 @@ public class EntityLamprey extends EntityWaterMobWithTypes implements IMob {
     }
 
     @Override
-    protected EntityTypeContainer<? extends EntityWaterMobWithTypes> getContainer() {
+    protected EntityTypeContainer<? extends EntityWaterMobPathingWithTypes> getContainer() {
         return ModEntities.LAMPREY;
     }
 
