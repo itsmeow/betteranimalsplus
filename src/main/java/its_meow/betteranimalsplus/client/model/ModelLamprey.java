@@ -100,9 +100,11 @@ public class ModelLamprey<T extends LivingEntity> extends EntityModel<T> {
     @Override
     public void setRotationAngles(T entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor) {
         super.setRotationAngles(entityIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor);
-        this.body01.rotateAngleY = MathHelper.cos(ageInTicks * 0.3F) * (float) Math.PI * 0.05F;
-        this.body02.rotateAngleY = MathHelper.sin(ageInTicks * 0.3F * (float) Math.PI) * 0.05F;
-        this.tail01.rotateAngleY = this.body01.rotateAngleY * 0.5F;
+        float factor = (float) entityIn.getMotion().length() * 10;
+        this.body01.rotateAngleY = MathHelper.cos(ageInTicks * 0.3F) * (float) Math.PI * 0.05F * factor;
+        this.head.rotateAngleY = -this.body01.rotateAngleY * 1.5F;
+        this.body02.rotateAngleY = this.body01.rotateAngleY * 1.5F;
+        this.tail01.rotateAngleY = this.body02.rotateAngleY * 1.5F;
     }
 
     /**
