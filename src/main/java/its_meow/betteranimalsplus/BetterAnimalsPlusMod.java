@@ -97,13 +97,17 @@ public class BetterAnimalsPlusMod {
     private void setup(final FMLCommonSetupEvent event) {
         HANDLER.registerMessage(packets++, ClientConfigurationPacket.class, ClientConfigurationPacket::encode, ClientConfigurationPacket::decode, ClientConfigurationPacket.Handler::handle);
         HANDLER.registerMessage(packets++, ServerNoBAMPacket.class, (pkt, buf) -> {}, buf -> new ServerNoBAMPacket(), (pkt, ctx) -> {
-            ModTriggers.NO_BAM.trigger(ctx.get().getSender());
+            ctx.get().enqueueWork(() -> {
+                ModTriggers.NO_BAM.trigger(ctx.get().getSender());
+            });
             ctx.get().setPacketHandled(true);
         });
         HANDLER.<ClientRequestBAMPacket>registerMessage(packets++, ClientRequestBAMPacket.class, (pkt, buf) -> {}, buf -> new ClientRequestBAMPacket(), (pkt, ctx) -> {
-            if(!ModList.get().isLoaded("betteranimals")) {
-                HANDLER.sendToServer(new ServerNoBAMPacket());
-            }
+            ctx.get().enqueueWork(() -> {
+                if(!ModList.get().isLoaded("betteranimals")) {
+                    HANDLER.sendToServer(new ServerNoBAMPacket());
+                }
+            });
             ctx.get().setPacketHandled(true);
         });
         DeferredWorkQueue.runLater(() -> {
