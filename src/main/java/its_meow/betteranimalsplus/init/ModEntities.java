@@ -62,7 +62,7 @@ public class ModEntities {
 		add(EntityGoat.class, "goat", EnumCreatureType.CREATURE, 0xffffff, 0xeeeeee, BetterAnimalsPlusConfig.goatWeight, 1, 4, false, null, Type.HILLS, Type.MOUNTAIN, Type.SAVANNA, Type.PLAINS, Type.FOREST);
 		add(EntityJellyfish.class, "jellyfish", EnumCreatureType.WATER_CREATURE, 0x226fe2, 0xf2b3b3, BetterAnimalsPlusConfig.jellyFishWeight, 1, 1, true, null, Type.OCEAN);
 		add(EntityPheasant.class, "pheasant", EnumCreatureType.CREATURE, 0x8e6b0b, 0xd8af3c, BetterAnimalsPlusConfig.pheasantWeight, 1, 3, false, null, Type.FOREST, Type.PLAINS, Type.SAVANNA);
-		add(EntityReindeer.class, "reindeer", EnumCreatureType.CREATURE, 0x8e510b, 0x017700, BetterAnimalsPlusConfig.reindeerWeight, 1, 4, false, null, Type.SNOWY);
+		add(EntityReindeer.class, "reindeer", EnumCreatureType.CREATURE, 0x8e510b, 0x017700, BetterAnimalsPlusConfig.reindeerWeight, 1, 4, false, null, () -> BiomeDictionary.getBiomes(Type.SNOWY).stream().filter(biome -> !BiomeDictionary.getTypes(biome).contains(Type.OCEAN)).collect(Collectors.toList()).toArray(new Biome[0]));
 		add(EntityBoar.class, "boar", EnumCreatureType.CREATURE, 0x3d3c3b, 0xbca895, BetterAnimalsPlusConfig.boarWeight, 1, 4, false, null, Type.FOREST, Type.JUNGLE, Type.PLAINS, Type.SAVANNA);
 		add(EntitySquirrel.class, "squirrel", EnumCreatureType.CREATURE, 0x89806f, 0xb2a489, BetterAnimalsPlusConfig.squirrelWeight, 1, 3, false, null, Type.FOREST);
         add(EntitySongbird.class, "songbird", EnumCreatureType.CREATURE, 0x46f4d2, 0x7df442, BetterAnimalsPlusConfig.songbirdWeight, 1, 4, false, null, Type.FOREST, Type.PLAINS);
