@@ -99,7 +99,7 @@ public class ModelLamprey extends ModelBase {
     
     @Override
     public void setRotationAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor, Entity entityIn) {
-        float factor = (float) Math.cbrt(entityIn.motionX * entityIn.motionX + entityIn.motionY * entityIn.motionY + entityIn.motionZ * entityIn.motionZ) * 10;
+        float factor = (float) Math.cbrt(entityIn.motionX * entityIn.motionX + entityIn.motionY * entityIn.motionY + entityIn.motionZ * entityIn.motionZ) * 2;
         this.body01.rotateAngleY = MathHelper.cos(ageInTicks * 0.3F) * (float) Math.PI * 0.05F * factor;
         this.head.rotateAngleY = -this.body01.rotateAngleY * 1.5F;
         this.body02.rotateAngleY = this.body01.rotateAngleY * 1.5F;
