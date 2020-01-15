@@ -23,7 +23,7 @@ public class BetterAnimalsPlusConfig {
     public static int feralWolfWeight = 7;
     public static int coyoteWeight = 5;
     public static int foxWeight = 10;
-    public static int tarantulaWeight = 13;
+    public static int tarantulaWeight = 40;
     public static int hirschgeistWeight = 2;
     public static int goatWeight = 9;
     public static int jellyFishWeight = 10;
