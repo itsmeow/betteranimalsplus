@@ -93,7 +93,7 @@ public class EntityNautilus extends EntityWaterMob {
 
     @Override
     protected boolean canDespawn() {
-        return ModEntities.entityMap.containsKey("nautilus") ? ModEntities.entityMap.get("nautilus").despawn : false;
+        return ModEntities.entityMap.containsKey("nautilus") ? ModEntities.entityMap.get("nautilus").despawn && !this.hasCustomName() : false;
     }
 
 }

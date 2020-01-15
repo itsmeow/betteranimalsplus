@@ -221,7 +221,7 @@ public class EntityBear extends EntityMob {
     
     @Override
     protected boolean canDespawn() {
-        return ModEntities.entityMap.containsKey("brownbear") ? ModEntities.entityMap.get("brownbear").despawn : false;
+        return ModEntities.entityMap.containsKey("brownbear") ? ModEntities.entityMap.get("brownbear").despawn && !this.hasCustomName() : false;
     }
 
 }

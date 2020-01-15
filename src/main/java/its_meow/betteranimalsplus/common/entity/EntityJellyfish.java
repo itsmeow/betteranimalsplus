@@ -200,7 +200,7 @@ public class EntityJellyfish extends EntitySquid implements IVariantTypes {
 
     @Override
     protected boolean canDespawn() {
-        return ModEntities.entityMap.containsKey("jellyfish") ? ModEntities.entityMap.get("jellyfish").despawn : false;
+        return ModEntities.entityMap.containsKey("jellyfish") ? ModEntities.entityMap.get("jellyfish").despawn && !this.hasCustomName() : false;
     }
 
 }

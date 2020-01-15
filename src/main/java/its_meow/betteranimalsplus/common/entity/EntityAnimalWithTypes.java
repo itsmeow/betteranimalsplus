@@ -79,7 +79,7 @@ public abstract class EntityAnimalWithTypes extends EntityAnimal implements IVar
 
     @Override
     protected boolean canDespawn() {
-        return ModEntities.entityMap.containsKey(this.getContainerName()) ? ModEntities.entityMap.get(this.getContainerName()).despawn : false;
+        return ModEntities.entityMap.containsKey(this.getContainerName()) ? ModEntities.entityMap.get(this.getContainerName()).despawn && !this.hasCustomName() : false;
     }
     
 }

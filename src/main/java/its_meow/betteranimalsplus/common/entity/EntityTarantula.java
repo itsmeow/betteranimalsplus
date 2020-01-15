@@ -68,7 +68,7 @@ public class EntityTarantula extends EntitySpider implements IRangedAttackMob {
     
     @Override
     protected boolean canDespawn() {
-        return ModEntities.entityMap.containsKey("tarantula") ? ModEntities.entityMap.get("tarantula").despawn : false;
+        return ModEntities.entityMap.containsKey("tarantula") ? ModEntities.entityMap.get("tarantula").despawn && !this.hasCustomName() : false;
     }
 
 }

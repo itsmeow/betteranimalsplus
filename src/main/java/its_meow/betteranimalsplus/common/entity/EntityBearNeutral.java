@@ -129,7 +129,7 @@ public class EntityBearNeutral extends EntityBear implements IVariantTypes {
     
     @Override
     protected boolean canDespawn() {
-        return ModEntities.entityMap.containsKey("blackbear") ? ModEntities.entityMap.get("blackbear").despawn : false;
+        return ModEntities.entityMap.containsKey("blackbear") ? ModEntities.entityMap.get("blackbear").despawn && !this.hasCustomName() : false;
     }
 
 }
