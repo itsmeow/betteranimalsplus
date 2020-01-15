@@ -1,6 +1,5 @@
 package its_meow.betteranimalsplus.common.entity;
 
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
@@ -13,6 +12,8 @@ import net.minecraft.entity.ai.EntityAILookIdle;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
 import net.minecraft.entity.ai.EntityAIWanderAvoidWater;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
+import net.minecraft.entity.monster.IMob;
+import net.minecraft.entity.passive.EntityAmbientCreature;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.SoundEvents;
@@ -32,7 +33,7 @@ import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
 import net.minecraftforge.common.BiomeDictionary;
 
-public class EntityZotzpyre extends EntityAnimalWithTypes {
+public class EntityZotzpyre extends EntityMobWithTypes {
 
     private static final DataParameter<Byte> CLIMBING = EntityDataManager.<Byte>createKey(EntityZotzpyre.class, DataSerializers.BYTE);
     protected int lastAttack = 0;
@@ -51,7 +52,7 @@ public class EntityZotzpyre extends EntityAnimalWithTypes {
         this.tasks.addTask(2, new EntityAILookIdle(this));
         this.targetTasks.addTask(0, new EntityAIHurtByTarget(this, false, new Class[0]));
         this.targetTasks.addTask(1, new EntityAINearestAttackableTarget<EntityPlayer>(this, EntityPlayer.class, true));
-        this.targetTasks.addTask(2, new EntityAINearestAttackableTarget<EntityLiving>(this, EntityLiving.class, 0, true, true, (EntityLiving entity) -> !(entity instanceof EntityZotzpyre) && entity.getCreatureAttribute() != EnumCreatureAttribute.UNDEAD));
+        this.targetTasks.addTask(2, new EntityAINearestAttackableTarget<EntityLiving>(this, EntityLiving.class, 0, true, true, (EntityLiving entity) -> !(entity instanceof EntityZotzpyre) && !(entity instanceof EntityAmbientCreature) && !(entity instanceof IMob) && entity.getCreatureAttribute() != EnumCreatureAttribute.UNDEAD));
     }
     
     protected PathNavigate createNavigator(World worldIn) {
@@ -260,17 +261,7 @@ public class EntityZotzpyre extends EntityAnimalWithTypes {
         if(blockpos.getY() >= this.world.getSeaLevel() && !BiomeDictionary.getTypes(world.getBiome(blockpos)).contains(BiomeDictionary.Type.JUNGLE)) { // allow spawning on surface in jungles
             return false;
         } else {
-            int i = this.world.getLightFromNeighbors(blockpos);
-            int j = 4;
-            if(this.rand.nextBoolean()) {
-                return false;
-            }
-            if(!(i > this.rand.nextInt(j))) {
-                IBlockState iblockstate = this.world.getBlockState((new BlockPos(this)).down());
-                return iblockstate.canEntitySpawn(this);
-            } else {
-                return false;
-            }
+            return super.getCanSpawnHere();
         }
     }
 
@@ -315,11 +306,6 @@ public class EntityZotzpyre extends EntityAnimalWithTypes {
     @Override
     public int getVariantMax() {
         return 5;
-    }
-
-    @Override
-    protected IVariantTypes getBaseChild() {
-        return null;
     }
 
     @Override
