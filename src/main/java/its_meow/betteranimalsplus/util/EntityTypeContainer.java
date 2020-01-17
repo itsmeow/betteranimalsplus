@@ -3,6 +3,7 @@ package its_meow.betteranimalsplus.util;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Random;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -12,16 +13,22 @@ import javax.annotation.Nullable;
 
 import com.google.common.collect.Lists;
 
+import net.minecraft.block.Blocks;
 import net.minecraft.entity.EntityClassification;
+import net.minecraft.entity.EntitySpawnPlacementRegistry;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.MobEntity;
+import net.minecraft.entity.SpawnReason;
 import net.minecraft.item.SpawnEggItem;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
+import net.minecraft.world.gen.Heightmap;
 import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.ForgeConfigSpec;
 
-public class EntityTypeContainer<T extends LivingEntity> {
+public class EntityTypeContainer<T extends MobEntity> {
 
     public EntityType<T> entityType;
     public SpawnEggItem egg;
@@ -39,6 +46,9 @@ public class EntityTypeContainer<T extends LivingEntity> {
     public final float width;
     public final float height;
     public boolean despawn;
+    public final EntitySpawnPlacementRegistry.PlacementType placementType;
+    public final Heightmap.Type heightMapType;
+    public final EntitySpawnPlacementRegistry.IPlacementPredicate<T> placementPredicate;
 
     protected Biome[] spawnBiomes;
 
@@ -48,7 +58,7 @@ public class EntityTypeContainer<T extends LivingEntity> {
     
     protected Supplier<Set<Biome>> defaultBiomeSupplier;
 
-    protected EntityTypeContainer(Class<T> EntityClass, Function<World, T> func, String entityNameIn, EntityClassification type, int solidColorIn, int spotColorIn, int prob, int min, int max, float width, float height, boolean despawn, @Nullable CustomConfigurationHolder customConfig, Supplier<Set<Biome>> biomes) {
+    protected EntityTypeContainer(Class<T> EntityClass, Function<World, T> func, String entityNameIn, EntityClassification type, int solidColorIn, int spotColorIn, int prob, int min, int max, float width, float height, boolean despawn, @Nullable CustomConfigurationHolder customConfig, Supplier<Set<Biome>> biomes, EntitySpawnPlacementRegistry.PlacementType placementType, Heightmap.Type heightMapType, EntitySpawnPlacementRegistry.IPlacementPredicate<T> placementPredicate) {
         this.entityClass = EntityClass;
         this.factory = func;
         this.entityName = entityNameIn;
@@ -63,9 +73,12 @@ public class EntityTypeContainer<T extends LivingEntity> {
         this.despawn = despawn;
         this.customConfig = customConfig;
         this.defaultBiomeSupplier = biomes;
+        this.placementType = placementType;
+        this.heightMapType = heightMapType;
+        this.placementPredicate = placementPredicate;
     }
     
-    public static class Builder<T extends LivingEntity> {
+    public static class Builder<T extends MobEntity> {
         protected final Class<T> entityClass;
         protected final String entityName;
         protected final Function<World, T> factory;
@@ -80,6 +93,9 @@ public class EntityTypeContainer<T extends LivingEntity> {
         protected boolean despawn;
         protected CustomConfigurationHolder customConfig;
         protected Supplier<Set<Biome>> defaultBiomeSupplier;
+        protected EntitySpawnPlacementRegistry.PlacementType placementType;
+        protected Heightmap.Type heightMapType;
+        protected EntitySpawnPlacementRegistry.IPlacementPredicate<T> placementPredicate;
         
         protected Builder(Class<T> EntityClass, Function<World, T> func, String entityNameIn) {
             this.entityClass = EntityClass;
@@ -96,6 +112,9 @@ public class EntityTypeContainer<T extends LivingEntity> {
             this.despawn = false;
             this.customConfig = null;
             this.defaultBiomeSupplier = () -> new HashSet<Biome>();
+            this.placementType = null;
+            this.heightMapType = null;
+            this.placementPredicate = null;
         }
         
         public Builder<T> spawn(EntityClassification type, int weight, int min, int max) {
@@ -128,26 +147,40 @@ public class EntityTypeContainer<T extends LivingEntity> {
             return this;
         }
         
+        public Builder<T> placement(EntitySpawnPlacementRegistry.PlacementType type, Heightmap.Type heightMap, EntitySpawnPlacementRegistry.IPlacementPredicate<T> predicate) {
+            this.placementType = type;
+            this.heightMapType = heightMap;
+            this.placementPredicate = predicate;
+            return this;
+        }
+        
+        public Builder<T> defaultPlacement(EntitySpawnPlacementRegistry.IPlacementPredicate<T> predicate) {
+            return placement(EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, predicate);
+        }
+        
+        public Builder<T> waterPlacement() {
+            return placement(EntitySpawnPlacementRegistry.PlacementType.IN_WATER, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, EntityTypeContainer::waterSpawn);
+        }
+        
+        public Builder<T> waterPlacement(EntitySpawnPlacementRegistry.IPlacementPredicate<T> predicate) {
+            return placement(EntitySpawnPlacementRegistry.PlacementType.IN_WATER, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, predicate);
+        }
+        
         public Builder<T> biomes(BiomeDictionary.Type... biomeTypes) {
             this.defaultBiomeSupplier = toBiomes(biomeTypes);
             return this;
         }
         
-        public Builder<T> biomesArray(Supplier<Biome[]> biomes) {
+        public Builder<T> biomes(Supplier<Biome[]> biomes) {
             this.defaultBiomeSupplier = toBiomes(biomes);
             return this;
         }
         
-        public Builder<T> biomes(Supplier<Set<Biome>> biomes) {
-            this.defaultBiomeSupplier = biomes;
-            return this;
-        }
-        
         public EntityTypeContainer<T> build() {
-            return new EntityTypeContainer<T>(entityClass, factory, entityName, spawnType, eggColorSolid, eggColorSpot, spawnWeight, spawnMinGroup, spawnMaxGroup, width, height, despawn, customConfig, defaultBiomeSupplier);
+            return new EntityTypeContainer<T>(entityClass, factory, entityName, spawnType, eggColorSolid, eggColorSpot, spawnWeight, spawnMinGroup, spawnMaxGroup, width, height, despawn, customConfig, defaultBiomeSupplier, placementType, heightMapType, placementPredicate);
         }
         
-        public static <T extends LivingEntity> Builder<T> create(Class<T> EntityClass, Function<World, T> func, String entityNameIn) {
+        public static <T extends MobEntity> Builder<T> create(Class<T> EntityClass, Function<World, T> func, String entityNameIn) {
             return new Builder<T>(EntityClass, func, entityNameIn);
         }
         
@@ -246,6 +279,7 @@ public class EntityTypeContainer<T extends LivingEntity> {
         if(this.customConfig != null) {
             this.customConfig.customConfigurationLoad();
         }
+        
     }
 
     public void customConfigurationInit(ForgeConfigSpec.Builder builder) {
@@ -257,6 +291,16 @@ public class EntityTypeContainer<T extends LivingEntity> {
     public static interface CustomConfigurationHolder {
         void customConfigurationInit(ForgeConfigSpec.Builder builder);
         void customConfigurationLoad();
+    }
+
+    protected static <T extends MobEntity> boolean waterSpawn(EntityType<T> type, IWorld world, SpawnReason reason, BlockPos pos, Random rand) {
+        return pos.getY() > 45 && pos.getY() < (world.getSeaLevel() - 1) && world.getBlockState(pos).getBlock() == Blocks.WATER;
+    }
+
+    public void registerPlacement() {
+        if(this.placementType != null && this.placementPredicate != null && this.heightMapType != null) {
+            EntitySpawnPlacementRegistry.<T>register(this.entityType, placementType, heightMapType, placementPredicate);
+        }
     }
 
 }

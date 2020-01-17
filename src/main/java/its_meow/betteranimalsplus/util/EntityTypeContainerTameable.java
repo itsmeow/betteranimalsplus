@@ -10,27 +10,29 @@ import java.util.function.Supplier;
 import javax.annotation.Nullable;
 
 import net.minecraft.entity.EntityClassification;
-import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.EntitySpawnPlacementRegistry;
+import net.minecraft.entity.MobEntity;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
+import net.minecraft.world.gen.Heightmap;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.common.ForgeConfigSpec.ConfigValue;
 
-public class EntityTypeContainerTameable<T extends LivingEntity> extends EntityTypeContainer<T> {
+public class EntityTypeContainerTameable<T extends MobEntity> extends EntityTypeContainer<T> {
 
     protected String[] tameItemsStore;
     protected ConfigValue<List<? extends String>> tameItems;
     protected String[] defaultTameItems;
 
-    private EntityTypeContainerTameable(Class<T> EntityClass, Function<World, T> func, String entityNameIn, EntityClassification type, int solidColorIn, int spotColorIn, int prob, int min, int max, float width, float height, boolean despawn, String[] defaultTameItems, @Nullable CustomConfigurationHolder customConfig, Supplier<Set<Biome>> biomes) {
-        super(EntityClass, func, entityNameIn, type, solidColorIn, spotColorIn, prob, min, max, width, height, despawn, customConfig, biomes);
+    private EntityTypeContainerTameable(Class<T> EntityClass, Function<World, T> func, String entityNameIn, EntityClassification type, int solidColorIn, int spotColorIn, int prob, int min, int max, float width, float height, boolean despawn, String[] defaultTameItems, @Nullable CustomConfigurationHolder customConfig, Supplier<Set<Biome>> biomes, EntitySpawnPlacementRegistry.PlacementType placementType, Heightmap.Type heightMapType, EntitySpawnPlacementRegistry.IPlacementPredicate<T> placementPredicate) {
+        super(EntityClass, func, entityNameIn, type, solidColorIn, spotColorIn, prob, min, max, width, height, despawn, customConfig, biomes, placementType, heightMapType, placementPredicate);
         this.defaultTameItems = defaultTameItems;
     }
 
-    public static class TameableBuilder<T extends LivingEntity> extends EntityTypeContainer.Builder<T> {
+    public static class TameableBuilder<T extends MobEntity> extends EntityTypeContainer.Builder<T> {
         protected String[] defaultTameItems;
 
         private TameableBuilder(Class<T> EntityClass, Function<World, T> func, String entityNameIn) {
@@ -39,10 +41,7 @@ public class EntityTypeContainerTameable<T extends LivingEntity> extends EntityT
         
         @Override
         public TameableBuilder<T> spawn(EntityClassification type, int weight, int min, int max) {
-            this.spawnType = type;
-            this.spawnWeight = weight;
-            this.spawnMinGroup = min;
-            this.spawnMaxGroup = max;
+            super.spawn(type, weight, min, max);
             return this;
         }
         
@@ -77,14 +76,28 @@ public class EntityTypeContainerTameable<T extends LivingEntity> extends EntityT
         }
         
         @Override
-        public TameableBuilder<T> biomesArray(Supplier<Biome[]> biomes) {
-            super.biomesArray(biomes);
+        public TameableBuilder<T> biomes(Supplier<Biome[]> biomes) {
+            super.biomes(biomes);
             return this;
         }
         
-        @Override
-        public TameableBuilder<T> biomes(Supplier<Set<Biome>> biomes) {
-            super.biomes(biomes);
+        public Builder<T> placement(EntitySpawnPlacementRegistry.PlacementType type, Heightmap.Type heightMap, EntitySpawnPlacementRegistry.IPlacementPredicate<T> predicate) {
+            super.placement(type, heightMap, predicate);
+            return this;
+        }
+        
+        public Builder<T> defaultPlacement(EntitySpawnPlacementRegistry.IPlacementPredicate<T> predicate) {
+            super.defaultPlacement(predicate);
+            return this;
+        }
+        
+        public Builder<T> waterPlacement() {
+            super.waterPlacement();
+            return this;
+        }
+        
+        public Builder<T> waterPlacement(EntitySpawnPlacementRegistry.IPlacementPredicate<T> predicate) {
+            super.waterPlacement(predicate);
             return this;
         }
 
@@ -95,10 +108,10 @@ public class EntityTypeContainerTameable<T extends LivingEntity> extends EntityT
 
         @Override
         public EntityTypeContainerTameable<T> build() {
-            return new EntityTypeContainerTameable<T>(entityClass, factory, entityName, spawnType, eggColorSolid, eggColorSpot, spawnWeight, spawnMinGroup, spawnMaxGroup, width, height, despawn, defaultTameItems, customConfig, defaultBiomeSupplier);
+            return new EntityTypeContainerTameable<T>(entityClass, factory, entityName, spawnType, eggColorSolid, eggColorSpot, spawnWeight, spawnMinGroup, spawnMaxGroup, width, height, despawn, defaultTameItems, customConfig, defaultBiomeSupplier, placementType, heightMapType, placementPredicate);
         }
 
-        public static <T extends LivingEntity> TameableBuilder<T> create(Class<T> EntityClass, Function<World, T> func, String entityNameIn) {
+        public static <T extends MobEntity> TameableBuilder<T> create(Class<T> EntityClass, Function<World, T> func, String entityNameIn) {
             return new TameableBuilder<T>(EntityClass, func, entityNameIn);
         }
 

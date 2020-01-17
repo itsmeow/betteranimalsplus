@@ -12,15 +12,11 @@ import its_meow.betteranimalsplus.Ref;
 import its_meow.betteranimalsplus.init.ModEntities;
 import its_meow.betteranimalsplus.util.EntityTypeContainer;
 import its_meow.betteranimalsplus.util.EntityTypeContainerTameable;
-import net.minecraft.block.Blocks;
-import net.minecraft.entity.EntityClassification;
-import net.minecraft.entity.EntitySpawnPlacementRegistry;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.Biome.SpawnListEntry;
-import net.minecraft.world.gen.Heightmap;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -112,12 +108,7 @@ public class BetterAnimalsPlusConfig {
                 for(EntityTypeContainer<?> entry : ModEntities.ENTITIES.values()) {
                     EntityType<?> type = entry.entityType;
                     if(entry.doSpawning) {
-                        if(entry.spawnType == EntityClassification.WATER_CREATURE && EntitySpawnPlacementRegistry.getPlacementType((EntityType<? extends MobEntity>) type) == EntitySpawnPlacementRegistry.PlacementType.NO_RESTRICTIONS) {
-                            EntitySpawnPlacementRegistry.<MobEntity>register((EntityType<MobEntity>) type, EntitySpawnPlacementRegistry.PlacementType.IN_WATER, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, 
-                            (etype, world, reason, pos, rand) -> {
-                                return pos.getY() > 45 && pos.getY() < (world.getSeaLevel() - 1) && world.getBlockState(pos).getBlock() == Blocks.WATER;
-                            });
-                        }
+                        entry.registerPlacement();
                         for(Biome biome : entry.getBiomes()) {
                             biome.addSpawn(entry.spawnType, new SpawnListEntry((EntityType<? extends MobEntity>) type, entry.spawnWeight, entry.spawnMinGroup, entry.spawnMaxGroup));
                         }

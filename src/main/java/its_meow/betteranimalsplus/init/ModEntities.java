@@ -3,9 +3,7 @@ package its_meow.betteranimalsplus.init;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.function.Function;
-import java.util.stream.Collectors;
 
 import its_meow.betteranimalsplus.BetterAnimalsPlusMod;
 import its_meow.betteranimalsplus.Ref;
@@ -35,6 +33,7 @@ import its_meow.betteranimalsplus.common.entity.EntityTurkey;
 import its_meow.betteranimalsplus.common.entity.EntityZotzpyre;
 import its_meow.betteranimalsplus.common.entity.miniboss.hirschgeist.EntityHirschgeist;
 import its_meow.betteranimalsplus.config.BetterAnimalsPlusConfig;
+import its_meow.betteranimalsplus.util.BiomeListBuilder;
 import its_meow.betteranimalsplus.util.EntityTypeContainer;
 import its_meow.betteranimalsplus.util.EntityTypeContainer.Builder;
 import its_meow.betteranimalsplus.util.EntityTypeContainer.CustomConfigurationHolder;
@@ -43,18 +42,16 @@ import its_meow.betteranimalsplus.util.EntityTypeContainerTameable.TameableBuild
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.MobEntity;
 import net.minecraft.world.World;
-import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.Biomes;
-import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.BiomeDictionary.Type;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 
 public class ModEntities {
 
-    public static final LinkedHashMap<String, EntityTypeContainer<? extends LivingEntity>> ENTITIES = new LinkedHashMap<>();
+    public static final LinkedHashMap<String, EntityTypeContainer<? extends MobEntity>> ENTITIES = new LinkedHashMap<>();
     
     /*
      * ##########################################################
@@ -91,54 +88,54 @@ public class ModEntities {
                 BetterAnimalsPlusConfig.goatVanillaMilk = this.goatVanillaMilk.get();
             }
         }));
-        public static final EntityTypeContainer<EntityJellyfish> JELLYFISH = setup(create(EntityJellyfish.class, EntityJellyfish::new, "jellyfish").spawn(EntityClassification.WATER_CREATURE, 10, 1, 1).egg(0x226fe2, 0xf2b3b3).size(0.8F, 0.8F).despawn().biomes(Type.OCEAN));
+        public static final EntityTypeContainer<EntityJellyfish> JELLYFISH = setup(create(EntityJellyfish.class, EntityJellyfish::new, "jellyfish").spawn(EntityClassification.WATER_CREATURE, 10, 1, 1).waterPlacement().egg(0x226fe2, 0xf2b3b3).size(0.8F, 0.8F).despawn().biomes(Type.OCEAN));
         public static final EntityTypeContainer<EntityPheasant> PHEASANT = setup(create(EntityPheasant.class, EntityPheasant::new, "pheasant").spawn(EntityClassification.CREATURE, 12, 1, 3).egg(0x8e6b0b, 0xd8af3c).size(1F, 1F).biomes(Type.FOREST, Type.PLAINS, Type.SAVANNA));
-        public static final EntityTypeContainer<EntityReindeer> REINDEER = setup(create(EntityReindeer.class, EntityReindeer::new, "reindeer").spawn(EntityClassification.CREATURE, 10, 1, 4).egg(0x8e510b, 0x017700).size(1.3964844F, 1.8F).biomesArray(() -> BiomeDictionary.getBiomes(Type.SNOWY).stream().filter(biome -> !BiomeDictionary.getTypes(biome).contains(Type.OCEAN)).collect(Collectors.toList()).toArray(new Biome[0])));
+        public static final EntityTypeContainer<EntityReindeer> REINDEER = setup(create(EntityReindeer.class, EntityReindeer::new, "reindeer").spawn(EntityClassification.CREATURE, 10, 1, 4).egg(0x8e510b, 0x017700).size(1.3964844F, 1.8F).biomes(BiomeListBuilder.create().withTypes(Type.SNOWY).withoutTypes(Type.OCEAN)::collect));
         public static final EntityTypeContainer<EntityBoar> BOAR = setup(create(EntityBoar.class, EntityBoar::new, "boar").spawn(EntityClassification.CREATURE, 9, 1, 4).egg(0x3d3c3b, 0xbca895).size(0.9F, 0.9F).biomes(Type.FOREST, Type.JUNGLE, Type.PLAINS, Type.SAVANNA));
         public static final EntityTypeContainer<EntitySquirrel> SQUIRREL = setup(create(EntitySquirrel.class, EntitySquirrel::new, "squirrel").spawn(EntityClassification.CREATURE, 8, 1, 3).egg(0x89806f, 0xb2a489).size(0.5F, 0.5F).biomes(Type.FOREST));
         public static final EntityTypeContainer<EntitySongbird> SONGBIRD = setup(create(EntitySongbird.class, EntitySongbird::new, "songbird").spawn(EntityClassification.CREATURE, 11, 1, 4).egg(0x46f4d2, 0x7df442).size(0.5F, 0.5F).biomes(Type.FOREST, Type.PLAINS));
         public static final EntityTypeContainer<EntityBadger> BADGER = setup(create(EntityBadger.class, EntityBadger::new, "badger").spawn(EntityClassification.CREATURE, 7, 1, 2).egg(0x0c0c0c, 0xd3d3d3).size(0.8F, 0.8F).biomes(Type.FOREST, Type.PLAINS, Type.SAVANNA));
-        public static final EntityTypeContainer<EntityLamprey> LAMPREY = setup(create(EntityLamprey.class, EntityLamprey::new, "lamprey").spawn(EntityClassification.WATER_CREATURE, 7, 1, 1).egg(0x0000ad, 0x0a0a0a).size(1.0F, 0.7F).despawn().biomes(Type.RIVER, Type.SWAMP));
-        public static final EntityTypeContainer<EntityNautilus> NAUTILUS = setup(create(EntityNautilus.class, EntityNautilus::new, "nautilus").spawn(EntityClassification.WATER_CREATURE, 4, 1, 1).egg(0xFF9659, 0x241682).size(0.75F, 0.75F).despawn().biomes(Type.OCEAN));
+        public static final EntityTypeContainer<EntityLamprey> LAMPREY = setup(create(EntityLamprey.class, EntityLamprey::new, "lamprey").spawn(EntityClassification.WATER_CREATURE, 7, 1, 1).waterPlacement().egg(0x0000ad, 0x0a0a0a).size(1.0F, 0.7F).despawn().biomes(Type.RIVER, Type.SWAMP));
+        public static final EntityTypeContainer<EntityNautilus> NAUTILUS = setup(create(EntityNautilus.class, EntityNautilus::new, "nautilus").spawn(EntityClassification.WATER_CREATURE, 4, 1, 1).waterPlacement().egg(0xFF9659, 0x241682).size(0.75F, 0.75F).despawn().biomes(Type.OCEAN));
         public static final EntityTypeContainer<EntityCrab> CRAB = setup(create(EntityCrab.class, EntityCrab::new, "crab").spawn(EntityClassification.CREATURE, 10, 1, 3).egg(0xe21d16, 0x2d0504).size(1F, 0.65F).biomes(Type.BEACH, Type.SWAMP));
         public static final EntityTypeContainer<EntityHorseshoeCrab> HORSESHOE_CRAB = setup(create(EntityHorseshoeCrab.class, EntityHorseshoeCrab::new, "horseshoecrab").spawn(EntityClassification.CREATURE, 8, 1, 3).egg(0xba1111, 0x520807).size(1F, 0.65F).biomes(Type.BEACH));
-        public static final EntityTypeContainer<EntityShark> SHARK = setup(create(EntityShark.class, EntityShark::new, "shark").spawn(EntityClassification.WATER_CREATURE, 4, 1, 1).egg(0x787878, 0xbdbdbd).size(2.5F, 1.2F).despawn().biomes(Type.OCEAN));
-        public static final EntityTypeContainer<EntityMoose> MOOSE = setup(create(EntityMoose.class, EntityMoose::new, "moose").spawn(EntityClassification.CREATURE, 8, 1, 1).egg(0x46351c, 0x97866e).size(2.25F, 3F).biomesArray(() -> {List<Biome> list = BiomeDictionary.getBiomes(Type.SWAMP).stream().collect(Collectors.toList());list.add(Biomes.GIANT_SPRUCE_TAIGA); list.add(Biomes.GIANT_SPRUCE_TAIGA_HILLS);list.add(Biomes.GIANT_TREE_TAIGA);list.add(Biomes.GIANT_TREE_TAIGA_HILLS);return list.toArray(new Biome[0]);}));
-        public static final EntityTypeContainer<EntityTurkey> TURKEY = setup(create(EntityTurkey.class, EntityTurkey::new, "turkey").spawn(EntityClassification.CREATURE, 11, 1, 3).egg(0x857445, 0x5099ba).size(1F, 1F).biomesArray(() -> BiomeDictionary.getBiomes(Type.FOREST).stream().filter(biome -> !BiomeDictionary.getTypes(biome).contains(Type.SNOWY)).collect(Collectors.toList()).toArray(new Biome[0])));
-        public static final EntityTypeContainer<EntityZotzpyre> ZOTZPYRE = setup(create(EntityZotzpyre.class, EntityZotzpyre::new, "zotzpyre").spawn(EntityClassification.MONSTER, 30, 1, 1).egg(0x321e13, 0x543a28).size(1F, 1F).despawn().biomes(Type.FOREST, Type.JUNGLE, Type.BEACH, Type.CONIFEROUS, Type.LUSH, Type.WASTELAND, Type.SWAMP, Type.HILLS, Type.MOUNTAIN));
-        public static final EntityTypeContainer<EntityBobbitWorm> BOBBIT_WORM = setup(create(EntityBobbitWorm.class, EntityBobbitWorm::new, "bobbit_worm").spawn(EntityClassification.WATER_CREATURE, 2, 1, 1).egg(0xffe38f, 0x0f27bf).size(1F, 1F).despawn().biomes(Type.OCEAN));
+        public static final EntityTypeContainer<EntityShark> SHARK = setup(create(EntityShark.class, EntityShark::new, "shark").spawn(EntityClassification.WATER_CREATURE, 4, 1, 1).waterPlacement().egg(0x787878, 0xbdbdbd).size(2.5F, 1.2F).despawn().biomes(Type.OCEAN));
+        public static final EntityTypeContainer<EntityMoose> MOOSE = setup(create(EntityMoose.class, EntityMoose::new, "moose").spawn(EntityClassification.CREATURE, 8, 1, 1).egg(0x46351c, 0x97866e).size(2.25F, 3F).biomes(BiomeListBuilder.create().extra(Type.SWAMP).extra(Biomes.GIANT_SPRUCE_TAIGA, Biomes.GIANT_SPRUCE_TAIGA_HILLS, Biomes.GIANT_TREE_TAIGA, Biomes.GIANT_TREE_TAIGA_HILLS)::collect));
+        public static final EntityTypeContainer<EntityTurkey> TURKEY = setup(create(EntityTurkey.class, EntityTurkey::new, "turkey").spawn(EntityClassification.CREATURE, 11, 1, 3).egg(0x857445, 0x5099ba).size(1F, 1F).biomes(BiomeListBuilder.create().withTypes(Type.FOREST).withoutTypes(Type.SNOWY)::collect));
+        public static final EntityTypeContainer<EntityZotzpyre> ZOTZPYRE = setup(create(EntityZotzpyre.class, EntityZotzpyre::new, "zotzpyre").spawn(EntityClassification.MONSTER, 30, 1, 1).defaultPlacement(EntityZotzpyre::canSpawn).egg(0x321e13, 0x543a28).size(1F, 1F).despawn().biomes(Type.FOREST, Type.JUNGLE, Type.BEACH, Type.CONIFEROUS, Type.LUSH, Type.WASTELAND, Type.SWAMP, Type.HILLS, Type.MOUNTAIN));
+        public static final EntityTypeContainer<EntityBobbitWorm> BOBBIT_WORM = setup(create(EntityBobbitWorm.class, EntityBobbitWorm::new, "bobbit_worm").spawn(EntityClassification.WATER_CREATURE, 2, 1, 1).waterPlacement().egg(0xffe38f, 0x0f27bf).size(1F, 1F).despawn().biomes(Type.OCEAN));
     /*
      * ##########################################################
      * 
      * ##########################################################
      */
         
-    private static <T extends LivingEntity> Builder<T> create(Class<T> EntityClass, Function<World, T> func, String entityNameIn) {
+    private static <T extends MobEntity> Builder<T> create(Class<T> EntityClass, Function<World, T> func, String entityNameIn) {
         return EntityTypeContainer.Builder.create(EntityClass, func, entityNameIn);
     }
     
-    private static <T extends LivingEntity> TameableBuilder<T> createTame(Class<T> EntityClass, Function<World, T> func, String entityNameIn) {
+    private static <T extends MobEntity> TameableBuilder<T> createTame(Class<T> EntityClass, Function<World, T> func, String entityNameIn) {
         return EntityTypeContainerTameable.TameableBuilder.create(EntityClass, func, entityNameIn);
     }
 
     @SuppressWarnings("unchecked")
-    public static <T extends LivingEntity>EntityTypeContainer<T> getEntityTypeContainer(String name) {
+    public static <T extends MobEntity>EntityTypeContainer<T> getEntityTypeContainer(String name) {
         return (EntityTypeContainer<T>) ENTITIES.get(name);
     }
 
     @SuppressWarnings("unchecked")
-    public static <T extends LivingEntity>EntityType<T> getEntityType(String name) {
+    public static <T extends MobEntity>EntityType<T> getEntityType(String name) {
         return (EntityType<T>) ENTITIES.get(name).entityType;
     }
 
-    private static <T extends LivingEntity> EntityTypeContainer<T> setup(EntityTypeContainer.Builder<T> builder) {
+    private static <T extends MobEntity> EntityTypeContainer<T> setup(EntityTypeContainer.Builder<T> builder) {
         EntityTypeContainer<T> c = builder.build();
         c.entityType = ModEntities.<T>createEntityType(c);
         ENTITIES.put(c.entityName, c);
         return c;
     }
     
-    private static <T extends LivingEntity> EntityTypeContainerTameable<T> setup(EntityTypeContainerTameable.TameableBuilder<T> builder) {
+    private static <T extends MobEntity> EntityTypeContainerTameable<T> setup(EntityTypeContainerTameable.TameableBuilder<T> builder) {
         EntityTypeContainerTameable<T> c = builder.build();
         c.entityType = ModEntities.<T>createEntityType(c);
         ENTITIES.put(c.entityName, c);
@@ -147,7 +144,7 @@ public class ModEntities {
     
     private static Field type$serializable = null;
 
-    public static <T extends LivingEntity> EntityType<T> createEntityType(EntityTypeContainer<T> container) {
+    public static <T extends MobEntity> EntityType<T> createEntityType(EntityTypeContainer<T> container) {
         return createEntityType(container.entityClass, container.factory, container.entityName, container.spawnType, 64, 1, true, container.width, container.height);
     }
     
@@ -175,6 +172,6 @@ public class ModEntities {
         modifiersField.setInt(field, field.getModifiers() & ~Modifier.FINAL);
 
         field.set(object, newValue);
-     }
+    }
 
 }
