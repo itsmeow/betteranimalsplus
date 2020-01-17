@@ -17,10 +17,12 @@ import net.minecraft.entity.ai.goal.HurtByTargetGoal;
 import net.minecraft.entity.ai.goal.LeapAtTargetGoal;
 import net.minecraft.entity.ai.goal.LookAtGoal;
 import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal;
+import net.minecraft.entity.ai.goal.SwimGoal;
 import net.minecraft.entity.ai.goal.WaterAvoidingRandomWalkingGoal;
 import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.passive.AmbientEntity;
 import net.minecraft.entity.passive.IFlyingAnimal;
+import net.minecraft.entity.passive.horse.AbstractHorseEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.network.datasync.DataParameter;
@@ -54,12 +56,13 @@ public class EntityZotzpyre extends EntityMonsterWithTypes {
 
     @Override
     protected void registerGoals() {
-        this.goalSelector.addGoal(0, new LeapAtTargetGoal(this, 0.5F));
-        this.goalSelector.addGoal(1, new WaterAvoidingRandomWalkingGoal(this, 0.6D));
-        this.goalSelector.addGoal(2, new LookAtGoal(this, PlayerEntity.class, 8.0F));
+        this.goalSelector.addGoal(0, new SwimGoal(this));
+        this.goalSelector.addGoal(1, new LeapAtTargetGoal(this, 0.5F));
+        this.goalSelector.addGoal(2, new WaterAvoidingRandomWalkingGoal(this, 0.6D));
+        this.goalSelector.addGoal(3, new LookAtGoal(this, PlayerEntity.class, 8.0F));
         this.targetSelector.addGoal(0, new HurtByTargetGoal(this));
         this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<PlayerEntity>(this, PlayerEntity.class, true));
-        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<MobEntity>(this, MobEntity.class, 0, true, true, entity -> !(entity instanceof EntityZotzpyre) && !(entity instanceof AmbientEntity) && !(entity instanceof IMob) && entity.getCreatureAttribute() != CreatureAttribute.UNDEAD));
+        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<MobEntity>(this, MobEntity.class, 0, true, true, entity -> !(entity instanceof EntityZotzpyre) && !(entity instanceof AbstractHorseEntity) && !(entity instanceof AmbientEntity) && !(entity instanceof IMob) && entity.getCreatureAttribute() != CreatureAttribute.UNDEAD));
     }
 
     protected PathNavigator createNavigator(World worldIn) {
@@ -104,59 +107,57 @@ public class EntityZotzpyre extends EntityMonsterWithTypes {
     /* prevent slowdown in air */
     @Override
     public void travel(Vec3d vec) {
-        if (this.isServerWorld() || this.canPassengerSteer()) {
-            double d0 = 0.08D;
-            IAttributeInstance gravity = this.getAttribute(ENTITY_GRAVITY);
-            boolean flag = this.getMotion().y <= 0.0D;
-            d0 = gravity.getValue();
-            double d1 = this.posY;
-            float f = this.isSprinting() ? 0.9F : this.getWaterSlowDown();
-            float f1 = 0.02F;
-            float f2 = (float)EnchantmentHelper.getDepthStriderModifier(this);
-            if (f2 > 3.0F) {
-                f2 = 3.0F;
-            }
+        double d0 = 0.08D;
+        IAttributeInstance gravity = this.getAttribute(ENTITY_GRAVITY);
+        boolean flag = this.getMotion().y <= 0.0D;
+        d0 = gravity.getValue();
+        double d1 = this.posY;
+        float f = this.isSprinting() ? 0.9F : this.getWaterSlowDown();
+        float f1 = 0.02F;
+        float f2 = (float)EnchantmentHelper.getDepthStriderModifier(this);
+        if (f2 > 3.0F) {
+            f2 = 3.0F;
+        }
 
-            /*if (!this.onGround) {
+        /*if (!this.onGround) {
                 f2 *= 0.5F;
             }*/
 
-            if (f2 > 0.0F) {
-                f += (0.54600006F - f) * f2 / 3.0F;
-                f1 += (this.getAIMoveSpeed() - f1) * f2 / 3.0F;
-            }
-
-            if (this.isPotionActive(Effects.DOLPHINS_GRACE)) {
-                f = 0.96F;
-            }
-
-            f1 *= (float)this.getAttribute(SWIM_SPEED).getValue();
-            this.moveRelative(f1, vec);
-            this.move(MoverType.SELF, this.getMotion());
-            Vec3d vec3d1 = this.getMotion();
-            if (this.collidedHorizontally && this.isOnLadder()) {
-                vec3d1 = new Vec3d(vec3d1.x, 0.2D, vec3d1.z);
-            }
-
-            this.setMotion(vec3d1.mul((double)f, (double)0.8F, (double)f));
-            if (!this.hasNoGravity() && !this.isSprinting()) {
-                Vec3d vec3d2 = this.getMotion();
-                double d2;
-                if (flag && Math.abs(vec3d2.y - 0.005D) >= 0.003D && Math.abs(vec3d2.y - d0 / 16.0D) < 0.003D) {
-                    d2 = -0.003D;
-                } else {
-                    d2 = vec3d2.y - d0 / 16.0D;
-                }
-
-                this.setMotion(vec3d2.x, d2, vec3d2.z);
-            }
-
-            Vec3d vec3d6 = this.getMotion();
-            if (this.collidedHorizontally && this.isOffsetPositionInLiquid(vec3d6.x, vec3d6.y + (double)0.6F - this.posY + d1, vec3d6.z)) {
-                this.setMotion(vec3d6.x, (double)0.3F, vec3d6.z);
-            }
-
+        if (f2 > 0.0F) {
+            f += (0.54600006F - f) * f2 / 3.0F;
+            f1 += (this.getAIMoveSpeed() - f1) * f2 / 3.0F;
         }
+
+        if (this.isPotionActive(Effects.DOLPHINS_GRACE)) {
+            f = 0.96F;
+        }
+
+        f1 *= (float)this.getAttribute(SWIM_SPEED).getValue();
+        this.moveRelative(f1, vec);
+        this.move(MoverType.SELF, this.getMotion());
+        Vec3d vec3d1 = this.getMotion();
+        if (this.collidedHorizontally && this.isOnLadder()) {
+            vec3d1 = new Vec3d(vec3d1.x, 0.2D, vec3d1.z);
+        }
+
+        this.setMotion(vec3d1.mul((double)f, (double)0.8F, (double)f));
+        if (!this.hasNoGravity() && !this.isSprinting()) {
+            Vec3d vec3d2 = this.getMotion();
+            double d2;
+            if (flag && Math.abs(vec3d2.y - 0.005D) >= 0.003D && Math.abs(vec3d2.y - d0 / 16.0D) < 0.003D) {
+                d2 = -0.003D;
+            } else {
+                d2 = vec3d2.y - d0 / 16.0D;
+            }
+
+            this.setMotion(vec3d2.x, d2, vec3d2.z);
+        }
+
+        Vec3d vec3d6 = this.getMotion();
+        if (this.collidedHorizontally && this.isOffsetPositionInLiquid(vec3d6.x, vec3d6.y + (double)0.6F - this.posY + d1, vec3d6.z)) {
+            this.setMotion(vec3d6.x, (double)0.3F, vec3d6.z);
+        }
+
 
         this.prevLimbSwingAmount = this.limbSwingAmount;
         double d5 = this.posX - this.prevPosX;
@@ -254,9 +255,11 @@ public class EntityZotzpyre extends EntityMonsterWithTypes {
         this.isFromZotz = true;
         this.stopRiding();
         this.isFromZotz  = false;
-        for(ServerPlayerEntity player : this.world.getServer().getPlayerList().getPlayers()) {
-            if(player.world == this.world && player.getDistance(this) <= 128) {
-                player.connection.sendPacket(new SSetPassengersPacket(mount));
+        if(!world.isRemote) {
+            for(ServerPlayerEntity player : this.world.getServer().getPlayerList().getPlayers()) {
+                if(player.world == this.world && player.getDistance(this) <= 128) {
+                    player.connection.sendPacket(new SSetPassengersPacket(mount));
+                }
             }
         }
     }
@@ -265,7 +268,7 @@ public class EntityZotzpyre extends EntityMonsterWithTypes {
     public void stopRiding() {
         if(this.getRidingEntity() != null && !this.getRidingEntity().canBeRiddenInWater(this)) {
             super.stopRiding();
-        } else if(this.getAttackTarget() == null || isFromZotz ) {
+        } else if(this.getAttackTarget() == null || isFromZotz) {
             super.stopRiding();
         }
     }
@@ -285,7 +288,7 @@ public class EntityZotzpyre extends EntityMonsterWithTypes {
         if(getRidingEntity() != null && getRidingEntity() instanceof PlayerEntity) {
             return getRidingEntity().getHeight() - 2.25F;
         } else if(getRidingEntity() != null) {
-            return getRidingEntity().getHeight() * 0.5D - 1.25D;
+            return (getRidingEntity().getEyeHeight() / 2) - this.getHeight();
         } else {
             return super.getYOffset();
         }
@@ -298,7 +301,7 @@ public class EntityZotzpyre extends EntityMonsterWithTypes {
             return func_223324_d(type, world, reason, pos, rand);
         }
     }
-    
+
     @Override
     public boolean attackEntityFrom(DamageSource source, float amount) {
         if (this.isInvulnerableTo(source)) {
@@ -330,6 +333,9 @@ public class EntityZotzpyre extends EntityMonsterWithTypes {
                 }
                 entityplayer.addPotionEffect(new EffectInstance(Effects.SLOWNESS, slowTicks, 1, false, false));
             }
+        }
+        if(!this.world.isRemote && !entityIn.isAlive() && entityIn == this.getRidingEntity()) {
+            this.dismountZotz();
         }
         return flag;
     }
