@@ -10,10 +10,12 @@ import net.minecraft.entity.ai.EntityAIHurtByTarget;
 import net.minecraft.entity.ai.EntityAILeapAtTarget;
 import net.minecraft.entity.ai.EntityAILookIdle;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
+import net.minecraft.entity.ai.EntityAISwimming;
 import net.minecraft.entity.ai.EntityAIWanderAvoidWater;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.passive.EntityAmbientCreature;
+import net.minecraft.entity.passive.EntityHorse;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.SoundEvents;
@@ -46,19 +48,20 @@ public class EntityZotzpyre extends EntityMobWithTypes {
 
     @Override
     protected void initEntityAI() {
-        this.tasks.addTask(0, new EntityAILeapAtTarget(this, 0.5F));
-        this.tasks.addTask(1, new EntityAIWanderAvoidWater(this, 0.6D));
-        this.tasks.addTask(2, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
-        this.tasks.addTask(2, new EntityAILookIdle(this));
+        this.tasks.addTask(0, new EntityAISwimming(this));
+        this.tasks.addTask(1, new EntityAILeapAtTarget(this, 0.5F));
+        this.tasks.addTask(2, new EntityAIWanderAvoidWater(this, 0.6D));
+        this.tasks.addTask(3, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
+        this.tasks.addTask(3, new EntityAILookIdle(this));
         this.targetTasks.addTask(0, new EntityAIHurtByTarget(this, false, new Class[0]));
         this.targetTasks.addTask(1, new EntityAINearestAttackableTarget<EntityPlayer>(this, EntityPlayer.class, true));
-        this.targetTasks.addTask(2, new EntityAINearestAttackableTarget<EntityLiving>(this, EntityLiving.class, 0, true, true, (EntityLiving entity) -> !(entity instanceof EntityZotzpyre) && !(entity instanceof EntityAmbientCreature) && !(entity instanceof IMob) && entity.getCreatureAttribute() != EnumCreatureAttribute.UNDEAD));
+        this.targetTasks.addTask(2, new EntityAINearestAttackableTarget<EntityLiving>(this, EntityLiving.class, 0, true, true, (EntityLiving entity) -> !(entity instanceof EntityZotzpyre) && !(entity instanceof EntityAmbientCreature) && !(entity instanceof EntityHorse) && !(entity instanceof EntityReindeer) && !(entity instanceof IMob) && entity.getCreatureAttribute() != EnumCreatureAttribute.UNDEAD));
     }
-    
+
     protected PathNavigate createNavigator(World worldIn) {
         return new PathNavigateClimber(this, worldIn);
     }
-    
+
     protected void entityInit() {
         super.entityInit();
         this.dataManager.register(CLIMBING, (byte) 0);
@@ -95,30 +98,28 @@ public class EntityZotzpyre extends EntityMobWithTypes {
 
     /* prevent slowdown in air */
     public void travel(float strafe, float vertical, float forward) {
-        if(this.isServerWorld() || this.canPassengerSteer()) {
-            double d0 = this.posY;
-            float f1 = this.getWaterSlowDown();
-            float f2 = 0.02F;
-            float f3 = (float) EnchantmentHelper.getDepthStriderModifier(this);
-            if(f3 > 3.0F) {
-                f3 = 3.0F;
-            }
-            // normally vanilla puts slowdown here
-            if(f3 > 0.0F) {
-                f1 += (0.54600006F - f1) * f3 / 3.0F;
-                f2 += (this.getAIMoveSpeed() - f2) * f3 / 3.0F;
-            }
-            this.moveRelative(strafe, vertical, forward, f2);
-            this.move(MoverType.SELF, this.motionX, this.motionY, this.motionZ);
-            this.motionX *= (double) f1;
-            this.motionY *= 0.800000011920929D;
-            this.motionZ *= (double) f1;
-            if(!this.hasNoGravity()) {
-                this.motionY -= 0.02D;
-            }
-            if(this.collidedHorizontally && this.isOffsetPositionInLiquid(this.motionX, this.motionY + 0.6000000238418579D - this.posY + d0, this.motionZ)) {
-                this.motionY = 0.30000001192092896D;
-            }
+        double d0 = this.posY;
+        float f1 = this.getWaterSlowDown();
+        float f2 = 0.02F;
+        float f3 = (float) EnchantmentHelper.getDepthStriderModifier(this);
+        if(f3 > 3.0F) {
+            f3 = 3.0F;
+        }
+        // normally vanilla puts slowdown here
+        if(f3 > 0.0F) {
+            f1 += (0.54600006F - f1) * f3 / 3.0F;
+            f2 += (this.getAIMoveSpeed() - f2) * f3 / 3.0F;
+        }
+        this.moveRelative(strafe, vertical, forward, f2);
+        this.move(MoverType.SELF, this.motionX, this.motionY, this.motionZ);
+        this.motionX *= (double) f1;
+        this.motionY *= 0.800000011920929D;
+        this.motionZ *= (double) f1;
+        if(!this.hasNoGravity()) {
+            this.motionY -= 0.02D;
+        }
+        if(this.collidedHorizontally && this.isOffsetPositionInLiquid(this.motionX, this.motionY + 0.6000000238418579D - this.posY + d0, this.motionZ)) {
+            this.motionY = 0.30000001192092896D;
         }
         this.prevLimbSwingAmount = this.limbSwingAmount;
         double d5 = this.posX - this.prevPosX;
@@ -135,7 +136,7 @@ public class EntityZotzpyre extends EntityMobWithTypes {
     public boolean isOnLadder() {
         return this.isBesideClimbableBlock();
     }
-    
+
     public boolean isBesideClimbableBlock() {
         return (this.dataManager.get(CLIMBING) & 1) != 0;
     }
@@ -208,14 +209,14 @@ public class EntityZotzpyre extends EntityMobWithTypes {
             }
         }
     }
-    
+
     public void dismountZotz() {
+        Entity mount = this.getRidingEntity();
+        this.dismountEntity(mount);
+        this.isFromZotz = true;
+        this.dismountRidingEntity();
+        this.isFromZotz  = false;
         if(!world.isRemote) {
-            Entity mount = this.getRidingEntity();
-            this.dismountEntity(mount);
-            this.isFromZotz = true;
-            this.dismountRidingEntity();
-            this.isFromZotz  = false;
             if(mount instanceof EntityPlayerMP) {
                 ((EntityPlayerMP) mount).connection.sendPacket(new SPacketSetPassengers(mount));
             }
@@ -248,7 +249,7 @@ public class EntityZotzpyre extends EntityMobWithTypes {
         if(getRidingEntity() != null && getRidingEntity() instanceof EntityPlayer) {
             return getRidingEntity().height - 2.25F;
         } else if(getRidingEntity() != null) {
-            return getRidingEntity().height * 0.5D - 1.25D;
+            return (getRidingEntity().getEyeHeight() / 2) - this.height;
         } else {
             return super.getYOffset();
         }
@@ -275,7 +276,7 @@ public class EntityZotzpyre extends EntityMobWithTypes {
             return super.attackEntityFrom(source, amount);
         }
     }
-    
+
     @Override
     public boolean attackEntityAsMob(Entity entityIn) {
         float f = (float) this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getAttributeValue();
@@ -295,9 +296,12 @@ public class EntityZotzpyre extends EntityMobWithTypes {
                 entityplayer.addPotionEffect(new PotionEffect(Potion.getPotionFromResourceLocation("slowness"), slowTicks, 1, false, false));
             }
         }
+        if(!this.world.isRemote && entityIn.isDead && entityIn == this.getRidingEntity()) {
+            this.dismountZotz();
+        }
         return flag;
     }
-    
+
     @Override
     public void fall(float distance, float damageMultiplier) {
     }
