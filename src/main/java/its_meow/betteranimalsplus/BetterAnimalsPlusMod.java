@@ -17,12 +17,19 @@ import its_meow.betteranimalsplus.network.ClientRequestBAMPacket;
 import its_meow.betteranimalsplus.network.ServerNoBAMPacket;
 import its_meow.betteranimalsplus.util.EntityTypeContainer;
 import net.minecraft.block.DispenserBlock;
+import net.minecraft.dispenser.DefaultDispenseItemBehavior;
+import net.minecraft.dispenser.IBlockSource;
 import net.minecraft.dispenser.IPosition;
 import net.minecraft.dispenser.ProjectileDispenseBehavior;
+import net.minecraft.entity.EntityType;
 import net.minecraft.entity.IProjectile;
+import net.minecraft.entity.SpawnReason;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.SpawnEggItem;
+import net.minecraft.util.Direction;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Util;
@@ -113,18 +120,31 @@ public class BetterAnimalsPlusMod {
         });
         DispenserBlock.registerDispenseBehavior(ModItems.PHEASANT_EGG, new ProjectileDispenseBehavior() {
             protected IProjectile getProjectileEntity(World worldIn, IPosition position, ItemStack stackIn) {
-               return Util.make(new EntityPheasantEgg(worldIn, position.getX(), position.getY(), position.getZ()), (p_218408_1_) -> {
-                  p_218408_1_.setItem(stackIn);
-               });
+                return Util.make(new EntityPheasantEgg(worldIn, position.getX(), position.getY(), position.getZ()), (p_218408_1_) -> {
+                    p_218408_1_.setItem(stackIn);
+                });
             }
-         });
+        });
         DispenserBlock.registerDispenseBehavior(ModItems.TURKEY_EGG, new ProjectileDispenseBehavior() {
             protected IProjectile getProjectileEntity(World worldIn, IPosition position, ItemStack stackIn) {
-               return Util.make(new EntityTurkeyEgg(worldIn, position.getX(), position.getY(), position.getZ()), (p_218408_1_) -> {
-                  p_218408_1_.setItem(stackIn);
-               });
+                return Util.make(new EntityTurkeyEgg(worldIn, position.getX(), position.getY(), position.getZ()), (p_218408_1_) -> {
+                    p_218408_1_.setItem(stackIn);
+                });
             }
-         });
+        });
+        DefaultDispenseItemBehavior eggDispense = new DefaultDispenseItemBehavior() {
+
+            public ItemStack dispenseStack(IBlockSource source, ItemStack stack) {
+                Direction direction = source.getBlockState().get(DispenserBlock.FACING);
+                EntityType<?> entitytype = ((SpawnEggItem)stack.getItem()).getType(stack.getTag());
+                entitytype.spawn(source.getWorld(), stack, (PlayerEntity)null, source.getBlockPos().offset(direction), SpawnReason.DISPENSER, direction != Direction.UP, false);
+                stack.shrink(1);
+                return stack;
+            }
+        };
+        for(EntityTypeContainer<?> container : ModEntities.ENTITIES.values()) {
+            DispenserBlock.registerDispenseBehavior(container.egg, eggDispense);
+        }
         BetterAnimalsPlusMod.logger.log(Level.INFO, "Overspawning lammergeiers...");
     }
     

@@ -5,6 +5,7 @@ import java.util.Set;
 import javax.annotation.Nullable;
 
 import its_meow.betteranimalsplus.common.entity.ai.EntityAIEatBerries;
+import its_meow.betteranimalsplus.common.entity.ai.MoveIntoBlockGoal;
 import its_meow.betteranimalsplus.init.ModEntities;
 import its_meow.betteranimalsplus.util.EntityTypeContainer;
 import its_meow.betteranimalsplus.util.HeadTypes;
@@ -22,7 +23,6 @@ import net.minecraft.entity.ai.goal.BreedGoal;
 import net.minecraft.entity.ai.goal.FollowParentGoal;
 import net.minecraft.entity.ai.goal.LookAtGoal;
 import net.minecraft.entity.ai.goal.MeleeAttackGoal;
-import net.minecraft.entity.ai.goal.MoveToBlockGoal;
 import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal;
 import net.minecraft.entity.ai.goal.SwimGoal;
 import net.minecraft.entity.ai.goal.WaterAvoidingRandomWalkingGoal;
@@ -60,20 +60,20 @@ public class EntityBoar extends EntityAnimalWithSelectiveTypes implements IMob {
     protected void registerGoals() {
         this.goalSelector.addGoal(0, new SwimGoal(this));
         if (!this.isChild() && this.getEntityWorld().getDifficulty() != Difficulty.PEACEFUL) {
-            this.goalSelector.addGoal(2, new MeleeAttackGoal(this, 1.2D, false));
+            this.goalSelector.addGoal(1, new MeleeAttackGoal(this, 1.2D, false));
         }
-        this.goalSelector.addGoal(3, new BreedGoal(this, 1.0D));
-        this.goalSelector.addGoal(5, new FollowParentGoal(this, 1.1D));
-        this.goalSelector.addGoal(7, new BoarAIEatCrops(this));
-        this.goalSelector.addGoal(7, new EntityAIEatBerries(this, 1.0D, 12, 2) {
+        this.goalSelector.addGoal(2, new BreedGoal(this, 1.0D));
+        this.goalSelector.addGoal(3, new FollowParentGoal(this, 1.1D));
+        this.goalSelector.addGoal(4, new BoarAIEatCrops(this));
+        this.goalSelector.addGoal(5, new EntityAIEatBerries(this, 1.0D, 12, 2) {
             @Override
             protected void eatBerry() {
                 super.eatBerry();
                 EntityBoar.this.setInLove(null);
             }
         });
-        this.goalSelector.addGoal(8, new WaterAvoidingRandomWalkingGoal(this, 1.0D));
-        this.goalSelector.addGoal(9, new LookAtGoal(this, PlayerEntity.class, 6.0F));
+        this.goalSelector.addGoal(6, new WaterAvoidingRandomWalkingGoal(this, 1.0D));
+        this.goalSelector.addGoal(7, new LookAtGoal(this, PlayerEntity.class, 6.0F));
         if (!this.isChild() && this.getEntityWorld().getDifficulty() != Difficulty.PEACEFUL) {
             this.targetSelector.addGoal(1,
             new NearestAttackableTargetGoal<AnimalEntity>(this, AnimalEntity.class, 90, true, true,
@@ -284,13 +284,11 @@ public class EntityBoar extends EntityAnimalWithSelectiveTypes implements IMob {
         return ModEntities.BOAR;
     }
 
-    public static class BoarAIEatCrops extends MoveToBlockGoal {
+    public static class BoarAIEatCrops extends MoveIntoBlockGoal {
         private final EntityBoar boar;
-        private boolean wantsToRaid;
-        private boolean canRaid;
 
         public BoarAIEatCrops(EntityBoar boarIn) {
-            super(boarIn, 0.699999988079071D, 16);
+            super(boarIn, 0.7, 16);
             this.boar = boarIn;
         }
 
@@ -300,38 +298,32 @@ public class EntityBoar extends EntityAnimalWithSelectiveTypes implements IMob {
                 if(!net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(this.boar.world, this.boar)) {
                     return false;
                 }
-
-                this.canRaid = false;
-                this.wantsToRaid = !this.boar.isInLove();
             }
 
-            return super.shouldExecute();
+            return !this.boar.isInLove() && super.shouldExecute();
         }
 
         @Override
         public boolean shouldContinueExecuting() {
-            return this.canRaid && super.shouldContinueExecuting();
+            return !this.boar.isInLove() && super.shouldContinueExecuting();
         }
 
         @Override
         public void tick() {
             super.tick();
-            this.boar.getLookController().setLookPosition((double) this.destinationBlock.getX() + 0.5D, (double) (this.destinationBlock.getY() + 1), (double) this.destinationBlock.getZ() + 0.5D, 10.0F, (float) this.boar.getVerticalFaceSpeed());
+            this.boar.getLookController().setLookPosition((double) this.destinationBlock.getX() + 0.5D, (double) (this.destinationBlock.getY() + 2), (double) this.destinationBlock.getZ() + 0.5D, 10.0F, (float) this.boar.getVerticalFaceSpeed());
 
-            if(this.getIsAboveDestination()) {
+            if(this.isAtDestination()) {
                 World world = this.boar.world;
                 BlockPos blockpos = this.destinationBlock.up();
                 BlockState iblockstate = world.getBlockState(blockpos);
                 Block block = iblockstate.getBlock();
 
-                if(this.canRaid && block instanceof CropsBlock && ((CropsBlock) block).isMaxAge(iblockstate)) {
+                if(!this.boar.isInLove() && block instanceof CropsBlock && ((CropsBlock) block).isMaxAge(iblockstate)) {
                     world.setBlockState(blockpos, Blocks.AIR.getDefaultState(), 2);
                     world.destroyBlock(blockpos, true);
                     boar.setInLove(null);
                 }
-
-                this.canRaid = false;
-                this.runDelay = 10;
             }
         }
 
@@ -339,13 +331,12 @@ public class EntityBoar extends EntityAnimalWithSelectiveTypes implements IMob {
         protected boolean shouldMoveTo(IWorldReader worldIn, BlockPos pos) {
             Block block = worldIn.getBlockState(pos).getBlock();
 
-            if(block == Blocks.FARMLAND && this.wantsToRaid && !this.canRaid) {
+            if(block == Blocks.FARMLAND && !this.boar.isInLove()) {
                 pos = pos.up();
                 BlockState iblockstate = worldIn.getBlockState(pos);
                 block = iblockstate.getBlock();
 
                 if(block instanceof CropsBlock && ((CropsBlock) block).isMaxAge(iblockstate)) {
-                    this.canRaid = true;
                     return true;
                 }
             }
