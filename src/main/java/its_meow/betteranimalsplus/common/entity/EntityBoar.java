@@ -4,6 +4,7 @@ import java.util.Set;
 
 import javax.annotation.Nullable;
 
+import its_meow.betteranimalsplus.common.entity.ai.EntityAIMoveToNonFullBlock;
 import its_meow.betteranimalsplus.util.HeadTypes;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockCrops;
@@ -17,7 +18,6 @@ import net.minecraft.entity.ai.EntityAIAttackMelee;
 import net.minecraft.entity.ai.EntityAIFollowParent;
 import net.minecraft.entity.ai.EntityAIHurtByTarget;
 import net.minecraft.entity.ai.EntityAIMate;
-import net.minecraft.entity.ai.EntityAIMoveToBlock;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
 import net.minecraft.entity.ai.EntityAISwimming;
 import net.minecraft.entity.ai.EntityAIWanderAvoidWater;
@@ -57,14 +57,13 @@ public class EntityBoar extends EntityAnimalWithSelectiveTypes implements IMob {
     protected void initEntityAI() {
         this.tasks.addTask(0, new EntityAISwimming(this));
         if (!this.isChild() && this.getEntityWorld().getDifficulty() != EnumDifficulty.PEACEFUL) {
-            this.tasks.addTask(2, new EntityAIAttackMelee(this, 1.2D, false));
+            this.tasks.addTask(1, new EntityAIAttackMelee(this, 1.2D, false));
         }
-        this.tasks.addTask(3, new EntityAIMate(this, 1.0D));
-        this.tasks.addTask(5, new EntityAIFollowParent(this, 1.1D));
-        // Eats grass at priority 6
-        this.tasks.addTask(7, new BoarAIEatCrops(this));
-        this.tasks.addTask(8, new EntityAIWanderAvoidWater(this, 1.0D));
-        this.tasks.addTask(9, new EntityAIWatchClosest(this, EntityPlayer.class, 6.0F));
+        this.tasks.addTask(2, new EntityAIMate(this, 1.0D));
+        this.tasks.addTask(3, new EntityAIFollowParent(this, 1.1D));
+        this.tasks.addTask(4, new BoarAIEatCrops(this));
+        this.tasks.addTask(5, new EntityAIWanderAvoidWater(this, 1.0D));
+        this.tasks.addTask(6, new EntityAIWatchClosest(this, EntityPlayer.class, 6.0F));
         if (!this.isChild() && this.getEntityWorld().getDifficulty() != EnumDifficulty.PEACEFUL) {
             this.targetTasks.addTask(0, new EntityAIHurtByTarget(this, true, new Class[0]));
             this.targetTasks.addTask(1, new EntityAINearestAttackableTarget<EntityAnimal>(this, EntityAnimal.class, 90, true, true, (@Nullable Entity in) -> in instanceof EntityChicken || in instanceof EntityPheasant || (in instanceof EntityAnimal && ((EntityAnimal) in).isChild() && !(in instanceof EntityBoar || in instanceof EntityPig))));
@@ -257,10 +256,8 @@ public class EntityBoar extends EntityAnimalWithSelectiveTypes implements IMob {
         return "boar";
     }
     
-    public static class BoarAIEatCrops extends EntityAIMoveToBlock {
+    public static class BoarAIEatCrops extends EntityAIMoveToNonFullBlock {
         private final EntityBoar boar;
-        private boolean wantsToRaid;
-        private boolean canRaid;
 
         public BoarAIEatCrops(EntityBoar boarIn) {
             super(boarIn, 0.699999988079071D, 16);
@@ -273,17 +270,14 @@ public class EntityBoar extends EntityAnimalWithSelectiveTypes implements IMob {
                 if(!net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(this.boar.world, this.boar)) {
                     return false;
                 }
-
-                this.canRaid = false;
-                this.wantsToRaid = !this.boar.isInLove();
             }
 
-            return super.shouldExecute();
+            return !this.boar.isInLove() && super.shouldExecute();
         }
 
         @Override
         public boolean shouldContinueExecuting() {
-            return this.canRaid && super.shouldContinueExecuting();
+            return !this.boar.isInLove() && super.shouldContinueExecuting();
         }
 
         @Override
@@ -291,20 +285,17 @@ public class EntityBoar extends EntityAnimalWithSelectiveTypes implements IMob {
             super.updateTask();
             this.boar.getLookHelper().setLookPosition((double) this.destinationBlock.getX() + 0.5D, (double) (this.destinationBlock.getY() + 1), (double) this.destinationBlock.getZ() + 0.5D, 10.0F, (float) this.boar.getVerticalFaceSpeed());
 
-            if(this.getIsAboveDestination()) {
+            if(this.isAtDestination()) {
                 World world = this.boar.world;
                 BlockPos blockpos = this.destinationBlock.up();
                 IBlockState iblockstate = world.getBlockState(blockpos);
                 Block block = iblockstate.getBlock();
 
-                if(this.canRaid && block instanceof BlockCrops && ((BlockCrops) block).isMaxAge(iblockstate)) {
+                if(!this.boar.isInLove() && block instanceof BlockCrops && ((BlockCrops) block).isMaxAge(iblockstate)) {
                     world.setBlockState(blockpos, Blocks.AIR.getDefaultState(), 2);
                     world.destroyBlock(blockpos, true);
                     boar.setInLove(null);
                 }
-
-                this.canRaid = false;
-                this.runDelay = 10;
             }
         }
 
@@ -312,13 +303,12 @@ public class EntityBoar extends EntityAnimalWithSelectiveTypes implements IMob {
         protected boolean shouldMoveTo(World worldIn, BlockPos pos) {
             Block block = worldIn.getBlockState(pos).getBlock();
 
-            if(block == Blocks.FARMLAND && this.wantsToRaid && !this.canRaid) {
+            if(block == Blocks.FARMLAND && !this.boar.isInLove()) {
                 pos = pos.up();
                 IBlockState iblockstate = worldIn.getBlockState(pos);
                 block = iblockstate.getBlock();
 
                 if(block instanceof BlockCrops && ((BlockCrops) block).isMaxAge(iblockstate)) {
-                    this.canRaid = true;
                     return true;
                 }
             }
