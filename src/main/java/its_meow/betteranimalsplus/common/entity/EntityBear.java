@@ -29,6 +29,7 @@ import net.minecraft.entity.passive.fish.SalmonEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.pathfinding.PathNodeType;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
@@ -46,10 +47,14 @@ public class EntityBear extends MonsterEntity {
 
     public EntityBear(World worldIn) {
         super(ModEntities.BROWN_BEAR.entityType, worldIn);
+        this.setPathPriority(PathNodeType.DANGER_OTHER, 0.0F);
+        this.setPathPriority(PathNodeType.DAMAGE_OTHER, 0.0F);
     }
 
     public EntityBear(EntityType<? extends EntityBear> type, World worldIn) {
         super(type, worldIn);
+        this.setPathPriority(PathNodeType.DANGER_OTHER, 0.0F);
+        this.setPathPriority(PathNodeType.DAMAGE_OTHER, 0.0F);
     }
 
     @Override
