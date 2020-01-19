@@ -5,7 +5,6 @@ import java.util.Set;
 import javax.annotation.Nullable;
 
 import its_meow.betteranimalsplus.common.entity.ai.EntityAIEatBerries;
-import its_meow.betteranimalsplus.common.entity.ai.MoveIntoBlockGoal;
 import its_meow.betteranimalsplus.init.ModEntities;
 import its_meow.betteranimalsplus.util.EntityTypeContainer;
 import its_meow.betteranimalsplus.util.HeadTypes;
@@ -23,6 +22,7 @@ import net.minecraft.entity.ai.goal.BreedGoal;
 import net.minecraft.entity.ai.goal.FollowParentGoal;
 import net.minecraft.entity.ai.goal.LookAtGoal;
 import net.minecraft.entity.ai.goal.MeleeAttackGoal;
+import net.minecraft.entity.ai.goal.MoveToBlockGoal;
 import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal;
 import net.minecraft.entity.ai.goal.SwimGoal;
 import net.minecraft.entity.ai.goal.WaterAvoidingRandomWalkingGoal;
@@ -36,6 +36,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.pathfinding.PathNodeType;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
@@ -54,6 +55,8 @@ public class EntityBoar extends EntityAnimalWithSelectiveTypes implements IMob {
 
     public EntityBoar(World worldIn) {
         super(ModEntities.BOAR.entityType, worldIn);
+        this.setPathPriority(PathNodeType.DANGER_OTHER, 0.0F);
+        this.setPathPriority(PathNodeType.DAMAGE_OTHER, 0.0F);
     }
 
     @Override
@@ -284,7 +287,7 @@ public class EntityBoar extends EntityAnimalWithSelectiveTypes implements IMob {
         return ModEntities.BOAR;
     }
 
-    public static class BoarAIEatCrops extends MoveIntoBlockGoal {
+    public static class BoarAIEatCrops extends MoveToBlockGoal {
         private final EntityBoar boar;
 
         public BoarAIEatCrops(EntityBoar boarIn) {
@@ -310,37 +313,38 @@ public class EntityBoar extends EntityAnimalWithSelectiveTypes implements IMob {
 
         @Override
         public void tick() {
-            super.tick();
-            this.boar.getLookController().setLookPosition((double) this.destinationBlock.getX() + 0.5D, (double) (this.destinationBlock.getY() + 2), (double) this.destinationBlock.getZ() + 0.5D, 10.0F, (float) this.boar.getVerticalFaceSpeed());
-
-            if(this.isAtDestination()) {
+            if (!this.destinationBlock.withinDistance(this.creature.getPositionVec(), this.getTargetDistanceSq())) {
+                //this.creature.getNavigator().tryMoveToXYZ((double)((float)this.destinationBlock.getX()) + 0.5D, (double)(this.destinationBlock.getY()), (double)((float)this.destinationBlock.getZ()) + 0.5D, this.movementSpeed);
+                //++this.timeoutCounter;
+                //if (this.shouldMove()) {
+                this.boar.getMoveHelper().setMoveTo((double) this.destinationBlock.getX() + 0.5D, (double) (this.destinationBlock.getY()), (double) this.destinationBlock.getZ() + 0.5D, this.movementSpeed);
+                    
+                //}
+             } else {
+                //--this.timeoutCounter;
                 World world = this.boar.world;
-                BlockPos blockpos = this.destinationBlock.up();
-                BlockState iblockstate = world.getBlockState(blockpos);
-                Block block = iblockstate.getBlock();
+                BlockPos pos = this.destinationBlock;
+                BlockState state = world.getBlockState(pos);
+                Block block = state.getBlock();
 
-                if(!this.boar.isInLove() && block instanceof CropsBlock && ((CropsBlock) block).isMaxAge(iblockstate)) {
-                    world.setBlockState(blockpos, Blocks.AIR.getDefaultState(), 2);
-                    world.destroyBlock(blockpos, true);
+                if(!this.boar.isInLove() && block instanceof CropsBlock && ((CropsBlock) block).isMaxAge(state)) {
+                    world.setBlockState(pos, Blocks.AIR.getDefaultState(), 2);
+                    world.destroyBlock(pos, true);
                     boar.setInLove(null);
                 }
-            }
+             }
+            this.boar.getLookController().setLookPosition((double) this.destinationBlock.getX() + 0.5D, (double) (this.destinationBlock.getY() + 0.5D), (double) this.destinationBlock.getZ() + 0.5D, 10.0F, (float) this.boar.getVerticalFaceSpeed());
         }
 
         @Override
         protected boolean shouldMoveTo(IWorldReader worldIn, BlockPos pos) {
-            Block block = worldIn.getBlockState(pos).getBlock();
-
-            if(block == Blocks.FARMLAND && !this.boar.isInLove()) {
-                pos = pos.up();
-                BlockState iblockstate = worldIn.getBlockState(pos);
-                block = iblockstate.getBlock();
-
-                if(block instanceof CropsBlock && ((CropsBlock) block).isMaxAge(iblockstate)) {
+            BlockState state = worldIn.getBlockState(pos);
+            Block block = state.getBlock();
+            if(!this.boar.isInLove() && block instanceof CropsBlock && ((CropsBlock) block).isMaxAge(state)) {
+                if(worldIn.getBlockState(pos.down()).getBlock() == Blocks.FARMLAND) {
                     return true;
                 }
             }
-
             return false;
         }
     }
