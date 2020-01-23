@@ -1,8 +1,10 @@
 package its_meow.betteranimalsplus.common.entity;
 
-import java.util.ArrayList;
+import java.util.Set;
 
 import javax.annotation.Nullable;
+
+import com.google.common.collect.Sets;
 
 import its_meow.betteranimalsplus.config.BetterAnimalsPlusConfig;
 import its_meow.betteranimalsplus.init.ModEntities;
@@ -37,7 +39,6 @@ import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.Hand;
-import net.minecraft.util.IItemProvider;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
@@ -51,21 +52,11 @@ public class EntityGoat extends EntityAnimalEatsGrassWithTypes {
     protected static final DataParameter<Boolean> ATTACKING = EntityDataManager.<Boolean>createKey(EntityGoat.class, DataSerializers.BOOLEAN);
     public PlayerEntity friend = null;
     public boolean hasBeenFed = false;
-    private ArrayList<Item> temptItems = null;
+    private static final Set<Item> TEMPT_ITEMS = Sets.newHashSet(Items.WHEAT, Items.POTATO, Items.CARROT, Items.BEETROOT);
 
     public EntityGoat(World worldIn) {
         super(ModEntities.GOAT.entityType, worldIn, 5);
         this.world = worldIn;
-        this.addTemptItems();
-    }
-
-    private void addTemptItems() {
-        this.temptItems = new ArrayList<>();
-        this.temptItems.add(Items.WHEAT);
-        this.temptItems.add(Items.POTATO);
-        this.temptItems.add(Items.CARROT);
-        this.temptItems.add(Items.CARROT_ON_A_STICK);
-        this.temptItems.add(Items.BEETROOT);
     }
 
     @Override
@@ -162,14 +153,7 @@ public class EntityGoat extends EntityAnimalEatsGrassWithTypes {
         this.goalSelector.addGoal(1, new PanicGoal(this, 0.8D));
         this.goalSelector.addGoal(2, new BreedGoal(this, 1.0D));
         this.goalSelector.addGoal(2, new MeleeAttackGoal(this, 0.7D, true));
-        if (this.temptItems == null) {
-            this.addTemptItems();
-        }
-        IItemProvider[] tempts = new IItemProvider[this.temptItems.size()];
-        for (int i = 0; i < this.temptItems.size(); i++) {
-            tempts[i] = this.temptItems.get(i);
-        }
-        this.goalSelector.addGoal(3, new TemptGoal(this, 0.6D, false, Ingredient.fromItems(tempts)));
+        this.goalSelector.addGoal(3, new TemptGoal(this, 0.6D, false, Ingredient.fromItems(TEMPT_ITEMS.toArray(new Item[TEMPT_ITEMS.size()]))));
         this.goalSelector.addGoal(4, new FollowParentGoal(this, 0.6D));
         // Eats grass at priority 5
         this.goalSelector.addGoal(5, new RandomWalkingGoal(this, 0.6D));
@@ -202,35 +186,31 @@ public class EntityGoat extends EntityAnimalEatsGrassWithTypes {
     }
 
     @Override
-    public boolean processInteract(PlayerEntity player, Hand hand) {
-        ItemStack itemstack = player.getHeldItem(hand);
+    public boolean isBreedingItem(ItemStack stack) {
+        return TEMPT_ITEMS.contains(stack.getItem());
+    }
 
-        if(itemstack.getItem() == Items.BUCKET && !player.isCreative() && !this.isChild()) {
+    @Override
+    public boolean processInteract(PlayerEntity player, Hand hand) {
+        ItemStack stack = player.getHeldItem(hand);
+
+        if(stack.getItem() == Items.BUCKET && !player.isCreative() && !this.isChild()) {
             player.playSound(SoundEvents.ENTITY_COW_MILK, 1.0F, 1.0F);
-            itemstack.shrink(1);
-            
+            stack.shrink(1);
+
             Item milk = BetterAnimalsPlusConfig.goatVanillaMilk ? Items.MILK_BUCKET : ModItems.GOAT_MILK;
 
-            if(itemstack.isEmpty()) {
+            if(stack.isEmpty()) {
                 player.setHeldItem(hand, new ItemStack(milk));
             } else if(!player.inventory.addItemStackToInventory(new ItemStack(milk))) {
                 player.dropItem(new ItemStack(milk), false);
             }
-
             return true;
-        } else if(this.temptItems.contains(itemstack.getItem()) && !this.isChild()) {
+        } else if(this.isBreedingItem(stack) && !this.isChild()) {
             this.hasBeenFed = true;
             this.friend = player;
-            if(itemstack.getItem() == Items.WHEAT) {
-                this.setInLove(player);
-                if(!player.isCreative()) {
-                    itemstack.shrink(1);
-                }
-            }
-            return true;
-        } else {
-            return super.processInteract(player, hand);
         }
+        return super.processInteract(player, hand);
     }
 
     @Override
