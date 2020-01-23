@@ -210,7 +210,7 @@ public class EntityLammergeier extends EntityTameableFlying implements IVariantT
                             y = -1;
                         }
                     }
-                    this.navigator.setPath(this.navigator.getPathToPos(landPos, 100), 1D);
+                    this.navigator.setPath(this.navigator.func_179680_a(landPos, 100), 1D);
                     this.readyToSit = true;
                 } else {
                     this.setSitting(!this.isSitting());

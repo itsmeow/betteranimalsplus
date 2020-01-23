@@ -588,7 +588,7 @@ public class EntityReindeer extends AnimalEntity implements IJumpingMount, IVari
             EntityReindeer reindeer = this.getClosestReindeer(this, 16.0D);
 
             if (reindeer != null && this.getDistanceSq(reindeer) > 4.0D) {
-                this.navigator.getPathToEntityLiving(reindeer, 100);
+                this.navigator.func_75494_a(reindeer, 100);
             }
         }
     }
