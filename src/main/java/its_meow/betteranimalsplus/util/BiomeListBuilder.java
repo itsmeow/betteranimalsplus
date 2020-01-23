@@ -56,22 +56,24 @@ public class BiomeListBuilder {
         for(BiomeDictionary.Type extraT : list) {
             set.addAll(BiomeDictionary.getBiomes(extraT));
         }
-        for(Biome biome : ForgeRegistries.BIOMES.getValues()) {
-            Set<BiomeDictionary.Type> types = BiomeDictionary.getTypes(biome);
-            if(types != null) {
-                boolean pass = true;
-                for(BiomeDictionary.Type type : required) {
-                    if(!types.contains(type)) {
-                        pass = false;
+        if(required.size() > 0) {
+            for(Biome biome : ForgeRegistries.BIOMES.getValues()) {
+                Set<BiomeDictionary.Type> types = BiomeDictionary.getTypes(biome);
+                if(types != null) {
+                    boolean pass = true;
+                    for(BiomeDictionary.Type type : required) {
+                        if(!types.contains(type)) {
+                            pass = false;
+                        }
                     }
-                }
-                for(BiomeDictionary.Type type : blacklist) {
-                    if(types.contains(type)) {
-                        pass = false;
+                    for(BiomeDictionary.Type type : blacklist) {
+                        if(types.contains(type)) {
+                            pass = false;
+                        }
                     }
-                }
-                if(pass) {
-                    set.add(biome);
+                    if(pass) {
+                        set.add(biome);
+                    }
                 }
             }
         }
