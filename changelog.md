@@ -1,3 +1,31 @@
+8.2.0
+-
+- Fix crabs and horseshoe crabs despawning by default (existing configs should be deleted or fixed)
+- Remove zotzpyre in peaceful difficulty
+- Fix zotzpyre spawning too much in some places
+- Fix zotzpyre attacking other monsters (creepers especially)
+- Fix zotzpyre sometimes going into ground
+- Fix zotzpyre randomly floating mid-air
+- Fix zotzpyre "attacking" horses
+- Fix zotzpyre being unable to swim
+- Fix boars not properly moving to crops
+- Update portugeuse translation
+- Fix goats not properly breeding from all tempt items and remove carrot on a stick as a tempt item
+- Fix entities with nametags despawning if enabled in config
+- Improved lamprey animations
+- Fix tarantula spawning in deserts being very rare
+- 1.14: Fix boars not properly pathing through berry bushes
+- 1.14: Fix bears not properly pathing through berry bushes
+- 1.14: Fix dispensers not outputting spawn eggs as entities but instead dropping them
+- 1.14: Fix possible threading issues from packets
+- 1.14: Fix possible configuration editing exploit from client to server
+- 1.14: Fix reindeer spawning in frozen oceans
+- 1.14: Update AI for lamprey to improve pathfinding
+- 1.14: Fix crash with zotzpyre
+- 1.14: Make boars immune to berry bush damage
+- 1.14: Fix shark teleporting player to them when shot with arrows
+- 1.14: Speed up sharks a bit
+
 8.1.1
 -
 - 1.12: Fix crash with zotzpyre
