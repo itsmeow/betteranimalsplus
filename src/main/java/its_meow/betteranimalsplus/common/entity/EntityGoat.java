@@ -1,8 +1,10 @@
 package its_meow.betteranimalsplus.common.entity;
 
-import java.util.HashSet;
+import java.util.Set;
 
 import javax.annotation.Nullable;
+
+import com.google.common.collect.Sets;
 
 import its_meow.betteranimalsplus.config.BetterAnimalsPlusConfig;
 import its_meow.betteranimalsplus.init.ModItems;
@@ -49,22 +51,12 @@ public class EntityGoat extends EntityAnimalEatsGrassWithTypes {
     protected static final DataParameter<Boolean> ATTACKING = EntityDataManager.<Boolean>createKey(EntityGoat.class, DataSerializers.BOOLEAN);
     public EntityPlayer friend = null;
     public boolean hasBeenFed = false;
-    private HashSet<Item> temptItems = null;
+    private static final Set<Item> TEMPT_ITEMS = Sets.newHashSet(Items.WHEAT, Items.POTATO, Items.CARROT, Items.BEETROOT);
 
     public EntityGoat(World worldIn) {
         super(worldIn, 5);
         this.world = worldIn;
         this.setSize(1.2F, 1.2F);
-        this.addTemptItems();
-    }
-
-    private void addTemptItems() {
-        this.temptItems = new HashSet<Item>();
-        this.temptItems.add(Items.WHEAT);
-        this.temptItems.add(Items.POTATO);
-        this.temptItems.add(Items.CARROT);
-        this.temptItems.add(Items.CARROT_ON_A_STICK);
-        this.temptItems.add(Items.BEETROOT);
     }
 
     @Override
@@ -157,10 +149,7 @@ public class EntityGoat extends EntityAnimalEatsGrassWithTypes {
         this.tasks.addTask(1, new EntityAIPanic(this, 0.8D));
         this.tasks.addTask(2, new EntityAIMate(this, 1.0D));
         this.tasks.addTask(2, new EntityAIAttackMelee(this, 0.7D, true));
-        if (this.temptItems == null) {
-            this.addTemptItems();
-        }
-        this.tasks.addTask(3, new EntityAITempt(this, 0.6D, false, this.temptItems));
+        this.tasks.addTask(3, new EntityAITempt(this, 0.6D, false, TEMPT_ITEMS));
         this.tasks.addTask(4, new EntityAIFollowParent(this, 0.6D));
         // Eats grass at priority 5
         this.tasks.addTask(5, new EntityAIWander(this, 0.6D));
@@ -193,35 +182,32 @@ public class EntityGoat extends EntityAnimalEatsGrassWithTypes {
     }
 
     @Override
-    public boolean processInteract(EntityPlayer player, EnumHand hand) {
-        ItemStack itemstack = player.getHeldItem(hand);
+    public boolean isBreedingItem(ItemStack stack) {
+        return TEMPT_ITEMS.contains(stack.getItem());
+    }
 
-        if(itemstack.getItem() == Items.BUCKET && !player.capabilities.isCreativeMode && !this.isChild()) {
+    @Override
+    public boolean processInteract(EntityPlayer player, EnumHand hand) {
+        ItemStack stack = player.getHeldItem(hand);
+
+        if(stack.getItem() == Items.BUCKET && !player.capabilities.isCreativeMode && !this.isChild()) {
             player.playSound(SoundEvents.ENTITY_COW_MILK, 1.0F, 1.0F);
-            itemstack.shrink(1);
+            stack.shrink(1);
             
             Item milk = BetterAnimalsPlusConfig.goatVanillaMilk ? Items.MILK_BUCKET : ModItems.GOAT_MILK;
 
-            if(itemstack.isEmpty()) {
+            if(stack.isEmpty()) {
                 player.setHeldItem(hand, new ItemStack(milk));
             } else if(!player.inventory.addItemStackToInventory(new ItemStack(milk))) {
                 player.dropItem(new ItemStack(milk), false);
             }
 
             return true;
-        } else if(this.temptItems.contains(itemstack.getItem()) && !this.isChild()) {
+        } else if(this.isBreedingItem(stack) && !this.isChild()) {
             this.hasBeenFed = true;
             this.friend = player;
-            if(itemstack.getItem() == Items.WHEAT) {
-                this.setInLove(player);
-                if(!player.capabilities.isCreativeMode) {
-                    itemstack.shrink(1);
-                }
-            }
-            return true;
-        } else {
-            return super.processInteract(player, hand);
         }
+        return super.processInteract(player, hand);
     }
 
     @Override
