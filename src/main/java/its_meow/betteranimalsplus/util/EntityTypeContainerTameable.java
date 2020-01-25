@@ -81,22 +81,22 @@ public class EntityTypeContainerTameable<T extends MobEntity> extends EntityType
             return this;
         }
         
-        public Builder<T> placement(EntitySpawnPlacementRegistry.PlacementType type, Heightmap.Type heightMap, EntitySpawnPlacementRegistry.IPlacementPredicate<T> predicate) {
+        public TameableBuilder<T> placement(EntitySpawnPlacementRegistry.PlacementType type, Heightmap.Type heightMap, EntitySpawnPlacementRegistry.IPlacementPredicate<T> predicate) {
             super.placement(type, heightMap, predicate);
             return this;
         }
         
-        public Builder<T> defaultPlacement(EntitySpawnPlacementRegistry.IPlacementPredicate<T> predicate) {
+        public TameableBuilder<T> defaultPlacement(EntitySpawnPlacementRegistry.IPlacementPredicate<T> predicate) {
             super.defaultPlacement(predicate);
             return this;
         }
         
-        public Builder<T> waterPlacement() {
+        public TameableBuilder<T> waterPlacement() {
             super.waterPlacement();
             return this;
         }
         
-        public Builder<T> waterPlacement(EntitySpawnPlacementRegistry.IPlacementPredicate<T> predicate) {
+        public TameableBuilder<T> waterPlacement(EntitySpawnPlacementRegistry.IPlacementPredicate<T> predicate) {
             super.waterPlacement(predicate);
             return this;
         }

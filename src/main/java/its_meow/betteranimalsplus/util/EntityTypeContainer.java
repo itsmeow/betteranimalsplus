@@ -49,6 +49,7 @@ public class EntityTypeContainer<T extends MobEntity> {
     public final EntitySpawnPlacementRegistry.PlacementType placementType;
     public final Heightmap.Type heightMapType;
     public final EntitySpawnPlacementRegistry.IPlacementPredicate<T> placementPredicate;
+    protected boolean placementRegistered = false;
 
     protected Biome[] spawnBiomes;
 
@@ -299,7 +300,10 @@ public class EntityTypeContainer<T extends MobEntity> {
 
     public void registerPlacement() {
         if(this.placementType != null && this.placementPredicate != null && this.heightMapType != null) {
-            EntitySpawnPlacementRegistry.<T>register(this.entityType, placementType, heightMapType, placementPredicate);
+            if(!placementRegistered) {
+                EntitySpawnPlacementRegistry.<T>register(this.entityType, placementType, heightMapType, placementPredicate);
+                placementRegistered = true;
+            }
         }
     }
 
