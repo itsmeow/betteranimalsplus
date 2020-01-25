@@ -14,6 +14,7 @@ import its_meow.betteranimalsplus.client.renderer.entity.RenderCrab;
 import its_meow.betteranimalsplus.client.renderer.entity.RenderCustomWolf;
 import its_meow.betteranimalsplus.client.renderer.entity.RenderDeer;
 import its_meow.betteranimalsplus.client.renderer.entity.RenderGoat;
+import its_meow.betteranimalsplus.client.renderer.entity.RenderGoose;
 import its_meow.betteranimalsplus.client.renderer.entity.RenderHirschgeist;
 import its_meow.betteranimalsplus.client.renderer.entity.RenderHorseshoeCrab;
 import its_meow.betteranimalsplus.client.renderer.entity.RenderJellyfish;
@@ -44,6 +45,7 @@ import its_meow.betteranimalsplus.common.entity.EntityCrab;
 import its_meow.betteranimalsplus.common.entity.EntityDeer;
 import its_meow.betteranimalsplus.common.entity.EntityFeralWolf;
 import its_meow.betteranimalsplus.common.entity.EntityGoat;
+import its_meow.betteranimalsplus.common.entity.EntityGoose;
 import its_meow.betteranimalsplus.common.entity.EntityHorseshoeCrab;
 import its_meow.betteranimalsplus.common.entity.EntityJellyfish;
 import its_meow.betteranimalsplus.common.entity.EntityLammergeier;
@@ -116,6 +118,7 @@ public class ClientLifecycleHandler {
         RenderingRegistry.registerEntityRenderingHandler(EntityTurkeyEgg.class, mgr -> new SpriteRenderer<>(mgr, Minecraft.getInstance().getItemRenderer()));
         RenderingRegistry.registerEntityRenderingHandler(EntityZotzpyre.class, RenderZotzpyre::new);
         RenderingRegistry.registerEntityRenderingHandler(EntityBobbitWorm.class, RenderBobbitWorm::new);
+        RenderingRegistry.registerEntityRenderingHandler(EntityGoose.class, RenderGoose::new);
         BetterAnimalsPlusMod.logger.log(Level.INFO, "Rendering squirrel physics...");
     }
 
