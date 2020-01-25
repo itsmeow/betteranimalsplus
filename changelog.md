@@ -1,3 +1,7 @@
+8.2.1
+-
+- 1.14: Fix crash "duplicate entity registry entry"
+
 8.2.0
 -
 - Fix crabs and horseshoe crabs despawning by default (existing configs should be deleted or fixed)
