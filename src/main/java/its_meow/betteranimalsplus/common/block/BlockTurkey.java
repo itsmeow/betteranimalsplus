@@ -16,6 +16,7 @@ import net.minecraft.state.DirectionProperty;
 import net.minecraft.state.IntegerProperty;
 import net.minecraft.state.StateContainer.Builder;
 import net.minecraft.state.properties.BlockStateProperties;
+import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.Direction.Axis;
 import net.minecraft.util.Hand;
@@ -66,18 +67,18 @@ public class BlockTurkey extends Block implements IWaterLoggable {
     }
 
     @Override
-    public boolean onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult hit) {
+    public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult hit) {
         if(!worldIn.isRemote) {
             return eat(worldIn, pos, state, player);
         } else {
             ItemStack itemstack = player.getHeldItem(hand);
-            return eat(worldIn, pos, state, player) || itemstack.isEmpty();
+            return itemstack.isEmpty() ? ActionResultType.FAIL : eat(worldIn, pos, state, player);
         }
     }
 
-    protected boolean eat(World worldIn, BlockPos pos, BlockState state, PlayerEntity player) {
+    protected ActionResultType eat(World worldIn, BlockPos pos, BlockState state, PlayerEntity player) {
         if(!player.canEat(false)) {
-            return false;
+            return ActionResultType.FAIL;
         } else {
             int i = state.get(BITES);
 
@@ -93,7 +94,7 @@ public class BlockTurkey extends Block implements IWaterLoggable {
                 player.getFoodStats().addStats(4, 0.3F);
             }
 
-            return true;
+            return ActionResultType.SUCCESS;
         }
     }
 
@@ -134,11 +135,6 @@ public class BlockTurkey extends Block implements IWaterLoggable {
 
     @Override
     public boolean isNormalCube(BlockState p_220081_1_, IBlockReader p_220081_2_, BlockPos p_220081_3_) {
-        return false;
-    }
-
-    @Override
-    public boolean isSolid(BlockState state) {
         return false;
     }
 

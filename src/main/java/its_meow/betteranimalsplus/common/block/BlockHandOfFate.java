@@ -26,7 +26,6 @@ import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
-import net.minecraft.world.IEnviromentBlockReader;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -58,7 +57,7 @@ public class BlockHandOfFate extends HorizontalBlock implements IWaterLoggable {
     }
 
     @Override
-    public int getLightValue(BlockState state, IEnviromentBlockReader world, BlockPos pos) {
+    public int getLightValue(BlockState state, IBlockReader world, BlockPos pos) {
         TileEntity te = world.getTileEntity(pos);
         if (te instanceof TileEntityHandOfFate) {
             TileEntityHandOfFate tehof = (TileEntityHandOfFate) te;

@@ -7,8 +7,8 @@ import org.apache.logging.log4j.Logger;
 import its_meow.betteranimalsplus.client.ClientLifecycleHandler;
 import its_meow.betteranimalsplus.common.entity.projectile.EntityPheasantEgg;
 import its_meow.betteranimalsplus.common.entity.projectile.EntityTurkeyEgg;
-import its_meow.betteranimalsplus.common.world.gen.TrilliumGenerator;
 import its_meow.betteranimalsplus.config.BetterAnimalsPlusConfig;
+import its_meow.betteranimalsplus.init.ModBlocks;
 import its_meow.betteranimalsplus.init.ModEntities;
 import its_meow.betteranimalsplus.init.ModItems;
 import its_meow.betteranimalsplus.init.ModTriggers;
@@ -17,6 +17,7 @@ import its_meow.betteranimalsplus.network.ClientRequestBAMPacket;
 import its_meow.betteranimalsplus.network.ServerNoBAMPacket;
 import its_meow.betteranimalsplus.util.EntityTypeContainer;
 import net.minecraft.block.DispenserBlock;
+import net.minecraft.block.HorizontalBlock;
 import net.minecraft.dispenser.DefaultDispenseItemBehavior;
 import net.minecraft.dispenser.IBlockSource;
 import net.minecraft.dispenser.IPosition;
@@ -34,9 +35,11 @@ import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Util;
 import net.minecraft.world.World;
-import net.minecraft.world.biome.Biome;
-import net.minecraft.world.gen.feature.NoFeatureConfig;
-import net.minecraft.world.gen.placement.IPlacementConfig;
+import net.minecraft.world.gen.blockplacer.SimpleBlockPlacer;
+import net.minecraft.world.gen.blockstateprovider.WeightedBlockStateProvider;
+import net.minecraft.world.gen.feature.BlockClusterFeatureConfig;
+import net.minecraft.world.gen.feature.Feature;
+import net.minecraft.world.gen.placement.NoiseDependant;
 import net.minecraft.world.gen.placement.Placement;
 import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.event.entity.player.PlayerEvent.PlayerLoggedInEvent;
@@ -54,7 +57,6 @@ import net.minecraftforge.fml.network.NetworkDirection;
 import net.minecraftforge.fml.network.NetworkRegistry;
 import net.minecraftforge.fml.network.simple.SimpleChannel;
 
-
 @SuppressWarnings("deprecation")
 @Mod.EventBusSubscriber(modid = Ref.MOD_ID)
 @Mod(value = Ref.MOD_ID)
@@ -69,6 +71,13 @@ public class BetterAnimalsPlusMod {
             .networkProtocolVersion(() -> PROTOCOL_VERSION)
             .simpleChannel();
     public static int packets = 0;
+    public static final WeightedBlockStateProvider TRILLIUM_STATE_PROVIDER = new WeightedBlockStateProvider();
+    static {
+        for(int i = 0; i < 4; i++) {
+            TRILLIUM_STATE_PROVIDER.func_227407_a_(ModBlocks.TRILLIUM.getDefaultState().with(HorizontalBlock.HORIZONTAL_FACING, Direction.byHorizontalIndex(i)), 1);
+        }
+    }
+    public static final BlockClusterFeatureConfig TRILLIUM_FEATURE_CONFIG = (new BlockClusterFeatureConfig.Builder(TRILLIUM_STATE_PROVIDER, new SimpleBlockPlacer())).func_227315_a_(64).func_227322_d_();
 
     public BetterAnimalsPlusMod() {
 
@@ -116,7 +125,7 @@ public class BetterAnimalsPlusMod {
         });
         DeferredWorkQueue.runLater(() -> {
             BiomeDictionary.getBiomes(BiomeDictionary.Type.SWAMP).forEach(biome -> biome.addFeature(net.minecraft.world.gen.GenerationStage.Decoration.VEGETAL_DECORATION,
-            Biome.createDecoratedFeature(new TrilliumGenerator(), new NoFeatureConfig(), Placement.TOP_SOLID_HEIGHTMAP, IPlacementConfig.NO_PLACEMENT_CONFIG)));
+                    Feature.FLOWER.withConfiguration(TRILLIUM_FEATURE_CONFIG).func_227228_a_(Placement.NOISE_HEIGHTMAP_32.func_227446_a_(new NoiseDependant(-0.8D, 0, 3)))));
         });
         DispenserBlock.registerDispenseBehavior(ModItems.PHEASANT_EGG, new ProjectileDispenseBehavior() {
             protected IProjectile getProjectileEntity(World worldIn, IPosition position, ItemStack stackIn) {

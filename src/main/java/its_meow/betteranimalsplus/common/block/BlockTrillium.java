@@ -36,7 +36,7 @@ public class BlockTrillium extends BushBlock {
     public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext ctx) {
         return SHAPE;
     }
-
+    
     @Override
     @OnlyIn(Dist.CLIENT)
     public boolean hasCustomBreakingProgress(BlockState state) {
@@ -72,11 +72,6 @@ public class BlockTrillium extends BushBlock {
     @Override
     public BlockRenderType getRenderType(BlockState state) {
         return BlockRenderType.ENTITYBLOCK_ANIMATED;
-    }
-
-    @Override
-    public boolean isSolid(BlockState state) {
-        return false;
     }
 
     @Override

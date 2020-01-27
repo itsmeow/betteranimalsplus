@@ -1,7 +1,10 @@
 package its_meow.betteranimalsplus.client.model;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.IVertexBuilder;
+
 import net.minecraft.client.renderer.entity.model.EntityModel;
-import net.minecraft.client.renderer.entity.model.ModelRenderer;
+import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 
 /**
@@ -137,10 +140,14 @@ public class ModelBoarHead extends EntityModel<Entity> {
     }
 
     @Override
-    public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) {
+    public void render(Entity entity, float f, float f1, float f2, float f3, float f4) {
         this.neck.rotateAngleY = (float) Math.toRadians(f);
         this.neck.rotateAngleX = (float) Math.toRadians(f1);
-        this.neck.render(f5);
+    }
+
+    @Override
+    public void render(MatrixStack matrixStackIn, IVertexBuilder bufferIn, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
+        this.neck.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn);
     }
 
     /**

@@ -1,6 +1,6 @@
 package its_meow.betteranimalsplus.client.model;
 
-import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.model.BipedModel;
@@ -33,8 +33,7 @@ public class ModelBearCape<T extends LivingEntity> extends BipedModel<T> {
     public ModelRenderer rClaw03;
 
     public ModelBearCape() {
-        this.textureWidth = 128;
-        this.textureHeight = 64;
+        super(1F, 0.0F, 128, 64);
         this.lClaw02 = new ModelRenderer(this, 109, 8);
         this.lClaw02.setRotationPoint(0.0F, 2.4F, 0.0F);
         this.lClaw02.addBox(-0.5F, 0.0F, -0.5F, 1, 3, 1, 0.0F);
@@ -113,14 +112,13 @@ public class ModelBearCape<T extends LivingEntity> extends BipedModel<T> {
     }
 
     @Override
-    public void render(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float f33, float f44, float f55) { 
+    public void render(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float f33, float f44) { 
         this.bipedLeftArm.showModel = false;
         this.bipedRightArm.showModel = false;
         if(entity instanceof PlayerEntity) {
             PlayerEntity player = (PlayerEntity) entity;
-            GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
-            GlStateManager.pushMatrix();
-            GlStateManager.translatef(0.0F, 0.0F, 0.125F);
+            RenderSystem.pushMatrix();
+            RenderSystem.translatef(0.0F, 0.0F, 0.125F);
             float partialTicks = Minecraft.getInstance().getRenderPartialTicks();
             double d0 = player.prevChasingPosX + (player.chasingPosX - player.prevChasingPosX) * (double)partialTicks - (player.prevPosX + (player.getPosX() - player.prevPosX) * (double)partialTicks);
             double d1 = player.prevChasingPosY + (player.chasingPosY - player.prevChasingPosY) * (double)partialTicks - (player.prevPosY + (player.getPosY() - player.prevPosY) * (double)partialTicks);
@@ -140,23 +138,21 @@ public class ModelBearCape<T extends LivingEntity> extends BipedModel<T> {
             float f4 = player.prevCameraYaw + (player.cameraYaw - player.prevCameraYaw) * partialTicks;
             f1 = f1 + MathHelper.sin((player.prevDistanceWalkedModified + (player.distanceWalkedModified - player.prevDistanceWalkedModified) * partialTicks) * 6.0F) * 32.0F * f4;
 
-            GlStateManager.translatef(0F, 0.05F, -0.1F);
+            RenderSystem.translatef(0F, 0.05F, -0.1F);
             float angle = 6.0F + f2 / 2.0F + f1;
             angle = angle > 90F ? 90F : angle;
-            GlStateManager.rotatef(angle, 1.0F, 0.0F, 0.0F);
-            GlStateManager.rotatef(f3 / 2.0F, 0.0F, 0.0F, 1.0F);
+            RenderSystem.rotatef(angle, 1.0F, 0.0F, 0.0F);
+            RenderSystem.rotatef(f3 / 2.0F, 0.0F, 0.0F, 1.0F);
             //GlStateManager.rotate(-f3 / 2.0F, 0.0F, 1.0F, 0.0F);
-            super.render(entity, limbSwing, limbSwingAmount, ageInTicks, f33, f44, f55);
-            GlStateManager.popMatrix();
+            super.render(entity, limbSwing, limbSwingAmount, ageInTicks, f33, f44);
+            RenderSystem.popMatrix();
             this.bearCapeArmL1.showModel = true;
             this.bearCapeArmR1.showModel = true;
             this.bearCapeMain.showModel = false;
-            super.render(entity, limbSwing, limbSwingAmount, ageInTicks, f33, f44, f55);
+            super.render(entity, limbSwing, limbSwingAmount, ageInTicks, f33, f44);
             this.bearCapeArmL1.showModel = false;
             this.bearCapeArmR1.showModel = false;
             this.bearCapeMain.showModel = true;
-        } else {
-            super.render(entity, limbSwing, limbSwingAmount, ageInTicks, f33, f44, f55);
         }
     }
 

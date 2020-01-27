@@ -1,8 +1,11 @@
 package its_meow.betteranimalsplus.client.model;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.IVertexBuilder;
+
 import its_meow.betteranimalsplus.common.entity.EntityBobbitWorm;
 import net.minecraft.client.renderer.entity.model.EntityModel;
-import net.minecraft.client.renderer.entity.model.ModelRenderer;
+import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.LivingEntity;
 
 /**
@@ -357,12 +360,12 @@ public class ModelBobbitWorm<T extends LivingEntity> extends EntityModel<T> {
     }
 
     @Override
-    public void render(T entity, float f, float f1, float f2, float f3, float f4, float f5) { 
-        this.body.render(f5);
+    public void render(MatrixStack matrixStackIn, IVertexBuilder bufferIn, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
+        this.body.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn);
     }
 
     @Override
-    public void setRotationAngles(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor) {
+    public void render(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
         if(entity instanceof EntityBobbitWorm) {
             EntityBobbitWorm worm = (EntityBobbitWorm) entity;
             int attack = worm.getAttackState();
@@ -379,10 +382,10 @@ public class ModelBobbitWorm<T extends LivingEntity> extends EntityModel<T> {
                 this.rMandible00.rotateAngleY = (float) Math.cos(ageInTicks * (mul) + add) / div - 0.3839724354387525F;
             }
             this.body.rotateAngleX = 0;
-            this.body.offsetY = 0;
+            this.body.rotationPointY = 0;
             if(worm.getMotion().getX() < 0.03 && worm.getMotion().getZ() < 0.03 && worm.getMotion().getY() < 0.03 && !worm.getMoveHelper().isUpdating() && worm.isGoodBurrowingPosition(worm.getPosition())) {
                 this.body.rotateAngleX = - (float) Math.toRadians(60F);
-                this.body.offsetY = 0.3F;
+                this.body.rotationPointY = 0.3F;
             }
             float mul = 0.3F;
             float div = 20F;
