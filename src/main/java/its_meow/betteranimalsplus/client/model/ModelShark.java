@@ -1,10 +1,13 @@
 package its_meow.betteranimalsplus.client.model;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.IVertexBuilder;
+
 import its_meow.betteranimalsplus.common.entity.EntityShark;
 import its_meow.betteranimalsplus.util.ModMathHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.model.EntityModel;
-import net.minecraft.client.renderer.entity.model.ModelRenderer;
+import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.math.MathHelper;
 
@@ -224,7 +227,12 @@ public class ModelShark<T extends LivingEntity> extends EntityModel<T> {
     }
 
     @Override
-    public void render(T entity, float f, float f1, float f2, float f3, float f4, float f5) {
+    public void render(MatrixStack matrixStackIn, IVertexBuilder bufferIn, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
+        this.body.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn);
+    }
+
+    @Override
+    public void render(T entity, float f, float f1, float f2, float f3, float f4) {
         if(entity instanceof EntityShark) {
             EntityShark shark = (EntityShark) entity;
             if ((Math.abs(entity.getMotion().getY()) > 0.01 && (Math.abs(entity.getMotion().getX()) > 0.01 || Math.abs(entity.getMotion().getZ()) > 0.01)) || Math.abs(entity.getMotion().getY()) > 0.03) {
@@ -260,7 +268,6 @@ public class ModelShark<T extends LivingEntity> extends EntityModel<T> {
         } else {
             this.lowerJaw.rotateAngleX = (float) Math.PI / 4F;
         }
-        this.body.render(f5);
     }
 
     /**

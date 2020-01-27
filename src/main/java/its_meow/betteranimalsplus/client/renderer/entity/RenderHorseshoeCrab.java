@@ -1,6 +1,6 @@
 package its_meow.betteranimalsplus.client.renderer.entity;
 
-import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.matrix.MatrixStack;
 
 import its_meow.betteranimalsplus.client.model.ModelHorseshoeCrab;
 import its_meow.betteranimalsplus.common.entity.EntityHorseshoeCrab;
@@ -16,11 +16,11 @@ public class RenderHorseshoeCrab extends MobRenderer<EntityHorseshoeCrab, ModelH
 	}
 	
     @Override
-    protected void preRenderCallback(EntityHorseshoeCrab entity, float partialTickTime) {
+    protected void preRenderCallback(EntityHorseshoeCrab entity, MatrixStack matrixStackIn, float partialTickTime) {
         if (this.entityModel.isChild) {
-            GlStateManager.scaled(0.45D, 0.45D, 0.45D);
+            matrixStackIn.scale(0.45F, 0.45F, 0.45F);
         } else {
-            GlStateManager.scaled(1.0D, 1.0D, 1.0D);
+            matrixStackIn.scale(1.0F, 1.0F, 1.0F);
         }
     }
 

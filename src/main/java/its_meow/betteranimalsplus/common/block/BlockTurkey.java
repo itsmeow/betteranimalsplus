@@ -72,13 +72,13 @@ public class BlockTurkey extends Block implements IWaterLoggable {
             return eat(worldIn, pos, state, player);
         } else {
             ItemStack itemstack = player.getHeldItem(hand);
-            return itemstack.isEmpty() ? ActionResultType.FAIL : eat(worldIn, pos, state, player);
+            return itemstack.isEmpty() ? ActionResultType.PASS : eat(worldIn, pos, state, player);
         }
     }
 
     protected ActionResultType eat(World worldIn, BlockPos pos, BlockState state, PlayerEntity player) {
         if(!player.canEat(false)) {
-            return ActionResultType.FAIL;
+            return ActionResultType.PASS;
         } else {
             int i = state.get(BITES);
 

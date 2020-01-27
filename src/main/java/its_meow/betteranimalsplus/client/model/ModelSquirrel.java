@@ -1,8 +1,11 @@
 package its_meow.betteranimalsplus.client.model;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.IVertexBuilder;
+
 import its_meow.betteranimalsplus.common.entity.EntitySquirrel;
 import net.minecraft.client.renderer.entity.model.EntityModel;
-import net.minecraft.client.renderer.entity.model.ModelRenderer;
+import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.util.math.MathHelper;
@@ -208,13 +211,12 @@ public class ModelSquirrel<T extends LivingEntity> extends EntityModel<T> {
     }
 
     @Override
-    public void render(T entity, float f, float f1, float f2, float f3, float f4, float f5) {
-        this.chest.render(f5);
+    public void render(MatrixStack matrixStackIn, IVertexBuilder bufferIn, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
+        this.chest.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn);
     }
 
     @Override
-    public void setRotationAngles(T entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw,
-            float headPitch, float scaleFactor) {
+    public void render(T entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
         float f = limbSwing;
         float f1 = limbSwingAmount;
 
@@ -229,12 +231,9 @@ public class ModelSquirrel<T extends LivingEntity> extends EntityModel<T> {
             this.neck.rotateAngleY = ModelBetterAnimals.getHeadYaw((MobEntity) entityIn) * 0.017453292F * 0.5F;
             if (entityIn instanceof EntitySquirrel) {
                 EntitySquirrel ent = (EntitySquirrel) entityIn;
-                this.chest.rotateAngleX = ent.isBesideClimbableBlock() ? (float) Math.toRadians(-90)
-                        : 0.10471975511965977F;
+                this.chest.rotateAngleX = ent.isBesideClimbableBlock() ? (float) Math.toRadians(-90) : 0.10471975511965977F;
             }
         }
-
-        super.setRotationAngles(entityIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor);
     }
 
     /**

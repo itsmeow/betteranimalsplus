@@ -2,7 +2,7 @@ package its_meow.betteranimalsplus.client.renderer.entity;
 
 import javax.annotation.Nonnull;
 
-import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.matrix.MatrixStack;
 
 import its_meow.betteranimalsplus.client.model.ModelJellyfish;
 import its_meow.betteranimalsplus.common.entity.EntityJellyfish;
@@ -19,10 +19,10 @@ public class RenderJellyfish extends MobRenderer<EntityJellyfish, ModelJellyfish
     }
 
     @Override
-    protected void preRenderCallback(EntityJellyfish entitylivingbaseIn, float partialTickTime) {
+    protected void preRenderCallback(EntityJellyfish entitylivingbaseIn, MatrixStack matrixStackIn, float partialTickTime) {
         float s = entitylivingbaseIn.getSize(Pose.STANDING).width;
-        GlStateManager.scalef(s, s, s);
-        GlStateManager.translatef(0, 1F, 0);
+        matrixStackIn.scale(s, s, s);
+        matrixStackIn.translate(0, 1F, 0);
     }
 
     @Override

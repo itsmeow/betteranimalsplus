@@ -361,6 +361,7 @@ public class ModelBobbitWorm<T extends LivingEntity> extends EntityModel<T> {
 
     @Override
     public void render(MatrixStack matrixStackIn, IVertexBuilder bufferIn, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
+        matrixStackIn.translate(0, 1, 0);
         this.body.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn);
     }
 

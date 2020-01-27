@@ -1,11 +1,12 @@
 package its_meow.betteranimalsplus.client.renderer.entity;
 
-import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.matrix.MatrixStack;
 
 import its_meow.betteranimalsplus.client.model.ModelFeralWolf;
 import its_meow.betteranimalsplus.client.renderer.entity.layers.LayerEyesCondition;
 import its_meow.betteranimalsplus.common.entity.EntityFeralWolf;
 import its_meow.betteranimalsplus.init.ModTextures;
+import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.util.ResourceLocation;
@@ -22,17 +23,16 @@ public class RenderCustomWolf extends MobRenderer<EntityFeralWolf, ModelFeralWol
         return livingBase.getTailRotation();
     }
 
-    /**
-     * Renders the desired {@code T} type Entity.
-     */
     @Override
-    public void doRender(EntityFeralWolf entity, double x, double y, double z, float entityYaw, float partialTicks) {
-        if (entity.isWolfWet()) {
-            float f = entity.getBrightness() * entity.getShadingWhileWet(partialTicks);
-            GlStateManager.color3f(f, f, f);
+    public void render(EntityFeralWolf entityIn, float entityYaw, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn) {
+        if(entityIn.isWolfWet()) {
+            float f = entityIn.getBrightness() * entityIn.getShadingWhileWet(partialTicks);
+            this.entityModel.setColors(f, f, f);
         }
-
-        super.doRender(entity, x, y, z, entityYaw, partialTicks);
+        super.render(entityIn, entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);
+        if(entityIn.isWolfWet()) {
+            this.entityModel.setColors(1.0F, 1.0F, 1.0F);
+        }
     }
 
     /**

@@ -1,8 +1,10 @@
 package its_meow.betteranimalsplus.client.model;
 
-import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.IVertexBuilder;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.Quaternion;
 import net.minecraft.client.renderer.entity.model.BipedModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.LivingEntity;
@@ -31,6 +33,11 @@ public class ModelBearCape<T extends LivingEntity> extends BipedModel<T> {
     public ModelRenderer rClaw01;
     public ModelRenderer rClaw02;
     public ModelRenderer rClaw03;
+    
+    private float f1_r;
+    private float f2_r;
+    private float f3_r;
+    private boolean isPlayer;
 
     public ModelBearCape() {
         super(1F, 0.0F, 128, 64);
@@ -112,13 +119,35 @@ public class ModelBearCape<T extends LivingEntity> extends BipedModel<T> {
     }
 
     @Override
-    public void render(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float f33, float f44) { 
+    public void render(MatrixStack matrixStackIn, IVertexBuilder bufferIn, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
         this.bipedLeftArm.showModel = false;
         this.bipedRightArm.showModel = false;
-        if(entity instanceof PlayerEntity) {
+        if(isPlayer) {
+            matrixStackIn.push();
+            matrixStackIn.translate(0.0F, 0.05F, 0.025F);
+            float angle = 6.0F + f2_r / 2.0F + f1_r;
+            angle = angle > 90F ? 90F : angle;
+            matrixStackIn.rotate(new Quaternion(1.0F, 0.0F, 0.0F, angle));
+            matrixStackIn.rotate(new Quaternion(0.0F, 0.0F, 1.0F, f3_r / 2.0F));
+            super.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+            matrixStackIn.pop();
+            this.bearCapeArmL1.showModel = true;
+            this.bearCapeArmR1.showModel = true;
+            this.bearCapeMain.showModel = false;
+            super.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+            this.bearCapeArmL1.showModel = false;
+            this.bearCapeArmR1.showModel = false;
+            this.bearCapeMain.showModel = true;
+        } else {
+            super.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+        }
+    }
+
+    @Override
+    public void render(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float f33, float f44) {
+        this.isPlayer = entity instanceof PlayerEntity;
+        if(isPlayer) {
             PlayerEntity player = (PlayerEntity) entity;
-            RenderSystem.pushMatrix();
-            RenderSystem.translatef(0.0F, 0.0F, 0.125F);
             float partialTicks = Minecraft.getInstance().getRenderPartialTicks();
             double d0 = player.prevChasingPosX + (player.chasingPosX - player.prevChasingPosX) * (double)partialTicks - (player.prevPosX + (player.getPosX() - player.prevPosX) * (double)partialTicks);
             double d1 = player.prevChasingPosY + (player.chasingPosY - player.prevChasingPosY) * (double)partialTicks - (player.prevPosY + (player.getPosY() - player.prevPosY) * (double)partialTicks);
@@ -137,22 +166,9 @@ public class ModelBearCape<T extends LivingEntity> extends BipedModel<T> {
 
             float f4 = player.prevCameraYaw + (player.cameraYaw - player.prevCameraYaw) * partialTicks;
             f1 = f1 + MathHelper.sin((player.prevDistanceWalkedModified + (player.distanceWalkedModified - player.prevDistanceWalkedModified) * partialTicks) * 6.0F) * 32.0F * f4;
-
-            RenderSystem.translatef(0F, 0.05F, -0.1F);
-            float angle = 6.0F + f2 / 2.0F + f1;
-            angle = angle > 90F ? 90F : angle;
-            RenderSystem.rotatef(angle, 1.0F, 0.0F, 0.0F);
-            RenderSystem.rotatef(f3 / 2.0F, 0.0F, 0.0F, 1.0F);
-            //GlStateManager.rotate(-f3 / 2.0F, 0.0F, 1.0F, 0.0F);
-            super.render(entity, limbSwing, limbSwingAmount, ageInTicks, f33, f44);
-            RenderSystem.popMatrix();
-            this.bearCapeArmL1.showModel = true;
-            this.bearCapeArmR1.showModel = true;
-            this.bearCapeMain.showModel = false;
-            super.render(entity, limbSwing, limbSwingAmount, ageInTicks, f33, f44);
-            this.bearCapeArmL1.showModel = false;
-            this.bearCapeArmR1.showModel = false;
-            this.bearCapeMain.showModel = true;
+            this.f1_r = f1;
+            this.f2_r = f2;
+            this.f3_r = f3;
         }
     }
 

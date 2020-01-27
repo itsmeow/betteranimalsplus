@@ -1,9 +1,11 @@
 package its_meow.betteranimalsplus.client.model;
 
-import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.IVertexBuilder;
 
+import net.minecraft.client.renderer.Quaternion;
 import net.minecraft.client.renderer.entity.model.EntityModel;
-import net.minecraft.client.renderer.entity.model.ModelRenderer;
+import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.LivingEntity;
 
 /**
@@ -148,98 +150,99 @@ public class ModelNautilus<T extends LivingEntity> extends EntityModel<T> {
     }
 
     @Override
-    public void render(T entity, float f, float f1, float f2, float f3, float f4, float f5) { 
-        GlStateManager.pushMatrix();
+    public void render(MatrixStack matrixStackIn, IVertexBuilder bufferIn, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
+        matrixStackIn.push();
         {
-            GlStateManager.rotatef(180F, 0F, 1F, 0F);
-            GlStateManager.translated(0, 0.1, 0);
-            GlStateManager.pushMatrix();
+            matrixStackIn.rotate(new Quaternion(0F, 1F, 0F, 180F));
+            matrixStackIn.translate(0, 1, 0);
+            matrixStackIn.scale(0.003125F, 0.003125F, 0.003125F);
+            matrixStackIn.push();
             {
-                GlStateManager.translated(this.rTentacle01a.offsetX, this.rTentacle01a.offsetY, this.rTentacle01a.offsetZ);
-                GlStateManager.translated(this.rTentacle01a.rotationPointX * f5, this.rTentacle01a.rotationPointY * f5, this.rTentacle01a.rotationPointZ * f5);
-                GlStateManager.scaled(0.8D, 0.8D, 0.8D);
-                GlStateManager.translated(-this.rTentacle01a.offsetX, -this.rTentacle01a.offsetY, -this.rTentacle01a.offsetZ);
-                GlStateManager.translated(-this.rTentacle01a.rotationPointX * f5, -this.rTentacle01a.rotationPointY * f5, -this.rTentacle01a.rotationPointZ * f5);
-                this.rTentacle01a.render(f5);
+                //matrixStackIn.translate(this.rTentacle01a.offsetX, this.rTentacle01a.offsetY, this.rTentacle01a.offsetZ);
+                matrixStackIn.translate(this.rTentacle01a.rotationPointX, this.rTentacle01a.rotationPointY, this.rTentacle01a.rotationPointZ);
+                matrixStackIn.scale(0.8F, 0.8F, 0.8F);
+                //matrixStackIn.translate(-this.rTentacle01a.offsetX, -this.rTentacle01a.offsetY, -this.rTentacle01a.offsetZ);
+                matrixStackIn.translate(-this.rTentacle01a.rotationPointX, -this.rTentacle01a.rotationPointY, -this.rTentacle01a.rotationPointZ);
+                this.rTentacle01a.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn);
             }
-            GlStateManager.popMatrix();
-            GlStateManager.pushMatrix();
+            matrixStackIn.pop();
+            matrixStackIn.push();
             {
-                GlStateManager.translated(this.lTentacle02a.offsetX, this.lTentacle02a.offsetY, this.lTentacle02a.offsetZ);
-                GlStateManager.translated(this.lTentacle02a.rotationPointX * f5, this.lTentacle02a.rotationPointY * f5, this.lTentacle02a.rotationPointZ * f5);
-                GlStateManager.scaled(0.9D, 0.9D, 0.9D);
-                GlStateManager.translated(-this.lTentacle02a.offsetX, -this.lTentacle02a.offsetY, -this.lTentacle02a.offsetZ);
-                GlStateManager.translated(-this.lTentacle02a.rotationPointX * f5, -this.lTentacle02a.rotationPointY * f5, -this.lTentacle02a.rotationPointZ * f5);
-                this.lTentacle02a.render(f5);
+                //matrixStackIn.translate(this.lTentacle02a.offsetX, this.lTentacle02a.offsetY, this.lTentacle02a.offsetZ);
+                matrixStackIn.translate(this.lTentacle02a.rotationPointX, this.lTentacle02a.rotationPointY, this.lTentacle02a.rotationPointZ);
+                matrixStackIn.scale(0.9F, 0.9F, 0.9F);
+                //matrixStackIn.translate(-this.lTentacle02a.offsetX, -this.lTentacle02a.offsetY, -this.lTentacle02a.offsetZ);
+                matrixStackIn.translate(-this.lTentacle02a.rotationPointX, -this.lTentacle02a.rotationPointY, -this.lTentacle02a.rotationPointZ);
+                this.lTentacle02a.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn);
             }
-            GlStateManager.popMatrix();
-            GlStateManager.pushMatrix();
+            matrixStackIn.pop();
+            matrixStackIn.push();
             {
-                GlStateManager.translated(this.rTentacle04a.offsetX, this.rTentacle04a.offsetY, this.rTentacle04a.offsetZ);
-                GlStateManager.translated(this.rTentacle04a.rotationPointX * f5, this.rTentacle04a.rotationPointY * f5, this.rTentacle04a.rotationPointZ * f5);
-                GlStateManager.scaled(0.9D, 0.9D, 0.9D);
-                GlStateManager.translated(-this.rTentacle04a.offsetX, -this.rTentacle04a.offsetY, -this.rTentacle04a.offsetZ);
-                GlStateManager.translated(-this.rTentacle04a.rotationPointX * f5, -this.rTentacle04a.rotationPointY * f5, -this.rTentacle04a.rotationPointZ * f5);
-                this.rTentacle04a.render(f5);
+                //matrixStackIn.translate(this.rTentacle04a.offsetX, this.rTentacle04a.offsetY, this.rTentacle04a.offsetZ);
+                matrixStackIn.translate(this.rTentacle04a.rotationPointX, this.rTentacle04a.rotationPointY, this.rTentacle04a.rotationPointZ);
+                matrixStackIn.scale(0.9F, 0.9F, 0.9F);
+                //matrixStackIn.translate(-this.rTentacle04a.offsetX, -this.rTentacle04a.offsetY, -this.rTentacle04a.offsetZ);
+                matrixStackIn.translate(-this.rTentacle04a.rotationPointX, -this.rTentacle04a.rotationPointY, -this.rTentacle04a.rotationPointZ);
+                this.rTentacle04a.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn);
             }
-            GlStateManager.popMatrix();
-            GlStateManager.pushMatrix();
+            matrixStackIn.pop();
+            matrixStackIn.push();
             {
-                GlStateManager.translated(this.lTentacle04a.offsetX, this.lTentacle04a.offsetY, this.lTentacle04a.offsetZ);
-                GlStateManager.translated(this.lTentacle04a.rotationPointX * f5, this.lTentacle04a.rotationPointY * f5, this.lTentacle04a.rotationPointZ * f5);
-                GlStateManager.scaled(0.9D, 0.9D, 0.9D);
-                GlStateManager.translated(-this.lTentacle04a.offsetX, -this.lTentacle04a.offsetY, -this.lTentacle04a.offsetZ);
-                GlStateManager.translated(-this.lTentacle04a.rotationPointX * f5, -this.lTentacle04a.rotationPointY * f5, -this.lTentacle04a.rotationPointZ * f5);
-                this.lTentacle04a.render(f5);
+                //matrixStackIn.translate(this.lTentacle04a.offsetX, this.lTentacle04a.offsetY, this.lTentacle04a.offsetZ);
+                matrixStackIn.translate(this.lTentacle04a.rotationPointX, this.lTentacle04a.rotationPointY, this.lTentacle04a.rotationPointZ);
+                matrixStackIn.scale(0.9F, 0.9F, 0.9F);
+                //matrixStackIn.translate(-this.lTentacle04a.offsetX, -this.lTentacle04a.offsetY, -this.lTentacle04a.offsetZ);
+                matrixStackIn.translate(-this.lTentacle04a.rotationPointX, -this.lTentacle04a.rotationPointY, -this.lTentacle04a.rotationPointZ);
+                this.lTentacle04a.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn);
             }
-            GlStateManager.popMatrix();
-            GlStateManager.pushMatrix();
+            matrixStackIn.pop();
+            matrixStackIn.push();
             {
-                GlStateManager.translated(this.rTentacle02a.offsetX, this.rTentacle02a.offsetY, this.rTentacle02a.offsetZ);
-                GlStateManager.translated(this.rTentacle02a.rotationPointX * f5, this.rTentacle02a.rotationPointY * f5, this.rTentacle02a.rotationPointZ * f5);
-                GlStateManager.scaled(0.9D, 0.9D, 0.9D);
-                GlStateManager.translated(-this.rTentacle02a.offsetX, -this.rTentacle02a.offsetY, -this.rTentacle02a.offsetZ);
-                GlStateManager.translated(-this.rTentacle02a.rotationPointX * f5, -this.rTentacle02a.rotationPointY * f5, -this.rTentacle02a.rotationPointZ * f5);
-                this.rTentacle02a.render(f5);
+                //matrixStackIn.translate(this.rTentacle02a.offsetX, this.rTentacle02a.offsetY, this.rTentacle02a.offsetZ);
+                matrixStackIn.translate(this.rTentacle02a.rotationPointX, this.rTentacle02a.rotationPointY, this.rTentacle02a.rotationPointZ);
+                matrixStackIn.scale(0.9F, 0.9F, 0.9F);
+                //matrixStackIn.translate(-this.rTentacle02a.offsetX, -this.rTentacle02a.offsetY, -this.rTentacle02a.offsetZ);
+                matrixStackIn.translate(-this.rTentacle02a.rotationPointX, -this.rTentacle02a.rotationPointY, -this.rTentacle02a.rotationPointZ);
+                this.rTentacle02a.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn);
             }
-            GlStateManager.popMatrix();
-            GlStateManager.pushMatrix();
+            matrixStackIn.pop();
+            matrixStackIn.push();
             {
-                GlStateManager.translated(this.rTentacle03a.offsetX, this.rTentacle03a.offsetY, this.rTentacle03a.offsetZ);
-                GlStateManager.translated(this.rTentacle03a.rotationPointX * f5, this.rTentacle03a.rotationPointY * f5, this.rTentacle03a.rotationPointZ * f5);
-                GlStateManager.scaled(0.9D, 0.9D, 0.9D);
-                GlStateManager.translated(-this.rTentacle03a.offsetX, -this.rTentacle03a.offsetY, -this.rTentacle03a.offsetZ);
-                GlStateManager.translated(-this.rTentacle03a.rotationPointX * f5, -this.rTentacle03a.rotationPointY * f5, -this.rTentacle03a.rotationPointZ * f5);
-                this.rTentacle03a.render(f5);
+                //matrixStackIn.translate(this.rTentacle03a.offsetX, this.rTentacle03a.offsetY, this.rTentacle03a.offsetZ);
+                matrixStackIn.translate(this.rTentacle03a.rotationPointX, this.rTentacle03a.rotationPointY, this.rTentacle03a.rotationPointZ);
+                matrixStackIn.scale(0.9F, 0.9F, 0.9F);
+                //matrixStackIn.translate(-this.rTentacle03a.offsetX, -this.rTentacle03a.offsetY, -this.rTentacle03a.offsetZ);
+                matrixStackIn.translate(-this.rTentacle03a.rotationPointX, -this.rTentacle03a.rotationPointY, -this.rTentacle03a.rotationPointZ);
+                this.rTentacle03a.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn);
             }
-            GlStateManager.popMatrix();
-            GlStateManager.pushMatrix();
+            matrixStackIn.pop();
+            matrixStackIn.push();
             {
-                GlStateManager.translated(this.lTentacle01a.offsetX, this.lTentacle01a.offsetY, this.lTentacle01a.offsetZ);
-                GlStateManager.translated(this.lTentacle01a.rotationPointX * f5, this.lTentacle01a.rotationPointY * f5, this.lTentacle01a.rotationPointZ * f5);
-                GlStateManager.scaled(0.8D, 0.8D, 0.8D);
-                GlStateManager.translated(-this.lTentacle01a.offsetX, -this.lTentacle01a.offsetY, -this.lTentacle01a.offsetZ);
-                GlStateManager.translated(-this.lTentacle01a.rotationPointX * f5, -this.lTentacle01a.rotationPointY * f5, -this.lTentacle01a.rotationPointZ * f5);
-                this.lTentacle01a.render(f5);
+                //matrixStackIn.translate(this.lTentacle01a.offsetX, this.lTentacle01a.offsetY, this.lTentacle01a.offsetZ);
+                matrixStackIn.translate(this.lTentacle01a.rotationPointX, this.lTentacle01a.rotationPointY, this.lTentacle01a.rotationPointZ);
+                matrixStackIn.scale(0.8F, 0.8F, 0.8F);
+                //matrixStackIn.translate(-this.lTentacle01a.offsetX, -this.lTentacle01a.offsetY, -this.lTentacle01a.offsetZ);
+                matrixStackIn.translate(-this.lTentacle01a.rotationPointX, -this.lTentacle01a.rotationPointY, -this.lTentacle01a.rotationPointZ);
+                this.lTentacle01a.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn);
             }
-            GlStateManager.popMatrix();
-            this.shell.render(f5);
-            GlStateManager.pushMatrix();
+            matrixStackIn.pop();
+            this.shell.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn);
+            matrixStackIn.push();
             {
-                GlStateManager.translated(this.lTentacle03a.offsetX, this.lTentacle03a.offsetY, this.lTentacle03a.offsetZ);
-                GlStateManager.translated(this.lTentacle03a.rotationPointX * f5, this.lTentacle03a.rotationPointY * f5, this.lTentacle03a.rotationPointZ * f5);
-                GlStateManager.scaled(0.9D, 0.9D, 0.9D);
-                GlStateManager.translated(-this.lTentacle03a.offsetX, -this.lTentacle03a.offsetY, -this.lTentacle03a.offsetZ);
-                GlStateManager.translated(-this.lTentacle03a.rotationPointX * f5, -this.lTentacle03a.rotationPointY * f5, -this.lTentacle03a.rotationPointZ * f5);
-                this.lTentacle03a.render(f5);
+                //matrixStackIn.translate(this.lTentacle03a.offsetX, this.lTentacle03a.offsetY, this.lTentacle03a.offsetZ);
+                matrixStackIn.translate(this.lTentacle03a.rotationPointX, this.lTentacle03a.rotationPointY, this.lTentacle03a.rotationPointZ);
+                matrixStackIn.scale(0.9F, 0.9F, 0.9F);
+                //matrixStackIn.translate(-this.lTentacle03a.offsetX, -this.lTentacle03a.offsetY, -this.lTentacle03a.offsetZ);
+                matrixStackIn.translate(-this.lTentacle03a.rotationPointX, -this.lTentacle03a.rotationPointY, -this.lTentacle03a.rotationPointZ);
+                this.lTentacle03a.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn);
             }
-            GlStateManager.popMatrix();
+            matrixStackIn.pop();
         }
-        GlStateManager.popMatrix();
+        matrixStackIn.pop();
     }
 
     @Override
-    public void setRotationAngles(T entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor) {
+    public void render(T entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
         float mul = 0.3F;
         float div = 20F;
         float add = entityIn.getUniqueID().hashCode() * 0.001F;

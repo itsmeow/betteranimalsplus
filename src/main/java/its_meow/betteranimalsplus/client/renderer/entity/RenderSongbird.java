@@ -1,11 +1,12 @@
 package its_meow.betteranimalsplus.client.renderer.entity;
 
-import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.matrix.MatrixStack;
 
 import its_meow.betteranimalsplus.client.model.ModelSongbird;
 import its_meow.betteranimalsplus.client.model.ModelSongbirdSmall;
 import its_meow.betteranimalsplus.common.entity.EntitySongbird;
 import its_meow.betteranimalsplus.init.ModTextures;
+import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.client.renderer.entity.model.EntityModel;
@@ -21,22 +22,22 @@ public class RenderSongbird extends MobRenderer<EntitySongbird, EntityModel<Enti
     }
 
     @Override
-    protected void preRenderCallback(EntitySongbird entity, float partialTickTime) {
+    protected void preRenderCallback(EntitySongbird entity, MatrixStack matrixStackIn, float partialTickTime) {
         if (this.entityModel.isChild) {
-            GlStateManager.scaled(0.35D, 0.35D, 0.35D);
+            matrixStackIn.scale(0.35F, 0.35F, 0.35F);
         } else {
-            GlStateManager.scaled(0.5D, 0.5D, 0.5D);
+            matrixStackIn.scale(0.5F, 0.5F, 0.5F);
         }
     }
 
     @Override
-    public void doRender(EntitySongbird entity, double x, double y, double z, float entityYaw, float partialTicks) {
+    public void render(EntitySongbird entity, float entityYaw, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn) {
         if (entity.getTypeNumber() > 4) {
             this.entityModel = SMALL_SONG_BIRD;
         } else {
             this.entityModel = SONG_BIRD;
         }
-        super.doRender(entity, x, y, z, entityYaw, partialTicks);
+        super.render(entity, entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);
     }
 
     @Override

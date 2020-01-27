@@ -3,7 +3,6 @@ package its_meow.betteranimalsplus.client;
 import org.apache.logging.log4j.Level;
 
 import its_meow.betteranimalsplus.BetterAnimalsPlusMod;
-import its_meow.betteranimalsplus.client.model.ModelHirschgeistHelmet;
 import its_meow.betteranimalsplus.client.renderer.entity.RenderBadger;
 import its_meow.betteranimalsplus.client.renderer.entity.RenderBlackBear;
 import its_meow.betteranimalsplus.client.renderer.entity.RenderBoar;
@@ -43,25 +42,16 @@ import its_meow.betteranimalsplus.init.ModEntities;
 import its_meow.betteranimalsplus.init.ModTileEntities;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.SpriteRenderer;
-import net.minecraft.client.renderer.entity.model.BipedModel;
-import net.minecraft.entity.LivingEntity;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 
 public class ClientLifecycleHandler {
 
-    public static final ModelHirschgeistHelmet<LivingEntity> armorModel = new ModelHirschgeistHelmet<LivingEntity>();
-
-    @SuppressWarnings("unchecked")
-    public static <A extends BipedModel<?>> A getArmorModel() {
-        return (A) armorModel;
-    }
-
     public void clientSetup(final FMLClientSetupEvent event) {
-        ClientRegistry.bindTileEntityRenderer(ModTileEntities.TRILLIUM_TYPE, dispatcher -> new RenderBlockTrillium());
-        ClientRegistry.bindTileEntityRenderer(ModTileEntities.HAND_OF_FATE_TYPE, dispatcher -> new RenderBlockHandOfFate());
-        ClientRegistry.bindTileEntityRenderer(ModTileEntities.HEAD_TYPE, dispatcher -> new RenderGenericHead());
+        ClientRegistry.bindTileEntityRenderer(ModTileEntities.TRILLIUM_TYPE, RenderBlockTrillium::new);
+        ClientRegistry.bindTileEntityRenderer(ModTileEntities.HAND_OF_FATE_TYPE, RenderBlockHandOfFate::new);
+        ClientRegistry.bindTileEntityRenderer(ModTileEntities.HEAD_TYPE, RenderGenericHead::new);
         RenderingRegistry.registerEntityRenderingHandler(ModEntities.BROWN_BEAR.entityType, RenderBrownBear::new);
         RenderingRegistry.registerEntityRenderingHandler(ModEntities.BLACK_BEAR.entityType, RenderBlackBear::new);
         RenderingRegistry.registerEntityRenderingHandler(ModEntities.DEER.entityType, RenderDeer::new);

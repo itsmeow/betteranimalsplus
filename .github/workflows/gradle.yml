@@ -3,7 +3,7 @@ name: Build Commit
 on:
   push:
     branches: 
-    - 1.14
+    - 1.15
     paths-ignore:
     - '*.md'
     - 'LICENSE'

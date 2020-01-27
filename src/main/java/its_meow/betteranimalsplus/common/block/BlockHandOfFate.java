@@ -1,5 +1,6 @@
 package its_meow.betteranimalsplus.common.block;
 
+import its_meow.betteranimalsplus.Ref;
 import its_meow.betteranimalsplus.common.tileentity.TileEntityHandOfFate;
 import its_meow.betteranimalsplus.init.ModItems;
 import net.minecraft.block.Block;
@@ -18,6 +19,7 @@ import net.minecraft.item.Items;
 import net.minecraft.state.StateContainer.Builder;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
@@ -27,8 +29,6 @@ import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
 public class BlockHandOfFate extends HorizontalBlock implements IWaterLoggable {
 
@@ -41,19 +41,13 @@ public class BlockHandOfFate extends HorizontalBlock implements IWaterLoggable {
 
     public BlockHandOfFate() {
         super(Properties.create(Material.IRON).hardnessAndResistance(3.0F, 2.0F));
-        this.setRegistryName("handoffate");
+        this.setRegistryName(Ref.MOD_ID, "handoffate");
         this.setDefaultState(this.getDefaultState().with(HorizontalBlock.HORIZONTAL_FACING, Direction.NORTH).with(BlockStateProperties.WATERLOGGED, false));
     }
 
     @Override
     public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext ctx) {
         return SHAPE;
-    }
-
-    @Override
-    @OnlyIn(Dist.CLIENT)
-    public boolean hasCustomBreakingProgress(BlockState state) {
-        return true;
     }
 
     @Override
@@ -85,7 +79,7 @@ public class BlockHandOfFate extends HorizontalBlock implements IWaterLoggable {
     }
 
     @Override
-    public boolean onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand hand,
+    public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand hand,
             BlockRayTraceResult hit) {
         ItemStack held = player.getHeldItem(hand);
         if (held.getItem() == Items.FLINT_AND_STEEL) {
@@ -99,14 +93,14 @@ public class BlockHandOfFate extends HorizontalBlock implements IWaterLoggable {
             if (te instanceof TileEntityHandOfFate) {
                 TileEntityHandOfFate tehof = (TileEntityHandOfFate) te;
                 tehof.setOnFire(true);
-                return true;
+                return ActionResultType.SUCCESS;
             }
         } else if (held.getItem() == Blocks.SAND.asItem() || held.getItem() == Items.WATER_BUCKET) {
             TileEntity te = worldIn.getTileEntity(pos);
             if (te instanceof TileEntityHandOfFate) {
                 TileEntityHandOfFate tehof = (TileEntityHandOfFate) te;
                 tehof.setOnFire(false);
-                return true;
+                return ActionResultType.SUCCESS;
             }
         } else if (held.getItem() == Items.NETHER_WART) {
             TileEntity te = worldIn.getTileEntity(pos);
@@ -117,7 +111,7 @@ public class BlockHandOfFate extends HorizontalBlock implements IWaterLoggable {
                         held.shrink(1);
                     }
                     tehof.setHasNetherWart(player, true);
-                    return true;
+                    return ActionResultType.SUCCESS;
                 }
             }
         } else if (held.getItem() == ModItems.ANTLER) {
@@ -129,7 +123,7 @@ public class BlockHandOfFate extends HorizontalBlock implements IWaterLoggable {
                         held.shrink(1);
                     }
                     tehof.setHasAntler(player, true);
-                    return true;
+                    return ActionResultType.SUCCESS;
                 }
             }
         } else if (held.getItem() == ModItems.VENISON_RAW || held.getItem() == ModItems.VENISON_COOKED) {
@@ -141,11 +135,11 @@ public class BlockHandOfFate extends HorizontalBlock implements IWaterLoggable {
                         held.shrink(1);
                     }
                     tehof.setHasVenison(player, true);
-                    return true;
+                    return ActionResultType.SUCCESS;
                 }
             }
         }
-        return false;
+        return ActionResultType.PASS;
     }
 
     @Override
@@ -161,11 +155,6 @@ public class BlockHandOfFate extends HorizontalBlock implements IWaterLoggable {
     @Override
     public BlockRenderType getRenderType(BlockState state) {
         return BlockRenderType.ENTITYBLOCK_ANIMATED;
-    }
-
-    @Override
-    public boolean isSolid(BlockState state) {
-        return false;
     }
 
     @Override

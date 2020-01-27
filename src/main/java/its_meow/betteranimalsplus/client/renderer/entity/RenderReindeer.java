@@ -1,6 +1,6 @@
 package its_meow.betteranimalsplus.client.renderer.entity;
 
-import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.matrix.MatrixStack;
 
 import its_meow.betteranimalsplus.client.model.ModelReindeer;
 import its_meow.betteranimalsplus.common.entity.EntityReindeer;
@@ -16,11 +16,11 @@ public class RenderReindeer extends MobRenderer<EntityReindeer, ModelReindeer<En
     }
 
     @Override
-    protected void preRenderCallback(EntityReindeer entitylivingbaseIn, float partialTickTime) {
+    protected void preRenderCallback(EntityReindeer entitylivingbaseIn, MatrixStack matrixStackIn, float partialTickTime) {
         if (this.entityModel.isChild) {
-            GlStateManager.scaled(0.7D, 0.7D, 0.7D);
+            matrixStackIn.scale(0.7F, 0.7F, 0.7F);
         } else {
-            GlStateManager.scaled(1.3D, 1.3D, 1.3D);
+            matrixStackIn.scale(1.3F, 1.3F, 1.3F);
         }
     }
 

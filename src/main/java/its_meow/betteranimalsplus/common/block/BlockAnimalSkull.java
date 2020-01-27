@@ -9,8 +9,8 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.ContainerBlock;
-import net.minecraft.block.SoundType;
 import net.minecraft.block.IWaterLoggable;
+import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.fluid.IFluidState;
@@ -26,8 +26,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.IBlockReader;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
 public class BlockAnimalSkull extends ContainerBlock implements IWaterLoggable {
 
@@ -67,12 +65,6 @@ public class BlockAnimalSkull extends ContainerBlock implements IWaterLoggable {
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
-    public boolean hasCustomBreakingProgress(BlockState state) {
-        return true;
-    }
-
-    @Override
     public BlockRenderType getRenderType(BlockState state) {
         return BlockRenderType.ENTITYBLOCK_ANIMATED;
     }
@@ -80,7 +72,6 @@ public class BlockAnimalSkull extends ContainerBlock implements IWaterLoggable {
     @Override
     public BlockState getStateForPlacement(BlockItemUseContext context) {
         BlockState iblockstate = this.getDefaultState();
-        IBlockReader iblockreader = context.getWorld();
         BlockPos blockpos = context.getPos();
         Direction[] aenumfacing = context.getNearestLookingDirections();
 
@@ -90,7 +81,7 @@ public class BlockAnimalSkull extends ContainerBlock implements IWaterLoggable {
                 return null;
             }
             iblockstate = iblockstate.with(FACING_EXCEPT_DOWN, enumfacing1);
-            if (!iblockreader.getBlockState(blockpos.offset(enumfacing)).isReplaceable(context)) {
+            if (!context.getWorld().getBlockState(blockpos.offset(enumfacing)).isReplaceable(context)) {
                 return iblockstate;
             }
         }

@@ -1,5 +1,6 @@
 package its_meow.betteranimalsplus.common.block;
 
+import its_meow.betteranimalsplus.Ref;
 import its_meow.betteranimalsplus.common.tileentity.TileEntityTrillium;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
@@ -19,8 +20,6 @@ import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
 public class BlockTrillium extends BushBlock {
 
@@ -28,19 +27,13 @@ public class BlockTrillium extends BushBlock {
 
     public BlockTrillium() {
         super(Properties.create(Material.PLANTS).sound(SoundType.PLANT).doesNotBlockMovement());
-        this.setRegistryName("trillium");
+        this.setRegistryName(Ref.MOD_ID, "trillium");
         this.setDefaultState(this.getDefaultState().with(HorizontalBlock.HORIZONTAL_FACING, Direction.NORTH));
     }
 
     @Override
     public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext ctx) {
         return SHAPE;
-    }
-    
-    @Override
-    @OnlyIn(Dist.CLIENT)
-    public boolean hasCustomBreakingProgress(BlockState state) {
-        return true;
     }
 
     @Override

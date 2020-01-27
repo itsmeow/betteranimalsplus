@@ -288,7 +288,7 @@ public class ModelBadger<T extends LivingEntity> extends EntityModel<T> {
 
     @Override
     public void render(MatrixStack matrixStackIn, IVertexBuilder bufferIn, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
-        this.rear.render(matrixStackIn, bufferIn, packedOverlayIn, packedOverlayIn);
+        this.rear.render(matrixStackIn, bufferIn, packedOverlayIn, packedOverlayIn, red, green, blue, alpha);
     }
    
     @Override

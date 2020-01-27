@@ -1,9 +1,11 @@
 package its_meow.betteranimalsplus.client.model;
 
-import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.IVertexBuilder;
 
+import net.minecraft.client.renderer.Quaternion;
 import net.minecraft.client.renderer.entity.model.EntityModel;
-import net.minecraft.client.renderer.entity.model.ModelRenderer;
+import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 
 /**
@@ -34,6 +36,8 @@ public class ModelTrillium<T extends Entity> extends EntityModel<T> {
     public ModelRenderer petal01b;
     public ModelRenderer petal02b;
     public ModelRenderer petal03b;
+
+    private float rotation = 0;
 
     public ModelTrillium() {
         this.textureWidth = 64;
@@ -146,49 +150,54 @@ public class ModelTrillium<T extends Entity> extends EntityModel<T> {
     }
 
     @Override
-    public void render(T entity, float f, float f1, float f2, float f3, float f4, float f5) {
-        GlStateManager.rotatef(f3, 0, 1, 0); // Yaw
-        GlStateManager.pushMatrix();
-        GlStateManager.translatef(this.stem05.offsetX, this.stem05.offsetY, this.stem05.offsetZ);
-        GlStateManager.translatef(this.stem05.rotationPointX * f5, this.stem05.rotationPointY * f5,
-                this.stem05.rotationPointZ * f5);
-        GlStateManager.scaled(0.4D, 0.7D, 0.4D);
-        GlStateManager.translatef(-this.stem05.offsetX, -this.stem05.offsetY, -this.stem05.offsetZ);
-        GlStateManager.translatef(-this.stem05.rotationPointX * f5, -this.stem05.rotationPointY * f5,
-                -this.stem05.rotationPointZ * f5);
-        this.stem05.render(f5);
-        GlStateManager.popMatrix();
-        GlStateManager.pushMatrix();
-        GlStateManager.translatef(this.stem01.offsetX, this.stem01.offsetY, this.stem01.offsetZ);
-        GlStateManager.translatef(this.stem01.rotationPointX * f5, this.stem01.rotationPointY * f5,
-                this.stem01.rotationPointZ * f5);
-        GlStateManager.scaled(0.8D, 1.0D, 0.8D);
-        GlStateManager.translatef(-this.stem01.offsetX, -this.stem01.offsetY, -this.stem01.offsetZ);
-        GlStateManager.translatef(-this.stem01.rotationPointX * f5, -this.stem01.rotationPointY * f5,
-                -this.stem01.rotationPointZ * f5);
-        this.stem01.render(f5);
-        GlStateManager.popMatrix();
-        GlStateManager.pushMatrix();
-        GlStateManager.translatef(this.stem02.offsetX, this.stem02.offsetY, this.stem02.offsetZ);
-        GlStateManager.translatef(this.stem02.rotationPointX * f5, this.stem02.rotationPointY * f5,
-                this.stem02.rotationPointZ * f5);
-        GlStateManager.scaled(0.7D, 1.0D, 0.7D);
-        GlStateManager.translatef(-this.stem02.offsetX, -this.stem02.offsetY, -this.stem02.offsetZ);
-        GlStateManager.translatef(-this.stem02.rotationPointX * f5, -this.stem02.rotationPointY * f5,
-                -this.stem02.rotationPointZ * f5);
-        this.stem02.render(f5);
-        GlStateManager.popMatrix();
-        GlStateManager.pushMatrix();
-        GlStateManager.translatef(this.stem04.offsetX, this.stem04.offsetY, this.stem04.offsetZ);
-        GlStateManager.translatef(this.stem04.rotationPointX * f5, this.stem04.rotationPointY * f5,
-                this.stem04.rotationPointZ * f5);
-        GlStateManager.scaled(0.8D, 1.0D, 0.8D);
-        GlStateManager.translatef(-this.stem04.offsetX, -this.stem04.offsetY, -this.stem04.offsetZ);
-        GlStateManager.translatef(-this.stem04.rotationPointX * f5, -this.stem04.rotationPointY * f5,
-                -this.stem04.rotationPointZ * f5);
-        this.stem04.render(f5);
-        GlStateManager.popMatrix();
-        this.stem03.render(f5);
+    public void render(T entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+        this.rotation = netHeadYaw;
+    }
+
+    @Override
+    public void render(MatrixStack matrixStackIn, IVertexBuilder bufferIn, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
+        matrixStackIn.rotate(new Quaternion(0, 1, 0, rotation)); // Yaw
+        matrixStackIn.push();
+        //matrixStackIn.translate(this.stem05.offsetX, this.stem05.offsetY, this.stem05.offsetZ);
+        matrixStackIn.translate(this.stem05.rotationPointX, this.stem05.rotationPointY,
+                this.stem05.rotationPointZ);
+        matrixStackIn.scale(0.4F, 0.7F, 0.4F);
+        //matrixStackIn.translate(-this.stem05.offsetX, -this.stem05.offsetY, -this.stem05.offsetZ);
+        matrixStackIn.translate(-this.stem05.rotationPointX, -this.stem05.rotationPointY,
+                -this.stem05.rotationPointZ);
+        this.stem05.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn);
+        matrixStackIn.pop();
+        matrixStackIn.push();
+        //matrixStackIn.translate(this.stem01.offsetX, this.stem01.offsetY, this.stem01.offsetZ);
+        matrixStackIn.translate(this.stem01.rotationPointX, this.stem01.rotationPointY,
+                this.stem01.rotationPointZ);
+        matrixStackIn.scale(0.8F, 1.0F, 0.8F);
+        //matrixStackIn.translate(-this.stem01.offsetX, -this.stem01.offsetY, -this.stem01.offsetZ);
+        matrixStackIn.translate(-this.stem01.rotationPointX, -this.stem01.rotationPointY,
+                -this.stem01.rotationPointZ);
+        this.stem01.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn);
+        matrixStackIn.pop();
+        matrixStackIn.push();
+        //matrixStackIn.translate(this.stem02.offsetX, this.stem02.offsetY, this.stem02.offsetZ);
+        matrixStackIn.translate(this.stem02.rotationPointX, this.stem02.rotationPointY,
+                this.stem02.rotationPointZ);
+        matrixStackIn.scale(0.7F, 1.0F, 0.7F);
+        //matrixStackIn.translate(-this.stem02.offsetX, -this.stem02.offsetY, -this.stem02.offsetZ);
+        matrixStackIn.translate(-this.stem02.rotationPointX, -this.stem02.rotationPointY,
+                -this.stem02.rotationPointZ);
+        this.stem02.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn);
+        matrixStackIn.pop();
+        matrixStackIn.push();
+        //matrixStackIn.translate(this.stem04.offsetX, this.stem04.offsetY, this.stem04.offsetZ);
+        matrixStackIn.translate(this.stem04.rotationPointX, this.stem04.rotationPointY,
+                this.stem04.rotationPointZ);
+        matrixStackIn.scale(0.8F, 1.0F, 0.8F);
+        //matrixStackIn.translate(-this.stem04.offsetX, -this.stem04.offsetY, -this.stem04.offsetZ);
+        matrixStackIn.translate(-this.stem04.rotationPointX, -this.stem04.rotationPointY,
+                -this.stem04.rotationPointZ);
+        this.stem04.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn);
+        matrixStackIn.pop();
+        this.stem03.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn);
     }
 
     /**

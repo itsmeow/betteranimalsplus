@@ -18,7 +18,7 @@ public class BlockTurkeyRaw extends BlockTurkey {
     @Override
     protected ActionResultType eat(World worldIn, BlockPos pos, BlockState state, PlayerEntity player) {
         if(!player.canEat(false)) {
-            return ActionResultType.FAIL;
+            return ActionResultType.PASS;
         } else {
             int i = state.get(BITES);
 

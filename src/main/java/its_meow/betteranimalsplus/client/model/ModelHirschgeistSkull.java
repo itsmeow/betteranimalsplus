@@ -1,9 +1,10 @@
 package its_meow.betteranimalsplus.client.model;
 
-import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.IVertexBuilder;
 
 import net.minecraft.client.renderer.entity.model.EntityModel;
-import net.minecraft.client.renderer.entity.model.ModelRenderer;
+import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 
 /**
@@ -214,13 +215,17 @@ public class ModelHirschgeistSkull extends EntityModel<Entity> {
     }
 
     @Override
-    public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) {
+    public void render(MatrixStack matrixStackIn, IVertexBuilder bufferIn, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
+        /*if (f1 != -90F) {
+            GlStateManager.translatef(0F, -0.25F, 0F);
+        }*/
+        this.head01.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn);
+    }
+    
+    @Override
+    public void render(Entity entityIn, float f, float f1, float f2, float f3, float f4) {
         this.head01.rotateAngleY = (float) Math.toRadians(f);
         this.head01.rotateAngleX = (float) Math.toRadians(f1);
-        if (f1 != -90F) {
-            GlStateManager.translatef(0F, -0.25F, 0F);
-        }
-        this.head01.render(f5);
     }
 
     /**

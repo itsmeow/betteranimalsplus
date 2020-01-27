@@ -1,6 +1,7 @@
 package its_meow.betteranimalsplus.common.item;
 
 import its_meow.betteranimalsplus.BetterAnimalsPlusMod;
+import its_meow.betteranimalsplus.Ref;
 import net.minecraft.client.renderer.entity.model.BipedModel;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.IArmorMaterial;
@@ -17,7 +18,7 @@ public abstract class ItemCape extends ItemModeledArmor {
     public ItemCape(String name, String variant, Item repairItem, IArmorMaterial material) {
         super(material, EquipmentSlotType.CHEST, new Properties().group(BetterAnimalsPlusMod.group));
         this.variant = variant;
-        this.setRegistryName(name + variant);
+        this.setRegistryName(Ref.MOD_ID, name + variant);
         this.repairItem = repairItem;
     }
 

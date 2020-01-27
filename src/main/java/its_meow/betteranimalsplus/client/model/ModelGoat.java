@@ -1,7 +1,10 @@
 package its_meow.betteranimalsplus.client.model;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.IVertexBuilder;
+
 import its_meow.betteranimalsplus.common.entity.EntityGoat;
-import net.minecraft.client.renderer.entity.model.ModelRenderer;
+import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.util.math.MathHelper;
@@ -357,13 +360,13 @@ public class ModelGoat<T extends LivingEntity> extends ModelBetterAnimals<T> {
 		this.rArm01.addChild(this.rArmFur);
 	}
 
-	@Override
-	public void render(T entity, float f, float f1, float f2, float f3, float f4, float f5) {
-		this.chest.render(f5);
-	}
+    @Override
+    public void render(MatrixStack matrixStackIn, IVertexBuilder bufferIn, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
+        this.chest.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn);
+    }
 
     @Override
-    public void setRotationAngles(T entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor) {
+    public void render(T entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
 		float swingModifier = 1.5F;
 		this.lLeg01.rotateAngleX = MathHelper.sin(limbSwing * 0.8665F + (float) Math.PI) * swingModifier * limbSwingAmount - 0.2792526803190927F;
 		this.rLeg01.rotateAngleX = MathHelper.cos(limbSwing * 0.8665F) * swingModifier * limbSwingAmount - 0.2792526803190927F;
@@ -388,8 +391,6 @@ public class ModelGoat<T extends LivingEntity> extends ModelBetterAnimals<T> {
 		this.chest.rotateAngleX = -0.05235987755982988F;
 		this.head.rotateAngleX = -0.7853981633974483F;
 		this.lowerJaw.rotateAngleX = 0F;
-
-		super.setRotationAngles(entityIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor);
 	}
 
 	/**

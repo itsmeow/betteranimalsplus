@@ -2,7 +2,7 @@ package its_meow.betteranimalsplus.client.renderer.entity;
 
 import javax.annotation.Nonnull;
 
-import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.matrix.MatrixStack;
 
 import its_meow.betteranimalsplus.client.model.ModelSquirrel;
 import its_meow.betteranimalsplus.common.entity.EntitySquirrel;
@@ -18,11 +18,11 @@ public class RenderSquirrel extends MobRenderer<EntitySquirrel, ModelSquirrel<En
     }
 
     @Override
-    protected void preRenderCallback(EntitySquirrel entitylivingbaseIn, float partialTickTime) {
+    protected void preRenderCallback(EntitySquirrel entitylivingbaseIn, MatrixStack matrixStackIn, float partialTickTime) {
         if (this.entityModel.isChild) {
-            GlStateManager.scaled(0.35D, 0.35D, 0.35D);
+            matrixStackIn.scale(0.35F, 0.35F, 0.35F);
         } else {
-            GlStateManager.scaled(0.5D, 0.5D, 0.5D);
+            matrixStackIn.scale(0.5F, 0.5F, 0.5F);
         }
     }
 

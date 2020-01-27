@@ -2,15 +2,19 @@ package its_meow.betteranimalsplus.client.renderer.tileentity;
 
 import java.awt.Color;
 
-import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.matrix.MatrixStack;
 
 import its_meow.betteranimalsplus.client.model.ModelTrillium;
 import its_meow.betteranimalsplus.client.model.ModelTrilliumMulti;
 import its_meow.betteranimalsplus.client.model.ModelTrilliumMulti2;
 import its_meow.betteranimalsplus.common.tileentity.TileEntityTrillium;
 import its_meow.betteranimalsplus.init.ModTextures;
+import net.minecraft.client.renderer.IRenderTypeBuffer;
+import net.minecraft.client.renderer.Quaternion;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
+import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.entity.Entity;
 
 public class RenderBlockTrillium extends TileEntityRenderer<TileEntityTrillium> {
@@ -18,10 +22,13 @@ public class RenderBlockTrillium extends TileEntityRenderer<TileEntityTrillium> 
     public static ModelTrillium<Entity> singleT = new ModelTrillium<Entity>();
     public static ModelTrilliumMulti<Entity> doubleT = new ModelTrilliumMulti<Entity>();
     public static ModelTrilliumMulti2<Entity> tripleT = new ModelTrilliumMulti2<Entity>();
+    
+    public RenderBlockTrillium(TileEntityRendererDispatcher dispatcher) {
+        super(dispatcher);
+    }
 
     @Override
-    public void render(TileEntityTrillium tileentity, double x, double y, double z, float partialTicks,
-            int destroyStage) {
+    public void render(TileEntityTrillium tileentity, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int combinedLightIn, int combinedOverlayIn) {
         float rotate = 0F;
         if (!tileentity.getWorld().isAirBlock(tileentity.getPos())) {
             rotate = tileentity.getRotation();
@@ -29,15 +36,14 @@ public class RenderBlockTrillium extends TileEntityRenderer<TileEntityTrillium> 
         int modelNum = tileentity.getModelNum();
         EntityModel<Entity> mainModel = (modelNum == 0 ? doubleT : (modelNum == 1 ? singleT : tripleT));
 
-        GlStateManager.pushMatrix();
+        matrixStackIn.push();
         {
-            GlStateManager.translated(x + 0.5F, y + 1.5F, z + 0.5F);
-            GlStateManager.rotatef(180, 0, 0, 1);
+            matrixStackIn.translate(0.5F, 1.5F, 0.5F);
+            matrixStackIn.rotate(new Quaternion(0, 0, 1, 180));
 
-            GlStateManager.pushMatrix();
+            matrixStackIn.push();
             {
-                Color color = new Color(
-                        tileentity.getWorld().getBiome(tileentity.getPos()).getGrassColor(tileentity.getPos()));
+                Color color = new Color(tileentity.getWorld().getBiome(tileentity.getPos()).getFoliageColor());
                 float r = color.getRed() / 255F;
                 float g = color.getGreen() / 255F;
                 float b = color.getBlue() / 255F;
@@ -47,21 +53,19 @@ public class RenderBlockTrillium extends TileEntityRenderer<TileEntityTrillium> 
                 r = r > 255F ? 250F : r;
                 g = g > 255F ? 250F : g;
                 b = b > 255F ? 250F : b;
-                GlStateManager.color3f(r, g, b);
-                this.bindTexture(ModTextures.trillium_base);
-                mainModel.render((Entity) null, 0F, 0F, 0F, rotate, 0F, 0.0625F);
-                GlStateManager.color3f(1.0F, 1.0F, 1.0F);
+                mainModel.render((Entity) null, 0F, 0F, 0F, rotate, 0F);
+                mainModel.render(matrixStackIn, bufferIn.getBuffer(RenderType.entitySolid(ModTextures.trillium_base)), combinedLightIn, combinedOverlayIn, r, g, b, 1F);
             }
-            GlStateManager.popMatrix();
+            matrixStackIn.pop();
 
-            GlStateManager.pushMatrix();
+            matrixStackIn.push();
             {
-                this.bindTexture(tileentity.getTexture());
-                mainModel.render((Entity) null, 0F, 0F, 0F, rotate, 0F, 0.0625F);
+                mainModel.render((Entity) null, 0F, 0F, 0F, rotate, 0F);
+                mainModel.render(matrixStackIn, bufferIn.getBuffer(RenderType.entitySolid(tileentity.getTexture())), combinedLightIn, combinedOverlayIn, 1F, 1F, 1F, 1F);
             }
-            GlStateManager.popMatrix();
+            matrixStackIn.pop();
         }
-        GlStateManager.popMatrix();
+        matrixStackIn.pop();
     }
 
 }

@@ -1,6 +1,6 @@
 package its_meow.betteranimalsplus.client.renderer.entity;
 
-import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.matrix.MatrixStack;
 
 import its_meow.betteranimalsplus.client.model.ModelMoose;
 import its_meow.betteranimalsplus.common.entity.EntityMoose;
@@ -16,10 +16,8 @@ public class RenderMoose extends MobRenderer<EntityMoose, ModelMoose<EntityMoose
     }
     
     @Override
-    protected void preRenderCallback(EntityMoose bear, float partialTickTime) {
-        float scale = 1.5F;
-        GlStateManager.scalef(scale, scale, scale);
-        super.preRenderCallback(bear, partialTickTime);
+    protected void preRenderCallback(EntityMoose moose, MatrixStack matrixStackIn, float partialTickTime) {
+        matrixStackIn.scale(1.5F, 1.5F, 1.15F);
     }
 
     @Override

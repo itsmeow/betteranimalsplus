@@ -2,7 +2,7 @@ package its_meow.betteranimalsplus.client.renderer.entity;
 
 import java.util.Calendar;
 
-import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.matrix.MatrixStack;
 
 import its_meow.betteranimalsplus.client.model.ModelDeer;
 import its_meow.betteranimalsplus.common.entity.EntityDeer;
@@ -25,11 +25,11 @@ public class RenderDeer extends MobRenderer<EntityDeer, ModelDeer<EntityDeer>> {
     }
 
     @Override
-    protected void preRenderCallback(EntityDeer entitylivingbaseIn, float partialTickTime) {
+    protected void preRenderCallback(EntityDeer entitylivingbaseIn, MatrixStack matrixStackIn, float partialTickTime) {
         if (this.entityModel.isChild) {
-            GlStateManager.scaled(0.6D, 0.6D, 0.6D);
+            matrixStackIn.scale(0.6F, 0.6F, 0.6F);
         } else {
-            GlStateManager.scaled(1.0D, 1.0D, 1.0D);
+            matrixStackIn.scale(1.0F, 1.0F, 1.0F);
         }
     }
 

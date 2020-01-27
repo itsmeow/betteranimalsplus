@@ -1,5 +1,6 @@
 package its_meow.betteranimalsplus.common.block;
 
+import its_meow.betteranimalsplus.Ref;
 import its_meow.betteranimalsplus.util.HeadTypes;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IBlockReader;
@@ -10,7 +11,7 @@ public class BlockGenericSkull extends BlockAnimalSkull {
 
     public BlockGenericSkull(HeadTypes type, int i) {
         super();
-        this.setRegistryName(type.name + "_" + i);
+        this.setRegistryName(Ref.MOD_ID, type.name + "_" + i);
         this.type = type;
     }
 

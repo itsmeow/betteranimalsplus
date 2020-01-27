@@ -2,9 +2,10 @@ package its_meow.betteranimalsplus.client.renderer.entity;
 
 import javax.annotation.Nonnull;
 
-import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.matrix.MatrixStack;
 
 import its_meow.betteranimalsplus.client.model.ModelHirschgeistMain;
+import its_meow.betteranimalsplus.client.renderer.entity.layers.LayerEctoplasm;
 import its_meow.betteranimalsplus.common.entity.miniboss.hirschgeist.EntityHirschgeist;
 import its_meow.betteranimalsplus.init.ModTextures;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
@@ -15,6 +16,7 @@ public class RenderHirschgeist extends MobRenderer<EntityHirschgeist, ModelHirsc
 
     public RenderHirschgeist(EntityRendererManager rendermanagerIn) {
         super(rendermanagerIn, new ModelHirschgeistMain<EntityHirschgeist>(), 1F);
+        this.addLayer(new LayerEctoplasm(this));
     }
 
     /**
@@ -22,17 +24,10 @@ public class RenderHirschgeist extends MobRenderer<EntityHirschgeist, ModelHirsc
      * rendered.
      */
     @Override
-    protected void preRenderCallback(EntityHirschgeist entitylivingbaseIn, float partialTickTime) {
+    protected void preRenderCallback(EntityHirschgeist entitylivingbaseIn, MatrixStack matrixStackIn, float partialTickTime) {
         if (!entitylivingbaseIn.isDaytime()) {
-            float scale = 2F;
-            GlStateManager.scalef(scale, scale, scale);
+            matrixStackIn.scale(2F, 2F, 2F);
         }
-        super.preRenderCallback(entitylivingbaseIn, partialTickTime);
-    }
-
-    @Override
-    public void doRender(EntityHirschgeist entity, double x, double y, double z, float f, float partialTicks) {
-        super.doRender(entity, x, y, z, f, partialTicks);
     }
 
     @Override

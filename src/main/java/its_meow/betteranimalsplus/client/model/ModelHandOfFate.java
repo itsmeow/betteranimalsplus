@@ -1,9 +1,11 @@
 package its_meow.betteranimalsplus.client.model;
 
-import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.IVertexBuilder;
 
+import net.minecraft.client.renderer.Quaternion;
 import net.minecraft.client.renderer.entity.model.EntityModel;
-import net.minecraft.client.renderer.entity.model.ModelRenderer;
+import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 
 /**
@@ -81,6 +83,8 @@ public class ModelHandOfFate<T extends Entity> extends EntityModel<T> {
     public ModelRenderer metal07e;
     public ModelRenderer metal08b;
     public ModelRenderer metal08c;
+    
+    private float rotation = 0;
 
     public ModelHandOfFate() {
         this.textureWidth = 64;
@@ -421,44 +425,40 @@ public class ModelHandOfFate<T extends Entity> extends EntityModel<T> {
     }
 
     @Override
-    public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) {
-        GlStateManager.rotatef(f3, 0, 1, 0); // Yaw
-        this.metal02a.render(f5);
-        this.metal08a.render(f5);
-        this.metal03a.render(f5);
-        this.bowlStand03.render(f5);
-        this.bowlStand01.render(f5);
-        this.metal05a.render(f5);
-        this.metal06a.render(f5);
-        // GlStateManager.pushMatrix();
-        GlStateManager.translatef(this.bowlStandRivit.offsetX, this.bowlStandRivit.offsetY,
-                this.bowlStandRivit.offsetZ);
-        GlStateManager.translatef(this.bowlStandRivit.rotationPointX * f5, this.bowlStandRivit.rotationPointY * f5,
-                this.bowlStandRivit.rotationPointZ * f5);
-        GlStateManager.scaled(1.1D, 1.0D, 1.1D);
-        GlStateManager.translatef(-this.bowlStandRivit.offsetX, -this.bowlStandRivit.offsetY,
-                -this.bowlStandRivit.offsetZ);
-        GlStateManager.translatef(-this.bowlStandRivit.rotationPointX * f5, -this.bowlStandRivit.rotationPointY * f5,
-                -this.bowlStandRivit.rotationPointZ * f5);
-        this.bowlStandRivit.render(f5);
-        GlStateManager.scaled(1D, 1D, 1D);
-        // GlStateManager.popMatrix();
-        this.bowlStand02.render(f5);
-        this.metal04a.render(f5);
-        this.metal01a.render(f5);
-        this.bowlWall01.render(f5);
-        // GlStateManager.pushMatrix();
-        GlStateManager.translatef(this.bowlBase.offsetX, this.bowlBase.offsetY, this.bowlBase.offsetZ);
-        GlStateManager.translatef(this.bowlBase.rotationPointX * f5, this.bowlBase.rotationPointY * f5,
-                this.bowlBase.rotationPointZ * f5);
-        GlStateManager.scaled(1.05D, 1.0D, 1.0D);
-        GlStateManager.translatef(-this.bowlBase.offsetX, -this.bowlBase.offsetY, -this.bowlBase.offsetZ);
-        GlStateManager.translatef(-this.bowlBase.rotationPointX * f5, -this.bowlBase.rotationPointY * f5,
-                -this.bowlBase.rotationPointZ * f5);
-        this.bowlBase.render(f5);
-        GlStateManager.scaled(1D, 1D, 1D);
-        // GlStateManager.popMatrix();
-        this.metal07a.render(f5);
+    public void render(T entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+        this.rotation = netHeadYaw;
+    }
+
+    @Override
+    public void render(MatrixStack matrixStackIn, IVertexBuilder bufferIn, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
+        matrixStackIn.rotate(new Quaternion(0, 1, 0, rotation)); // Yaw
+        this.metal02a.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn);
+        this.metal08a.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn);
+        this.metal03a.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn);
+        this.bowlStand03.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn);
+        this.bowlStand01.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn);
+        this.metal05a.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn);
+        this.metal06a.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn);
+        //RenderSystem.translatef(this.bowlStandRivit.offsetX, this.bowlStandRivit.offsetY, this.bowlStandRivit.offsetZ);
+        matrixStackIn.translate(this.bowlStandRivit.rotationPointX, this.bowlStandRivit.rotationPointY,
+                this.bowlStandRivit.rotationPointZ);
+        matrixStackIn.scale(1.1F, 1.0F, 1.1F);
+        //RenderSystem.translatef(-this.bowlStandRivit.offsetX, -this.bowlStandRivit.offsetY, -this.bowlStandRivit.offsetZ);
+        matrixStackIn.translate(-this.bowlStandRivit.rotationPointX, -this.bowlStandRivit.rotationPointY, -this.bowlStandRivit.rotationPointZ);
+        this.bowlStandRivit.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn);
+        matrixStackIn.scale(1F, 1F, 1F);
+        this.bowlStand02.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn);
+        this.metal04a.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn);
+        this.metal01a.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn);
+        this.bowlWall01.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn);
+        //RenderSystem.translatef(this.bowlBase.offsetX, this.bowlBase.offsetY, this.bowlBase.offsetZ);
+        matrixStackIn.translate(this.bowlBase.rotationPointX, this.bowlBase.rotationPointY, this.bowlBase.rotationPointZ);
+        matrixStackIn.scale(1.05F, 1.0F, 1.0F);
+        //RenderSystem.translatef(-this.bowlBase.offsetX, -this.bowlBase.offsetY, -this.bowlBase.offsetZ);
+        matrixStackIn.translate(-this.bowlBase.rotationPointX, -this.bowlBase.rotationPointY, -this.bowlBase.rotationPointZ);
+        this.bowlBase.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn);
+        matrixStackIn.scale(1F, 1F, 1F);
+        this.metal07a.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn);
     }
 
     /**

@@ -1,6 +1,6 @@
 package its_meow.betteranimalsplus.client.renderer.entity;
 
-import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.matrix.MatrixStack;
 
 import its_meow.betteranimalsplus.client.model.ModelBoar;
 import its_meow.betteranimalsplus.common.entity.EntityBoar;
@@ -16,11 +16,11 @@ public class RenderBoar extends MobRenderer<EntityBoar, ModelBoar<EntityBoar>> {
     }
 
     @Override
-    protected void preRenderCallback(EntityBoar entitylivingbaseIn, float partialTickTime) {
+    protected void preRenderCallback(EntityBoar entitylivingbaseIn, MatrixStack matrixStackIn, float partialTickTime) {
         if (this.entityModel.isChild) {
-            GlStateManager.scaled(0.6D, 0.6D, 0.6D);
+            matrixStackIn.scale(0.6F, 0.6F, 0.6F);
         } else {
-            GlStateManager.scaled(1.0D, 1.0D, 1.0D);
+            matrixStackIn.scale(1.0F, 1.0F, 1.0F);
         }
     }
 

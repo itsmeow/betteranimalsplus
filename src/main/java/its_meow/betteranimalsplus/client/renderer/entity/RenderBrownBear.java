@@ -2,7 +2,7 @@ package its_meow.betteranimalsplus.client.renderer.entity;
 
 import javax.annotation.Nonnull;
 
-import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.matrix.MatrixStack;
 
 import its_meow.betteranimalsplus.client.model.ModelBear;
 import its_meow.betteranimalsplus.common.entity.EntityBear;
@@ -23,15 +23,9 @@ public class RenderBrownBear extends MobRenderer<EntityBear, ModelBear<EntityBea
         return ModTextures.bear_brown;
     }
 
-    /**
-     * Allows the render to do state modifications necessary before the model is
-     * rendered.
-     */
     @Override
-    protected void preRenderCallback(EntityBear entitylivingbaseIn, float partialTickTime) {
-        float scale = 1.3F;
-        GlStateManager.scalef(scale, scale, scale);
-        super.preRenderCallback(entitylivingbaseIn, partialTickTime);
+    protected void preRenderCallback(EntityBear entitylivingbaseIn, MatrixStack matrixStackIn, float partialTickTime) {
+        matrixStackIn.scale(1.3F, 1.3F, 1.3F);
     }
 
 }

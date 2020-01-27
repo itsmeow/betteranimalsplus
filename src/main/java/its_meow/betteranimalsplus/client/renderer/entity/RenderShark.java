@@ -1,6 +1,6 @@
 package its_meow.betteranimalsplus.client.renderer.entity;
 
-import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.matrix.MatrixStack;
 
 import its_meow.betteranimalsplus.client.model.ModelShark;
 import its_meow.betteranimalsplus.common.entity.EntityShark;
@@ -16,13 +16,13 @@ public class RenderShark extends MobRenderer<EntityShark, ModelShark<EntityShark
     }
     
     @Override
-    protected void preRenderCallback(EntityShark entity, float partialTickTime) {
+    protected void preRenderCallback(EntityShark entity, MatrixStack matrixStackIn, float partialTickTime) {
         int type = entity.getTypeNumber();
         switch(type) {
-        case 1: GlStateManager.scaled(0.8D, 0.7D, 0.8D); break;
-        case 2: GlStateManager.scaled(0.6D, 0.6D, 0.6D); break;
-        case 3: GlStateManager.scaled(1.1D, 1.1D, 1.1D); break;
-        case 4: GlStateManager.scaled(0.8D, 0.8D, 0.8D); break;
+        case 1: matrixStackIn.scale(0.8F, 0.7F, 0.8F); break;
+        case 2: matrixStackIn.scale(0.6F, 0.6F, 0.6F); break;
+        case 3: matrixStackIn.scale(1.1F, 1.1F, 1.1F); break;
+        case 4: matrixStackIn.scale(0.8F, 0.8F, 0.8F); break;
         }
     }
 

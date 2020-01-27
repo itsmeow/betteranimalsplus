@@ -1,9 +1,11 @@
 package its_meow.betteranimalsplus.client.model;
 
-import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.IVertexBuilder;
 
+import net.minecraft.client.renderer.Quaternion;
 import net.minecraft.client.renderer.entity.model.EntityModel;
-import net.minecraft.client.renderer.entity.model.ModelRenderer;
+import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 
 /**
@@ -56,6 +58,8 @@ public class ModelTrilliumMulti<T extends Entity> extends EntityModel<T> {
     public ModelRenderer petal01b_1;
     public ModelRenderer petal02b_1;
     public ModelRenderer petal03b_1;
+
+    private float rotation = 0;
 
     public ModelTrilliumMulti() {
         this.textureWidth = 64;
@@ -274,113 +278,102 @@ public class ModelTrilliumMulti<T extends Entity> extends EntityModel<T> {
     }
 
     @Override
-    public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) {
-        GlStateManager.rotatef(f3, 0, 1, 0); // Yaw
+    public void render(T entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+        this.rotation = netHeadYaw;
+    }
 
-        GlStateManager.pushMatrix();
-        {
-            GlStateManager.translatef(this.stem04_1.offsetX, this.stem04_1.offsetY, this.stem04_1.offsetZ);
-            GlStateManager.translatef(this.stem04_1.rotationPointX * f5, this.stem04_1.rotationPointY * f5,
-                    this.stem04_1.rotationPointZ * f5);
-            GlStateManager.scaled(0.8D, 0.81D, 0.8D);
-            GlStateManager.translatef(-this.stem04_1.offsetX, -this.stem04_1.offsetY, -this.stem04_1.offsetZ);
-            GlStateManager.translatef(-this.stem04_1.rotationPointX * f5, -this.stem04_1.rotationPointY * f5,
-                    -this.stem04_1.rotationPointZ * f5);
-            this.stem04_1.render(f5);
-        }
-        GlStateManager.popMatrix();
+    @Override
+    public void render(MatrixStack matrixStackIn, IVertexBuilder bufferIn, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
+        matrixStackIn.rotate(new Quaternion(0, 1, 0, rotation)); // Yaw
 
-        GlStateManager.pushMatrix();
+        matrixStackIn.push();
         {
-            GlStateManager.translatef(this.stem05_1.offsetX, this.stem05_1.offsetY, this.stem05_1.offsetZ);
-            GlStateManager.translatef(this.stem05_1.rotationPointX * f5, this.stem05_1.rotationPointY * f5,
-                    this.stem05_1.rotationPointZ * f5);
-            GlStateManager.scaled(0.4D, 0.57D, 0.4D);
-            GlStateManager.translatef(-this.stem05_1.offsetX, -this.stem05_1.offsetY, -this.stem05_1.offsetZ);
-            GlStateManager.translatef(-this.stem05_1.rotationPointX * f5, -this.stem05_1.rotationPointY * f5,
-                    -this.stem05_1.rotationPointZ * f5);
-            this.stem05_1.render(f5);
+            //matrixStackIn.translate(this.stem04_1.offsetX, this.stem04_1.offsetY, this.stem04_1.offsetZ);
+            matrixStackIn.translate(this.stem04_1.rotationPointX, this.stem04_1.rotationPointY, this.stem04_1.rotationPointZ);
+            matrixStackIn.scale(0.8F, 0.81F, 0.8F);
+            //matrixStackIn.translate(-this.stem04_1.offsetX, -this.stem04_1.offsetY, -this.stem04_1.offsetZ);
+            matrixStackIn.translate(-this.stem04_1.rotationPointX, -this.stem04_1.rotationPointY, -this.stem04_1.rotationPointZ);
+            this.stem04_1.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn);
         }
-        GlStateManager.popMatrix();
+        matrixStackIn.pop();
 
-        this.stem03.render(f5);
+        matrixStackIn.push();
+        {
+            //matrixStackIn.translate(this.stem05_1.offsetX, this.stem05_1.offsetY, this.stem05_1.offsetZ);
+            matrixStackIn.translate(this.stem05_1.rotationPointX, this.stem05_1.rotationPointY, this.stem05_1.rotationPointZ);
+            matrixStackIn.scale(0.4F, 0.57F, 0.4F);
+            //matrixStackIn.translate(-this.stem05_1.offsetX, -this.stem05_1.offsetY, -this.stem05_1.offsetZ);
+            matrixStackIn.translate(-this.stem05_1.rotationPointX, -this.stem05_1.rotationPointY, -this.stem05_1.rotationPointZ);
+            this.stem05_1.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn);
+        }
+        matrixStackIn.pop();
 
-        GlStateManager.pushMatrix();
-        {
-            GlStateManager.translatef(this.stem05.offsetX, this.stem05.offsetY, this.stem05.offsetZ);
-            GlStateManager.translatef(this.stem05.rotationPointX * f5, this.stem05.rotationPointY * f5,
-                    this.stem05.rotationPointZ * f5);
-            GlStateManager.scaled(0.4D, 0.7D, 0.4D);
-            GlStateManager.translatef(-this.stem05.offsetX, -this.stem05.offsetY, -this.stem05.offsetZ);
-            GlStateManager.translatef(-this.stem05.rotationPointX * f5, -this.stem05.rotationPointY * f5,
-                    -this.stem05.rotationPointZ * f5);
-            this.stem05.render(f5);
-        }
-        GlStateManager.popMatrix();
+        this.stem03.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn);
 
-        GlStateManager.pushMatrix();
+        matrixStackIn.push();
         {
-            GlStateManager.translatef(this.stem02.offsetX, this.stem02.offsetY, this.stem02.offsetZ);
-            GlStateManager.translatef(this.stem02.rotationPointX * f5, this.stem02.rotationPointY * f5,
-                    this.stem02.rotationPointZ * f5);
-            GlStateManager.scaled(0.7D, 1.0D, 0.7D);
-            GlStateManager.translatef(-this.stem02.offsetX, -this.stem02.offsetY, -this.stem02.offsetZ);
-            GlStateManager.translatef(-this.stem02.rotationPointX * f5, -this.stem02.rotationPointY * f5,
-                    -this.stem02.rotationPointZ * f5);
-            this.stem02.render(f5);
+            //matrixStackIn.translate(this.stem05.offsetX, this.stem05.offsetY, this.stem05.offsetZ);
+            matrixStackIn.translate(this.stem05.rotationPointX, this.stem05.rotationPointY, this.stem05.rotationPointZ);
+            matrixStackIn.scale(0.4F, 0.7F, 0.4F);
+            //matrixStackIn.translate(-this.stem05.offsetX, -this.stem05.offsetY, -this.stem05.offsetZ);
+            matrixStackIn.translate(-this.stem05.rotationPointX, -this.stem05.rotationPointY, -this.stem05.rotationPointZ);
+            this.stem05.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn);
         }
-        GlStateManager.popMatrix();
+        matrixStackIn.pop();
 
-        GlStateManager.pushMatrix();
+        matrixStackIn.push();
         {
-            GlStateManager.translatef(this.stem04.offsetX, this.stem04.offsetY, this.stem04.offsetZ);
-            GlStateManager.translatef(this.stem04.rotationPointX * f5, this.stem04.rotationPointY * f5,
-                    this.stem04.rotationPointZ * f5);
-            GlStateManager.scaled(0.8D, 1.0D, 0.8D);
-            GlStateManager.translatef(-this.stem04.offsetX, -this.stem04.offsetY, -this.stem04.offsetZ);
-            GlStateManager.translatef(-this.stem04.rotationPointX * f5, -this.stem04.rotationPointY * f5,
-                    -this.stem04.rotationPointZ * f5);
-            this.stem04.render(f5);
+            //matrixStackIn.translate(this.stem02.offsetX, this.stem02.offsetY, this.stem02.offsetZ);
+            matrixStackIn.translate(this.stem02.rotationPointX, this.stem02.rotationPointY, this.stem02.rotationPointZ);
+            matrixStackIn.scale(0.7F, 1.0F, 0.7F);
+            //matrixStackIn.translate(-this.stem02.offsetX, -this.stem02.offsetY, -this.stem02.offsetZ);
+            matrixStackIn.translate(-this.stem02.rotationPointX, -this.stem02.rotationPointY, -this.stem02.rotationPointZ);
+            this.stem02.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn);
         }
-        GlStateManager.popMatrix();
+        matrixStackIn.pop();
 
-        GlStateManager.pushMatrix();
+        matrixStackIn.push();
         {
-            GlStateManager.translatef(this.stem01.offsetX, this.stem01.offsetY, this.stem01.offsetZ);
-            GlStateManager.translatef(this.stem01.rotationPointX * f5, this.stem01.rotationPointY * f5,
-                    this.stem01.rotationPointZ * f5);
-            GlStateManager.scaled(0.8D, 1.0D, 0.8D);
-            GlStateManager.translatef(-this.stem01.offsetX, -this.stem01.offsetY, -this.stem01.offsetZ);
-            GlStateManager.translatef(-this.stem01.rotationPointX * f5, -this.stem01.rotationPointY * f5,
-                    -this.stem01.rotationPointZ * f5);
-            this.stem01.render(f5);
+            //matrixStackIn.translate(this.stem04.offsetX, this.stem04.offsetY, this.stem04.offsetZ);
+            matrixStackIn.translate(this.stem04.rotationPointX, this.stem04.rotationPointY, this.stem04.rotationPointZ);
+            matrixStackIn.scale(0.8F, 1.0F, 0.8F);
+            //matrixStackIn.translate(-this.stem04.offsetX, -this.stem04.offsetY, -this.stem04.offsetZ);
+            matrixStackIn.translate(-this.stem04.rotationPointX, -this.stem04.rotationPointY, -this.stem04.rotationPointZ);
+            this.stem04.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn);
         }
-        GlStateManager.popMatrix();
+        matrixStackIn.pop();
 
-        GlStateManager.pushMatrix();
+        matrixStackIn.push();
         {
-            GlStateManager.translatef(this.stem02_1.offsetX, this.stem02_1.offsetY, this.stem02_1.offsetZ);
-            GlStateManager.translatef(this.stem02_1.rotationPointX * f5, this.stem02_1.rotationPointY * f5,
-                    this.stem02_1.rotationPointZ * f5);
-            GlStateManager.scaled(0.7D, 0.8D, 0.7D);
-            GlStateManager.translatef(-this.stem02_1.offsetX, -this.stem02_1.offsetY, -this.stem02_1.offsetZ);
-            GlStateManager.translatef(-this.stem02_1.rotationPointX * f5, -this.stem02_1.rotationPointY * f5,
-                    -this.stem02_1.rotationPointZ * f5);
-            this.stem02_1.render(f5);
+            //matrixStackIn.translate(this.stem01.offsetX, this.stem01.offsetY, this.stem01.offsetZ);
+            matrixStackIn.translate(this.stem01.rotationPointX, this.stem01.rotationPointY, this.stem01.rotationPointZ);
+            matrixStackIn.scale(0.8F, 1.0F, 0.8F);
+            //matrixStackIn.translate(-this.stem01.offsetX, -this.stem01.offsetY, -this.stem01.offsetZ);
+            matrixStackIn.translate(-this.stem01.rotationPointX, -this.stem01.rotationPointY, -this.stem01.rotationPointZ);
+            this.stem01.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn);
         }
-        GlStateManager.popMatrix();
-        GlStateManager.pushMatrix();
+        matrixStackIn.pop();
+
+        matrixStackIn.push();
         {
-            GlStateManager.translatef(this.stem03_1.offsetX, this.stem03_1.offsetY, this.stem03_1.offsetZ);
-            GlStateManager.translatef(this.stem03_1.rotationPointX * f5, this.stem03_1.rotationPointY * f5,
-                    this.stem03_1.rotationPointZ * f5);
-            GlStateManager.scaled(1.0D, 0.81D, 1.0D);
-            GlStateManager.translatef(-this.stem03_1.offsetX, -this.stem03_1.offsetY, -this.stem03_1.offsetZ);
-            GlStateManager.translatef(-this.stem03_1.rotationPointX * f5, -this.stem03_1.rotationPointY * f5,
-                    -this.stem03_1.rotationPointZ * f5);
-            this.stem03_1.render(f5);
+            //matrixStackIn.translate(this.stem02_1.offsetX, this.stem02_1.offsetY, this.stem02_1.offsetZ);
+            matrixStackIn.translate(this.stem02_1.rotationPointX, this.stem02_1.rotationPointY, this.stem02_1.rotationPointZ);
+            matrixStackIn.scale(0.7F, 0.8F, 0.7F);
+            //matrixStackIn.translate(-this.stem02_1.offsetX, -this.stem02_1.offsetY, -this.stem02_1.offsetZ);
+            matrixStackIn.translate(-this.stem02_1.rotationPointX, -this.stem02_1.rotationPointY, -this.stem02_1.rotationPointZ);
+            this.stem02_1.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn);
         }
-        GlStateManager.popMatrix();
+        matrixStackIn.pop();
+        matrixStackIn.push();
+        {
+            //matrixStackIn.translate(this.stem03_1.offsetX, this.stem03_1.offsetY, this.stem03_1.offsetZ);
+            matrixStackIn.translate(this.stem03_1.rotationPointX, this.stem03_1.rotationPointY, this.stem03_1.rotationPointZ);
+            matrixStackIn.scale(1.0F, 0.81F, 1.0F);
+            //matrixStackIn.translate(-this.stem03_1.offsetX, -this.stem03_1.offsetY, -this.stem03_1.offsetZ);
+            matrixStackIn.translate(-this.stem03_1.rotationPointX, -this.stem03_1.rotationPointY, -this.stem03_1.rotationPointZ);
+            this.stem03_1.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn);
+        }
+        matrixStackIn.pop();
     }
 
     /**

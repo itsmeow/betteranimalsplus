@@ -1,7 +1,10 @@
 package its_meow.betteranimalsplus.client.model;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.IVertexBuilder;
+
 import its_meow.betteranimalsplus.common.entity.EntityFeralWolf;
-import net.minecraft.client.renderer.entity.model.ModelRenderer;
+import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.math.MathHelper;
 
@@ -53,6 +56,10 @@ public class ModelFeralWolf<T extends LivingEntity> extends ModelBetterAnimals<T
     public ModelRenderer lForePaw;
     public ModelRenderer rForeleg02;
     public ModelRenderer rForePaw;
+
+    private float r = 1F;
+    private float g = 1F;
+    private float b = 1F;
 
     public ModelFeralWolf() {
         this.textureWidth = 128;
@@ -283,12 +290,12 @@ public class ModelFeralWolf<T extends LivingEntity> extends ModelBetterAnimals<T
     }
 
     @Override
-    public void render(T entity, float f, float f1, float f2, float f3, float f4, float f5) { 
-        this.chest.render(f5);
-    }  
+    public void render(MatrixStack matrixStackIn, IVertexBuilder bufferIn, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
+        this.chest.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red * r, green * g, blue * b, alpha);
+    }
 
     @Override
-    public void setRotationAngles(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor) {
+    public void render(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
         this.head.rotateAngleX = (float) Math.toRadians(ModelBetterAnimals.getHeadPitch(entity)) + 2.1816615649929116F;
         this.head.rotateAngleY = netHeadYaw * 0.017453292F;
         boolean sit = false;
@@ -357,5 +364,11 @@ public class ModelFeralWolf<T extends LivingEntity> extends ModelBetterAnimals<T
         ModelRenderer.rotateAngleX = x;
         ModelRenderer.rotateAngleY = y;
         ModelRenderer.rotateAngleZ = z;
+    }
+
+    public void setColors(float r, float g, float b) {
+        this.r = r;
+        this.g = g;
+        this.b = b;
     }
 }

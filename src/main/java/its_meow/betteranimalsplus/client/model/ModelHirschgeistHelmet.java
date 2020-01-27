@@ -1,13 +1,15 @@
 package its_meow.betteranimalsplus.client.model;
 
 import net.minecraft.client.renderer.entity.model.BipedModel;
-import net.minecraft.client.renderer.entity.model.ModelRenderer;
+import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.LivingEntity;
 
 /**
  * hirschgeistskull2 - cybercat5555 Created using Tabula 5.1.0
  */
 public class ModelHirschgeistHelmet<T extends LivingEntity> extends BipedModel<T> {
+
+    public static final ModelHirschgeistHelmet<LivingEntity> INSTANCE = new ModelHirschgeistHelmet<LivingEntity>();
 
     public ModelRenderer head01;
     public ModelRenderer muzzle;
@@ -282,9 +284,9 @@ public class ModelHirschgeistHelmet<T extends LivingEntity> extends BipedModel<T
     }
 
     @Override
-    public void render(T p_78088_1_, float p_78088_2_, float p_78088_3_, float p_78088_4_, float p_78088_5_, float p_78088_6_, float p_78088_7_) {
+    public void render(T entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
         this.bipedHead.showModel = true;
-        super.render(p_78088_1_, p_78088_2_, p_78088_3_, p_78088_4_, p_78088_5_, p_78088_6_, p_78088_7_);
+        super.render(entityIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
     }
 
     /**

@@ -1,8 +1,11 @@
 package its_meow.betteranimalsplus.client.model;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.IVertexBuilder;
+
 import its_meow.betteranimalsplus.common.entity.EntityZotzpyre;
 import net.minecraft.client.renderer.entity.model.EntityModel;
-import net.minecraft.client.renderer.entity.model.ModelRenderer;
+import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.math.MathHelper;
 
@@ -114,8 +117,7 @@ public class ModelZotzpyre<T extends LivingEntity> extends EntityModel<T> {
         this.rWingMembrane03 = new ModelRenderer(this, 64, 46);
         this.rWingMembrane03.mirror = true;
         this.rWingMembrane03.setRotationPoint(0.2F, 0.0F, 1.0F);
-        this.rWingMembrane03.addBox(-6.0F, -0.01F, 0.0F, 16, 0, 18, 0.0F);
-        this.rWingMembrane03.offsetY = -0.03F;
+        this.rWingMembrane03.addBox(-6.0F, -0.04F, 0.0F, 16, 0, 18, 0.0F);
         this.setRotateAngle(rWingMembrane03, 0.0F, 0.40142572795869574F, 0.0F);
         this.lowerJaw = new ModelRenderer(this, 62, 8);
         this.lowerJaw.setRotationPoint(0.0F, 1.6F, -3.8F);
@@ -293,8 +295,7 @@ public class ModelZotzpyre<T extends LivingEntity> extends EntityModel<T> {
         this.setRotateAngle(neck, 0.08726646259971647F, 0.0F, 0.0F);
         this.lWingMembrane03 = new ModelRenderer(this, 64, 46);
         this.lWingMembrane03.setRotationPoint(0.2F, 0.0F, 1.0F);
-        this.lWingMembrane03.addBox(-10.0F, -0.01F, 0.0F, 16, 0, 18, 0.0F);
-        this.lWingMembrane03.offsetY = -0.03F;
+        this.lWingMembrane03.addBox(-10.0F, -0.04F, 0.0F, 16, 0, 18, 0.0F);
         this.setRotateAngle(lWingMembrane03, 0.0F, -0.40142572795869574F, 0.0F);
         this.head.addChild(this.snout);
         this.rWing02.addChild(this.rFinger);
@@ -351,12 +352,12 @@ public class ModelZotzpyre<T extends LivingEntity> extends EntityModel<T> {
     }
 
     @Override
-    public void render(T entity, float f, float f1, float f2, float f3, float f4, float f5) { 
-        this.chest.render(f5);
+    public void render(MatrixStack matrixStackIn, IVertexBuilder bufferIn, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
+        this.chest.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn);
     }
 
     @Override
-    public void setRotationAngles(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor) {
+    public void render(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
         if(entity instanceof EntityZotzpyre) {
             EntityZotzpyre zotz = (EntityZotzpyre) entity;
             if((zotz.getMotion().getX() > 0.05 || zotz.getMotion().getZ() > 0.05) && zotz.getRidingEntity() == null || (zotz.getRidingEntity() == null && !zotz.onGround)) {

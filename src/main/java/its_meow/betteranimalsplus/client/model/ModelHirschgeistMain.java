@@ -1,13 +1,11 @@
 package its_meow.betteranimalsplus.client.model;
 
-import com.mojang.blaze3d.platform.GLX;
-import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.IVertexBuilder;
 
 import its_meow.betteranimalsplus.common.entity.miniboss.hirschgeist.EntityHirschgeist;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.entity.model.EntityModel;
-import net.minecraft.client.renderer.entity.model.ModelRenderer;
+import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.math.MathHelper;
 
@@ -1222,47 +1220,16 @@ public class ModelHirschgeistMain<T extends LivingEntity> extends EntityModel<T>
     }
 
     @Override
-    public void render(T entity, float f, float f1, float f2, float f3, float f4, float f5) {
-        this.spine01.render(f5);
+    public void render(MatrixStack matrixStackIn, IVertexBuilder bufferIn, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
+        this.spine01.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn);
+    }
 
-        if(entity instanceof EntityHirschgeist) {
-            EntityHirschgeist hg = (EntityHirschgeist) entity;
-            if(!hg.isDaytime()) {
-                GlStateManager.enableBlend();
-                GlStateManager.disableAlphaTest();
-                GlStateManager.blendFunc(GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ONE);
-                if(entity.isInvisible()) {
-                    GlStateManager.depthMask(false);
-                } else {
-                    GlStateManager.depthMask(true);
-                }
-
-                int i = 61680;
-                int j = i % 65536;
-                int k = i / 65536;
-                GLX.glMultiTexCoord2f(GLX.GL_TEXTURE1, (float)j, (float)k);
-                GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
-                GameRenderer gamerenderer = Minecraft.getInstance().gameRenderer;
-                gamerenderer.setupFogColor(true);
-                this.ectoplasm01.render(f5);
-                gamerenderer.setupFogColor(false);
-                i = entity.getBrightnessForRender();
-                j = i % 65536;
-                k = i / 65536;
-                GLX.glMultiTexCoord2f(GLX.GL_TEXTURE1, (float)j, (float)k);
-                //this.func_215334_a(entity);
-                GlStateManager.depthMask(true);
-                GlStateManager.disableBlend();
-                GlStateManager.enableAlphaTest();
-            }
-        }
-
-        this.setRotationAngles(entity, f, f1, f2, f3, f4, f5);
+    public void renderEctoLayer(MatrixStack matrixStackIn, IVertexBuilder bufferIn, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
+        this.ectoplasm01.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
     }
 
     @Override
-    public void setRotationAngles(T entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw,
-            float headPitch, float scaleFactor) {
+    public void render(T entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
         float f = limbSwing;
         float f1 = limbSwingAmount;
 
@@ -1313,8 +1280,6 @@ public class ModelHirschgeistMain<T extends LivingEntity> extends EntityModel<T>
                 this.neckEctoplasm01.rotateAngleX = (float) Math.toRadians(45F);
             }
         }
-
-        super.setRotationAngles(entityIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor);
     }
 
     /**

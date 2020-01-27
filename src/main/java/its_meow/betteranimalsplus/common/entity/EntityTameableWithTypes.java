@@ -16,7 +16,7 @@ import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 
-public abstract class EntityTameableWithTypes extends EntityTameableBetterAnimalsPlus implements IVariantTypes {
+public abstract class EntityTameableWithTypes extends EntityTameableBetterAnimalsPlus implements IVariantTypesAgeable {
 
     protected static final DataParameter<Integer> TYPE_NUMBER = EntityDataManager.<Integer>createKey(EntityTameableWithTypes.class, DataSerializers.VARINT);
 

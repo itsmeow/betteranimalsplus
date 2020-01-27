@@ -1,8 +1,11 @@
 package its_meow.betteranimalsplus.client.model;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.IVertexBuilder;
+
 import its_meow.betteranimalsplus.common.entity.EntitySongbird;
 import net.minecraft.client.renderer.entity.model.EntityModel;
-import net.minecraft.client.renderer.entity.model.ModelRenderer;
+import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.math.MathHelper;
 
@@ -222,7 +225,12 @@ public class ModelSongbirdSmall<T extends LivingEntity> extends EntityModel<T> {
     }
 
     @Override
-    public void render(T entity, float f, float f1, float f2, float f3, float f4, float f5) {
+    public void render(MatrixStack matrixStackIn, IVertexBuilder bufferIn, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
+        this.body.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn);
+    }
+
+    @Override
+    public void render(T entity, float f, float f1, float f2, float f3, float f4) {
         boolean show = true;
         if (entity instanceof EntitySongbird) {
             EntitySongbird bird = (EntitySongbird) entity;
@@ -267,13 +275,11 @@ public class ModelSongbirdSmall<T extends LivingEntity> extends EntityModel<T> {
                 this.rWingFeather01.rotateAngleX = -0.5585053606381855F;
                 this.body.rotateAngleX = -0.2617993877991494F;
 
-                boolean flag = entity instanceof LivingEntity
-                        && ((LivingEntity) entity).getTicksElytraFlying() > 4;
+                boolean flag = entity instanceof LivingEntity && ((LivingEntity) entity).getTicksElytraFlying() > 4;
                 float e = 1.0F;
 
                 if (flag) {
-                    e = (float) (entity.getMotion().getX() * entity.getMotion().getX() + entity.getMotion().getY() * entity.getMotion().getY()
-                            + entity.getMotion().getZ() * entity.getMotion().getZ());
+                    e = (float) (entity.getMotion().getX() * entity.getMotion().getX() + entity.getMotion().getY() * entity.getMotion().getY() + entity.getMotion().getZ() * entity.getMotion().getZ());
                     e = e / 0.2F;
                     e = e * e * e;
                 }
@@ -293,7 +299,6 @@ public class ModelSongbirdSmall<T extends LivingEntity> extends EntityModel<T> {
             this.lFoot.showModel = show;
             this.rFoot.showModel = show;
         }
-        this.body.render(f5);
     }
 
     /**

@@ -62,7 +62,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
-public class EntityReindeer extends AnimalEntity implements IJumpingMount, IVariantTypes {
+public class EntityReindeer extends AnimalEntity implements IJumpingMount, IVariantTypesAgeable {
 
     protected static final java.util.function.Predicate<LivingEntity> IS_REINDEER_BREEDING = (entity) -> {
         return entity instanceof EntityReindeer && ((EntityReindeer)entity).isBreeding();

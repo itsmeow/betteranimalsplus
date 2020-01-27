@@ -2,12 +2,16 @@ package its_meow.betteranimalsplus.client.renderer.tileentity;
 
 import java.util.Random;
 
-import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.matrix.MatrixStack;
 
 import its_meow.betteranimalsplus.client.model.ModelHandOfFate;
 import its_meow.betteranimalsplus.common.tileentity.TileEntityHandOfFate;
 import its_meow.betteranimalsplus.init.ModTextures;
+import net.minecraft.client.renderer.IRenderTypeBuffer;
+import net.minecraft.client.renderer.Quaternion;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
+import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.entity.Entity;
 import net.minecraft.particles.ParticleTypes;
 
@@ -16,7 +20,8 @@ public class RenderBlockHandOfFate extends TileEntityRenderer<TileEntityHandOfFa
     private ModelHandOfFate<Entity> mainModel;
     private Random rand = null;
 
-    public RenderBlockHandOfFate() {
+    public RenderBlockHandOfFate(TileEntityRendererDispatcher dispatcher) {
+        super(dispatcher);
         this.mainModel = new ModelHandOfFate<Entity>();
         this.rand = new Random();
     }
@@ -24,18 +29,16 @@ public class RenderBlockHandOfFate extends TileEntityRenderer<TileEntityHandOfFa
     private int i = 0;
 
     @Override
-    public void render(TileEntityHandOfFate tileentity, double x, double y, double z, float partialTicks,
-            int destroyStage) {
-        GlStateManager.pushMatrix();
-        GlStateManager.translated(x + 0.5F, y + 1.5F, z + 0.5F);
-        GlStateManager.rotatef(180, 0, 0, 1);
-        this.bindTexture(ModTextures.handoffate);
+    public void render(TileEntityHandOfFate tileentity, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int combinedLightIn, int combinedOverlayIn) {
+        matrixStackIn.push();
+        matrixStackIn.translate(0.5F, 1.5F, 0.5F);
+        matrixStackIn.rotate(new Quaternion(0, 0, 1, 180));
         float rotate = 0F;
         if (!tileentity.getWorld().isAirBlock(tileentity.getPos())) {
             rotate = tileentity.getRotation();
         }
-        this.mainModel.render((Entity) null, (float) x + 0.5F, (float) y + 1.5F, (float) z + 0.5F, rotate, 0F, 0.0625F);
-
+        this.mainModel.render(null, 0, 0, 0, rotate, 0);
+        this.mainModel.render(matrixStackIn, bufferIn.getBuffer(RenderType.entitySolid(ModTextures.handoffate)), combinedLightIn, combinedOverlayIn, 1F, 1F, 1F, 1F);
         if (tileentity.isOnFire() && this.i % 5 == 0) {
             tileentity.getWorld().addParticle(ParticleTypes.FLAME,
                     tileentity.getPos().getX() + (this.rand.nextFloat() + 0.5F) / 2,
@@ -47,7 +50,7 @@ public class RenderBlockHandOfFate extends TileEntityRenderer<TileEntityHandOfFa
             this.i = 0;
         }
         this.i++;
-        GlStateManager.popMatrix();
+        matrixStackIn.pop();
     }
 
 }
