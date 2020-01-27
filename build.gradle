@@ -80,6 +80,7 @@ if(System.getenv('USE_ALPHAS').equals('true')) {
             def tag = desc.join('-')
             return "${tag}.${offset}".toString().replace("${project.mc_version}-", "") //Bake the response instead of making it dynamic
         }
+
         project.mod_version = getVersion();
         version = project.mc_version + '-' + getVersion();
         def getLastTag = {
