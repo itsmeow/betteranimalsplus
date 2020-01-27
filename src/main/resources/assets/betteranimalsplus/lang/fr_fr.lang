@@ -1,5 +1,5 @@
 #Creative Tabs
-itemGroup.Better Animals+=Better Animals+
+itemGroup.Better Animals+=Better Animals Plus
 
 #Items
 item.betteranimalsplus.venisonraw.name=Chevreuil cru
@@ -10,6 +10,26 @@ item.betteranimalsplus.goatmilk.name=Lait de chèvre
 item.betteranimalsplus.goatcheese.name=Fromage de chèvre
 item.betteranimalsplus.pheasantraw.name=Faisan cru
 item.betteranimalsplus.pheasantcooked.name=Faisan cuit
+item.betteranimalsplus.wolf_cape_classic.name=Cape de loup (Classique)
+item.betteranimalsplus.wolf_cape_timber.name=Cape de loup (Grise)
+item.betteranimalsplus.wolf_cape_black.name=Cape de loup (Noire)
+item.record.crabrave.desc=Crab Rave
+item.betteranimalsplus.crab_meat_raw.name=Viande de crabe crue
+item.betteranimalsplus.crab_meat_cooked.name=Viande de crabe cuite
+item.betteranimalsplus.wolf_pelt_snowy.name=Fourrure de loup blanc
+item.betteranimalsplus.wolf_pelt_timber.name=Fourrure de loup gris
+item.betteranimalsplus.wolf_pelt_black.name=Fourrure de loup noir
+item.betteranimalsplus.bear_cape_brown.name=Cape d'ours (Brune)
+item.betteranimalsplus.bear_cape_black.name=Cape d'ours (Noire)
+item.betteranimalsplus.bear_cape_kermode.name=Cape d'ours (Kermode)
+item.betteranimalsplus.bear_skin_brown.name=Peau d'ours brun
+item.betteranimalsplus.bear_skin_black.name=Peau d'ours noir
+item.betteranimalsplus.bear_skin_kermode.name=Peau d'ours Kermode
+item.betteranimalsplus.pheasant_egg.name=Oeuf de faisan
+item.betteranimalsplus.turkey_egg.name=Oeuf de dinde
+item.betteranimalsplus.turkey_leg_raw.name=Cuisse de dinde crue
+item.betteranimalsplus.turkey_leg_cooked.name=Cuisse de dinde cuite
+item.betteranimalsplus.fried_egg.name=Oeuf au plat
 #Blocks
 tile.betteranimalsplus.trillium.name=Trillium
 tile.betteranimalsplus.hirschgeistskull.name=Crâne d'Hirschgeist
@@ -19,10 +39,16 @@ tile.betteranimalsplus.deerhead.name=Tête de cerf
 tile.betteranimalsplus.reindeerhead.name=Tête de renne
 tile.betteranimalsplus.foxhead.name=Tête de renard
 tile.betteranimalsplus.boarhead.name=Tête de sanglier
+tile.betteranimalsplus.bearhead.name=Tête d'ours
+tile.betteranimalsplus.moosehead.name=Tête d'élan
+tile.betteranimalsplus.coyotehead.name=Tête de coyote
+tile.betteranimalsplus.turkey_raw.name=Dinde crue
+tile.betteranimalsplus.turkey_cooked.name=Dinde cuite
+tile.betteranimalsplus.turkey_eaten_raw.name=Dinde crue à moitié mangée
+tile.betteranimalsplus.turkey_eaten_cooked.name=Dinde cuite à moitié mangée
 #Entities
 entity.betteranimalsplus.brownbear.name=Ours brun
 entity.betteranimalsplus.blackbear.name=Ours noir
-entity.betteranimalsplus.kermodebear.name=Ours Kermode
 entity.betteranimalsplus.deer.name=Cerf
 entity.betteranimalsplus.lammergeier.name=Gypaète
 entity.betteranimalsplus.feralwolf.name=Loup farouche
@@ -39,3 +65,11 @@ entity.betteranimalsplus.squirrel.name=Écureuil
 entity.betteranimalsplus.songbird.name=Oiseau chanteur
 entity.betteranimalsplus.badger.name=Blaireau
 entity.betteranimalsplus.lamprey.name=Lamproie
+entity.betteranimalsplus.nautilus.name=Nautilus
+entity.betteranimalsplus.crab.name=Crabe
+entity.betteranimalsplus.horseshoecrab.name=Limule
+entity.betteranimalsplus.shark.name=Requin
+entity.betteranimalsplus.moose.name=Élan
+entity.betteranimalsplus.turkey.name=Dinde
+entity.betteranimalsplus.zotzpyre.name=Zotzpyre
+entity.betteranimalsplus.bobbit_worm.name=Ver Bobbit
