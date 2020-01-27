@@ -28,7 +28,7 @@ public class RenderGoat extends MobRenderer<EntityGoat, ModelGoat<EntityGoat>> {
 
     @Override
     @Nonnull
-    protected ResourceLocation getEntityTexture(@Nonnull EntityGoat entity) {
+    public ResourceLocation getEntityTexture(@Nonnull EntityGoat entity) {
         int type = entity.getTypeNumber();
         ResourceLocation res = ModTextures.goat_1;
         switch (type) {

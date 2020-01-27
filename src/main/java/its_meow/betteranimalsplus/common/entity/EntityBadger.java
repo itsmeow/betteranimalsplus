@@ -187,11 +187,11 @@ public class EntityBadger extends EntityAnimalWithSelectiveTypes implements IMob
 			LivingEntity t = badger.getAttackTarget();
 			if(tick % 15 == 0) { // Throw dirt every second (20 ticks)
 				EntityBadgerDirt proj = new EntityBadgerDirt(badger.world, badger, stateId);
-				proj.setLocationAndAngles(badger.posX, badger.posY + 1, badger.posZ, 0, 0);
-				double d0 = t.posY + t.getEyeHeight() - 1.100000023841858D;
-				double d1 = t.posX - badger.posX;
-				double d2 = d0 - proj.posY;
-				double d3 = t.posZ - badger.posZ;
+				proj.setLocationAndAngles(badger.getPosX(), badger.getPosY() + 1, badger.getPosZ(), 0, 0);
+				double d0 = t.getPosY() + t.getEyeHeight() - 1.100000023841858D;
+				double d1 = t.getPosX() - badger.getPosX();
+				double d2 = d0 - proj.getPosY();
+				double d3 = t.getPosZ() - badger.getPosZ();
 				float f = MathHelper.sqrt(d1 * d1 + d3 * d3) * 0.2F;
 				proj.shoot(d1, d2 + f, d3, 0.6F, 4.8F);
 				badger.playSound(SoundEvents.BLOCK_GRASS_BREAK, 1.0F, 1.0F / (badger.getRNG().nextFloat() * 0.4F + 0.8F));

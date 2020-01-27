@@ -111,8 +111,8 @@ public class EntityPheasant extends EntityAnimalWithTypes {
         return stack.getItem() == Items.PUMPKIN_SEEDS;
     }
 
-    @Override
-    public void fall(float distance, float damageMultiplier) {
+    public boolean onLivingFall(float distance, float damageMultiplier) {
+        return false;
     }
 
     @Override

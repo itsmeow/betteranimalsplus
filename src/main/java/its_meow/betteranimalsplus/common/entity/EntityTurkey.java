@@ -189,12 +189,14 @@ public class EntityTurkey extends EntityAnimalWithTypes {
         }
     }
 
+    @Override
     public boolean isBreedingItem(ItemStack stack) {
         return stack.getItem() == Items.PUMPKIN_SEEDS;
     }
 
     @Override
-    public void fall(float distance, float damageMultiplier) {
+    public boolean onLivingFall(float distance, float damageMultiplier) {
+        return false;
     }
 
     @Override

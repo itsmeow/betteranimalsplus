@@ -19,7 +19,7 @@ public class RenderBrownBear extends MobRenderer<EntityBear, ModelBear<EntityBea
 
     @Override
     @Nonnull
-    protected ResourceLocation getEntityTexture(@Nonnull EntityBear entity) {
+    public ResourceLocation getEntityTexture(@Nonnull EntityBear entity) {
         return ModTextures.bear_brown;
     }
 

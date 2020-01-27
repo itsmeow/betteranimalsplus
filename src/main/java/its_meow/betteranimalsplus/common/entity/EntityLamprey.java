@@ -116,7 +116,7 @@ public class EntityLamprey extends EntityWaterMobPathingWithTypes implements IMo
     public void livingTick() {
         super.livingTick();
         if(!this.isAlive() && this.getRidingEntity() != null) {
-            this.dismountEntity(this.getRidingEntity());
+            this.stopRiding();
         }
         if(!this.world.isRemote && this.getAttackTarget() != null && this.getAttackTarget().isAlive()) {
             if(this.getRidingEntity() != null && this.getRidingEntity() == this.getAttackTarget()) {
@@ -136,9 +136,12 @@ public class EntityLamprey extends EntityWaterMobPathingWithTypes implements IMo
     }
 
     @Override
-    public void dismountEntity(Entity entity) {
-        if((entity.canBeRiddenInWater(this) || this.getAttackTarget() == null) && this.world.isAreaLoaded(this.getPosition(), 10)) {
-            super.dismountEntity(entity);
+    public void stopRiding() {
+        Entity entity = this.getRidingEntity();
+        if(entity != null) {
+            if((entity.canBeRiddenInWater(this) || this.getAttackTarget() == null) && this.world.isAreaLoaded(this.getPosition(), 10)) {
+                super.stopRiding();
+            }
         }
     }
 

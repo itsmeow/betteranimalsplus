@@ -25,7 +25,7 @@ public class RenderReindeer extends MobRenderer<EntityReindeer, ModelReindeer<En
     }
 
     @Override
-    protected ResourceLocation getEntityTexture(EntityReindeer entity) {
+    public ResourceLocation getEntityTexture(EntityReindeer entity) {
         int type = entity.getTypeNumber();
         switch (type) {
         case 1:

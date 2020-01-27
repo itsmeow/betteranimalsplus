@@ -81,7 +81,7 @@ public class RenderTarantulaHair extends EntityRenderer<EntityTarantulaHair> {
 
     @Override
     @Nonnull
-    protected ResourceLocation getEntityTexture(@Nonnull EntityTarantulaHair entity) {
+    public ResourceLocation getEntityTexture(@Nonnull EntityTarantulaHair entity) {
         return ModTextures.tarantula_hair;
     }
 

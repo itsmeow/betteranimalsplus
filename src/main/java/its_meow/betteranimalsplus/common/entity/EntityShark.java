@@ -114,7 +114,7 @@ public class EntityShark extends EntitySharkBase {
                 lastGrab = this.ticksExisted;
             }
             if(lastTickHealth - 4F > this.getHealth()) {
-                this.getAttackTarget().dismountEntity(this);
+                this.getAttackTarget().stopRiding();
                 if (this.getAttackTarget() instanceof MobEntity) {
                     MobEntity el = (MobEntity) this.getAttackTarget();
                     el.setNoAI(false);

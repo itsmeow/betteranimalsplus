@@ -3,7 +3,7 @@ package its_meow.betteranimalsplus.client.model;
 import its_meow.betteranimalsplus.util.ModMathHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.model.EntityModel;
-import net.minecraft.client.renderer.entity.model.RendererModel;
+import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.LivingEntity;
 
 /**
@@ -18,7 +18,7 @@ import net.minecraft.entity.LivingEntity;
  *
  *         Permission Granted for use in Better Animals Plus
  */
-public class ModelBetterAnimals<T extends LivingEntity> extends EntityModel<T> {
+public abstract class ModelBetterAnimals<T extends LivingEntity> extends EntityModel<T> {
 
     /**
      * Gets the number of ticks the entity has existed for, plus the time since the
@@ -169,7 +169,7 @@ public class ModelBetterAnimals<T extends LivingEntity> extends EntityModel<T> {
      * @param y             The y angle
      * @param z             The z angle
      */
-    public void setRotateAngle(RendererModel modelRenderer, float x, float y, float z) {
+    public void setRotateAngle(ModelRenderer modelRenderer, float x, float y, float z) {
         modelRenderer.rotateAngleX = x;
         modelRenderer.rotateAngleY = y;
         modelRenderer.rotateAngleZ = z;

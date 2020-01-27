@@ -34,7 +34,7 @@ public class RenderDeer extends MobRenderer<EntityDeer, ModelDeer<EntityDeer>> {
     }
 
     @Override
-    protected ResourceLocation getEntityTexture(EntityDeer entity) {
+    public ResourceLocation getEntityTexture(EntityDeer entity) {
         int type = entity.getTypeNumber();
         if (!this.isChristmas) {
             if (this.entityModel.isChild) {

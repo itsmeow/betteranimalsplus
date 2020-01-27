@@ -24,7 +24,7 @@ public class EntityAIEatGrassCustom extends Goal {
     protected final Function<MobEntity, BlockPos> getPosition;
 
     public EntityAIEatGrassCustom(MobEntity eater, int childChance, int adultChance) {
-        this(eater, childChance, adultChance, e -> new BlockPos(e.posX, e.posY, e.posZ));
+        this(eater, childChance, adultChance, e -> new BlockPos(e.getPosX(), e.getPosY(), e.getPosZ()));
     }
     
     public EntityAIEatGrassCustom(MobEntity eater, int childChance, int adultChance, Function<MobEntity, BlockPos> getPosition) {

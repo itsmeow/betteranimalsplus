@@ -37,7 +37,7 @@ public class RenderHirschgeist extends MobRenderer<EntityHirschgeist, ModelHirsc
 
     @Override
     @Nonnull
-    protected ResourceLocation getEntityTexture(@Nonnull EntityHirschgeist entity) {
+    public ResourceLocation getEntityTexture(@Nonnull EntityHirschgeist entity) {
         return ModTextures.hirschgeist;
     }
 

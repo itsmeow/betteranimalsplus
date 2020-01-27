@@ -51,11 +51,11 @@ public class EntityTarantula extends SpiderEntity implements IRangedAttackMob {
     @Override
     public void attackEntityWithRangedAttack(LivingEntity target, float distanceFactor) {
         EntityTarantulaHair entityhair = new EntityTarantulaHair(this.world, this);
-        entityhair.setLocationAndAngles(this.posX, this.posY + 1, this.posZ, 0, 0);
-        double d0 = target.posY + target.getEyeHeight() - 1.100000023841858D;
-        double d1 = target.posX - this.posX;
-        double d2 = d0 - entityhair.posY;
-        double d3 = target.posZ - this.posZ;
+        entityhair.setLocationAndAngles(this.getPosX(), this.getPosY() + 1, this.getPosZ(), 0, 0);
+        double d0 = target.getPosY() + target.getEyeHeight() - 1.100000023841858D;
+        double d1 = target.getPosX() - this.getPosX();
+        double d2 = d0 - entityhair.getPosY();
+        double d3 = target.getPosZ() - this.getPosZ();
         float f = MathHelper.sqrt(d1 * d1 + d3 * d3) * 0.2F;
         entityhair.shoot(d1, d2 + f, d3, 1.5F, 8.0F);
         this.playSound(SoundEvents.BLOCK_WOOL_PLACE, 1.0F, 1.0F / (this.getRNG().nextFloat() * 0.4F + 0.8F));
@@ -66,7 +66,7 @@ public class EntityTarantula extends SpiderEntity implements IRangedAttackMob {
     @Override
     public ILivingEntityData onInitialSpawn(IWorld world, DifficultyInstance difficulty, SpawnReason reason, ILivingEntityData entityLivingData,
                                             CompoundNBT itemNbt) {
-        this.setLocationAndAngles(this.posX, this.posY, this.posZ, this.rotationYaw, 0F);
+        this.setLocationAndAngles(this.getPosX(), this.getPosY(), this.getPosZ(), this.rotationYaw, 0F);
         return super.onInitialSpawn(world, difficulty, reason, entityLivingData, itemNbt);
     }
     

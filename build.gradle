@@ -59,9 +59,6 @@ repositories {
 
 dependencies {
     minecraft "net.minecraftforge:forge:${project.mc_version}-${project.forge_version}"
-    compileOnly fg.deobf("mezz.jei:jei-${project.mc_version}:${jei_version}:api")
-    runtimeOnly fg.deobf("mezz.jei:jei-${project.mc_version}:${jei_version}")
-    runtimeOnly "com.github.glitchfiend.biomesoplenty:BiomesOPlenty:${project.mc_version}-${project.biomesoplenty_version}:deobf"
 }
 
 tasks.withType(JavaCompile) {

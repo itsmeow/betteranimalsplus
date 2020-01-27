@@ -15,7 +15,7 @@ public class RenderNautilus extends MobRenderer<EntityNautilus, EntityModel<Enti
 	}
 
 	@Override
-	protected ResourceLocation getEntityTexture(EntityNautilus entity) {
+	public ResourceLocation getEntityTexture(EntityNautilus entity) {
 		return ModTextures.nautilus;
 	}
 

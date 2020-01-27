@@ -113,7 +113,7 @@ public class CommonEventHandler {
         if (PORTABLE_JUKEBOX != null && event.getItemStack().getItem() == PORTABLE_JUKEBOX) {
             if (event.getItemStack().getChildTag("Disc") != null) {
                 if (ItemStack.read(event.getItemStack().getChildTag("Disc")).getItem() == ModItems.RECORD_CRAB_RAVE) {
-                    if (event.getPlayer().isSneaking()) {
+                    if (event.getPlayer().isCrouching()) {
                         List<EntityCrab> crabs = event.getWorld().getEntitiesWithinAABB(EntityCrab.class, event.getPlayer().getBoundingBox().grow(50));
                         for (EntityCrab crab : crabs) {
                             crab.unCrabRave();

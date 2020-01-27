@@ -23,7 +23,7 @@ public abstract class EntityTameableFlying extends EntityTameableBetterAnimalsPl
             this.move(MoverType.SELF, this.getMotion());
             this.setMotion(this.getMotion().scale(0.5D));
         } else {
-            BlockPos ground = new BlockPos(this.posX, this.getBoundingBox().minY - 1.0D, this.posZ);
+            BlockPos ground = new BlockPos(this.getPosX(), this.getBoundingBox().minY - 1.0D, this.getPosZ());
             float f = 0.91F;
             if(this.onGround) {
                 f = this.world.getBlockState(ground).getSlipperiness(world, ground, this) * 0.91F;
@@ -41,8 +41,8 @@ public abstract class EntityTameableFlying extends EntityTameableBetterAnimalsPl
         }
 
         this.prevLimbSwingAmount = this.limbSwingAmount;
-        double d1 = this.posX - this.prevPosX;
-        double d0 = this.posZ - this.prevPosZ;
+        double d1 = this.getPosX() - this.prevPosX;
+        double d0 = this.getPosZ() - this.prevPosZ;
         float f2 = MathHelper.sqrt(d1 * d1 + d0 * d0) * 4.0F;
         if(f2 > 1.0F) {
             f2 = 1.0F;

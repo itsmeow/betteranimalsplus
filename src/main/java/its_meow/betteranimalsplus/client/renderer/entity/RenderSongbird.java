@@ -40,7 +40,7 @@ public class RenderSongbird extends MobRenderer<EntitySongbird, EntityModel<Enti
     }
 
     @Override
-    protected ResourceLocation getEntityTexture(EntitySongbird entity) {
+    public ResourceLocation getEntityTexture(EntitySongbird entity) {
         switch (entity.getTypeNumber()) {
         case 1:
             return ModTextures.songbird_1;

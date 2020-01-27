@@ -153,7 +153,7 @@ public class EntityGoose extends EntityAnimalWithTypes {
         super.writeAdditional(compound);
         ListNBT list = new ListNBT();
         for(UUID uuid : dislikedPlayers) {
-            list.add(new StringNBT(uuid.toString()));
+            list.add(StringNBT.valueOf(uuid.toString()));
         }
         compound.put("disliked_players", list);
     }

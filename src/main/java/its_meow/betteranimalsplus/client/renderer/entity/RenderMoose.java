@@ -23,7 +23,7 @@ public class RenderMoose extends MobRenderer<EntityMoose, ModelMoose<EntityMoose
     }
 
     @Override
-    protected ResourceLocation getEntityTexture(EntityMoose entity) {
+    public ResourceLocation getEntityTexture(EntityMoose entity) {
         int type = entity.getTypeNumber();
         switch (type) {
         case 1:

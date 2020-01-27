@@ -16,7 +16,7 @@ public class RenderTarantula extends MobRenderer<EntityTarantula, ModelTarantula
     }
 
     @Override
-    protected ResourceLocation getEntityTexture(EntityTarantula entity) {
+    public ResourceLocation getEntityTexture(EntityTarantula entity) {
         return ModTextures.tarantula;
     }
 

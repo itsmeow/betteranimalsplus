@@ -59,20 +59,20 @@ public class HirschgeistAIAttackMelee extends Goal {
         } else {
             if (this.canPenalize) {
                 if (--this.delayCounter <= 0) {
-                    this.path = this.attacker.getNavigator().func_75494_a(entitylivingbase, 100);
+                    this.path = this.attacker.getNavigator().getPathToEntity(entitylivingbase, 100);
                     this.delayCounter = 4 + this.attacker.getRNG().nextInt(7);
                     return this.path != null;
                 } else {
                     return true;
                 }
             }
-            this.path = this.attacker.getNavigator().func_75494_a(entitylivingbase, 100);
+            this.path = this.attacker.getNavigator().getPathToEntity(entitylivingbase, 100);
 
             if (this.path != null) {
                 return true;
             } else {
-                return this.getAttackReachSqr(entitylivingbase) >= this.attacker.getDistanceSq(entitylivingbase.posX,
-                        entitylivingbase.getBoundingBox().minY, entitylivingbase.posZ);
+                return this.getAttackReachSqr(entitylivingbase) >= this.attacker.getDistanceSq(entitylivingbase.getPosX(),
+                        entitylivingbase.getBoundingBox().minY, entitylivingbase.getPosZ());
             }
         }
     }
@@ -130,17 +130,17 @@ public class HirschgeistAIAttackMelee extends Goal {
     public void tick() {
         LivingEntity entitylivingbase = this.attacker.getAttackTarget();
         this.attacker.getLookController().setLookPositionWithEntity(entitylivingbase, 30.0F, 30.0F);
-        double d0 = this.attacker.getDistanceSq(entitylivingbase.posX, entitylivingbase.getBoundingBox().minY,
-                entitylivingbase.posZ);
+        double d0 = this.attacker.getDistanceSq(entitylivingbase.getPosX(), entitylivingbase.getBoundingBox().minY,
+                entitylivingbase.getPosZ());
         --this.delayCounter;
 
         if ((this.longMemory || this.attacker.getEntitySenses().canSee(entitylivingbase)) && this.delayCounter <= 0
                 && (this.targetX == 0.0D && this.targetY == 0.0D && this.targetZ == 0.0D
                         || entitylivingbase.getDistanceSq(this.targetX, this.targetY, this.targetZ) >= 1.0D
                         || this.attacker.getRNG().nextFloat() < 0.05F)) {
-            this.targetX = entitylivingbase.posX;
+            this.targetX = entitylivingbase.getPosX();
             this.targetY = entitylivingbase.getBoundingBox().minY;
-            this.targetZ = entitylivingbase.posZ;
+            this.targetZ = entitylivingbase.getPosZ();
             this.delayCounter = 4 + this.attacker.getRNG().nextInt(7);
 
             if (this.canPenalize) {
@@ -181,7 +181,7 @@ public class HirschgeistAIAttackMelee extends Goal {
             this.attackTick = 20;
             this.attacker.swingArm(Hand.MAIN_HAND);
             this.attacker.attackEntityAsMob(target);
-            target.knockBack(target, 3, this.attacker.posX - target.posX, this.attacker.posZ - target.posZ);
+            target.knockBack(target, 3, this.attacker.getPosX() - target.getPosX(), this.attacker.getPosZ() - target.getPosZ());
             target.setFire(5);
         }
     }

@@ -27,7 +27,7 @@ public class RenderJellyfish extends MobRenderer<EntityJellyfish, ModelJellyfish
 
     @Override
     @Nonnull
-    protected ResourceLocation getEntityTexture(@Nonnull EntityJellyfish entity) {
+    public ResourceLocation getEntityTexture(@Nonnull EntityJellyfish entity) {
         int type = entity.getTypeNumber();
         ResourceLocation res = ModTextures.jellyfish_1;
         switch (type) {

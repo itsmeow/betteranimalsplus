@@ -106,15 +106,15 @@ public class EntityAIFollowOwnerFlying extends Goal {
             if (--this.timeToRecalcPath <= 0) {
                 this.timeToRecalcPath = 10;
 
-                //this.petPathfinder.tryMoveToXYZ(this.owner.posX, this.owner.posY + 2, this.owner.posZ, this.followSpeed);
-                this.tameable.getMoveHelper().setMoveTo(this.owner.posX, this.owner.posY + 2, this.owner.posZ, this.followSpeed);
+                //this.petPathfinder.tryMoveToXYZ(this.owner.getPosX(), this.owner.getPosY() + 2, this.owner.getPosZ(), this.followSpeed);
+                this.tameable.getMoveHelper().setMoveTo(this.owner.getPosX(), this.owner.getPosY() + 2, this.owner.getPosZ(), this.followSpeed);
                 if(tameable.getDistance(this.owner) > 100 || this.tameable.getEntityWorld() != this.owner.getEntityWorld()) {
                     if (!this.tameable.getLeashed() && this.tameable.getRidingEntity() == null) {
                         // Distance too large, teleport!
                         if (this.tameable.getDistanceSq(this.owner) >= 144.0D
                                 || this.tameable.getEntityWorld() != this.owner.getEntityWorld()) {
-                            int i = MathHelper.floor(this.owner.posX) - 2;
-                            int j = MathHelper.floor(this.owner.posZ) - 2;
+                            int i = MathHelper.floor(this.owner.getPosX()) - 2;
+                            int j = MathHelper.floor(this.owner.getPosZ()) - 2;
                             int k = MathHelper.floor(this.owner.getBoundingBox().minY);
 
                             for (int l = 0; l <= 4; ++l) {

@@ -20,9 +20,9 @@ public class WaterMoveHelper extends MovementController {
         }
 
         if(this.action == MovementController.Action.MOVE_TO && !this.entity.getNavigator().noPath()) {
-            double d0 = this.posX - this.entity.posX;
-            double d1 = this.posY - this.entity.posY;
-            double d2 = this.posZ - this.entity.posZ;
+            double d0 = this.posX - this.entity.getPosX();
+            double d1 = this.posY - this.entity.getPosY();
+            double d2 = this.posZ - this.entity.getPosZ();
             double d3 = (double) MathHelper.sqrt(d0 * d0 + d1 * d1 + d2 * d2);
             d1 = d1 / d3;
             float f = (float) (MathHelper.atan2(d2, d0) * (double) (180F / (float) Math.PI)) - 90.0F;

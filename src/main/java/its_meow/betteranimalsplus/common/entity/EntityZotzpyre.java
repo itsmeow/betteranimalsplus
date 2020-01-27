@@ -111,7 +111,7 @@ public class EntityZotzpyre extends EntityMonsterWithTypes {
         IAttributeInstance gravity = this.getAttribute(ENTITY_GRAVITY);
         boolean flag = this.getMotion().y <= 0.0D;
         d0 = gravity.getValue();
-        double d1 = this.posY;
+        double d1 = this.getPosY();
         float f = this.isSprinting() ? 0.9F : this.getWaterSlowDown();
         float f1 = 0.02F;
         float f2 = (float)EnchantmentHelper.getDepthStriderModifier(this);
@@ -154,15 +154,15 @@ public class EntityZotzpyre extends EntityMonsterWithTypes {
         }
 
         Vec3d vec3d6 = this.getMotion();
-        if (this.collidedHorizontally && this.isOffsetPositionInLiquid(vec3d6.x, vec3d6.y + (double)0.6F - this.posY + d1, vec3d6.z)) {
+        if (this.collidedHorizontally && this.isOffsetPositionInLiquid(vec3d6.x, vec3d6.y + (double)0.6F - this.getPosY() + d1, vec3d6.z)) {
             this.setMotion(vec3d6.x, (double)0.3F, vec3d6.z);
         }
 
 
         this.prevLimbSwingAmount = this.limbSwingAmount;
-        double d5 = this.posX - this.prevPosX;
-        double d6 = this.posZ - this.prevPosZ;
-        double d8 = this instanceof IFlyingAnimal ? this.posY - this.prevPosY : 0.0D;
+        double d5 = this.getPosX() - this.prevPosX;
+        double d6 = this.getPosZ() - this.prevPosZ;
+        double d8 = this instanceof IFlyingAnimal ? this.getPosY() - this.prevPosY : 0.0D;
         float f8 = MathHelper.sqrt(d5 * d5 + d8 * d8 + d6 * d6) * 4.0F;
         if (f8 > 1.0F) {
             f8 = 1.0F;
@@ -251,7 +251,6 @@ public class EntityZotzpyre extends EntityMonsterWithTypes {
 
     public void dismountZotz() {
         Entity mount = this.getRidingEntity();
-        this.dismountEntity(mount);
         this.isFromZotz = true;
         this.stopRiding();
         this.isFromZotz  = false;
@@ -341,7 +340,8 @@ public class EntityZotzpyre extends EntityMonsterWithTypes {
     }
 
     @Override
-    public void fall(float distance, float damageMultiplier) {
+    public boolean onLivingFall(float distance, float damageMultiplier) {
+        return false;
     }
 
     @Override

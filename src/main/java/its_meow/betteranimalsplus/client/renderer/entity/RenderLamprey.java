@@ -26,7 +26,7 @@ public class RenderLamprey extends MobRenderer<EntityLamprey, ModelLamprey<Entit
 	}
 
 	@Override
-	protected ResourceLocation getEntityTexture(EntityLamprey entity) {
+	public ResourceLocation getEntityTexture(EntityLamprey entity) {
 		int type = entity.getTypeNumber();
 		switch(type) {
 		case 1: return ModTextures.lamprey_1;

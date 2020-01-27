@@ -47,7 +47,7 @@ public class EntityBadgerDirt extends ThrowableEntity {
         if(stateId != -1 && !this.world.isRemote) {
             ServerWorld worldS = (ServerWorld) world;
             for(int i = 0; i < 100; i++) {
-                worldS.<BlockParticleData>spawnParticle(new BlockParticleData(ParticleTypes.BLOCK, Block.getStateById(stateId)), this.posX + Math.random(), this.posY + Math.random(), this.posZ + Math.random(), 1, 0D, 0D, 0D, 0D);
+                worldS.<BlockParticleData>spawnParticle(new BlockParticleData(ParticleTypes.BLOCK, Block.getStateById(stateId)), this.getPosX() + Math.random(), this.getPosY() + Math.random(), this.getPosZ() + Math.random(), 1, 0D, 0D, 0D, 0D);
             }
         }
     }

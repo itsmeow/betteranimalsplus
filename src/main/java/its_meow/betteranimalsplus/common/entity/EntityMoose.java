@@ -78,27 +78,26 @@ public class EntityMoose extends EntityAnimalEatsGrassWithTypes {
     protected void doBlockCollisions() {
         AxisAlignedBB axisalignedbb = this.getBoundingBox();
         try(
-        BlockPos.PooledMutableBlockPos blockpos$pooledmutableblockpos = BlockPos.PooledMutableBlockPos.retain(axisalignedbb.minX + 0.001D, axisalignedbb.minY + 0.001D, axisalignedbb.minZ + 0.001D);
-        BlockPos.PooledMutableBlockPos blockpos$pooledmutableblockpos1 = BlockPos.PooledMutableBlockPos.retain(axisalignedbb.maxX - 0.001D, axisalignedbb.maxY - 0.001D, axisalignedbb.maxZ - 0.001D);
-        BlockPos.PooledMutableBlockPos blockpos$pooledmutableblockpos2 = BlockPos.PooledMutableBlockPos.retain();) {
-            if(this.world.isAreaLoaded(blockpos$pooledmutableblockpos, blockpos$pooledmutableblockpos1)) {
-                for(int i = blockpos$pooledmutableblockpos.getX(); i <= blockpos$pooledmutableblockpos1.getX(); ++i) {
-                    for(int j = blockpos$pooledmutableblockpos.getY(); j <= blockpos$pooledmutableblockpos1.getY(); ++j) {
-                        for(int k = blockpos$pooledmutableblockpos.getZ(); k <= blockpos$pooledmutableblockpos1.getZ(); ++k) {
-                            blockpos$pooledmutableblockpos2.setPos(i, j, k);
-                            BlockState blockstate = this.world.getBlockState(blockpos$pooledmutableblockpos2);
-
+        BlockPos.PooledMutable blockpos$pooledmutable = BlockPos.PooledMutable.retain(axisalignedbb.minX + 0.001D, axisalignedbb.minY + 0.001D, axisalignedbb.minZ + 0.001D);
+        BlockPos.PooledMutable blockpos$pooledmutable1 = BlockPos.PooledMutable.retain(axisalignedbb.maxX - 0.001D, axisalignedbb.maxY - 0.001D, axisalignedbb.maxZ - 0.001D);
+        BlockPos.PooledMutable blockpos$pooledmutable2 = BlockPos.PooledMutable.retain();) {
+            if(this.world.isAreaLoaded(blockpos$pooledmutable, blockpos$pooledmutable1)) {
+                for(int i = blockpos$pooledmutable.getX(); i <= blockpos$pooledmutable1.getX(); ++i) {
+                    for(int j = blockpos$pooledmutable.getY(); j <= blockpos$pooledmutable1.getY(); ++j) {
+                        for(int k = blockpos$pooledmutable.getZ(); k <= blockpos$pooledmutable1.getZ(); ++k) {
+                            blockpos$pooledmutable2.setPos(i, j, k);
+                            BlockState blockstate = this.world.getBlockState(blockpos$pooledmutable2);
                             try {
-                                blockstate.onEntityCollision(this.world, blockpos$pooledmutableblockpos2, this);
+                                blockstate.onEntityCollision(this.world, blockpos$pooledmutable2, this);
                                 this.onInsideBlock(blockstate);
                                 if(blockstate.getBlock() == Blocks.LILY_PAD) {
-                                    Block.spawnDrops(blockstate, world, blockpos$pooledmutableblockpos2.toImmutable());
-                                    world.setBlockState(blockpos$pooledmutableblockpos2.toImmutable(), Blocks.AIR.getDefaultState());
+                                    Block.spawnDrops(blockstate, world, blockpos$pooledmutable2.toImmutable());
+                                    world.setBlockState(blockpos$pooledmutable2.toImmutable(), Blocks.AIR.getDefaultState());
                                 }
                             } catch(Throwable throwable) {
                                 CrashReport crashreport = CrashReport.makeCrashReport(throwable, "Colliding entity with block");
                                 CrashReportCategory crashreportcategory = crashreport.makeCategory("Block being collided with");
-                                CrashReportCategory.addBlockInfo(crashreportcategory, blockpos$pooledmutableblockpos2, blockstate);
+                                CrashReportCategory.addBlockInfo(crashreportcategory, blockpos$pooledmutable2, blockstate);
                                 throw new ReportedException(crashreport);
                             }
                         }

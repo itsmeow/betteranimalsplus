@@ -36,7 +36,7 @@ public class RenderPheasant extends MobRenderer<EntityPheasant, ModelPheasant<En
 
     @Override
     @Nonnull
-    protected ResourceLocation getEntityTexture(@Nonnull EntityPheasant entity) {
+    public ResourceLocation getEntityTexture(@Nonnull EntityPheasant entity) {
         int type = entity.getTypeNumber();
         ResourceLocation res = ModTextures.pheasant_1;
         switch (type) {

@@ -50,7 +50,7 @@ public class BetterAnimalsPlusConfig {
     }
 
     @SubscribeEvent
-    public static void onLoad(final ModConfig.ConfigReloading configEvent) {
+    public static void onLoad(final ModConfig.Reloading configEvent) {
         BetterAnimalsPlusMod.logger.debug("Reloading {} {}", Ref.MOD_ID, configEvent.getConfig().getFileName());
         if(configEvent.getConfig().getSpec() == SERVER_CONFIG) {
             ENTITY_CONFIG.loadEntityData();

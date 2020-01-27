@@ -25,7 +25,7 @@ public class RenderBadger extends MobRenderer<EntityBadger, ModelBadger<EntityBa
     }
 
     @Override
-    protected ResourceLocation getEntityTexture(EntityBadger entity) {
+    public ResourceLocation getEntityTexture(EntityBadger entity) {
         switch(entity.getTypeNumber()) {
         case 1: return ModTextures.badger_1;
         case 2: return ModTextures.badger_2;

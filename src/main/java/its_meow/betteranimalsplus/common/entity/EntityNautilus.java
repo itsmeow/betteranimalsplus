@@ -56,9 +56,9 @@ public class EntityNautilus extends WaterMobEntity {
         } else if(!world.isRemote) {
             if(!this.navigator.noPath()) {
                 Vec3d target = this.navigator.getPath().getCurrentPos();
-                this.setMotion((target.x - this.posX) * 0.05F, (target.y - this.posY) * 0.05F, (target.z - this.posZ) * 0.05F);
+                this.setMotion((target.x - this.getPosX()) * 0.05F, (target.y - this.getPosY()) * 0.05F, (target.z - this.getPosZ()) * 0.05F);
             } else if(this.getMoveHelper().isUpdating()) {
-                this.setMotion((this.getMoveHelper().getX() - this.posX) * 0.05F, (this.getMoveHelper().getY() - this.posY) * 0.05F, (this.getMoveHelper().getZ() - this.posZ) * 0.05F);
+                this.setMotion((this.getMoveHelper().getX() - this.getPosX()) * 0.05F, (this.getMoveHelper().getY() - this.getPosY()) * 0.05F, (this.getMoveHelper().getZ() - this.getPosZ()) * 0.05F);
             } else {
                 this.setMotion(this.getMotion().getX() * 0.85F, this.getMotion().getY() * 0.85F, this.getMotion().getZ() * 0.85F);
             }

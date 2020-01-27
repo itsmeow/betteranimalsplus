@@ -36,7 +36,7 @@ public class RenderTurkey extends MobRenderer<EntityTurkey, ModelTurkey<EntityTu
 
     @Override
     @Nonnull
-    protected ResourceLocation getEntityTexture(@Nonnull EntityTurkey entity) {
+    public ResourceLocation getEntityTexture(@Nonnull EntityTurkey entity) {
         int type = entity.getTypeNumber();
         switch(type) {
         case 1: return ModTextures.turkey_1;

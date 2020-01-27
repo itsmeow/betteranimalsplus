@@ -25,7 +25,7 @@ public class RenderBoar extends MobRenderer<EntityBoar, ModelBoar<EntityBoar>> {
     }
 
     @Override
-    protected ResourceLocation getEntityTexture(EntityBoar entity) {
+    public ResourceLocation getEntityTexture(EntityBoar entity) {
         int type = entity.getTypeNumber();
         switch (type) {
         case 1:

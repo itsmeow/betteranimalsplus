@@ -56,7 +56,7 @@ public class EntityCoyote extends EntityFeralWolf {
         this.goalSelector.addGoal(2, this.aiSit);
         this.goalSelector.addGoal(4, new LeapAtTargetGoal(this, 0.4F));
         this.goalSelector.addGoal(5, new MeleeAttackGoal(this, 1.0D, true));
-        this.goalSelector.addGoal(6, new FollowOwnerGoal(this, 1.0D, 10.0F, 2.0F));
+        this.goalSelector.addGoal(6, new FollowOwnerGoal(this, 1.0D, 10.0F, 2.0F, false));
         this.goalSelector.addGoal(8, new WaterAvoidingRandomWalkingGoal(this, 1.0D));
         this.goalSelector.addGoal(10, new LookAtGoal(this, PlayerEntity.class, 8.0F));
         this.targetSelector.addGoal(1, new OwnerHurtByTargetGoal(this));

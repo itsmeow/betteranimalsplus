@@ -55,9 +55,9 @@ public class HirschgeistAIFlameAttack extends Goal {
         LivingEntity target = this.attacker.getAttackTarget();
         if (this.flameTicks == 10 && target != null && target.getDistanceSq(this.attacker) <= 100) {
 
-            double x = target.posX;
-            double y = target.posY;
-            double z = target.posZ;
+            double x = target.getPosX();
+            double y = target.getPosY();
+            double z = target.getPosZ();
 
             this.areaEffectCloud = new AreaEffectCloudEntity(target.world, x, y, z);
             this.areaEffectCloud.setOwner(this.attacker);
@@ -83,9 +83,9 @@ public class HirschgeistAIFlameAttack extends Goal {
             LivingEntity target = this.attacker.getAttackTarget();
             Vec3d vec3d = this.attacker.getHeadLookVec(1.0F).normalize();
             vec3d.rotateYaw(-((float) Math.PI / 4F));
-            double d0 = target.posX;
-            double d1 = target.posY;
-            double d2 = target.posZ;
+            double d0 = target.getPosX();
+            double d1 = target.getPosY();
+            double d2 = target.getPosZ();
 
             for (int i = 0; i < 8; ++i) {
                 double d3 = d0 + this.attacker.getRNG().nextGaussian() / 2.0D;

@@ -235,7 +235,7 @@ public class EntityBear extends MonsterEntity {
     @Override
     public ILivingEntityData onInitialSpawn(IWorld world, DifficultyInstance difficulty, SpawnReason reason, ILivingEntityData entityLivingData,
     CompoundNBT itemNbt) {
-        this.setLocationAndAngles(this.posX, this.posY, this.posZ, this.rotationYaw, 0F);
+        this.setLocationAndAngles(this.getPosX(), this.getPosY(), this.getPosZ(), this.rotationYaw, 0F);
         return super.onInitialSpawn(world, difficulty, reason, entityLivingData, itemNbt);
     }
     

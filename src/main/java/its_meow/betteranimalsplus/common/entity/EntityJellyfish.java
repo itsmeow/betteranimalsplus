@@ -221,7 +221,7 @@ public class EntityJellyfish extends WaterMobEntity implements IVariantTypes {
             this.setType(i);
             this.setSize(rand, rand);
         }
-        this.setLocationAndAngles(this.posX, this.posY, this.posZ, this.rotationYaw, 0F);
+        this.setLocationAndAngles(this.getPosX(), this.getPosY(), this.getPosZ(), this.rotationYaw, 0F);
         return livingdata;
     }
 

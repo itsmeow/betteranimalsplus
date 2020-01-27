@@ -95,7 +95,7 @@ public class EntityBobbitWorm extends EntityAnimalWithTypes {
             }
         }
         if(world.getBlockState(this.getPosition().down()).getBlock() == Blocks.WATER) {
-            return new Vec3d(this.posX, this.posY - 1D, this.posZ);
+            return new Vec3d(this.getPosX(), this.getPosY() - 1D, this.getPosZ());
         }
         return null;
     }
@@ -118,7 +118,7 @@ public class EntityBobbitWorm extends EntityAnimalWithTypes {
     @Override
     public void updatePassenger(Entity passenger) {
         if(this.isPassenger(passenger)) {
-            passenger.setPosition(this.posX, this.posY - (this.getHeight() / 2), this.posZ);
+            passenger.setPosition(this.getPosX(), this.getPosY() - (this.getHeight() / 2), this.getPosZ());
         }
     }
 
@@ -148,7 +148,7 @@ public class EntityBobbitWorm extends EntityAnimalWithTypes {
             this.setMotion(this.getMotion().getX(), this.getMotion().getY() * 0.9800000190734863D, this.getMotion().getZ());
         } else if(!world.isRemote) {
             if(this.targetPosition != null) {
-                this.setMotion((this.targetPosition.x - this.posX) * 0.05F, (this.targetPosition.y - this.posY) * 0.05F, (this.targetPosition.z - this.posZ) * 0.05F);
+                this.setMotion((this.targetPosition.x - this.getPosX()) * 0.05F, (this.targetPosition.y - this.getPosY()) * 0.05F, (this.targetPosition.z - this.getPosZ()) * 0.05F);
             }
             if(targetPosition != null && Math.sqrt(this.getPosition().distanceSq(this.targetPosition.x, this.targetPosition.y, this.targetPosition.z, false)) < 1) {
                 this.setMotion(this.getMotion().getX() * 0.2F, this.getMotion().getY(), this.getMotion().getZ() * 0.2F);
@@ -211,7 +211,7 @@ public class EntityBobbitWorm extends EntityAnimalWithTypes {
 
     @Override
     public boolean isNotColliding(IWorldReader worldIn) {
-        return worldIn.checkNoEntityCollision(this);
+        return worldIn.func_226668_i_(this);
     }
 
     @Override

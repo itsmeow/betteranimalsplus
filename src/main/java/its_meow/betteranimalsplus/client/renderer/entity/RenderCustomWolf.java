@@ -40,7 +40,7 @@ public class RenderCustomWolf extends MobRenderer<EntityFeralWolf, ModelFeralWol
      * you call Render.bindEntityTexture.
      */
     @Override
-    protected ResourceLocation getEntityTexture(EntityFeralWolf entity) {
+    public ResourceLocation getEntityTexture(EntityFeralWolf entity) {
         ResourceLocation result = null;
         int typeNumber = entity.getTypeNumber();
         if (entity.isTamed()) {

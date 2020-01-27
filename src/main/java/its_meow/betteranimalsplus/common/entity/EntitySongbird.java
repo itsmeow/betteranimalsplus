@@ -49,7 +49,7 @@ public class EntitySongbird extends EntityAnimalWithSelectiveTypes implements IF
 
     public EntitySongbird(World worldIn) {
         super(ModEntities.SONGBIRD.entityType, worldIn);
-        this.moveController = new FlyingMovementController(this);
+        this.moveController = new FlyingMovementController(this, 180, true);
     }
 
     @Override
@@ -80,9 +80,9 @@ public class EntitySongbird extends EntityAnimalWithSelectiveTypes implements IF
 
     @Override
     public boolean canSpawn(IWorld world, SpawnReason reason) {
-        int i = MathHelper.floor(this.posX);
+        int i = MathHelper.floor(this.getPosX());
         int j = MathHelper.floor(this.getBoundingBox().minY);
-        int k = MathHelper.floor(this.posZ);
+        int k = MathHelper.floor(this.getPosZ());
         BlockPos blockpos = new BlockPos(i, j, k);
         if(world instanceof World && !((World) world).isBlockPresent(new BlockPos(blockpos))) {
             Block block = this.world.getBlockState(blockpos.down()).getBlock();
@@ -108,7 +108,8 @@ public class EntitySongbird extends EntityAnimalWithSelectiveTypes implements IF
     }
 
     @Override
-    public void fall(float distance, float damageMultiplier) {
+    public boolean onLivingFall(float distance, float damageMultiplier) {
+        return false;
     }
 
     @Override

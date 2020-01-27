@@ -17,7 +17,7 @@ public class RenderLammergeier extends MobRenderer<EntityLammergeier, ModelLamme
 
     @Override
     @Nonnull
-    protected ResourceLocation getEntityTexture(@Nonnull EntityLammergeier entity) {
+    public ResourceLocation getEntityTexture(@Nonnull EntityLammergeier entity) {
         int typeNumber = entity.getTypeNumber();
         ResourceLocation result = null;
         switch (typeNumber) {

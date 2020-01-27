@@ -29,7 +29,7 @@ public abstract class EntitySharkBase extends EntityWaterMobPathingWithTypes imp
         if(this.isPassenger(passenger)) {
             BlockPos pos = this.getPosition().offset(this.getHorizontalFacing()).subtract(this.getPosition());
             pos = pos.add(pos.getX(), 0, pos.getZ());
-            passenger.setPosition(this.posX + this.getMotion().getX() + pos.getX(), this.posY - (this.getHeight() / 2) + this.getMotion().getY(), this.posZ + this.getMotion().getZ() + pos.getZ());
+            passenger.setPosition(this.getPosX() + this.getMotion().getX() + pos.getX(), this.getPosY() - (this.getHeight() / 2) + this.getMotion().getY(), this.getPosZ() + this.getMotion().getZ() + pos.getZ());
             if (passenger instanceof LivingEntity && (this.getAttackTarget() == null || this.getAttackTarget() != passenger)) {
                 this.setAttackTarget((LivingEntity) passenger);
             }

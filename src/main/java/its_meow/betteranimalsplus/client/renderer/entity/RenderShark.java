@@ -27,7 +27,7 @@ public class RenderShark extends MobRenderer<EntityShark, ModelShark<EntityShark
     }
 
     @Override
-    protected ResourceLocation getEntityTexture(EntityShark entity) {
+    public ResourceLocation getEntityTexture(EntityShark entity) {
         int type = entity.getTypeNumber();
         switch (type) {
         case 1:

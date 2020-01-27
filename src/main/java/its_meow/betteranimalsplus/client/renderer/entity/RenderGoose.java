@@ -28,7 +28,7 @@ public class RenderGoose extends MobRenderer<EntityGoose, ModelGoose<EntityGoose
 
     @Override
     @Nonnull
-    protected ResourceLocation getEntityTexture(@Nonnull EntityGoose entity) {
+    public ResourceLocation getEntityTexture(@Nonnull EntityGoose entity) {
         int type = entity.getTypeNumber();
         switch(type) {
         case 1: return ModTextures.goose_1;

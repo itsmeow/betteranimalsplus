@@ -41,7 +41,7 @@ public class RenderCoyote extends MobRenderer<EntityCoyote, ModelCoyote<EntityCo
      * you call Render.bindEntityTexture.
      */
     @Override
-    protected ResourceLocation getEntityTexture(EntityCoyote entity) {
+    public ResourceLocation getEntityTexture(EntityCoyote entity) {
         if (entity.isTamed()) {
             return ModTextures.coyote_neutral;
         } else if (entity.isDaytime() && !BetterAnimalsPlusConfig.coyotesHostileDaytime) {

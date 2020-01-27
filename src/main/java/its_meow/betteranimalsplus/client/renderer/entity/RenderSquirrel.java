@@ -28,7 +28,7 @@ public class RenderSquirrel extends MobRenderer<EntitySquirrel, ModelSquirrel<En
 
     @Override
     @Nonnull
-    protected ResourceLocation getEntityTexture(@Nonnull EntitySquirrel entity) {
+    public ResourceLocation getEntityTexture(@Nonnull EntitySquirrel entity) {
         int type = entity.getTypeNumber();
         ResourceLocation res = ModTextures.squirrel_1;
         switch (type) {

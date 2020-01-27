@@ -16,7 +16,7 @@ public class RenderZotzpyre extends MobRenderer<EntityZotzpyre, ModelZotzpyre<En
 	}
 
     @Override
-    protected ResourceLocation getEntityTexture(EntityZotzpyre entity) {
+    public ResourceLocation getEntityTexture(EntityZotzpyre entity) {
         switch(entity.getTypeNumber()) {
         case 1:
             return ModTextures.zotzpyre_1;

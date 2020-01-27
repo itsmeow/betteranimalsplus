@@ -1,5 +1,5 @@
 modLoader="javafml" #mandatory
-loaderVersion="[28,)" #mandatory
+loaderVersion="[31,)" #mandatory
 issueTrackerURL="http://github.com/itsmeow/betteranimalsplus/issues" #optional
 displayURL="https://minecraft.curseforge.com/projects/betteranimalsplus" #optional
 logoFile="betteranimalsplus.png" #optional
@@ -16,6 +16,6 @@ Companion mod to Better Animals adding new creatures with the Better Animals art
 [[dependencies.betteranimalsplus]]
     modId="forge"
     mandatory=true
-    versionRange="[28.1.0,)"
+    versionRange="[31.0.1,)"
     ordering="NONE"
     side="BOTH"

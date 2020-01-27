@@ -14,7 +14,7 @@ public class RenderBobbitWorm extends MobRenderer<EntityBobbitWorm, ModelBobbitW
     }
 
     @Override
-    protected ResourceLocation getEntityTexture(EntityBobbitWorm entity) {
+    public ResourceLocation getEntityTexture(EntityBobbitWorm entity) {
         if(entity.getTypeNumber() == 2) {
             return ModTextures.bobbit_worm_2;
         } else {

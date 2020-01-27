@@ -203,7 +203,7 @@ public class EntityBoar extends EntityAnimalWithSelectiveTypes implements IMob {
         if (!this.world.isRemote && !this.dead) {
             ZombiePigmanEntity entitypigzombie = new ZombiePigmanEntity(EntityType.ZOMBIE_PIGMAN, this.world);
             entitypigzombie.setItemStackToSlot(EquipmentSlotType.MAINHAND, new ItemStack(Items.GOLDEN_SWORD));
-            entitypigzombie.setLocationAndAngles(this.posX, this.posY, this.posZ, this.rotationYaw, this.rotationPitch);
+            entitypigzombie.setLocationAndAngles(this.getPosX(), this.getPosY(), this.getPosZ(), this.rotationYaw, this.rotationPitch);
             entitypigzombie.setNoAI(this.isAIDisabled());
 
             if (this.hasCustomName()) {

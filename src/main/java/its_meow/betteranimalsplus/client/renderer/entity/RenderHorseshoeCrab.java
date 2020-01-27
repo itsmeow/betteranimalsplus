@@ -25,7 +25,7 @@ public class RenderHorseshoeCrab extends MobRenderer<EntityHorseshoeCrab, ModelH
     }
 
 	@Override
-	protected ResourceLocation getEntityTexture(EntityHorseshoeCrab entity) {
+	public ResourceLocation getEntityTexture(EntityHorseshoeCrab entity) {
         int type = entity.getTypeNumber();
         switch (type) {
         case 1:

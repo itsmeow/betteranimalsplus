@@ -31,7 +31,7 @@ public class ItemThrowableCustomEgg extends ItemNamedSimple {
             itemstack.shrink(1);
         }
 
-        worldIn.playSound((PlayerEntity) null, playerIn.posX, playerIn.posY, playerIn.posZ, SoundEvents.ENTITY_EGG_THROW, SoundCategory.PLAYERS, 0.5F, 0.4F / (random.nextFloat() * 0.4F + 0.8F));
+        worldIn.playSound((PlayerEntity) null, playerIn.getPosX(), playerIn.getPosY(), playerIn.getPosZ(), SoundEvents.ENTITY_EGG_THROW, SoundCategory.PLAYERS, 0.5F, 0.4F / (random.nextFloat() * 0.4F + 0.8F));
 
         if(!worldIn.isRemote) {
             ProjectileItemEntity ent = eggSupplier.apply(playerIn);

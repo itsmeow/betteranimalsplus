@@ -44,6 +44,7 @@ public class ItemBlockSkull extends WallOrFloorItem {
         this.typeNum = typeNum;
     }
 
+    @SuppressWarnings("resource")
     @Override
     @Nullable
     protected BlockState getStateForPlacement(BlockItemUseContext ctx) {
@@ -63,6 +64,7 @@ public class ItemBlockSkull extends WallOrFloorItem {
         return returnedState;
     }
 
+    @SuppressWarnings("resource")
     @Override
     public ActionResultType tryPlace(BlockItemUseContext ctx) {
         if (!ctx.canPlace()) {

@@ -145,7 +145,8 @@ public class EntitySquirrel extends EntityAnimalWithSelectiveTypes {
     }
     
     @Override
-    public void fall(float distance, float damageMultiplier) {
+    public boolean onLivingFall(float distance, float damageMultiplier) {
+        return false;
     }
 
     @Override
