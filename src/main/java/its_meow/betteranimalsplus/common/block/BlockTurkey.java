@@ -68,17 +68,20 @@ public class BlockTurkey extends Block implements IWaterLoggable {
 
     @Override
     public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult hit) {
-        if(!worldIn.isRemote) {
-            return eat(worldIn, pos, state, player);
-        } else {
-            ItemStack itemstack = player.getHeldItem(hand);
-            return itemstack.isEmpty() ? ActionResultType.PASS : eat(worldIn, pos, state, player);
+        if(hand == Hand.MAIN_HAND) {
+            if(!worldIn.isRemote) {
+                return eat(worldIn, pos, state, player);
+            } else {
+                ItemStack itemstack = player.getHeldItem(hand);
+                return itemstack.isEmpty() ? ActionResultType.FAIL : eat(worldIn, pos, state, player);
+            }
         }
+        return ActionResultType.FAIL;
     }
 
     protected ActionResultType eat(World worldIn, BlockPos pos, BlockState state, PlayerEntity player) {
         if(!player.canEat(false)) {
-            return ActionResultType.PASS;
+            return ActionResultType.FAIL;
         } else {
             int i = state.get(BITES);
 
@@ -94,7 +97,7 @@ public class BlockTurkey extends Block implements IWaterLoggable {
                 player.getFoodStats().addStats(4, 0.3F);
             }
 
-            return ActionResultType.SUCCESS;
+            return ActionResultType.CONSUME;
         }
     }
 
