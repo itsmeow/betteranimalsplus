@@ -4,7 +4,7 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.Quaternion;
+import net.minecraft.client.renderer.Vector3f;
 import net.minecraft.client.renderer.entity.model.BipedModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.LivingEntity;
@@ -145,8 +145,8 @@ public class ModelWolfCape<T extends LivingEntity> extends BipedModel<T> {
             matrixStackIn.translate(0.0F, 0.05F, 0.025F);
             float angle = 6.0F + f2_r / 2.0F + f1_r;
             angle = angle > 90F ? 90F : angle;
-            matrixStackIn.rotate(new Quaternion(1.0F, 0.0F, 0.0F, angle));
-            matrixStackIn.rotate(new Quaternion(0.0F, 0.0F, 1.0F, f3_r / 2.0F));
+            matrixStackIn.rotate(Vector3f.XP.rotationDegrees(angle));
+            matrixStackIn.rotate(Vector3f.ZP.rotationDegrees(f3_r / 2.0F));
             super.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
             matrixStackIn.pop();
             this.wolfCapeArmL1.showModel = true;
@@ -157,6 +157,8 @@ public class ModelWolfCape<T extends LivingEntity> extends BipedModel<T> {
             this.wolfCapeArmR1.showModel = false;
             this.wolfCapeMain.showModel = true;
         } else {
+            this.wolfCapeArmL1.showModel = true;
+            this.wolfCapeArmR1.showModel = true;
             super.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
         }
     }
