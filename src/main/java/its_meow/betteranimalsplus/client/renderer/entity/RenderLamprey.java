@@ -5,7 +5,7 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 import its_meow.betteranimalsplus.client.model.ModelLamprey;
 import its_meow.betteranimalsplus.common.entity.EntityLamprey;
 import its_meow.betteranimalsplus.init.ModTextures;
-import net.minecraft.client.renderer.Quaternion;
+import net.minecraft.client.renderer.Vector3f;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.util.ResourceLocation;
@@ -21,7 +21,7 @@ public class RenderLamprey extends MobRenderer<EntityLamprey, ModelLamprey<Entit
 	    matrixStackIn.scale(0.5F, 0.5F, 0.5F);
 		
 		if(entity.getRidingEntity() != null) {
-		    matrixStackIn.rotate(new Quaternion(0, 1, 0, 180));
+		    matrixStackIn.rotate(Vector3f.YP.rotationDegrees(180F));
 		    matrixStackIn.translate(0, 0, 0.5F);
 		}
 	}
