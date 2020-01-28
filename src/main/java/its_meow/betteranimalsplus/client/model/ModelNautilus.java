@@ -4,7 +4,6 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 
 import its_meow.betteranimalsplus.util.RenderUtil;
-import net.minecraft.client.renderer.Quaternion;
 import net.minecraft.client.renderer.Vector3f;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
@@ -155,9 +154,8 @@ public class ModelNautilus<T extends LivingEntity> extends EntityModel<T> {
     public void render(MatrixStack matrixStackIn, IVertexBuilder bufferIn, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
         matrixStackIn.push();
         {
-            //matrixStackIn.rotate(Vector3f.YP.rotationDegrees(180F));
+            matrixStackIn.rotate(Vector3f.YP.rotationDegrees(180F));
             matrixStackIn.translate(0, 0.1, 0);
-            //RenderUtil.scale(matrixStackIn, 0.003125F);
             matrixStackIn.push();
             {
                 RenderUtil.partScaleTranslate(matrixStackIn, rTentacle01a, 0.8F);

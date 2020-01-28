@@ -31,11 +31,11 @@ public class RenderUtil {
     }
 
     public static void pointTranslate(MatrixStack stack, ModelRenderer part) {
-        stack.translate(part.rotationPointX, part.rotationPointY, part.rotationPointZ);
+        stack.translate(part.rotationPointX / 16, part.rotationPointY / 16, part.rotationPointZ / 16);
     }
     
     public static void negativePointTranslate(MatrixStack stack, ModelRenderer part) {
-        stack.translate(-part.rotationPointX, -part.rotationPointY, -part.rotationPointZ);
+        stack.translate(-part.rotationPointX / 16, -part.rotationPointY / 16, -part.rotationPointZ / 16);
     }
     
     public static void scale(MatrixStack stack, float scale) {
@@ -47,15 +47,15 @@ public class RenderUtil {
     }
     
     public static float xOffset(ModelRenderer part) {
-        return part.cubeList.get(0).posX1;
+        return part.cubeList.get(0).posX1 / 16;
     }
     
     public static float yOffset(ModelRenderer part) {
-        return part.cubeList.get(0).posY1;
+        return part.cubeList.get(0).posY1 / 16;
     }
     
     public static float zOffset(ModelRenderer part) {
-        return part.cubeList.get(0).posZ1;
+        return part.cubeList.get(0).posZ1 / 16;
     }
 
 }
