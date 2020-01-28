@@ -3,7 +3,8 @@ package its_meow.betteranimalsplus.client.model;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 
-import net.minecraft.client.renderer.Quaternion;
+import its_meow.betteranimalsplus.util.RenderUtil;
+import net.minecraft.client.renderer.Vector3f;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.Entity;
@@ -156,48 +157,32 @@ public class ModelTrillium<T extends Entity> extends EntityModel<T> {
 
     @Override
     public void render(MatrixStack matrixStackIn, IVertexBuilder bufferIn, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
-        matrixStackIn.rotate(new Quaternion(0, 1, 0, rotation)); // Yaw
+        matrixStackIn.rotate(Vector3f.YP.rotationDegrees(rotation)); // Yaw
         matrixStackIn.push();
-        //matrixStackIn.translate(this.stem05.offsetX, this.stem05.offsetY, this.stem05.offsetZ);
-        matrixStackIn.translate(this.stem05.rotationPointX, this.stem05.rotationPointY,
-                this.stem05.rotationPointZ);
-        matrixStackIn.scale(0.4F, 0.7F, 0.4F);
-        //matrixStackIn.translate(-this.stem05.offsetX, -this.stem05.offsetY, -this.stem05.offsetZ);
-        matrixStackIn.translate(-this.stem05.rotationPointX, -this.stem05.rotationPointY,
-                -this.stem05.rotationPointZ);
-        this.stem05.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn);
+        {
+            RenderUtil.partScaleTranslate(matrixStackIn, stem05, 0.4F, 0.7F, 0.4F);
+            this.stem05.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+        }
         matrixStackIn.pop();
         matrixStackIn.push();
-        //matrixStackIn.translate(this.stem01.offsetX, this.stem01.offsetY, this.stem01.offsetZ);
-        matrixStackIn.translate(this.stem01.rotationPointX, this.stem01.rotationPointY,
-                this.stem01.rotationPointZ);
-        matrixStackIn.scale(0.8F, 1.0F, 0.8F);
-        //matrixStackIn.translate(-this.stem01.offsetX, -this.stem01.offsetY, -this.stem01.offsetZ);
-        matrixStackIn.translate(-this.stem01.rotationPointX, -this.stem01.rotationPointY,
-                -this.stem01.rotationPointZ);
-        this.stem01.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn);
+        {
+            RenderUtil.partScaleTranslate(matrixStackIn, stem01, 0.8F, 1.0F, 0.8F);
+            this.stem01.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+        }
         matrixStackIn.pop();
         matrixStackIn.push();
-        //matrixStackIn.translate(this.stem02.offsetX, this.stem02.offsetY, this.stem02.offsetZ);
-        matrixStackIn.translate(this.stem02.rotationPointX, this.stem02.rotationPointY,
-                this.stem02.rotationPointZ);
-        matrixStackIn.scale(0.7F, 1.0F, 0.7F);
-        //matrixStackIn.translate(-this.stem02.offsetX, -this.stem02.offsetY, -this.stem02.offsetZ);
-        matrixStackIn.translate(-this.stem02.rotationPointX, -this.stem02.rotationPointY,
-                -this.stem02.rotationPointZ);
-        this.stem02.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn);
+        {
+            RenderUtil.partScaleTranslate(matrixStackIn, stem02, 0.7F, 1.0F, 0.7F);
+            this.stem02.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+        }
         matrixStackIn.pop();
         matrixStackIn.push();
-        //matrixStackIn.translate(this.stem04.offsetX, this.stem04.offsetY, this.stem04.offsetZ);
-        matrixStackIn.translate(this.stem04.rotationPointX, this.stem04.rotationPointY,
-                this.stem04.rotationPointZ);
-        matrixStackIn.scale(0.8F, 1.0F, 0.8F);
-        //matrixStackIn.translate(-this.stem04.offsetX, -this.stem04.offsetY, -this.stem04.offsetZ);
-        matrixStackIn.translate(-this.stem04.rotationPointX, -this.stem04.rotationPointY,
-                -this.stem04.rotationPointZ);
-        this.stem04.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn);
+        {
+            RenderUtil.partScaleTranslate(matrixStackIn, stem04, 0.8F, 1.0F, 0.8F);
+            this.stem04.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+        }
         matrixStackIn.pop();
-        this.stem03.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn);
+        this.stem03.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
     }
 
     /**

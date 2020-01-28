@@ -10,8 +10,8 @@ import its_meow.betteranimalsplus.client.model.ModelTrilliumMulti2;
 import its_meow.betteranimalsplus.common.tileentity.TileEntityTrillium;
 import its_meow.betteranimalsplus.init.ModTextures;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
-import net.minecraft.client.renderer.Quaternion;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.Vector3f;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
@@ -39,11 +39,11 @@ public class RenderBlockTrillium extends TileEntityRenderer<TileEntityTrillium> 
         matrixStackIn.push();
         {
             matrixStackIn.translate(0.5F, 1.5F, 0.5F);
-            matrixStackIn.rotate(new Quaternion(0, 0, 1, 180));
+            matrixStackIn.rotate(Vector3f.ZP.rotationDegrees(180F));
 
             matrixStackIn.push();
             {
-                Color color = new Color(tileentity.getWorld().getBiome(tileentity.getPos()).getFoliageColor());
+                Color color = new Color(tileentity.getWorld().getBiome(tileentity.getPos()).getGrassColor(0,0));
                 float r = color.getRed() / 255F;
                 float g = color.getGreen() / 255F;
                 float b = color.getBlue() / 255F;
@@ -54,14 +54,14 @@ public class RenderBlockTrillium extends TileEntityRenderer<TileEntityTrillium> 
                 g = g > 255F ? 250F : g;
                 b = b > 255F ? 250F : b;
                 mainModel.render((Entity) null, 0F, 0F, 0F, rotate, 0F);
-                mainModel.render(matrixStackIn, bufferIn.getBuffer(RenderType.entitySolid(ModTextures.trillium_base)), combinedLightIn, combinedOverlayIn, r, g, b, 1F);
+                mainModel.render(matrixStackIn, bufferIn.getBuffer(RenderType.entityCutout(ModTextures.trillium_base)), combinedLightIn, combinedOverlayIn, r, g, b, 1F);
             }
             matrixStackIn.pop();
 
             matrixStackIn.push();
             {
                 mainModel.render((Entity) null, 0F, 0F, 0F, rotate, 0F);
-                mainModel.render(matrixStackIn, bufferIn.getBuffer(RenderType.entitySolid(tileentity.getTexture())), combinedLightIn, combinedOverlayIn, 1F, 1F, 1F, 1F);
+                mainModel.render(matrixStackIn, bufferIn.getBuffer(RenderType.entityCutout(tileentity.getTexture())), combinedLightIn, combinedOverlayIn, 1F, 1F, 1F, 1F);
             }
             matrixStackIn.pop();
         }
