@@ -15,11 +15,22 @@ public class RenderUtil {
         RenderUtil.scale(stack, scale);
         RenderUtil.negativeOffsetTranslate(stack, part);
         RenderUtil.negativePointTranslate(stack, part);
-        
     }
 
     public static void partScaleTranslate(MatrixStack stack, ModelRenderer part, double scale) {
         partScaleTranslate(stack, part, (float) scale);
+    }
+    
+    public static void partScaleTranslate(MatrixStack stack, ModelRenderer part, float scaleX, float scaleY, float scaleZ) {
+        RenderUtil.offsetTranslate(stack, part);
+        RenderUtil.pointTranslate(stack, part);
+        stack.scale(scaleX, scaleY, scaleZ);
+        RenderUtil.negativeOffsetTranslate(stack, part);
+        RenderUtil.negativePointTranslate(stack, part);
+    }
+
+    public static void partScaleTranslate(MatrixStack stack, ModelRenderer part, double scaleX, double scaleY, double scaleZ) {
+        partScaleTranslate(stack, part, (float) scaleX, (float) scaleY, (float) scaleZ);
     }
     
     public static void offsetTranslate(MatrixStack stack, ModelRenderer part) {

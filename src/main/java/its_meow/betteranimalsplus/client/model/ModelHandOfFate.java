@@ -3,7 +3,8 @@ package its_meow.betteranimalsplus.client.model;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 
-import net.minecraft.client.renderer.Quaternion;
+import its_meow.betteranimalsplus.util.RenderUtil;
+import net.minecraft.client.renderer.Vector3f;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.Entity;
@@ -431,7 +432,7 @@ public class ModelHandOfFate<T extends Entity> extends EntityModel<T> {
 
     @Override
     public void render(MatrixStack matrixStackIn, IVertexBuilder bufferIn, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
-        matrixStackIn.rotate(new Quaternion(0, 1, 0, rotation)); // Yaw
+        matrixStackIn.rotate(Vector3f.YP.rotationDegrees(rotation)); // Yaw
         this.metal02a.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn);
         this.metal08a.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn);
         this.metal03a.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn);
@@ -439,25 +440,22 @@ public class ModelHandOfFate<T extends Entity> extends EntityModel<T> {
         this.bowlStand01.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn);
         this.metal05a.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn);
         this.metal06a.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn);
-        //RenderSystem.translatef(this.bowlStandRivit.offsetX, this.bowlStandRivit.offsetY, this.bowlStandRivit.offsetZ);
-        matrixStackIn.translate(this.bowlStandRivit.rotationPointX, this.bowlStandRivit.rotationPointY,
-                this.bowlStandRivit.rotationPointZ);
-        matrixStackIn.scale(1.1F, 1.0F, 1.1F);
-        //RenderSystem.translatef(-this.bowlStandRivit.offsetX, -this.bowlStandRivit.offsetY, -this.bowlStandRivit.offsetZ);
-        matrixStackIn.translate(-this.bowlStandRivit.rotationPointX, -this.bowlStandRivit.rotationPointY, -this.bowlStandRivit.rotationPointZ);
-        this.bowlStandRivit.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn);
-        matrixStackIn.scale(1F, 1F, 1F);
+        matrixStackIn.push();
+        {
+            RenderUtil.partScaleTranslate(matrixStackIn, bowlStandRivit, 1.1F, 1.0F, 1.1F);
+            this.bowlStandRivit.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn);
+        }
+        matrixStackIn.pop();
         this.bowlStand02.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn);
         this.metal04a.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn);
         this.metal01a.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn);
         this.bowlWall01.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn);
-        //RenderSystem.translatef(this.bowlBase.offsetX, this.bowlBase.offsetY, this.bowlBase.offsetZ);
-        matrixStackIn.translate(this.bowlBase.rotationPointX, this.bowlBase.rotationPointY, this.bowlBase.rotationPointZ);
-        matrixStackIn.scale(1.05F, 1.0F, 1.0F);
-        //RenderSystem.translatef(-this.bowlBase.offsetX, -this.bowlBase.offsetY, -this.bowlBase.offsetZ);
-        matrixStackIn.translate(-this.bowlBase.rotationPointX, -this.bowlBase.rotationPointY, -this.bowlBase.rotationPointZ);
-        this.bowlBase.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn);
-        matrixStackIn.scale(1F, 1F, 1F);
+        matrixStackIn.push();
+        {
+            RenderUtil.partScaleTranslate(matrixStackIn, bowlBase, 1.05F, 1.0F, 1.0F);
+            this.bowlBase.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn);
+        }
+        matrixStackIn.pop();
         this.metal07a.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn);
     }
 
