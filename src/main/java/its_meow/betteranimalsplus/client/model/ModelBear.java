@@ -378,7 +378,7 @@ public class ModelBear<T extends LivingEntity> extends ModelBetterAnimals<T> {
 
     @Override
     public void render(MatrixStack matrixStackIn, IVertexBuilder bufferIn, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
-        this.hind.render(matrixStackIn, bufferIn, packedOverlayIn, packedOverlayIn);
+        this.hind.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn);
     }
 
     @Override
