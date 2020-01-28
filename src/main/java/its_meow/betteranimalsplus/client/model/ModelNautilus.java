@@ -3,7 +3,9 @@ package its_meow.betteranimalsplus.client.model;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 
+import its_meow.betteranimalsplus.util.RenderUtil;
 import net.minecraft.client.renderer.Quaternion;
+import net.minecraft.client.renderer.Vector3f;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.LivingEntity;
@@ -153,87 +155,55 @@ public class ModelNautilus<T extends LivingEntity> extends EntityModel<T> {
     public void render(MatrixStack matrixStackIn, IVertexBuilder bufferIn, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
         matrixStackIn.push();
         {
-            matrixStackIn.rotate(new Quaternion(0F, 1F, 0F, 180F));
-            matrixStackIn.translate(0, 1, 0);
-            matrixStackIn.scale(0.003125F, 0.003125F, 0.003125F);
+            //matrixStackIn.rotate(Vector3f.YP.rotationDegrees(180F));
+            matrixStackIn.translate(0, 0.1, 0);
+            //RenderUtil.scale(matrixStackIn, 0.003125F);
             matrixStackIn.push();
             {
-                //matrixStackIn.translate(this.rTentacle01a.offsetX, this.rTentacle01a.offsetY, this.rTentacle01a.offsetZ);
-                matrixStackIn.translate(this.rTentacle01a.rotationPointX, this.rTentacle01a.rotationPointY, this.rTentacle01a.rotationPointZ);
-                matrixStackIn.scale(0.8F, 0.8F, 0.8F);
-                //matrixStackIn.translate(-this.rTentacle01a.offsetX, -this.rTentacle01a.offsetY, -this.rTentacle01a.offsetZ);
-                matrixStackIn.translate(-this.rTentacle01a.rotationPointX, -this.rTentacle01a.rotationPointY, -this.rTentacle01a.rotationPointZ);
+                RenderUtil.partScaleTranslate(matrixStackIn, rTentacle01a, 0.8F);
                 this.rTentacle01a.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn);
             }
             matrixStackIn.pop();
             matrixStackIn.push();
             {
-                //matrixStackIn.translate(this.lTentacle02a.offsetX, this.lTentacle02a.offsetY, this.lTentacle02a.offsetZ);
-                matrixStackIn.translate(this.lTentacle02a.rotationPointX, this.lTentacle02a.rotationPointY, this.lTentacle02a.rotationPointZ);
-                matrixStackIn.scale(0.9F, 0.9F, 0.9F);
-                //matrixStackIn.translate(-this.lTentacle02a.offsetX, -this.lTentacle02a.offsetY, -this.lTentacle02a.offsetZ);
-                matrixStackIn.translate(-this.lTentacle02a.rotationPointX, -this.lTentacle02a.rotationPointY, -this.lTentacle02a.rotationPointZ);
+                RenderUtil.partScaleTranslate(matrixStackIn, lTentacle02a, 0.9F);
                 this.lTentacle02a.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn);
             }
             matrixStackIn.pop();
             matrixStackIn.push();
             {
-                //matrixStackIn.translate(this.rTentacle04a.offsetX, this.rTentacle04a.offsetY, this.rTentacle04a.offsetZ);
-                matrixStackIn.translate(this.rTentacle04a.rotationPointX, this.rTentacle04a.rotationPointY, this.rTentacle04a.rotationPointZ);
-                matrixStackIn.scale(0.9F, 0.9F, 0.9F);
-                //matrixStackIn.translate(-this.rTentacle04a.offsetX, -this.rTentacle04a.offsetY, -this.rTentacle04a.offsetZ);
-                matrixStackIn.translate(-this.rTentacle04a.rotationPointX, -this.rTentacle04a.rotationPointY, -this.rTentacle04a.rotationPointZ);
+                RenderUtil.partScaleTranslate(matrixStackIn, rTentacle04a, 0.9F);
                 this.rTentacle04a.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn);
             }
             matrixStackIn.pop();
             matrixStackIn.push();
             {
-                //matrixStackIn.translate(this.lTentacle04a.offsetX, this.lTentacle04a.offsetY, this.lTentacle04a.offsetZ);
-                matrixStackIn.translate(this.lTentacle04a.rotationPointX, this.lTentacle04a.rotationPointY, this.lTentacle04a.rotationPointZ);
-                matrixStackIn.scale(0.9F, 0.9F, 0.9F);
-                //matrixStackIn.translate(-this.lTentacle04a.offsetX, -this.lTentacle04a.offsetY, -this.lTentacle04a.offsetZ);
-                matrixStackIn.translate(-this.lTentacle04a.rotationPointX, -this.lTentacle04a.rotationPointY, -this.lTentacle04a.rotationPointZ);
+                RenderUtil.partScaleTranslate(matrixStackIn, lTentacle04a, 0.9F);
                 this.lTentacle04a.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn);
             }
             matrixStackIn.pop();
             matrixStackIn.push();
             {
-                //matrixStackIn.translate(this.rTentacle02a.offsetX, this.rTentacle02a.offsetY, this.rTentacle02a.offsetZ);
-                matrixStackIn.translate(this.rTentacle02a.rotationPointX, this.rTentacle02a.rotationPointY, this.rTentacle02a.rotationPointZ);
-                matrixStackIn.scale(0.9F, 0.9F, 0.9F);
-                //matrixStackIn.translate(-this.rTentacle02a.offsetX, -this.rTentacle02a.offsetY, -this.rTentacle02a.offsetZ);
-                matrixStackIn.translate(-this.rTentacle02a.rotationPointX, -this.rTentacle02a.rotationPointY, -this.rTentacle02a.rotationPointZ);
+                RenderUtil.partScaleTranslate(matrixStackIn, rTentacle02a, 0.9F);
                 this.rTentacle02a.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn);
             }
             matrixStackIn.pop();
             matrixStackIn.push();
             {
-                //matrixStackIn.translate(this.rTentacle03a.offsetX, this.rTentacle03a.offsetY, this.rTentacle03a.offsetZ);
-                matrixStackIn.translate(this.rTentacle03a.rotationPointX, this.rTentacle03a.rotationPointY, this.rTentacle03a.rotationPointZ);
-                matrixStackIn.scale(0.9F, 0.9F, 0.9F);
-                //matrixStackIn.translate(-this.rTentacle03a.offsetX, -this.rTentacle03a.offsetY, -this.rTentacle03a.offsetZ);
-                matrixStackIn.translate(-this.rTentacle03a.rotationPointX, -this.rTentacle03a.rotationPointY, -this.rTentacle03a.rotationPointZ);
+                RenderUtil.partScaleTranslate(matrixStackIn, rTentacle03a, 0.9F);
                 this.rTentacle03a.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn);
             }
             matrixStackIn.pop();
             matrixStackIn.push();
             {
-                //matrixStackIn.translate(this.lTentacle01a.offsetX, this.lTentacle01a.offsetY, this.lTentacle01a.offsetZ);
-                matrixStackIn.translate(this.lTentacle01a.rotationPointX, this.lTentacle01a.rotationPointY, this.lTentacle01a.rotationPointZ);
-                matrixStackIn.scale(0.8F, 0.8F, 0.8F);
-                //matrixStackIn.translate(-this.lTentacle01a.offsetX, -this.lTentacle01a.offsetY, -this.lTentacle01a.offsetZ);
-                matrixStackIn.translate(-this.lTentacle01a.rotationPointX, -this.lTentacle01a.rotationPointY, -this.lTentacle01a.rotationPointZ);
+                RenderUtil.partScaleTranslate(matrixStackIn, lTentacle01a, 0.8F);
                 this.lTentacle01a.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn);
             }
             matrixStackIn.pop();
             this.shell.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn);
             matrixStackIn.push();
             {
-                //matrixStackIn.translate(this.lTentacle03a.offsetX, this.lTentacle03a.offsetY, this.lTentacle03a.offsetZ);
-                matrixStackIn.translate(this.lTentacle03a.rotationPointX, this.lTentacle03a.rotationPointY, this.lTentacle03a.rotationPointZ);
-                matrixStackIn.scale(0.9F, 0.9F, 0.9F);
-                //matrixStackIn.translate(-this.lTentacle03a.offsetX, -this.lTentacle03a.offsetY, -this.lTentacle03a.offsetZ);
-                matrixStackIn.translate(-this.lTentacle03a.rotationPointX, -this.lTentacle03a.rotationPointY, -this.lTentacle03a.rotationPointZ);
+                RenderUtil.partScaleTranslate(matrixStackIn, lTentacle03a, 0.9F);
                 this.lTentacle03a.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn);
             }
             matrixStackIn.pop();
