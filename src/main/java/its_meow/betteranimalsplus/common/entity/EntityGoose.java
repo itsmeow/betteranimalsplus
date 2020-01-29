@@ -1,8 +1,11 @@
 package its_meow.betteranimalsplus.common.entity;
 
+import java.util.EnumSet;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
+import java.util.function.Predicate;
 
 import its_meow.betteranimalsplus.init.ModEntities;
 import its_meow.betteranimalsplus.util.EntityTypeContainer;
@@ -10,6 +13,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityPredicate;
 import net.minecraft.entity.ILivingEntityData;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.goal.BreedGoal;
@@ -23,12 +27,17 @@ import net.minecraft.entity.ai.goal.SwimGoal;
 import net.minecraft.entity.ai.goal.TargetGoal;
 import net.minecraft.entity.ai.goal.TemptGoal;
 import net.minecraft.entity.ai.goal.WaterAvoidingRandomWalkingGoal;
+import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.inventory.EquipmentSlotType;
+import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.ListNBT;
 import net.minecraft.nbt.StringNBT;
+import net.minecraft.util.DamageSource;
+import net.minecraft.util.SoundEvents;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
@@ -41,6 +50,9 @@ public class EntityGoose extends EntityAnimalWithTypes {
     protected final Set<UUID> dislikedPlayers = new HashSet<UUID>();
     private Set<Goal> aggroGoals;
     private Set<Goal> aggroTargetGoals;
+    private static final Predicate<ItemEntity> ITEM_SELECTOR = (item) -> {
+        return !item.cannotPickup() && item.isAlive();
+    };
 
     public EntityGoose(World world) {
         super(ModEntities.GOOSE.entityType, world);
@@ -59,10 +71,11 @@ public class EntityGoose extends EntityAnimalWithTypes {
         this.goalSelector.addGoal(4, new TemptGoal(this, 1.0D, Ingredient.fromItems(Items.PUMPKIN_SEEDS, Items.WHEAT_SEEDS, Items.BEETROOT_SEEDS, Items.MELON_SEEDS, Items.BREAD), false));
         this.goalSelector.addGoal(5, new FollowParentGoal(this, 1.1D));
         this.goalSelector.addGoal(6, new WaterAvoidingRandomWalkingGoal(this, 1.0D));
-        this.goalSelector.addGoal(7, new LookAtGoal(this, PlayerEntity.class, 6.0F));
+        this.goalSelector.addGoal(7, new EntityGoose.FindItemsGoal());
+        this.goalSelector.addGoal(8, new LookAtGoal(this, PlayerEntity.class, 6.0F));
         this.addAggroGoals();
     }
-    
+
     public void addAggroGoals() {
         MeleeAttackGoal melee = new MeleeAttackGoal(this, 1.1D, false) {
             @Override
@@ -109,7 +122,7 @@ public class EntityGoose extends EntityAnimalWithTypes {
         aggroTargetGoals.add(target1);
         aggroTargetGoals.add(target2);
     }
-    
+
     public void removeAggroGoals() {
         for(Goal goal : aggroGoals) {
             this.goalSelector.removeGoal(goal);
@@ -149,6 +162,64 @@ public class EntityGoose extends EntityAnimalWithTypes {
     }
 
     @Override
+    protected void spawnDrops(DamageSource damageSourceIn) {
+        ItemStack itemstack = this.getItemStackFromSlot(EquipmentSlotType.MAINHAND);
+        if (!itemstack.isEmpty()) {
+            this.entityDropItem(itemstack);
+            this.setItemStackToSlot(EquipmentSlotType.MAINHAND, ItemStack.EMPTY);
+        }
+
+        super.spawnDrops(damageSourceIn);
+    }
+
+    @Override
+    public boolean func_213365_e(ItemStack stack) {
+        EquipmentSlotType type = MobEntity.getSlotForItemStack(stack);
+        if (!this.getItemStackFromSlot(type).isEmpty()) {
+            return false;
+        } else {
+            return type == EquipmentSlotType.MAINHAND && super.func_213365_e(stack);
+        }
+    }
+
+    @Override
+    protected boolean canEquipItem(ItemStack newStack) {
+        ItemStack oldStack = this.getItemStackFromSlot(EquipmentSlotType.MAINHAND);
+        return oldStack.isEmpty() || (newStack.getItem().isFood() && !oldStack.getItem().isFood());
+    }
+
+    private void dropItem(ItemStack stack) {
+        if (!stack.isEmpty() && !this.world.isRemote) {
+            ItemEntity itementity = new ItemEntity(this.world, this.posX + this.getLookVec().x, this.posY + 1.0D, this.posZ + this.getLookVec().z, stack);
+            itementity.setPickupDelay(40);
+            itementity.setThrowerId(this.getUniqueID());
+            this.playSound(SoundEvents.ENTITY_FOX_SPIT, 1.0F, 1.0F);
+            this.world.addEntity(itementity);
+        }
+    }
+
+    private void spawnItem(ItemStack stack) {
+        ItemEntity entity = new ItemEntity(this.world, this.posX, this.posY, this.posZ, stack);
+        this.world.addEntity(entity);
+    }
+
+    @Override
+    protected void updateEquipmentIfNeeded(ItemEntity itemEntity) {
+        ItemStack stack = itemEntity.getItem();
+        if (this.canEquipItem(stack)) {
+            int i = stack.getCount();
+            if (i > 1) {
+                this.spawnItem(stack.split(i - 1));
+            }
+            this.dropItem(this.getItemStackFromSlot(EquipmentSlotType.MAINHAND));
+            this.setItemStackToSlot(EquipmentSlotType.MAINHAND, stack.split(1));
+            this.inventoryHandsDropChances[EquipmentSlotType.MAINHAND.getIndex()] = 2.0F;
+            this.onItemPickup(itemEntity, stack.getCount());
+            itemEntity.remove();
+        }
+    }
+
+    @Override
     public void writeAdditional(CompoundNBT compound) {
         super.writeAdditional(compound);
         ListNBT list = new ListNBT();
@@ -163,26 +234,26 @@ public class EntityGoose extends EntityAnimalWithTypes {
         super.readAdditional(compound);
         compound.getList("disliked_players", Constants.NBT.TAG_STRING).forEach(nbt -> dislikedPlayers.add(UUID.fromString(nbt.getString())));
     }
-    
+
     @Override
     public ILivingEntityData onInitialSpawn(IWorld world, DifficultyInstance difficulty, SpawnReason reason, ILivingEntityData livingdata, CompoundNBT compound) {
         int[] types;
         switch (reason) {
-            case NATURAL:
-                types = new int[] {2,3};
-                break;
-            case CHUNK_GENERATION:
-                types = new int[] {2,3};
-                break;
-            case STRUCTURE:
-                types = new int[] {2,3};
-                break;
-            case BREEDING:
-                types = new int[] {1};
-                break;
-            default:
-                types = new int[] {1,2,3};
-                break;
+        case NATURAL:
+            types = new int[] {2,3};
+            break;
+        case CHUNK_GENERATION:
+            types = new int[] {2,3};
+            break;
+        case STRUCTURE:
+            types = new int[] {2,3};
+            break;
+        case BREEDING:
+            types = new int[] {1};
+            break;
+        default:
+            types = new int[] {1,2,3};
+            break;
         }
         return this.initData(super.onInitialSpawn(world, difficulty, reason, livingdata, compound), types[rand.nextInt(types.length)]);
     }
@@ -201,9 +272,50 @@ public class EntityGoose extends EntityAnimalWithTypes {
     protected EntityTypeContainer<? extends EntityAnimalWithTypes> getContainer() {
         return ModEntities.GOOSE;
     }
-    
+
+    public class FindItemsGoal extends Goal {
+        public FindItemsGoal() {
+            this.setMutexFlags(EnumSet.of(Goal.Flag.MOVE));
+        }
+
+        @Override
+        public boolean shouldExecute() {
+            if (!EntityGoose.this.getItemStackFromSlot(EquipmentSlotType.MAINHAND).isEmpty()) {
+                return false;
+            } else if (EntityGoose.this.getAttackTarget() == null && EntityGoose.this.getRevengeTarget() == null) {
+                if (EntityGoose.this.getRNG().nextInt(10) != 0) {
+                    return false;
+                } else {
+                    List<ItemEntity> list = EntityGoose.this.world.getEntitiesWithinAABB(ItemEntity.class, EntityGoose.this.getBoundingBox().grow(8.0D, 8.0D, 8.0D), EntityGoose.ITEM_SELECTOR);
+                    return !list.isEmpty() && EntityGoose.this.getItemStackFromSlot(EquipmentSlotType.MAINHAND).isEmpty();
+                }
+            } else {
+                return false;
+            }
+        }
+
+        @Override
+        public void tick() {
+            List<ItemEntity> list = EntityGoose.this.world.getEntitiesWithinAABB(ItemEntity.class, EntityGoose.this.getBoundingBox().grow(8.0D, 8.0D, 8.0D), EntityGoose.ITEM_SELECTOR);
+            ItemStack itemstack = EntityGoose.this.getItemStackFromSlot(EquipmentSlotType.MAINHAND);
+            if (itemstack.isEmpty() && !list.isEmpty()) {
+                EntityGoose.this.getNavigator().tryMoveToEntityLiving(list.get(0), (double) 1.2F);
+            }
+
+        }
+
+        @Override
+        public void startExecuting() {
+            List<ItemEntity> list = EntityGoose.this.world.getEntitiesWithinAABB(ItemEntity.class, EntityGoose.this.getBoundingBox().grow(8.0D, 8.0D, 8.0D), EntityGoose.ITEM_SELECTOR);
+            if (!list.isEmpty()) {
+                EntityGoose.this.getNavigator().tryMoveToEntityLiving(list.get(0), (double) 1.2F);
+            }
+
+        }
+    }
+
     public class DislikeTargetGoal extends TargetGoal {
-        
+
         protected EntityGoose goose;
 
         public DislikeTargetGoal(EntityGoose goose) {
@@ -220,7 +332,7 @@ public class EntityGoose extends EntityAnimalWithTypes {
         protected boolean isSuitableTarget(LivingEntity potentialTarget, EntityPredicate targetPredicate) {
             return potentialTarget instanceof PlayerEntity && super.isSuitableTarget(potentialTarget, targetPredicate) && dislikedPlayers.contains(((PlayerEntity)potentialTarget).getGameProfile().getId());
         }
-        
+
     }
 
 }
