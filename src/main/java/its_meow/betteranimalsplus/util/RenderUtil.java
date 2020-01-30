@@ -8,13 +8,13 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
 public class RenderUtil {
-    
+
     public static void partTranslateRotate(RendererModel... parts) {
         for(RendererModel part : parts) {
             RenderUtil.offsetTranslate(part);
             RenderUtil.pointTranslate(part);
             GlStateManager.rotatef((float) Math.toDegrees(part.rotateAngleX), 1.0F, 0F, 0F);
-            GlStateManager.rotatef((float) Math.toDegrees(part.rotateAngleY), 0.0F, 1.0F, 0F);
+            GlStateManager.rotatef((float) Math.toDegrees(part.rotateAngleY), 0F, 1.0F, 0F);
             GlStateManager.rotatef((float) Math.toDegrees(part.rotateAngleZ), 0F, 0F, 1.0F);
         }
     }

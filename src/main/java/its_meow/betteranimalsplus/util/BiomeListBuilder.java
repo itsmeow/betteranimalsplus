@@ -56,7 +56,7 @@ public class BiomeListBuilder {
         for(BiomeDictionary.Type extraT : list) {
             set.addAll(BiomeDictionary.getBiomes(extraT));
         }
-        if(required.size() > 0) {
+        if(required.size() > 0 || blacklist.size() > 0) {
             for(Biome biome : ForgeRegistries.BIOMES.getValues()) {
                 Set<BiomeDictionary.Type> types = BiomeDictionary.getTypes(biome);
                 if(types != null) {
