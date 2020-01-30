@@ -254,7 +254,7 @@ public class ModelGoose<T extends LivingEntity> extends EntityModel<T> {
             this.lLeg01.showModel = true;
             this.rLeg01.showModel = true;
         } else {
-            this.body.rotationPointY = 0F;
+            this.body.rotationPointY = -15.3F;
             this.lLeg01.showModel = false;
             this.rLeg01.showModel = false;
         }
