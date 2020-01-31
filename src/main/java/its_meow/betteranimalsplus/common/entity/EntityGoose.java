@@ -43,6 +43,8 @@ import net.minecraft.nbt.ListNBT;
 import net.minecraft.nbt.StringNBT;
 import net.minecraft.particles.ItemParticleData;
 import net.minecraft.particles.ParticleTypes;
+import net.minecraft.potion.EffectInstance;
+import net.minecraft.potion.Effects;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
@@ -143,6 +145,9 @@ public class EntityGoose extends EntityAnimalWithTypes {
             if(itemstack.getItem().isFood() && this.getAttackTarget() == null) {
                 if(this.eatTicks > 200) {
                     ItemStack itemstack1 = itemstack.onItemUseFinish(this.world, this);
+                    if(itemstack.getItem() == Items.BREAD) {
+                        this.addPotionEffect(new EffectInstance(Effects.POISON, 900));
+                    }
                     if(!itemstack1.isEmpty()) {
                         this.setItemStackToSlot(EquipmentSlotType.MAINHAND, itemstack1);
                     }
