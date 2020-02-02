@@ -1,5 +1,6 @@
 package its_meow.betteranimalsplus.common.entity.projectile;
 
+import net.minecraft.dispenser.IPosition;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -27,6 +28,10 @@ public abstract class EntityModEgg extends ProjectileItemEntity {
 
     public EntityModEgg(EntityType<? extends EntityModEgg> type, World worldIn, double x, double y, double z) {
         super(type, x, y, z, worldIn);
+    }
+    
+    public EntityModEgg(EntityType<? extends EntityModEgg> type, World worldIn, IPosition pos) {
+        this(type, worldIn, pos.getX(), pos.getY(), pos.getZ());
     }
 
     @OnlyIn(Dist.CLIENT)

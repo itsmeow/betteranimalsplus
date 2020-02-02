@@ -2,6 +2,8 @@ package its_meow.betteranimalsplus.init;
 
 import its_meow.betteranimalsplus.Ref;
 import its_meow.betteranimalsplus.common.entity.projectile.EntityBadgerDirt;
+import its_meow.betteranimalsplus.common.entity.projectile.EntityGoldenGooseEgg;
+import its_meow.betteranimalsplus.common.entity.projectile.EntityGooseEgg;
 import its_meow.betteranimalsplus.common.entity.projectile.EntityPheasantEgg;
 import its_meow.betteranimalsplus.common.entity.projectile.EntityTarantulaHair;
 import its_meow.betteranimalsplus.common.entity.projectile.EntityTurkeyEgg;
@@ -89,6 +91,8 @@ public class BetterAnimalsPlusRegistrar {
         ModItems.BEAR_CAPE_KERMODE,
         ModItems.PHEASANT_EGG,
         ModItems.TURKEY_EGG,
+        ModItems.GOOSE_EGG,
+        ModItems.GOLDEN_GOOSE_EGG,
         ModItems.TURKEY_LEG_RAW,
         ModItems.TURKEY_LEG_COOKED,
         ModItems.FRIED_EGG,
@@ -134,10 +138,7 @@ public class BetterAnimalsPlusRegistrar {
     public static void registerEntities(final RegistryEvent.Register<EntityType<?>> event) {
         final IForgeRegistry<EntityType<?>> registry = event.getRegistry();
 
-        registry.register(EntityTarantulaHair.HAIR_TYPE);
-        registry.register(EntityBadgerDirt.DIRT_TYPE);
-        registry.register(EntityPheasantEgg.PHEASANT_EGG_TYPE);
-        registry.registerAll(EntityTurkeyEgg.TURKEY_EGG_TYPE);
+        registry.registerAll(EntityTarantulaHair.HAIR_TYPE, EntityBadgerDirt.DIRT_TYPE, EntityPheasantEgg.PHEASANT_EGG_TYPE, EntityTurkeyEgg.TURKEY_EGG_TYPE, EntityGooseEgg.GOOSE_EGG_TYPE, EntityGoldenGooseEgg.GOLDEN_GOOSE_EGG_TYPE);
 
         for(EntityTypeContainer<?> container : ModEntities.ENTITIES.values()) {
             event.getRegistry().register(container.entityType);

@@ -8,7 +8,9 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.function.Predicate;
 
+import its_meow.betteranimalsplus.common.entity.ai.WaterfowlNavigator;
 import its_meow.betteranimalsplus.init.ModEntities;
+import its_meow.betteranimalsplus.init.ModItems;
 import its_meow.betteranimalsplus.init.ModSoundEvents;
 import its_meow.betteranimalsplus.util.EntityTypeContainer;
 import net.minecraft.block.Block;
@@ -43,6 +45,7 @@ import net.minecraft.nbt.ListNBT;
 import net.minecraft.nbt.StringNBT;
 import net.minecraft.particles.ItemParticleData;
 import net.minecraft.particles.ParticleTypes;
+import net.minecraft.pathfinding.PathNavigator;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
@@ -64,10 +67,22 @@ public class EntityGoose extends EntityAnimalWithTypes {
     private static final Predicate<ItemEntity> ITEM_SELECTOR = (item) -> {
         return !item.cannotPickup() && item.isAlive();
     };
+    public int timeUntilNextEgg;
 
     public EntityGoose(World world) {
         super(ModEntities.GOOSE.entityType, world);
         this.setCanPickUpLoot(true);
+        this.timeUntilNextEgg = this.rand.nextInt(6000) + 6000;
+    }
+
+    @Override
+    protected PathNavigator createNavigator(World worldIn) {
+        return new WaterfowlNavigator(this, worldIn);
+    }
+
+    @Override
+    protected float getWaterSlowDown() {
+        return 0.95F;
     }
 
     @Override
@@ -152,6 +167,11 @@ public class EntityGoose extends EntityAnimalWithTypes {
                     this.world.setEntityState(this, (byte) 45); // calls handleStatusUpdate((byte) 45);
                 }
             }
+        }
+        if(!this.world.isRemote && !this.isChild() && --this.timeUntilNextEgg <= 0) {
+            this.playSound(SoundEvents.ENTITY_CHICKEN_EGG, 1.0F, (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 1.0F);
+            this.entityDropItem(this.getRNG().nextInt(128) == 0 ? ModItems.GOLDEN_GOOSE_EGG : ModItems.GOOSE_EGG, 1);
+            this.timeUntilNextEgg = this.rand.nextInt(6000) + 6000;
         }
     }
     
