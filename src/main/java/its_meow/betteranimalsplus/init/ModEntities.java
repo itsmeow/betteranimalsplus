@@ -3,7 +3,11 @@ package its_meow.betteranimalsplus.init;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.function.Function;
+import java.util.function.Predicate;
+
+import com.google.common.collect.Lists;
 
 import its_meow.betteranimalsplus.BetterAnimalsPlusMod;
 import its_meow.betteranimalsplus.Ref;
@@ -107,7 +111,17 @@ public class ModEntities {
         public static final EntityTypeContainer<EntityTurkey> TURKEY = setup(create(EntityTurkey.class, EntityTurkey::new, "turkey").spawn(EntityClassification.CREATURE, 11, 1, 3).egg(0x857445, 0x5099ba).size(1F, 1F).biomes(BiomeListBuilder.create().withTypes(Type.FOREST).withoutTypes(Type.SNOWY)::collect));
         public static final EntityTypeContainer<EntityZotzpyre> ZOTZPYRE = setup(create(EntityZotzpyre.class, EntityZotzpyre::new, "zotzpyre").spawn(EntityClassification.MONSTER, 30, 1, 1).defaultPlacement(EntityZotzpyre::canSpawn).egg(0x321e13, 0x543a28).size(1F, 1F).despawn().biomes(Type.FOREST, Type.JUNGLE, Type.BEACH, Type.CONIFEROUS, Type.LUSH, Type.WASTELAND, Type.SWAMP, Type.HILLS, Type.MOUNTAIN));
         public static final EntityTypeContainer<EntityBobbitWorm> BOBBIT_WORM = setup(create(EntityBobbitWorm.class, EntityBobbitWorm::new, "bobbit_worm").spawn(EntityClassification.WATER_CREATURE, 2, 1, 1).waterPlacement().egg(0xffe38f, 0x0f27bf).size(1F, 1F).despawn().biomes(Type.OCEAN));
-        public static final EntityTypeContainer<EntityGoose> GOOSE = setup(create(EntityGoose.class, EntityGoose::new, "goose").spawn(EntityClassification.CREATURE, 9, 2, 5).placement(PlacementType.NO_RESTRICTIONS, Heightmap.Type.MOTION_BLOCKING, EntityGoose::canSpawn).egg(0xd3cfcf, 0x5e5752).size(1F, 1F).biomes(BiomeListBuilder.create().withTypes(Type.FOREST).withoutTypes(Type.DRY, Type.COLD, Type.HOT, Type.DENSE, Type.DEAD, Type.SPARSE, Type.OCEAN).extra(Type.RIVER)::collect));
+        public static final EntityTypeContainer<EntityGoose> GOOSE = setup(create(EntityGoose.class, EntityGoose::new, "goose").spawn(EntityClassification.CREATURE, 9, 2, 5).placement(PlacementType.NO_RESTRICTIONS, Heightmap.Type.MOTION_BLOCKING, EntityGoose::canSpawn).egg(0xd3cfcf, 0x5e5752).size(1F, 1F).biomes(BiomeListBuilder.create().withTypes(Type.FOREST).withoutTypes(Type.DRY, Type.COLD, Type.HOT, Type.DENSE, Type.DEAD, Type.SPARSE, Type.OCEAN).extra(Type.RIVER)::collect).config(new CustomConfigurationHolder() {
+            private ForgeConfigSpec.ConfigValue<List<? extends String>> pickupBlacklist;
+            @Override
+            public void customConfigurationInit(net.minecraftforge.common.ForgeConfigSpec.Builder builder) {
+                this.pickupBlacklist = builder.comment("List of blacklisted item IDs that cannot be picked up. Accepts tags by prefixing them with '#'.").worldRestart().defineList("pickup_blacklist", Lists.asList("betteranimalsplus:goose_egg", new String[] {"betteranimalsplus:golden_goose_egg"}), (Predicate<Object>) input -> input instanceof String);
+            }
+            @Override
+            public void customConfigurationLoad() {
+                EntityGoose.pickupBlockList = pickupBlacklist.get().toArray(new String[0]);
+            }
+        }));
 
     /*
      * ##########################################################

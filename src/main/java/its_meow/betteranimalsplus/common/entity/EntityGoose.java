@@ -37,6 +37,7 @@ import net.minecraft.entity.ai.goal.WaterAvoidingRandomWalkingGoal;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.item.crafting.Ingredient;
@@ -49,6 +50,7 @@ import net.minecraft.pathfinding.PathNavigator;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
@@ -70,6 +72,7 @@ public class EntityGoose extends EntityAnimalWithTypes {
         return !item.cannotPickup() && item.isAlive();
     };
     public int timeUntilNextEgg;
+    public static String[] pickupBlockList;
 
     public EntityGoose(World world) {
         super(ModEntities.GOOSE.entityType, world);
@@ -257,7 +260,21 @@ public class EntityGoose extends EntityAnimalWithTypes {
     @Override
     protected boolean canEquipItem(ItemStack newStack) {
         ItemStack oldStack = this.getItemStackFromSlot(EquipmentSlotType.MAINHAND);
-        return oldStack.isEmpty() || this.eatTicks == 0 && newStack.getItem().isFood() && !oldStack.getItem().isFood();
+        return !isPickupBlacklisted(newStack.getItem()) && (oldStack.isEmpty() || this.eatTicks == 0 && newStack.getItem().isFood() && !oldStack.getItem().isFood());
+    }
+    
+    public boolean isPickupBlacklisted(Item item) {
+        String id = item.getRegistryName().toString();
+        for(String itemsId : pickupBlockList) {
+            if (itemsId.startsWith("#")) {
+                if (item.getTags().contains(new ResourceLocation(itemsId.substring(1)))) {
+                    return true;
+                }
+            } else if(id.equals(itemsId)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private void dropItem(ItemStack stack) {
