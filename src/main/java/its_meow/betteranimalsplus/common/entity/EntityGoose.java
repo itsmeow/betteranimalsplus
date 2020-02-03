@@ -159,10 +159,11 @@ public class EntityGoose extends EntityAnimalWithTypes {
             ItemStack itemstack = this.getItemStackFromSlot(EquipmentSlotType.MAINHAND);
             if(itemstack.getItem().isFood() && this.getAttackTarget() == null) {
                 if(this.eatTicks > 200) {
-                    ItemStack itemstack1 = itemstack.onItemUseFinish(this.world, this);
                     if(itemstack.getItem() == Items.BREAD) {
                         this.addPotionEffect(new EffectInstance(Effects.POISON, 900));
                     }
+                    ItemStack itemstack1 = itemstack.onItemUseFinish(this.world, this);
+
                     if(!itemstack1.isEmpty()) {
                         this.setItemStackToSlot(EquipmentSlotType.MAINHAND, itemstack1);
                     }
@@ -179,7 +180,7 @@ public class EntityGoose extends EntityAnimalWithTypes {
             this.timeUntilNextEgg = this.rand.nextInt(6000) + 6000;
         }
     }
-    
+
     @OnlyIn(Dist.CLIENT)
     public void handleStatusUpdate(byte id) {
         if(id == 45) {
@@ -344,12 +345,12 @@ public class EntityGoose extends EntityAnimalWithTypes {
         }
         return this.initData(super.onInitialSpawn(world, difficulty, reason, livingdata, compound), types[rand.nextInt(types.length)]);
     }
-    
+
     public static boolean canSpawn(EntityType<EntityGoose> type, IWorld world, SpawnReason reason, BlockPos pos, Random rand) {
         Block downBlock = world.getBlockState(pos.down()).getBlock();
         return ((downBlock == Blocks.GRASS_BLOCK && nearWater(world, pos)) || downBlock == Blocks.WATER) && world.getLightSubtracted(pos, 0) > 8 && world.isAirBlock(pos);
     }
-    
+
     protected static boolean nearWater(IWorld world, BlockPos pos) {
         int i = 12;
         int j = 2;
