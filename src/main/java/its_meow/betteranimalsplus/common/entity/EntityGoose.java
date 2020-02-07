@@ -160,9 +160,9 @@ public class EntityGoose extends EntityAnimalWithTypes {
     public void livingTick() {
         super.livingTick();
         if(!this.world.isRemote && this.isAlive() && this.isServerWorld()) {
-            ++this.eatTicks;
             ItemStack itemstack = this.getItemStackFromSlot(EquipmentSlotType.MAINHAND);
             if(itemstack.getItem().isFood() && this.getAttackTarget() == null) {
+                ++this.eatTicks;
                 if(this.eatTicks > 200) {
                     if(itemstack.getItem() == Items.BREAD) {
                         this.addPotionEffect(new EffectInstance(Effects.POISON, 900));
