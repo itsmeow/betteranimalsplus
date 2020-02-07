@@ -157,6 +157,7 @@ public class ModTextures {
     public static final ResourceLocation shark_bull = new ResourceLocation(entitytex + "shark_bull.png");
     public static final ResourceLocation shark_tiger = new ResourceLocation(entitytex + "shark_tiger.png");
     public static final ResourceLocation shark_whitetip = new ResourceLocation(entitytex + "shark_whitetip.png");
+    public static final ResourceLocation shark_greenland = new ResourceLocation(entitytex + "shark_greenland.png");
     
     // Moose Variants
     public static final ResourceLocation moose_1 = new ResourceLocation(entitytex + "moose_1.png");
