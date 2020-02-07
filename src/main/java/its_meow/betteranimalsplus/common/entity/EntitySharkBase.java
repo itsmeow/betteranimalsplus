@@ -18,7 +18,7 @@ import net.minecraft.world.Difficulty;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 
-public abstract class EntitySharkBase extends EntityWaterMobPathingWithTypes implements IMob {
+public abstract class EntitySharkBase extends EntityWaterMobPathingWithSelectiveTypes implements IMob {
 
     public EntitySharkBase(EntityType<? extends EntitySharkBase> type, World world) {
         super(type, world);

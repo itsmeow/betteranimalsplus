@@ -1,5 +1,7 @@
 package its_meow.betteranimalsplus.common.entity;
 
+import java.util.Set;
+
 import its_meow.betteranimalsplus.init.ModEntities;
 import its_meow.betteranimalsplus.init.ModLootTables;
 import its_meow.betteranimalsplus.util.EntityTypeContainer;
@@ -19,6 +21,7 @@ import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+import net.minecraftforge.common.BiomeDictionary.Type;
 
 public class EntityShark extends EntitySharkBase {
 
@@ -72,10 +75,11 @@ public class EntityShark extends EntitySharkBase {
     public boolean shouldAttackForHealth(float health) {
         int type = this.getTypeNumber();
         switch(type) {
-        case 1: return health <= 8F;// blue
+        case 1: return health <= 8F; // blue
         case 2: return health <= 13F;// bull
-        case 3: return health <= 10; // tiger
+        case 3: return health <= 10F;// tiger
         case 4: return health <= 16F;// whitetip
+        case 5: return health <= 8F; // greenland
         default: return false;
         }
     }
@@ -126,7 +130,7 @@ public class EntityShark extends EntitySharkBase {
 
     @Override
     public int getVariantMax() {
-        return 4;
+        return 5;
     }
 
     @Override
@@ -137,6 +141,11 @@ public class EntityShark extends EntitySharkBase {
     @Override
     protected EntityTypeContainer<? extends EntityWaterMobPathingWithTypes> getContainer() {
         return ModEntities.SHARK;
+    }
+
+    @Override
+    protected int[] getTypesFor(Set<Type> biome) {
+        return biome.contains(Type.COLD) ? new int[] {5} : new int[] {1,2,3,4}; // greenland ONLY in cold oceans
     }
 
 }
