@@ -67,7 +67,7 @@ public class BetterAnimalsPlusConfig {
                 cont.initConfiguration(builder);
             }
             builder.push("misc");
-            this.biomeBasedVariants = builder.comment("Setting to true enables biome based variant spawning. This will make some entities choose variants based on the biome they spawn in. However, it will also affect eggs, possibly reducing the amount of visible content.").worldRestart().define("biomeBasedVariants", false);
+            this.biomeBasedVariants = builder.comment("Setting to true enables biome based variant spawning. This will make some entities choose variants based on the biome they spawn in. (No longer affects spawn eggs as it did in the past, only natural spawns)").worldRestart().define("biomeBasedVariants", true);
             builder.pop();
             builder.build();
         }
