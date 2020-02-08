@@ -147,7 +147,7 @@ public class EntityGoose extends EntityAnimalWithTypes {
             public boolean shouldExecute() {
                 return super.shouldExecute() && EntityGoose.this.getTypeNumber() != 1;
             }
-        });
+        }.setCallsForHelp(EntityGoose.class));
         this.targetSelector.addGoal(1, new DislikeTargetGoal(this) {
             @Override
             public boolean shouldExecute() {
