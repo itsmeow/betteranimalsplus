@@ -20,6 +20,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.goal.BreedGoal;
 import net.minecraft.entity.ai.goal.FollowParentGoal;
+import net.minecraft.entity.ai.goal.HurtByTargetGoal;
 import net.minecraft.entity.ai.goal.LookAtGoal;
 import net.minecraft.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.entity.ai.goal.MoveToBlockGoal;
@@ -78,16 +79,9 @@ public class EntityBoar extends EntityAnimalWithSelectiveTypes implements IMob {
         this.goalSelector.addGoal(6, new WaterAvoidingRandomWalkingGoal(this, 1.0D));
         this.goalSelector.addGoal(7, new LookAtGoal(this, PlayerEntity.class, 6.0F));
         if (!this.isChild() && this.getEntityWorld().getDifficulty() != Difficulty.PEACEFUL) {
-            this.targetSelector.addGoal(1,
-            new NearestAttackableTargetGoal<AnimalEntity>(this, AnimalEntity.class, 90, true, true,
-            (@Nullable LivingEntity in) -> in instanceof ChickenEntity || in instanceof EntityPheasant
-            || in instanceof AnimalEntity && ((AnimalEntity) in).isChild()
-            && !(in instanceof EntityBoar || in instanceof PigEntity)));
-            this.targetSelector.addGoal(2,
-            new NearestAttackableTargetGoal<LivingEntity>(this, LivingEntity.class, 50, true, true,
-            (@Nullable LivingEntity in) -> in instanceof AnimalEntity
-            && !(in instanceof EntityBoar || in instanceof PigEntity)
-            || in instanceof PlayerEntity));
+            this.targetSelector.addGoal(0, new HurtByTargetGoal(this, new Class[0]).setCallsForHelp(EntityBoar.class));
+            this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<AnimalEntity>(this, AnimalEntity.class, 90, true, true, (@Nullable LivingEntity in) -> in instanceof ChickenEntity || in instanceof EntityPheasant || in instanceof AnimalEntity && ((AnimalEntity) in).isChild() && !(in instanceof EntityBoar || in instanceof PigEntity)));
+            this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<LivingEntity>(this, LivingEntity.class, 50, true, true, (@Nullable LivingEntity in) -> in instanceof AnimalEntity && !(in instanceof EntityBoar || in instanceof PigEntity) || in instanceof PlayerEntity));
         }
     }
 
