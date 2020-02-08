@@ -41,8 +41,8 @@ public class EntityShark extends EntitySharkBase {
         this.goalSelector.addGoal(0, new MoveTowardsTargetGoal(this, 1D, 40F));
         this.goalSelector.addGoal(1, new LookAtGoal(this, LivingEntity.class, 15F));
         this.goalSelector.addGoal(1, new LookRandomlyGoal(this));
-        this.goalSelector.addGoal(2, new RandomSwimmingGoal(this, 0.65D, 1));
-        this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<LivingEntity>(this, LivingEntity.class, 100, false, false, e -> {
+        this.goalSelector.addGoal(2, new RandomSwimmingGoal(this, 1D, 1));
+        this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<LivingEntity>(this, LivingEntity.class, 5, false, false, e -> {
             if(e instanceof EntitySharkBase || e instanceof EntityBobbitWorm) return false;
             if(e instanceof PlayerEntity) return shouldAttackForHealth(e.getHealth());
             return true;
@@ -67,7 +67,7 @@ public class EntityShark extends EntitySharkBase {
     protected void registerAttributes() {
         super.registerAttributes();
         this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(30D);
-        this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(1D);
+        this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(1.5D);
         this.getAttributes().registerAttribute(SharedMonsterAttributes.ATTACK_DAMAGE);
         this.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(6D);
     }

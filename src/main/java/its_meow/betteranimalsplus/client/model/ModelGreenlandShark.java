@@ -245,16 +245,10 @@ public class ModelGreenlandShark<T extends LivingEntity> extends EntityModel<T> 
         } else {
             this.body.rotateAngleX = 0.022863813201125717F;
         }
-        if(entity.getMotion().getX() > 0.02F || entity.getMotion().getZ() > 0.02F || Math.abs(entity.getMotion().getY()) > 0.02F) {
-            float mul = 100F;
-            this.tail00.rotateAngleY = MathHelper.cos(f2 * 0.0025F * mul) * 0.15F;
-            this.tail01.rotateAngleY = MathHelper.cos(f2 * 0.0025F * mul) * 0.15F;
-            this.tail02.rotateAngleY = MathHelper.cos(f2 * 0.0025F * mul) * 0.15F;
-        } else {
-            this.tail00.rotateAngleY = 0F;
-            this.tail01.rotateAngleY = 0F;
-            this.tail02.rotateAngleY = 0F;
-        }
+        float motionFactor = Math.min((float) entity.getMotion().length() * 20F, 50);
+        this.tail00.rotateAngleY = MathHelper.cos(f2 * 0.25F) * 0.05F * motionFactor;
+        this.tail01.rotateAngleY = MathHelper.cos(f2 * 0.25F) * 0.05F * motionFactor;
+        this.tail02.rotateAngleY = MathHelper.cos(f2 * 0.25F) * 0.05F * motionFactor;
         if(entity.getPassengers().size() == 0) {
             float mul = 0.05F;
             float div = 20F;
