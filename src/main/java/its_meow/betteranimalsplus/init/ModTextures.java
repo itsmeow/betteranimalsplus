@@ -188,4 +188,15 @@ public class ModTextures {
     public static final ResourceLocation goose_2 = new ResourceLocation(entitytex + "goose_2.png");
     public static final ResourceLocation goose_3 = new ResourceLocation(entitytex + "goose_3.png");
 
+    // Freshwater Eels
+    public static final ResourceLocation eel_freshwater_longfin = new ResourceLocation(entitytex + "eel_freshwater_longfin.png");
+    public static final ResourceLocation eel_freshwater_silver = new ResourceLocation(entitytex + "eel_freshwater_silver.png");
+    
+    // Saltwater Eels
+    public static final ResourceLocation eel_saltwater_conger = new ResourceLocation(entitytex + "eel_saltwater_conger.png");
+    public static final ResourceLocation eel_saltwater_dragon = new ResourceLocation(entitytex + "eel_saltwater_dragon.png");
+    public static final ResourceLocation eel_saltwater_morray = new ResourceLocation(entitytex + "eel_saltwater_morray.png");
+    public static final ResourceLocation eel_saltwater_ribbon = new ResourceLocation(entitytex + "eel_saltwater_ribbon.png");
+    public static final ResourceLocation eel_saltwater_snowflake = new ResourceLocation(entitytex + "eel_saltwater_snowflake.png");
+
 }

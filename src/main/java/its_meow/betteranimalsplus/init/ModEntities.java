@@ -18,6 +18,7 @@ import its_meow.betteranimalsplus.common.entity.EntityCrab;
 import its_meow.betteranimalsplus.common.entity.EntityDeer;
 import its_meow.betteranimalsplus.common.entity.EntityFeralWolf;
 import its_meow.betteranimalsplus.common.entity.EntityFox;
+import its_meow.betteranimalsplus.common.entity.EntityFreshwaterEel;
 import its_meow.betteranimalsplus.common.entity.EntityGoat;
 import its_meow.betteranimalsplus.common.entity.EntityGoose;
 import its_meow.betteranimalsplus.common.entity.EntityHorseshoeCrab;
@@ -28,6 +29,7 @@ import its_meow.betteranimalsplus.common.entity.EntityMoose;
 import its_meow.betteranimalsplus.common.entity.EntityNautilus;
 import its_meow.betteranimalsplus.common.entity.EntityPheasant;
 import its_meow.betteranimalsplus.common.entity.EntityReindeer;
+import its_meow.betteranimalsplus.common.entity.EntitySaltwaterEel;
 import its_meow.betteranimalsplus.common.entity.EntityShark;
 import its_meow.betteranimalsplus.common.entity.EntitySongbird;
 import its_meow.betteranimalsplus.common.entity.EntitySquirrel;
@@ -91,6 +93,17 @@ public class ModEntities {
             }).collect(Collectors.toList());
             BiomeDictionary.getBiomes(Type.RIVER).forEach(biome -> biomes.add(biome));
             return biomes.toArray(new Biome[0]);
+        });
+        add(EntityFreshwaterEel.class, "eel_freshwater", EnumCreatureType.WATER_CREATURE, 0x818077, 0x726c4f, 7, 1, 2, true, null, Type.RIVER, Type.SWAMP);
+        add(EntitySaltwaterEel.class, "eel_saltwater", EnumCreatureType.WATER_CREATURE, 0xa5a5a5, 0x515168, 4, 1, 2, true, null, () -> {
+            return BiomeDictionary.getBiomes(Type.OCEAN).stream().filter(biome -> {
+                if(BiomeDictionary.getTypes(biome).contains(Type.COLD)) {
+                    return false;
+                } else if(biome == Biomes.DEEP_OCEAN) {
+                    return false;
+                }
+                return true;
+            }).collect(Collectors.toList()).toArray(new Biome[0]);
         });
     }
     

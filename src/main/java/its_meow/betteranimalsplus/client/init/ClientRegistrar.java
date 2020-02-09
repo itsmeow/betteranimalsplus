@@ -12,6 +12,7 @@ import its_meow.betteranimalsplus.client.renderer.entity.RenderCrab;
 import its_meow.betteranimalsplus.client.renderer.entity.RenderCustomWolf;
 import its_meow.betteranimalsplus.client.renderer.entity.RenderDeer;
 import its_meow.betteranimalsplus.client.renderer.entity.RenderFox;
+import its_meow.betteranimalsplus.client.renderer.entity.RenderFreshwaterEel;
 import its_meow.betteranimalsplus.client.renderer.entity.RenderGoat;
 import its_meow.betteranimalsplus.client.renderer.entity.RenderGoose;
 import its_meow.betteranimalsplus.client.renderer.entity.RenderHirschgeist;
@@ -23,6 +24,7 @@ import its_meow.betteranimalsplus.client.renderer.entity.RenderMoose;
 import its_meow.betteranimalsplus.client.renderer.entity.RenderNautilus;
 import its_meow.betteranimalsplus.client.renderer.entity.RenderPheasant;
 import its_meow.betteranimalsplus.client.renderer.entity.RenderReindeer;
+import its_meow.betteranimalsplus.client.renderer.entity.RenderSaltwaterEel;
 import its_meow.betteranimalsplus.client.renderer.entity.RenderShark;
 import its_meow.betteranimalsplus.client.renderer.entity.RenderSongbird;
 import its_meow.betteranimalsplus.client.renderer.entity.RenderSquirrel;
@@ -43,6 +45,7 @@ import its_meow.betteranimalsplus.common.entity.EntityCrab;
 import its_meow.betteranimalsplus.common.entity.EntityDeer;
 import its_meow.betteranimalsplus.common.entity.EntityFeralWolf;
 import its_meow.betteranimalsplus.common.entity.EntityFox;
+import its_meow.betteranimalsplus.common.entity.EntityFreshwaterEel;
 import its_meow.betteranimalsplus.common.entity.EntityGoat;
 import its_meow.betteranimalsplus.common.entity.EntityGoose;
 import its_meow.betteranimalsplus.common.entity.EntityHorseshoeCrab;
@@ -53,6 +56,7 @@ import its_meow.betteranimalsplus.common.entity.EntityMoose;
 import its_meow.betteranimalsplus.common.entity.EntityNautilus;
 import its_meow.betteranimalsplus.common.entity.EntityPheasant;
 import its_meow.betteranimalsplus.common.entity.EntityReindeer;
+import its_meow.betteranimalsplus.common.entity.EntitySaltwaterEel;
 import its_meow.betteranimalsplus.common.entity.EntityShark;
 import its_meow.betteranimalsplus.common.entity.EntitySongbird;
 import its_meow.betteranimalsplus.common.entity.EntitySquirrel;
@@ -186,6 +190,8 @@ public class ClientRegistrar {
         RenderingRegistry.registerEntityRenderingHandler(EntityGooseEgg.class, mgr -> new RenderSnowball<EntityGooseEgg>(mgr, ModItems.GOOSE_EGG, Minecraft.getMinecraft().getRenderItem()));
         RenderingRegistry.registerEntityRenderingHandler(EntityGoldenGooseEgg.class, mgr -> new RenderSnowball<EntityGoldenGooseEgg>(mgr, ModItems.GOLDEN_GOOSE_EGG, Minecraft.getMinecraft().getRenderItem()));
         RenderingRegistry.registerEntityRenderingHandler(EntityGoose.class, RenderGoose::new);
+        RenderingRegistry.registerEntityRenderingHandler(EntityFreshwaterEel.class, RenderFreshwaterEel::new);
+        RenderingRegistry.registerEntityRenderingHandler(EntitySaltwaterEel.class, RenderSaltwaterEel::new);
     }
 
     public static void initModel(Item item) {
