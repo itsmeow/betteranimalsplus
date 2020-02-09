@@ -2,7 +2,6 @@
     "_comment": "Creative Tabs",
     "itemGroup.Better Animals+": "Better Animals Plus",
 
-    "_comment1": "Items",
     "item.betteranimalsplus.venisonraw": "Сырая оленина",
     "item.betteranimalsplus.venisoncooked": "Приготовленная оленина",
     "item.betteranimalsplus.hirschgeistskullwearable": "Носимый череп хиршгейста",
@@ -25,21 +24,21 @@
     "item.betteranimalsplus.bear_cape_kermode": "Медвежий плащ (кермодский)",
     "item.betteranimalsplus.bear_skin_brown": "Шкура бурого медведя",
     "item.betteranimalsplus.bear_skin_black": "Шкура черного медведя",
-    "item.betteranimalsplus.bear_skin_kermode": "Шкура кермодского медведя",,
+    "item.betteranimalsplus.bear_skin_kermode": "Шкура кермодского медведя",
     "item.betteranimalsplus.pheasant_egg": "Яйцо фазана",
     "item.betteranimalsplus.turkey_egg": "Яйцо индейки",
     "item.betteranimalsplus.turkey_leg_raw": "Сырая ножка индейки",
     "item.betteranimalsplus.turkey_leg_cooked": "Приготовленная Ножка Индейки",
     "item.betteranimalsplus.fried_egg": "Жареное яйцо",
+    "item.betteranimalsplus.goose_egg": "Гусиное яйцо",
+    "item.betteranimalsplus.golden_goose_egg": "Золотое гусиное яйцо",
 
-    "_comment2": "Blocks",
     "block.betteranimalsplus.trillium": "Триллиум",
     "block.betteranimalsplus.hirschgeistskull": "Череп Хиршгейста",
     "block.betteranimalsplus.handoffate": "Рука судьбы",
     "block.betteranimalsplus.wolfhead": "Голова волка",
     "block.betteranimalsplus.deerhead": "Голова оленя",
     "block.betteranimalsplus.reindeerhead": "Голова северного оленя",
-    "block.betteranimalsplus.foxhead": "Голова лисы",
     "block.betteranimalsplus.boarhead": "Голова кабана",
     "block.betteranimalsplus.bearhead": "Голова медведя",
     "block.betteranimalsplus.moosehead": "Голова лося",
@@ -47,14 +46,12 @@
     "block.betteranimalsplus.turkey_raw": "Сырая индейка",
     "block.betteranimalsplus.turkey_cooked": "Приготовленная индейка",
 
-    "_comment3": "Entities",
     "entity.betteranimalsplus.brownbear": "Бурый медведь",
     "entity.betteranimalsplus.blackbear": "Черный медведь",
     "entity.betteranimalsplus.deer": "Олень",
     "entity.betteranimalsplus.lammergeier": "Бородач",
     "entity.betteranimalsplus.feralwolf": "Дикий волк",
     "entity.betteranimalsplus.coyote": "Койот",
-    "entity.betteranimalsplus.fox": "Лиса",
     "entity.betteranimalsplus.tarantula": "Тарантул",
     "entity.betteranimalsplus.hirschgeist": "Хиршгейст",
     "entity.betteranimalsplus.goat": "Коза",
@@ -72,6 +69,9 @@
     "entity.betteranimalsplus.shark": "Акула",
     "entity.betteranimalsplus.moose": "Лось",
     "entity.betteranimalsplus.turkey": "Индейка",
+    "entity.betteranimalsplus.zotzpyre": "Зоцпир",
+    "entity.betteranimalsplus.bobbit_worm": "Пурпурный австралийский червь",
+    "entity.betteranimalsplus.goose": "Гусь",
 
-	"misc.betteranimalsplus.eggorder": "Яйцо призыва %s"
+    "misc.betteranimalsplus.eggorder": "Яйцо призыва %s"
 }
