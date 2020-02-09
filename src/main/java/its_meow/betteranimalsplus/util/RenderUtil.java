@@ -3,11 +3,24 @@ package its_meow.betteranimalsplus.util;
 import com.mojang.blaze3d.platform.GlStateManager;
 
 import net.minecraft.client.renderer.entity.model.RendererModel;
+import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
 public class RenderUtil {
+    
+    public static Vec3d partLocation(RendererModel... parts) {
+        float x = 0F;
+        float y = 0F;
+        float z = 0F;
+        for(RendererModel part : parts) {
+            x += part.rotateAngleX + xOffset(part);
+            y += part.rotateAngleY + yOffset(part);
+            z += part.rotateAngleZ + zOffset(part);
+        }
+        return new Vec3d(x, y, z);
+    }
 
     public static void partTranslateRotate(RendererModel... parts) {
         for(RendererModel part : parts) {

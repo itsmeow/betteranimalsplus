@@ -1,0 +1,59 @@
+package its_meow.betteranimalsplus.common.entity;
+
+import its_meow.betteranimalsplus.init.ModEntities;
+import its_meow.betteranimalsplus.util.EntityTypeContainer;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.ai.goal.HurtByTargetGoal;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.SoundEvent;
+import net.minecraft.util.SoundEvents;
+import net.minecraft.world.World;
+
+public class EntitySaltwaterEel extends EntityEelBase {
+
+    public float lastBodyRotation = 0;
+    protected boolean isTargetForFood = false;
+
+    public EntitySaltwaterEel(World worldIn) {
+        super(ModEntities.EEL_SALTWATER.entityType, worldIn);
+    }
+
+    @Override
+    protected void registerGoals() {
+        super.registerGoals();
+        this.targetSelector.addGoal(0, new HurtByTargetGoal(this));
+    }
+
+    @Override
+    public void setAttackTarget(LivingEntity entity) {
+        if(entity != null && (this.getAttackTarget() == null || this.getAttackTarget() != entity)) {
+            isTargetForFood = isHoldingFood(entity);
+        }
+        super.setAttackTarget(entity);
+    }
+    
+    protected boolean shouldCheckTarget() {
+        return isTargetForFood;
+    }
+
+    @Override
+    public int getVariantMax() {
+        return 5;
+    }
+
+    @Override
+    protected ItemStack getBucket() {
+        return null;
+    }
+
+    @Override
+    protected SoundEvent getFlopSound() {
+        return SoundEvents.ENTITY_TROPICAL_FISH_FLOP;
+    }
+
+    @Override
+    protected EntityTypeContainer<EntitySaltwaterEel> getContainer() {
+        return ModEntities.EEL_SALTWATER;
+    }
+
+}

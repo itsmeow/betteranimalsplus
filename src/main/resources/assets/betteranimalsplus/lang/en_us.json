@@ -72,6 +72,8 @@
     "entity.betteranimalsplus.zotzpyre": "Zotzpyre",
     "entity.betteranimalsplus.bobbit_worm": "Bobbit Worm",
     "entity.betteranimalsplus.goose": "Goose",
+    "entity.betteranimalsplus.eel_freshwater": "Freshwater Eel",
+    "entity.betteranimalsplus.eel_saltwater": "Saltwater Eel",
     
     "misc.betteranimalsplus.eggorder": "%s Spawn Egg"
 }
