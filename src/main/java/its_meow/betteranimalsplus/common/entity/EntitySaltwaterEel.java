@@ -11,7 +11,15 @@ import net.minecraft.world.World;
 
 public class EntitySaltwaterEel extends EntityEelBase {
 
+    /* Client Animation Fields */
     public float lastBodyRotation = 0;
+    public float body01 = 0;
+    public float body02 = 0;
+    public float body03 = 0;
+    public float body04 = 0;
+    public float body05 = 0;
+    public float body06 = 0;
+    /* Server Logic Fields */
     protected boolean isTargetForFood = false;
 
     public EntitySaltwaterEel(World worldIn) {
@@ -31,7 +39,7 @@ public class EntitySaltwaterEel extends EntityEelBase {
         }
         super.setAttackTarget(entity);
     }
-    
+
     protected boolean shouldCheckTarget() {
         return isTargetForFood;
     }

@@ -236,25 +236,8 @@ public class ModelSaltwaterEel<T extends LivingEntity> extends EntityModel<T> {
     @Override
     public void render(T entity, float f, float f1, float f2, float f3, float f4, float f5) {
         GlStateManager.pushMatrix();
-        this.body00.rotateAngleX = 0F;
         if(!entity.isInWater()) {
-            GlStateManager.rotatef(90F, 0F, 0F, 1.0F);
-            GlStateManager.translatef(1.5F, -1F, -1F);
-        } else {
-            GlStateManager.rotatef(f3, 0F, 1.0F, 0F);
-            if(entity instanceof EntitySaltwaterEel) {
-                EntitySaltwaterEel eel = (EntitySaltwaterEel) entity;
-                if ((Math.abs(entity.getMotion().getY()) > 0.01 && (Math.abs(entity.getMotion().getX()) > 0.01 || Math.abs(entity.getMotion().getZ()) > 0.01)) || Math.abs(entity.getMotion().getY()) > 0.03) {
-                    float rotX = -((float) Math.atan(entity.getMotion().getY() / Math.sqrt(Math.pow(entity.getMotion().getX(), 2) + Math.pow(entity.getMotion().getZ(), 2))) / 1.5F);
-                    if (rotX < 0) {
-                        rotX /= 2;
-                    }
-                    rotX /= 2.5;
-                    rotX = ModMathHelper.interpolateRotation(eel.lastBodyRotation, rotX, Minecraft.getInstance().getRenderPartialTicks());
-                    GlStateManager.rotated(Math.toDegrees(rotX), 1.0F, 0F, 0F);
-                    eel.lastBodyRotation = rotX;
-                }
-            }
+            GlStateManager.translatef(0F, 0.5F, 0F);
         }
         this.body00.render(f5);
         GlStateManager.popMatrix();
@@ -262,22 +245,53 @@ public class ModelSaltwaterEel<T extends LivingEntity> extends EntityModel<T> {
 
     @Override
     public void setRotationAngles(T entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor) {
-        float ticks = ageInTicks / 5F;//Math.min((float) entityIn.getMotion().length() * 100F, 2F);
+        float partialTicks = Minecraft.getInstance().getRenderPartialTicks();
+        float ticks = ageInTicks / 5F + (float) entityIn.getMotion().length() * 0.05F;
         float factor = 1F;
         float offset = 0F;
-        float amplitude = (float) Math.min(entityIn.getMotion().length() * 2.5F, 0.5F);
+        float amplitude = (float) Math.min(entityIn.getMotion().length() * 2.5F + 0.25F, 0.5F);
         if(!entityIn.isInWater()) {
-            amplitude = 0.1F;
-            ticks = ageInTicks / 20F;
+            amplitude = 0.15F;
+            ticks = ageInTicks / 2F;
         }
-        this.body00.rotateAngleY = 0F;//MathHelper.sin((float)RenderUtil.partLocation(this.body00).getZ() * factor);// - ticks) * idk + amplitude;
-        this.head.rotateAngleY = -this.body00.rotateAngleY;
-        this.body01.rotateAngleY = MathHelper.sin((float)RenderUtil.partLocation(this.body00, this.body01).getZ() * factor - ticks) * amplitude + offset;
-        this.body02.rotateAngleY = MathHelper.sin((float)RenderUtil.partLocation(this.body00, this.body01, this.body02).getZ() * factor - ticks) * amplitude + offset;
-        this.body03.rotateAngleY = MathHelper.sin((float)RenderUtil.partLocation(this.body00, this.body01, this.body02, this.body03).getZ() * factor + ticks) * amplitude + offset;
-        this.body04.rotateAngleY = MathHelper.sin((float)RenderUtil.partLocation(this.body00, this.body01, this.body02, this.body03, this.body04).getZ() * factor + ticks) * amplitude + offset;
-        this.body05.rotateAngleY = MathHelper.sin((float)RenderUtil.partLocation(this.body00, this.body01, this.body02, this.body03, this.body04, this.body05).getZ() * factor + ticks) * amplitude + offset;
-        this.body06.rotateAngleY = MathHelper.sin((float)RenderUtil.partLocation(this.body00, this.body01, this.body02, this.body03, this.body04, this.body05, this.body06).getZ() * factor - ticks) * amplitude + offset;
+        this.body00.rotateAngleX = 0F;
+        if(entityIn instanceof EntitySaltwaterEel) {
+            EntitySaltwaterEel eel = (EntitySaltwaterEel) entityIn;
+            if(entityIn.getMotion().length() > 0) {
+                float rotX = (float) Math.toRadians(headPitch);
+                if (rotX < 0) {
+                    rotX /= 2;
+                }
+                this.body00.rotateAngleX = MathHelper.lerp(partialTicks, eel.lastBodyRotation, rotX);
+                eel.lastBodyRotation = rotX;
+            }
+            this.head.rotateAngleY = MathHelper.sin((float)RenderUtil.partLocation(this.body00, this.head).getZ() * factor - ticks) * 0.5F + ((float) Math.toRadians(netHeadYaw) * 0.0625F);
+            float z01 = (float)RenderUtil.partLocation(this.body00, this.body01).getZ();
+            float z02 = (float)RenderUtil.partLocation(this.body00, this.body01, this.body02).getZ();
+            float z03 = (float)RenderUtil.partLocation(this.body00, this.body01, this.body02, this.body03).getZ();
+            float z04 = (float)RenderUtil.partLocation(this.body00, this.body01, this.body02, this.body03, this.body04).getZ();
+            float z05 = (float)RenderUtil.partLocation(this.body00, this.body01, this.body02, this.body03, this.body04, this.body05).getZ();
+            float z06 = (float)RenderUtil.partLocation(this.body00, this.body01, this.body02, this.body03, this.body04, this.body05, this.body06).getZ();
+            float newBody01 = -MathHelper.sin(z01 * factor + ticks) * amplitude + offset;
+            float newBody02 = -MathHelper.sin(z02 * factor + ticks) * amplitude + offset;
+            float newBody03 = MathHelper.sin(z03 * factor + ticks) * amplitude + offset;
+            float newBody04 = MathHelper.sin(z04 * factor + ticks) * amplitude + offset;
+            float newBody05 = MathHelper.sin(z05 * factor + ticks) * amplitude + offset;
+            float newBody06 = -MathHelper.sin(z06 * factor + ticks) * amplitude + offset;
+            this.body01.rotateAngleY = ModMathHelper.interpolateRotation(eel.body01, newBody01, partialTicks);
+            this.body02.rotateAngleY = ModMathHelper.interpolateRotation(eel.body02, newBody02, partialTicks);
+            this.body03.rotateAngleY = ModMathHelper.interpolateRotation(eel.body03, newBody03, partialTicks);
+            this.body04.rotateAngleY = ModMathHelper.interpolateRotation(eel.body04, newBody04, partialTicks);
+            this.body05.rotateAngleY = ModMathHelper.interpolateRotation(eel.body05, newBody05, partialTicks);
+            this.body06.rotateAngleY = ModMathHelper.interpolateRotation(eel.body06, newBody06, partialTicks);
+            eel.body01 = newBody01;
+            eel.body02 = newBody02;
+            eel.body03 = newBody03;
+            eel.body04 = newBody04;
+            eel.body05 = newBody05;
+            eel.body06 = newBody06;
+            this.body00.rotationPointX = 0.5F + MathHelper.sin((float) RenderUtil.partLocation(this.body00).getZ() * factor + ticks) * (10F * amplitude);
+        }
     }
 
     /**
