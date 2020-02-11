@@ -72,6 +72,8 @@
     "entity.betteranimalsplus.zotzpyre": "Зоцпир",
     "entity.betteranimalsplus.bobbit_worm": "Пурпурный австралийский червь",
     "entity.betteranimalsplus.goose": "Гусь",
+    "entity.betteranimalsplus.eel_freshwater": "Пресноводный угорь",
+    "entity.betteranimalsplus.eel_saltwater": "Морской угорь",
 
     "misc.betteranimalsplus.eggorder": "Яйцо призыва %s"
 }
