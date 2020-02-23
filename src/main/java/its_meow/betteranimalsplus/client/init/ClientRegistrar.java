@@ -13,6 +13,7 @@ import its_meow.betteranimalsplus.client.renderer.entity.RenderCustomWolf;
 import its_meow.betteranimalsplus.client.renderer.entity.RenderDeer;
 import its_meow.betteranimalsplus.client.renderer.entity.RenderFox;
 import its_meow.betteranimalsplus.client.renderer.entity.RenderGoat;
+import its_meow.betteranimalsplus.client.renderer.entity.RenderGoose;
 import its_meow.betteranimalsplus.client.renderer.entity.RenderHirschgeist;
 import its_meow.betteranimalsplus.client.renderer.entity.RenderHorseshoeCrab;
 import its_meow.betteranimalsplus.client.renderer.entity.RenderJellyfish;
@@ -43,6 +44,7 @@ import its_meow.betteranimalsplus.common.entity.EntityDeer;
 import its_meow.betteranimalsplus.common.entity.EntityFeralWolf;
 import its_meow.betteranimalsplus.common.entity.EntityFox;
 import its_meow.betteranimalsplus.common.entity.EntityGoat;
+import its_meow.betteranimalsplus.common.entity.EntityGoose;
 import its_meow.betteranimalsplus.common.entity.EntityHorseshoeCrab;
 import its_meow.betteranimalsplus.common.entity.EntityJellyfish;
 import its_meow.betteranimalsplus.common.entity.EntityLammergeier;
@@ -59,6 +61,8 @@ import its_meow.betteranimalsplus.common.entity.EntityTurkey;
 import its_meow.betteranimalsplus.common.entity.EntityZotzpyre;
 import its_meow.betteranimalsplus.common.entity.miniboss.hirschgeist.EntityHirschgeist;
 import its_meow.betteranimalsplus.common.entity.projectile.EntityBadgerDirt;
+import its_meow.betteranimalsplus.common.entity.projectile.EntityGoldenGooseEgg;
+import its_meow.betteranimalsplus.common.entity.projectile.EntityGooseEgg;
 import its_meow.betteranimalsplus.common.entity.projectile.EntityPheasantEgg;
 import its_meow.betteranimalsplus.common.entity.projectile.EntityTarantulaHair;
 import its_meow.betteranimalsplus.common.entity.projectile.EntityTurkeyEgg;
@@ -134,6 +138,8 @@ public class ClientRegistrar {
         initModel(ModItems.TURKEY_LEG_RAW);
         initModel(ModItems.TURKEY_LEG_COOKED);
         initModel(ModItems.FRIED_EGG);
+        initModel(ModItems.GOOSE_EGG);
+        initModel(ModItems.GOLDEN_GOOSE_EGG);
 
         for(ItemAdvancementIcon icon : ModItems.ADVANCEMENT_ICONS.values()) {
             initModel(icon);
@@ -177,6 +183,9 @@ public class ClientRegistrar {
         RenderingRegistry.registerEntityRenderingHandler(EntityTurkeyEgg.class, mgr -> new RenderSnowball<EntityTurkeyEgg>(mgr, ModItems.TURKEY_EGG, Minecraft.getMinecraft().getRenderItem()));
         RenderingRegistry.registerEntityRenderingHandler(EntityZotzpyre.class, RenderZotzpyre::new);
         RenderingRegistry.registerEntityRenderingHandler(EntityBobbitWorm.class, RenderBobbitWorm::new);
+        RenderingRegistry.registerEntityRenderingHandler(EntityGooseEgg.class, mgr -> new RenderSnowball<EntityGooseEgg>(mgr, ModItems.GOOSE_EGG, Minecraft.getMinecraft().getRenderItem()));
+        RenderingRegistry.registerEntityRenderingHandler(EntityGoldenGooseEgg.class, mgr -> new RenderSnowball<EntityGoldenGooseEgg>(mgr, ModItems.GOLDEN_GOOSE_EGG, Minecraft.getMinecraft().getRenderItem()));
+        RenderingRegistry.registerEntityRenderingHandler(EntityGoose.class, RenderGoose::new);
     }
 
     public static void initModel(Item item) {

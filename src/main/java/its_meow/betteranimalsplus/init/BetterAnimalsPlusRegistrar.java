@@ -5,8 +5,11 @@ import java.util.Set;
 
 import its_meow.betteranimalsplus.Ref;
 import its_meow.betteranimalsplus.common.entity.EmptyEntity;
+import its_meow.betteranimalsplus.common.entity.EntityGoose;
 import its_meow.betteranimalsplus.common.entity.EntityLammergeier;
 import its_meow.betteranimalsplus.common.entity.projectile.EntityBadgerDirt;
+import its_meow.betteranimalsplus.common.entity.projectile.EntityGoldenGooseEgg;
+import its_meow.betteranimalsplus.common.entity.projectile.EntityGooseEgg;
 import its_meow.betteranimalsplus.common.entity.projectile.EntityPheasantEgg;
 import its_meow.betteranimalsplus.common.entity.projectile.EntityTarantulaHair;
 import its_meow.betteranimalsplus.common.entity.projectile.EntityTurkeyEgg;
@@ -106,6 +109,8 @@ public class BetterAnimalsPlusRegistrar {
         ModItems.RECORD_CRAB_RAVE,
         ModItems.PHEASANT_EGG,
         ModItems.TURKEY_EGG,
+        ModItems.GOOSE_EGG,
+        ModItems.GOLDEN_GOOSE_EGG,
         ModItems.TURKEY_LEG_RAW,
         ModItems.TURKEY_LEG_COOKED,
         ModItems.FRIED_EGG,
@@ -138,11 +143,14 @@ public class BetterAnimalsPlusRegistrar {
             reg(container);
         }
         EntitySpawnPlacementRegistry.setPlacementType(EntityLammergeier.class, SpawnPlacementType.IN_AIR);
+        EntitySpawnPlacementRegistry.setPlacementType(EntityGoose.class, SpawnPlacementType.IN_AIR);
         register(EntityTarantulaHair.class, "tarantulahair");
         register(EntityBadgerDirt.class, "badgerdirt");
         register(EmptyEntity.class, "kermodebear");
         register(EntityPheasantEgg.class, "pheasantegg");
         register(EntityTurkeyEgg.class, "turkeyegg");
+        register(EntityGooseEgg.class, "goose_egg");
+        register(EntityGoldenGooseEgg.class, "golden_goose_egg");
 
         if(!ModEntities.entrySet.isEmpty()) {
             for(final EntityEntry entityEntry : ModEntities.entrySet) {
@@ -153,7 +161,7 @@ public class BetterAnimalsPlusRegistrar {
 
     @SubscribeEvent
     public static void registerSounds(final RegistryEvent.Register<SoundEvent> event) {
-        event.getRegistry().register(ModSoundEvents.CRAB_RAVE.setRegistryName(new ResourceLocation(Ref.MOD_ID, "crabrave")));
+        ModSoundEvents.SOUNDS.values().forEach(sound -> event.getRegistry().register(sound));
     }
 
     // Entity Registration Helpers

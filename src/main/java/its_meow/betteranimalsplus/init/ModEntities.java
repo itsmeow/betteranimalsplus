@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
+import com.google.common.collect.Lists;
+
 import its_meow.betteranimalsplus.common.entity.EntityBadger;
 import its_meow.betteranimalsplus.common.entity.EntityBear;
 import its_meow.betteranimalsplus.common.entity.EntityBearNeutral;
@@ -17,6 +19,7 @@ import its_meow.betteranimalsplus.common.entity.EntityDeer;
 import its_meow.betteranimalsplus.common.entity.EntityFeralWolf;
 import its_meow.betteranimalsplus.common.entity.EntityFox;
 import its_meow.betteranimalsplus.common.entity.EntityGoat;
+import its_meow.betteranimalsplus.common.entity.EntityGoose;
 import its_meow.betteranimalsplus.common.entity.EntityHorseshoeCrab;
 import its_meow.betteranimalsplus.common.entity.EntityJellyfish;
 import its_meow.betteranimalsplus.common.entity.EntityLammergeier;
@@ -76,6 +79,19 @@ public class ModEntities {
         add(EntityTurkey.class, "turkey", EnumCreatureType.CREATURE, 0x857445, 0x5099ba, BetterAnimalsPlusConfig.turkeyWeight, 2, 5, false, null, () -> BiomeDictionary.getBiomes(Type.FOREST).stream().filter(biome -> !BiomeDictionary.getTypes(biome).contains(Type.SNOWY)).collect(Collectors.toList()).toArray(new Biome[0]));
         add(EntityZotzpyre.class, "zotzpyre", EnumCreatureType.MONSTER, 0x321e13, 0x543a28, 30, 1, 1, true, null, Type.FOREST, Type.JUNGLE, Type.BEACH, Type.CONIFEROUS, Type.LUSH, Type.WASTELAND, Type.SWAMP, Type.HILLS, Type.MOUNTAIN);
         add(EntityBobbitWorm.class, "bobbit_worm", EnumCreatureType.WATER_CREATURE, 0xffe38f, 0x0f27bf, 2, 1, 1, true, null, Type.OCEAN);
+        add(EntityGoose.class, "goose", EnumCreatureType.CREATURE, 0xd3cfcf, 0x5e5752, 15, 2, 5, false, null, () -> {
+            List<Type> blockedTypes = Lists.newArrayList(Type.DRY, Type.COLD, Type.HOT, Type.DENSE, Type.DEAD, Type.SPARSE, Type.OCEAN);
+            List<Biome> biomes = BiomeDictionary.getBiomes(Type.FOREST).stream().filter(biome -> {
+                for(Type type : BiomeDictionary.getTypes(biome)) {
+                    if(blockedTypes.contains(type)) {
+                        return false;
+                    }
+                }
+                return true;
+            }).collect(Collectors.toList());
+            BiomeDictionary.getBiomes(Type.RIVER).forEach(biome -> biomes.add(biome));
+            return biomes.toArray(new Biome[0]);
+        });
     }
     
     /**

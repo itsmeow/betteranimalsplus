@@ -1,5 +1,6 @@
 package its_meow.betteranimalsplus.init;
 
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.registry.GameRegistry;
@@ -14,6 +15,7 @@ public class ModOreDictSmelting {
         GameRegistry.addSmelting(new ItemStack(ModItems.CRAB_MEAT_RAW), new ItemStack(ModItems.CRAB_MEAT_COOKED), 0.0F);
         GameRegistry.addSmelting(new ItemStack(ModItems.TURKEY_RAW), new ItemStack(ModItems.TURKEY_COOKED), 0.0F);
         GameRegistry.addSmelting(new ItemStack(ModItems.TURKEY_LEG_RAW), new ItemStack(ModItems.TURKEY_LEG_COOKED), 0.0F);
+        GameRegistry.addSmelting(new ItemStack(ModItems.GOLDEN_GOOSE_EGG), new ItemStack(Items.GOLD_INGOT), 0.3F);
 
         // Register oredict
         OreDictionary.registerOre("listAllmeatraw", ModItems.VENISON_RAW);
@@ -52,7 +54,7 @@ public class ModOreDictSmelting {
         OreDictionary.registerOre("skinBearKermode", ModItems.BEAR_SKIN_KERMODE);
         regEgg(ModItems.PHEASANT_EGG);
         regEgg(ModItems.TURKEY_EGG);
-        
+        regEgg(ModItems.GOOSE_EGG);
 
         for(ItemStack item : OreDictionary.getOres("egg")) {
             GameRegistry.addSmelting(item, new ItemStack(ModItems.FRIED_EGG), 0.3F);

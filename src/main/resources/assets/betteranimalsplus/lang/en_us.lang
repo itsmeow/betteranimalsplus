@@ -30,6 +30,8 @@ item.betteranimalsplus.turkey_egg.name=Turkey Egg
 item.betteranimalsplus.turkey_leg_raw.name=Raw Turkey Leg
 item.betteranimalsplus.turkey_leg_cooked.name=Cooked Turkey Leg
 item.betteranimalsplus.fried_egg.name=Fried Egg
+item.betteranimalsplus.goose_egg.name=Goose Egg
+item.betteranimalsplus.golden_goose_egg.name=Golden Goose Egg
 #Blocks
 tile.betteranimalsplus.trillium.name=Trillium
 tile.betteranimalsplus.hirschgeistskull.name=Hirschgeist Skull
@@ -73,3 +75,4 @@ entity.betteranimalsplus.moose.name=Moose
 entity.betteranimalsplus.turkey.name=Turkey
 entity.betteranimalsplus.zotzpyre.name=Zotzpyre
 entity.betteranimalsplus.bobbit_worm.name=Bobbit Worm
+entity.betteranimalsplus.goose.name=Goose

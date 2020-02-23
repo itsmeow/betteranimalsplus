@@ -182,4 +182,9 @@ public class ModTextures {
     public static final ResourceLocation bobbit_worm_1 = new ResourceLocation(entitytex + "bobbit_worm_1.png");
     public static final ResourceLocation bobbit_worm_2 = new ResourceLocation(entitytex + "bobbit_worm_2.png");
 
+    // Goose Variants
+    public static final ResourceLocation goose_1 = new ResourceLocation(entitytex + "goose_1.png");
+    public static final ResourceLocation goose_2 = new ResourceLocation(entitytex + "goose_2.png");
+    public static final ResourceLocation goose_3 = new ResourceLocation(entitytex + "goose_3.png");
+
 }

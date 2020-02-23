@@ -7,6 +7,7 @@ import java.util.Map;
 
 import its_meow.betteranimalsplus.BetterAnimalsPlusMod;
 import its_meow.betteranimalsplus.Ref;
+import its_meow.betteranimalsplus.common.entity.EntityGoose;
 import its_meow.betteranimalsplus.init.ModEntities;
 import its_meow.betteranimalsplus.util.EntityConfigurationSection;
 import its_meow.betteranimalsplus.util.EntityContainer;
@@ -70,6 +71,7 @@ public class BetterAnimalsPlusConfig {
         coyotesHostileDaytime = cfg.getBoolean("coyotesHostileInDaytime", "its_meow.betteranimalsplus.common.entity.entitycoyote", false, "Enable to make coyotes always hostile (this also makes them untameable!");
         biomeBasedVariants = cfg.getBoolean("biomeBasedVariants", "misc", false, "Setting to true enables biome based variant spawning. This will make some entities choose variants based on the biome they spawn in. However, it will also affect eggs, possibly reducing the amount of visible content.");
         goatVanillaMilk = cfg.getBoolean("goatVanillaMilk", "its_meow.betteranimalsplus.common.entity.entitygoat", false, "Enabling this will cause goats to give out vanilla milk instead of goat milk.");
+        EntityGoose.pickupBlockList = cfg.getStringList("goosePickupBlacklist", "its_meow.betteranimalsplus.common.entity.entitygoose", new String[] {"betteranimalsplus:goose_egg", "betteranimalsplus:golden_goose_egg"}, "List of blacklisted item IDs that cannot be picked up. Accepts oredictionary by prefixing them with 'ore:'.");
         for(EntityContainer container : ModEntities.entityList) {
             container.populateBiomes();
             String[] biomeStrings = new String[container.spawnBiomes.length];
