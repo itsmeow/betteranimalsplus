@@ -6,7 +6,6 @@ import com.mojang.blaze3d.platform.GlStateManager;
 
 import its_meow.betteranimalsplus.client.model.ModelGoose;
 import its_meow.betteranimalsplus.common.entity.EntityGoose;
-import its_meow.betteranimalsplus.init.ModTextures;
 import its_meow.betteranimalsplus.util.RenderUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
@@ -27,7 +26,7 @@ public class RenderGoose extends MobRenderer<EntityGoose, ModelGoose<EntityGoose
 
     @Override
     protected void preRenderCallback(EntityGoose entitylivingbaseIn, float partialTickTime) {
-        if (this.entityModel.isChild) {
+        if(this.entityModel.isChild) {
             GlStateManager.scaled(0.5D, 0.5D, 0.5D);
         } else {
             GlStateManager.scaled(0.8D, 0.8D, 0.8D);
@@ -37,13 +36,7 @@ public class RenderGoose extends MobRenderer<EntityGoose, ModelGoose<EntityGoose
     @Override
     @Nonnull
     protected ResourceLocation getEntityTexture(@Nonnull EntityGoose entity) {
-        int type = entity.getTypeNumber();
-        switch(type) {
-        case 1: return ModTextures.goose_1;
-        case 2: return ModTextures.goose_2;
-        case 3: return ModTextures.goose_3;
-        default: return ModTextures.goose_1;
-        }
+        return entity.getVariantTexture();
     }
 
     public static class GooseItemLayerRenderer extends LayerRenderer<EntityGoose, ModelGoose<EntityGoose>> {

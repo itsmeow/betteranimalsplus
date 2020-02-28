@@ -35,23 +35,16 @@ public class RenderDeer extends MobRenderer<EntityDeer, ModelDeer<EntityDeer>> {
 
     @Override
     protected ResourceLocation getEntityTexture(EntityDeer entity) {
-        int type = entity.getTypeNumber();
-        if (!this.isChristmas) {
-            if (this.entityModel.isChild) {
+        if(!this.isChristmas) {
+            if(this.entityModel.isChild) {
                 return ModTextures.deer_1;
             }
-            if (type == 1) {
-                return ModTextures.deer_1;
-            }
-            return ModTextures.deer_2;
+            return entity.getVariantTexture();
         } else {
-            if (this.entityModel.isChild) {
+            if(this.entityModel.isChild) {
                 return ModTextures.deer_1_christmas;
             }
-            if (type == 1) {
-                return ModTextures.deer_1_christmas;
-            }
-            return ModTextures.deer_2_christmas;
+            return entity.getVariantString().equals("1") ? ModTextures.deer_1_christmas : ModTextures.deer_2_christmas;
         }
     }
 

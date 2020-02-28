@@ -1,9 +1,9 @@
 package its_meow.betteranimalsplus.common.entity;
 
-import java.util.Random;
-
 import javax.annotation.Nullable;
 
+import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainer;
+import its_meow.betteranimalsplus.common.entity.util.IVariantTypes;
 import its_meow.betteranimalsplus.init.ModEntities;
 import net.minecraft.entity.EntitySize;
 import net.minecraft.entity.ILivingEntityData;
@@ -31,9 +31,8 @@ import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
-public class EntityJellyfish extends WaterMobEntity implements IVariantTypes {
+public class EntityJellyfish extends WaterMobEntity implements IVariantTypes<EntityJellyfish> {
 	
-    protected static final DataParameter<Integer> TYPE_NUMBER = EntityDataManager.<Integer>createKey(EntityJellyfish.class, DataSerializers.VARINT);
     protected static final DataParameter<Float> SIZE = EntityDataManager.<Float>createKey(EntityJellyfish.class, DataSerializers.FLOAT);
     protected int attackCooldown = 0;
     
@@ -208,7 +207,7 @@ public class EntityJellyfish extends WaterMobEntity implements IVariantTypes {
     public ILivingEntityData onInitialSpawn(IWorld world, DifficultyInstance difficulty, SpawnReason reason, @Nullable ILivingEntityData livingdata, CompoundNBT compound) {
         livingdata = super.onInitialSpawn(world, difficulty, reason, livingdata, compound);
         if (!this.isChild()) {
-            int i = this.rand.nextInt(6) + 1; // Values 1 to 6
+            String i = this.getRandomType().getName();
             float rand = (this.rand.nextInt(30) + 1F) / 50F + 0.05F;
 
             if (livingdata instanceof JellyfishData) {
@@ -221,16 +220,15 @@ public class EntityJellyfish extends WaterMobEntity implements IVariantTypes {
             this.setType(i);
             this.setSize(rand, rand);
         }
-        this.setLocationAndAngles(this.posX, this.posY, this.posZ, this.rotationYaw, 0F);
         return livingdata;
     }
 
     public static class JellyfishData implements ILivingEntityData {
 
-        public int typeData;
+        public String typeData;
         public float size;
 
-        public JellyfishData(int type, float size) {
+        public JellyfishData(String type, float size) {
             this.typeData = type;
             this.size = size;
         }
@@ -244,17 +242,11 @@ public class EntityJellyfish extends WaterMobEntity implements IVariantTypes {
             this.entity = entityIn;
         }
 
-        /**
-         * Returns whether the EntityAIBase should begin execution.
-         */
         @Override
         public boolean shouldExecute() {
             return true;
         }
 
-        /**
-         * Keep ticking a continuous task that has already been started
-         */
         @Override
         public void tick() {
             int i = this.entity.getIdleTime();
@@ -273,33 +265,18 @@ public class EntityJellyfish extends WaterMobEntity implements IVariantTypes {
     }
 
     @Override
-    public DataParameter<Integer> getDataKey() {
-        return TYPE_NUMBER;
-    }
-
-    @Override
-    public int getVariantMax() {
-        return 6;
-    }
-
-    @Override
-    public boolean isChildI() {
-        return this.isChild();
-    }
-
-    @Override
-    public Random getRNGI() {
-        return this.getRNG();
-    }
-
-    @Override
-    public EntityDataManager getDataManagerI() {
-        return this.getDataManager();
-    }
-
-    @Override
     public boolean canDespawn(double range) {
-        return ModEntities.JELLYFISH.despawn && !this.hasCustomName();
+        return despawn(range);
+    }
+
+    @Override
+    public EntityJellyfish getImplementation() {
+        return this;
+    }
+
+    @Override
+    public EntityTypeContainer<EntityJellyfish> getContainer() {
+        return ModEntities.JELLYFISH;
     }
 
 }

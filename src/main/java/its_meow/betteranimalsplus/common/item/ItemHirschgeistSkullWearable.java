@@ -3,7 +3,7 @@ package its_meow.betteranimalsplus.common.item;
 import java.util.List;
 
 import its_meow.betteranimalsplus.BetterAnimalsPlusMod;
-import its_meow.betteranimalsplus.client.ClientLifecycleHandler;
+import its_meow.betteranimalsplus.client.model.ModelHirschgeistHelmet;
 import its_meow.betteranimalsplus.init.ModItems;
 import its_meow.betteranimalsplus.util.ArmorMaterialBone;
 import net.minecraft.client.renderer.entity.model.BipedModel;
@@ -35,10 +35,11 @@ public class ItemHirschgeistSkullWearable extends ItemModeledArmor {
         return repair.getItem() == Items.BONE || repair.getItem() == ModItems.ANTLER;
     }
 
+    @SuppressWarnings("unchecked")
     @OnlyIn(Dist.CLIENT)
     @Override
     protected <A extends BipedModel<?>> A getBaseModelInstance() {
-        return ClientLifecycleHandler.getArmorModel();
+        return (A) ModelHirschgeistHelmet.INSTANCE;
     }
 
     @OnlyIn(Dist.CLIENT)

@@ -39,13 +39,13 @@ import its_meow.betteranimalsplus.common.entity.EntityTarantula;
 import its_meow.betteranimalsplus.common.entity.EntityTurkey;
 import its_meow.betteranimalsplus.common.entity.EntityZotzpyre;
 import its_meow.betteranimalsplus.common.entity.miniboss.hirschgeist.EntityHirschgeist;
+import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainer;
+import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainerTameable;
+import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainer.Builder;
+import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainer.CustomConfigurationHolder;
+import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainerTameable.TameableBuilder;
 import its_meow.betteranimalsplus.config.BetterAnimalsPlusConfig;
 import its_meow.betteranimalsplus.util.BiomeListBuilder;
-import its_meow.betteranimalsplus.util.EntityTypeContainer;
-import its_meow.betteranimalsplus.util.EntityTypeContainer.Builder;
-import its_meow.betteranimalsplus.util.EntityTypeContainer.CustomConfigurationHolder;
-import its_meow.betteranimalsplus.util.EntityTypeContainerTameable;
-import its_meow.betteranimalsplus.util.EntityTypeContainerTameable.TameableBuilder;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntitySpawnPlacementRegistry.PlacementType;
@@ -69,10 +69,10 @@ public class ModEntities {
      */
 
         public static final EntityTypeContainer<EntityBear> BROWN_BEAR = setup(create(EntityBear.class, EntityBear::new, "brownbear").spawn(EntityClassification.CREATURE, 7, 1, 1).egg(0x4F2900, 0x8E500E).size(2F, 2F).biomes(Type.FOREST));
-        public static final EntityTypeContainer<EntityBearNeutral> BLACK_BEAR = setup(create(EntityBearNeutral.class, EntityBearNeutral::new, "blackbear").spawn(EntityClassification.CREATURE, 6, 1, 1).egg(0x000000, 0x333333).size(2F, 1.5F).biomes(Type.FOREST));
-        public static final EntityTypeContainer<EntityDeer> DEER = setup(create(EntityDeer.class, EntityDeer::new, "deer").spawn(EntityClassification.CREATURE, 16, 1, 4).egg(0x8e510b, 0xc6863b).size(1.2F, 1.6F).biomes(Type.FOREST, Type.MAGICAL));
-        public static final EntityTypeContainerTameable<EntityLammergeier> LAMMERGEIER = setup(createTame(EntityLammergeier.class, EntityLammergeier::new, "lammergeier").spawn(EntityClassification.CREATURE, 7, 1, 2).egg(0xd8d8d8, 0xd82b11).size(1F, 1F).tameItems("minecraft:bone").biomes(Type.HILLS, Type.MOUNTAIN));
-        public static final EntityTypeContainerTameable<EntityFeralWolf> FERAL_WOLF = setup(createTame(EntityFeralWolf.class, EntityFeralWolf::new, "feralwolf").spawn(EntityClassification.CREATURE, 7, 1, 6).egg(0xbababa, 0x232323).size(1.35F, 1.5F).tameItems("minecraft:bone").biomes(Type.FOREST, Type.MAGICAL, Type.SPOOKY));
+        public static final EntityTypeContainer<EntityBearNeutral> BLACK_BEAR = setup(create(EntityBearNeutral.class, EntityBearNeutral::new, "blackbear").spawn(EntityClassification.CREATURE, 6, 1, 1).egg(0x000000, 0x333333).size(2F, 1.5F).biomes(Type.FOREST).variants("black", "kermode"));
+        public static final EntityTypeContainer<EntityDeer> DEER = setup(create(EntityDeer.class, EntityDeer::new, "deer").spawn(EntityClassification.CREATURE, 16, 1, 4).egg(0x8e510b, 0xc6863b).size(1.2F, 1.6F).biomes(Type.FOREST, Type.MAGICAL).variants(2));
+        public static final EntityTypeContainerTameable<EntityLammergeier> LAMMERGEIER = setup(createTame(EntityLammergeier.class, EntityLammergeier::new, "lammergeier").spawn(EntityClassification.CREATURE, 7, 1, 2).egg(0xd8d8d8, 0xd82b11).size(1F, 1F).tameItems("minecraft:bone").biomes(Type.HILLS, Type.MOUNTAIN).variants("orange", "red", "white", "yellow"));
+        public static final EntityTypeContainerTameable<EntityFeralWolf> FERAL_WOLF = setup(createTame(EntityFeralWolf.class, EntityFeralWolf::new, "feralwolf").spawn(EntityClassification.CREATURE, 7, 1, 6).egg(0xbababa, 0x232323).size(1.35F, 1.5F).tameItems("minecraft:bone").biomes(Type.FOREST, Type.MAGICAL, Type.SPOOKY).variants("black", "snowy", "timber"));
         public static final EntityTypeContainerTameable<EntityCoyote> COYOTE = setup(createTame(EntityCoyote.class, EntityCoyote::new, "coyote").spawn(EntityClassification.CREATURE, 5, 1, 6).egg(0x866a31, 0xb69762).size(0.8F, 0.9F).tameItems("minecraft:rabbit", "minecraft:chicken", "betteranimalsplus:pheasantraw", "minecraft:cooked_rabbit", "minecraft:cooked_chicken", "betteranimalsplus:pheasantcooked").biomes(Type.SANDY, Type.PLAINS).config(new CustomConfigurationHolder() {
             private ForgeConfigSpec.BooleanValue coyoteHostileDaytime;
             @Override
@@ -96,23 +96,23 @@ public class ModEntities {
             public void customConfigurationLoad() {
                 BetterAnimalsPlusConfig.goatVanillaMilk = this.goatVanillaMilk.get();
             }
-        }));
-        public static final EntityTypeContainer<EntityJellyfish> JELLYFISH = setup(create(EntityJellyfish.class, EntityJellyfish::new, "jellyfish").spawn(EntityClassification.WATER_CREATURE, 10, 1, 1).waterPlacement().egg(0x226fe2, 0xf2b3b3).size(0.8F, 0.8F).despawn().biomes(Type.OCEAN));
-        public static final EntityTypeContainer<EntityPheasant> PHEASANT = setup(create(EntityPheasant.class, EntityPheasant::new, "pheasant").spawn(EntityClassification.CREATURE, 12, 1, 3).egg(0x8e6b0b, 0xd8af3c).size(1F, 1F).biomes(Type.FOREST, Type.PLAINS, Type.SAVANNA));
-        public static final EntityTypeContainer<EntityReindeer> REINDEER = setup(create(EntityReindeer.class, EntityReindeer::new, "reindeer").spawn(EntityClassification.CREATURE, 10, 1, 4).egg(0x8e510b, 0x017700).size(1.3964844F, 1.8F).biomes(BiomeListBuilder.create().withTypes(Type.SNOWY).withoutTypes(Type.OCEAN)::collect));
-        public static final EntityTypeContainer<EntityBoar> BOAR = setup(create(EntityBoar.class, EntityBoar::new, "boar").spawn(EntityClassification.CREATURE, 9, 1, 4).egg(0x3d3c3b, 0xbca895).size(0.9F, 0.9F).biomes(Type.FOREST, Type.JUNGLE, Type.PLAINS, Type.SAVANNA));
-        public static final EntityTypeContainer<EntitySquirrel> SQUIRREL = setup(create(EntitySquirrel.class, EntitySquirrel::new, "squirrel").spawn(EntityClassification.CREATURE, 8, 1, 3).egg(0x89806f, 0xb2a489).size(0.5F, 0.5F).biomes(Type.FOREST));
-        public static final EntityTypeContainer<EntitySongbird> SONGBIRD = setup(create(EntitySongbird.class, EntitySongbird::new, "songbird").spawn(EntityClassification.CREATURE, 11, 1, 4).egg(0x46f4d2, 0x7df442).size(0.5F, 0.5F).biomes(Type.FOREST, Type.PLAINS));
-        public static final EntityTypeContainer<EntityBadger> BADGER = setup(create(EntityBadger.class, EntityBadger::new, "badger").spawn(EntityClassification.CREATURE, 7, 1, 2).egg(0x0c0c0c, 0xd3d3d3).size(0.8F, 0.8F).biomes(Type.FOREST, Type.PLAINS, Type.SAVANNA));
-        public static final EntityTypeContainer<EntityLamprey> LAMPREY = setup(create(EntityLamprey.class, EntityLamprey::new, "lamprey").spawn(EntityClassification.WATER_CREATURE, 7, 1, 1).waterPlacement().egg(0x0000ad, 0x0a0a0a).size(1.0F, 0.7F).despawn().biomes(Type.RIVER, Type.SWAMP));
+        }).variants(7));
+        public static final EntityTypeContainer<EntityJellyfish> JELLYFISH = setup(create(EntityJellyfish.class, EntityJellyfish::new, "jellyfish").spawn(EntityClassification.WATER_CREATURE, 10, 1, 1).waterPlacement().egg(0x226fe2, 0xf2b3b3).size(0.8F, 0.8F).despawn().biomes(Type.OCEAN).variants(6));
+        public static final EntityTypeContainer<EntityPheasant> PHEASANT = setup(create(EntityPheasant.class, EntityPheasant::new, "pheasant").spawn(EntityClassification.CREATURE, 12, 1, 3).egg(0x8e6b0b, 0xd8af3c).size(1F, 1F).biomes(Type.FOREST, Type.PLAINS, Type.SAVANNA).variants(2));
+        public static final EntityTypeContainer<EntityReindeer> REINDEER = setup(create(EntityReindeer.class, EntityReindeer::new, "reindeer").spawn(EntityClassification.CREATURE, 10, 1, 4).egg(0x8e510b, 0x017700).size(1.3964844F, 1.8F).biomes(BiomeListBuilder.create().withTypes(Type.SNOWY).withoutTypes(Type.OCEAN)::collect).variants("1", "2", "3", "4", "1_christmas", "2_christmas", "3_christmas", "4_christmas"));
+        public static final EntityTypeContainer<EntityBoar> BOAR = setup(create(EntityBoar.class, EntityBoar::new, "boar").spawn(EntityClassification.CREATURE, 9, 1, 4).egg(0x3d3c3b, 0xbca895).size(0.9F, 0.9F).biomes(Type.FOREST, Type.JUNGLE, Type.PLAINS, Type.SAVANNA).variants(4));
+        public static final EntityTypeContainer<EntitySquirrel> SQUIRREL = setup(create(EntitySquirrel.class, EntitySquirrel::new, "squirrel").spawn(EntityClassification.CREATURE, 8, 1, 3).egg(0x89806f, 0xb2a489).size(0.5F, 0.5F).biomes(Type.FOREST).variants("gray", "red", "albino"));
+        public static final EntityTypeContainer<EntitySongbird> SONGBIRD = setup(create(EntitySongbird.class, EntitySongbird::new, "songbird").spawn(EntityClassification.CREATURE, 11, 1, 4).egg(0x46f4d2, 0x7df442).size(0.5F, 0.5F).biomes(Type.FOREST, Type.PLAINS).variants("1", "2", "3", "4", "small_1", "small_2", "small_3", "small_4", "small_5", "small_6"));
+        public static final EntityTypeContainer<EntityBadger> BADGER = setup(create(EntityBadger.class, EntityBadger::new, "badger").spawn(EntityClassification.CREATURE, 7, 1, 2).egg(0x0c0c0c, 0xd3d3d3).size(0.8F, 0.8F).biomes(Type.FOREST, Type.PLAINS, Type.SAVANNA).variants(3));
+        public static final EntityTypeContainer<EntityLamprey> LAMPREY = setup(create(EntityLamprey.class, EntityLamprey::new, "lamprey").spawn(EntityClassification.WATER_CREATURE, 7, 1, 1).waterPlacement().egg(0x0000ad, 0x0a0a0a).size(1.0F, 0.7F).despawn().biomes(Type.RIVER, Type.SWAMP).variants(3));
         public static final EntityTypeContainer<EntityNautilus> NAUTILUS = setup(create(EntityNautilus.class, EntityNautilus::new, "nautilus").spawn(EntityClassification.WATER_CREATURE, 4, 1, 1).waterPlacement().egg(0xFF9659, 0x241682).size(0.75F, 0.75F).despawn().biomes(Type.OCEAN));
-        public static final EntityTypeContainer<EntityCrab> CRAB = setup(create(EntityCrab.class, EntityCrab::new, "crab").spawn(EntityClassification.CREATURE, 10, 1, 3).egg(0xe21d16, 0x2d0504).size(1F, 0.65F).biomes(Type.BEACH, Type.SWAMP));
-        public static final EntityTypeContainer<EntityHorseshoeCrab> HORSESHOE_CRAB = setup(create(EntityHorseshoeCrab.class, EntityHorseshoeCrab::new, "horseshoecrab").spawn(EntityClassification.CREATURE, 8, 1, 3).egg(0xba1111, 0x520807).size(1F, 0.65F).biomes(Type.BEACH));
-        public static final EntityTypeContainer<EntityShark> SHARK = setup(create(EntityShark.class, EntityShark::new, "shark").spawn(EntityClassification.WATER_CREATURE, 4, 1, 1).waterPlacement().egg(0x787878, 0xbdbdbd).size(2.5F, 1.2F).despawn().biomes(Type.OCEAN));
-        public static final EntityTypeContainer<EntityMoose> MOOSE = setup(create(EntityMoose.class, EntityMoose::new, "moose").spawn(EntityClassification.CREATURE, 8, 1, 1).egg(0x46351c, 0x97866e).size(2.25F, 3F).biomes(BiomeListBuilder.create().extra(Type.SWAMP).extra(Biomes.GIANT_SPRUCE_TAIGA, Biomes.GIANT_SPRUCE_TAIGA_HILLS, Biomes.GIANT_TREE_TAIGA, Biomes.GIANT_TREE_TAIGA_HILLS)::collect));
-        public static final EntityTypeContainer<EntityTurkey> TURKEY = setup(create(EntityTurkey.class, EntityTurkey::new, "turkey").spawn(EntityClassification.CREATURE, 11, 1, 3).egg(0x857445, 0x5099ba).size(1F, 1F).biomes(BiomeListBuilder.create().withTypes(Type.FOREST).withoutTypes(Type.SNOWY)::collect));
-        public static final EntityTypeContainer<EntityZotzpyre> ZOTZPYRE = setup(create(EntityZotzpyre.class, EntityZotzpyre::new, "zotzpyre").spawn(EntityClassification.MONSTER, 30, 1, 1).defaultPlacement(EntityZotzpyre::canSpawn).egg(0x321e13, 0x543a28).size(1F, 1F).despawn().biomes(Type.FOREST, Type.JUNGLE, Type.BEACH, Type.CONIFEROUS, Type.LUSH, Type.WASTELAND, Type.SWAMP, Type.HILLS, Type.MOUNTAIN));
-        public static final EntityTypeContainer<EntityBobbitWorm> BOBBIT_WORM = setup(create(EntityBobbitWorm.class, EntityBobbitWorm::new, "bobbit_worm").spawn(EntityClassification.WATER_CREATURE, 2, 1, 1).waterPlacement().egg(0xffe38f, 0x0f27bf).size(1F, 1F).despawn().biomes(Type.OCEAN));
+        public static final EntityTypeContainer<EntityCrab> CRAB = setup(create(EntityCrab.class, EntityCrab::new, "crab").spawn(EntityClassification.CREATURE, 10, 1, 3).egg(0xe21d16, 0x2d0504).size(1F, 0.65F).biomes(Type.BEACH, Type.SWAMP).variants(4));
+        public static final EntityTypeContainer<EntityHorseshoeCrab> HORSESHOE_CRAB = setup(create(EntityHorseshoeCrab.class, EntityHorseshoeCrab::new, "horseshoecrab").spawn(EntityClassification.CREATURE, 8, 1, 3).egg(0xba1111, 0x520807).size(1F, 0.65F).biomes(Type.BEACH).variants(3));
+        public static final EntityTypeContainer<EntityShark> SHARK = setup(create(EntityShark.class, EntityShark::new, "shark").spawn(EntityClassification.WATER_CREATURE, 4, 1, 1).waterPlacement().egg(0x787878, 0xbdbdbd).size(2.5F, 1.2F).despawn().biomes(Type.OCEAN).variants("blue", "bull", "tiger", "whitetip", "greenland"));
+        public static final EntityTypeContainer<EntityMoose> MOOSE = setup(create(EntityMoose.class, EntityMoose::new, "moose").spawn(EntityClassification.CREATURE, 8, 1, 1).egg(0x46351c, 0x97866e).size(2.25F, 3F).biomes(BiomeListBuilder.create().extra(Type.SWAMP).extra(Biomes.GIANT_SPRUCE_TAIGA, Biomes.GIANT_SPRUCE_TAIGA_HILLS, Biomes.GIANT_TREE_TAIGA, Biomes.GIANT_TREE_TAIGA_HILLS)::collect).variants(4));
+        public static final EntityTypeContainer<EntityTurkey> TURKEY = setup(create(EntityTurkey.class, EntityTurkey::new, "turkey").spawn(EntityClassification.CREATURE, 11, 1, 3).egg(0x857445, 0x5099ba).size(1F, 1F).biomes(BiomeListBuilder.create().withTypes(Type.FOREST).withoutTypes(Type.SNOWY)::collect).variants(4));
+        public static final EntityTypeContainer<EntityZotzpyre> ZOTZPYRE = setup(create(EntityZotzpyre.class, EntityZotzpyre::new, "zotzpyre").spawn(EntityClassification.MONSTER, 30, 1, 1).defaultPlacement(EntityZotzpyre::canSpawn).egg(0x321e13, 0x543a28).size(1F, 1F).despawn().biomes(Type.FOREST, Type.JUNGLE, Type.BEACH, Type.CONIFEROUS, Type.LUSH, Type.WASTELAND, Type.SWAMP, Type.HILLS, Type.MOUNTAIN).variants(5));
+        public static final EntityTypeContainer<EntityBobbitWorm> BOBBIT_WORM = setup(create(EntityBobbitWorm.class, EntityBobbitWorm::new, "bobbit_worm").spawn(EntityClassification.WATER_CREATURE, 2, 1, 1).waterPlacement().egg(0xffe38f, 0x0f27bf).size(1F, 1F).despawn().biomes(Type.OCEAN).variants(2));
         public static final EntityTypeContainer<EntityGoose> GOOSE = setup(create(EntityGoose.class, EntityGoose::new, "goose").spawn(EntityClassification.CREATURE, 15, 2, 5).placement(PlacementType.NO_RESTRICTIONS, Heightmap.Type.MOTION_BLOCKING, EntityGoose::canSpawn).egg(0xd3cfcf, 0x5e5752).size(1F, 1F).biomes(BiomeListBuilder.create().withTypes(Type.FOREST).withoutTypes(Type.DRY, Type.COLD, Type.HOT, Type.DENSE, Type.DEAD, Type.SPARSE, Type.OCEAN).extra(Type.RIVER)::collect).config(new CustomConfigurationHolder() {
             private ForgeConfigSpec.ConfigValue<List<? extends String>> pickupBlacklist;
             @Override
@@ -123,9 +123,9 @@ public class ModEntities {
             public void customConfigurationLoad() {
                 EntityGoose.pickupBlockList = pickupBlacklist.get().toArray(new String[0]);
             }
-        }));
-        public static final EntityTypeContainer<EntityFreshwaterEel> EEL_FRESHWATER = setup(create(EntityFreshwaterEel.class, EntityFreshwaterEel::new, "eel_freshwater").spawn(EntityClassification.WATER_CREATURE, 7, 1, 2).waterPlacement().egg(0x818077, 0x726c4f).size(1F, 1F).despawn().biomes(Type.RIVER, Type.SWAMP));
-        public static final EntityTypeContainer<EntitySaltwaterEel> EEL_SALTWATER = setup(create(EntitySaltwaterEel.class, EntitySaltwaterEel::new, "eel_saltwater").spawn(EntityClassification.WATER_CREATURE, 4, 1, 2).waterPlacement().egg(0xa5a5a5, 0x515168).size(1F, 1F).despawn().biomes(BiomeListBuilder.create().withTypes(Type.OCEAN).withoutTypes(Type.COLD).withoutBiomes(Biomes.DEEP_OCEAN, Biomes.DEEP_LUKEWARM_OCEAN, Biomes.DEEP_LUKEWARM_OCEAN)::collect));
+        }).variants(3));
+        public static final EntityTypeContainer<EntityFreshwaterEel> EEL_FRESHWATER = setup(create(EntityFreshwaterEel.class, EntityFreshwaterEel::new, "eel_freshwater").spawn(EntityClassification.WATER_CREATURE, 7, 1, 2).waterPlacement().egg(0x818077, 0x726c4f).size(1F, 1F).despawn().biomes(Type.RIVER, Type.SWAMP).variants("longfin", "silver"));
+        public static final EntityTypeContainer<EntitySaltwaterEel> EEL_SALTWATER = setup(create(EntitySaltwaterEel.class, EntitySaltwaterEel::new, "eel_saltwater").spawn(EntityClassification.WATER_CREATURE, 4, 1, 2).waterPlacement().egg(0xa5a5a5, 0x515168).size(1F, 1F).despawn().biomes(BiomeListBuilder.create().withTypes(Type.OCEAN).withoutTypes(Type.COLD).withoutBiomes(Biomes.DEEP_OCEAN, Biomes.DEEP_LUKEWARM_OCEAN, Biomes.DEEP_LUKEWARM_OCEAN)::collect).variants("conger", "dragon", "morray", "ribbon", "snowflake"));
 
     /*
      * ##########################################################

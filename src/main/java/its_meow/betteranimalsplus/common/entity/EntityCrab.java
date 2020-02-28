@@ -1,7 +1,8 @@
 package its_meow.betteranimalsplus.common.entity;
 
+import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainer;
+import its_meow.betteranimalsplus.common.entity.util.abstracts.EntityCrabLikeBase;
 import its_meow.betteranimalsplus.init.ModEntities;
-import its_meow.betteranimalsplus.util.EntityTypeContainer;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.ai.goal.AvoidEntityGoal;
@@ -62,11 +63,6 @@ public class EntityCrab extends EntityCrabLikeBase {
         return this.getIsCrabRave() == 0 && super.canDespawn(arg);
     }
 
-    @Override
-    public int getVariantMax() {
-        return 4;
-    }
-
     public void crabRave() {
         this.setCrabRave(this.getRNG().nextInt(3) + 1);
         this.setAttackTarget(null);
@@ -83,7 +79,7 @@ public class EntityCrab extends EntityCrabLikeBase {
     }
 
     @Override
-    protected IVariantTypes getBaseChild() {
+    protected EntityCrab getBaseChild() {
         return new EntityCrab(this.world);
     }
 
@@ -119,7 +115,7 @@ public class EntityCrab extends EntityCrabLikeBase {
     }
 
     @Override
-    protected EntityTypeContainer<? extends EntityAnimalWithTypes> getContainer() {
+    public EntityTypeContainer<EntityCrab> getContainer() {
         return ModEntities.CRAB;
     }
 

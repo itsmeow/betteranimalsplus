@@ -6,7 +6,6 @@ import com.mojang.blaze3d.platform.GlStateManager;
 
 import its_meow.betteranimalsplus.client.model.ModelPheasant;
 import its_meow.betteranimalsplus.common.entity.EntityPheasant;
-import its_meow.betteranimalsplus.init.ModTextures;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.util.ResourceLocation;
@@ -37,20 +36,7 @@ public class RenderPheasant extends MobRenderer<EntityPheasant, ModelPheasant<En
     @Override
     @Nonnull
     protected ResourceLocation getEntityTexture(@Nonnull EntityPheasant entity) {
-        int type = entity.getTypeNumber();
-        ResourceLocation res = ModTextures.pheasant_1;
-        switch (type) {
-        case 1:
-            res = ModTextures.pheasant_1;
-            break;
-        case 2:
-            res = ModTextures.pheasant_2;
-            break;
-        default:
-            res = ModTextures.pheasant_1;
-            break;
-        }
-        return res;
+        return entity.getVariantTexture();
     }
 
 }

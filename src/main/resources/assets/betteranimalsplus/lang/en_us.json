@@ -74,6 +74,11 @@
     "entity.betteranimalsplus.goose": "Goose",
     "entity.betteranimalsplus.eel_freshwater": "Freshwater Eel",
     "entity.betteranimalsplus.eel_saltwater": "Saltwater Eel",
+    "entity.betteranimalsplus.eel_saltwater.type.conger": "Conger",
+    "entity.betteranimalsplus.eel_saltwater.type.dragon": "Dragon",
+    "entity.betteranimalsplus.eel_saltwater.type.morray": "Morray",
+    "entity.betteranimalsplus.eel_saltwater.type.ribbon": "Ribbon",
+    "entity.betteranimalsplus.eel_saltwater.type.snowflake": "Snowflake",
     
     "misc.betteranimalsplus.eggorder": "%s Spawn Egg"
 }

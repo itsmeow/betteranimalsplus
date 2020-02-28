@@ -6,8 +6,9 @@ import java.util.Set;
 import javax.annotation.Nullable;
 
 import its_meow.betteranimalsplus.common.entity.miniboss.hirschgeist.EntityHirschgeist;
+import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainer;
+import its_meow.betteranimalsplus.common.entity.util.abstracts.EntityAnimalWithTypes;
 import its_meow.betteranimalsplus.init.ModEntities;
-import its_meow.betteranimalsplus.util.EntityTypeContainer;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.CreatureAttribute;
@@ -197,7 +198,8 @@ public class EntityBobbitWorm extends EntityAnimalWithTypes {
     }
 
     @Override
-    protected void collideWithNearbyEntities() {}
+    protected void collideWithNearbyEntities() {
+    }
 
     @Override
     public boolean canBreatheUnderwater() {
@@ -250,18 +252,13 @@ public class EntityBobbitWorm extends EntityAnimalWithTypes {
     }
 
     @Override
-    public int getVariantMax() {
-        return 2;
-    }
-
-    @Override
-    protected IVariantTypes getBaseChild() {
-        return null;
-    }
-
-    @Override
-    protected EntityTypeContainer<? extends EntityAnimalWithTypes> getContainer() {
+    public EntityTypeContainer<EntityBobbitWorm> getContainer() {
         return ModEntities.BOBBIT_WORM;
+    }
+
+    @Override
+    protected EntityBobbitWorm getBaseChild() {
+        return null;
     }
 
 }

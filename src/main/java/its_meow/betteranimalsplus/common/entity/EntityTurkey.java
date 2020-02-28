@@ -2,10 +2,11 @@ package its_meow.betteranimalsplus.common.entity;
 
 import javax.annotation.Nullable;
 
+import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainer;
+import its_meow.betteranimalsplus.common.entity.util.abstracts.EntityAnimalWithTypes;
 import its_meow.betteranimalsplus.init.ModEntities;
 import its_meow.betteranimalsplus.init.ModItems;
 import its_meow.betteranimalsplus.init.ModLootTables;
-import its_meow.betteranimalsplus.util.EntityTypeContainer;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -235,17 +236,12 @@ public class EntityTurkey extends EntityAnimalWithTypes {
     }
 
     @Override
-    public int getVariantMax() {
-        return 4;
-    }
-
-    @Override
-    protected IVariantTypes getBaseChild() {
+    protected EntityTurkey getBaseChild() {
         return new EntityTurkey(this.world);
     }
 
     @Override
-    protected EntityTypeContainer<? extends EntityAnimalWithTypes> getContainer() {
+    public EntityTypeContainer<EntityTurkey> getContainer() {
         return ModEntities.TURKEY;
     }
 

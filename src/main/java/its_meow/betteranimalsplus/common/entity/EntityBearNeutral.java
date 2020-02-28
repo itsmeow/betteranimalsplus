@@ -1,12 +1,12 @@
 package its_meow.betteranimalsplus.common.entity;
 
-import java.util.Random;
-
 import javax.annotation.Nullable;
 
 import com.google.common.base.Predicates;
 
 import its_meow.betteranimalsplus.common.entity.ai.EntityAIEatBerries;
+import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainer;
+import its_meow.betteranimalsplus.common.entity.util.IVariantTypes;
 import its_meow.betteranimalsplus.init.ModEntities;
 import its_meow.betteranimalsplus.init.ModLootTables;
 import its_meow.betteranimalsplus.util.HeadTypes;
@@ -20,19 +20,13 @@ import net.minecraft.entity.ai.goal.SwimGoal;
 import net.minecraft.entity.passive.ChickenEntity;
 import net.minecraft.entity.passive.RabbitEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.datasync.DataParameter;
-import net.minecraft.network.datasync.DataSerializers;
-import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 
-public class EntityBearNeutral extends EntityBear implements IVariantTypes {
-
-    protected static final DataParameter<Integer> TYPE_NUMBER = EntityDataManager.<Integer>createKey(EntityBearNeutral.class, DataSerializers.VARINT);
+public class EntityBearNeutral extends EntityBear implements IVariantTypes<EntityBear> {
 
     public EntityBearNeutral(World worldIn) {
         super(ModEntities.BLACK_BEAR.entityType, worldIn);
@@ -43,7 +37,7 @@ public class EntityBearNeutral extends EntityBear implements IVariantTypes {
         this.goalSelector.addGoal(0, new SwimGoal(this));
         this.goalSelector.addGoal(1, new EntityBearNeutral.AIMeleeAttack());
         this.goalSelector.addGoal(2, new EntityAIEatBerries(this, 1.0D, 12, 2));
-        this.targetSelector.addGoal(1, new HurtByTargetGoal(this, EntityBear.class));
+        this.targetSelector.addGoal(1, new HurtByTargetGoal(this, new Class[0]));
         this.goalSelector.addGoal(5, new RandomWalkingGoal(this, 0.5D));
         this.goalSelector.addGoal(6, new LookAtGoal(this, PlayerEntity.class, 6.0F));
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<ChickenEntity>(this, ChickenEntity.class, true));
@@ -51,50 +45,31 @@ public class EntityBearNeutral extends EntityBear implements IVariantTypes {
         this.targetSelector.addGoal(4, new NearestAttackableTargetGoal<EntityPheasant>(this, EntityPheasant.class, 90,
                 true, true, Predicates.alwaysTrue()));
     }
-    
-    @Override
-    public boolean isChildI() {
-        return this.isChild();
-    }
-
-    @Override
-    public Random getRNGI() {
-        return this.getRNG();
-    }
-
-    @Override
-    public EntityDataManager getDataManagerI() {
-        return this.getDataManager();
-    }
-
-    @Override
-    public int getVariantMax() {
-        return 2;
-    }
-
-    @Override
-    public DataParameter<Integer> getDataKey() {
-        return TYPE_NUMBER;
-    }
 
     @Override
     @Nullable
     public ILivingEntityData onInitialSpawn(IWorld world, DifficultyInstance difficulty, SpawnReason reason, @Nullable ILivingEntityData livingdata, CompoundNBT compound) {
-        int[] validTypes = {1, 2};
-        return this.initData(super.onInitialSpawn(world, difficulty, reason, livingdata, compound), this.getBiasedRandomType(validTypes));
+        if(!this.getImplementation().isChild()) {
+            String variant = this.getBiasedRandomType();
+            if(livingdata instanceof TypeData) {
+                variant = ((TypeData) livingdata).typeData;
+            } else {
+                livingdata = new TypeData(variant);
+            }
+            this.setType(variant);
+        }
+        return livingdata;
     }
 
-    private int getBiasedRandomType(int[] validTypes) { // Double bias against kermode spawn
-        int r = validTypes[this.getRNG().nextInt(validTypes.length)];
-        if(validTypes.length > 1) { // No point if only a single possibility
-            if(r == 2) {
-                r = validTypes[this.getRNG().nextInt(validTypes.length)];
-            }
-            if(r == 2) {
-                r = validTypes[this.getRNG().nextInt(validTypes.length)];
-            }
+    private String getBiasedRandomType() {
+        boolean isKermode = this.getRNG().nextBoolean();
+        if(isKermode) {
+            isKermode = this.getRNG().nextBoolean();
         }
-        return r;
+        if(isKermode) {
+            isKermode = this.getRNG().nextBoolean();
+        }
+        return isKermode ? "kermode" : "black";
     }
     
     @Override
@@ -117,26 +92,31 @@ public class EntityBearNeutral extends EntityBear implements IVariantTypes {
 
     @Override
     public void doDropHead() {
-        if (!world.isRemote && !this.isChild()) {
-            if (this.rand.nextInt(12) == 0) {
-                ItemStack stack = new ItemStack(HeadTypes.BEARHEAD.getItem(this.getTypeNumber() + 1));
-                this.entityDropItem(stack, 0.5F);
-            }
-        }
+        HeadTypes.BEARHEAD.drop(this, 12, this.getContainer().getVariantIndex(this.getVariantName()) + 2);
     }
     
     @Override
     protected ResourceLocation getLootTable() {
-        switch(this.getTypeNumber()) {
-        case 1: return ModLootTables.BEAR_BLACK;
-        case 2: return ModLootTables.BEAR_KERMODE;
+        switch(this.getVariantName()) {
+        case "black": return ModLootTables.BEAR_BLACK;
+        case "kermode": return ModLootTables.BEAR_KERMODE;
         default: return ModLootTables.BEAR_BLACK;
         }
     }
-    
+
+    @Override
+    public EntityTypeContainer<EntityBearNeutral> getContainer() {
+        return ModEntities.BLACK_BEAR;
+    }
+
+    @Override
+    public EntityBearNeutral getImplementation() {
+        return this;
+    }
+
     @Override
     public boolean canDespawn(double range) {
-        return ModEntities.BLACK_BEAR.despawn && !this.hasCustomName();
+        return despawn(range);
     }
 
 }

@@ -6,7 +6,6 @@ import com.mojang.blaze3d.platform.GlStateManager;
 
 import its_meow.betteranimalsplus.client.model.ModelTurkey;
 import its_meow.betteranimalsplus.common.entity.EntityTurkey;
-import its_meow.betteranimalsplus.init.ModTextures;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.util.ResourceLocation;
@@ -20,7 +19,7 @@ public class RenderTurkey extends MobRenderer<EntityTurkey, ModelTurkey<EntityTu
 
     @Override
     protected void preRenderCallback(EntityTurkey entitylivingbaseIn, float partialTickTime) {
-        if (this.entityModel.isChild) {
+        if(this.entityModel.isChild) {
             GlStateManager.scaled(0.5D, 0.5D, 0.5D);
         } else {
             GlStateManager.scaled(0.8D, 0.8D, 0.8D);
@@ -37,14 +36,7 @@ public class RenderTurkey extends MobRenderer<EntityTurkey, ModelTurkey<EntityTu
     @Override
     @Nonnull
     protected ResourceLocation getEntityTexture(@Nonnull EntityTurkey entity) {
-        int type = entity.getTypeNumber();
-        switch(type) {
-        case 1: return ModTextures.turkey_1;
-        case 2: return ModTextures.turkey_2;
-        case 3: return ModTextures.turkey_3;
-        case 4: return ModTextures.turkey_4;
-        default: return ModTextures.turkey_1;
-        }
+        return entity.getVariantTexture();
     }
 
 }

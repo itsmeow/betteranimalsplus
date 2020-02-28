@@ -22,12 +22,9 @@ public class RenderCustomWolf extends MobRenderer<EntityFeralWolf, ModelFeralWol
         return livingBase.getTailRotation();
     }
 
-    /**
-     * Renders the desired {@code T} type Entity.
-     */
     @Override
     public void doRender(EntityFeralWolf entity, double x, double y, double z, float entityYaw, float partialTicks) {
-        if (entity.isWolfWet()) {
+        if(entity.isWolfWet()) {
             float f = entity.getBrightness() * entity.getShadingWhileWet(partialTicks);
             GlStateManager.color3f(f, f, f);
         }
@@ -35,40 +32,19 @@ public class RenderCustomWolf extends MobRenderer<EntityFeralWolf, ModelFeralWol
         super.doRender(entity, x, y, z, entityYaw, partialTicks);
     }
 
-    /**
-     * Returns the location of an entity's texture. Doesn't seem to be called unless
-     * you call Render.bindEntityTexture.
-     */
     @Override
     protected ResourceLocation getEntityTexture(EntityFeralWolf entity) {
-        ResourceLocation result = null;
-        int typeNumber = entity.getTypeNumber();
-        if (entity.isTamed()) {
-            switch (typeNumber) {
-            case 1:
-                result = ModTextures.wolf_black_neutral;
-                break;
-            case 2:
-                result = ModTextures.wolf_snowy_neutral;
-                break;
-            case 3:
-                result = ModTextures.wolf_timber_neutral;
-                break;
-            }
-        } else {
-            switch (typeNumber) {
-            case 1:
-                result = ModTextures.wolf_black;
-                break;
-            case 2:
-                result = ModTextures.wolf_snowy;
-                break;
-            case 3:
-                result = ModTextures.wolf_timber;
-                break;
+        if(entity.isTamed()) {
+            switch(entity.getVariantName()) {
+            case "black":
+                return ModTextures.wolf_black_neutral;
+            case "snowy":
+                return ModTextures.wolf_snowy_neutral;
+            case "timber":
+                return ModTextures.wolf_timber_neutral;
             }
         }
-        return result;
+        return entity.getVariantTexture();
     }
 
 }

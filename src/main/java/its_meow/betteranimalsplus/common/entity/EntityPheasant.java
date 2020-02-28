@@ -2,10 +2,11 @@ package its_meow.betteranimalsplus.common.entity;
 
 import javax.annotation.Nullable;
 
+import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainer;
+import its_meow.betteranimalsplus.common.entity.util.abstracts.EntityAnimalWithTypes;
 import its_meow.betteranimalsplus.init.ModEntities;
 import its_meow.betteranimalsplus.init.ModItems;
 import its_meow.betteranimalsplus.init.ModLootTables;
-import its_meow.betteranimalsplus.util.EntityTypeContainer;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.goal.BreedGoal;
@@ -152,17 +153,12 @@ public class EntityPheasant extends EntityAnimalWithTypes {
     }
 
     @Override
-    public int getVariantMax() {
-        return 2;
-    }
-
-    @Override
-    protected IVariantTypes getBaseChild() {
+    protected EntityPheasant getBaseChild() {
         return new EntityPheasant(this.world);
     }
 
     @Override
-    protected EntityTypeContainer<? extends EntityAnimalWithTypes> getContainer() {
+    public EntityTypeContainer<EntityPheasant> getContainer() {
         return ModEntities.PHEASANT;
     }
 

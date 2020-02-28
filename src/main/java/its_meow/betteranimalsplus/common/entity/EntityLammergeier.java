@@ -7,9 +7,12 @@ import javax.annotation.Nullable;
 
 import its_meow.betteranimalsplus.common.entity.ai.EntityAIFollowOwnerFlying;
 import its_meow.betteranimalsplus.common.entity.ai.LammerMoveHelper;
+import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainerTameable;
+import its_meow.betteranimalsplus.common.entity.util.IVariantTypes;
+import its_meow.betteranimalsplus.common.entity.util.abstracts.EntityTameableBetterAnimalsPlus;
+import its_meow.betteranimalsplus.common.entity.util.abstracts.EntityTameableFlying;
 import its_meow.betteranimalsplus.init.ModEntities;
 import its_meow.betteranimalsplus.init.ModLootTables;
-import its_meow.betteranimalsplus.util.EntityTypeContainerTameable;
 import its_meow.betteranimalsplus.util.PolarVector3D;
 import net.minecraft.block.BlockState;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -53,9 +56,8 @@ import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 
-public class EntityLammergeier extends EntityTameableFlying implements IVariantTypes {
+public class EntityLammergeier extends EntityTameableFlying implements IVariantTypes<EntityTameableBetterAnimalsPlus> {
 
-    protected static final DataParameter<Integer> TYPE_NUMBER = EntityDataManager.<Integer>createKey(EntityLammergeier.class, DataSerializers.VARINT);
     protected static final DataParameter<Byte> FLYING = EntityDataManager.<Byte>createKey(EntityLammergeier.class, DataSerializers.BYTE);
     protected static final DataParameter<Float> DATA_HEALTH_ID = EntityDataManager.<Float>createKey(EntityLammergeier.class, DataSerializers.FLOAT);
 
@@ -74,10 +76,6 @@ public class EntityLammergeier extends EntityTameableFlying implements IVariantT
         this.moveController = new LammerMoveHelper(this);
     }
 
-    /**
-     * Returns true if this entity should move as if it were on a ladder (either
-     * because it's actually on a ladder, or for AI reasons)
-     */
     @Override
     public boolean isOnLadder() {
         return false;
@@ -131,8 +129,8 @@ public class EntityLammergeier extends EntityTameableFlying implements IVariantT
     @Override
     protected void registerData() {
         super.registerData();
+        this.registerTypeKey();
         this.dataManager.register(EntityLammergeier.FLYING, Byte.valueOf((byte) 0));
-        this.dataManager.register(EntityLammergeier.TYPE_NUMBER, Integer.valueOf(0));
         this.dataManager.register(EntityLammergeier.DATA_HEALTH_ID, Float.valueOf(this.getHealth()));
     }
 
@@ -498,7 +496,7 @@ public class EntityLammergeier extends EntityTameableFlying implements IVariantT
     @Override
     @Nullable
     public ILivingEntityData onInitialSpawn(IWorld world, DifficultyInstance difficulty, SpawnReason reason, @Nullable ILivingEntityData livingdata, CompoundNBT compound) {
-        return this.initData(super.onInitialSpawn(world, difficulty, reason, livingdata, compound));
+        return this.initData(world, reason, super.onInitialSpawn(world, difficulty, reason, livingdata, compound));
     }
 
     @Override
@@ -955,32 +953,7 @@ public class EntityLammergeier extends EntityTameableFlying implements IVariantT
     }
 
     @Override
-    public DataParameter<Integer> getDataKey() {
-        return TYPE_NUMBER;
-    }
-
-    @Override
-    public int getVariantMax() {
-        return 4;
-    }
-
-    @Override
-    public boolean isChildI() {
-        return this.isChild();
-    }
-
-    @Override
-    public Random getRNGI() {
-        return this.getRNG();
-    }
-
-    @Override
-    public EntityDataManager getDataManagerI() {
-        return this.getDataManager();
-    }
-
-    @Override
-    protected EntityTypeContainerTameable<? extends EntityTameableBetterAnimalsPlus> getContainer() {
+    public EntityTypeContainerTameable<EntityLammergeier> getContainer() {
         return ModEntities.LAMMERGEIER;
     }
 

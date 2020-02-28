@@ -1,12 +1,14 @@
 package its_meow.betteranimalsplus.common.entity;
 
 import java.util.Calendar;
-import java.util.Random;
 
 import javax.annotation.Nullable;
 
 import com.google.common.base.Predicate;
 
+import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainer;
+import its_meow.betteranimalsplus.common.entity.util.IDropHead;
+import its_meow.betteranimalsplus.common.entity.util.IVariantTypes;
 import its_meow.betteranimalsplus.init.ModEntities;
 import its_meow.betteranimalsplus.init.ModLootTables;
 import its_meow.betteranimalsplus.init.ModTriggers;
@@ -62,7 +64,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
-public class EntityReindeer extends AnimalEntity implements IJumpingMount, IVariantTypes {
+public class EntityReindeer extends AnimalEntity implements IJumpingMount, IVariantTypes<EntityReindeer>, IDropHead {
 
     protected static final Predicate<Entity> IS_REINDEER_BREEDING = (@Nullable Entity p_apply_1_) -> p_apply_1_ instanceof EntityReindeer && ((EntityReindeer) p_apply_1_).isBreeding();
     protected static final IAttribute JUMP_STRENGTH = (new RangedAttribute((IAttribute) null, "reindeer.jumpStrength", 0.7D, 0.0D, 2.0D)).setDescription("Jump Strength").setShouldWatch(true);
@@ -173,11 +175,10 @@ public class EntityReindeer extends AnimalEntity implements IJumpingMount, IVari
         this.setOffspringAttributes(ageable, reindeer);
         if(ageable instanceof EntityReindeer) {
             EntityReindeer other = (EntityReindeer) ageable;
-            if(other.getTypeNumber() > 4) { // if one of them is red-nosed make
-                                             // that one take dominance
-                reindeer.setType(other.getTypeNumber());
+            if(other.getContainer().getVariantIndex(other.getVariantName()) > 4) { // if one of them is red-nosed make that one take dominance
+                reindeer.setType(other.getVariant());
             } else { // none are red-nosed, just use this one's type
-                reindeer.setType(this.getTypeNumber());
+                reindeer.setType(this.getVariant());
             }
 
             if((other.hasCustomName() && other.getCustomName().getString().equalsIgnoreCase("rudolph"))
@@ -185,7 +186,7 @@ public class EntityReindeer extends AnimalEntity implements IJumpingMount, IVari
                 reindeer.parentRudolph = true;
             }
         } else { // same as above
-            reindeer.setType(this.getTypeNumber());
+            reindeer.setType(this.getVariant());
         }
         return reindeer;
     }
@@ -494,12 +495,7 @@ public class EntityReindeer extends AnimalEntity implements IJumpingMount, IVari
     @Override
     public void onDeath(DamageSource cause) {
         super.onDeath(cause);
-        if (!world.isRemote && !this.isChild()) {
-            if (this.rand.nextInt(12) == 0) {
-                ItemStack stack = new ItemStack(HeadTypes.REINDEERHEAD.getItem(this.getTypeNumber()));
-                this.entityDropItem(stack, 0.5F);
-            }
-        }
+        HeadTypes.REINDEERHEAD.drop(this, 12);
     }
 
     @Override
@@ -780,16 +776,13 @@ public class EntityReindeer extends AnimalEntity implements IJumpingMount, IVari
 
     @Override
     public void setCustomName(ITextComponent comp) {
-        if (comp.getString().toLowerCase().equals("rudolph")) {
-            if (this.getTypeNumber() <= 4) {
-                this.setType(this.getTypeNumber() + 4);
+        if(comp.getString().toLowerCase().equals("rudolph")) {
+            if(this.getVariant() != null && !this.getVariantName().endsWith("_christmas")) {
+                this.setType(this.getVariantName() + "_christmas");
             }
         }
         super.setCustomName(comp);
     }
-
-    private static final DataParameter<Integer> TYPE_NUMBER = EntityDataManager.<Integer>createKey(EntityReindeer.class,
-            DataSerializers.VARINT);
 
     @Override
     public boolean writeUnlessRemoved(CompoundNBT compound) {
@@ -818,9 +811,9 @@ public class EntityReindeer extends AnimalEntity implements IJumpingMount, IVari
 
         this.readType(compound);
         Calendar calendar = Calendar.getInstance();
-        if (this.getTypeNumber() > 4 && !(calendar.get(2) + 1 == 12 && calendar.get(5) >= 22 && calendar.get(5) <= 28)
+        if (this.getVariantName().endsWith("_christmas") && !(calendar.get(2) + 1 == 12 && calendar.get(5) >= 22 && calendar.get(5) <= 28)
                 && !(this.getCustomName().getString().toLowerCase().equals("rudolph") || this.parentRudolph)) {
-            this.setType(this.getTypeNumber() - 4); // Remove red noses after Christmas season after loading entity
+            this.setType(this.getVariantName().substring(0, 1)); // Remove red noses after Christmas season after loading entity
         }
     }
 
@@ -985,10 +978,6 @@ public class EntityReindeer extends AnimalEntity implements IJumpingMount, IVari
                 + this.rand.nextDouble() * 0.3D) * 0.25D;
     }
 
-    /**
-     * Returns true if this entity should move as if it were on a ladder (either
-     * because it's actually on a ladder, or for AI reasons)
-     */
     @Override
     public boolean isOnLadder() {
         return false;
@@ -1002,22 +991,12 @@ public class EntityReindeer extends AnimalEntity implements IJumpingMount, IVari
         return false;
     }
 
-    /**
-     * For vehicles, the first passenger is generally considered the controller and
-     * "drives" the vehicle. For example, Pigs, Horses, and Boats are generally
-     * "steered" by the controlling passenger.
-     */
     @Override
     @Nullable
     public Entity getControllingPassenger() {
         return this.getPassengers().isEmpty() ? null : (Entity) this.getPassengers().get(0);
     }
 
-    /**
-     * Called only once on an entity when first time spawned, via egg, mob spawner,
-     * natural spawning etc, but not called when entity is reloaded from nbt. Mainly
-     * used for initializing attributes and inventory
-     */
     @Override
     @Nullable
     public ILivingEntityData onInitialSpawn(IWorld world, DifficultyInstance difficulty, SpawnReason reason, @Nullable ILivingEntityData livingdata,
@@ -1028,8 +1007,7 @@ public class EntityReindeer extends AnimalEntity implements IJumpingMount, IVari
             Calendar calendar = Calendar.getInstance();
             boolean isChristmasSeason = calendar.get(2) + 1 == 12 && calendar.get(5) >= 22 && calendar.get(5) <= 28;
             boolean redNosed = this.rand.nextInt(9) == 0;
-            int i = this.rand.nextInt(4) + (isChristmasSeason && redNosed ? 5 : 1); // Values 1 to 4 or 1 to 8 (with 1/9
-                                                                                    // chance and only during christmas)
+            String i = (this.rand.nextInt(4) + 1) + (isChristmasSeason && redNosed ? "_christmas" : "");
             boolean flag = false;
 
             if (livingdata instanceof TypeData) {
@@ -1048,35 +1026,20 @@ public class EntityReindeer extends AnimalEntity implements IJumpingMount, IVari
         this.setLocationAndAngles(this.posX, this.posY, this.posZ, this.rotationYaw, 0F);
         return livingdata;
     }
-
-    @Override
-    public int getVariantMax() {
-        return 0; // This is not used in this class
-    }
-
-    @Override
-    public DataParameter<Integer> getDataKey() {
-        return TYPE_NUMBER;
-    }
-
-    @Override
-    public boolean isChildI() {
-        return this.isChild();
-    }
-
-    @Override
-    public Random getRNGI() {
-        return this.getRNG();
-    }
-
-    @Override
-    public EntityDataManager getDataManagerI() {
-        return this.getDataManager();
-    }
     
     @Override
     public boolean canDespawn(double range) {
-        return ModEntities.REINDEER.despawn && !this.hasCustomName();
+        return despawn(range);
+    }
+
+    @Override
+    public EntityReindeer getImplementation() {
+        return this;
+    }
+
+    @Override
+    public EntityTypeContainer<EntityReindeer> getContainer() {
+        return ModEntities.REINDEER;
     }
 
 }

@@ -5,7 +5,6 @@ import com.mojang.blaze3d.platform.GlStateManager;
 import its_meow.betteranimalsplus.client.model.ModelSongbird;
 import its_meow.betteranimalsplus.client.model.ModelSongbirdSmall;
 import its_meow.betteranimalsplus.common.entity.EntitySongbird;
-import its_meow.betteranimalsplus.init.ModTextures;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.client.renderer.entity.model.EntityModel;
@@ -22,7 +21,7 @@ public class RenderSongbird extends MobRenderer<EntitySongbird, EntityModel<Enti
 
     @Override
     protected void preRenderCallback(EntitySongbird entity, float partialTickTime) {
-        if (this.entityModel.isChild) {
+        if(this.entityModel.isChild) {
             GlStateManager.scaled(0.35D, 0.35D, 0.35D);
         } else {
             GlStateManager.scaled(0.5D, 0.5D, 0.5D);
@@ -31,7 +30,7 @@ public class RenderSongbird extends MobRenderer<EntitySongbird, EntityModel<Enti
 
     @Override
     public void doRender(EntitySongbird entity, double x, double y, double z, float entityYaw, float partialTicks) {
-        if (entity.getTypeNumber() > 4) {
+        if(entity.getVariantName().startsWith("small")) {
             this.entityModel = SMALL_SONG_BIRD;
         } else {
             this.entityModel = SONG_BIRD;
@@ -41,30 +40,7 @@ public class RenderSongbird extends MobRenderer<EntitySongbird, EntityModel<Enti
 
     @Override
     protected ResourceLocation getEntityTexture(EntitySongbird entity) {
-        switch (entity.getTypeNumber()) {
-        case 1:
-            return ModTextures.songbird_1;
-        case 2:
-            return ModTextures.songbird_2;
-        case 3:
-            return ModTextures.songbird_3;
-        case 4:
-            return ModTextures.songbird_4;
-        case 5:
-            return ModTextures.songbird_small_1;
-        case 6:
-            return ModTextures.songbird_small_2;
-        case 7:
-            return ModTextures.songbird_small_3;
-        case 8:
-            return ModTextures.songbird_small_4;
-        case 9:
-            return ModTextures.songbird_small_5;
-        case 10:
-            return ModTextures.songbird_small_6;
-        default:
-            return ModTextures.songbird_1;
-        }
+        return entity.getVariantTexture();
     }
 
 }

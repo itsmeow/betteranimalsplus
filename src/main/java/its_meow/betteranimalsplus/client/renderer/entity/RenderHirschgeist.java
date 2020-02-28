@@ -17,13 +17,9 @@ public class RenderHirschgeist extends MobRenderer<EntityHirschgeist, ModelHirsc
         super(rendermanagerIn, new ModelHirschgeistMain<EntityHirschgeist>(), 1F);
     }
 
-    /**
-     * Allows the render to do state modifications necessary before the model is
-     * rendered.
-     */
     @Override
     protected void preRenderCallback(EntityHirschgeist entitylivingbaseIn, float partialTickTime) {
-        if (!entitylivingbaseIn.isDaytime()) {
+        if(!entitylivingbaseIn.isDaytime()) {
             float scale = 2F;
             GlStateManager.scalef(scale, scale, scale);
         }

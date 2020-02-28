@@ -20,11 +20,14 @@ import its_meow.betteranimalsplus.client.model.ModelHirschgeistSkull;
 import its_meow.betteranimalsplus.client.model.ModelMooseHead;
 import its_meow.betteranimalsplus.client.model.ModelReindeerHead;
 import its_meow.betteranimalsplus.common.block.BlockGenericSkull;
+import its_meow.betteranimalsplus.common.entity.util.IVariantTypes;
 import its_meow.betteranimalsplus.common.item.ItemBlockHeadType;
 import its_meow.betteranimalsplus.common.tileentity.TileEntityHead;
 import its_meow.betteranimalsplus.init.ModTextures;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.MobEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.loading.FMLEnvironment;
@@ -141,6 +144,28 @@ public enum HeadTypes {
         BlockGenericSkull[] list = new BlockGenericSkull[blocks.size()];
         list = blocks.toArray(list);
         return list;
+    }
+    
+    public void drop(MobEntity entity, int chance) {
+        drop(entity, chance, getHeadID(entity));
+    }
+
+    public void drop(MobEntity entity, int chance, int id) {
+        if(!entity.world.isRemote && !entity.isChild()) {
+            if(entity.getRNG().nextInt(chance) == 0) {
+                ItemStack stack = new ItemStack(this.getItem(id));
+                entity.entityDropItem(stack, 0.5F);
+            }
+        }
+    }
+
+    private static int getHeadID(MobEntity entity) {
+        if(entity instanceof IVariantTypes<?>) {
+            IVariantTypes<?> ent = (IVariantTypes<?>) entity;
+            return ent.getContainer().getVariantIndex(ent.getVariantName()) + 1;
+        } else {
+            return 0;
+        }
     }
 
 }

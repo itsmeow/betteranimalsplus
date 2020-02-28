@@ -2,6 +2,7 @@ package its_meow.betteranimalsplus.common.entity.miniboss.hirschgeist;
 
 import its_meow.betteranimalsplus.common.entity.miniboss.hirschgeist.ai.HirschgeistAIAttackMelee;
 import its_meow.betteranimalsplus.common.entity.miniboss.hirschgeist.ai.HirschgeistAIFlameAttack;
+import its_meow.betteranimalsplus.common.entity.util.IDropHead;
 import its_meow.betteranimalsplus.init.ModEntities;
 import its_meow.betteranimalsplus.init.ModLootTables;
 import net.minecraft.block.BlockState;
@@ -26,7 +27,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.fml.loading.FMLEnvironment;
 
-public class EntityHirschgeist extends MobEntity implements IMob {
+public class EntityHirschgeist extends MobEntity implements IMob, IDropHead {
 
     public EntityHirschgeist(World worldIn) {
         super(ModEntities.getEntityType("hirschgeist"), worldIn);

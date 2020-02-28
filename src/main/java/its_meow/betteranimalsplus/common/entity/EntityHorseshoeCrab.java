@@ -1,7 +1,8 @@
 package its_meow.betteranimalsplus.common.entity;
 
+import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainer;
+import its_meow.betteranimalsplus.common.entity.util.abstracts.EntityCrabLikeBase;
 import its_meow.betteranimalsplus.init.ModEntities;
-import its_meow.betteranimalsplus.util.EntityTypeContainer;
 import net.minecraft.entity.ai.goal.AvoidEntityGoal;
 import net.minecraft.entity.ai.goal.RandomWalkingGoal;
 import net.minecraft.entity.player.PlayerEntity;
@@ -21,12 +22,7 @@ public class EntityHorseshoeCrab extends EntityCrabLikeBase {
     }
 
     @Override
-    public int getVariantMax() {
-        return 3;
-    }
-
-    @Override
-    protected IVariantTypes getBaseChild() {
+    protected EntityHorseshoeCrab getBaseChild() {
         return new EntityHorseshoeCrab(world);
     }
     
@@ -36,7 +32,7 @@ public class EntityHorseshoeCrab extends EntityCrabLikeBase {
     }
 
     @Override
-    protected EntityTypeContainer<? extends EntityAnimalWithTypes> getContainer() {
+    public EntityTypeContainer<EntityHorseshoeCrab> getContainer() {
         return ModEntities.HORSESHOE_CRAB;
     }
 

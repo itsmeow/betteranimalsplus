@@ -4,9 +4,10 @@ import java.util.HashSet;
 import java.util.Set;
 
 import its_meow.betteranimalsplus.common.entity.miniboss.hirschgeist.EntityHirschgeist;
+import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainer;
+import its_meow.betteranimalsplus.common.entity.util.abstracts.EntityWaterMobPathingWithTypes;
 import its_meow.betteranimalsplus.init.ModEntities;
 import its_meow.betteranimalsplus.init.ModLootTables;
-import its_meow.betteranimalsplus.util.EntityTypeContainer;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -183,17 +184,12 @@ public class EntityLamprey extends EntityWaterMobPathingWithTypes implements IMo
     }
 
     @Override
-    public int getVariantMax() {
-        return 3;
-    }
-
-    @Override
     protected ResourceLocation getLootTable() {
         return ModLootTables.lamprey;
     }
 
     @Override
-    protected EntityTypeContainer<? extends EntityWaterMobPathingWithTypes> getContainer() {
+    public EntityTypeContainer<EntityLamprey> getContainer() {
         return ModEntities.LAMPREY;
     }
 

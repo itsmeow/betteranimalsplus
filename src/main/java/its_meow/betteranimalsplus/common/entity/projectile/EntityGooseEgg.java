@@ -44,7 +44,7 @@ public class EntityGooseEgg extends EntityModEgg {
         EntityGoose goose = ModEntities.GOOSE.entityType.create(this.world);
         goose.setGrowingAge(-24000);
         goose.setLocationAndAngles(this.posX, this.posY, this.posZ, this.rotationYaw, 0.0F);
-        goose.setType(1);
+        goose.setType("1");
         return goose;
     }
 

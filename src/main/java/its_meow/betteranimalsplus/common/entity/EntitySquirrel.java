@@ -2,8 +2,10 @@ package its_meow.betteranimalsplus.common.entity;
 
 import java.util.Set;
 
+import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainer;
+import its_meow.betteranimalsplus.common.entity.util.abstracts.EntityAnimalWithSelectiveTypes;
+import its_meow.betteranimalsplus.common.entity.util.abstracts.EntityAnimalWithTypes;
 import its_meow.betteranimalsplus.init.ModEntities;
-import its_meow.betteranimalsplus.util.EntityTypeContainer;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.AgeableEntity;
@@ -128,11 +130,10 @@ public class EntitySquirrel extends EntityAnimalWithSelectiveTypes {
         EntitySquirrel squirrel = new EntitySquirrel(this.world);
         if (ageable instanceof EntitySquirrel) {
             EntitySquirrel other = (EntitySquirrel) ageable;
-            if ((this.getTypeNumber() == 3 || other.getTypeNumber() == 3)
-                    && this.getTypeNumber() != other.getTypeNumber()) {
-                squirrel.setType(this.getTypeNumber() == 3 ? other.getTypeNumber() : this.getTypeNumber());
+            if ((this.isAlbino() || other.isAlbino()) && !this.getVariantName().equals(other.getVariantName())) {
+                squirrel.setType(this.isAlbino() ? other.getVariant() : this.getVariant());
             } else {
-                squirrel.setType(this.rand.nextBoolean() ? this.getTypeNumber() : other.getTypeNumber());
+                squirrel.setType(this.rand.nextBoolean() ? this.getVariant() : other.getVariant());
             }
         }
         return squirrel;
@@ -149,29 +150,28 @@ public class EntitySquirrel extends EntityAnimalWithSelectiveTypes {
     }
 
     @Override
-    public int getVariantMax() {
-        return 3;
-    }
-
-    @Override
-    protected IVariantTypes getBaseChild() {
+    protected EntitySquirrel getBaseChild() {
         return null; // This is not used, createChild is overriden
     }
     
     @Override
-    protected int[] getTypesFor(Set<BiomeDictionary.Type> types) {
+    public String[] getTypesFor(Set<BiomeDictionary.Type> types) {
         if(types.contains(Type.FOREST) && !types.contains(Type.CONIFEROUS)) {
-            return new int[] {1, 3};
+            return new String[] {"gray", "albino"};
         } else if(types.contains(Type.CONIFEROUS) && !types.contains(Type.SNOWY)) {
-            return new int[] {2};
+            return new String[] {"red"};
         } else {
-            return new int[] {1, 2, 3};
+            return new String[] {"gray", "red", "albino"};
         }
     }
 
     @Override
-    protected EntityTypeContainer<? extends EntityAnimalWithTypes> getContainer() {
+    public EntityTypeContainer<? extends EntityAnimalWithTypes> getContainer() {
         return ModEntities.SQUIRREL;
+    }
+    
+    protected boolean isAlbino() {
+        return this.getVariantName().equals("albino");
     }
 
 }

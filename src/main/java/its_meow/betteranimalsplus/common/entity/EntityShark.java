@@ -2,9 +2,10 @@ package its_meow.betteranimalsplus.common.entity;
 
 import java.util.Set;
 
+import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainer;
+import its_meow.betteranimalsplus.common.entity.util.abstracts.EntitySharkBase;
 import its_meow.betteranimalsplus.init.ModEntities;
 import its_meow.betteranimalsplus.init.ModLootTables;
-import its_meow.betteranimalsplus.util.EntityTypeContainer;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -15,9 +16,6 @@ import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal;
 import net.minecraft.entity.ai.goal.RandomSwimmingGoal;
 import net.minecraft.entity.item.BoatEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.network.datasync.DataParameter;
-import net.minecraft.network.datasync.DataSerializers;
-import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
@@ -25,7 +23,6 @@ import net.minecraftforge.common.BiomeDictionary.Type;
 
 public class EntityShark extends EntitySharkBase {
 
-    protected static final DataParameter<Integer> TYPE_NUMBER = EntityDataManager.<Integer>createKey(EntityShark.class, DataSerializers.VARINT);
     private float lastAttack = 0;
     private float lastGrab = 0;
     private float lastTickHealth = 0;
@@ -73,13 +70,13 @@ public class EntityShark extends EntitySharkBase {
     }
     
     public boolean shouldAttackForHealth(float health) {
-        int type = this.getTypeNumber();
+        String type = this.getVariantName();
         switch(type) {
-        case 1: return health <= 8F; // blue
-        case 2: return health <= 13F;// bull
-        case 3: return health <= 10F;// tiger
-        case 4: return health <= 16F;// whitetip
-        case 5: return health <= 8F; // greenland
+        case "blue": return health <= 8F; // blue
+        case "bull": return health <= 13F;// bull
+        case "tiger": return health <= 10F;// tiger
+        case "whitetip": return health <= 16F;// whitetip
+        case "greenland": return health <= 8F; // greenland
         default: return false;
         }
     }
@@ -129,23 +126,18 @@ public class EntityShark extends EntitySharkBase {
     }
 
     @Override
-    public int getVariantMax() {
-        return 5;
-    }
-
-    @Override
     protected ResourceLocation getLootTable() {
         return ModLootTables.SHARK;
     }
 
     @Override
-    protected EntityTypeContainer<? extends EntityWaterMobPathingWithTypes> getContainer() {
+    public EntityTypeContainer<EntityShark> getContainer() {
         return ModEntities.SHARK;
     }
 
     @Override
-    protected int[] getTypesFor(Set<Type> biome) {
-        return biome.contains(Type.COLD) ? new int[] {5} : new int[] {1,2,3,4}; // greenland ONLY in cold oceans
+    public String[] getTypesFor(Set<Type> biome) {
+        return biome.contains(Type.COLD) ? new String[] {"greenland"} : new String[] {"blue", "bull", "tiger", "whitetip"}; // greenland ONLY in cold oceans
     }
 
 }

@@ -9,10 +9,11 @@ import java.util.UUID;
 import java.util.function.Predicate;
 
 import its_meow.betteranimalsplus.common.entity.ai.WaterfowlNavigator;
+import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainer;
+import its_meow.betteranimalsplus.common.entity.util.abstracts.EntityAnimalWithTypes;
 import its_meow.betteranimalsplus.init.ModEntities;
 import its_meow.betteranimalsplus.init.ModItems;
 import its_meow.betteranimalsplus.init.ModSoundEvents;
-import its_meow.betteranimalsplus.util.EntityTypeContainer;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;
@@ -117,7 +118,7 @@ public class EntityGoose extends EntityAnimalWithTypes {
 
             @Override
             public boolean shouldExecute() {
-                return super.shouldExecute() && this.attacker.ticksExisted - lastAttackTime > 150 && EntityGoose.this.getTypeNumber() != 1;
+                return super.shouldExecute() && this.attacker.ticksExisted - lastAttackTime > 150 && !EntityGoose.this.isPassive();
             }
 
             @Override
@@ -145,15 +146,19 @@ public class EntityGoose extends EntityAnimalWithTypes {
         this.targetSelector.addGoal(0, new HurtByTargetGoal(this, new Class[0]) {
             @Override
             public boolean shouldExecute() {
-                return super.shouldExecute() && EntityGoose.this.getTypeNumber() != 1;
+                return super.shouldExecute() && !EntityGoose.this.isPassive();
             }
         }.setCallsForHelp(EntityGoose.class));
         this.targetSelector.addGoal(1, new DislikeTargetGoal(this) {
             @Override
             public boolean shouldExecute() {
-                return super.shouldExecute() && EntityGoose.this.getTypeNumber() != 1;
+                return super.shouldExecute() && !EntityGoose.this.isPassive();
             }
         });
+    }
+
+    protected boolean isPassive() {
+        return this.getVariantString().equals("1");
     }
 
     @Override
@@ -232,7 +237,7 @@ public class EntityGoose extends EntityAnimalWithTypes {
 
     @Override
     public boolean attackEntityFrom(DamageSource source, float amount) {
-        if(source.getTrueSource() != null && source.getTrueSource().getEntity() != null && source.getTrueSource().getEntity() == this.getAttackTarget()) {
+        if(source.getTrueSource() != null && source.getTrueSource() != null && source.getTrueSource() == this.getAttackTarget()) {
             this.lastAttackTime = 0; // allow instant retaliation
         }
         return super.attackEntityFrom(source, amount);
@@ -344,25 +349,35 @@ public class EntityGoose extends EntityAnimalWithTypes {
 
     @Override
     public ILivingEntityData onInitialSpawn(IWorld world, DifficultyInstance difficulty, SpawnReason reason, ILivingEntityData livingdata, CompoundNBT compound) {
-        int[] types;
+        String[] types;
         switch (reason) {
         case NATURAL:
-            types = new int[] {2,3};
+            types = new String[] {"2","3"};
             break;
         case CHUNK_GENERATION:
-            types = new int[] {2,3};
+            types = new String[] {"2","3"};
             break;
         case STRUCTURE:
-            types = new int[] {2,3};
+            types = new String[] {"2","3"};
             break;
         case BREEDING:
-            types = new int[] {1};
+            types = new String[] {"1"};
             break;
         default:
-            types = new int[] {1,2,3};
+            types = new String[] {"1","2","3"};
             break;
         }
-        return this.initData(super.onInitialSpawn(world, difficulty, reason, livingdata, compound), types[rand.nextInt(types.length)]);
+       livingdata = super.onInitialSpawn(world, difficulty, reason, livingdata, compound);
+       if(!this.getImplementation().isChild()) {
+           String variant = types[this.getRNG().nextInt(types.length)];
+           if(livingdata instanceof TypeData) {
+               variant = ((TypeData) livingdata).typeData;
+           } else {
+               livingdata = new TypeData(variant);
+           }
+           this.setType(variant);
+       }
+       return livingdata;
     }
 
     public static boolean canSpawn(EntityType<EntityGoose> type, IWorld world, SpawnReason reason, BlockPos pos, Random rand) {
@@ -390,17 +405,12 @@ public class EntityGoose extends EntityAnimalWithTypes {
     }
 
     @Override
-    public int getVariantMax() {
-        return 3;
-    }
-
-    @Override
-    protected IVariantTypes getBaseChild() {
+    protected EntityGoose getBaseChild() {
         return new EntityGoose(world);
     }
 
     @Override
-    protected EntityTypeContainer<? extends EntityAnimalWithTypes> getContainer() {
+    public EntityTypeContainer<EntityGoose> getContainer() {
         return ModEntities.GOOSE;
     }
 

@@ -4,11 +4,13 @@ import javax.annotation.Nullable;
 
 import com.google.common.base.Predicates;
 
+import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainerTameable;
 import its_meow.betteranimalsplus.config.BetterAnimalsPlusConfig;
 import its_meow.betteranimalsplus.init.ModEntities;
-import its_meow.betteranimalsplus.util.EntityTypeContainerTameable;
 import its_meow.betteranimalsplus.util.HeadTypes;
+import net.minecraft.entity.ILivingEntityData;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.goal.FollowOwnerGoal;
 import net.minecraft.entity.ai.goal.HurtByTargetGoal;
 import net.minecraft.entity.ai.goal.LeapAtTargetGoal;
@@ -34,12 +36,14 @@ import net.minecraft.entity.passive.horse.AbstractHorseEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Food;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.Difficulty;
+import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 
 public class EntityCoyote extends EntityFeralWolf {
@@ -79,6 +83,19 @@ public class EntityCoyote extends EntityFeralWolf {
 
     }
 
+    @Override
+    public ILivingEntityData initData(IWorld world, SpawnReason reason, ILivingEntityData livingdata) {
+        return livingdata;
+    }
+    
+    @Override
+    public void writeType(CompoundNBT nbt) {
+    }
+    
+    @Override
+    public void readType(CompoundNBT nbt) {
+    }
+
     public boolean isDaytime() {
         long time = this.world.getDayTime() % 24000L; // Time can go over values of 24000, so divide and take the remainder
         return !(time >= 13000L && time <= 23000L);
@@ -114,12 +131,7 @@ public class EntityCoyote extends EntityFeralWolf {
 
     @Override
     public void doHeadDrop() {
-        if (!world.isRemote && !this.isChild()) {
-            if (this.rand.nextInt(12) == 0) {
-                ItemStack stack = new ItemStack(HeadTypes.COYOTEHEAD.getItem(1));
-                this.entityDropItem(stack, 0.5F);
-            }
-        }
+        HeadTypes.COYOTEHEAD.drop(this, 12, 1);
     }
 
     @Override
@@ -190,7 +202,7 @@ public class EntityCoyote extends EntityFeralWolf {
     }
 
     @Override
-    protected EntityTypeContainerTameable<? extends EntityTameableBetterAnimalsPlus> getContainer() {
+    public EntityTypeContainerTameable<EntityCoyote> getContainer() {
         return ModEntities.COYOTE;
     }
 
