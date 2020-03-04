@@ -10,7 +10,7 @@ import its_meow.betteranimalsplus.common.entity.util.IDropHead;
 import its_meow.betteranimalsplus.common.entity.util.abstracts.EntityAnimalWithSelectiveTypes;
 import its_meow.betteranimalsplus.common.entity.util.abstracts.EntityAnimalWithTypes;
 import its_meow.betteranimalsplus.init.ModEntities;
-import its_meow.betteranimalsplus.util.HeadTypes;
+import its_meow.betteranimalsplus.util.HeadType;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -121,7 +121,7 @@ public class EntityBoar extends EntityAnimalWithSelectiveTypes implements IMob, 
     @Override
     public void onDeath(DamageSource cause) {
         super.onDeath(cause);
-        HeadTypes.BOARHEAD.drop(this, 12);
+        HeadType.BOARHEAD.drop(this, 12);
     }
 
     @Override

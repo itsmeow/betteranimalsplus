@@ -5,7 +5,7 @@ import java.util.Random;
 import java.util.function.Function;
 
 import its_meow.betteranimalsplus.init.ModTileEntities;
-import its_meow.betteranimalsplus.util.HeadTypes;
+import its_meow.betteranimalsplus.util.HeadType;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.CompoundNBT;
@@ -29,7 +29,7 @@ public class TileEntityHead extends TileEntity {
     private float rotation = 0;
     private boolean shouldDrop = true;
     private Function<Integer, ResourceLocation> textureFunc;
-    public HeadTypes type;
+    public HeadType type;
 
     public HashMap<Integer, ResourceLocation> textures;
 
@@ -37,11 +37,11 @@ public class TileEntityHead extends TileEntity {
         super(ModTileEntities.HEAD_TYPE);
     }
 
-    public TileEntityHead(HeadTypes type, float yOffset, ResourceLocation... textureList) {
+    public TileEntityHead(HeadType type, float yOffset, ResourceLocation... textureList) {
         this(type, yOffset, null, textureList);
     }
 
-    public TileEntityHead(HeadTypes type, float yOffset, Function<Integer, ResourceLocation> textureFunc,
+    public TileEntityHead(HeadType type, float yOffset, Function<Integer, ResourceLocation> textureFunc,
     ResourceLocation... textureList) {
         super(ModTileEntities.HEAD_TYPE);
         this.type = type;
@@ -114,7 +114,7 @@ public class TileEntityHead extends TileEntity {
             this.rotation = compound.getFloat("rotation");
         }
         if (compound.contains("GENERIC_TYPE")) {
-            this.type = HeadTypes.valueOf(compound.getString("GENERIC_TYPE"));
+            this.type = HeadType.valueOf(compound.getString("GENERIC_TYPE"));
 
             // Create with proper constructor for type
             TileEntityHead te2 = type.teFactory.apply(type);

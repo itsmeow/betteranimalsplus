@@ -13,7 +13,11 @@ import javax.annotation.Nullable;
 
 import com.google.common.collect.Lists;
 
+import its_meow.betteranimalsplus.common.tileentity.TileEntityHead;
+import its_meow.betteranimalsplus.util.HeadType;
 import net.minecraft.block.Blocks;
+import net.minecraft.client.renderer.entity.model.EntityModel;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntitySpawnPlacementRegistry;
 import net.minecraft.entity.EntityType;
@@ -111,6 +115,7 @@ public class EntityTypeContainer<T extends MobEntity> {
         protected EntitySpawnPlacementRegistry.IPlacementPredicate<T> placementPredicate;
         protected int variantCount = 0;
         protected IVariant[] variants;
+        protected HeadType headType;
 
         protected Builder(Class<T> EntityClass, Function<World, T> func, String entityNameIn) {
             this.entityClass = EntityClass;
@@ -220,6 +225,11 @@ public class EntityTypeContainer<T extends MobEntity> {
             }
             return this;
         }
+        
+        public Builder<T> head(String headName, HeadType.PlacementType placement, int variantMax, HeadIDMapping useNames, Function<EntityVariant, String> variantMapper, Supplier<Supplier<Class<? extends EntityModel<Entity>>>> modelSupplier, float yOffset) {
+            headType = new HeadType(headName, placement == placement.FLOOR_AND_WALL, variantMax, modelSupplier, type -> new TileEntityHead(type, yOffset, ));
+            return this;
+        }
 
         public EntityTypeContainer<T> build() {
             return new EntityTypeContainer<T>(entityClass, factory, entityName, spawnType, eggColorSolid, eggColorSpot, spawnWeight, spawnMinGroup, spawnMaxGroup, width, height, despawn, variantCount, variants, customConfig, defaultBiomeSupplier, placementType, heightMapType, placementPredicate);
@@ -227,6 +237,12 @@ public class EntityTypeContainer<T extends MobEntity> {
 
         public static <T extends MobEntity> Builder<T> create(Class<T> EntityClass, Function<World, T> func, String entityNameIn) {
             return new Builder<T>(EntityClass, func, entityNameIn);
+        }
+        
+        public static enum HeadIDMapping {
+            NAMES,
+            NUMBERS,
+            CUSTOM;
         }
 
     }

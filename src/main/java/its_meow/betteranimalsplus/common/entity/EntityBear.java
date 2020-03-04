@@ -10,7 +10,7 @@ import its_meow.betteranimalsplus.common.entity.util.IContainerEntity;
 import its_meow.betteranimalsplus.common.entity.util.IDropHead;
 import its_meow.betteranimalsplus.init.ModEntities;
 import its_meow.betteranimalsplus.init.ModLootTables;
-import its_meow.betteranimalsplus.util.HeadTypes;
+import its_meow.betteranimalsplus.util.HeadType;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -106,7 +106,7 @@ public class EntityBear extends MonsterEntity implements IContainerEntity<Entity
     }
     
     protected void doDropHead() {
-        HeadTypes.BEARHEAD.drop(this, 12, 1);
+        HeadType.BEARHEAD.drop(this, 12, 1);
     }
 
     @Override

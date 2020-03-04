@@ -1,7 +1,6 @@
 package its_meow.betteranimalsplus.util;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -11,19 +10,10 @@ import java.util.function.Supplier;
 
 import org.apache.commons.lang3.tuple.Pair;
 
-import its_meow.betteranimalsplus.client.model.ModelBearHead;
-import its_meow.betteranimalsplus.client.model.ModelBoarHead;
-import its_meow.betteranimalsplus.client.model.ModelCoyoteHead;
-import its_meow.betteranimalsplus.client.model.ModelDeerHead;
-import its_meow.betteranimalsplus.client.model.ModelFeralWolfHead;
-import its_meow.betteranimalsplus.client.model.ModelHirschgeistSkull;
-import its_meow.betteranimalsplus.client.model.ModelMooseHead;
-import its_meow.betteranimalsplus.client.model.ModelReindeerHead;
 import its_meow.betteranimalsplus.common.block.BlockGenericSkull;
 import its_meow.betteranimalsplus.common.entity.util.IVariantTypes;
 import its_meow.betteranimalsplus.common.item.ItemBlockHeadType;
 import its_meow.betteranimalsplus.common.tileentity.TileEntityHead;
-import its_meow.betteranimalsplus.init.ModTextures;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.MobEntity;
@@ -32,8 +22,8 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.loading.FMLEnvironment;
 
-public enum HeadTypes {
-
+public class HeadType {
+    /*
     WOLFHEAD("wolfhead", true, 3, () -> () -> ModelFeralWolfHead.class,
             type -> new TileEntityHead(type, 0F, ModTextures.wolf_black, ModTextures.wolf_snowy,
                     ModTextures.wolf_timber)),
@@ -81,18 +71,24 @@ public enum HeadTypes {
 
     HIRSCHGEIST("hirschgeistskull", true, 1, () -> () -> ModelHirschgeistSkull.class,
             type -> new TileEntityHead(type, -0.2F, ModTextures.hirschgeist));
-
+    */
+    protected static final Set<HeadType> HEADS = new HashSet<HeadType>();
+    
+    public static Set<HeadType> values() {
+        return HEADS;
+    }
+    
     public final String name;
     public final boolean allowFloor;
     public final int textureCount;
-    public final Function<HeadTypes, TileEntityHead> teFactory;
+    public final Function<HeadType, TileEntityHead> teFactory;
     private Map<Integer, Pair<BlockGenericSkull, ItemBlockHeadType>> heads = new HashMap<Integer, Pair<BlockGenericSkull, ItemBlockHeadType>>();
     private Set<ItemBlockHeadType> items = new HashSet<ItemBlockHeadType>();
     private Set<BlockGenericSkull> blocks = new HashSet<BlockGenericSkull>();
     @OnlyIn(Dist.CLIENT)
     private Supplier<Supplier<Class<? extends EntityModel<Entity>>>> modelSupplier;
 
-    HeadTypes(String name, boolean allowFloor, int texCount, Supplier<Supplier<Class<? extends EntityModel<Entity>>>> modelSupplier, Function<HeadTypes, TileEntityHead> teFactory) {
+    public HeadType(String name, boolean allowFloor, int texCount, Supplier<Supplier<Class<? extends EntityModel<Entity>>>> modelSupplier, Function<HeadType, TileEntityHead> teFactory) {
         this.name = name;
         this.allowFloor = allowFloor;
         this.teFactory = teFactory;
@@ -107,6 +103,7 @@ public enum HeadTypes {
             blocks.add(block);
             items.add(item);
         }
+        HEADS.add(this);
     }
     
     public Pair<BlockGenericSkull, ItemBlockHeadType> getPair(int i) {
@@ -138,7 +135,7 @@ public enum HeadTypes {
 
     public static BlockGenericSkull[] getAllBlocks() {
         ArrayList<BlockGenericSkull> blocks = new ArrayList<>();
-        for(HeadTypes type : HeadTypes.values()) {
+        for(HeadType type : HeadType.values()) {
             blocks.addAll(type.getBlockSet());
         }
         BlockGenericSkull[] list = new BlockGenericSkull[blocks.size()];
@@ -166,6 +163,11 @@ public enum HeadTypes {
         } else {
             return 0;
         }
+    }
+    
+    public static enum PlacementType {
+        FLOOR_AND_WALL,
+        WALL_ONLY;
     }
 
 }

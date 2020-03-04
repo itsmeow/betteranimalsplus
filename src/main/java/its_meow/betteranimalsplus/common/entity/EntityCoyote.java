@@ -7,7 +7,7 @@ import com.google.common.base.Predicates;
 import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainerTameable;
 import its_meow.betteranimalsplus.config.BetterAnimalsPlusConfig;
 import its_meow.betteranimalsplus.init.ModEntities;
-import its_meow.betteranimalsplus.util.HeadTypes;
+import its_meow.betteranimalsplus.util.HeadType;
 import net.minecraft.entity.ILivingEntityData;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SpawnReason;
@@ -131,7 +131,7 @@ public class EntityCoyote extends EntityFeralWolf {
 
     @Override
     public void doHeadDrop() {
-        HeadTypes.COYOTEHEAD.drop(this, 12, 1);
+        HeadType.COYOTEHEAD.drop(this, 12, 1);
     }
 
     @Override

@@ -9,7 +9,7 @@ import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainer;
 import its_meow.betteranimalsplus.common.entity.util.IVariantTypes;
 import its_meow.betteranimalsplus.init.ModEntities;
 import its_meow.betteranimalsplus.init.ModLootTables;
-import its_meow.betteranimalsplus.util.HeadTypes;
+import its_meow.betteranimalsplus.util.HeadType;
 import net.minecraft.entity.ILivingEntityData;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.goal.HurtByTargetGoal;
@@ -92,7 +92,7 @@ public class EntityBearNeutral extends EntityBear implements IVariantTypes<Entit
 
     @Override
     public void doDropHead() {
-        HeadTypes.BEARHEAD.drop(this, 12, this.getContainer().getVariantIndex(this.getVariantName()) + 2);
+        HeadType.BEARHEAD.drop(this, 12, this.getContainer().getVariantIndex(this.getVariantName()) + 2);
     }
     
     @Override

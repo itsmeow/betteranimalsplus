@@ -12,7 +12,7 @@ import its_meow.betteranimalsplus.common.entity.util.IVariantTypes;
 import its_meow.betteranimalsplus.init.ModEntities;
 import its_meow.betteranimalsplus.init.ModLootTables;
 import its_meow.betteranimalsplus.init.ModTriggers;
-import its_meow.betteranimalsplus.util.HeadTypes;
+import its_meow.betteranimalsplus.util.HeadType;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -495,7 +495,7 @@ public class EntityReindeer extends AnimalEntity implements IJumpingMount, IVari
     @Override
     public void onDeath(DamageSource cause) {
         super.onDeath(cause);
-        HeadTypes.REINDEERHEAD.drop(this, 12);
+        HeadType.REINDEERHEAD.drop(this, 12);
     }
 
     @Override

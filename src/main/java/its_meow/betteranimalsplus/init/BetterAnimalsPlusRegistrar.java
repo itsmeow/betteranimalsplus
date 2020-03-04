@@ -11,7 +11,7 @@ import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainer;
 import its_meow.betteranimalsplus.common.item.ItemAdvancementIcon;
 import its_meow.betteranimalsplus.common.item.ItemBetterAnimalsPlusEgg;
 import its_meow.betteranimalsplus.common.item.ItemBlockSimple;
-import its_meow.betteranimalsplus.util.HeadTypes;
+import its_meow.betteranimalsplus.util.HeadType;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityType;
 import net.minecraft.item.Item;
@@ -39,7 +39,7 @@ public class BetterAnimalsPlusRegistrar {
         ModBlocks.TURKEY_COOKED
         );
 
-        for (HeadTypes type : HeadTypes.values()) {
+        for (HeadType type : HeadType.values()) {
             registry.registerAll(type.getBlockSet().toArray(new Block[0]));
         }
     }
@@ -60,7 +60,7 @@ public class BetterAnimalsPlusRegistrar {
         );
         
         // Heads
-        for (HeadTypes type : HeadTypes.values()) {
+        for (HeadType type : HeadType.values()) {
             registry.registerAll(type.getItemSet().toArray(new Item[0]));
         }
         

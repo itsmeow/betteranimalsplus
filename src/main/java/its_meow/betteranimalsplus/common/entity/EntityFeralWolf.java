@@ -12,7 +12,7 @@ import its_meow.betteranimalsplus.common.entity.util.abstracts.EntityTameableWit
 import its_meow.betteranimalsplus.init.ModEntities;
 import its_meow.betteranimalsplus.init.ModItems;
 import its_meow.betteranimalsplus.init.ModLootTables;
-import its_meow.betteranimalsplus.util.HeadTypes;
+import its_meow.betteranimalsplus.util.HeadType;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -129,7 +129,7 @@ public class EntityFeralWolf extends EntityTameableWithSelectiveTypes implements
     }
     
     public void doHeadDrop() {
-        HeadTypes.WOLFHEAD.drop(this, 12);
+        HeadType.WOLFHEAD.drop(this, 12);
     }
 
     public boolean isPreventingPlayerRest(PlayerEntity playerIn) {

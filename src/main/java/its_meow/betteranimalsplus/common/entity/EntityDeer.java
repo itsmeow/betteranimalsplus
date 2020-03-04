@@ -7,7 +7,7 @@ import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainer;
 import its_meow.betteranimalsplus.common.entity.util.abstracts.EntityAnimalEatsGrassWithTypes;
 import its_meow.betteranimalsplus.init.ModEntities;
 import its_meow.betteranimalsplus.init.ModLootTables;
-import its_meow.betteranimalsplus.util.HeadTypes;
+import its_meow.betteranimalsplus.util.HeadType;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.goal.AvoidEntityGoal;
@@ -122,7 +122,7 @@ public class EntityDeer extends EntityAnimalEatsGrassWithTypes {
     @Override
     public void onDeath(DamageSource cause) {
         super.onDeath(cause);
-        HeadTypes.DEERHEAD.drop(this, 12);
+        HeadType.DEERHEAD.drop(this, 12);
     }
 
     @Override

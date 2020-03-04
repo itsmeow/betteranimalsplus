@@ -8,7 +8,7 @@ import com.mojang.blaze3d.platform.GlStateManager;
 
 import its_meow.betteranimalsplus.common.block.BlockAnimalSkull;
 import its_meow.betteranimalsplus.common.tileentity.TileEntityHead;
-import its_meow.betteranimalsplus.util.HeadTypes;
+import its_meow.betteranimalsplus.util.HeadType;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
@@ -18,7 +18,7 @@ import net.minecraft.util.ResourceLocation;
 
 public class RenderGenericHead extends TileEntityRenderer<TileEntityHead> {
 
-    public static HashMap<HeadTypes, EntityModel<Entity>> modelMap = new HashMap<HeadTypes, EntityModel<Entity>>();
+    public static HashMap<HeadType, EntityModel<Entity>> modelMap = new HashMap<HeadType, EntityModel<Entity>>();
 
     @Override
     public void render(TileEntityHead te, double x, double y, double z, float partialTicks, int destroyStage) {
