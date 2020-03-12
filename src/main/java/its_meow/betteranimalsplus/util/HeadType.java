@@ -8,14 +8,21 @@ import java.util.Set;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
+import javax.annotation.Nullable;
+
 import org.apache.commons.lang3.tuple.Pair;
 
 import its_meow.betteranimalsplus.common.block.BlockGenericSkull;
+import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainer;
+import its_meow.betteranimalsplus.common.entity.util.EntityVariant;
+import its_meow.betteranimalsplus.common.entity.util.IVariant;
 import its_meow.betteranimalsplus.common.entity.util.IVariantTypes;
 import its_meow.betteranimalsplus.common.item.ItemBlockHeadType;
 import its_meow.betteranimalsplus.common.tileentity.TileEntityHead;
+import net.minecraft.block.Block;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
@@ -23,101 +30,137 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.loading.FMLEnvironment;
 
 public class HeadType {
-    /*
-    WOLFHEAD("wolfhead", true, 3, () -> () -> ModelFeralWolfHead.class,
-            type -> new TileEntityHead(type, 0F, ModTextures.wolf_black, ModTextures.wolf_snowy,
-                    ModTextures.wolf_timber)),
-    
-    COYOTEHEAD("coyotehead", true, 1, () -> () -> ModelCoyoteHead.class,
-            type -> new TileEntityHead(type, 0F, ModTextures.coyote_hostile)),
 
-    BOARHEAD("boarhead", false, 4, () -> () -> ModelBoarHead.class,
-            type -> new TileEntityHead(type, 0F, ModTextures.boar_1, ModTextures.boar_2, ModTextures.boar_3,
-                    ModTextures.boar_4)),
-    
-    BEARHEAD("bearhead", false, 3, () -> () -> ModelBearHead.class,
-            type -> new TileEntityHead(type, 0F, ModTextures.bear_brown, ModTextures.bear_black, ModTextures.bear_kermode)),
-
-    DEERHEAD("deerhead", false, 2, () -> () -> ModelDeerHead.class, type -> new TileEntityHead(type, 0F, (typeNum -> {
-        Calendar calendar = Calendar.getInstance();
-        if (calendar.get(2) + 1 == 12 && calendar.get(5) >= 24 && calendar.get(5) <= 26) {
-            return typeNum == 1 ? ModTextures.deer_1_christmas : ModTextures.deer_2_christmas;
-        } else {
-            return typeNum == 1 ? ModTextures.deer_1 : ModTextures.deer_2;
-        }
-    }))),
-
-    REINDEERHEAD("reindeerhead", false, 4, () -> () -> ModelReindeerHead.class,
-            type -> new TileEntityHead(type, 0F, (typeNum -> {
-                if (typeNum <= 4) {
-                    return null;
-                } else {
-                    switch (typeNum) {
-                    case 5:
-                        return ModTextures.reindeer_1_christmas;
-                    case 6:
-                        return ModTextures.reindeer_2_christmas;
-                    case 7:
-                        return ModTextures.reindeer_3_christmas;
-                    case 8:
-                        return ModTextures.reindeer_4_christmas;
-                    default:
-                        return ModTextures.reindeer_1;
-                    }
-                }
-            }), ModTextures.reindeer_1, ModTextures.reindeer_2, ModTextures.reindeer_3, ModTextures.reindeer_4)),
-    
-    MOOSEHEAD("moosehead", false, 4, () -> () -> ModelMooseHead.class, type -> new TileEntityHead(type, -1.35F, ModTextures.moose_1, ModTextures.moose_2, ModTextures.moose_3, ModTextures.moose_4)),
-
-    HIRSCHGEIST("hirschgeistskull", true, 1, () -> () -> ModelHirschgeistSkull.class,
-            type -> new TileEntityHead(type, -0.2F, ModTextures.hirschgeist));
-    */
     protected static final Set<HeadType> HEADS = new HashSet<HeadType>();
-    
+    protected static final Map<String, HeadType> HEADS_MAP = new HashMap<String, HeadType>();
+    protected static final Map<Block, HeadType> HEADS_BLOCK_MAP = new HashMap<Block, HeadType>();
+
     public static Set<HeadType> values() {
         return HEADS;
     }
-    
-    public final String name;
-    public final boolean allowFloor;
-    public final int textureCount;
-    public final Function<HeadType, TileEntityHead> teFactory;
-    private Map<Integer, Pair<BlockGenericSkull, ItemBlockHeadType>> heads = new HashMap<Integer, Pair<BlockGenericSkull, ItemBlockHeadType>>();
-    private Set<ItemBlockHeadType> items = new HashSet<ItemBlockHeadType>();
-    private Set<BlockGenericSkull> blocks = new HashSet<BlockGenericSkull>();
-    @OnlyIn(Dist.CLIENT)
-    private Supplier<Supplier<Class<? extends EntityModel<Entity>>>> modelSupplier;
 
-    public HeadType(String name, boolean allowFloor, int texCount, Supplier<Supplier<Class<? extends EntityModel<Entity>>>> modelSupplier, Function<HeadType, TileEntityHead> teFactory) {
+    public static HeadType valueOf(String name) {
+        return HEADS_MAP.get(name);
+    }
+
+    public static HeadType valueOf(Block block) {
+        return HEADS_BLOCK_MAP.get(block);
+    }
+
+    private final String name;
+    private final PlacementType placement;
+    private final Map<IVariant, Pair<BlockGenericSkull, ItemBlockHeadType>> heads = new HashMap<IVariant, Pair<BlockGenericSkull, ItemBlockHeadType>>();
+    private final Set<ItemBlockHeadType> items = new HashSet<ItemBlockHeadType>();
+    private final Set<BlockGenericSkull> blocks = new HashSet<BlockGenericSkull>();
+    @OnlyIn(Dist.CLIENT)
+    private Supplier<Supplier<EntityModel<? extends Entity>>> modelSupplier;
+    private final EntityTypeContainer<? extends LivingEntity> container;
+    private float yOffset = 0F;
+    private IVariant singletonVariant;
+    private final Map<Block, IVariant> reverseVariantMap = new HashMap<Block, IVariant>();
+
+    public HeadType(String name, PlacementType placement, float yOffset, Supplier<Supplier<EntityModel<? extends Entity>>> modelSupplier, HeadIDMapping mapping, @Nullable Function<IVariant, String> variantMapper, @Nullable IVariant singletonVariant, @Nullable String singletonID, EntityTypeContainer<? extends LivingEntity> container) {
         this.name = name;
-        this.allowFloor = allowFloor;
-        this.teFactory = teFactory;
-        this.textureCount = texCount;
+        this.placement = placement;
+        this.yOffset = yOffset;
+        this.container = container;
         if(FMLEnvironment.dist == Dist.CLIENT) {
             this.modelSupplier = modelSupplier;
         }
-        for (int i = 1; i <= texCount; i++) {
-            BlockGenericSkull block = new BlockGenericSkull(this, i);
-            ItemBlockHeadType item = new ItemBlockHeadType(block, this, i);
-            heads.put(i, Pair.of(block, item));
+        if(!container.hasVariants() && mapping != HeadIDMapping.SINGLETON) {
+            throw new RuntimeException("Tried to create non-singleton head type with a variantless entity!");
+        }
+        switch(mapping) {
+        case NAMES:
+            for(IVariant variant : container.getVariants()) {
+                if(variant.hasHead()) {
+                    BlockGenericSkull block = new BlockGenericSkull(this, variant.getName());
+                    ItemBlockHeadType item = new ItemBlockHeadType(block, this, variant.getName(), variant);
+                    heads.put(variant, Pair.of(block, item));
+                    blocks.add(block);
+                    items.add(item);
+                    reverseVariantMap.put(block, variant);
+                    HEADS_BLOCK_MAP.put(block, this);
+                }
+            }
+            break;
+        case NUMBERS:
+            for(IVariant variant : container.getVariants()) {
+                if(variant.hasHead()) {
+                    int index = container.getVariantIndex(variant.getName()) + 1;
+                    BlockGenericSkull block = new BlockGenericSkull(this, String.valueOf(index));
+                    ItemBlockHeadType item = new ItemBlockHeadType(block, this, String.valueOf(index), variant);
+                    heads.put(variant, Pair.of(block, item));
+                    blocks.add(block);
+                    items.add(item);
+                    reverseVariantMap.put(block, variant);
+                    HEADS_BLOCK_MAP.put(block, this);
+                }
+            }
+            break;
+        case CUSTOM:
+            for(IVariant variant : container.getVariants()) {
+                if(variant.hasHead()) {
+                    String id = variantMapper.apply(variant);
+                    BlockGenericSkull block = new BlockGenericSkull(this, id);
+                    ItemBlockHeadType item = new ItemBlockHeadType(block, this, id, variant);
+                    heads.put(variant, Pair.of(block, item));
+                    blocks.add(block);
+                    items.add(item);
+                    reverseVariantMap.put(block, variant);
+                    HEADS_BLOCK_MAP.put(block, this);
+                }
+            }
+            break;
+        case SINGLETON:
+            BlockGenericSkull block = new BlockGenericSkull(this, singletonID);
+            ItemBlockHeadType item = new ItemBlockHeadType(block, this, singletonID, singletonVariant);
+            heads.put(singletonVariant, Pair.of(block, item));
             blocks.add(block);
             items.add(item);
+            reverseVariantMap.put(block, singletonVariant);
+            HEADS_BLOCK_MAP.put(block, this);
+            this.singletonVariant = singletonVariant;
+            break;
         }
         HEADS.add(this);
-    }
-    
-    public Pair<BlockGenericSkull, ItemBlockHeadType> getPair(int i) {
-        return heads.get(i);
+        HEADS_MAP.put(name, this);
     }
 
-    public BlockGenericSkull getBlock(int i) {
-        if(getPair(i) == null) return null;
-        return getPair(i).getLeft();
+    public float getYOffset() {
+        return this.yOffset;
     }
 
-    public ItemBlockHeadType getItem(int i) {
-        if(getPair(i) == null) return null;
-        return getPair(i).getRight();
+    public IVariant getVariant(Block block) {
+        return reverseVariantMap.get(block);
+    }
+
+    public Pair<BlockGenericSkull, ItemBlockHeadType> getPair(IVariant variant) {
+        return heads.get(variant);
+    }
+
+    public BlockGenericSkull getBlock(IVariant variant) {
+        if(getPair(variant) == null)
+            return null;
+        return getPair(variant).getLeft();
+    }
+
+    public ItemBlockHeadType getItem(IVariant variant) {
+        if(getPair(variant) == null)
+            return null;
+        return getPair(variant).getRight();
+    }
+
+    public BlockGenericSkull getBlock() {
+        if(getPair(singletonVariant) == null)
+            return null;
+        return getPair(singletonVariant).getLeft();
+    }
+
+    public ItemBlockHeadType getItem() {
+        if(getPair(singletonVariant) == null)
+            return null;
+        return getPair(singletonVariant).getRight();
     }
 
     public Set<ItemBlockHeadType> getItemSet() {
@@ -128,8 +171,20 @@ public class HeadType {
         return blocks;
     }
 
+    public TileEntityHead createTE() {
+        return new TileEntityHead(this);
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public PlacementType getPlacementType() {
+        return placement;
+    }
+
     @OnlyIn(Dist.CLIENT)
-    public Supplier<Supplier<Class<? extends EntityModel<Entity>>>> getModelSupplier() {
+    public Supplier<Supplier<EntityModel<? extends Entity>>> getModelSupplier() {
         return modelSupplier;
     }
 
@@ -142,32 +197,115 @@ public class HeadType {
         list = blocks.toArray(list);
         return list;
     }
-    
+
+    public EntityTypeContainer<? extends LivingEntity> getContainer() {
+        return this.container;
+    }
+
+    public IVariant getSingletonVariant() {
+        return this.singletonVariant;
+    }
+
     public void drop(MobEntity entity, int chance) {
         drop(entity, chance, getHeadID(entity));
     }
 
-    public void drop(MobEntity entity, int chance, int id) {
+    public void drop(MobEntity entity, int chance, IVariant variant) {
         if(!entity.world.isRemote && !entity.isChild()) {
             if(entity.getRNG().nextInt(chance) == 0) {
-                ItemStack stack = new ItemStack(this.getItem(id));
+                ItemStack stack = new ItemStack(this.getItem(variant));
                 entity.entityDropItem(stack, 0.5F);
             }
         }
     }
 
-    private static int getHeadID(MobEntity entity) {
-        if(entity instanceof IVariantTypes<?>) {
+    private IVariant getHeadID(MobEntity entity) {
+        if(entity instanceof IVariantTypes<?> && this.container.hasVariants()) {
             IVariantTypes<?> ent = (IVariantTypes<?>) entity;
-            return ent.getContainer().getVariantIndex(ent.getVariantName()) + 1;
+            return ent.getContainer().getVariant(ent.getVariant().getName());
         } else {
-            return 0;
+            return this.singletonVariant;
         }
     }
-    
+
     public static enum PlacementType {
         FLOOR_AND_WALL,
         WALL_ONLY;
+    }
+
+    public static enum HeadIDMapping {
+        NAMES,
+        NUMBERS,
+        CUSTOM,
+        SINGLETON;
+    }
+
+    public static class Builder {
+
+        private final String name;
+        private PlacementType placement;
+        private float yOffset;
+        @OnlyIn(Dist.CLIENT)
+        private Supplier<Supplier<EntityModel<?>>> modelSupplier;
+        private HeadIDMapping idMapping;
+        private Function<IVariant, String> customMapper;
+        private IVariant singletonVariant;
+        private String singletonID;
+
+        public Builder(String name) {
+            this.name = name;
+            this.placement = PlacementType.WALL_ONLY;
+            this.yOffset = 0.0F;
+            this.idMapping = null;
+        }
+
+        public Builder mapToNames() {
+            this.idMapping = HeadIDMapping.NAMES;
+            return this;
+        }
+
+        public Builder mapToNumbers() {
+            this.idMapping = HeadIDMapping.NUMBERS;
+            return this;
+        }
+
+        public Builder mapToCustom(Function<IVariant, String> customMapper) {
+            this.idMapping = HeadIDMapping.CUSTOM;
+            this.customMapper = customMapper;
+            return this;
+        }
+
+        public Builder singleton(String id, String texture) {
+            this.idMapping = HeadIDMapping.SINGLETON;
+            this.singletonID = id;
+            this.singletonVariant = new EntityVariant(id, texture);
+            return this;
+        }
+
+        public Builder allowFloor() {
+            this.placement = PlacementType.FLOOR_AND_WALL;
+            return this;
+        }
+
+        public Builder setModel(Supplier<Supplier<EntityModel<? extends Entity>>> modelSupplier) {
+            if(FMLEnvironment.dist == Dist.CLIENT) {
+                this.modelSupplier = modelSupplier;
+            }
+            return this;
+        }
+
+        public Builder offset(float yOffset) {
+            this.yOffset = yOffset;
+            return this;
+        }
+
+        public HeadType build(EntityTypeContainer<? extends LivingEntity> container) {
+            if(idMapping == null) {
+                throw new RuntimeException("No ID mapping set for head builder " + name);
+            }
+            return new HeadType(name, placement, yOffset, modelSupplier, idMapping, customMapper, singletonVariant, singletonID, container);
+        }
+
     }
 
 }

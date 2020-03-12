@@ -11,13 +11,12 @@ import java.util.function.Supplier;
 
 import javax.annotation.Nullable;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 
-import its_meow.betteranimalsplus.common.tileentity.TileEntityHead;
 import its_meow.betteranimalsplus.util.HeadType;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.renderer.entity.model.EntityModel;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntitySpawnPlacementRegistry;
 import net.minecraft.entity.EntityType;
@@ -70,6 +69,8 @@ public class EntityTypeContainer<T extends MobEntity> {
     protected int variantMax;
     protected DataParameter<String> variantDataKey;
 
+    protected HeadType headType;
+
     protected EntityTypeContainer(Class<T> EntityClass, Function<World, T> func, String entityNameIn, EntityClassification type, int solidColorIn, int spotColorIn, int prob, int min, int max, float width, float height, boolean despawn, int variantMax, IVariant[] variants, @Nullable CustomConfigurationHolder customConfig, Supplier<Set<Biome>> biomes, EntitySpawnPlacementRegistry.PlacementType placementType, Heightmap.Type heightMapType, EntitySpawnPlacementRegistry.IPlacementPredicate<T> placementPredicate) {
         this.entityClass = EntityClass;
         this.factory = func;
@@ -115,7 +116,7 @@ public class EntityTypeContainer<T extends MobEntity> {
         protected EntitySpawnPlacementRegistry.IPlacementPredicate<T> placementPredicate;
         protected int variantCount = 0;
         protected IVariant[] variants;
-        protected HeadType headType;
+        protected HeadType.Builder headTypeBuilder;
 
         protected Builder(Class<T> EntityClass, Function<World, T> func, String entityNameIn) {
             this.entityClass = EntityClass;
@@ -196,7 +197,7 @@ public class EntityTypeContainer<T extends MobEntity> {
             return this;
         }
 
-        public Builder<T> variants(EntityVariant... variants) {
+        public Builder<T> variants(IVariant... variants) {
             this.variantCount = variants.length;
             this.variants = variants;
             return this;
@@ -225,24 +226,82 @@ public class EntityTypeContainer<T extends MobEntity> {
             }
             return this;
         }
-        
-        public Builder<T> head(String headName, HeadType.PlacementType placement, int variantMax, HeadIDMapping useNames, Function<EntityVariant, String> variantMapper, Supplier<Supplier<Class<? extends EntityModel<Entity>>>> modelSupplier, float yOffset) {
-            headType = new HeadType(headName, placement == placement.FLOOR_AND_WALL, variantMax, modelSupplier, type -> new TileEntityHead(type, yOffset, ));
-            return this;
+
+        public ContainerHeadBuilder<T> head(String headName) {
+            return new ContainerHeadBuilder<T>(headName, this);
+        }
+
+        public ContainerHeadBuilder<T> head() {
+            return head(this.entityName + "head");
         }
 
         public EntityTypeContainer<T> build() {
-            return new EntityTypeContainer<T>(entityClass, factory, entityName, spawnType, eggColorSolid, eggColorSpot, spawnWeight, spawnMinGroup, spawnMaxGroup, width, height, despawn, variantCount, variants, customConfig, defaultBiomeSupplier, placementType, heightMapType, placementPredicate);
+            EntityTypeContainer<T> container = new EntityTypeContainer<T>(entityClass, factory, entityName, spawnType, eggColorSolid, eggColorSpot, spawnWeight, spawnMinGroup, spawnMaxGroup, width, height, despawn, variantCount, variants, customConfig, defaultBiomeSupplier, placementType, heightMapType, placementPredicate);
+            if(this.headTypeBuilder != null) {
+                container.headType = headTypeBuilder.build(container);
+            }
+            return container;
         }
 
         public static <T extends MobEntity> Builder<T> create(Class<T> EntityClass, Function<World, T> func, String entityNameIn) {
             return new Builder<T>(EntityClass, func, entityNameIn);
         }
-        
-        public static enum HeadIDMapping {
-            NAMES,
-            NUMBERS,
-            CUSTOM;
+
+        public static class ContainerHeadBuilder<T extends MobEntity> extends HeadType.Builder {
+
+            private Builder<T> builder;
+
+            public ContainerHeadBuilder(String name, Builder<T> builder) {
+                super(name);
+                this.builder = builder;
+            }
+            
+            @Override
+            public ContainerHeadBuilder<T> mapToNames() {
+                super.mapToNames();
+                return this;
+            }
+
+            @Override
+            public ContainerHeadBuilder<T> mapToNumbers() {
+                super.mapToNumbers();
+                return this;
+            }
+
+            @Override
+            public ContainerHeadBuilder<T> mapToCustom(Function<IVariant, String> customMapper) {
+                super.mapToCustom(customMapper);
+                return this;
+            }
+            
+            @Override
+            public ContainerHeadBuilder<T> singleton(String id, String texture) {
+                super.singleton(id, texture);
+                return this;
+            }
+
+            @Override
+            public ContainerHeadBuilder<T> allowFloor() {
+                super.allowFloor();
+                return this;
+            }
+
+            @Override
+            public ContainerHeadBuilder<T> setModel(Supplier<Supplier<EntityModel<?>>> modelSupplier) {
+                super.setModel(modelSupplier);
+                return this;
+            }
+            
+            public ContainerHeadBuilder<T> offset(float yOffset) {
+                super.offset(yOffset);
+                return this;
+            }
+
+            public Builder<T> done() {
+                builder.headTypeBuilder = this;
+                return builder;
+            }
+
         }
 
     }
@@ -288,14 +347,10 @@ public class EntityTypeContainer<T extends MobEntity> {
         }
 
         public void loadSpawnValues(ForgeConfigSpec.Builder builder, EntityTypeContainer<T> container) {
-            spawnWeight = builder.comment("The spawn chance compared to other entities (typically between 6-20)").worldRestart()
-            .defineInRange("weight", container.spawnWeight, 1, 9999);
-            spawnMinGroup = builder.comment("Must be greater than 0").worldRestart().defineInRange("minGroup", container.spawnMinGroup, 1,
-            9999);
-            spawnMaxGroup = builder.comment("Must be greater or equal to min value!").worldRestart().defineInRange("maxGroup",
-            container.spawnMaxGroup, 1, 9999);
-            biomesList = builder.comment("Enter biome Resource Locations. Supports modded biomes.").worldRestart()
-            .defineList("spawnBiomes", biomeStrings, (Predicate<Object>) input -> input instanceof String);
+            spawnWeight = builder.comment("The spawn chance compared to other entities (typically between 6-20)").worldRestart().defineInRange("weight", container.spawnWeight, 1, 9999);
+            spawnMinGroup = builder.comment("Must be greater than 0").worldRestart().defineInRange("minGroup", container.spawnMinGroup, 1, 9999);
+            spawnMaxGroup = builder.comment("Must be greater or equal to min value!").worldRestart().defineInRange("maxGroup", container.spawnMaxGroup, 1, 9999);
+            biomesList = builder.comment("Enter biome Resource Locations. Supports modded biomes.").worldRestart().defineList("spawnBiomes", biomeStrings, (Predicate<Object>) input -> input instanceof String);
         }
     }
 
@@ -351,6 +406,7 @@ public class EntityTypeContainer<T extends MobEntity> {
 
     public static interface CustomConfigurationHolder {
         void customConfigurationInit(ForgeConfigSpec.Builder builder);
+
         void customConfigurationLoad();
     }
 
@@ -365,6 +421,10 @@ public class EntityTypeContainer<T extends MobEntity> {
                 placementRegistered = true;
             }
         }
+    }
+
+    public HeadType getHeadType() {
+        return this.headType;
     }
 
     public boolean hasVariants() {
@@ -382,8 +442,16 @@ public class EntityTypeContainer<T extends MobEntity> {
     public IVariant getVariant(int index) {
         return this.variantList.getVariant(index);
     }
-    
+
+    public ImmutableList<IVariant> getVariants() {
+        return this.variantList.getVariantList();
+    }
+
     public int getVariantIndex(String variant) {
+        return this.variantList.getVariantIndex(variant);
+    }
+
+    public int getVariantIndex(IVariant variant) {
         return this.variantList.getVariantIndex(variant);
     }
 

@@ -10,7 +10,6 @@ import its_meow.betteranimalsplus.common.entity.util.IContainerEntity;
 import its_meow.betteranimalsplus.common.entity.util.IDropHead;
 import its_meow.betteranimalsplus.init.ModEntities;
 import its_meow.betteranimalsplus.init.ModLootTables;
-import its_meow.betteranimalsplus.util.HeadType;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -103,10 +102,6 @@ public class EntityBear extends MonsterEntity implements IContainerEntity<Entity
 
     public boolean canSpawn(IWorld p_213380_1_, SpawnReason p_213380_2_) {
         return p_213380_1_.getDifficulty() != Difficulty.PEACEFUL;
-    }
-    
-    protected void doDropHead() {
-        HeadType.BEARHEAD.drop(this, 12, 1);
     }
 
     @Override
@@ -224,7 +219,7 @@ public class EntityBear extends MonsterEntity implements IContainerEntity<Entity
     @Override
     public void onDeath(DamageSource cause) {
         super.onDeath(cause);
-        this.doDropHead();
+        this.doHeadDrop();
     }
 
     @Override

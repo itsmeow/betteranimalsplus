@@ -10,7 +10,6 @@ import its_meow.betteranimalsplus.common.entity.util.IDropHead;
 import its_meow.betteranimalsplus.common.entity.util.abstracts.EntityAnimalWithSelectiveTypes;
 import its_meow.betteranimalsplus.common.entity.util.abstracts.EntityAnimalWithTypes;
 import its_meow.betteranimalsplus.init.ModEntities;
-import its_meow.betteranimalsplus.util.HeadType;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -115,13 +114,10 @@ public class EntityBoar extends EntityAnimalWithSelectiveTypes implements IMob, 
         this.playSound(SoundEvents.ENTITY_PIG_STEP, 0.15F, 1.0F);
     }
 
-    /**
-     * Called when the mob's health reaches 0.
-     */
     @Override
     public void onDeath(DamageSource cause) {
         super.onDeath(cause);
-        HeadType.BOARHEAD.drop(this, 12);
+        this.doHeadDrop();
     }
 
     @Override

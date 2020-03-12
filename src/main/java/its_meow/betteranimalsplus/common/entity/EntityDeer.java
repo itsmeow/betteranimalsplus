@@ -1,13 +1,17 @@
 package its_meow.betteranimalsplus.common.entity;
 
 
+import java.util.Calendar;
+
 import javax.annotation.Nullable;
 
+import its_meow.betteranimalsplus.Ref;
 import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainer;
+import its_meow.betteranimalsplus.common.entity.util.EntityVariant;
+import its_meow.betteranimalsplus.common.entity.util.IDropHead;
 import its_meow.betteranimalsplus.common.entity.util.abstracts.EntityAnimalEatsGrassWithTypes;
 import its_meow.betteranimalsplus.init.ModEntities;
 import its_meow.betteranimalsplus.init.ModLootTables;
-import its_meow.betteranimalsplus.util.HeadType;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.goal.AvoidEntityGoal;
@@ -32,7 +36,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 
-public class EntityDeer extends EntityAnimalEatsGrassWithTypes {
+public class EntityDeer extends EntityAnimalEatsGrassWithTypes implements IDropHead {
 
     public EntityDeer(World worldIn) {
         super(ModEntities.DEER.entityType, worldIn, 5);
@@ -122,7 +126,7 @@ public class EntityDeer extends EntityAnimalEatsGrassWithTypes {
     @Override
     public void onDeath(DamageSource cause) {
         super.onDeath(cause);
-        HeadType.DEERHEAD.drop(this, 12);
+        this.doHeadDrop();
     }
 
     @Override
@@ -139,6 +143,32 @@ public class EntityDeer extends EntityAnimalEatsGrassWithTypes {
     @Override
     public EntityTypeContainer<EntityDeer> getContainer() {
         return ModEntities.DEER;
+    }
+
+    public static class EntityDeerVariant extends EntityVariant {
+        
+        private static boolean isChristmas = false;
+
+        static {
+            Calendar calendar = Calendar.getInstance();
+
+            if(calendar.get(2) + 1 == 12 && calendar.get(5) >= 24 && calendar.get(5) <= 26) {
+                isChristmas = true;
+            }
+        }
+        
+        private ResourceLocation christmasTexture;
+
+        public EntityDeerVariant(String nameTexture) {
+            super(nameTexture, "deer_" + nameTexture);
+            this.christmasTexture = new ResourceLocation(Ref.MOD_ID, "textures/entities/deer_" + nameTexture + "_christmas.png");
+        }
+
+        @Override
+        public ResourceLocation getTexture() {
+            return isChristmas ? christmasTexture : texture;
+        }
+
     }
 
 }

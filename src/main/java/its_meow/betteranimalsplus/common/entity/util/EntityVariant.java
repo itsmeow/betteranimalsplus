@@ -5,9 +5,19 @@ import net.minecraft.util.ResourceLocation;
 
 public class EntityVariant implements IVariant {
 
-    private String name;
-    private ResourceLocation texture;
-    private boolean hasHead = true;
+    protected String name;
+    protected ResourceLocation texture;
+    protected boolean hasHead = true;
+    
+    public EntityVariant(String nameTexture) {
+        this.texture = new ResourceLocation(Ref.MOD_ID, "textures/entities/" + nameTexture + ".png");
+        this.name = nameTexture;
+    }
+    
+    public EntityVariant(String nameTexture, boolean hasHead) {
+        this.texture = new ResourceLocation(Ref.MOD_ID, "textures/entities/" + nameTexture + ".png");
+        this.hasHead = hasHead;
+    }
 
     public EntityVariant(String name, String texture) {
        this.texture = new ResourceLocation(Ref.MOD_ID, "textures/entities/" + texture + ".png");

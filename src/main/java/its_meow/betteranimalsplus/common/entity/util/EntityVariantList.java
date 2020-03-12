@@ -3,6 +3,8 @@ package its_meow.betteranimalsplus.common.entity.util;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import com.google.common.collect.ImmutableList;
+
 import net.minecraft.util.ResourceLocation;
 
 public class EntityVariantList {
@@ -18,11 +20,15 @@ public class EntityVariantList {
     public IVariant getVariant(int index) {
         return variantList.get(index);
     }
-    
+
     public int getVariantIndex(String variant) {
         return variantList.indexOf(getVariant(variant));
     }
-    
+
+    public int getVariantIndex(IVariant variant) {
+        return variantList.indexOf(variant);
+    }
+
     public IVariant getVariant(String name) {
         return nameMap.get(name);
     }
@@ -33,6 +39,10 @@ public class EntityVariantList {
 
     public String getName(String name) {
         return getVariant(name).getName();
+    }
+
+    public ImmutableList<IVariant> getVariantList() {
+        return ImmutableList.copyOf(this.variantList);
     }
 
     public void add(IVariant... variants) {

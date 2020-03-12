@@ -78,10 +78,11 @@ public class BetterAnimalsPlusMod {
 
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::loadComplete);
-        FMLJavaModLoadingContext.get().getModEventBus()
-                .<FMLClientSetupEvent>addListener(e -> new ClientLifecycleHandler().clientSetup(e));
+        FMLJavaModLoadingContext.get().getModEventBus().<FMLClientSetupEvent>addListener(e -> new ClientLifecycleHandler().clientSetup(e));
 
         ModTriggers.register();
+        
+        ModEntities.init();
         
         BetterAnimalsPlusMod.logger.log(Level.INFO, "Injecting super coyotes...");
     }

@@ -10,6 +10,7 @@ import its_meow.betteranimalsplus.client.model.ModelBear;
 import its_meow.betteranimalsplus.client.model.ModelBoar;
 import its_meow.betteranimalsplus.client.model.ModelBobbitWorm;
 import its_meow.betteranimalsplus.client.model.ModelCrab;
+import its_meow.betteranimalsplus.client.model.ModelDeer;
 import its_meow.betteranimalsplus.client.model.ModelFreshwaterEel;
 import its_meow.betteranimalsplus.client.model.ModelGoat;
 import its_meow.betteranimalsplus.client.model.ModelHorseshoeCrab;
@@ -23,7 +24,6 @@ import its_meow.betteranimalsplus.client.model.ModelTarantula;
 import its_meow.betteranimalsplus.client.model.ModelZotzpyre;
 import its_meow.betteranimalsplus.client.renderer.entity.RenderCoyote;
 import its_meow.betteranimalsplus.client.renderer.entity.RenderCustomWolf;
-import its_meow.betteranimalsplus.client.renderer.entity.RenderDeer;
 import its_meow.betteranimalsplus.client.renderer.entity.RenderGoose;
 import its_meow.betteranimalsplus.client.renderer.entity.RenderHirschgeist;
 import its_meow.betteranimalsplus.client.renderer.entity.RenderJellyfish;
@@ -102,7 +102,7 @@ public class ClientLifecycleHandler {
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityHead.class, new RenderGenericHead());
         RenderingRegistry.registerEntityRenderingHandler(EntityBear.class, simpleScaledSingle(new ModelBear<EntityBear>(), 1F, ModTextures.bear_brown, 1.3D, 1.3D));
         RenderingRegistry.registerEntityRenderingHandler(EntityBearNeutral.class, simple(new ModelBear<EntityBearNeutral>(), 1F));
-        RenderingRegistry.registerEntityRenderingHandler(EntityDeer.class, RenderDeer::new);
+        RenderingRegistry.registerEntityRenderingHandler(EntityDeer.class, simpleScaled(new ModelDeer<EntityDeer>(), 1F, 1.0D, 0.6D));
         RenderingRegistry.registerEntityRenderingHandler(EntityLammergeier.class, simple(new ModelLammergeier<EntityLammergeier>(), 0.3F));
         RenderingRegistry.registerEntityRenderingHandler(EntityFeralWolf.class, RenderCustomWolf::new);
         RenderingRegistry.registerEntityRenderingHandler(EntityCoyote.class, RenderCoyote::new);
@@ -117,7 +117,7 @@ public class ClientLifecycleHandler {
         RenderingRegistry.registerEntityRenderingHandler(EntitySquirrel.class, simpleScaled(new ModelSquirrel<EntitySquirrel>(), 0.3F, 0.5D, 0.35D));
         RenderingRegistry.registerEntityRenderingHandler(EntitySongbird.class, RenderSongbird::new);
         RenderingRegistry.registerEntityRenderingHandler(EntityBadger.class, simpleScaled(new ModelBadger<EntityBadger>(), 0.4F, 0.7D, 0.35D));
-        RenderingRegistry.registerEntityRenderingHandler(EntityBadgerDirt.class, RenderNothing::new);
+        RenderingRegistry.registerEntityRenderingHandler(EntityBadgerDirt.class, nothing());
         RenderingRegistry.registerEntityRenderingHandler(EntityLamprey.class, RenderLamprey::new);
         RenderingRegistry.registerEntityRenderingHandler(EntityNautilus.class, simpleSingle(new ModelNautilus<EntityNautilus>(), 0.4F, ModTextures.nautilus));
         RenderingRegistry.registerEntityRenderingHandler(EntityCrab.class, simpleScaled(new ModelCrab<EntityCrab>(), 0.4F, 1D, 0.45D));
@@ -136,39 +136,43 @@ public class ClientLifecycleHandler {
         RenderingRegistry.registerEntityRenderingHandler(EntitySaltwaterEel.class, simple(new ModelSaltwaterEel<EntitySaltwaterEel>(), 0.4F));
         BetterAnimalsPlusMod.logger.info("Rendering squirrel physics...");
     }
-    
+
+    private static <T extends Entity> IRenderFactory<T> nothing() {
+        return RenderNothing::new;
+    }
+
     private static <T extends Entity & IRendersAsItem> IRenderFactory<T> sprite() {
         return mgr -> new SpriteRenderer<T>(mgr, Minecraft.getInstance().getItemRenderer());
     }
-    
+
     private static <T extends MobEntity & IVariantTypes<?>, A extends EntityModel<T>> IRenderFactory<T> simple(A model, float shadowSize) {
         return mgr -> new SimpleRenderer<T, A>(mgr, model, shadowSize);
     }
-    
+
     private static <T extends MobEntity & IVariantTypes<?>, A extends EntityModel<T>> IRenderFactory<T> simpleScaled(A model, float shadowSize, double adultScale, double childScale) {
         return mgr -> new SimpleScaledRenderer<T, A>(mgr, model, shadowSize, adultScale, childScale);
     }
-    
+
     private static <T extends MobEntity, A extends EntityModel<T>> IRenderFactory<T> simpleSingle(A model, float shadowSize, ResourceLocation texture) {
         return mgr -> new SimpleSingleRenderer<T, A>(mgr, model, shadowSize, texture);
     }
-    
+
     private static <T extends MobEntity, A extends EntityModel<T>> IRenderFactory<T> simpleScaledSingle(A model, float shadowSize, ResourceLocation texture, double adultScale, double childScale) {
         return mgr -> new SimpleScaledSingleRenderer<T, A>(mgr, model, shadowSize, texture, adultScale, childScale);
     }
-    
+
     private static <T extends MobEntity & IVariantTypes<?>, A extends EntityModel<T>> IRenderFactory<T> simpleEyes(A model, float shadowSize, ResourceLocation eyes, Predicate<T> showEyes) {
         return mgr -> (new SimpleRenderer<T, A>(mgr, model, shadowSize).layer(base -> new LayerEyesCondition<T, A>(base, eyes, showEyes)));
     }
-    
+
     private static <T extends MobEntity & IVariantTypes<?>, A extends EntityModel<T>> IRenderFactory<T> simpleScaledEyes(A model, float shadowSize, double adultScale, double childScale, ResourceLocation eyes, Predicate<T> showEyes) {
         return mgr -> (new SimpleScaledRenderer<T, A>(mgr, model, shadowSize, adultScale, childScale).layer(base -> new LayerEyesCondition<T, A>(base, eyes, showEyes)));
     }
-    
+
     private static <T extends MobEntity, A extends EntityModel<T>> IRenderFactory<T> simpleSingleEyes(A model, float shadowSize, ResourceLocation texture, ResourceLocation eyes, Predicate<T> showEyes) {
         return mgr -> (new SimpleSingleRenderer<T, A>(mgr, model, shadowSize, texture).layer(base -> new LayerEyesCondition<T, A>(base, eyes, showEyes)));
     }
-    
+
     private static <T extends MobEntity, A extends EntityModel<T>> IRenderFactory<T> simpleScaledSingleEyes(A model, float shadowSize, ResourceLocation texture, double adultScale, double childScale, ResourceLocation eyes, Predicate<T> showEyes) {
         return mgr -> (new SimpleScaledSingleRenderer<T, A>(mgr, model, shadowSize, texture, adultScale, childScale).layer(base -> new LayerEyesCondition<T, A>(base, eyes, showEyes)));
     }

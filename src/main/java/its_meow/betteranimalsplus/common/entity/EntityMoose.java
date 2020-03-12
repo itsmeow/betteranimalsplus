@@ -8,7 +8,6 @@ import its_meow.betteranimalsplus.common.entity.util.IDropHead;
 import its_meow.betteranimalsplus.common.entity.util.abstracts.EntityAnimalEatsGrassWithTypes;
 import its_meow.betteranimalsplus.init.ModEntities;
 import its_meow.betteranimalsplus.init.ModLootTables;
-import its_meow.betteranimalsplus.util.HeadType;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -128,7 +127,7 @@ public class EntityMoose extends EntityAnimalEatsGrassWithTypes implements IDrop
     @Override
     public void onDeath(DamageSource cause) {
         super.onDeath(cause);
-        HeadType.MOOSEHEAD.drop(this, 12);
+        this.doHeadDrop();
     }
 
     @Override

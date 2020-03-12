@@ -10,7 +10,7 @@
             {"text":"Not so macho, but I'm sure you're working on it!","italic":true,"color":"white"}
         ],
         "icon": {
-            "item": "betteranimalsplus:bearhead_3"
+            "item": "betteranimalsplus:blackbearhead_kermode"
         },
         "frame": "task",
         "show_toast": true,

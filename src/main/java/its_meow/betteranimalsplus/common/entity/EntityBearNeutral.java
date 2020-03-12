@@ -9,7 +9,6 @@ import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainer;
 import its_meow.betteranimalsplus.common.entity.util.IVariantTypes;
 import its_meow.betteranimalsplus.init.ModEntities;
 import its_meow.betteranimalsplus.init.ModLootTables;
-import its_meow.betteranimalsplus.util.HeadType;
 import net.minecraft.entity.ILivingEntityData;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.goal.HurtByTargetGoal;
@@ -88,11 +87,6 @@ public class EntityBearNeutral extends EntityBear implements IVariantTypes<Entit
     public void read(CompoundNBT compound) {
         super.read(compound);
         this.readType(compound);
-    }
-
-    @Override
-    public void doDropHead() {
-        HeadType.BEARHEAD.drop(this, 12, this.getContainer().getVariantIndex(this.getVariantName()) + 2);
     }
     
     @Override

@@ -2,6 +2,8 @@ package its_meow.betteranimalsplus.common.entity.miniboss.hirschgeist;
 
 import its_meow.betteranimalsplus.common.entity.miniboss.hirschgeist.ai.HirschgeistAIAttackMelee;
 import its_meow.betteranimalsplus.common.entity.miniboss.hirschgeist.ai.HirschgeistAIFlameAttack;
+import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainer;
+import its_meow.betteranimalsplus.common.entity.util.IContainerEntity;
 import its_meow.betteranimalsplus.common.entity.util.IDropHead;
 import its_meow.betteranimalsplus.init.ModEntities;
 import its_meow.betteranimalsplus.init.ModLootTables;
@@ -27,10 +29,10 @@ import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.fml.loading.FMLEnvironment;
 
-public class EntityHirschgeist extends MobEntity implements IMob, IDropHead {
+public class EntityHirschgeist extends MobEntity implements IMob, IDropHead, IContainerEntity<EntityHirschgeist> {
 
     public EntityHirschgeist(World worldIn) {
-        super(ModEntities.getEntityType("hirschgeist"), worldIn);
+        super(ModEntities.HIRSCHGEIST.entityType, worldIn);
     }
 
     @Override
@@ -85,11 +87,10 @@ public class EntityHirschgeist extends MobEntity implements IMob, IDropHead {
 
     @Override
     public boolean attackEntityFrom(DamageSource source, float amount) {
-        if (this.isDaytime() && FMLEnvironment.dist == Dist.CLIENT && this.world.isRemote) {
-            if (source.getTrueSource() instanceof PlayerEntity) {
+        if(this.isDaytime() && FMLEnvironment.dist == Dist.CLIENT && this.world.isRemote) {
+            if(source.getTrueSource() instanceof PlayerEntity) {
                 PlayerEntity player = (PlayerEntity) source.getTrueSource();
-                player.sendMessage(new StringTextComponent("The " + I18n.format("entity.betteranimalsplus.hirschgeist")
-                + " is immortal in the daytime. Try fighting it later."));
+                player.sendMessage(new StringTextComponent("The " + I18n.format("entity.betteranimalsplus.hirschgeist") + " is immortal in the daytime. Try fighting it later."));
             }
         }
         return this.isDaytime() ? false : super.attackEntityFrom(source, amount);
@@ -102,7 +103,7 @@ public class EntityHirschgeist extends MobEntity implements IMob, IDropHead {
 
     public Vec3d getHeadLookVec(float p_184665_1_) {
         Vec3d vec3d;
-        if (this.getAttackTarget() != null) {
+        if(this.getAttackTarget() != null) {
             float f = Math.max(MathHelper.sqrt(this.getDistanceSq(this.getAttackTarget())) / 4.0F, 1.0F);
             float f1 = 6.0F / f;
             float f2 = this.rotationPitch;
@@ -113,6 +114,16 @@ public class EntityHirschgeist extends MobEntity implements IMob, IDropHead {
             return vec3d;
         }
         return null;
+    }
+
+    @Override
+    public EntityHirschgeist getImplementation() {
+        return this;
+    }
+
+    @Override
+    public EntityTypeContainer<?> getContainer() {
+        return ModEntities.HIRSCHGEIST;
     }
 
 }

@@ -8,15 +8,15 @@ public class BlockGenericSkull extends BlockAnimalSkull {
 
     public final HeadType type;
 
-    public BlockGenericSkull(HeadType type, int i) {
+    public BlockGenericSkull(HeadType type, String id) {
         super();
-        this.setRegistryName(type.name + "_" + i);
+        this.setRegistryName(type.getName() + "_" + id);
         this.type = type;
     }
 
     @Override
     public TileEntity createNewTileEntity(IBlockReader reader) {
-        return type.teFactory.apply(type);
+        return type.createTE();
     }
 
 }
