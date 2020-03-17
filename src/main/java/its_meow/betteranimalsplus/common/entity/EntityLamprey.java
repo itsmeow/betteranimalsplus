@@ -7,7 +7,6 @@ import its_meow.betteranimalsplus.common.entity.miniboss.hirschgeist.EntityHirsc
 import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainer;
 import its_meow.betteranimalsplus.common.entity.util.abstracts.EntityWaterMobPathingWithTypesBucketable;
 import its_meow.betteranimalsplus.init.ModEntities;
-import its_meow.betteranimalsplus.init.ModItems;
 import its_meow.betteranimalsplus.init.ModLootTables;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
@@ -192,11 +191,6 @@ public class EntityLamprey extends EntityWaterMobPathingWithTypesBucketable impl
     @Override
     public EntityTypeContainer<EntityLamprey> getContainer() {
         return ModEntities.LAMPREY;
-    }
-
-    @Override
-    public ItemStack getBucket() {
-        return new ItemStack(ModItems.LAMPREY_BUCKET);
     }
 
     @Override

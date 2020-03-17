@@ -3,10 +3,8 @@ package its_meow.betteranimalsplus.common.entity;
 import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainer;
 import its_meow.betteranimalsplus.common.entity.util.abstracts.EntityEelBase;
 import its_meow.betteranimalsplus.init.ModEntities;
-import its_meow.betteranimalsplus.init.ModItems;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.goal.HurtByTargetGoal;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.world.World;
@@ -44,11 +42,6 @@ public class EntitySaltwaterEel extends EntityEelBase {
 
     protected boolean shouldCheckTarget() {
         return isTargetForFood;
-    }
-
-    @Override
-    public ItemStack getBucket() {
-        return new ItemStack(ModItems.SALTWATER_EEL_BUCKET);
     }
 
     @Override

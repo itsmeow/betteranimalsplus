@@ -14,6 +14,8 @@ import javax.annotation.Nullable;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 
+import its_meow.betteranimalsplus.common.item.ItemModFishBucket;
+import its_meow.betteranimalsplus.common.item.ItemModFishBucket.IBucketTooltipFunction;
 import its_meow.betteranimalsplus.util.HeadType;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.renderer.entity.model.EntityModel;
@@ -22,6 +24,7 @@ import net.minecraft.entity.EntitySpawnPlacementRegistry;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.SpawnReason;
+import net.minecraft.fluid.Fluids;
 import net.minecraft.item.SpawnEggItem;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
@@ -35,7 +38,7 @@ import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.ForgeConfigSpec;
 
 public class EntityTypeContainer<T extends MobEntity> {
-
+    
     public EntityType<T> entityType;
     public SpawnEggItem egg;
 
@@ -68,10 +71,12 @@ public class EntityTypeContainer<T extends MobEntity> {
     protected EntityVariantList variantList;
     protected int variantMax;
     protected DataParameter<String> variantDataKey;
+    protected DataParameter<Boolean> fromBucketDataKey;
+    protected ItemModFishBucket<T> bucket;
 
     protected HeadType headType;
 
-    protected EntityTypeContainer(Class<T> EntityClass, Function<World, T> func, String entityNameIn, EntityClassification type, int solidColorIn, int spotColorIn, int prob, int min, int max, float width, float height, boolean despawn, int variantMax, IVariant[] variants, @Nullable CustomConfigurationHolder customConfig, Supplier<Set<Biome>> biomes, EntitySpawnPlacementRegistry.PlacementType placementType, Heightmap.Type heightMapType, EntitySpawnPlacementRegistry.IPlacementPredicate<T> placementPredicate) {
+    protected EntityTypeContainer(Class<T> EntityClass, Function<World, T> func, String entityNameIn, EntityClassification type, int solidColorIn, int spotColorIn, int prob, int min, int max, float width, float height, boolean despawn, int variantMax, IVariant[] variants, @Nullable CustomConfigurationHolder customConfig, Supplier<Set<Biome>> biomes, EntitySpawnPlacementRegistry.PlacementType placementType, Heightmap.Type heightMapType, EntitySpawnPlacementRegistry.IPlacementPredicate<T> placementPredicate, boolean hasBucket, IBucketTooltipFunction bucketTooltip) {
         this.entityClass = EntityClass;
         this.factory = func;
         this.entityName = entityNameIn;
@@ -93,6 +98,9 @@ public class EntityTypeContainer<T extends MobEntity> {
         if(this.hasVariants()) {
             variantList = new EntityVariantList(variantMax);
             variantList.add(variants);
+        }
+        if(hasBucket) {
+            this.bucket = new ItemModFishBucket<T>(this, () -> Fluids.WATER, bucketTooltip);
         }
     }
 
@@ -117,6 +125,9 @@ public class EntityTypeContainer<T extends MobEntity> {
         protected int variantCount = 0;
         protected IVariant[] variants;
         protected HeadType.Builder headTypeBuilder;
+        protected boolean hasBucket;
+        protected IBucketTooltipFunction bucketTooltip;
+        protected IBucketTooltipFunction bucketTooltipFinal;
 
         protected Builder(Class<T> EntityClass, Function<World, T> func, String entityNameIn) {
             this.entityClass = EntityClass;
@@ -136,6 +147,7 @@ public class EntityTypeContainer<T extends MobEntity> {
             this.placementType = null;
             this.heightMapType = null;
             this.placementPredicate = null;
+            this.hasBucket = false;
         }
 
         public Builder<T> spawn(EntityClassification type, int weight, int min, int max) {
@@ -235,11 +247,44 @@ public class EntityTypeContainer<T extends MobEntity> {
             return head(this.entityName + "head");
         }
 
-        public EntityTypeContainer<T> build() {
-            EntityTypeContainer<T> container = new EntityTypeContainer<T>(entityClass, factory, entityName, spawnType, eggColorSolid, eggColorSpot, spawnWeight, spawnMinGroup, spawnMaxGroup, width, height, despawn, variantCount, variants, customConfig, defaultBiomeSupplier, placementType, heightMapType, placementPredicate);
+        public Builder<T> bucketable() {
+            this.hasBucket = true;
+            return this;
+        }
+        
+        public Builder<T> bucketable(IBucketTooltipFunction tooltip) {
+            this.hasBucket = true;
+            this.bucketTooltip = tooltip;
+            return this;
+        }
+
+        protected void preBuild() {
+            if(this.hasBucket && variantCount > 0) {
+                if(this.bucketTooltip == null) {
+                    this.bucketTooltipFinal = ItemModFishBucket.defaultVariantFunc;
+                } else {
+                    this.bucketTooltipFinal = (container, stack, worldIn, tooltip) -> {
+                        ItemModFishBucket.defaultVariantFunc.addInformation(container, stack, worldIn, tooltip);
+                        this.bucketTooltip.addInformation(container, stack, worldIn, tooltip);
+                    };
+                }
+            } else if(this.hasBucket && this.bucketTooltip != null) {
+                this.bucketTooltipFinal = this.bucketTooltip;
+            } else if(this.hasBucket && this.bucketTooltip == null) {
+                this.bucketTooltipFinal = (container, stack, world, tooltip) -> {};
+            }
+        }
+
+        protected void postBuild(EntityTypeContainer<T> container) {
             if(this.headTypeBuilder != null) {
                 container.headType = headTypeBuilder.build(container);
             }
+        }
+
+        public EntityTypeContainer<T> build() {
+            preBuild();
+            EntityTypeContainer<T> container = new EntityTypeContainer<T>(entityClass, factory, entityName, spawnType, eggColorSolid, eggColorSpot, spawnWeight, spawnMinGroup, spawnMaxGroup, width, height, despawn, variantCount, variants, customConfig, defaultBiomeSupplier, placementType, heightMapType, placementPredicate, hasBucket, bucketTooltipFinal);
+            postBuild(container);
             return container;
         }
 
@@ -460,6 +505,21 @@ public class EntityTypeContainer<T extends MobEntity> {
             this.variantDataKey = EntityDataManager.<String>createKey(this.entityClass, DataSerializers.STRING);
         }
         return this.variantDataKey;
+    }
+
+    public DataParameter<Boolean> getFromBucketDataKey() {
+        if(this.fromBucketDataKey == null) {
+            this.fromBucketDataKey = EntityDataManager.<Boolean>createKey(this.entityClass, DataSerializers.BOOLEAN);
+        }
+        return this.fromBucketDataKey;
+    }
+
+    public ItemModFishBucket<T> getBucketItem() {
+        return this.bucket;
+    }
+
+    public boolean hasBucket() {
+        return this.bucket != null;
     }
 
 }

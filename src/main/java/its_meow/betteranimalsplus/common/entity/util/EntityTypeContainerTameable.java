@@ -9,6 +9,7 @@ import java.util.function.Supplier;
 
 import javax.annotation.Nullable;
 
+import its_meow.betteranimalsplus.common.item.ItemModFishBucket.IBucketTooltipFunction;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntitySpawnPlacementRegistry;
@@ -28,8 +29,8 @@ public class EntityTypeContainerTameable<T extends MobEntity> extends EntityType
     protected ConfigValue<List<? extends String>> tameItems;
     protected String[] defaultTameItems;
 
-    private EntityTypeContainerTameable(Class<T> EntityClass, Function<World, T> func, String entityNameIn, EntityClassification type, int solidColorIn, int spotColorIn, int prob, int min, int max, float width, float height, boolean despawn, int variantCount, IVariant[] variantFactories, String[] defaultTameItems, @Nullable CustomConfigurationHolder customConfig, Supplier<Set<Biome>> biomes, EntitySpawnPlacementRegistry.PlacementType placementType, Heightmap.Type heightMapType, EntitySpawnPlacementRegistry.IPlacementPredicate<T> placementPredicate) {
-        super(EntityClass, func, entityNameIn, type, solidColorIn, spotColorIn, prob, min, max, width, height, despawn, variantCount, variantFactories, customConfig, biomes, placementType, heightMapType, placementPredicate);
+    private EntityTypeContainerTameable(Class<T> EntityClass, Function<World, T> func, String entityNameIn, EntityClassification type, int solidColorIn, int spotColorIn, int prob, int min, int max, float width, float height, boolean despawn, int variantCount, IVariant[] variantFactories, String[] defaultTameItems, @Nullable CustomConfigurationHolder customConfig, Supplier<Set<Biome>> biomes, EntitySpawnPlacementRegistry.PlacementType placementType, Heightmap.Type heightMapType, EntitySpawnPlacementRegistry.IPlacementPredicate<T> placementPredicate, boolean hasBucket, IBucketTooltipFunction bucketTooltip) {
+        super(EntityClass, func, entityNameIn, type, solidColorIn, spotColorIn, prob, min, max, width, height, despawn, variantCount, variantFactories, customConfig, biomes, placementType, heightMapType, placementPredicate, hasBucket, bucketTooltip);
         this.defaultTameItems = defaultTameItems;
     }
 
@@ -131,13 +132,22 @@ public class EntityTypeContainerTameable<T extends MobEntity> extends EntityType
         public TameableContainerHeadBuilder<T> head() {
             return head(this.entityName + "head");
         }
+        
+        public TameableBuilder<T> bucketable() {
+            super.bucketable();
+            return this;
+        }
+        
+        public TameableBuilder<T> bucketable(IBucketTooltipFunction tooltip) {
+            super.bucketable(tooltip);
+            return this;
+        }
 
         @Override
         public EntityTypeContainerTameable<T> build() {
-            EntityTypeContainerTameable<T> container = new EntityTypeContainerTameable<T>(entityClass, factory, entityName, spawnType, eggColorSolid, eggColorSpot, spawnWeight, spawnMinGroup, spawnMaxGroup, width, height, despawn, variantCount, variants, defaultTameItems, customConfig, defaultBiomeSupplier, placementType, heightMapType, placementPredicate);
-            if(this.headTypeBuilder != null) {
-                container.headType = headTypeBuilder.build(container);
-            }
+            this.preBuild();
+            EntityTypeContainerTameable<T> container = new EntityTypeContainerTameable<T>(entityClass, factory, entityName, spawnType, eggColorSolid, eggColorSpot, spawnWeight, spawnMinGroup, spawnMaxGroup, width, height, despawn, variantCount, variants, defaultTameItems, customConfig, defaultBiomeSupplier, placementType, heightMapType, placementPredicate, hasBucket, bucketTooltipFinal);
+            this.postBuild(container);
             return container;
         }
 

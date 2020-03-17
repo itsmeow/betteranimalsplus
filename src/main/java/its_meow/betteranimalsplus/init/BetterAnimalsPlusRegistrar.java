@@ -101,10 +101,16 @@ public class BetterAnimalsPlusRegistrar {
         ModItems.GOLDEN_GOOSE_EGG,
         ModItems.TURKEY_LEG_RAW,
         ModItems.TURKEY_LEG_COOKED,
-        ModItems.FRIED_EGG,
-        ModItems.LAMPREY_BUCKET,
-        ModItems.FRESHWATER_EEL_BUCKET,
-        ModItems.SALTWATER_EEL_BUCKET,
+        ModItems.FRIED_EGG
+        );
+        
+        for (EntityTypeContainer<?> container : ModEntities.ENTITIES.values()) {
+            if(container.hasBucket()) {
+                event.getRegistry().register(container.getBucketItem());
+            }
+        }
+        
+        registry.registerAll(
         new ItemAdvancementIcon("advancement_icon_jellyfish"),
         new ItemAdvancementIcon("advancement_icon_jellyfish_cross"),
         new ItemAdvancementIcon("advancement_icon_goat"), 

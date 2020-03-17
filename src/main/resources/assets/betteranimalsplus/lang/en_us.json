@@ -41,7 +41,8 @@
     "item.betteranimalsplus.lamprey_bucket": "Bucket of Lamprey",
     "item.betteranimalsplus.eel_saltwater_bucket": "Bucket of Saltwater Eel",
     "item.betteranimalsplus.eel_freshwater_bucket": "Bucket of Freshwater Eel",
-    "item.betteranimalsplus.eel_jellyfish_bucket": "Bucket of Jellyfish",
+    "item.betteranimalsplus.jellyfish_bucket": "Bucket of Jellyfish",
+    "item.betteranimalsplus.nautilus_bucket": "Bucket of Nautilus",
 
     "block.betteranimalsplus.trillium": "Trillium",
     "block.betteranimalsplus.hirschgeistskull": "Hirschgeist Skull",
@@ -95,6 +96,12 @@
     "entity.betteranimalsplus.lamprey.type.yellow": "Yellow",
     "entity.betteranimalsplus.lamprey.type.spotted": "Spotted",
     "entity.betteranimalsplus.lamprey.type.brown": "Brown",
+    "entity.betteranimalsplus.jellyfish.type.little_blue": "Little Blue",
+    "entity.betteranimalsplus.jellyfish.type.big_blue": "Big Blue",
+    "entity.betteranimalsplus.jellyfish.type.pink": "Pink",
+    "entity.betteranimalsplus.jellyfish.type.red_stripe": "Red Stripe",
+    "entity.betteranimalsplus.jellyfish.type.green": "Green",
+    "entity.betteranimalsplus.jellyfish.type.gray": "Gray",
     
     "misc.betteranimalsplus.eggorder": "%s Spawn Egg"
 }
