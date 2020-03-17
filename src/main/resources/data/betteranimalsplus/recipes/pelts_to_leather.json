@@ -2,10 +2,10 @@
 	"type": "minecraft:crafting_shapeless",
 	"ingredients": [
 	    {
-	        "item": "betteranimalsplus:bear_skin_black"
+	        "tag": "betteranimalsplus:pelts"
 	    },
 	    {
-	        "item": "betteranimalsplus:bear_skin_black"
+	        "tag": "betteranimalsplus:pelts"
 	    }
 	],
 	"result": {

@@ -54,10 +54,18 @@ public class ModItems {
     public static final Item WOLF_PELT_SNOWY = new ItemNamedSimple("wolf_pelt_snowy");
     public static final Item WOLF_PELT_TIMBER = new ItemNamedSimple("wolf_pelt_timber");
     public static final Item WOLF_PELT_BLACK = new ItemNamedSimple("wolf_pelt_black");
+    
+    public static final Item WOLF_PELT_ARCTIC = new ItemNamedSimple("wolf_pelt_arctic");
+    public static final Item WOLF_PELT_BROWN = new ItemNamedSimple("wolf_pelt_brown");
+    public static final Item WOLF_PELT_RED = new ItemNamedSimple("wolf_pelt_red");
 
     public static ItemWolfCape WOLF_CAPE_CLASSIC = new ItemWolfCape("classic", WOLF_PELT_SNOWY);
     public static ItemWolfCape WOLF_CAPE_TIMBER = new ItemWolfCape("timber", WOLF_PELT_TIMBER);
     public static ItemWolfCape WOLF_CAPE_BLACK = new ItemWolfCape("black", WOLF_PELT_BLACK);
+
+    public static ItemWolfCape WOLF_CAPE_ARCTIC = new ItemWolfCape("arctic", WOLF_PELT_ARCTIC);
+    public static ItemWolfCape WOLF_CAPE_BROWN = new ItemWolfCape("brown", WOLF_PELT_BROWN);
+    public static ItemWolfCape WOLF_CAPE_RED = new ItemWolfCape("red", WOLF_PELT_RED);
     
     public static final Item BEAR_SKIN_BROWN = new ItemNamedSimple("bear_skin_brown");
     public static final Item BEAR_SKIN_BLACK = new ItemNamedSimple("bear_skin_black");

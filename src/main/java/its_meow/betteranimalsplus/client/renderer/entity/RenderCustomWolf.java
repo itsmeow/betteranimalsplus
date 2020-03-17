@@ -42,6 +42,12 @@ public class RenderCustomWolf extends MobRenderer<EntityFeralWolf, ModelFeralWol
                 return ModTextures.wolf_snowy_neutral;
             case "timber":
                 return ModTextures.wolf_timber_neutral;
+            case "arctic":
+                return ModTextures.wolf_arctic_neutral;
+            case "brown":
+                return ModTextures.wolf_brown_neutral;
+            case "red":
+                return ModTextures.wolf_red_neutral;
             }
         }
         return entity.getVariantTexture();

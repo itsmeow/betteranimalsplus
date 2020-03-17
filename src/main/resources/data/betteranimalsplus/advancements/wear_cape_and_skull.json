@@ -18,7 +18,7 @@
     "hidden": false
   },
   "criteria": {
-    "get_cape1": {
+    	"get_cape1": {
             "trigger": "minecraft:inventory_changed",
             "conditions": {
                 "items": [
@@ -87,6 +87,36 @@
                     }
                 ]
             }
+        },
+        "get_cape7": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "betteranimalsplus:wolf_cape_arctic"
+                    }
+                ]
+            }
+        },
+        "get_cape8": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "betteranimalsplus:wolf_cape_brown"
+                    }
+                ]
+            }
+        },
+        "get_cape9": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "betteranimalsplus:wolf_cape_red"
+                    }
+                ]
+            }
         }
   },
   "requirements": [
@@ -96,7 +126,10 @@
       "get_cape3",
       "get_cape4",
       "get_cape5",
-      "get_cape6"
+      "get_cape6",
+      "get_cape7",
+      "get_cape8",
+      "get_cape9"
     ],
     [
       "get_skull"
