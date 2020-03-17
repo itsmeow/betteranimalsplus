@@ -1,5 +1,7 @@
 package its_meow.betteranimalsplus.client.model;
 
+import com.mojang.blaze3d.platform.GlStateManager;
+
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.entity.model.RendererModel;
 import net.minecraft.entity.LivingEntity;
@@ -94,7 +96,13 @@ public class ModelLamprey<T extends LivingEntity> extends EntityModel<T> {
 
     @Override
     public void render(T entity, float f, float f1, float f2, float f3, float f4, float f5) { 
+        GlStateManager.pushMatrix();
+        if(!entity.isInWater() && !entity.isPassenger()) {
+            GlStateManager.rotatef(90F, 0F, 0F, 1.0F);
+            GlStateManager.translatef(1.5F, -1.75F, 0F);
+        }
         this.body01.render(f5);
+        GlStateManager.popMatrix();
     }
     
     @Override

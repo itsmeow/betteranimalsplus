@@ -38,6 +38,10 @@
     "item.betteranimalsplus.wolf_cape_arctic": "Wolf Cape (Arctic)",
     "item.betteranimalsplus.wolf_cape_brown": "Wolf Cape (Brown)",
     "item.betteranimalsplus.wolf_cape_red": "Wolf Cape (Red)",
+    "item.betteranimalsplus.lamprey_bucket": "Bucket of Lamprey",
+    "item.betteranimalsplus.eel_saltwater_bucket": "Bucket of Saltwater Eel",
+    "item.betteranimalsplus.eel_freshwater_bucket": "Bucket of Freshwater Eel",
+    "item.betteranimalsplus.eel_jellyfish_bucket": "Bucket of Jellyfish",
 
     "block.betteranimalsplus.trillium": "Trillium",
     "block.betteranimalsplus.hirschgeistskull": "Hirschgeist Skull",
@@ -86,6 +90,11 @@
     "entity.betteranimalsplus.eel_saltwater.type.morray": "Morray",
     "entity.betteranimalsplus.eel_saltwater.type.ribbon": "Ribbon",
     "entity.betteranimalsplus.eel_saltwater.type.snowflake": "Snowflake",
+    "entity.betteranimalsplus.eel_freshwater.type.longfin": "Longfin",
+    "entity.betteranimalsplus.eel_freshwater.type.silver": "Silver",
+    "entity.betteranimalsplus.lamprey.type.yellow": "Yellow",
+    "entity.betteranimalsplus.lamprey.type.spotted": "Spotted",
+    "entity.betteranimalsplus.lamprey.type.brown": "Brown",
     
     "misc.betteranimalsplus.eggorder": "%s Spawn Egg"
 }

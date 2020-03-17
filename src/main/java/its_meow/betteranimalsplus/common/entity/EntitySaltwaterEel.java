@@ -3,6 +3,7 @@ package its_meow.betteranimalsplus.common.entity;
 import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainer;
 import its_meow.betteranimalsplus.common.entity.util.abstracts.EntityEelBase;
 import its_meow.betteranimalsplus.init.ModEntities;
+import its_meow.betteranimalsplus.init.ModItems;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.goal.HurtByTargetGoal;
 import net.minecraft.item.ItemStack;
@@ -47,7 +48,7 @@ public class EntitySaltwaterEel extends EntityEelBase {
 
     @Override
     public ItemStack getBucket() {
-        return null;
+        return new ItemStack(ModItems.SALTWATER_EEL_BUCKET);
     }
 
     @Override

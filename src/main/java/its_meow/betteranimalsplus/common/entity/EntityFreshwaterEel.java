@@ -3,6 +3,7 @@ package its_meow.betteranimalsplus.common.entity;
 import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainer;
 import its_meow.betteranimalsplus.common.entity.util.abstracts.EntityEelBase;
 import its_meow.betteranimalsplus.init.ModEntities;
+import its_meow.betteranimalsplus.init.ModItems;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
@@ -16,7 +17,7 @@ public class EntityFreshwaterEel extends EntityEelBase {
 
     @Override
     public ItemStack getBucket() {
-        return null;
+        return new ItemStack(ModItems.FRESHWATER_EEL_BUCKET);
     }
 
     @Override

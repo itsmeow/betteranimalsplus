@@ -68,7 +68,11 @@ public abstract class EntityWaterMobPathingWithTypesBucketable extends EntityWat
             bucket.setDisplayName(this.getCustomName());
         }
         CompoundNBT tag = bucket.getTag();
+        if(bucket.getTag() == null) {
+            tag = new CompoundNBT();
+        }
         tag.putString("BucketVariantTag", this.getVariantName());
+        bucket.setTag(tag);
     }
 
     protected abstract SoundEvent getFlopSound();

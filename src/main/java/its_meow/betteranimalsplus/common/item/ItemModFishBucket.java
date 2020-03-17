@@ -5,8 +5,10 @@ import java.util.function.Supplier;
 
 import javax.annotation.Nullable;
 
+import its_meow.betteranimalsplus.BetterAnimalsPlusMod;
 import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainer;
 import its_meow.betteranimalsplus.common.entity.util.IBucketable;
+import its_meow.betteranimalsplus.common.entity.util.IVariantTypes;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -33,9 +35,10 @@ import net.minecraftforge.common.util.Constants;
 public class ItemModFishBucket<T extends MobEntity> extends BucketItem {
     private final EntityTypeContainer<T> typeContainer;
 
-    public ItemModFishBucket(EntityTypeContainer<T> typeContainer, Supplier<? extends Fluid> fluid, Item.Properties properties) {
-        super(fluid, properties);
+    public ItemModFishBucket(EntityTypeContainer<T> typeContainer, Supplier<? extends Fluid> fluid) {
+        super(fluid, new Item.Properties().maxStackSize(1).group(BetterAnimalsPlusMod.group));
         this.typeContainer = typeContainer;
+        this.setRegistryName(typeContainer.entityName + "_bucket");
     }
 
     public void onLiquidPlaced(World worldIn, ItemStack stack, BlockPos pos) {
@@ -53,6 +56,9 @@ public class ItemModFishBucket<T extends MobEntity> extends BucketItem {
         Entity entity = this.getFishType().spawn(worldIn, stack, (PlayerEntity) null, pos, SpawnReason.BUCKET, true, false);
         if(entity != null) {
             ((IBucketable) entity).setFromBucket(true);
+            if(stack.getTag() != null && stack.getTag().contains("BucketVariantTag") && entity instanceof IVariantTypes) {
+                ((IVariantTypes<?>)entity).setType(stack.getTag().getString("BucketVariantTag"));
+            }
         }
     }
 

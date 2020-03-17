@@ -6,6 +6,9 @@ import java.util.Map;
 
 import its_meow.betteranimalsplus.BetterAnimalsPlusMod;
 import its_meow.betteranimalsplus.Ref;
+import its_meow.betteranimalsplus.common.entity.EntityFreshwaterEel;
+import its_meow.betteranimalsplus.common.entity.EntityLamprey;
+import its_meow.betteranimalsplus.common.entity.EntitySaltwaterEel;
 import its_meow.betteranimalsplus.common.entity.projectile.EntityGoldenGooseEgg;
 import its_meow.betteranimalsplus.common.entity.projectile.EntityGooseEgg;
 import its_meow.betteranimalsplus.common.entity.projectile.EntityPheasantEgg;
@@ -15,10 +18,12 @@ import its_meow.betteranimalsplus.common.item.ItemBearCape;
 import its_meow.betteranimalsplus.common.item.ItemBetterFood;
 import its_meow.betteranimalsplus.common.item.ItemBlockSimple;
 import its_meow.betteranimalsplus.common.item.ItemHirschgeistSkullWearable;
+import its_meow.betteranimalsplus.common.item.ItemModFishBucket;
 import its_meow.betteranimalsplus.common.item.ItemNamedSimple;
 import its_meow.betteranimalsplus.common.item.ItemThrowableCustomEgg;
 import its_meow.betteranimalsplus.common.item.ItemWolfCape;
 import net.minecraft.client.util.ITooltipFlag;
+import net.minecraft.fluid.Fluids;
 import net.minecraft.item.Item;
 import net.minecraft.item.Item.Properties;
 import net.minecraft.item.ItemStack;
@@ -94,6 +99,10 @@ public class ModItems {
     public static final ItemBetterFood TURKEY_LEG_COOKED = new ItemBetterFood("turkey_leg_cooked", 4, 1.2F, 16, true);
     
     public static final ItemBetterFood FRIED_EGG = new ItemBetterFood("fried_egg", 5, 1.5F, 16, true);
+    
+    public static final ItemModFishBucket<EntityLamprey> LAMPREY_BUCKET = new ItemModFishBucket<EntityLamprey>(ModEntities.LAMPREY, () -> Fluids.WATER);
+    public static final ItemModFishBucket<EntityFreshwaterEel> FRESHWATER_EEL_BUCKET = new ItemModFishBucket<EntityFreshwaterEel>(ModEntities.EEL_FRESHWATER, () -> Fluids.WATER);
+    public static final ItemModFishBucket<EntitySaltwaterEel> SALTWATER_EEL_BUCKET = new ItemModFishBucket<EntitySaltwaterEel>(ModEntities.EEL_SALTWATER, () -> Fluids.WATER);
     
     public static Map<String, ItemAdvancementIcon> ADVANCEMENT_ICONS = new HashMap<String, ItemAdvancementIcon>();
     

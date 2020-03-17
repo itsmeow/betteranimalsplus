@@ -5,8 +5,9 @@ import java.util.Set;
 
 import its_meow.betteranimalsplus.common.entity.miniboss.hirschgeist.EntityHirschgeist;
 import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainer;
-import its_meow.betteranimalsplus.common.entity.util.abstracts.EntityWaterMobPathingWithTypes;
+import its_meow.betteranimalsplus.common.entity.util.abstracts.EntityWaterMobPathingWithTypesBucketable;
 import its_meow.betteranimalsplus.init.ModEntities;
+import its_meow.betteranimalsplus.init.ModItems;
 import its_meow.betteranimalsplus.init.ModLootTables;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
@@ -34,7 +35,7 @@ import net.minecraft.util.SoundEvents;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.World;
 
-public class EntityLamprey extends EntityWaterMobPathingWithTypes implements IMob {
+public class EntityLamprey extends EntityWaterMobPathingWithTypesBucketable implements IMob {
 
     protected int lastAttack = 0;
 
@@ -191,6 +192,16 @@ public class EntityLamprey extends EntityWaterMobPathingWithTypes implements IMo
     @Override
     public EntityTypeContainer<EntityLamprey> getContainer() {
         return ModEntities.LAMPREY;
+    }
+
+    @Override
+    public ItemStack getBucket() {
+        return new ItemStack(ModItems.LAMPREY_BUCKET);
+    }
+
+    @Override
+    protected SoundEvent getFlopSound() {
+        return SoundEvents.ENTITY_COD_FLOP;
     }
 
 }
