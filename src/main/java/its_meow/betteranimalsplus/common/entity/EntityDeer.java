@@ -13,7 +13,9 @@ import its_meow.betteranimalsplus.common.entity.util.abstracts.EntityAnimalEatsG
 import its_meow.betteranimalsplus.init.ModEntities;
 import its_meow.betteranimalsplus.init.ModLootTables;
 import net.minecraft.block.BlockState;
+import net.minecraft.entity.ILivingEntityData;
 import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.goal.AvoidEntityGoal;
 import net.minecraft.entity.ai.goal.BreedGoal;
 import net.minecraft.entity.ai.goal.LookRandomlyGoal;
@@ -25,12 +27,15 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.item.crafting.Ingredient;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.Hand;
 import net.minecraft.util.IItemProvider;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.DifficultyInstance;
+import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -143,6 +148,33 @@ public class EntityDeer extends EntityAnimalEatsGrassWithTypes implements IDropH
     @Override
     public EntityTypeContainer<EntityDeer> getContainer() {
         return ModEntities.DEER;
+    }
+
+    @Override
+    @Nullable
+    public ILivingEntityData onInitialSpawn(IWorld world, DifficultyInstance difficulty, SpawnReason reason, @Nullable ILivingEntityData livingdata, CompoundNBT compound) {
+        if(!this.getImplementation().isChild()) {
+            String variant = this.getBiasedRandomType();
+            if(livingdata instanceof TypeData) {
+                variant = ((TypeData) livingdata).typeData;
+            } else {
+                livingdata = new TypeData(variant);
+            }
+            this.setType(variant);
+        }
+        return livingdata;
+    }
+
+    private String getBiasedRandomType() {
+        int[] validTypes = new int[] { 1, 2, 3, 4 };
+        int r = validTypes[this.getRNG().nextInt(validTypes.length)];
+        if(r > 2) {
+            r = validTypes[this.getRNG().nextInt(validTypes.length)];
+        }
+        if(r > 2) {
+            r = validTypes[this.getRNG().nextInt(validTypes.length)];
+        }
+        return String.valueOf(r);
     }
 
     public static class EntityDeerVariant extends EntityVariant {

@@ -81,8 +81,10 @@ public class ModEntities {
         public static final EntityTypeContainer<EntityBearNeutral> BLACK_BEAR = setup(create(EntityBearNeutral.class, EntityBearNeutral::new, "blackbear").spawn(EntityClassification.CREATURE, 6, 1, 1).egg(0x000000, 0x333333).size(2F, 1.5F).biomes(Type.FOREST).variants("black", "kermode").head().mapToNames().setModel(() -> ModelBearHead::new).done());
         public static final EntityTypeContainer<EntityDeer> DEER = setup(create(EntityDeer.class, EntityDeer::new, "deer").spawn(EntityClassification.CREATURE, 16, 1, 4).egg(0x8e510b, 0xc6863b).size(1.2F, 1.6F).biomes(Type.FOREST, Type.MAGICAL).variants(
             new EntityDeer.EntityDeerVariant("1"),
-            new EntityDeer.EntityDeerVariant("2")
-        ).head().mapToNames().setModel(() -> ModelDeerHead::new).done());
+            new EntityDeer.EntityDeerVariant("2"),
+            new EntityDeer.EntityDeerVariant("3"),
+            new EntityDeer.EntityDeerVariant("4")
+        ).head().mapToNames().offset(-1.5F).setModel(() -> ModelDeerHead::new).done());
         public static final EntityTypeContainerTameable<EntityLammergeier> LAMMERGEIER = setup(createTame(EntityLammergeier.class, EntityLammergeier::new, "lammergeier").spawn(EntityClassification.CREATURE, 7, 1, 2).egg(0xd8d8d8, 0xd82b11).size(1F, 1F).tameItems("minecraft:bone").biomes(Type.HILLS, Type.MOUNTAIN).variants("orange", "red", "white", "yellow"));
         public static final EntityTypeContainerTameable<EntityFeralWolf> FERAL_WOLF = setup(createTame(EntityFeralWolf.class, EntityFeralWolf::new, "feralwolf").spawn(EntityClassification.CREATURE, 7, 1, 6).egg(0xbababa, 0x232323).size(1.35F, 1.5F).tameItems("minecraft:bone").biomes(Type.FOREST, Type.MAGICAL, Type.SPOOKY).variants("black", "snowy", "timber").head().mapToNames().allowFloor().setModel(() -> ModelFeralWolfHead::new).done());
         public static final EntityTypeContainerTameable<EntityCoyote> COYOTE = setup(createTame(EntityCoyote.class, EntityCoyote::new, "coyote").spawn(EntityClassification.CREATURE, 5, 1, 6).egg(0x866a31, 0xb69762).size(0.8F, 0.9F).tameItems("minecraft:rabbit", "minecraft:chicken", "betteranimalsplus:pheasantraw", "minecraft:cooked_rabbit", "minecraft:cooked_chicken", "betteranimalsplus:pheasantcooked").biomes(Type.SANDY, Type.PLAINS).config(new CustomConfigurationHolder() {
