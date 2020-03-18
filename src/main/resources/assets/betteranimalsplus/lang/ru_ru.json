@@ -12,6 +12,7 @@
     "item.betteranimalsplus.wolf_cape_classic": "Волчий плащ (классический)",
     "item.betteranimalsplus.wolf_cape_timber": "Волчий плащ (лесной)",
     "item.betteranimalsplus.wolf_cape_black": "Волчий плащ (черный)",
+    "item.betteranimalsplus.record_crab_rave": "Музыкальный диск",
     "item.betteranimalsplus.record_crab_rave.desc": "Рейвящий краб",
     "item.betteranimalsplus.crab_meat_raw": "Сырое мясо краба",
     "item.betteranimalsplus.crab_meat_cooked": "Приготовленное мясо краба",
@@ -85,6 +86,8 @@
     "entity.betteranimalsplus.goose": "Гусь",
     "entity.betteranimalsplus.eel_freshwater": "Пресноводный угорь",
     "entity.betteranimalsplus.eel_saltwater": "Морской угорь",
+    "entity.betteranimalsplus.whale": "Кит",
+    
     "entity.betteranimalsplus.eel_saltwater.type.conger": "Конгер",
     "entity.betteranimalsplus.eel_saltwater.type.dragon": "Дракон",
     "entity.betteranimalsplus.eel_saltwater.type.morray": "Муреновый",
