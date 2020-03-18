@@ -207,7 +207,9 @@ public class EntityBadger extends EntityAnimalWithSelectiveTypes implements IMob
 	
     @Override
     public String[] getTypesFor(Set<BiomeDictionary.Type> types) {
-        if(types.contains(Type.FOREST) && !types.contains(Type.CONIFEROUS)) {
+        if(types.contains(Type.SAVANNA)) {
+            return new String[] {"3"};
+        } else if(types.contains(Type.FOREST) && !types.contains(Type.CONIFEROUS)) {
             return new String[] {"2"};
         } else if(types.contains(Type.CONIFEROUS) && !types.contains(Type.SNOWY)) {
             return new String[] {"1"};
