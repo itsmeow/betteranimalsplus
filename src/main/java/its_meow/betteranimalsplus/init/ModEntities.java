@@ -45,6 +45,7 @@ import its_meow.betteranimalsplus.common.entity.EntitySongbird;
 import its_meow.betteranimalsplus.common.entity.EntitySquirrel;
 import its_meow.betteranimalsplus.common.entity.EntityTarantula;
 import its_meow.betteranimalsplus.common.entity.EntityTurkey;
+import its_meow.betteranimalsplus.common.entity.EntityWhale;
 import its_meow.betteranimalsplus.common.entity.EntityZotzpyre;
 import its_meow.betteranimalsplus.common.entity.miniboss.hirschgeist.EntityHirschgeist;
 import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainer;
@@ -149,6 +150,7 @@ public class ModEntities {
         }).variants(3));
         public static final EntityTypeContainer<EntityFreshwaterEel> EEL_FRESHWATER = setup(create(EntityFreshwaterEel.class, EntityFreshwaterEel::new, "eel_freshwater").spawn(EntityClassification.WATER_CREATURE, 7, 1, 2).waterPlacement().egg(0x818077, 0x726c4f).size(1F, 1F).despawn().biomes(Type.RIVER, Type.SWAMP).variants("longfin", "silver").bucketable());
         public static final EntityTypeContainer<EntitySaltwaterEel> EEL_SALTWATER = setup(create(EntitySaltwaterEel.class, EntitySaltwaterEel::new, "eel_saltwater").spawn(EntityClassification.WATER_CREATURE, 4, 1, 2).waterPlacement().egg(0xa5a5a5, 0x515168).size(1F, 1F).despawn().biomes(BiomeListBuilder.create().withTypes(Type.OCEAN).withoutTypes(Type.COLD).withoutBiomes(Biomes.DEEP_OCEAN, Biomes.DEEP_LUKEWARM_OCEAN, Biomes.DEEP_LUKEWARM_OCEAN)::collect).variants("conger", "dragon", "moray", "ribbon", "snowflake").bucketable());
+        public static final EntityTypeContainer<EntityWhale> WHALE = setup(create(EntityWhale.class, EntityWhale::new, "whale").spawn(EntityClassification.WATER_CREATURE, 2, 1, 3).waterPlacement().egg(0x328da8, 0x001c4f).size(5F, 3F).despawn().biomes(Type.OCEAN).variants("beluga", "bottlenose", "cuviers", "false_killer", "narwhal", "pilot"));
 
     /*
      * ##########################################################
