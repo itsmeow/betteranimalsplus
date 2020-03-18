@@ -1,3 +1,64 @@
+8.2.1
+-
+- 1.14: Fix crash "duplicate entity registry entry"
+
+8.2.0
+-
+- Fix crabs and horseshoe crabs despawning by default (existing configs should be deleted or fixed)
+- Remove zotzpyre in peaceful difficulty
+- Fix zotzpyre spawning too much in some places
+- Fix zotzpyre attacking other monsters (creepers especially)
+- Fix zotzpyre sometimes going into ground
+- Fix zotzpyre randomly floating mid-air
+- Fix zotzpyre "attacking" horses
+- Fix zotzpyre being unable to swim
+- Fix boars not properly moving to crops
+- Update portugeuse translation
+- Fix goats not properly breeding from all tempt items and remove carrot on a stick as a tempt item
+- Fix entities with nametags despawning if enabled in config
+- Improved lamprey animations
+- Fix tarantula spawning in deserts being very rare
+- 1.14: Fix boars not properly pathing through berry bushes
+- 1.14: Fix bears not properly pathing through berry bushes
+- 1.14: Fix dispensers not outputting spawn eggs as entities but instead dropping them
+- 1.14: Fix possible threading issues from packets
+- 1.14: Fix possible configuration editing exploit from client to server
+- 1.14: Fix reindeer spawning in frozen oceans
+- 1.14: Update AI for lamprey to improve pathfinding
+- 1.14: Fix crash with zotzpyre
+- 1.14: Make boars immune to berry bush damage
+- 1.14: Fix shark teleporting player to them when shot with arrows
+- 1.14: Speed up sharks a bit
+
+8.1.1
+-
+- 1.12: Fix crash with zotzpyre
+- 1.12: Fix most of "Received passengers for unknown entity" log spam
+
+8.1.0
+-
+- Add zotzpyre
+- Add bobbit worm
+- Revamped shark animations to reduce choppiness
+- Added "Ultimate Succening" advancement for getting succed by a lamprey, bobbit worm, and zotzpyre
+- Boars will now more actively seek crops to eat them
+- Fixed feral wolf tail receding into body when tamed and added wagging for tamed wolves
+- Fixed sharks attacking slowly/holding enemies and doing nothing
+- Reduced water slowdown of bears
+- Made squirrels immune to fall damage
+- Added thaumcraft aspects for zotzpyre and bobbit
+- Update Spanish translation to 8.1.0 features
+- Update Russian translation for 8.0.0 features
+- Update Japanese translation for 8.1.0 features
+- Update German translation for 8.0.0 features
+- Fix some entities with glowing eyes causing water behind them to be invisible
+- Fix rare crash caused by some mods with armor displays and modeled armor (capes/hirschgeist skull). Test case Modern Warfare mod.
+- 1.14: Brown Bears, Black Bears, and boars will now eat berries similar to foxes
+- 1.14: Brown Bears and Black Bears are now immune to bush damage
+- 1.14: Brown Bears will now attack salmon
+- 1.14: Rewrote shark movement AI
+- 1.14: Fixed some water mobs spawning on land (actually this time)
+
 8.0.0
 -
 - Add moose

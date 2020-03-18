@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
+import com.google.common.collect.Lists;
+
 import its_meow.betteranimalsplus.common.entity.EntityBadger;
 import its_meow.betteranimalsplus.common.entity.EntityBear;
 import its_meow.betteranimalsplus.common.entity.EntityBearNeutral;
@@ -16,7 +18,9 @@ import its_meow.betteranimalsplus.common.entity.EntityCrab;
 import its_meow.betteranimalsplus.common.entity.EntityDeer;
 import its_meow.betteranimalsplus.common.entity.EntityFeralWolf;
 import its_meow.betteranimalsplus.common.entity.EntityFox;
+import its_meow.betteranimalsplus.common.entity.EntityFreshwaterEel;
 import its_meow.betteranimalsplus.common.entity.EntityGoat;
+import its_meow.betteranimalsplus.common.entity.EntityGoose;
 import its_meow.betteranimalsplus.common.entity.EntityHorseshoeCrab;
 import its_meow.betteranimalsplus.common.entity.EntityJellyfish;
 import its_meow.betteranimalsplus.common.entity.EntityLammergeier;
@@ -25,6 +29,7 @@ import its_meow.betteranimalsplus.common.entity.EntityMoose;
 import its_meow.betteranimalsplus.common.entity.EntityNautilus;
 import its_meow.betteranimalsplus.common.entity.EntityPheasant;
 import its_meow.betteranimalsplus.common.entity.EntityReindeer;
+import its_meow.betteranimalsplus.common.entity.EntitySaltwaterEel;
 import its_meow.betteranimalsplus.common.entity.EntityShark;
 import its_meow.betteranimalsplus.common.entity.EntitySongbird;
 import its_meow.betteranimalsplus.common.entity.EntitySquirrel;
@@ -62,20 +67,44 @@ public class ModEntities {
 		add(EntityGoat.class, "goat", EnumCreatureType.CREATURE, 0xffffff, 0xeeeeee, BetterAnimalsPlusConfig.goatWeight, 1, 4, false, null, Type.HILLS, Type.MOUNTAIN, Type.SAVANNA, Type.PLAINS, Type.FOREST);
 		add(EntityJellyfish.class, "jellyfish", EnumCreatureType.WATER_CREATURE, 0x226fe2, 0xf2b3b3, BetterAnimalsPlusConfig.jellyFishWeight, 1, 1, true, null, Type.OCEAN);
 		add(EntityPheasant.class, "pheasant", EnumCreatureType.CREATURE, 0x8e6b0b, 0xd8af3c, BetterAnimalsPlusConfig.pheasantWeight, 1, 3, false, null, Type.FOREST, Type.PLAINS, Type.SAVANNA);
-		add(EntityReindeer.class, "reindeer", EnumCreatureType.CREATURE, 0x8e510b, 0x017700, BetterAnimalsPlusConfig.reindeerWeight, 1, 4, false, null, Type.SNOWY);
+		add(EntityReindeer.class, "reindeer", EnumCreatureType.CREATURE, 0x8e510b, 0x017700, BetterAnimalsPlusConfig.reindeerWeight, 1, 4, false, null, () -> BiomeDictionary.getBiomes(Type.SNOWY).stream().filter(biome -> !BiomeDictionary.getTypes(biome).contains(Type.OCEAN)).collect(Collectors.toList()).toArray(new Biome[0]));
 		add(EntityBoar.class, "boar", EnumCreatureType.CREATURE, 0x3d3c3b, 0xbca895, BetterAnimalsPlusConfig.boarWeight, 1, 4, false, null, Type.FOREST, Type.JUNGLE, Type.PLAINS, Type.SAVANNA);
 		add(EntitySquirrel.class, "squirrel", EnumCreatureType.CREATURE, 0x89806f, 0xb2a489, BetterAnimalsPlusConfig.squirrelWeight, 1, 3, false, null, Type.FOREST);
         add(EntitySongbird.class, "songbird", EnumCreatureType.CREATURE, 0x46f4d2, 0x7df442, BetterAnimalsPlusConfig.songbirdWeight, 1, 4, false, null, Type.FOREST, Type.PLAINS);
         add(EntityBadger.class, "badger", EnumCreatureType.CREATURE, 0x0c0c0c, 0xd3d3d3, BetterAnimalsPlusConfig.badgerWeight, 1, 2, false, null, Type.FOREST, Type.PLAINS, Type.SAVANNA);
         add(EntityLamprey.class, "lamprey", EnumCreatureType.WATER_CREATURE, 0x0000ad, 0x0a0a0a, BetterAnimalsPlusConfig.lampreyWeight, 1, 1, true, null, Type.RIVER, Type.SWAMP);
         add(EntityNautilus.class, "nautilus", EnumCreatureType.WATER_CREATURE, 0xff9659, 0x241682, BetterAnimalsPlusConfig.nautilusWeight, 1, 1, true, null, Type.OCEAN);
-        add(EntityCrab.class, "crab", EnumCreatureType.CREATURE, 0xe21d16, 0x2d0504, BetterAnimalsPlusConfig.crabWeight, 1, 3, true, null, Type.BEACH, Type.SWAMP);
-        add(EntityHorseshoeCrab.class, "horseshoecrab", EnumCreatureType.CREATURE, 0xba1111, 0x520807, BetterAnimalsPlusConfig.horseshoeCrabWeight, 1, 3, true, null, Type.BEACH);
+        add(EntityCrab.class, "crab", EnumCreatureType.CREATURE, 0xe21d16, 0x2d0504, BetterAnimalsPlusConfig.crabWeight, 1, 3, false, null, Type.BEACH, Type.SWAMP);
+        add(EntityHorseshoeCrab.class, "horseshoecrab", EnumCreatureType.CREATURE, 0xba1111, 0x520807, BetterAnimalsPlusConfig.horseshoeCrabWeight, 1, 3, false, null, Type.BEACH);
         add(EntityShark.class, "shark", EnumCreatureType.WATER_CREATURE, 0x787878, 0xbdbdbd, BetterAnimalsPlusConfig.sharkWeight, 1, 1, true, null, Type.OCEAN);
         add(EntityMoose.class, "moose", EnumCreatureType.CREATURE, 0x46351c, 0x97866e, BetterAnimalsPlusConfig.mooseWeight, 1, 1, false, null, () -> {List<Biome> list = BiomeDictionary.getBiomes(Type.SWAMP).stream().collect(Collectors.toList());list.add(Biomes.REDWOOD_TAIGA); list.add(Biomes.REDWOOD_TAIGA_HILLS);list.add(Biomes.MUTATED_REDWOOD_TAIGA);list.add(Biomes.MUTATED_REDWOOD_TAIGA_HILLS);return list.toArray(new Biome[0]);});
         add(EntityTurkey.class, "turkey", EnumCreatureType.CREATURE, 0x857445, 0x5099ba, BetterAnimalsPlusConfig.turkeyWeight, 2, 5, false, null, () -> BiomeDictionary.getBiomes(Type.FOREST).stream().filter(biome -> !BiomeDictionary.getTypes(biome).contains(Type.SNOWY)).collect(Collectors.toList()).toArray(new Biome[0]));
-        add(EntityZotzpyre.class, "zotzpyre", EnumCreatureType.AMBIENT, 0x321e13, 0x543a28, 10, 1, 1, true, null, Type.FOREST, Type.JUNGLE, Type.BEACH, Type.CONIFEROUS, Type.LUSH, Type.WASTELAND, Type.SWAMP, Type.HILLS, Type.MOUNTAIN);
+        add(EntityZotzpyre.class, "zotzpyre", EnumCreatureType.MONSTER, 0x321e13, 0x543a28, 30, 1, 1, true, null, Type.FOREST, Type.JUNGLE, Type.BEACH, Type.CONIFEROUS, Type.LUSH, Type.WASTELAND, Type.SWAMP, Type.HILLS, Type.MOUNTAIN);
         add(EntityBobbitWorm.class, "bobbit_worm", EnumCreatureType.WATER_CREATURE, 0xffe38f, 0x0f27bf, 2, 1, 1, true, null, Type.OCEAN);
+        add(EntityGoose.class, "goose", EnumCreatureType.CREATURE, 0xd3cfcf, 0x5e5752, 15, 2, 5, false, null, () -> {
+            List<Type> blockedTypes = Lists.newArrayList(Type.DRY, Type.COLD, Type.HOT, Type.DENSE, Type.DEAD, Type.SPARSE, Type.OCEAN);
+            List<Biome> biomes = BiomeDictionary.getBiomes(Type.FOREST).stream().filter(biome -> {
+                for(Type type : BiomeDictionary.getTypes(biome)) {
+                    if(blockedTypes.contains(type)) {
+                        return false;
+                    }
+                }
+                return true;
+            }).collect(Collectors.toList());
+            BiomeDictionary.getBiomes(Type.RIVER).forEach(biome -> biomes.add(biome));
+            return biomes.toArray(new Biome[0]);
+        });
+        add(EntityFreshwaterEel.class, "eel_freshwater", EnumCreatureType.WATER_CREATURE, 0x818077, 0x726c4f, 7, 1, 2, true, null, Type.RIVER, Type.SWAMP);
+        add(EntitySaltwaterEel.class, "eel_saltwater", EnumCreatureType.WATER_CREATURE, 0xa5a5a5, 0x515168, 4, 1, 2, true, null, () -> {
+            return BiomeDictionary.getBiomes(Type.OCEAN).stream().filter(biome -> {
+                if(BiomeDictionary.getTypes(biome).contains(Type.COLD)) {
+                    return false;
+                } else if(biome == Biomes.DEEP_OCEAN) {
+                    return false;
+                }
+                return true;
+            }).collect(Collectors.toList()).toArray(new Biome[0]);
+        });
     }
     
     /**

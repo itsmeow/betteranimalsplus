@@ -10,9 +10,9 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
-public abstract class EntityBasicWaterCreature extends EntityWaterMob {
+public abstract class EntityWaterMobPathing extends EntityWaterMob {
 
-    public EntityBasicWaterCreature(World world) {
+    public EntityWaterMobPathing(World world) {
         super(world);
     }
     
@@ -72,7 +72,7 @@ public abstract class EntityBasicWaterCreature extends EntityWaterMob {
 
     @Override
     protected boolean canDespawn() {
-        return ModEntities.entityMap.containsKey(this.getContainerName()) ? ModEntities.entityMap.get(this.getContainerName()).despawn : false;
+        return ModEntities.entityMap.containsKey(this.getContainerName()) ? ModEntities.entityMap.get(this.getContainerName()).despawn && !this.hasCustomName() : false;
     }
 
     protected int getExperiencePoints(EntityPlayer player) {

@@ -157,6 +157,7 @@ public class ModTextures {
     public static final ResourceLocation shark_bull = new ResourceLocation(entitytex + "shark_bull.png");
     public static final ResourceLocation shark_tiger = new ResourceLocation(entitytex + "shark_tiger.png");
     public static final ResourceLocation shark_whitetip = new ResourceLocation(entitytex + "shark_whitetip.png");
+    public static final ResourceLocation shark_greenland = new ResourceLocation(entitytex + "shark_greenland.png");
     
     // Moose Variants
     public static final ResourceLocation moose_1 = new ResourceLocation(entitytex + "moose_1.png");
@@ -181,5 +182,21 @@ public class ModTextures {
     // Bobbit Worm Variants
     public static final ResourceLocation bobbit_worm_1 = new ResourceLocation(entitytex + "bobbit_worm_1.png");
     public static final ResourceLocation bobbit_worm_2 = new ResourceLocation(entitytex + "bobbit_worm_2.png");
+
+    // Goose Variants
+    public static final ResourceLocation goose_1 = new ResourceLocation(entitytex + "goose_1.png");
+    public static final ResourceLocation goose_2 = new ResourceLocation(entitytex + "goose_2.png");
+    public static final ResourceLocation goose_3 = new ResourceLocation(entitytex + "goose_3.png");
+
+    // Freshwater Eels
+    public static final ResourceLocation eel_freshwater_longfin = new ResourceLocation(entitytex + "eel_freshwater_longfin.png");
+    public static final ResourceLocation eel_freshwater_silver = new ResourceLocation(entitytex + "eel_freshwater_silver.png");
+    
+    // Saltwater Eels
+    public static final ResourceLocation eel_saltwater_conger = new ResourceLocation(entitytex + "eel_saltwater_conger.png");
+    public static final ResourceLocation eel_saltwater_dragon = new ResourceLocation(entitytex + "eel_saltwater_dragon.png");
+    public static final ResourceLocation eel_saltwater_morray = new ResourceLocation(entitytex + "eel_saltwater_morray.png");
+    public static final ResourceLocation eel_saltwater_ribbon = new ResourceLocation(entitytex + "eel_saltwater_ribbon.png");
+    public static final ResourceLocation eel_saltwater_snowflake = new ResourceLocation(entitytex + "eel_saltwater_snowflake.png");
 
 }

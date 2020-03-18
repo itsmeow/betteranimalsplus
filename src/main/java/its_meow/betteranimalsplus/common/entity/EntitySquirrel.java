@@ -163,6 +163,10 @@ public class EntitySquirrel extends EntityAnimalWithSelectiveTypes {
     public boolean isBreedingItem(ItemStack stack) {
         return stack.getItem() == Items.WHEAT_SEEDS || stack.getItem() == Items.BEETROOT_SEEDS || stack.getItem() == Items.MELON_SEEDS || stack.getItem() == Items.PUMPKIN_SEEDS;
     }
+    
+    @Override
+    public void fall(float distance, float damageMultiplier) {
+    }
 
     @Override
     public int getVariantMax() {

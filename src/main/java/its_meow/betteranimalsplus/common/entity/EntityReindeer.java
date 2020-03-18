@@ -1064,7 +1064,7 @@ public class EntityReindeer extends EntityAnimal implements IJumpingMount, IVari
     
     @Override
     protected boolean canDespawn() {
-        return ModEntities.entityMap.containsKey("reindeer") ? ModEntities.entityMap.get("reindeer").despawn : false;
+        return ModEntities.entityMap.containsKey("reindeer") ? ModEntities.entityMap.get("reindeer").despawn && !this.hasCustomName() : false;
     }
 
 }

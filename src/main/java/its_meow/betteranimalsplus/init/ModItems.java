@@ -1,10 +1,13 @@
 package its_meow.betteranimalsplus.init;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import its_meow.betteranimalsplus.BetterAnimalsPlusMod;
 import its_meow.betteranimalsplus.Ref;
+import its_meow.betteranimalsplus.common.entity.projectile.EntityGoldenGooseEgg;
+import its_meow.betteranimalsplus.common.entity.projectile.EntityGooseEgg;
 import its_meow.betteranimalsplus.common.entity.projectile.EntityPheasantEgg;
 import its_meow.betteranimalsplus.common.entity.projectile.EntityTurkeyEgg;
 import its_meow.betteranimalsplus.common.item.ItemAdvancementIcon;
@@ -15,12 +18,20 @@ import its_meow.betteranimalsplus.common.item.ItemHirschgeistSkullWearable;
 import its_meow.betteranimalsplus.common.item.ItemNamedSimple;
 import its_meow.betteranimalsplus.common.item.ItemThrowableCustomEgg;
 import its_meow.betteranimalsplus.common.item.ItemWolfCape;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBucketMilk;
 import net.minecraft.item.ItemRecord;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.Style;
+import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextFormatting;
+import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.GameRegistry.ObjectHolder;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 @ObjectHolder("betteranimalsplus")
 public class ModItems {
@@ -61,6 +72,14 @@ public class ModItems {
     
     public static final ItemThrowableCustomEgg PHEASANT_EGG = new ItemThrowableCustomEgg("pheasant_egg", player -> new EntityPheasantEgg(player.world, player));
     public static final ItemThrowableCustomEgg TURKEY_EGG = new ItemThrowableCustomEgg("turkey_egg", player -> new EntityTurkeyEgg(player.world, player));
+    public static final ItemThrowableCustomEgg GOOSE_EGG = new ItemThrowableCustomEgg("goose_egg", player -> new EntityGooseEgg(player.world, player));
+    public static final ItemThrowableCustomEgg GOLDEN_GOOSE_EGG = new ItemThrowableCustomEgg("golden_goose_egg", player -> new EntityGoldenGooseEgg(player.world, player)) {
+        @SideOnly(Side.CLIENT)
+        @Override
+        public void addInformation(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
+            tooltip.add(new TextComponentString("Golden! Maybe you can melt this down for resources?").setStyle(new Style().setBold(true).setColor(TextFormatting.YELLOW)).getFormattedText());
+        }
+    };
     
     public static final ItemBetterFood TURKEY_LEG_RAW = new ItemBetterFood("turkey_leg_raw", 2, 0F, 16, true);
     public static final ItemBetterFood TURKEY_LEG_COOKED = new ItemBetterFood("turkey_leg_cooked", 4, 1.2F, 16, true);

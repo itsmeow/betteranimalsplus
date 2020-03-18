@@ -22,7 +22,7 @@ public abstract class ItemModeledArmor extends ItemArmor {
     @Override
     @SideOnly(Side.CLIENT)
     public ModelBiped getArmorModel(EntityLivingBase entityLiving, ItemStack itemStack, EntityEquipmentSlot armorSlot, ModelBiped defaultModel) {
-        if (itemStack != null) {
+        if (itemStack != null && defaultModel != null && armorSlot != null) {
             if (itemStack.getItem() instanceof ItemArmor) {
 
                 ModelBiped armorModel = this.getBaseModelInstance();

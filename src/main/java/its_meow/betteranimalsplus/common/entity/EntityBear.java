@@ -81,6 +81,11 @@ public class EntityBear extends EntityMob {
         this.doDropHead();
     }
     
+    @Override
+    protected float getWaterSlowDown() {
+        return 0.95F;
+    }
+    
     protected void doDropHead() {
         if (!world.isRemote && !this.isChild()) {
             if (this.rand.nextInt(12) == 0) {
@@ -216,7 +221,7 @@ public class EntityBear extends EntityMob {
     
     @Override
     protected boolean canDespawn() {
-        return ModEntities.entityMap.containsKey("brownbear") ? ModEntities.entityMap.get("brownbear").despawn : false;
+        return ModEntities.entityMap.containsKey("brownbear") ? ModEntities.entityMap.get("brownbear").despawn && !this.hasCustomName() : false;
     }
 
 }

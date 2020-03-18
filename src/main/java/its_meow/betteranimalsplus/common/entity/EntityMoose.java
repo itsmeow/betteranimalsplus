@@ -131,6 +131,11 @@ public class EntityMoose extends EntityAnimalEatsGrassWithTypes {
         blockpos$pooledmutableblockpos1.release();
         blockpos$pooledmutableblockpos2.release();
     }
+    
+    @Override
+    public boolean canBreatheUnderwater() {
+        return true;
+    }
 
     @Override
     protected ResourceLocation getLootTable() {

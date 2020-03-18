@@ -95,7 +95,7 @@ if(System.getenv('USE_ALPHAS').equals('true')) {
             def hash = desc.remove(desc.size() - 1)
             def offset = desc.remove(desc.size() - 1)
             def tag = desc.join('-')
-            return "${tag}.${offset}".toString() //Bake the response instead of making it dynamic
+            return "${tag}.${offset}".toString().replace("${project.mc_version}-", "") //Bake the response instead of making it dynamic
         }
         project.mod_version = getVersion();
         version = project.mc_version + '-' + getVersion();
@@ -117,7 +117,7 @@ if(System.getenv('USE_ALPHAS').equals('true')) {
 	            commandLine "echo", "##[set-output name=version;]${project.version}";
 	        }
 	        exec {
-	            commandLine "echo", "##[set-output name=commitlog;]" + "{\"embeds\":[{\"author\":{\"name\":\"itsmeow\",\"url\":\"https://itsmeow.dev/\",\"icon_url\":\"https://itsmeow.dev/icon.png\"},\"title\":\"betteranimalsplus-alpha-${project.version}\",\"url\":\"https://github.com/itsmeow/betteranimalsplus/releases/tag/alpha-${project.version}\",\"color\":14700288,\"description\":\"" + log + "\"}]}";
+	            commandLine "echo", "##[set-output name=commitlog;]" + "{\"content\":\"<@&658183075255025664>\",\"embeds\":[{\"author\":{\"name\":\"itsmeow\",\"url\":\"https://itsmeow.dev/\",\"icon_url\":\"https://itsmeow.dev/icon.png\"},\"title\":\"betteranimalsplus-alpha-${project.version}\",\"url\":\"https://github.com/itsmeow/betteranimalsplus/releases/tag/alpha-${project.version}\",\"color\":14700288,\"description\":\"" + log + "\"}]}";
 	        }
 	    }
 	}

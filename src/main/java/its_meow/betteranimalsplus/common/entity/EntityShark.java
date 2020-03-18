@@ -1,30 +1,23 @@
 package its_meow.betteranimalsplus.common.entity;
 
-import java.util.Random;
-
-import javax.annotation.Nullable;
+import java.util.Set;
 
 import its_meow.betteranimalsplus.common.entity.ai.EntityAIFindEntityNearestPredicate;
 import its_meow.betteranimalsplus.common.entity.ai.EntityAIWanderWaterEntity;
 import its_meow.betteranimalsplus.init.ModLootTables;
 import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.item.EntityBoat;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.datasync.DataParameter;
-import net.minecraft.network.datasync.DataSerializers;
-import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
+import net.minecraftforge.common.BiomeDictionary.Type;
 
-public class EntityShark extends EntitySharkBase implements IVariantTypes {
+public class EntityShark extends EntitySharkBase {
 
-    protected static final DataParameter<Integer> TYPE_NUMBER = EntityDataManager.<Integer>createKey(EntityShark.class, DataSerializers.VARINT);
+    
     private float lastAttack = 0;
     private float lastGrab = 0;
     private float lastTickHealth = 0;
@@ -61,10 +54,11 @@ public class EntityShark extends EntitySharkBase implements IVariantTypes {
     public boolean shouldAttackForHealth(float health) {
         int type = this.getTypeNumber();
         switch(type) {
-        case 1: return health <= 8F;// blue
+        case 1: return health <= 8F; // blue
         case 2: return health <= 13F;// bull
-        case 3: return health <= 10; // tiger
+        case 3: return health <= 10F;// tiger
         case 4: return health <= 16F;// whitetip
+        case 5: return health <= 8F; // greenland
         default: return false;
         }
     }
@@ -85,8 +79,8 @@ public class EntityShark extends EntitySharkBase implements IVariantTypes {
             boolean isBoat = this.getAttackTarget() instanceof EntityPlayer && this.getAttackTarget().isRiding() && this.getAttackTarget().getRidingEntity() instanceof EntityBoat;
             float grabDelay = isBoat ? 20F : 60F;
             if(this.getPassengers().contains(this.getAttackTarget())) {
-                float time = 80F;
-                time *= 5F * (Math.random() + 1F);
+                float time = 30F;
+                time *= (Math.random() + 1F);
                 if(this.lastAttack + time < this.ticksExisted) {
                     this.attackEntityAsMob(this.getAttackTarget());
                 }
@@ -110,61 +104,24 @@ public class EntityShark extends EntitySharkBase implements IVariantTypes {
         this.lastTickHealth = this.getHealth();
     }
 
-    protected void entityInit() {
-        super.entityInit();
-        this.registerTypeKey();
-    }
-
-    @Override
-    public void writeEntityToNBT(NBTTagCompound compound) {
-        super.writeEntityToNBT(compound);
-        this.writeType(compound);
-    }
-
-    @Override
-    public void readEntityFromNBT(NBTTagCompound compound) {
-        super.readEntityFromNBT(compound);
-        this.readType(compound);
-    }
-
-    @Override
-    @Nullable
-    public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, @Nullable IEntityLivingData livingdata) {
-        return this.initData(super.onInitialSpawn(difficulty, livingdata));
-    }
-
-    public boolean isChildI() {
-        return this.isChild();
-    }
-
-    @Override
-    public Random getRNGI() {
-        return this.getRNG();
-    }
-
-    @Override
-    public EntityDataManager getDataManagerI() {
-        return this.getDataManager();
-    }
-
-    @Override
-    public DataParameter<Integer> getDataKey() {
-        return TYPE_NUMBER;
-    }
-
-    @Override
-    public int getVariantMax() {
-        return 4;
-    }
-
     @Override
     protected ResourceLocation getLootTable() {
         return ModLootTables.SHARK;
     }
 
     @Override
+    public int getVariantMax() {
+        return 5;
+    }
+
+    @Override
     protected String getContainerName() {
         return "shark";
+    }
+
+    @Override
+    protected int[] getTypesFor(Set<Type> biome) {
+        return biome.contains(Type.COLD) ? new int[] {5} : new int[] {1,2,3,4}; // greenland ONLY in cold oceans
     }
 
 }

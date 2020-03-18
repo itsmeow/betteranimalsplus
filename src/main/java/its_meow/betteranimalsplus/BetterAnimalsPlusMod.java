@@ -9,6 +9,7 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import its_meow.betteranimalsplus.common.entity.projectile.EntityModEgg;
 import its_meow.betteranimalsplus.common.entity.projectile.EntityPheasantEgg;
 import its_meow.betteranimalsplus.common.entity.projectile.EntityTurkeyEgg;
 import its_meow.betteranimalsplus.common.item.ItemBlockHeadType;
@@ -38,6 +39,7 @@ import net.minecraft.dispenser.IPosition;
 import net.minecraft.entity.IProjectile;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Items;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemMonsterPlacer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
@@ -108,16 +110,8 @@ public class BetterAnimalsPlusMod {
         NETWORK_INSTANCE.registerMessage(ClientConfigurationPacket.class, ClientConfigurationPacket.class, packets++, Side.CLIENT);
         ModLootTables.register();
         ModTriggers.register();
-        BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.putObject(ModItems.PHEASANT_EGG, new BehaviorProjectileDispense() {
-            protected IProjectile getProjectileEntity(World worldIn, IPosition position, ItemStack stackIn) {
-                return new EntityPheasantEgg(worldIn, position.getX(), position.getY(), position.getZ());
-            }
-        });
-        BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.putObject(ModItems.TURKEY_EGG, new BehaviorProjectileDispense() {
-            protected IProjectile getProjectileEntity(World worldIn, IPosition position, ItemStack stackIn) {
-                return new EntityTurkeyEgg(worldIn, position.getX(), position.getY(), position.getZ());
-            }
-        });
+        registerEggDispenser(ModItems.PHEASANT_EGG, EntityPheasantEgg::new);
+        registerEggDispenser(ModItems.TURKEY_EGG, EntityTurkeyEgg::new);
 
         if(Loader.isModLoaded("baubles")) {
             // fuk u JVM get rekt
@@ -167,6 +161,19 @@ public class BetterAnimalsPlusMod {
         if(e.player instanceof EntityPlayerMP) {
             NETWORK_INSTANCE.sendTo(new ClientConfigurationPacket(BetterAnimalsPlusConfig.coyotesHostileDaytime, BetterAnimalsPlusConfig.getTameItemsMap()), (EntityPlayerMP) e.player);
         }
+    }
+
+    private static <T extends EntityModEgg> void registerEggDispenser(Item item, IEggEntityProvider<T> provider) {
+        BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.putObject(item, new BehaviorProjectileDispense() {
+            protected IProjectile getProjectileEntity(World worldIn, IPosition position, ItemStack stackIn) {
+                return provider.create(worldIn, position.getX(), position.getY(), position.getZ());
+            }
+        });
+    }
+
+    @FunctionalInterface
+    private interface IEggEntityProvider<T extends EntityModEgg> {
+        public T create(World world, double posX, double posY, double posZ);
     }
 
 }
