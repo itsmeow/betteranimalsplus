@@ -33,6 +33,17 @@ jobs:
         prerelease: false
         files: build/libs/betteranimalsplus-${{ steps.build.outputs.version }}.jar
         gzip: false
+    - name: Test CF upload
+      uses: itsmeow/curseforge-upload@master
+      with:
+        token: ${{ secrets.CF_API_TOKEN }}
+        project_id: 303557
+        game_endpoint: minecraft
+        file_path: build/libs/betteranimalsplus-${{ steps.build.outputs.version }}.jar
+        changelog: Changelog not added yet...
+        display_name: Better Animals Plus ${{ steps.build.outputs.version }}
+        game_versions: minecraft-1-14:1.14.4,Java 8,Forge
+        release_type: release
     - name: Build Success
       id: build-success
       uses: itsmeow/webhook-action@master
@@ -45,4 +56,4 @@ jobs:
       uses: itsmeow/webhook-action@master
       env:
         data: "{\"embeds\":[{\"title\":\"Release Build\",\"url\":\"https://github.com/itsmeow/betteranimalsplus/releases/tag/${{ steps.build.outputs.version }}\",\"description\":\"Tag: ${{ steps.build.outputs.version }}\\nStatus: Failed\",\"color\":16711680,\"author\":{\"name\":\"${{ github.event.user.login }}\",\"url\":\"${{ github.event.user.html_url }}\",\"icon_url\":\"${{ github.event.user.avatar_url }}\"}}]}"
-        WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+        WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}\
