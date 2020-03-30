@@ -98,6 +98,9 @@ public class ModItems {
     
     public static final ItemBetterFood TURKEY_LEG_RAW = new ItemBetterFood("turkey_leg_raw", 2, 0F, 16, true);
     public static final ItemBetterFood TURKEY_LEG_COOKED = new ItemBetterFood("turkey_leg_cooked", 4, 1.2F, 16, true);
+
+    public static final ItemBetterFood EEL_MEAT_RAW = new ItemBetterFood("eel_meat_raw", 1, 0F, 32, true);
+    public static final ItemBetterFood EEL_MEAT_COOKED = new ItemBetterFood("eel_meat_cooked", 4, 0.7F, 32, true);
     
     public static final ItemBetterFood FRIED_EGG = new ItemBetterFood("fried_egg", 5, 1.5F, 16, true);
     

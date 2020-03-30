@@ -4,6 +4,7 @@ import java.util.EnumSet;
 import java.util.List;
 import java.util.function.Predicate;
 
+import its_meow.betteranimalsplus.init.ModLootTables;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -18,6 +19,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.particles.ItemParticleData;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
@@ -128,6 +130,11 @@ public abstract class EntityEelBase extends EntityWaterMobPathingWithTypesBucket
 
     protected static boolean isHoldingFood(LivingEntity entity) {
         return entity.getHeldItemMainhand().isFood() || entity.getHeldItemOffhand().isFood();
+    }
+
+    @Override
+    protected ResourceLocation getLootTable() {
+        return ModLootTables.EELY;
     }
 
     public class MoveToFoodItemsGoal extends Goal {

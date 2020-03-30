@@ -185,7 +185,7 @@ public class EntityLamprey extends EntityWaterMobPathingWithTypesBucketable impl
 
     @Override
     protected ResourceLocation getLootTable() {
-        return ModLootTables.lamprey;
+        return ModLootTables.EELY;
     }
 
     @Override
