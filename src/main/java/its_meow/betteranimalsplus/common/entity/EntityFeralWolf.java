@@ -60,6 +60,7 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.World;
+import net.minecraft.world.biome.Biome;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.BiomeDictionary;
@@ -490,7 +491,7 @@ public class EntityFeralWolf extends EntityTameableWithSelectiveTypes implements
     }
     
     @Override
-    public String[] getTypesFor(Set<BiomeDictionary.Type> types) {
+    public String[] getTypesFor(Biome biome, Set<BiomeDictionary.Type> types) {
         if(types.contains(Type.FOREST) && !types.contains(Type.CONIFEROUS)) {
             return new String[] {"timber", "red"};
         } else if(types.contains(Type.CONIFEROUS) && !types.contains(Type.SNOWY)) {

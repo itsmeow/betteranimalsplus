@@ -9,6 +9,7 @@ import net.minecraft.entity.ILivingEntityData;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.world.IWorld;
+import net.minecraft.world.biome.Biome;
 import net.minecraftforge.common.BiomeDictionary;
 
 public interface ISelectiveVariantTypes<T extends MobEntity> extends IVariantTypes<T> {
@@ -18,7 +19,8 @@ public interface ISelectiveVariantTypes<T extends MobEntity> extends IVariantTyp
     default ILivingEntityData initData(IWorld world, SpawnReason reason, ILivingEntityData livingdata) {
         if(BetterAnimalsPlusConfig.biomeBasedVariants && (reason == SpawnReason.CHUNK_GENERATION || reason == SpawnReason.NATURAL)) {
             if(!this.getImplementation().isChild()) {
-                String[] validTypes = this.getTypesFor(BiomeDictionary.getTypes(world.getBiome(this.getImplementation().getPosition())));
+                Biome biome = world.getBiome(this.getImplementation().getPosition());
+                String[] validTypes = this.getTypesFor(biome, BiomeDictionary.getTypes(biome));
                 String variant = validTypes[this.getImplementation().getRNG().nextInt(validTypes.length)];
                 livingdata = new TypeData(variant);
                 this.setType(variant);
@@ -37,6 +39,6 @@ public interface ISelectiveVariantTypes<T extends MobEntity> extends IVariantTyp
         return livingdata;
     }
 
-    String[] getTypesFor(Set<BiomeDictionary.Type> biome);
+    String[] getTypesFor(Biome biome, Set<BiomeDictionary.Type> types);
 
 }

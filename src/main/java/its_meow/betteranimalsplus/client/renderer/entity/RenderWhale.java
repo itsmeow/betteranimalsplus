@@ -22,12 +22,12 @@ public class RenderWhale extends MobRenderer<EntityWhale, EntityModel<EntityWhal
     @Override
     protected void preRenderCallback(EntityWhale entity, float partialTickTime) {
         switch(entity.getVariantName()) {
-        case "cuviers": GlStateManager.scaled(1.7D, 1.7D, 1.7D);
-        case "bottlenose": GlStateManager.scaled(1.5D, 1.5D, 1.5D);
-        case "false_killer": GlStateManager.scaled(1.8D, 1.8D, 1.8D);
-        case "beluga": GlStateManager.scaled(1.5D, 1.5D, 1.5D);
-        case "pilot": GlStateManager.scaled(2.0D, 2.0D, 2.0D);
-        case "narwhal": GlStateManager.scaled(1.6D, 1.6D, 1.6D);
+        case "cuviers": GlStateManager.scaled(1.7D, 1.7D, 1.7D); break;
+        case "bottlenose": GlStateManager.scaled(2.5D, 2.5D, 2.5D); break;
+        case "false_killer": GlStateManager.scaled(1.8D, 1.8D, 1.8D); break;
+        case "beluga": GlStateManager.scaled(1.5D, 1.5D, 1.5D); break;
+        case "pilot": GlStateManager.scaled(2.0D, 2.0D, 2.0D); break;
+        case "narwhal": GlStateManager.scaled(1.6D, 1.6D, 1.6D); break;
         }
     }
 

@@ -28,6 +28,7 @@ import net.minecraft.pathfinding.PathNavigator;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraft.world.biome.Biome;
 import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.BiomeDictionary.Type;
 
@@ -155,7 +156,7 @@ public class EntitySquirrel extends EntityAnimalWithSelectiveTypes {
     }
     
     @Override
-    public String[] getTypesFor(Set<BiomeDictionary.Type> types) {
+    public String[] getTypesFor(Biome biome, Set<BiomeDictionary.Type> types) {
         if(types.contains(Type.FOREST) && !types.contains(Type.CONIFEROUS)) {
             return new String[] {"gray", "albino"};
         } else if(types.contains(Type.CONIFEROUS) && !types.contains(Type.SNOWY)) {

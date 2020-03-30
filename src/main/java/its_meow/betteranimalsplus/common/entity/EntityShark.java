@@ -19,6 +19,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+import net.minecraft.world.biome.Biome;
 import net.minecraftforge.common.BiomeDictionary.Type;
 
 public class EntityShark extends EntitySharkBase {
@@ -136,8 +137,8 @@ public class EntityShark extends EntitySharkBase {
     }
 
     @Override
-    public String[] getTypesFor(Set<Type> biome) {
-        return biome.contains(Type.COLD) ? new String[] {"greenland"} : new String[] {"blue", "bull", "tiger", "whitetip"}; // greenland ONLY in cold oceans
+    public String[] getTypesFor(Biome biome, Set<Type> types) {
+        return types.contains(Type.COLD) ? new String[] {"greenland"} : new String[] {"blue", "bull", "tiger", "whitetip"}; // greenland ONLY in cold oceans
     }
 
 }

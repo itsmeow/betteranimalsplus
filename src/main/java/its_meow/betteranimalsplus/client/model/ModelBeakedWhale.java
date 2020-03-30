@@ -1,8 +1,14 @@
 package its_meow.betteranimalsplus.client.model;
 
+import com.mojang.blaze3d.platform.GlStateManager;
+
+import its_meow.betteranimalsplus.util.ModMathHelper;
+import its_meow.betteranimalsplus.util.RenderUtil;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.entity.model.RendererModel;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.util.math.MathHelper;
 
 /**
  * BeakedWhale - Batman
@@ -183,8 +189,50 @@ public class ModelBeakedWhale<T extends LivingEntity> extends EntityModel<T> {
     }
 
     @Override
-    public void render(T entity, float f, float f1, float f2, float f3, float f4, float f5) { 
+    public void render(T entity, float f, float f1, float f2, float f3, float f4, float f5) {
+        if(!entity.isInWater()) {
+            GlStateManager.translatef(0F, 0.25F, 0F);
+        }
         this.body.render(f5);
+    }
+
+    @Override
+    public void setRotationAngles(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor) {
+        if(!Minecraft.getInstance().isGamePaused()) {
+            if(entity.isInWater()) {
+                float pitch = (float) Math.toRadians(ModelBetterAnimals.getHeadPitch(entity));
+                this.body.rotateAngleX = (float) ((pitch / Math.abs(pitch)) * Math.min(Math.abs(pitch), Math.toRadians(45F)));
+                this.body.rotateAngleY = (float) Math.toRadians(ModelBetterAnimals.getHeadYaw(entity));
+            } else {
+                this.body.rotateAngleY = -(float) Math.toRadians(ModMathHelper.interpolateRotation(entity.renderYawOffset, entity.prevRenderYawOffset, Minecraft.getInstance().getRenderPartialTicks()));
+                this.body.rotateAngleX = 0.022863813201125717F;
+            }
+            {
+                float ticks = ageInTicks / 5F + (float) entity.getMotion().length() * 0.05F;
+                float factor = 1F;
+                float offset = 0F;
+                float amplitude = (float) Math.min(entity.getMotion().length() * 1.1F + 0.01F, 0.1F);
+                if(!entity.isInWater()) {
+                    amplitude = 0F;
+                    offset = -0.1F;
+                }
+                float z01 = (float)RenderUtil.partLocation(this.tail00, this.tail01).getZ();
+                float z02 = (float)RenderUtil.partLocation(this.tail00, this.tail01, this.tail02).getZ();
+                float z03 = (float)RenderUtil.partLocation(this.tail00, this.tail01, this.tail02, this.tail03).getZ();
+                float z04 = (float)RenderUtil.partLocation(this.tail00, this.tail01, this.tail02, this.tail03, this.tail04).getZ();
+                this.tail01.rotateAngleX = MathHelper.sin(z01 * factor + ticks) * amplitude + offset;
+                this.tail02.rotateAngleX = MathHelper.sin(z02 * factor + ticks) * amplitude + offset;
+                this.tail03.rotateAngleX = MathHelper.sin(z03 * factor + ticks) * amplitude + offset;
+                this.tail04.rotateAngleX = MathHelper.sin(z04 * factor + ticks) * amplitude + offset;
+            }
+            {
+                float mul = 0.1F;
+                float div = 10F;
+                float add = entity.getUniqueID().hashCode() * 0.001F;
+                this.lFin00.rotateAngleX = (float) Math.cos(ageInTicks * (mul + 0.05F) + add) / div + 0.8651597102135892F;
+                this.rFin00.rotateAngleX = (float) Math.cos(ageInTicks * (mul) + add) / div + 0.8651597102135892F;
+            }
+        }
     }
 
     /**

@@ -34,6 +34,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.World;
+import net.minecraft.world.biome.Biome;
 import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.BiomeDictionary.Type;
 
@@ -206,7 +207,7 @@ public class EntityBadger extends EntityAnimalWithSelectiveTypes implements IMob
 	}
 	
     @Override
-    public String[] getTypesFor(Set<BiomeDictionary.Type> types) {
+    public String[] getTypesFor(Biome biome, Set<BiomeDictionary.Type> types) {
         if(types.contains(Type.SAVANNA)) {
             return new String[] {"honey"};
         } else if(types.contains(Type.FOREST) && !types.contains(Type.CONIFEROUS)) {
