@@ -15,7 +15,7 @@ public class ModLootTables {
     public static final ResourceLocation lamprey = new ResourceLocation(Ref.MOD_ID, "lamprey");
     public static final ResourceLocation NAUTILUS = new ResourceLocation(Ref.MOD_ID, "nautilus");
     public static final ResourceLocation CRAB = new ResourceLocation(Ref.MOD_ID, "crab");
-    
+
     // Wolves
     public static final ResourceLocation WOLF_SNOWY = new ResourceLocation(Ref.MOD_ID, "wolf_snowy");
     public static final ResourceLocation WOLF_TIMBER = new ResourceLocation(Ref.MOD_ID, "wolf_timber");
@@ -23,16 +23,15 @@ public class ModLootTables {
     public static final ResourceLocation WOLF_ARCTIC = new ResourceLocation(Ref.MOD_ID, "wolf_arctic");
     public static final ResourceLocation WOLF_BROWN = new ResourceLocation(Ref.MOD_ID, "wolf_brown");
     public static final ResourceLocation WOLF_RED = new ResourceLocation(Ref.MOD_ID, "wolf_red");
-    
+
     // Bears
     public static final ResourceLocation BEAR_BROWN = new ResourceLocation(Ref.MOD_ID, "bear_brown");
     public static final ResourceLocation BEAR_BLACK = new ResourceLocation(Ref.MOD_ID, "bear_black");
     public static final ResourceLocation BEAR_KERMODE = new ResourceLocation(Ref.MOD_ID, "bear_kermode");
-    
+
     public static final ResourceLocation SHARK = new ResourceLocation(Ref.MOD_ID, "shark");
-    
     public static final ResourceLocation TURKEY = new ResourceLocation(Ref.MOD_ID, "turkey");
-    
     public static final ResourceLocation MOOSE = new ResourceLocation(Ref.MOD_ID, "moose");
+    public static final ResourceLocation WHALE = new ResourceLocation(Ref.MOD_ID, "whale");
 
 }

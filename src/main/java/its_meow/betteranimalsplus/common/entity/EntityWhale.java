@@ -7,6 +7,7 @@ import its_meow.betteranimalsplus.common.entity.util.ISelectiveVariantTypes;
 import its_meow.betteranimalsplus.common.entity.util.abstracts.EntityWaterMobPathing;
 import its_meow.betteranimalsplus.common.entity.util.abstracts.EntityWaterMobPathingWithTypesAirBreathing;
 import its_meow.betteranimalsplus.init.ModEntities;
+import its_meow.betteranimalsplus.init.ModLootTables;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -23,6 +24,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.MathHelper;
@@ -114,6 +116,11 @@ public class EntityWhale extends EntityWaterMobPathingWithTypesAirBreathing impl
         } else {
             return new String[] { "cuviers", "pilot", "false_killer" };
         }
+    }
+
+    @Override
+    protected ResourceLocation getLootTable() {
+        return ModLootTables.WHALE;
     }
 
     @Override

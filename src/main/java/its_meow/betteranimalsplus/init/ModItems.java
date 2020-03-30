@@ -43,6 +43,12 @@ public class ModItems {
     public static final ItemBetterFood VENISON_COOKED = new ItemBetterFood("venisoncooked", 8, 1.2F, 32, true);
     public static final ItemHirschgeistSkullWearable HIRSCHGEIST_SKULL_WEARABLE = new ItemHirschgeistSkullWearable();
     public static final Item ANTLER = new ItemNamedSimple("antler");
+    public static final Item BLUBBER = new ItemBetterFood("blubber", 1, 2.0F, 32, false) {
+        @Override
+        public int getBurnTime(ItemStack itemStack) {
+            return 800; // half of coal
+        }
+    };
     public static final Item GOAT_MILK = new MilkBucketItem(new Properties().containerItem(Items.BUCKET).group(BetterAnimalsPlusMod.group).maxStackSize(1)).setRegistryName("goatmilk");
     public static final ItemBetterFood GOAT_CHEESE = new ItemBetterFood("goatcheese", 3, 1, 15, false);
     public static final ItemBetterFood PHEASANT_RAW = new ItemBetterFood("pheasantraw", 3, 0, 32, true);

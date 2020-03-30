@@ -1,0 +1,24 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern":
+    [
+        "b",
+        "s"
+    ],
+    "key":
+    {
+        "s":
+        {
+            "item": "minecraft:stick"
+        },
+        "b":
+        {
+            "item": "betteranimalsplus:blubber"
+        }
+    },
+    "result":
+    {
+        "item": "minecraft:torch",
+        "count": 4
+    }
+}
