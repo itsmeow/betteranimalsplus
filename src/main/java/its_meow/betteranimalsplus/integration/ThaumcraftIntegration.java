@@ -54,6 +54,8 @@ public class ThaumcraftIntegration {
 		event.register.registerObjectTag(new ItemStack(ModBlocks.TURKEY_EATEN_COOKED), new AspectList().add(Aspect.CRAFT, 3).add(Aspect.LIFE, 3).add(Aspect.DESIRE, 3));
 		event.register.registerObjectTag(new ItemStack(ModBlocks.HAND_OF_FATE), new AspectList().add(Aspect.MAGIC, 40).add(Aspect.SOUL, 40).add(Aspect.DESIRE, 40));
 		
+		event.register.registerObjectTag(new ItemStack(ModItems.GOLDEN_GOOSE_EGG), new AspectList().add(Aspect.MAGIC, 20).add(Aspect.LIFE, 20).add(Aspect.DESIRE, 20));
+		
 		event.register.registerObjectTag(new ItemStack(HeadTypes.BEARHEAD.getItem(1)), new AspectList().add(Aspect.BEAST, 25).add(Aspect.SOUL, 25).add(Aspect.CRAFT, 25));
 		event.register.registerObjectTag(new ItemStack(HeadTypes.BEARHEAD.getItem(2)), new AspectList().add(Aspect.BEAST, 25).add(Aspect.SOUL, 25).add(Aspect.CRAFT, 25));
 		event.register.registerObjectTag(new ItemStack(HeadTypes.BEARHEAD.getItem(3)), new AspectList().add(Aspect.BEAST, 25).add(Aspect.SOUL, 25).add(Aspect.CRAFT, 25));
@@ -113,5 +115,9 @@ public class ThaumcraftIntegration {
 		ThaumcraftApi.registerEntityTag("betteranimalsplus.zotzpyre", new AspectList().add(Aspect.BEAST, 20).add(Aspect.AVERSION, 20).add(Aspect.DARKNESS, 20).add(Aspect.FLIGHT, 20));
 		ThaumcraftApi.registerEntityTag("betteranimalsplus.hirschgeist", new AspectList().add(Aspect.SOUL, 35).add(Aspect.MAGIC, 35).add(Aspect.DARKNESS, 35).add(Aspect.FIRE, 35));
 		ThaumcraftApi.registerEntityTag("betteranimalsplus.bobbit_worm", new AspectList().add(Aspect.BEAST, 15).add(Aspect.WATER, 15).add(Aspect.DARKNESS, 15).add(Aspect.AVERSION, 15));
+		
+		ThaumcraftApi.registerEntityTag("betteranimalsplus.eel_freshwater", new AspectList().add(Aspect.BEAST, 15).add(Aspect.WATER, 15).add(Aspect.AVERSION, 15));
+		ThaumcraftApi.registerEntityTag("betteranimalsplus.eel_saltwater", new AspectList().add(Aspect.BEAST, 15).add(Aspect.WATER, 15).add(Aspect.AVERSION, 15));
+		ThaumcraftApi.registerEntityTag("betteranimalsplus.goose", new AspectList().add(Aspect.BEAST, 5).add(Aspect.AIR, 5).add(Aspect.FLIGHT, 5).add(Aspect.AVERSION, 5));
 	}
 }
