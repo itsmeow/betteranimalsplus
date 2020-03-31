@@ -182,7 +182,7 @@ public class EntityWalrus extends AnimalEntity implements IContainerEntity<Entit
     }
 
     public static boolean canSpawn(EntityType<EntityWalrus> walrus, IWorld world, SpawnReason reason, BlockPos pos, Random rand) {
-        return pos.getY() < world.getSeaLevel() + 4 && BlockTags.ICE.contains(world.getBlockState(pos.down()).getBlock()) && world.getLightSubtracted(pos, 0) > 8;
+        return pos.getY() < world.getSeaLevel() + 4 && world.getLightSubtracted(pos, 0) > 8;
     }
 
     protected void registerGoals() {
