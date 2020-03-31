@@ -15,8 +15,12 @@ public class ModTextures {
     // Deer Variants
     public static final ResourceLocation deer_1 = new ResourceLocation(entitytex + "deer_1.png");
     public static final ResourceLocation deer_2 = new ResourceLocation(entitytex + "deer_2.png");
+    public static final ResourceLocation deer_3 = new ResourceLocation(entitytex + "deer_3.png");
+    public static final ResourceLocation deer_4 = new ResourceLocation(entitytex + "deer_4.png");
     public static final ResourceLocation deer_1_christmas = new ResourceLocation(entitytex + "deer_1_christmas.png");
     public static final ResourceLocation deer_2_christmas = new ResourceLocation(entitytex + "deer_2_christmas.png");
+    public static final ResourceLocation deer_3_christmas = new ResourceLocation(entitytex + "deer_3_christmas.png");
+    public static final ResourceLocation deer_4_christmas = new ResourceLocation(entitytex + "deer_4_christmas.png");
 
     // Lammergeier Variants
     public static final ResourceLocation lam_orange = new ResourceLocation(entitytex + "lammergeier_orange.png");

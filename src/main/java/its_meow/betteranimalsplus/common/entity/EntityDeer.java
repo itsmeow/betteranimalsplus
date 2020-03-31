@@ -8,6 +8,7 @@ import javax.annotation.Nullable;
 import its_meow.betteranimalsplus.init.ModLootTables;
 import its_meow.betteranimalsplus.util.HeadTypes;
 import net.minecraft.block.Block;
+import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIAvoidEntity;
 import net.minecraft.entity.ai.EntityAIMate;
@@ -24,6 +25,7 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
 
 public class EntityDeer extends EntityAnimalEatsGrassWithTypes {
@@ -100,7 +102,7 @@ public class EntityDeer extends EntityAnimalEatsGrassWithTypes {
 
     @Override
     public int getVariantMax() {
-        return 2;
+        return 4;
     }
 
     @Override
@@ -111,6 +113,32 @@ public class EntityDeer extends EntityAnimalEatsGrassWithTypes {
     @Override
     protected String getContainerName() {
         return "deer";
+    }
+
+    @Override
+    public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, IEntityLivingData livingdata) {
+        if(!this.isChild()) {
+            int variant = this.getBiasedRandomType();
+            if(livingdata instanceof TypeData) {
+                variant = ((TypeData) livingdata).typeData;
+            } else {
+                livingdata = new TypeData(variant);
+            }
+            this.setType(variant);
+        }
+        return livingdata;
+    }
+
+    private int getBiasedRandomType() {
+        int[] validTypes = new int[] { 1, 2, 3, 4 };
+        int r = validTypes[this.getRNG().nextInt(validTypes.length)];
+        if(r > 2) {
+            r = validTypes[this.getRNG().nextInt(validTypes.length)];
+        }
+        if(r > 2) {
+            r = validTypes[this.getRNG().nextInt(validTypes.length)];
+        }
+        return r;
     }
 
 }

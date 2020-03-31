@@ -276,6 +276,26 @@
                     }
                 ]
             }
+        },
+        "head26": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "betteranimalsplus:deerhead_3"
+                    }
+                ]
+            }
+        },
+        "head27": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "betteranimalsplus:deerhead_4"
+                    }
+                ]
+            }
         }
     },
     "requirements": [
@@ -353,6 +373,12 @@
         ],
         [
             "head25"
+        ],
+        [
+            "head26"
+        ],
+        [
+            "head27"
         ]
     ],
     "parent": "betteranimalsplus:animal_head_variants"

@@ -277,6 +277,26 @@
                     }
                 ]
             }
+        },
+        "head27": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "betteranimalsplus:deerhead_3"
+                    }
+                ]
+            }
+        },
+        "head28": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "betteranimalsplus:deerhead_4"
+                    }
+                ]
+            }
         }
     },
     "requirements": [
@@ -306,7 +326,9 @@
             "head23",
             "head24",
             "head25",
-            "head26"
+            "head26",
+            "head27",
+            "head28"
         ]
     ],
     "parent": "betteranimalsplus:root"
