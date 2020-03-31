@@ -22,34 +22,42 @@ public class RenderCustomWolf extends RenderLiving<EntityFeralWolf> {
 
     @Override
     protected ResourceLocation getEntityTexture(EntityFeralWolf entity) {
-        ResourceLocation result = null;
         int typeNumber = entity.getTypeNumber();
         if (entity.isTamed()) {
             switch (typeNumber) {
             case 1:
-                result = ModTextures.wolf_black_neutral;
-                break;
+                return ModTextures.wolf_black_neutral;
             case 2:
-                result = ModTextures.wolf_snowy_neutral;
-                break;
+                return ModTextures.wolf_snowy_neutral;
             case 3:
-                result = ModTextures.wolf_timber_neutral;
-                break;
+                return ModTextures.wolf_timber_neutral;
+            case 4:
+                return ModTextures.wolf_arctic_neutral;
+            case 5:
+                return ModTextures.wolf_brown_neutral;
+            case 6:
+                return ModTextures.wolf_red_neutral;
+            default:
+                return ModTextures.wolf_timber_neutral;
             }
         } else {
             switch (typeNumber) {
             case 1:
-                result = ModTextures.wolf_black;
-                break;
+                return ModTextures.wolf_black;
             case 2:
-                result = ModTextures.wolf_snowy;
-                break;
+                return ModTextures.wolf_snowy;
             case 3:
-                result = ModTextures.wolf_timber;
-                break;
+                return ModTextures.wolf_timber;
+            case 4:
+                return ModTextures.wolf_arctic;
+            case 5:
+                return ModTextures.wolf_brown;
+            case 6:
+                return ModTextures.wolf_red;
+            default:
+                return ModTextures.wolf_timber;
             }
         }
-        return result;
     }
 
 }

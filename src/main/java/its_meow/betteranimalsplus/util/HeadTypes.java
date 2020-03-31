@@ -26,9 +26,9 @@ import net.minecraft.client.model.ModelBase;
 public enum HeadTypes {
 
     // Double supplier avoids loading ModelBase which does not exist on the server
-    WOLFHEAD("wolfhead", true, 3, () -> () -> ModelFeralWolfHead.class,
+    WOLFHEAD("wolfhead", true, 6, () -> () -> ModelFeralWolfHead.class,
             type -> new TileEntityHead(type, 0F, ModTextures.wolf_black, ModTextures.wolf_snowy,
-                    ModTextures.wolf_timber)),
+                    ModTextures.wolf_timber,  ModTextures.wolf_arctic,  ModTextures.wolf_brown,  ModTextures.wolf_red)),
     
     COYOTEHEAD("coyotehead", true, 1, () -> () -> ModelCoyoteHead.class,
     type -> new TileEntityHead(type, 0F, ModTextures.coyote_hostile)),

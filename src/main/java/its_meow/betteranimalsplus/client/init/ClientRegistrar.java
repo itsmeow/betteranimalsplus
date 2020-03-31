@@ -125,12 +125,18 @@ public class ClientRegistrar {
         initModel(ModItems.WOLF_CAPE_CLASSIC);
         initModel(ModItems.WOLF_CAPE_TIMBER);
         initModel(ModItems.WOLF_CAPE_BLACK);
+        initModel(ModItems.WOLF_CAPE_ARCTIC);
+        initModel(ModItems.WOLF_CAPE_BROWN);
+        initModel(ModItems.WOLF_CAPE_RED);
         initModel(ModItems.CRAB_MEAT_COOKED);
         initModel(ModItems.CRAB_MEAT_RAW);
         initModel(ModItems.RECORD_CRAB_RAVE);
         initModel(ModItems.WOLF_PELT_SNOWY);
         initModel(ModItems.WOLF_PELT_TIMBER);
         initModel(ModItems.WOLF_PELT_BLACK);
+        initModel(ModItems.WOLF_PELT_ARCTIC);
+        initModel(ModItems.WOLF_PELT_BROWN);
+        initModel(ModItems.WOLF_PELT_RED);
         initModel(ModItems.BEAR_SKIN_BLACK);
         initModel(ModItems.BEAR_SKIN_BROWN);
         initModel(ModItems.BEAR_SKIN_KERMODE);

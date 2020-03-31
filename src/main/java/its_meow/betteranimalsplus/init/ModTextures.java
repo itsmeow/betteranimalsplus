@@ -35,6 +35,12 @@ public class ModTextures {
     public static final ResourceLocation wolf_black_neutral = new ResourceLocation(entitytex + "feral_wolf_black_neutral.png");
     public static final ResourceLocation wolf_snowy_neutral = new ResourceLocation(entitytex + "feral_wolf_snowy_neutral.png");
     public static final ResourceLocation wolf_timber_neutral = new ResourceLocation(entitytex + "feral_wolf_timber_neutral.png");
+    public static final ResourceLocation wolf_arctic = new ResourceLocation(entitytex + "feral_wolf_arctic.png");
+    public static final ResourceLocation wolf_brown = new ResourceLocation(entitytex + "feral_wolf_brown.png");
+    public static final ResourceLocation wolf_red = new ResourceLocation(entitytex + "feral_wolf_red.png");
+    public static final ResourceLocation wolf_arctic_neutral = new ResourceLocation(entitytex + "feral_wolf_arctic_neutral.png");
+    public static final ResourceLocation wolf_brown_neutral = new ResourceLocation(entitytex + "feral_wolf_brown_neutral.png");
+    public static final ResourceLocation wolf_red_neutral = new ResourceLocation(entitytex + "feral_wolf_red_neutral.png");
     public static final ResourceLocation wolf_eyes = new ResourceLocation(entitytex + "feral_wolf_eyes.png");
 
     // Coyote Variants

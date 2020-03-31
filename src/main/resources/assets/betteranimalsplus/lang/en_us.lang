@@ -32,6 +32,12 @@ item.betteranimalsplus.turkey_leg_cooked.name=Cooked Turkey Leg
 item.betteranimalsplus.fried_egg.name=Fried Egg
 item.betteranimalsplus.goose_egg.name=Goose Egg
 item.betteranimalsplus.golden_goose_egg.name=Golden Goose Egg
+item.betteranimalsplus.wolf_cape_arctic.name=Wolf Cape (Arctic)
+item.betteranimalsplus.wolf_cape_brown.name=Wolf Cape (Brown)
+item.betteranimalsplus.wolf_cape_red.name=Wolf Cape (Red)
+item.betteranimalsplus.wolf_pelt_arctic.name=Arctic Wolf Pelt
+item.betteranimalsplus.wolf_pelt_brown.name=Brown Wolf Pelt
+item.betteranimalsplus.wolf_pelt_red.name=Red Wolf Pelt
 #Blocks
 tile.betteranimalsplus.trillium.name=Trillium
 tile.betteranimalsplus.hirschgeistskull.name=Hirschgeist Skull
