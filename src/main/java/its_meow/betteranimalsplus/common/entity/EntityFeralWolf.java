@@ -503,7 +503,7 @@ public class EntityFeralWolf extends EntityTameableWithSelectiveTypes implements
         } else if(types.contains(Type.FOREST) && types.contains(Type.CONIFEROUS) && !types.contains(Type.SNOWY)) { 
             return new String[] {"brown", "red", "timber", "black"};
         } else {
-            return new String[] {"black", "snowy", "timber"};
+            return new String[] {"black", "snowy", "timber", "arctic", "brown", "red"};
         }
     }
 
