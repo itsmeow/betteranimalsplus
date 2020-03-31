@@ -88,6 +88,7 @@ public class EntityReindeer extends AnimalEntity implements IJumpingMount, IVari
      */
     protected int gallopTime;
     public boolean parentRudolph = false;
+    public static boolean CREATE_SNOW = true;
 
     public EntityReindeer(World worldIn) {
         super(ModEntities.REINDEER.entityType, worldIn);
@@ -545,16 +546,15 @@ public class EntityReindeer extends AnimalEntity implements IJumpingMount, IVari
      */
     @Override
     public void livingTick() {
-        if (this.rand.nextInt(200) == 0) {
+        if(this.rand.nextInt(200) == 0) {
             this.moveTail();
         }
 
         super.livingTick();
-        if (this.rand.nextInt(10) == 0) {
-            this.world.addParticle(ParticleTypes.POOF, this.posX + this.rand.nextInt(4) - 2F,
-                    this.posY + this.rand.nextInt(4), this.posZ + this.rand.nextInt(4) - 2F, 0F, -0.2F, 0F);
+        if(world.isRemote() && CREATE_SNOW  && rand.nextInt(10) == 0) {
+            this.world.addParticle(ParticleTypes.POOF, this.posX + this.rand.nextInt(4) - 2F, this.posY + this.rand.nextInt(4), this.posZ + this.rand.nextInt(4) - 2F, 0F, -0.2F, 0F);
         }
-        if (!this.world.isRemote) {
+        if(!this.world.isRemote) {
             if (this.rand.nextInt(900) == 0 && this.deathTime == 0) {
                 this.heal(1.0F);
             }

@@ -65,6 +65,7 @@ public class EntityTypeContainer<T extends MobEntity> {
     protected EntityConfiguration config;
 
     protected final CustomConfigurationHolder customConfig;
+    protected final CustomConfigurationHolder customClientConfig;
 
     protected Supplier<Set<Biome>> defaultBiomeSupplier;
 
@@ -76,7 +77,7 @@ public class EntityTypeContainer<T extends MobEntity> {
 
     protected HeadType headType;
 
-    protected EntityTypeContainer(Class<T> EntityClass, Function<World, T> func, String entityNameIn, EntityClassification type, int solidColorIn, int spotColorIn, int prob, int min, int max, float width, float height, boolean despawn, int variantMax, IVariant[] variants, @Nullable CustomConfigurationHolder customConfig, Supplier<Set<Biome>> biomes, EntitySpawnPlacementRegistry.PlacementType placementType, Heightmap.Type heightMapType, EntitySpawnPlacementRegistry.IPlacementPredicate<T> placementPredicate, boolean hasBucket, IBucketTooltipFunction bucketTooltip) {
+    protected EntityTypeContainer(Class<T> EntityClass, Function<World, T> func, String entityNameIn, EntityClassification type, int solidColorIn, int spotColorIn, int prob, int min, int max, float width, float height, boolean despawn, int variantMax, IVariant[] variants, @Nullable CustomConfigurationHolder customConfig, @Nullable CustomConfigurationHolder customClientConfig, Supplier<Set<Biome>> biomes, EntitySpawnPlacementRegistry.PlacementType placementType, Heightmap.Type heightMapType, EntitySpawnPlacementRegistry.IPlacementPredicate<T> placementPredicate, boolean hasBucket, IBucketTooltipFunction bucketTooltip) {
         this.entityClass = EntityClass;
         this.factory = func;
         this.entityName = entityNameIn;
@@ -90,6 +91,7 @@ public class EntityTypeContainer<T extends MobEntity> {
         this.height = height;
         this.despawn = despawn;
         this.customConfig = customConfig;
+        this.customClientConfig = customClientConfig;
         this.defaultBiomeSupplier = biomes;
         this.placementType = placementType;
         this.heightMapType = heightMapType;
@@ -118,6 +120,7 @@ public class EntityTypeContainer<T extends MobEntity> {
         protected float height;
         protected boolean despawn;
         protected CustomConfigurationHolder customConfig;
+        protected CustomConfigurationHolder customClientConfig;
         protected Supplier<Set<Biome>> defaultBiomeSupplier;
         protected EntitySpawnPlacementRegistry.PlacementType placementType;
         protected Heightmap.Type heightMapType;
@@ -177,6 +180,11 @@ public class EntityTypeContainer<T extends MobEntity> {
 
         public Builder<T> config(CustomConfigurationHolder config) {
             this.customConfig = config;
+            return this;
+        }
+        
+        public Builder<T> clientConfig(CustomConfigurationHolder config) {
+            this.customClientConfig = config;
             return this;
         }
 
@@ -283,7 +291,7 @@ public class EntityTypeContainer<T extends MobEntity> {
 
         public EntityTypeContainer<T> build() {
             preBuild();
-            EntityTypeContainer<T> container = new EntityTypeContainer<T>(entityClass, factory, entityName, spawnType, eggColorSolid, eggColorSpot, spawnWeight, spawnMinGroup, spawnMaxGroup, width, height, despawn, variantCount, variants, customConfig, defaultBiomeSupplier, placementType, heightMapType, placementPredicate, hasBucket, bucketTooltipFinal);
+            EntityTypeContainer<T> container = new EntityTypeContainer<T>(entityClass, factory, entityName, spawnType, eggColorSolid, eggColorSpot, spawnWeight, spawnMinGroup, spawnMaxGroup, width, height, despawn, variantCount, variants, customConfig, customClientConfig, defaultBiomeSupplier, placementType, heightMapType, placementPredicate, hasBucket, bucketTooltipFinal);
             postBuild(container);
             return container;
         }
@@ -440,12 +448,25 @@ public class EntityTypeContainer<T extends MobEntity> {
         if(this.customConfig != null) {
             this.customConfig.customConfigurationLoad();
         }
+    }
 
+    public void clientConfigurationLoad() {
+        if(this.customClientConfig != null) {
+            this.customClientConfig.customConfigurationLoad();
+        }
     }
 
     public void customConfigurationInit(ForgeConfigSpec.Builder builder) {
         if(this.customConfig != null) {
             this.customConfig.customConfigurationInit(builder);
+        }
+    }
+    
+    public void clientCustomConfigurationInit(ForgeConfigSpec.Builder builder) {
+        if(this.customClientConfig != null) {
+            builder.push(this.entityName);
+            this.customClientConfig.customConfigurationInit(builder);
+            builder.pop();
         }
     }
 

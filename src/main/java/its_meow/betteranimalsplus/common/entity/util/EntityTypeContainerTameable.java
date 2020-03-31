@@ -29,8 +29,8 @@ public class EntityTypeContainerTameable<T extends MobEntity> extends EntityType
     protected ConfigValue<List<? extends String>> tameItems;
     protected String[] defaultTameItems;
 
-    private EntityTypeContainerTameable(Class<T> EntityClass, Function<World, T> func, String entityNameIn, EntityClassification type, int solidColorIn, int spotColorIn, int prob, int min, int max, float width, float height, boolean despawn, int variantCount, IVariant[] variantFactories, String[] defaultTameItems, @Nullable CustomConfigurationHolder customConfig, Supplier<Set<Biome>> biomes, EntitySpawnPlacementRegistry.PlacementType placementType, Heightmap.Type heightMapType, EntitySpawnPlacementRegistry.IPlacementPredicate<T> placementPredicate, boolean hasBucket, IBucketTooltipFunction bucketTooltip) {
-        super(EntityClass, func, entityNameIn, type, solidColorIn, spotColorIn, prob, min, max, width, height, despawn, variantCount, variantFactories, customConfig, biomes, placementType, heightMapType, placementPredicate, hasBucket, bucketTooltip);
+    private EntityTypeContainerTameable(Class<T> EntityClass, Function<World, T> func, String entityNameIn, EntityClassification type, int solidColorIn, int spotColorIn, int prob, int min, int max, float width, float height, boolean despawn, int variantCount, IVariant[] variantFactories, String[] defaultTameItems, @Nullable CustomConfigurationHolder customConfig, @Nullable CustomConfigurationHolder customClientConfig, Supplier<Set<Biome>> biomes, EntitySpawnPlacementRegistry.PlacementType placementType, Heightmap.Type heightMapType, EntitySpawnPlacementRegistry.IPlacementPredicate<T> placementPredicate, boolean hasBucket, IBucketTooltipFunction bucketTooltip) {
+        super(EntityClass, func, entityNameIn, type, solidColorIn, spotColorIn, prob, min, max, width, height, despawn, variantCount, variantFactories, customConfig, customClientConfig, biomes, placementType, heightMapType, placementPredicate, hasBucket, bucketTooltip);
         this.defaultTameItems = defaultTameItems;
     }
 
@@ -68,6 +68,12 @@ public class EntityTypeContainerTameable<T extends MobEntity> extends EntityType
         @Override
         public TameableBuilder<T> config(CustomConfigurationHolder config) {
             super.config(config);
+            return this;
+        }
+
+        @Override
+        public TameableBuilder<T> clientConfig(CustomConfigurationHolder config) {
+            super.clientConfig(config);
             return this;
         }
 
@@ -146,7 +152,7 @@ public class EntityTypeContainerTameable<T extends MobEntity> extends EntityType
         @Override
         public EntityTypeContainerTameable<T> build() {
             this.preBuild();
-            EntityTypeContainerTameable<T> container = new EntityTypeContainerTameable<T>(entityClass, factory, entityName, spawnType, eggColorSolid, eggColorSpot, spawnWeight, spawnMinGroup, spawnMaxGroup, width, height, despawn, variantCount, variants, defaultTameItems, customConfig, defaultBiomeSupplier, placementType, heightMapType, placementPredicate, hasBucket, bucketTooltipFinal);
+            EntityTypeContainerTameable<T> container = new EntityTypeContainerTameable<T>(entityClass, factory, entityName, spawnType, eggColorSolid, eggColorSpot, spawnWeight, spawnMinGroup, spawnMaxGroup, width, height, despawn, variantCount, variants, defaultTameItems, customConfig, customClientConfig, defaultBiomeSupplier, placementType, heightMapType, placementPredicate, hasBucket, bucketTooltipFinal);
             this.postBuild(container);
             return container;
         }

@@ -27,14 +27,21 @@ import net.minecraftforge.registries.ForgeRegistries;
 @Mod.EventBusSubscriber(modid = Ref.MOD_ID, bus = EventBusSubscriber.Bus.MOD)
 public class BetterAnimalsPlusConfig {
 
-    private static EntityConfig ENTITY_CONFIG = null;
+    private static ServerConfig SERVER_CONFIG = null;
+    public static ForgeConfigSpec SERVER_CONFIG_SPEC = null;
 
-    public static ForgeConfigSpec SERVER_CONFIG = null;
+    private static ClientConfig CLIENT_CONFIG = null;
+    public static ForgeConfigSpec CLIENT_CONFIG_SPEC = null;
+    static {
+        final Pair<ClientConfig, ForgeConfigSpec> specPair = new ForgeConfigSpec.Builder().configure(ClientConfig::new);
+        CLIENT_CONFIG_SPEC = specPair.getRight();
+        CLIENT_CONFIG = specPair.getLeft();
+    }
 
     public static void setupConfig() {
-        final Pair<EntityConfig, ForgeConfigSpec> specPair = new ForgeConfigSpec.Builder().configure(EntityConfig::new);
-        SERVER_CONFIG = specPair.getRight();
-        ENTITY_CONFIG = specPair.getLeft();
+        final Pair<ServerConfig, ForgeConfigSpec> specPair = new ForgeConfigSpec.Builder().configure(ServerConfig::new);
+        SERVER_CONFIG_SPEC = specPair.getRight();
+        SERVER_CONFIG = specPair.getLeft();
     }
 
     public static boolean coyotesHostileDaytime = false;
@@ -44,24 +51,47 @@ public class BetterAnimalsPlusConfig {
     @SubscribeEvent
     public static void onLoad(final ModConfig.Loading configEvent) {
         BetterAnimalsPlusMod.logger.debug("Loading {} {}", Ref.MOD_ID, configEvent.getConfig().getFileName());
-        if(configEvent.getConfig().getSpec() == SERVER_CONFIG) {
-            ENTITY_CONFIG.onWorldLoad();
+        if(configEvent.getConfig().getSpec() == SERVER_CONFIG_SPEC) {
+            SERVER_CONFIG.onWorldLoad();
+        } else if(configEvent.getConfig().getSpec() == CLIENT_CONFIG_SPEC) {
+            CLIENT_CONFIG.loadData();
         }
     }
 
     @SubscribeEvent
     public static void onLoad(final ModConfig.ConfigReloading configEvent) {
         BetterAnimalsPlusMod.logger.debug("Reloading {} {}", Ref.MOD_ID, configEvent.getConfig().getFileName());
-        if(configEvent.getConfig().getSpec() == SERVER_CONFIG) {
-            ENTITY_CONFIG.loadEntityData();
+        if(configEvent.getConfig().getSpec() == SERVER_CONFIG_SPEC) {
+            SERVER_CONFIG.loadData();
+        } else if(configEvent.getConfig().getSpec() == CLIENT_CONFIG_SPEC) {
+            CLIENT_CONFIG.loadData();
         }
     }
 
-    public static class EntityConfig {
+    public static class ClientConfig {
+
+        ClientConfig(ForgeConfigSpec.Builder builder) {
+            builder.comment("This is the CLIENTSIDE configuration for Better Animals Plus.",
+            "To configure SERVER values (spawning, behavior, etc), go to:",
+            "saves/(world)/serverconfig/betteranimalsplus-server.toml",
+            "or, on a dedicated server:",
+            "(world)/serverconfig/betteranimalsplus-server.toml");
+            for(EntityTypeContainer<?> cont : ModEntities.ENTITIES.values()) {
+                cont.clientCustomConfigurationInit(builder);
+            }
+            builder.build();
+        }
+
+        public void loadData() {
+            ModEntities.ENTITIES.values().forEach(EntityTypeContainer::clientConfigurationLoad);
+        }
+    }
+
+    public static class ServerConfig {
         public ForgeConfigSpec.Builder builder;
         private final ForgeConfigSpec.BooleanValue biomeBasedVariants;
 
-        EntityConfig(ForgeConfigSpec.Builder builder) {
+        ServerConfig(ForgeConfigSpec.Builder builder) {
             this.builder = builder;
             for(EntityTypeContainer<?> cont : ModEntities.ENTITIES.values()) {
                 cont.initConfiguration(builder);
@@ -72,7 +102,7 @@ public class BetterAnimalsPlusConfig {
             builder.build();
         }
 
-        public void loadEntityData() {
+        public void loadData() {
             // Replace entity data
 
             for(EntityTypeContainer<?> container : ModEntities.ENTITIES.values()) {
@@ -99,9 +129,9 @@ public class BetterAnimalsPlusConfig {
         public void onWorldLoad() {
             // Load misc
             BetterAnimalsPlusConfig.biomeBasedVariants = this.biomeBasedVariants.get();
-            
+
             // Fill containers with proper values from their config sections
-            this.loadEntityData();
+            this.loadData();
 
             // Add spawns based on new container data
             if(!ModEntities.ENTITIES.values().isEmpty()) {
@@ -117,7 +147,7 @@ public class BetterAnimalsPlusConfig {
             }
         }
     }
-    
+
     public static Map<String, String[]> getTameItemsMap() {
         Map<String, String[]> map = new HashMap<String, String[]>();
         for(EntityTypeContainer<?> cont : ModEntities.ENTITIES.values()) {

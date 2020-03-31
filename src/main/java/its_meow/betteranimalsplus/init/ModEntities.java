@@ -124,7 +124,17 @@ public class ModEntities {
             new EntityVariant("2_christmas", "reindeer_2_christmas", false),
             new EntityVariant("3_christmas", "reindeer_3_christmas", false),
             new EntityVariant("4_christmas", "reindeer_4_christmas", false)
-        ).head("reindeerhead").mapToNames().setModel(() -> ModelReindeerHead::new).done());
+        ).head("reindeerhead").mapToNames().setModel(() -> ModelReindeerHead::new).done().clientConfig(new CustomConfigurationHolder() {
+            private ForgeConfigSpec.BooleanValue createSnow;
+            @Override
+            public void customConfigurationInit(net.minecraftforge.common.ForgeConfigSpec.Builder builder) {
+                this.createSnow = builder.comment("Set to false to disable snow particles around reindeer.").worldRestart().define("create_snow", true);
+            }
+            @Override
+            public void customConfigurationLoad() {
+                EntityReindeer.CREATE_SNOW = this.createSnow.get();
+            }
+        }));
         public static final EntityTypeContainer<EntityBoar> BOAR = setup(create(EntityBoar.class, EntityBoar::new, "boar").spawn(EntityClassification.CREATURE, 9, 1, 4).egg(0x3d3c3b, 0xbca895).size(0.9F, 0.9F).biomes(Type.FOREST, Type.JUNGLE, Type.PLAINS, Type.SAVANNA).variants(4).head().mapToNames().setModel(() -> ModelBoarHead::new).done());
         public static final EntityTypeContainer<EntitySquirrel> SQUIRREL = setup(create(EntitySquirrel.class, EntitySquirrel::new, "squirrel").spawn(EntityClassification.CREATURE, 8, 1, 3).egg(0x89806f, 0xb2a489).size(0.5F, 0.5F).biomes(Type.FOREST).variants("gray", "red", "albino"));
         public static final EntityTypeContainer<EntitySongbird> SONGBIRD = setup(create(EntitySongbird.class, EntitySongbird::new, "songbird").spawn(EntityClassification.CREATURE, 11, 1, 4).egg(0x46f4d2, 0x7df442).size(0.5F, 0.5F).biomes(Type.FOREST, Type.PLAINS).variants("1", "2", "3", "4", "small_1", "small_2", "small_3", "small_4", "small_5", "small_6"));
@@ -225,7 +235,7 @@ public class ModEntities {
     }
 
     public static void init() {
-        
+        // classload
     }
 
 }

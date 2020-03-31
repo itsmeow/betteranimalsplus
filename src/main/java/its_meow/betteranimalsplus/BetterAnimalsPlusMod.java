@@ -75,15 +75,12 @@ public class BetterAnimalsPlusMod {
     public static int packets = 0;
 
     public BetterAnimalsPlusMod() {
-
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::loadComplete);
         FMLJavaModLoadingContext.get().getModEventBus().<FMLClientSetupEvent>addListener(e -> new ClientLifecycleHandler().clientSetup(e));
-
         ModTriggers.register();
-        
         ModEntities.init();
-        
+        ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, BetterAnimalsPlusConfig.CLIENT_CONFIG_SPEC);
         BetterAnimalsPlusMod.logger.log(Level.INFO, "Injecting super coyotes...");
     }
 
@@ -145,7 +142,7 @@ public class BetterAnimalsPlusMod {
     
     private void loadComplete(final FMLLoadCompleteEvent event) {
         BetterAnimalsPlusConfig.setupConfig();
-        ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, BetterAnimalsPlusConfig.SERVER_CONFIG);
+        ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, BetterAnimalsPlusConfig.SERVER_CONFIG_SPEC);
         BetterAnimalsPlusMod.logger.log(Level.INFO, "Finished crazy bird creation!");
     }
 	
