@@ -18,10 +18,12 @@ import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityPredicate;
+import net.minecraft.entity.EntitySize;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ILivingEntityData;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
+import net.minecraft.entity.Pose;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.goal.BreedGoal;
@@ -155,6 +157,17 @@ public class EntityGoose extends EntityAnimalWithTypes {
                 return super.shouldExecute() && !EntityGoose.this.isPassive();
             }
         });
+    }
+
+    @Override
+    protected float getStandingEyeHeight(Pose poseIn, EntitySize sizeIn) {
+        return sizeIn.height;
+    }
+
+    @Override
+    public Vec3d getEyePosition(float partialTicks) {
+        // TODO Auto-generated method stub
+        return super.getEyePosition(partialTicks);
     }
 
     protected boolean isPassive() {
