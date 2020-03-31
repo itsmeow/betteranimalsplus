@@ -21,6 +21,7 @@ import its_meow.betteranimalsplus.client.model.ModelReindeer;
 import its_meow.betteranimalsplus.client.model.ModelSaltwaterEel;
 import its_meow.betteranimalsplus.client.model.ModelSquirrel;
 import its_meow.betteranimalsplus.client.model.ModelTarantula;
+import its_meow.betteranimalsplus.client.model.ModelWalrus;
 import its_meow.betteranimalsplus.client.model.ModelZotzpyre;
 import its_meow.betteranimalsplus.client.renderer.entity.RenderCoyote;
 import its_meow.betteranimalsplus.client.renderer.entity.RenderCustomWolf;
@@ -69,6 +70,7 @@ import its_meow.betteranimalsplus.common.entity.EntitySongbird;
 import its_meow.betteranimalsplus.common.entity.EntitySquirrel;
 import its_meow.betteranimalsplus.common.entity.EntityTarantula;
 import its_meow.betteranimalsplus.common.entity.EntityTurkey;
+import its_meow.betteranimalsplus.common.entity.EntityWalrus;
 import its_meow.betteranimalsplus.common.entity.EntityWhale;
 import its_meow.betteranimalsplus.common.entity.EntityZotzpyre;
 import its_meow.betteranimalsplus.common.entity.miniboss.hirschgeist.EntityHirschgeist;
@@ -137,6 +139,7 @@ public class ClientLifecycleHandler {
         RenderingRegistry.registerEntityRenderingHandler(EntityFreshwaterEel.class, simple(new ModelFreshwaterEel<EntityFreshwaterEel>(), 0.4F));
         RenderingRegistry.registerEntityRenderingHandler(EntitySaltwaterEel.class, simple(new ModelSaltwaterEel<EntitySaltwaterEel>(), 0.4F));
         RenderingRegistry.registerEntityRenderingHandler(EntityWhale.class, RenderWhale::new);
+        RenderingRegistry.registerEntityRenderingHandler(EntityWalrus.class, simpleSingle(new ModelWalrus<EntityWalrus>(), 1.5F, ModTextures.walrus));
         BetterAnimalsPlusMod.logger.info("Rendering squirrel physics...");
     }
 

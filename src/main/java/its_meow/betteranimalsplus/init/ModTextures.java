@@ -195,4 +195,7 @@ public class ModTextures {
     public static final ResourceLocation eel_saltwater_ribbon = new ResourceLocation(entitytex + "eel_saltwater_ribbon.png");
     public static final ResourceLocation eel_saltwater_snowflake = new ResourceLocation(entitytex + "eel_saltwater_snowflake.png");
 
+    // Walrus
+    public static final ResourceLocation walrus = new ResourceLocation(entitytex + "walrus.png");
+
 }
