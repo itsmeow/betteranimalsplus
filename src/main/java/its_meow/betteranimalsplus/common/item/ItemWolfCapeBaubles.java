@@ -77,12 +77,18 @@ public class ItemWolfCapeBaubles extends ItemWolfCape implements IBauble, IRende
     private static final ResourceLocation WOLF_CAPE_SNOWY = new ResourceLocation(Ref.MOD_ID, "textures/models/armor/wolf_cape_classic_layer_1.png");
     private static final ResourceLocation WOLF_CAPE_TIMBER = new ResourceLocation(Ref.MOD_ID, "textures/models/armor/wolf_cape_timber_layer_1.png");
     private static final ResourceLocation WOLF_CAPE_BLACK = new ResourceLocation(Ref.MOD_ID, "textures/models/armor/wolf_cape_black_layer_1.png");
+    private static final ResourceLocation WOLF_CAPE_ARCTIC = new ResourceLocation(Ref.MOD_ID, "textures/models/armor/wolf_cape_arctic_layer_1.png");
+    private static final ResourceLocation WOLF_CAPE_BROWN = new ResourceLocation(Ref.MOD_ID, "textures/models/armor/wolf_cape_brown_layer_1.png");
+    private static final ResourceLocation WOLF_CAPE_RED = new ResourceLocation(Ref.MOD_ID, "textures/models/armor/wolf_cape_red_layer_1.png");
 
     private static ResourceLocation getTexture(String variant) {
         switch(variant) {
         case "classic": return WOLF_CAPE_SNOWY;
         case "timber": return WOLF_CAPE_TIMBER;
         case "black": return WOLF_CAPE_BLACK;
+        case "arctic": return WOLF_CAPE_ARCTIC;
+        case "brown": return WOLF_CAPE_BROWN;
+        case "red": return WOLF_CAPE_RED;
         default: return WOLF_CAPE_SNOWY;
         }
     }
