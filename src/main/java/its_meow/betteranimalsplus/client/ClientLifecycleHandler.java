@@ -3,6 +3,7 @@ package its_meow.betteranimalsplus.client;
 import java.util.function.Predicate;
 
 import com.google.common.base.Predicates;
+import com.mojang.blaze3d.platform.GlStateManager;
 
 import its_meow.betteranimalsplus.BetterAnimalsPlusMod;
 import its_meow.betteranimalsplus.client.model.ModelBadger;
@@ -111,7 +112,14 @@ public class ClientLifecycleHandler {
         RenderingRegistry.registerEntityRenderingHandler(EntityFeralWolf.class, RenderCustomWolf::new);
         RenderingRegistry.registerEntityRenderingHandler(EntityCoyote.class, RenderCoyote::new);
         RenderingRegistry.registerEntityRenderingHandler(EntityTarantulaHair.class, RenderTarantulaHair::new);
-        RenderingRegistry.registerEntityRenderingHandler(EntityTarantula.class, simpleSingleEyes(new ModelTarantula<EntityTarantula>(), 1F, ModTextures.tarantula, ModTextures.tarantula_eyes, Predicates.alwaysTrue()));
+        RenderingRegistry.registerEntityRenderingHandler(EntityTarantula.class, mgr -> (new SimpleSingleRenderer<EntityTarantula, ModelTarantula<EntityTarantula>>(mgr, new ModelTarantula<EntityTarantula>(), 1F, ModTextures.tarantula) {
+            protected void preRenderCallback(EntityTarantula entity, float p) {
+                if(entity.isBesideClimbableBlock()) {
+                    GlStateManager.rotatef(-90, 1, 0, 0);
+                    GlStateManager.translatef(0.0F, 0.75F, -0.5F);
+                }
+            }
+        }.layer(base -> new LayerEyesCondition<>(base, ModTextures.tarantula_eyes, Predicates.alwaysTrue()))));
         RenderingRegistry.registerEntityRenderingHandler(EntityHirschgeist.class, RenderHirschgeist::new);
         RenderingRegistry.registerEntityRenderingHandler(EntityGoat.class, simpleScaled(new ModelGoat<EntityGoat>(), 0.5F, 1D, 0.5D));
         RenderingRegistry.registerEntityRenderingHandler(EntityJellyfish.class, RenderJellyfish::new);
