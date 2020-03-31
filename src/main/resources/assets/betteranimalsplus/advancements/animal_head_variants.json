@@ -48,6 +48,36 @@
                 ]
             }
         },
+        "feralwolfhead_arctic": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "betteranimalsplus:feralwolfhead_arctic"
+                    }
+                ]
+            }
+        },
+        "feralwolfhead_brown": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "betteranimalsplus:feralwolfhead_brown"
+                    }
+                ]
+            }
+        },
+        "feralwolfhead_red": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "betteranimalsplus:feralwolfhead_red"
+                    }
+                ]
+            }
+        },
         "head4": {
             "trigger": "minecraft:inventory_changed",
             "conditions": {
@@ -293,7 +323,10 @@
         [
             "head1",
             "head2",
-            "head3"
+            "head3",
+            "feralwolfhead_arctic",
+            "feralwolfhead_brown",
+            "feralwolfhead_red"
         ],
         [
             "head4"
