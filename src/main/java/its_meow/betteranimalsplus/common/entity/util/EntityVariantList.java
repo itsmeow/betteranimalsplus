@@ -11,6 +11,7 @@ public class EntityVariantList {
 
     private final ArrayList<IVariant> variantList;
     private final HashMap<String, IVariant> nameMap;
+    private static final IVariant EMPTY_VARIANT = new EntityVariant("empty", false);
 
     public EntityVariantList(int size) {
         this.variantList = new ArrayList<IVariant>(size);
@@ -30,6 +31,9 @@ public class EntityVariantList {
     }
 
     public IVariant getVariant(String name) {
+        if(!nameMap.containsKey(name)) {
+            return EMPTY_VARIANT; // stop crashing if name is invalid
+        }
         return nameMap.get(name);
     }
 
