@@ -17,6 +17,8 @@ public class ModSoundEvents {
     public static final SoundEvent GOOSE_HURT = sound("entity.goose.hurt");
     public static final SoundEvent GOOSE_AMBIENT = sound("entity.goose.ambient");
 
+    public static final SoundEvent WALRUS = sound("record.walrus");
+
     private static SoundEvent sound(String id) {
         ModSoundEvent event = new ModSoundEvent(id);
         SOUNDS.put(event.getRegistryName(), event);

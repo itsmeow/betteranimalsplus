@@ -89,19 +89,23 @@ public class CommonEventHandler {
             TileEntity te = event.getWorld().getTileEntity(event.getPos());
             if(te instanceof JukeboxTileEntity) {
                 JukeboxTileEntity box = (JukeboxTileEntity) te;
-                boolean held = event.getPlayer().getHeldItem(event.getHand()).getItem() == ModItems.RECORD_CRAB_RAVE;
+                Item held = event.getPlayer().getHeldItem(event.getHand()).getItem();
                 if(box.getRecord().getItem() == ModItems.RECORD_CRAB_RAVE) {
                     List<EntityCrab> crabs = event.getWorld().getEntitiesWithinAABB(EntityCrab.class, event.getPlayer().getBoundingBox().grow(50));
                     for(EntityCrab crab : crabs) {
                         crab.unCrabRave();
                     }
-                } else if(held) {
+                } else if(held == ModItems.RECORD_CRAB_RAVE) {
                     List<EntityCrab> crabs = event.getWorld().getEntitiesWithinAABB(EntityCrab.class, event.getPlayer().getBoundingBox().grow(50));
                     if(event.getPlayer() instanceof ServerPlayerEntity) {
                         ModTriggers.USE_CRAB_DISK.trigger((ServerPlayerEntity) event.getPlayer());
                     }
                     for(EntityCrab crab : crabs) {
                         crab.crabRave();
+                    }
+                } else if(held == ModItems.RECORD_WALRUS) {
+                    if(event.getPlayer() instanceof ServerPlayerEntity) {
+                        ModTriggers.USE_WALRUS_DISK.trigger((ServerPlayerEntity) event.getPlayer());
                     }
                 }
             }
@@ -110,12 +114,13 @@ public class CommonEventHandler {
 
     @SubscribeEvent
     public static void onItemUsed(PlayerInteractEvent.RightClickItem event) {
-        if (PORTABLE_JUKEBOX != null && event.getItemStack().getItem() == PORTABLE_JUKEBOX) {
-            if (event.getItemStack().getChildTag("Disc") != null) {
-                if (ItemStack.read(event.getItemStack().getChildTag("Disc")).getItem() == ModItems.RECORD_CRAB_RAVE) {
-                    if (event.getPlayer().isSneaking()) {
+        if(PORTABLE_JUKEBOX != null && event.getItemStack().getItem() == PORTABLE_JUKEBOX) {
+            if(event.getItemStack().getChildTag("Disc") != null) {
+                Item item = ItemStack.read(event.getItemStack().getChildTag("Disc")).getItem();
+                if(item == ModItems.RECORD_CRAB_RAVE) {
+                    if(event.getPlayer().isSneaking()) {
                         List<EntityCrab> crabs = event.getWorld().getEntitiesWithinAABB(EntityCrab.class, event.getPlayer().getBoundingBox().grow(50));
-                        for (EntityCrab crab : crabs) {
+                        for(EntityCrab crab : crabs) {
                             crab.unCrabRave();
                         }
                     } else {
@@ -125,6 +130,12 @@ public class CommonEventHandler {
                         }
                         for(EntityCrab crab : crabs) {
                             crab.crabRave();
+                        }
+                    }
+                } else if(item == ModItems.RECORD_WALRUS) {
+                    if(!event.getPlayer().isSneaking()) {
+                        if(event.getPlayer() instanceof ServerPlayerEntity) {
+                            ModTriggers.USE_WALRUS_DISK.trigger((ServerPlayerEntity) event.getPlayer());
                         }
                     }
                 }

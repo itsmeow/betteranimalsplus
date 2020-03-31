@@ -1,0 +1,31 @@
+{
+    "display": {
+        "title": {
+        	"text": "I am the Walrus",
+        	"color": "orange",
+        	"bold": true
+        },
+        "description": [
+            {"text":"Play the secret walrus disk\n","color":"gray"},
+            {"text":"Sittin on a corn flake...","color":"yellow"}
+        ],
+        "icon": {
+            "item": "betteranimalsplus:record_walrus"
+        },
+        "frame": "challenge",
+        "show_toast": true,
+        "announce_to_chat": true,
+        "hidden": false
+    },
+  "criteria": {
+        "use_disk": {
+            "trigger": "betteranimalsplus:walrus_disk_used"
+        }
+    },
+    "requirements": [
+        [
+            "use_disk"
+        ]
+    ],
+    "parent": "betteranimalsplus:walrus_disk_retrieved"
+}

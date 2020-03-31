@@ -90,6 +90,7 @@ public class BetterAnimalsPlusRegistrar {
         ModItems.WOLF_CAPE_BROWN,
         ModItems.WOLF_CAPE_RED,
         ModItems.RECORD_CRAB_RAVE,
+        ModItems.RECORD_WALRUS,
         ModItems.BEAR_SKIN_BROWN,
         ModItems.BEAR_SKIN_BLACK,
         ModItems.BEAR_SKIN_KERMODE,

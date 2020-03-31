@@ -7,6 +7,7 @@ import javax.annotation.Nullable;
 import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainer;
 import its_meow.betteranimalsplus.common.entity.util.IContainerEntity;
 import its_meow.betteranimalsplus.init.ModEntities;
+import its_meow.betteranimalsplus.init.ModItems;
 import its_meow.betteranimalsplus.init.ModLootTables;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -31,10 +32,12 @@ import net.minecraft.entity.ai.goal.MoveToBlockGoal;
 import net.minecraft.entity.ai.goal.RandomWalkingGoal;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
+import net.minecraft.particles.ParticleTypes;
 import net.minecraft.pathfinding.PathFinder;
 import net.minecraft.pathfinding.PathNavigator;
 import net.minecraft.pathfinding.SwimmerPathNavigator;
@@ -42,6 +45,7 @@ import net.minecraft.pathfinding.WalkAndSwimNodeProcessor;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
@@ -51,6 +55,8 @@ import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 public class EntityWalrus extends AnimalEntity implements IContainerEntity<EntityWalrus> {
 
@@ -58,11 +64,39 @@ public class EntityWalrus extends AnimalEntity implements IContainerEntity<Entit
     private static final DataParameter<BlockPos> TRAVEL_POS = EntityDataManager.createKey(EntityWalrus.class, DataSerializers.BLOCK_POS);
     private static final DataParameter<Boolean> GOING_HOME = EntityDataManager.createKey(EntityWalrus.class, DataSerializers.BOOLEAN);
     private static final DataParameter<Boolean> TRAVELLING = EntityDataManager.createKey(EntityWalrus.class, DataSerializers.BOOLEAN);
+    public boolean hasGivenDisc = false;
 
     public EntityWalrus(World worldIn) {
         super(ModEntities.WALRUS.entityType, worldIn);
         this.moveController = new EntityWalrus.MoveHelperController(this);
         this.stepHeight = 1.0F;
+    }
+
+    @Override
+    public boolean processInteract(PlayerEntity player, Hand hand) {
+        ItemStack stack = player.getHeldItem(hand);
+        if(!hasGivenDisc && stack.getItem() == ModItems.FRIED_EGG) {
+            this.consumeItemFromStack(player, stack);
+            this.world.setEntityState(this, (byte) 90);
+            this.hasGivenDisc = true;
+            this.entityDropItem(new ItemStack(ModItems.RECORD_WALRUS));
+            return true;
+        }
+        return super.processInteract(player, hand);
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    public void handleStatusUpdate(byte id) {
+        if(id == 90) {
+            for(int i = 0; i < 7; ++i) {
+                double x = this.rand.nextGaussian() * 0.02D;
+                double y = this.rand.nextGaussian() * 0.02D;
+                double z = this.rand.nextGaussian() * 0.02D;
+                this.world.addParticle(ParticleTypes.NOTE, this.posX + (double) (this.rand.nextFloat() * this.getWidth() * 2.0F) - (double) this.getWidth(), this.posY + 0.5D + (double) (this.rand.nextFloat() * this.getHeight()), this.posZ + (double) (this.rand.nextFloat() * this.getWidth() * 2.0F) - (double) this.getWidth(), x, y, z);
+            }
+        } else {
+            super.handleStatusUpdate(id);
+        }
     }
 
     public boolean attackEntityAsMob(Entity entityIn) {
@@ -124,6 +158,7 @@ public class EntityWalrus extends AnimalEntity implements IContainerEntity<Entit
         compound.putInt("TravelPosX", this.getTravelPos().getX());
         compound.putInt("TravelPosY", this.getTravelPos().getY());
         compound.putInt("TravelPosZ", this.getTravelPos().getZ());
+        compound.putBoolean("DiscGiven", hasGivenDisc);
     }
 
     public void readAdditional(CompoundNBT compound) {
@@ -136,6 +171,7 @@ public class EntityWalrus extends AnimalEntity implements IContainerEntity<Entit
         int i1 = compound.getInt("TravelPosY");
         int j1 = compound.getInt("TravelPosZ");
         this.setTravelPos(new BlockPos(l, i1, j1));
+        this.hasGivenDisc = compound.getBoolean("DiscGiven");
     }
 
     @Nullable
