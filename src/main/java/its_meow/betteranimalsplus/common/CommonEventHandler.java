@@ -16,6 +16,7 @@ import net.minecraft.entity.monster.EntityPolarBear;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
+import net.minecraft.item.Item;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumParticleTypes;
@@ -84,19 +85,23 @@ public class CommonEventHandler {
             TileEntity te = event.getWorld().getTileEntity(event.getPos());
             if(te instanceof TileEntityJukebox) {
                 TileEntityJukebox box = (TileEntityJukebox) te;
-                boolean held = event.getEntityPlayer().getHeldItem(event.getHand()).getItem() == ModItems.RECORD_CRAB_RAVE;
+                Item held = event.getEntityPlayer().getHeldItem(event.getHand()).getItem();
                 if(box.getRecord().getItem() == ModItems.RECORD_CRAB_RAVE) {
                     List<EntityCrab> crabs = event.getWorld().getEntitiesWithinAABB(EntityCrab.class, event.getEntityPlayer().getEntityBoundingBox().grow(50));
                     for(EntityCrab crab : crabs) {
                         crab.unCrabRave();
                     }
-                } else if(held) {
+                } else if(held == ModItems.RECORD_CRAB_RAVE) {
                     if(event.getEntityPlayer() instanceof EntityPlayerMP) {
                         ModTriggers.USE_CRAB_DISK.trigger((EntityPlayerMP) event.getEntityPlayer());
                     }
                     List<EntityCrab> crabs = event.getWorld().getEntitiesWithinAABB(EntityCrab.class, event.getEntityPlayer().getEntityBoundingBox().grow(50));
                     for(EntityCrab crab : crabs) {
                         crab.crabRave();
+                    }
+                } else if(held == ModItems.RECORD_WALRUS) {
+                    if(event.getEntityPlayer() instanceof EntityPlayerMP) {
+                        ModTriggers.USE_WALRUS_DISK.trigger((EntityPlayerMP) event.getEntityPlayer());
                     }
                 }
             }

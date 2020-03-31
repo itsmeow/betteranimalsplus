@@ -136,6 +136,7 @@ public class ClientRegistrar {
         initModel(ModItems.CRAB_MEAT_COOKED);
         initModel(ModItems.CRAB_MEAT_RAW);
         initModel(ModItems.RECORD_CRAB_RAVE);
+        initModel(ModItems.RECORD_WALRUS);
         initModel(ModItems.WOLF_PELT_SNOWY);
         initModel(ModItems.WOLF_PELT_TIMBER);
         initModel(ModItems.WOLF_PELT_BLACK);

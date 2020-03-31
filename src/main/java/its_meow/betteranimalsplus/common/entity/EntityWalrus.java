@@ -5,6 +5,7 @@ import java.util.Random;
 import its_meow.betteranimalsplus.common.entity.ai.BreatheAirGoal;
 import its_meow.betteranimalsplus.common.entity.ai.WalkAndSwimNodeProcessor;
 import its_meow.betteranimalsplus.init.ModEntities;
+import its_meow.betteranimalsplus.init.ModItems;
 import its_meow.betteranimalsplus.init.ModLootTables;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -26,6 +27,7 @@ import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.SoundEvents;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
@@ -35,24 +37,56 @@ import net.minecraft.pathfinding.PathNavigate;
 import net.minecraft.pathfinding.PathNavigateSwimmer;
 import net.minecraft.pathfinding.PathNodeType;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class EntityWalrus extends EntityAnimal {
     private static final DataParameter<BlockPos> HOME_POS = EntityDataManager.createKey(EntityWalrus.class, DataSerializers.BLOCK_POS);
     private static final DataParameter<BlockPos> TRAVEL_POS = EntityDataManager.createKey(EntityWalrus.class, DataSerializers.BLOCK_POS);
     private static final DataParameter<Boolean> GOING_HOME = EntityDataManager.createKey(EntityWalrus.class, DataSerializers.BOOLEAN);
     private static final DataParameter<Boolean> TRAVELLING = EntityDataManager.createKey(EntityWalrus.class, DataSerializers.BOOLEAN);
+    public boolean hasGivenDisc = false;
 
     public EntityWalrus(World worldIn) {
         super(worldIn);
         this.setSize(3, 1.25F);
         this.moveHelper = new EntityWalrus.MoveHelperController(this);
         this.stepHeight = 1.0F;
+    }
+
+    @Override
+    public boolean processInteract(EntityPlayer player, EnumHand hand) {
+        ItemStack stack = player.getHeldItem(hand);
+        if(!hasGivenDisc && stack.getItem() == ModItems.FRIED_EGG) {
+            this.consumeItemFromStack(player, stack);
+            this.world.setEntityState(this, (byte) 90);
+            this.hasGivenDisc = true;
+            this.entityDropItem(new ItemStack(ModItems.RECORD_WALRUS), 0.5F);
+            return true;
+        }
+        return super.processInteract(player, hand);
+    }
+
+    @SideOnly(Side.CLIENT)
+    public void handleStatusUpdate(byte id) {
+        if(id == 90) {
+            for(int i = 0; i < 7; ++i) {
+                double x = this.rand.nextGaussian() * 0.02D;
+                double y = this.rand.nextGaussian() * 0.02D;
+                double z = this.rand.nextGaussian() * 0.02D;
+                this.world.spawnParticle(EnumParticleTypes.NOTE, this.posX + (double) (this.rand.nextFloat() * this.width * 2.0F) - (double) this.width, this.posY + 0.5D + (double) (this.rand.nextFloat() * this.height), this.posZ + (double) (this.rand.nextFloat() * this.width * 2.0F) - (double) this.width, x, y, z);
+            }
+        } else {
+            super.handleStatusUpdate(id);
+        }
     }
 
     @Override
@@ -117,6 +151,7 @@ public class EntityWalrus extends EntityAnimal {
         compound.setInteger("TravelPosX", this.getTravelPos().getX());
         compound.setInteger("TravelPosY", this.getTravelPos().getY());
         compound.setInteger("TravelPosZ", this.getTravelPos().getZ());
+        compound.setBoolean("DiscGiven", hasGivenDisc);
     }
 
     @Override
@@ -130,6 +165,7 @@ public class EntityWalrus extends EntityAnimal {
         int i1 = compound.getInteger("TravelPosY");
         int j1 = compound.getInteger("TravelPosZ");
         this.setTravelPos(new BlockPos(l, i1, j1));
+        this.hasGivenDisc = compound.getBoolean("DiscGiven");
     }
 
     @Override

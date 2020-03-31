@@ -77,6 +77,7 @@ public class BetterAnimalsPlusRegistrar {
         }
 
         HIDE_ITEMS.add(ModItems.RECORD_CRAB_RAVE);
+        HIDE_ITEMS.add(ModItems.RECORD_WALRUS);
 
         // Items
 
@@ -111,6 +112,7 @@ public class BetterAnimalsPlusRegistrar {
         ModItems.CRAB_MEAT_RAW,
         ModItems.CRAB_MEAT_COOKED,
         ModItems.RECORD_CRAB_RAVE,
+        ModItems.RECORD_WALRUS,
         ModItems.PHEASANT_EGG,
         ModItems.TURKEY_EGG,
         ModItems.GOOSE_EGG,

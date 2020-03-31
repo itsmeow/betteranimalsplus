@@ -9,6 +9,16 @@
             }
         ]
     },
+    "record.walrus": {
+        "replace": false,
+        "category": "record",
+        "sounds": [
+        	{
+            	"name": "betteranimalsplus:walrus",
+            	"stream": true
+            }
+        ]
+    },
     "entity.goose.death": {
         "sounds": [
             {

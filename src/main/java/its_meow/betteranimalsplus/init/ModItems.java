@@ -83,7 +83,13 @@ public class ModItems {
         RECORD_CRAB_RAVE.setCreativeTab(null);
         RECORD_CRAB_RAVE.setTranslationKey("record");
     }
-    
+
+    public static final ItemRecord RECORD_WALRUS = new ItemRecord("walrus", ModSoundEvents.WALRUS) {}; static {
+        RECORD_WALRUS.setRegistryName(new ResourceLocation(Ref.MOD_ID, "record_walrus"));
+        RECORD_WALRUS.setCreativeTab(null);
+        RECORD_WALRUS.setTranslationKey("record");
+    }
+
     public static final ItemThrowableCustomEgg PHEASANT_EGG = new ItemThrowableCustomEgg("pheasant_egg", player -> new EntityPheasantEgg(player.world, player));
     public static final ItemThrowableCustomEgg TURKEY_EGG = new ItemThrowableCustomEgg("turkey_egg", player -> new EntityTurkeyEgg(player.world, player));
     public static final ItemThrowableCustomEgg GOOSE_EGG = new ItemThrowableCustomEgg("goose_egg", player -> new EntityGooseEgg(player.world, player));

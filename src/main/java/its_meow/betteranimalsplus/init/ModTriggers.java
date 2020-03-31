@@ -17,12 +17,14 @@ public class ModTriggers {
     public static final CustomTrigger RIDE_REINDEER = new CustomTrigger(Ref.MOD_ID + ":ride_reindeer");
     public static final CustomTrigger GOAT_FIGHT_FRIEND = new CustomTrigger(Ref.MOD_ID + ":goat_fight_friend");
     public static final Map<Integer, CustomTrigger> SQUIRREL_KILL_TRIGGERS = new HashMap<Integer, CustomTrigger>();
+    public static final CustomTrigger USE_WALRUS_DISK = new CustomTrigger(Ref.MOD_ID + ":walrus_disk_used");
 
     public static void register() {
         CriteriaTriggers.register(HAND_OF_FATE_SUMMON);
         CriteriaTriggers.register(PUNCH_BEAR);
         CriteriaTriggers.register(PUNCH_BEAR_DEATH);
         CriteriaTriggers.register(USE_CRAB_DISK);
+        CriteriaTriggers.register(USE_WALRUS_DISK);
         CriteriaTriggers.register(SHARK_TARGETED);
         CriteriaTriggers.register(RIDE_REINDEER);
         CriteriaTriggers.register(GOAT_FIGHT_FRIEND);
