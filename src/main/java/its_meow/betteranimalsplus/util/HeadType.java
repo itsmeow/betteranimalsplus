@@ -53,20 +53,17 @@ public class HeadType {
     private final Set<ItemBlockHeadType> items = new HashSet<ItemBlockHeadType>();
     private final Set<BlockGenericSkull> blocks = new HashSet<BlockGenericSkull>();
     @OnlyIn(Dist.CLIENT)
-    private Supplier<Supplier<EntityModel<? extends Entity>>> modelSupplier;
+    public Supplier<Supplier<EntityModel<? extends Entity>>> modelSupplier;
     private final EntityTypeContainer<? extends LivingEntity> container;
     private float yOffset = 0F;
     private IVariant singletonVariant;
     private final Map<Block, IVariant> reverseVariantMap = new HashMap<Block, IVariant>();
 
-    public HeadType(String name, PlacementType placement, float yOffset, Supplier<Supplier<EntityModel<? extends Entity>>> modelSupplier, HeadIDMapping mapping, @Nullable Function<IVariant, String> variantMapper, @Nullable IVariant singletonVariant, @Nullable String singletonID, EntityTypeContainer<? extends LivingEntity> container) {
+    public HeadType(String name, PlacementType placement, float yOffset, HeadIDMapping mapping, @Nullable Function<IVariant, String> variantMapper, @Nullable IVariant singletonVariant, @Nullable String singletonID, EntityTypeContainer<? extends LivingEntity> container) {
         this.name = name;
         this.placement = placement;
         this.yOffset = yOffset;
         this.container = container;
-        if(FMLEnvironment.dist == Dist.CLIENT) {
-            this.modelSupplier = modelSupplier;
-        }
         if(!container.hasVariants() && mapping != HeadIDMapping.SINGLETON) {
             throw new RuntimeException("Tried to create non-singleton head type with a variantless entity!");
         }
@@ -303,7 +300,11 @@ public class HeadType {
             if(idMapping == null) {
                 throw new RuntimeException("No ID mapping set for head builder " + name);
             }
-            return new HeadType(name, placement, yOffset, modelSupplier, idMapping, customMapper, singletonVariant, singletonID, container);
+            HeadType type = new HeadType(name, placement, yOffset, idMapping, customMapper, singletonVariant, singletonID, container);
+            if(FMLEnvironment.dist == Dist.CLIENT) {
+                type.modelSupplier = modelSupplier;
+            }
+            return type;
         }
 
     }
