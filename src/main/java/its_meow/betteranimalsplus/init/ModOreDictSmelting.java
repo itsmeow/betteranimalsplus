@@ -67,5 +67,6 @@ public class ModOreDictSmelting {
         OreDictionary.registerOre("foodEgg", item);
         OreDictionary.registerOre("eggCookable", item);
         OreDictionary.registerOre("listAllEgg", item);
+        OreDictionary.registerOre("listAllegg", item);
     }
 }
