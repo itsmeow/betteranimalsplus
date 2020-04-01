@@ -56,6 +56,11 @@ public class ThaumcraftIntegration {
 		
 		event.register.registerObjectTag(new ItemStack(ModItems.GOLDEN_GOOSE_EGG), new AspectList().add(Aspect.MAGIC, 20).add(Aspect.LIFE, 20).add(Aspect.DESIRE, 20));
 		
+		event.register.registerObjectTag(new ItemStack(ModItems.EEL_MEAT_RAW), new AspectList().add(Aspect.BEAST, 5).add(Aspect.LIFE, 5).add(Aspect.WATER, 5));
+		event.register.registerObjectTag(new ItemStack(ModItems.EEL_MEAT_COOKED), new AspectList().add(Aspect.BEAST, 5).add(Aspect.CRAFT, 5).add(Aspect.FIRE, 5));
+		
+		event.register.registerObjectTag(new ItemStack(ModItems.BLUBBER), new AspectList().add(Aspect.WATER, 5).add(Aspect.CRAFT, 5).add(Aspect.ENERGY, 5));
+		
 		event.register.registerObjectTag(new ItemStack(HeadTypes.BEARHEAD.getItem(1)), new AspectList().add(Aspect.BEAST, 25).add(Aspect.SOUL, 25).add(Aspect.CRAFT, 25));
 		event.register.registerObjectTag(new ItemStack(HeadTypes.BEARHEAD.getItem(2)), new AspectList().add(Aspect.BEAST, 25).add(Aspect.SOUL, 25).add(Aspect.CRAFT, 25));
 		event.register.registerObjectTag(new ItemStack(HeadTypes.BEARHEAD.getItem(3)), new AspectList().add(Aspect.BEAST, 25).add(Aspect.SOUL, 25).add(Aspect.CRAFT, 25));
@@ -118,6 +123,8 @@ public class ThaumcraftIntegration {
 		
 		ThaumcraftApi.registerEntityTag("betteranimalsplus.eel_freshwater", new AspectList().add(Aspect.BEAST, 15).add(Aspect.WATER, 15).add(Aspect.AVERSION, 15));
 		ThaumcraftApi.registerEntityTag("betteranimalsplus.eel_saltwater", new AspectList().add(Aspect.BEAST, 15).add(Aspect.WATER, 15).add(Aspect.AVERSION, 15));
-		ThaumcraftApi.registerEntityTag("betteranimalsplus.goose", new AspectList().add(Aspect.BEAST, 5).add(Aspect.AIR, 5).add(Aspect.FLIGHT, 5).add(Aspect.AVERSION, 5).add(Aspect.WATER, 5));
+		ThaumcraftApi.registerEntityTag("betteranimalsplus.goose", new AspectList().add(Aspect.BEAST, 5).add(Aspect.AIR, 5).add(Aspect.FLIGHT, 5).add(Aspect.AVERSION, 5).add(Aspect.WATER, 5). add(Aspect.DARKNESS, 5));
+		
+		ThaumcraftApi.registerEntityTag("betteranimalsplus.whale", new AspectList().add(Aspect.BEAST, 35).add(Aspect.WATER, 35).add(Aspect.ENERGY, 35).add(Aspect.PROTECT, 35));
 	}
 }
