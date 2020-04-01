@@ -30,6 +30,11 @@ public class ThaumcraftIntegration {
 		event.register.registerObjectTag(new ItemStack(ModItems.WOLF_PELT_BLACK), new AspectList().add(Aspect.BEAST, 5).add(Aspect.CRAFT, 5));
 		event.register.registerObjectTag(new ItemStack(ModItems.WOLF_PELT_TIMBER), new AspectList().add(Aspect.BEAST, 5).add(Aspect.CRAFT, 5));
 		event.register.registerObjectTag(new ItemStack(ModItems.WOLF_PELT_SNOWY), new AspectList().add(Aspect.BEAST, 5).add(Aspect.CRAFT, 5));
+		
+		event.register.registerObjectTag(new ItemStack(ModItems.WOLF_PELT_RED), new AspectList().add(Aspect.BEAST, 5).add(Aspect.CRAFT, 5));
+		event.register.registerObjectTag(new ItemStack(ModItems.WOLF_PELT_BROWN), new AspectList().add(Aspect.BEAST, 5).add(Aspect.CRAFT, 5));
+		event.register.registerObjectTag(new ItemStack(ModItems.WOLF_PELT_ARCTIC), new AspectList().add(Aspect.BEAST, 5).add(Aspect.CRAFT, 5));
+		
 		event.register.registerObjectTag(new ItemStack(ModItems.BEAR_SKIN_BLACK), new AspectList().add(Aspect.BEAST, 5).add(Aspect.CRAFT, 5));
 		event.register.registerObjectTag(new ItemStack(ModItems.BEAR_SKIN_BROWN), new AspectList().add(Aspect.BEAST, 5).add(Aspect.CRAFT, 5));
 		event.register.registerObjectTag(new ItemStack(ModItems.BEAR_SKIN_KERMODE), new AspectList().add(Aspect.BEAST, 5).add(Aspect.CRAFT, 5));
@@ -78,6 +83,9 @@ public class ThaumcraftIntegration {
 		event.register.registerObjectTag(new ItemStack(HeadTypes.DEERHEAD.getItem(1)), new AspectList().add(Aspect.BEAST, 25).add(Aspect.SOUL, 25).add(Aspect.CRAFT, 25));
 		event.register.registerObjectTag(new ItemStack(HeadTypes.DEERHEAD.getItem(2)), new AspectList().add(Aspect.BEAST, 25).add(Aspect.SOUL, 25).add(Aspect.CRAFT, 25));
 		
+		event.register.registerObjectTag(new ItemStack(HeadTypes.DEERHEAD.getItem(3)), new AspectList().add(Aspect.BEAST, 25).add(Aspect.SOUL, 25).add(Aspect.CRAFT, 25));
+		event.register.registerObjectTag(new ItemStack(HeadTypes.DEERHEAD.getItem(4)), new AspectList().add(Aspect.BEAST, 25).add(Aspect.SOUL, 25).add(Aspect.CRAFT, 25));
+		
 		event.register.registerObjectTag(new ItemStack(HeadTypes.REINDEERHEAD.getItem(1)), new AspectList().add(Aspect.BEAST, 25).add(Aspect.SOUL, 25).add(Aspect.CRAFT, 25));
 		event.register.registerObjectTag(new ItemStack(HeadTypes.REINDEERHEAD.getItem(2)), new AspectList().add(Aspect.BEAST, 25).add(Aspect.SOUL, 25).add(Aspect.CRAFT, 25));
 		event.register.registerObjectTag(new ItemStack(HeadTypes.REINDEERHEAD.getItem(3)), new AspectList().add(Aspect.BEAST, 25).add(Aspect.SOUL, 25).add(Aspect.CRAFT, 25));
@@ -91,6 +99,10 @@ public class ThaumcraftIntegration {
 		event.register.registerObjectTag(new ItemStack(HeadTypes.WOLFHEAD.getItem(1)), new AspectList().add(Aspect.BEAST, 25).add(Aspect.SOUL, 25).add(Aspect.CRAFT, 25));
 		event.register.registerObjectTag(new ItemStack(HeadTypes.WOLFHEAD.getItem(2)), new AspectList().add(Aspect.BEAST, 25).add(Aspect.SOUL, 25).add(Aspect.CRAFT, 25));
 		event.register.registerObjectTag(new ItemStack(HeadTypes.WOLFHEAD.getItem(3)), new AspectList().add(Aspect.BEAST, 25).add(Aspect.SOUL, 25).add(Aspect.CRAFT, 25));
+		
+		event.register.registerObjectTag(new ItemStack(HeadTypes.WOLFHEAD.getItem(4)), new AspectList().add(Aspect.BEAST, 25).add(Aspect.SOUL, 25).add(Aspect.CRAFT, 25));
+		event.register.registerObjectTag(new ItemStack(HeadTypes.WOLFHEAD.getItem(5)), new AspectList().add(Aspect.BEAST, 25).add(Aspect.SOUL, 25).add(Aspect.CRAFT, 25));
+		event.register.registerObjectTag(new ItemStack(HeadTypes.WOLFHEAD.getItem(6)), new AspectList().add(Aspect.BEAST, 25).add(Aspect.SOUL, 25).add(Aspect.CRAFT, 25));
 		
 		event.register.registerObjectTag(new ItemStack(HeadTypes.COYOTEHEAD.getItem(1)), new AspectList().add(Aspect.BEAST, 25).add(Aspect.SOUL, 25).add(Aspect.CRAFT, 25));
 		
