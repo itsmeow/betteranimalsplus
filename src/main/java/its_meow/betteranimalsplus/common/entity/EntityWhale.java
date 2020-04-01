@@ -63,7 +63,7 @@ public class EntityWhale extends EntityWaterCreatureAirBreathingWithTypes {
 
     @Override
     public void setAir(int air) {
-        if(air == 300 && !this.isInsideOfMaterial(Material.WATER)) {
+        if(air == 300 && this.world != null && this.isAddedToWorld() && this.world.loadedEntityList.contains(this) && !this.isInsideOfMaterial(Material.WATER)) {
             super.setAir(2400);
         } else {
             super.setAir(air);

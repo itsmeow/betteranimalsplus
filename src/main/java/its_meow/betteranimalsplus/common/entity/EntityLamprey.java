@@ -252,7 +252,7 @@ public class EntityLamprey extends EntityWaterMobWithTypes implements IMob {
 
     @Override
     protected ResourceLocation getLootTable() {
-        return ModLootTables.lamprey;
+        return ModLootTables.EELY;
     }
 
     @Override

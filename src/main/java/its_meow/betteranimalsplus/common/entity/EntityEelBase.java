@@ -5,6 +5,7 @@ import java.util.List;
 import com.google.common.base.Predicate;
 
 import its_meow.betteranimalsplus.common.entity.ai.EntityAIWanderWaterEntity;
+import its_meow.betteranimalsplus.init.ModLootTables;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -19,6 +20,7 @@ import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
@@ -133,7 +135,12 @@ public abstract class EntityEelBase extends EntityWaterCreatureWithTypes {
     protected static boolean isHoldingFood(EntityLivingBase entity) {
         return entity.getHeldItemMainhand().getItem() instanceof ItemFood || entity.getHeldItemOffhand().getItem() instanceof ItemFood;
     }
-    
+
+    @Override
+    protected ResourceLocation getLootTable() {
+        return ModLootTables.EELY;
+    }
+
     public class MoveToFoodItemsGoal extends EntityAIBase {
         public MoveToFoodItemsGoal() {
             this.setMutexBits(1);
