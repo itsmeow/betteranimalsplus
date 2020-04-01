@@ -138,5 +138,6 @@ public class ThaumcraftIntegration {
 		ThaumcraftApi.registerEntityTag("betteranimalsplus.goose", new AspectList().add(Aspect.BEAST, 5).add(Aspect.AIR, 5).add(Aspect.FLIGHT, 5).add(Aspect.AVERSION, 5).add(Aspect.WATER, 5). add(Aspect.DARKNESS, 5));
 		
 		ThaumcraftApi.registerEntityTag("betteranimalsplus.whale", new AspectList().add(Aspect.BEAST, 35).add(Aspect.WATER, 35).add(Aspect.ENERGY, 35).add(Aspect.PROTECT, 35));
+		ThaumcraftApi.registerEntityTag("betteranimalsplus.walrus", new AspectList().add(Aspect.BEAST, 35).add(Aspect.WATER, 35).add(Aspect.COLD, 35).add(Aspect.AVERSION, 35));
 	}
 }
