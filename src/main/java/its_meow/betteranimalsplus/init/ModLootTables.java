@@ -35,6 +35,8 @@ public class ModLootTables {
     public static final ResourceLocation TURKEY = new ResourceLocation(Ref.MOD_ID, "turkey");
     
     public static final ResourceLocation MOOSE = new ResourceLocation(Ref.MOD_ID, "moose");
+
+    public static final ResourceLocation WHALE = new ResourceLocation(Ref.MOD_ID, "whale");
     
     public static void register() {
         LootTableList.register(deer);
@@ -59,6 +61,7 @@ public class ModLootTables {
         LootTableList.register(SHARK);
         LootTableList.register(TURKEY);
         LootTableList.register(MOOSE);
+        LootTableList.register(WHALE);
     }
 
 }

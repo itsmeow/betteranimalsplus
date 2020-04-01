@@ -85,6 +85,7 @@ public class BetterAnimalsPlusRegistrar {
         ModItems.VENISON_COOKED,
         ModItems.HIRSCHGEIST_SKULL_WEARABLE,
         ModItems.ANTLER,
+        ModItems.BLUBBER,
         ModItems.GOAT_MILK,
         ModItems.GOAT_CHEESE,
         ModItems.PHEASANT_RAW,

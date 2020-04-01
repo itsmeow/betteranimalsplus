@@ -209,4 +209,12 @@ public class ModTextures {
     public static final ResourceLocation eel_saltwater_ribbon = new ResourceLocation(entitytex + "eel_saltwater_ribbon.png");
     public static final ResourceLocation eel_saltwater_snowflake = new ResourceLocation(entitytex + "eel_saltwater_snowflake.png");
 
+    // Whale Variants
+    public static final ResourceLocation whale_1 = new ResourceLocation(entitytex + "whale_false_killer.png");
+    public static final ResourceLocation whale_2 = new ResourceLocation(entitytex + "whale_beluga.png");
+    public static final ResourceLocation whale_3 = new ResourceLocation(entitytex + "whale_narwhal.png");
+    public static final ResourceLocation whale_4 = new ResourceLocation(entitytex + "whale_pilot.png");
+    public static final ResourceLocation whale_5 = new ResourceLocation(entitytex + "whale_bottlenose.png");
+    public static final ResourceLocation whale_6 = new ResourceLocation(entitytex + "whale_cuivers.png");
+
 }

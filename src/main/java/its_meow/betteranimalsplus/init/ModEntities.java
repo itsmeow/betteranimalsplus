@@ -35,6 +35,7 @@ import its_meow.betteranimalsplus.common.entity.EntitySongbird;
 import its_meow.betteranimalsplus.common.entity.EntitySquirrel;
 import its_meow.betteranimalsplus.common.entity.EntityTarantula;
 import its_meow.betteranimalsplus.common.entity.EntityTurkey;
+import its_meow.betteranimalsplus.common.entity.EntityWhale;
 import its_meow.betteranimalsplus.common.entity.EntityZotzpyre;
 import its_meow.betteranimalsplus.common.entity.miniboss.hirschgeist.EntityHirschgeist;
 import its_meow.betteranimalsplus.config.BetterAnimalsPlusConfig;
@@ -105,6 +106,7 @@ public class ModEntities {
                 return true;
             }).collect(Collectors.toList()).toArray(new Biome[0]);
         });
+        add(EntityWhale.class, "whale", EnumCreatureType.WATER_CREATURE, 0x328da8, 0x001c4f, 2, 1, 3, true, null, Type.OCEAN);
     }
     
     /**

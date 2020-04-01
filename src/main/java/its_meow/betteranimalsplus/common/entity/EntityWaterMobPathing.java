@@ -6,7 +6,6 @@ import net.minecraft.entity.passive.EntityWaterMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.pathfinding.PathNavigate;
 import net.minecraft.pathfinding.PathNavigateSwimmer;
-import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
@@ -77,23 +76,6 @@ public abstract class EntityWaterMobPathing extends EntityWaterMob {
 
     protected int getExperiencePoints(EntityPlayer player) {
         return 1 + this.world.rand.nextInt(3);
-    }
-
-    public void onEntityUpdate() {
-        int i = this.getAir();
-        super.onEntityUpdate();
-
-        if(this.isEntityAlive() && !this.isInWater()) {
-            --i;
-            this.setAir(i);
-
-            if(this.getAir() == -20) {
-                this.setAir(0);
-                this.attackEntityFrom(DamageSource.DROWN, 2.0F);
-            }
-        } else {
-            this.setAir(300);
-        }
     }
 
     public boolean isPushedByWater() {

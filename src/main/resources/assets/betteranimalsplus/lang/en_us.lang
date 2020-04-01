@@ -38,6 +38,7 @@ item.betteranimalsplus.wolf_cape_red.name=Wolf Cape (Red)
 item.betteranimalsplus.wolf_pelt_arctic.name=Arctic Wolf Pelt
 item.betteranimalsplus.wolf_pelt_brown.name=Brown Wolf Pelt
 item.betteranimalsplus.wolf_pelt_red.name=Red Wolf Pelt
+item.betteranimalsplus.blubber.name=Blubber
 #Blocks
 tile.betteranimalsplus.trillium.name=Trillium
 tile.betteranimalsplus.hirschgeistskull.name=Hirschgeist Skull
@@ -84,3 +85,4 @@ entity.betteranimalsplus.bobbit_worm.name=Bobbit Worm
 entity.betteranimalsplus.goose.name=Goose
 entity.betteranimalsplus.eel_freshwater.name=Freshwater Eel
 entity.betteranimalsplus.eel_saltwater.name=Saltwater Eel
+entity.betteranimalsplus.whale.name=Whale

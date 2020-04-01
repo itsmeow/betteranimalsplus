@@ -31,6 +31,7 @@ import its_meow.betteranimalsplus.client.renderer.entity.RenderSquirrel;
 import its_meow.betteranimalsplus.client.renderer.entity.RenderTarantula;
 import its_meow.betteranimalsplus.client.renderer.entity.RenderTarantulaHair;
 import its_meow.betteranimalsplus.client.renderer.entity.RenderTurkey;
+import its_meow.betteranimalsplus.client.renderer.entity.RenderWhale;
 import its_meow.betteranimalsplus.client.renderer.entity.RenderZotzpyre;
 import its_meow.betteranimalsplus.client.renderer.tileentity.RenderBlockHandOfFate;
 import its_meow.betteranimalsplus.client.renderer.tileentity.RenderBlockTrillium;
@@ -62,6 +63,7 @@ import its_meow.betteranimalsplus.common.entity.EntitySongbird;
 import its_meow.betteranimalsplus.common.entity.EntitySquirrel;
 import its_meow.betteranimalsplus.common.entity.EntityTarantula;
 import its_meow.betteranimalsplus.common.entity.EntityTurkey;
+import its_meow.betteranimalsplus.common.entity.EntityWhale;
 import its_meow.betteranimalsplus.common.entity.EntityZotzpyre;
 import its_meow.betteranimalsplus.common.entity.miniboss.hirschgeist.EntityHirschgeist;
 import its_meow.betteranimalsplus.common.entity.projectile.EntityBadgerDirt;
@@ -118,6 +120,7 @@ public class ClientRegistrar {
         initModel(ModItems.VENISON_COOKED);
         initModel(ModItems.HIRSCHGEIST_SKULL_WEARABLE);
         initModel(ModItems.ANTLER);
+        initModel(ModItems.BLUBBER);
         initModel(ModItems.GOAT_MILK);
         initModel(ModItems.GOAT_CHEESE);
         initModel(ModItems.PHEASANT_RAW);
@@ -198,6 +201,7 @@ public class ClientRegistrar {
         RenderingRegistry.registerEntityRenderingHandler(EntityGoose.class, RenderGoose::new);
         RenderingRegistry.registerEntityRenderingHandler(EntityFreshwaterEel.class, RenderFreshwaterEel::new);
         RenderingRegistry.registerEntityRenderingHandler(EntitySaltwaterEel.class, RenderSaltwaterEel::new);
+        RenderingRegistry.registerEntityRenderingHandler(EntityWhale.class, RenderWhale::new);
     }
 
     public static void initModel(Item item) {
