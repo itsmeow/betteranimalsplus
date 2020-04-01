@@ -1,3 +1,36 @@
+9.0.0
+-
+- Added walrus
+- Added geese
+- Added whales (beluga, pilot, false killer, narwhal, bottlenose, and Cuvier's)
+- Added saltwater eels
+- Added freshwater eels
+- Added albino deer variants and heads
+- Added new deer model
+- Added arctic, brown, and red feral wolf variants, capes, pelts, and heads
+- Added greenland shark variant
+- Improved shark animations
+- Added goose egg
+- Added golden goose egg
+- Added blubber
+- Updated advancemnts with new heads
+- Added secret with the walrus (they like being fed fried eggs btw)
+- Tweaked tarantulas so they rotate when on a wall
+- Fix non-honey type badgers spawning in savannas
+- Updated Spanish translation (partially updated to 9.0.0)
+- Update French translation (8.2 equivalent)
+- Update Chinese translation (8.2 equivalent)
+- Update Russian translation (partially updated to 9.0.0)
+- 1.12: Updated Thaumcraft aspects for new features
+- 1.12: Added oredict listAllegg and listAllEgg to custom eggs
+- 1.14: Biome based variants now enabled by default in config. No longer affects spawn eggs, only natural spawns. **Existing configs must be updated.**
+- 1.14: Added a clientside config, also allows reindeer snow particles to be disabled
+- 1.14: Made it so boars retaliate and summon their friends, like in 1.12
+- 1.14: Added buckets for some water mobs (lamprey, nautilus, freshwater eel, saltwater eel, jellyfish)
+- 1.14: Rewrote the ENTIRE variant system to make more sense and be named.
+- 1.14: Rewrote the ENTIRE head-variant system to make more sense and be named.
+- 1.14: Rewrites means that some items in worlds will break. **DO NOT take this update lightly. Back up your worlds.**
+
 8.2.1
 -
 - 1.14: Fix crash "duplicate entity registry entry"
