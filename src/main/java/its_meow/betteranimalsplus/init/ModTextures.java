@@ -217,4 +217,7 @@ public class ModTextures {
     public static final ResourceLocation whale_5 = new ResourceLocation(entitytex + "whale_bottlenose.png");
     public static final ResourceLocation whale_6 = new ResourceLocation(entitytex + "whale_cuivers.png");
 
+    // Walrus
+    public static final ResourceLocation walrus = new ResourceLocation(entitytex + "walrus.png");
+
 }
