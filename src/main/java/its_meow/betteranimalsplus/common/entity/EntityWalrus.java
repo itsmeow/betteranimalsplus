@@ -65,7 +65,7 @@ public class EntityWalrus extends EntityAnimal {
     @Override
     public boolean processInteract(EntityPlayer player, EnumHand hand) {
         ItemStack stack = player.getHeldItem(hand);
-        if(!hasGivenDisc && stack.getItem() == ModItems.FRIED_EGG) {
+        if(!world.isRemote && !hasGivenDisc && stack.getItem() == ModItems.FRIED_EGG) {
             this.consumeItemFromStack(player, stack);
             this.world.setEntityState(this, (byte) 90);
             this.hasGivenDisc = true;
