@@ -68,7 +68,6 @@ public class EntityWhale extends EntityWaterCreatureAirBreathingWithTypes {
         } else {
             super.setAir(air);
         }
-        super.setAir(air);
     }
 
     @Override
