@@ -53,7 +53,7 @@
             "conditions": {
                 "items": [
                     {
-                        "item": "betteranimalsplus:feralwolfhead_arctic"
+                        "item": "betteranimalsplus:wolfhead_4"
                     }
                 ]
             }
@@ -63,7 +63,7 @@
             "conditions": {
                 "items": [
                     {
-                        "item": "betteranimalsplus:feralwolfhead_brown"
+                        "item": "betteranimalsplus:wolfhead_5"
                     }
                 ]
             }
@@ -73,7 +73,7 @@
             "conditions": {
                 "items": [
                     {
-                        "item": "betteranimalsplus:feralwolfhead_red"
+                        "item": "betteranimalsplus:wolfhead_6"
                     }
                 ]
             }
