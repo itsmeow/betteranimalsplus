@@ -22,11 +22,9 @@
                                 {
                                     "condition": "entity_properties",
                                     "entity": "this",
-                                    "predicate": {
-                    					"flags": {
-                      						"is_on_fire": true
-                    					}
-                  					}
+                                    "properties": {
+                                        "on_fire": true
+                                    }
                                 }
                             ]
                         },
