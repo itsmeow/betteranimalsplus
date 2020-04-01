@@ -15,7 +15,6 @@ import its_meow.betteranimalsplus.common.entity.projectile.EntityTarantulaHair;
 import its_meow.betteranimalsplus.common.entity.projectile.EntityTurkeyEgg;
 import its_meow.betteranimalsplus.common.item.ItemAdvancementIcon;
 import its_meow.betteranimalsplus.common.item.ItemBlockSimple;
-import its_meow.betteranimalsplus.common.item.ItemHiddenItem;
 import its_meow.betteranimalsplus.common.tileentity.TileEntityHandOfFate;
 import its_meow.betteranimalsplus.common.tileentity.TileEntityHead;
 import its_meow.betteranimalsplus.common.tileentity.TileEntityTrillium;
@@ -60,8 +59,6 @@ public class BetterAnimalsPlusRegistrar {
             registry.register(new Block(Material.CLOTH).setRegistryName(Ref.MOD_ID, type.name));
             registry.registerAll(type.getBlocks().toArray(new Block[0]));
         }
-        
-        registry.register(new Block(Material.CLOTH).setRegistryName(Ref.MOD_ID, "wolfhead_4"));
 
         GameRegistry.registerTileEntity(TileEntityTrillium.class, new ResourceLocation(ModBlocks.TRILLIUM.getRegistryName() + "tileentity"));
         GameRegistry.registerTileEntity(TileEntityHandOfFate.class, new ResourceLocation(ModBlocks.HAND_OF_FATE.getRegistryName() + "tileentity"));
@@ -88,6 +85,7 @@ public class BetterAnimalsPlusRegistrar {
         ModItems.VENISON_COOKED,
         ModItems.HIRSCHGEIST_SKULL_WEARABLE,
         ModItems.ANTLER,
+        ModItems.BLUBBER,
         ModItems.GOAT_MILK,
         ModItems.GOAT_CHEESE,
         ModItems.PHEASANT_RAW,
@@ -95,9 +93,15 @@ public class BetterAnimalsPlusRegistrar {
         ModItems.WOLF_PELT_SNOWY,
         ModItems.WOLF_PELT_TIMBER,
         ModItems.WOLF_PELT_BLACK,
+        ModItems.WOLF_PELT_ARCTIC,
+        ModItems.WOLF_PELT_BROWN,
+        ModItems.WOLF_PELT_RED,
         ModItems.WOLF_CAPE_CLASSIC,
         ModItems.WOLF_CAPE_TIMBER,
         ModItems.WOLF_CAPE_BLACK,
+        ModItems.WOLF_CAPE_ARCTIC,
+        ModItems.WOLF_CAPE_BROWN,
+        ModItems.WOLF_CAPE_RED,
         ModItems.BEAR_SKIN_BROWN,
         ModItems.BEAR_SKIN_BLACK,
         ModItems.BEAR_SKIN_KERMODE,
@@ -113,6 +117,8 @@ public class BetterAnimalsPlusRegistrar {
         ModItems.GOLDEN_GOOSE_EGG,
         ModItems.TURKEY_LEG_RAW,
         ModItems.TURKEY_LEG_COOKED,
+        ModItems.EEL_MEAT_RAW,
+        ModItems.EEL_MEAT_COOKED,
         ModItems.FRIED_EGG,
         new ItemAdvancementIcon("advancement_icon_jellyfish"),
         new ItemAdvancementIcon("advancement_icon_jellyfish_cross"),
@@ -121,8 +127,7 @@ public class BetterAnimalsPlusRegistrar {
         new ItemAdvancementIcon("advancement_icon_lamprey"),
         new ItemAdvancementIcon("advancement_icon_squirrel"),
         new ItemAdvancementIcon("advancement_icon_badger"),
-        new ItemAdvancementIcon("advancement_icon_succening"),
-        new ItemHiddenItem("wolfhead_4")
+        new ItemAdvancementIcon("advancement_icon_succening")
         );
         
         // ItemBlocks

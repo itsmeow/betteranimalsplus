@@ -336,7 +336,7 @@ public class EntityFeralWolf extends EntityTameableWithSelectiveTypes implements
 
     @Override
     public int getVariantMax() {
-        return 3;
+        return 6;
     }
 
     @Override
@@ -347,15 +347,17 @@ public class EntityFeralWolf extends EntityTameableWithSelectiveTypes implements
     @Override
     protected int[] getTypesFor(Set<BiomeDictionary.Type> types) {
         if(types.contains(Type.FOREST) && !types.contains(Type.CONIFEROUS)) {
-            return new int[] {3};
+            return new int[] {3, 6};
         } else if(types.contains(Type.CONIFEROUS) && !types.contains(Type.SNOWY)) {
-            return new int[] {1, 3};
+            return new int[] {1, 3, 6};
         } else if(types.contains(Type.CONIFEROUS) && types.contains(Type.SNOWY)) {
             return new int[] {2, 3};
-        } else if(types.contains(Type.SNOWY) && !types.contains(Type.CONIFEROUS)) { 
-            return new int[] {2};
+        } else if(types.contains(Type.SNOWY) && !types.contains(Type.FOREST)) { 
+            return new int[] {2, 4};
+        } else if(types.contains(Type.FOREST) && types.contains(Type.CONIFEROUS) && !types.contains(Type.SNOWY)) { 
+            return new int[] {5, 6, 3, 1};
         } else {
-            return new int[] {1, 2, 3};
+            return new int[] {1, 2, 3, 4, 5, 6};
         }
     }
 
@@ -365,6 +367,9 @@ public class EntityFeralWolf extends EntityTameableWithSelectiveTypes implements
         case 1: return ModLootTables.WOLF_BLACK;
         case 2: return ModLootTables.WOLF_SNOWY;
         case 3: return ModLootTables.WOLF_TIMBER;
+        case 4: return ModLootTables.WOLF_ARCTIC;
+        case 5: return ModLootTables.WOLF_BROWN;
+        case 6: return ModLootTables.WOLF_RED;
         default: return super.getLootTable();
         }
     }

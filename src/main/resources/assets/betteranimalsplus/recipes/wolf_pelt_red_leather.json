@@ -1,0 +1,16 @@
+{
+	"type": "minecraft:crafting_shapeless",
+	"ingredients": [
+	    {
+	        "item": "betteranimalsplus:wolf_pelt_red"
+	    },
+	    {
+	        "item": "betteranimalsplus:wolf_pelt_red"
+	    }
+	],
+	"result": {
+	    "item": "minecraft:leather",
+		"data": 0,
+		"count": 2
+	}
+}

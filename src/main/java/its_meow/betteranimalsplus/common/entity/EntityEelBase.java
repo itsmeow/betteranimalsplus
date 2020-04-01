@@ -5,19 +5,26 @@ import java.util.List;
 import com.google.common.base.Predicate;
 
 import its_meow.betteranimalsplus.common.entity.ai.EntityAIWanderWaterEntity;
+import its_meow.betteranimalsplus.init.ModLootTables;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIAttackMelee;
 import net.minecraft.entity.ai.EntityAIBase;
-import net.minecraft.entity.ai.EntityAILookIdle;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.SoundEvents;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public abstract class EntityEelBase extends EntityWaterCreatureWithTypes {
     
@@ -25,7 +32,7 @@ public abstract class EntityEelBase extends EntityWaterCreatureWithTypes {
         return !item.cannotPickup() && !item.isDead && item.getItem().getItem() instanceof ItemFood;
     };
     private int collideWithItemTicks = 0;
-    private int lastItemCount = 0;
+    private EntityItem collidedItem = null;
 
     public EntityEelBase(World worldIn) {
         super(worldIn);
@@ -43,8 +50,8 @@ public abstract class EntityEelBase extends EntityWaterCreatureWithTypes {
                 return super.shouldContinueExecuting();
             }
         });
-        this.tasks.addTask(1, new EntityAILookIdle(this));
         this.tasks.addTask(2, new EntityEelBase.MoveToFoodItemsGoal());
+        //this.tasks.addTask(2, new EntityAILookIdle(this));
         this.tasks.addTask(3, new EntityAIWanderWaterEntity(this, 0.5D, 1));
         this.targetTasks.addTask(1, new EntityAINearestAttackableTarget<EntityPlayer>(this, EntityPlayer.class, 0, true, true, EntityEelBase::isHoldingFood));
     }
@@ -70,22 +77,54 @@ public abstract class EntityEelBase extends EntityWaterCreatureWithTypes {
     @Override
     public void onUpdate() {
         super.onUpdate();
-        List<EntityItem> items = world.getEntitiesWithinAABB(EntityItem.class, this.getEntityBoundingBox(), EntityEelBase.ITEM_SELECTOR);
-        if(items.size() > 0 && items.size() == lastItemCount) {
+        List<EntityItem> items = world.getEntitiesWithinAABB(EntityItem.class, this.getEntityBoundingBox().grow(0.4D), EntityEelBase.ITEM_SELECTOR);
+        if(items.size() > 0 && (collidedItem == null || items.contains(collidedItem))) {
+            if(collidedItem == null) {
+                collidedItem = items.get(this.getRNG().nextInt(items.size()));
+            }
             collideWithItemTicks++;
-            if(collideWithItemTicks > 40 && this.getRNG().nextInt(20) == 0) {
-                collideWithItemTicks = 0;
-                EntityItem item = items.get(this.getRNG().nextInt(items.size()));
-                ItemStack stack = item.getItem();
-                if(stack.getItem() instanceof ItemFood) {
-                    this.heal(((ItemFood) stack.getItem()).getSaturationModifier(stack));
-                    item.setDead();
+            if(collideWithItemTicks > 35) {
+                if(this.getRNG().nextFloat() < 0.1F) {
+                    this.playSound(SoundEvents.ENTITY_GENERIC_EAT, 1.0F, 1.0F);
+                    this.world.setEntityState(this, (byte) 45); // calls handleStatusUpdate((byte) 45);
+                }
+                if(collideWithItemTicks > 40 && this.getRNG().nextInt(20) == 0) {
+                    collideWithItemTicks = 0;
+                    EntityItem item = collidedItem;
+                    ItemStack stack = item.getItem();
+                    if(stack.getItem() instanceof ItemFood) {
+                        this.heal(((ItemFood) stack.getItem()).getSaturationModifier(stack));
+                        item.setDead();
+                        collidedItem = null;
+                        collideWithItemTicks = 0;
+                    }
                 }
             }
         } else {
             collideWithItemTicks = 0;
+            collidedItem = null;
         }
-        lastItemCount = items.size();
+    }
+
+    @SideOnly(Side.CLIENT)
+    public void handleStatusUpdate(byte id) {
+        if(id == 45) {
+            if(collidedItem != null) {
+                ItemStack stack = collidedItem.getItem();
+                if(!stack.isEmpty()) {
+                    for(int i = 0; i < 8; ++i) {
+                        Vec3d vec3d = (new Vec3d(((double) this.rand.nextFloat() - 0.5D) * 0.1D, Math.random() * 0.1D + 0.1D, 0.0D)).rotatePitch(-this.rotationPitch * ((float) Math.PI / 180F)).rotateYaw(-this.rotationYaw * ((float) Math.PI / 180F));
+                        if(stack.getHasSubtypes()) {
+                            this.world.spawnParticle(EnumParticleTypes.ITEM_CRACK, this.posX + this.getLookVec().x / 2.0D, this.posY, this.posZ + this.getLookVec().z / 2.0D, vec3d.x, vec3d.y + 0.05D, vec3d.z, Item.getIdFromItem(stack.getItem()), stack.getMetadata());
+                        } else {
+                            this.world.spawnParticle(EnumParticleTypes.ITEM_CRACK, this.posX + this.getLookVec().x / 2.0D, this.posY, this.posZ + this.getLookVec().z / 2.0D, vec3d.x, vec3d.y + 0.05D, vec3d.z, Item.getIdFromItem(stack.getItem()));
+                        }
+                    }
+                }
+            }
+        } else {
+            super.handleStatusUpdate(id);
+        }
     }
 
     @Override
@@ -96,7 +135,12 @@ public abstract class EntityEelBase extends EntityWaterCreatureWithTypes {
     protected static boolean isHoldingFood(EntityLivingBase entity) {
         return entity.getHeldItemMainhand().getItem() instanceof ItemFood || entity.getHeldItemOffhand().getItem() instanceof ItemFood;
     }
-    
+
+    @Override
+    protected ResourceLocation getLootTable() {
+        return ModLootTables.EELY;
+    }
+
     public class MoveToFoodItemsGoal extends EntityAIBase {
         public MoveToFoodItemsGoal() {
             this.setMutexBits(1);
@@ -105,7 +149,7 @@ public abstract class EntityEelBase extends EntityWaterCreatureWithTypes {
         @Override
         public boolean shouldExecute() {
             if(EntityEelBase.this.getAttackTarget() == null && EntityEelBase.this.getRevengeTarget() == null) {
-                if(EntityEelBase.this.getRNG().nextInt(10) != 0) {
+                if(EntityEelBase.this.getRNG().nextInt(2) != 0) {
                     return false;
                 } else {
                     List<EntityItem> list = EntityEelBase.this.world.getEntitiesWithinAABB(EntityItem.class, EntityEelBase.this.getEntityBoundingBox().grow(8.0D, 8.0D, 8.0D), EntityEelBase.ITEM_SELECTOR);

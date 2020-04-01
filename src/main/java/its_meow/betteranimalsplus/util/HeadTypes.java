@@ -26,9 +26,9 @@ import net.minecraft.client.model.ModelBase;
 public enum HeadTypes {
 
     // Double supplier avoids loading ModelBase which does not exist on the server
-    WOLFHEAD("wolfhead", true, 3, () -> () -> ModelFeralWolfHead.class,
+    WOLFHEAD("wolfhead", true, 6, () -> () -> ModelFeralWolfHead.class,
             type -> new TileEntityHead(type, 0F, ModTextures.wolf_black, ModTextures.wolf_snowy,
-                    ModTextures.wolf_timber)),
+                    ModTextures.wolf_timber,  ModTextures.wolf_arctic,  ModTextures.wolf_brown,  ModTextures.wolf_red)),
     
     COYOTEHEAD("coyotehead", true, 1, () -> () -> ModelCoyoteHead.class,
     type -> new TileEntityHead(type, 0F, ModTextures.coyote_hostile)),
@@ -44,12 +44,24 @@ public enum HeadTypes {
     BEARHEAD("bearhead", false, 3, () -> () -> ModelBearHead.class,
             type -> new TileEntityHead(type, 0F, ModTextures.bear_brown, ModTextures.bear_black, ModTextures.bear_kermode)),
 
-    DEERHEAD("deerhead", false, 2, () -> () -> ModelDeerHead.class, type -> new TileEntityHead(type, 0F, (typeNum -> {
+    DEERHEAD("deerhead", false, 4, () -> () -> ModelDeerHead.class, type -> new TileEntityHead(type, 0F, (typeNum -> {
         Calendar calendar = Calendar.getInstance();
         if (calendar.get(2) + 1 == 12 && calendar.get(5) >= 24 && calendar.get(5) <= 26) {
-            return typeNum == 1 ? ModTextures.deer_1_christmas : ModTextures.deer_2_christmas;
+            switch(typeNum) {
+            case 1: return ModTextures.deer_1_christmas;
+            case 2: return ModTextures.deer_2_christmas;
+            case 3: return ModTextures.deer_3_christmas;
+            case 4: return ModTextures.deer_4_christmas;
+            default: return ModTextures.deer_1_christmas;
+            }
         } else {
-            return typeNum == 1 ? ModTextures.deer_1 : ModTextures.deer_2;
+            switch(typeNum) {
+            case 1: return ModTextures.deer_1;
+            case 2: return ModTextures.deer_2;
+            case 3: return ModTextures.deer_3;
+            case 4: return ModTextures.deer_4;
+            default: return ModTextures.deer_1;
+            }
         }
 
     }))),

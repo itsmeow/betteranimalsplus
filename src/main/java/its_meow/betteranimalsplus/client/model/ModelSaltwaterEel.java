@@ -237,23 +237,7 @@ public class ModelSaltwaterEel extends ModelBase {
         GlStateManager.pushMatrix();
         this.body00.rotateAngleX = 0F;
         if(!entity.isInWater()) {
-            GlStateManager.rotate(90F, 0F, 0F, 1.0F);
-            GlStateManager.translate(1.5F, -1F, -1F);
-        } else {
-            GlStateManager.rotate(f3, 0F, 1.0F, 0F);
-            if(entity instanceof EntitySaltwaterEel) {
-                EntitySaltwaterEel eel = (EntitySaltwaterEel) entity;
-                if ((Math.abs(entity.motionY) > 0.01 && (Math.abs(entity.motionX) > 0.01 || Math.abs(entity.motionZ) > 0.01)) || Math.abs(entity.motionY) > 0.03) {
-                    float rotX = -((float) Math.atan(entity.motionY / Math.sqrt(Math.pow(entity.motionX, 2) + Math.pow(entity.motionZ, 2))) / 1.5F);
-                    if (rotX < 0) {
-                        rotX /= 2;
-                    }
-                    rotX /= 2.5;
-                    rotX = ModMathHelper.interpolateRotation(eel.lastBodyRotation, rotX, Minecraft.getMinecraft().getRenderPartialTicks());
-                    GlStateManager.rotate((float) Math.toDegrees(rotX), 1.0F, 0F, 0F);
-                    eel.lastBodyRotation = rotX;
-                }
-            }
+            GlStateManager.translate(0F, 0.5F, 0F);
         }
         this.body00.render(f5);
         GlStateManager.popMatrix();

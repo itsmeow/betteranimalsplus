@@ -15,8 +15,12 @@ public class ModTextures {
     // Deer Variants
     public static final ResourceLocation deer_1 = new ResourceLocation(entitytex + "deer_1.png");
     public static final ResourceLocation deer_2 = new ResourceLocation(entitytex + "deer_2.png");
+    public static final ResourceLocation deer_3 = new ResourceLocation(entitytex + "deer_3.png");
+    public static final ResourceLocation deer_4 = new ResourceLocation(entitytex + "deer_4.png");
     public static final ResourceLocation deer_1_christmas = new ResourceLocation(entitytex + "deer_1_christmas.png");
     public static final ResourceLocation deer_2_christmas = new ResourceLocation(entitytex + "deer_2_christmas.png");
+    public static final ResourceLocation deer_3_christmas = new ResourceLocation(entitytex + "deer_3_christmas.png");
+    public static final ResourceLocation deer_4_christmas = new ResourceLocation(entitytex + "deer_4_christmas.png");
 
     // Lammergeier Variants
     public static final ResourceLocation lam_orange = new ResourceLocation(entitytex + "lammergeier_orange.png");
@@ -31,6 +35,12 @@ public class ModTextures {
     public static final ResourceLocation wolf_black_neutral = new ResourceLocation(entitytex + "feral_wolf_black_neutral.png");
     public static final ResourceLocation wolf_snowy_neutral = new ResourceLocation(entitytex + "feral_wolf_snowy_neutral.png");
     public static final ResourceLocation wolf_timber_neutral = new ResourceLocation(entitytex + "feral_wolf_timber_neutral.png");
+    public static final ResourceLocation wolf_arctic = new ResourceLocation(entitytex + "feral_wolf_arctic.png");
+    public static final ResourceLocation wolf_brown = new ResourceLocation(entitytex + "feral_wolf_brown.png");
+    public static final ResourceLocation wolf_red = new ResourceLocation(entitytex + "feral_wolf_red.png");
+    public static final ResourceLocation wolf_arctic_neutral = new ResourceLocation(entitytex + "feral_wolf_arctic_neutral.png");
+    public static final ResourceLocation wolf_brown_neutral = new ResourceLocation(entitytex + "feral_wolf_brown_neutral.png");
+    public static final ResourceLocation wolf_red_neutral = new ResourceLocation(entitytex + "feral_wolf_red_neutral.png");
     public static final ResourceLocation wolf_eyes = new ResourceLocation(entitytex + "feral_wolf_eyes.png");
 
     // Coyote Variants
@@ -198,5 +208,13 @@ public class ModTextures {
     public static final ResourceLocation eel_saltwater_morray = new ResourceLocation(entitytex + "eel_saltwater_morray.png");
     public static final ResourceLocation eel_saltwater_ribbon = new ResourceLocation(entitytex + "eel_saltwater_ribbon.png");
     public static final ResourceLocation eel_saltwater_snowflake = new ResourceLocation(entitytex + "eel_saltwater_snowflake.png");
+
+    // Whale Variants
+    public static final ResourceLocation whale_1 = new ResourceLocation(entitytex + "whale_false_killer.png");
+    public static final ResourceLocation whale_2 = new ResourceLocation(entitytex + "whale_beluga.png");
+    public static final ResourceLocation whale_3 = new ResourceLocation(entitytex + "whale_narwhal.png");
+    public static final ResourceLocation whale_4 = new ResourceLocation(entitytex + "whale_pilot.png");
+    public static final ResourceLocation whale_5 = new ResourceLocation(entitytex + "whale_bottlenose.png");
+    public static final ResourceLocation whale_6 = new ResourceLocation(entitytex + "whale_cuivers.png");
 
 }

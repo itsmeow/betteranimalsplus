@@ -48,6 +48,36 @@
                 ]
             }
         },
+        "feralwolfhead_arctic": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "betteranimalsplus:wolfhead_4"
+                    }
+                ]
+            }
+        },
+        "feralwolfhead_brown": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "betteranimalsplus:wolfhead_5"
+                    }
+                ]
+            }
+        },
+        "feralwolfhead_red": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "betteranimalsplus:wolfhead_6"
+                    }
+                ]
+            }
+        },
         "head4": {
             "trigger": "minecraft:inventory_changed",
             "conditions": {
@@ -277,6 +307,26 @@
                     }
                 ]
             }
+        },
+        "head27": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "betteranimalsplus:deerhead_3"
+                    }
+                ]
+            }
+        },
+        "head28": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "betteranimalsplus:deerhead_4"
+                    }
+                ]
+            }
         }
     },
     "requirements": [
@@ -306,7 +356,12 @@
             "head23",
             "head24",
             "head25",
-            "head26"
+            "head26",
+            "head27",
+            "head28",
+            "feralwolfhead_arctic",
+            "feralwolfhead_brown",
+            "feralwolfhead_red"
         ]
     ],
     "parent": "betteranimalsplus:root"

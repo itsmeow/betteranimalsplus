@@ -40,6 +40,12 @@ public class ModItems {
     public static final ItemBetterFood VENISON_COOKED = new ItemBetterFood("venisoncooked", 8, 1.2F, 32, true);
     public static final ItemHirschgeistSkullWearable HIRSCHGEIST_SKULL_WEARABLE = new ItemHirschgeistSkullWearable();
     public static final Item ANTLER = new ItemNamedSimple("antler");
+    public static final Item BLUBBER = new ItemBetterFood("blubber", 1, 2.0F, 32, false) {
+        @Override
+        public int getItemBurnTime(ItemStack itemStack) {
+            return 800; // half of coal
+        }
+    };
     public static final Item GOAT_MILK = new ItemBucketMilk().setRegistryName("goatmilk").setCreativeTab(BetterAnimalsPlusMod.tab).setTranslationKey(Ref.MOD_ID + "." + "goatmilk").setContainerItem(Items.BUCKET);
     public static final ItemBetterFood GOAT_CHEESE = new ItemBetterFood("goatcheese", 3, 1, 15, false);
     public static final ItemBetterFood PHEASANT_RAW = new ItemBetterFood("pheasantraw", 3, 0, 32, true);
@@ -48,10 +54,18 @@ public class ModItems {
     public static final Item WOLF_PELT_SNOWY = new ItemNamedSimple("wolf_pelt_snowy");
     public static final Item WOLF_PELT_TIMBER = new ItemNamedSimple("wolf_pelt_timber");
     public static final Item WOLF_PELT_BLACK = new ItemNamedSimple("wolf_pelt_black");
+    
+    public static final Item WOLF_PELT_ARCTIC = new ItemNamedSimple("wolf_pelt_arctic");
+    public static final Item WOLF_PELT_BROWN = new ItemNamedSimple("wolf_pelt_brown");
+    public static final Item WOLF_PELT_RED = new ItemNamedSimple("wolf_pelt_red");
 
     public static ItemWolfCape WOLF_CAPE_CLASSIC = new ItemWolfCape("classic", WOLF_PELT_SNOWY);
     public static ItemWolfCape WOLF_CAPE_TIMBER = new ItemWolfCape("timber", WOLF_PELT_TIMBER);
     public static ItemWolfCape WOLF_CAPE_BLACK = new ItemWolfCape("black", WOLF_PELT_BLACK);
+
+    public static ItemWolfCape WOLF_CAPE_ARCTIC = new ItemWolfCape("arctic", WOLF_PELT_ARCTIC);
+    public static ItemWolfCape WOLF_CAPE_BROWN = new ItemWolfCape("brown", WOLF_PELT_BROWN);
+    public static ItemWolfCape WOLF_CAPE_RED = new ItemWolfCape("red", WOLF_PELT_RED);
     
     public static final Item BEAR_SKIN_BROWN = new ItemNamedSimple("bear_skin_brown");
     public static final Item BEAR_SKIN_BLACK = new ItemNamedSimple("bear_skin_black");
@@ -83,6 +97,9 @@ public class ModItems {
     
     public static final ItemBetterFood TURKEY_LEG_RAW = new ItemBetterFood("turkey_leg_raw", 2, 0F, 16, true);
     public static final ItemBetterFood TURKEY_LEG_COOKED = new ItemBetterFood("turkey_leg_cooked", 4, 1.2F, 16, true);
+
+    public static final ItemBetterFood EEL_MEAT_RAW = new ItemBetterFood("eel_meat_raw", 1, 0F, 32, true);
+    public static final ItemBetterFood EEL_MEAT_COOKED = new ItemBetterFood("eel_meat_cooked", 4, 0.7F, 32, true);
     
     public static final ItemBetterFood FRIED_EGG = new ItemBetterFood("fried_egg", 5, 1.5F, 16, true);
     
