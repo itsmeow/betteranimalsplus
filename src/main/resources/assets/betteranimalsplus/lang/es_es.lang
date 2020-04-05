@@ -32,6 +32,18 @@ item.betteranimalsplus.turkey_egg.name=Huevo de Pavo
 item.betteranimalsplus.turkey_leg_raw.name=Pata de Pavo Cruda
 item.betteranimalsplus.turkey_leg_cooked.name=Pata de Pavo Cocinada
 item.betteranimalsplus.fried_egg.name=Huevo Frito
+item.betteranimalsplus.goose_egg.name=Goose Egg
+item.betteranimalsplus.golden_goose_egg.name=Golden Goose Egg
+item.betteranimalsplus.wolf_cape_arctic.name=Capa de Lobo (Artica)
+item.betteranimalsplus.wolf_cape_brown.name=Capa de Lobo (Pardo)
+item.betteranimalsplus.wolf_cape_red.name=Capa de Lobo (Roja)
+item.betteranimalsplus.wolf_pelt_arctic.name=Piel de Lobo Artico
+item.betteranimalsplus.wolf_pelt_brown.name=Piel de Lobo Pardo
+item.betteranimalsplus.wolf_pelt_red.name=Piel de Lobo Rojo
+item.betteranimalsplus.blubber.name=Grasa de ballena
+item.betteranimalsplus.eel_meat_raw.name=Carne de anguila cruda
+item.betteranimalsplus.eel_meat_cooked.name=Carne de anguila cocinada
+item.record.walrus.desc=Yo soy la Morsa
 
 #Blocks
 tile.betteranimalsplus.trillium.name=Trilio
@@ -77,3 +89,8 @@ entity.betteranimalsplus.moose.name=Alce
 entity.betteranimalsplus.turkey.name=Pavo
 entity.betteranimalsplus.zotzpyre.name=Murcielago Vampiro
 entity.betteranimalsplus.bobbit_worm.name=Gusano de Arrecife Gigante
+entity.betteranimalsplus.goose.name=Ganso
+entity.betteranimalsplus.eel_freshwater.name=Anguila de agua dulce
+entity.betteranimalsplus.eel_saltwater.name=Anguila de agua salada
+entity.betteranimalsplus.whale.name=Ballena
+entity.betteranimalsplus.walrus.name=Morsa
