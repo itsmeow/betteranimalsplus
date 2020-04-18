@@ -1,0 +1,28 @@
+name: Build PR
+
+on:
+  pull_request:
+    paths-ignore:
+    - '*.md'
+    - 'LICENSE'
+    - '.github/**'
+    - 'src/main/resources/**'
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: Set up JDK 1.8
+      uses: actions/setup-java@v1
+      with:
+        java-version: 1.8
+    - name: Setup Build
+      run: chmod 777 gradlew
+    - name: Build with Gradle
+      id: build
+      env:
+        USE_ALPHAS: false
+      run: ./gradlew build
