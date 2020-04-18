@@ -1,0 +1,58 @@
+name: "Build Release"
+on:
+ push:
+  tags:
+   - "[0-9]+.[0-9]+.[0-9]+-[0-9]+.[0-9]+.[0-9]+"
+jobs:
+ build:
+  runs-on: ubuntu-latest
+  steps:
+   - uses: actions/checkout@v1
+   - name: "Set up JDK 1.8"
+     uses: actions/setup-java@v1
+     with:
+        java-version: 1.8
+   - name: "Setup Build"
+     run: "chmod 777 gradlew"
+   - name: "Build with Gradle"
+     id: build
+     env:
+       MAVEN_PASSWORD: "${{secrets.MAVEN_PASSWORD}}"
+       MAVEN_URL: "${{secrets.MAVEN_URL}}"
+       MAVEN_USER: "${{secrets.MAVEN_USER}}"
+       USE_ALPHAS: false
+     run: "./gradlew setupGithubActions build publish"
+   - name: "Create a Release"
+     id: create_release
+     uses: meeDamian/github-release@v1.0.1
+     with:
+        draft: false
+        files: "build/libs/${{ steps.build.outputs.modid }}-${{ steps.build.outputs.version }}.jar"
+        gzip: false
+        name: "${{ steps.build.outputs.modid }}-${{ steps.build.outputs.version }}"
+        prerelease: false
+        token: "${{ secrets.GITHUB_TOKEN }}"
+   - name: "CF upload"
+     uses: itsmeow/curseforge-upload@master
+     with:
+        changelog: "Changelog not added yet..."
+        display_name: "${{ steps.build.outputs.curse_title }}"
+        file_path: "build/libs/${{ steps.build.outputs.modid }}-${{ steps.build.outputs.version }}.jar"
+        game_endpoint: minecraft
+        game_versions: "${{ steps.build.outputs.curse_versions }}"
+        project_id: "${{ steps.build.outputs.project_id }}"
+        release_type: release
+        token: "${{ secrets.CF_API_TOKEN }}"
+   - name: "Build Success"
+     id: build-success
+     uses: itsmeow/webhook-action@master
+     env:
+        WEBHOOK_URL: "${{ secrets.DISCORD_WEBHOOK_URL }}"
+        data: '{"embeds":[{"title":"${{ steps.build.outputs.modid }} Release Build","url":"https://github.com/${{ github.repository }}/releases/tag/${{ steps.build.outputs.version }}","description":"Tag: ${{ steps.build.outputs.version }}\nStatus: Successful","color":65280,"author":{"name":"${{ github.event.user.login }}","url":"${{ github.event.user.html_url }}","icon_url":"${{ github.event.user.avatar_url }}"}}]}'
+   - name: "Build Fail"
+     id: build-fail
+     uses: itsmeow/webhook-action@master
+     if: failure()
+     env:
+        WEBHOOK_URL: '${{ secrets.DISCORD_WEBHOOK_URL }}\'
+        data: '{"embeds":[{"title":"${{ steps.build.outputs.modid }} Release Build","url":"https://github.com/${{ github.repository }}/releases/tag/${{ steps.build.outputs.version }}","description":"Tag: ${{ steps.build.outputs.version }}\nStatus: Failed","color":16711680,"author":{"name":"${{ github.event.user.login }}","url":"${{ github.event.user.html_url }}","icon_url":"${{ github.event.user.avatar_url }}"}}]}'
