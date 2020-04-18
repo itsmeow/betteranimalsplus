@@ -6,6 +6,7 @@ import com.google.common.base.Predicates;
 
 import its_meow.betteranimalsplus.common.entity.ai.EntityAIEatBerries;
 import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainer;
+import its_meow.betteranimalsplus.common.entity.util.IVariant;
 import its_meow.betteranimalsplus.common.entity.util.IVariantTypes;
 import its_meow.betteranimalsplus.init.ModEntities;
 import its_meow.betteranimalsplus.init.ModLootTables;
@@ -48,19 +49,11 @@ public class EntityBearNeutral extends EntityBear implements IVariantTypes<Entit
     @Override
     @Nullable
     public ILivingEntityData onInitialSpawn(IWorld world, DifficultyInstance difficulty, SpawnReason reason, @Nullable ILivingEntityData livingdata, CompoundNBT compound) {
-        if(!this.getImplementation().isChild()) {
-            String variant = this.getBiasedRandomType();
-            if(livingdata instanceof TypeData) {
-                variant = ((TypeData) livingdata).typeData;
-            } else {
-                livingdata = new TypeData(variant);
-            }
-            this.setType(variant);
-        }
-        return livingdata;
+        return this.initData(world, reason, super.onInitialSpawn(world, difficulty, reason, livingdata, compound));
     }
 
-    private String getBiasedRandomType() {
+    @Override
+    public IVariant getRandomType() {
         boolean isKermode = this.getRNG().nextBoolean();
         if(isKermode) {
             isKermode = this.getRNG().nextBoolean();
@@ -68,9 +61,9 @@ public class EntityBearNeutral extends EntityBear implements IVariantTypes<Entit
         if(isKermode) {
             isKermode = this.getRNG().nextBoolean();
         }
-        return isKermode ? "kermode" : "black";
+        return this.getContainer().getVariant(isKermode ? "kermode" : "black");
     }
-    
+
     @Override
     protected void registerData() {
         super.registerData();

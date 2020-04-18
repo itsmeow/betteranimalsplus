@@ -39,7 +39,7 @@ public abstract class EntityTameableWithTypes extends EntityTameableBetterAnimal
     @Override
     @Nullable
     public ILivingEntityData onInitialSpawn(IWorld world, DifficultyInstance difficulty, SpawnReason reason, @Nullable ILivingEntityData livingdata, CompoundNBT compound) {
-        return this.initData(world, reason, super.onInitialSpawn(world, difficulty, reason, livingdata, compound));
+        return this.initAgeableData(world, reason, super.onInitialSpawn(world, difficulty, reason, livingdata, compound));
     }
 
     @Override

@@ -2,7 +2,6 @@ package its_meow.betteranimalsplus.common.entity.util;
 
 import javax.annotation.Nullable;
 
-import net.minecraft.entity.AgeableEntity;
 import net.minecraft.entity.AgeableEntity.AgeableData;
 import net.minecraft.entity.ILivingEntityData;
 import net.minecraft.entity.MobEntity;
@@ -64,7 +63,7 @@ public interface IVariantTypes<T extends MobEntity> extends IContainerEntity<T> 
         }
     }
 
-    public static class AgeableTypeData extends AgeableData implements ILivingEntityData {
+    public static class AgeableTypeData extends AgeableData {
         public String typeData;
         private int inc;
         private boolean bool = true;
@@ -114,21 +113,27 @@ public interface IVariantTypes<T extends MobEntity> extends IContainerEntity<T> 
 
     @Nullable
     default ILivingEntityData initData(IWorld world, SpawnReason reason, ILivingEntityData livingdata) {
-        if(!this.getImplementation().isChild()) {
-            String variant = this.getRandomType().getName();
-            if(livingdata instanceof TypeData) {
-                variant = ((TypeData) livingdata).typeData;
-            } else if(livingdata instanceof AgeableTypeData) {
-                variant = ((AgeableTypeData) livingdata).typeData;
-            } else if(this.getImplementation() instanceof AgeableEntity) {
-                livingdata = new AgeableTypeData(variant);
-             }else if(livingdata instanceof AgeableData) {
-                livingdata = new AgeableTypeData((AgeableData)livingdata, variant);
-            } else {
-                livingdata = new TypeData(variant);
-            }
-            this.setType(variant);
+        String variant = this.getRandomType().getName();
+        if(livingdata instanceof TypeData) {
+            variant = ((TypeData) livingdata).typeData;
+        } else {
+            livingdata = new TypeData(variant);
         }
+        this.setType(variant);
+        return livingdata;
+    }
+
+    @Nullable
+    default ILivingEntityData initAgeableData(IWorld world, SpawnReason reason, ILivingEntityData livingdata) {
+        String variant = this.getRandomType().getName();
+        if(livingdata instanceof AgeableTypeData) {
+            variant = ((AgeableTypeData) livingdata).typeData;
+        } else if(livingdata instanceof AgeableData) {
+            livingdata = new AgeableTypeData((AgeableData) livingdata, variant);
+        } else {
+            livingdata = new AgeableTypeData(variant);
+        }
+        this.setType(variant);
         return livingdata;
     }
 

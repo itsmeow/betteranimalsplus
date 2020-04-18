@@ -377,10 +377,10 @@ public class EntityGoose extends EntityAnimalWithTypes {
        livingdata = super.onInitialSpawn(world, difficulty, reason, livingdata, compound);
        if(!this.getImplementation().isChild()) {
            String variant = types[this.getRNG().nextInt(types.length)];
-           if(livingdata instanceof TypeData) {
-               variant = ((TypeData) livingdata).typeData;
+           if(livingdata instanceof AgeableTypeData) {
+               variant = ((AgeableTypeData) livingdata).typeData;
            } else {
-               livingdata = new TypeData(variant);
+               livingdata = new AgeableTypeData(variant);
            }
            this.setType(variant);
        }

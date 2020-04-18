@@ -6,6 +6,7 @@ import javax.annotation.Nullable;
 
 import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainer;
 import its_meow.betteranimalsplus.common.entity.util.IDropHead;
+import its_meow.betteranimalsplus.common.entity.util.IVariant;
 import its_meow.betteranimalsplus.common.entity.util.IVariantTypes;
 import its_meow.betteranimalsplus.init.ModEntities;
 import its_meow.betteranimalsplus.init.ModLootTables;
@@ -984,35 +985,17 @@ public class EntityReindeer extends AnimalEntity implements IJumpingMount, IVari
     @Override
     @Nullable
     public ILivingEntityData onInitialSpawn(IWorld world, DifficultyInstance difficulty, SpawnReason reason, @Nullable ILivingEntityData livingdata, CompoundNBT compound) {
-        livingdata = super.onInitialSpawn(world, difficulty, reason, livingdata, compound);
-
-        if (!this.isChild()) {
-            Calendar calendar = Calendar.getInstance();
-            boolean isChristmasSeason = calendar.get(2) + 1 == 12 && calendar.get(5) >= 22 && calendar.get(5) <= 28;
-            boolean redNosed = this.rand.nextInt(9) == 0;
-            String variant = (this.rand.nextInt(4) + 1) + (isChristmasSeason && redNosed ? "_christmas" : "");
-            boolean flag = false;
-
-            if (livingdata instanceof AgeableTypeData) {
-                variant = ((AgeableTypeData) livingdata).typeData;
-                flag = true;
-            } else if(livingdata instanceof AgeableData) {
-                livingdata = new AgeableTypeData((AgeableData)livingdata, variant);
-                flag = true;
-            } else {
-                livingdata = new AgeableTypeData(variant);
-            }
-
-            this.setType(variant);
-
-            if (flag) {
-                this.setGrowingAge(-24000);
-            }
-        }
-        this.setLocationAndAngles(this.getPosX(), this.getPosY(), this.getPosZ(), this.rotationYaw, 0F);
-        return livingdata;
+        return this.initAgeableData(world, reason, super.onInitialSpawn(world, difficulty, reason, livingdata, compound));
     }
-    
+
+    @Override
+    public IVariant getRandomType() {
+        Calendar calendar = Calendar.getInstance();
+        boolean isChristmasSeason = calendar.get(2) + 1 == 12 && calendar.get(5) >= 22 && calendar.get(5) <= 28;
+        boolean redNosed = this.rand.nextInt(9) == 0;
+        return this.getContainer().getVariant((this.rand.nextInt(4) + 1) + (isChristmasSeason && redNosed ? "_christmas" : ""));
+    }
+
     @Override
     public boolean canDespawn(double range) {
         return despawn(range);

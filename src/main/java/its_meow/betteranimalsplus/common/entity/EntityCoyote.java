@@ -83,7 +83,7 @@ public class EntityCoyote extends EntityFeralWolf {
     }
 
     @Override
-    public ILivingEntityData initData(IWorld world, SpawnReason reason, ILivingEntityData livingdata) {
+    public ILivingEntityData initAgeableData(IWorld world, SpawnReason reason, ILivingEntityData livingdata) {
         return livingdata;
     }
     
