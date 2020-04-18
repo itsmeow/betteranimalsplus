@@ -18,7 +18,7 @@ public class RenderCoyote extends MobRenderer<EntityCoyote, ModelCoyote<EntityCo
         super(manager, new ModelCoyote<EntityCoyote>(), 0.5F);
         this.addLayer(new LayerEyesCondition<EntityCoyote, ModelCoyote<EntityCoyote>>(this, ModTextures.coyote_eyes, e -> !e.isTamed() && !(e.isDaytime() && !BetterAnimalsPlusConfig.coyotesHostileDaytime)));
     }
-    
+
     @Override
     protected float handleRotationFloat(EntityCoyote livingBase, float partialTicks) {
         return livingBase.getTailRotation();
@@ -36,15 +36,11 @@ public class RenderCoyote extends MobRenderer<EntityCoyote, ModelCoyote<EntityCo
         }
     }
 
-    /**
-     * Returns the location of an entity's texture. Doesn't seem to be called unless
-     * you call Render.bindEntityTexture.
-     */
     @Override
     public ResourceLocation getEntityTexture(EntityCoyote entity) {
         if (entity.isTamed()) {
             return ModTextures.coyote_neutral;
-        } else if (entity.isDaytime() && !BetterAnimalsPlusConfig.coyotesHostileDaytime) {
+        } else if(entity.isDaytime() && !BetterAnimalsPlusConfig.coyotesHostileDaytime) {
             return ModTextures.coyote_neutral;
         } else {
             return ModTextures.coyote_hostile;

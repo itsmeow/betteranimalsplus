@@ -1,128 +1,19 @@
-buildscript {
-    repositories {
-        maven { url = 'https://files.minecraftforge.net/maven' }
-        jcenter()
-        mavenCentral()
-    }
-    dependencies {
-        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '3.+', changing: true
-    }
-}
-plugins {
-    id 'org.ajoberstar.grgit' version '3.1.1'
-}
-apply plugin: 'net.minecraftforge.gradle'
-//Only edit below this line, the above code adds and enables the necessary things for Forge to be setup.
-apply plugin: 'eclipse'
-
-version = "${project.mc_version}-${project.mod_version}"
-group = "${project.maven_group}"
-archivesBaseName = "${project.mod_id}"
-
-sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
-
-sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
-
-minecraft {
-    mappings channel: project.mappings_channel, version: "${project.mappings_version}-${project.mappings_mc_version}"
-    accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
-
-    runs {
-        client {
-            workingDirectory project.file('run')
-            property 'forge.logging.console.level', 'info'
-            mods {
-                betteranimalsplus {
-                    source sourceSets.main
-                }
-            }
-        }
-
-        server {
-            workingDirectory project.file('run')
-            property 'forge.logging.console.level', 'info'
-            mods {
-                betteranimalsplus {
-                    source sourceSets.main
-                }
-            }
-        }
-    }
-}
+apply from: 'https://maven.itsmeow.dev/scripts/fg3.gradle'
 
 repositories {
     maven {
         name = "JEI"
         url = "http://dvs1.progwml6.com/files/maven"
     }
+    maven {
+        name = "Forge"
+        url = "https://files.minecraftforge.net/maven/"
+    }
 }
 
 dependencies {
-    minecraft "net.minecraftforge:forge:${project.mc_version}-${project.forge_version}"
-}
-
-tasks.withType(JavaCompile) {
-  options.encoding = 'UTF-8'
-  options.compilerArgs = [
-    '-Xlint:deprecation', // deprecation, rawtypes, cast, unchecked, all
-    '-Xlint:unchecked',
-  ]
-}
-
-if(System.getenv('USE_ALPHAS').equals('true')) {
-	task setupGithubActions() {
-        def getVersion = {
-            //TAG-offset-hash
-            def raw = grgit.describe(longDescr: true, tags:true, match: ["1.15.2-[1-9].[0-9].[0-9]", "1.15.2-[1-9][0-9].[1-9][0-9].[1-9][0-9]", "1.15.2-[0-9].[1-9][0-9].[1-9][0-9]", "1.15.2-[0-9].[0-9].[1-9][0-9]", "1.15.2-[0-9].[1-9][0-9].[0-9]", "1.15.2-[1-9][0-9].[0-9].[0-9]"])
-            def desc = (raw == null ? '0.0-0-unknown' : grgit.describe(longDescr: true, tags:true, match: ["1.15.2-[1-9].[0-9].[0-9]", "1.15.2-[1-9][0-9].[1-9][0-9].[1-9][0-9]", "1.15.2-[0-9].[1-9][0-9].[1-9][0-9]", "1.15.2-[0-9].[0-9].[1-9][0-9]", "1.15.2-[0-9].[1-9][0-9].[0-9]", "1.15.2-[1-9][0-9].[0-9].[0-9]"])).split('-') as List
-            def hash = desc.remove(desc.size() - 1)
-            def offset = desc.remove(desc.size() - 1)
-            def tag = desc.join('-')
-            return "${tag}.${offset}".toString().replace("${project.mc_version}-", "") //Bake the response instead of making it dynamic
-        }
-
-        project.mod_version = getVersion();
-        version = project.mc_version + '-' + getVersion();
-        def getLastTag = {
-            def raw = grgit.describe(longDescr: true, tags:true)
-            def desc = (raw == null ? 'HEAD' : grgit.describe(longDescr: true, tags:true)).split('-') as List
-            desc.remove(desc.size() - 1)
-            desc.remove(desc.size() - 1)
-            def tag = desc.join('-')
-            return tag;
-        }
-        def rawLog = grgit.log(includes: ['HEAD'], excludes: [getLastTag()]);
-        def log = "";
-        for(org.ajoberstar.grgit.Commit commit : rawLog) {
-            log = log + "[`" + commit.abbreviatedId + "`](https://github.com/itsmeow/betteranimalsplus/commit/" + commit.id + ") " + commit.shortMessage + " - " + commit.author.name + "\\n";
-        }
-	    doLast {
-	        exec {
-	            commandLine "echo", "##[set-output name=version;]${project.version}";
-	        }
-	        exec {
-	            commandLine "echo", "##[set-output name=commitlog;]" + "{\"content\":\"<@&658183075255025664>\",\"embeds\":[{\"author\":{\"name\":\"itsmeow\",\"url\":\"https://itsmeow.dev/\",\"icon_url\":\"https://itsmeow.dev/icon.png\"},\"title\":\"betteranimalsplus-alpha-${project.version}\",\"url\":\"https://github.com/itsmeow/betteranimalsplus/releases/tag/alpha-${project.version}\",\"color\":14700288,\"description\":\"" + log + "\"}]}";
-	        }
-	    }
-	}
-} else {
-	task setupGithubActions() {
-        doLast {
-	        exec {
-	            commandLine "echo", "##[set-output name=version;]${project.version}";
-	        }
-	    }
-    }
-	version = "${project.mc_version}-${project.mod_version}"
-}
-jar {
-    manifest {
-        attributes(["Specification-Title": archivesBaseName,
-                    "Specification-Vendor": "its_meow",
-                    "Specification-Version": "${project.mod_version}",
-                    "Implementation-Title": archivesBaseName,
-                    "Implementation-Version": "${project.mod_version}",
-                    "Implementation-Vendor" :"its_meow",
-                    "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")],)
-    }
+    compileOnly fg.deobf("mezz.jei:jei-${project.mc_version}:${jei_version}:api")
+    runtimeOnly fg.deobf("mezz.jei:jei-${project.mc_version}:${jei_version}")
+    runtimeOnly "com.github.glitchfiend.biomesoplenty:BiomesOPlenty:${project.mc_version}-${project.biomesoplenty_version}:deobf"
+    runtimeOnly fg.deobf("squeek.appleskin:AppleSkin:mc${project.mc_version}-forge-1.0.13")
 }

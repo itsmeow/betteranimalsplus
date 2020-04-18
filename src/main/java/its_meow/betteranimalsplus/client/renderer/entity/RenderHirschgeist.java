@@ -19,10 +19,6 @@ public class RenderHirschgeist extends MobRenderer<EntityHirschgeist, ModelHirsc
         this.addLayer(new LayerEctoplasm(this));
     }
 
-    /**
-     * Allows the render to do state modifications necessary before the model is
-     * rendered.
-     */
     @Override
     protected void preRenderCallback(EntityHirschgeist entitylivingbaseIn, MatrixStack matrixStackIn, float partialTickTime) {
         if (!entitylivingbaseIn.isDaytime()) {

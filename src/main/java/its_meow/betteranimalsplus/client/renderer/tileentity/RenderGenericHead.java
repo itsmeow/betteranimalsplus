@@ -6,9 +6,9 @@ import javax.annotation.Nullable;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 
-import its_meow.betteranimalsplus.common.block.BlockAnimalSkull;
+import its_meow.betteranimalsplus.common.block.BlockGenericSkull;
 import its_meow.betteranimalsplus.common.tileentity.TileEntityHead;
-import its_meow.betteranimalsplus.util.HeadTypes;
+import its_meow.betteranimalsplus.util.HeadType;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.RenderType;
@@ -21,7 +21,7 @@ import net.minecraft.util.ResourceLocation;
 
 public class RenderGenericHead extends TileEntityRenderer<TileEntityHead> {
 
-    public static HashMap<HeadTypes, EntityModel<Entity>> modelMap = new HashMap<HeadTypes, EntityModel<Entity>>();
+    public static HashMap<HeadType, EntityModel<?>> modelMap = new HashMap<HeadType, EntityModel<? extends Entity>>();
 
     public RenderGenericHead(TileEntityRendererDispatcher dispatcher) {
         super(dispatcher);
@@ -30,47 +30,45 @@ public class RenderGenericHead extends TileEntityRenderer<TileEntityHead> {
     @Override
     public void render(TileEntityHead te, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int combinedLightIn, int combinedOverlayIn) {
         BlockState iblockstate = te.getBlockState();
-        if(iblockstate == null || !(iblockstate.getBlock() instanceof BlockAnimalSkull)) {
+        if(iblockstate == null || !(iblockstate.getBlock() instanceof BlockGenericSkull)) {
             return;
         }
-        Direction enumfacing = iblockstate.get(BlockAnimalSkull.FACING_EXCEPT_DOWN);
+        Direction enumfacing = te.getDirection();
         enumfacing = enumfacing == null ? Direction.NORTH : enumfacing;
         float rotation = -enumfacing.getHorizontalAngle();
-        rotation = (enumfacing == Direction.NORTH || enumfacing == Direction.SOUTH)
-                ? enumfacing.getOpposite().getHorizontalAngle()
-                : rotation;
-        rotation = (enumfacing == Direction.UP) ? te.getSkullRotation() : rotation;
+        rotation = (enumfacing == Direction.NORTH || enumfacing == Direction.SOUTH) ? enumfacing.getOpposite().getHorizontalAngle() : rotation;
+        rotation = (enumfacing == Direction.UP) ? te.getTopRotation() : rotation;
 
-        EntityModel<Entity> model = modelMap.get(te.type);
-        if (model == null) {
-            EntityModel<Entity> newModel = te.getModel();
-            modelMap.put(te.type, newModel);
+        EntityModel<? extends Entity> model = modelMap.get(te.getHeadType());
+        if(model == null) {
+            EntityModel<? extends Entity> newModel = te.getNewModel();
+            modelMap.put(te.getHeadType(), newModel);
             model = newModel;
         }
 
         this.render(matrixStackIn, bufferIn, combinedLightIn, combinedOverlayIn, enumfacing, rotation, te.getTexture(), model, te.getOffset());
     }
 
-    public void render(MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn, int packedOverlayIn, @Nullable Direction facing, float skullRotation, ResourceLocation texture, EntityModel<Entity> model, float yOffset) {
+    public void render(MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn, int packedOverlayIn, @Nullable Direction facing, float skullRotation, ResourceLocation texture, EntityModel<? extends Entity> model, float yOffset) {
         matrixStackIn.push();
         translateHead(matrixStackIn, facing, 1.5F + yOffset);
         matrixStackIn.scale(-1.0F, -1.0F, 1.0F);
         float rotX = 0F;
-        if (facing != null) {
+        if(facing != null) {
             rotX = facing == Direction.UP ? -90F : 0.0F;
         }
-        model.render((Entity) null, skullRotation, rotX, 0.0F, 0.0F, 0.0F);
+        model.render(null, skullRotation, rotX, 0.0F, 0.0F, 0.0F);
         model.render(matrixStackIn, bufferIn.getBuffer(RenderType.entityCutoutNoCull(texture)), packedLightIn, packedOverlayIn, 1F, 1F, 1F, 1F);
         matrixStackIn.pop();
 
     }
 
     private static void translateHead(MatrixStack matrixStackIn, Direction face, float yOffset) {
-        if (face == null) {
+        if(face == null) {
             matrixStackIn.translate(0.5F, 0.25F + yOffset + 0.3F, 1.0F);
             return;
         }
-        switch (face) {
+        switch(face) {
         case NORTH:
             matrixStackIn.translate(0.5F, 0.25F + yOffset + 0.3F, 1.0F);
             break;

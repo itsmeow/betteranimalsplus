@@ -1,189 +1,72 @@
 package its_meow.betteranimalsplus.common.tileentity;
 
-import java.util.HashMap;
-import java.util.Random;
-import java.util.function.Function;
-
+import its_meow.betteranimalsplus.common.block.BlockAnimalSkull;
+import its_meow.betteranimalsplus.common.entity.util.IVariant;
 import its_meow.betteranimalsplus.init.ModTileEntities;
-import its_meow.betteranimalsplus.util.HeadTypes;
+import its_meow.betteranimalsplus.util.HeadType;
+import net.minecraft.block.Block;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.entity.Entity;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.NetworkManager;
-import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockReader;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.fml.loading.FMLEnvironment;
 
 public class TileEntityHead extends TileEntity {
-
-    @OnlyIn(Dist.CLIENT)
-    private Class<? extends EntityModel<Entity>> modelT;
-    protected int typeNum = 0;
-    private float offset;
-    private float rotation = 0;
-    private boolean shouldDrop = true;
-    private Function<Integer, ResourceLocation> textureFunc;
-    public HeadTypes type;
-
-    public HashMap<Integer, ResourceLocation> textures;
+    
+    private HeadType cachedType = null;
+    private IVariant cachedVariant = null;
 
     public TileEntityHead() {
         super(ModTileEntities.HEAD_TYPE);
     }
 
-    public TileEntityHead(HeadTypes type, float yOffset, ResourceLocation... textureList) {
-        this(type, yOffset, null, textureList);
-    }
-
-    public TileEntityHead(HeadTypes type, float yOffset, Function<Integer, ResourceLocation> textureFunc,
-    ResourceLocation... textureList) {
+    public TileEntityHead(HeadType type) {
         super(ModTileEntities.HEAD_TYPE);
-        this.type = type;
-        if(FMLEnvironment.dist == Dist.CLIENT) {
-            this.modelT = type.getModelSupplier().get().get();
-        }
-        this.textures = new HashMap<>();
-        int i = 1;
-        for (ResourceLocation texture : textureList) {
-            this.textures.put(i, texture);
-            i++;
-        }
-        if (!this.getTileData().contains("TYPENUM")) {
-            this.setType(new Random().nextInt(type.textureCount) + 1);
-            this.markDirty();
-        }
-        this.offset = yOffset;
-        this.textureFunc = textureFunc;
     }
 
     @OnlyIn(Dist.CLIENT)
-    public EntityModel<Entity> getModel() {
-        try {
-            return this.modelT.newInstance();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        }
-        return null;
+    public EntityModel<? extends Entity> getNewModel() {
+        return this.getHeadType().getModelSupplier().get().get();
     }
 
-    @Override
-    @OnlyIn(Dist.CLIENT)
-    public AxisAlignedBB getRenderBoundingBox() {
-        return new AxisAlignedBB(this.getPos().add(-1, -1, -1), this.getPos().add(2, 2, 2));
+    private Block getBlock() {
+        return this.getBlockState().getBlock();
+    }
+
+    public HeadType getHeadType() {
+        if(cachedType == null) {
+            cachedType = HeadType.valueOf(this.getBlock());
+        }
+        return cachedType;
     }
 
     public ResourceLocation getTexture() {
-        if (textureFunc == null) {
-            return this.textures.get(this.typeNum);
-        } else {
-            ResourceLocation rl = textureFunc.apply(this.typeNum);
-            if (rl == null || rl.toString().equals("")) {
-                rl = this.textures.get(this.typeNum);
-            }
-            return rl;
+        return this.getHeadVariant().getTexture();
+    }
+
+    public IVariant getHeadVariant() {
+        if(cachedVariant == null) {
+            cachedVariant = this.getHeadType().getVariant(this.getBlock());
         }
-    }
-
-    public void setType(int i) {
-        this.typeNum = i;
-        this.markDirty();
-    }
-
-    public int typeValue() {
-        return this.typeNum;
-    }
-
-    @Override
-    public void read(CompoundNBT compound) {
-        super.read(compound);
-        if (compound.contains("TYPENUM")) {
-            this.typeNum = compound.getInt("TYPENUM");
-        } else {
-            this.setType(new Random().nextInt(this.textures.size()) + 1);
-        }
-
-        if (compound.contains("rotation")) {
-            this.rotation = compound.getFloat("rotation");
-        }
-        if (compound.contains("GENERIC_TYPE")) {
-            this.type = HeadTypes.valueOf(compound.getString("GENERIC_TYPE"));
-
-            // Create with proper constructor for type
-            TileEntityHead te2 = type.teFactory.apply(type);
-            // Copy from TE
-            if(FMLEnvironment.dist == Dist.CLIENT) {
-                this.modelT = te2.modelT;
-            }
-            this.textures = te2.textures;
-            this.offset = te2.offset;
-            this.textureFunc = te2.textureFunc;
-        }
-    }
-
-    @Override
-    public CompoundNBT write(CompoundNBT compound) {
-        super.write(compound);
-        compound.putInt("TYPENUM", this.typeNum);
-        compound.putFloat("rotation", rotation);
-        compound.putString("GENERIC_TYPE", type.name());
-        return compound;
-    }
-
-    @Override
-    public SUpdateTileEntityPacket getUpdatePacket() {
-        CompoundNBT tag = new CompoundNBT();
-        this.write(tag);
-        return new SUpdateTileEntityPacket(this.pos, 1, tag);
-    }
-
-    @Override
-    public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket packet) {
-        this.read(packet.getNbtCompound());
-        this.world.getPendingBlockTicks().scheduleTick(this.pos, this.getBlockState().getBlock(), 100);
-    }
-
-    @Override
-    public CompoundNBT getUpdateTag() {
-        CompoundNBT tag = new CompoundNBT();
-        this.write(tag);
-        return tag;
-    }
-
-    @Override
-    public void handleUpdateTag(CompoundNBT tag) {
-        this.read(tag);
+        return cachedVariant;
     }
 
     public float getOffset() {
-        return this.offset;
+        return this.getHeadType().getYOffset();
     }
 
-    public void setRotation(float rotation) {
-        this.rotation = rotation;
-        this.markDirty();
+    public Direction getDirection() {
+        return this.getBlockState().get(BlockAnimalSkull.FACING_EXCEPT_DOWN);
     }
 
-    public float getSkullRotation() {
-        return this.rotation;
+    public Direction getTopDirection() {
+        return this.getBlockState().get(BlockAnimalSkull.TOP_FACING);
     }
 
-    public static void disableDrop(IBlockReader world, BlockPos pos) {
-        TileEntity te = world.getTileEntity(pos);
-        if ((te instanceof TileEntityHead)) {
-            ((TileEntityHead) te).shouldDrop = false;
-        }
-    }
-
-    public boolean shouldDrop() {
-        return shouldDrop;
+    public float getTopRotation() {
+        return this.getTopDirection().getHorizontalAngle();
     }
 
 }

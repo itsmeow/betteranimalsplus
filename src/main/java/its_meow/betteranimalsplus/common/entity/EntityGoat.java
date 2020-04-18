@@ -6,12 +6,13 @@ import javax.annotation.Nullable;
 
 import com.google.common.collect.Sets;
 
+import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainer;
+import its_meow.betteranimalsplus.common.entity.util.abstracts.EntityAnimalEatsGrassWithTypes;
 import its_meow.betteranimalsplus.config.BetterAnimalsPlusConfig;
 import its_meow.betteranimalsplus.init.ModEntities;
 import its_meow.betteranimalsplus.init.ModItems;
 import its_meow.betteranimalsplus.init.ModLootTables;
 import its_meow.betteranimalsplus.init.ModTriggers;
-import its_meow.betteranimalsplus.util.EntityTypeContainer;
 import net.minecraft.block.BlockState;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
@@ -293,17 +294,12 @@ public class EntityGoat extends EntityAnimalEatsGrassWithTypes {
     }
 
     @Override
-    public int getVariantMax() {
-        return 7;
-    }
-
-    @Override
-    protected IVariantTypes getBaseChild() {
+    protected EntityGoat getBaseChild() {
         return new EntityGoat(this.world);
     }
 
     @Override
-    protected EntityTypeContainer<? extends EntityAnimalWithTypes> getContainer() {
+    public EntityTypeContainer<EntityGoat> getContainer() {
         return ModEntities.GOAT;
     }
 

@@ -3,6 +3,7 @@ package its_meow.betteranimalsplus.client.model;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 
+import net.minecraft.client.renderer.Vector3f;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.LivingEntity;
@@ -27,6 +28,7 @@ public class ModelLamprey<T extends LivingEntity> extends EntityModel<T> {
     public ModelRenderer lTeeth;
     public ModelRenderer rTeeth;
     public ModelRenderer fTeeth;
+    private boolean putOnSide = false;
 
     public ModelLamprey() {
         this.textureWidth = 40;
@@ -97,6 +99,10 @@ public class ModelLamprey<T extends LivingEntity> extends EntityModel<T> {
 
     @Override
     public void render(MatrixStack matrixStackIn, IVertexBuilder bufferIn, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
+        if(putOnSide) {
+            matrixStackIn.rotate(Vector3f.ZP.rotationDegrees(90F));
+            matrixStackIn.translate(1.5F, -1.75F, 0F);
+        }
         this.body01.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn);
     }
     
@@ -107,6 +113,7 @@ public class ModelLamprey<T extends LivingEntity> extends EntityModel<T> {
         this.head.rotateAngleY = -this.body01.rotateAngleY * 1.5F;
         this.body02.rotateAngleY = this.body01.rotateAngleY * 1.5F;
         this.tail01.rotateAngleY = this.body02.rotateAngleY * 1.5F;
+        this.putOnSide = !entityIn.isInWater() && !entityIn.isPassenger();
     }
 
     /**

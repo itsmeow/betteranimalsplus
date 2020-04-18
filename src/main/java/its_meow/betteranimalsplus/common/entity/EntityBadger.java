@@ -6,8 +6,9 @@ import java.util.Set;
 import javax.annotation.Nullable;
 
 import its_meow.betteranimalsplus.common.entity.projectile.EntityBadgerDirt;
+import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainer;
+import its_meow.betteranimalsplus.common.entity.util.abstracts.EntityAnimalWithSelectiveTypes;
 import its_meow.betteranimalsplus.init.ModEntities;
-import its_meow.betteranimalsplus.util.EntityTypeContainer;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -33,6 +34,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.World;
+import net.minecraft.world.biome.Biome;
 import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.BiomeDictionary.Type;
 
@@ -113,12 +115,7 @@ public class EntityBadger extends EntityAnimalWithSelectiveTypes implements IMob
 	}
 
 	@Override
-	public int getVariantMax() {
-		return 3;
-	}
-
-	@Override
-	protected IVariantTypes getBaseChild() {
+	protected EntityBadger getBaseChild() {
 		return new EntityBadger(this.world);
 	}
 
@@ -210,20 +207,22 @@ public class EntityBadger extends EntityAnimalWithSelectiveTypes implements IMob
 	}
 	
     @Override
-    protected int[] getTypesFor(Set<BiomeDictionary.Type> types) {
-        if(types.contains(Type.FOREST) && !types.contains(Type.CONIFEROUS)) {
-            return new int[] {2};
+    public String[] getTypesFor(Biome biome, Set<BiomeDictionary.Type> types) {
+        if(types.contains(Type.SAVANNA)) {
+            return new String[] {"honey"};
+        } else if(types.contains(Type.FOREST) && !types.contains(Type.CONIFEROUS)) {
+            return new String[] {"european"};
         } else if(types.contains(Type.CONIFEROUS) && !types.contains(Type.SNOWY)) {
-            return new int[] {1};
+            return new String[] {"american"};
         } else if(types.contains(Type.CONIFEROUS) && types.contains(Type.SNOWY)) {
-            return new int[] {1};
+            return new String[] {"american"};
         } else {
-            return new int[] {1, 2, 3};
+            return new String[] {"american", "european", "honey"};
         }
     }
 
     @Override
-    protected EntityTypeContainer<? extends EntityAnimalWithTypes> getContainer() {
+    public EntityTypeContainer<EntityBadger> getContainer() {
         return ModEntities.BADGER;
     }
 

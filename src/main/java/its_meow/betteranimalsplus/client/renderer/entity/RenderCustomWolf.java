@@ -35,40 +35,25 @@ public class RenderCustomWolf extends MobRenderer<EntityFeralWolf, ModelFeralWol
         }
     }
 
-    /**
-     * Returns the location of an entity's texture. Doesn't seem to be called unless
-     * you call Render.bindEntityTexture.
-     */
     @Override
     public ResourceLocation getEntityTexture(EntityFeralWolf entity) {
-        ResourceLocation result = null;
-        int typeNumber = entity.getTypeNumber();
-        if (entity.isTamed()) {
-            switch (typeNumber) {
-            case 1:
-                result = ModTextures.wolf_black_neutral;
-                break;
-            case 2:
-                result = ModTextures.wolf_snowy_neutral;
-                break;
-            case 3:
-                result = ModTextures.wolf_timber_neutral;
-                break;
-            }
-        } else {
-            switch (typeNumber) {
-            case 1:
-                result = ModTextures.wolf_black;
-                break;
-            case 2:
-                result = ModTextures.wolf_snowy;
-                break;
-            case 3:
-                result = ModTextures.wolf_timber;
-                break;
+        if(entity.isTamed()) {
+            switch(entity.getVariantName()) {
+            case "black":
+                return ModTextures.wolf_black_neutral;
+            case "snowy":
+                return ModTextures.wolf_snowy_neutral;
+            case "timber":
+                return ModTextures.wolf_timber_neutral;
+            case "arctic":
+                return ModTextures.wolf_arctic_neutral;
+            case "brown":
+                return ModTextures.wolf_brown_neutral;
+            case "red":
+                return ModTextures.wolf_red_neutral;
             }
         }
-        return result;
+        return entity.getVariantTexture();
     }
 
 }

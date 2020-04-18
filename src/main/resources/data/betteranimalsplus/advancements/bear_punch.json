@@ -10,7 +10,7 @@
             {"text":"What have you done?","italic":true,"color":"white"}
         ],
         "icon": {
-            "item": "betteranimalsplus:bearhead_1"
+            "item": "betteranimalsplus:brownbearhead_1"
         },
         "frame": "task",
         "show_toast": true,

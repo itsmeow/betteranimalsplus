@@ -5,7 +5,6 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 import its_meow.betteranimalsplus.client.model.ModelSongbird;
 import its_meow.betteranimalsplus.client.model.ModelSongbirdSmall;
 import its_meow.betteranimalsplus.common.entity.EntitySongbird;
-import its_meow.betteranimalsplus.init.ModTextures;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.MobRenderer;
@@ -32,7 +31,7 @@ public class RenderSongbird extends MobRenderer<EntitySongbird, EntityModel<Enti
 
     @Override
     public void render(EntitySongbird entity, float entityYaw, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn) {
-        if (entity.getTypeNumber() > 4) {
+        if(entity.getVariantName().startsWith("small")) {
             this.entityModel = SMALL_SONG_BIRD;
         } else {
             this.entityModel = SONG_BIRD;
@@ -42,30 +41,7 @@ public class RenderSongbird extends MobRenderer<EntitySongbird, EntityModel<Enti
 
     @Override
     public ResourceLocation getEntityTexture(EntitySongbird entity) {
-        switch (entity.getTypeNumber()) {
-        case 1:
-            return ModTextures.songbird_1;
-        case 2:
-            return ModTextures.songbird_2;
-        case 3:
-            return ModTextures.songbird_3;
-        case 4:
-            return ModTextures.songbird_4;
-        case 5:
-            return ModTextures.songbird_small_1;
-        case 6:
-            return ModTextures.songbird_small_2;
-        case 7:
-            return ModTextures.songbird_small_3;
-        case 8:
-            return ModTextures.songbird_small_4;
-        case 9:
-            return ModTextures.songbird_small_5;
-        case 10:
-            return ModTextures.songbird_small_6;
-        default:
-            return ModTextures.songbird_1;
-        }
+        return entity.getVariantTexture();
     }
 
 }

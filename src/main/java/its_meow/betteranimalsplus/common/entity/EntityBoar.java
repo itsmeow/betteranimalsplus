@@ -5,9 +5,11 @@ import java.util.Set;
 import javax.annotation.Nullable;
 
 import its_meow.betteranimalsplus.common.entity.ai.EntityAIEatBerries;
+import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainer;
+import its_meow.betteranimalsplus.common.entity.util.IDropHead;
+import its_meow.betteranimalsplus.common.entity.util.abstracts.EntityAnimalWithSelectiveTypes;
+import its_meow.betteranimalsplus.common.entity.util.abstracts.EntityAnimalWithTypes;
 import its_meow.betteranimalsplus.init.ModEntities;
-import its_meow.betteranimalsplus.util.EntityTypeContainer;
-import its_meow.betteranimalsplus.util.HeadTypes;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -20,6 +22,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.goal.BreedGoal;
 import net.minecraft.entity.ai.goal.FollowParentGoal;
+import net.minecraft.entity.ai.goal.HurtByTargetGoal;
 import net.minecraft.entity.ai.goal.LookAtGoal;
 import net.minecraft.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.entity.ai.goal.MoveToBlockGoal;
@@ -47,11 +50,11 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
+import net.minecraft.world.biome.Biome;
 import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.BiomeDictionary.Type;
 
-
-public class EntityBoar extends EntityAnimalWithSelectiveTypes implements IMob {
+public class EntityBoar extends EntityAnimalWithSelectiveTypes implements IMob, IDropHead {
 
     public EntityBoar(World worldIn) {
         super(ModEntities.BOAR.entityType, worldIn);
@@ -78,16 +81,9 @@ public class EntityBoar extends EntityAnimalWithSelectiveTypes implements IMob {
         this.goalSelector.addGoal(6, new WaterAvoidingRandomWalkingGoal(this, 1.0D));
         this.goalSelector.addGoal(7, new LookAtGoal(this, PlayerEntity.class, 6.0F));
         if (!this.isChild() && this.getEntityWorld().getDifficulty() != Difficulty.PEACEFUL) {
-            this.targetSelector.addGoal(1,
-            new NearestAttackableTargetGoal<AnimalEntity>(this, AnimalEntity.class, 90, true, true,
-            (@Nullable LivingEntity in) -> in instanceof ChickenEntity || in instanceof EntityPheasant
-            || in instanceof AnimalEntity && ((AnimalEntity) in).isChild()
-            && !(in instanceof EntityBoar || in instanceof PigEntity)));
-            this.targetSelector.addGoal(2,
-            new NearestAttackableTargetGoal<LivingEntity>(this, LivingEntity.class, 50, true, true,
-            (@Nullable LivingEntity in) -> in instanceof AnimalEntity
-            && !(in instanceof EntityBoar || in instanceof PigEntity)
-            || in instanceof PlayerEntity));
+            this.targetSelector.addGoal(0, new HurtByTargetGoal(this, new Class[0]).setCallsForHelp(EntityBoar.class));
+            this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<AnimalEntity>(this, AnimalEntity.class, 90, true, true, (@Nullable LivingEntity in) -> in instanceof ChickenEntity || in instanceof EntityPheasant || in instanceof AnimalEntity && ((AnimalEntity) in).isChild() && !(in instanceof EntityBoar || in instanceof PigEntity)));
+            this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<LivingEntity>(this, LivingEntity.class, 50, true, true, (@Nullable LivingEntity in) -> in instanceof AnimalEntity && !(in instanceof EntityBoar || in instanceof PigEntity) || in instanceof PlayerEntity));
         }
     }
 
@@ -119,18 +115,10 @@ public class EntityBoar extends EntityAnimalWithSelectiveTypes implements IMob {
         this.playSound(SoundEvents.ENTITY_PIG_STEP, 0.15F, 1.0F);
     }
 
-    /**
-     * Called when the mob's health reaches 0.
-     */
     @Override
     public void onDeath(DamageSource cause) {
         super.onDeath(cause);
-        if (!world.isRemote && !this.isChild()) {
-            if (this.rand.nextInt(12) == 0) {
-                ItemStack stack = new ItemStack(HeadTypes.BOARHEAD.getItem(this.getTypeNumber()));
-                this.entityDropItem(stack, 0.5F);
-            }
-        }
+        this.doHeadDrop();
     }
 
     @Override
@@ -220,12 +208,12 @@ public class EntityBoar extends EntityAnimalWithSelectiveTypes implements IMob {
     public AgeableEntity createChild(AgeableEntity ageable) {
         if (ageable instanceof EntityBoar) {
             EntityBoar boar = new EntityBoar(this.world);
-            boar.setType(this.getTypeNumber());
+            boar.setType(this.getVariant());
             return boar;
         } else if (ageable instanceof PigEntity) {
             PigEntity pig = new PigEntity(EntityType.PIG, this.world);
             EntityBoar boar = new EntityBoar(this.world);
-            boar.setType(this.getTypeNumber());
+            boar.setType(this.getVariant());
             return this.rand.nextBoolean() ? pig : boar;
         } else {
             return null;
@@ -256,34 +244,24 @@ public class EntityBoar extends EntityAnimalWithSelectiveTypes implements IMob {
     }
 
     @Override
-    public int getVariantMax() {
-        return 4;
-    }
-
-    @Override
-    protected IVariantTypes getBaseChild() {
-        return null;
-    }
-
-    @Override
-    protected int[] getTypesFor(Set<BiomeDictionary.Type> types) {
+    public String[] getTypesFor(Biome biome, Set<BiomeDictionary.Type> types) {
         if(types.contains(Type.FOREST) && !types.contains(Type.CONIFEROUS)) {
-            return new int[] {1, 2, 3};
+            return new String[] {"1", "2", "3"};
         } else if(types.contains(Type.CONIFEROUS) && !types.contains(Type.SNOWY)) {
-            return new int[] {1, 2, 3};
+            return new String[] {"1", "2", "3"};
         } else if(types.contains(Type.CONIFEROUS) && types.contains(Type.SNOWY)) {
-            return new int[] {1, 4};
+            return new String[] {"1", "4"};
         } else if(types.contains(Type.SNOWY) && !types.contains(Type.CONIFEROUS)) { 
-            return new int[] {4};
+            return new String[] {"4"};
         } else if(types.contains(Type.SAVANNA) || types.contains(Type.PLAINS)) {
-            return new int[] {1, 2, 3};
+            return new String[] {"1", "2", "3"};
         } else {
-            return new int[] {1, 2, 3, 4};
+            return new String[] {"1", "2", "3", "4"};
         }
     }
 
     @Override
-    protected EntityTypeContainer<? extends EntityAnimalWithTypes> getContainer() {
+    public EntityTypeContainer<EntityBoar> getContainer() {
         return ModEntities.BOAR;
     }
 
@@ -347,6 +325,11 @@ public class EntityBoar extends EntityAnimalWithSelectiveTypes implements IMob {
             }
             return false;
         }
+    }
+
+    @Override
+    protected EntityAnimalWithTypes getBaseChild() {
+        return new EntityBoar(world);
     }
 
 }

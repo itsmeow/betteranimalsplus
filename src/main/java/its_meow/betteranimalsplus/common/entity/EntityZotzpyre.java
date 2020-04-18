@@ -2,8 +2,9 @@ package its_meow.betteranimalsplus.common.entity;
 
 import java.util.Random;
 
+import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainer;
+import its_meow.betteranimalsplus.common.entity.util.abstracts.EntityMonsterWithTypes;
 import its_meow.betteranimalsplus.init.ModEntities;
-import its_meow.betteranimalsplus.util.EntityTypeContainer;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.CreatureAttribute;
 import net.minecraft.entity.Entity;
@@ -31,6 +32,7 @@ import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.network.play.server.SSetPassengersPacket;
 import net.minecraft.pathfinding.ClimberPathNavigator;
 import net.minecraft.pathfinding.PathNavigator;
+import net.minecraft.pathfinding.WalkAndSwimNodeProcessor;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
 import net.minecraft.util.DamageSource;
@@ -95,6 +97,15 @@ public class EntityZotzpyre extends EntityMonsterWithTypes {
 
     @Override
     public void tick() {
+        if(this.isPassenger()) {
+            this.setNoAI(true);
+            // you'd think it wouldn't be null. except it is. on turtles in water?
+            if(this.getNavigator().getNodeProcessor() == null) {
+                this.getNavigator().nodeProcessor = new WalkAndSwimNodeProcessor();
+            }
+        } else if(this.isAIDisabled()) {
+            this.setNoAI(false);
+        }
         super.tick();
         if(!this.world.isRemote && !this.isAlive() && this.getRidingEntity() != null || (!this.world.isRemote && this.getRidingEntity() != null && !this.getRidingEntity().isAlive())) {
             this.dismountZotz();
@@ -345,12 +356,7 @@ public class EntityZotzpyre extends EntityMonsterWithTypes {
     }
 
     @Override
-    public int getVariantMax() {
-        return 5;
-    }
-
-    @Override
-    protected EntityTypeContainer<? extends EntityMonsterWithTypes> getContainer() {
+    public EntityTypeContainer<EntityZotzpyre> getContainer() {
         return ModEntities.ZOTZPYRE;
     }
 

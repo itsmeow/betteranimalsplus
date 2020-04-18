@@ -6,6 +6,7 @@ import com.mojang.blaze3d.vertex.IVertexBuilder;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.util.math.MathHelper;
 
 /**
  * goose - cybercat5555
@@ -247,6 +248,17 @@ public class ModelGoose<T extends LivingEntity> extends EntityModel<T> {
 
     @Override
     public void render(T entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+        this.neck01.rotateAngleX = headPitch * 0.017453292F - 0.5235987755982988F;
+        this.head.rotateAngleZ = netHeadYaw * 0.017453292F;
+        if(!entityIn.isInWater()) {
+            this.rLeg01.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount + 0.20943951023931953F;
+            this.lLeg01.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F + (float) Math.PI) * 1.4F * limbSwingAmount + 0.20943951023931953F;
+            this.lLeg01.showModel = true;
+            this.rLeg01.showModel = true;
+        } else {
+            this.lLeg01.showModel = false;
+            this.rLeg01.showModel = false;
+        }
     }
 
     /**

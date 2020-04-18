@@ -32,7 +32,7 @@
             "conditions": {
                 "items": [
                     {
-                        "item": "betteranimalsplus:wolfhead_1"
+                        "item": "betteranimalsplus:feralwolfhead_black"
                     }
                 ]
             }
@@ -42,7 +42,7 @@
             "conditions": {
                 "items": [
                     {
-                        "item": "betteranimalsplus:wolfhead_2"
+                        "item": "betteranimalsplus:feralwolfhead_snowy"
                     }
                 ]
             }
@@ -52,7 +52,37 @@
             "conditions": {
                 "items": [
                     {
-                        "item": "betteranimalsplus:wolfhead_3"
+                        "item": "betteranimalsplus:feralwolfhead_timber"
+                    }
+                ]
+            }
+        },
+        "feralwolfhead_arctic": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "betteranimalsplus:feralwolfhead_arctic"
+                    }
+                ]
+            }
+        },
+        "feralwolfhead_brown": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "betteranimalsplus:feralwolfhead_brown"
+                    }
+                ]
+            }
+        },
+        "feralwolfhead_red": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "betteranimalsplus:feralwolfhead_red"
                     }
                 ]
             }
@@ -72,7 +102,7 @@
             "conditions": {
                 "items": [
                     {
-                        "item": "betteranimalsplus:bearhead_1"
+                        "item": "betteranimalsplus:brownbearhead_1"
                     }
                 ]
             }
@@ -82,7 +112,7 @@
             "conditions": {
                 "items": [
                     {
-                        "item": "betteranimalsplus:bearhead_2"
+                        "item": "betteranimalsplus:blackbearhead_black"
                     }
                 ]
             }
@@ -92,7 +122,7 @@
             "conditions": {
                 "items": [
                     {
-                        "item": "betteranimalsplus:bearhead_3"
+                        "item": "betteranimalsplus:blackbearhead_kermode"
                     }
                 ]
             }
@@ -236,6 +266,26 @@
                     }
                 ]
             }
+        },
+        "head22": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "betteranimalsplus:deerhead_3"
+                    }
+                ]
+            }
+        },
+        "head23": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "betteranimalsplus:deerhead_4"
+                    }
+                ]
+            }
         }
     },
     "requirements": [
@@ -301,6 +351,21 @@
         ],
         [
             "head21"
+        ],
+        [
+            "head22"
+        ],
+        [
+            "head23"
+        ],
+        [
+            "feralwolfhead_arctic"
+        ],
+        [
+            "feralwolfhead_brown"
+        ],
+        [
+            "feralwolfhead_red"
         ]
     ],
     "parent": "betteranimalsplus:animal_head_variants"

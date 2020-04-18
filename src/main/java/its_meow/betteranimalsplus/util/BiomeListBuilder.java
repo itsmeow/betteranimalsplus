@@ -12,6 +12,7 @@ public class BiomeListBuilder {
     private final Set<Biome> extras = new HashSet<Biome>();
     private final Set<BiomeDictionary.Type> list = new HashSet<BiomeDictionary.Type>();
     private final Set<BiomeDictionary.Type> blacklist = new HashSet<BiomeDictionary.Type>();
+    private final Set<Biome> blacklistBiome = new HashSet<Biome>();
     private final Set<BiomeDictionary.Type> required = new HashSet<BiomeDictionary.Type>();
     
     private BiomeListBuilder() {
@@ -50,13 +51,20 @@ public class BiomeListBuilder {
         return this;
     }
     
+    public BiomeListBuilder withoutBiomes(Biome... biomes) {
+        for(Biome biome : biomes) {
+            blacklistBiome.add(biome);
+        }
+        return this;
+    }
+    
     public Biome[] collect() {
         Set<Biome> set = new HashSet<Biome>();
         set.addAll(extras);
         for(BiomeDictionary.Type extraT : list) {
             set.addAll(BiomeDictionary.getBiomes(extraT));
         }
-        if(required.size() > 0) {
+        if(required.size() > 0 || blacklist.size() > 0) {
             for(Biome biome : ForgeRegistries.BIOMES.getValues()) {
                 Set<BiomeDictionary.Type> types = BiomeDictionary.getTypes(biome);
                 if(types != null) {
@@ -70,6 +78,9 @@ public class BiomeListBuilder {
                         if(types.contains(type)) {
                             pass = false;
                         }
+                    }
+                    if(blacklistBiome.contains(biome)) {
+                        pass = false;
                     }
                     if(pass) {
                         set.add(biome);

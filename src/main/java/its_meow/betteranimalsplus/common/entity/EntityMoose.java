@@ -3,10 +3,11 @@ package its_meow.betteranimalsplus.common.entity;
 import javax.annotation.Nullable;
 
 import its_meow.betteranimalsplus.common.entity.ai.EntityAIEatGrassCustom;
+import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainer;
+import its_meow.betteranimalsplus.common.entity.util.IDropHead;
+import its_meow.betteranimalsplus.common.entity.util.abstracts.EntityAnimalEatsGrassWithTypes;
 import its_meow.betteranimalsplus.init.ModEntities;
-import its_meow.betteranimalsplus.util.EntityTypeContainer;
 import its_meow.betteranimalsplus.init.ModLootTables;
-import its_meow.betteranimalsplus.util.HeadTypes;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -23,7 +24,6 @@ import net.minecraft.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal;
 import net.minecraft.entity.ai.goal.RandomWalkingGoal;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.Direction;
@@ -35,7 +35,7 @@ import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 
-public class EntityMoose extends EntityAnimalEatsGrassWithTypes {
+public class EntityMoose extends EntityAnimalEatsGrassWithTypes implements IDropHead {
 
     public EntityMoose(World worldIn) {
         super(ModEntities.MOOSE.entityType, worldIn, 5);
@@ -126,12 +126,7 @@ public class EntityMoose extends EntityAnimalEatsGrassWithTypes {
     @Override
     public void onDeath(DamageSource cause) {
         super.onDeath(cause);
-        if (!world.isRemote && !this.isChild()) {
-            if (this.rand.nextInt(12) == 0) {
-                ItemStack stack = new ItemStack(HeadTypes.MOOSEHEAD.getItem(this.getTypeNumber()));
-                this.entityDropItem(stack, 0.5F);
-            }
-        }
+        this.doHeadDrop();
     }
 
     @Override
@@ -145,28 +140,32 @@ public class EntityMoose extends EntityAnimalEatsGrassWithTypes {
     }
 
     @Override
-    public int getVariantMax() {
-        return 4;
-    }
-
-    @Override
-    protected IVariantTypes getBaseChild() {
+    protected EntityMoose getBaseChild() {
         return null;
     }
     
     @Override
-    protected EntityTypeContainer<? extends EntityAnimalWithTypes> getContainer() {
+    public EntityTypeContainer<EntityMoose> getContainer() {
         return ModEntities.MOOSE;
     }
 
     @Override
     @Nullable
     public ILivingEntityData onInitialSpawn(IWorld world, DifficultyInstance difficulty, SpawnReason reason, @Nullable ILivingEntityData livingdata, CompoundNBT compound) {
-        int validTypes[] = {1, 2, 3, 4};
-        return this.initData(super.onInitialSpawn(world, difficulty, reason, livingdata, compound), getBiasedRandomType(validTypes));
+        if(!this.getImplementation().isChild()) {
+            String variant = this.getBiasedRandomType();
+            if(livingdata instanceof TypeData) {
+                variant = ((TypeData) livingdata).typeData;
+            } else {
+                livingdata = new TypeData(variant);
+            }
+            this.setType(variant);
+        }
+        return livingdata;
     }
 
-    private int getBiasedRandomType(int[] validTypes) {
+    private String getBiasedRandomType() {
+        int[] validTypes = new int[] {1, 2, 3, 4};
         int r = validTypes[this.getRNG().nextInt(validTypes.length)];
         if(r > 2) {
             r = validTypes[this.getRNG().nextInt(validTypes.length)];
@@ -174,7 +173,7 @@ public class EntityMoose extends EntityAnimalEatsGrassWithTypes {
         if(r > 2) {
             r = validTypes[this.getRNG().nextInt(validTypes.length)];
         }
-        return r;
+        return String.valueOf(r);
     }
 
 }

@@ -8,5 +8,45 @@
             	"stream": true
             }
         ]
+    },
+    "record.walrus": {
+        "replace": false,
+        "category": "record",
+        "sounds": [
+        	{
+            	"name": "betteranimalsplus:walrus",
+            	"stream": true
+            }
+        ]
+    },
+    "entity.goose.death": {
+        "sounds": [
+            {
+                "name": "betteranimalsplus:goose_death"
+            }
+        ]
+    },
+    "entity.goose.hurt": {
+        "sounds": [
+            {
+                "name": "betteranimalsplus:goose_hurt1"
+            },
+            {
+                "name": "betteranimalsplus:goose_hurt2"
+            }
+        ]
+    },
+    "entity.goose.ambient": {
+        "sounds": [
+            {
+                "name": "betteranimalsplus:goose_ambient1"
+            },
+            {
+                "name": "betteranimalsplus:goose_ambient2"
+            },
+            {
+                "name": "betteranimalsplus:goose_ambient3"
+            }
+        ]
     }
 }

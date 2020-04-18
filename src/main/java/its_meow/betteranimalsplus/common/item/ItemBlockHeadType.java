@@ -4,7 +4,9 @@ import java.util.List;
 
 import its_meow.betteranimalsplus.BetterAnimalsPlusMod;
 import its_meow.betteranimalsplus.Ref;
-import its_meow.betteranimalsplus.util.HeadTypes;
+import its_meow.betteranimalsplus.common.entity.util.IVariant;
+import its_meow.betteranimalsplus.init.ModEntities;
+import its_meow.betteranimalsplus.util.HeadType;
 import net.minecraft.block.Block;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.ItemStack;
@@ -14,21 +16,21 @@ import net.minecraft.world.World;
 
 public class ItemBlockHeadType extends ItemBlockSkull {
 
-    private final HeadTypes type;
+    private final HeadType type;
 
-    public ItemBlockHeadType(Block block, HeadTypes type, int i) {
-        super(block, type.allowFloor, i, new Properties().group(BetterAnimalsPlusMod.group));
+    public ItemBlockHeadType(Block block, HeadType type, String id, IVariant variant) {
+        super(block, type.getPlacementType(), id, variant, new Properties().group(BetterAnimalsPlusMod.group));
         this.type = type;
     }
 
-    public ItemBlockHeadType(Block block, HeadTypes type, int i, Properties prop) {
-        super(block, type.allowFloor, i, prop);
+    public ItemBlockHeadType(Block block, HeadType type, String id, IVariant variant, Properties prop) {
+        super(block, type.getPlacementType(), id, variant, prop);
         this.type = type;
     }
 
     @Override
     public void addInformation(ItemStack stack, World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
-        if(type == HeadTypes.HIRSCHGEIST) {
+        if(type == ModEntities.HIRSCHGEIST.getHeadType()) {
             tooltip.add(new StringTextComponent("It can be worn via placing it into an empty crafting table"));
         }
         super.addInformation(stack, worldIn, tooltip, flagIn);
@@ -36,7 +38,7 @@ public class ItemBlockHeadType extends ItemBlockSkull {
 
     @Override
     public String getTranslationKey() {
-        return "block" + "." + Ref.MOD_ID + "." + this.type.name;
+        return "block" + "." + Ref.MOD_ID + "." + this.type.getName();
     }
 
 }

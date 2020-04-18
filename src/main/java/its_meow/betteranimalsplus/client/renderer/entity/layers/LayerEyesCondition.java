@@ -7,10 +7,10 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.client.renderer.entity.model.EntityModel;
-import net.minecraft.entity.passive.TameableEntity;
+import net.minecraft.entity.MobEntity;
 import net.minecraft.util.ResourceLocation;
 
-public class LayerEyesCondition<T extends TameableEntity, A extends EntityModel<T>> extends LayerEyes<T, A> {
+public class LayerEyesCondition<T extends MobEntity, A extends EntityModel<T>> extends LayerEyes<T, A> {
 
     protected final Predicate<T> condition;
 

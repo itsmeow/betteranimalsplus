@@ -1,23 +1,23 @@
 package its_meow.betteranimalsplus.common.block;
 
 import its_meow.betteranimalsplus.Ref;
-import its_meow.betteranimalsplus.util.HeadTypes;
+import its_meow.betteranimalsplus.util.HeadType;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IBlockReader;
 
 public class BlockGenericSkull extends BlockAnimalSkull {
 
-    public final HeadTypes type;
+    public final HeadType type;
 
-    public BlockGenericSkull(HeadTypes type, int i) {
+    public BlockGenericSkull(HeadType type, String id) {
         super();
-        this.setRegistryName(Ref.MOD_ID, type.name + "_" + i);
+        this.setRegistryName(Ref.MOD_ID, type.getName() + "_" + id);
         this.type = type;
     }
 
     @Override
     public TileEntity createNewTileEntity(IBlockReader reader) {
-        return type.teFactory.apply(type);
+        return type.createTE();
     }
 
 }

@@ -8,7 +8,7 @@ import net.minecraft.entity.LivingEntity;
  * hirschgeistskull2 - cybercat5555 Created using Tabula 5.1.0
  */
 public class ModelHirschgeistHelmet<T extends LivingEntity> extends BipedModel<T> {
-
+    
     public static final ModelHirschgeistHelmet<LivingEntity> INSTANCE = new ModelHirschgeistHelmet<LivingEntity>();
 
     public ModelRenderer head01;

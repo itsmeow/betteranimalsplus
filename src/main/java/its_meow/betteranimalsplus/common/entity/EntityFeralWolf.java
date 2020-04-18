@@ -6,11 +6,12 @@ import javax.annotation.Nullable;
 
 import com.google.common.base.Predicates;
 
+import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainerTameable;
+import its_meow.betteranimalsplus.common.entity.util.IDropHead;
+import its_meow.betteranimalsplus.common.entity.util.abstracts.EntityTameableWithSelectiveTypes;
 import its_meow.betteranimalsplus.init.ModEntities;
 import its_meow.betteranimalsplus.init.ModItems;
 import its_meow.betteranimalsplus.init.ModLootTables;
-import its_meow.betteranimalsplus.util.EntityTypeContainerTameable;
-import its_meow.betteranimalsplus.util.HeadTypes;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -59,13 +60,14 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.World;
+import net.minecraft.world.biome.Biome;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.BiomeDictionary.Type;
 
 
-public class EntityFeralWolf extends EntityTameableWithSelectiveTypes implements IMob {
+public class EntityFeralWolf extends EntityTameableWithSelectiveTypes implements IMob, IDropHead {
 
     protected static final DataParameter<Float> DATA_HEALTH_ID = EntityDataManager
     .<Float>createKey(EntityFeralWolf.class, DataSerializers.FLOAT);
@@ -124,15 +126,6 @@ public class EntityFeralWolf extends EntityTameableWithSelectiveTypes implements
     public void onDeath(DamageSource cause) {
         super.onDeath(cause);
         this.doHeadDrop();
-    }
-    
-    public void doHeadDrop() {
-        if (!world.isRemote && !this.isChild()) {
-            if (this.rand.nextInt(12) == 0) {
-                ItemStack stack = new ItemStack(HeadTypes.WOLFHEAD.getItem(this.getTypeNumber()));
-                this.entityDropItem(stack, 0.5F);
-            }
-        }
     }
 
     public boolean isPreventingPlayerRest(PlayerEntity playerIn) {
@@ -493,42 +486,42 @@ public class EntityFeralWolf extends EntityTameableWithSelectiveTypes implements
     }
 
     @Override
-    public int getVariantMax() {
-        return 3;
-    }
-
-    @Override
-    protected IVariantTypes getBaseChild() {
+    protected EntityFeralWolf getBaseChild() {
         return null;
     }
     
     @Override
-    protected int[] getTypesFor(Set<BiomeDictionary.Type> types) {
+    public String[] getTypesFor(Biome biome, Set<BiomeDictionary.Type> types) {
         if(types.contains(Type.FOREST) && !types.contains(Type.CONIFEROUS)) {
-            return new int[] {3};
+            return new String[] {"timber", "red"};
         } else if(types.contains(Type.CONIFEROUS) && !types.contains(Type.SNOWY)) {
-            return new int[] {1, 3};
+            return new String[] {"black", "timber", "red"};
         } else if(types.contains(Type.CONIFEROUS) && types.contains(Type.SNOWY)) {
-            return new int[] {2, 3};
-        } else if(types.contains(Type.SNOWY) && !types.contains(Type.CONIFEROUS)) { 
-            return new int[] {2};
+            return new String[] {"snowy", "timber"};
+        } else if(types.contains(Type.SNOWY) && !types.contains(Type.FOREST)) { 
+            return new String[] {"snowy", "arctic"};
+        } else if(types.contains(Type.FOREST) && types.contains(Type.CONIFEROUS) && !types.contains(Type.SNOWY)) { 
+            return new String[] {"brown", "red", "timber", "black"};
         } else {
-            return new int[] {1, 2, 3};
+            return new String[] {"black", "snowy", "timber", "arctic", "brown", "red"};
         }
     }
 
     @Override
     protected ResourceLocation getLootTable() {
-        switch(this.getTypeNumber()) {
-        case 1: return ModLootTables.WOLF_BLACK;
-        case 2: return ModLootTables.WOLF_SNOWY;
-        case 3: return ModLootTables.WOLF_TIMBER;
-        default: return super.getLootTable();
+        switch(this.getVariantName()) {
+        case "black": return ModLootTables.WOLF_BLACK;
+        case "snowy": return ModLootTables.WOLF_SNOWY;
+        case "timber": return ModLootTables.WOLF_TIMBER;
+        case "arctic": return ModLootTables.WOLF_ARCTIC;
+        case "brown": return ModLootTables.WOLF_BROWN;
+        case "red": return ModLootTables.WOLF_RED;
+        default: return null;
         }
     }
 
     @Override
-    protected EntityTypeContainerTameable<? extends EntityTameableBetterAnimalsPlus> getContainer() {
+    public EntityTypeContainerTameable<? extends EntityTameableWithSelectiveTypes> getContainer() {
         return ModEntities.FERAL_WOLF;
     }
 

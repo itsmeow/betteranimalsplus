@@ -5,8 +5,12 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import its_meow.betteranimalsplus.client.ClientLifecycleHandler;
+import its_meow.betteranimalsplus.common.entity.projectile.EntityGoldenGooseEgg;
+import its_meow.betteranimalsplus.common.entity.projectile.EntityGooseEgg;
+import its_meow.betteranimalsplus.common.entity.projectile.EntityModEgg;
 import its_meow.betteranimalsplus.common.entity.projectile.EntityPheasantEgg;
 import its_meow.betteranimalsplus.common.entity.projectile.EntityTurkeyEgg;
+import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainer;
 import its_meow.betteranimalsplus.config.BetterAnimalsPlusConfig;
 import its_meow.betteranimalsplus.init.ModBlocks;
 import its_meow.betteranimalsplus.init.ModEntities;
@@ -15,7 +19,6 @@ import its_meow.betteranimalsplus.init.ModTriggers;
 import its_meow.betteranimalsplus.network.ClientConfigurationPacket;
 import its_meow.betteranimalsplus.network.ClientRequestBAMPacket;
 import its_meow.betteranimalsplus.network.ServerNoBAMPacket;
-import its_meow.betteranimalsplus.util.EntityTypeContainer;
 import net.minecraft.block.DispenserBlock;
 import net.minecraft.block.HorizontalBlock;
 import net.minecraft.dispenser.DefaultDispenseItemBehavior;
@@ -27,6 +30,7 @@ import net.minecraft.entity.IProjectile;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.SpawnEggItem;
@@ -80,14 +84,12 @@ public class BetterAnimalsPlusMod {
     public static final BlockClusterFeatureConfig TRILLIUM_FEATURE_CONFIG = (new BlockClusterFeatureConfig.Builder(TRILLIUM_STATE_PROVIDER, new SimpleBlockPlacer())).func_227315_a_(64).func_227322_d_();
 
     public BetterAnimalsPlusMod() {
-
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::loadComplete);
-        FMLJavaModLoadingContext.get().getModEventBus()
-                .<FMLClientSetupEvent>addListener(e -> new ClientLifecycleHandler().clientSetup(e));
-
+        FMLJavaModLoadingContext.get().getModEventBus().<FMLClientSetupEvent>addListener(e -> new ClientLifecycleHandler().clientSetup(e));
         ModTriggers.register();
-        
+        ModEntities.init();
+        ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, BetterAnimalsPlusConfig.CLIENT_CONFIG_SPEC);
         BetterAnimalsPlusMod.logger.log(Level.INFO, "Injecting super coyotes...");
     }
 
@@ -127,20 +129,10 @@ public class BetterAnimalsPlusMod {
             BiomeDictionary.getBiomes(BiomeDictionary.Type.SWAMP).forEach(biome -> biome.addFeature(net.minecraft.world.gen.GenerationStage.Decoration.VEGETAL_DECORATION,
                     Feature.FLOWER.withConfiguration(TRILLIUM_FEATURE_CONFIG).func_227228_a_(Placement.NOISE_HEIGHTMAP_32.func_227446_a_(new NoiseDependant(-0.8D, 0, 3)))));
         });
-        DispenserBlock.registerDispenseBehavior(ModItems.PHEASANT_EGG, new ProjectileDispenseBehavior() {
-            protected IProjectile getProjectileEntity(World worldIn, IPosition position, ItemStack stackIn) {
-                return Util.make(new EntityPheasantEgg(worldIn, position.getX(), position.getY(), position.getZ()), (p_218408_1_) -> {
-                    p_218408_1_.setItem(stackIn);
-                });
-            }
-        });
-        DispenserBlock.registerDispenseBehavior(ModItems.TURKEY_EGG, new ProjectileDispenseBehavior() {
-            protected IProjectile getProjectileEntity(World worldIn, IPosition position, ItemStack stackIn) {
-                return Util.make(new EntityTurkeyEgg(worldIn, position.getX(), position.getY(), position.getZ()), (p_218408_1_) -> {
-                    p_218408_1_.setItem(stackIn);
-                });
-            }
-        });
+        registerEggDispenser(ModItems.PHEASANT_EGG, EntityPheasantEgg::new);
+        registerEggDispenser(ModItems.TURKEY_EGG, EntityTurkeyEgg::new);
+        registerEggDispenser(ModItems.GOOSE_EGG, EntityGooseEgg::new);
+        registerEggDispenser(ModItems.GOLDEN_GOOSE_EGG, EntityGoldenGooseEgg::new);
         DefaultDispenseItemBehavior eggDispense = new DefaultDispenseItemBehavior() {
 
             public ItemStack dispenseStack(IBlockSource source, ItemStack stack) {
@@ -159,7 +151,7 @@ public class BetterAnimalsPlusMod {
     
     private void loadComplete(final FMLLoadCompleteEvent event) {
         BetterAnimalsPlusConfig.setupConfig();
-        ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, BetterAnimalsPlusConfig.SERVER_CONFIG);
+        ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, BetterAnimalsPlusConfig.SERVER_CONFIG_SPEC);
         BetterAnimalsPlusMod.logger.log(Level.INFO, "Finished crazy bird creation!");
     }
 	
@@ -169,6 +161,21 @@ public class BetterAnimalsPlusMod {
 	        HANDLER.sendTo(new ClientConfigurationPacket(BetterAnimalsPlusConfig.coyotesHostileDaytime, BetterAnimalsPlusConfig.getTameItemsMap()), ((ServerPlayerEntity) e.getPlayer()).connection.netManager, NetworkDirection.PLAY_TO_CLIENT);
 	        HANDLER.sendTo(new ClientRequestBAMPacket(), ((ServerPlayerEntity) e.getPlayer()).connection.netManager, NetworkDirection.PLAY_TO_CLIENT);
 	    }
+	}
+	
+	private static <T extends EntityModEgg> void registerEggDispenser(Item item, IEggEntityProvider<T> provider) {
+	    DispenserBlock.registerDispenseBehavior(item, new ProjectileDispenseBehavior() {
+            protected IProjectile getProjectileEntity(World worldIn, IPosition position, ItemStack stackIn) {
+                return Util.make(provider.create(worldIn, position), (p_218408_1_) -> {
+                    p_218408_1_.setItem(stackIn);
+                });
+            }
+        });
+	}
+	
+	@FunctionalInterface
+	private interface IEggEntityProvider<T extends EntityModEgg> {
+	    public T create(World world, IPosition pos);
 	}
 
 }

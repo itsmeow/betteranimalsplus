@@ -6,9 +6,10 @@ import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import com.google.common.collect.Sets;
 
+import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainer;
+import its_meow.betteranimalsplus.common.entity.util.abstracts.EntityAnimalWithSelectiveTypes;
 import its_meow.betteranimalsplus.init.ModEntities;
 import its_meow.betteranimalsplus.init.ModLootTables;
-import its_meow.betteranimalsplus.util.EntityTypeContainer;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -40,6 +41,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
+import net.minecraft.world.biome.Biome;
 import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.BiomeDictionary.Type;
 
@@ -152,7 +154,7 @@ public class EntitySongbird extends EntityAnimalWithSelectiveTypes implements IF
             if (!(otherAnimal instanceof EntitySongbird)) {
                 return false;
             }
-            return ((EntitySongbird) otherAnimal).getTypeNumber() == this.getTypeNumber();
+            return ((EntitySongbird) otherAnimal).getVariantName().equals(this.getVariantName());
         }
         return false;
     }
@@ -163,30 +165,25 @@ public class EntitySongbird extends EntityAnimalWithSelectiveTypes implements IF
     }
 
     @Override
-    public int getVariantMax() {
-        return 10;
-    }
-
-    @Override
-    protected IVariantTypes getBaseChild() {
+    protected EntitySongbird getBaseChild() {
         return new EntitySongbird(this.world);
     }
 
     @Override
-    protected int[] getTypesFor(Set<BiomeDictionary.Type> types) {
+    public String[] getTypesFor(Biome biome, Set<BiomeDictionary.Type> types) {
         if(types.contains(Type.FOREST) && !types.contains(Type.CONIFEROUS)) {
-            return new int[] {2, 6, 7, 8};
+            return new String[] {"2", "small_2", "small_3", "small_4"};
         } else if(types.contains(Type.CONIFEROUS) && !types.contains(Type.SNOWY)) {
-            return new int[] {1, 9, 10};
+            return new String[] {"1", "small_5", "small_6"};
         } else if(types.contains(Type.CONIFEROUS) && types.contains(Type.SNOWY)) {
-            return new int[] {3, 4, 5};
+            return new String[] {"3", "4", "small_1"};
         } else {
-            return new int[] {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+            return new String[] {"1", "2", "3", "4", "small_1", "small_2", "small_3", "small_4", "small_5", "small_6"};
         }
     }
 
     @Override
-    protected EntityTypeContainer<? extends EntityAnimalWithTypes> getContainer() {
+    public EntityTypeContainer<EntitySongbird> getContainer() {
         return ModEntities.SONGBIRD;
     }
 

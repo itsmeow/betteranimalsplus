@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:smoking",
+  "ingredient": {
+    "item": "betteranimalsplus:eel_meat_raw"
+  },
+  "result": "betteranimalsplus:eel_meat_cooked",
+  "experience": 0.0
+}

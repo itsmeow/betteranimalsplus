@@ -5,13 +5,14 @@ import javax.annotation.Nullable;
 import com.google.common.base.Predicates;
 
 import its_meow.betteranimalsplus.common.entity.ai.EntityAIEatBerries;
+import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainer;
+import its_meow.betteranimalsplus.common.entity.util.IContainerEntity;
+import its_meow.betteranimalsplus.common.entity.util.IDropHead;
 import its_meow.betteranimalsplus.init.ModEntities;
 import its_meow.betteranimalsplus.init.ModLootTables;
-import its_meow.betteranimalsplus.util.HeadTypes;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.ILivingEntityData;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.SpawnReason;
@@ -27,8 +28,6 @@ import net.minecraft.entity.passive.PigEntity;
 import net.minecraft.entity.passive.RabbitEntity;
 import net.minecraft.entity.passive.fish.SalmonEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.pathfinding.PathNodeType;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.Hand;
@@ -37,11 +36,10 @@ import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.Difficulty;
-import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 
-public class EntityBear extends MonsterEntity {
+public class EntityBear extends MonsterEntity implements IContainerEntity<EntityBear>, IDropHead {
 
     private int warningSoundTicks;
 
@@ -104,15 +102,6 @@ public class EntityBear extends MonsterEntity {
 
     public boolean canSpawn(IWorld p_213380_1_, SpawnReason p_213380_2_) {
         return p_213380_1_.getDifficulty() != Difficulty.PEACEFUL;
-    }
-    
-    protected void doDropHead() {
-        if (!world.isRemote && !this.isChild()) {
-            if (this.rand.nextInt(12) == 0) {
-                ItemStack stack = new ItemStack(HeadTypes.BEARHEAD.getItem(1));
-                this.entityDropItem(stack, 0.5F);
-            }
-        }
     }
 
     @Override
@@ -226,23 +215,26 @@ public class EntityBear extends MonsterEntity {
     protected float getWaterSlowDown() {
         return 0.95F;
     }
-
-    @Override
-    public boolean canDespawn(double range) {
-        return ModEntities.BROWN_BEAR.despawn && !this.hasCustomName();
-    }
-
-    @Override
-    public ILivingEntityData onInitialSpawn(IWorld world, DifficultyInstance difficulty, SpawnReason reason, ILivingEntityData entityLivingData,
-    CompoundNBT itemNbt) {
-        this.setLocationAndAngles(this.getPosX(), this.getPosY(), this.getPosZ(), this.rotationYaw, 0F);
-        return super.onInitialSpawn(world, difficulty, reason, entityLivingData, itemNbt);
-    }
     
     @Override
     public void onDeath(DamageSource cause) {
         super.onDeath(cause);
-        this.doDropHead();
+        this.doHeadDrop();
+    }
+
+    @Override
+    public boolean canDespawn(double range) {
+        return despawn(range);
+    }
+
+    @Override
+    public EntityBear getImplementation() {
+        return this;
+    }
+
+    @Override
+    public EntityTypeContainer<?> getContainer() {
+        return ModEntities.BROWN_BEAR;
     }
 
 }

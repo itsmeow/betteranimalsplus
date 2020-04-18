@@ -3,6 +3,7 @@ package its_meow.betteranimalsplus.common.entity.projectile;
 import its_meow.betteranimalsplus.common.entity.EntityPheasant;
 import its_meow.betteranimalsplus.init.ModEntities;
 import its_meow.betteranimalsplus.init.ModItems;
+import net.minecraft.dispenser.IPosition;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntityType;
@@ -27,6 +28,10 @@ public class EntityPheasantEgg extends EntityModEgg {
 
     public EntityPheasantEgg(World world, double x, double y, double z) {
         super(PHEASANT_EGG_TYPE, world, x, y, z);
+    }
+    
+    public EntityPheasantEgg(World worldIn, IPosition pos) {
+        super(PHEASANT_EGG_TYPE, worldIn, pos.getX(), pos.getY(), pos.getZ());
     }
 
     @Override

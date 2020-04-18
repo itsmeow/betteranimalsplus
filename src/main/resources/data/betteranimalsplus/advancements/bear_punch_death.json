@@ -10,7 +10,7 @@
             {"text":"He only rides them, you kill them! With your fists!","italic":true,"color":"white"}
         ],
         "icon": {
-            "item": "betteranimalsplus:bearhead_2"
+            "item": "betteranimalsplus:blackbearhead_black"
         },
         "frame": "challenge",
         "show_toast": true,

@@ -1,11 +1,12 @@
 package its_meow.betteranimalsplus.common.entity;
 
+import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainer;
+import its_meow.betteranimalsplus.common.entity.util.abstracts.EntityWaterMobBucketable;
 import its_meow.betteranimalsplus.init.ModEntities;
 import its_meow.betteranimalsplus.init.ModLootTables;
 import net.minecraft.entity.MoverType;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.goal.RandomWalkingGoal;
-import net.minecraft.entity.passive.WaterMobEntity;
 import net.minecraft.pathfinding.PathNavigator;
 import net.minecraft.pathfinding.SwimmerPathNavigator;
 import net.minecraft.util.DamageSource;
@@ -15,7 +16,7 @@ import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
-public class EntityNautilus extends WaterMobEntity {
+public class EntityNautilus extends EntityWaterMobBucketable {
 
     public EntityNautilus(World world) {
         super(ModEntities.NAUTILUS.entityType, world);
@@ -85,8 +86,13 @@ public class EntityNautilus extends WaterMobEntity {
     }
 
     @Override
-    public boolean canDespawn(double range) {
-        return ModEntities.NAUTILUS.despawn && !this.hasCustomName();
+    public EntityWaterMobBucketable getImplementation() {
+        return this;
+    }
+
+    @Override
+    public EntityTypeContainer<?> getContainer() {
+        return ModEntities.NAUTILUS;
     }
 
 }

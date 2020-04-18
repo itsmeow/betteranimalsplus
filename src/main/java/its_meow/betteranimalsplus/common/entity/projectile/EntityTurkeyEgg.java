@@ -3,6 +3,7 @@ package its_meow.betteranimalsplus.common.entity.projectile;
 import its_meow.betteranimalsplus.common.entity.EntityTurkey;
 import its_meow.betteranimalsplus.init.ModEntities;
 import its_meow.betteranimalsplus.init.ModItems;
+import net.minecraft.dispenser.IPosition;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntityType;
@@ -27,6 +28,10 @@ public class EntityTurkeyEgg extends EntityModEgg {
 
     public EntityTurkeyEgg(World world, double x, double y, double z) {
         super(TURKEY_EGG_TYPE, world, x, y, z);
+    }
+
+    public EntityTurkeyEgg(World worldIn, IPosition pos) {
+        super(TURKEY_EGG_TYPE, worldIn, pos.getX(), pos.getY(), pos.getZ());
     }
 
     @Override

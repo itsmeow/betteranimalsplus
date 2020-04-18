@@ -1,8 +1,11 @@
 package its_meow.betteranimalsplus.common.entity;
 
+import java.util.Set;
+
+import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainer;
+import its_meow.betteranimalsplus.common.entity.util.abstracts.EntitySharkBase;
 import its_meow.betteranimalsplus.init.ModEntities;
 import its_meow.betteranimalsplus.init.ModLootTables;
-import its_meow.betteranimalsplus.util.EntityTypeContainer;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -13,16 +16,14 @@ import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal;
 import net.minecraft.entity.ai.goal.RandomSwimmingGoal;
 import net.minecraft.entity.item.BoatEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.network.datasync.DataParameter;
-import net.minecraft.network.datasync.DataSerializers;
-import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+import net.minecraft.world.biome.Biome;
+import net.minecraftforge.common.BiomeDictionary.Type;
 
 public class EntityShark extends EntitySharkBase {
 
-    protected static final DataParameter<Integer> TYPE_NUMBER = EntityDataManager.<Integer>createKey(EntityShark.class, DataSerializers.VARINT);
     private float lastAttack = 0;
     private float lastGrab = 0;
     private float lastTickHealth = 0;
@@ -38,8 +39,8 @@ public class EntityShark extends EntitySharkBase {
         this.goalSelector.addGoal(0, new MoveTowardsTargetGoal(this, 1D, 40F));
         this.goalSelector.addGoal(1, new LookAtGoal(this, LivingEntity.class, 15F));
         this.goalSelector.addGoal(1, new LookRandomlyGoal(this));
-        this.goalSelector.addGoal(2, new RandomSwimmingGoal(this, 0.65D, 1));
-        this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<LivingEntity>(this, LivingEntity.class, 100, false, false, e -> {
+        this.goalSelector.addGoal(2, new RandomSwimmingGoal(this, 1D, 1));
+        this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<LivingEntity>(this, LivingEntity.class, 5, false, false, e -> {
             if(e instanceof EntitySharkBase || e instanceof EntityBobbitWorm) return false;
             if(e instanceof PlayerEntity) return shouldAttackForHealth(e.getHealth());
             return true;
@@ -64,18 +65,19 @@ public class EntityShark extends EntitySharkBase {
     protected void registerAttributes() {
         super.registerAttributes();
         this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(30D);
-        this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(1D);
+        this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(1.5D);
         this.getAttributes().registerAttribute(SharedMonsterAttributes.ATTACK_DAMAGE);
         this.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(6D);
     }
     
     public boolean shouldAttackForHealth(float health) {
-        int type = this.getTypeNumber();
+        String type = this.getVariantName();
         switch(type) {
-        case 1: return health <= 8F;// blue
-        case 2: return health <= 13F;// bull
-        case 3: return health <= 10; // tiger
-        case 4: return health <= 16F;// whitetip
+        case "blue": return health <= 8F; // blue
+        case "bull": return health <= 13F;// bull
+        case "tiger": return health <= 10F;// tiger
+        case "whitetip": return health <= 16F;// whitetip
+        case "greenland": return health <= 8F; // greenland
         default: return false;
         }
     }
@@ -125,18 +127,18 @@ public class EntityShark extends EntitySharkBase {
     }
 
     @Override
-    public int getVariantMax() {
-        return 4;
-    }
-
-    @Override
     protected ResourceLocation getLootTable() {
         return ModLootTables.SHARK;
     }
 
     @Override
-    protected EntityTypeContainer<? extends EntityWaterMobPathingWithTypes> getContainer() {
+    public EntityTypeContainer<EntityShark> getContainer() {
         return ModEntities.SHARK;
+    }
+
+    @Override
+    public String[] getTypesFor(Biome biome, Set<Type> types) {
+        return types.contains(Type.COLD) ? new String[] {"greenland"} : new String[] {"blue", "bull", "tiger", "whitetip"}; // greenland ONLY in cold oceans
     }
 
 }
