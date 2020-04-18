@@ -32,6 +32,7 @@ import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.network.play.server.SSetPassengersPacket;
 import net.minecraft.pathfinding.ClimberPathNavigator;
 import net.minecraft.pathfinding.PathNavigator;
+import net.minecraft.pathfinding.WalkAndSwimNodeProcessor;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
 import net.minecraft.util.DamageSource;
@@ -96,6 +97,15 @@ public class EntityZotzpyre extends EntityMonsterWithTypes {
 
     @Override
     public void tick() {
+        if(this.isPassenger()) {
+            this.setNoAI(true);
+            // you'd think it wouldn't be null. except it is. on turtles in water?
+            if(this.getNavigator().getNodeProcessor() == null) {
+                this.getNavigator().nodeProcessor = new WalkAndSwimNodeProcessor();
+            }
+        } else if(this.isAIDisabled()) {
+            this.setNoAI(false);
+        }
         super.tick();
         if(!this.world.isRemote && !this.isAlive() && this.getRidingEntity() != null || (!this.world.isRemote && this.getRidingEntity() != null && !this.getRidingEntity().isAlive())) {
             this.dismountZotz();
