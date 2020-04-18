@@ -1,0 +1,21 @@
+name: 'Build Commit'
+on:
+    push:
+        branches:
+            - '[0-9]**'
+        paths-ignore:
+            - '*.md'
+            - LICENSE
+            - '.github/**'
+        tags-ignore:
+            - '[0-9]+.[0-9]+.[0-9]+-[0-9]+.[0-9]+.[0-9]+'
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        steps:
+            - {uses: actions/checkout@v1}
+            - {name: 'Set up JDK 1.8', uses: actions/setup-java@v1, with: {java-version: 1.8}}
+            - {name: 'Setup Build', run: 'chmod 777 gradlew'}
+            - {name: 'Build with Gradle', id: build, env: {USE_ALPHAS: true}, run: './gradlew setupGithubActions build'}
+            - {name: 'Create a Release', id: create_release, uses: meeDamian/github-release@v1.0.1, with: {token: '${{ secrets.GITHUB_TOKEN }}', tag: 'alpha-${{ steps.build.outputs.version }}', name: '${{ steps.build.outputs.modid }}-alpha-${{ steps.build.outputs.version }}', draft: false, prerelease: true, commitish: '${{ github.sha }}', files: 'build/libs/${{ steps.build.outputs.modid }}-${{ steps.build.outputs.version }}.jar', gzip: false}}
+            - {name: 'Push Changelog to Discord', id: changelog-webhook, uses: itsmeow/webhook-action@master, env: {WEBHOOK_URL: '${{ secrets.DISCORD_WEBHOOK_URL }}', data: '${{ steps.build.outputs.commitlog }}'}}
