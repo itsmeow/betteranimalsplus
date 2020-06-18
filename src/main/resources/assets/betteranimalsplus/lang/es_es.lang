@@ -32,8 +32,8 @@ item.betteranimalsplus.turkey_egg.name=Huevo de Pavo
 item.betteranimalsplus.turkey_leg_raw.name=Pata de Pavo Cruda
 item.betteranimalsplus.turkey_leg_cooked.name=Pata de Pavo Cocinada
 item.betteranimalsplus.fried_egg.name=Huevo Frito
-item.betteranimalsplus.goose_egg.name=Goose Egg
-item.betteranimalsplus.golden_goose_egg.name=Golden Goose Egg
+item.betteranimalsplus.goose_egg.name=Huevo de Ganso
+item.betteranimalsplus.golden_goose_egg.name=Huevo dorado de Ganso
 item.betteranimalsplus.wolf_cape_arctic.name=Capa de Lobo (Artica)
 item.betteranimalsplus.wolf_cape_brown.name=Capa de Lobo (Pardo)
 item.betteranimalsplus.wolf_cape_red.name=Capa de Lobo (Roja)
@@ -94,3 +94,4 @@ entity.betteranimalsplus.eel_freshwater.name=Anguila de agua dulce
 entity.betteranimalsplus.eel_saltwater.name=Anguila de agua salada
 entity.betteranimalsplus.whale.name=Ballena
 entity.betteranimalsplus.walrus.name=Morsa
+
