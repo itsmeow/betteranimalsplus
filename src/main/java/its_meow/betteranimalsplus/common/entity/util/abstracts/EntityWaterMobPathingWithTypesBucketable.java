@@ -51,7 +51,7 @@ public abstract class EntityWaterMobPathingWithTypesBucketable extends EntityWat
         if(bucket.getTag() == null) {
             tag = new CompoundNBT();
         }
-        tag.putString("BucketVariantTag", this.getVariantName());
+        tag.putString("BucketVariantTag", this.getVariantNameOrEmpty());
         bucket.setTag(tag);
     }
 

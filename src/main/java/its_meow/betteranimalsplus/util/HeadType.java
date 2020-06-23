@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.function.Supplier;
@@ -12,11 +13,11 @@ import javax.annotation.Nullable;
 
 import org.apache.commons.lang3.tuple.Pair;
 
+import dev.itsmeow.imdlib.entity.util.EntityVariant;
+import dev.itsmeow.imdlib.entity.util.IVariant;
+import dev.itsmeow.imdlib.entity.util.IVariantTypes;
 import its_meow.betteranimalsplus.common.block.BlockGenericSkull;
-import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainer;
-import its_meow.betteranimalsplus.common.entity.util.EntityVariant;
-import its_meow.betteranimalsplus.common.entity.util.IVariant;
-import its_meow.betteranimalsplus.common.entity.util.IVariantTypes;
+import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainerBAP;
 import its_meow.betteranimalsplus.common.item.ItemBlockHeadType;
 import its_meow.betteranimalsplus.common.tileentity.TileEntityHead;
 import net.minecraft.block.Block;
@@ -54,12 +55,12 @@ public class HeadType {
     private final Set<BlockGenericSkull> blocks = new HashSet<BlockGenericSkull>();
     @OnlyIn(Dist.CLIENT)
     public Supplier<Supplier<EntityModel<? extends Entity>>> modelSupplier;
-    private final EntityTypeContainer<? extends LivingEntity> container;
+    private final EntityTypeContainerBAP<? extends LivingEntity> container;
     private float yOffset = 0F;
     private IVariant singletonVariant;
     private final Map<Block, IVariant> reverseVariantMap = new HashMap<Block, IVariant>();
 
-    public HeadType(String name, PlacementType placement, float yOffset, HeadIDMapping mapping, @Nullable Function<IVariant, String> variantMapper, @Nullable IVariant singletonVariant, @Nullable String singletonID, EntityTypeContainer<? extends LivingEntity> container) {
+    public HeadType(String name, PlacementType placement, float yOffset, HeadIDMapping mapping, @Nullable Function<IVariant, String> variantMapper, @Nullable IVariant singletonVariant, @Nullable String singletonID, EntityTypeContainerBAP<? extends LivingEntity> container) {
         this.name = name;
         this.placement = placement;
         this.yOffset = yOffset;
@@ -84,7 +85,7 @@ public class HeadType {
         case NUMBERS:
             for(IVariant variant : container.getVariants()) {
                 if(variant.hasHead()) {
-                    int index = container.getVariantIndex(variant.getName()) + 1;
+                    int index = container.getVariants().indexOf(variant) + 1;
                     BlockGenericSkull block = new BlockGenericSkull(this, String.valueOf(index));
                     ItemBlockHeadType item = new ItemBlockHeadType(block, this, String.valueOf(index), variant);
                     heads.put(variant, Pair.of(block, item));
@@ -195,7 +196,7 @@ public class HeadType {
         return list;
     }
 
-    public EntityTypeContainer<? extends LivingEntity> getContainer() {
+    public EntityTypeContainerBAP<? extends LivingEntity> getContainer() {
         return this.container;
     }
 
@@ -207,21 +208,21 @@ public class HeadType {
         drop(entity, chance, getHeadID(entity));
     }
 
-    public void drop(MobEntity entity, int chance, IVariant variant) {
-        if(!entity.world.isRemote && !entity.isChild()) {
+    public void drop(MobEntity entity, int chance, Optional<IVariant> variant) {
+        if(variant.isPresent() && !entity.world.isRemote && !entity.isChild()) {
             if(entity.getRNG().nextInt(chance) == 0) {
-                ItemStack stack = new ItemStack(this.getItem(variant));
+                ItemStack stack = new ItemStack(this.getItem(variant.get()));
                 entity.entityDropItem(stack, 0.5F);
             }
         }
     }
 
-    private IVariant getHeadID(MobEntity entity) {
+    private Optional<IVariant> getHeadID(MobEntity entity) {
         if(entity instanceof IVariantTypes<?> && this.container.hasVariants()) {
             IVariantTypes<?> ent = (IVariantTypes<?>) entity;
-            return ent.getContainer().getVariant(ent.getVariant().getName());
+            return ent.getVariant();
         } else {
-            return this.singletonVariant;
+            return Optional.of(this.singletonVariant);
         }
     }
 
@@ -296,7 +297,7 @@ public class HeadType {
             return this;
         }
 
-        public HeadType build(EntityTypeContainer<? extends LivingEntity> container) {
+        public HeadType build(EntityTypeContainerBAP<? extends LivingEntity> container) {
             if(idMapping == null) {
                 throw new RuntimeException("No ID mapping set for head builder " + name);
             }

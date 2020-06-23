@@ -2,8 +2,8 @@ package its_meow.betteranimalsplus.client.model;
 
 import com.mojang.blaze3d.platform.GlStateManager;
 
+import dev.itsmeow.imdlib.client.util.RenderUtil;
 import its_meow.betteranimalsplus.util.ModMathHelper;
-import its_meow.betteranimalsplus.util.RenderUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.entity.model.RendererModel;

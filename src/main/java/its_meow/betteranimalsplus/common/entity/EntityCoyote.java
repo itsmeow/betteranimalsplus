@@ -4,8 +4,7 @@ import javax.annotation.Nullable;
 
 import com.google.common.base.Predicates;
 
-import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainerTameable;
-import its_meow.betteranimalsplus.config.BetterAnimalsPlusConfig;
+import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainerBAPTameable;
 import its_meow.betteranimalsplus.init.ModEntities;
 import net.minecraft.entity.ILivingEntityData;
 import net.minecraft.entity.LivingEntity;
@@ -46,6 +45,8 @@ import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 
 public class EntityCoyote extends EntityFeralWolf {
+
+    public static boolean HOSTILE_DAYTIME = false;
 
     public EntityCoyote(World worldIn) {
         super(ModEntities.COYOTE.entityType, worldIn);
@@ -102,7 +103,7 @@ public class EntityCoyote extends EntityFeralWolf {
 
     @Override
     public void setAttackTarget(LivingEntity entitylivingbaseIn) {
-        if (!this.isDaytime() || BetterAnimalsPlusConfig.coyotesHostileDaytime) {
+        if (!this.isDaytime() || HOSTILE_DAYTIME) {
             super.setAttackTarget(entitylivingbaseIn);
         } else if (!this.isTamed()) {
             super.setAttackTarget(null);
@@ -116,7 +117,7 @@ public class EntityCoyote extends EntityFeralWolf {
 
     @Override
     protected SoundEvent getAmbientSound() {
-        if ((!this.isDaytime() || BetterAnimalsPlusConfig.coyotesHostileDaytime) && !this.isTamed()) {
+        if ((!this.isDaytime() || HOSTILE_DAYTIME) && !this.isTamed()) {
             return SoundEvents.ENTITY_WOLF_GROWL;
         } else if (this.rand.nextInt(3) == 0) {
             return this.isTamed() && this.dataManager.get(EntityFeralWolf.DATA_HEALTH_ID).floatValue() < 10.0F
@@ -157,7 +158,7 @@ public class EntityCoyote extends EntityFeralWolf {
                 this.setAttackTarget((LivingEntity) null);
             }
         } else if(this.isTamingItem(itemstack.getItem())) {
-            if(BetterAnimalsPlusConfig.coyotesHostileDaytime) {
+            if(HOSTILE_DAYTIME) {
                 if (!this.world.isRemote) {
                     player.sendMessage(new StringTextComponent("This coyote is always hostile. It cannot be tamed (server configuration)"));
                 }
@@ -196,13 +197,13 @@ public class EntityCoyote extends EntityFeralWolf {
     }
 
     @Override
-    public EntityTypeContainerTameable<EntityCoyote> getContainer() {
+    public EntityTypeContainerBAPTameable<EntityCoyote> getContainer() {
         return ModEntities.COYOTE;
     }
 
     @Override
     public boolean shouldAttackEntity(LivingEntity target, LivingEntity owner) {
-        if (!(target instanceof CreeperEntity) && !(target instanceof GhastEntity) && (this.isTamed() || !this.isDaytime() || BetterAnimalsPlusConfig.coyotesHostileDaytime)) {
+        if (!(target instanceof CreeperEntity) && !(target instanceof GhastEntity) && (this.isTamed() || !this.isDaytime() || HOSTILE_DAYTIME)) {
             if (target instanceof EntityCoyote) {
                 EntityCoyote entityferalwolf = (EntityCoyote) target;
 

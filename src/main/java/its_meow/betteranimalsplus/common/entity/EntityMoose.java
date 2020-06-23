@@ -1,9 +1,8 @@
 package its_meow.betteranimalsplus.common.entity;
 
-import javax.annotation.Nullable;
-
+import dev.itsmeow.imdlib.entity.util.IVariant;
 import its_meow.betteranimalsplus.common.entity.ai.EntityAIEatGrassCustom;
-import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainer;
+import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainerBAP;
 import its_meow.betteranimalsplus.common.entity.util.IDropHead;
 import its_meow.betteranimalsplus.common.entity.util.abstracts.EntityAnimalEatsGrassWithTypes;
 import its_meow.betteranimalsplus.init.ModEntities;
@@ -15,24 +14,19 @@ import net.minecraft.crash.CrashReport;
 import net.minecraft.crash.CrashReportCategory;
 import net.minecraft.crash.ReportedException;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.ILivingEntityData;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.goal.HurtByTargetGoal;
 import net.minecraft.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal;
 import net.minecraft.entity.ai.goal.RandomWalkingGoal;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.DifficultyInstance;
-import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 
 public class EntityMoose extends EntityAnimalEatsGrassWithTypes implements IDropHead {
@@ -146,26 +140,12 @@ public class EntityMoose extends EntityAnimalEatsGrassWithTypes implements IDrop
     }
     
     @Override
-    public EntityTypeContainer<EntityMoose> getContainer() {
+    public EntityTypeContainerBAP<EntityMoose> getContainer() {
         return ModEntities.MOOSE;
     }
 
     @Override
-    @Nullable
-    public ILivingEntityData onInitialSpawn(IWorld world, DifficultyInstance difficulty, SpawnReason reason, @Nullable ILivingEntityData livingdata, CompoundNBT compound) {
-        if(!this.getImplementation().isChild()) {
-            String variant = this.getBiasedRandomType();
-            if(livingdata instanceof TypeData) {
-                variant = ((TypeData) livingdata).typeData;
-            } else {
-                livingdata = new TypeData(variant);
-            }
-            this.setType(variant);
-        }
-        return livingdata;
-    }
-
-    private String getBiasedRandomType() {
+    public IVariant getRandomType() {
         int[] validTypes = new int[] {1, 2, 3, 4};
         int r = validTypes[this.getRNG().nextInt(validTypes.length)];
         if(r > 2) {
@@ -174,7 +154,7 @@ public class EntityMoose extends EntityAnimalEatsGrassWithTypes implements IDrop
         if(r > 2) {
             r = validTypes[this.getRNG().nextInt(validTypes.length)];
         }
-        return String.valueOf(r);
+        return this.getContainer().getVariantForName(String.valueOf(r));
     }
 
 }

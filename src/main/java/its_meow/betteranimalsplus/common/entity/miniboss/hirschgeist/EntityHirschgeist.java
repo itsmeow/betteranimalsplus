@@ -1,9 +1,9 @@
 package its_meow.betteranimalsplus.common.entity.miniboss.hirschgeist;
 
+import dev.itsmeow.imdlib.entity.util.IContainerEntity;
 import its_meow.betteranimalsplus.common.entity.miniboss.hirschgeist.ai.HirschgeistAIAttackMelee;
 import its_meow.betteranimalsplus.common.entity.miniboss.hirschgeist.ai.HirschgeistAIFlameAttack;
-import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainer;
-import its_meow.betteranimalsplus.common.entity.util.IContainerEntity;
+import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainerBAP;
 import its_meow.betteranimalsplus.common.entity.util.IDropHead;
 import its_meow.betteranimalsplus.init.ModEntities;
 import its_meow.betteranimalsplus.init.ModLootTables;
@@ -122,7 +122,7 @@ public class EntityHirschgeist extends MobEntity implements IMob, IDropHead, ICo
     }
 
     @Override
-    public EntityTypeContainer<?> getContainer() {
+    public EntityTypeContainerBAP<?> getContainer() {
         return ModEntities.HIRSCHGEIST;
     }
 

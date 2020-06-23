@@ -1,14 +1,16 @@
 package its_meow.betteranimalsplus.common.entity;
 
 import java.util.Calendar;
+import java.util.Optional;
 
 import javax.annotation.Nullable;
 
 import com.google.common.base.Predicate;
 
-import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainer;
+import dev.itsmeow.imdlib.entity.util.IVariant;
+import dev.itsmeow.imdlib.entity.util.IVariantTypes;
+import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainerBAP;
 import its_meow.betteranimalsplus.common.entity.util.IDropHead;
-import its_meow.betteranimalsplus.common.entity.util.IVariantTypes;
 import its_meow.betteranimalsplus.init.ModEntities;
 import its_meow.betteranimalsplus.init.ModLootTables;
 import its_meow.betteranimalsplus.init.ModTriggers;
@@ -175,10 +177,10 @@ public class EntityReindeer extends AnimalEntity implements IJumpingMount, IVari
         this.setOffspringAttributes(ageable, reindeer);
         if(ageable instanceof EntityReindeer) {
             EntityReindeer other = (EntityReindeer) ageable;
-            if(other.getContainer().getVariantIndex(other.getVariantName()) > 4) { // if one of them is red-nosed make that one take dominance
-                reindeer.setType(other.getVariant());
+            if(other.getVariantNameOrEmpty().endsWith("christmas")) { // if one of them is red-nosed make that one take dominance
+                reindeer.setType(other.getVariant().get());
             } else { // none are red-nosed, just use this one's type
-                reindeer.setType(this.getVariant());
+                reindeer.setType(this.getVariant().get());
             }
 
             if((other.hasCustomName() && other.getCustomName().getString().equalsIgnoreCase("rudolph"))
@@ -186,7 +188,7 @@ public class EntityReindeer extends AnimalEntity implements IJumpingMount, IVari
                 reindeer.parentRudolph = true;
             }
         } else { // same as above
-            reindeer.setType(this.getVariant());
+            reindeer.setType(this.getVariant().get());
         }
         return reindeer;
     }
@@ -776,8 +778,8 @@ public class EntityReindeer extends AnimalEntity implements IJumpingMount, IVari
     @Override
     public void setCustomName(ITextComponent comp) {
         if(comp.getString().toLowerCase().equals("rudolph")) {
-            if(this.getVariant() != null && !this.getVariantName().endsWith("_christmas")) {
-                this.setType(this.getVariantName() + "_christmas");
+            if(this.getVariant() != null && !this.getVariantNameOrEmpty().endsWith("_christmas")) {
+                this.setType(this.getVariantNameOrEmpty() + "_christmas");
             }
         }
         super.setCustomName(comp);
@@ -810,9 +812,9 @@ public class EntityReindeer extends AnimalEntity implements IJumpingMount, IVari
 
         this.readType(compound);
         Calendar calendar = Calendar.getInstance();
-        if (this.getVariantName().endsWith("_christmas") && !(calendar.get(2) + 1 == 12 && calendar.get(5) >= 22 && calendar.get(5) <= 28)
+        if (this.getVariantNameOrEmpty().endsWith("_christmas") && !(calendar.get(2) + 1 == 12 && calendar.get(5) >= 22 && calendar.get(5) <= 28)
                 && !(this.getCustomName().getString().toLowerCase().equals("rudolph") || this.parentRudolph)) {
-            this.setType(this.getVariantName().substring(0, 1)); // Remove red noses after Christmas season after loading entity
+            this.setType(this.getVariantNameOrEmpty().substring(0, 1)); // Remove red noses after Christmas season after loading entity
         }
     }
 
@@ -998,15 +1000,14 @@ public class EntityReindeer extends AnimalEntity implements IJumpingMount, IVari
 
     @Override
     @Nullable
-    public ILivingEntityData onInitialSpawn(IWorld world, DifficultyInstance difficulty, SpawnReason reason, @Nullable ILivingEntityData livingdata,
-                                            CompoundNBT compound) {
+    public ILivingEntityData onInitialSpawn(IWorld world, DifficultyInstance difficulty, SpawnReason reason, @Nullable ILivingEntityData livingdata, CompoundNBT compound) {
         livingdata = super.onInitialSpawn(world, difficulty, reason, livingdata, compound);
 
         if (!this.isChild()) {
             Calendar calendar = Calendar.getInstance();
             boolean isChristmasSeason = calendar.get(2) + 1 == 12 && calendar.get(5) >= 22 && calendar.get(5) <= 28;
             boolean redNosed = this.rand.nextInt(9) == 0;
-            String i = (this.rand.nextInt(4) + 1) + (isChristmasSeason && redNosed ? "_christmas" : "");
+            IVariant i = this.getContainer().getVariantForName((this.rand.nextInt(4) + 1) + (isChristmasSeason && redNosed ? "_christmas" : ""));
             boolean flag = false;
 
             if (livingdata instanceof TypeData) {
@@ -1037,13 +1038,13 @@ public class EntityReindeer extends AnimalEntity implements IJumpingMount, IVari
     }
 
     @Override
-    public EntityTypeContainer<EntityReindeer> getContainer() {
+    public EntityTypeContainerBAP<EntityReindeer> getContainer() {
         return ModEntities.REINDEER;
     }
     
     @Override
     public void doHeadDrop() {
-        this.getHeadType().drop(this, 12, this.getContainer().getVariant(this.getVariantName().substring(0, 1)));
+        this.getHeadType().drop(this, 12, Optional.of(this.getContainer().getVariantForName(this.getVariantNameOrEmpty().substring(0, 1))));
     }
 
 }

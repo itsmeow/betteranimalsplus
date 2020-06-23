@@ -2,7 +2,7 @@ package its_meow.betteranimalsplus.common.entity;
 
 import javax.annotation.Nullable;
 
-import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainer;
+import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainerBAP;
 import its_meow.betteranimalsplus.common.entity.util.abstracts.EntityAnimalWithTypes;
 import its_meow.betteranimalsplus.init.ModEntities;
 import its_meow.betteranimalsplus.init.ModItems;
@@ -158,7 +158,7 @@ public class EntityPheasant extends EntityAnimalWithTypes {
     }
 
     @Override
-    public EntityTypeContainer<EntityPheasant> getContainer() {
+    public EntityTypeContainerBAP<EntityPheasant> getContainer() {
         return ModEntities.PHEASANT;
     }
 

@@ -1,7 +1,7 @@
 package its_meow.betteranimalsplus.common.tileentity;
 
+import dev.itsmeow.imdlib.entity.util.IVariant;
 import its_meow.betteranimalsplus.common.block.BlockAnimalSkull;
-import its_meow.betteranimalsplus.common.entity.util.IVariant;
 import its_meow.betteranimalsplus.init.ModTileEntities;
 import its_meow.betteranimalsplus.util.HeadType;
 import net.minecraft.block.Block;
@@ -43,7 +43,7 @@ public class TileEntityHead extends TileEntity {
     }
 
     public ResourceLocation getTexture() {
-        return this.getHeadVariant().getTexture();
+        return this.getHeadVariant().getTexture(null);
     }
 
     public IVariant getHeadVariant() {

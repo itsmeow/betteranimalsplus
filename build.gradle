@@ -1,4 +1,5 @@
 apply from: 'https://maven.itsmeow.dev/scripts/fg3.gradle'
+apply from: 'https://maven.itsmeow.dev/scripts/imdlib.gradle'
 
 repositories {
     maven {

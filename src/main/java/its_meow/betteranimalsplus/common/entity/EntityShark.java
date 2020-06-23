@@ -2,7 +2,7 @@ package its_meow.betteranimalsplus.common.entity;
 
 import java.util.Set;
 
-import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainer;
+import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainerBAP;
 import its_meow.betteranimalsplus.common.entity.util.abstracts.EntitySharkBase;
 import its_meow.betteranimalsplus.init.ModEntities;
 import its_meow.betteranimalsplus.init.ModLootTables;
@@ -71,8 +71,7 @@ public class EntityShark extends EntitySharkBase {
     }
     
     public boolean shouldAttackForHealth(float health) {
-        String type = this.getVariantName();
-        switch(type) {
+        switch(this.getVariantNameOrEmpty()) {
         case "blue": return health <= 8F; // blue
         case "bull": return health <= 13F;// bull
         case "tiger": return health <= 10F;// tiger
@@ -132,7 +131,7 @@ public class EntityShark extends EntitySharkBase {
     }
 
     @Override
-    public EntityTypeContainer<EntityShark> getContainer() {
+    public EntityTypeContainerBAP<EntityShark> getContainer() {
         return ModEntities.SHARK;
     }
 

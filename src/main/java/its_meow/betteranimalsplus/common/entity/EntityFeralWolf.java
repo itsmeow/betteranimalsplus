@@ -6,12 +6,14 @@ import javax.annotation.Nullable;
 
 import com.google.common.base.Predicates;
 
-import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainerTameable;
+import dev.itsmeow.imdlib.entity.util.EntityVariant;
+import dev.itsmeow.imdlib.entity.util.IVariant;
+import its_meow.betteranimalsplus.Ref;
+import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainerBAPTameable;
 import its_meow.betteranimalsplus.common.entity.util.IDropHead;
 import its_meow.betteranimalsplus.common.entity.util.abstracts.EntityTameableWithSelectiveTypes;
 import its_meow.betteranimalsplus.init.ModEntities;
 import its_meow.betteranimalsplus.init.ModItems;
-import its_meow.betteranimalsplus.init.ModLootTables;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -509,19 +511,40 @@ public class EntityFeralWolf extends EntityTameableWithSelectiveTypes implements
 
     @Override
     protected ResourceLocation getLootTable() {
-        switch(this.getVariantName()) {
-        case "black": return ModLootTables.WOLF_BLACK;
-        case "snowy": return ModLootTables.WOLF_SNOWY;
-        case "timber": return ModLootTables.WOLF_TIMBER;
-        case "arctic": return ModLootTables.WOLF_ARCTIC;
-        case "brown": return ModLootTables.WOLF_BROWN;
-        case "red": return ModLootTables.WOLF_RED;
-        default: return null;
+        if(this.getVariant().isPresent()) {
+            IVariant variant = this.getVariant().get();
+            if(variant instanceof WolfVariant) {
+                return ((WolfVariant)variant).getLootTable();
+            }
+        }
+        return null;
+    }
+
+    public static class WolfVariant extends EntityVariant {
+        private ResourceLocation neutralTexture;
+        private ResourceLocation lootTable;
+
+        public WolfVariant(String nameTexture, ResourceLocation lootTable) {
+            super(Ref.MOD_ID, nameTexture, "feralwolf_" + nameTexture);
+            this.neutralTexture = new ResourceLocation(Ref.MOD_ID, "textures/entity/feralwolf_" + nameTexture + "_neutral.png");
+            this.lootTable = lootTable;
+        }
+
+        @Override
+        public ResourceLocation getTexture(Entity entity) {
+            if(entity != null && entity instanceof EntityFeralWolf && ((EntityFeralWolf) entity).isTamed()) {
+                return neutralTexture;
+            }
+            return super.getTexture(entity);
+        }
+
+        public ResourceLocation getLootTable() {
+            return lootTable;
         }
     }
 
     @Override
-    public EntityTypeContainerTameable<? extends EntityTameableWithSelectiveTypes> getContainer() {
+    public EntityTypeContainerBAPTameable<? extends EntityTameableWithSelectiveTypes> getContainer() {
         return ModEntities.FERAL_WOLF;
     }
 

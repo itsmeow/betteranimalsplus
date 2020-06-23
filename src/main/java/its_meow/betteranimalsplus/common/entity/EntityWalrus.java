@@ -4,8 +4,8 @@ import java.util.Random;
 
 import javax.annotation.Nullable;
 
-import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainer;
-import its_meow.betteranimalsplus.common.entity.util.IContainerEntity;
+import dev.itsmeow.imdlib.entity.util.IContainerEntity;
+import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainerBAP;
 import its_meow.betteranimalsplus.init.ModEntities;
 import its_meow.betteranimalsplus.init.ModItems;
 import its_meow.betteranimalsplus.init.ModLootTables;
@@ -547,7 +547,7 @@ public class EntityWalrus extends AnimalEntity implements IContainerEntity<Entit
     }
 
     @Override
-    public EntityTypeContainer<?> getContainer() {
+    public EntityTypeContainerBAP<?> getContainer() {
         return ModEntities.WALRUS;
     }
 

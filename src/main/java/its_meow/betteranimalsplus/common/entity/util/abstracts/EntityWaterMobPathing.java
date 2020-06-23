@@ -1,7 +1,7 @@
 package its_meow.betteranimalsplus.common.entity.util.abstracts;
 
+import dev.itsmeow.imdlib.entity.util.IContainerEntity;
 import its_meow.betteranimalsplus.common.entity.ai.WaterMoveHelper;
-import its_meow.betteranimalsplus.common.entity.util.IContainerEntity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.MoverType;
 import net.minecraft.entity.passive.WaterMobEntity;

@@ -1,21 +1,20 @@
 package its_meow.betteranimalsplus.common.entity;
 
-
 import java.util.Calendar;
 
 import javax.annotation.Nullable;
 
+import dev.itsmeow.imdlib.entity.util.EntityVariant;
+import dev.itsmeow.imdlib.entity.util.IVariant;
 import its_meow.betteranimalsplus.Ref;
-import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainer;
-import its_meow.betteranimalsplus.common.entity.util.EntityVariant;
+import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainerBAP;
 import its_meow.betteranimalsplus.common.entity.util.IDropHead;
 import its_meow.betteranimalsplus.common.entity.util.abstracts.EntityAnimalEatsGrassWithTypes;
 import its_meow.betteranimalsplus.init.ModEntities;
 import its_meow.betteranimalsplus.init.ModLootTables;
 import net.minecraft.block.BlockState;
-import net.minecraft.entity.ILivingEntityData;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.goal.AvoidEntityGoal;
 import net.minecraft.entity.ai.goal.BreedGoal;
 import net.minecraft.entity.ai.goal.LookRandomlyGoal;
@@ -27,19 +26,15 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.Hand;
 import net.minecraft.util.IItemProvider;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.DifficultyInstance;
-import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-
 
 public class EntityDeer extends EntityAnimalEatsGrassWithTypes implements IDropHead {
 
@@ -50,25 +45,21 @@ public class EntityDeer extends EntityAnimalEatsGrassWithTypes implements IDropH
     public int getEatTime() {
         return eatTimer;
     }
-    
+
     @OnlyIn(Dist.CLIENT)
     @Override
-    public void handleStatusUpdate(byte id)
-    {
-        if (id == 10)
-        {
+    public void handleStatusUpdate(byte id) {
+        if(id == 10) {
             this.eatTimer = 40;
-        }
-        else
-        {
+        } else {
             super.handleStatusUpdate(id);
         }
     }
-    
+
     @Override
     public void baseTick() {
         super.baseTick();
-        if (this.world.isRemote) {
+        if(this.world.isRemote) {
             this.eatTimer = Math.max(0, this.eatTimer - 1);
         }
     }
@@ -77,8 +68,8 @@ public class EntityDeer extends EntityAnimalEatsGrassWithTypes implements IDropH
     public boolean processInteract(PlayerEntity player, Hand hand) {
         ItemStack stack = player.getHeldItem(hand);
         boolean isEmpty = stack.isEmpty();
-        if (!isEmpty) {
-            if (stack.getItem() == Items.WHEAT || stack.getItem() == Items.CARROT) {
+        if(!isEmpty) {
+            if(stack.getItem() == Items.WHEAT || stack.getItem() == Items.CARROT) {
                 this.setInLove(player);
             }
         }
@@ -146,26 +137,12 @@ public class EntityDeer extends EntityAnimalEatsGrassWithTypes implements IDropH
     }
 
     @Override
-    public EntityTypeContainer<EntityDeer> getContainer() {
+    public EntityTypeContainerBAP<EntityDeer> getContainer() {
         return ModEntities.DEER;
     }
 
     @Override
-    @Nullable
-    public ILivingEntityData onInitialSpawn(IWorld world, DifficultyInstance difficulty, SpawnReason reason, @Nullable ILivingEntityData livingdata, CompoundNBT compound) {
-        if(!this.getImplementation().isChild()) {
-            String variant = this.getBiasedRandomType();
-            if(livingdata instanceof TypeData) {
-                variant = ((TypeData) livingdata).typeData;
-            } else {
-                livingdata = new TypeData(variant);
-            }
-            this.setType(variant);
-        }
-        return livingdata;
-    }
-
-    private String getBiasedRandomType() {
+    public IVariant getRandomType() {
         int[] validTypes = new int[] { 1, 2, 3, 4 };
         int r = validTypes[this.getRNG().nextInt(validTypes.length)];
         if(r > 2) {
@@ -174,11 +151,11 @@ public class EntityDeer extends EntityAnimalEatsGrassWithTypes implements IDropH
         if(r > 2) {
             r = validTypes[this.getRNG().nextInt(validTypes.length)];
         }
-        return String.valueOf(r);
+        return this.getContainer().getVariantForName(String.valueOf(r));
     }
 
     public static class EntityDeerVariant extends EntityVariant {
-        
+
         private static boolean isChristmas = false;
 
         static {
@@ -188,16 +165,16 @@ public class EntityDeer extends EntityAnimalEatsGrassWithTypes implements IDropH
                 isChristmas = true;
             }
         }
-        
+
         private ResourceLocation christmasTexture;
 
         public EntityDeerVariant(String nameTexture) {
-            super(nameTexture, "deer_" + nameTexture);
-            this.christmasTexture = new ResourceLocation(Ref.MOD_ID, "textures/entities/deer_" + nameTexture + "_christmas.png");
+            super(Ref.MOD_ID, nameTexture, "deer_" + nameTexture);
+            this.christmasTexture = new ResourceLocation(Ref.MOD_ID, "textures/entity/deer_" + nameTexture + "_christmas.png");
         }
 
         @Override
-        public ResourceLocation getTexture() {
+        public ResourceLocation getTexture(Entity entity) {
             return isChristmas ? christmasTexture : texture;
         }
 

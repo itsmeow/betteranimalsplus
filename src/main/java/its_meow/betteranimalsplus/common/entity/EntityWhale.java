@@ -2,8 +2,8 @@ package its_meow.betteranimalsplus.common.entity;
 
 import java.util.Set;
 
-import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainer;
-import its_meow.betteranimalsplus.common.entity.util.ISelectiveVariantTypes;
+import dev.itsmeow.imdlib.entity.util.ISelectiveVariantTypes;
+import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainerBAP;
 import its_meow.betteranimalsplus.common.entity.util.abstracts.EntityWaterMobPathing;
 import its_meow.betteranimalsplus.common.entity.util.abstracts.EntityWaterMobPathingWithTypesAirBreathing;
 import its_meow.betteranimalsplus.init.ModEntities;
@@ -77,10 +77,14 @@ public class EntityWhale extends EntityWaterMobPathingWithTypesAirBreathing impl
         return SoundEvents.ENTITY_DOLPHIN_SWIM;
     }
 
+    private boolean isNarwhal() {
+        return "narwhal".equals(this.getVariantNameOrEmpty());
+    }
+
     public boolean attackEntityAsMob(Entity entityIn) {
-        boolean flag = entityIn.attackEntityFrom(DamageSource.causeMobDamage(this), (float) (this.getVariantName().equals("narwhal") ? this.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getValue() : 1F));
+        boolean flag = entityIn.attackEntityFrom(DamageSource.causeMobDamage(this), (float) (isNarwhal() ? this.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getValue() : 1F));
         if(flag) {
-            if(!this.getVariantName().equals("narwhal")) {
+            if(!isNarwhal()) {
                 if(attacksLeft > 0) {
                     attacksLeft--;
                 }
@@ -100,7 +104,7 @@ public class EntityWhale extends EntityWaterMobPathingWithTypesAirBreathing impl
             }
             Vec3d pos = this.getPositionVector();
             Vec3d targetPos = entityIn.getPositionVector();
-            ((LivingEntity) entityIn).knockBack(this, this.getVariantName().equals("narwhal") ? 0.8F : 2F, pos.x - targetPos.x, pos.z - targetPos.z);
+            ((LivingEntity) entityIn).knockBack(this, isNarwhal() ? 0.8F : 2F, pos.x - targetPos.x, pos.z - targetPos.z);
         }
         return flag;
     }
@@ -124,7 +128,7 @@ public class EntityWhale extends EntityWaterMobPathingWithTypesAirBreathing impl
     }
 
     @Override
-    public EntityTypeContainer<?> getContainer() {
+    public EntityTypeContainerBAP<?> getContainer() {
         return ModEntities.WHALE;
     }
 
@@ -188,7 +192,7 @@ public class EntityWhale extends EntityWaterMobPathingWithTypesAirBreathing impl
         
         @Override
         public void startExecuting() {
-            if(!whale.getVariantName().equals("narwhal")) {
+            if(!whale.isNarwhal()) {
                 whale.attacksLeft = 1;
             }
             super.startExecuting();
@@ -196,12 +200,12 @@ public class EntityWhale extends EntityWaterMobPathingWithTypesAirBreathing impl
 
         @Override
         public boolean shouldContinueExecuting() {
-            return (whale.getVariantName().equals("narwhal") || whale.attacksLeft > 0) && super.shouldContinueExecuting();
+            return (whale.isNarwhal() || whale.attacksLeft > 0) && super.shouldContinueExecuting();
         }
 
         @Override
         protected void checkAndPerformAttack(LivingEntity p_190102_1_, double p_190102_2_) {
-            if(whale.attacksLeft > 0 || whale.getVariantName().equals("narwhal")) {
+            if(whale.attacksLeft > 0 || whale.isNarwhal()) {
                 super.checkAndPerformAttack(p_190102_1_, p_190102_2_);
             } else {
                 this.resetTask();
@@ -211,7 +215,7 @@ public class EntityWhale extends EntityWaterMobPathingWithTypesAirBreathing impl
         @Override
         public void resetTask() {
             super.resetTask();
-            if(whale.attacksLeft <= 0 && !whale.getVariantName().equals("narwhal")) {
+            if(whale.attacksLeft <= 0 && !whale.isNarwhal()) {
                 this.attacker.setAttackTarget(null);
             }
         }

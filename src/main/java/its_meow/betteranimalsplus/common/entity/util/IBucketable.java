@@ -16,7 +16,7 @@ public interface IBucketable {
 
     MobEntity getImplementation();
 
-    EntityTypeContainer<?> getContainer();
+    EntityTypeContainerBAP<?> getContainer();
 
     default void setBucketData(ItemStack bucket) {
         if(this.getImplementation().hasCustomName()) {

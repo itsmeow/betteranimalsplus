@@ -6,9 +6,8 @@ import javax.annotation.Nullable;
 
 import com.google.common.collect.Sets;
 
-import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainer;
+import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainerBAP;
 import its_meow.betteranimalsplus.common.entity.util.abstracts.EntityAnimalEatsGrassWithTypes;
-import its_meow.betteranimalsplus.config.BetterAnimalsPlusConfig;
 import its_meow.betteranimalsplus.init.ModEntities;
 import its_meow.betteranimalsplus.init.ModItems;
 import its_meow.betteranimalsplus.init.ModLootTables;
@@ -54,6 +53,7 @@ public class EntityGoat extends EntityAnimalEatsGrassWithTypes {
     public PlayerEntity friend = null;
     public boolean hasBeenFed = false;
     private static final Set<Item> TEMPT_ITEMS = Sets.newHashSet(Items.WHEAT, Items.POTATO, Items.CARROT, Items.BEETROOT);
+    public static boolean VANILLA_MILK = false;
 
     public EntityGoat(World worldIn) {
         super(ModEntities.GOAT.entityType, worldIn, 5);
@@ -199,7 +199,7 @@ public class EntityGoat extends EntityAnimalEatsGrassWithTypes {
             player.playSound(SoundEvents.ENTITY_COW_MILK, 1.0F, 1.0F);
             stack.shrink(1);
 
-            Item milk = BetterAnimalsPlusConfig.goatVanillaMilk ? Items.MILK_BUCKET : ModItems.GOAT_MILK;
+            Item milk = VANILLA_MILK ? Items.MILK_BUCKET : ModItems.GOAT_MILK;
 
             if(stack.isEmpty()) {
                 player.setHeldItem(hand, new ItemStack(milk));
@@ -299,7 +299,7 @@ public class EntityGoat extends EntityAnimalEatsGrassWithTypes {
     }
 
     @Override
-    public EntityTypeContainer<EntityGoat> getContainer() {
+    public EntityTypeContainerBAP<EntityGoat> getContainer() {
         return ModEntities.GOAT;
     }
 

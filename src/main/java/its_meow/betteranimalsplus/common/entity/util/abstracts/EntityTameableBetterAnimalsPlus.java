@@ -1,8 +1,8 @@
 package its_meow.betteranimalsplus.common.entity.util.abstracts;
 
-import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainer;
-import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainerTameable;
-import its_meow.betteranimalsplus.common.entity.util.IContainerEntity;
+import dev.itsmeow.imdlib.entity.util.EntityTypeContainer;
+import dev.itsmeow.imdlib.entity.util.IContainerEntity;
+import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainerBAPTameable;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.passive.TameableEntity;
 import net.minecraft.item.Item;
@@ -17,8 +17,8 @@ public abstract class EntityTameableBetterAnimalsPlus extends TameableEntity imp
 
     public boolean isTamingItem(Item item) {
         EntityTypeContainer<?> container = getContainer();
-        if(container instanceof EntityTypeContainerTameable<?>) {
-            String[] items = ((EntityTypeContainerTameable<?>) container).getTameItems();
+        if(container instanceof EntityTypeContainerBAPTameable<?>) {
+            String[] items = ((EntityTypeContainerBAPTameable<?>) container).getTameItems();
             String id = item.getRegistryName().toString();
             for(String itemsId : items) {
                 if(itemsId.startsWith("#")) {

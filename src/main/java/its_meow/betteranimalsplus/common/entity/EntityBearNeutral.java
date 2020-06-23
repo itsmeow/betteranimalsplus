@@ -4,9 +4,10 @@ import javax.annotation.Nullable;
 
 import com.google.common.base.Predicates;
 
+import dev.itsmeow.imdlib.entity.util.IVariant;
+import dev.itsmeow.imdlib.entity.util.IVariantTypes;
 import its_meow.betteranimalsplus.common.entity.ai.EntityAIEatBerries;
-import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainer;
-import its_meow.betteranimalsplus.common.entity.util.IVariantTypes;
+import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainerBAP;
 import its_meow.betteranimalsplus.init.ModEntities;
 import its_meow.betteranimalsplus.init.ModLootTables;
 import net.minecraft.entity.ILivingEntityData;
@@ -42,35 +43,20 @@ public class EntityBearNeutral extends EntityBear implements IVariantTypes<Entit
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<ChickenEntity>(this, ChickenEntity.class, true));
         this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<RabbitEntity>(this, RabbitEntity.class, true));
         this.targetSelector.addGoal(4, new NearestAttackableTargetGoal<EntityPheasant>(this, EntityPheasant.class, 90,
-                true, true, Predicates.alwaysTrue()));
+        true, true, Predicates.alwaysTrue()));
     }
 
     @Override
     @Nullable
     public ILivingEntityData onInitialSpawn(IWorld world, DifficultyInstance difficulty, SpawnReason reason, @Nullable ILivingEntityData livingdata, CompoundNBT compound) {
-        if(!this.getImplementation().isChild()) {
-            String variant = this.getBiasedRandomType();
-            if(livingdata instanceof TypeData) {
-                variant = ((TypeData) livingdata).typeData;
-            } else {
-                livingdata = new TypeData(variant);
-            }
-            this.setType(variant);
-        }
-        return livingdata;
+        return this.initData(world, reason, super.onInitialSpawn(world, difficulty, reason, livingdata, compound));
     }
 
-    private String getBiasedRandomType() {
-        boolean isKermode = this.getRNG().nextBoolean();
-        if(isKermode) {
-            isKermode = this.getRNG().nextBoolean();
-        }
-        if(isKermode) {
-            isKermode = this.getRNG().nextBoolean();
-        }
-        return isKermode ? "kermode" : "black";
+    @Override
+    public IVariant getRandomType() {
+        return this.getContainer().getVariantForName(this.getRNG().nextFloat() <= 0.125F ? "kermode" : "black");
     }
-    
+
     @Override
     protected void registerData() {
         super.registerData();
@@ -88,18 +74,21 @@ public class EntityBearNeutral extends EntityBear implements IVariantTypes<Entit
         super.read(compound);
         this.readType(compound);
     }
-    
+
     @Override
     protected ResourceLocation getLootTable() {
-        switch(this.getVariantName()) {
-        case "black": return ModLootTables.BEAR_BLACK;
-        case "kermode": return ModLootTables.BEAR_KERMODE;
-        default: return ModLootTables.BEAR_BLACK;
+        switch(this.getVariantNameOrEmpty()) {
+        case "black":
+            return ModLootTables.BEAR_BLACK;
+        case "kermode":
+            return ModLootTables.BEAR_KERMODE;
+        default:
+            return ModLootTables.BEAR_BLACK;
         }
     }
 
     @Override
-    public EntityTypeContainer<EntityBearNeutral> getContainer() {
+    public EntityTypeContainerBAP<EntityBearNeutral> getContainer() {
         return ModEntities.BLACK_BEAR;
     }
 

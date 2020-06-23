@@ -1,46 +1,48 @@
 package its_meow.betteranimalsplus.client;
 
-import java.util.function.Predicate;
+import java.util.function.Function;
 
 import com.google.common.base.Predicates;
 import com.mojang.blaze3d.platform.GlStateManager;
 
+import dev.itsmeow.imdlib.client.render.ImplRenderer;
 import its_meow.betteranimalsplus.BetterAnimalsPlusMod;
+import its_meow.betteranimalsplus.Ref;
 import its_meow.betteranimalsplus.client.model.ModelBadger;
+import its_meow.betteranimalsplus.client.model.ModelBeakedWhale;
 import its_meow.betteranimalsplus.client.model.ModelBear;
 import its_meow.betteranimalsplus.client.model.ModelBoar;
 import its_meow.betteranimalsplus.client.model.ModelBobbitWorm;
+import its_meow.betteranimalsplus.client.model.ModelCoyote;
 import its_meow.betteranimalsplus.client.model.ModelCrab;
 import its_meow.betteranimalsplus.client.model.ModelDeer;
+import its_meow.betteranimalsplus.client.model.ModelFeralWolf;
 import its_meow.betteranimalsplus.client.model.ModelFreshwaterEel;
 import its_meow.betteranimalsplus.client.model.ModelGoat;
+import its_meow.betteranimalsplus.client.model.ModelGoose;
+import its_meow.betteranimalsplus.client.model.ModelGreenlandShark;
+import its_meow.betteranimalsplus.client.model.ModelHirschgeistMain;
 import its_meow.betteranimalsplus.client.model.ModelHorseshoeCrab;
+import its_meow.betteranimalsplus.client.model.ModelJellyfish;
 import its_meow.betteranimalsplus.client.model.ModelLammergeier;
+import its_meow.betteranimalsplus.client.model.ModelLamprey;
 import its_meow.betteranimalsplus.client.model.ModelMoose;
 import its_meow.betteranimalsplus.client.model.ModelNautilus;
+import its_meow.betteranimalsplus.client.model.ModelPheasant;
 import its_meow.betteranimalsplus.client.model.ModelReindeer;
 import its_meow.betteranimalsplus.client.model.ModelSaltwaterEel;
+import its_meow.betteranimalsplus.client.model.ModelShark;
+import its_meow.betteranimalsplus.client.model.ModelSmallWhale;
+import its_meow.betteranimalsplus.client.model.ModelSongbird;
+import its_meow.betteranimalsplus.client.model.ModelSongbirdSmall;
 import its_meow.betteranimalsplus.client.model.ModelSquirrel;
 import its_meow.betteranimalsplus.client.model.ModelTarantula;
+import its_meow.betteranimalsplus.client.model.ModelTurkey;
 import its_meow.betteranimalsplus.client.model.ModelWalrus;
 import its_meow.betteranimalsplus.client.model.ModelZotzpyre;
-import its_meow.betteranimalsplus.client.renderer.entity.RenderCoyote;
-import its_meow.betteranimalsplus.client.renderer.entity.RenderCustomWolf;
-import its_meow.betteranimalsplus.client.renderer.entity.RenderGoose;
-import its_meow.betteranimalsplus.client.renderer.entity.RenderHirschgeist;
-import its_meow.betteranimalsplus.client.renderer.entity.RenderJellyfish;
-import its_meow.betteranimalsplus.client.renderer.entity.RenderLamprey;
-import its_meow.betteranimalsplus.client.renderer.entity.RenderPheasant;
-import its_meow.betteranimalsplus.client.renderer.entity.RenderShark;
-import its_meow.betteranimalsplus.client.renderer.entity.RenderSongbird;
 import its_meow.betteranimalsplus.client.renderer.entity.RenderTarantulaHair;
-import its_meow.betteranimalsplus.client.renderer.entity.RenderTurkey;
-import its_meow.betteranimalsplus.client.renderer.entity.RenderWhale;
-import its_meow.betteranimalsplus.client.renderer.entity.generic.RenderNothing;
-import its_meow.betteranimalsplus.client.renderer.entity.generic.SimpleRenderer;
-import its_meow.betteranimalsplus.client.renderer.entity.generic.SimpleScaledRenderer;
-import its_meow.betteranimalsplus.client.renderer.entity.generic.SimpleScaledSingleRenderer;
-import its_meow.betteranimalsplus.client.renderer.entity.generic.SimpleSingleRenderer;
+import its_meow.betteranimalsplus.client.renderer.entity.layers.GooseItemLayerRenderer;
+import its_meow.betteranimalsplus.client.renderer.entity.layers.LayerEyes;
 import its_meow.betteranimalsplus.client.renderer.entity.layers.LayerEyesCondition;
 import its_meow.betteranimalsplus.client.renderer.tileentity.RenderBlockHandOfFate;
 import its_meow.betteranimalsplus.client.renderer.tileentity.RenderBlockTrillium;
@@ -81,114 +83,171 @@ import its_meow.betteranimalsplus.common.entity.projectile.EntityGooseEgg;
 import its_meow.betteranimalsplus.common.entity.projectile.EntityPheasantEgg;
 import its_meow.betteranimalsplus.common.entity.projectile.EntityTarantulaHair;
 import its_meow.betteranimalsplus.common.entity.projectile.EntityTurkeyEgg;
-import its_meow.betteranimalsplus.common.entity.util.IVariantTypes;
 import its_meow.betteranimalsplus.common.tileentity.TileEntityHandOfFate;
 import its_meow.betteranimalsplus.common.tileentity.TileEntityHead;
 import its_meow.betteranimalsplus.common.tileentity.TileEntityTrillium;
 import its_meow.betteranimalsplus.init.ModTextures;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.SpriteRenderer;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.IRendersAsItem;
 import net.minecraft.entity.MobEntity;
+import net.minecraft.entity.Pose;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 
-@SuppressWarnings("unused")
 public class ClientLifecycleHandler {
 
     public void clientSetup(final FMLClientSetupEvent event) {
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityTrillium.class, new RenderBlockTrillium());
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityHandOfFate.class, new RenderBlockHandOfFate());
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityHead.class, new RenderGenericHead());
-        RenderingRegistry.registerEntityRenderingHandler(EntityBear.class, simpleScaledSingle(new ModelBear<EntityBear>(), 1F, ModTextures.bear_brown, 1.3D, 1.3D));
-        RenderingRegistry.registerEntityRenderingHandler(EntityBearNeutral.class, simple(new ModelBear<EntityBearNeutral>(), 1F));
-        RenderingRegistry.registerEntityRenderingHandler(EntityDeer.class, simpleScaled(new ModelDeer<EntityDeer>(), 1F, 1.0D, 0.6D));
-        RenderingRegistry.registerEntityRenderingHandler(EntityLammergeier.class, simple(new ModelLammergeier<EntityLammergeier>(), 0.3F));
-        RenderingRegistry.registerEntityRenderingHandler(EntityFeralWolf.class, RenderCustomWolf::new);
-        RenderingRegistry.registerEntityRenderingHandler(EntityCoyote.class, RenderCoyote::new);
-        RenderingRegistry.registerEntityRenderingHandler(EntityTarantulaHair.class, RenderTarantulaHair::new);
-        RenderingRegistry.registerEntityRenderingHandler(EntityTarantula.class, mgr -> (new SimpleSingleRenderer<EntityTarantula, ModelTarantula<EntityTarantula>>(mgr, new ModelTarantula<EntityTarantula>(), 1F, ModTextures.tarantula) {
-            protected void preRenderCallback(EntityTarantula entity, float p) {
-                if(entity.isBesideClimbableBlock()) {
-                    GlStateManager.rotatef(-90, 1, 0, 0);
-                    GlStateManager.translatef(0.0F, 0.75F, -0.5F);
-                }
+
+        addRender(EntityBear.class, 1F, r -> r.tSingle("bear_brown").mSingle(new ModelBear<>()).preRender((e, f) -> GlStateManager.scalef(1.3F, 1.3F, 1.3F)));
+        addRender(EntityBearNeutral.class, 1F, r -> r.tVariant().mSingle(new ModelBear<>()));
+        addRender(EntityDeer.class, 1F, r -> r.tVariant().mSingle(new ModelDeer<>()).childScale(0.6F));
+        addRender(EntityLammergeier.class, 0.3F, r -> r.tVariant().mSingle(new ModelLammergeier<>()));
+        addRender(EntityFeralWolf.class, 0.5F, r -> r.tVariant().mSingle(new ModelFeralWolf<>()).handleRotation((e, p) -> e.getTailRotation()).preRender((e, p) -> {
+            if(e.isWolfWet()) {
+                float f = e.getBrightness() * e.getShadingWhileWet(p);
+                GlStateManager.color3f(f, f, f);
             }
-        }.layer(base -> new LayerEyesCondition<>(base, ModTextures.tarantula_eyes, Predicates.alwaysTrue()))));
-        RenderingRegistry.registerEntityRenderingHandler(EntityHirschgeist.class, RenderHirschgeist::new);
-        RenderingRegistry.registerEntityRenderingHandler(EntityGoat.class, simpleScaled(new ModelGoat<EntityGoat>(), 0.5F, 1D, 0.5D));
-        RenderingRegistry.registerEntityRenderingHandler(EntityJellyfish.class, RenderJellyfish::new);
-        RenderingRegistry.registerEntityRenderingHandler(EntityPheasant.class, RenderPheasant::new);
-        RenderingRegistry.registerEntityRenderingHandler(EntityReindeer.class, simpleScaled(new ModelReindeer<EntityReindeer>(), 1F, 1.3D, 0.7D));
-        RenderingRegistry.registerEntityRenderingHandler(EntityBoar.class, simpleScaled(new ModelBoar<EntityBoar>(), 0.6F, 1D, 0.6D));
-        RenderingRegistry.registerEntityRenderingHandler(EntitySquirrel.class, simpleScaled(new ModelSquirrel<EntitySquirrel>(), 0.3F, 0.5D, 0.35D));
-        RenderingRegistry.registerEntityRenderingHandler(EntitySongbird.class, RenderSongbird::new);
-        RenderingRegistry.registerEntityRenderingHandler(EntityBadger.class, simpleScaled(new ModelBadger<EntityBadger>(), 0.4F, 0.7D, 0.35D));
-        RenderingRegistry.registerEntityRenderingHandler(EntityBadgerDirt.class, nothing());
-        RenderingRegistry.registerEntityRenderingHandler(EntityLamprey.class, RenderLamprey::new);
-        RenderingRegistry.registerEntityRenderingHandler(EntityNautilus.class, simpleSingle(new ModelNautilus<EntityNautilus>(), 0.4F, ModTextures.nautilus));
-        RenderingRegistry.registerEntityRenderingHandler(EntityCrab.class, simpleScaled(new ModelCrab<EntityCrab>(), 0.4F, 1D, 0.45D));
-        RenderingRegistry.registerEntityRenderingHandler(EntityHorseshoeCrab.class, simpleScaled(new ModelHorseshoeCrab<EntityHorseshoeCrab>(), 0.4F, 1D, 0.45D));
-        RenderingRegistry.registerEntityRenderingHandler(EntityShark.class, RenderShark::new);
-        RenderingRegistry.registerEntityRenderingHandler(EntityMoose.class, simpleScaled(new ModelMoose<EntityMoose>(), 0.8F, 1.5D, 1.5D));
-        RenderingRegistry.registerEntityRenderingHandler(EntityPheasantEgg.class, sprite());
-        RenderingRegistry.registerEntityRenderingHandler(EntityTurkey.class, RenderTurkey::new);
-        RenderingRegistry.registerEntityRenderingHandler(EntityTurkeyEgg.class, sprite());
-        RenderingRegistry.registerEntityRenderingHandler(EntityZotzpyre.class, simpleEyes(new ModelZotzpyre<EntityZotzpyre>(), 0.4F, ModTextures.zotzpyre_eyes, Predicates.alwaysTrue()));
-        RenderingRegistry.registerEntityRenderingHandler(EntityBobbitWorm.class, simple(new ModelBobbitWorm<EntityBobbitWorm>(), 0.4F));
-        RenderingRegistry.registerEntityRenderingHandler(EntityGoose.class, RenderGoose::new);
-        RenderingRegistry.registerEntityRenderingHandler(EntityGooseEgg.class, sprite());
-        RenderingRegistry.registerEntityRenderingHandler(EntityGoldenGooseEgg.class, sprite());
-        RenderingRegistry.registerEntityRenderingHandler(EntityFreshwaterEel.class, simple(new ModelFreshwaterEel<EntityFreshwaterEel>(), 0.4F));
-        RenderingRegistry.registerEntityRenderingHandler(EntitySaltwaterEel.class, simple(new ModelSaltwaterEel<EntitySaltwaterEel>(), 0.4F));
-        RenderingRegistry.registerEntityRenderingHandler(EntityWhale.class, RenderWhale::new);
-        RenderingRegistry.registerEntityRenderingHandler(EntityWalrus.class, simpleSingle(new ModelWalrus<EntityWalrus>(), 1.5F, ModTextures.walrus));
+        }).layer(t -> new LayerEyesCondition<>(t, ModTextures.wolf_eyes, e -> !e.isTamed())));
+        addRender(EntityCoyote.class, 0.5F, r -> r.tMapped(e -> e.isTamed() || (e.isDaytime() && !EntityCoyote.HOSTILE_DAYTIME) ? "coyote_neutral" : "coyote_hostile").mSingle(new ModelCoyote<>()).handleRotation((e, p) -> e.getTailRotation()).preRender((e, p) -> {
+            if(e.isWolfWet()) {
+                float f = e.getBrightness() * e.getShadingWhileWet(p);
+                GlStateManager.color3f(f, f, f);
+            }
+        }).layer(t -> new LayerEyesCondition<>(t, ModTextures.coyote_eyes, e -> !e.isTamed() && !(e.isDaytime() && !EntityCoyote.HOSTILE_DAYTIME))));
+        RenderingRegistry.registerEntityRenderingHandler(EntityTarantulaHair.class, RenderTarantulaHair::new);
+        addRender(EntityTarantula.class, 1F, r -> r.tSingle("tarantula").mSingle(new ModelTarantula<>()).preRender((e, p) -> {
+            if(e.isBesideClimbableBlock()) {
+                GlStateManager.rotatef(-90, 1, 0, 0);
+                GlStateManager.translatef(0.0F, 0.75F, -0.5F);
+            }
+        }).layer(t -> new LayerEyes<>(t, ModTextures.tarantula_eyes)));
+        addRender(EntityHirschgeist.class, 1F, r -> r.tSingle("hirschgeist").mSingle(new ModelHirschgeistMain<>()).condScale(e -> !e.isDaytime(), 2F));
+        addRender(EntityGoat.class, 0.5F, r -> r.tVariant().mSingle(new ModelGoat<>()).childScale(0.5F));
+        addRender(EntityJellyfish.class, 0.5F, r -> r.tVariant().mSingle(new ModelJellyfish<>()).preRender((e, p) -> {
+            float s = e.getSize(Pose.STANDING).width;
+            GlStateManager.scalef(s, s, s);
+            GlStateManager.translatef(0, 1F, 0);
+        }));
+        addRender(EntityPheasant.class, 0.5F, r -> r.tVariant().mSingle(new ModelPheasant<>()).childScale(0.5F).handleRotation((e, p) -> {
+            float f = e.oFlap + (e.wingRotation - e.oFlap) * p;
+            float f1 = e.oFlapSpeed + (e.destPos - e.oFlapSpeed) * p;
+            return (MathHelper.sin(f) + 1.0F) * f1;
+        }));
+        addRender(EntityReindeer.class, 1F, r -> r.tVariant().mSingle(new ModelReindeer<>()).ageScale(1.3F, 0.7F));
+        addRender(EntityBoar.class, 0.6F, r -> r.tVariant().mSingle(new ModelBoar<>()).childScale(0.6F));
+        addRender(EntitySquirrel.class, 0.3F, r -> r.tVariant().mSingle(new ModelSquirrel<>()).ageScale(0.5F, 0.35F));
+        addRender(EntitySongbird.class, 0.3F, r -> r.tVariant().mCondition(e -> e.getVariantNameOrEmpty().isEmpty() || !e.getVariantNameOrEmpty().startsWith("small"), new ModelSongbird<>(), new ModelSongbirdSmall<>()).ageScale(0.5F, 0.3F));
+        addRender(EntityBadger.class, 0.4F, r -> r.tVariant().mSingle(new ModelBadger<>()).ageScale(0.7F, 0.35F));
+        addRender(EntityLamprey.class, 0.4F, r -> r.tVariant().mSingle(new ModelLamprey<>()).preRender((e, p) -> {
+            GlStateManager.scaled(0.5D, 0.5D, 0.5D);
+            if(e.getRidingEntity() != null) {
+                GlStateManager.rotatef(180, 0, 1, 0);
+                GlStateManager.translatef(0, 0, 0.5F);
+            }
+        }));
+        addRender(EntityNautilus.class, 0.4F, r -> r.tSingle("nautilus").mSingle(new ModelNautilus<>()));
+        addRender(EntityCrab.class, 0.4F, r -> r.tVariant().mSingle(new ModelCrab<>()).childScale(0.45F));
+        addRender(EntityHorseshoeCrab.class, 0.4F, r -> r.tVariant().mSingle(new ModelHorseshoeCrab<>()).childScale(0.45F));
+        addRender(EntityShark.class, 2F, r -> r.tVariant().mCondition(e -> !"greenland".equals(e.getVariantNameOrEmpty()), new ModelShark<>(), new ModelGreenlandShark<>()).preRender((e, p) -> {
+            switch(e.getVariantNameOrEmpty()) {
+            case "blue":
+                GlStateManager.scaled(0.8D, 0.7D, 0.8D);
+                break;
+            case "bull":
+                GlStateManager.scaled(0.6D, 0.6D, 0.6D);
+                break;
+            case "tiger":
+                GlStateManager.scaled(1.1D, 1.1D, 1.1D);
+                break;
+            case "whitetip":
+                GlStateManager.scaled(0.8D, 0.8D, 0.8D);
+                break;
+            case "greenland":
+                GlStateManager.scaled(1.7D, 1.7D, 1.7D);
+                GlStateManager.translated(0D, 0.3D, 0D);
+                break;
+            default:
+                break;
+            }
+        }));
+        addRender(EntityMoose.class, 0.8F, r -> r.tVariant().mSingle(new ModelMoose<>()).condScale(Predicates.alwaysTrue(), 1.5F));
+        addRender(EntityPheasantEgg.class, sprite());
+        addRender(EntityTurkey.class, 0.5F, r -> r.tVariant().mSingle(new ModelTurkey<>()).ageScale(0.8F, 0.5F).handleRotation((e, p) -> {
+            float f = e.oFlap + (e.wingRotation - e.oFlap) * p;
+            float f1 = e.oFlapSpeed + (e.destPos - e.oFlapSpeed) * p;
+            return (MathHelper.sin(f) + 1.0F) * f1;
+        }));
+        addRender(EntityTurkeyEgg.class, sprite());
+        addRender(EntityZotzpyre.class, 0.4F, r -> r.tVariant().mSingle(new ModelZotzpyre<>()).layer(t -> new LayerEyes<>(t, ModTextures.zotzpyre_eyes)));
+        addRender(EntityBobbitWorm.class, 0.4F, r -> r.tVariant().mSingle(new ModelBobbitWorm<>()));
+        addRender(EntityGoose.class, 0.5F, r -> r.tVariant().mSingle(new ModelGoose<>()).ageScale(0.8F, 0.5F).layer(GooseItemLayerRenderer::new));
+        addRender(EntityGooseEgg.class, sprite());
+        addRender(EntityGoldenGooseEgg.class, sprite());
+        addRender(EntityFreshwaterEel.class, 0.4F, r -> r.tVariant().mSingle(new ModelFreshwaterEel<>()));
+        addRender(EntitySaltwaterEel.class, 0.4F, r -> r.tVariant().mSingle(new ModelSaltwaterEel<>()));
+        addRender(EntityWhale.class, 3F, r -> r.tVariant().mCondition(e -> !"cuviers".equals(e.getVariantNameOrEmpty()) && !"bottlenose".equals(e.getVariantNameOrEmpty()), new ModelSmallWhale<>(), new ModelBeakedWhale<>()).preRender((e, p) -> {
+            switch(e.getVariantNameOrEmpty()) {
+            case "cuviers":
+                GlStateManager.scaled(1.7D, 1.7D, 1.7D);
+                break;
+            case "bottlenose":
+                GlStateManager.scaled(2.5D, 2.5D, 2.5D);
+                break;
+            case "false_killer":
+                GlStateManager.scaled(1.8D, 1.8D, 1.8D);
+                break;
+            case "beluga":
+                GlStateManager.scaled(1.5D, 1.5D, 1.5D);
+                break;
+            case "pilot":
+                GlStateManager.scaled(2.0D, 2.0D, 2.0D);
+                break;
+            case "narwhal":
+                GlStateManager.scaled(1.6D, 1.6D, 1.6D);
+                break;
+            default:
+                break;
+            }
+        }));
+        addRender(EntityWalrus.class, 1.5F, r -> r.tSingle("walrus").mSingle(new ModelWalrus<EntityWalrus>()));
+        addRender(EntityBadgerDirt.class, nothing());
         BetterAnimalsPlusMod.logger.info("Rendering squirrel physics...");
     }
 
     private static <T extends Entity> IRenderFactory<T> nothing() {
-        return RenderNothing::new;
+        return r -> new EntityRenderer<T>(r) {
+            @Override
+            protected ResourceLocation getEntityTexture(T entity) {
+                return null;
+            }
+        };
+    }
+
+    private static <T extends MobEntity, M extends EntityModel<T>> ImplRenderer.Builder<T, M> r(float shadowSize) {
+        return ImplRenderer.<T, M>factory(Ref.MOD_ID, shadowSize);
+    }
+
+    private static <T extends MobEntity, M extends EntityModel<T>> void addRender(Class<T> clazz, float shadowSize, Function<ImplRenderer.Builder<T, M>, ImplRenderer.Builder<T, M>> render) {
+        RenderingRegistry.registerEntityRenderingHandler(clazz, render.apply(ClientLifecycleHandler.<T, M>r(shadowSize)).done());
+    }
+
+    private static <T extends Entity> void addRender(Class<T> clazz, IRenderFactory<T> renderer) {
+        RenderingRegistry.registerEntityRenderingHandler(clazz, renderer);
     }
 
     private static <T extends Entity & IRendersAsItem> IRenderFactory<T> sprite() {
         return mgr -> new SpriteRenderer<T>(mgr, Minecraft.getInstance().getItemRenderer());
-    }
-
-    private static <T extends MobEntity & IVariantTypes<?>, A extends EntityModel<T>> IRenderFactory<T> simple(A model, float shadowSize) {
-        return mgr -> new SimpleRenderer<T, A>(mgr, model, shadowSize);
-    }
-
-    private static <T extends MobEntity & IVariantTypes<?>, A extends EntityModel<T>> IRenderFactory<T> simpleScaled(A model, float shadowSize, double adultScale, double childScale) {
-        return mgr -> new SimpleScaledRenderer<T, A>(mgr, model, shadowSize, adultScale, childScale);
-    }
-
-    private static <T extends MobEntity, A extends EntityModel<T>> IRenderFactory<T> simpleSingle(A model, float shadowSize, ResourceLocation texture) {
-        return mgr -> new SimpleSingleRenderer<T, A>(mgr, model, shadowSize, texture);
-    }
-
-    private static <T extends MobEntity, A extends EntityModel<T>> IRenderFactory<T> simpleScaledSingle(A model, float shadowSize, ResourceLocation texture, double adultScale, double childScale) {
-        return mgr -> new SimpleScaledSingleRenderer<T, A>(mgr, model, shadowSize, texture, adultScale, childScale);
-    }
-
-    private static <T extends MobEntity & IVariantTypes<?>, A extends EntityModel<T>> IRenderFactory<T> simpleEyes(A model, float shadowSize, ResourceLocation eyes, Predicate<T> showEyes) {
-        return mgr -> (new SimpleRenderer<T, A>(mgr, model, shadowSize).layer(base -> new LayerEyesCondition<T, A>(base, eyes, showEyes)));
-    }
-
-    private static <T extends MobEntity & IVariantTypes<?>, A extends EntityModel<T>> IRenderFactory<T> simpleScaledEyes(A model, float shadowSize, double adultScale, double childScale, ResourceLocation eyes, Predicate<T> showEyes) {
-        return mgr -> (new SimpleScaledRenderer<T, A>(mgr, model, shadowSize, adultScale, childScale).layer(base -> new LayerEyesCondition<T, A>(base, eyes, showEyes)));
-    }
-
-    private static <T extends MobEntity, A extends EntityModel<T>> IRenderFactory<T> simpleSingleEyes(A model, float shadowSize, ResourceLocation texture, ResourceLocation eyes, Predicate<T> showEyes) {
-        return mgr -> (new SimpleSingleRenderer<T, A>(mgr, model, shadowSize, texture).layer(base -> new LayerEyesCondition<T, A>(base, eyes, showEyes)));
-    }
-
-    private static <T extends MobEntity, A extends EntityModel<T>> IRenderFactory<T> simpleScaledSingleEyes(A model, float shadowSize, ResourceLocation texture, double adultScale, double childScale, ResourceLocation eyes, Predicate<T> showEyes) {
-        return mgr -> (new SimpleScaledSingleRenderer<T, A>(mgr, model, shadowSize, texture, adultScale, childScale).layer(base -> new LayerEyesCondition<T, A>(base, eyes, showEyes)));
     }
 
 }

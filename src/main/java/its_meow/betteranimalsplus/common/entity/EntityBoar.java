@@ -5,7 +5,7 @@ import java.util.Set;
 import javax.annotation.Nullable;
 
 import its_meow.betteranimalsplus.common.entity.ai.EntityAIEatBerries;
-import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainer;
+import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainerBAP;
 import its_meow.betteranimalsplus.common.entity.util.IDropHead;
 import its_meow.betteranimalsplus.common.entity.util.abstracts.EntityAnimalWithSelectiveTypes;
 import its_meow.betteranimalsplus.common.entity.util.abstracts.EntityAnimalWithTypes;
@@ -208,12 +208,12 @@ public class EntityBoar extends EntityAnimalWithSelectiveTypes implements IMob, 
     public AgeableEntity createChild(AgeableEntity ageable) {
         if (ageable instanceof EntityBoar) {
             EntityBoar boar = new EntityBoar(this.world);
-            boar.setType(this.getVariant());
+            boar.setType(this.getVariant().get());
             return boar;
         } else if (ageable instanceof PigEntity) {
             PigEntity pig = new PigEntity(EntityType.PIG, this.world);
             EntityBoar boar = new EntityBoar(this.world);
-            boar.setType(this.getVariant());
+            boar.setType(this.getVariant().get());
             return this.rand.nextBoolean() ? pig : boar;
         } else {
             return null;
@@ -261,7 +261,7 @@ public class EntityBoar extends EntityAnimalWithSelectiveTypes implements IMob, 
     }
 
     @Override
-    public EntityTypeContainer<EntityBoar> getContainer() {
+    public EntityTypeContainerBAP<EntityBoar> getContainer() {
         return ModEntities.BOAR;
     }
 
