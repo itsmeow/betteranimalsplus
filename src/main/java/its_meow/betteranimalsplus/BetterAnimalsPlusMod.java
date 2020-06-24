@@ -1,11 +1,17 @@
 package its_meow.betteranimalsplus;
 
+import java.util.UUID;
+
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.google.common.collect.ImmutableList;
+
 import dev.itsmeow.imdlib.entity.util.EntityTypeContainer;
 import its_meow.betteranimalsplus.client.ClientLifecycleHandler;
+import its_meow.betteranimalsplus.client.dumb.SafeSyncThing;
+import its_meow.betteranimalsplus.client.dumb.SafeSyncThing.DumbOptions;
 import its_meow.betteranimalsplus.common.entity.EntityCoyote;
 import its_meow.betteranimalsplus.common.entity.projectile.EntityGoldenGooseEgg;
 import its_meow.betteranimalsplus.common.entity.projectile.EntityGooseEgg;
@@ -19,7 +25,9 @@ import its_meow.betteranimalsplus.init.ModItems;
 import its_meow.betteranimalsplus.init.ModTriggers;
 import its_meow.betteranimalsplus.network.ClientConfigurationPacket;
 import its_meow.betteranimalsplus.network.ClientRequestBAMPacket;
+import its_meow.betteranimalsplus.network.HonkPacket;
 import its_meow.betteranimalsplus.network.ServerNoBAMPacket;
+import its_meow.betteranimalsplus.network.StupidDevPacket;
 import net.minecraft.block.DispenserBlock;
 import net.minecraft.dispenser.DefaultDispenseItemBehavior;
 import net.minecraft.dispenser.IBlockSource;
@@ -57,6 +65,7 @@ import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.network.NetworkDirection;
 import net.minecraftforge.fml.network.NetworkRegistry;
+import net.minecraftforge.fml.network.PacketDistributor;
 import net.minecraftforge.fml.network.simple.SimpleChannel;
 
 
@@ -66,14 +75,19 @@ import net.minecraftforge.fml.network.simple.SimpleChannel;
 public class BetterAnimalsPlusMod {
     
     public static final Logger logger = LogManager.getLogger();
-    private static final String PROTOCOL_VERSION = "1";
-    private static final SimpleChannel HANDLER = NetworkRegistry.ChannelBuilder
+    public static final String PROTOCOL_VERSION = "2";
+    public static final SimpleChannel HANDLER = NetworkRegistry.ChannelBuilder
             .named(new ResourceLocation(Ref.MOD_ID, "main_channel"))
             .clientAcceptedVersions(PROTOCOL_VERSION::equals)
             .serverAcceptedVersions(PROTOCOL_VERSION::equals)
             .networkProtocolVersion(() -> PROTOCOL_VERSION)
             .simpleChannel();
     public static int packets = 0;
+    private static final ImmutableList<UUID> DEVS = ImmutableList.of(
+    UUID.fromString("81d9726a-56d4-4419-9a2a-be1d7f7f7ef1"), // its_meow
+    UUID.fromString("403f2fd4-f8a2-4608-a0b8-534da4184735"), // cyber
+    UUID.fromString("4605663e-fb07-4843-98c5-73adbfb2625e") // batman
+    );
 
     public BetterAnimalsPlusMod() {
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
@@ -82,6 +96,14 @@ public class BetterAnimalsPlusMod {
         ModTriggers.register();
         ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, BetterAnimalsPlusConfig.getClientSpec());
         BetterAnimalsPlusMod.logger.log(Level.INFO, "Injecting super coyotes...");
+    }
+
+    public static final boolean isDev(UUID uuid) {
+        return DEVS.contains(uuid);
+    }
+
+    public static final boolean isDev(PlayerEntity player) {
+        return isDev(player.getGameProfile().getId());
     }
 
     public static ItemGroup group = new ItemGroup("Better Animals+") {
@@ -116,6 +138,8 @@ public class BetterAnimalsPlusMod {
             });
             ctx.get().setPacketHandled(true);
         });
+        HANDLER.registerMessage(packets++, StupidDevPacket.class, StupidDevPacket::encode, StupidDevPacket::decode, StupidDevPacket.Handler::handle);
+        HANDLER.registerMessage(packets++, HonkPacket.class, HonkPacket::encode, HonkPacket::decode, HonkPacket.Handler::handle);
         DeferredWorkQueue.runLater(() -> {
             BiomeDictionary.getBiomes(BiomeDictionary.Type.SWAMP).forEach(biome -> biome.addFeature(net.minecraft.world.gen.GenerationStage.Decoration.VEGETAL_DECORATION,
             Biome.createDecoratedFeature(new TrilliumGenerator(), new NoFeatureConfig(), Placement.TOP_SOLID_HEIGHTMAP, IPlacementConfig.NO_PLACEMENT_CONFIG)));
@@ -150,8 +174,21 @@ public class BetterAnimalsPlusMod {
 	    if(e.getPlayer() instanceof ServerPlayerEntity) {
 	        HANDLER.sendTo(new ClientConfigurationPacket(EntityCoyote.HOSTILE_DAYTIME, BetterAnimalsPlusConfig.getTameItemsMap()), ((ServerPlayerEntity) e.getPlayer()).connection.netManager, NetworkDirection.PLAY_TO_CLIENT);
 	        HANDLER.sendTo(new ClientRequestBAMPacket(), ((ServerPlayerEntity) e.getPlayer()).connection.netManager, NetworkDirection.PLAY_TO_CLIENT);
+            for(UUID devId : DEVS) {
+                HANDLER.send(PacketDistributor.PLAYER.with(() -> (ServerPlayerEntity) e.getPlayer()), new StupidDevPacket(SafeSyncThing.get(devId), devId));
+            }
 	    }
 	}
+
+    @SubscribeEvent
+    public static void onPlayerLeave(PlayerLoggedInEvent e) {
+        if(e.getPlayer() instanceof ServerPlayerEntity) {
+            for(UUID devId : DEVS) {
+                SafeSyncThing.put(devId, DumbOptions.OFF);
+                HANDLER.send(PacketDistributor.PLAYER.with(() -> (ServerPlayerEntity) e.getPlayer()), new StupidDevPacket(DumbOptions.OFF, devId));
+            }
+        }
+    }
 	
 	private static <T extends EntityModEgg> void registerEggDispenser(Item item, IEggEntityProvider<T> provider) {
 	    DispenserBlock.registerDispenseBehavior(item, new ProjectileDispenseBehavior() {

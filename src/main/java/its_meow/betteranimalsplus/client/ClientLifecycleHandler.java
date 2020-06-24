@@ -183,7 +183,7 @@ public class ClientLifecycleHandler {
         RenderFactory.addRender(EntityTurkeyEgg.class, RenderFactory.sprite());
         R.addRender(EntityZotzpyre.class, 0.4F, r -> r.tVariant().mSingle(new ModelZotzpyre<>()).layer(t -> new LayerEyes<>(t, ModTextures.zotzpyre_eyes)));
         R.addRender(EntityBobbitWorm.class, 0.4F, r -> r.tVariant().mSingle(new ModelBobbitWorm<>()));
-        R.addRender(EntityGoose.class, 0.5F, r -> r.tVariant().mSingle(new ModelGoose<>()).ageScale(0.8F, 0.5F).layer(GooseItemLayerRenderer::new));
+        R.addRender(EntityGoose.class, 0.5F, r -> r.tVariant().mSingle(new ModelGoose<>()).ageScale(0.8F, 0.5F).layer(t -> new GooseItemLayerRenderer<EntityGoose>(t)));
         RenderFactory.addRender(EntityGooseEgg.class, RenderFactory.sprite());
         RenderFactory.addRender(EntityGoldenGooseEgg.class, RenderFactory.sprite());
         R.addRender(EntityFreshwaterEel.class, 0.4F, r -> r.tVariant().mSingle(new ModelFreshwaterEel<>()));
