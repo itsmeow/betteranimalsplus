@@ -5,10 +5,10 @@ import java.util.Random;
 
 import javax.annotation.Nullable;
 
+import dev.itsmeow.imdlib.entity.util.IVariantTypes;
 import its_meow.betteranimalsplus.common.entity.ai.EntityAIFollowOwnerFlying;
 import its_meow.betteranimalsplus.common.entity.ai.LammerMoveHelper;
-import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainerTameable;
-import its_meow.betteranimalsplus.common.entity.util.IVariantTypes;
+import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainerBAPTameable;
 import its_meow.betteranimalsplus.common.entity.util.abstracts.EntityTameableBetterAnimalsPlus;
 import its_meow.betteranimalsplus.common.entity.util.abstracts.EntityTameableFlying;
 import its_meow.betteranimalsplus.init.ModEntities;
@@ -951,7 +951,7 @@ public class EntityLammergeier extends EntityTameableFlying implements IVariantT
     }
 
     @Override
-    public EntityTypeContainerTameable<EntityLammergeier> getContainer() {
+    public EntityTypeContainerBAPTameable<EntityLammergeier> getContainer() {
         return ModEntities.LAMMERGEIER;
     }
 

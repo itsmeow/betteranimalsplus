@@ -1,5 +1,6 @@
 package its_meow.betteranimalsplus.init;
 
+import dev.itsmeow.imdlib.entity.util.EntityTypeContainer;
 import its_meow.betteranimalsplus.Ref;
 import its_meow.betteranimalsplus.common.entity.projectile.EntityBadgerDirt;
 import its_meow.betteranimalsplus.common.entity.projectile.EntityGoldenGooseEgg;
@@ -7,7 +8,7 @@ import its_meow.betteranimalsplus.common.entity.projectile.EntityGooseEgg;
 import its_meow.betteranimalsplus.common.entity.projectile.EntityPheasantEgg;
 import its_meow.betteranimalsplus.common.entity.projectile.EntityTarantulaHair;
 import its_meow.betteranimalsplus.common.entity.projectile.EntityTurkeyEgg;
-import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainer;
+import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainerBAP;
 import its_meow.betteranimalsplus.common.item.ItemAdvancementIcon;
 import its_meow.betteranimalsplus.common.item.ItemBetterAnimalsPlusEgg;
 import its_meow.betteranimalsplus.common.item.ItemBlockSimple;
@@ -108,9 +109,9 @@ public class BetterAnimalsPlusRegistrar {
         ModItems.FRIED_EGG
         );
         
-        for (EntityTypeContainer<?> container : ModEntities.ENTITIES.values()) {
-            if(container.hasBucket()) {
-                event.getRegistry().register(container.getBucketItem());
+        for (EntityTypeContainer<?> container : ModEntities.getEntities().values()) {
+            if(container instanceof EntityTypeContainerBAP<?> && ((EntityTypeContainerBAP<?>) container).hasBucket()) {
+                event.getRegistry().register(((EntityTypeContainerBAP<?>) container).getBucketItem());
             }
         }
         
@@ -126,7 +127,7 @@ public class BetterAnimalsPlusRegistrar {
         );
 
         // Eggs
-        for (EntityTypeContainer<?> container : ModEntities.ENTITIES.values()) {
+        for (EntityTypeContainer<?> container : ModEntities.getEntities().values()) {
             ItemBetterAnimalsPlusEgg egg = new ItemBetterAnimalsPlusEgg(container);
             egg.setRegistryName(container.entityName.toLowerCase().toString() + "_spawn_egg");
             event.getRegistry().register(egg);
@@ -159,7 +160,7 @@ public class BetterAnimalsPlusRegistrar {
 
         registry.registerAll(EntityTarantulaHair.HAIR_TYPE, EntityBadgerDirt.DIRT_TYPE, EntityPheasantEgg.PHEASANT_EGG_TYPE, EntityTurkeyEgg.TURKEY_EGG_TYPE, EntityGooseEgg.GOOSE_EGG_TYPE, EntityGoldenGooseEgg.GOLDEN_GOOSE_EGG_TYPE);
 
-        for(EntityTypeContainer<?> container : ModEntities.ENTITIES.values()) {
+        for(EntityTypeContainer<?> container : ModEntities.getEntities().values()) {
             event.getRegistry().register(container.entityType);
         }
     }

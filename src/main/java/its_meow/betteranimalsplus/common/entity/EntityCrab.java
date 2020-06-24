@@ -1,6 +1,6 @@
 package its_meow.betteranimalsplus.common.entity;
 
-import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainer;
+import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainerBAP;
 import its_meow.betteranimalsplus.common.entity.util.abstracts.EntityCrabLikeBase;
 import its_meow.betteranimalsplus.init.ModEntities;
 import net.minecraft.entity.LivingEntity;
@@ -115,7 +115,7 @@ public class EntityCrab extends EntityCrabLikeBase {
     }
 
     @Override
-    public EntityTypeContainer<EntityCrab> getContainer() {
+    public EntityTypeContainerBAP<EntityCrab> getContainer() {
         return ModEntities.CRAB;
     }
 

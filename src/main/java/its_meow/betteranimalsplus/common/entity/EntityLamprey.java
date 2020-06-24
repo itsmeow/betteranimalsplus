@@ -4,7 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import its_meow.betteranimalsplus.common.entity.miniboss.hirschgeist.EntityHirschgeist;
-import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainer;
+import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainerBAP;
 import its_meow.betteranimalsplus.common.entity.util.abstracts.EntityWaterMobPathingWithTypesBucketable;
 import its_meow.betteranimalsplus.init.ModEntities;
 import its_meow.betteranimalsplus.init.ModLootTables;
@@ -192,7 +192,7 @@ public class EntityLamprey extends EntityWaterMobPathingWithTypesBucketable impl
     }
 
     @Override
-    public EntityTypeContainer<EntityLamprey> getContainer() {
+    public EntityTypeContainerBAP<EntityLamprey> getContainer() {
         return ModEntities.LAMPREY;
     }
 

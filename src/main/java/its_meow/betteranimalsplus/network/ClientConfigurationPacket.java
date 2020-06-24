@@ -6,9 +6,9 @@ import java.util.function.Supplier;
 
 import com.google.common.base.Charsets;
 
-import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainer;
-import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainerTameable;
-import its_meow.betteranimalsplus.config.BetterAnimalsPlusConfig;
+import dev.itsmeow.imdlib.entity.util.EntityTypeContainer;
+import its_meow.betteranimalsplus.common.entity.EntityCoyote;
+import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainerBAPTameable;
 import its_meow.betteranimalsplus.init.ModEntities;
 import net.minecraft.network.PacketBuffer;
 import net.minecraftforge.fml.network.NetworkDirection;
@@ -67,12 +67,12 @@ public class ClientConfigurationPacket {
         public static void handle(ClientConfigurationPacket msg, Supplier<NetworkEvent.Context> ctx) {
             if(ctx.get().getDirection() == NetworkDirection.PLAY_TO_CLIENT) {
                 ctx.get().enqueueWork(() -> {
-                    BetterAnimalsPlusConfig.coyotesHostileDaytime = msg.coyoteHostileDaytime;
+                    EntityCoyote.HOSTILE_DAYTIME = msg.coyoteHostileDaytime;
                     for(String key : msg.tameItems.keySet()) {
                         String[] items = msg.tameItems.get(key);
-                        EntityTypeContainer<?> container = ModEntities.ENTITIES.get(key);
-                        if(container != null && container instanceof EntityTypeContainerTameable) {
-                            EntityTypeContainerTameable<?> cont2 = (EntityTypeContainerTameable<?>) container;
+                        EntityTypeContainer<?> container = ModEntities.H.getEntityTypeContainer(key);
+                        if(container != null && container instanceof EntityTypeContainerBAPTameable) {
+                            EntityTypeContainerBAPTameable<?> cont2 = (EntityTypeContainerBAPTameable<?>) container;
                             cont2.setTameItems(items);
                         }
                     }

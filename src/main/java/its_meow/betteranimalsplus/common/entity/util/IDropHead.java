@@ -7,7 +7,7 @@ public interface IDropHead {
 
     MobEntity getImplementation();
 
-    EntityTypeContainer<?> getContainer();
+    EntityTypeContainerBAP<?> getContainer();
 
     default HeadType getHeadType() {
         return getContainer().getHeadType();

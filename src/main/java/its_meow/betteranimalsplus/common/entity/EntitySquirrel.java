@@ -2,7 +2,7 @@ package its_meow.betteranimalsplus.common.entity;
 
 import java.util.Set;
 
-import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainer;
+import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainerBAP;
 import its_meow.betteranimalsplus.common.entity.util.abstracts.EntityAnimalWithSelectiveTypes;
 import its_meow.betteranimalsplus.common.entity.util.abstracts.EntityAnimalWithTypes;
 import its_meow.betteranimalsplus.init.ModEntities;
@@ -131,10 +131,10 @@ public class EntitySquirrel extends EntityAnimalWithSelectiveTypes {
         EntitySquirrel squirrel = new EntitySquirrel(this.world);
         if (ageable instanceof EntitySquirrel) {
             EntitySquirrel other = (EntitySquirrel) ageable;
-            if ((this.isAlbino() || other.isAlbino()) && !this.getVariantName().equals(other.getVariantName())) {
-                squirrel.setType(this.isAlbino() ? other.getVariant() : this.getVariant());
+            if ((this.isAlbino() || other.isAlbino()) && !this.getVariantNameOrEmpty().equals(other.getVariantNameOrEmpty())) {
+                squirrel.setType(this.isAlbino() ? other.getVariant().get() : this.getVariant().get());
             } else {
-                squirrel.setType(this.rand.nextBoolean() ? this.getVariant() : other.getVariant());
+                squirrel.setType(this.rand.nextBoolean() ? this.getVariant().get() : other.getVariant().get());
             }
         }
         return squirrel;
@@ -168,12 +168,12 @@ public class EntitySquirrel extends EntityAnimalWithSelectiveTypes {
     }
 
     @Override
-    public EntityTypeContainer<? extends EntityAnimalWithTypes> getContainer() {
+    public EntityTypeContainerBAP<? extends EntityAnimalWithTypes> getContainer() {
         return ModEntities.SQUIRREL;
     }
     
     protected boolean isAlbino() {
-        return this.getVariantName().equals("albino");
+        return "albino".equals(this.getVariantNameOrEmpty());
     }
 
 }

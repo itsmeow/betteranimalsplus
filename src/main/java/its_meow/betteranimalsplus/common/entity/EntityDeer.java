@@ -1,19 +1,19 @@
 package its_meow.betteranimalsplus.common.entity;
 
-
 import java.util.Calendar;
 
 import javax.annotation.Nullable;
 
+import dev.itsmeow.imdlib.entity.util.EntityVariant;
+import dev.itsmeow.imdlib.entity.util.IVariant;
 import its_meow.betteranimalsplus.Ref;
-import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainer;
-import its_meow.betteranimalsplus.common.entity.util.EntityVariant;
+import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainerBAP;
 import its_meow.betteranimalsplus.common.entity.util.IDropHead;
-import its_meow.betteranimalsplus.common.entity.util.IVariant;
 import its_meow.betteranimalsplus.common.entity.util.abstracts.EntityAnimalEatsGrassWithTypes;
 import its_meow.betteranimalsplus.init.ModEntities;
 import its_meow.betteranimalsplus.init.ModLootTables;
 import net.minecraft.block.BlockState;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.goal.AvoidEntityGoal;
 import net.minecraft.entity.ai.goal.BreedGoal;
@@ -36,7 +36,6 @@ import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
-
 public class EntityDeer extends EntityAnimalEatsGrassWithTypes implements IDropHead {
 
     public EntityDeer(World worldIn) {
@@ -46,25 +45,21 @@ public class EntityDeer extends EntityAnimalEatsGrassWithTypes implements IDropH
     public int getEatTime() {
         return eatTimer;
     }
-    
+
     @OnlyIn(Dist.CLIENT)
     @Override
-    public void handleStatusUpdate(byte id)
-    {
-        if (id == 10)
-        {
+    public void handleStatusUpdate(byte id) {
+        if(id == 10) {
             this.eatTimer = 40;
-        }
-        else
-        {
+        } else {
             super.handleStatusUpdate(id);
         }
     }
-    
+
     @Override
     public void baseTick() {
         super.baseTick();
-        if (this.world.isRemote) {
+        if(this.world.isRemote) {
             this.eatTimer = Math.max(0, this.eatTimer - 1);
         }
     }
@@ -73,8 +68,8 @@ public class EntityDeer extends EntityAnimalEatsGrassWithTypes implements IDropH
     public boolean processInteract(PlayerEntity player, Hand hand) {
         ItemStack stack = player.getHeldItem(hand);
         boolean isEmpty = stack.isEmpty();
-        if (!isEmpty) {
-            if (stack.getItem() == Items.WHEAT || stack.getItem() == Items.CARROT) {
+        if(!isEmpty) {
+            if(stack.getItem() == Items.WHEAT || stack.getItem() == Items.CARROT) {
                 this.setInLove(player);
             }
         }
@@ -142,7 +137,7 @@ public class EntityDeer extends EntityAnimalEatsGrassWithTypes implements IDropH
     }
 
     @Override
-    public EntityTypeContainer<EntityDeer> getContainer() {
+    public EntityTypeContainerBAP<EntityDeer> getContainer() {
         return ModEntities.DEER;
     }
 
@@ -156,11 +151,11 @@ public class EntityDeer extends EntityAnimalEatsGrassWithTypes implements IDropH
         if(r > 2) {
             r = validTypes[this.getRNG().nextInt(validTypes.length)];
         }
-        return this.getContainer().getVariant(String.valueOf(r));
+        return this.getContainer().getVariantForName(String.valueOf(r));
     }
 
     public static class EntityDeerVariant extends EntityVariant {
-        
+
         private static boolean isChristmas = false;
 
         static {
@@ -170,16 +165,16 @@ public class EntityDeer extends EntityAnimalEatsGrassWithTypes implements IDropH
                 isChristmas = true;
             }
         }
-        
+
         private ResourceLocation christmasTexture;
 
         public EntityDeerVariant(String nameTexture) {
-            super(nameTexture, "deer_" + nameTexture);
-            this.christmasTexture = new ResourceLocation(Ref.MOD_ID, "textures/entities/deer_" + nameTexture + "_christmas.png");
+            super(Ref.MOD_ID, nameTexture, "deer_" + nameTexture);
+            this.christmasTexture = new ResourceLocation(Ref.MOD_ID, "textures/entity/deer_" + nameTexture + "_christmas.png");
         }
 
         @Override
-        public ResourceLocation getTexture() {
+        public ResourceLocation getTexture(Entity entity) {
             return isChristmas ? christmasTexture : texture;
         }
 

@@ -3,7 +3,7 @@ package its_meow.betteranimalsplus.client.model;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 
-import its_meow.betteranimalsplus.util.RenderUtil;
+import dev.itsmeow.imdlib.client.util.RenderUtil;
 import net.minecraft.client.renderer.Vector3f;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.model.ModelRenderer;

@@ -12,7 +12,7 @@ import net.minecraft.item.Item;
 import net.minecraft.world.World;
 
 public class EntityPheasantEgg extends EntityModEgg {
-    public static EntityType<EntityPheasantEgg> PHEASANT_EGG_TYPE = ModEntities.<EntityPheasantEgg>createEntityType(EntityPheasantEgg.class, EntityPheasantEgg::new, "pheasant_egg", EntityClassification.MISC, 64, 1, true, 0.25F, 0.25F);
+    public static EntityType<EntityPheasantEgg> PHEASANT_EGG_TYPE = ModEntities.H.<EntityPheasantEgg>createEntityType(EntityPheasantEgg.class, EntityPheasantEgg::new, "pheasant_egg", EntityClassification.MISC, 64, 1, true, 0.25F, 0.25F);
     
     public EntityPheasantEgg(World world) {
         super(PHEASANT_EGG_TYPE, world);

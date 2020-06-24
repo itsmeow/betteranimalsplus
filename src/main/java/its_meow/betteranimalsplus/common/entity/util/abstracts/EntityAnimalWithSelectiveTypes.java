@@ -1,6 +1,6 @@
 package its_meow.betteranimalsplus.common.entity.util.abstracts;
 
-import its_meow.betteranimalsplus.common.entity.util.ISelectiveVariantTypes;
+import dev.itsmeow.imdlib.entity.util.ISelectiveVariantTypes;
 import net.minecraft.entity.EntityType;
 import net.minecraft.world.World;
 

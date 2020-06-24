@@ -2,7 +2,7 @@ package its_meow.betteranimalsplus.common.entity.util.abstracts;
 
 import javax.annotation.Nullable;
 
-import its_meow.betteranimalsplus.common.entity.util.IVariantTypes;
+import dev.itsmeow.imdlib.entity.util.IVariantTypes;
 import net.minecraft.entity.CreatureEntity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ILivingEntityData;

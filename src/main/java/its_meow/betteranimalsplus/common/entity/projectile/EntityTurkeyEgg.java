@@ -12,7 +12,7 @@ import net.minecraft.item.Item;
 import net.minecraft.world.World;
 
 public class EntityTurkeyEgg extends EntityModEgg {
-    public static EntityType<EntityTurkeyEgg> TURKEY_EGG_TYPE = ModEntities.<EntityTurkeyEgg>createEntityType(EntityTurkeyEgg.class, EntityTurkeyEgg::new, "turkey_egg", EntityClassification.MISC, 64, 1, true, 0.25F, 0.25F);
+    public static EntityType<EntityTurkeyEgg> TURKEY_EGG_TYPE = ModEntities.H.<EntityTurkeyEgg>createEntityType(EntityTurkeyEgg.class, EntityTurkeyEgg::new, "turkey_egg", EntityClassification.MISC, 64, 1, true, 0.25F, 0.25F);
     
     public EntityTurkeyEgg(World world) {
         super(TURKEY_EGG_TYPE, world);

@@ -2,7 +2,7 @@ package its_meow.betteranimalsplus.common.entity;
 
 import java.util.Random;
 
-import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainer;
+import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainerBAP;
 import its_meow.betteranimalsplus.common.entity.util.abstracts.EntityMonsterWithTypes;
 import its_meow.betteranimalsplus.init.ModEntities;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -356,7 +356,7 @@ public class EntityZotzpyre extends EntityMonsterWithTypes {
     }
 
     @Override
-    public EntityTypeContainer<EntityZotzpyre> getContainer() {
+    public EntityTypeContainerBAP<EntityZotzpyre> getContainer() {
         return ModEntities.ZOTZPYRE;
     }
 

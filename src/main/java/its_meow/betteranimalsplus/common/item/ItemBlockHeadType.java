@@ -2,9 +2,9 @@ package its_meow.betteranimalsplus.common.item;
 
 import java.util.List;
 
+import dev.itsmeow.imdlib.entity.util.IVariant;
 import its_meow.betteranimalsplus.BetterAnimalsPlusMod;
 import its_meow.betteranimalsplus.Ref;
-import its_meow.betteranimalsplus.common.entity.util.IVariant;
 import its_meow.betteranimalsplus.init.ModEntities;
 import its_meow.betteranimalsplus.util.HeadType;
 import net.minecraft.block.Block;

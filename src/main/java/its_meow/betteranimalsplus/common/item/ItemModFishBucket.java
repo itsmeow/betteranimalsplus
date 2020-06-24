@@ -6,7 +6,7 @@ import java.util.function.Supplier;
 import javax.annotation.Nullable;
 
 import its_meow.betteranimalsplus.BetterAnimalsPlusMod;
-import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainer;
+import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainerBAP;
 import its_meow.betteranimalsplus.common.entity.util.IBucketable;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;
@@ -37,14 +37,14 @@ public class ItemModFishBucket<T extends MobEntity> extends BucketItem {
         if(compoundnbt != null && compoundnbt.contains("BucketVariantTag", Constants.NBT.TAG_STRING)) {
             String id = compoundnbt.getString("BucketVariantTag");
             TextFormatting[] atextformatting = new TextFormatting[] { TextFormatting.ITALIC, TextFormatting.GRAY };
-            tooltip.add((new TranslationTextComponent("entity.betteranimalsplus." + container.entityName.toLowerCase() + ".type." + container.getVariant(id).getName())).applyTextStyles(atextformatting));
+            tooltip.add((new TranslationTextComponent("entity.betteranimalsplus." + container.entityName.toLowerCase() + ".type." + container.getVariantForName(id).getName())).applyTextStyles(atextformatting));
         }
     };
 
-    private final EntityTypeContainer<T> typeContainer;
+    private final EntityTypeContainerBAP<T> typeContainer;
     private IBucketTooltipFunction tooltip;
 
-    public ItemModFishBucket(EntityTypeContainer<T> typeContainer, Supplier<? extends Fluid> fluid, IBucketTooltipFunction tooltip) {
+    public ItemModFishBucket(EntityTypeContainerBAP<T> typeContainer, Supplier<? extends Fluid> fluid, IBucketTooltipFunction tooltip) {
         super(fluid, new Item.Properties().maxStackSize(1).group(BetterAnimalsPlusMod.group));
         this.typeContainer = typeContainer;
         this.setRegistryName(typeContainer.entityName + "_bucket");
@@ -83,7 +83,7 @@ public class ItemModFishBucket<T extends MobEntity> extends BucketItem {
         this.tooltip.addInformation(this.typeContainer, stack, worldIn, tooltip);
     }
 
-    public EntityTypeContainer<T> getContainer() {
+    public EntityTypeContainerBAP<T> getContainer() {
         return typeContainer;
     }
 
@@ -93,6 +93,6 @@ public class ItemModFishBucket<T extends MobEntity> extends BucketItem {
     
     @FunctionalInterface
     public static interface IBucketTooltipFunction {
-        void addInformation(EntityTypeContainer<? extends MobEntity> container, ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip);
+        void addInformation(EntityTypeContainerBAP<? extends MobEntity> container, ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip);
     }
 }

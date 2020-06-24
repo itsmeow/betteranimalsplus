@@ -3,9 +3,9 @@ package its_meow.betteranimalsplus.client.model;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 
+import dev.itsmeow.imdlib.client.util.RenderUtil;
 import its_meow.betteranimalsplus.common.entity.EntitySaltwaterEel;
 import its_meow.betteranimalsplus.util.ModMathHelper;
-import its_meow.betteranimalsplus.util.RenderUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.model.ModelRenderer;

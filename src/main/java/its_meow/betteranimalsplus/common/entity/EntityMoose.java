@@ -1,9 +1,9 @@
 package its_meow.betteranimalsplus.common.entity;
 
+import dev.itsmeow.imdlib.entity.util.IVariant;
 import its_meow.betteranimalsplus.common.entity.ai.EntityAIEatGrassCustom;
-import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainer;
+import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainerBAP;
 import its_meow.betteranimalsplus.common.entity.util.IDropHead;
-import its_meow.betteranimalsplus.common.entity.util.IVariant;
 import its_meow.betteranimalsplus.common.entity.util.abstracts.EntityAnimalEatsGrassWithTypes;
 import its_meow.betteranimalsplus.init.ModEntities;
 import its_meow.betteranimalsplus.init.ModLootTables;
@@ -139,7 +139,7 @@ public class EntityMoose extends EntityAnimalEatsGrassWithTypes implements IDrop
     }
     
     @Override
-    public EntityTypeContainer<EntityMoose> getContainer() {
+    public EntityTypeContainerBAP<EntityMoose> getContainer() {
         return ModEntities.MOOSE;
     }
 
@@ -153,7 +153,7 @@ public class EntityMoose extends EntityAnimalEatsGrassWithTypes implements IDrop
         if(r > 2) {
             r = validTypes[this.getRNG().nextInt(validTypes.length)];
         }
-        return this.getContainer().getVariant(String.valueOf(r));
+        return this.getContainer().getVariantForName(String.valueOf(r));
     }
 
 }

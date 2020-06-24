@@ -4,9 +4,9 @@ import javax.annotation.Nullable;
 
 import com.google.common.base.Predicates;
 
+import dev.itsmeow.imdlib.entity.util.IContainerEntity;
 import its_meow.betteranimalsplus.common.entity.ai.EntityAIEatBerries;
-import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainer;
-import its_meow.betteranimalsplus.common.entity.util.IContainerEntity;
+import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainerBAP;
 import its_meow.betteranimalsplus.common.entity.util.IDropHead;
 import its_meow.betteranimalsplus.init.ModEntities;
 import its_meow.betteranimalsplus.init.ModLootTables;
@@ -233,7 +233,7 @@ public class EntityBear extends MonsterEntity implements IContainerEntity<Entity
     }
 
     @Override
-    public EntityTypeContainer<?> getContainer() {
+    public EntityTypeContainerBAP<?> getContainer() {
         return ModEntities.BROWN_BEAR;
     }
 

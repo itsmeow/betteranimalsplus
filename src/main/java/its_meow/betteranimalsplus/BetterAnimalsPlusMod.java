@@ -4,13 +4,14 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import dev.itsmeow.imdlib.entity.util.EntityTypeContainer;
 import its_meow.betteranimalsplus.client.ClientLifecycleHandler;
+import its_meow.betteranimalsplus.common.entity.EntityCoyote;
 import its_meow.betteranimalsplus.common.entity.projectile.EntityGoldenGooseEgg;
 import its_meow.betteranimalsplus.common.entity.projectile.EntityGooseEgg;
 import its_meow.betteranimalsplus.common.entity.projectile.EntityModEgg;
 import its_meow.betteranimalsplus.common.entity.projectile.EntityPheasantEgg;
 import its_meow.betteranimalsplus.common.entity.projectile.EntityTurkeyEgg;
-import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainer;
 import its_meow.betteranimalsplus.config.BetterAnimalsPlusConfig;
 import its_meow.betteranimalsplus.init.ModBlocks;
 import its_meow.betteranimalsplus.init.ModEntities;
@@ -88,8 +89,7 @@ public class BetterAnimalsPlusMod {
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::loadComplete);
         FMLJavaModLoadingContext.get().getModEventBus().<FMLClientSetupEvent>addListener(e -> new ClientLifecycleHandler().clientSetup(e));
         ModTriggers.register();
-        ModEntities.init();
-        ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, BetterAnimalsPlusConfig.CLIENT_CONFIG_SPEC);
+        ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, BetterAnimalsPlusConfig.getClientSpec());
         BetterAnimalsPlusMod.logger.log(Level.INFO, "Injecting super coyotes...");
     }
 
@@ -102,7 +102,7 @@ public class BetterAnimalsPlusMod {
         @Override
         public void fill(NonNullList<ItemStack> toDisplay) {
             super.fill(toDisplay);
-            for(EntityTypeContainer<?> cont : ModEntities.ENTITIES.values()) {
+            for(EntityTypeContainer<?> cont : ModEntities.getEntities().values()) {
                 ItemStack stack = new ItemStack(cont.egg);
                 toDisplay.add(stack);
             }
@@ -143,22 +143,21 @@ public class BetterAnimalsPlusMod {
                 return stack;
             }
         };
-        for(EntityTypeContainer<?> container : ModEntities.ENTITIES.values()) {
+        for(EntityTypeContainer<?> container : ModEntities.getEntities().values()) {
             DispenserBlock.registerDispenseBehavior(container.egg, eggDispense);
         }
         BetterAnimalsPlusMod.logger.log(Level.INFO, "Overspawning lammergeiers...");
     }
     
     private void loadComplete(final FMLLoadCompleteEvent event) {
-        BetterAnimalsPlusConfig.setupConfig();
-        ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, BetterAnimalsPlusConfig.SERVER_CONFIG_SPEC);
+        ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, BetterAnimalsPlusConfig.getServerSpec());
         BetterAnimalsPlusMod.logger.log(Level.INFO, "Finished crazy bird creation!");
     }
 	
 	@SubscribeEvent
 	public static void onPlayerJoin(PlayerLoggedInEvent e) {
 	    if(e.getPlayer() instanceof ServerPlayerEntity) {
-	        HANDLER.sendTo(new ClientConfigurationPacket(BetterAnimalsPlusConfig.coyotesHostileDaytime, BetterAnimalsPlusConfig.getTameItemsMap()), ((ServerPlayerEntity) e.getPlayer()).connection.netManager, NetworkDirection.PLAY_TO_CLIENT);
+	        HANDLER.sendTo(new ClientConfigurationPacket(EntityCoyote.HOSTILE_DAYTIME, BetterAnimalsPlusConfig.getTameItemsMap()), ((ServerPlayerEntity) e.getPlayer()).connection.netManager, NetworkDirection.PLAY_TO_CLIENT);
 	        HANDLER.sendTo(new ClientRequestBAMPacket(), ((ServerPlayerEntity) e.getPlayer()).connection.netManager, NetworkDirection.PLAY_TO_CLIENT);
 	    }
 	}

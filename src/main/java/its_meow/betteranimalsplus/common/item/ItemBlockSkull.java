@@ -2,10 +2,10 @@ package its_meow.betteranimalsplus.common.item;
 
 import javax.annotation.Nullable;
 
+import dev.itsmeow.imdlib.entity.util.IVariant;
 import its_meow.betteranimalsplus.BetterAnimalsPlusMod;
 import its_meow.betteranimalsplus.Ref;
 import its_meow.betteranimalsplus.common.block.BlockAnimalSkull;
-import its_meow.betteranimalsplus.common.entity.util.IVariant;
 import its_meow.betteranimalsplus.util.HeadType.PlacementType;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.block.Block;

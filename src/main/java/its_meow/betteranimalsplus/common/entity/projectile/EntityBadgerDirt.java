@@ -25,7 +25,7 @@ import net.minecraftforge.fml.network.NetworkHooks;
 public class EntityBadgerDirt extends ThrowableEntity {
 
 
-    public static EntityType<EntityBadgerDirt> DIRT_TYPE = ModEntities.<EntityBadgerDirt>createEntityType(EntityBadgerDirt.class, EntityBadgerDirt::new, "badgerdirt", EntityClassification.MISC, 64, 1, true, 1.2F, 1.2F);
+    public static EntityType<EntityBadgerDirt> DIRT_TYPE = ModEntities.H.<EntityBadgerDirt>createEntityType(EntityBadgerDirt.class, EntityBadgerDirt::new, "badgerdirt", EntityClassification.MISC, 64, 1, true, 1.2F, 1.2F);
 
     protected int stateId = -1;
 

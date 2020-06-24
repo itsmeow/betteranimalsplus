@@ -6,7 +6,7 @@ import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import com.google.common.collect.Sets;
 
-import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainer;
+import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainerBAP;
 import its_meow.betteranimalsplus.common.entity.util.abstracts.EntityAnimalWithSelectiveTypes;
 import its_meow.betteranimalsplus.init.ModEntities;
 import its_meow.betteranimalsplus.init.ModLootTables;
@@ -154,7 +154,7 @@ public class EntitySongbird extends EntityAnimalWithSelectiveTypes implements IF
             if (!(otherAnimal instanceof EntitySongbird)) {
                 return false;
             }
-            return ((EntitySongbird) otherAnimal).getVariantName().equals(this.getVariantName());
+            return !this.getVariantNameOrEmpty().isEmpty() && !((EntitySongbird) otherAnimal).getVariantNameOrEmpty().isEmpty() && ((EntitySongbird) otherAnimal).getVariantNameOrEmpty().equals(this.getVariantNameOrEmpty());
         }
         return false;
     }
@@ -183,7 +183,7 @@ public class EntitySongbird extends EntityAnimalWithSelectiveTypes implements IF
     }
 
     @Override
-    public EntityTypeContainer<EntitySongbird> getContainer() {
+    public EntityTypeContainerBAP<EntitySongbird> getContainer() {
         return ModEntities.SONGBIRD;
     }
 

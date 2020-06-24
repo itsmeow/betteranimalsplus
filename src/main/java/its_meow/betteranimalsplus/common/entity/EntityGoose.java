@@ -8,8 +8,9 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.function.Predicate;
 
+import dev.itsmeow.imdlib.entity.util.IVariant;
 import its_meow.betteranimalsplus.common.entity.ai.WaterfowlNavigator;
-import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainer;
+import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainerBAP;
 import its_meow.betteranimalsplus.common.entity.util.abstracts.EntityAnimalWithTypes;
 import its_meow.betteranimalsplus.init.ModEntities;
 import its_meow.betteranimalsplus.init.ModItems;
@@ -356,6 +357,7 @@ public class EntityGoose extends EntityAnimalWithTypes {
 
     @Override
     public ILivingEntityData onInitialSpawn(IWorld world, DifficultyInstance difficulty, SpawnReason reason, ILivingEntityData livingdata, CompoundNBT compound) {
+        // getRandomType() should really pass in some more information...
         String[] types;
         switch (reason) {
         case NATURAL:
@@ -376,7 +378,7 @@ public class EntityGoose extends EntityAnimalWithTypes {
         }
        livingdata = super.onInitialSpawn(world, difficulty, reason, livingdata, compound);
        if(!this.getImplementation().isChild()) {
-           String variant = types[this.getRNG().nextInt(types.length)];
+           IVariant variant = this.getContainer().getVariantForName(types[this.getRNG().nextInt(types.length)]);
            if(livingdata instanceof AgeableTypeData) {
                variant = ((AgeableTypeData) livingdata).typeData;
            } else {
@@ -417,7 +419,7 @@ public class EntityGoose extends EntityAnimalWithTypes {
     }
 
     @Override
-    public EntityTypeContainer<EntityGoose> getContainer() {
+    public EntityTypeContainerBAP<EntityGoose> getContainer() {
         return ModEntities.GOOSE;
     }
 

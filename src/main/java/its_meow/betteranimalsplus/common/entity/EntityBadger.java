@@ -6,7 +6,7 @@ import java.util.Set;
 import javax.annotation.Nullable;
 
 import its_meow.betteranimalsplus.common.entity.projectile.EntityBadgerDirt;
-import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainer;
+import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainerBAP;
 import its_meow.betteranimalsplus.common.entity.util.abstracts.EntityAnimalWithSelectiveTypes;
 import its_meow.betteranimalsplus.init.ModEntities;
 import net.minecraft.block.Block;
@@ -222,7 +222,7 @@ public class EntityBadger extends EntityAnimalWithSelectiveTypes implements IMob
     }
 
     @Override
-    public EntityTypeContainer<EntityBadger> getContainer() {
+    public EntityTypeContainerBAP<EntityBadger> getContainer() {
         return ModEntities.BADGER;
     }
 
