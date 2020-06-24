@@ -23,8 +23,8 @@ A clear and concise description of what you expected to happen.
 If applicable, add screenshots to help explain your problem.
 
 **Versions:**
- - OS: [e.g. Windows, Mac, Linux (include distribution)]
- - MC Version:
+ - Minecraft Version:
+ - Forge Version:
  - Mod Version:
 
 **Additional context**
