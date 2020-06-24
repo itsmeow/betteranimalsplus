@@ -17,8 +17,8 @@ Steps to reproduce the behavior (if possible):
 Get your minecraft crash log and paste it here.
 
 **Versions:**
- - OS: [e.g. Windows, Mac, Linux (include distribution)]
- - MC Version:
+ - Minecraft Version:
+ - Forge Version:
  - Mod Version:
 
 **Additional context**
