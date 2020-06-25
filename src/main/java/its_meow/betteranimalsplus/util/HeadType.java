@@ -16,6 +16,7 @@ import org.apache.commons.lang3.tuple.Pair;
 import dev.itsmeow.imdlib.entity.util.EntityVariant;
 import dev.itsmeow.imdlib.entity.util.IVariant;
 import dev.itsmeow.imdlib.entity.util.IVariantTypes;
+import its_meow.betteranimalsplus.Ref;
 import its_meow.betteranimalsplus.common.block.BlockGenericSkull;
 import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainerBAP;
 import its_meow.betteranimalsplus.common.item.ItemBlockHeadType;
@@ -276,7 +277,7 @@ public class HeadType {
         public Builder singleton(String id, String texture) {
             this.idMapping = HeadIDMapping.SINGLETON;
             this.singletonID = id;
-            this.singletonVariant = new EntityVariant(id, texture);
+            this.singletonVariant = new EntityVariant(Ref.MOD_ID, id, texture);
             return this;
         }
 
