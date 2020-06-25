@@ -218,10 +218,8 @@ public class EntityLammergeier extends EntityTameableFlyingWithTypes implements 
                     this.setAttackTarget((LivingEntity) null);
                     this.setSitting(true);
                     this.setHealth(20.0F);
-                    this.playTameEffect(true);
                     this.world.setEntityState(this, (byte) 7);
                 } else {
-                    this.playTameEffect(false);
                     this.world.setEntityState(this, (byte) 6);
                 }
             }

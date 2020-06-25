@@ -213,7 +213,7 @@ public class EntityBobbitWorm extends EntityAnimalWithTypes {
 
     @Override
     public boolean isNotColliding(IWorldReader worldIn) {
-        return worldIn.func_226668_i_(this);
+        return worldIn.checkNoEntityCollision(this);
     }
 
     @Override

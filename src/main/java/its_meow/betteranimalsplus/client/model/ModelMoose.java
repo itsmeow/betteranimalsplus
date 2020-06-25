@@ -471,7 +471,7 @@ public class ModelMoose<T extends LivingEntity> extends EntityModel<T> {
     }
 
     @Override
-    public void render(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+    public void setRotationAngles(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
         float f = limbSwing;
         float f1 = limbSwingAmount;
 

@@ -69,7 +69,7 @@ public class ClientLifecycleHandler {
     public static final RenderFactory R = IMDLibClient.getRenderRegistry(Ref.MOD_ID);
 
     public void clientSetup(final FMLClientSetupEvent event) {
-        RenderTypeLookup.setRenderLayer(ModEntities.HIRSCHGEIST.getHeadType().getBlock(), RenderType.translucent());
+        RenderTypeLookup.setRenderLayer(ModEntities.HIRSCHGEIST.getHeadType().getBlock(), RenderType.getTranslucent());
         ClientRegistry.bindTileEntityRenderer(ModTileEntities.TRILLIUM_TYPE, RenderBlockTrillium::new);
         ClientRegistry.bindTileEntityRenderer(ModTileEntities.HAND_OF_FATE_TYPE, RenderBlockHandOfFate::new);
         ClientRegistry.bindTileEntityRenderer(ModTileEntities.HEAD_TYPE, RenderGenericHead::new);

@@ -275,7 +275,7 @@ public class ModelCrab<T extends LivingEntity> extends EntityModel<T> {
     }
 
     @Override
-    public void render(T entity, float f, float f1, float f2, float f3, float f4) {
+    public void setRotationAngles(T entity, float f, float f1, float f2, float f3, float f4) {
         {
             if(entity instanceof EntityCrab && ((EntityCrab) entity).getIsCrabRave() !=  0) {
                 int crabID = ((EntityCrab) entity).getIsCrabRave();

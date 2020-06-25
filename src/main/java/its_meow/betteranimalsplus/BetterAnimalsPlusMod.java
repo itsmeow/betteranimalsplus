@@ -88,10 +88,10 @@ public class BetterAnimalsPlusMod {
     public static final WeightedBlockStateProvider TRILLIUM_STATE_PROVIDER = new WeightedBlockStateProvider();
     static {
         for(int i = 0; i < 4; i++) {
-            TRILLIUM_STATE_PROVIDER.func_227407_a_(ModBlocks.TRILLIUM.getDefaultState().with(HorizontalBlock.HORIZONTAL_FACING, Direction.byHorizontalIndex(i)), 1);
+            TRILLIUM_STATE_PROVIDER.addWeightedBlockstate(ModBlocks.TRILLIUM.getDefaultState().with(HorizontalBlock.HORIZONTAL_FACING, Direction.byHorizontalIndex(i)), 1);
         }
     }
-    public static final BlockClusterFeatureConfig TRILLIUM_FEATURE_CONFIG = (new BlockClusterFeatureConfig.Builder(TRILLIUM_STATE_PROVIDER, new SimpleBlockPlacer())).func_227315_a_(64).func_227322_d_();
+    public static final BlockClusterFeatureConfig TRILLIUM_FEATURE_CONFIG = (new BlockClusterFeatureConfig.Builder(TRILLIUM_STATE_PROVIDER, new SimpleBlockPlacer())).tries(64).build();
     private static final ImmutableList<UUID> DEVS = ImmutableList.of(
     UUID.fromString("81d9726a-56d4-4419-9a2a-be1d7f7f7ef1"), // its_meow
     UUID.fromString("403f2fd4-f8a2-4608-a0b8-534da4184735"), // cyber
@@ -151,7 +151,7 @@ public class BetterAnimalsPlusMod {
         HANDLER.registerMessage(packets++, HonkPacket.class, HonkPacket::encode, HonkPacket::decode, HonkPacket.Handler::handle);
         DeferredWorkQueue.runLater(() -> {
             BiomeDictionary.getBiomes(BiomeDictionary.Type.SWAMP).forEach(biome -> biome.addFeature(net.minecraft.world.gen.GenerationStage.Decoration.VEGETAL_DECORATION,
-                    Feature.FLOWER.withConfiguration(TRILLIUM_FEATURE_CONFIG).func_227228_a_(Placement.NOISE_HEIGHTMAP_32.func_227446_a_(new NoiseDependant(-0.8D, 0, 3)))));
+                    Feature.FLOWER.withConfiguration(TRILLIUM_FEATURE_CONFIG).withPlacement(Placement.NOISE_HEIGHTMAP_32.configure(new NoiseDependant(-0.8D, 0, 3)))));
         });
         registerEggDispenser(ModItems.PHEASANT_EGG, EntityPheasantEgg::new);
         registerEggDispenser(ModItems.TURKEY_EGG, EntityTurkeyEgg::new);

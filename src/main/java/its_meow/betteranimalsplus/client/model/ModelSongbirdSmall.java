@@ -230,7 +230,7 @@ public class ModelSongbirdSmall<T extends LivingEntity> extends EntityModel<T> {
     }
 
     @Override
-    public void render(T entity, float f, float f1, float f2, float f3, float f4) {
+    public void setRotationAngles(T entity, float f, float f1, float f2, float f3, float f4) {
         boolean show = true;
         if (entity instanceof EntitySongbird) {
             EntitySongbird bird = (EntitySongbird) entity;

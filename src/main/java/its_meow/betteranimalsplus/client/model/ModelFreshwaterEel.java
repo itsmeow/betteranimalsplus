@@ -151,7 +151,7 @@ public class ModelFreshwaterEel<T extends LivingEntity> extends EntityModel<T> {
     }
 
     @Override
-    public void render(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+    public void setRotationAngles(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
         float factor = (float) entity.getMotion().length() * 10;
         this.body.rotateAngleY = MathHelper.cos(ageInTicks * 0.3F) * (float) Math.PI * 0.05F * factor;
         this.neck.rotateAngleY = -this.body.rotateAngleY * 1.5F;

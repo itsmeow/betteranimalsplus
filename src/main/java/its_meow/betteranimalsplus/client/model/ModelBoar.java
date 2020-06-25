@@ -329,7 +329,7 @@ public class ModelBoar<T extends LivingEntity> extends EntityModel<T> {
     }
 
     @Override
-    public void render(T entity, float f, float f1, float f2, float f3, float f4) {
+    public void setRotationAngles(T entity, float f, float f1, float f2, float f3, float f4) {
         this.lArm01.rotateAngleX = MathHelper.cos(f * 0.6662F) * 1.4F * f1;
         this.rArm01.rotateAngleX = MathHelper.cos(f * 0.6662F + (float) Math.PI) * 1.4F * f1;
         this.rLeg01.rotateAngleX = MathHelper.cos(f * 0.6662F) * 1.4F * f1;

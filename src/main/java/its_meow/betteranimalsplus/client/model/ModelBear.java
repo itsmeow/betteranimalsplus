@@ -382,7 +382,7 @@ public class ModelBear<T extends LivingEntity> extends ModelBetterAnimals<T> {
     }
 
     @Override
-    public void render(T entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+    public void setRotationAngles(T entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
         float f = limbSwing;
         float f1 = limbSwingAmount;
 

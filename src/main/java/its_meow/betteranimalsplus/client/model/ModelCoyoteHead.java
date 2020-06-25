@@ -76,7 +76,7 @@ public class ModelCoyoteHead extends EntityModel<Entity> {
     }
 
     @Override
-    public void render(Entity entity, float f, float f1, float f2, float f3, float f4) {
+    public void setRotationAngles(Entity entity, float f, float f1, float f2, float f3, float f4) {
         this.head.rotateAngleY = (float) Math.toRadians(f);
     }
 

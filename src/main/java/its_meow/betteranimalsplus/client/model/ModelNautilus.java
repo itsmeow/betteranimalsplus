@@ -210,7 +210,7 @@ public class ModelNautilus<T extends LivingEntity> extends EntityModel<T> {
     }
 
     @Override
-    public void render(T entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+    public void setRotationAngles(T entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
         float mul = 0.3F;
         float div = 20F;
         float add = entityIn.getUniqueID().hashCode() * 0.001F;

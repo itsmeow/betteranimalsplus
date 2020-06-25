@@ -15,7 +15,6 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ItemStack;
 
-@SuppressWarnings("deprecation")
 public class GooseItemLayerRenderer<T extends LivingEntity> extends LayerRenderer<T, EntityModel<T>> {
 
     public GooseItemLayerRenderer(IEntityRenderer<T, EntityModel<T>> renderer) {

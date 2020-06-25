@@ -140,7 +140,7 @@ public class ModelBoarHead extends EntityModel<Entity> {
     }
 
     @Override
-    public void render(Entity entity, float f, float f1, float f2, float f3, float f4) {
+    public void setRotationAngles(Entity entity, float f, float f1, float f2, float f3, float f4) {
         this.neck.rotateAngleY = (float) Math.toRadians(f);
         this.neck.rotateAngleX = (float) Math.toRadians(f1);
     }

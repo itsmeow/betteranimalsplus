@@ -245,7 +245,7 @@ public class ModelSaltwaterEel<T extends LivingEntity> extends EntityModel<T> {
     }
 
     @Override
-    public void render(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+    public void setRotationAngles(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
         float partialTicks = Minecraft.getInstance().getRenderPartialTicks();
         float ticks = ageInTicks / 5F + (float) entity.getMotion().length() * 0.05F;
         float factor = 1F;

@@ -292,7 +292,7 @@ public class ModelBadger<T extends LivingEntity> extends EntityModel<T> {
     }
    
     @Override
-    public void render(T entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+    public void setRotationAngles(T entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
         this.lLeg01.rotateAngleX = MathHelper.sin(limbSwing * 0.8665F + (float) Math.PI) * 1.5F * limbSwingAmount;
         this.rLeg01.rotateAngleX = MathHelper.cos(limbSwing * 0.8665F) * 1.5F * limbSwingAmount;
         this.lArm01.rotateAngleX = MathHelper.sin(limbSwing * 0.8665F) * 1.5F * limbSwingAmount + 0.22759093446006054F;

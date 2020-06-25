@@ -57,8 +57,8 @@ public class RenderGenericHead extends TileEntityRenderer<TileEntityHead> {
         if(facing != null) {
             rotX = facing == Direction.UP ? -90F : 0.0F;
         }
-        model.render(null, skullRotation, rotX, 0.0F, 0.0F, 0.0F);
-        model.render(matrixStackIn, bufferIn.getBuffer(RenderType.entityCutoutNoCull(texture)), packedLightIn, packedOverlayIn, 1F, 1F, 1F, 1F);
+        model.setRotationAngles(null, skullRotation, rotX, 0.0F, 0.0F, 0.0F);
+        model.render(matrixStackIn, bufferIn.getBuffer(RenderType.getEntityCutoutNoCull(texture)), packedLightIn, packedOverlayIn, 1F, 1F, 1F, 1F);
         matrixStackIn.pop();
 
     }

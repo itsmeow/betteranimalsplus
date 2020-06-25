@@ -234,7 +234,7 @@ public class ModelGreenlandShark<T extends LivingEntity> extends EntityModel<T> 
     }
 
     @Override
-    public void render(T entity, float f, float f1, float f2, float f3, float f4) {
+    public void setRotationAngles(T entity, float f, float f1, float f2, float f3, float f4) {
         if(entity instanceof EntityShark) {
             EntityShark shark = (EntityShark) entity;
             if((Math.abs(entity.getMotion().getY()) > 0.01 && (Math.abs(entity.getMotion().getX()) > 0.01 || Math.abs(entity.getMotion().getZ()) > 0.01)) || Math.abs(entity.getMotion().getY()) > 0.03) {

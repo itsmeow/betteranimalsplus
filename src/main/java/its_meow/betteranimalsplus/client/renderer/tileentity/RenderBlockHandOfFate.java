@@ -37,8 +37,8 @@ public class RenderBlockHandOfFate extends TileEntityRenderer<TileEntityHandOfFa
         if (!tileentity.getWorld().isAirBlock(tileentity.getPos())) {
             rotate = tileentity.getRotation();
         }
-        this.mainModel.render(null, 0, 0, 0, rotate, 0);
-        this.mainModel.render(matrixStackIn, bufferIn.getBuffer(RenderType.entitySolid(ModTextures.handoffate)), combinedLightIn, combinedOverlayIn, 1F, 1F, 1F, 1F);
+        this.mainModel.setRotationAngles(null, 0, 0, 0, rotate, 0);
+        this.mainModel.render(matrixStackIn, bufferIn.getBuffer(RenderType.getEntitySolid(ModTextures.handoffate)), combinedLightIn, combinedOverlayIn, 1F, 1F, 1F, 1F);
         if (tileentity.isOnFire() && this.i % 5 == 0) {
             tileentity.getWorld().addParticle(ParticleTypes.FLAME,
                     tileentity.getPos().getX() + (this.rand.nextFloat() + 0.5F) / 2,

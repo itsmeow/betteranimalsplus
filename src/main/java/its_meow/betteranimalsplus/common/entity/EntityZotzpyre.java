@@ -308,7 +308,7 @@ public class EntityZotzpyre extends EntityMonsterWithTypes {
         if (pos.getY() >= world.getSeaLevel() && !BiomeDictionary.getTypes(world.getBiome(pos)).contains(BiomeDictionary.Type.JUNGLE)) {
             return false;
         } else {
-            return func_223324_d(type, world, reason, pos, rand);
+            return canMonsterSpawn(type, world, reason, pos, rand);
         }
     }
 

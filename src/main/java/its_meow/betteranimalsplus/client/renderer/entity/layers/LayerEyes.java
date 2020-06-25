@@ -17,13 +17,13 @@ public class LayerEyes<T extends MobEntity, A extends EntityModel<T>> extends La
 
     public LayerEyes(MobRenderer<T, A> baseRenderer, ResourceLocation texture) {
         super(baseRenderer);
-        this.GLOW_STATE = RenderType.eyes(texture);
+        this.GLOW_STATE = RenderType.getEyes(texture);
     }
 
     @Override
     public void render(MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn, T entity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
         if (!entity.isInvisible() && !entity.isChild()) {
-            ((A)this.getEntityModel()).render(matrixStackIn, bufferIn.getBuffer(GLOW_STATE), 15728640, OverlayTexture.DEFAULT_LIGHT, 1.0F, 1.0F, 1.0F, 1.0F);
+            ((A)this.getEntityModel()).render(matrixStackIn, bufferIn.getBuffer(GLOW_STATE), 15728640, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
         }
     }
 }

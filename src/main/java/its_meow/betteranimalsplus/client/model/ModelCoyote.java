@@ -246,7 +246,7 @@ public class ModelCoyote<T extends LivingEntity> extends ModelBetterAnimals<T> {
     }
 
     @Override
-    public void render(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+    public void setRotationAngles(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
         float swingModifier = 0.9f;
         float newLimbSwing = limbSwing + ModelBetterAnimals.getSwingProgressPrev(entity);
         this.lHindLeg01.rotateAngleX = MathHelper.sin(newLimbSwing * 0.8665F + (float) Math.PI) * swingModifier * limbSwingAmount - 0.22759093446006054F;

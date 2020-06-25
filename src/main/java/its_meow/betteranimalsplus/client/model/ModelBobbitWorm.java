@@ -366,7 +366,7 @@ public class ModelBobbitWorm<T extends LivingEntity> extends EntityModel<T> {
     }
 
     @Override
-    public void render(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+    public void setRotationAngles(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
         if(entity instanceof EntityBobbitWorm) {
             EntityBobbitWorm worm = (EntityBobbitWorm) entity;
             int attack = worm.getAttackState();

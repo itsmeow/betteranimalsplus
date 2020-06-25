@@ -412,7 +412,7 @@ public class ModelDeer<T extends LivingEntity> extends ModelBetterAnimals<T> {
     }
 
     @Override
-    public void render(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+    public void setRotationAngles(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
         float f = limbSwing;
         float f1 = limbSwingAmount;
 

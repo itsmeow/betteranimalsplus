@@ -13,7 +13,7 @@ import net.minecraft.client.renderer.texture.OverlayTexture;
 
 public class LayerEctoplasm extends LayerRenderer<EntityHirschgeist, ModelHirschgeistMain<EntityHirschgeist>> {
     
-    public static final RenderType GLOW_STATE = RenderType.eyes(ModTextures.hirschgeist);
+    public static final RenderType GLOW_STATE = RenderType.getEyes(ModTextures.hirschgeist);
 
     public LayerEctoplasm(IEntityRenderer<EntityHirschgeist, ModelHirschgeistMain<EntityHirschgeist>> renderer) {
         super(renderer);
@@ -21,7 +21,7 @@ public class LayerEctoplasm extends LayerRenderer<EntityHirschgeist, ModelHirsch
 
      public void render(MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int packedLightIn, EntityHirschgeist entity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
         if(!entity.isDaytime()) {
-            this.getEntityModel().renderEctoLayer(matrixStackIn, bufferIn.getBuffer(GLOW_STATE), 0xF00000, OverlayTexture.DEFAULT_LIGHT, 1.0F, 1.0F, 1.0F, 1.0F);
+            this.getEntityModel().renderEctoLayer(matrixStackIn, bufferIn.getBuffer(GLOW_STATE), 0xF00000, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
         }
      }
 

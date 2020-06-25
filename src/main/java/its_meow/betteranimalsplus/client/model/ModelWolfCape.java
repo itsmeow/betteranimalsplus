@@ -164,7 +164,7 @@ public class ModelWolfCape<T extends LivingEntity> extends BipedModel<T> {
     }
     
     @Override
-    public void render(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float f33, float f44) {
+    public void setRotationAngles(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float f33, float f44) {
         this.isPlayer = entity instanceof PlayerEntity;
         if(isPlayer) {
             PlayerEntity player = (PlayerEntity) entity;

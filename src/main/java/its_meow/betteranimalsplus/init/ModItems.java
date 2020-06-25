@@ -81,11 +81,11 @@ public class ModItems {
     public static ItemBearCape BEAR_CAPE_BLACK = new ItemBearCape("black", BEAR_SKIN_BLACK);
     public static ItemBearCape BEAR_CAPE_KERMODE = new ItemBearCape("kermode", BEAR_SKIN_KERMODE);
 
-    public static final MusicDiscItem RECORD_CRAB_RAVE = new MusicDiscItem(15, ModSoundEvents.CRAB_RAVE, new Item.Properties().maxStackSize(1).rarity(Rarity.RARE)) {}; static {
+    public static final MusicDiscItem RECORD_CRAB_RAVE = new MusicDiscItem(15, () -> ModSoundEvents.CRAB_RAVE, new Item.Properties().maxStackSize(1).rarity(Rarity.RARE)) {}; static {
         RECORD_CRAB_RAVE.setRegistryName(new ResourceLocation(Ref.MOD_ID, "record_crab_rave"));
     }
 
-    public static final MusicDiscItem RECORD_WALRUS = new MusicDiscItem(15, ModSoundEvents.WALRUS, new Item.Properties().maxStackSize(1).rarity(Rarity.RARE)) {}; static {
+    public static final MusicDiscItem RECORD_WALRUS = new MusicDiscItem(15, () -> ModSoundEvents.WALRUS, new Item.Properties().maxStackSize(1).rarity(Rarity.RARE)) {}; static {
         RECORD_WALRUS.setRegistryName(new ResourceLocation(Ref.MOD_ID, "record_walrus"));
     }
 

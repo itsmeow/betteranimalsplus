@@ -211,7 +211,7 @@ public class ModelWalrus<T extends LivingEntity> extends EntityModel<T> {
     }
 
     @Override
-    public void render(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+    public void setRotationAngles(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
         this.setRotateAngle(lLeg2, 0.7853981633974483F, 0.7853981633974483F, -0.08726646259971647F);
         this.setRotateAngle(rLeg2, 0.7853981633974483F, -0.7853981633974483F, 0.08726646259971647F);
         this.setRotateAngle(lLeg1, 0.5759586531581287F, 1.7453292519943295F, 0.0F);

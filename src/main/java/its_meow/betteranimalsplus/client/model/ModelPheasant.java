@@ -272,7 +272,7 @@ public class ModelPheasant<T extends LivingEntity> extends EntityModel<T> {
     }
 
     @Override
-    public void render(T entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+    public void setRotationAngles(T entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
         if (entityIn instanceof EntityPheasant) {
             EntityPheasant ent = (EntityPheasant) entityIn;
             float peckTime = ent.getPeckTime();

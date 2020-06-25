@@ -53,15 +53,15 @@ public class RenderBlockTrillium extends TileEntityRenderer<TileEntityTrillium> 
                 r = r > 255F ? 250F : r;
                 g = g > 255F ? 250F : g;
                 b = b > 255F ? 250F : b;
-                mainModel.render((Entity) null, 0F, 0F, 0F, rotate, 0F);
-                mainModel.render(matrixStackIn, bufferIn.getBuffer(RenderType.entityCutout(ModTextures.trillium_base)), combinedLightIn, combinedOverlayIn, r, g, b, 1F);
+                mainModel.setRotationAngles((Entity) null, 0F, 0F, 0F, rotate, 0F);
+                mainModel.render(matrixStackIn, bufferIn.getBuffer(RenderType.getEntityCutout(ModTextures.trillium_base)), combinedLightIn, combinedOverlayIn, r, g, b, 1F);
             }
             matrixStackIn.pop();
 
             matrixStackIn.push();
             {
-                mainModel.render((Entity) null, 0F, 0F, 0F, rotate, 0F);
-                mainModel.render(matrixStackIn, bufferIn.getBuffer(RenderType.entityCutout(tileentity.getTexture())), combinedLightIn, combinedOverlayIn, 1F, 1F, 1F, 1F);
+                mainModel.setRotationAngles((Entity) null, 0F, 0F, 0F, rotate, 0F);
+                mainModel.render(matrixStackIn, bufferIn.getBuffer(RenderType.getEntityCutout(tileentity.getTexture())), combinedLightIn, combinedOverlayIn, 1F, 1F, 1F, 1F);
             }
             matrixStackIn.pop();
         }

@@ -357,7 +357,7 @@ public class ModelZotzpyre<T extends LivingEntity> extends EntityModel<T> {
     }
 
     @Override
-    public void render(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+    public void setRotationAngles(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
         if(entity instanceof EntityZotzpyre) {
             EntityZotzpyre zotz = (EntityZotzpyre) entity;
             if((zotz.getMotion().getX() > 0.05 || zotz.getMotion().getZ() > 0.05) && zotz.getRidingEntity() == null || (zotz.getRidingEntity() == null && !zotz.onGround)) {

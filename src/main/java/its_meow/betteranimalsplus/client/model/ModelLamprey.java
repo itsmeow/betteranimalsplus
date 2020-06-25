@@ -107,7 +107,7 @@ public class ModelLamprey<T extends LivingEntity> extends EntityModel<T> {
     }
     
     @Override
-    public void render(T entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+    public void setRotationAngles(T entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
         float factor = (float) entityIn.getMotion().length() * 10;
         this.body01.rotateAngleY = MathHelper.cos(ageInTicks * 0.3F) * (float) Math.PI * 0.05F * factor;
         this.head.rotateAngleY = -this.body01.rotateAngleY * 1.5F;

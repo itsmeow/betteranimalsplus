@@ -249,7 +249,7 @@ public class ModelGoose<T extends LivingEntity> extends EntityModel<T> {
     }
 
     @Override
-    public void render(T entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+    public void setRotationAngles(T entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
         this.neck01.rotateAngleX = headPitch * 0.017453292F - 0.5235987755982988F;
         this.neck01.rotateAngleZ = 0F;
         this.head.rotateAngleZ = netHeadYaw * 0.017453292F;
@@ -272,7 +272,7 @@ public class ModelGoose<T extends LivingEntity> extends EntityModel<T> {
 
         if(entityIn instanceof PlayerEntity) {
             PlayerEntity player = (PlayerEntity)entityIn;
-            if(player.isShiftKeyDown()) {
+            if(player.isSneaking()) {
                 this.rLeg01.rotationPointY = 3.3F; 
                 this.lLeg01.rotationPointY = 3.3F;
                 this.body.rotationPointY = 15.3F;

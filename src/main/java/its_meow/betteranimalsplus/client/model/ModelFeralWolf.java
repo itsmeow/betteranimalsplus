@@ -295,7 +295,7 @@ public class ModelFeralWolf<T extends LivingEntity> extends ModelBetterAnimals<T
     }
 
     @Override
-    public void render(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+    public void setRotationAngles(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
         this.head.rotateAngleX = (float) Math.toRadians(ModelBetterAnimals.getHeadPitch(entity)) + 2.1816615649929116F;
         this.head.rotateAngleY = netHeadYaw * 0.017453292F;
         boolean sit = false;

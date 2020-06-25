@@ -223,7 +223,7 @@ public class ModelHirschgeistSkull extends EntityModel<Entity> {
     }
     
     @Override
-    public void render(Entity entityIn, float f, float f1, float f2, float f3, float f4) {
+    public void setRotationAngles(Entity entityIn, float f, float f1, float f2, float f3, float f4) {
         this.head01.rotateAngleY = (float) Math.toRadians(f);
         this.head01.rotateAngleX = (float) Math.toRadians(f1);
     }

@@ -327,7 +327,7 @@ public class ModelMooseHead extends EntityModel<Entity> {
     }
 
     @Override
-    public void render(Entity entityIn, float f, float f1, float f2, float f3, float f4) {
+    public void setRotationAngles(Entity entityIn, float f, float f1, float f2, float f3, float f4) {
         this.neck.rotateAngleY = (float) Math.toRadians(f);
         this.neck.rotateAngleX = (float) Math.toRadians(f1);
     }
