@@ -586,9 +586,8 @@ public class ModelLammergeier<T extends LivingEntity> extends EntityModel<T> {
 
     @Override
     public void render(T entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
-
         EntityLammergeier lammergeier = (EntityLammergeier) entityIn;
-        this.isFlying = !entityIn.getEntityWorld().getBlockState(entityIn.getPosition().down()).isSolid();
+        this.isFlying = lammergeier.getFlying();
 
         if (this.isFlying) {
             this.rWing01.rotateAngleZ = MathHelper.cos(ageInTicks * 0.3F) * (float) Math.PI * 0.25F;
@@ -615,8 +614,7 @@ public class ModelLammergeier<T extends LivingEntity> extends EntityModel<T> {
             float f = 1.0F;
 
             if (flag) {
-                f = (float) (entityIn.getMotion().getX() * entityIn.getMotion().getX() + entityIn.getMotion().getY() * entityIn.getMotion().getY()
-                        + entityIn.getMotion().getZ() * entityIn.getMotion().getZ());
+                f = (float) (entityIn.getMotion().getX() * entityIn.getMotion().getX() + entityIn.getMotion().getY() * entityIn.getMotion().getY() + entityIn.getMotion().getZ() * entityIn.getMotion().getZ());
                 f = f / 0.2F;
                 f = f * f * f;
             }
@@ -626,8 +624,7 @@ public class ModelLammergeier<T extends LivingEntity> extends EntityModel<T> {
             }
 
             this.rLeg01.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount / f;
-            this.lLeg01.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F + (float) Math.PI) * 1.4F * limbSwingAmount
-                    / f;
+            this.lLeg01.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F + (float) Math.PI) * 1.4F * limbSwingAmount / f;
 
         }
 

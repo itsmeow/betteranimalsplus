@@ -3,9 +3,11 @@ package its_meow.betteranimalsplus.client.model;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.MathHelper;
 
 /**
@@ -249,15 +251,49 @@ public class ModelGoose<T extends LivingEntity> extends EntityModel<T> {
     @Override
     public void render(T entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
         this.neck01.rotateAngleX = headPitch * 0.017453292F - 0.5235987755982988F;
+        this.neck01.rotateAngleZ = 0F;
         this.head.rotateAngleZ = netHeadYaw * 0.017453292F;
+        this.rLeg01.rotationPointY = 3.3F; 
+        this.lLeg01.rotationPointY = 3.3F;
+        this.body.rotationPointY = 15.3F;
+        this.setRotateAngle(rWing01, 0.0F, 1.3089969389957472F, 0.0F);
+        this.setRotateAngle(lWing01, 0.0F, -1.3089969389957472F, 0.0F);
+        this.setRotateAngle(rWing02, 0.0F, 0.5235987755982988F, 0.0F);
+        this.setRotateAngle(lWing02, 0.0F, -0.5235987755982988F, 0.0F);
+        this.lLeg01.showModel = true;
+        this.rLeg01.showModel = true;
         if(!entityIn.isInWater()) {
             this.rLeg01.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount + 0.20943951023931953F;
             this.lLeg01.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F + (float) Math.PI) * 1.4F * limbSwingAmount + 0.20943951023931953F;
-            this.lLeg01.showModel = true;
-            this.rLeg01.showModel = true;
         } else {
             this.lLeg01.showModel = false;
             this.rLeg01.showModel = false;
+        }
+
+        if(entityIn instanceof PlayerEntity) {
+            PlayerEntity player = (PlayerEntity)entityIn;
+            if(player.isShiftKeyDown()) {
+                this.rLeg01.rotationPointY = 2.3F; 
+                this.lLeg01.rotationPointY = 2.3F;
+                this.body.rotationPointY = 16.3F;
+            }
+            if((player.abilities.allowFlying && player.abilities.isFlying) || (player != Minecraft.getInstance().player && player.isAirBorne && !player.onGround)) {
+                this.rWing01.rotateAngleY = 0F;
+                this.lWing01.rotateAngleY = 0F;
+                float rot = MathHelper.sin(ageInTicks * player.abilities.getFlySpeed() * 8F) * 0.5F;
+                this.rWing01.rotateAngleZ = rot;
+                this.lWing01.rotateAngleZ = -rot;
+                this.rWing02.rotateAngleZ = rot * 0.8F;
+                this.lWing02.rotateAngleZ = -rot * 0.8F;
+                this.lLeg01.showModel = false;
+                this.rLeg01.showModel = false;
+                this.neck01.rotateAngleX += Math.toRadians(60F);
+            }
+            if(this.swingProgress > 0.0F) {
+                float f2 = MathHelper.sin((1.0F - (float) Math.pow(1.0F - this.swingProgress, 3)) * (float) Math.PI);
+                float f3 = MathHelper.sin(this.swingProgress * (float) Math.PI) * 0.7F * 0.75F;
+                this.neck01.rotateAngleX += f2 * 1.2F + f3;
+            }
         }
     }
 
