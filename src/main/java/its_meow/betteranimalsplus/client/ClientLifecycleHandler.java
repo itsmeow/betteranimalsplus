@@ -103,7 +103,7 @@ public class ClientLifecycleHandler {
 
         R.addRender(EntityBear.class, 1F, r -> r.tSingle("bear_brown").mSingle(new ModelBear<>()).preRender((e, f) -> GlStateManager.scalef(1.3F, 1.3F, 1.3F)));
         R.addRender(EntityBearNeutral.class, 1F, r -> r.tVariant().mSingle(new ModelBear<>()));
-        R.addRender(EntityDeer.class, 1F, r -> r.tVariant().mSingle(new ModelDeer<>()).childScale(0.6F));
+        R.addRender(EntityDeer.class, 1F, r -> r.tBabyVariant("deer_baby").mSingle(new ModelDeer<>()).childScale(0.6F));
         R.addRender(EntityLammergeier.class, 0.3F, r -> r.tVariant().mSingle(new ModelLammergeier<>()));
         R.addRender(EntityFeralWolf.class, 0.5F, r -> r.tVariant().mSingle(new ModelFeralWolf<>()).handleRotation((e, p) -> e.getTailRotation()).preRender((e, p) -> {
             if(e.isWolfWet()) {
@@ -131,13 +131,13 @@ public class ClientLifecycleHandler {
             GlStateManager.scalef(s, s, s);
             GlStateManager.translatef(0, 1F, 0);
         }));
-        R.addRender(EntityPheasant.class, 0.5F, r -> r.tVariant().mSingle(new ModelPheasant<>()).childScale(0.5F).handleRotation((e, p) -> {
+        R.addRender(EntityPheasant.class, 0.5F, r -> r.tBabyVariant("pheasant_baby").mSingle(new ModelPheasant<>()).childScale(0.5F).handleRotation((e, p) -> {
             float f = e.oFlap + (e.wingRotation - e.oFlap) * p;
             float f1 = e.oFlapSpeed + (e.destPos - e.oFlapSpeed) * p;
             return (MathHelper.sin(f) + 1.0F) * f1;
         }));
         R.addRender(EntityReindeer.class, 1F, r -> r.tVariant().mSingle(new ModelReindeer<>()).ageScale(1.3F, 0.7F));
-        R.addRender(EntityBoar.class, 0.6F, r -> r.tVariant().mSingle(new ModelBoar<>()).childScale(0.6F));
+        R.addRender(EntityBoar.class, 0.6F, r -> r.tBabyVariant("boar_baby").mSingle(new ModelBoar<>()).childScale(0.6F));
         R.addRender(EntitySquirrel.class, 0.3F, r -> r.tVariant().mSingle(new ModelSquirrel<>()).ageScale(0.5F, 0.35F));
         R.addRender(EntitySongbird.class, 0.3F, r -> r.tVariant().mCondition(e -> e.getVariantNameOrEmpty().isEmpty() || !e.getVariantNameOrEmpty().startsWith("small"), new ModelSongbird<>(), new ModelSongbirdSmall<>()).ageScale(0.5F, 0.3F));
         R.addRender(EntityBadger.class, 0.4F, r -> r.tVariant().mSingle(new ModelBadger<>()).ageScale(0.7F, 0.35F));
@@ -175,7 +175,7 @@ public class ClientLifecycleHandler {
         }));
         R.addRender(EntityMoose.class, 0.8F, r -> r.tVariant().mSingle(new ModelMoose<>()).condScale(Predicates.alwaysTrue(), 1.5F));
         RenderFactory.addRender(EntityPheasantEgg.class, RenderFactory.sprite());
-        R.addRender(EntityTurkey.class, 0.5F, r -> r.tVariant().mSingle(new ModelTurkey<>()).ageScale(0.8F, 0.5F).handleRotation((e, p) -> {
+        R.addRender(EntityTurkey.class, 0.5F, r -> r.tBabyVariant("turkey_baby").mSingle(new ModelTurkey<>()).ageScale(0.8F, 0.5F).handleRotation((e, p) -> {
             float f = e.oFlap + (e.wingRotation - e.oFlap) * p;
             float f1 = e.oFlapSpeed + (e.destPos - e.oFlapSpeed) * p;
             return (MathHelper.sin(f) + 1.0F) * f1;
@@ -183,7 +183,7 @@ public class ClientLifecycleHandler {
         RenderFactory.addRender(EntityTurkeyEgg.class, RenderFactory.sprite());
         R.addRender(EntityZotzpyre.class, 0.4F, r -> r.tVariant().mSingle(new ModelZotzpyre<>()).layer(t -> new LayerEyes<>(t, ModTextures.zotzpyre_eyes)));
         R.addRender(EntityBobbitWorm.class, 0.4F, r -> r.tVariant().mSingle(new ModelBobbitWorm<>()));
-        R.addRender(EntityGoose.class, 0.5F, r -> r.tVariant().mSingle(new ModelGoose<>()).ageScale(0.8F, 0.5F).layer(t -> new GooseItemLayerRenderer<EntityGoose>(t)));
+        R.addRender(EntityGoose.class, 0.5F, r -> r.tBabyVariant("goose_baby").mSingle(new ModelGoose<>()).ageScale(0.8F, 0.5F).layer(t -> new GooseItemLayerRenderer<EntityGoose>(t)));
         RenderFactory.addRender(EntityGooseEgg.class, RenderFactory.sprite());
         RenderFactory.addRender(EntityGoldenGooseEgg.class, RenderFactory.sprite());
         R.addRender(EntityFreshwaterEel.class, 0.4F, r -> r.tVariant().mSingle(new ModelFreshwaterEel<>()));
