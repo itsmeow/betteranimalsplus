@@ -273,9 +273,9 @@ public class ModelGoose<T extends LivingEntity> extends EntityModel<T> {
         if(entityIn instanceof PlayerEntity) {
             PlayerEntity player = (PlayerEntity)entityIn;
             if(player.isShiftKeyDown()) {
-                this.rLeg01.rotationPointY = 2.3F; 
-                this.lLeg01.rotationPointY = 2.3F;
-                this.body.rotationPointY = 16.3F;
+                this.rLeg01.rotationPointY = 3.3F; 
+                this.lLeg01.rotationPointY = 3.3F;
+                this.body.rotationPointY = 15.3F;
             }
             if((player.abilities.allowFlying && player.abilities.isFlying) || (player != Minecraft.getInstance().player && player.isAirBorne && !player.onGround)) {
                 this.rWing01.rotateAngleY = 0F;
