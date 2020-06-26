@@ -119,8 +119,8 @@ public class TileEntityHandOfFate extends TileEntity {
     }
 
     @Override
-    public void read(CompoundNBT compound) {
-        super.read(compound);
+    public void func_230337_a_(BlockState state, CompoundNBT compound) {
+        super.func_230337_a_(state, compound);
         if (compound.contains(this.keyOnFire)) {
             this.onFire = compound.getBoolean(this.keyOnFire);
         }
@@ -154,7 +154,7 @@ public class TileEntityHandOfFate extends TileEntity {
 
     @Override
     public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket packet) {
-        this.read(packet.getNbtCompound());
+        this.func_230337_a_(null, packet.getNbtCompound());
         this.world.getPendingBlockTicks().scheduleTick(this.pos, this.getBlockState().getBlock(), 100);
     }
 
@@ -166,8 +166,8 @@ public class TileEntityHandOfFate extends TileEntity {
     }
 
     @Override
-    public void handleUpdateTag(CompoundNBT tag) {
-        this.read(tag);
+    public void handleUpdateTag(BlockState state, CompoundNBT tag) {
+        this.func_230337_a_(state, tag);
     }
 
     @OnlyIn(Dist.CLIENT)

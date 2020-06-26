@@ -4,6 +4,7 @@ import javax.annotation.Nullable;
 
 import com.google.common.base.Predicates;
 
+import its_meow.betteranimalsplus.Ref;
 import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainerBAPTameable;
 import its_meow.betteranimalsplus.init.ModEntities;
 import net.minecraft.entity.ILivingEntityData;
@@ -35,6 +36,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Food;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
@@ -130,7 +132,7 @@ public class EntityCoyote extends EntityFeralWolf {
     }
 
     @Override
-    public boolean processInteract(PlayerEntity player, Hand hand) {
+    public ActionResultType func_230254_b_(PlayerEntity player, Hand hand) {
         ItemStack itemstack = player.getHeldItem(hand);
 
         if (this.isTamed()) {
@@ -145,14 +147,14 @@ public class EntityCoyote extends EntityFeralWolf {
                         }
 
                         this.heal(food.getHealing());
-                        return true;
+                        return ActionResultType.SUCCESS;
                     }
                 }
             }
 
             if (this.isOwner(player) && !this.world.isRemote && !this.isBreedingItem(itemstack)
                     && (!(itemstack.getItem().isFood()) || !itemstack.getItem().getFood().isMeat())) {
-                this.aiSit.setSitting(!this.isSitting());
+                this.func_233687_w_(!this.func_233685_eM_());
                 this.isJumping = false;
                 this.navigator.clearPath();
                 this.setAttackTarget((LivingEntity) null);
@@ -160,7 +162,7 @@ public class EntityCoyote extends EntityFeralWolf {
         } else if(this.isTamingItem(itemstack.getItem())) {
             if(HOSTILE_DAYTIME) {
                 if (!this.world.isRemote) {
-                    player.sendMessage(new StringTextComponent("This coyote is always hostile. It cannot be tamed (server configuration)"));
+                    player.sendMessage(new StringTextComponent("This coyote is always hostile. It cannot be tamed (server configuration)"), Ref.EMPTY_UUID);
                 }
             } else if (this.isDaytime()) {
 
@@ -174,7 +176,7 @@ public class EntityCoyote extends EntityFeralWolf {
                         this.setTamedBy(player);
                         this.navigator.clearPath();
                         this.setAttackTarget((LivingEntity) null);
-                        this.aiSit.setSitting(true);
+                        this.func_233687_w_(true);
                         this.setHealth(20.0F);
                         this.world.setEntityState(this, (byte) 7);
                     } else {
@@ -182,16 +184,16 @@ public class EntityCoyote extends EntityFeralWolf {
                     }
                 }
 
-                return true;
+                return ActionResultType.SUCCESS;
             } else {
                 if (!this.world.isRemote) {
-                    player.sendMessage(new StringTextComponent("This coyote is currently hostile. Perhaps it could be tamed outside of its hunting hours?"));
+                    player.sendMessage(new StringTextComponent("This coyote is currently hostile. Perhaps it could be tamed outside of its hunting hours?"), Ref.EMPTY_UUID);
                 }
-                return true;
+                return ActionResultType.PASS;
             }
         }
 
-        return false;
+        return ActionResultType.PASS;
     }
 
     @Override

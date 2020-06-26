@@ -17,7 +17,7 @@ import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
-import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.goal.BreedGoal;
 import net.minecraft.entity.ai.goal.FollowParentGoal;
 import net.minecraft.entity.ai.goal.Goal;
@@ -37,6 +37,7 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
+import net.minecraft.util.ActionResultType;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
@@ -44,7 +45,7 @@ import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
 
 public class EntityGoat extends EntityAnimalEatsGrassWithTypes {
@@ -70,13 +71,13 @@ public class EntityGoat extends EntityAnimalEatsGrassWithTypes {
 
     @Override
     public boolean attackEntityAsMob(Entity entityIn) {
-        Vec3d pos = this.getPositionVector();
-        Vec3d targetPos = entityIn.getPositionVector();
-        ((LivingEntity) entityIn).knockBack(entityIn, 0.8F, pos.x - targetPos.x, pos.z - targetPos.z);
+        Vector3d pos = this.getPositionVec();
+        Vector3d targetPos = entityIn.getPositionVec();
+        ((LivingEntity) entityIn).func_233627_a_(0.8F, pos.x - targetPos.x, pos.z - targetPos.z);
 
         // Vanilla attack code for mobs
 
-        float f = (float) this.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getValue();
+        float f = (float) this.getAttribute(Attributes.field_233823_f_).getValue();
         int i = 0;
 
         if (entityIn instanceof LivingEntity) {
@@ -89,7 +90,7 @@ public class EntityGoat extends EntityAnimalEatsGrassWithTypes {
 
         if (flag) {
             if (i > 0 && entityIn instanceof LivingEntity) {
-                ((LivingEntity) entityIn).knockBack(this, i * 0.5F, MathHelper.sin(this.rotationYaw * 0.017453292F),
+                ((LivingEntity) entityIn).func_233627_a_(i * 0.5F, MathHelper.sin(this.rotationYaw * 0.017453292F),
                 -MathHelper.cos(this.rotationYaw * 0.017453292F));
                 this.setMotion(this.getMotion().getX() * 0.6D, this.getMotion().getY(), this.getMotion().getZ() * 0.6D);
             }
@@ -163,15 +164,6 @@ public class EntityGoat extends EntityAnimalEatsGrassWithTypes {
     }
 
     @Override
-    protected void registerAttributes() {
-        super.registerAttributes();
-        this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(14.0D);
-        this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.5D);
-        this.getAttributes().registerAttribute(SharedMonsterAttributes.ATTACK_DAMAGE);
-        this.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(0.8D);
-    }
-
-    @Override
     protected SoundEvent getAmbientSound() {
         return SoundEvents.ENTITY_SHEEP_AMBIENT;
     }
@@ -192,7 +184,7 @@ public class EntityGoat extends EntityAnimalEatsGrassWithTypes {
     }
 
     @Override
-    public boolean processInteract(PlayerEntity player, Hand hand) {
+    public ActionResultType func_230254_b_(PlayerEntity player, Hand hand) {
         ItemStack stack = player.getHeldItem(hand);
 
         if(stack.getItem() == Items.BUCKET && !player.isCreative() && !this.isChild()) {
@@ -206,12 +198,12 @@ public class EntityGoat extends EntityAnimalEatsGrassWithTypes {
             } else if(!player.inventory.addItemStackToInventory(new ItemStack(milk))) {
                 player.dropItem(new ItemStack(milk), false);
             }
-            return true;
+            return ActionResultType.SUCCESS;
         } else if(this.isBreedingItem(stack) && !this.isChild()) {
             this.hasBeenFed = true;
             this.friend = player;
         }
-        return super.processInteract(player, hand);
+        return super.func_230254_b_(player, hand);
     }
 
     @Override

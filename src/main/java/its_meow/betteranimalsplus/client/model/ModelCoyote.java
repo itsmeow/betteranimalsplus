@@ -261,7 +261,7 @@ public class ModelCoyote<T extends LivingEntity> extends ModelBetterAnimals<T> {
         if (entity instanceof EntityCoyote) {
             EntityCoyote wolf = (EntityCoyote) entity;
             this.tail01.rotateAngleX = ageInTicks;
-            if (wolf.isSitting()) {
+            if (wolf.func_233685_eM_()) {
                 ModelCoyote.setRotateAngle360(this.neck, 30, 0, 0);
                 ModelCoyote.setRotateAngle360(this.chest, -40, 0, 0);
                 ModelCoyote.setRotateAngle360(this.body, -40, 0, 0);

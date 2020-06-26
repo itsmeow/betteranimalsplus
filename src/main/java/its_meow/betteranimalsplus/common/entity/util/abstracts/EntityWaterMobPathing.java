@@ -7,7 +7,7 @@ import net.minecraft.entity.MoverType;
 import net.minecraft.entity.passive.WaterMobEntity;
 import net.minecraft.pathfinding.PathNavigator;
 import net.minecraft.pathfinding.SwimmerPathNavigator;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
 
 public abstract class EntityWaterMobPathing extends WaterMobEntity implements IContainerEntity<EntityWaterMobPathing> {
@@ -23,7 +23,7 @@ public abstract class EntityWaterMobPathing extends WaterMobEntity implements IC
     }
 
     @Override
-    public void travel(Vec3d p_213352_1_) {
+    public void travel(Vector3d p_213352_1_) {
         if(this.isServerWorld() && this.isInWater()) {
             this.moveRelative(0.01F, p_213352_1_);
             this.move(MoverType.SELF, this.getMotion());

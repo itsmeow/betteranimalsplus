@@ -7,13 +7,14 @@ import java.util.Set;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
-import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonObject;
 
 import net.minecraft.advancements.ICriterionTrigger;
 import net.minecraft.advancements.PlayerAdvancements;
 import net.minecraft.advancements.criterion.CriterionInstance;
+import net.minecraft.advancements.criterion.EntityPredicate;
 import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.loot.ConditionArrayParser;
 import net.minecraft.util.ResourceLocation;
 
 public class CustomTrigger implements ICriterionTrigger<CustomTrigger.Instance> {
@@ -64,8 +65,8 @@ public class CustomTrigger implements ICriterionTrigger<CustomTrigger.Instance> 
     }
 
     @Override
-    public CustomTrigger.Instance deserializeInstance(JsonObject json, JsonDeserializationContext context) {
-        return new CustomTrigger.Instance(getId());
+    public CustomTrigger.Instance func_230307_a_(JsonObject json, ConditionArrayParser context) {
+        return new CustomTrigger.Instance(getId(), EntityPredicate.AndPredicate.field_234582_a_);
     }
 
     public void trigger(ServerPlayerEntity parPlayer) {
@@ -78,8 +79,8 @@ public class CustomTrigger implements ICriterionTrigger<CustomTrigger.Instance> 
 
     public static class Instance extends CriterionInstance {
 
-        public Instance(ResourceLocation parRL) {
-            super(parRL);
+        public Instance(ResourceLocation parRL, EntityPredicate.AndPredicate predicate) {
+            super(parRL, predicate);
         }
 
         public boolean test() {

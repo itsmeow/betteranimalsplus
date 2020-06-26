@@ -14,9 +14,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.LeavesBlock;
-import net.minecraft.block.LogBlock;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.controller.FlyingMovementController;
 import net.minecraft.entity.ai.goal.AvoidEntityGoal;
@@ -33,6 +31,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.pathfinding.FlyingPathNavigator;
 import net.minecraft.pathfinding.PathNavigator;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
@@ -72,15 +71,6 @@ public class EntitySongbird extends EntityAnimalWithSelectiveTypes implements IF
     }
 
     @Override
-    protected void registerAttributes() {
-        super.registerAttributes();
-        this.getAttributes().registerAttribute(SharedMonsterAttributes.FLYING_SPEED);
-        this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(6.0D);
-        this.getAttribute(SharedMonsterAttributes.FLYING_SPEED).setBaseValue(0.4D);
-        this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.2D);
-    }
-
-    @Override
     public boolean canSpawn(IWorld world, SpawnReason reason) {
         int i = MathHelper.floor(this.getPosX());
         int j = MathHelper.floor(this.getBoundingBox().minY);
@@ -88,7 +78,7 @@ public class EntitySongbird extends EntityAnimalWithSelectiveTypes implements IF
         BlockPos blockpos = new BlockPos(i, j, k);
         if(world instanceof World && !((World) world).isBlockPresent(new BlockPos(blockpos))) {
             Block block = this.world.getBlockState(blockpos.down()).getBlock();
-            return block instanceof LeavesBlock || block == Blocks.GRASS || block instanceof LogBlock
+            return block instanceof LeavesBlock || block == Blocks.GRASS || BlockTags.LOGS.func_230235_a_(block)
                     || block == Blocks.AIR && this.world.getLight(blockpos) > 8 && super.canSpawn(world, reason);
         } else {
             return super.canSpawn(world, reason);

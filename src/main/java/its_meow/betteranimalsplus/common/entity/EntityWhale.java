@@ -10,7 +10,7 @@ import its_meow.betteranimalsplus.init.ModEntities;
 import its_meow.betteranimalsplus.init.ModLootTables;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.controller.DolphinLookController;
 import net.minecraft.entity.ai.controller.MovementController;
 import net.minecraft.entity.ai.goal.BreatheAirGoal;
@@ -28,7 +28,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
@@ -59,16 +59,6 @@ public class EntityWhale extends EntityWaterMobPathingWithTypesAirBreathing impl
         this.targetSelector.addGoal(0, new HurtByTargetGoal(this, new Class[0]));
     }
 
-    @Override
-    protected void registerAttributes() {
-        super.registerAttributes();
-        this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(50D);
-        this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(2D);
-        this.getAttribute(SharedMonsterAttributes.KNOCKBACK_RESISTANCE).setBaseValue(1D);
-        this.getAttributes().registerAttribute(SharedMonsterAttributes.ATTACK_DAMAGE);
-        this.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(8D);
-    }
-
     protected SoundEvent getSplashSound() {
         return SoundEvents.ENTITY_DOLPHIN_SPLASH;
     }
@@ -82,7 +72,7 @@ public class EntityWhale extends EntityWaterMobPathingWithTypesAirBreathing impl
     }
 
     public boolean attackEntityAsMob(Entity entityIn) {
-        boolean flag = entityIn.attackEntityFrom(DamageSource.causeMobDamage(this), (float) (isNarwhal() ? this.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getValue() : 1F));
+        boolean flag = entityIn.attackEntityFrom(DamageSource.causeMobDamage(this), (float) (isNarwhal() ? this.getAttribute(Attributes.field_233823_f_).getValue() : 1F));
         if(flag) {
             if(!isNarwhal()) {
                 if(attacksLeft > 0) {
@@ -102,9 +92,9 @@ public class EntityWhale extends EntityWaterMobPathingWithTypesAirBreathing impl
                     player.addPotionEffect(new EffectInstance(Effects.NAUSEA, ticks + 40, 1, false, false));
                 }
             }
-            Vec3d pos = this.getPositionVector();
-            Vec3d targetPos = entityIn.getPositionVector();
-            ((LivingEntity) entityIn).knockBack(this, isNarwhal() ? 0.8F : 2F, pos.x - targetPos.x, pos.z - targetPos.z);
+            Vector3d pos = this.getPositionVec();
+            Vector3d targetPos = entityIn.getPositionVec();
+            ((LivingEntity) entityIn).func_233627_a_(isNarwhal() ? 0.8F : 2F, pos.x - targetPos.x, pos.z - targetPos.z);
         }
         return flag;
     }
@@ -157,7 +147,7 @@ public class EntityWhale extends EntityWaterMobPathingWithTypesAirBreathing impl
                     this.whale.rotationYaw = this.limitAngle(this.whale.rotationYaw, f, 10.0F);
                     this.whale.renderYawOffset = this.whale.rotationYaw;
                     this.whale.rotationYawHead = this.whale.rotationYaw;
-                    float f1 = (float) (this.speed * this.whale.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).getValue());
+                    float f1 = (float) (this.speed * this.whale.getAttribute(Attributes.field_233821_d_).getValue());
                     if(this.whale.isInWater()) {
                         this.whale.setAIMoveSpeed(f1 * 0.02F);
                         float f2 = -((float) (MathHelper.atan2(d1, (double) MathHelper.sqrt(d0 * d0 + d2 * d2)) * (double) (180F / (float) Math.PI)));

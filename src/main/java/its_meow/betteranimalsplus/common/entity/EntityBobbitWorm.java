@@ -15,8 +15,8 @@ import net.minecraft.entity.CreatureAttribute;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MoverType;
-import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.RandomPositionGenerator;
+import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.goal.LookAtGoal;
 import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal;
 import net.minecraft.entity.monster.EndermanEntity;
@@ -31,7 +31,7 @@ import net.minecraft.pathfinding.PathNodeType;
 import net.minecraft.pathfinding.SwimmerPathNavigator;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
 
@@ -40,7 +40,7 @@ public class EntityBobbitWorm extends EntityAnimalWithTypes {
     protected static final DataParameter<Integer> ATTACK_STATE = EntityDataManager.<Integer>createKey(EntityBobbitWorm.class, DataSerializers.VARINT);
     private float lastAttack = 0;
     private float lastGrab = 0;
-    private Vec3d targetPosition;
+    private Vector3d targetPosition;
 
     public EntityBobbitWorm(World world) {
         super(ModEntities.BOBBIT_WORM.entityType, world);
@@ -74,29 +74,20 @@ public class EntityBobbitWorm extends EntityAnimalWithTypes {
     }
 
     @Override
-    protected void registerAttributes() {
-        super.registerAttributes();
-        this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(15D);
-        this.getAttributes().registerAttribute(SharedMonsterAttributes.ATTACK_DAMAGE);
-        this.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(4D);
-        this.getAttribute(SharedMonsterAttributes.KNOCKBACK_RESISTANCE).setBaseValue(10D);
-    }
-
-    @Override
     public boolean attackEntityAsMob(Entity entityIn) {
-        return entityIn.attackEntityFrom(DamageSource.causeMobDamage(this), (float) this.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getValue());
+        return entityIn.attackEntityFrom(DamageSource.causeMobDamage(this), (float) this.getAttribute(Attributes.field_233823_f_).getValue());
     }
 
     @Nullable
-    protected Vec3d getNewTargetPosition() {
-        Vec3d pos = RandomPositionGenerator.findRandomTarget(this, 20, 5);
+    protected Vector3d getNewTargetPosition() {
+        Vector3d pos = RandomPositionGenerator.findRandomTarget(this, 20, 5);
         if(pos != null) {
             if(isGoodBurrowingPosition(new BlockPos(pos))) {
                 return pos;
             }
         }
-        if(world.getBlockState(this.getPosition().down()).getBlock() == Blocks.WATER) {
-            return new Vec3d(this.getPosX(), this.getPosY() - 1D, this.getPosZ());
+        if(world.getBlockState(this.func_233580_cy_().down()).getBlock() == Blocks.WATER) {
+            return new Vector3d(this.getPosX(), this.getPosY() - 1D, this.getPosZ());
         }
         return null;
     }
@@ -112,7 +103,7 @@ public class EntityBobbitWorm extends EntityAnimalWithTypes {
     }
 
     @Override
-    public void travel(Vec3d vec) {
+    public void travel(Vector3d vec) {
         this.move(MoverType.SELF, this.getMotion());
     }
 
@@ -151,21 +142,21 @@ public class EntityBobbitWorm extends EntityAnimalWithTypes {
             if(this.targetPosition != null) {
                 this.setMotion((this.targetPosition.x - this.getPosX()) * 0.05F, (this.targetPosition.y - this.getPosY()) * 0.05F, (this.targetPosition.z - this.getPosZ()) * 0.05F);
             }
-            if(targetPosition != null && Math.sqrt(this.getPosition().distanceSq(this.targetPosition.x, this.targetPosition.y, this.targetPosition.z, false)) < 1) {
+            if(targetPosition != null && Math.sqrt(this.func_233580_cy_().distanceSq(this.targetPosition.x, this.targetPosition.y, this.targetPosition.z, false)) < 1) {
                 this.setMotion(this.getMotion().getX() * 0.2F, this.getMotion().getY(), this.getMotion().getZ() * 0.2F);
             }
         }
         if(world.isRemote) { // shut up client stop MOVING you stupid idiot
             this.setMotion(this.getMotion().getX() * 0.2F, this.getMotion().getY() * 0.2F, this.getMotion().getZ() * 0.2F);
         }
-        boolean goodPos = this.isGoodBurrowingPosition(this.getPosition());
+        boolean goodPos = this.isGoodBurrowingPosition(this.func_233580_cy_());
         if(this.targetPosition == null && !goodPos) {
-            Vec3d pos = this.getNewTargetPosition();
+            Vector3d pos = this.getNewTargetPosition();
             if(pos != null) {
                 this.targetPosition = pos;
             }
         }
-        if(targetPosition != null && Math.sqrt(this.getPosition().distanceSq(this.targetPosition.x, this.targetPosition.y, this.targetPosition.z, false)) < 1 && !goodPos) {
+        if(targetPosition != null && Math.sqrt(this.func_233580_cy_().distanceSq(this.targetPosition.x, this.targetPosition.y, this.targetPosition.z, false)) < 1 && !goodPos) {
             this.targetPosition = null;
         }
         if(this.getAttackState() > 0) {

@@ -360,7 +360,7 @@ public class ModelZotzpyre<T extends LivingEntity> extends EntityModel<T> {
     public void setRotationAngles(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
         if(entity instanceof EntityZotzpyre) {
             EntityZotzpyre zotz = (EntityZotzpyre) entity;
-            if((zotz.getMotion().getX() > 0.05 || zotz.getMotion().getZ() > 0.05) && zotz.getRidingEntity() == null || (zotz.getRidingEntity() == null && !zotz.onGround)) {
+            if((zotz.getMotion().getX() > 0.05 || zotz.getMotion().getZ() > 0.05) && zotz.getRidingEntity() == null || (zotz.getRidingEntity() == null && zotz.isAirBorne)) {
                 this.setRotateAngle(lLeg01, 1.3962634015954636F, 0.08726646259971647F, 0.40142572795869574F);
                 this.setRotateAngle(lWing03, 0.0F, -0.9599310885968813F, 0.0F);
                 this.setRotateAngle(lWing02, 0.0F, 0.5235987755982988F, 0.0F);

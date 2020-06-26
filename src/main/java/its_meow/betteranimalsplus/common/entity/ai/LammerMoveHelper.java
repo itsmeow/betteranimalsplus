@@ -3,7 +3,7 @@ package its_meow.betteranimalsplus.common.entity.ai;
 import its_meow.betteranimalsplus.common.entity.EntityLammergeier;
 import net.minecraft.entity.ai.controller.MovementController;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 
 public class LammerMoveHelper extends MovementController {
 
@@ -23,7 +23,7 @@ public class LammerMoveHelper extends MovementController {
         double diffX = this.posX - this.mob.getPosX();
         double diffY = this.posY - this.mob.getPosY();
         double diffZ = this.posZ - this.mob.getPosZ();
-        Vec3d vec = new Vec3d(diffX, diffY, diffZ);
+        Vector3d vec = new Vector3d(diffX, diffY, diffZ);
         if(vec.length() < 2.5000003E-7F) {
             this.action = Action.WAIT;
             this.parentEntity.setMotion(0, 0, 0);

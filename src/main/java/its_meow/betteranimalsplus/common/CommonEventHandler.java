@@ -19,15 +19,15 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.loot.IRandomRange;
+import net.minecraft.loot.LootPool;
+import net.minecraft.loot.TableLootEntry;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.tileentity.JukeboxTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.storage.loot.IRandomRange;
-import net.minecraft.world.storage.loot.LootPool;
-import net.minecraft.world.storage.loot.TableLootEntry;
 import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.event.LootTableLoadEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
@@ -50,7 +50,7 @@ public class CommonEventHandler {
         if(e.getSource().getImmediateSource() instanceof EntityBoar) {
             EntityBoar boar = (EntityBoar) e.getSource().getImmediateSource();
             boar.setInLove(null);
-            BlockPos p = boar.getPosition();
+            BlockPos p = boar.func_233580_cy_();
             boar.world.addParticle(ParticleTypes.HEART, p.getX(), p.getY(), p.getZ(), 0.0F, 0.05F, 0.0F);
         } else if(e.getSource().getImmediateSource() instanceof ServerPlayerEntity) {
             ServerPlayerEntity player = (ServerPlayerEntity) e.getSource().getImmediateSource();

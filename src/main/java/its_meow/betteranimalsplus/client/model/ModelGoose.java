@@ -277,7 +277,7 @@ public class ModelGoose<T extends LivingEntity> extends EntityModel<T> {
                 this.lLeg01.rotationPointY = 3.3F;
                 this.body.rotationPointY = 15.3F;
             }
-            if((player.abilities.allowFlying && player.abilities.isFlying) || (player != Minecraft.getInstance().player && player.isAirBorne && !player.onGround)) {
+            if((player.abilities.allowFlying && player.abilities.isFlying) || (player != Minecraft.getInstance().player && player.isAirBorne)) {
                 this.rWing01.rotateAngleY = 0F;
                 this.lWing01.rotateAngleY = 0F;
                 float rot = MathHelper.sin(ageInTicks * player.abilities.getFlySpeed() * 8F) * 0.5F;

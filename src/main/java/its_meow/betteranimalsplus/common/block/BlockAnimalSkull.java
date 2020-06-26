@@ -8,12 +8,11 @@ import com.google.common.collect.Maps;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.ContainerBlock;
 import net.minecraft.block.IWaterLoggable;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
+import net.minecraft.fluid.FluidState;
 import net.minecraft.fluid.Fluids;
-import net.minecraft.fluid.IFluidState;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.state.DirectionProperty;
 import net.minecraft.state.StateContainer;
@@ -26,7 +25,7 @@ import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.IBlockReader;
 
-public abstract class BlockAnimalSkull extends ContainerBlock implements IWaterLoggable {
+public abstract class BlockAnimalSkull extends Block implements IWaterLoggable {
 
     public static final DirectionProperty FACING_EXCEPT_DOWN = DirectionProperty.create("facing", Direction.NORTH, Direction.EAST, Direction.SOUTH, Direction.WEST, Direction.UP);
     public static final DirectionProperty TOP_FACING = DirectionProperty.create("top", Direction.NORTH, Direction.EAST, Direction.SOUTH, Direction.WEST);
@@ -48,18 +47,8 @@ public abstract class BlockAnimalSkull extends ContainerBlock implements IWaterL
     }
 
     @Override
-    public boolean hasTileEntity() {
-        return true;
-    }
-
-    @Override
     public boolean hasTileEntity(BlockState state) {
         return true;
-    }
-
-    @Override
-    public boolean isNormalCube(BlockState p_220081_1_, IBlockReader p_220081_2_, BlockPos p_220081_3_) {
-        return false;
     }
 
     @Override
@@ -90,7 +79,7 @@ public abstract class BlockAnimalSkull extends ContainerBlock implements IWaterL
 
     @SuppressWarnings("deprecation")
     @Override
-    public IFluidState getFluidState(BlockState state) {
+    public FluidState getFluidState(BlockState state) {
         return state.get(BlockStateProperties.WATERLOGGED) ? Fluids.WATER.getStillFluidState(false) : super.getFluidState(state);
     }
 
@@ -104,6 +93,7 @@ public abstract class BlockAnimalSkull extends ContainerBlock implements IWaterL
         return state.with(FACING_EXCEPT_DOWN, rotation.rotate(state.get(FACING_EXCEPT_DOWN)));
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public BlockState mirror(BlockState state, Mirror mirror) {
         return state.rotate(mirror.toRotation(state.get(FACING_EXCEPT_DOWN)));

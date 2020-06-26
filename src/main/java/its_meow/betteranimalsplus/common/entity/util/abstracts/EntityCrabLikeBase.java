@@ -5,14 +5,14 @@ import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.SpawnReason;
+import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.pathfinding.PathNodeType;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 
@@ -24,30 +24,21 @@ public abstract class EntityCrabLikeBase extends EntityAnimalWithTypes {
         super(type, worldIn);
         this.setPathPriority(PathNodeType.WATER, 10F);
     }
-    
-    @Override
-    protected void registerAttributes() {
-        super.registerAttributes();
-        this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(6.5D);
-        this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.3D);
-        this.getAttributes().registerAttribute(SharedMonsterAttributes.ATTACK_DAMAGE);
-        this.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(3D);
-    }
 
     @Override
     public boolean attackEntityAsMob(Entity entityIn) {
         if(snipTime == 0) {
             snipTime = 20;
         }
-        Vec3d pos = this.getPositionVector();
-        Vec3d targetPos = entityIn.getPositionVector();
+        Vector3d pos = this.getPositionVec();
+        Vector3d targetPos = entityIn.getPositionVec();
         if(entityIn instanceof LivingEntity) {
-            ((LivingEntity) entityIn).knockBack(entityIn, 0.1F, pos.x - targetPos.x, pos.z - targetPos.z);
+            ((LivingEntity) entityIn).func_233627_a_(0.1F, pos.x - targetPos.x, pos.z - targetPos.z);
         }
         
         // vanilla things
         
-        float f = (float)this.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getValue();
+        float f = (float)this.getAttribute(Attributes.field_233823_f_).getValue();
 
         if(entityIn instanceof LivingEntity) {
             f += EnchantmentHelper.getModifierForCreature(this.getHeldItemMainhand(), ((LivingEntity)entityIn).getCreatureAttribute());

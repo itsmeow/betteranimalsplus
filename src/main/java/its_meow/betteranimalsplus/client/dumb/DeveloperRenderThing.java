@@ -159,7 +159,7 @@ public class DeveloperRenderThing {
     }
 
     private static void msg(String msg) {
-        Minecraft.getInstance().player.sendMessage(new StringTextComponent(msg));
+        Minecraft.getInstance().player.sendMessage(new StringTextComponent(msg), Ref.EMPTY_UUID);
     }
 
 }

@@ -12,7 +12,6 @@ import net.minecraft.entity.ILivingEntityData;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.MoverType;
 import net.minecraft.entity.Pose;
-import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.entity.player.PlayerEntity;
@@ -27,7 +26,7 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TextFormatting;
@@ -58,11 +57,6 @@ public class EntityJellyfish extends EntityWaterMobWithTypesBucketable {
         super(ModEntities.JELLYFISH.entityType, worldIn);
         this.setSize(0.8F);
         rotationVelocity = (1.0F / (rand.nextFloat() + 1.0F) * 0.2F);
-    }
-
-    protected void registerAttributes() {
-        super.registerAttributes();
-        getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(10.0D);
     }
 
     protected boolean canTriggerWalking() {
@@ -153,7 +147,7 @@ public class EntityJellyfish extends EntityWaterMobWithTypesBucketable {
     }
 
     @Override
-    public void travel(Vec3d vec) {
+    public void travel(Vector3d vec) {
         move(MoverType.SELF, this.getMotion());
     }
 
@@ -298,7 +292,7 @@ public class EntityJellyfish extends EntityWaterMobWithTypesBucketable {
     public static void bucketTooltip(EntityTypeContainerBAP<? extends MobEntity> container, ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip) {
         CompoundNBT tag = stack.getTag();
         if(tag != null && tag.contains("JellyfishSizeTag", Constants.NBT.TAG_FLOAT)) {
-            tooltip.add(new StringTextComponent("Size: " + tag.getFloat("JellyfishSizeTag")).applyTextStyles(new TextFormatting[] { TextFormatting.ITALIC, TextFormatting.GRAY }));
+            tooltip.add(new StringTextComponent("Size: " + tag.getFloat("JellyfishSizeTag")).func_240699_a_(TextFormatting.ITALIC).func_240699_a_(TextFormatting.GRAY));
         }
     }
 

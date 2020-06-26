@@ -16,6 +16,7 @@ import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntitySpawnPlacementRegistry;
 import net.minecraft.entity.MobEntity;
+import net.minecraft.entity.ai.attributes.AttributeModifierMap;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
@@ -32,8 +33,8 @@ public class EntityTypeContainerBAP<T extends MobEntity> extends EntityTypeConta
 
     protected HeadType headType;
 
-    protected EntityTypeContainerBAP(Class<T> EntityClass, Function<World, T> func, String entityNameIn, EntityClassification type, int solidColorIn, int spotColorIn, int prob, int min, int max, float width, float height, boolean despawn, int variantMax, IVariant[] variants, @Nullable CustomConfigurationHolder customConfig, @Nullable CustomConfigurationHolder customClientConfig, Supplier<Set<Biome>> biomes, EntitySpawnPlacementRegistry.PlacementType placementType, Heightmap.Type heightMapType, EntitySpawnPlacementRegistry.IPlacementPredicate<T> placementPredicate, boolean hasBucket, IBucketTooltipFunction bucketTooltip) {
-        super(Ref.MOD_ID, EntityClass, func, entityNameIn, type, solidColorIn, spotColorIn, prob, min, max, width, height, despawn, variantMax, variants, customConfig, customClientConfig, biomes, placementType, heightMapType, placementPredicate);
+    protected EntityTypeContainerBAP(Class<T> EntityClass, Function<World, T> func, String entityNameIn, EntityClassification type, int solidColorIn, int spotColorIn, int prob, int min, int max, float width, float height, boolean despawn, int variantMax, IVariant[] variants, @Nullable CustomConfigurationHolder customConfig, @Nullable CustomConfigurationHolder customClientConfig, Supplier<Set<Biome>> biomes, EntitySpawnPlacementRegistry.PlacementType placementType, Heightmap.Type heightMapType, EntitySpawnPlacementRegistry.IPlacementPredicate<T> placementPredicate, boolean hasBucket, IBucketTooltipFunction bucketTooltip, Supplier<AttributeModifierMap.MutableAttribute> attributeMap) {
+        super(Ref.MOD_ID, EntityClass, func, entityNameIn, type, solidColorIn, spotColorIn, prob, min, max, width, height, despawn, variantMax, variants, customConfig, customClientConfig, biomes, placementType, heightMapType, placementPredicate, attributeMap);
         if(hasBucket) {
             this.bucket = new ItemModFishBucket<T>(this, () -> Fluids.WATER, bucketTooltip);
         }
@@ -46,8 +47,8 @@ public class EntityTypeContainerBAP<T extends MobEntity> extends EntityTypeConta
         protected IBucketTooltipFunction bucketTooltip;
         protected IBucketTooltipFunction bucketTooltipFinal;
 
-        protected Builder(Class<T> EntityClass, Function<World, T> func, String entityNameIn) {
-            super(EntityClass, func, entityNameIn, Ref.MOD_ID);
+        protected Builder(Class<T> EntityClass, Function<World, T> func, String entityNameIn, Supplier<AttributeModifierMap.MutableAttribute> attributeMap) {
+            super(EntityClass, func, entityNameIn, attributeMap, Ref.MOD_ID);
             this.hasBucket = false;
         }
 
@@ -190,13 +191,13 @@ public class EntityTypeContainerBAP<T extends MobEntity> extends EntityTypeConta
         @Override
         public EntityTypeContainerBAP<T> build() {
             preBuild();
-            EntityTypeContainerBAP<T> container = new EntityTypeContainerBAP<T>(entityClass, factory, entityName, spawnType, eggColorSolid, eggColorSpot, spawnWeight, spawnMinGroup, spawnMaxGroup, width, height, despawn, variantCount, variants, customConfig, customClientConfig, defaultBiomeSupplier, placementType, heightMapType, placementPredicate, hasBucket, bucketTooltipFinal);
+            EntityTypeContainerBAP<T> container = new EntityTypeContainerBAP<T>(entityClass, factory, entityName, spawnType, eggColorSolid, eggColorSpot, spawnWeight, spawnMinGroup, spawnMaxGroup, width, height, despawn, variantCount, variants, customConfig, customClientConfig, defaultBiomeSupplier, placementType, heightMapType, placementPredicate, hasBucket, bucketTooltipFinal, attributes);
             postBuild(container);
             return container;
         }
 
-        public static <T extends MobEntity> Builder<T> create(Class<T> EntityClass, Function<World, T> func, String entityNameIn) {
-            return new Builder<T>(EntityClass, func, entityNameIn);
+        public static <T extends MobEntity> Builder<T> create(Class<T> EntityClass, Function<World, T> func, String entityNameIn, Supplier<AttributeModifierMap.MutableAttribute> attributeMap) {
+            return new Builder<T>(EntityClass, func, entityNameIn, attributeMap);
         }
 
         public static class ContainerHeadBuilder<T extends MobEntity> extends HeadType.Builder {

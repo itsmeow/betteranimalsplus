@@ -45,4 +45,9 @@ public class ArmorMaterialBone implements IArmorMaterial {
         return 0;
     }
 
+    @Override
+    public float func_230304_f_() {
+        return 0;
+    }
+
 }

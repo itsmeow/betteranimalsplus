@@ -181,7 +181,7 @@ public class HirschgeistAIAttackMelee extends Goal {
             this.attackTick = 20;
             this.attacker.swingArm(Hand.MAIN_HAND);
             this.attacker.attackEntityAsMob(target);
-            target.knockBack(target, 3, this.attacker.getPosX() - target.getPosX(), this.attacker.getPosZ() - target.getPosZ());
+            target.func_233627_a_(3, this.attacker.getPosX() - target.getPosX(), this.attacker.getPosZ() - target.getPosZ());
             target.setFire(5);
         }
     }

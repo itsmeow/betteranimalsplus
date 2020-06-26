@@ -44,7 +44,7 @@ public class EntityAIFollowOwnerFlying extends Goal {
             return false;
         } else if (entitylivingbase instanceof PlayerEntity && ((PlayerEntity) entitylivingbase).isSpectator()) {
             return false;
-        } else if (this.tameable.isSitting()) {
+        } else if (this.tameable.func_233685_eM_()) {
             return false;
         } else if (this.tameable.getDistanceSq(entitylivingbase) < this.minDist * this.minDist) {
             return false;
@@ -63,7 +63,7 @@ public class EntityAIFollowOwnerFlying extends Goal {
         if (this.tameable.getAttackTarget() != null && this.tameable.getAttackTarget().isAlive()) {
             return false;
         }
-        return !this.petPathfinder.noPath() && this.tameable.getDistanceSq(this.owner) > this.maxDist * this.maxDist && !this.tameable.isSitting();
+        return !this.petPathfinder.noPath() && this.tameable.getDistanceSq(this.owner) > this.maxDist * this.maxDist && !this.tameable.func_233685_eM_();
     }
 
     @Override
@@ -84,7 +84,7 @@ public class EntityAIFollowOwnerFlying extends Goal {
     public void tick() {
         this.tameable.getLookController().setLookPositionWithEntity(this.owner, 10.0F, 20);
 
-        if (!this.tameable.isSitting()) {
+        if (!this.tameable.func_233685_eM_()) {
             if (--this.timeToRecalcPath <= 0) {
                 this.timeToRecalcPath = 10;
                 this.tameable.getMoveHelper().setMoveTo(this.owner.getPosX(), this.owner.getPosY() + 2, this.owner.getPosZ(), this.followSpeed);
@@ -99,9 +99,9 @@ public class EntityAIFollowOwnerFlying extends Goal {
                             for (int l = 0; l <= 4; ++l) {
                                 for (int i1 = 0; i1 <= 4; ++i1) {
                                     if ((l < 1 || i1 < 1 || l > 3 || i1 > 3) && this.isTeleportFriendlyBlock(i, j, k, l, i1)) {
-                                        if (this.tameable.getEntityWorld() != this.owner.getEntityWorld()) {
-                                            this.tameable.changeDimension(this.owner.getEntityWorld().getDimension().getType());
-                                        }
+                                        /*if (this.tameable.getEntityWorld() != this.owner.getEntityWorld()) {
+                                            this.tameable.func_241206_a_((ServerWorld) this.owner.getEntityWorld());
+                                        }*/
                                         this.tameable.setLocationAndAngles(i + l + 0.5F, k, j + i1 + 0.5F, this.tameable.rotationYaw, this.tameable.rotationPitch);
                                         this.petPathfinder.clearPath();
                                         return;

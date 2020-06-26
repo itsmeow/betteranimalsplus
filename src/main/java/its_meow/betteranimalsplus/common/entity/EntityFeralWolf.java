@@ -18,7 +18,7 @@ import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.goal.FollowOwnerGoal;
 import net.minecraft.entity.ai.goal.HurtByTargetGoal;
 import net.minecraft.entity.ai.goal.LeapAtTargetGoal;
@@ -52,6 +52,7 @@ import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.particles.ParticleTypes;
+import net.minecraft.util.ActionResultType;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
@@ -137,20 +138,6 @@ public class EntityFeralWolf extends EntityTameableWithSelectiveTypes implements
 
     protected boolean isValidLightLevel() {
         return true;
-    }
-
-    @Override
-    protected void registerAttributes() {
-        super.registerAttributes();
-        this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.30000001192092896D);
-
-        if(this.isTamed()) {
-            this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(30.0D);
-        } else {
-            this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(10.0D);
-        }
-
-        this.getAttributes().registerAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(5.0D);
     }
 
     @Override
@@ -298,7 +285,7 @@ public class EntityFeralWolf extends EntityTameableWithSelectiveTypes implements
      */
     @Override
     public int getVerticalFaceSpeed() {
-        return this.isSitting() ? 20 : super.getVerticalFaceSpeed();
+        return this.func_233685_eM_() ? 20 : super.getVerticalFaceSpeed();
     }
 
     /**
@@ -312,7 +299,7 @@ public class EntityFeralWolf extends EntityTameableWithSelectiveTypes implements
             Entity entity = source.getTrueSource();
 
             if(this.aiSit != null) {
-                this.aiSit.setSitting(false);
+                this.func_233687_w_(false);
             }
 
             if(entity != null && !(entity instanceof PlayerEntity) && !(entity instanceof AbstractArrowEntity)) {
@@ -326,7 +313,7 @@ public class EntityFeralWolf extends EntityTameableWithSelectiveTypes implements
     @Override
     public boolean attackEntityAsMob(Entity entityIn) {
         boolean flag = entityIn.attackEntityFrom(DamageSource.causeMobDamage(this),
-        (int) this.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getValue());
+        (int) this.getAttribute(Attributes.field_233823_f_).getValue());
 
         if(flag) {
             this.applyEnchantments(this, entityIn);
@@ -340,16 +327,14 @@ public class EntityFeralWolf extends EntityTameableWithSelectiveTypes implements
         super.setTamed(tamed);
 
         if(tamed) {
-            this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(30.0D);
+            this.getAttribute(Attributes.field_233818_a_).setBaseValue(30.0D);
         } else {
-            this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(10.0D);
+            this.getAttribute(Attributes.field_233818_a_).setBaseValue(10.0D);
         }
-
-        this.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(5.0D);
     }
 
     @Override
-    public boolean processInteract(PlayerEntity player, Hand hand) {
+    public ActionResultType func_230254_b_(PlayerEntity player, Hand hand) {
         ItemStack itemstack = player.getHeldItem(hand);
 
         if(this.isTamed()) {
@@ -363,14 +348,14 @@ public class EntityFeralWolf extends EntityTameableWithSelectiveTypes implements
                         }
 
                         this.heal(food.getHealing());
-                        return true;
+                        return ActionResultType.SUCCESS;
                     }
                 }
             }
 
             if(this.isOwner(player) && !this.world.isRemote && !this.isBreedingItem(itemstack)
             && (!(itemstack.getItem().isFood()) || !(itemstack.getItem().getFood().isMeat()))) {
-                this.aiSit.setSitting(!this.isSitting());
+                this.func_233687_w_(!this.func_233685_eM_());
                 this.isJumping = false;
                 this.navigator.clearPath();
                 this.setAttackTarget((LivingEntity) null);
@@ -397,7 +382,7 @@ public class EntityFeralWolf extends EntityTameableWithSelectiveTypes implements
                         this.setTamedBy(player);
                         this.navigator.clearPath();
                         this.setAttackTarget((LivingEntity) null);
-                        this.aiSit.setSitting(true);
+                        this.func_233687_w_(true);
                         this.setHealth(20.0F);
                         this.world.setEntityState(this, (byte) 7);
                     } else {
@@ -405,15 +390,15 @@ public class EntityFeralWolf extends EntityTameableWithSelectiveTypes implements
                     }
                 }
 
-                return true;
+                return ActionResultType.SUCCESS;
             } else {
                 if(!this.world.isRemote) {
-                    player.sendMessage(new StringTextComponent("You cannot tame feral wolves without proving your prowess. Discover a mighty enemy, defeat it, and wear its head. Feral Wolves only bow to the protector of the forests."));
+                    player.sendMessage(new StringTextComponent("You cannot tame feral wolves without proving your prowess. Discover a mighty enemy, defeat it, and wear its head. Feral Wolves only bow to the protector of the forests."), Ref.EMPTY_UUID);
                 }
             }
         }
 
-        return super.processInteract(player, hand);
+        return super.func_230254_b_(player, hand);
     }
 
     /**

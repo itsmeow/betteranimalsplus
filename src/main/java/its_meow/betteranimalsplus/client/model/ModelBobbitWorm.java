@@ -384,7 +384,7 @@ public class ModelBobbitWorm<T extends LivingEntity> extends EntityModel<T> {
             }
             this.body.rotateAngleX = 0;
             this.body.rotationPointY = 0;
-            if(worm.getMotion().getX() < 0.03 && worm.getMotion().getZ() < 0.03 && worm.getMotion().getY() < 0.03 && !worm.getMoveHelper().isUpdating() && worm.isGoodBurrowingPosition(worm.getPosition())) {
+            if(worm.getMotion().getX() < 0.03 && worm.getMotion().getZ() < 0.03 && worm.getMotion().getY() < 0.03 && !worm.getMoveHelper().isUpdating() && worm.isGoodBurrowingPosition(worm.func_233580_cy_())) {
                 this.body.rotateAngleX = - (float) Math.toRadians(60F);
                 this.body.rotationPointY = 0.3F;
             }

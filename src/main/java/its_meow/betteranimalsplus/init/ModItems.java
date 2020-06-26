@@ -29,7 +29,6 @@ import net.minecraft.item.Rarity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
@@ -96,7 +95,7 @@ public class ModItems {
         @OnlyIn(Dist.CLIENT)
         @Override
         public void addInformation(ItemStack stack, World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
-            tooltip.add(new StringTextComponent("Golden! Maybe you can melt this down for resources?").setStyle(new Style().setBold(true).setColor(TextFormatting.YELLOW)));
+            tooltip.add(new StringTextComponent("Golden! Maybe you can melt this down for resources?").func_240699_a_(TextFormatting.YELLOW).func_240699_a_(TextFormatting.BOLD));
         }
     };
     

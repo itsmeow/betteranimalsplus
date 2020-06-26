@@ -15,7 +15,7 @@ import net.minecraft.crash.CrashReportCategory;
 import net.minecraft.crash.ReportedException;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.goal.HurtByTargetGoal;
 import net.minecraft.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal;
@@ -26,7 +26,7 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
 
 public class EntityMoose extends EntityAnimalEatsGrassWithTypes implements IDropHead {
@@ -46,16 +46,6 @@ public class EntityMoose extends EntityAnimalEatsGrassWithTypes implements IDrop
     }
 
     @Override
-    protected void registerAttributes() {
-        super.registerAttributes();
-        this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(52.0D);
-        this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.6D);
-        this.getAttributes().registerAttribute(SharedMonsterAttributes.ATTACK_DAMAGE);
-        this.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(4.5D);
-        this.getAttribute(SharedMonsterAttributes.KNOCKBACK_RESISTANCE).setBaseValue(0.7D);
-    }
-
-    @Override
     protected float getWaterSlowDown() {
         return 0.9F;
     }
@@ -71,29 +61,28 @@ public class EntityMoose extends EntityAnimalEatsGrassWithTypes implements IDrop
     @Override
     protected void doBlockCollisions() {
         AxisAlignedBB axisalignedbb = this.getBoundingBox();
-        try(
-        BlockPos.PooledMutable blockpos$pooledmutable = BlockPos.PooledMutable.retain(axisalignedbb.minX + 0.001D, axisalignedbb.minY + 0.001D, axisalignedbb.minZ + 0.001D);
-        BlockPos.PooledMutable blockpos$pooledmutable1 = BlockPos.PooledMutable.retain(axisalignedbb.maxX - 0.001D, axisalignedbb.maxY - 0.001D, axisalignedbb.maxZ - 0.001D);
-        BlockPos.PooledMutable blockpos$pooledmutable2 = BlockPos.PooledMutable.retain();) {
-            if(this.world.isAreaLoaded(blockpos$pooledmutable, blockpos$pooledmutable1)) {
-                for(int i = blockpos$pooledmutable.getX(); i <= blockpos$pooledmutable1.getX(); ++i) {
-                    for(int j = blockpos$pooledmutable.getY(); j <= blockpos$pooledmutable1.getY(); ++j) {
-                        for(int k = blockpos$pooledmutable.getZ(); k <= blockpos$pooledmutable1.getZ(); ++k) {
-                            blockpos$pooledmutable2.setPos(i, j, k);
-                            BlockState blockstate = this.world.getBlockState(blockpos$pooledmutable2);
-                            try {
-                                blockstate.onEntityCollision(this.world, blockpos$pooledmutable2, this);
-                                this.onInsideBlock(blockstate);
-                                if(blockstate.getBlock() == Blocks.LILY_PAD) {
-                                    Block.spawnDrops(blockstate, world, blockpos$pooledmutable2.toImmutable());
-                                    world.setBlockState(blockpos$pooledmutable2.toImmutable(), Blocks.AIR.getDefaultState());
-                                }
-                            } catch(Throwable throwable) {
-                                CrashReport crashreport = CrashReport.makeCrashReport(throwable, "Colliding entity with block");
-                                CrashReportCategory crashreportcategory = crashreport.makeCategory("Block being collided with");
-                                CrashReportCategory.addBlockInfo(crashreportcategory, blockpos$pooledmutable2, blockstate);
-                                throw new ReportedException(crashreport);
+        BlockPos blockpos = new BlockPos(axisalignedbb.minX + 0.001D, axisalignedbb.minY + 0.001D, axisalignedbb.minZ + 0.001D);
+        BlockPos blockpos1 = new BlockPos(axisalignedbb.maxX - 0.001D, axisalignedbb.maxY - 0.001D, axisalignedbb.maxZ - 0.001D);
+        BlockPos.Mutable blockpos$mutable = new BlockPos.Mutable();
+        if(this.world.isAreaLoaded(blockpos, blockpos1)) {
+            for(int i = blockpos.getX(); i <= blockpos1.getX(); ++i) {
+                for(int j = blockpos.getY(); j <= blockpos1.getY(); ++j) {
+                    for(int k = blockpos.getZ(); k <= blockpos1.getZ(); ++k) {
+                        blockpos$mutable.setPos(i, j, k);
+                        BlockState blockstate = this.world.getBlockState(blockpos$mutable);
+
+                        try {
+                            blockstate.onEntityCollision(this.world, blockpos$mutable, this);
+                            this.onInsideBlock(blockstate);
+                            if(blockstate.getBlock() == Blocks.LILY_PAD) {
+                                Block.spawnDrops(blockstate, world, blockpos$mutable.toImmutable());
+                                world.setBlockState(blockpos$mutable.toImmutable(), Blocks.AIR.getDefaultState());
                             }
+                        } catch(Throwable throwable) {
+                            CrashReport crashreport = CrashReport.makeCrashReport(throwable, "Colliding entity with block");
+                            CrashReportCategory crashreportcategory = crashreport.makeCategory("Block being collided with");
+                            CrashReportCategory.addBlockInfo(crashreportcategory, blockpos$mutable, blockstate);
+                            throw new ReportedException(crashreport);
                         }
                     }
                 }
@@ -104,16 +93,16 @@ public class EntityMoose extends EntityAnimalEatsGrassWithTypes implements IDrop
     protected EntityAIEatGrassCustom provideEatTask() {
         return new EntityAIEatGrassCustom(this, 50, 500, eater -> {
             Direction facing = eater.getHorizontalFacing();
-            return eater.getPosition().offset(facing).offset(facing);
+            return eater.func_233580_cy_().offset(facing).offset(facing);
         });
     }
     
     @Override
     public boolean attackEntityAsMob(Entity entityIn) {
-        Vec3d pos = this.getPositionVector();
-        Vec3d targetPos = entityIn.getPositionVector();
-        ((LivingEntity) entityIn).knockBack(entityIn, 1F, pos.x - targetPos.x, pos.z - targetPos.z);
-        float f = (float) this.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getValue();
+        Vector3d pos = this.getPositionVec();
+        Vector3d targetPos = entityIn.getPositionVec();
+        ((LivingEntity) entityIn).func_233627_a_(1F, pos.x - targetPos.x, pos.z - targetPos.z);
+        float f = (float) this.getAttribute(Attributes.field_233823_f_).getValue();
         return entityIn.attackEntityFrom(DamageSource.causeMobDamage(this), f);
     }
 

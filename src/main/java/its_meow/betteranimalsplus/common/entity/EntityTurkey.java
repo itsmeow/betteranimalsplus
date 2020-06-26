@@ -10,7 +10,7 @@ import its_meow.betteranimalsplus.init.ModLootTables;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.goal.BreedGoal;
 import net.minecraft.entity.ai.goal.FollowParentGoal;
 import net.minecraft.entity.ai.goal.HurtByTargetGoal;
@@ -109,15 +109,6 @@ public class EntityTurkey extends EntityAnimalWithTypes {
     }
 
     @Override
-    protected void registerAttributes() {
-        super.registerAttributes();
-        this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(6.5D);
-        this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.25D);
-        this.getAttributes().registerAttribute(SharedMonsterAttributes.ATTACK_DAMAGE);
-        this.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(1D);
-    }
-
-    @Override
     public void setAttackTarget(LivingEntity entity) {
         this.setTailUp(entity != null);
         super.setAttackTarget(entity);
@@ -136,7 +127,7 @@ public class EntityTurkey extends EntityAnimalWithTypes {
         if(attacksLeft > 0) {
             attacksLeft--;
         }
-        float f = (float) this.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getValue();
+        float f = (float) this.getAttribute(Attributes.field_233823_f_).getValue();
         this.lastAttackTime = this.ticksExisted;
         return entityIn.attackEntityFrom(DamageSource.causeMobDamage(this), f);
     }

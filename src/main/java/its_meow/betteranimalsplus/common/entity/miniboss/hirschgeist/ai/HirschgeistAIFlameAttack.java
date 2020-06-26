@@ -9,7 +9,7 @@ import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
 
 public class HirschgeistAIFlameAttack extends Goal {
@@ -81,7 +81,7 @@ public class HirschgeistAIFlameAttack extends Goal {
     public void doClientRenderEffects() {
         if (this.flameTicks % 2 == 0 && this.flameTicks < 10 && this.attacker.getAttackTarget() != null) {
             LivingEntity target = this.attacker.getAttackTarget();
-            Vec3d vec3d = this.attacker.getHeadLookVec(1.0F).normalize();
+            Vector3d vec3d = this.attacker.getHeadLookVec(1.0F).normalize();
             vec3d.rotateYaw(-((float) Math.PI / 4F));
             double d0 = target.getPosX();
             double d1 = target.getPosY();

@@ -12,7 +12,7 @@ import net.minecraft.pathfinding.PathType;
 import net.minecraft.pathfinding.WalkNodeProcessor;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
 
 public class WaterfowlNavigator extends GroundPathNavigator {
@@ -36,8 +36,8 @@ public class WaterfowlNavigator extends GroundPathNavigator {
     }
 
     @Override
-    protected Vec3d getEntityPosition() {
-        return new Vec3d(this.entity.getPosX(), (double) this.getPathablePosY(), this.entity.getPosZ());
+    protected Vector3d getEntityPosition() {
+        return new Vector3d(this.entity.getPosX(), (double) this.getPathablePosY(), this.entity.getPosZ());
     }
 
     @Override
@@ -71,7 +71,7 @@ public class WaterfowlNavigator extends GroundPathNavigator {
 
     @Override
     public Path getPathToEntity(Entity entityIn, int p_75494_2_) {
-        return this.getPathToPos(new BlockPos(entityIn), p_75494_2_);
+        return this.getPathToPos(entityIn.func_233580_cy_(), p_75494_2_);
     }
 
     private int getPathablePosY() {
@@ -96,7 +96,7 @@ public class WaterfowlNavigator extends GroundPathNavigator {
     }
 
     @Override
-    protected boolean isDirectPathBetweenPoints(Vec3d posVec31, Vec3d posVec32, int sizeX, int sizeY, int sizeZ) {
+    protected boolean isDirectPathBetweenPoints(Vector3d posVec31, Vector3d posVec32, int sizeX, int sizeY, int sizeZ) {
         int i = MathHelper.floor(posVec31.x);
         int j = MathHelper.floor(posVec31.z);
         double d0 = posVec32.x - posVec31.x;
@@ -157,7 +157,7 @@ public class WaterfowlNavigator extends GroundPathNavigator {
         }
     }
 
-    private boolean isSafeToStandAt(int x, int y, int z, int sizeX, int sizeY, int sizeZ, Vec3d vec31, double p_179683_8_, double p_179683_10_) {
+    private boolean isSafeToStandAt(int x, int y, int z, int sizeX, int sizeY, int sizeZ, Vector3d vec31, double p_179683_8_, double p_179683_10_) {
         int i = x - sizeX / 2;
         int j = z - sizeZ / 2;
         if(!this.isPositionClear(i, y, j, sizeX, sizeY, sizeZ, vec31, p_179683_8_, p_179683_10_)) {
@@ -195,7 +195,7 @@ public class WaterfowlNavigator extends GroundPathNavigator {
         }
     }
 
-    private boolean isPositionClear(int x, int y, int z, int sizeX, int sizeY, int sizeZ, Vec3d p_179692_7_, double p_179692_8_, double p_179692_10_) {
+    private boolean isPositionClear(int x, int y, int z, int sizeX, int sizeY, int sizeZ, Vector3d p_179692_7_, double p_179692_8_, double p_179692_10_) {
         for(BlockPos blockpos : BlockPos.getAllInBoxMutable(new BlockPos(x, y, z), new BlockPos(x + sizeX - 1, y + sizeY - 1, z + sizeZ - 1))) {
             double d0 = (double) blockpos.getX() + 0.5D - p_179692_7_.x;
             double d1 = (double) blockpos.getZ() + 0.5D - p_179692_7_.z;

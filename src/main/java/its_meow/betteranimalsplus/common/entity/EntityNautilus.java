@@ -5,7 +5,6 @@ import its_meow.betteranimalsplus.common.entity.util.abstracts.EntityWaterMobBuc
 import its_meow.betteranimalsplus.init.ModEntities;
 import its_meow.betteranimalsplus.init.ModLootTables;
 import net.minecraft.entity.MoverType;
-import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.goal.RandomWalkingGoal;
 import net.minecraft.pathfinding.PathNavigator;
 import net.minecraft.pathfinding.SwimmerPathNavigator;
@@ -13,7 +12,8 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.util.math.vector.Vector3i;
 import net.minecraft.world.World;
 
 public class EntityNautilus extends EntityWaterMobBucketable {
@@ -27,13 +27,6 @@ public class EntityNautilus extends EntityWaterMobBucketable {
         super.registerGoals();
         this.goalSelector.addGoal(0, new RandomWalkingGoal(this, 0.15D));
     }
-    
-    @Override
-    protected void registerAttributes() {
-        super.registerAttributes();
-        this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(5.0D);
-        this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.25D);
-    }
 
     @Override
     protected PathNavigator createNavigator(World worldIn) {
@@ -41,7 +34,7 @@ public class EntityNautilus extends EntityWaterMobBucketable {
     }
 
     @Override
-    public void travel(Vec3d vec) {
+    public void travel(Vector3d vec) {
         this.move(MoverType.SELF, this.getMotion());
     }
 
@@ -56,8 +49,8 @@ public class EntityNautilus extends EntityWaterMobBucketable {
             this.setMotion(this.getMotion().getX(), this.getMotion().getY() * 0.9800000190734863D, this.getMotion().getZ());
         } else if(!world.isRemote) {
             if(!this.navigator.noPath()) {
-                Vec3d target = this.navigator.getPath().getCurrentPos();
-                this.setMotion((target.x - this.getPosX()) * 0.05F, (target.y - this.getPosY()) * 0.05F, (target.z - this.getPosZ()) * 0.05F);
+                Vector3i target = this.navigator.getPath().getCurrentPos();
+                this.setMotion((target.getX() - this.getPosX()) * 0.05F, (target.getY() - this.getPosY()) * 0.05F, (target.getZ() - this.getPosZ()) * 0.05F);
             } else if(this.getMoveHelper().isUpdating()) {
                 this.setMotion((this.getMoveHelper().getX() - this.getPosX()) * 0.05F, (this.getMoveHelper().getY() - this.getPosY()) * 0.05F, (this.getMoveHelper().getZ() - this.getPosZ()) * 0.05F);
             } else {

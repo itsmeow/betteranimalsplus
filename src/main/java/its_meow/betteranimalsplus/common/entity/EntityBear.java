@@ -14,7 +14,6 @@ import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.goal.HurtByTargetGoal;
 import net.minecraft.entity.ai.goal.LookAtGoal;
@@ -29,6 +28,7 @@ import net.minecraft.entity.passive.RabbitEntity;
 import net.minecraft.entity.passive.fish.SalmonEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.pathfinding.PathNodeType;
+import net.minecraft.util.ActionResultType;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
@@ -57,11 +57,7 @@ public class EntityBear extends MonsterEntity implements IContainerEntity<Entity
 
     @Override
     protected void registerGoals() {
-        this.goalSelector.addGoal(0, new SwimGoal(this) {
-            public boolean shouldExecute() {
-                return EntityBear.this.isInWater() && EntityBear.this.getSubmergedHeight() > 0.6 || EntityBear.this.isInLava();
-             }
-        });
+        this.goalSelector.addGoal(0, new SwimGoal(this));
         this.goalSelector.addGoal(1, new EntityBear.AIMeleeAttack());
         this.goalSelector.addGoal(2, new EntityAIEatBerries(this, 1.0D, 12, 2));
         this.goalSelector.addGoal(5, new RandomWalkingGoal(this, 1.0D));
@@ -84,14 +80,9 @@ public class EntityBear extends MonsterEntity implements IContainerEntity<Entity
     }
 
     @Override
-    protected void registerAttributes() {
-        super.registerAttributes();
-        this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(30.0D);
-        this.getAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(20.0D);
-        this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.3D);
-        this.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(6.0D);
-        this.getAttributes().registerAttribute(SharedMonsterAttributes.ATTACK_SPEED);
-        this.getAttribute(SharedMonsterAttributes.ATTACK_SPEED).setBaseValue(1D);
+    public double func_233579_cu_() {
+        // max submerged
+        return 0.6D;
     }
 
     @Override
@@ -156,12 +147,12 @@ public class EntityBear extends MonsterEntity implements IContainerEntity<Entity
     }
 
     @Override
-    public boolean processInteract(PlayerEntity player, Hand hand) {
-        return false;
+    public ActionResultType func_230254_b_(PlayerEntity player, Hand hand) {
+        return ActionResultType.PASS;
     }
 
     @Override
-    public boolean isPreventingPlayerRest(PlayerEntity playerIn) {
+    public boolean func_230292_f_(PlayerEntity playerIn) {
         return this.world.getDifficulty() != Difficulty.PEACEFUL && this.getAttackingEntity() == playerIn;
     }
 
@@ -172,23 +163,23 @@ public class EntityBear extends MonsterEntity implements IContainerEntity<Entity
         }
 
         @Override
-        protected void checkAndPerformAttack(LivingEntity p_190102_1_, double p_190102_2_) {
-            double d0 = this.getAttackReachSqr(p_190102_1_);
-
-            if (p_190102_2_ <= d0 && this.attackTick <= 0) {
-                this.attackTick = 20;
-                this.attacker.attackEntityAsMob(p_190102_1_);
-            } else if (p_190102_2_ <= d0 * 2.0D) {
-                if (this.attackTick <= 0) {
-                    this.attackTick = 20;
+        protected void checkAndPerformAttack(LivingEntity enemy, double distToEnemySqr) {
+            double d0 = this.getAttackReachSqr(enemy);
+            if(distToEnemySqr <= d0 && this.func_234040_h_()) {
+                this.func_234039_g_();
+                this.attacker.attackEntityAsMob(enemy);
+            } else if(distToEnemySqr <= d0 * 2.0D) {
+                if(this.func_234040_h_()) {
+                    this.func_234039_g_();
                 }
 
-                if (this.attackTick <= 10) {
+                if(this.func_234041_j_() <= 10) {
                     EntityBear.this.playWarningSound();
                 }
             } else {
-                this.attackTick = 20;
+                this.func_234039_g_();
             }
+
         }
 
         /**

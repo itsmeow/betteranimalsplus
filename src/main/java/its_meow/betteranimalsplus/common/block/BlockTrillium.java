@@ -39,7 +39,7 @@ public class BlockTrillium extends BushBlock {
     @Override
     public void onNeighborChange(BlockState state, IWorldReader world, BlockPos pos, BlockPos neighbor) {
         super.onNeighborChange(state, world, pos, neighbor);
-        if (!world.getBlockState(neighbor).isNormalCube(world, pos) && pos.down() == neighbor) {
+        if(!world.getBlockState(neighbor).isNormalCube(world, pos) && pos.down() == neighbor) {
             World world1 = (World) world;
             world1.destroyBlock(pos, true);
         }
@@ -52,7 +52,7 @@ public class BlockTrillium extends BushBlock {
 
     @Override
     public void onBlockAdded(BlockState state1, World world, BlockPos pos, BlockState state2, boolean unknown) {
-        if (!world.getBlockState(pos.down()).isNormalCube(world, pos)) {
+        if(!world.getBlockState(pos.down()).isNormalCube(world, pos)) {
             world.destroyBlock(pos, true);
         }
     }
@@ -65,16 +65,6 @@ public class BlockTrillium extends BushBlock {
     @Override
     public BlockRenderType getRenderType(BlockState state) {
         return BlockRenderType.ENTITYBLOCK_ANIMATED;
-    }
-
-    @Override
-    public boolean isNormalCube(BlockState p_220081_1_, IBlockReader p_220081_2_, BlockPos p_220081_3_) {
-        return false;
-    }
-
-    @Override
-    public boolean hasTileEntity() {
-        return true;
     }
 
     @Override

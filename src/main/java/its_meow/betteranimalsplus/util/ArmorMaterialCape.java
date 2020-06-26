@@ -51,4 +51,8 @@ public class ArmorMaterialCape implements IArmorMaterial {
         return "betteranimalsplus:" + name + variant;
     }
 
+    @Override
+    public float func_230304_f_() {
+        return 0;
+    }
 }

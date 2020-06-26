@@ -11,7 +11,7 @@ import its_meow.betteranimalsplus.init.ModLootTables;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.goal.LookAtGoal;
 import net.minecraft.entity.ai.goal.LookRandomlyGoal;
 import net.minecraft.entity.ai.goal.MoveTowardsTargetGoal;
@@ -58,15 +58,6 @@ public class EntityLamprey extends EntityWaterMobPathingWithTypesBucketable impl
     }
 
     @Override
-    protected void registerAttributes() {
-        super.registerAttributes();
-        this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(3.0D);
-        this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.8D);
-        this.getAttributes().registerAttribute(SharedMonsterAttributes.ATTACK_DAMAGE);
-        this.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(0.5D);
-    }
-
-    @Override
     protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
         return SoundEvents.ENTITY_SQUID_HURT;
     }
@@ -78,7 +69,7 @@ public class EntityLamprey extends EntityWaterMobPathingWithTypesBucketable impl
 
     @Override
     public boolean attackEntityAsMob(Entity entityIn) {
-        float f = (float)this.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getValue();
+        float f = (float)this.getAttribute(Attributes.field_233823_f_).getValue();
 
         if(entityIn instanceof LivingEntity) {
             f += EnchantmentHelper.getModifierForCreature(this.getHeldItemMainhand(), ((LivingEntity)entityIn).getCreatureAttribute());
@@ -140,7 +131,7 @@ public class EntityLamprey extends EntityWaterMobPathingWithTypesBucketable impl
     public void stopRiding() {
         Entity entity = this.getRidingEntity();
         if(entity != null) {
-            if((entity.canBeRiddenInWater(this) || this.getAttackTarget() == null) && this.world.isAreaLoaded(this.getPosition(), 10)) {
+            if((entity.canBeRiddenInWater(this) || this.getAttackTarget() == null) && this.world.isAreaLoaded(this.func_233580_cy_(), 10)) {
                 super.stopRiding();
             }
         }

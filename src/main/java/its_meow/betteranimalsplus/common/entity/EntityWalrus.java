@@ -19,9 +19,9 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ILivingEntityData;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MoverType;
-import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.RandomPositionGenerator;
+import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.controller.MovementController;
 import net.minecraft.entity.ai.goal.BreatheAirGoal;
 import net.minecraft.entity.ai.goal.Goal;
@@ -44,13 +44,14 @@ import net.minecraft.pathfinding.SwimmerPathNavigator;
 import net.minecraft.pathfinding.WalkAndSwimNodeProcessor;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.FluidTags;
+import net.minecraft.util.ActionResultType;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.IWorldReader;
@@ -73,16 +74,16 @@ public class EntityWalrus extends AnimalEntity implements IContainerEntity<Entit
     }
 
     @Override
-    public boolean processInteract(PlayerEntity player, Hand hand) {
+    public ActionResultType func_230254_b_(PlayerEntity player, Hand hand) {
         ItemStack stack = player.getHeldItem(hand);
         if(!hasGivenDisc && stack.getItem() == ModItems.FRIED_EGG) {
             this.consumeItemFromStack(player, stack);
             this.world.setEntityState(this, (byte) 90);
             this.hasGivenDisc = true;
             this.entityDropItem(new ItemStack(ModItems.RECORD_WALRUS));
-            return true;
+            return ActionResultType.SUCCESS;
         }
-        return super.processInteract(player, hand);
+        return super.func_230254_b_(player, hand);
     }
 
     @OnlyIn(Dist.CLIENT)
@@ -99,13 +100,14 @@ public class EntityWalrus extends AnimalEntity implements IContainerEntity<Entit
         }
     }
 
+    @Override
     public boolean attackEntityAsMob(Entity entityIn) {
         // 1/3 chance to pierce armor
-        boolean flag = entityIn.attackEntityFrom(this.getRNG().nextInt(3) == 0 ? DamageSource.causeMobDamage(this).setDamageBypassesArmor() : DamageSource.causeMobDamage(this), (float) this.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getValue());
+        boolean flag = entityIn.attackEntityFrom(this.getRNG().nextInt(3) == 0 ? DamageSource.causeMobDamage(this).setDamageBypassesArmor() : DamageSource.causeMobDamage(this), (float) this.getAttribute(Attributes.field_233823_f_).getValue());
         if(flag) {
-            Vec3d pos = this.getPositionVector();
-            Vec3d targetPos = entityIn.getPositionVector();
-            ((LivingEntity) entityIn).knockBack(this, 0.5F, pos.x - targetPos.x, pos.z - targetPos.z);
+            Vector3d pos = this.getPositionVec();
+            Vector3d targetPos = entityIn.getPositionVec();
+            ((LivingEntity) entityIn).func_233627_a_(0.5F, pos.x - targetPos.x, pos.z - targetPos.z);
         }
         return flag;
     }
@@ -176,11 +178,12 @@ public class EntityWalrus extends AnimalEntity implements IContainerEntity<Entit
 
     @Nullable
     public ILivingEntityData onInitialSpawn(IWorld worldIn, DifficultyInstance difficultyIn, SpawnReason reason, @Nullable ILivingEntityData spawnDataIn, @Nullable CompoundNBT dataTag) {
-        this.setHome(new BlockPos(this));
+        this.setHome(this.func_233580_cy_());
         this.setTravelPos(BlockPos.ZERO);
         return super.onInitialSpawn(worldIn, difficultyIn, reason, spawnDataIn, dataTag);
     }
 
+    @SuppressWarnings("deprecation")
     public static boolean canSpawn(EntityType<EntityWalrus> walrus, IWorld world, SpawnReason reason, BlockPos pos, Random rand) {
         return pos.getY() < world.getSeaLevel() + 4 && world.getLightSubtracted(pos, 0) > 8;
     }
@@ -199,16 +202,6 @@ public class EntityWalrus extends AnimalEntity implements IContainerEntity<Entit
         this.goalSelector.addGoal(4, new LookAtGoal(this, PlayerEntity.class, 8.0F));
         this.goalSelector.addGoal(5, new EntityWalrus.WanderGoal(this, 1.0D, 100));
         this.targetSelector.addGoal(0, new HurtByTargetGoal(this, new Class[0]));
-    }
-
-    protected void registerAttributes() {
-        super.registerAttributes();
-        this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(30.0D);
-        this.getAttribute(SharedMonsterAttributes.ARMOR).setBaseValue(5D);
-        this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.25D);
-        this.getAttributes().registerAttribute(SharedMonsterAttributes.ATTACK_DAMAGE);
-        this.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(4D);
-        this.getAttribute(SharedMonsterAttributes.KNOCKBACK_RESISTANCE).setBaseValue(1D);
     }
 
     public boolean isPushedByWater() {
@@ -251,11 +244,11 @@ public class EntityWalrus extends AnimalEntity implements IContainerEntity<Entit
         if(!this.isGoingHome() && worldIn.getFluidState(pos).isTagged(FluidTags.WATER)) {
             return 10.0F;
         } else {
-            return BlockTags.ICE.contains(worldIn.getBlockState(pos.down()).getBlock()) ? 10.0F : worldIn.getBrightness(pos) - 0.5F;
+            return BlockTags.ICE.func_230235_a_(worldIn.getBlockState(pos.down()).getBlock()) ? 10.0F : worldIn.getBrightness(pos) - 0.5F;
         }
     }
 
-    public void travel(Vec3d p_213352_1_) {
+    public void travel(Vector3d p_213352_1_) {
         if(this.isServerWorld() && this.isInWater()) {
             this.moveRelative(0.1F, p_213352_1_);
             this.move(MoverType.SELF, this.getMotion());
@@ -326,13 +319,13 @@ public class EntityWalrus extends AnimalEntity implements IContainerEntity<Entit
             }
 
             if(this.walrus.getNavigator().noPath()) {
-                Vec3d vec3d = RandomPositionGenerator.findRandomTargetTowardsScaled(this.walrus, 16, 3, new Vec3d((double) blockpos.getX(), (double) blockpos.getY(), (double) blockpos.getZ()), (double) ((float) Math.PI / 10F));
+                Vector3d vec3d = RandomPositionGenerator.findRandomTargetTowardsScaled(this.walrus, 16, 3, new Vector3d((double) blockpos.getX(), (double) blockpos.getY(), (double) blockpos.getZ()), (double) ((float) Math.PI / 10F));
                 if(vec3d == null) {
-                    vec3d = RandomPositionGenerator.findRandomTargetBlockTowards(this.walrus, 8, 7, new Vec3d((double) blockpos.getX(), (double) blockpos.getY(), (double) blockpos.getZ()));
+                    vec3d = RandomPositionGenerator.findRandomTargetBlockTowards(this.walrus, 8, 7, new Vector3d((double) blockpos.getX(), (double) blockpos.getY(), (double) blockpos.getZ()));
                 }
 
                 if(vec3d != null && !nearHome && this.walrus.world.getBlockState(new BlockPos(vec3d)).getBlock() != Blocks.WATER) {
-                    vec3d = RandomPositionGenerator.findRandomTargetBlockTowards(this.walrus, 16, 5, new Vec3d((double) blockpos.getX(), (double) blockpos.getY(), (double) blockpos.getZ()));
+                    vec3d = RandomPositionGenerator.findRandomTargetBlockTowards(this.walrus, 16, 5, new Vector3d((double) blockpos.getX(), (double) blockpos.getY(), (double) blockpos.getZ()));
                 }
 
                 if(vec3d == null) {
@@ -413,7 +406,7 @@ public class EntityWalrus extends AnimalEntity implements IContainerEntity<Entit
                 float f = (float) (MathHelper.atan2(d2, d0) * (double) (180F / (float) Math.PI)) - 90.0F;
                 this.walrus.rotationYaw = this.limitAngle(this.walrus.rotationYaw, f, 90.0F);
                 this.walrus.renderYawOffset = this.walrus.rotationYaw;
-                float f1 = (float) (this.speed * this.walrus.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).getValue());
+                float f1 = (float) (this.speed * this.walrus.getAttribute(Attributes.field_233821_d_).getValue());
                 this.walrus.setAIMoveSpeed(MathHelper.lerp(0.125F, this.walrus.getAIMoveSpeed(), f1));
                 this.walrus.setMotion(this.walrus.getMotion().add(0.0D, (double) this.walrus.getAIMoveSpeed() * d1 * 0.1D, 0.0D));
             } else {
@@ -485,9 +478,9 @@ public class EntityWalrus extends AnimalEntity implements IContainerEntity<Entit
         public void tick() {
             if(this.walrus.getNavigator().noPath()) {
                 BlockPos blockpos = this.walrus.getTravelPos();
-                Vec3d vec3d = RandomPositionGenerator.findRandomTargetTowardsScaled(this.walrus, 16, 3, new Vec3d(blockpos.getX(), blockpos.getY(), blockpos.getZ()), Math.PI / 10D);
+                Vector3d vec3d = RandomPositionGenerator.findRandomTargetTowardsScaled(this.walrus, 16, 3, new Vector3d(blockpos.getX(), blockpos.getY(), blockpos.getZ()), Math.PI / 10D);
                 if(vec3d == null) {
-                    vec3d = RandomPositionGenerator.findRandomTargetBlockTowards(this.walrus, 8, 7, new Vec3d(blockpos.getX(), blockpos.getY(), blockpos.getZ()));
+                    vec3d = RandomPositionGenerator.findRandomTargetBlockTowards(this.walrus, 8, 7, new Vector3d(blockpos.getX(), blockpos.getY(), blockpos.getZ()));
                 }
 
                 if(vec3d != null) {

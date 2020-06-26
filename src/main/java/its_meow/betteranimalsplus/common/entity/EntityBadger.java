@@ -15,7 +15,7 @@ import net.minecraft.block.Blocks;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.entity.ai.goal.HurtByTargetGoal;
 import net.minecraft.entity.ai.goal.LookAtGoal;
@@ -60,18 +60,9 @@ public class EntityBadger extends EntityAnimalWithSelectiveTypes implements IMob
 	}
 
 	@Override
-	protected void registerAttributes() {
-		super.registerAttributes();
-		this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(12.0D);
-		this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.4D);
-		this.getAttributes().registerAttribute(SharedMonsterAttributes.ATTACK_DAMAGE);
-		this.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(2.5D);
-	}
-
-	@Override
 	public boolean attackEntityAsMob(Entity entityIn) {
 		// Vanilla attack code for mobs
-		float f = (float) this.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getValue();
+		float f = (float) this.getAttribute(Attributes.field_233823_f_).getValue();
 		int i = 0;
 
 		if (entityIn instanceof LivingEntity) {
@@ -83,7 +74,7 @@ public class EntityBadger extends EntityAnimalWithSelectiveTypes implements IMob
 
 		if (flag) {
 			if (i > 0 && entityIn instanceof LivingEntity) {
-				((LivingEntity) entityIn).knockBack(this, i * 0.5F, MathHelper.sin(this.rotationYaw * 0.017453292F), (-MathHelper.cos(this.rotationYaw * 0.017453292F)));
+				((LivingEntity) entityIn).func_233627_a_(i * 0.5F, MathHelper.sin(this.rotationYaw * 0.017453292F), (-MathHelper.cos(this.rotationYaw * 0.017453292F)));
 				this.setMotion(this.getMotion().getX() * 0.6D, this.getMotion().getY(), this.getMotion().getZ() * 0.6D);
 			}
 
@@ -134,10 +125,10 @@ public class EntityBadger extends EntityAnimalWithSelectiveTypes implements IMob
 		public boolean shouldExecute() {
 			tick = 0;
 			World world = badger.world;
-			BlockPos below = badger.getPosition().down();
+			BlockPos below = badger.func_233580_cy_().down();
 			if(world.isBlockPresent(below)) {
 				BlockState state = world.getBlockState(below);
-				double dist = badger.getAttackTarget() == null ? 0 : Math.sqrt(badger.getPosition().distanceSq(badger.getAttackTarget().getPosition()));
+				double dist = badger.getAttackTarget() == null ? 0 : Math.sqrt(badger.func_233580_cy_().distanceSq(badger.getAttackTarget().func_233580_cy_()));
 				return badger.getAttackTarget() != null && dist < 10 && dist > 2 && (state.getBlock() == Blocks.DIRT || state.getBlock() == Blocks.GRASS_BLOCK || state.getBlock() == Blocks.SAND || state.getBlock() == Blocks.GRAVEL || state.getBlock() == Blocks.MYCELIUM);
 			}
 			return false;
@@ -147,7 +138,7 @@ public class EntityBadger extends EntityAnimalWithSelectiveTypes implements IMob
 		public boolean shouldContinueExecuting() {
 			boolean onDiggable = false;
 			World world = badger.world;
-			BlockPos below = badger.getPosition().down();
+			BlockPos below = badger.func_233580_cy_().down();
 			if(world.isBlockPresent(below)) {
 				BlockState state = world.getBlockState(below);
 				if(state.getBlock() == Blocks.DIRT || state.getBlock() == Blocks.GRASS_BLOCK || state.getBlock() == Blocks.SAND || state.getBlock() == Blocks.GRAVEL || state.getBlock() == Blocks.MYCELIUM) {
@@ -158,14 +149,14 @@ public class EntityBadger extends EntityAnimalWithSelectiveTypes implements IMob
 					onDiggable = true;
 				}
 			}
-			double dist = badger.getAttackTarget() == null ? 0 : Math.sqrt(badger.getPosition().distanceSq(badger.getAttackTarget().getPosition()));
+			double dist = badger.getAttackTarget() == null ? 0 : Math.sqrt(badger.func_233580_cy_().distanceSq(badger.getAttackTarget().func_233580_cy_()));
 			return badger.getAttackTarget() != null && tick <= 200 + Math.random() * 300 && dist < 10 && dist > 2 && onDiggable;
 		}
 
 		@Override
 		public void startExecuting() {
 			World world = badger.world;
-			BlockPos below = badger.getPosition().down();
+			BlockPos below = badger.func_233580_cy_().down();
 			if(world.isBlockPresent(below)) {
 				BlockState state = world.getBlockState(below);
 				if(state.getBlock() == Blocks.DIRT || state.getBlock() == Blocks.GRASS_BLOCK || state.getBlock() == Blocks.SAND || state.getBlock() == Blocks.GRAVEL || state.getBlock() == Blocks.MYCELIUM) {

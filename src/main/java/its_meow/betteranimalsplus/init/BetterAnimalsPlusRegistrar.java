@@ -162,6 +162,7 @@ public class BetterAnimalsPlusRegistrar {
 
         for(EntityTypeContainer<?> container : ModEntities.getEntities().values()) {
             event.getRegistry().register(container.entityType);
+            container.registerAttributes();
         }
     }
 

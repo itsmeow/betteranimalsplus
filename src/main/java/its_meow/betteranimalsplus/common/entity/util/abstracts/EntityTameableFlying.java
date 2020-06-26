@@ -4,7 +4,7 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.MoverType;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
 
 public abstract class EntityTameableFlying extends EntityTameableBetterAnimalsPlus {
@@ -13,7 +13,8 @@ public abstract class EntityTameableFlying extends EntityTameableBetterAnimalsPl
         super(type, worldIn);
     }
 
-    public void travel(Vec3d p_213352_1_) {
+    @Override
+    public void travel(Vector3d p_213352_1_) {
         if(this.isInWater()) {
             this.moveRelative(0.02F, p_213352_1_);
             this.move(MoverType.SELF, this.getMotion());

@@ -15,6 +15,7 @@ import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntitySpawnPlacementRegistry;
 import net.minecraft.entity.MobEntity;
+import net.minecraft.entity.ai.attributes.AttributeModifierMap;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.Heightmap;
@@ -31,16 +32,16 @@ public class EntityTypeContainerBAPTameable<T extends MobEntity> extends EntityT
     protected String[] defaultTameItems;
 
     private EntityTypeContainerBAPTameable(Class<T> EntityClass, Function<World, T> func, String entityNameIn, EntityClassification type, int solidColorIn, int spotColorIn, int prob, int min, int max, float width, float height, boolean despawn, int variantCount, IVariant[] variantFactories, String[] defaultTameItems, @Nullable CustomConfigurationHolder customConfig, @Nullable CustomConfigurationHolder customClientConfig, Supplier<Set<Biome>> biomes, EntitySpawnPlacementRegistry.PlacementType placementType, Heightmap.Type heightMapType, EntitySpawnPlacementRegistry.IPlacementPredicate<T> placementPredicate, boolean hasBucket,
-    IBucketTooltipFunction bucketTooltip) {
-        super(EntityClass, func, entityNameIn, type, solidColorIn, spotColorIn, prob, min, max, width, height, despawn, variantCount, variantFactories, customConfig, customClientConfig, biomes, placementType, heightMapType, placementPredicate, hasBucket, bucketTooltip);
+    IBucketTooltipFunction bucketTooltip, Supplier<AttributeModifierMap.MutableAttribute> attributeMap) {
+        super(EntityClass, func, entityNameIn, type, solidColorIn, spotColorIn, prob, min, max, width, height, despawn, variantCount, variantFactories, customConfig, customClientConfig, biomes, placementType, heightMapType, placementPredicate, hasBucket, bucketTooltip, attributeMap);
         this.defaultTameItems = defaultTameItems;
     }
 
     public static class TameableBuilder<T extends MobEntity> extends EntityTypeContainerBAP.Builder<T> {
         protected String[] defaultTameItems;
 
-        private TameableBuilder(Class<T> EntityClass, Function<World, T> func, String entityNameIn) {
-            super(EntityClass, func, entityNameIn);
+        private TameableBuilder(Class<T> EntityClass, Function<World, T> func, String entityNameIn, Supplier<AttributeModifierMap.MutableAttribute> attributeMap) {
+            super(EntityClass, func, entityNameIn, attributeMap);
         }
 
         @Override
@@ -163,13 +164,13 @@ public class EntityTypeContainerBAPTameable<T extends MobEntity> extends EntityT
         @Override
         public EntityTypeContainerBAPTameable<T> build() {
             this.preBuild();
-            EntityTypeContainerBAPTameable<T> container = new EntityTypeContainerBAPTameable<T>(entityClass, factory, entityName, spawnType, eggColorSolid, eggColorSpot, spawnWeight, spawnMinGroup, spawnMaxGroup, width, height, despawn, variantCount, variants, defaultTameItems, customConfig, customClientConfig, defaultBiomeSupplier, placementType, heightMapType, placementPredicate, hasBucket, bucketTooltipFinal);
+            EntityTypeContainerBAPTameable<T> container = new EntityTypeContainerBAPTameable<T>(entityClass, factory, entityName, spawnType, eggColorSolid, eggColorSpot, spawnWeight, spawnMinGroup, spawnMaxGroup, width, height, despawn, variantCount, variants, defaultTameItems, customConfig, customClientConfig, defaultBiomeSupplier, placementType, heightMapType, placementPredicate, hasBucket, bucketTooltipFinal, attributes);
             this.postBuild(container);
             return container;
         }
 
-        public static <T extends MobEntity> TameableBuilder<T> create(Class<T> EntityClass, Function<World, T> func, String entityNameIn) {
-            return new TameableBuilder<T>(EntityClass, func, entityNameIn);
+        public static <T extends MobEntity> TameableBuilder<T> create(Class<T> EntityClass, Function<World, T> func, String entityNameIn, Supplier<AttributeModifierMap.MutableAttribute> attributeMap) {
+            return new TameableBuilder<T>(EntityClass, func, entityNameIn, attributeMap);
         }
 
         public static class TameableContainerHeadBuilder<T extends MobEntity> extends ContainerHeadBuilder<T> {

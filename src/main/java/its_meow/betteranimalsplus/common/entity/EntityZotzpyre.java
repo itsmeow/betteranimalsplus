@@ -11,9 +11,9 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.MoverType;
-import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.SpawnReason;
-import net.minecraft.entity.ai.attributes.IAttributeInstance;
+import net.minecraft.entity.ai.attributes.Attributes;
+import net.minecraft.entity.ai.attributes.ModifiableAttributeInstance;
 import net.minecraft.entity.ai.goal.HurtByTargetGoal;
 import net.minecraft.entity.ai.goal.LeapAtTargetGoal;
 import net.minecraft.entity.ai.goal.LookAtGoal;
@@ -40,11 +40,12 @@ import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraftforge.common.BiomeDictionary;
+import net.minecraftforge.common.ForgeMod;
 
 public class EntityZotzpyre extends EntityMonsterWithTypes {
 
@@ -89,13 +90,6 @@ public class EntityZotzpyre extends EntityMonsterWithTypes {
     protected void collideWithNearbyEntities() {}
 
     @Override
-    protected void registerAttributes() {
-        super.registerAttributes();
-        this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(20.0D);
-        this.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(3.0D);
-    }
-
-    @Override
     public void tick() {
         if(this.isPassenger()) {
             this.setNoAI(true);
@@ -117,9 +111,9 @@ public class EntityZotzpyre extends EntityMonsterWithTypes {
 
     /* prevent slowdown in air */
     @Override
-    public void travel(Vec3d vec) {
+    public void travel(Vector3d vec) {
         double d0 = 0.08D;
-        IAttributeInstance gravity = this.getAttribute(ENTITY_GRAVITY);
+        ModifiableAttributeInstance gravity = this.getAttribute(ForgeMod.ENTITY_GRAVITY.get());
         boolean flag = this.getMotion().y <= 0.0D;
         d0 = gravity.getValue();
         double d1 = this.getPosY();
@@ -143,17 +137,17 @@ public class EntityZotzpyre extends EntityMonsterWithTypes {
             f = 0.96F;
         }
 
-        f1 *= (float)this.getAttribute(SWIM_SPEED).getValue();
+        f1 *= (float)this.getAttribute(ForgeMod.SWIM_SPEED.get()).getValue();
         this.moveRelative(f1, vec);
         this.move(MoverType.SELF, this.getMotion());
-        Vec3d vec3d1 = this.getMotion();
+        Vector3d vec3d1 = this.getMotion();
         if (this.collidedHorizontally && this.isOnLadder()) {
-            vec3d1 = new Vec3d(vec3d1.x, 0.2D, vec3d1.z);
+            vec3d1 = new Vector3d(vec3d1.x, 0.2D, vec3d1.z);
         }
 
         this.setMotion(vec3d1.mul((double)f, (double)0.8F, (double)f));
         if (!this.hasNoGravity() && !this.isSprinting()) {
-            Vec3d vec3d2 = this.getMotion();
+            Vector3d vec3d2 = this.getMotion();
             double d2;
             if (flag && Math.abs(vec3d2.y - 0.005D) >= 0.003D && Math.abs(vec3d2.y - d0 / 16.0D) < 0.003D) {
                 d2 = -0.003D;
@@ -164,7 +158,7 @@ public class EntityZotzpyre extends EntityMonsterWithTypes {
             this.setMotion(vec3d2.x, d2, vec3d2.z);
         }
 
-        Vec3d vec3d6 = this.getMotion();
+        Vector3d vec3d6 = this.getMotion();
         if (this.collidedHorizontally && this.isOffsetPositionInLiquid(vec3d6.x, vec3d6.y + (double)0.6F - this.getPosY() + d1, vec3d6.z)) {
             this.setMotion(vec3d6.x, (double)0.3F, vec3d6.z);
         }
@@ -304,6 +298,7 @@ public class EntityZotzpyre extends EntityMonsterWithTypes {
         }
     }
 
+    @SuppressWarnings("deprecation")
     public static boolean canSpawn(EntityType<EntityZotzpyre> type, IWorld world, SpawnReason reason, BlockPos pos, Random rand) {
         if (pos.getY() >= world.getSeaLevel() && !BiomeDictionary.getTypes(world.getBiome(pos)).contains(BiomeDictionary.Type.JUNGLE)) {
             return false;
@@ -327,7 +322,7 @@ public class EntityZotzpyre extends EntityMonsterWithTypes {
 
     @Override
     public boolean attackEntityAsMob(Entity entityIn) {
-        float f = (float) this.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getValue();
+        float f = (float) this.getAttribute(Attributes.field_233823_f_).getValue();
         boolean flag = entityIn.attackEntityFrom(DamageSource.causeMobDamage(this), f);
         if(flag) {
             this.lastAttack = this.ticksExisted;

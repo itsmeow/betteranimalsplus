@@ -302,8 +302,8 @@ public class ModelFeralWolf<T extends LivingEntity> extends ModelBetterAnimals<T
 
         if (entity instanceof EntityFeralWolf) {
             EntityFeralWolf wolf = (EntityFeralWolf) entity;
-            this.tail01.rotateAngleX = ageInTicks + (wolf.isSitting() ? 1.7453292519943295F : 0.6981317007977318F);
-            if(wolf.isSitting()) {
+            this.tail01.rotateAngleX = ageInTicks + (wolf.func_233685_eM_() ? 1.7453292519943295F : 0.6981317007977318F);
+            if(wolf.func_233685_eM_()) {
                 sit = true;
                 this.setRotateAngle(rHindPaw, 1.3089969389957472F, 0.20943951023931953F, 0.0F);
                 this.setRotateAngle(lForePaw, 0.03490658503988659F, 0.0F, 0.0F);

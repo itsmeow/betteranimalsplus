@@ -9,7 +9,6 @@ import its_meow.betteranimalsplus.init.ModEntities;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.AgeableEntity;
-import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.goal.AvoidEntityGoal;
 import net.minecraft.entity.ai.goal.BreedGoal;
 import net.minecraft.entity.ai.goal.PanicGoal;
@@ -53,13 +52,6 @@ public class EntitySquirrel extends EntityAnimalWithSelectiveTypes {
     }
 
     @Override
-    protected void registerAttributes() {
-        super.registerAttributes();
-        this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(4.5D);
-        this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.5D);
-    }
-
-    @Override
     protected void registerData() {
         super.registerData();
         this.dataManager.register(EntitySquirrel.CLIMBING, Byte.valueOf((byte) 0));
@@ -75,7 +67,7 @@ public class EntitySquirrel extends EntityAnimalWithSelectiveTypes {
         if (!this.world.isRemote) {
             boolean nearLog = false;
             for (Direction facing : Direction.values()) {
-                BlockPos pos = this.getPosition().offset(facing);
+                BlockPos pos = this.func_233580_cy_().offset(facing);
                 Block block = this.world.getBlockState(pos).getBlock();
                 if (block == Blocks.ACACIA_LOG || block == Blocks.BIRCH_LOG || block == Blocks.DARK_OAK_LOG
                         || block == Blocks.JUNGLE_LOG || block == Blocks.OAK_LOG || block == Blocks.SPRUCE_LOG) {

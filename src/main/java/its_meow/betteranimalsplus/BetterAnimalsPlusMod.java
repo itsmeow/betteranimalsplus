@@ -35,10 +35,10 @@ import net.minecraft.dispenser.IBlockSource;
 import net.minecraft.dispenser.IPosition;
 import net.minecraft.dispenser.ProjectileDispenseBehavior;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.IProjectile;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
@@ -201,11 +201,11 @@ public class BetterAnimalsPlusMod {
 	
 	private static <T extends EntityModEgg> void registerEggDispenser(Item item, IEggEntityProvider<T> provider) {
 	    DispenserBlock.registerDispenseBehavior(item, new ProjectileDispenseBehavior() {
-            protected IProjectile getProjectileEntity(World worldIn, IPosition position, ItemStack stackIn) {
+            protected ProjectileEntity getProjectileEntity(World worldIn, IPosition position, ItemStack stackIn) {
                 return Util.make(provider.create(worldIn, position), (p_218408_1_) -> {
                     p_218408_1_.setItem(stackIn);
                 });
-            }
+             }
         });
 	}
 	

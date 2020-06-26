@@ -1,15 +1,2 @@
 apply from: 'https://maven.itsmeow.dev/scripts/fg3.gradle'
 apply from: 'https://maven.itsmeow.dev/scripts/imdlib.gradle'
-
-repositories {
-    maven {
-        name = "JEI"
-        url = "http://dvs1.progwml6.com/files/maven"
-    }
-}
-
-dependencies {
-    compileOnly fg.deobf("mezz.jei:jei-${project.mc_version}:${jei_version}:api")
-    runtimeOnly fg.deobf("mezz.jei:jei-${project.mc_version}:${jei_version}")
-    runtimeOnly fg.deobf("squeek.appleskin:AppleSkin:mc${project.mc_version}-forge-1.0.13")
-}
