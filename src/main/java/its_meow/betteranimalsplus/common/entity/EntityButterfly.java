@@ -152,7 +152,6 @@ public class EntityButterfly extends EntityAnimalWithTypesAndSizeContainable {
         worldIn.addParticle(particleData, MathHelper.lerp(worldIn.rand.nextDouble(), xStart, xEnd), posY, MathHelper.lerp(worldIn.rand.nextDouble(), zStart, zEnd), 0.0D, 0.0D, 0.0D);
     }
 
-    @SuppressWarnings("deprecation")
     public boolean isRainingAt(BlockPos position) {
         if (!world.isRaining()) {
            return false;
