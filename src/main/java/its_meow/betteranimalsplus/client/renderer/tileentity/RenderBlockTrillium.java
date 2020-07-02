@@ -8,7 +8,7 @@ import its_meow.betteranimalsplus.client.model.ModelTrillium;
 import its_meow.betteranimalsplus.client.model.ModelTrilliumMulti;
 import its_meow.betteranimalsplus.client.model.ModelTrilliumMulti2;
 import its_meow.betteranimalsplus.common.tileentity.TileEntityTrillium;
-import its_meow.betteranimalsplus.init.ModTextures;
+import its_meow.betteranimalsplus.init.ModResources;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
 import net.minecraft.entity.Entity;
@@ -48,7 +48,7 @@ public class RenderBlockTrillium extends TileEntityRenderer<TileEntityTrillium> 
                 g = g > 255F ? 250F : g;
                 b = b > 255F ? 250F : b;
                 GlStateManager.color3f(r, g, b);
-                this.bindTexture(ModTextures.trillium_base);
+                this.bindTexture(ModResources.trillium_base);
                 mainModel.render((Entity) null, 0F, 0F, 0F, rotate, 0F, 0.0625F);
                 GlStateManager.color3f(1.0F, 1.0F, 1.0F);
             }

@@ -3,7 +3,8 @@ package its_meow.betteranimalsplus.init;
 import java.util.HashMap;
 import java.util.Map;
 
-import its_meow.betteranimalsplus.util.ModSoundEvent;
+import dev.itsmeow.imdlib.util.ModSoundEvent;
+import its_meow.betteranimalsplus.Ref;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 
@@ -20,7 +21,7 @@ public class ModSoundEvents {
     public static final SoundEvent WALRUS = sound("record.walrus");
 
     private static SoundEvent sound(String id) {
-        ModSoundEvent event = new ModSoundEvent(id);
+        ModSoundEvent event = new ModSoundEvent(Ref.MOD_ID, id);
         SOUNDS.put(event.getRegistryName(), event);
         return event;
     }

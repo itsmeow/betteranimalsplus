@@ -12,6 +12,7 @@ import dev.itsmeow.imdlib.entity.EntityRegistrarHandler;
 import dev.itsmeow.imdlib.entity.util.EntityTypeContainer;
 import dev.itsmeow.imdlib.entity.util.EntityTypeContainer.CustomConfigurationHolder;
 import dev.itsmeow.imdlib.entity.util.EntityVariant;
+import dev.itsmeow.imdlib.entity.util.builder.IEntityBuilder;
 import dev.itsmeow.imdlib.util.BiomeListBuilder;
 import its_meow.betteranimalsplus.Ref;
 import its_meow.betteranimalsplus.client.model.ModelBearHead;
@@ -27,6 +28,7 @@ import its_meow.betteranimalsplus.common.entity.EntityBear;
 import its_meow.betteranimalsplus.common.entity.EntityBearNeutral;
 import its_meow.betteranimalsplus.common.entity.EntityBoar;
 import its_meow.betteranimalsplus.common.entity.EntityBobbitWorm;
+import its_meow.betteranimalsplus.common.entity.EntityButterfly;
 import its_meow.betteranimalsplus.common.entity.EntityCoyote;
 import its_meow.betteranimalsplus.common.entity.EntityCrab;
 import its_meow.betteranimalsplus.common.entity.EntityDeer;
@@ -54,11 +56,18 @@ import its_meow.betteranimalsplus.common.entity.EntityZotzpyre;
 import its_meow.betteranimalsplus.common.entity.miniboss.hirschgeist.EntityHirschgeist;
 import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainerBAP;
 import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainerBAP.Builder;
+import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainerBAPContainable;
 import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainerBAPTameable;
-import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainerBAPTameable.TameableBuilder;
+import its_meow.betteranimalsplus.common.entity.util.IContainable;
+import its_meow.betteranimalsplus.common.item.IContainerItem;
+import its_meow.betteranimalsplus.common.item.ItemModEntityContainer;
+import its_meow.betteranimalsplus.common.item.ItemModFishBucket;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntitySpawnPlacementRegistry.PlacementType;
 import net.minecraft.entity.MobEntity;
+import net.minecraft.entity.passive.TameableEntity;
+import net.minecraft.item.Item;
+import net.minecraft.item.Items;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biomes;
 import net.minecraft.world.gen.Heightmap;
@@ -113,7 +122,7 @@ public class ModEntities {
             EntityGoat.VANILLA_MILK = this.goatVanillaMilk.get();
         }
     }).variants(7));
-    public static final EntityTypeContainerBAP<EntityJellyfish> JELLYFISH = setup(create(EntityJellyfish.class, EntityJellyfish::new, "jellyfish").spawn(EntityClassification.WATER_CREATURE, 10, 1, 1).waterPlacement().egg(0x226fe2, 0xf2b3b3).size(0.8F, 0.8F).despawn().biomes(Type.OCEAN).variants("little_blue", "big_blue", "pink", "red_stripe", "green", "gray").bucketable(EntityJellyfish::bucketTooltip));
+    public static final EntityTypeContainerBAPContainable<EntityJellyfish, ItemModFishBucket<EntityJellyfish>> JELLYFISH = setup(createContainableB(EntityJellyfish.class, EntityJellyfish::new, "jellyfish").spawn(EntityClassification.WATER_CREATURE, 10, 1, 1).waterPlacement().egg(0x226fe2, 0xf2b3b3).size(0.8F, 0.8F).despawn().biomes(Type.OCEAN).variants("little_blue", "big_blue", "pink", "red_stripe", "green", "gray").containers(ItemModFishBucket.waterBucket(), c->Items.BUCKET, EntityJellyfish::bucketTooltip));
     public static final EntityTypeContainerBAP<EntityPheasant> PHEASANT = setup(create(EntityPheasant.class, EntityPheasant::new, "pheasant").spawn(EntityClassification.CREATURE, 12, 1, 3).egg(0x8e6b0b, 0xd8af3c).size(1F, 1F).biomes(Type.FOREST, Type.PLAINS, Type.SAVANNA).variants(2));
     public static final EntityTypeContainerBAP<EntityReindeer> REINDEER = setup(create(EntityReindeer.class, EntityReindeer::new, "reindeer").spawn(EntityClassification.CREATURE, 10, 1, 4).egg(0x8e510b, 0x017700).size(1.3964844F, 1.8F).biomes(BiomeListBuilder.create().withTypes(Type.SNOWY).withoutTypes(Type.OCEAN)::collect).variants(
     new EntityVariant(MODID, "1", "reindeer_1"),
@@ -140,8 +149,8 @@ public class ModEntities {
     public static final EntityTypeContainerBAP<EntitySquirrel> SQUIRREL = setup(create(EntitySquirrel.class, EntitySquirrel::new, "squirrel").spawn(EntityClassification.CREATURE, 8, 1, 3).egg(0x89806f, 0xb2a489).size(0.5F, 0.5F).biomes(Type.FOREST).variants("gray", "red", "albino"));
     public static final EntityTypeContainerBAP<EntitySongbird> SONGBIRD = setup(create(EntitySongbird.class, EntitySongbird::new, "songbird").spawn(EntityClassification.CREATURE, 11, 1, 4).egg(0x46f4d2, 0x7df442).size(0.5F, 0.5F).biomes(Type.FOREST, Type.PLAINS).variants("1", "2", "3", "4", "small_1", "small_2", "small_3", "small_4", "small_5", "small_6"));
     public static final EntityTypeContainerBAP<EntityBadger> BADGER = setup(create(EntityBadger.class, EntityBadger::new, "badger").spawn(EntityClassification.CREATURE, 7, 1, 2).egg(0x0c0c0c, 0xd3d3d3).size(0.8F, 0.8F).biomes(Type.FOREST, Type.PLAINS, Type.SAVANNA).variants("american", "european", "honey"));
-    public static final EntityTypeContainerBAP<EntityLamprey> LAMPREY = setup(create(EntityLamprey.class, EntityLamprey::new, "lamprey").spawn(EntityClassification.WATER_CREATURE, 7, 1, 1).waterPlacement().egg(0x0000ad, 0x0a0a0a).size(1.0F, 0.7F).despawn().biomes(Type.RIVER, Type.SWAMP).variants("yellow", "spotted", "brown").bucketable());
-    public static final EntityTypeContainerBAP<EntityNautilus> NAUTILUS = setup(create(EntityNautilus.class, EntityNautilus::new, "nautilus").spawn(EntityClassification.WATER_CREATURE, 4, 1, 1).waterPlacement().egg(0xFF9659, 0x241682).size(0.75F, 0.75F).despawn().biomes(Type.OCEAN).bucketable());
+    public static final EntityTypeContainerBAPContainable<EntityLamprey, ItemModFishBucket<EntityLamprey>> LAMPREY = setup(createContainableB(EntityLamprey.class, EntityLamprey::new, "lamprey").spawn(EntityClassification.WATER_CREATURE, 7, 1, 1).waterPlacement().egg(0x0000ad, 0x0a0a0a).size(1.0F, 0.7F).despawn().biomes(Type.RIVER, Type.SWAMP).variants("yellow", "spotted", "brown").containers(ItemModFishBucket.waterBucket(), c->Items.BUCKET));
+    public static final EntityTypeContainerBAPContainable<EntityNautilus, ItemModFishBucket<EntityNautilus>> NAUTILUS = setup(createContainableB(EntityNautilus.class, EntityNautilus::new, "nautilus").spawn(EntityClassification.WATER_CREATURE, 4, 1, 1).waterPlacement().egg(0xFF9659, 0x241682).size(0.75F, 0.75F).despawn().biomes(Type.OCEAN).containers(ItemModFishBucket.waterBucket(), c->Items.BUCKET));
     public static final EntityTypeContainerBAP<EntityCrab> CRAB = setup(create(EntityCrab.class, EntityCrab::new, "crab").spawn(EntityClassification.CREATURE, 10, 1, 3).egg(0xe21d16, 0x2d0504).size(1F, 0.65F).biomes(Type.BEACH, Type.SWAMP).variants(4));
     public static final EntityTypeContainerBAP<EntityHorseshoeCrab> HORSESHOE_CRAB = setup(create(EntityHorseshoeCrab.class, EntityHorseshoeCrab::new, "horseshoecrab").spawn(EntityClassification.CREATURE, 8, 1, 3).egg(0xba1111, 0x520807).size(1F, 0.65F).biomes(Type.BEACH).variants(3));
     public static final EntityTypeContainerBAP<EntityShark> SHARK = setup(create(EntityShark.class, EntityShark::new, "shark").spawn(EntityClassification.WATER_CREATURE, 4, 1, 1).waterPlacement().egg(0x787878, 0xbdbdbd).size(2.5F, 1.2F).despawn().biomes(Type.OCEAN).variants("blue", "bull", "tiger", "whitetip", "greenland"));
@@ -162,10 +171,25 @@ public class ModEntities {
             EntityGoose.pickupBlockList = pickupBlacklist.get().toArray(new String[0]);
         }
     }).variants(3));
-    public static final EntityTypeContainerBAP<EntityFreshwaterEel> EEL_FRESHWATER = setup(create(EntityFreshwaterEel.class, EntityFreshwaterEel::new, "eel_freshwater").spawn(EntityClassification.WATER_CREATURE, 7, 1, 2).waterPlacement().egg(0x818077, 0x726c4f).size(1F, 1F).despawn().biomes(Type.RIVER, Type.SWAMP).variants("longfin", "silver").bucketable());
-    public static final EntityTypeContainerBAP<EntitySaltwaterEel> EEL_SALTWATER = setup(create(EntitySaltwaterEel.class, EntitySaltwaterEel::new, "eel_saltwater").spawn(EntityClassification.WATER_CREATURE, 4, 1, 2).waterPlacement().egg(0xa5a5a5, 0x515168).size(1F, 1F).despawn().biomes(BiomeListBuilder.create().withTypes(Type.OCEAN).withoutTypes(Type.COLD).withoutBiomes(Biomes.DEEP_OCEAN, Biomes.DEEP_LUKEWARM_OCEAN, Biomes.DEEP_LUKEWARM_OCEAN)::collect).variants("conger", "dragon", "moray", "ribbon", "snowflake").bucketable());
+    public static final EntityTypeContainerBAPContainable<EntityFreshwaterEel, ItemModFishBucket<EntityFreshwaterEel>> EEL_FRESHWATER = setup(createContainableB(EntityFreshwaterEel.class, EntityFreshwaterEel::new, "eel_freshwater").spawn(EntityClassification.WATER_CREATURE, 7, 1, 2).waterPlacement().egg(0x818077, 0x726c4f).size(1F, 1F).despawn().biomes(Type.RIVER, Type.SWAMP).variants("longfin", "silver").containers(ItemModFishBucket.waterBucket(), c->Items.BUCKET));
+    public static final EntityTypeContainerBAPContainable<EntitySaltwaterEel, ItemModFishBucket<EntitySaltwaterEel>> EEL_SALTWATER = setup(createContainableB(EntitySaltwaterEel.class, EntitySaltwaterEel::new, "eel_saltwater").spawn(EntityClassification.WATER_CREATURE, 4, 1, 2).waterPlacement().egg(0xa5a5a5, 0x515168).size(1F, 1F).despawn().biomes(BiomeListBuilder.create().withTypes(Type.OCEAN).withoutTypes(Type.COLD).withoutBiomes(Biomes.DEEP_OCEAN, Biomes.DEEP_LUKEWARM_OCEAN, Biomes.DEEP_LUKEWARM_OCEAN)::collect).variants("conger", "dragon", "moray", "ribbon", "snowflake").containers(ItemModFishBucket.waterBucket(), c->Items.BUCKET));
     public static final EntityTypeContainerBAP<EntityWhale> WHALE = setup(create(EntityWhale.class, EntityWhale::new, "whale").spawn(EntityClassification.WATER_CREATURE, 2, 1, 3).waterPlacement().egg(0x328da8, 0x001c4f).size(5F, 3F).despawn().biomes(Type.OCEAN).variants("beluga", "bottlenose", "cuviers", "false_killer", "narwhal", "pilot"));
     public static final EntityTypeContainerBAP<EntityWalrus> WALRUS = setup(create(EntityWalrus.class, EntityWalrus::new, "walrus").spawn(EntityClassification.CREATURE, 4, 1, 5).defaultPlacement(EntityWalrus::canSpawn).egg(0x854c03, 0x42300f).size(3F, 1.25F).biomes(BiomeListBuilder.create().extra(Biomes.FROZEN_OCEAN, Biomes.DEEP_FROZEN_OCEAN, Biomes.SNOWY_BEACH, Biomes.STONE_SHORE)::collect));
+    public static final EntityTypeContainerBAPContainable<EntityButterfly, ItemModEntityContainer<EntityButterfly>> BUTTERFLY = setup(ModEntities.<EntityButterfly, ItemModEntityContainer<EntityButterfly>>createContainable(EntityButterfly.class, EntityButterfly::new, "butterfly")
+    .spawn(EntityClassification.AMBIENT, 10, 1, 3)
+    .egg(0x000000, 0xffffff)
+    .size(0.35F, 0.35F)
+    .despawn()
+    .variants(
+    "monarch",
+    "morpho",
+    "purple_emperor",
+    "red_admiral",
+    "sulphur",
+    "swallowtail"
+    )
+    .biomes(BiomeListBuilder.create().withTypes(Type.FOREST, Type.JUNGLE, Type.MAGICAL).withoutTypes(Type.COLD)::collect)
+    .containers(ItemModEntityContainer.get("bottled_%s"), c -> Items.GLASS_BOTTLE, EntityButterfly::bottleTooltip));
 
     /*
      * ##########################################################
@@ -177,20 +201,23 @@ public class ModEntities {
         return H.ENTITIES;
     }
 
-    private static <T extends MobEntity> EntityTypeContainerBAP<T> setup(EntityTypeContainerBAP.Builder<T> builder) {
-        return (EntityTypeContainerBAP<T>) H.add(builder);
-    }
-    
-    private static <T extends MobEntity> EntityTypeContainerBAPTameable<T> setup(EntityTypeContainerBAPTameable.TameableBuilder<T> builder) {
-        return (EntityTypeContainerBAPTameable<T>) H.add(builder);
+    private static <T extends MobEntity, C extends EntityTypeContainer<T>> C setup(IEntityBuilder<T, C, ?> builder) {
+        return H.add(builder);
     }
 
     private static <T extends MobEntity> Builder<T> create(Class<T> EntityClass, Function<World, T> func, String entityNameIn) {
         return EntityTypeContainerBAP.Builder.create(EntityClass, func, entityNameIn);
     }
 
-    private static <T extends MobEntity> TameableBuilder<T> createTame(Class<T> EntityClass, Function<World, T> func, String entityNameIn) {
-        return EntityTypeContainerBAPTameable.TameableBuilder.create(EntityClass, func, entityNameIn);
+    private static <T extends TameableEntity> EntityTypeContainerBAPTameable.Builder<T> createTame(Class<T> EntityClass, Function<World, T> func, String entityNameIn) {
+        return EntityTypeContainerBAPTameable.Builder.create(EntityClass, func, entityNameIn);
     }
 
+    private static <T extends MobEntity & IContainable, I extends Item & IContainerItem<T>> EntityTypeContainerBAPContainable.Builder<T, I> createContainable(Class<T> EntityClass, Function<World, T> func, String entityNameIn) {
+        return EntityTypeContainerBAPContainable.Builder.create(EntityClass, func, entityNameIn);
+    }
+
+    private static <T extends MobEntity & IContainable> EntityTypeContainerBAPContainable.Builder<T, ItemModFishBucket<T>> createContainableB(Class<T> EntityClass, Function<World, T> func, String entityNameIn) {
+        return EntityTypeContainerBAPContainable.Builder.<T, ItemModFishBucket<T>>create(EntityClass, func, entityNameIn);
+    }
 }

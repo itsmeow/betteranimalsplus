@@ -1,6 +1,7 @@
 package its_meow.betteranimalsplus.common.entity;
 
 import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainerBAP;
+import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainerBAPContainable;
 import its_meow.betteranimalsplus.common.entity.util.abstracts.EntityEelBase;
 import its_meow.betteranimalsplus.init.ModEntities;
 import net.minecraft.util.SoundEvent;
@@ -20,6 +21,11 @@ public class EntityFreshwaterEel extends EntityEelBase {
 
     @Override
     public EntityTypeContainerBAP<EntityFreshwaterEel> getContainer() {
+        return ModEntities.EEL_FRESHWATER;
+    }
+
+    @Override
+    public EntityTypeContainerBAPContainable<?, ?> getContainableContainer() {
         return ModEntities.EEL_FRESHWATER;
     }
 }

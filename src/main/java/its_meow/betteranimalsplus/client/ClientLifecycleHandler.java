@@ -12,6 +12,7 @@ import its_meow.betteranimalsplus.client.model.ModelBeakedWhale;
 import its_meow.betteranimalsplus.client.model.ModelBear;
 import its_meow.betteranimalsplus.client.model.ModelBoar;
 import its_meow.betteranimalsplus.client.model.ModelBobbitWorm;
+import its_meow.betteranimalsplus.client.model.ModelButterfly;
 import its_meow.betteranimalsplus.client.model.ModelCoyote;
 import its_meow.betteranimalsplus.client.model.ModelCrab;
 import its_meow.betteranimalsplus.client.model.ModelDeer;
@@ -51,6 +52,7 @@ import its_meow.betteranimalsplus.common.entity.EntityBear;
 import its_meow.betteranimalsplus.common.entity.EntityBearNeutral;
 import its_meow.betteranimalsplus.common.entity.EntityBoar;
 import its_meow.betteranimalsplus.common.entity.EntityBobbitWorm;
+import its_meow.betteranimalsplus.common.entity.EntityButterfly;
 import its_meow.betteranimalsplus.common.entity.EntityCoyote;
 import its_meow.betteranimalsplus.common.entity.EntityCrab;
 import its_meow.betteranimalsplus.common.entity.EntityDeer;
@@ -85,7 +87,7 @@ import its_meow.betteranimalsplus.common.entity.projectile.EntityTurkeyEgg;
 import its_meow.betteranimalsplus.common.tileentity.TileEntityHandOfFate;
 import its_meow.betteranimalsplus.common.tileentity.TileEntityHead;
 import its_meow.betteranimalsplus.common.tileentity.TileEntityTrillium;
-import its_meow.betteranimalsplus.init.ModTextures;
+import its_meow.betteranimalsplus.init.ModResources;
 import net.minecraft.entity.Pose;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
@@ -110,20 +112,20 @@ public class ClientLifecycleHandler {
                 float f = e.getBrightness() * e.getShadingWhileWet(p);
                 GlStateManager.color3f(f, f, f);
             }
-        }).layer(t -> new LayerEyesCondition<>(t, ModTextures.wolf_eyes, e -> !e.isTamed())));
+        }).layer(t -> new LayerEyesCondition<>(t, ModResources.wolf_eyes, e -> !e.isTamed())));
         R.addRender(EntityCoyote.class, 0.5F, r -> r.tMapped(e -> e.isTamed() || (e.isDaytime() && !EntityCoyote.HOSTILE_DAYTIME) ? "coyote_neutral" : "coyote_hostile").mSingle(new ModelCoyote<>()).handleRotation((e, p) -> e.getTailRotation()).preRender((e, p) -> {
             if(e.isWolfWet()) {
                 float f = e.getBrightness() * e.getShadingWhileWet(p);
                 GlStateManager.color3f(f, f, f);
             }
-        }).layer(t -> new LayerEyesCondition<>(t, ModTextures.coyote_eyes, e -> !e.isTamed() && !(e.isDaytime() && !EntityCoyote.HOSTILE_DAYTIME))));
+        }).layer(t -> new LayerEyesCondition<>(t, ModResources.coyote_eyes, e -> !e.isTamed() && !(e.isDaytime() && !EntityCoyote.HOSTILE_DAYTIME))));
         RenderingRegistry.registerEntityRenderingHandler(EntityTarantulaHair.class, RenderTarantulaHair::new);
         R.addRender(EntityTarantula.class, 1F, r -> r.tSingle("tarantula").mSingle(new ModelTarantula<>()).preRender((e, p) -> {
             if(e.isBesideClimbableBlock()) {
                 GlStateManager.rotatef(-90, 1, 0, 0);
                 GlStateManager.translatef(0.0F, 0.75F, -0.5F);
             }
-        }).layer(t -> new LayerEyes<>(t, ModTextures.tarantula_eyes)));
+        }).layer(t -> new LayerEyes<>(t, ModResources.tarantula_eyes)));
         R.addRender(EntityHirschgeist.class, 1F, r -> r.tSingle("hirschgeist").mSingle(new ModelHirschgeistMain<>()).condScale(e -> !e.isDaytime(), 2F));
         R.addRender(EntityGoat.class, 0.5F, r -> r.tVariant().mSingle(new ModelGoat<>()).childScale(0.5F));
         R.addRender(EntityJellyfish.class, 0.5F, r -> r.tVariant().mSingle(new ModelJellyfish<>()).preRender((e, p) -> {
@@ -181,7 +183,7 @@ public class ClientLifecycleHandler {
             return (MathHelper.sin(f) + 1.0F) * f1;
         }));
         RenderFactory.addRender(EntityTurkeyEgg.class, RenderFactory.sprite());
-        R.addRender(EntityZotzpyre.class, 0.4F, r -> r.tVariant().mSingle(new ModelZotzpyre<>()).layer(t -> new LayerEyes<>(t, ModTextures.zotzpyre_eyes)));
+        R.addRender(EntityZotzpyre.class, 0.4F, r -> r.tVariant().mSingle(new ModelZotzpyre<>()).layer(t -> new LayerEyes<>(t, ModResources.zotzpyre_eyes)));
         R.addRender(EntityBobbitWorm.class, 0.4F, r -> r.tVariant().mSingle(new ModelBobbitWorm<>()));
         R.addRender(EntityGoose.class, 0.5F, r -> r.tBabyVariant("goose_baby").mSingle(new ModelGoose<>()).ageScale(0.8F, 0.5F).layer(t -> new GooseItemLayerRenderer<EntityGoose>(t)));
         RenderFactory.addRender(EntityGooseEgg.class, RenderFactory.sprite());
@@ -213,6 +215,10 @@ public class ClientLifecycleHandler {
             }
         }));
         R.addRender(EntityWalrus.class, 1.5F, r -> r.tSingle("walrus").mSingle(new ModelWalrus<EntityWalrus>()));
+        R.addRender(EntityButterfly.class, 0.1F, r -> r.tVariant().mSingle(new ModelButterfly<>()).preRender((e, f) -> {
+            float s = e.getSize(Pose.STANDING).width;
+            GlStateManager.scalef(s, s, s);
+        }));
         RenderFactory.addRender(EntityBadgerDirt.class, RenderFactory.nothing());
         BetterAnimalsPlusMod.logger.info("Rendering squirrel physics...");
     }

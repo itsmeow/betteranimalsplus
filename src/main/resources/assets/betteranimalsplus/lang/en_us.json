@@ -48,6 +48,7 @@
     "item.betteranimalsplus.eel_meat_cooked": "Cooked Eel Meat",
     "item.betteranimalsplus.record_walrus": "Music Disc",
     "item.betteranimalsplus.record_walrus.desc": "I Am The Walrus",
+    "item.betteranimalsplus.bottled_butterfly": "Bottled Butterfly",
 
     "block.betteranimalsplus.trillium": "Trillium",
     "block.betteranimalsplus.hirschgeistskull": "Hirschgeist Skull",
@@ -93,6 +94,7 @@
     "entity.betteranimalsplus.eel_saltwater": "Saltwater Eel",
     "entity.betteranimalsplus.whale": "Whale",
     "entity.betteranimalsplus.walrus": "Walrus",
+    "entity.betteranimalsplus.butterfly": "Butterfly",
 
     "entity.betteranimalsplus.eel_saltwater.type.conger": "Conger",
     "entity.betteranimalsplus.eel_saltwater.type.dragon": "Dragon",
@@ -110,6 +112,13 @@
     "entity.betteranimalsplus.jellyfish.type.red_stripe": "Red Stripe",
     "entity.betteranimalsplus.jellyfish.type.green": "Green",
     "entity.betteranimalsplus.jellyfish.type.gray": "Gray",
+    "entity.betteranimalsplus.butterfly.type.monarch": "Monarch",
+    "entity.betteranimalsplus.butterfly.type.morpho": "Morpho",
+    "entity.betteranimalsplus.butterfly.type.purple_emperor": "Purple Emperor",
+    "entity.betteranimalsplus.butterfly.type.red_admiral": "Red Admiral",
+    "entity.betteranimalsplus.butterfly.type.sulphur": "Sulphur",
+    "entity.betteranimalsplus.butterfly.type.swallowtail": "Swallowtail",
     
-    "misc.betteranimalsplus.eggorder": "%s Spawn Egg"
+    "misc.betteranimalsplus.eggorder": "%s Spawn Egg",
+    "tooltip.betteranimalsplus.nectar": "Has Nectar"
 }

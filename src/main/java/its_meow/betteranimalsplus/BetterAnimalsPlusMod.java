@@ -115,10 +115,7 @@ public class BetterAnimalsPlusMod {
         @Override
         public void fill(NonNullList<ItemStack> toDisplay) {
             super.fill(toDisplay);
-            for(EntityTypeContainer<?> cont : ModEntities.getEntities().values()) {
-                ItemStack stack = new ItemStack(cont.egg);
-                toDisplay.add(stack);
-            }
+            ModEntities.getEntities().values().forEach(cont -> toDisplay.add(new ItemStack(cont.egg)));
         }
     };
 

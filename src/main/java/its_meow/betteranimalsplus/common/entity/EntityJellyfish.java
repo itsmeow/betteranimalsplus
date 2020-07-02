@@ -5,6 +5,7 @@ import java.util.List;
 import javax.annotation.Nullable;
 
 import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainerBAP;
+import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainerBAPContainable;
 import its_meow.betteranimalsplus.common.entity.util.abstracts.EntityWaterMobWithTypesBucketable;
 import its_meow.betteranimalsplus.init.ModEntities;
 import net.minecraft.entity.EntitySize;
@@ -280,16 +281,16 @@ public class EntityJellyfish extends EntityWaterMobWithTypesBucketable {
     }
 
     @Override
-    public void setBucketData(ItemStack bucket) {
-        super.setBucketData(bucket);
+    public void setContainerData(ItemStack bucket) {
+        super.setContainerData(bucket);
         CompoundNBT tag = bucket.getTag();
         tag.putFloat("JellyfishSizeTag", this.dataManager.get(EntityJellyfish.SIZE));
         bucket.setTag(tag);
     }
 
     @Override
-    public void readFromBucketTag(CompoundNBT tag) {
-        super.readFromBucketTag(tag);
+    public void readFromContainerTag(CompoundNBT tag) {
+        super.readFromContainerTag(tag);
         if(tag.contains("JellyfishSizeTag")) {
             this.setSize(tag.getFloat("JellyfishSizeTag"));
         }
@@ -300,6 +301,11 @@ public class EntityJellyfish extends EntityWaterMobWithTypesBucketable {
         if(tag != null && tag.contains("JellyfishSizeTag", Constants.NBT.TAG_FLOAT)) {
             tooltip.add(new StringTextComponent("Size: " + tag.getFloat("JellyfishSizeTag")).applyTextStyles(new TextFormatting[] { TextFormatting.ITALIC, TextFormatting.GRAY }));
         }
+    }
+
+    @Override
+    public EntityTypeContainerBAPContainable<?, ?> getContainableContainer() {
+        return ModEntities.JELLYFISH;
     }
 
 }

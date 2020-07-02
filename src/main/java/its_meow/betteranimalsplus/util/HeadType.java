@@ -19,6 +19,7 @@ import dev.itsmeow.imdlib.entity.util.IVariantTypes;
 import its_meow.betteranimalsplus.Ref;
 import its_meow.betteranimalsplus.common.block.BlockGenericSkull;
 import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainerBAP;
+import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainerBAP.AbstractEntityBuilderBAP;
 import its_meow.betteranimalsplus.common.item.ItemBlockHeadType;
 import its_meow.betteranimalsplus.common.tileentity.TileEntityHead;
 import net.minecraft.block.Block;
@@ -239,7 +240,7 @@ public class HeadType {
         SINGLETON;
     }
 
-    public static class Builder {
+    public static class Builder<T extends MobEntity, C extends EntityTypeContainerBAP<T>, B extends AbstractEntityBuilderBAP<T, C, B>> {
 
         private final String name;
         private PlacementType placement;
@@ -250,55 +251,62 @@ public class HeadType {
         private Function<IVariant, String> customMapper;
         private IVariant singletonVariant;
         private String singletonID;
+        private final B initial;
 
-        public Builder(String name) {
+        public Builder(B initial, String name) {
+            this.initial = initial;
             this.name = name;
             this.placement = PlacementType.WALL_ONLY;
             this.yOffset = 0.0F;
             this.idMapping = null;
         }
 
-        public Builder mapToNames() {
+        public Builder<T, C, B> mapToNames() {
             this.idMapping = HeadIDMapping.NAMES;
             return this;
         }
 
-        public Builder mapToNumbers() {
+        public Builder<T, C, B> mapToNumbers() {
             this.idMapping = HeadIDMapping.NUMBERS;
             return this;
         }
 
-        public Builder mapToCustom(Function<IVariant, String> customMapper) {
+        public Builder<T, C, B> mapToCustom(Function<IVariant, String> customMapper) {
             this.idMapping = HeadIDMapping.CUSTOM;
             this.customMapper = customMapper;
             return this;
         }
 
-        public Builder singleton(String id, String texture) {
+        public Builder<T, C, B> singleton(String id, String texture) {
             this.idMapping = HeadIDMapping.SINGLETON;
             this.singletonID = id;
             this.singletonVariant = new EntityVariant(Ref.MOD_ID, id, texture);
             return this;
         }
 
-        public Builder allowFloor() {
+        public Builder<T, C, B> allowFloor() {
             this.placement = PlacementType.FLOOR_AND_WALL;
             return this;
         }
 
-        public Builder setModel(Supplier<Supplier<EntityModel<? extends Entity>>> modelSupplier) {
+        public Builder<T, C, B> setModel(Supplier<Supplier<EntityModel<? extends Entity>>> modelSupplier) {
             if(FMLEnvironment.dist == Dist.CLIENT) {
                 this.modelSupplier = modelSupplier;
             }
             return this;
         }
 
-        public Builder offset(float yOffset) {
+        public Builder<T, C, B> offset(float yOffset) {
             this.yOffset = yOffset;
             return this;
         }
 
-        public HeadType build(EntityTypeContainerBAP<? extends LivingEntity> container) {
+        public B done() {
+            initial.setHeadBuild(this::build);
+            return initial;
+        }
+
+        public HeadType build(C container) {
             if(idMapping == null) {
                 throw new RuntimeException("No ID mapping set for head builder " + name);
             }

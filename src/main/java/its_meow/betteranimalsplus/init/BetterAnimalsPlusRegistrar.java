@@ -8,9 +8,8 @@ import its_meow.betteranimalsplus.common.entity.projectile.EntityGooseEgg;
 import its_meow.betteranimalsplus.common.entity.projectile.EntityPheasantEgg;
 import its_meow.betteranimalsplus.common.entity.projectile.EntityTarantulaHair;
 import its_meow.betteranimalsplus.common.entity.projectile.EntityTurkeyEgg;
-import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainerBAP;
+import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainerBAPContainable;
 import its_meow.betteranimalsplus.common.item.ItemAdvancementIcon;
-import its_meow.betteranimalsplus.common.item.ItemBetterAnimalsPlusEgg;
 import its_meow.betteranimalsplus.common.item.ItemBlockSimple;
 import its_meow.betteranimalsplus.util.HeadType;
 import net.minecraft.block.Block;
@@ -21,6 +20,7 @@ import net.minecraft.util.SoundEvent;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.IForgeRegistry;
 
 @Mod.EventBusSubscriber(modid = Ref.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
@@ -108,13 +108,19 @@ public class BetterAnimalsPlusRegistrar {
         ModItems.EEL_MEAT_COOKED,
         ModItems.FRIED_EGG
         );
-        
-        for (EntityTypeContainer<?> container : ModEntities.getEntities().values()) {
-            if(container instanceof EntityTypeContainerBAP<?> && ((EntityTypeContainerBAP<?>) container).hasBucket()) {
-                event.getRegistry().register(((EntityTypeContainerBAP<?>) container).getBucketItem());
+
+        for(EntityTypeContainer<?> container : ModEntities.getEntities().values()) {
+            if(container instanceof EntityTypeContainerBAPContainable<?, ?>) {
+                EntityTypeContainerBAPContainable<?, ?> c = (EntityTypeContainerBAPContainable<?, ?>) container;
+                if(!ForgeRegistries.ITEMS.containsValue(c.getContainerItem())) {
+                    event.getRegistry().register(c.getContainerItem());
+                }
+                if(!ForgeRegistries.ITEMS.containsValue(c.getEmptyContainerItem())) {
+                    event.getRegistry().register(c.getEmptyContainerItem());
+                }
             }
         }
-        
+
         registry.registerAll(
         new ItemAdvancementIcon("advancement_icon_jellyfish"),
         new ItemAdvancementIcon("advancement_icon_jellyfish_cross"),
@@ -127,12 +133,11 @@ public class BetterAnimalsPlusRegistrar {
         );
 
         // Eggs
-        for (EntityTypeContainer<?> container : ModEntities.getEntities().values()) {
-            ItemBetterAnimalsPlusEgg egg = new ItemBetterAnimalsPlusEgg(container);
-            egg.setRegistryName(container.entityName.toLowerCase().toString() + "_spawn_egg");
-            event.getRegistry().register(egg);
-            container.egg = egg;
-        }
+        ModEntities.H.ENTITIES.values().forEach(e -> {
+            if(e.hasEgg) {
+                event.getRegistry().register(e.egg);
+            }
+        });
     }
 
     @SubscribeEvent

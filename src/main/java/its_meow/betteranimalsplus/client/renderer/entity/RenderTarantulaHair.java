@@ -5,7 +5,7 @@ import javax.annotation.Nonnull;
 import com.mojang.blaze3d.platform.GlStateManager;
 
 import its_meow.betteranimalsplus.common.entity.projectile.EntityTarantulaHair;
-import its_meow.betteranimalsplus.init.ModTextures;
+import its_meow.betteranimalsplus.init.ModResources;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.EntityRenderer;
@@ -82,7 +82,7 @@ public class RenderTarantulaHair extends EntityRenderer<EntityTarantulaHair> {
     @Override
     @Nonnull
     protected ResourceLocation getEntityTexture(@Nonnull EntityTarantulaHair entity) {
-        return ModTextures.tarantula_hair;
+        return ModResources.tarantula_hair;
     }
 
 }
