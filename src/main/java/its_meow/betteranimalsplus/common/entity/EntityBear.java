@@ -6,6 +6,7 @@ import com.google.common.base.Predicates;
 
 import dev.itsmeow.imdlib.entity.util.IContainerEntity;
 import its_meow.betteranimalsplus.common.entity.ai.EntityAIEatBerries;
+import its_meow.betteranimalsplus.common.entity.ai.PeacefulNearestAttackableTargetGoal;
 import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainerBAP;
 import its_meow.betteranimalsplus.common.entity.util.IDropHead;
 import its_meow.betteranimalsplus.init.ModEntities;
@@ -15,7 +16,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.goal.HurtByTargetGoal;
 import net.minecraft.entity.ai.goal.LookAtGoal;
 import net.minecraft.entity.ai.goal.MeleeAttackGoal;
@@ -36,7 +36,6 @@ import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.Difficulty;
-import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 
 public class EntityBear extends MonsterEntity implements IContainerEntity<EntityBear>, IDropHead {
@@ -60,27 +59,29 @@ public class EntityBear extends MonsterEntity implements IContainerEntity<Entity
         this.goalSelector.addGoal(0, new SwimGoal(this) {
             public boolean shouldExecute() {
                 return EntityBear.this.isInWater() && EntityBear.this.getSubmergedHeight() > 0.6 || EntityBear.this.isInLava();
-             }
+            }
         });
         this.goalSelector.addGoal(1, new EntityBear.AIMeleeAttack());
         this.goalSelector.addGoal(2, new EntityAIEatBerries(this, 1.0D, 12, 2));
         this.goalSelector.addGoal(5, new RandomWalkingGoal(this, 1.0D));
         this.goalSelector.addGoal(6, new LookAtGoal(this, PlayerEntity.class, 6.0F));
-        this.targetSelector.addGoal(1, new HurtByTargetGoal(this, EntityBear.class));
-        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<SalmonEntity>(this, SalmonEntity.class, 90,
-        true, true, Predicates.alwaysTrue()));
-        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<PlayerEntity>(this, PlayerEntity.class, 90,
-        true, true, Predicates.alwaysTrue()));
-        this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<EntityDeer>(this, EntityDeer.class, 90, true,
-        true, Predicates.alwaysTrue()));
-        this.targetSelector.addGoal(4, new NearestAttackableTargetGoal<PigEntity>(this, PigEntity.class, 90, true,
-        true, Predicates.alwaysTrue()));
-        this.targetSelector.addGoal(5, new NearestAttackableTargetGoal<ChickenEntity>(this, ChickenEntity.class, 90,
-        true, true, Predicates.alwaysTrue()));
-        this.targetSelector.addGoal(6, new NearestAttackableTargetGoal<RabbitEntity>(this, RabbitEntity.class, 90,
-        true, true, Predicates.alwaysTrue()));
-        this.targetSelector.addGoal(5, new NearestAttackableTargetGoal<EntityPheasant>(this, EntityPheasant.class, 90,
-        true, true, Predicates.alwaysTrue()));
+        this.targetSelector.addGoal(1, new HurtByTargetGoal(this, EntityBear.class) {
+            @Override
+            public boolean shouldExecute() {
+                return !EntityBear.this.isPeaceful() && super.shouldExecute();
+            }
+        });
+        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<SalmonEntity>(this, SalmonEntity.class, 90, true, true, Predicates.alwaysTrue()));
+        this.targetSelector.addGoal(2, new PeacefulNearestAttackableTargetGoal<PlayerEntity>(this, PlayerEntity.class, 90, true, true, Predicates.alwaysTrue()));
+        this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<EntityDeer>(this, EntityDeer.class, 90, true, true, Predicates.alwaysTrue()));
+        this.targetSelector.addGoal(4, new NearestAttackableTargetGoal<PigEntity>(this, PigEntity.class, 90, true, true, Predicates.alwaysTrue()));
+        this.targetSelector.addGoal(5, new NearestAttackableTargetGoal<ChickenEntity>(this, ChickenEntity.class, 90, true, true, Predicates.alwaysTrue()));
+        this.targetSelector.addGoal(6, new NearestAttackableTargetGoal<RabbitEntity>(this, RabbitEntity.class, 90, true, true, Predicates.alwaysTrue()));
+        this.targetSelector.addGoal(5, new NearestAttackableTargetGoal<EntityPheasant>(this, EntityPheasant.class, 90, true, true, Predicates.alwaysTrue()));
+    }
+
+    public boolean isPeaceful() {
+        return world.getDifficulty() == Difficulty.PEACEFUL;
     }
 
     @Override
@@ -100,18 +101,14 @@ public class EntityBear extends MonsterEntity implements IContainerEntity<Entity
         return ModLootTables.BEAR_BROWN;
     }
 
-    public boolean canSpawn(IWorld p_213380_1_, SpawnReason p_213380_2_) {
-        return p_213380_1_.getDifficulty() != Difficulty.PEACEFUL;
-    }
-
     @Override
     public boolean attackEntityFrom(DamageSource source, float amount) {
-        if (this.isInvulnerableTo(source)) {
+        if(this.isInvulnerableTo(source)) {
             return false;
         } else {
             Entity entity = source.getTrueSource();
 
-            if (entity instanceof PlayerEntity) {
+            if(entity instanceof PlayerEntity) {
                 this.setAttackTarget((PlayerEntity) entity);
                 this.playWarningSound();
             }
@@ -124,13 +121,13 @@ public class EntityBear extends MonsterEntity implements IContainerEntity<Entity
     public void tick() {
         super.tick();
 
-        if (this.warningSoundTicks > 0) {
+        if(this.warningSoundTicks > 0) {
             --this.warningSoundTicks;
         }
     }
 
     protected void playWarningSound() {
-        if (this.warningSoundTicks <= 0) {
+        if(this.warningSoundTicks <= 0) {
             this.playSound(SoundEvents.ENTITY_POLAR_BEAR_WARNING, 1.0F, 1.0F);
             this.warningSoundTicks = 40;
         }
@@ -175,15 +172,15 @@ public class EntityBear extends MonsterEntity implements IContainerEntity<Entity
         protected void checkAndPerformAttack(LivingEntity p_190102_1_, double p_190102_2_) {
             double d0 = this.getAttackReachSqr(p_190102_1_);
 
-            if (p_190102_2_ <= d0 && this.attackTick <= 0) {
+            if(p_190102_2_ <= d0 && this.attackTick <= 0) {
                 this.attackTick = 20;
                 this.attacker.attackEntityAsMob(p_190102_1_);
-            } else if (p_190102_2_ <= d0 * 2.0D) {
-                if (this.attackTick <= 0) {
+            } else if(p_190102_2_ <= d0 * 2.0D) {
+                if(this.attackTick <= 0) {
                     this.attackTick = 20;
                 }
 
-                if (this.attackTick <= 10) {
+                if(this.attackTick <= 10) {
                     EntityBear.this.playWarningSound();
                 }
             } else {
@@ -191,10 +188,6 @@ public class EntityBear extends MonsterEntity implements IContainerEntity<Entity
             }
         }
 
-        /**
-         * Reset the task's internal state. Called when this task is interrupted by
-         * another one
-         */
         @Override
         public void resetTask() {
             super.resetTask();
@@ -215,7 +208,7 @@ public class EntityBear extends MonsterEntity implements IContainerEntity<Entity
     protected float getWaterSlowDown() {
         return 0.95F;
     }
-    
+
     @Override
     public void onDeath(DamageSource cause) {
         super.onDeath(cause);

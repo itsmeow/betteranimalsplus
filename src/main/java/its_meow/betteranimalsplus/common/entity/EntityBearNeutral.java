@@ -37,7 +37,12 @@ public class EntityBearNeutral extends EntityBear implements IVariantTypes<Entit
         this.goalSelector.addGoal(0, new SwimGoal(this));
         this.goalSelector.addGoal(1, new EntityBearNeutral.AIMeleeAttack());
         this.goalSelector.addGoal(2, new EntityAIEatBerries(this, 1.0D, 12, 2));
-        this.targetSelector.addGoal(1, new HurtByTargetGoal(this, new Class[0]));
+        this.targetSelector.addGoal(1, new HurtByTargetGoal(this, new Class[0]) {
+            @Override
+            public boolean shouldExecute() {
+                return !EntityBearNeutral.this.isPeaceful() && super.shouldExecute();
+            }
+        });
         this.goalSelector.addGoal(5, new RandomWalkingGoal(this, 0.5D));
         this.goalSelector.addGoal(6, new LookAtGoal(this, PlayerEntity.class, 6.0F));
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<ChickenEntity>(this, ChickenEntity.class, true));

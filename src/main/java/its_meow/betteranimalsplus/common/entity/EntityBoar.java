@@ -68,12 +68,12 @@ public class EntityBoar extends EntityAnimalWithSelectiveTypes implements IMob, 
         this.goalSelector.addGoal(1, new MeleeAttackGoal(this, 1.2D, false) {
             @Override
             public boolean shouldExecute() {
-                return !EntityBoar.this.isChild() && !EntityBoar.this.isPeaceful() && super.shouldExecute();
+                return !EntityBoar.this.isChild() && super.shouldExecute();
             }
 
             @Override
             public boolean shouldContinueExecuting() {
-                return !EntityBoar.this.isChild() && !EntityBoar.this.isPeaceful() && super.shouldContinueExecuting();
+                return !EntityBoar.this.isChild() && super.shouldContinueExecuting();
             }
         });
         this.goalSelector.addGoal(2, new BreedGoal(this, 1.0D));
@@ -102,12 +102,12 @@ public class EntityBoar extends EntityAnimalWithSelectiveTypes implements IMob, 
         this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<AnimalEntity>(this, AnimalEntity.class, 90, true, true, (@Nullable LivingEntity in) -> in instanceof ChickenEntity || in instanceof EntityPheasant || in instanceof AnimalEntity && ((AnimalEntity) in).isChild() && !(in instanceof EntityBoar || in instanceof PigEntity)) {
             @Override
             public boolean shouldExecute() {
-                return !EntityBoar.this.isChild() && !EntityBoar.this.isPeaceful() && super.shouldExecute();
+                return !EntityBoar.this.isChild() && super.shouldExecute();
             }
 
             @Override
             public boolean shouldContinueExecuting() {
-                return !EntityBoar.this.isChild() && !EntityBoar.this.isPeaceful() && super.shouldContinueExecuting();
+                return !EntityBoar.this.isChild() && super.shouldContinueExecuting();
             }
         });
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<LivingEntity>(this, LivingEntity.class, 50, true, true, (@Nullable LivingEntity in) -> in instanceof AnimalEntity && !(in instanceof EntityBoar || in instanceof PigEntity) || in instanceof PlayerEntity) {
