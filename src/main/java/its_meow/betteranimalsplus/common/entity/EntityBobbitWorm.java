@@ -32,6 +32,7 @@ import net.minecraft.pathfinding.SwimmerPathNavigator;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.Difficulty;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
 
@@ -55,7 +56,7 @@ public class EntityBobbitWorm extends EntityAnimalWithTypes {
         blackList.add(EndermanEntity.class);
         blackList.add(EntityHirschgeist.class);
         blackList.add(EntityJellyfish.class);
-        this.targetSelector.addGoal(0, new NearestAttackableTargetGoal<LivingEntity>(this, LivingEntity.class, 0, true, true, e -> e.getWidth() < 3 && !(e instanceof IMob) && !(e instanceof EntityBobbitWorm) && !blackList.contains(e.getClass())));
+        this.targetSelector.addGoal(0, new NearestAttackableTargetGoal<LivingEntity>(this, LivingEntity.class, 0, true, true, e -> e.getWidth() < 3 && !(e instanceof IMob) && !(e instanceof EntityBobbitWorm) && !(e.world.getDifficulty() == Difficulty.PEACEFUL && e instanceof PlayerEntity) && !blackList.contains(e.getClass())));
     }
 
     @Override
