@@ -20,7 +20,6 @@ import its_meow.betteranimalsplus.client.model.ModelFeralWolf;
 import its_meow.betteranimalsplus.client.model.ModelFreshwaterEel;
 import its_meow.betteranimalsplus.client.model.ModelGoat;
 import its_meow.betteranimalsplus.client.model.ModelGoose;
-import its_meow.betteranimalsplus.client.model.ModelGreenlandShark;
 import its_meow.betteranimalsplus.client.model.ModelHirschgeistMain;
 import its_meow.betteranimalsplus.client.model.ModelHorseshoeCrab;
 import its_meow.betteranimalsplus.client.model.ModelJellyfish;
@@ -31,7 +30,6 @@ import its_meow.betteranimalsplus.client.model.ModelNautilus;
 import its_meow.betteranimalsplus.client.model.ModelPheasant;
 import its_meow.betteranimalsplus.client.model.ModelReindeer;
 import its_meow.betteranimalsplus.client.model.ModelSaltwaterEel;
-import its_meow.betteranimalsplus.client.model.ModelShark;
 import its_meow.betteranimalsplus.client.model.ModelSmallWhale;
 import its_meow.betteranimalsplus.client.model.ModelSongbird;
 import its_meow.betteranimalsplus.client.model.ModelSongbirdSmall;
@@ -40,6 +38,15 @@ import its_meow.betteranimalsplus.client.model.ModelTarantula;
 import its_meow.betteranimalsplus.client.model.ModelTurkey;
 import its_meow.betteranimalsplus.client.model.ModelWalrus;
 import its_meow.betteranimalsplus.client.model.ModelZotzpyre;
+import its_meow.betteranimalsplus.client.model.shark.ModelBlueShark;
+import its_meow.betteranimalsplus.client.model.shark.ModelGoblinShark;
+import its_meow.betteranimalsplus.client.model.shark.ModelGreatWhiteShark;
+import its_meow.betteranimalsplus.client.model.shark.ModelGreenlandShark;
+import its_meow.betteranimalsplus.client.model.shark.ModelHammerheadShark;
+import its_meow.betteranimalsplus.client.model.shark.ModelMakoShark;
+import its_meow.betteranimalsplus.client.model.shark.ModelBullShark;
+import its_meow.betteranimalsplus.client.model.shark.ModelTigerShark;
+import its_meow.betteranimalsplus.client.model.shark.ModelWhiteTipShark;
 import its_meow.betteranimalsplus.client.renderer.entity.RenderTarantulaHair;
 import its_meow.betteranimalsplus.client.renderer.entity.layers.GooseItemLayerRenderer;
 import its_meow.betteranimalsplus.client.renderer.entity.layers.LayerEyes;
@@ -154,23 +161,57 @@ public class ClientLifecycleHandler {
         R.addRender(EntityNautilus.class, 0.4F, r -> r.tSingle("nautilus").mSingle(new ModelNautilus<>()));
         R.addRender(EntityCrab.class, 0.4F, r -> r.tVariant().mSingle(new ModelCrab<>()).childScale(0.45F));
         R.addRender(EntityHorseshoeCrab.class, 0.4F, r -> r.tVariant().mSingle(new ModelHorseshoeCrab<>()).childScale(0.45F));
-        R.addRender(EntityShark.class, 2F, r -> r.tVariant().mCondition(e -> !"greenland".equals(e.getVariantNameOrEmpty()), new ModelShark<>(), new ModelGreenlandShark<>()).preRender((e, p) -> {
+        R.addRender(EntityShark.class, 2F, r -> r.tVariant().mMapped(e -> {
             switch(e.getVariantNameOrEmpty()) {
             case "blue":
-                GlStateManager.scaled(0.8D, 0.7D, 0.8D);
+                return ModelBlueShark.class;
+            case "bull":
+                return ModelBullShark.class;
+            case "tiger":
+                return ModelTigerShark.class;
+            case "whitetip":
+                return ModelWhiteTipShark.class;
+            case "greenland":
+                return ModelGreenlandShark.class;
+            case "hammerhead":
+                return ModelHammerheadShark.class;
+            case "goblin":
+                return ModelGoblinShark.class;
+            case "mako":
+                return ModelMakoShark.class;
+            case "great_white":
+                return ModelGreatWhiteShark.class;
+            default:
+                return ModelBullShark.class;
+            }
+        }, new ModelBullShark()).preRender((e, p) -> {
+            switch(e.getVariantNameOrEmpty()) {
+            case "blue":
+                GlStateManager.scaled(0.8D, 0.8D, 0.8D);
                 break;
             case "bull":
-                GlStateManager.scaled(0.6D, 0.6D, 0.6D);
+                GlStateManager.scaled(0.8D, 0.8D, 0.8D);
                 break;
             case "tiger":
                 GlStateManager.scaled(1.1D, 1.1D, 1.1D);
                 break;
             case "whitetip":
-                GlStateManager.scaled(0.8D, 0.8D, 0.8D);
+                GlStateManager.scaled(0.9D, 0.9D, 0.9D);
                 break;
             case "greenland":
                 GlStateManager.scaled(1.7D, 1.7D, 1.7D);
                 GlStateManager.translated(0D, 0.3D, 0D);
+                break;
+            case "hammerhead":
+                GlStateManager.scaled(1.3D, 1.3D, 1.3D);
+                break;
+            case "goblin":
+                GlStateManager.scaled(0.7D, 0.7D, 0.7D);
+                break;
+            case "mako":
+                break;
+            case "great_white":
+                GlStateManager.scaled(1.2D, 1.2D, 1.2D);
                 break;
             default:
                 break;

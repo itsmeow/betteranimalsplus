@@ -1,4 +1,4 @@
-package its_meow.betteranimalsplus.client.model;
+package its_meow.betteranimalsplus.client.model.shark;
 
 import its_meow.betteranimalsplus.common.entity.EntityShark;
 import its_meow.betteranimalsplus.util.ModMathHelper;
@@ -12,7 +12,7 @@ import net.minecraft.util.math.MathHelper;
  * shark - BOTMON
  * Created using Tabula 7.0.1
  */
-public class ModelShark<T extends LivingEntity> extends EntityModel<T> {
+public class ModelBullShark extends EntityModel<EntityShark> {
     public RendererModel body;
     public RendererModel tail00;
     public RendererModel neck;
@@ -49,7 +49,7 @@ public class ModelShark<T extends LivingEntity> extends EntityModel<T> {
     public RendererModel rFin01;
     public RendererModel rFin02;
 
-    public ModelShark() {
+    public ModelBullShark() {
         this.textureWidth = 60;
         this.textureHeight = 200;
         this.dorsalFin04 = new RendererModel(this, 26, 152);
@@ -224,42 +224,42 @@ public class ModelShark<T extends LivingEntity> extends EntityModel<T> {
     }
 
     @Override
-    public void render(T entity, float f, float f1, float f2, float f3, float f4, float f5) {
-        if(entity instanceof EntityShark) {
-            EntityShark shark = (EntityShark) entity;
-            if ((Math.abs(entity.getMotion().getY()) > 0.01 && (Math.abs(entity.getMotion().getX()) > 0.01 || Math.abs(entity.getMotion().getZ()) > 0.01)) || Math.abs(entity.getMotion().getY()) > 0.03) {
-                float rotX = -((float) Math.atan(entity.getMotion().getY() / Math.sqrt(Math.pow(entity.getMotion().getX(), 2) + Math.pow(entity.getMotion().getZ(), 2))) / 1.5F);
-                if (rotX < 0) {
-                    rotX /= 2;
-                }
-                rotX += 0.022863813201125717F;
-                rotX = ModMathHelper.interpolateRotation(shark.lastBodyRotation, rotX, Minecraft.getInstance().getRenderPartialTicks());
-                this.body.rotateAngleX = rotX;
-                shark.lastBodyRotation = rotX;
-            } else {
-                this.body.rotateAngleX = 0.022863813201125717F;
+    public void render(EntityShark entity, float f, float f1, float f2, float f3, float f4, float f5) {
+        this.body.render(f5);
+    }
+
+    @Override
+    public void setRotationAngles(EntityShark entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor) {
+        ModelBullShark.animate(entity, ageInTicks, body, tail00, tail01, tail02, lowerJaw);
+    }
+
+    public static <T extends LivingEntity> void animate(EntityShark entity, float ageInTicks, RendererModel body, RendererModel tail00, RendererModel tail01, RendererModel tail02, RendererModel lowerJaw) {
+        if((Math.abs(entity.getMotion().getY()) > 0.01 && (Math.abs(entity.getMotion().getX()) > 0.01 || Math.abs(entity.getMotion().getZ()) > 0.01)) || Math.abs(entity.getMotion().getY()) > 0.03) {
+            float rotX = -((float) Math.atan(entity.getMotion().getY() / Math.sqrt(Math.pow(entity.getMotion().getX(), 2) + Math.pow(entity.getMotion().getZ(), 2))) / 1.5F);
+            if(rotX < 0) {
+                rotX /= 2;
             }
+            rotX += 0.022863813201125717F;
+            rotX = ModMathHelper.interpolateRotation(entity.lastBodyRotation, rotX, Minecraft.getInstance().getRenderPartialTicks());
+            body.rotateAngleX = rotX;
+            entity.lastBodyRotation = rotX;
         } else {
-            this.body.rotateAngleX = 0.022863813201125717F;
+            body.rotateAngleX = 0.022863813201125717F;
         }
         float motionFactor = Math.min((float) entity.getMotion().length() * 25F, 75);
-        this.tail00.rotateAngleY = MathHelper.cos(f2 * 0.25F) * 0.05F * motionFactor;
-        this.tail01.rotateAngleY = MathHelper.cos(f2 * 0.25F) * 0.05F * motionFactor;
-        this.tail02.rotateAngleY = MathHelper.cos(f2 * 0.25F) * 0.05F * motionFactor;
+        tail00.rotateAngleY = MathHelper.cos(ageInTicks * 0.25F) * 0.05F * motionFactor;
+        tail01.rotateAngleY = MathHelper.cos(ageInTicks * 0.25F) * 0.05F * motionFactor;
+        tail02.rotateAngleY = MathHelper.cos(ageInTicks * 0.25F) * 0.05F * motionFactor;
         if(entity.getPassengers().size() == 0) {
             float mul = 0.05F;
             float div = 20F;
             float add = entity.getUniqueID().hashCode() * 0.0001F;
-            this.lowerJaw.rotateAngleX = (float) Math.cos(f2 * (mul + 0.05F) + add) / div;
+            lowerJaw.rotateAngleX = (float) Math.cos(ageInTicks * (mul + 0.05F) + add) / div;
         } else {
-            this.lowerJaw.rotateAngleX = (float) Math.PI / 4F;
+            lowerJaw.rotateAngleX = (float) Math.PI / 4F;
         }
-        this.body.render(f5);
     }
 
-    /**
-     * This is a helper function from Tabula to set the rotation of model parts
-     */
     public void setRotateAngle(RendererModel RendererModel, float x, float y, float z) {
         RendererModel.rotateAngleX = x;
         RendererModel.rotateAngleY = y;

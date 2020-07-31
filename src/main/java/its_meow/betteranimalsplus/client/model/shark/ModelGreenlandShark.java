@@ -1,18 +1,14 @@
-package its_meow.betteranimalsplus.client.model;
+package its_meow.betteranimalsplus.client.model.shark;
 
 import its_meow.betteranimalsplus.common.entity.EntityShark;
-import its_meow.betteranimalsplus.util.ModMathHelper;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.entity.model.RendererModel;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.util.math.MathHelper;
 
 /**
  * Greenland Shark - Undefined
  * Created using Tabula 7.0.1
  */
-public class ModelGreenlandShark<T extends LivingEntity> extends EntityModel<T> {
+public class ModelGreenlandShark extends EntityModel<EntityShark> {
     public RendererModel body;
     public RendererModel tail00;
     public RendererModel neck;
@@ -227,37 +223,13 @@ public class ModelGreenlandShark<T extends LivingEntity> extends EntityModel<T> 
     }
 
     @Override
-    public void render(T entity, float f, float f1, float f2, float f3, float f4, float f5) { 
-        if(entity instanceof EntityShark) {
-            EntityShark shark = (EntityShark) entity;
-            if ((Math.abs(entity.getMotion().getY()) > 0.01 && (Math.abs(entity.getMotion().getX()) > 0.01 || Math.abs(entity.getMotion().getZ()) > 0.01)) || Math.abs(entity.getMotion().getY()) > 0.03) {
-                float rotX = -((float) Math.atan(entity.getMotion().getY() / Math.sqrt(Math.pow(entity.getMotion().getX(), 2) + Math.pow(entity.getMotion().getZ(), 2))) / 1.5F);
-                if (rotX < 0) {
-                    rotX /= 2;
-                }
-                rotX += 0.022863813201125717F;
-                rotX = ModMathHelper.interpolateRotation(shark.lastBodyRotation, rotX, Minecraft.getInstance().getRenderPartialTicks());
-                this.body.rotateAngleX = rotX;
-                shark.lastBodyRotation = rotX;
-            } else {
-                this.body.rotateAngleX = 0.022863813201125717F;
-            }
-        } else {
-            this.body.rotateAngleX = 0.022863813201125717F;
-        }
-        float motionFactor = Math.min((float) entity.getMotion().length() * 20F, 50);
-        this.tail00.rotateAngleY = MathHelper.cos(f2 * 0.25F) * 0.05F * motionFactor;
-        this.tail01.rotateAngleY = MathHelper.cos(f2 * 0.25F) * 0.05F * motionFactor;
-        this.tail02.rotateAngleY = MathHelper.cos(f2 * 0.25F) * 0.05F * motionFactor;
-        if(entity.getPassengers().size() == 0) {
-            float mul = 0.05F;
-            float div = 20F;
-            float add = entity.getUniqueID().hashCode() * 0.0001F;
-            this.lowerJaw.rotateAngleX = (float) Math.cos(f2 * (mul + 0.05F) + add) / div;
-        } else {
-            this.lowerJaw.rotateAngleX = (float) Math.PI / 4F;
-        }
+    public void render(EntityShark entity, float f, float f1, float f2, float f3, float f4, float f5) { 
         this.body.render(f5);
+    }
+
+    @Override
+    public void setRotationAngles(EntityShark entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor) {
+        ModelBullShark.animate(entity, ageInTicks, body, tail00, tail01, tail02, lowerJaw);
     }
 
     /**
