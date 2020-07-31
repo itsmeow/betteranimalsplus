@@ -51,6 +51,7 @@ import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.Difficulty;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.IWorldReader;
@@ -198,7 +199,12 @@ public class EntityWalrus extends AnimalEntity implements IContainerEntity<Entit
         });
         this.goalSelector.addGoal(4, new LookAtGoal(this, PlayerEntity.class, 8.0F));
         this.goalSelector.addGoal(5, new EntityWalrus.WanderGoal(this, 1.0D, 100));
-        this.targetSelector.addGoal(0, new HurtByTargetGoal(this, new Class[0]));
+        this.targetSelector.addGoal(0, new HurtByTargetGoal(this, new Class[0]) {
+            @Override
+            public boolean shouldExecute() {
+                return EntityWalrus.this.world.getDifficulty() != Difficulty.PEACEFUL && super.shouldExecute();
+            }
+        });
     }
 
     protected void registerAttributes() {
