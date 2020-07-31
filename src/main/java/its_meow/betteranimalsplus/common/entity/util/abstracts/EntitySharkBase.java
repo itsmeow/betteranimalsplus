@@ -6,7 +6,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
@@ -15,7 +14,6 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.Difficulty;
-import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 
 public abstract class EntitySharkBase extends EntityWaterMobPathingWithSelectiveTypes implements IMob {
@@ -39,17 +37,8 @@ public abstract class EntitySharkBase extends EntityWaterMobPathingWithSelective
         }
     }
 
-    @Override
-    public void tick() {
-        super.tick();
-        if(this.world.getDifficulty() == Difficulty.PEACEFUL) {
-            this.remove();
-        }
-    }
-
-    @Override
-    public boolean canSpawn(IWorld world, SpawnReason reason) {
-        return this.world.getDifficulty() != Difficulty.PEACEFUL && super.canSpawn(world, reason);
+    public boolean isPeaceful() {
+        return this.world.getDifficulty() != Difficulty.PEACEFUL;
     }
 
     @Override
@@ -113,10 +102,12 @@ public abstract class EntitySharkBase extends EntityWaterMobPathingWithSelective
 
     @Override
     public void setAttackTarget(LivingEntity entitylivingbaseIn) {
-        if(entitylivingbaseIn instanceof ServerPlayerEntity) {
-            ModTriggers.SHARK_TARGETED.trigger((ServerPlayerEntity) entitylivingbaseIn);
+        if(!this.isPeaceful()) {
+            if(entitylivingbaseIn instanceof ServerPlayerEntity) {
+                ModTriggers.SHARK_TARGETED.trigger((ServerPlayerEntity) entitylivingbaseIn);
+            }
+            super.setAttackTarget(entitylivingbaseIn);
         }
-        super.setAttackTarget(entitylivingbaseIn);
     }
 
 }

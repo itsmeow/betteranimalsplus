@@ -58,13 +58,18 @@ public class EntityShark extends EntitySharkBase {
             if(e instanceof EntitySharkBase || e instanceof EntityBobbitWorm) return false;
             if(e instanceof PlayerEntity) return shouldAttackForHealth(e.getHealth());
             return true;
-        }));
+        }) {
+            @Override
+            public boolean shouldExecute() {
+                return super.shouldExecute() && !EntityShark.this.isPeaceful();
+            }
+        });
     }
 
     @Override
     public boolean attackEntityFrom(DamageSource source, float amount) {
         if(super.attackEntityFrom(source, amount)) {
-            if(source.getImmediateSource() instanceof PlayerEntity) {
+            if(source.getImmediateSource() instanceof PlayerEntity && !this.isPeaceful()) {
                 PlayerEntity player = (PlayerEntity) source.getImmediateSource();
                 if(!player.isCreative() && !player.isInvisible()) {
                     this.setAttackTarget(player);
@@ -136,7 +141,7 @@ public class EntityShark extends EntitySharkBase {
         if(this.getAttackTarget() != null && !this.getAttackTarget().isAlive()) {
             this.setAttackTarget(null);
         }
-        if(!this.world.isRemote && this.getAttackTarget() != null && this.getAttackTarget().isAlive() && this.isAlive()) {
+        if(!this.world.isRemote && this.getAttackTarget() != null && this.getAttackTarget().isAlive() && this.isAlive() && !this.isPeaceful()) {
             boolean isBoat = this.getAttackTarget() instanceof PlayerEntity && this.getAttackTarget().getRidingEntity() != null && this.getAttackTarget().getRidingEntity() instanceof BoatEntity;
             float grabDelay = isBoat ? 20F : 60F;
             if(this.getPassengers().contains(this.getAttackTarget())) {
