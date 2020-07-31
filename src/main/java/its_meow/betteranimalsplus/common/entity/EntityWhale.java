@@ -56,7 +56,12 @@ public class EntityWhale extends EntityWaterMobPathingWithTypesAirBreathing impl
         this.goalSelector.addGoal(3, new RandomSwimmingGoal(this, 1.0D, 10));
         this.goalSelector.addGoal(4, new LookAtGoal(this, PlayerEntity.class, 6.0F));
         this.goalSelector.addGoal(5, new LookRandomlyGoal(this));
-        this.targetSelector.addGoal(0, new HurtByTargetGoal(this, new Class[0]));
+        this.targetSelector.addGoal(0, new HurtByTargetGoal(this, new Class[0]) {
+            @Override
+            public boolean shouldExecute() {
+                return EntityWhale.this.world.getDifficulty() != Difficulty.PEACEFUL && super.shouldExecute();
+            }
+        });
     }
 
     @Override
