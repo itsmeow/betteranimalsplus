@@ -1,6 +1,5 @@
 package its_meow.betteranimalsplus.client;
 
-import com.google.common.base.Predicates;
 import com.mojang.blaze3d.platform.GlStateManager;
 
 import dev.itsmeow.imdlib.client.IMDLibClient;
@@ -16,6 +15,7 @@ import its_meow.betteranimalsplus.client.model.ModelButterfly;
 import its_meow.betteranimalsplus.client.model.ModelCoyote;
 import its_meow.betteranimalsplus.client.model.ModelCrab;
 import its_meow.betteranimalsplus.client.model.ModelDeer;
+import its_meow.betteranimalsplus.client.model.ModelDragonfly;
 import its_meow.betteranimalsplus.client.model.ModelFeralWolf;
 import its_meow.betteranimalsplus.client.model.ModelFreshwaterEel;
 import its_meow.betteranimalsplus.client.model.ModelGoat;
@@ -56,6 +56,7 @@ import its_meow.betteranimalsplus.common.entity.EntityButterfly;
 import its_meow.betteranimalsplus.common.entity.EntityCoyote;
 import its_meow.betteranimalsplus.common.entity.EntityCrab;
 import its_meow.betteranimalsplus.common.entity.EntityDeer;
+import its_meow.betteranimalsplus.common.entity.EntityDragonfly;
 import its_meow.betteranimalsplus.common.entity.EntityFeralWolf;
 import its_meow.betteranimalsplus.common.entity.EntityFreshwaterEel;
 import its_meow.betteranimalsplus.common.entity.EntityGoat;
@@ -175,7 +176,7 @@ public class ClientLifecycleHandler {
                 break;
             }
         }));
-        R.addRender(EntityMoose.class, 0.8F, r -> r.tVariant().mSingle(new ModelMoose<>()).condScale(Predicates.alwaysTrue(), 1.5F));
+        R.addRender(EntityMoose.class, 0.8F, r -> r.tVariant().mSingle(new ModelMoose<>()).simpleScale(e -> 1.5F));
         RenderFactory.addRender(EntityPheasantEgg.class, RenderFactory.sprite());
         R.addRender(EntityTurkey.class, 0.5F, r -> r.tBabyVariant("turkey_baby").mSingle(new ModelTurkey<>()).ageScale(0.8F, 0.5F).handleRotation((e, p) -> {
             float f = e.oFlap + (e.wingRotation - e.oFlap) * p;
@@ -215,10 +216,8 @@ public class ClientLifecycleHandler {
             }
         }));
         R.addRender(EntityWalrus.class, 1.5F, r -> r.tSingle("walrus").mSingle(new ModelWalrus<EntityWalrus>()));
-        R.addRender(EntityButterfly.class, 0.1F, r -> r.tVariant().mSingle(new ModelButterfly<>()).preRender((e, f) -> {
-            float s = e.getSize(Pose.STANDING).width;
-            GlStateManager.scalef(s, s, s);
-        }));
+        R.addRender(EntityButterfly.class, 0.1F, r -> r.tVariant().mSingle(new ModelButterfly<>()).simpleScale(e -> e.getSize(Pose.STANDING).width));
+        R.addRender(EntityDragonfly.class, 0.1F, r -> r.tVariant().mSingle(new ModelDragonfly<>()).simpleScale(e -> (e.getSize(Pose.STANDING).width / 2F)));
         RenderFactory.addRender(EntityBadgerDirt.class, RenderFactory.nothing());
         BetterAnimalsPlusMod.logger.info("Rendering squirrel physics...");
     }

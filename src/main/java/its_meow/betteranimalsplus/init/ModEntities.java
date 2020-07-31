@@ -32,6 +32,7 @@ import its_meow.betteranimalsplus.common.entity.EntityButterfly;
 import its_meow.betteranimalsplus.common.entity.EntityCoyote;
 import its_meow.betteranimalsplus.common.entity.EntityCrab;
 import its_meow.betteranimalsplus.common.entity.EntityDeer;
+import its_meow.betteranimalsplus.common.entity.EntityDragonfly;
 import its_meow.betteranimalsplus.common.entity.EntityFeralWolf;
 import its_meow.betteranimalsplus.common.entity.EntityFreshwaterEel;
 import its_meow.betteranimalsplus.common.entity.EntityGoat;
@@ -190,6 +191,19 @@ public class ModEntities {
     )
     .biomes(BiomeListBuilder.create().withTypes(Type.FOREST, Type.JUNGLE, Type.MAGICAL).withoutTypes(Type.COLD)::collect)
     .containers(ItemModEntityContainer.get("bottled_%s"), c -> Items.GLASS_BOTTLE, EntityButterfly::bottleTooltip));
+    public static final EntityTypeContainerBAPContainable<EntityDragonfly, ItemModEntityContainer<EntityDragonfly>> DRAGONFLY = setup(ModEntities.<EntityDragonfly, ItemModEntityContainer<EntityDragonfly>>createContainable(EntityDragonfly.class, EntityDragonfly::new, "dragonfly")
+    .spawn(EntityClassification.AMBIENT, 10, 1, 3)
+    .egg(0x40a605, 0x522601)
+    .size(0.35F, 0.35F)
+    .despawn()
+    .variants(
+    "blue_dasher",
+    "broad_tailed_shadowdragon",
+    "green_darner",
+    "yellow_winged_darter"
+    )
+    .biomes(Type.SWAMP, Type.RIVER)
+    .containers(ItemModEntityContainer.get("bottled_%s"), c -> Items.GLASS_BOTTLE, EntityDragonfly::bottleTooltip));
 
     /*
      * ##########################################################

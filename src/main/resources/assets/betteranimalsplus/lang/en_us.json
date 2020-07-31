@@ -49,6 +49,7 @@
     "item.betteranimalsplus.record_walrus": "Music Disc",
     "item.betteranimalsplus.record_walrus.desc": "I Am The Walrus",
     "item.betteranimalsplus.bottled_butterfly": "Bottled Butterfly",
+    "item.betteranimalsplus.bottled_dragonfly": "Bottled Dragonfly",
 
     "block.betteranimalsplus.trillium": "Trillium",
     "block.betteranimalsplus.hirschgeistskull": "Hirschgeist Skull",
@@ -95,6 +96,7 @@
     "entity.betteranimalsplus.whale": "Whale",
     "entity.betteranimalsplus.walrus": "Walrus",
     "entity.betteranimalsplus.butterfly": "Butterfly",
+    "entity.betteranimalsplus.dragonfly": "Dragonfly",
 
     "entity.betteranimalsplus.eel_saltwater.type.conger": "Conger",
     "entity.betteranimalsplus.eel_saltwater.type.dragon": "Dragon",
@@ -118,6 +120,10 @@
     "entity.betteranimalsplus.butterfly.type.red_admiral": "Red Admiral",
     "entity.betteranimalsplus.butterfly.type.sulphur": "Sulphur",
     "entity.betteranimalsplus.butterfly.type.swallowtail": "Swallowtail",
+    "entity.betteranimalsplus.dragonfly.type.blue_dasher": "Blue Dasher",
+    "entity.betteranimalsplus.dragonfly.type.broad_tailed_shadowdragon": "Broad-Tailed Shadowdragon",
+    "entity.betteranimalsplus.dragonfly.type.green_darner": "Green Darner",
+    "entity.betteranimalsplus.dragonfly.type.yellow_winged_darter": "Yellow Winged Darter",
     
     "misc.betteranimalsplus.eggorder": "%s Spawn Egg",
     "tooltip.betteranimalsplus.nectar": "Has Nectar"

@@ -11,14 +11,7 @@ import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainerBAPConta
 import its_meow.betteranimalsplus.common.entity.util.abstracts.EntityAnimalWithTypes;
 import its_meow.betteranimalsplus.common.entity.util.abstracts.EntityAnimalWithTypesAndSizeContainable;
 import its_meow.betteranimalsplus.init.ModEntities;
-import its_meow.betteranimalsplus.init.ModResources;
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.CropsBlock;
-import net.minecraft.block.DoublePlantBlock;
-import net.minecraft.block.StemBlock;
-import net.minecraft.block.SweetBerryBushBlock;
 import net.minecraft.entity.CreatureAttribute;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityPredicate;
@@ -30,12 +23,6 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.particles.BlockParticleData;
-import net.minecraft.particles.IParticleData;
-import net.minecraft.particles.ParticleTypes;
-import net.minecraft.state.IntegerProperty;
-import net.minecraft.state.properties.DoubleBlockHalf;
-import net.minecraft.tags.BlockTags;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
@@ -44,29 +31,25 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TextFormatting;
-import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import net.minecraftforge.common.util.Constants;
 
-public class EntityButterfly extends EntityAnimalWithTypesAndSizeContainable {
+public class EntityDragonfly extends EntityAnimalWithTypesAndSizeContainable {
 
-    private static final DataParameter<Boolean> HAS_NECTAR = EntityDataManager.createKey(EntityButterfly.class, DataSerializers.BOOLEAN);
-    private static final DataParameter<Integer> LANDED = EntityDataManager.createKey(EntityButterfly.class, DataSerializers.VARINT);
+    private static final DataParameter<Integer> LANDED = EntityDataManager.createKey(EntityDragonfly.class, DataSerializers.VARINT);
     private static final EntityPredicate playerPredicate = (new EntityPredicate()).setDistance(4.0D).allowFriendlyFire().allowInvulnerable();
     private BlockPos targetPosition;
     private int rainTicks = 0;
-    private int ticksUntilNextGrow = 0;
 
-    public EntityButterfly(World worldIn) {
-        super(ModEntities.BUTTERFLY.entityType, worldIn);
+    public EntityDragonfly(World worldIn) {
+        super(ModEntities.DRAGONFLY.entityType, worldIn);
     }
 
     @Override
     protected void registerData() {
         super.registerData();
         this.dataManager.register(LANDED, 1);
-        this.dataManager.register(HAS_NECTAR, false);
     }
 
     @Override
@@ -112,14 +95,6 @@ public class EntityButterfly extends EntityAnimalWithTypesAndSizeContainable {
         this.dataManager.set(LANDED, 1);
     }
 
-    public boolean hasNectar() {
-        return this.dataManager.get(HAS_NECTAR);
-    }
-
-    public void setHasNectar(boolean value) {
-        this.dataManager.set(HAS_NECTAR, value);
-    }
-
     @Override
     public CreatureAttribute getCreatureAttribute() {
         return CreatureAttribute.ARTHROPOD;
@@ -147,28 +122,19 @@ public class EntityButterfly extends EntityAnimalWithTypesAndSizeContainable {
         } else {
             this.setMotion(this.getMotion().mul(1.0D, 0.6D, 1.0D));
         }
-        if(this.hasNectar() && this.rand.nextFloat() < 0.05F) {
-            for(int i = 0; i < this.rand.nextInt(2) + 1; ++i) {
-                addParticle(this.world, this.posX - (double) 0.3F, this.posX + (double) 0.3F, this.posZ - (double) 0.3F, this.posZ + (double) 0.3F, this.posY + 0.5D, new BlockParticleData(ParticleTypes.FALLING_DUST, Blocks.SAND.getDefaultState()));
-            }
-        }
-    }
-
-    private static void addParticle(World worldIn, double xStart, double xEnd, double zStart, double zEnd, double posY, IParticleData particleData) {
-        worldIn.addParticle(particleData, MathHelper.lerp(worldIn.rand.nextDouble(), xStart, xEnd), posY, MathHelper.lerp(worldIn.rand.nextDouble(), zStart, zEnd), 0.0D, 0.0D, 0.0D);
     }
 
     public boolean isRainingAt(BlockPos position) {
-        if (!world.isRaining()) {
-           return false;
+        if(!world.isRaining()) {
+            return false;
         } else if(position == null) {
             return true;
-        } else if (!world.isBlockPresent(position) || !world.canBlockSeeSky(position)) {
-           return false;
+        } else if(!world.isBlockPresent(position) || !world.canBlockSeeSky(position)) {
+            return false;
         } else {
-           return world.getBiome(position).getPrecipitation() == Biome.RainType.RAIN;
+            return world.getBiome(position).getPrecipitation() == Biome.RainType.RAIN;
         }
-     }
+    }
 
     @Override
     protected void updateAITasks() {
@@ -211,7 +177,7 @@ public class EntityButterfly extends EntityAnimalWithTypesAndSizeContainable {
             }
         } else {
             rainTicks = 0;
-            if(this.targetPosition == null || this.rand.nextInt(30) == 0 || (this.targetPosition.withinDistance(this.getPositionVec(), 1.0D) && !isFlowers(this.targetPosition) && !isGrowable(this.targetPosition))) {
+            if(this.targetPosition == null || this.rand.nextInt(30) == 0 || (this.targetPosition.withinDistance(this.getPositionVec(), 1.0D))) {
                 if(world.isRaining() && world.getBiome(this.getPosition()).getPrecipitation() == Biome.RainType.RAIN) {
                     // attempt to land
                     boolean found = false;
@@ -232,64 +198,26 @@ public class EntityButterfly extends EntityAnimalWithTypesAndSizeContainable {
                         }
                     }
                 } else {
-                    BlockPos destinationBlock = null;
-                    boolean ranGrowable = false;
-                    if(this.ticksUntilNextGrow <= 0) {
-                        if(!this.hasNectar()) {
-                            destinationBlock = tryToFindPosition(this::isFlowers);
-                        } else {
-                            destinationBlock = tryToFindPosition(this::isGrowable);
-                            ranGrowable = true;
-                        }
-                    } else {
-                        this.ticksUntilNextGrow--;
-                    }
-                    if(destinationBlock != null) {
-                        this.targetPosition = destinationBlock;
-                        this.setNotLanded();
-                    } else {
-                        boolean found = false;
-                        if(this.world.getClosestPlayer(playerPredicate, this) == null && (!this.hasNectar() || ranGrowable)) {
-                            for(Direction direction : Direction.values()) {
-                                if(direction != Direction.UP) {
-                                    BlockPos offset = blockpos.offset(direction);
-                                    if(world.getBlockState(offset).isNormalCube(world, offset) && world.isAirBlock(blockpos)) {
-                                        this.setLanded(direction);
-                                        this.targetPosition = null;
-                                        found = true;
-                                    }
+                    boolean found = false;
+                    if(this.world.getClosestPlayer(playerPredicate, this) == null) {
+                        for(Direction direction : Direction.values()) {
+                            if(direction != Direction.UP) {
+                                BlockPos offset = blockpos.offset(direction);
+                                if(world.getBlockState(offset).isNormalCube(world, offset) && world.isAirBlock(blockpos)) {
+                                    this.setLanded(direction);
+                                    this.targetPosition = null;
+                                    found = true;
                                 }
                             }
                         }
-                        if(!found) {
-                            this.targetPosition = new BlockPos(this.posX + (double) this.rand.nextInt(5) - (double) this.rand.nextInt(5), this.posY + (double) this.rand.nextInt(4) - 1.0D, this.posZ + (double) this.rand.nextInt(5) - (double) this.rand.nextInt(5));
-                        }
+                    }
+                    if(!found) {
+                        this.targetPosition = new BlockPos(this.posX + (double) this.rand.nextInt(5) - (double) this.rand.nextInt(5), this.posY + (double) this.rand.nextInt(4) - 1.0D, this.posZ + (double) this.rand.nextInt(5) - (double) this.rand.nextInt(5));
                     }
                 }
             }
             if(this.targetPosition != null && this.targetPosition.withinDistance(this.getPositionVec(), 1.0D)) {
-                if(this.isFlowers(targetPosition) && !this.hasNectar()) {
-                    this.setHasNectar(true);
-                    this.targetPosition = null;
-                } else if(this.isGrowable(targetPosition) && this.hasNectar()) {
-                    BlockState blockstate = this.world.getBlockState(targetPosition);
-                    Block block = blockstate.getBlock();
-                    IntegerProperty age = null;
-                    if(block instanceof CropsBlock) {
-                        age = ((CropsBlock) block).getAgeProperty();
-                    } else if(block instanceof StemBlock) {
-                        age = StemBlock.AGE;
-                    } else if(block == Blocks.SWEET_BERRY_BUSH) {
-                        age = SweetBerryBushBlock.AGE;
-                    }
-                    if(age != null) {
-                        world.playEvent(2005, targetPosition, 0);
-                        world.setBlockState(targetPosition, blockstate.with(age, Integer.valueOf(blockstate.get(age) + 1)));
-                        this.setHasNectar(false);
-                        this.targetPosition = null;
-                        this.ticksUntilNextGrow = this.getRNG().nextInt(150 * 20) + (30 * 20);
-                    }
-                }
+                this.targetPosition = null;
             }
         }
         if(!this.isLanded() && targetPosition != null) {
@@ -323,51 +251,6 @@ public class EntityButterfly extends EntityAnimalWithTypesAndSizeContainable {
             }
         }
         return null;
-    }
-
-    private boolean isGrowable(BlockPos blockpos) {
-        BlockState blockstate = this.world.getBlockState(blockpos);
-        Block block = blockstate.getBlock();
-        boolean flag = false;
-        if(block.isIn(ModResources.Tags.Blocks.BUTTERFLY_GROWABLES)) {
-            if(block instanceof CropsBlock) {
-                CropsBlock cropsblock = (CropsBlock) block;
-                if(!cropsblock.isMaxAge(blockstate)) {
-                    flag = true;
-
-                }
-            } else if(block instanceof StemBlock) {
-                int j = blockstate.get(StemBlock.AGE);
-                if(j < 7) {
-                    flag = true;
-
-                }
-            } else if(block == Blocks.SWEET_BERRY_BUSH) {
-                int k = blockstate.get(SweetBerryBushBlock.AGE);
-                if(k < 3) {
-                    flag = true;
-
-                }
-            }
-        }
-        return flag;
-    }
-
-    private boolean isFlowers(BlockPos pos) {
-        BlockState state = this.world.getBlockState(pos);
-        boolean isFlower = this.world.isBlockPresent(pos) && state.getBlock().isIn(ModResources.Tags.Blocks.FLOWERS);
-        if(isFlower) {
-            if(state.isIn(ModResources.Tags.Blocks.TALL_FLOWERS)) {
-                if(state.getBlock() == Blocks.SUNFLOWER) {
-                    return state.get(DoublePlantBlock.HALF) == DoubleBlockHalf.UPPER;
-                } else {
-                    return true;
-                }
-            } else {
-                return state.isIn(BlockTags.SMALL_FLOWERS);
-            }
-        }
-        return false;
     }
 
     @Override
@@ -404,16 +287,12 @@ public class EntityButterfly extends EntityAnimalWithTypesAndSizeContainable {
     public void readAdditional(CompoundNBT compound) {
         super.readAdditional(compound);
         this.dataManager.set(LANDED, compound.getInt("Landed"));
-        this.dataManager.set(HAS_NECTAR, compound.getBoolean("HasNectar"));
-        this.ticksUntilNextGrow = compound.getInt("TimeUntilNextGrow");
     }
 
     @Override
     public void writeAdditional(CompoundNBT compound) {
         super.writeAdditional(compound);
         compound.putInt("Landed", this.dataManager.get(LANDED));
-        compound.putBoolean("HasNectar", this.dataManager.get(HAS_NECTAR));
-        compound.putInt("TimeUntilNextGrow", this.ticksUntilNextGrow);
     }
 
     @Override
@@ -428,7 +307,7 @@ public class EntityButterfly extends EntityAnimalWithTypesAndSizeContainable {
 
     @Override
     public EntityTypeContainer<?> getContainer() {
-        return ModEntities.BUTTERFLY;
+        return ModEntities.DRAGONFLY;
     }
 
     @Override
@@ -438,7 +317,7 @@ public class EntityButterfly extends EntityAnimalWithTypesAndSizeContainable {
 
     @Override
     public EntityTypeContainerBAPContainable<?, ?> getContainableContainer() {
-        return ModEntities.BUTTERFLY;
+        return ModEntities.DRAGONFLY;
     }
 
     @Override
@@ -446,7 +325,6 @@ public class EntityButterfly extends EntityAnimalWithTypesAndSizeContainable {
         super.setContainerData(bucket);
         CompoundNBT tag = bucket.getTag();
         tag.putFloat("SizeTag", this.dataManager.get(SIZE));
-        tag.putBoolean("HasNectar", this.dataManager.get(HAS_NECTAR));
         bucket.setTag(tag);
     }
 
@@ -455,7 +333,6 @@ public class EntityButterfly extends EntityAnimalWithTypesAndSizeContainable {
         super.readFromContainerTag(tag);
         if(tag.contains("SizeTag")) {
             this.setSize(tag.getFloat("SizeTag"));
-            this.setHasNectar(tag.getBoolean("HasNectar"));
         }
     }
 
@@ -464,9 +341,6 @@ public class EntityButterfly extends EntityAnimalWithTypesAndSizeContainable {
         if(tag != null) {
             if(tag.contains("SizeTag", Constants.NBT.TAG_FLOAT)) {
                 tooltip.add(new StringTextComponent("Size: " + tag.getFloat("SizeTag")).applyTextStyles(new TextFormatting[] { TextFormatting.ITALIC, TextFormatting.GRAY }));
-            }
-            if(tag.contains("HasNectar") && tag.getBoolean("HasNectar")) {
-                tooltip.add(new TranslationTextComponent("tooltip.betteranimalsplus.nectar").applyTextStyles(new TextFormatting[] { TextFormatting.ITALIC, TextFormatting.YELLOW }));
             }
         }
     }
