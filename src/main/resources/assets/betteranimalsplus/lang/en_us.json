@@ -127,6 +127,7 @@
 
     "entity.betteranimalsplus.coyote.message.currently_hostile": "This coyote is currently hostile. Perhaps it could be tamed outside of its hunting hours?",
     "entity.betteranimalsplus.coyote.message.always_hostile": "This coyote is always hostile. It cannot be tamed (server configuration)",
+    "entity.betteranimalsplus.feralwolf.message.wear_head": "You cannot tame feral wolves without proving your prowess. Discover a mighty enemy, defeat it, and wear its head. Feral Wolves only bow to the protector of the forests.",
 
     "misc.betteranimalsplus.eggorder": "%s Spawn Egg",
     "tooltip.betteranimalsplus.nectar": "Has Nectar"
