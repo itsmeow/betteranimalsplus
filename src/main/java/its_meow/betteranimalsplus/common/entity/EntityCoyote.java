@@ -1,7 +1,5 @@
 package its_meow.betteranimalsplus.common.entity;
 
-import javax.annotation.Nullable;
-
 import com.google.common.base.Predicates;
 
 import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainerBAPTameable;
@@ -66,32 +64,23 @@ public class EntityCoyote extends EntityFeralWolf {
         this.targetSelector.addGoal(1, new OwnerHurtByTargetGoal(this));
         this.targetSelector.addGoal(2, new OwnerHurtTargetGoal(this));
         this.targetSelector.addGoal(3, new HurtByTargetGoal(this, new Class[0]));
-        this.targetSelector.addGoal(4,
-                new NonTamedTargetGoal<PlayerEntity>(this, PlayerEntity.class, false, Predicates.alwaysTrue()));
-        this.targetSelector.addGoal(4,
-                new NonTamedTargetGoal<AnimalEntity>(this, AnimalEntity.class, false,
-                        (@Nullable LivingEntity p_apply_1_) -> p_apply_1_ instanceof SheepEntity
-                                || p_apply_1_ instanceof RabbitEntity));
-        this.targetSelector.addGoal(4,
-                new NonTamedTargetGoal<VillagerEntity>(this, VillagerEntity.class, false, Predicates.alwaysTrue()));
-        this.targetSelector.addGoal(4, new NonTamedTargetGoal<AbstractIllagerEntity>(this, AbstractIllagerEntity.class, false,
-                Predicates.alwaysTrue()));
-        this.targetSelector.addGoal(4,
-                new NonTamedTargetGoal<ChickenEntity>(this, ChickenEntity.class, false, Predicates.alwaysTrue()));
-        this.targetSelector.addGoal(5,
-                new NearestAttackableTargetGoal<AbstractSkeletonEntity>(this, AbstractSkeletonEntity.class, false));
-
+        this.targetSelector.addGoal(4, new NonTamedTargetGoal<PlayerEntity>(this, PlayerEntity.class, false, e -> e.world.getDifficulty() != Difficulty.PEACEFUL));
+        this.targetSelector.addGoal(4, new NonTamedTargetGoal<AnimalEntity>(this, AnimalEntity.class, false, e -> e instanceof SheepEntity || e instanceof RabbitEntity));
+        this.targetSelector.addGoal(4, new NonTamedTargetGoal<VillagerEntity>(this, VillagerEntity.class, false, Predicates.alwaysTrue()));
+        this.targetSelector.addGoal(4, new NonTamedTargetGoal<AbstractIllagerEntity>(this, AbstractIllagerEntity.class, false, Predicates.alwaysTrue()));
+        this.targetSelector.addGoal(4, new NonTamedTargetGoal<ChickenEntity>(this, ChickenEntity.class, false, Predicates.alwaysTrue()));
+        this.targetSelector.addGoal(5, new NearestAttackableTargetGoal<AbstractSkeletonEntity>(this, AbstractSkeletonEntity.class, false));
     }
 
     @Override
     public ILivingEntityData initData(IWorld world, SpawnReason reason, ILivingEntityData livingdata) {
         return livingdata;
     }
-    
+
     @Override
     public void writeType(CompoundNBT nbt) {
     }
-    
+
     @Override
     public void readType(CompoundNBT nbt) {
     }
@@ -103,27 +92,25 @@ public class EntityCoyote extends EntityFeralWolf {
 
     @Override
     public void setAttackTarget(LivingEntity entitylivingbaseIn) {
-        if (!this.isDaytime() || HOSTILE_DAYTIME) {
+        if(!this.isDaytime() || HOSTILE_DAYTIME) {
             super.setAttackTarget(entitylivingbaseIn);
-        } else if (!this.isTamed()) {
+        } else if(!this.isTamed()) {
             super.setAttackTarget(null);
         } else {
             super.setAttackTarget(entitylivingbaseIn);
         }
-        if (this.world.getDifficulty() == Difficulty.PEACEFUL) {
+        if(this.world.getDifficulty() == Difficulty.PEACEFUL) {
             super.setAttackTarget(null);
         }
     }
 
     @Override
     protected SoundEvent getAmbientSound() {
-        if ((!this.isDaytime() || HOSTILE_DAYTIME) && !this.isTamed()) {
+        if((!this.isDaytime() || HOSTILE_DAYTIME) && !this.isTamed()) {
             return SoundEvents.ENTITY_WOLF_GROWL;
-        } else if (this.rand.nextInt(3) == 0) {
-            return this.isTamed() && this.dataManager.get(EntityFeralWolf.DATA_HEALTH_ID).floatValue() < 10.0F
-                    ? SoundEvents.ENTITY_WOLF_WHINE
-                    : SoundEvents.ENTITY_WOLF_PANT;
-        } else if (this.getAttackTarget() != null) {
+        } else if(this.rand.nextInt(3) == 0) {
+            return this.isTamed() && this.dataManager.get(EntityFeralWolf.DATA_HEALTH_ID).floatValue() < 10.0F ? SoundEvents.ENTITY_WOLF_WHINE : SoundEvents.ENTITY_WOLF_PANT;
+        } else if(this.getAttackTarget() != null) {
             return SoundEvents.ENTITY_WOLF_GROWL;
         }
         return null;
@@ -133,14 +120,14 @@ public class EntityCoyote extends EntityFeralWolf {
     public boolean processInteract(PlayerEntity player, Hand hand) {
         ItemStack itemstack = player.getHeldItem(hand);
 
-        if (this.isTamed()) {
-            if (!itemstack.isEmpty()) {
-                if (itemstack.getItem().isFood()) {
+        if(this.isTamed()) {
+            if(!itemstack.isEmpty()) {
+                if(itemstack.getItem().isFood()) {
                     Food food = itemstack.getItem().getFood();
 
-                    if (food.isMeat()
-                            && this.dataManager.get(EntityFeralWolf.DATA_HEALTH_ID).floatValue() < 20.0F) {
-                        if (!player.isCreative()) {
+                    if(food.isMeat()
+                    && this.dataManager.get(EntityFeralWolf.DATA_HEALTH_ID).floatValue() < 20.0F) {
+                        if(!player.isCreative()) {
                             itemstack.shrink(1);
                         }
 
@@ -150,8 +137,7 @@ public class EntityCoyote extends EntityFeralWolf {
                 }
             }
 
-            if (this.isOwner(player) && !this.world.isRemote && !this.isBreedingItem(itemstack)
-                    && (!(itemstack.getItem().isFood()) || !itemstack.getItem().getFood().isMeat())) {
+            if(this.isOwner(player) && !this.world.isRemote && !this.isBreedingItem(itemstack) && (!(itemstack.getItem().isFood()) || !itemstack.getItem().getFood().isMeat())) {
                 this.aiSit.setSitting(!this.isSitting());
                 this.isJumping = false;
                 this.navigator.clearPath();
@@ -159,18 +145,17 @@ public class EntityCoyote extends EntityFeralWolf {
             }
         } else if(this.isTamingItem(itemstack.getItem())) {
             if(HOSTILE_DAYTIME) {
-                if (!this.world.isRemote) {
+                if(!this.world.isRemote) {
                     player.sendMessage(new StringTextComponent("This coyote is always hostile. It cannot be tamed (server configuration)"));
                 }
-            } else if (this.isDaytime()) {
+            } else if(this.isDaytime()) {
 
-                if (!player.isCreative()) {
+                if(!player.isCreative()) {
                     itemstack.shrink(1);
                 }
 
-                if (!this.world.isRemote) {
-                    if (this.rand.nextInt(100) <= 14
-                            && !net.minecraftforge.event.ForgeEventFactory.onAnimalTame(this, player)) {
+                if(!this.world.isRemote) {
+                    if(this.rand.nextInt(100) <= 14 && !net.minecraftforge.event.ForgeEventFactory.onAnimalTame(this, player)) {
                         this.setTamedBy(player);
                         this.navigator.clearPath();
                         this.setAttackTarget((LivingEntity) null);
@@ -186,7 +171,7 @@ public class EntityCoyote extends EntityFeralWolf {
 
                 return true;
             } else {
-                if (!this.world.isRemote) {
+                if(!this.world.isRemote) {
                     player.sendMessage(new StringTextComponent("This coyote is currently hostile. Perhaps it could be tamed outside of its hunting hours?"));
                 }
                 return true;
@@ -203,17 +188,16 @@ public class EntityCoyote extends EntityFeralWolf {
 
     @Override
     public boolean shouldAttackEntity(LivingEntity target, LivingEntity owner) {
-        if (!(target instanceof CreeperEntity) && !(target instanceof GhastEntity) && (this.isTamed() || !this.isDaytime() || HOSTILE_DAYTIME)) {
-            if (target instanceof EntityCoyote) {
+        if(!(target instanceof CreeperEntity) && !(target instanceof GhastEntity) && (this.isTamed() || !this.isDaytime() || HOSTILE_DAYTIME)) {
+            if(target instanceof EntityCoyote) {
                 EntityCoyote entityferalwolf = (EntityCoyote) target;
 
-                if (entityferalwolf.isTamed() && entityferalwolf.getOwner() == owner) {
+                if(entityferalwolf.isTamed() && entityferalwolf.getOwner() == owner) {
                     return false;
                 }
             }
 
-            if (target instanceof PlayerEntity && owner instanceof PlayerEntity
-                    && !((PlayerEntity) owner).canAttackPlayer((PlayerEntity) target)) {
+            if(target instanceof PlayerEntity && owner instanceof PlayerEntity && !((PlayerEntity) owner).canAttackPlayer((PlayerEntity) target)) {
                 return false;
             } else {
                 return !(target instanceof AbstractHorseEntity) || !((AbstractHorseEntity) target).isTame();
