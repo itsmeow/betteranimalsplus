@@ -37,7 +37,7 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
-import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
@@ -146,7 +146,7 @@ public class EntityCoyote extends EntityFeralWolf {
         } else if(this.isTamingItem(itemstack.getItem())) {
             if(HOSTILE_DAYTIME) {
                 if(!this.world.isRemote) {
-                    player.sendMessage(new StringTextComponent("This coyote is always hostile. It cannot be tamed (server configuration)"));
+                    player.sendMessage(new TranslationTextComponent("entity.betteranimalsplus.coyote.message.always_hostile"));
                 }
             } else if(this.isDaytime()) {
 
@@ -172,7 +172,7 @@ public class EntityCoyote extends EntityFeralWolf {
                 return true;
             } else {
                 if(!this.world.isRemote) {
-                    player.sendMessage(new StringTextComponent("This coyote is currently hostile. Perhaps it could be tamed outside of its hunting hours?"));
+                    player.sendMessage(new TranslationTextComponent("entity.betteranimalsplus.coyote.message.currently_hostile"));
                 }
                 return true;
             }
