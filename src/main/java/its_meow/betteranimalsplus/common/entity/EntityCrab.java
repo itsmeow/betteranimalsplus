@@ -14,6 +14,7 @@ import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.pathfinding.PathNodeType;
+import net.minecraft.world.Difficulty;
 import net.minecraft.world.World;
 
 public class EntityCrab extends EntityCrabLikeBase {
@@ -31,12 +32,12 @@ public class EntityCrab extends EntityCrabLikeBase {
         this.goalSelector.addGoal(0, new MeleeAttackGoal(this, 0.9D, true) {
             @Override
             public boolean shouldExecute() {
-                return super.shouldExecute() && this.attacker.getHealth() > this.attacker.getMaxHealth() / 2F;
+                return EntityCrab.this.world.getDifficulty() != Difficulty.PEACEFUL && super.shouldExecute() && this.attacker.getHealth() > this.attacker.getMaxHealth() / 2F;
             }
 
             @Override
             public boolean shouldContinueExecuting() {
-                return super.shouldContinueExecuting() && this.attacker.getHealth() > this.attacker.getMaxHealth() / 2F;
+                return EntityCrab.this.world.getDifficulty() != Difficulty.PEACEFUL && super.shouldContinueExecuting() && this.attacker.getHealth() > this.attacker.getMaxHealth() / 2F;
             }
         });
         this.goalSelector.addGoal(1, new AvoidEntityGoal<PlayerEntity>(this, PlayerEntity.class, 20F, 0.8F, 1.0F));
