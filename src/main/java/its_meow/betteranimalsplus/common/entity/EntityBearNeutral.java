@@ -64,14 +64,14 @@ public class EntityBearNeutral extends EntityBear implements IVariantTypes<Entit
     }
 
     @Override
-    public boolean writeUnlessRemoved(CompoundNBT compound) {
+    public void writeAdditional(CompoundNBT compound) {
+        super.writeAdditional(compound);
         this.writeType(compound);
-        return super.writeUnlessRemoved(compound);
     }
 
     @Override
-    public void read(CompoundNBT compound) {
-        super.read(compound);
+    public void readAdditional(CompoundNBT compound) {
+        super.readAdditional(compound);
         this.readType(compound);
     }
 

@@ -135,14 +135,14 @@ public abstract class EntityTameableFlyingWithTypes extends EntityTameableWithTy
     }
 
     @Override
-    public boolean writeUnlessRemoved(CompoundNBT compound) {
+    public void writeAdditional(CompoundNBT compound) {
+        super.writeAdditional(compound);
         compound.putBoolean("IsFlying", this.dataManager.get(FLYING));
-        return super.writeUnlessRemoved(compound);
     }
 
     @Override
-    public void read(CompoundNBT compound) {
-        super.read(compound);
+    public void readAdditional(CompoundNBT compound) {
+        super.readAdditional(compound);
         this.dataManager.set(FLYING, compound.getBoolean("IsFlying"));
     }
 

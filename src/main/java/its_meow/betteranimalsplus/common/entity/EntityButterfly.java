@@ -56,6 +56,7 @@ public class EntityButterfly extends EntityAnimalWithTypesAndSizeContainable {
     private static final EntityPredicate playerPredicate = (new EntityPredicate()).setDistance(4.0D).allowFriendlyFire().allowInvulnerable();
     private BlockPos targetPosition;
     private int rainTicks = 0;
+    private int ticksUntilNextGrow = 0;
 
     public EntityButterfly(World worldIn) {
         super(ModEntities.BUTTERFLY.entityType, worldIn);
@@ -66,6 +67,11 @@ public class EntityButterfly extends EntityAnimalWithTypesAndSizeContainable {
         super.registerData();
         this.dataManager.register(LANDED, 1);
         this.dataManager.register(HAS_NECTAR, false);
+    }
+
+    @Override
+    public boolean isInvulnerableTo(DamageSource source) {
+        return super.isInvulnerableTo(source) || source == DamageSource.SWEET_BERRY_BUSH;
     }
 
     @Override
@@ -212,7 +218,7 @@ public class EntityButterfly extends EntityAnimalWithTypesAndSizeContainable {
                     for(Direction direction : Direction.values()) {
                         if(direction != Direction.UP) {
                             BlockPos offset = blockpos.offset(direction);
-                            if(world.getBlockState(offset).isNormalCube(world, offset)) {
+                            if(world.getBlockState(offset).isNormalCube(world, offset) && world.isAirBlock(blockpos)) {
                                 this.setLanded(direction);
                                 this.targetPosition = null;
                                 found = true;
@@ -228,11 +234,15 @@ public class EntityButterfly extends EntityAnimalWithTypesAndSizeContainable {
                 } else {
                     BlockPos destinationBlock = null;
                     boolean ranGrowable = false;
-                    if(!this.hasNectar()) {
-                        destinationBlock = tryToFindPosition(this::isFlowers);
+                    if(this.ticksUntilNextGrow <= 0) {
+                        if(!this.hasNectar()) {
+                            destinationBlock = tryToFindPosition(this::isFlowers);
+                        } else {
+                            destinationBlock = tryToFindPosition(this::isGrowable);
+                            ranGrowable = true;
+                        }
                     } else {
-                        destinationBlock = tryToFindPosition(this::isGrowable);
-                        ranGrowable = true;
+                        this.ticksUntilNextGrow--;
                     }
                     if(destinationBlock != null) {
                         this.targetPosition = destinationBlock;
@@ -243,7 +253,7 @@ public class EntityButterfly extends EntityAnimalWithTypesAndSizeContainable {
                             for(Direction direction : Direction.values()) {
                                 if(direction != Direction.UP) {
                                     BlockPos offset = blockpos.offset(direction);
-                                    if(world.getBlockState(offset).isNormalCube(world, offset)) {
+                                    if(world.getBlockState(offset).isNormalCube(world, offset) && world.isAirBlock(blockpos)) {
                                         this.setLanded(direction);
                                         this.targetPosition = null;
                                         found = true;
@@ -277,6 +287,7 @@ public class EntityButterfly extends EntityAnimalWithTypesAndSizeContainable {
                         world.setBlockState(targetPosition, blockstate.with(age, Integer.valueOf(blockstate.get(age) + 1)));
                         this.setHasNectar(false);
                         this.targetPosition = null;
+                        this.ticksUntilNextGrow = this.getRNG().nextInt(150 * 20) + (30 * 20);
                     }
                 }
             }
@@ -394,6 +405,7 @@ public class EntityButterfly extends EntityAnimalWithTypesAndSizeContainable {
         super.readAdditional(compound);
         this.dataManager.set(LANDED, compound.getInt("Landed"));
         this.dataManager.set(HAS_NECTAR, compound.getBoolean("HasNectar"));
+        this.ticksUntilNextGrow = compound.getInt("TimeUntilNextGrow");
     }
 
     @Override
@@ -401,6 +413,7 @@ public class EntityButterfly extends EntityAnimalWithTypesAndSizeContainable {
         super.writeAdditional(compound);
         compound.putInt("Landed", this.dataManager.get(LANDED));
         compound.putBoolean("HasNectar", this.dataManager.get(HAS_NECTAR));
+        compound.putInt("TimeUntilNextGrow", this.ticksUntilNextGrow);
     }
 
     @Override
