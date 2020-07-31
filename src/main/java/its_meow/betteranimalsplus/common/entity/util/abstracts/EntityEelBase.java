@@ -4,6 +4,7 @@ import java.util.EnumSet;
 import java.util.List;
 import java.util.function.Predicate;
 
+import its_meow.betteranimalsplus.common.entity.ai.PeacefulNearestAttackableTargetGoal;
 import its_meow.betteranimalsplus.init.ModLootTables;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -11,7 +12,6 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.entity.ai.goal.MeleeAttackGoal;
-import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal;
 import net.minecraft.entity.ai.goal.RandomSwimmingGoal;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -53,7 +53,7 @@ public abstract class EntityEelBase extends EntityWaterMobPathingWithTypesBucket
         this.goalSelector.addGoal(2, new EntityEelBase.MoveToFoodItemsGoal());
         //this.goalSelector.addGoal(2, new LookRandomlyGoal(this));
         this.goalSelector.addGoal(3, new RandomSwimmingGoal(this, 0.25D, 1));
-        this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<PlayerEntity>(this, PlayerEntity.class, 0, true, true, EntityEelBase::isHoldingFood));
+        this.targetSelector.addGoal(1, new PeacefulNearestAttackableTargetGoal<PlayerEntity>(this, PlayerEntity.class, 0, true, true, EntityEelBase::isHoldingFood));
     }
 
     protected boolean shouldCheckTarget() {

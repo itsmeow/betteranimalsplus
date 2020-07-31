@@ -8,6 +8,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.goal.HurtByTargetGoal;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
+import net.minecraft.world.Difficulty;
 import net.minecraft.world.World;
 
 public class EntitySaltwaterEel extends EntityEelBase {
@@ -30,7 +31,12 @@ public class EntitySaltwaterEel extends EntityEelBase {
     @Override
     protected void registerGoals() {
         super.registerGoals();
-        this.targetSelector.addGoal(0, new HurtByTargetGoal(this));
+        this.targetSelector.addGoal(0, new HurtByTargetGoal(this) {
+            @Override
+            public boolean shouldExecute() {
+                return EntitySaltwaterEel.this.world.getDifficulty() != Difficulty.PEACEFUL && super.shouldExecute();
+            }
+        });
     }
 
     @Override
