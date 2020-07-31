@@ -43,8 +43,8 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.Difficulty;
 import net.minecraft.world.World;
 
 public class EntityGoat extends EntityAnimalEatsGrassWithTypes {
@@ -57,7 +57,6 @@ public class EntityGoat extends EntityAnimalEatsGrassWithTypes {
 
     public EntityGoat(World worldIn) {
         super(ModEntities.GOAT.entityType, worldIn, 5);
-        this.world = worldIn;
     }
 
     @Override
@@ -73,51 +72,21 @@ public class EntityGoat extends EntityAnimalEatsGrassWithTypes {
         Vec3d pos = this.getPositionVector();
         Vec3d targetPos = entityIn.getPositionVector();
         ((LivingEntity) entityIn).knockBack(entityIn, 0.8F, pos.x - targetPos.x, pos.z - targetPos.z);
-
-        // Vanilla attack code for mobs
-
         float f = (float) this.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getValue();
-        int i = 0;
-
-        if (entityIn instanceof LivingEntity) {
-            f += EnchantmentHelper.getModifierForCreature(this.getHeldItemMainhand(),
-            ((LivingEntity) entityIn).getCreatureAttribute());
-            i += EnchantmentHelper.getKnockbackModifier(this);
-        }
-
         boolean flag = entityIn.attackEntityFrom(DamageSource.causeMobDamage(this), f);
-
-        if (flag) {
-            if (i > 0 && entityIn instanceof LivingEntity) {
-                ((LivingEntity) entityIn).knockBack(this, i * 0.5F, MathHelper.sin(this.rotationYaw * 0.017453292F),
-                -MathHelper.cos(this.rotationYaw * 0.017453292F));
-                this.setMotion(this.getMotion().getX() * 0.6D, this.getMotion().getY(), this.getMotion().getZ() * 0.6D);
-            }
-
-            int j = EnchantmentHelper.getFireAspectModifier(this);
-
-            if (j > 0) {
-                entityIn.setFire(j * 4);
-            }
-
-            if (entityIn instanceof PlayerEntity) {
+        if(flag) {
+            if(entityIn instanceof PlayerEntity) {
                 PlayerEntity entityplayer = (PlayerEntity) entityIn;
                 ItemStack itemstack = this.getHeldItemMainhand();
-                ItemStack itemstack1 = entityplayer.isHandActive() ? entityplayer.getActiveItemStack()
-                : ItemStack.EMPTY;
-
-                if (!itemstack.isEmpty() && !itemstack1.isEmpty()
-                && itemstack.getItem().canDisableShield(itemstack, itemstack1, entityplayer, this)
-                && itemstack1.getItem().isShield(itemstack1, entityplayer)) {
+                ItemStack itemstack1 = entityplayer.isHandActive() ? entityplayer.getActiveItemStack() : ItemStack.EMPTY;
+                if(!itemstack.isEmpty() && !itemstack1.isEmpty() && itemstack.getItem().canDisableShield(itemstack, itemstack1, entityplayer, this) && itemstack1.getItem().isShield(itemstack1, entityplayer)) {
                     float f1 = 0.25F + EnchantmentHelper.getEfficiencyModifier(this) * 0.05F;
-
-                    if (this.rand.nextFloat() < f1) {
+                    if(this.rand.nextFloat() < f1) {
                         entityplayer.getCooldownTracker().setCooldown(itemstack1.getItem(), 100);
                         this.world.setEntityState(entityplayer, (byte) 30);
                     }
                 }
             }
-
             this.applyEnchantments(this, entityIn);
         }
 
@@ -272,23 +241,25 @@ public class EntityGoat extends EntityAnimalEatsGrassWithTypes {
             super(EntityGoat.this, new Class[0]);
         }
 
-        /**
-         * Execute a one shot task or start executing a continuous task
-         */
+        @Override
+        public boolean shouldExecute() {
+            return EntityGoat.this.world.getDifficulty() != Difficulty.PEACEFUL && super.shouldExecute();
+        }
+
         @Override
         public void startExecuting() {
             super.startExecuting();
 
-            if (EntityGoat.this.isChild()) {
+            if(EntityGoat.this.isChild()) {
                 this.alertOthers();
                 this.resetTask();
             }
         }
 
         @Override
-        protected void setAttackTarget(MobEntity p_220793_1_, LivingEntity p_220793_2_) {
-            if (p_220793_1_ instanceof EntityGoat && !p_220793_1_.isChild()) {
-                super.setAttackTarget(p_220793_1_, p_220793_2_);
+        protected void setAttackTarget(MobEntity e, LivingEntity target) {
+            if(e instanceof EntityGoat && !e.isChild()) {
+                super.setAttackTarget(e, target);
             }
         }
     }
