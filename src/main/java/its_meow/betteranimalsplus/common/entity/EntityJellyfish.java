@@ -32,6 +32,7 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TextFormatting;
+import net.minecraft.world.Difficulty;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
@@ -118,9 +119,6 @@ public class EntityJellyfish extends EntityWaterMobWithTypesBucketable {
             if(!world.isRemote) {
                 this.setMotion((randomMotionVecX * randomMotionSpeed), (randomMotionVecY * randomMotionSpeed), (randomMotionVecZ * randomMotionSpeed));
             }
-            // float lvt_1_2_ = MathHelper.sqrt(this.getMotion().getX() *
-            // this.getMotion().getX() + this.getMotion().getZ() * this.getMotion().getZ());
-
             renderYawOffset += (-(float) MathHelper.atan2(this.getMotion().getX(), this.getMotion().getZ()) * 57.295776F - renderYawOffset) * 0.1F;
             rotationYaw = renderYawOffset;
             jellyYaw = ((float) (jellyYaw + 3.141592653589793D * rotateSpeed * 1.5D));
@@ -140,7 +138,7 @@ public class EntityJellyfish extends EntityWaterMobWithTypesBucketable {
     @Override
     public void onCollideWithPlayer(PlayerEntity entity) {
         super.onCollideWithPlayer(entity);
-        if(!entity.isCreative() && this.attackCooldown == 0) {
+        if(!entity.isCreative() && this.attackCooldown == 0 && entity.world.getDifficulty() != Difficulty.PEACEFUL) {
             entity.attackEntityFrom(DamageSource.causeMobDamage(this), 2.0F);
             entity.addPotionEffect(new EffectInstance(Effects.POISON, 200, 0, false, false));
             entity.addPotionEffect(new EffectInstance(Effects.BLINDNESS, 90, 2, false, false));
