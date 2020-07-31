@@ -60,6 +60,7 @@ import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.Difficulty;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
@@ -165,14 +166,8 @@ public class EntityGoose extends EntityAnimalWithTypes {
         return sizeIn.height;
     }
 
-    @Override
-    public Vec3d getEyePosition(float partialTicks) {
-        // TODO Auto-generated method stub
-        return super.getEyePosition(partialTicks);
-    }
-
     protected boolean isPassive() {
-        return this.getVariantString().equals("1");
+        return this.getVariantString().equals("1") || world.getDifficulty() == Difficulty.PEACEFUL;
     }
 
     @Override
