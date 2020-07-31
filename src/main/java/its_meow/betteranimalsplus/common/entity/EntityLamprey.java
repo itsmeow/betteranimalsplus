@@ -55,7 +55,7 @@ public class EntityLamprey extends EntityWaterMobPathingWithTypesBucketable impl
         blackList.add(EntityHirschgeist.class);
         blackList.add(EntityJellyfish.class);
         blackList.add(EntityBobbitWorm.class);
-        this.targetSelector.addGoal(0, new NearestAttackableTargetGoal<LivingEntity>(this, LivingEntity.class, 100, true, true, e -> e instanceof LivingEntity && !(e instanceof IMob) && !(e instanceof EntityLamprey) && !(blackList.contains(e.getClass()))));
+        this.targetSelector.addGoal(0, new NearestAttackableTargetGoal<LivingEntity>(this, LivingEntity.class, 100, true, true, e -> e instanceof LivingEntity && !(e instanceof IMob) && !(e instanceof EntityLamprey) && !(e.world.getDifficulty() == Difficulty.PEACEFUL && e instanceof PlayerEntity) && !(blackList.contains(e.getClass()))));
     }
 
     @Override
