@@ -38,7 +38,7 @@ public abstract class EntitySharkBase extends EntityWaterMobPathingWithSelective
     }
 
     public boolean isPeaceful() {
-        return this.world.getDifficulty() != Difficulty.PEACEFUL;
+        return this.world.getDifficulty() == Difficulty.PEACEFUL;
     }
 
     @Override
