@@ -1,7 +1,9 @@
 package its_meow.betteranimalsplus.init;
 
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Set;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
@@ -24,6 +26,7 @@ import its_meow.betteranimalsplus.client.model.ModelHirschgeistSkull;
 import its_meow.betteranimalsplus.client.model.ModelMooseHead;
 import its_meow.betteranimalsplus.client.model.ModelReindeerHead;
 import its_meow.betteranimalsplus.common.entity.EntityBadger;
+import its_meow.betteranimalsplus.common.entity.EntityBarracuda;
 import its_meow.betteranimalsplus.common.entity.EntityBear;
 import its_meow.betteranimalsplus.common.entity.EntityBearNeutral;
 import its_meow.betteranimalsplus.common.entity.EntityBoar;
@@ -63,6 +66,7 @@ import its_meow.betteranimalsplus.common.entity.util.IContainable;
 import its_meow.betteranimalsplus.common.item.IContainerItem;
 import its_meow.betteranimalsplus.common.item.ItemModEntityContainer;
 import its_meow.betteranimalsplus.common.item.ItemModFishBucket;
+import its_meow.betteranimalsplus.util.OceanBiomeHelper;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntitySpawnPlacementRegistry.PlacementType;
 import net.minecraft.entity.MobEntity;
@@ -70,9 +74,11 @@ import net.minecraft.entity.passive.TameableEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.Items;
 import net.minecraft.world.World;
+import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.Biomes;
 import net.minecraft.world.gen.Heightmap;
 import net.minecraftforge.common.BiomeDictionary.Type;
+import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.ForgeConfigSpec;
 
 public class ModEntities {
@@ -204,6 +210,19 @@ public class ModEntities {
     )
     .biomes(Type.SWAMP, Type.RIVER)
     .containers(ItemModEntityContainer.get("bottled_%s"), c -> Items.GLASS_BOTTLE, EntityDragonfly::bottleTooltip));
+    public static final EntityTypeContainerBAPContainable<EntityBarracuda, ItemModFishBucket<EntityBarracuda>> BARRACUDA = setup(createContainableB(EntityBarracuda.class, EntityBarracuda::new, "barracuda")
+    .spawn(EntityClassification.WATER_CREATURE, 8, 1, 1)
+    .waterPlacement()
+    .egg(0x575963, 0xCFCFCF)
+    .size(1.5F, 1F)
+    .despawn()
+    .biomes(() -> {
+        // non-deep warm & lukewarm oceans
+        Set<Biome> oceans = new HashSet<>(BiomeDictionary.getBiomes(Type.OCEAN));
+        oceans.removeIf(biome -> (!OceanBiomeHelper.isWarmOcean(biome) && !OceanBiomeHelper.isLukewarmOcean(biome)) || OceanBiomeHelper.isDeepOcean(biome));
+        return oceans.toArray(new Biome[0]);
+    })
+    .containers(ItemModFishBucket.waterBucket(), c -> Items.BUCKET));
 
     /*
      * ##########################################################

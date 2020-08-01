@@ -7,6 +7,7 @@ import dev.itsmeow.imdlib.client.render.RenderFactory;
 import its_meow.betteranimalsplus.BetterAnimalsPlusMod;
 import its_meow.betteranimalsplus.Ref;
 import its_meow.betteranimalsplus.client.model.ModelBadger;
+import its_meow.betteranimalsplus.client.model.ModelBarracuda;
 import its_meow.betteranimalsplus.client.model.ModelBeakedWhale;
 import its_meow.betteranimalsplus.client.model.ModelBear;
 import its_meow.betteranimalsplus.client.model.ModelBoar;
@@ -39,12 +40,12 @@ import its_meow.betteranimalsplus.client.model.ModelTurkey;
 import its_meow.betteranimalsplus.client.model.ModelWalrus;
 import its_meow.betteranimalsplus.client.model.ModelZotzpyre;
 import its_meow.betteranimalsplus.client.model.shark.ModelBlueShark;
+import its_meow.betteranimalsplus.client.model.shark.ModelBullShark;
 import its_meow.betteranimalsplus.client.model.shark.ModelGoblinShark;
 import its_meow.betteranimalsplus.client.model.shark.ModelGreatWhiteShark;
 import its_meow.betteranimalsplus.client.model.shark.ModelGreenlandShark;
 import its_meow.betteranimalsplus.client.model.shark.ModelHammerheadShark;
 import its_meow.betteranimalsplus.client.model.shark.ModelMakoShark;
-import its_meow.betteranimalsplus.client.model.shark.ModelBullShark;
 import its_meow.betteranimalsplus.client.model.shark.ModelTigerShark;
 import its_meow.betteranimalsplus.client.model.shark.ModelWhiteTipShark;
 import its_meow.betteranimalsplus.client.renderer.entity.RenderTarantulaHair;
@@ -55,6 +56,7 @@ import its_meow.betteranimalsplus.client.renderer.tileentity.RenderBlockHandOfFa
 import its_meow.betteranimalsplus.client.renderer.tileentity.RenderBlockTrillium;
 import its_meow.betteranimalsplus.client.renderer.tileentity.RenderGenericHead;
 import its_meow.betteranimalsplus.common.entity.EntityBadger;
+import its_meow.betteranimalsplus.common.entity.EntityBarracuda;
 import its_meow.betteranimalsplus.common.entity.EntityBear;
 import its_meow.betteranimalsplus.common.entity.EntityBearNeutral;
 import its_meow.betteranimalsplus.common.entity.EntityBoar;
@@ -259,6 +261,7 @@ public class ClientLifecycleHandler {
         R.addRender(EntityWalrus.class, 1.5F, r -> r.tSingle("walrus").mSingle(new ModelWalrus<EntityWalrus>()));
         R.addRender(EntityButterfly.class, 0.1F, r -> r.tVariant().mSingle(new ModelButterfly<>()).simpleScale(e -> e.getSize(Pose.STANDING).width));
         R.addRender(EntityDragonfly.class, 0.1F, r -> r.tVariant().mSingle(new ModelDragonfly<>()).simpleScale(e -> (e.getSize(Pose.STANDING).width / 2F)));
+        R.addRender(EntityBarracuda.class, 1F, r -> r.tSingle("barracuda").mSingle(new ModelBarracuda<>()).simpleScale(e -> 0.6F));
         RenderFactory.addRender(EntityBadgerDirt.class, RenderFactory.nothing());
         BetterAnimalsPlusMod.logger.info("Rendering squirrel physics...");
     }
