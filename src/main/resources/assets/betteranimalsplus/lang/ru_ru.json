@@ -48,6 +48,9 @@
     "item.betteranimalsplus.eel_meat_cooked": "Приготовленное мясо угря",
     "item.betteranimalsplus.record_walrus": "Музыкальный диск",
     "item.betteranimalsplus.record_walrus.desc": "Я - Морж",
+    "item.betteranimalsplus.bottled_butterfly": "Бабочка в бутылке",
+    "item.betteranimalsplus.bottled_dragonfly": "Стрекоза в бутылке",
+    "item.betteranimalsplus.barracuda_bucket": "Барракуда в ведре",
 
     "block.betteranimalsplus.trillium": "Триллиум",
     "block.betteranimalsplus.hirschgeistskull": "Череп оленьего духа",
@@ -93,6 +96,9 @@
     "entity.betteranimalsplus.eel_saltwater": "Морской угорь",
     "entity.betteranimalsplus.whale": "Кит",
     "entity.betteranimalsplus.walrus": "Морж",
+    "entity.betteranimalsplus.butterfly": "Бабочка",
+    "entity.betteranimalsplus.dragonfly": "Стрекоза",
+    "entity.betteranimalsplus.barracuda": "Барракуда",
 
     "entity.betteranimalsplus.eel_saltwater.type.conger": "Угорь",
     "entity.betteranimalsplus.eel_saltwater.type.dragon": "Дракон",
@@ -110,6 +116,21 @@
     "entity.betteranimalsplus.jellyfish.type.red_stripe": "В красную полоску",
     "entity.betteranimalsplus.jellyfish.type.green": "Зелёная",
     "entity.betteranimalsplus.jellyfish.type.gray": "Серая",
+    "entity.betteranimalsplus.butterfly.type.monarch": "Монарх",
+    "entity.betteranimalsplus.butterfly.type.morpho": "Морфо",
+    "entity.betteranimalsplus.butterfly.type.purple_emperor": "Переливница ивовая",
+    "entity.betteranimalsplus.butterfly.type.red_admiral": "Адмирал",
+    "entity.betteranimalsplus.butterfly.type.sulphur": "Солнечная",
+    "entity.betteranimalsplus.butterfly.type.swallowtail": "Парусник",
+    "entity.betteranimalsplus.dragonfly.type.blue_dasher": "Синяя",
+    "entity.betteranimalsplus.dragonfly.type.broad_tailed_shadowdragon": "Широкохвостый теневой дракон",
+    "entity.betteranimalsplus.dragonfly.type.green_darner": "Дозорщик американский",
+    "entity.betteranimalsplus.dragonfly.type.yellow_winged_darter": "Жёлтая",
     
-    "misc.betteranimalsplus.eggorder": "Яйцо призыва %s"
+    "entity.betteranimalsplus.coyote.message.currently_hostile": "Этот койот сейчас враждебен. Возможно, его можно приручить вне часов его охоты?",
+    "entity.betteranimalsplus.coyote.message.always_hostile": "Этот койот всегда враждебен. Он не может быть приручен (конфигурация сервера)",
+    "entity.betteranimalsplus.feralwolf.message.wear_head": "Вы не можете приручить диких волков, не доказав свое мастерство. Найдите могущественного врага, победите его и наденьте его голову. Дикие волки подчиняются только защитнику лесов.",
+	
+    "misc.betteranimalsplus.eggorder": "Яйцо призыва %s",
+    "tooltip.betteranimalsplus.nectar": "Имеет нектар"
 }
