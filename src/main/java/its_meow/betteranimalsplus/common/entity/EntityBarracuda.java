@@ -7,6 +7,7 @@ import its_meow.betteranimalsplus.common.entity.ai.PeacefulNearestAttackableTarg
 import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainerBAPContainable;
 import its_meow.betteranimalsplus.common.entity.util.abstracts.EntityWaterMobPathingBucketable;
 import its_meow.betteranimalsplus.init.ModEntities;
+import its_meow.betteranimalsplus.init.ModLootTables;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.goal.Goal;
@@ -26,6 +27,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.Hand;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.world.Difficulty;
@@ -80,6 +82,11 @@ public class EntityBarracuda extends EntityWaterMobPathingBucketable {
             this.playSound(this.getFlopSound(), this.getSoundVolume(), this.getSoundPitch());
         }
         super.livingTick();
+    }
+
+    @Override
+    protected ResourceLocation getLootTable() {
+        return ModLootTables.DROPS_COD;
     }
 
     protected SoundEvent getFlopSound() {

@@ -35,4 +35,6 @@ public class ModLootTables {
     public static final ResourceLocation WHALE = new ResourceLocation(Ref.MOD_ID, "whale");
     public static final ResourceLocation WALRUS = new ResourceLocation(Ref.MOD_ID, "walrus");
 
+    public static final ResourceLocation DROPS_COD = new ResourceLocation(Ref.MOD_ID, "drops_cod");
+
 }
