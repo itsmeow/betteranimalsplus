@@ -51,6 +51,7 @@
     "item.betteranimalsplus.bottled_butterfly": "Бабочка в бутылке",
     "item.betteranimalsplus.bottled_dragonfly": "Стрекоза в бутылке",
     "item.betteranimalsplus.barracuda_bucket": "Барракуда в ведре",
+    "item.betteranimalsplus.flying_fish_bucket": "Летучая рыба в ведре",
 
     "block.betteranimalsplus.trillium": "Триллиум",
     "block.betteranimalsplus.hirschgeistskull": "Череп оленьего духа",
@@ -99,6 +100,7 @@
     "entity.betteranimalsplus.butterfly": "Бабочка",
     "entity.betteranimalsplus.dragonfly": "Стрекоза",
     "entity.betteranimalsplus.barracuda": "Барракуда",
+    "entity.betteranimalsplus.flying_fish": "Летучая рыба",
 
     "entity.betteranimalsplus.eel_saltwater.type.conger": "Угорь",
     "entity.betteranimalsplus.eel_saltwater.type.dragon": "Дракон",
@@ -126,6 +128,8 @@
     "entity.betteranimalsplus.dragonfly.type.broad_tailed_shadowdragon": "Широкохвостый теневой дракон",
     "entity.betteranimalsplus.dragonfly.type.green_darner": "Дозорщик американский",
     "entity.betteranimalsplus.dragonfly.type.yellow_winged_darter": "Жёлтая",
+    "entity.betteranimalsplus.flying_fish.type.yellow": "Жёлтая",
+    "entity.betteranimalsplus.flying_fish.type.purple": "Фиолетовая",
     
     "entity.betteranimalsplus.coyote.message.currently_hostile": "Этот койот сейчас враждебен. Возможно, его можно приручить вне часов его охоты?",
     "entity.betteranimalsplus.coyote.message.always_hostile": "Этот койот всегда враждебен. Он не может быть приручен (конфигурация сервера)",
