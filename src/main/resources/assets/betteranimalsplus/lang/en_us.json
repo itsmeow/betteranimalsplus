@@ -51,6 +51,7 @@
     "item.betteranimalsplus.bottled_butterfly": "Bottled Butterfly",
     "item.betteranimalsplus.bottled_dragonfly": "Bottled Dragonfly",
     "item.betteranimalsplus.barracuda_bucket": "Bucket of Barracuda",
+    "item.betteranimalsplus.flying_fish_bucket": "Bucket of Flying Fish",
 
     "block.betteranimalsplus.trillium": "Trillium",
     "block.betteranimalsplus.hirschgeistskull": "Hirschgeist Skull",
@@ -99,6 +100,7 @@
     "entity.betteranimalsplus.butterfly": "Butterfly",
     "entity.betteranimalsplus.dragonfly": "Dragonfly",
     "entity.betteranimalsplus.barracuda": "Barracuda",
+    "entity.betteranimalsplus.flying_fish": "Flying Fish",
 
     "entity.betteranimalsplus.eel_saltwater.type.conger": "Conger",
     "entity.betteranimalsplus.eel_saltwater.type.dragon": "Dragon",
@@ -126,6 +128,8 @@
     "entity.betteranimalsplus.dragonfly.type.broad_tailed_shadowdragon": "Broad-Tailed Shadowdragon",
     "entity.betteranimalsplus.dragonfly.type.green_darner": "Green Darner",
     "entity.betteranimalsplus.dragonfly.type.yellow_winged_darter": "Yellow Winged Darter",
+    "entity.betteranimalsplus.flying_fish.type.yellow": "Yellow",
+    "entity.betteranimalsplus.flying_fish.type.purple": "Purple",
 
     "entity.betteranimalsplus.coyote.message.currently_hostile": "This coyote is currently hostile. Perhaps it could be tamed outside of its hunting hours?",
     "entity.betteranimalsplus.coyote.message.always_hostile": "This coyote is always hostile. It cannot be tamed (server configuration)",

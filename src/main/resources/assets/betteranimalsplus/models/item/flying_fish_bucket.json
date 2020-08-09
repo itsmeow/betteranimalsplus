@@ -1,0 +1,21 @@
+{
+	"parent": "minecraft:item/generated",
+	"textures": {
+		"layer0": "betteranimalsplus:items/flying_fish_bucket"
+	},
+	"overrides": [
+		{
+			"predicate": {
+				"betteranimalsplus:variant": 1
+			},
+			"model": "betteranimalsplus:item/flying_fish_bucket_purple"
+		},
+		{
+			"predicate": {
+				"betteranimalsplus:variant": 2
+			},
+			"model": "betteranimalsplus:item/flying_fish_bucket_yellow"
+		}
+	]
+}
+}

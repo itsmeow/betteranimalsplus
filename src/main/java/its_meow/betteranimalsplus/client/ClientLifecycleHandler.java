@@ -18,6 +18,7 @@ import its_meow.betteranimalsplus.client.model.ModelCrab;
 import its_meow.betteranimalsplus.client.model.ModelDeer;
 import its_meow.betteranimalsplus.client.model.ModelDragonfly;
 import its_meow.betteranimalsplus.client.model.ModelFeralWolf;
+import its_meow.betteranimalsplus.client.model.ModelFlyingFish;
 import its_meow.betteranimalsplus.client.model.ModelFreshwaterEel;
 import its_meow.betteranimalsplus.client.model.ModelGoat;
 import its_meow.betteranimalsplus.client.model.ModelGoose;
@@ -67,6 +68,7 @@ import its_meow.betteranimalsplus.common.entity.EntityCrab;
 import its_meow.betteranimalsplus.common.entity.EntityDeer;
 import its_meow.betteranimalsplus.common.entity.EntityDragonfly;
 import its_meow.betteranimalsplus.common.entity.EntityFeralWolf;
+import its_meow.betteranimalsplus.common.entity.EntityFlyingFish;
 import its_meow.betteranimalsplus.common.entity.EntityFreshwaterEel;
 import its_meow.betteranimalsplus.common.entity.EntityGoat;
 import its_meow.betteranimalsplus.common.entity.EntityGoose;
@@ -262,6 +264,7 @@ public class ClientLifecycleHandler {
         R.addRender(EntityButterfly.class, 0.1F, r -> r.tVariant().mSingle(new ModelButterfly<>()).simpleScale(e -> e.getSize(Pose.STANDING).width));
         R.addRender(EntityDragonfly.class, 0.1F, r -> r.tVariant().mSingle(new ModelDragonfly<>()).simpleScale(e -> (e.getSize(Pose.STANDING).width / 2F)));
         R.addRender(EntityBarracuda.class, 1F, r -> r.tSingle("barracuda").mSingle(new ModelBarracuda<>()).simpleScale(e -> 0.6F));
+        R.addRender(EntityFlyingFish.class, 1F, r -> r.tVariant().mSingle(new ModelFlyingFish<>()).simpleScale(e -> 0.4F));
         RenderFactory.addRender(EntityBadgerDirt.class, RenderFactory.nothing());
         BetterAnimalsPlusMod.logger.info("Rendering squirrel physics...");
     }

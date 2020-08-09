@@ -1,6 +1,8 @@
 package its_meow.betteranimalsplus.util;
 
+import java.util.HashSet;
 import java.util.Set;
+import java.util.function.Predicate;
 
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.Biomes;
@@ -68,5 +70,15 @@ public class OceanBiomeHelper {
     public static boolean isLukewarmOcean(Biome biome) {
         Set<BiomeDictionary.Type> types = BiomeDictionary.getTypes(biome);
         return types.contains(Type.OCEAN) && (biome == Biomes.DEEP_LUKEWARM_OCEAN || biome == Biomes.LUKEWARM_OCEAN || biome.getRegistryName().getPath().contains("lukewarm"));
+    }
+
+    public static Biome[] subtropicalOcean() {
+        return OceanBiomeHelper.removeIf(biome -> (!OceanBiomeHelper.isWarmOcean(biome) && !OceanBiomeHelper.isLukewarmOcean(biome)) || OceanBiomeHelper.isDeepOcean(biome));
+    }
+
+    protected static Biome[] removeIf(Predicate<? super Biome> filter) {
+        Set<Biome> oceans = new HashSet<>(BiomeDictionary.getBiomes(Type.OCEAN));
+        oceans.removeIf(filter);
+        return oceans.toArray(new Biome[0]);
     }
 }

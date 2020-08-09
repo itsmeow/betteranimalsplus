@@ -43,6 +43,7 @@ public class ItemModEntityContainer<T extends MobEntity & IContainable> extends 
 
     public ItemModEntityContainer(EntityTypeContainerBAPContainable<T, ItemModEntityContainer<T>> typeContainer, String name, ITooltipFunction tooltip) {
         super(name, new Item.Properties().maxStackSize(1));
+        this.addPropertyOverrides(this);
         this.typeContainer = typeContainer;
         this.tooltip = tooltip;
     }

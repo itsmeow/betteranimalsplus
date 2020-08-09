@@ -1,9 +1,7 @@
 package its_meow.betteranimalsplus.init;
 
-import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Set;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
@@ -37,6 +35,7 @@ import its_meow.betteranimalsplus.common.entity.EntityCrab;
 import its_meow.betteranimalsplus.common.entity.EntityDeer;
 import its_meow.betteranimalsplus.common.entity.EntityDragonfly;
 import its_meow.betteranimalsplus.common.entity.EntityFeralWolf;
+import its_meow.betteranimalsplus.common.entity.EntityFlyingFish;
 import its_meow.betteranimalsplus.common.entity.EntityFreshwaterEel;
 import its_meow.betteranimalsplus.common.entity.EntityGoat;
 import its_meow.betteranimalsplus.common.entity.EntityGoose;
@@ -74,11 +73,9 @@ import net.minecraft.entity.passive.TameableEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.Items;
 import net.minecraft.world.World;
-import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.Biomes;
 import net.minecraft.world.gen.Heightmap;
 import net.minecraftforge.common.BiomeDictionary.Type;
-import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.ForgeConfigSpec;
 
 public class ModEntities {
@@ -216,12 +213,16 @@ public class ModEntities {
     .egg(0x575963, 0xCFCFCF)
     .size(1.5F, 1F)
     .despawn()
-    .biomes(() -> {
-        // non-deep warm & lukewarm oceans
-        Set<Biome> oceans = new HashSet<>(BiomeDictionary.getBiomes(Type.OCEAN));
-        oceans.removeIf(biome -> (!OceanBiomeHelper.isWarmOcean(biome) && !OceanBiomeHelper.isLukewarmOcean(biome)) || OceanBiomeHelper.isDeepOcean(biome));
-        return oceans.toArray(new Biome[0]);
-    })
+    .biomes(OceanBiomeHelper::subtropicalOcean)
+    .containers(ItemModFishBucket.waterBucket(), c -> Items.BUCKET));
+    public static final EntityTypeContainerBAPContainable<EntityFlyingFish, ItemModFishBucket<EntityFlyingFish>> FLYING_FISH = setup(createContainableB(EntityFlyingFish.class, EntityFlyingFish::new, "flying_fish")
+    .spawn(EntityClassification.WATER_CREATURE, 10, 1, 5)
+    .waterPlacement()
+    .egg(0x0D3563, 0xEBC90E)
+    .size(1F, 0.8F)
+    .despawn()
+    .variants("purple", "yellow")
+    .biomes(OceanBiomeHelper::subtropicalOcean)
     .containers(ItemModFishBucket.waterBucket(), c -> Items.BUCKET));
 
     /*
@@ -253,4 +254,5 @@ public class ModEntities {
     private static <T extends MobEntity & IContainable> EntityTypeContainerBAPContainable.Builder<T, ItemModFishBucket<T>> createContainableB(Class<T> EntityClass, Function<World, T> func, String entityNameIn) {
         return EntityTypeContainerBAPContainable.Builder.<T, ItemModFishBucket<T>>create(EntityClass, func, entityNameIn);
     }
+
 }
