@@ -30,6 +30,7 @@ import its_meow.betteranimalsplus.common.entity.EntityBearNeutral;
 import its_meow.betteranimalsplus.common.entity.EntityBoar;
 import its_meow.betteranimalsplus.common.entity.EntityBobbitWorm;
 import its_meow.betteranimalsplus.common.entity.EntityButterfly;
+import its_meow.betteranimalsplus.common.entity.EntityColossalSquid;
 import its_meow.betteranimalsplus.common.entity.EntityCoyote;
 import its_meow.betteranimalsplus.common.entity.EntityCrab;
 import its_meow.betteranimalsplus.common.entity.EntityDeer;
@@ -37,6 +38,7 @@ import its_meow.betteranimalsplus.common.entity.EntityDragonfly;
 import its_meow.betteranimalsplus.common.entity.EntityFeralWolf;
 import its_meow.betteranimalsplus.common.entity.EntityFlyingFish;
 import its_meow.betteranimalsplus.common.entity.EntityFreshwaterEel;
+import its_meow.betteranimalsplus.common.entity.EntityGiantSquid;
 import its_meow.betteranimalsplus.common.entity.EntityGoat;
 import its_meow.betteranimalsplus.common.entity.EntityGoose;
 import its_meow.betteranimalsplus.common.entity.EntityHorseshoeCrab;
@@ -66,6 +68,7 @@ import its_meow.betteranimalsplus.common.item.IContainerItem;
 import its_meow.betteranimalsplus.common.item.ItemModEntityContainer;
 import its_meow.betteranimalsplus.common.item.ItemModFishBucket;
 import its_meow.betteranimalsplus.util.OceanBiomeHelper;
+import net.minecraft.block.Blocks;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntitySpawnPlacementRegistry.PlacementType;
 import net.minecraft.entity.MobEntity;
@@ -226,6 +229,20 @@ public class ModEntities {
     .variants("purple", "yellow")
     .biomes(OceanBiomeHelper::subtropicalOcean)
     .containers(ItemModFishBucket.waterBucket(), c -> Items.BUCKET));
+    public static final EntityTypeContainerBAP<EntityColossalSquid> SQUID_COLOSSAL = setup(create(EntityColossalSquid.class, EntityColossalSquid::new, "squid_colossal")
+    .spawn(EntityClassification.WATER_CREATURE, 2, 1, 1)
+    .waterPlacement((type, world, reason, pos, rng) -> pos.getY() < (world.getSeaLevel() - 1) && world.getBlockState(pos).getBlock() == Blocks.WATER)
+    .egg(0x8C354A, 0xFAD64A)
+    .size(5F, 5F)
+    .despawn()
+    .biomes(() -> OceanBiomeHelper.removeIf(biome -> !OceanBiomeHelper.isDeepOcean(biome))));
+    public static final EntityTypeContainerBAP<EntityGiantSquid> SQUID_GIANT = setup(create(EntityGiantSquid.class, EntityGiantSquid::new, "squid_giant")
+    .spawn(EntityClassification.WATER_CREATURE, 4, 1, 1)
+    .waterPlacement((type, world, reason, pos, rng) -> pos.getY() < (world.getSeaLevel() - 1) && world.getBlockState(pos).getBlock() == Blocks.WATER)
+    .egg(0x741921, 0xFAD64A)
+    .size(3F, 3F)
+    .despawn()
+    .biomes(() -> OceanBiomeHelper.removeIf(biome -> !OceanBiomeHelper.isDeepOcean(biome))));
 
     /*
      * ##########################################################
