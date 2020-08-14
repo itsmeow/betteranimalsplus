@@ -145,19 +145,21 @@ public class CommonEventHandler {
     
     @SubscribeEvent
     public static void onLootLoad(LootTableLoadEvent event) {
-        if(event.getName().equals(EntityType.WOLF.getLootTable())) {
-            
-            event.getTable().addPool(LootPool.builder().rolls(new IRandomRange() {
-                @Override
-                public int generateInt(Random rand) {
-                    return 1;
-                }
+        IRandomRange simple_one = new IRandomRange() {
+            @Override
+            public int generateInt(Random rand) {
+                return 1;
+            }
 
-                @Override
-                public ResourceLocation getType() {
-                    return IRandomRange.CONSTANT;
-                }
-            }).name("snowy_pelt").addEntry(TableLootEntry.builder(ModLootTables.WOLF_SNOWY)).build());
+            @Override
+            public ResourceLocation getType() {
+                return IRandomRange.CONSTANT;
+            }
+        };
+        if(event.getName().equals(EntityType.WOLF.getLootTable())) {
+            event.getTable().addPool(LootPool.builder().rolls(simple_one).name("snowy_pelt").addEntry(TableLootEntry.builder(ModLootTables.WOLF_SNOWY)).build());
+        } else if(event.getName().equals(EntityType.SQUID.getLootTable())) {
+            event.getTable().addPool(LootPool.builder().rolls(simple_one).name("bap_calamari").addEntry(TableLootEntry.builder(ModLootTables.SQUID)).build());
         }
     }
     

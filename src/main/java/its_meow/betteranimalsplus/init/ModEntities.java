@@ -181,6 +181,7 @@ public class ModEntities {
     public static final EntityTypeContainerBAP<EntityWalrus> WALRUS = setup(create(EntityWalrus.class, EntityWalrus::new, "walrus").spawn(EntityClassification.CREATURE, 4, 1, 5).defaultPlacement(EntityWalrus::canSpawn).egg(0x854c03, 0x42300f).size(3F, 1.25F).biomes(BiomeListBuilder.create().extra(Biomes.FROZEN_OCEAN, Biomes.DEEP_FROZEN_OCEAN, Biomes.SNOWY_BEACH, Biomes.STONE_SHORE)::collect));
     public static final EntityTypeContainerBAPContainable<EntityButterfly, ItemModEntityContainer<EntityButterfly>> BUTTERFLY = setup(ModEntities.<EntityButterfly, ItemModEntityContainer<EntityButterfly>>createContainable(EntityButterfly.class, EntityButterfly::new, "butterfly")
     .spawn(EntityClassification.AMBIENT, 10, 1, 3)
+    .defaultPlacement((t, w, r, p, rng) -> p.getY() > w.getSeaLevel())
     .egg(0x161d27, 0xb42d10)
     .size(0.35F, 0.35F)
     .despawn()
@@ -196,6 +197,7 @@ public class ModEntities {
     .containers(ItemModEntityContainer.get("bottled_%s"), c -> Items.GLASS_BOTTLE, EntityButterfly::bottleTooltip));
     public static final EntityTypeContainerBAPContainable<EntityDragonfly, ItemModEntityContainer<EntityDragonfly>> DRAGONFLY = setup(ModEntities.<EntityDragonfly, ItemModEntityContainer<EntityDragonfly>>createContainable(EntityDragonfly.class, EntityDragonfly::new, "dragonfly")
     .spawn(EntityClassification.AMBIENT, 10, 1, 3)
+    .defaultPlacement((t, w, r, p, rng) -> p.getY() > w.getSeaLevel())
     .egg(0x40a605, 0x522601)
     .size(0.35F, 0.35F)
     .despawn()

@@ -106,7 +106,9 @@ public class BetterAnimalsPlusRegistrar {
         ModItems.TURKEY_LEG_COOKED,
         ModItems.EEL_MEAT_RAW,
         ModItems.EEL_MEAT_COOKED,
-        ModItems.FRIED_EGG
+        ModItems.FRIED_EGG,
+        ModItems.CALAMARI_RAW,
+        ModItems.CALAMARI_COOKED
         );
 
         for(EntityTypeContainer<?> container : ModEntities.getEntities().values()) {
