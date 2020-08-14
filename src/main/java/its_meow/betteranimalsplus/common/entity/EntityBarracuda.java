@@ -156,7 +156,6 @@ public class EntityBarracuda extends EntityWaterMobPathingBucketable {
         public void tick() {
             e.getNavigator().tryMoveToEntityLiving(e.getAttackTarget(), 10D);
             e.setMotion(e.getMotion().add(0, -0.005D, 0));
-            System.out.println("Tick");
             // attack 5HP when close and then move to regular attack
             if(e.getPositionVec().distanceTo(e.getAttackTarget().getPositionVec()) < 1.5D) {
                 done = true;
