@@ -54,6 +54,7 @@
     "item.betteranimalsplus.flying_fish_bucket": "Bucket of Flying Fish",
     "item.betteranimalsplus.calamari_raw": "Raw Calamari",
     "item.betteranimalsplus.calamari_cooked": "Cooked Calamari",
+    "item.betteranimalsplus.piranha_bucket": "Bucket of Piranha",
 
     "block.betteranimalsplus.trillium": "Trillium",
     "block.betteranimalsplus.hirschgeistskull": "Hirschgeist Skull",
@@ -105,6 +106,7 @@
     "entity.betteranimalsplus.flying_fish": "Flying Fish",
     "entity.betteranimalsplus.squid_giant": "Giant Squid",
     "entity.betteranimalsplus.squid_colossal": "Colossal Squid",
+    "entity.betteranimalsplus.piranha": "Piranha",
 
     "entity.betteranimalsplus.eel_saltwater.type.conger": "Conger",
     "entity.betteranimalsplus.eel_saltwater.type.dragon": "Dragon",
@@ -138,6 +140,8 @@
     "entity.betteranimalsplus.coyote.message.currently_hostile": "This coyote is currently hostile. Perhaps it could be tamed outside of its hunting hours?",
     "entity.betteranimalsplus.coyote.message.always_hostile": "This coyote is always hostile. It cannot be tamed (server configuration)",
     "entity.betteranimalsplus.feralwolf.message.wear_head": "You cannot tame feral wolves without proving your prowess. Discover a mighty enemy, defeat it, and wear its head. Feral Wolves only bow to the protector of the forests.",
+
+    "death.attack.betteranimalsplus.piranha": "%1$s was eaten to the bone by piranhas",
 
     "misc.betteranimalsplus.eggorder": "%s Spawn Egg",
     "tooltip.betteranimalsplus.nectar": "Has Nectar"

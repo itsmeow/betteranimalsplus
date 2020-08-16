@@ -32,6 +32,7 @@ import its_meow.betteranimalsplus.client.model.ModelLamprey;
 import its_meow.betteranimalsplus.client.model.ModelMoose;
 import its_meow.betteranimalsplus.client.model.ModelNautilus;
 import its_meow.betteranimalsplus.client.model.ModelPheasant;
+import its_meow.betteranimalsplus.client.model.ModelPiranha;
 import its_meow.betteranimalsplus.client.model.ModelReindeer;
 import its_meow.betteranimalsplus.client.model.ModelSaltwaterEel;
 import its_meow.betteranimalsplus.client.model.ModelSmallWhale;
@@ -83,6 +84,7 @@ import its_meow.betteranimalsplus.common.entity.EntityLamprey;
 import its_meow.betteranimalsplus.common.entity.EntityMoose;
 import its_meow.betteranimalsplus.common.entity.EntityNautilus;
 import its_meow.betteranimalsplus.common.entity.EntityPheasant;
+import its_meow.betteranimalsplus.common.entity.EntityPiranha;
 import its_meow.betteranimalsplus.common.entity.EntityReindeer;
 import its_meow.betteranimalsplus.common.entity.EntitySaltwaterEel;
 import its_meow.betteranimalsplus.common.entity.EntityShark;
@@ -287,6 +289,7 @@ public class ClientLifecycleHandler {
             GlStateManager.rotatef(f1, 0.0F, 1.0F, 0.0F);
             GlStateManager.translatef(0.0F, -1.2F, 0.0F);
         }));
+        R.addRender(EntityPiranha.class, 0.4F, r -> r.tSingle("piranha").mSingle(new ModelPiranha<>()).simpleScale(e -> 0.3F));
         RenderFactory.addRender(EntityBadgerDirt.class, RenderFactory.nothing());
         BetterAnimalsPlusMod.logger.info("Rendering squirrel physics...");
     }

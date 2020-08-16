@@ -48,6 +48,7 @@ import its_meow.betteranimalsplus.common.entity.EntityLamprey;
 import its_meow.betteranimalsplus.common.entity.EntityMoose;
 import its_meow.betteranimalsplus.common.entity.EntityNautilus;
 import its_meow.betteranimalsplus.common.entity.EntityPheasant;
+import its_meow.betteranimalsplus.common.entity.EntityPiranha;
 import its_meow.betteranimalsplus.common.entity.EntityReindeer;
 import its_meow.betteranimalsplus.common.entity.EntitySaltwaterEel;
 import its_meow.betteranimalsplus.common.entity.EntityShark;
@@ -243,6 +244,14 @@ public class ModEntities {
     .size(3F, 3F)
     .despawn()
     .biomes(() -> OceanBiomeHelper.removeIf(biome -> !OceanBiomeHelper.isDeepOcean(biome))));
+    public static final EntityTypeContainerBAPContainable<EntityPiranha, ItemModFishBucket<EntityPiranha>> PIRANHA = setup(createContainableB(EntityPiranha.class, EntityPiranha::new, "piranha")
+    .spawn(EntityClassification.WATER_CREATURE, 7, 1, 5)
+    .waterPlacement()
+    .egg(0x545454, 0xB51B15)
+    .size(0.5F, 0.5F)
+    .despawn()
+    .biomes(Type.JUNGLE)
+    .containers(ItemModFishBucket.waterBucket(), c -> Items.BUCKET));
 
     /*
      * ##########################################################
