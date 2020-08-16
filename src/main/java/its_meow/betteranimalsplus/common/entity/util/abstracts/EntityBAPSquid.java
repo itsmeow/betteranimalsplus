@@ -66,7 +66,12 @@ public abstract class EntityBAPSquid extends EntityWaterMobPathing {
     protected void registerGoals() {
         this.goalSelector.addGoal(0, new MoveTowardsTargetGoal(this, 1D, 50F));
         this.goalSelector.addGoal(1, new MoveRandomGoal(this));
-        this.targetSelector.addGoal(0, new HurtByTargetGoal(this));
+        this.targetSelector.addGoal(0, new HurtByTargetGoal(this) {
+            @Override
+            public boolean shouldExecute() {
+                return EntityBAPSquid.this.world.getDifficulty() != Difficulty.PEACEFUL && super.shouldExecute();
+            }
+        });
         this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, WaterMobEntity.class, 20, true, true, Predicates.alwaysTrue()));
     }
 
