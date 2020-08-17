@@ -7,8 +7,10 @@ import its_meow.betteranimalsplus.init.ModEntities;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.ILivingEntityData;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal;
 import net.minecraft.entity.ai.goal.RandomSwimmingGoal;
@@ -17,8 +19,10 @@ import net.minecraft.entity.passive.horse.HorseEntity;
 import net.minecraft.entity.passive.horse.SkeletonHorseEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EntityDamageSource;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.World;
@@ -81,9 +85,14 @@ public class EntityPiranha extends EntityWaterMobPathingBucketable {
                     skele.setPositionAndRotation(playerentity.posX, playerentity.posY, playerentity.posZ, playerentity.rotationYaw, playerentity.rotationPitch);
                     playerentity.world.addEntity(skele);
                 }
-            } else if(entityIn instanceof HorseEntity) {
+            } else if(entityIn instanceof HorseEntity && !entityIn.isAlive()) {
                 SkeletonHorseEntity skele = EntityType.SKELETON_HORSE.create(entityIn.world);
                 skele.setPositionAndRotation(entityIn.posX, entityIn.posY, entityIn.posZ, entityIn.rotationYaw, entityIn.rotationPitch);
+                skele.onInitialSpawn(entityIn.world, entityIn.world.getDifficultyForLocation(new BlockPos(entityIn)), SpawnReason.MOB_SUMMONED, (ILivingEntityData) null, (CompoundNBT) null);
+                skele.hurtResistantTime = 60;
+                skele.enablePersistence();
+                skele.setHorseTamed(true);
+                skele.setGrowingAge(0);
                 entityIn.world.addEntity(skele);
             }
             this.applyEnchantments(this, entityIn);
