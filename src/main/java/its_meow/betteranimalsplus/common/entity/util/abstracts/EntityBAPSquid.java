@@ -205,7 +205,7 @@ public abstract class EntityBAPSquid extends EntityWaterMobPathing {
 
     @Override
     protected ResourceLocation getLootTable() {
-        return ModLootTables.SQUID;
+        return ModLootTables.BIG_SQUID;
     }
 
     public boolean isPeaceful() {
