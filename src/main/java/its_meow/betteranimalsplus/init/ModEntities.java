@@ -65,11 +65,11 @@ import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainerBAP.Buil
 import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainerBAPContainable;
 import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainerBAPTameable;
 import its_meow.betteranimalsplus.common.entity.util.IContainable;
+import its_meow.betteranimalsplus.common.entity.util.abstracts.EntityBAPSquid;
 import its_meow.betteranimalsplus.common.item.IContainerItem;
 import its_meow.betteranimalsplus.common.item.ItemModEntityContainer;
 import its_meow.betteranimalsplus.common.item.ItemModFishBucket;
 import its_meow.betteranimalsplus.util.OceanBiomeHelper;
-import net.minecraft.block.Blocks;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntitySpawnPlacementRegistry.PlacementType;
 import net.minecraft.entity.MobEntity;
@@ -232,14 +232,14 @@ public class ModEntities {
     .containers(ItemModFishBucket.waterBucket(), c -> Items.BUCKET));
     public static final EntityTypeContainerBAP<EntityColossalSquid> SQUID_COLOSSAL = setup(create(EntityColossalSquid.class, EntityColossalSquid::new, "squid_colossal")
     .spawn(EntityClassification.WATER_CREATURE, 2, 1, 1)
-    .waterPlacement((type, world, reason, pos, rng) -> pos.getY() < (world.getSeaLevel() - 1) && world.getBlockState(pos).getBlock() == Blocks.WATER)
+    .waterPlacement(EntityBAPSquid::placement)
     .egg(0x8C354A, 0xFAD64A)
     .size(5F, 5F)
     .despawn()
     .biomes(() -> OceanBiomeHelper.removeIf(biome -> !OceanBiomeHelper.isDeepOcean(biome))));
     public static final EntityTypeContainerBAP<EntityGiantSquid> SQUID_GIANT = setup(create(EntityGiantSquid.class, EntityGiantSquid::new, "squid_giant")
     .spawn(EntityClassification.WATER_CREATURE, 4, 1, 1)
-    .waterPlacement((type, world, reason, pos, rng) -> pos.getY() < (world.getSeaLevel() - 1) && world.getBlockState(pos).getBlock() == Blocks.WATER)
+    .waterPlacement(EntityBAPSquid::placement)
     .egg(0x741921, 0xFAD64A)
     .size(3F, 3F)
     .despawn()
