@@ -6,6 +6,7 @@ import java.util.Random;
 import com.google.common.base.Predicates;
 
 import its_meow.betteranimalsplus.init.ModLootTables;
+import its_meow.betteranimalsplus.init.ModTriggers;
 import net.minecraft.block.Blocks;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
@@ -23,6 +24,7 @@ import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal;
 import net.minecraft.entity.item.BoatEntity;
 import net.minecraft.entity.passive.WaterMobEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.potion.EffectInstance;
@@ -88,6 +90,16 @@ public abstract class EntityBAPSquid extends EntityWaterMobPathing {
         this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(1D);
         this.getAttributes().registerAttribute(SharedMonsterAttributes.ATTACK_DAMAGE);
         this.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(5D);
+    }
+
+    @Override
+    public void setAttackTarget(LivingEntity entitylivingbaseIn) {
+        if(!this.isPeaceful()) {
+            if(entitylivingbaseIn instanceof ServerPlayerEntity) {
+                ModTriggers.SQUID_TARGETED.trigger((ServerPlayerEntity) entitylivingbaseIn);
+            }
+            super.setAttackTarget(entitylivingbaseIn);
+        }
     }
 
     @Override
