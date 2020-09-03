@@ -1,6 +1,8 @@
 package its_meow.betteranimalsplus.common.entity;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.function.Predicate;
 
 import javax.annotation.Nullable;
@@ -47,6 +49,8 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
+import net.minecraftforge.common.BiomeDictionary;
+import net.minecraftforge.common.BiomeDictionary.Type;
 import net.minecraftforge.common.util.Constants;
 
 public class EntityButterfly extends EntityAnimalWithTypesAndSizeContainable {
@@ -469,5 +473,15 @@ public class EntityButterfly extends EntityAnimalWithTypesAndSizeContainable {
                 tooltip.add(new TranslationTextComponent("tooltip.betteranimalsplus.nectar").applyTextStyles(new TextFormatting[] { TextFormatting.ITALIC, TextFormatting.YELLOW }));
             }
         }
+    }
+
+    public static Biome[] getSpawnBiomes() {
+        // java ****ing sucks at type inference, which is why this is here. because it won't compile as a lambda inside ModEntities. thanks java.
+        Set<Biome> set = new HashSet<Biome>();
+        set.addAll(BiomeDictionary.getBiomes(Type.FOREST));
+        set.addAll(BiomeDictionary.getBiomes(Type.JUNGLE));
+        set.addAll(BiomeDictionary.getBiomes(Type.MAGICAL));
+        set.removeIf(b -> BiomeDictionary.getTypes(b).contains(Type.COLD));
+        return set.toArray(new Biome[0]);
     }
 }

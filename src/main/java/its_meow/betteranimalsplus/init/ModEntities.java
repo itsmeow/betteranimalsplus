@@ -197,7 +197,7 @@ public class ModEntities {
     "sulphur",
     "swallowtail"
     )
-    .biomes(BiomeListBuilder.create().withTypes(Type.FOREST, Type.JUNGLE, Type.MAGICAL).withoutTypes(Type.COLD)::collect)
+    .biomes(EntityButterfly::getSpawnBiomes)
     .containers(ItemModEntityContainer.get("bottled_%s"), c -> Items.GLASS_BOTTLE, EntityButterfly::bottleTooltip));
     public static final EntityTypeContainerBAPContainable<EntityDragonfly, ItemModEntityContainer<EntityDragonfly>> DRAGONFLY = setup(ModEntities.<EntityDragonfly, ItemModEntityContainer<EntityDragonfly>>createContainable(EntityDragonfly.class, EntityDragonfly::new, "dragonfly")
     .spawn(EntityClassification.AMBIENT, 10, 1, 3)
