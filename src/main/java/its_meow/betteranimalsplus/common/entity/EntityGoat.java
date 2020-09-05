@@ -1,6 +1,7 @@
 package its_meow.betteranimalsplus.common.entity;
 
 import java.util.Set;
+import java.util.UUID;
 
 import javax.annotation.Nullable;
 
@@ -50,8 +51,7 @@ import net.minecraft.world.World;
 public class EntityGoat extends EntityAnimalEatsGrassWithTypes {
 
     protected static final DataParameter<Boolean> ATTACKING = EntityDataManager.<Boolean>createKey(EntityGoat.class, DataSerializers.BOOLEAN);
-    public PlayerEntity friend = null;
-    public boolean hasBeenFed = false;
+    public UUID friend = null;
     private static final Set<Item> TEMPT_ITEMS = Sets.newHashSet(Items.WHEAT, Items.POTATO, Items.CARROT, Items.BEETROOT);
     public static boolean VANILLA_MILK = false;
 
@@ -177,8 +177,7 @@ public class EntityGoat extends EntityAnimalEatsGrassWithTypes {
             }
             return true;
         } else if(this.isBreedingItem(stack) && !this.isChild()) {
-            this.hasBeenFed = true;
-            this.friend = player;
+            this.friend = player.getGameProfile().getId();
         }
         return super.processInteract(player, hand);
     }
@@ -199,12 +198,16 @@ public class EntityGoat extends EntityAnimalEatsGrassWithTypes {
     public void writeAdditional(CompoundNBT compound) {
         super.writeAdditional(compound);
         compound.putBoolean("AttackSync", this.isAttackingFromServer());
+        if(friend != null) {
+            compound.putUniqueId("Friend", friend);
+        }
     }
 
     @Override
     public void readAdditional(CompoundNBT compound) {
         super.readAdditional(compound);
         this.setAttackingOnClient(compound.getBoolean("AttackSync"));
+        this.friend = compound.getUniqueId("Friend");
     }
 
     public static class GoatAIAttackForFriend extends Goal {
@@ -217,14 +220,19 @@ public class EntityGoat extends EntityAnimalEatsGrassWithTypes {
 
         @Override
         public boolean shouldExecute() {
-            return this.goat.hasBeenFed && this.goat.friend != null && this.goat.friend.getAttackingEntity() != null;
+            if(this.goat.friend == null) {
+                return false;
+            }
+            PlayerEntity p = goat.world.getPlayerByUuid(goat.friend);
+            return p != null && p.getAttackingEntity() != null;
         }
 
         @Override
         public void startExecuting() {
-            this.goat.setAttackTarget(this.goat.friend.getAttackingEntity());
-            if(this.goat.friend instanceof ServerPlayerEntity) {
-                ModTriggers.GOAT_FIGHT_FRIEND.trigger((ServerPlayerEntity) this.goat.friend);
+            PlayerEntity p = goat.world.getPlayerByUuid(goat.friend);
+            this.goat.setAttackTarget(p.getAttackingEntity());
+            if(p instanceof ServerPlayerEntity) {
+                ModTriggers.GOAT_FIGHT_FRIEND.trigger((ServerPlayerEntity) p);
             }
         }
 
