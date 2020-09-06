@@ -76,6 +76,16 @@ public class OceanBiomeHelper {
         return OceanBiomeHelper.removeIf(biome -> (!OceanBiomeHelper.isWarmOcean(biome) && !OceanBiomeHelper.isLukewarmOcean(biome)) || OceanBiomeHelper.isDeepOcean(biome));
     }
 
+    public static Biome[] returnIf(Predicate<? super Biome> filter) {
+        Set<Biome> oceans = new HashSet<>();
+        for(Biome b : BiomeDictionary.getBiomes(Type.OCEAN)) {
+            if(filter.test(b)) {
+                oceans.add(b);
+            }
+        }
+        return oceans.toArray(new Biome[0]);
+    }
+
     public static Biome[] removeIf(Predicate<? super Biome> filter) {
         Set<Biome> oceans = new HashSet<>(BiomeDictionary.getBiomes(Type.OCEAN));
         oceans.removeIf(filter);

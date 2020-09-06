@@ -47,6 +47,7 @@ import its_meow.betteranimalsplus.common.entity.EntityLammergeier;
 import its_meow.betteranimalsplus.common.entity.EntityLamprey;
 import its_meow.betteranimalsplus.common.entity.EntityMoose;
 import its_meow.betteranimalsplus.common.entity.EntityNautilus;
+import its_meow.betteranimalsplus.common.entity.EntityOctopus;
 import its_meow.betteranimalsplus.common.entity.EntityPheasant;
 import its_meow.betteranimalsplus.common.entity.EntityPiranha;
 import its_meow.betteranimalsplus.common.entity.EntityReindeer;
@@ -252,6 +253,14 @@ public class ModEntities {
     .despawn()
     .biomes(Type.JUNGLE)
     .containers(ItemModFishBucket.waterBucket(), c -> Items.BUCKET));
+    public static final EntityTypeContainerBAP<EntityOctopus> OCTOPUS = setup(create(EntityOctopus.class, EntityOctopus::new, "octopus")
+    .spawn(EntityClassification.WATER_CREATURE, 8, 1, 3)
+    .waterPlacement()
+    .egg(0xE09226, 0xA23420)
+    .size(1F, 1F)
+    .despawn()
+    .variants("east_pacific_red", "common", "giant_pacific", "blue_ringed")
+    .biomes(() -> OceanBiomeHelper.returnIf(biome -> OceanBiomeHelper.isWarmOcean(biome) || OceanBiomeHelper.isLukewarmOcean(biome))));
 
     /*
      * ##########################################################

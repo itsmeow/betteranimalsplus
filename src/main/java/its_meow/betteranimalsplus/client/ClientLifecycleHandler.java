@@ -31,6 +31,7 @@ import its_meow.betteranimalsplus.client.model.ModelLammergeier;
 import its_meow.betteranimalsplus.client.model.ModelLamprey;
 import its_meow.betteranimalsplus.client.model.ModelMoose;
 import its_meow.betteranimalsplus.client.model.ModelNautilus;
+import its_meow.betteranimalsplus.client.model.ModelOctopus;
 import its_meow.betteranimalsplus.client.model.ModelPheasant;
 import its_meow.betteranimalsplus.client.model.ModelPiranha;
 import its_meow.betteranimalsplus.client.model.ModelReindeer;
@@ -83,6 +84,7 @@ import its_meow.betteranimalsplus.common.entity.EntityLammergeier;
 import its_meow.betteranimalsplus.common.entity.EntityLamprey;
 import its_meow.betteranimalsplus.common.entity.EntityMoose;
 import its_meow.betteranimalsplus.common.entity.EntityNautilus;
+import its_meow.betteranimalsplus.common.entity.EntityOctopus;
 import its_meow.betteranimalsplus.common.entity.EntityPheasant;
 import its_meow.betteranimalsplus.common.entity.EntityPiranha;
 import its_meow.betteranimalsplus.common.entity.EntityReindeer;
@@ -290,6 +292,17 @@ public class ClientLifecycleHandler {
             GlStateManager.translatef(0.0F, -1.2F, 0.0F);
         }));
         R.addRender(EntityPiranha.class, 0.4F, r -> r.tSingle("piranha").mSingle(new ModelPiranha<>()).simpleScale(e -> 0.3F));
+        R.addRender(EntityOctopus.class, 1F, r -> r.tVariant().mSingle(new ModelOctopus<>()).handleRotation((e, p) -> MathHelper.lerp(p, e.lastTentacleAngle, e.tentacleAngle)).applyRotations((e, a, y, p) -> {
+            // GlStateManager.translatef(0.0F, 0.5F, 0.0F);
+            GlStateManager.rotatef(180.0F - y, 0.0F, 1.0F, 0.0F);
+            if(e.isInWaterOrBubbleColumn() && (!e.isAboveBlock() || e.getMotion().length() > 0.01)) {
+                float f = MathHelper.lerp(p, e.prevSquidPitch, e.squidPitch);
+                float f1 = MathHelper.lerp(p, e.prevSquidYaw, e.squidYaw);
+                GlStateManager.rotatef(f, 1.0F, 0.0F, 0.0F);
+                GlStateManager.rotatef(f1, 0.0F, 1.0F, 0.0F);
+            }
+            // GlStateManager.translatef(0.0F, -1.2F, 0.0F);
+        }));
         RenderFactory.addRender(EntityBadgerDirt.class, RenderFactory.nothing());
         BetterAnimalsPlusMod.logger.info("Rendering squirrel physics...");
     }
