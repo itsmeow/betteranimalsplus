@@ -94,8 +94,8 @@ public class ModEntities {
      * ##########################################################
      */
 
-    public static final EntityTypeContainerBAP<EntityBear> BROWN_BEAR = setup(create(EntityBear.class, EntityBear::new, "brownbear").spawn(EntityClassification.CREATURE, 7, 1, 1).egg(0x4F2900, 0x8E500E).size(2F, 2F).biomes(Type.FOREST).head().singleton("1", "bear_brown").setModel(() -> ModelBearHead::new).done());
-    public static final EntityTypeContainerBAP<EntityBearNeutral> BLACK_BEAR = setup(create(EntityBearNeutral.class, EntityBearNeutral::new, "blackbear").spawn(EntityClassification.CREATURE, 6, 1, 1).egg(0x000000, 0x333333).size(2F, 1.5F).biomes(Type.FOREST).variants("black", "kermode").head().mapToNames().setModel(() -> ModelBearHead::new).done());
+    public static final EntityTypeContainerBAP<EntityBear> BROWN_BEAR = setup(create(EntityBear.class, EntityBear::new, "brownbear").spawn(EntityClassification.CREATURE, 7, 1, 5).egg(0x4F2900, 0x8E500E).size(2F, 2F).biomes(Type.FOREST).head().singleton("1", "bear_brown").setModel(() -> ModelBearHead::new).done());
+    public static final EntityTypeContainerBAP<EntityBearNeutral> BLACK_BEAR = setup(create(EntityBearNeutral.class, EntityBearNeutral::new, "blackbear").spawn(EntityClassification.CREATURE, 6, 1, 5).egg(0x000000, 0x333333).size(2F, 1.5F).biomes(Type.FOREST).variants("black", "kermode").head().mapToNames().setModel(() -> ModelBearHead::new).done());
     public static final EntityTypeContainerBAP<EntityDeer> DEER = setup(create(EntityDeer.class, EntityDeer::new, "deer").spawn(EntityClassification.CREATURE, 16, 1, 4).egg(0x8e510b, 0xc6863b).size(1.2F, 1.6F).biomes(Type.FOREST, Type.MAGICAL).variants(
     new EntityDeer.EntityDeerVariant("1"),
     new EntityDeer.EntityDeerVariant("2"),

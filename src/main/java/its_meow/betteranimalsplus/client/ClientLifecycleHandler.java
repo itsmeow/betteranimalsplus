@@ -108,6 +108,7 @@ import its_meow.betteranimalsplus.common.tileentity.TileEntityHandOfFate;
 import its_meow.betteranimalsplus.common.tileentity.TileEntityHead;
 import its_meow.betteranimalsplus.common.tileentity.TileEntityTrillium;
 import its_meow.betteranimalsplus.init.ModResources;
+import net.minecraft.entity.AgeableEntity;
 import net.minecraft.entity.Pose;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
@@ -123,8 +124,8 @@ public class ClientLifecycleHandler {
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityHandOfFate.class, new RenderBlockHandOfFate());
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityHead.class, new RenderGenericHead());
 
-        R.addRender(EntityBear.class, 1F, r -> r.tSingle("bear_brown").mSingle(new ModelBear<>()).preRender((e, f) -> GlStateManager.scalef(1.3F, 1.3F, 1.3F)));
-        R.addRender(EntityBearNeutral.class, 1F, r -> r.tVariant().mSingle(new ModelBear<>()));
+        R.addRender(EntityBear.class, 1F, r -> r.tSingle("bear_brown").mSingle(new ModelBear<>()).childDualScale(AgeableEntity::isChild, 0.65F, 1.3F));
+        R.addRender(EntityBearNeutral.class, 1F, r -> r.tVariant().mSingle(new ModelBear<>()).childScale(0.5F));
         R.addRender(EntityDeer.class, 1F, r -> r.tBabyVariant("deer_baby").mSingle(new ModelDeer<>()).childScale(0.6F));
         R.addRender(EntityLammergeier.class, 0.3F, r -> r.tVariant().mSingle(new ModelLammergeier<>()));
         R.addRender(EntityFeralWolf.class, 0.5F, r -> r.tVariant().mSingle(new ModelFeralWolf<>()).handleRotation((e, p) -> e.getTailRotation()).preRender((e, p) -> {

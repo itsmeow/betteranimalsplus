@@ -1,14 +1,15 @@
 package its_meow.betteranimalsplus.client.model;
 
+import its_meow.betteranimalsplus.common.entity.EntityBear;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.model.RendererModel;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.util.math.MathHelper;
 
 /**
  * bear - cybercat5555 Created using Tabula 5.1.0
  */
-public class ModelBear<T extends LivingEntity> extends ModelBetterAnimals<T> {
+public class ModelBear<T extends EntityBear> extends ModelBetterAnimals<T> {
 
     public RendererModel hind;
     public RendererModel lLeg01;
@@ -379,22 +380,35 @@ public class ModelBear<T extends LivingEntity> extends ModelBetterAnimals<T> {
     }
 
     @Override
-    public void setRotationAngles(T entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw,
-            float headPitch, float scaleFactor) {
-        float f = limbSwing;
-        float f1 = limbSwingAmount;
+    public void setRotationAngles(T entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor) {
 
-        this.lArm01.rotateAngleX = MathHelper.cos(f * 0.6662F) * 1.4F * f1 + 0.18203784098300857F;
-        this.rArm01.rotateAngleX = MathHelper.cos(f * 0.6662F + (float) Math.PI) * 1.4F * f1 + 0.18203784098300857F;
-        this.rLeg01.rotateAngleX = MathHelper.cos(f * 0.6662F) * 1.4F * f1 - 0.136659280431156F;
-        this.lLeg01.rotateAngleX = MathHelper.cos(f * 0.6662F + (float) Math.PI) * 1.4F * f1 - 0.136659280431156F;
+        this.lArm01.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount + 0.18203784098300857F;
+        this.rArm01.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F + (float) Math.PI) * 1.4F * limbSwingAmount + 0.18203784098300857F;
+        this.rLeg01.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount - 0.136659280431156F;
+        this.lLeg01.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F + (float) Math.PI) * 1.4F * limbSwingAmount - 0.136659280431156F;
 
-        if (entityIn instanceof MobEntity) {
+        if (entityIn instanceof MobEntity && !Minecraft.getInstance().isGamePaused()) {
             this.neck.rotateAngleX = ModelBetterAnimals.getHeadPitch((MobEntity) entityIn) * 0.017453292F;
             this.neck.rotateAngleY = ModelBetterAnimals.getHeadYaw((MobEntity) entityIn) * 0.017453292F;
         }
 
-        super.setRotationAngles(entityIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor);
+        float f = ageInTicks - (float)entityIn.ticksExisted;
+        float f1 = entityIn.getStandingAnimationScale(f);
+        if(f1 != 0) {
+            float off = (float) Math.PI / 3F;
+            this.hind.rotateAngleX = -off;
+            this.hind.rotationPointY = 3F;
+            this.lLeg01.rotateAngleX = off - 0.136659280431156F;
+            this.rLeg01.rotateAngleX = off - 0.136659280431156F;
+            this.lArm01.rotateAngleX = MathHelper.sin(ageInTicks * 0.5F) * 0.9F + 0.18203784098300857F;
+            this.rArm01.rotateAngleX = -MathHelper.sin(ageInTicks * 0.5F) * 0.9F + 0.18203784098300857F;
+            if(!Minecraft.getInstance().isGamePaused()) {
+                this.neck.rotateAngleX += off;
+            }
+        } else {
+            this.hind.rotateAngleX = 0F;
+            this.hind.rotationPointY = 7.7F;
+        }
     }
 
     /**
