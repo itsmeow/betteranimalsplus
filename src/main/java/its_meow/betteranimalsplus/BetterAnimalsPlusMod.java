@@ -51,7 +51,6 @@ import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.feature.NoFeatureConfig;
 import net.minecraft.world.gen.placement.IPlacementConfig;
 import net.minecraft.world.gen.placement.Placement;
-import net.minecraftforge.client.model.generators.ItemModelProvider;
 import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.event.entity.player.PlayerEvent.PlayerLoggedInEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -170,10 +169,7 @@ public class BetterAnimalsPlusMod {
     }
 
     private void dataSetup(final GatherDataEvent event) {
-        for(EntityTypeContainer<?> container : ModEntities.getEntities().values()) {
-            ItemModelProvider p = container.egg.getDataProvider(event);
-            event.getGenerator().addProvider(p);
-        }
+        ModEntities.H.gatherData(event.getGenerator(), event.getExistingFileHelper());
     }
 
 	@SubscribeEvent
