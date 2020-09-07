@@ -1,0 +1,12 @@
+{
+	"type": "minecraft:crafting_shapeless",
+	"ingredients": [
+	    {
+	        "item": "betteranimalsplus:antler"
+	    }
+	],
+	"result": {
+	    "item": "minecraft:bone_meal",
+		"count": 3
+	}
+}
