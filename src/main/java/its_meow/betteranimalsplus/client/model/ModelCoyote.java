@@ -246,9 +246,9 @@ public class ModelCoyote<T extends LivingEntity> extends ModelBetterAnimals<T> {
             float headPitch, float scaleFactor) {
         float swingModifier = 0.9f;
         float newLimbSwing = limbSwing + ModelBetterAnimals.getSwingProgressPrev(entity);
-        this.lHindLeg01.rotateAngleX = MathHelper.sin(newLimbSwing * 0.8665F + (float) Math.PI) * swingModifier * limbSwingAmount - 0.22759093446006054F;
+        this.lHindLeg01.rotateAngleX = MathHelper.cos(newLimbSwing * 0.8665F + (float) Math.PI) * swingModifier * limbSwingAmount - 0.22759093446006054F;
         this.rHindLeg01.rotateAngleX = MathHelper.cos(newLimbSwing * 0.8665F) * swingModifier * limbSwingAmount  - 0.22759093446006054F;
-        this.lArm01.rotateAngleX = MathHelper.sin(newLimbSwing * 0.8665F) * swingModifier * limbSwingAmount + 0.22759093446006054F;
+        this.lArm01.rotateAngleX = MathHelper.cos(newLimbSwing * 0.8665F) * swingModifier * limbSwingAmount + 0.22759093446006054F;
         this.rArm01.rotateAngleX = MathHelper.cos(newLimbSwing * 0.8665F + (float) Math.PI) * swingModifier * limbSwingAmount + 0.22759093446006054F;
         this.neck.rotateAngleX = -0.6F;
 
