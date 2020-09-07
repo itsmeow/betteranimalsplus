@@ -11,6 +11,7 @@ import java.util.function.Predicate;
 import dev.itsmeow.imdlib.entity.util.IVariant;
 import its_meow.betteranimalsplus.common.entity.ai.WaterfowlNavigator;
 import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainerBAP;
+import its_meow.betteranimalsplus.common.entity.util.EntityUtil;
 import its_meow.betteranimalsplus.common.entity.util.abstracts.EntityAnimalWithTypes;
 import its_meow.betteranimalsplus.init.ModEntities;
 import its_meow.betteranimalsplus.init.ModItems;
@@ -358,6 +359,7 @@ public class EntityGoose extends EntityAnimalWithTypes {
 
     @Override
     public ILivingEntityData onInitialSpawn(IWorld world, DifficultyInstance difficulty, SpawnReason reason, ILivingEntityData livingdata, CompoundNBT compound) {
+        EntityUtil.childChance(this, reason, livingdata, 0.25F);
         // getRandomType() should really pass in some more information...
         String[] types;
         switch (reason) {

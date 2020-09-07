@@ -7,6 +7,7 @@ import com.google.common.base.Predicates;
 import com.google.common.collect.Sets;
 
 import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainerBAP;
+import its_meow.betteranimalsplus.common.entity.util.EntityUtil;
 import its_meow.betteranimalsplus.common.entity.util.abstracts.EntityAnimalWithSelectiveTypes;
 import its_meow.betteranimalsplus.init.ModEntities;
 import its_meow.betteranimalsplus.init.ModLootTables;
@@ -15,6 +16,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.LeavesBlock;
 import net.minecraft.block.LogBlock;
+import net.minecraft.entity.ILivingEntityData;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.SpawnReason;
@@ -31,6 +33,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.pathfinding.FlyingPathNavigator;
 import net.minecraft.pathfinding.PathNavigator;
 import net.minecraft.util.Hand;
@@ -39,6 +42,7 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
@@ -171,14 +175,20 @@ public class EntitySongbird extends EntityAnimalWithSelectiveTypes implements IF
     @Override
     public String[] getTypesFor(Biome biome, Set<BiomeDictionary.Type> types) {
         if(types.contains(Type.FOREST) && !types.contains(Type.CONIFEROUS)) {
-            return new String[] {"2", "small_2", "small_3", "small_4"};
+            return new String[] { "2", "small_2", "small_3", "small_4" };
         } else if(types.contains(Type.CONIFEROUS) && !types.contains(Type.SNOWY)) {
-            return new String[] {"1", "small_5", "small_6"};
+            return new String[] { "1", "small_5", "small_6" };
         } else if(types.contains(Type.CONIFEROUS) && types.contains(Type.SNOWY)) {
-            return new String[] {"3", "4", "small_1"};
+            return new String[] { "3", "4", "small_1" };
         } else {
-            return new String[] {"1", "2", "3", "4", "small_1", "small_2", "small_3", "small_4", "small_5", "small_6"};
+            return new String[] { "1", "2", "3", "4", "small_1", "small_2", "small_3", "small_4", "small_5", "small_6" };
         }
+    }
+
+    @Override
+    public ILivingEntityData onInitialSpawn(IWorld world, DifficultyInstance difficulty, SpawnReason reason, ILivingEntityData livingdata, CompoundNBT compound) {
+        EntityUtil.childChance(this, reason, livingdata, 0.25F);
+        return super.onInitialSpawn(world, difficulty, reason, livingdata, compound);
     }
 
     @Override

@@ -1,12 +1,18 @@
 package its_meow.betteranimalsplus.common.entity;
 
 import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainerBAP;
+import its_meow.betteranimalsplus.common.entity.util.EntityUtil;
 import its_meow.betteranimalsplus.common.entity.util.abstracts.EntityCrabLikeBase;
 import its_meow.betteranimalsplus.init.ModEntities;
+import net.minecraft.entity.ILivingEntityData;
+import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.goal.AvoidEntityGoal;
 import net.minecraft.entity.ai.goal.RandomWalkingGoal;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.DifficultyInstance;
+import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 
 public class EntityHorseshoeCrab extends EntityCrabLikeBase {
@@ -25,7 +31,13 @@ public class EntityHorseshoeCrab extends EntityCrabLikeBase {
     protected EntityHorseshoeCrab getBaseChild() {
         return new EntityHorseshoeCrab(world);
     }
-    
+
+    @Override
+    public ILivingEntityData onInitialSpawn(IWorld world, DifficultyInstance difficulty, SpawnReason reason, ILivingEntityData livingdata, CompoundNBT compound) {
+        EntityUtil.childChance(this, reason, livingdata, 0.25F);
+        return super.onInitialSpawn(world, difficulty, reason, livingdata, compound);
+    }
+
     @Override
     protected ResourceLocation getLootTable() {
         return null;

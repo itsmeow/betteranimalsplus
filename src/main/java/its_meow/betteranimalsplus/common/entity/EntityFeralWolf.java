@@ -8,6 +8,7 @@ import dev.itsmeow.imdlib.entity.util.EntityVariant;
 import dev.itsmeow.imdlib.entity.util.IVariant;
 import its_meow.betteranimalsplus.Ref;
 import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainerBAPTameable;
+import its_meow.betteranimalsplus.common.entity.util.EntityUtil;
 import its_meow.betteranimalsplus.common.entity.util.IDropHead;
 import its_meow.betteranimalsplus.common.entity.util.abstracts.EntityTameableWithSelectiveTypes;
 import its_meow.betteranimalsplus.init.ModEntities;
@@ -461,11 +462,8 @@ public class EntityFeralWolf extends EntityTameableWithSelectiveTypes implements
 
     @Override
     public ILivingEntityData onInitialSpawn(IWorld world, DifficultyInstance difficulty, SpawnReason reason, ILivingEntityData livingdata, CompoundNBT compound) {
-        livingdata = super.onInitialSpawn(world, difficulty, reason, livingdata, compound);
-        if((reason == SpawnReason.NATURAL || reason == SpawnReason.CHUNK_GENERATION) && livingdata != null && this.getRNG().nextFloat() <= 0.25F) {
-            this.setGrowingAge(-24000);
-        }
-        return livingdata;
+        EntityUtil.childChance(this, reason, livingdata, 0.25F);
+        return super.onInitialSpawn(world, difficulty, reason, livingdata, compound);
     }
 
     @Override
