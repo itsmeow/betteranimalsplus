@@ -4,9 +4,11 @@ import com.google.common.base.Predicates;
 
 import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainerBAPTameable;
 import its_meow.betteranimalsplus.init.ModEntities;
+import net.minecraft.entity.AgeableEntity;
 import net.minecraft.entity.ILivingEntityData;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SpawnReason;
+import net.minecraft.entity.ai.goal.BreedGoal;
 import net.minecraft.entity.ai.goal.FollowOwnerGoal;
 import net.minecraft.entity.ai.goal.HurtByTargetGoal;
 import net.minecraft.entity.ai.goal.LeapAtTargetGoal;
@@ -31,7 +33,9 @@ import net.minecraft.entity.passive.SheepEntity;
 import net.minecraft.entity.passive.horse.AbstractHorseEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Food;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.SpawnEggItem;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
@@ -56,6 +60,7 @@ public class EntityCoyote extends EntityFeralWolf {
         this.aiSit = new SitGoal(this);
         this.goalSelector.addGoal(1, new SwimGoal(this));
         this.goalSelector.addGoal(2, this.aiSit);
+        this.goalSelector.addGoal(3, new BreedGoal(this, 1D));
         this.goalSelector.addGoal(4, new LeapAtTargetGoal(this, 0.4F));
         this.goalSelector.addGoal(5, new MeleeAttackGoal(this, 1.0D, true));
         this.goalSelector.addGoal(6, new FollowOwnerGoal(this, 1.0D, 10.0F, 2.0F));
@@ -177,8 +182,43 @@ public class EntityCoyote extends EntityFeralWolf {
                 return true;
             }
         }
+        if(this.isBreedingItem(itemstack)) {
+            if(this.getGrowingAge() == 0 && this.canBreed()) {
+                this.consumeItemFromStack(player, itemstack);
+                this.setInLove(player);
+                return true;
+            }
 
-        return false;
+            if(this.isChild()) {
+                this.consumeItemFromStack(player, itemstack);
+                this.ageUp((int) ((float) (-this.getGrowingAge() / 20) * 0.1F), true);
+                return true;
+            }
+        }
+
+        Item item = itemstack.getItem();
+        if(item instanceof SpawnEggItem && ((SpawnEggItem) item).hasType(itemstack.getTag(), this.getType())) {
+            if(!this.world.isRemote) {
+                AgeableEntity ageableentity = this.createChild(this);
+                if(ageableentity != null) {
+                    ageableentity.setGrowingAge(-24000);
+                    ageableentity.setLocationAndAngles(this.posX, this.posY, this.posZ, 0.0F, 0.0F);
+                    this.world.addEntity(ageableentity);
+                    if(itemstack.hasDisplayName()) {
+                        ageableentity.setCustomName(itemstack.getDisplayName());
+                    }
+
+                    this.onChildSpawnFromEgg(player, ageableentity);
+                    if(!player.abilities.isCreativeMode) {
+                        itemstack.shrink(1);
+                    }
+                }
+            }
+
+            return true;
+        } else {
+            return false;
+        }
     }
 
     @Override
@@ -212,4 +252,8 @@ public class EntityCoyote extends EntityFeralWolf {
         return null;
     }
 
+    @Override
+    protected EntityCoyote getBaseChild() {
+        return new EntityCoyote(this.world);
+    }
 }

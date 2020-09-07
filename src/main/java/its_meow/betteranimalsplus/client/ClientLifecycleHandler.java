@@ -133,11 +133,19 @@ public class ClientLifecycleHandler {
                 float f = e.getBrightness() * e.getShadingWhileWet(p);
                 GlStateManager.color3f(f, f, f);
             }
+            if(e.isChild()) {
+                float s = 0.5F;
+                GlStateManager.scalef(s, s, s);
+            }
         }).layer(t -> new LayerEyesCondition<>(t, ModResources.wolf_eyes, e -> !e.isTamed())));
         R.addRender(EntityCoyote.class, 0.5F, r -> r.tMapped(e -> e.isTamed() || (e.isDaytime() && !EntityCoyote.HOSTILE_DAYTIME) ? "coyote_neutral" : "coyote_hostile").mSingle(new ModelCoyote<>()).handleRotation((e, p) -> e.getTailRotation()).preRender((e, p) -> {
             if(e.isWolfWet()) {
                 float f = e.getBrightness() * e.getShadingWhileWet(p);
                 GlStateManager.color3f(f, f, f);
+            }
+            if(e.isChild()) {
+                float s = 0.5F;
+                GlStateManager.scalef(s, s, s);
             }
         }).layer(t -> new LayerEyesCondition<>(t, ModResources.coyote_eyes, e -> !e.isTamed() && !(e.isDaytime() && !EntityCoyote.HOSTILE_DAYTIME))));
         RenderingRegistry.registerEntityRenderingHandler(EntityTarantulaHair.class, RenderTarantulaHair::new);

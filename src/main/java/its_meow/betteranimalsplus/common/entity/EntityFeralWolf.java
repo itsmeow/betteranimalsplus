@@ -15,8 +15,11 @@ import its_meow.betteranimalsplus.init.ModItems;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.ILivingEntityData;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.SpawnReason;
+import net.minecraft.entity.ai.goal.BreedGoal;
 import net.minecraft.entity.ai.goal.FollowOwnerGoal;
 import net.minecraft.entity.ai.goal.HurtByTargetGoal;
 import net.minecraft.entity.ai.goal.LeapAtTargetGoal;
@@ -46,6 +49,7 @@ import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.Food;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
@@ -59,6 +63,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.Difficulty;
+import net.minecraft.world.DifficultyInstance;
+import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import net.minecraftforge.api.distmarker.Dist;
@@ -96,6 +102,7 @@ public class EntityFeralWolf extends EntityTameableWithSelectiveTypes implements
         this.aiSit = new SitGoal(this);
         this.goalSelector.addGoal(1, new SwimGoal(this));
         this.goalSelector.addGoal(2, this.aiSit);
+        this.goalSelector.addGoal(3, new BreedGoal(this, 1D));
         this.goalSelector.addGoal(4, new LeapAtTargetGoal(this, 0.4F));
         this.goalSelector.addGoal(5, new MeleeAttackGoal(this, 1.0D, true));
         this.goalSelector.addGoal(6, new FollowOwnerGoal(this, 1.0D, 10.0F, 2.0F));
@@ -362,8 +369,12 @@ public class EntityFeralWolf extends EntityTameableWithSelectiveTypes implements
                 }
             }
         }
-
         return super.processInteract(player, hand);
+    }
+
+    @Override
+    public boolean canBreed() {
+        return this.isTamed() && super.canBreed();
     }
 
     @Override
@@ -392,17 +403,12 @@ public class EntityFeralWolf extends EntityTameableWithSelectiveTypes implements
 
     @Override
     public boolean isBreedingItem(ItemStack stack) {
-        return stack.getItem().isFood() && stack.getItem().getFood().isMeat();
+        return stack.getItem() == ModItems.ANTLER;
     }
 
     @Override
     public int getMaxSpawnedInChunk() {
         return 8;
-    }
-
-    @Override
-    public boolean canMateWith(AnimalEntity otherAnimal) {
-        return false;
     }
 
     @Override
@@ -433,7 +439,7 @@ public class EntityFeralWolf extends EntityTameableWithSelectiveTypes implements
 
     @Override
     protected EntityFeralWolf getBaseChild() {
-        return null;
+        return new EntityFeralWolf(this.world);
     }
     
     @Override
@@ -451,6 +457,15 @@ public class EntityFeralWolf extends EntityTameableWithSelectiveTypes implements
         } else {
             return new String[] {"black", "snowy", "timber", "arctic", "brown", "red"};
         }
+    }
+
+    @Override
+    public ILivingEntityData onInitialSpawn(IWorld world, DifficultyInstance difficulty, SpawnReason reason, ILivingEntityData livingdata, CompoundNBT compound) {
+        livingdata = super.onInitialSpawn(world, difficulty, reason, livingdata, compound);
+        if((reason == SpawnReason.NATURAL || reason == SpawnReason.CHUNK_GENERATION) && livingdata != null && this.getRNG().nextFloat() <= 0.25F) {
+            this.setGrowingAge(-24000);
+        }
+        return livingdata;
     }
 
     @Override
