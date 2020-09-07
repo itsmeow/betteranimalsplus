@@ -55,6 +55,7 @@
     "item.betteranimalsplus.calamari_raw": "Raw Calamari",
     "item.betteranimalsplus.calamari_cooked": "Cooked Calamari",
     "item.betteranimalsplus.piranha_bucket": "Bucket of Piranha",
+    "item.betteranimalsplus.horseshoe_crab_blood": "Horseshoe Crab Blood",
 
     "block.betteranimalsplus.trillium": "Trillium",
     "block.betteranimalsplus.hirschgeistskull": "Hirschgeist Skull",
@@ -145,5 +146,6 @@
     "death.attack.betteranimalsplus.piranha": "%1$s was eaten to the bone by piranhas",
 
     "misc.betteranimalsplus.eggorder": "%s Spawn Egg",
-    "tooltip.betteranimalsplus.nectar": "Has Nectar"
+    "tooltip.betteranimalsplus.nectar": "Has Nectar",
+    "tooltip.betteranimalsplus.cures_wither": "Cures Wither"
 }
