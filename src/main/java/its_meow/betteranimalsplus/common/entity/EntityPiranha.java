@@ -84,6 +84,8 @@ public class EntityPiranha extends EntityWaterMobPathingBucketable {
                 }
                 if(!playerentity.isAlive()) {
                     SkeletonEntity skele = EntityType.SKELETON.create(playerentity.world);
+                    skele.setCustomName(playerentity.getName());
+                    skele.setCustomNameVisible(true);
                     skele.setPositionAndRotation(playerentity.posX, playerentity.posY, playerentity.posZ, playerentity.rotationYaw, playerentity.rotationPitch);
                     playerentity.world.addEntity(skele);
                 }
@@ -95,6 +97,10 @@ public class EntityPiranha extends EntityWaterMobPathingBucketable {
                 skele.enablePersistence();
                 skele.setHorseTamed(true);
                 skele.setGrowingAge(0);
+                if(entityIn.hasCustomName()) {
+                    skele.setCustomName(entityIn.getCustomName());
+                }
+                skele.setCustomNameVisible(entityIn.isCustomNameVisible());
                 entityIn.world.addEntity(skele);
             }
             this.applyEnchantments(this, entityIn);
