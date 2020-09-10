@@ -1,5 +1,7 @@
 package its_meow.betteranimalsplus.client.model;
 
+import com.mojang.blaze3d.platform.GlStateManager;
+
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.entity.model.RendererModel;
 import net.minecraft.entity.Entity;
@@ -134,7 +136,15 @@ public class ModelPiranha<T extends Entity> extends EntityModel<T> {
 
     @Override
     public void render(T entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
-        this.body.render(scale);
+        GlStateManager.pushMatrix();
+        {
+            if(!entityIn.isInWater()) {
+                GlStateManager.rotatef(90F, 0F, 0F, 1.0F);
+                GlStateManager.translatef(2F, -1F, 0F);
+            }
+            this.body.render(scale);
+        }
+        GlStateManager.popMatrix();
     }
 
     @Override

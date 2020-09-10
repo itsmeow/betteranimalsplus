@@ -22,6 +22,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EntityDamageSource;
+import net.minecraft.util.SoundEvent;
+import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.Difficulty;
@@ -99,6 +101,23 @@ public class EntityPiranha extends EntityWaterMobPathingBucketable {
         }
 
         return flag;
+    }
+
+    @Override
+    protected SoundEvent getSwimSound() {
+        return SoundEvents.ENTITY_FISH_SWIM;
+    }
+
+    @Override
+    public void livingTick() {
+        if(!this.isInWater() && this.onGround && this.collidedVertically) {
+            this.setMotion(this.getMotion().add((double) ((this.rand.nextFloat() * 2.0F - 1.0F) * 0.05F), (double) 0.4F, (double) ((this.rand.nextFloat() * 2.0F - 1.0F) * 0.05F)));
+            this.onGround = false;
+            this.isAirBorne = true;
+            this.playSound(SoundEvents.ENTITY_COD_FLOP, this.getSoundVolume(), this.getSoundPitch());
+        }
+
+        super.livingTick();
     }
 
     @Override
