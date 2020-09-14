@@ -132,7 +132,8 @@ public class BetterAnimalsPlusRegistrar {
         new ItemAdvancementIcon("advancement_icon_lamprey"),
         new ItemAdvancementIcon("advancement_icon_squirrel"),
         new ItemAdvancementIcon("advancement_icon_badger"),
-        new ItemAdvancementIcon("advancement_icon_succening")
+        new ItemAdvancementIcon("advancement_icon_succening"),
+        new ItemAdvancementIcon("advancement_icon_octopus")
         );
 
         // Eggs
@@ -153,10 +154,11 @@ public class BetterAnimalsPlusRegistrar {
      */
     @SubscribeEvent
     public static void registerTileEntities(final RegistryEvent.Register<TileEntityType<?>> event) {
-        final IForgeRegistry<TileEntityType<?>> reg = event.getRegistry();
-        registerTE(reg, ModTileEntities.TRILLIUM_TYPE);
-        registerTE(reg, ModTileEntities.HAND_OF_FATE_TYPE);
-        registerTE(reg, ModTileEntities.HEAD_TYPE);
+        event.getRegistry().registerAll(
+        ModTileEntities.TRILLIUM_TYPE,
+        ModTileEntities.HAND_OF_FATE_TYPE,
+        ModTileEntities.HEAD_TYPE
+        );
     }
 
     /*
@@ -172,9 +174,4 @@ public class BetterAnimalsPlusRegistrar {
             event.getRegistry().register(container.entityType);
         }
     }
-
-    private static void registerTE(IForgeRegistry<TileEntityType<?>> reg, TileEntityType<?> type) {
-        reg.register(type);
-    }
-
 }

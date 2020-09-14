@@ -8,6 +8,7 @@ import its_meow.betteranimalsplus.common.entity.EntityBear;
 import its_meow.betteranimalsplus.common.entity.EntityBoar;
 import its_meow.betteranimalsplus.common.entity.EntityCrab;
 import its_meow.betteranimalsplus.common.entity.EntityLamprey;
+import its_meow.betteranimalsplus.common.entity.EntityOctopus;
 import its_meow.betteranimalsplus.common.entity.EntitySquirrel;
 import its_meow.betteranimalsplus.init.ModItems;
 import its_meow.betteranimalsplus.init.ModLootTables;
@@ -78,6 +79,14 @@ public class CommonEventHandler {
                     if(ModTriggers.SQUIRREL_KILL_TRIGGERS.containsKey(1)) {
                         ModTriggers.SQUIRREL_KILL_TRIGGERS.get(1).trigger(player);
                     }
+                }
+            }
+        } else if(e.getSource().getTrueSource() instanceof EntityOctopus) {
+            EntityOctopus octo = (EntityOctopus) e.getSource().getTrueSource();
+            if(octo.friend != null) {
+                PlayerEntity p = octo.world.getPlayerByUuid(octo.friend);
+                if(p != null && p instanceof ServerPlayerEntity && p.getAttackingEntity() == e.getEntityLiving()) {
+                    ModTriggers.OCTOPUS_SAVE_PLAYER.trigger((ServerPlayerEntity) octo.world.getPlayerByUuid(octo.friend));
                 }
             }
         }
