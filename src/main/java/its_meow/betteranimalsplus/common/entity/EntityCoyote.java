@@ -251,6 +251,11 @@ public class EntityCoyote extends EntityFeralWolf {
     }
 
     @Override
+    public AgeableEntity createChild(AgeableEntity ageable) {
+        return this.getBaseChild();
+    }
+
+    @Override
     protected EntityCoyote getBaseChild() {
         return new EntityCoyote(this.world);
     }
