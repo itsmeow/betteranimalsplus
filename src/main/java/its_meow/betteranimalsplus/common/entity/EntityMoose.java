@@ -2,6 +2,7 @@ package its_meow.betteranimalsplus.common.entity;
 
 import dev.itsmeow.imdlib.entity.util.IVariant;
 import its_meow.betteranimalsplus.common.entity.ai.EntityAIEatGrassCustom;
+import its_meow.betteranimalsplus.common.entity.ai.PeacefulNearestAttackableTargetGoal;
 import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainerBAP;
 import its_meow.betteranimalsplus.common.entity.util.IDropHead;
 import its_meow.betteranimalsplus.common.entity.util.abstracts.EntityAnimalEatsGrassWithTypes;
@@ -18,7 +19,6 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.goal.HurtByTargetGoal;
 import net.minecraft.entity.ai.goal.MeleeAttackGoal;
-import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal;
 import net.minecraft.entity.ai.goal.RandomWalkingGoal;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.DamageSource;
@@ -27,6 +27,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.Difficulty;
 import net.minecraft.world.World;
 
 public class EntityMoose extends EntityAnimalEatsGrassWithTypes implements IDropHead {
@@ -41,8 +42,13 @@ public class EntityMoose extends EntityAnimalEatsGrassWithTypes implements IDrop
         super.registerGoals();
         this.goalSelector.addGoal(0, new RandomWalkingGoal(this, 0.65D));
         this.goalSelector.addGoal(1, new MeleeAttackGoal(this, 0.65D, false));
-        this.targetSelector.addGoal(0, new HurtByTargetGoal(this));
-        this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<PlayerEntity>(this, PlayerEntity.class, 75, true, true, e -> e.getDistance(this) < 15));
+        this.targetSelector.addGoal(0, new HurtByTargetGoal(this) {
+            @Override
+            public boolean shouldExecute() {
+                return EntityMoose.this.world.getDifficulty() != Difficulty.PEACEFUL && super.shouldExecute();
+            }
+        });
+        this.targetSelector.addGoal(1, new PeacefulNearestAttackableTargetGoal<PlayerEntity>(this, PlayerEntity.class, 75, true, true, e -> e.getDistance(this) < 15));
     }
 
     @Override
@@ -64,8 +70,6 @@ public class EntityMoose extends EntityAnimalEatsGrassWithTypes implements IDrop
     protected void collideWithNearbyEntities() {
         // prevent pushing
     }
-    
-    
 
     @SuppressWarnings("deprecation")
     @Override
@@ -107,7 +111,7 @@ public class EntityMoose extends EntityAnimalEatsGrassWithTypes implements IDrop
             return eater.getPosition().offset(facing).offset(facing);
         });
     }
-    
+
     @Override
     public boolean attackEntityAsMob(Entity entityIn) {
         Vec3d pos = this.getPositionVector();

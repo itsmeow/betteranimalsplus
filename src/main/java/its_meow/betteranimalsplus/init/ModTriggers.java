@@ -20,9 +20,11 @@ public class ModTriggers {
     public static final CustomTrigger BADGERDIRT_IMPACT = new CustomTrigger(Ref.MOD_ID + ":badgerdirt_impact");
     public static final Map<Integer, CustomTrigger> SQUIRREL_KILL_TRIGGERS = new HashMap<Integer, CustomTrigger>();
     public static final CustomTrigger USE_WALRUS_DISK = new CustomTrigger(Ref.MOD_ID + ":walrus_disk_used");
+    public static final CustomTrigger SQUID_TARGETED = new CustomTrigger(Ref.MOD_ID + ":squid_targeted");
+    public static final CustomTrigger OCTOPUS_SAVE_PLAYER = new CustomTrigger(Ref.MOD_ID + ":octopus_save_player");
 
     public static void register() {
-        registerTriggers(HAND_OF_FATE_SUMMON,PUNCH_BEAR, PUNCH_BEAR_DEATH, USE_CRAB_DISK, SHARK_TARGETED, RIDE_REINDEER, GOAT_FIGHT_FRIEND, NO_BAM, BADGERDIRT_IMPACT, USE_WALRUS_DISK);
+        registerTriggers(HAND_OF_FATE_SUMMON,PUNCH_BEAR, PUNCH_BEAR_DEATH, USE_CRAB_DISK, SHARK_TARGETED, RIDE_REINDEER, GOAT_FIGHT_FRIEND, NO_BAM, BADGERDIRT_IMPACT, USE_WALRUS_DISK, SQUID_TARGETED, OCTOPUS_SAVE_PLAYER);
         for(int i = 1; i <= 100; i++) {
             CustomTrigger trigger = new CustomTrigger(Ref.MOD_ID + ":squirrel_kill" + i);
             SQUIRREL_KILL_TRIGGERS.put(i, trigger);

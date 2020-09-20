@@ -2,14 +2,13 @@ package its_meow.betteranimalsplus.common.entity;
 
 import java.util.Set;
 
-import javax.annotation.Nullable;
-
 import com.google.common.base.Predicates;
 
 import dev.itsmeow.imdlib.entity.util.EntityVariant;
 import dev.itsmeow.imdlib.entity.util.IVariant;
 import its_meow.betteranimalsplus.Ref;
 import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainerBAPTameable;
+import its_meow.betteranimalsplus.common.entity.util.EntityUtil;
 import its_meow.betteranimalsplus.common.entity.util.IDropHead;
 import its_meow.betteranimalsplus.common.entity.util.abstracts.EntityTameableWithSelectiveTypes;
 import its_meow.betteranimalsplus.init.ModEntities;
@@ -17,8 +16,11 @@ import its_meow.betteranimalsplus.init.ModItems;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.ILivingEntityData;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.SpawnReason;
+import net.minecraft.entity.ai.goal.BreedGoal;
 import net.minecraft.entity.ai.goal.FollowOwnerGoal;
 import net.minecraft.entity.ai.goal.HurtByTargetGoal;
 import net.minecraft.entity.ai.goal.LeapAtTargetGoal;
@@ -48,6 +50,7 @@ import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.Food;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
@@ -59,8 +62,10 @@ import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.Difficulty;
+import net.minecraft.world.DifficultyInstance;
+import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import net.minecraftforge.api.distmarker.Dist;
@@ -71,21 +76,14 @@ import net.minecraftforge.common.BiomeDictionary.Type;
 
 public class EntityFeralWolf extends EntityTameableWithSelectiveTypes implements IMob, IDropHead {
 
-    protected static final DataParameter<Float> DATA_HEALTH_ID = EntityDataManager
-    .<Float>createKey(EntityFeralWolf.class, DataSerializers.FLOAT);
-    protected static final DataParameter<Integer> TYPE_NUMBER = EntityDataManager
-    .<Integer>createKey(EntityFeralWolf.class, DataSerializers.VARINT);
+    public static final double TAMED_HEALTH = 30D;
+    public static final double UNTAMED_HEALTH = 10D;
+    protected static final DataParameter<Float> DATA_HEALTH_ID = EntityDataManager.<Float>createKey(EntityFeralWolf.class, DataSerializers.FLOAT);
 
-    /** Float used to smooth the rotation of the wolf head */
     protected float headRotationCourse;
     protected float headRotationCourseOld;
-    /** true is the wolf is wet else false */
     protected boolean isWet;
-    /** True if the wolf is shaking else False */
     protected boolean isShaking;
-    /**
-     * This time increases while wolf is shaking and emitting water particles.
-     */
     protected float timeWolfIsShaking;
     protected float prevTimeWolfIsShaking;
 
@@ -93,13 +91,11 @@ public class EntityFeralWolf extends EntityTameableWithSelectiveTypes implements
 
     public EntityFeralWolf(World worldIn) {
         super(ModEntities.FERAL_WOLF.entityType, worldIn);
-        this.world = worldIn;
         this.setTamed(false);
     }
 
     public EntityFeralWolf(EntityType<? extends EntityFeralWolf> type, World worldIn) {
         super(type, worldIn);
-        this.world = worldIn;
     }
 
     @Override
@@ -107,6 +103,7 @@ public class EntityFeralWolf extends EntityTameableWithSelectiveTypes implements
         this.aiSit = new SitGoal(this);
         this.goalSelector.addGoal(1, new SwimGoal(this));
         this.goalSelector.addGoal(2, this.aiSit);
+        this.goalSelector.addGoal(3, new BreedGoal(this, 1D));
         this.goalSelector.addGoal(4, new LeapAtTargetGoal(this, 0.4F));
         this.goalSelector.addGoal(5, new MeleeAttackGoal(this, 1.0D, true));
         this.goalSelector.addGoal(6, new FollowOwnerGoal(this, 1.0D, 10.0F, 2.0F, false));
@@ -115,8 +112,8 @@ public class EntityFeralWolf extends EntityTameableWithSelectiveTypes implements
         this.targetSelector.addGoal(1, new OwnerHurtByTargetGoal(this));
         this.targetSelector.addGoal(2, new OwnerHurtTargetGoal(this));
         this.targetSelector.addGoal(3, new HurtByTargetGoal(this, new Class[0]));
-        this.targetSelector.addGoal(4, new NonTamedTargetGoal<PlayerEntity>(this, PlayerEntity.class, false, Predicates.alwaysTrue()));
-        this.targetSelector.addGoal(4, new NonTamedTargetGoal<AnimalEntity>(this, AnimalEntity.class, false, (@Nullable LivingEntity p_apply_1_) -> p_apply_1_ instanceof SheepEntity || p_apply_1_ instanceof RabbitEntity));
+        this.targetSelector.addGoal(4, new NonTamedTargetGoal<PlayerEntity>(this, PlayerEntity.class, false,  e -> e.world.getDifficulty() != Difficulty.PEACEFUL));
+        this.targetSelector.addGoal(4, new NonTamedTargetGoal<AnimalEntity>(this, AnimalEntity.class, false, e -> e instanceof SheepEntity || e instanceof RabbitEntity));
         this.targetSelector.addGoal(4, new NonTamedTargetGoal<VillagerEntity>(this, VillagerEntity.class, false, Predicates.alwaysTrue()));
         this.targetSelector.addGoal(4, new NonTamedTargetGoal<AbstractIllagerEntity>(this, AbstractIllagerEntity.class, false, Predicates.alwaysTrue()));
         this.targetSelector.addGoal(4, new NonTamedTargetGoal<ChickenEntity>(this, ChickenEntity.class, false, Predicates.alwaysTrue()));
@@ -131,8 +128,7 @@ public class EntityFeralWolf extends EntityTameableWithSelectiveTypes implements
     }
 
     public boolean isPreventingPlayerRest(PlayerEntity playerIn) {
-        return this.world.getDifficulty() != Difficulty.PEACEFUL && !this.isTamed()
-        && this.getAttackTarget() != null && playerIn.getDistanceSq(this) <= 50D;
+        return this.world.getDifficulty() != Difficulty.PEACEFUL && !this.isTamed() && this.getAttackTarget() != null && playerIn.getDistanceSq(this) <= 50D;
     }
 
     protected boolean isValidLightLevel() {
@@ -142,12 +138,12 @@ public class EntityFeralWolf extends EntityTameableWithSelectiveTypes implements
     @Override
     protected void registerAttributes() {
         super.registerAttributes();
-        this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.30000001192092896D);
+        this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.3D);
 
         if(this.isTamed()) {
-            this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(30.0D);
+            this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(TAMED_HEALTH);
         } else {
-            this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(10.0D);
+            this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(UNTAMED_HEALTH);
         }
 
         this.getAttributes().registerAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(5.0D);
@@ -194,11 +190,6 @@ public class EntityFeralWolf extends EntityTameableWithSelectiveTypes implements
         return 0.4F;
     }
 
-    /**
-     * Called frequently so the entity can update its state every tick as required.
-     * For example, zombies and skeletons use this to react to sunlight and start to
-     * burn.
-     */
     @Override
     public void livingTick() {
         super.livingTick();
@@ -211,9 +202,6 @@ public class EntityFeralWolf extends EntityTameableWithSelectiveTypes implements
         }
     }
 
-    /**
-     * Called to update the entity's position/logic.
-     */
     @Override
     public void tick() {
         super.tick();
@@ -255,21 +243,14 @@ public class EntityFeralWolf extends EntityTameableWithSelectiveTypes implements
         }
     }
 
-    /**
-     * True if the wolf is wet
-     */
     @OnlyIn(Dist.CLIENT)
     public boolean isWolfWet() {
         return this.isWet;
     }
 
-    /**
-     * Used when calculating the amount of shading to apply while the wolf is wet.
-     */
     @OnlyIn(Dist.CLIENT)
     public float getShadingWhileWet(float p_70915_1_) {
-        return 0.75F + (this.prevTimeWolfIsShaking + (this.timeWolfIsShaking - this.prevTimeWolfIsShaking) * p_70915_1_)
-        / 2.0F * 0.25F;
+        return 0.75F + (this.prevTimeWolfIsShaking + (this.timeWolfIsShaking - this.prevTimeWolfIsShaking) * p_70915_1_) / 2.0F * 0.25F;
     }
 
     @OnlyIn(Dist.CLIENT)
@@ -282,28 +263,19 @@ public class EntityFeralWolf extends EntityTameableWithSelectiveTypes implements
             f = 1.0F;
         }
 
-        return MathHelper.sin(f * (float) Math.PI) * MathHelper.sin(f * (float) Math.PI * 11.0F) * 0.15F
-        * (float) Math.PI;
+        return MathHelper.sin(f * (float) Math.PI) * MathHelper.sin(f * (float) Math.PI * 11.0F) * 0.15F * (float) Math.PI;
     }
 
     @OnlyIn(Dist.CLIENT)
     public float getInterestedAngle(float p_70917_1_) {
-        return (this.headRotationCourseOld + (this.headRotationCourse - this.headRotationCourseOld) * p_70917_1_)
-        * 0.15F * (float) Math.PI;
+        return (this.headRotationCourseOld + (this.headRotationCourse - this.headRotationCourseOld) * p_70917_1_) * 0.15F * (float) Math.PI;
     }
 
-    /**
-     * The speed it takes to move the entityliving's rotationPitch through the
-     * faceEntity method. This is only currently use in wolves.
-     */
     @Override
     public int getVerticalFaceSpeed() {
         return this.isSitting() ? 20 : super.getVerticalFaceSpeed();
     }
 
-    /**
-     * Called when the entity is attacked.
-     */
     @Override
     public boolean attackEntityFrom(DamageSource source, float amount) {
         if(this.isInvulnerableTo(source)) {
@@ -340,9 +312,9 @@ public class EntityFeralWolf extends EntityTameableWithSelectiveTypes implements
         super.setTamed(tamed);
 
         if(tamed) {
-            this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(30.0D);
+            this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(TAMED_HEALTH);
         } else {
-            this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(10.0D);
+            this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(UNTAMED_HEALTH);
         }
 
         this.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(5.0D);
@@ -351,49 +323,33 @@ public class EntityFeralWolf extends EntityTameableWithSelectiveTypes implements
     @Override
     public boolean processInteract(PlayerEntity player, Hand hand) {
         ItemStack itemstack = player.getHeldItem(hand);
-
         if(this.isTamed()) {
             if(!itemstack.isEmpty()) {
                 if(itemstack.getItem().isFood()) {
                     Food food = itemstack.getItem().getFood();
-
-                    if(food.isMeat() && this.dataManager.get(EntityFeralWolf.DATA_HEALTH_ID).floatValue() < 20.0F) {
+                    if(food.isMeat() && this.dataManager.get(EntityFeralWolf.DATA_HEALTH_ID).floatValue() < TAMED_HEALTH) {
                         if(!player.isCreative()) {
                             itemstack.shrink(1);
                         }
-
                         this.heal(food.getHealing());
                         return true;
                     }
                 }
             }
-
-            if(this.isOwner(player) && !this.world.isRemote && !this.isBreedingItem(itemstack)
-            && (!(itemstack.getItem().isFood()) || !(itemstack.getItem().getFood().isMeat()))) {
+            if(this.isOwner(player) && !this.world.isRemote && !this.isBreedingItem(itemstack) && (!(itemstack.getItem().isFood()) || !(itemstack.getItem().getFood().isMeat()))) {
                 this.aiSit.setSitting(!this.isSitting());
                 this.isJumping = false;
                 this.navigator.clearPath();
                 this.setAttackTarget((LivingEntity) null);
             }
         } else if(this.isTamingItem(itemstack.getItem())) {
-            boolean wearingPowerHead = false;
             ItemStack stack = player.getItemStackFromSlot(EquipmentSlotType.HEAD);
-            if(stack.getItem() == Items.DRAGON_HEAD) {
-                wearingPowerHead = true;
-            }
-            if(stack.getItem() == ModItems.HIRSCHGEIST_SKULL_WEARABLE) {
-                wearingPowerHead = true;
-            }
-
-            if(wearingPowerHead) { // player.isWearing(part))
-
+            if(stack.getItem() == ModItems.HIRSCHGEIST_SKULL_WEARABLE || stack.getItem() == Items.DRAGON_HEAD) {
                 if(!player.isCreative()) {
                     itemstack.shrink(1);
                 }
-
                 if(!this.world.isRemote) {
-                    if(this.rand.nextInt(100) <= 14
-                    && !net.minecraftforge.event.ForgeEventFactory.onAnimalTame(this, player)) {
+                    if(this.rand.nextInt(100) <= 14 && !net.minecraftforge.event.ForgeEventFactory.onAnimalTame(this, player)) {
                         this.setTamedBy(player);
                         this.navigator.clearPath();
                         this.setAttackTarget((LivingEntity) null);
@@ -408,17 +364,18 @@ public class EntityFeralWolf extends EntityTameableWithSelectiveTypes implements
                 return true;
             } else {
                 if(!this.world.isRemote) {
-                    player.sendMessage(new StringTextComponent("You cannot tame feral wolves without proving your prowess. Discover a mighty enemy, defeat it, and wear its head. Feral Wolves only bow to the protector of the forests."));
+                    player.sendMessage(new TranslationTextComponent("entity.betteranimalsplus.feralwolf.message.wear_head"));
                 }
             }
         }
-
         return super.processInteract(player, hand);
     }
 
-    /**
-     * Handler for {@link World#setEntityState}
-     */
+    @Override
+    public boolean canBreed() {
+        return this.isTamed() && super.canBreed();
+    }
+
     @Override
     @OnlyIn(Dist.CLIENT)
     public void handleStatusUpdate(byte id) {
@@ -445,17 +402,12 @@ public class EntityFeralWolf extends EntityTameableWithSelectiveTypes implements
 
     @Override
     public boolean isBreedingItem(ItemStack stack) {
-        return stack.getItem().isFood() && stack.getItem().getFood().isMeat();
+        return stack.getItem() == ModItems.ANTLER;
     }
 
     @Override
     public int getMaxSpawnedInChunk() {
         return 8;
-    }
-
-    @Override
-    public boolean canMateWith(AnimalEntity otherAnimal) {
-        return false;
     }
 
     @Override
@@ -469,8 +421,7 @@ public class EntityFeralWolf extends EntityTameableWithSelectiveTypes implements
                 }
             }
 
-            if(target instanceof PlayerEntity && owner instanceof PlayerEntity
-            && !((PlayerEntity) owner).canAttackPlayer((PlayerEntity) target)) {
+            if(target instanceof PlayerEntity && owner instanceof PlayerEntity && !((PlayerEntity) owner).canAttackPlayer((PlayerEntity) target)) {
                 return false;
             } else {
                 return !(target instanceof AbstractHorseEntity) || !((AbstractHorseEntity) target).isTame();
@@ -487,7 +438,7 @@ public class EntityFeralWolf extends EntityTameableWithSelectiveTypes implements
 
     @Override
     protected EntityFeralWolf getBaseChild() {
-        return null;
+        return new EntityFeralWolf(this.world);
     }
     
     @Override
@@ -505,6 +456,11 @@ public class EntityFeralWolf extends EntityTameableWithSelectiveTypes implements
         } else {
             return new String[] {"black", "snowy", "timber", "arctic", "brown", "red"};
         }
+    }
+
+    @Override
+    public ILivingEntityData onInitialSpawn(IWorld world, DifficultyInstance difficulty, SpawnReason reason, ILivingEntityData livingdata, CompoundNBT compound) {
+        return EntityUtil.childChance(this, reason, super.onInitialSpawn(world, difficulty, reason, livingdata, compound), 0.25F);
     }
 
     @Override

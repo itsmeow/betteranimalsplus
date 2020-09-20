@@ -771,18 +771,18 @@ public class EntityReindeer extends AnimalEntity implements IJumpingMount, IVari
     }
 
     @Override
-    public boolean writeUnlessRemoved(CompoundNBT compound) {
+    public void writeAdditional(CompoundNBT compound) {
+        super.writeAdditional(compound);
         compound.putBoolean("EatingHaystack", this.isEatingHaystack());
         compound.putBoolean("Bred", this.isBreeding());
 
         this.writeType(compound);
         compound.putBoolean("IsParentRudolph", this.parentRudolph);
-        return super.writeUnlessRemoved(compound);
     }
 
     @Override
-    public void read(CompoundNBT compound) {
-        super.read(compound);
+    public void readAdditional(CompoundNBT compound) {
+        super.readAdditional(compound);
         this.setEatingHaystack(compound.getBoolean("EatingHaystack"));
         this.setBreeding(compound.getBoolean("Bred"));
 

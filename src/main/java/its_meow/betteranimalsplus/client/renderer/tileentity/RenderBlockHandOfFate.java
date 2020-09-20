@@ -6,7 +6,7 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 
 import its_meow.betteranimalsplus.client.model.ModelHandOfFate;
 import its_meow.betteranimalsplus.common.tileentity.TileEntityHandOfFate;
-import its_meow.betteranimalsplus.init.ModTextures;
+import its_meow.betteranimalsplus.init.ModResources;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.Vector3f;
@@ -38,7 +38,7 @@ public class RenderBlockHandOfFate extends TileEntityRenderer<TileEntityHandOfFa
             rotate = tileentity.getRotation();
         }
         this.mainModel.setRotationAngles(null, 0, 0, 0, rotate, 0);
-        this.mainModel.render(matrixStackIn, bufferIn.getBuffer(RenderType.getEntitySolid(ModTextures.handoffate)), combinedLightIn, combinedOverlayIn, 1F, 1F, 1F, 1F);
+        this.mainModel.render(matrixStackIn, bufferIn.getBuffer(RenderType.getEntitySolid(ModResources.handoffate)), combinedLightIn, combinedOverlayIn, 1F, 1F, 1F, 1F);
         if (tileentity.isOnFire() && this.i % 5 == 0) {
             tileentity.getWorld().addParticle(ParticleTypes.FLAME,
                     tileentity.getPos().getX() + (this.rand.nextFloat() + 0.5F) / 2,

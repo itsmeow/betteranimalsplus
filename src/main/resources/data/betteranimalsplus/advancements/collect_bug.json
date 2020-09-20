@@ -1,0 +1,58 @@
+{
+	"display": {
+		"title": {
+			"text": "Bug Collector",
+			"color": "green",
+			"bold": false
+		},
+		"description": [
+			{
+				"text": "Collect a bottled butterfly and a bottled dragonfly\n",
+				"color": "gray"
+			},
+			{
+				"text": "Gotta catch 'em all!",
+				"italic": true,
+				"color": "white"
+			}
+		],
+		"icon": {
+			"item": "betteranimalsplus:bottled_butterfly"
+		},
+		"frame": "task",
+		"show_toast": true,
+		"announce_to_chat": true,
+		"hidden": false
+	},
+	"criteria": {
+		"butterfly": {
+			"trigger": "minecraft:inventory_changed",
+			"conditions": {
+				"items": [
+					{
+						"item": "betteranimalsplus:bottled_butterfly"
+					}
+				]
+			}
+		},
+		"dragonfly": {
+			"trigger": "minecraft:inventory_changed",
+			"conditions": {
+				"items": [
+					{
+						"item": "betteranimalsplus:bottled_dragonfly"
+					}
+				]
+			}
+		}
+	},
+	"requirements": [
+		[
+			"butterfly"
+		],
+		[
+			"dragonfly"
+		]
+	],
+	"parent": "betteranimalsplus:root"
+}

@@ -15,6 +15,7 @@ import its_meow.betteranimalsplus.common.item.ItemBearCape;
 import its_meow.betteranimalsplus.common.item.ItemBetterFood;
 import its_meow.betteranimalsplus.common.item.ItemBlockSimple;
 import its_meow.betteranimalsplus.common.item.ItemHirschgeistSkullWearable;
+import its_meow.betteranimalsplus.common.item.ItemHorseshoeCrabBlood;
 import its_meow.betteranimalsplus.common.item.ItemNamedSimple;
 import its_meow.betteranimalsplus.common.item.ItemThrowableCustomEgg;
 import its_meow.betteranimalsplus.common.item.ItemWolfCape;
@@ -107,6 +108,11 @@ public class ModItems {
     public static final ItemBetterFood EEL_MEAT_COOKED = new ItemBetterFood("eel_meat_cooked", 4, 0.7F, 32, true);
     
     public static final ItemBetterFood FRIED_EGG = new ItemBetterFood("fried_egg", 5, 1.5F, 16, true);
+
+    public static final ItemBetterFood CALAMARI_RAW = new ItemBetterFood("calamari_raw", 2, 0.25F, 32, true);
+    public static final ItemBetterFood CALAMARI_COOKED = new ItemBetterFood("calamari_cooked", 7, 0.65F, 32, true);
+
+    public static final ItemHorseshoeCrabBlood HORSESHOE_CRAB_BLOOD = new ItemHorseshoeCrabBlood();
     
     public static Map<String, ItemAdvancementIcon> ADVANCEMENT_ICONS = new HashMap<String, ItemAdvancementIcon>();
     

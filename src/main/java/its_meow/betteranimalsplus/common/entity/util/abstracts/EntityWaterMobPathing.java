@@ -4,6 +4,7 @@ import dev.itsmeow.imdlib.entity.util.IContainerEntity;
 import its_meow.betteranimalsplus.common.entity.ai.WaterMoveHelper;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.MoverType;
+import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.passive.WaterMobEntity;
 import net.minecraft.pathfinding.PathNavigator;
 import net.minecraft.pathfinding.SwimmerPathNavigator;
@@ -25,7 +26,7 @@ public abstract class EntityWaterMobPathing extends WaterMobEntity implements IC
     @Override
     public void travel(Vec3d p_213352_1_) {
         if(this.isServerWorld() && this.isInWater()) {
-            this.moveRelative(0.01F, p_213352_1_);
+            this.moveRelative(0.01F * (float) this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).getValue(), p_213352_1_);
             this.move(MoverType.SELF, this.getMotion());
             this.setMotion(this.getMotion().scale(0.9D));
             if(this.getAttackTarget() == null) {

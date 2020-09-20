@@ -1,19 +1,26 @@
 package its_meow.betteranimalsplus.common.entity;
 
 import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainerBAP;
+import its_meow.betteranimalsplus.common.entity.util.EntityUtil;
 import its_meow.betteranimalsplus.common.entity.util.abstracts.EntityCrabLikeBase;
 import its_meow.betteranimalsplus.init.ModEntities;
+import net.minecraft.entity.ILivingEntityData;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
+import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.goal.AvoidEntityGoal;
 import net.minecraft.entity.ai.goal.HurtByTargetGoal;
 import net.minecraft.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.entity.ai.goal.RandomWalkingGoal;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.pathfinding.PathNodeType;
+import net.minecraft.world.Difficulty;
+import net.minecraft.world.DifficultyInstance;
+import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 
 public class EntityCrab extends EntityCrabLikeBase {
@@ -31,12 +38,12 @@ public class EntityCrab extends EntityCrabLikeBase {
         this.goalSelector.addGoal(0, new MeleeAttackGoal(this, 0.9D, true) {
             @Override
             public boolean shouldExecute() {
-                return super.shouldExecute() && this.attacker.getHealth() > this.attacker.getMaxHealth() / 2F;
+                return EntityCrab.this.world.getDifficulty() != Difficulty.PEACEFUL && super.shouldExecute() && this.attacker.getHealth() > this.attacker.getMaxHealth() / 2F;
             }
 
             @Override
             public boolean shouldContinueExecuting() {
-                return super.shouldContinueExecuting() && this.attacker.getHealth() > this.attacker.getMaxHealth() / 2F;
+                return EntityCrab.this.world.getDifficulty() != Difficulty.PEACEFUL && super.shouldContinueExecuting() && this.attacker.getHealth() > this.attacker.getMaxHealth() / 2F;
             }
         });
         this.goalSelector.addGoal(1, new AvoidEntityGoal<PlayerEntity>(this, PlayerEntity.class, 20F, 0.8F, 1.0F));
@@ -81,6 +88,11 @@ public class EntityCrab extends EntityCrabLikeBase {
     @Override
     protected EntityCrab getBaseChild() {
         return new EntityCrab(this.world);
+    }
+
+    @Override
+    public ILivingEntityData onInitialSpawn(IWorld world, DifficultyInstance difficulty, SpawnReason reason, ILivingEntityData livingdata, CompoundNBT compound) {
+        return EntityUtil.childChance(this, reason, super.onInitialSpawn(world, difficulty, reason, livingdata, compound), 0.25F);
     }
 
     @Override

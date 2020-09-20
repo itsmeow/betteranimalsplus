@@ -11,6 +11,7 @@ import java.util.function.Predicate;
 import dev.itsmeow.imdlib.entity.util.IVariant;
 import its_meow.betteranimalsplus.common.entity.ai.WaterfowlNavigator;
 import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainerBAP;
+import its_meow.betteranimalsplus.common.entity.util.EntityUtil;
 import its_meow.betteranimalsplus.common.entity.util.abstracts.EntityAnimalWithTypes;
 import its_meow.betteranimalsplus.init.ModEntities;
 import its_meow.betteranimalsplus.init.ModItems;
@@ -60,6 +61,7 @@ import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.Difficulty;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
@@ -166,7 +168,7 @@ public class EntityGoose extends EntityAnimalWithTypes {
     }
 
     protected boolean isPassive() {
-        return this.getVariantString().equals("1");
+        return this.getVariantString().equals("1") || world.getDifficulty() == Difficulty.PEACEFUL;
     }
 
     @Override
@@ -376,11 +378,13 @@ public class EntityGoose extends EntityAnimalWithTypes {
             types = new String[] {"1","2","3"};
             break;
         }
-       livingdata = super.onInitialSpawn(world, difficulty, reason, livingdata, compound);
+       livingdata = EntityUtil.childChance(this, reason, super.onInitialSpawn(world, difficulty, reason, livingdata, compound), 0.25F);
        if(!this.getImplementation().isChild()) {
            IVariant variant = this.getContainer().getVariantForName(types[this.getRNG().nextInt(types.length)]);
            if(livingdata instanceof AgeableTypeData) {
                variant = ((AgeableTypeData) livingdata).typeData;
+           } else if(livingdata instanceof AgeableData) {
+               livingdata = new AgeableTypeData((AgeableData) livingdata, variant);
            } else {
                livingdata = new AgeableTypeData(variant);
            }

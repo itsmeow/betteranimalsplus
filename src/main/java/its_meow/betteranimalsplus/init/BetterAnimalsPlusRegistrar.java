@@ -8,9 +8,8 @@ import its_meow.betteranimalsplus.common.entity.projectile.EntityGooseEgg;
 import its_meow.betteranimalsplus.common.entity.projectile.EntityPheasantEgg;
 import its_meow.betteranimalsplus.common.entity.projectile.EntityTarantulaHair;
 import its_meow.betteranimalsplus.common.entity.projectile.EntityTurkeyEgg;
-import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainerBAP;
+import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainerBAPContainable;
 import its_meow.betteranimalsplus.common.item.ItemAdvancementIcon;
-import its_meow.betteranimalsplus.common.item.ItemBetterAnimalsPlusEgg;
 import its_meow.betteranimalsplus.common.item.ItemBlockSimple;
 import its_meow.betteranimalsplus.util.HeadType;
 import net.minecraft.block.Block;
@@ -21,6 +20,7 @@ import net.minecraft.util.SoundEvent;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.IForgeRegistry;
 
 @Mod.EventBusSubscriber(modid = Ref.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
@@ -106,15 +106,24 @@ public class BetterAnimalsPlusRegistrar {
         ModItems.TURKEY_LEG_COOKED,
         ModItems.EEL_MEAT_RAW,
         ModItems.EEL_MEAT_COOKED,
-        ModItems.FRIED_EGG
+        ModItems.FRIED_EGG,
+        ModItems.CALAMARI_RAW,
+        ModItems.CALAMARI_COOKED,
+        ModItems.HORSESHOE_CRAB_BLOOD
         );
-        
-        for (EntityTypeContainer<?> container : ModEntities.getEntities().values()) {
-            if(container instanceof EntityTypeContainerBAP<?> && ((EntityTypeContainerBAP<?>) container).hasBucket()) {
-                event.getRegistry().register(((EntityTypeContainerBAP<?>) container).getBucketItem());
+
+        for(EntityTypeContainer<?> container : ModEntities.getEntities().values()) {
+            if(container instanceof EntityTypeContainerBAPContainable<?, ?>) {
+                EntityTypeContainerBAPContainable<?, ?> c = (EntityTypeContainerBAPContainable<?, ?>) container;
+                if(!ForgeRegistries.ITEMS.containsValue(c.getContainerItem())) {
+                    event.getRegistry().register(c.getContainerItem());
+                }
+                if(!ForgeRegistries.ITEMS.containsValue(c.getEmptyContainerItem())) {
+                    event.getRegistry().register(c.getEmptyContainerItem());
+                }
             }
         }
-        
+
         registry.registerAll(
         new ItemAdvancementIcon("advancement_icon_jellyfish"),
         new ItemAdvancementIcon("advancement_icon_jellyfish_cross"),
@@ -123,16 +132,16 @@ public class BetterAnimalsPlusRegistrar {
         new ItemAdvancementIcon("advancement_icon_lamprey"),
         new ItemAdvancementIcon("advancement_icon_squirrel"),
         new ItemAdvancementIcon("advancement_icon_badger"),
-        new ItemAdvancementIcon("advancement_icon_succening")
+        new ItemAdvancementIcon("advancement_icon_succening"),
+        new ItemAdvancementIcon("advancement_icon_octopus")
         );
 
         // Eggs
-        for (EntityTypeContainer<?> container : ModEntities.getEntities().values()) {
-            ItemBetterAnimalsPlusEgg egg = new ItemBetterAnimalsPlusEgg(container);
-            egg.setRegistryName(container.entityName.toLowerCase().toString() + "_spawn_egg");
-            event.getRegistry().register(egg);
-            container.egg = egg;
-        }
+        ModEntities.H.ENTITIES.values().forEach(e -> {
+            if(e.hasEgg) {
+                event.getRegistry().register(e.egg);
+            }
+        });
     }
 
     @SubscribeEvent
@@ -145,10 +154,11 @@ public class BetterAnimalsPlusRegistrar {
      */
     @SubscribeEvent
     public static void registerTileEntities(final RegistryEvent.Register<TileEntityType<?>> event) {
-        final IForgeRegistry<TileEntityType<?>> reg = event.getRegistry();
-        registerTE(reg, ModTileEntities.TRILLIUM_TYPE);
-        registerTE(reg, ModTileEntities.HAND_OF_FATE_TYPE);
-        registerTE(reg, ModTileEntities.HEAD_TYPE);
+        event.getRegistry().registerAll(
+        ModTileEntities.TRILLIUM_TYPE,
+        ModTileEntities.HAND_OF_FATE_TYPE,
+        ModTileEntities.HEAD_TYPE
+        );
     }
 
     /*
@@ -164,9 +174,4 @@ public class BetterAnimalsPlusRegistrar {
             event.getRegistry().register(container.entityType);
         }
     }
-
-    private static void registerTE(IForgeRegistry<TileEntityType<?>> reg, TileEntityType<?> type) {
-        reg.register(type);
-    }
-
 }

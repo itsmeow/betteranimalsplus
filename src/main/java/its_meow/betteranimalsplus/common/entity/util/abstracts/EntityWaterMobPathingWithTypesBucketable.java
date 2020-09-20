@@ -19,34 +19,34 @@ public abstract class EntityWaterMobPathingWithTypesBucketable extends EntityWat
     @Override
     protected void registerData() {
         super.registerData();
-        this.registerFromBucketKey();
+        this.registerFromContainerKey();
     }
 
     @Override
     public void writeAdditional(CompoundNBT compound) {
         super.writeAdditional(compound);
-        this.writeFromBucketToEntity(compound);
+        this.writeFromContainerToEntity(compound);
     }
 
     @Override
     public void readAdditional(CompoundNBT compound) {
         super.readAdditional(compound);
-        this.readFromBucketToEntity(compound);
+        this.readFromContainerToEntity(compound);
     }
 
     @Override
     public boolean canDespawn(double distanceToClosestPlayer) {
-        return !this.isFromBucket() && despawn(distanceToClosestPlayer);
+        return !this.isFromContainer() && despawn(distanceToClosestPlayer);
     }
 
     @Override
     public boolean preventDespawn() {
-        return this.isFromBucket();
+        return this.isFromContainer();
     }
 
     @Override
-    public void setBucketData(ItemStack bucket) {
-        IBucketable.super.setBucketData(bucket);
+    public void setContainerData(ItemStack bucket) {
+        IBucketable.super.setContainerData(bucket);
         CompoundNBT tag = bucket.getTag();
         if(bucket.getTag() == null) {
             tag = new CompoundNBT();
@@ -76,14 +76,14 @@ public abstract class EntityWaterMobPathingWithTypesBucketable extends EntityWat
 
     @Override
     protected boolean processInteract(PlayerEntity player, Hand hand) {
-        if(this.processBucketInteract(player, hand)) {
+        if(this.processContainerInteract(player, hand)) {
             return true;
         }
         return super.processInteract(player, hand);
     }
 
     @Override
-    public void readFromBucketTag(CompoundNBT tag) {
+    public void readFromContainerTag(CompoundNBT tag) {
         if(tag.contains("BucketVariantTag")) {
             this.setType(tag.getString("BucketVariantTag"));
         }

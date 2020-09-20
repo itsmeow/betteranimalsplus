@@ -10,16 +10,20 @@ import its_meow.betteranimalsplus.common.entity.ai.EntityAIEatBerries;
 import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainerBAP;
 import its_meow.betteranimalsplus.init.ModEntities;
 import its_meow.betteranimalsplus.init.ModLootTables;
+import net.minecraft.entity.AgeableEntity;
 import net.minecraft.entity.ILivingEntityData;
 import net.minecraft.entity.SpawnReason;
-import net.minecraft.entity.ai.goal.HurtByTargetGoal;
+import net.minecraft.entity.ai.goal.BreedGoal;
 import net.minecraft.entity.ai.goal.LookAtGoal;
 import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal;
 import net.minecraft.entity.ai.goal.RandomWalkingGoal;
 import net.minecraft.entity.ai.goal.SwimGoal;
 import net.minecraft.entity.passive.ChickenEntity;
+import net.minecraft.entity.passive.FoxEntity;
 import net.minecraft.entity.passive.RabbitEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.DifficultyInstance;
@@ -35,21 +39,33 @@ public class EntityBearNeutral extends EntityBear implements IVariantTypes<Entit
     @Override
     protected void registerGoals() {
         this.goalSelector.addGoal(0, new SwimGoal(this));
-        this.goalSelector.addGoal(1, new EntityBearNeutral.AIMeleeAttack());
+        this.goalSelector.addGoal(1, new EntityBear.MeleeAttackGoal());
+        this.goalSelector.addGoal(2, new BreedGoal(this, 1D));
         this.goalSelector.addGoal(2, new EntityAIEatBerries(this, 1.0D, 12, 2));
-        this.targetSelector.addGoal(1, new HurtByTargetGoal(this, new Class[0]));
+        this.targetSelector.addGoal(1, new EntityBear.HurtByTargetGoal());
         this.goalSelector.addGoal(5, new RandomWalkingGoal(this, 0.5D));
         this.goalSelector.addGoal(6, new LookAtGoal(this, PlayerEntity.class, 6.0F));
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<ChickenEntity>(this, ChickenEntity.class, true));
         this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<RabbitEntity>(this, RabbitEntity.class, true));
-        this.targetSelector.addGoal(4, new NearestAttackableTargetGoal<EntityPheasant>(this, EntityPheasant.class, 90,
-        true, true, Predicates.alwaysTrue()));
+        this.targetSelector.addGoal(4, new NearestAttackableTargetGoal<EntityPheasant>(this, EntityPheasant.class, 90, true, true, Predicates.alwaysTrue()));
+        this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<FoxEntity>(this, FoxEntity.class, 90, true, true, Predicates.alwaysTrue()));
+    }
+
+    @Override
+    public boolean isBreedingItem(ItemStack stack) {
+        return stack.getItem() == Items.SALMON || stack.getItem() == Items.COOKED_SALMON;
     }
 
     @Override
     @Nullable
     public ILivingEntityData onInitialSpawn(IWorld world, DifficultyInstance difficulty, SpawnReason reason, @Nullable ILivingEntityData livingdata, CompoundNBT compound) {
-        return this.initData(world, reason, super.onInitialSpawn(world, difficulty, reason, livingdata, compound));
+        if(livingdata instanceof AgeableTypeData) {
+            this.setGrowingAge(-24000);
+            this.setType(((AgeableTypeData) livingdata).typeData);
+        } else {
+            livingdata = this.initAgeableData(world, reason, null);
+        }
+        return livingdata;
     }
 
     @Override
@@ -64,14 +80,14 @@ public class EntityBearNeutral extends EntityBear implements IVariantTypes<Entit
     }
 
     @Override
-    public boolean writeUnlessRemoved(CompoundNBT compound) {
+    public void writeAdditional(CompoundNBT compound) {
+        super.writeAdditional(compound);
         this.writeType(compound);
-        return super.writeUnlessRemoved(compound);
     }
 
     @Override
-    public void read(CompoundNBT compound) {
-        super.read(compound);
+    public void readAdditional(CompoundNBT compound) {
+        super.readAdditional(compound);
         this.readType(compound);
     }
 
@@ -102,4 +118,18 @@ public class EntityBearNeutral extends EntityBear implements IVariantTypes<Entit
         return despawn(range);
     }
 
+    @Override
+    public AgeableEntity createChild(AgeableEntity ageable) {
+        EntityBearNeutral child = new EntityBearNeutral(this.world);
+        if(ageable instanceof EntityBearNeutral) {
+            if("kermode".equals(((EntityBearNeutral) ageable).getVariantNameOrEmpty()) && "kermode".equals(this.getVariantNameOrEmpty())) {
+                child.setType("kermode");
+            } else {
+                child.setType("black");
+            }
+        } else {
+            child.setType(this.getVariant().orElseGet(this::getRandomType));
+        }
+        return child;
+    }
 }

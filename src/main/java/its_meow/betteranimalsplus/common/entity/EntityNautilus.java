@@ -1,6 +1,7 @@
 package its_meow.betteranimalsplus.common.entity;
 
 import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainerBAP;
+import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainerBAPContainable;
 import its_meow.betteranimalsplus.common.entity.util.abstracts.EntityWaterMobBucketable;
 import its_meow.betteranimalsplus.init.ModEntities;
 import its_meow.betteranimalsplus.init.ModLootTables;
@@ -92,6 +93,11 @@ public class EntityNautilus extends EntityWaterMobBucketable {
 
     @Override
     public EntityTypeContainerBAP<?> getContainer() {
+        return ModEntities.NAUTILUS;
+    }
+
+    @Override
+    public EntityTypeContainerBAPContainable<?, ?> getContainableContainer() {
         return ModEntities.NAUTILUS;
     }
 

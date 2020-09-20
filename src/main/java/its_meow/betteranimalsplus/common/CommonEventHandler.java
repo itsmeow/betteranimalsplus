@@ -8,6 +8,7 @@ import its_meow.betteranimalsplus.common.entity.EntityBear;
 import its_meow.betteranimalsplus.common.entity.EntityBoar;
 import its_meow.betteranimalsplus.common.entity.EntityCrab;
 import its_meow.betteranimalsplus.common.entity.EntityLamprey;
+import its_meow.betteranimalsplus.common.entity.EntityOctopus;
 import its_meow.betteranimalsplus.common.entity.EntitySquirrel;
 import its_meow.betteranimalsplus.init.ModItems;
 import its_meow.betteranimalsplus.init.ModLootTables;
@@ -80,6 +81,14 @@ public class CommonEventHandler {
                     }
                 }
             }
+        } else if(e.getSource().getTrueSource() instanceof EntityOctopus) {
+            EntityOctopus octo = (EntityOctopus) e.getSource().getTrueSource();
+            if(octo.friend != null) {
+                PlayerEntity p = octo.world.getPlayerByUuid(octo.friend);
+                if(p != null && p instanceof ServerPlayerEntity && p.getAttackingEntity() == e.getEntityLiving()) {
+                    ModTriggers.OCTOPUS_SAVE_PLAYER.trigger((ServerPlayerEntity) octo.world.getPlayerByUuid(octo.friend));
+                }
+            }
         }
     }
     
@@ -145,19 +154,21 @@ public class CommonEventHandler {
     
     @SubscribeEvent
     public static void onLootLoad(LootTableLoadEvent event) {
-        if(event.getName().equals(EntityType.WOLF.getLootTable())) {
-            
-            event.getTable().addPool(LootPool.builder().rolls(new IRandomRange() {
-                @Override
-                public int generateInt(Random rand) {
-                    return 1;
-                }
+        IRandomRange simple_one = new IRandomRange() {
+            @Override
+            public int generateInt(Random rand) {
+                return 1;
+            }
 
-                @Override
-                public ResourceLocation getType() {
-                    return IRandomRange.CONSTANT;
-                }
-            }).name("snowy_pelt").addEntry(TableLootEntry.builder(ModLootTables.WOLF_SNOWY)).build());
+            @Override
+            public ResourceLocation getType() {
+                return IRandomRange.CONSTANT;
+            }
+        };
+        if(event.getName().equals(EntityType.WOLF.getLootTable())) {
+            event.getTable().addPool(LootPool.builder().rolls(simple_one).name("snowy_pelt").addEntry(TableLootEntry.builder(ModLootTables.WOLF_SNOWY)).build());
+        } else if(event.getName().equals(EntityType.SQUID.getLootTable())) {
+            event.getTable().addPool(LootPool.builder().rolls(simple_one).name("bap_calamari").addEntry(TableLootEntry.builder(ModLootTables.SQUID)).build());
         }
     }
     

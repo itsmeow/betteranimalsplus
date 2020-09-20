@@ -1,0 +1,38 @@
+{
+	"display": {
+		"description": [
+			{
+				"text": "Befriend an Octopus by giving it fish and have it save you from an attacker\n",
+				"color": "gray"
+			},
+			{
+				"text": "I'd like to be... under the sea...",
+				"color": "white",
+				"italic": true
+			}
+		],
+		"title": {
+			"text": "Octopus's Garden",
+			"bold": false,
+			"color": "green"
+		},
+		"icon": {
+			"item": "betteranimalsplus:advancement_icon_octopus"
+		},
+		"frame": "task",
+		"show_toast": true,
+		"announce_to_chat": true,
+		"hidden": false
+	},
+	"criteria": {
+		"octopus_save_player": {
+			"trigger": "betteranimalsplus:octopus_save_player"
+		}
+	},
+	"requirements": [
+		[
+			"octopus_save_player"
+		]
+	],
+	"parent": "betteranimalsplus:root"
+}

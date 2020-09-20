@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:campfire_cooking",
+  "ingredient": {
+    "item": "betteranimalsplus:calamari_raw"
+  },
+  "result": "betteranimalsplus:calamari_cooked",
+  "experience": 0.3
+}

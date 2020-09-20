@@ -3,7 +3,7 @@ package its_meow.betteranimalsplus.common.tileentity;
 import java.util.Random;
 
 import its_meow.betteranimalsplus.init.ModBlocks;
-import its_meow.betteranimalsplus.init.ModTextures;
+import its_meow.betteranimalsplus.init.ModResources;
 import its_meow.betteranimalsplus.init.ModTileEntities;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.HorizontalBlock;
@@ -36,7 +36,7 @@ public class TileEntityTrillium extends TileEntity {
     }
 
     public ResourceLocation getTexture() {
-        return this.typeNum == 0 ? ModTextures.trillium_yellow : ModTextures.trillium_purple;
+        return this.typeNum == 0 ? ModResources.trillium_yellow : ModResources.trillium_purple;
     }
 
     public void setType(int i) {
