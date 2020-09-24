@@ -40,6 +40,7 @@ import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.pathfinding.PathFinder;
 import net.minecraft.pathfinding.PathNavigator;
+import net.minecraft.pathfinding.PathNodeType;
 import net.minecraft.pathfinding.SwimmerPathNavigator;
 import net.minecraft.pathfinding.WalkAndSwimNodeProcessor;
 import net.minecraft.tags.BlockTags;
@@ -69,6 +70,7 @@ public class EntityWalrus extends AnimalEntity implements IContainerEntity<Entit
 
     public EntityWalrus(World worldIn) {
         super(ModEntities.WALRUS.entityType, worldIn);
+        this.setPathPriority(PathNodeType.WATER, 0.0F);
         this.moveController = new EntityWalrus.MoveHelperController(this);
         this.stepHeight = 1.0F;
     }
@@ -490,27 +492,27 @@ public class EntityWalrus extends AnimalEntity implements IContainerEntity<Entit
         @SuppressWarnings("deprecation")
         public void tick() {
             if(this.walrus.getNavigator().noPath()) {
-                BlockPos blockpos = this.walrus.getTravelPos();
-                Vec3d vec3d = RandomPositionGenerator.findRandomTargetTowardsScaled(this.walrus, 16, 3, new Vec3d(blockpos.getX(), blockpos.getY(), blockpos.getZ()), Math.PI / 10D);
-                if(vec3d == null) {
-                    vec3d = RandomPositionGenerator.findRandomTargetBlockTowards(this.walrus, 8, 7, new Vec3d(blockpos.getX(), blockpos.getY(), blockpos.getZ()));
+                Vec3d travelDest = new Vec3d(this.walrus.getTravelPos());
+                Vec3d dest = RandomPositionGenerator.findRandomTargetTowardsScaled(this.walrus, 16, 3, travelDest, (double) ((float) Math.PI / 10F));
+                if(dest == null) {
+                    dest = RandomPositionGenerator.findRandomTargetBlockTowards(this.walrus, 8, 7, travelDest);
                 }
 
-                if(vec3d != null) {
-                    int x = MathHelper.floor(vec3d.x);
-                    int z = MathHelper.floor(vec3d.z);
+                if(dest != null) {
+                    int x = MathHelper.floor(dest.x);
+                    int z = MathHelper.floor(dest.z);
                     int range = 34;
                     if(!this.walrus.world.isAreaLoaded(x - range, 0, z - range, x + range, 0, z + range)) {
-                        vec3d = null;
+                        dest = null;
                     }
                 }
 
-                if(vec3d == null) {
+                if(dest == null) {
                     this.noPosition = true;
                     return;
                 }
 
-                this.walrus.getNavigator().tryMoveToXYZ(vec3d.x, vec3d.y, vec3d.z, this.speed);
+                this.walrus.getNavigator().tryMoveToXYZ(dest.x, dest.y, dest.z, this.speed);
             }
 
         }
