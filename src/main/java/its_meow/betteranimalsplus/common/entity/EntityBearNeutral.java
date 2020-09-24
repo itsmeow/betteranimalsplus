@@ -53,7 +53,7 @@ public class EntityBearNeutral extends EntityBear implements IVariantTypes<Entit
 
     @Override
     public boolean isBreedingItem(ItemStack stack) {
-        return stack.getItem() == Items.SALMON || stack.getItem() == Items.COOKED_SALMON;
+        return stack.getItem() == Items.SALMON || stack.getItem() == Items.COOKED_SALMON || stack.getItem() == Items.HONEYCOMB;
     }
 
     @Override
