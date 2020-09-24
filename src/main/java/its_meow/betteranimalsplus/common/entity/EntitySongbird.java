@@ -18,6 +18,7 @@ import net.minecraft.block.LeavesBlock;
 import net.minecraft.block.LogBlock;
 import net.minecraft.entity.ILivingEntityData;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.MoverType;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.controller.FlyingMovementController;
@@ -34,14 +35,20 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.network.datasync.DataParameter;
+import net.minecraft.network.datasync.DataSerializers;
+import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.pathfinding.FlyingPathNavigator;
 import net.minecraft.pathfinding.PathNavigator;
+import net.minecraft.pathfinding.PathType;
+import net.minecraft.util.Direction.Axis;
 import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
@@ -51,6 +58,7 @@ import net.minecraftforge.common.BiomeDictionary.Type;
 
 public class EntitySongbird extends EntityAnimalWithSelectiveTypes implements IFlyingAnimal {
 
+    protected static final DataParameter<Boolean> LANDED = EntityDataManager.<Boolean>createKey(EntitySongbird.class, DataSerializers.BOOLEAN);
     protected static final Set<Item> SEEDS = Sets.newHashSet(Items.WHEAT_SEEDS, Items.MELON_SEEDS, Items.PUMPKIN_SEEDS, Items.BEETROOT_SEEDS);
 
     public EntitySongbird(World worldIn) {
@@ -109,6 +117,21 @@ public class EntitySongbird extends EntityAnimalWithSelectiveTypes implements IF
     }
 
     @Override
+    protected void registerData() {
+        super.registerData();
+        this.dataManager.register(LANDED, true);
+    }
+
+    @Override
+    public void move(MoverType typeIn, Vec3d pos) {
+        super.move(typeIn, pos);
+        if(world.isBlockPresent(this.getPosition().down())) {
+            BlockState state = this.world.getBlockState(this.getPosition().down());
+            this.dataManager.set(LANDED, this.onGround || this.getPosY() == Math.floor(this.getPosY()) && state.getCollisionShape(this.world, this.getPosition().down()).getEnd(Axis.Y) == 1 && state.isCollisionShapeOpaque(world, this.getPosition().down()));
+        }
+    }
+
+    @Override
     public boolean isBreedingItem(ItemStack stack) {
         return SEEDS.contains(stack.getItem());
     }
@@ -149,7 +172,7 @@ public class EntitySongbird extends EntityAnimalWithSelectiveTypes implements IF
     }
 
     public boolean isFlying() {
-        return !this.onGround;
+        return !this.dataManager.get(LANDED);
     }
 
     @Override
