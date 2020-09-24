@@ -578,8 +578,13 @@ public class EntityLammergeier extends EntityTameableFlyingWithTypes implements 
             if(!parentEntity.getFlying()) {
                 parentEntity.setFlying(true);
             }
-            double dist = parentEntity.getPosition().distanceSq(parentEntity.navigator.getPath().getCurrentPos(), true);
-            if(dist - lastDist < 0.05D) {
+            boolean idle = true;
+            if(parentEntity.navigator.getPath() != null && parentEntity.navigator.getPath().getCurrentPathIndex() < parentEntity.navigator.getPath().getCurrentPathLength()) {
+                double dist = parentEntity.getPosition().distanceSq(parentEntity.navigator.getPath().getCurrentPos(), true);
+                idle = dist - lastDist < 0.05D;
+                lastDist = dist;
+            }
+            if(idle) {
                 timeSinceLastMove++;
                 if(timeSinceLastMove > 60) {
                     parentEntity.navigator.clearPath();
@@ -589,7 +594,6 @@ public class EntityLammergeier extends EntityTameableFlyingWithTypes implements 
             } else {
                 timeSinceLastMove = 0;
             }
-            lastDist = dist;
         }
 
         @Override
