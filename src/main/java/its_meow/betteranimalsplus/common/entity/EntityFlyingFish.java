@@ -143,7 +143,6 @@ public class EntityFlyingFish extends EntityWaterMobPathingWithTypesBucketable {
 
         @SuppressWarnings("deprecation")
         public void tick() {
-            System.out.println("tick " + ticks);
             boolean lastInWater = this.inWater;
             if(!lastInWater) {
                 this.inWater = this.fish.world.getFluidState(new BlockPos(this.fish)).isTagged(FluidTags.WATER);
