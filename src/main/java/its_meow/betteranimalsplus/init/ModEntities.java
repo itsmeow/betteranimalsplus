@@ -36,6 +36,7 @@ import its_meow.betteranimalsplus.common.entity.EntityCrab;
 import its_meow.betteranimalsplus.common.entity.EntityDeer;
 import its_meow.betteranimalsplus.common.entity.EntityDragonfly;
 import its_meow.betteranimalsplus.common.entity.EntityFeralWolf;
+import its_meow.betteranimalsplus.common.entity.EntityFeralWolf.WolfVariant;
 import its_meow.betteranimalsplus.common.entity.EntityFlyingFish;
 import its_meow.betteranimalsplus.common.entity.EntityFreshwaterEel;
 import its_meow.betteranimalsplus.common.entity.EntityGiantSquid;
@@ -73,6 +74,7 @@ import its_meow.betteranimalsplus.common.item.ItemModFishBucket;
 import its_meow.betteranimalsplus.util.OceanBiomeHelper;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntitySpawnPlacementRegistry.PlacementType;
+import net.minecraft.entity.monster.MonsterEntity;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.passive.TameableEntity;
 import net.minecraft.item.Item;
@@ -102,7 +104,7 @@ public class ModEntities {
     new EntityDeer.EntityDeerVariant("3"),
     new EntityDeer.EntityDeerVariant("4")).head().mapToNames().offset(-1.5F).setModel(() -> ModelDeerHead::new).done());
     public static final EntityTypeContainerBAPTameable<EntityLammergeier> LAMMERGEIER = setup(createTame(EntityLammergeier.class, EntityLammergeier::new, "lammergeier").spawn(EntityClassification.CREATURE, 7, 1, 2).egg(0xd8d8d8, 0xd82b11).size(0.75F, 0.5F).tameItems("minecraft:bone").biomes(Type.HILLS, Type.MOUNTAIN).variants("orange", "red", "white", "yellow"));
-    public static final EntityTypeContainerBAPTameable<EntityFeralWolf> FERAL_WOLF = setup(createTame(EntityFeralWolf.class, EntityFeralWolf::new, "feralwolf").spawn(EntityClassification.CREATURE, 7, 1, 6).egg(0xbababa, 0x232323).size(1.35F, 1.5F).tameItems("minecraft:bone").biomes(Type.FOREST, Type.MAGICAL, Type.SPOOKY).variants("black", "snowy", "timber", "arctic", "brown", "red").head().mapToNames().allowFloor().setModel(() -> ModelFeralWolfHead::new).done());
+    public static final EntityTypeContainerBAPTameable<EntityFeralWolf> FERAL_WOLF = setup(createTame(EntityFeralWolf.class, EntityFeralWolf::new, "feralwolf").spawn(EntityClassification.CREATURE, 7, 1, 6).egg(0xbababa, 0x232323).size(1.35F, 1.5F).tameItems("minecraft:bone").biomes(Type.FOREST, Type.MAGICAL, Type.SPOOKY).variants(WolfVariant::new, "black", "snowy", "timber", "arctic", "brown", "red").head().mapToNames().allowFloor().setModel(() -> ModelFeralWolfHead::new).done());
     public static final EntityTypeContainerBAPTameable<EntityCoyote> COYOTE = setup(createTame(EntityCoyote.class, EntityCoyote::new, "coyote").spawn(EntityClassification.CREATURE, 5, 1, 6).egg(0x866a31, 0xb69762).size(0.8F, 0.9F).tameItems("minecraft:rabbit", "minecraft:chicken", "betteranimalsplus:pheasantraw", "minecraft:cooked_rabbit", "minecraft:cooked_chicken", "betteranimalsplus:pheasantcooked").biomes(Type.SANDY, Type.PLAINS).config(new CustomConfigurationHolder() {
         private ForgeConfigSpec.BooleanValue coyoteHostileDaytime;
 
@@ -116,7 +118,7 @@ public class ModEntities {
             EntityCoyote.HOSTILE_DAYTIME = this.coyoteHostileDaytime.get();
         }
     }).head().allowFloor().singleton("1", "coyote_hostile").setModel(() -> ModelCoyoteHead::new).done());
-    public static final EntityTypeContainerBAP<EntityTarantula> TARANTULA = setup(create(EntityTarantula.class, EntityTarantula::new, "tarantula").spawn(EntityClassification.MONSTER, 40, 1, 3).egg(0x1e1e1e, 0x8c0c0c).size(1.4F, 0.9F).despawn().biomes(Type.SANDY));
+    public static final EntityTypeContainerBAP<EntityTarantula> TARANTULA = setup(create(EntityTarantula.class, EntityTarantula::new, "tarantula").spawn(EntityClassification.MONSTER, 40, 1, 3).egg(0x1e1e1e, 0x8c0c0c).size(1.4F, 0.9F).defaultPlacement(MonsterEntity::func_223325_c).despawn().biomes(Type.SANDY));
     public static final EntityTypeContainerBAP<EntityHirschgeist> HIRSCHGEIST = setup(create(EntityHirschgeist.class, EntityHirschgeist::new, "hirschgeist").spawn(EntityClassification.CREATURE, 2, 1, 1).egg(0xfffff, 0x00000).size(3F, 4F).biomes(Type.FOREST).head("hirschgeistskull").allowFloor().offset(-0.2F).singleton("1", "hirschgeist").setModel(() -> ModelHirschgeistSkull::new).done());
     public static final EntityTypeContainerBAP<EntityGoat> GOAT = setup(create(EntityGoat.class, EntityGoat::new, "goat").spawn(EntityClassification.CREATURE, 9, 1, 4).egg(0xffffff, 0xeeeeee).size(1.2F, 1.2F).biomes(Type.HILLS, Type.MOUNTAIN, Type.SAVANNA, Type.PLAINS, Type.FOREST).config(new CustomConfigurationHolder() {
         private ForgeConfigSpec.BooleanValue goatVanillaMilk;

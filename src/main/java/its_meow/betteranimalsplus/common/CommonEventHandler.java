@@ -3,13 +3,16 @@ package its_meow.betteranimalsplus.common;
 import java.util.List;
 import java.util.Random;
 
+import dev.itsmeow.imdlib.entity.util.IVariant;
 import its_meow.betteranimalsplus.Ref;
 import its_meow.betteranimalsplus.common.entity.EntityBear;
 import its_meow.betteranimalsplus.common.entity.EntityBoar;
 import its_meow.betteranimalsplus.common.entity.EntityCrab;
+import its_meow.betteranimalsplus.common.entity.EntityFeralWolf.WolfVariant;
 import its_meow.betteranimalsplus.common.entity.EntityLamprey;
 import its_meow.betteranimalsplus.common.entity.EntityOctopus;
 import its_meow.betteranimalsplus.common.entity.EntitySquirrel;
+import its_meow.betteranimalsplus.init.ModEntities;
 import its_meow.betteranimalsplus.init.ModItems;
 import its_meow.betteranimalsplus.init.ModLootTables;
 import its_meow.betteranimalsplus.init.ModTriggers;
@@ -166,7 +169,11 @@ public class CommonEventHandler {
             }
         };
         if(event.getName().equals(EntityType.WOLF.getLootTable())) {
-            event.getTable().addPool(LootPool.builder().rolls(simple_one).name("snowy_pelt").addEntry(TableLootEntry.builder(ModLootTables.WOLF_SNOWY)).build());
+            IVariant v = ModEntities.FERAL_WOLF.getVariantForName("snowy");
+            if(v instanceof WolfVariant) {
+                WolfVariant variant = (WolfVariant) v;
+                event.getTable().addPool(LootPool.builder().rolls(simple_one).name("snowy_pelt").addEntry(TableLootEntry.builder(variant.getLootTable())).build());
+            }
         } else if(event.getName().equals(EntityType.SQUID.getLootTable())) {
             event.getTable().addPool(LootPool.builder().rolls(simple_one).name("bap_calamari").addEntry(TableLootEntry.builder(ModLootTables.SQUID)).build());
         }
