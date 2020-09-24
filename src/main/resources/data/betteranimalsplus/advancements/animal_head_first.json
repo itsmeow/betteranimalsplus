@@ -218,16 +218,6 @@
                 ]
             }
         },
-        "head18": {
-            "trigger": "minecraft:inventory_changed",
-            "conditions": {
-                "items": [
-                    {
-                        "item": "betteranimalsplus:hirschgeistskull_1"
-                    }
-                ]
-            }
-        },
         "head19": {
             "trigger": "minecraft:inventory_changed",
             "conditions": {
@@ -308,7 +298,6 @@
             "head15",
             "head16",
             "head17",
-            "head18",
             "head19",
             "head20",
             "head21",

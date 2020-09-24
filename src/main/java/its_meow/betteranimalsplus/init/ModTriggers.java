@@ -9,7 +9,6 @@ import net.minecraft.advancements.CriteriaTriggers;
 
 public class ModTriggers {
 
-    public static final CustomTrigger HAND_OF_FATE_SUMMON = new CustomTrigger(Ref.MOD_ID + ":hand_of_fate_summon");
     public static final CustomTrigger PUNCH_BEAR = new CustomTrigger(Ref.MOD_ID + ":punch_bear");
     public static final CustomTrigger PUNCH_BEAR_DEATH = new CustomTrigger(Ref.MOD_ID + ":punch_bear_death");
     public static final CustomTrigger USE_CRAB_DISK = new CustomTrigger(Ref.MOD_ID + ":crab_disk_used");
@@ -24,7 +23,7 @@ public class ModTriggers {
     public static final CustomTrigger OCTOPUS_SAVE_PLAYER = new CustomTrigger(Ref.MOD_ID + ":octopus_save_player");
 
     public static void register() {
-        registerTriggers(HAND_OF_FATE_SUMMON,PUNCH_BEAR, PUNCH_BEAR_DEATH, USE_CRAB_DISK, SHARK_TARGETED, RIDE_REINDEER, GOAT_FIGHT_FRIEND, NO_BAM, BADGERDIRT_IMPACT, USE_WALRUS_DISK, SQUID_TARGETED, OCTOPUS_SAVE_PLAYER);
+        registerTriggers(PUNCH_BEAR, PUNCH_BEAR_DEATH, USE_CRAB_DISK, SHARK_TARGETED, RIDE_REINDEER, GOAT_FIGHT_FRIEND, NO_BAM, BADGERDIRT_IMPACT, USE_WALRUS_DISK, SQUID_TARGETED, OCTOPUS_SAVE_PLAYER);
         for(int i = 1; i <= 100; i++) {
             CustomTrigger trigger = new CustomTrigger(Ref.MOD_ID + ":squirrel_kill" + i);
             SQUIRREL_KILL_TRIGGERS.put(i, trigger);

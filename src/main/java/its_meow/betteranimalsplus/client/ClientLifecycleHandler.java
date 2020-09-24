@@ -23,7 +23,6 @@ import its_meow.betteranimalsplus.client.model.ModelFreshwaterEel;
 import its_meow.betteranimalsplus.client.model.ModelGiantSquid;
 import its_meow.betteranimalsplus.client.model.ModelGoat;
 import its_meow.betteranimalsplus.client.model.ModelGoose;
-import its_meow.betteranimalsplus.client.model.ModelHirschgeistMain;
 import its_meow.betteranimalsplus.client.model.ModelHorseshoeCrab;
 import its_meow.betteranimalsplus.client.model.ModelJellyfish;
 import its_meow.betteranimalsplus.client.model.ModelLammergeier;
@@ -42,7 +41,6 @@ import its_meow.betteranimalsplus.client.model.ModelSquirrel;
 import its_meow.betteranimalsplus.client.model.ModelTarantula;
 import its_meow.betteranimalsplus.client.model.ModelTurkey;
 import its_meow.betteranimalsplus.client.model.ModelWalrus;
-import its_meow.betteranimalsplus.client.model.ModelZotzpyre;
 import its_meow.betteranimalsplus.client.model.shark.ModelBlueShark;
 import its_meow.betteranimalsplus.client.model.shark.ModelBullShark;
 import its_meow.betteranimalsplus.client.model.shark.ModelGoblinShark;
@@ -56,7 +54,6 @@ import its_meow.betteranimalsplus.client.renderer.entity.RenderTarantulaHair;
 import its_meow.betteranimalsplus.client.renderer.entity.layers.GooseItemLayerRenderer;
 import its_meow.betteranimalsplus.client.renderer.entity.layers.LayerEyes;
 import its_meow.betteranimalsplus.client.renderer.entity.layers.LayerEyesCondition;
-import its_meow.betteranimalsplus.client.renderer.tileentity.RenderBlockHandOfFate;
 import its_meow.betteranimalsplus.client.renderer.tileentity.RenderBlockTrillium;
 import its_meow.betteranimalsplus.client.renderer.tileentity.RenderGenericHead;
 import its_meow.betteranimalsplus.common.entity.EntityCoyote;
@@ -70,8 +67,6 @@ import its_meow.betteranimalsplus.common.entity.projectile.EntityTurkeyEgg;
 import its_meow.betteranimalsplus.init.ModEntities;
 import its_meow.betteranimalsplus.init.ModResources;
 import its_meow.betteranimalsplus.init.ModTileEntities;
-import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.RenderTypeLookup;
 import net.minecraft.client.renderer.Vector3f;
 import net.minecraft.entity.Pose;
 import net.minecraft.util.math.MathHelper;
@@ -83,9 +78,7 @@ public class ClientLifecycleHandler {
     public static final RenderFactory R = IMDLibClient.getRenderRegistry(Ref.MOD_ID);
 
     public void clientSetup(final FMLClientSetupEvent event) {
-        RenderTypeLookup.setRenderLayer(ModEntities.HIRSCHGEIST.getHeadType().getBlock(), RenderType.getTranslucent());
         ClientRegistry.bindTileEntityRenderer(ModTileEntities.TRILLIUM_TYPE, RenderBlockTrillium::new);
-        ClientRegistry.bindTileEntityRenderer(ModTileEntities.HAND_OF_FATE_TYPE, RenderBlockHandOfFate::new);
         ClientRegistry.bindTileEntityRenderer(ModTileEntities.HEAD_TYPE, RenderGenericHead::new);
         R.addRender(ModEntities.BROWN_BEAR.entityType, 1F, r -> r.tSingle("bear_brown").mSingle(new ModelBear<>()).ageScale(1.3F, 0.65F));
         R.addRender(ModEntities.BLACK_BEAR.entityType, 1F, r -> r.tVariant().mSingle(new ModelBear<>()).childScale(0.5F));
@@ -100,7 +93,6 @@ public class ClientLifecycleHandler {
                 s.translate(0.0F, 0.75F, -0.5F);
             }
         }).layer(t -> new LayerEyes<>(t, ModResources.tarantula_eyes)));
-        R.addRender(ModEntities.HIRSCHGEIST.entityType, 1F, r -> r.tSingle("hirschgeist").mSingle(new ModelHirschgeistMain<>()).condScale(e -> !e.isDaytime(), 2F));
         R.addRender(ModEntities.GOAT.entityType, 0.5F, r -> r.tVariant().mSingle(new ModelGoat<>()).childScale(0.5F));
         R.addRender(ModEntities.JELLYFISH.entityType, 0.5F, r -> r.tVariant().mSingle(new ModelJellyfish<>()).preRender((e, s, p) -> {
             float a = e.getSize(Pose.STANDING).width;
@@ -191,7 +183,6 @@ public class ClientLifecycleHandler {
             return (MathHelper.sin(f) + 1.0F) * f1;
         }));
         RenderFactory.addRender(EntityTurkeyEgg.TURKEY_EGG_TYPE, RenderFactory.sprite());
-        R.addRender(ModEntities.ZOTZPYRE.entityType, 0.4F, r -> r.tVariant().mSingle(new ModelZotzpyre<>()).layer(t -> new LayerEyes<>(t, ModResources.zotzpyre_eyes)));
         R.addRender(ModEntities.BOBBIT_WORM.entityType, 0.4F, r -> r.tVariant().mSingle(new ModelBobbitWorm<>()));
         R.addRender(ModEntities.GOOSE.entityType, 0.5F, r -> r.tBabyVariant("goose_baby").mSingle(new ModelGoose<>()).ageScale(0.8F, 0.5F).layer(GooseItemLayerRenderer::new));
         RenderFactory.addRender(EntityGooseEgg.GOOSE_EGG_TYPE, RenderFactory.sprite());

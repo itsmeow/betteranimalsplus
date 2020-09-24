@@ -17,12 +17,6 @@ public class ModResources {
 
     public static final ResourceLocation tarantula_eyes = t("tarantula_eyes");
 
-    public static final ResourceLocation hirschgeist = t("hirschgeist");
-
-    public static final ResourceLocation handoffate = new ResourceLocation(Ref.MOD_ID + ":textures/blocks/handoffate.png");
-
-    public static final ResourceLocation zotzpyre_eyes = t("zotzpyre_eyes");
-
     public static final class Tags {
         public static final class Blocks {
             public static final BlockTags.Wrapper FLOWERS = new BlockTags.Wrapper(new ResourceLocation(Ref.MOD_ID, "flowers"));

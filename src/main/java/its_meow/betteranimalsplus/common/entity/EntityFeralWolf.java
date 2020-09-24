@@ -343,7 +343,7 @@ public class EntityFeralWolf extends EntityTameableWithSelectiveTypes implements
             }
         } else if(this.isTamingItem(itemstack.getItem())) {
             ItemStack stack = player.getItemStackFromSlot(EquipmentSlotType.HEAD);
-            if(stack.getItem() == ModItems.HIRSCHGEIST_SKULL_WEARABLE || stack.getItem() == Items.DRAGON_HEAD) {
+            if(stack.getItem() == Items.DRAGON_HEAD) {
                 if(!player.isCreative()) {
                     itemstack.shrink(1);
                 }

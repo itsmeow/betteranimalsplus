@@ -35,7 +35,6 @@ public class BetterAnimalsPlusRegistrar {
 
         registry.registerAll(
         ModBlocks.TRILLIUM,
-        ModBlocks.HAND_OF_FATE,
         ModBlocks.TURKEY_RAW,
         ModBlocks.TURKEY_COOKED
         );
@@ -55,7 +54,6 @@ public class BetterAnimalsPlusRegistrar {
         // ItemBlocks
         registry.registerAll(
         new ItemBlockSimple(ModBlocks.TRILLIUM),
-        new ItemBlockSimple(ModBlocks.HAND_OF_FATE),
         new ItemBlockSimple(ModBlocks.TURKEY_RAW),
         new ItemBlockSimple(ModBlocks.TURKEY_COOKED)
         );
@@ -69,7 +67,6 @@ public class BetterAnimalsPlusRegistrar {
         registry.registerAll(
         ModItems.VENISON_RAW,
         ModItems.VENISON_COOKED,
-        ModItems.HIRSCHGEIST_SKULL_WEARABLE,
         ModItems.ANTLER,
         ModItems.BLUBBER,
         ModItems.GOAT_MILK,
@@ -156,7 +153,6 @@ public class BetterAnimalsPlusRegistrar {
     public static void registerTileEntities(final RegistryEvent.Register<TileEntityType<?>> event) {
         event.getRegistry().registerAll(
         ModTileEntities.TRILLIUM_TYPE,
-        ModTileEntities.HAND_OF_FATE_TYPE,
         ModTileEntities.HEAD_TYPE
         );
     }

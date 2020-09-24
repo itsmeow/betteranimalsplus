@@ -20,7 +20,6 @@ import its_meow.betteranimalsplus.client.model.ModelBoarHead;
 import its_meow.betteranimalsplus.client.model.ModelCoyoteHead;
 import its_meow.betteranimalsplus.client.model.ModelDeerHead;
 import its_meow.betteranimalsplus.client.model.ModelFeralWolfHead;
-import its_meow.betteranimalsplus.client.model.ModelHirschgeistSkull;
 import its_meow.betteranimalsplus.client.model.ModelMooseHead;
 import its_meow.betteranimalsplus.client.model.ModelReindeerHead;
 import its_meow.betteranimalsplus.common.entity.EntityBadger;
@@ -60,8 +59,6 @@ import its_meow.betteranimalsplus.common.entity.EntityTarantula;
 import its_meow.betteranimalsplus.common.entity.EntityTurkey;
 import its_meow.betteranimalsplus.common.entity.EntityWalrus;
 import its_meow.betteranimalsplus.common.entity.EntityWhale;
-import its_meow.betteranimalsplus.common.entity.EntityZotzpyre;
-import its_meow.betteranimalsplus.common.entity.miniboss.hirschgeist.EntityHirschgeist;
 import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainerBAP;
 import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainerBAP.Builder;
 import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainerBAPContainable;
@@ -74,8 +71,8 @@ import its_meow.betteranimalsplus.common.item.ItemModFishBucket;
 import its_meow.betteranimalsplus.util.OceanBiomeHelper;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntitySpawnPlacementRegistry.PlacementType;
-import net.minecraft.entity.monster.MonsterEntity;
 import net.minecraft.entity.MobEntity;
+import net.minecraft.entity.monster.MonsterEntity;
 import net.minecraft.entity.passive.TameableEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.Items;
@@ -119,7 +116,6 @@ public class ModEntities {
         }
     }).head().allowFloor().singleton("1", "coyote_hostile").setModel(() -> ModelCoyoteHead::new).done());
     public static final EntityTypeContainerBAP<EntityTarantula> TARANTULA = setup(create(EntityTarantula.class, EntityTarantula::new, "tarantula").spawn(EntityClassification.MONSTER, 40, 1, 3).egg(0x1e1e1e, 0x8c0c0c).size(1.4F, 0.9F).defaultPlacement(MonsterEntity::canMonsterSpawnInLight).despawn().biomes(Type.SANDY));
-    public static final EntityTypeContainerBAP<EntityHirschgeist> HIRSCHGEIST = setup(create(EntityHirschgeist.class, EntityHirschgeist::new, "hirschgeist").spawn(EntityClassification.CREATURE, 2, 1, 1).egg(0xfffff, 0x00000).size(3F, 4F).biomes(Type.FOREST).head("hirschgeistskull").allowFloor().offset(-0.2F).singleton("1", "hirschgeist").setModel(() -> ModelHirschgeistSkull::new).done());
     public static final EntityTypeContainerBAP<EntityGoat> GOAT = setup(create(EntityGoat.class, EntityGoat::new, "goat").spawn(EntityClassification.CREATURE, 9, 1, 4).egg(0xffffff, 0xeeeeee).size(1.2F, 1.2F).biomes(Type.HILLS, Type.MOUNTAIN, Type.SAVANNA, Type.PLAINS, Type.FOREST).config(new CustomConfigurationHolder() {
         private ForgeConfigSpec.BooleanValue goatVanillaMilk;
 
@@ -167,7 +163,6 @@ public class ModEntities {
     public static final EntityTypeContainerBAP<EntityShark> SHARK = setup(create(EntityShark.class, EntityShark::new, "shark").spawn(EntityClassification.WATER_CREATURE, 4, 1, 1).waterPlacement().egg(0x787878, 0xbdbdbd).size(2.5F, 1.2F).despawn().biomes(Type.OCEAN).variants("blue", "bull", "tiger", "whitetip", "greenland", "hammerhead", "goblin", "mako", "great_white"));
     public static final EntityTypeContainerBAP<EntityMoose> MOOSE = setup(create(EntityMoose.class, EntityMoose::new, "moose").spawn(EntityClassification.CREATURE, 8, 1, 1).egg(0x46351c, 0x97866e).size(2.25F, 3F).biomes(BiomeListBuilder.create().extra(Type.SWAMP).extra(Biomes.GIANT_SPRUCE_TAIGA, Biomes.GIANT_SPRUCE_TAIGA_HILLS, Biomes.GIANT_TREE_TAIGA, Biomes.GIANT_TREE_TAIGA_HILLS)::collect).variants(4).head().mapToNames().offset(-1.35F).setModel(() -> ModelMooseHead::new).done());
     public static final EntityTypeContainerBAP<EntityTurkey> TURKEY = setup(create(EntityTurkey.class, EntityTurkey::new, "turkey").spawn(EntityClassification.CREATURE, 11, 1, 3).egg(0x857445, 0x5099ba).size(1F, 1F).biomes(BiomeListBuilder.create().withTypes(Type.FOREST).withoutTypes(Type.SNOWY)::collect).variants(4));
-    public static final EntityTypeContainerBAP<EntityZotzpyre> ZOTZPYRE = setup(create(EntityZotzpyre.class, EntityZotzpyre::new, "zotzpyre").spawn(EntityClassification.MONSTER, 30, 1, 1).defaultPlacement(EntityZotzpyre::canSpawn).egg(0x321e13, 0x543a28).size(1F, 1F).despawn().biomes(Type.FOREST, Type.JUNGLE, Type.BEACH, Type.CONIFEROUS, Type.LUSH, Type.WASTELAND, Type.SWAMP, Type.HILLS, Type.MOUNTAIN).variants(5));
     public static final EntityTypeContainerBAP<EntityBobbitWorm> BOBBIT_WORM = setup(create(EntityBobbitWorm.class, EntityBobbitWorm::new, "bobbit_worm").spawn(EntityClassification.WATER_CREATURE, 2, 1, 1).waterPlacement().egg(0xffe38f, 0x0f27bf).size(1F, 1F).despawn().biomes(Type.OCEAN).variants(2));
     public static final EntityTypeContainerBAP<EntityGoose> GOOSE = setup(create(EntityGoose.class, EntityGoose::new, "goose").spawn(EntityClassification.CREATURE, 15, 2, 5).placement(PlacementType.NO_RESTRICTIONS, Heightmap.Type.MOTION_BLOCKING, EntityGoose::canSpawn).egg(0xd3cfcf, 0x5e5752).size(1F, 1F).biomes(BiomeListBuilder.create().withTypes(Type.FOREST).withoutTypes(Type.DRY, Type.COLD, Type.HOT, Type.DENSE, Type.DEAD, Type.SPARSE, Type.OCEAN).extra(Type.RIVER)::collect).config(new CustomConfigurationHolder() {
         private ForgeConfigSpec.ConfigValue<List<? extends String>> pickupBlacklist;

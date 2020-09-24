@@ -14,7 +14,6 @@ import its_meow.betteranimalsplus.common.item.ItemAdvancementIcon;
 import its_meow.betteranimalsplus.common.item.ItemBearCape;
 import its_meow.betteranimalsplus.common.item.ItemBetterFood;
 import its_meow.betteranimalsplus.common.item.ItemBlockSimple;
-import its_meow.betteranimalsplus.common.item.ItemHirschgeistSkullWearable;
 import its_meow.betteranimalsplus.common.item.ItemHorseshoeCrabBlood;
 import its_meow.betteranimalsplus.common.item.ItemNamedSimple;
 import its_meow.betteranimalsplus.common.item.ItemThrowableCustomEgg;
@@ -42,7 +41,6 @@ public class ModItems {
 
     public static final ItemBetterFood VENISON_RAW = new ItemBetterFood("venisonraw", 4, 0, 32, true);
     public static final ItemBetterFood VENISON_COOKED = new ItemBetterFood("venisoncooked", 8, 1.2F, 32, true);
-    public static final ItemHirschgeistSkullWearable HIRSCHGEIST_SKULL_WEARABLE = new ItemHirschgeistSkullWearable();
     public static final Item ANTLER = new ItemNamedSimple("antler");
     public static final Item BLUBBER = new ItemBetterFood("blubber", 1, 2.0F, 32, false) {
         @Override

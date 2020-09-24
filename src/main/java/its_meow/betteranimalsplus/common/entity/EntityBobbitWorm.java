@@ -5,7 +5,6 @@ import java.util.Set;
 
 import javax.annotation.Nullable;
 
-import its_meow.betteranimalsplus.common.entity.miniboss.hirschgeist.EntityHirschgeist;
 import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainerBAP;
 import its_meow.betteranimalsplus.common.entity.util.abstracts.EntityAnimalWithTypes;
 import its_meow.betteranimalsplus.init.ModEntities;
@@ -54,7 +53,6 @@ public class EntityBobbitWorm extends EntityAnimalWithTypes {
         Set<Class<? extends LivingEntity>> blackList = new HashSet<Class<? extends LivingEntity>>();
         blackList.add(SkeletonEntity.class);
         blackList.add(EndermanEntity.class);
-        blackList.add(EntityHirschgeist.class);
         blackList.add(EntityJellyfish.class);
         this.targetSelector.addGoal(0, new NearestAttackableTargetGoal<LivingEntity>(this, LivingEntity.class, 0, true, true, e -> e.getWidth() < 3 && !(e instanceof IMob) && !(e instanceof EntityBobbitWorm) && !(e.world.getDifficulty() == Difficulty.PEACEFUL && e instanceof PlayerEntity) && !blackList.contains(e.getClass())));
     }

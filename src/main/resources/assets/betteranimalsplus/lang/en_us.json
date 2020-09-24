@@ -3,7 +3,6 @@
 
     "item.betteranimalsplus.venisonraw": "Raw Venison",
     "item.betteranimalsplus.venisoncooked": "Cooked Venison",
-    "item.betteranimalsplus.hirschgeistskullwearable": "Wearable Hirschgeist Skull",
     "item.betteranimalsplus.antler": "Antler",
     "item.betteranimalsplus.goatmilk": "Goat Milk",
     "item.betteranimalsplus.goatcheese": "Goat Cheese",
@@ -58,8 +57,6 @@
     "item.betteranimalsplus.horseshoe_crab_blood": "Horseshoe Crab Blood",
 
     "block.betteranimalsplus.trillium": "Trillium",
-    "block.betteranimalsplus.hirschgeistskull": "Hirschgeist Skull",
-    "block.betteranimalsplus.handoffate": "Hand Of Fate",
     "block.betteranimalsplus.feralwolfhead": "Feral Wolf Head",
     "block.betteranimalsplus.deerhead": "Deer Head",
     "block.betteranimalsplus.reindeerhead": "Reindeer Head",
@@ -78,7 +75,6 @@
     "entity.betteranimalsplus.feralwolf": "Feral Wolf",
     "entity.betteranimalsplus.coyote": "Coyote",
     "entity.betteranimalsplus.tarantula": "Tarantula",
-    "entity.betteranimalsplus.hirschgeist": "Hirschgeist",
     "entity.betteranimalsplus.goat": "Goat",
     "entity.betteranimalsplus.jellyfish": "Jellyfish",
     "entity.betteranimalsplus.pheasant": "Pheasant",
@@ -94,7 +90,6 @@
     "entity.betteranimalsplus.shark": "Shark",
     "entity.betteranimalsplus.moose": "Moose",
     "entity.betteranimalsplus.turkey": "Turkey",
-    "entity.betteranimalsplus.zotzpyre": "Zotzpyre",
     "entity.betteranimalsplus.bobbit_worm": "Bobbit Worm",
     "entity.betteranimalsplus.goose": "Goose",
     "entity.betteranimalsplus.eel_freshwater": "Freshwater Eel",

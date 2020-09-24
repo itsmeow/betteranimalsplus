@@ -3,7 +3,6 @@ package its_meow.betteranimalsplus.common.entity;
 import java.util.HashSet;
 import java.util.Set;
 
-import its_meow.betteranimalsplus.common.entity.miniboss.hirschgeist.EntityHirschgeist;
 import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainerBAP;
 import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainerBAPContainable;
 import its_meow.betteranimalsplus.common.entity.util.abstracts.EntityWaterMobPathingWithTypesBucketable;
@@ -52,7 +51,6 @@ public class EntityLamprey extends EntityWaterMobPathingWithTypesBucketable impl
         Set<Class<? extends LivingEntity>> blackList = new HashSet<Class<? extends LivingEntity>>();
         blackList.add(SkeletonEntity.class);
         blackList.add(EndermanEntity.class);
-        blackList.add(EntityHirschgeist.class);
         blackList.add(EntityJellyfish.class);
         blackList.add(EntityBobbitWorm.class);
         this.targetSelector.addGoal(0, new NearestAttackableTargetGoal<LivingEntity>(this, LivingEntity.class, 100, true, true, e -> e instanceof LivingEntity && !(e instanceof IMob) && !(e instanceof EntityLamprey) && !(e.world.getDifficulty() == Difficulty.PEACEFUL && e instanceof PlayerEntity) && !(blackList.contains(e.getClass()))));
