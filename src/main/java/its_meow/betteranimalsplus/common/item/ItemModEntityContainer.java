@@ -60,7 +60,7 @@ public class ItemModEntityContainer<T extends MobEntity & IContainable> extends 
             } else {
                 BlockRayTraceResult blockraytraceresult = (BlockRayTraceResult) raytraceresult;
                 BlockPos blockpos = blockraytraceresult.getPos();
-                this.placeEntity(worldIn, playerIn.getHeldItem(handIn), blockpos);
+                this.placeEntity(worldIn, playerIn.getHeldItem(handIn), blockpos.offset(blockraytraceresult.getFace()));
                 if(!playerIn.isCreative()) {
                     playerIn.setItemStackToSlot(handIn == Hand.MAIN_HAND ? EquipmentSlotType.MAINHAND : EquipmentSlotType.OFFHAND, new ItemStack(this.typeContainer.getEmptyContainerItem()));
                 }
