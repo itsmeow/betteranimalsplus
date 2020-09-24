@@ -440,9 +440,14 @@ public class EntityFeralWolf extends EntityTameableWithSelectiveTypes implements
 
     @Override
     protected EntityFeralWolf getBaseChild() {
-        return new EntityFeralWolf(this.world);
+        EntityFeralWolf wolf = new EntityFeralWolf(this.world);
+        if(this.isTamed()) {
+            wolf.setTamed(true);
+            wolf.setOwnerId(this.getOwnerId());
+        }
+        return wolf;
     }
-    
+
     @Override
     public String[] getTypesFor(Biome biome, Set<BiomeDictionary.Type> types) {
         if(types.contains(Type.FOREST) && !types.contains(Type.CONIFEROUS)) {

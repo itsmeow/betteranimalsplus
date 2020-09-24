@@ -254,7 +254,12 @@ public class EntityCoyote extends EntityFeralWolf {
 
     @Override
     public AgeableEntity createChild(AgeableEntity ageable) {
-        return this.getBaseChild();
+        EntityCoyote coyote = this.getBaseChild();
+        if(this.isTamed()) {
+            coyote.setTamed(true);
+            coyote.setOwnerId(this.getOwnerId());
+        }
+        return coyote;
     }
 
     @Override
