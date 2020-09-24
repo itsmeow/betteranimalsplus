@@ -57,9 +57,9 @@ public class EntityCoyote extends EntityFeralWolf {
 
     @Override
     protected void registerGoals() {
-        this.aiSit = new SitGoal(this);
+        this.sitGoal = new SitGoal(this);
         this.goalSelector.addGoal(1, new SwimGoal(this));
-        this.goalSelector.addGoal(2, this.aiSit);
+        this.goalSelector.addGoal(2, this.sitGoal);
         this.goalSelector.addGoal(3, new BreedGoal(this, 1D));
         this.goalSelector.addGoal(4, new LeapAtTargetGoal(this, 0.4F));
         this.goalSelector.addGoal(5, new MeleeAttackGoal(this, 1.0D, true));
@@ -143,7 +143,7 @@ public class EntityCoyote extends EntityFeralWolf {
             }
 
             if(this.isOwner(player) && !this.world.isRemote && !this.isBreedingItem(itemstack) && (!(itemstack.getItem().isFood()) || !itemstack.getItem().getFood().isMeat())) {
-                this.aiSit.setSitting(!this.isSitting());
+                this.sitGoal.setSitting(!this.isSitting());
                 this.isJumping = false;
                 this.navigator.clearPath();
                 this.setAttackTarget((LivingEntity) null);
@@ -164,7 +164,7 @@ public class EntityCoyote extends EntityFeralWolf {
                         this.setTamedBy(player);
                         this.navigator.clearPath();
                         this.setAttackTarget((LivingEntity) null);
-                        this.aiSit.setSitting(true);
+                        this.sitGoal.setSitting(true);
                         this.setHealth(20.0F);
                         this.playTameEffect(true);
                         this.world.setEntityState(this, (byte) 7);

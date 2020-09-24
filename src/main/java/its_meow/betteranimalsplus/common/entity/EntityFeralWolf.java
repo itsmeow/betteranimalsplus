@@ -87,8 +87,6 @@ public class EntityFeralWolf extends EntityTameableWithSelectiveTypes implements
     protected float timeWolfIsShaking;
     protected float prevTimeWolfIsShaking;
 
-    public SitGoal aiSit;
-
     public EntityFeralWolf(World worldIn) {
         super(ModEntities.FERAL_WOLF.entityType, worldIn);
         this.setTamed(false);
@@ -100,9 +98,9 @@ public class EntityFeralWolf extends EntityTameableWithSelectiveTypes implements
 
     @Override
     protected void registerGoals() {
-        this.aiSit = new SitGoal(this);
+        this.sitGoal = new SitGoal(this);
         this.goalSelector.addGoal(1, new SwimGoal(this));
-        this.goalSelector.addGoal(2, this.aiSit);
+        this.goalSelector.addGoal(2, this.sitGoal);
         this.goalSelector.addGoal(3, new BreedGoal(this, 1D));
         this.goalSelector.addGoal(4, new LeapAtTargetGoal(this, 0.4F));
         this.goalSelector.addGoal(5, new MeleeAttackGoal(this, 1.0D, true));
@@ -151,6 +149,7 @@ public class EntityFeralWolf extends EntityTameableWithSelectiveTypes implements
 
     @Override
     protected void updateAITasks() {
+        super.updateAITasks();
         this.dataManager.set(EntityFeralWolf.DATA_HEALTH_ID, Float.valueOf(this.getHealth()));
     }
 
@@ -283,8 +282,8 @@ public class EntityFeralWolf extends EntityTameableWithSelectiveTypes implements
         } else {
             Entity entity = source.getTrueSource();
 
-            if(this.aiSit != null) {
-                this.aiSit.setSitting(false);
+            if(this.sitGoal != null) {
+                this.sitGoal.setSitting(false);
             }
 
             if(entity != null && !(entity instanceof PlayerEntity) && !(entity instanceof AbstractArrowEntity)) {
@@ -337,7 +336,7 @@ public class EntityFeralWolf extends EntityTameableWithSelectiveTypes implements
                 }
             }
             if(this.isOwner(player) && !this.world.isRemote && !this.isBreedingItem(itemstack) && (!(itemstack.getItem().isFood()) || !(itemstack.getItem().getFood().isMeat()))) {
-                this.aiSit.setSitting(!this.isSitting());
+                this.sitGoal.setSitting(!this.isSitting());
                 this.isJumping = false;
                 this.navigator.clearPath();
                 this.setAttackTarget((LivingEntity) null);
@@ -353,7 +352,7 @@ public class EntityFeralWolf extends EntityTameableWithSelectiveTypes implements
                         this.setTamedBy(player);
                         this.navigator.clearPath();
                         this.setAttackTarget((LivingEntity) null);
-                        this.aiSit.setSitting(true);
+                        this.sitGoal.setSitting(true);
                         this.setHealth(20.0F);
                         this.playTameEffect(true);
                         this.world.setEntityState(this, (byte) 7);
@@ -486,10 +485,10 @@ public class EntityFeralWolf extends EntityTameableWithSelectiveTypes implements
         private ResourceLocation neutralTexture;
         private ResourceLocation lootTable;
 
-        public WolfVariant(String nameTexture, ResourceLocation lootTable) {
+        public WolfVariant(String nameTexture) {
             super(Ref.MOD_ID, nameTexture, "feralwolf_" + nameTexture);
             this.neutralTexture = new ResourceLocation(Ref.MOD_ID, "textures/entity/feralwolf_" + nameTexture + "_neutral.png");
-            this.lootTable = lootTable;
+            this.lootTable = new ResourceLocation(Ref.MOD_ID, "feralwolf_" + nameTexture);
         }
 
         @Override
