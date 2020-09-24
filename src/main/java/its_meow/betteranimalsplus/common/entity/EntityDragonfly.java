@@ -108,10 +108,10 @@ public class EntityDragonfly extends EntityAnimalWithTypesAndSizeContainable {
             if(Direction.byIndex(this.getLandedInteger()) != Direction.DOWN) {
                 double x = Math.floor(this.getPosX()) + 0.5D;
                 double z = Math.floor(this.getPosZ()) + 0.5D;
-                BlockPos pos = new BlockPos(x, this.getPosY(), z);
+                BlockPos pos = new BlockPos(x, Math.floor(this.getPosY()) + 0.5D, z);
                 BlockPos offset = pos.offset(Direction.byIndex(this.getLandedInteger()));
                 BlockPos diff = pos.subtract(offset);
-                this.setPositionAndUpdate(x - ((double) diff.getX()) / 2.778D, Math.floor(this.getPosY()) + 0.5D, ((double) diff.getZ()) / 2.778D);
+                this.setPositionAndUpdate(x - ((double) diff.getX()) / 2.778D, Math.floor(this.getPosY()) + 0.5D, z - ((double) diff.getZ()) / 2.778D);
                 this.rotationYaw = 0;
                 this.rotationYawHead = 0;
             } else {
