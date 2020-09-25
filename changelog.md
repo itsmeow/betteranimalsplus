@@ -1,3 +1,70 @@
+#10.0.0
+
+## Feature Additions
+
+### Animals
+- Add butterflies
+- Add dragonflies
+- Add barracuda
+- Add flying fish
+- Add giant squid
+- Add colossal squid
+- Add piranha
+- Add octopus
+
+### Items
+- Add bottled butterflies
+- Add bottled dragonflies
+- Add Bucket of Barracuda
+- Add Bucket of Flying Fish
+- Add Horseshoe Crab blood
+- Add calamari
+
+### Misc
+- Add Octopus' Garden advancement
+- Add 20,000 Leagues of Trouble advancement
+- Add Bug Collector advancement
+- Add secret developer feature
+
+## Feature Changes
+- 1.15: Remove all mythical features (Hand Of Fate, Zotzpyre, Hirschgeist + Skull + Advancements) They will be moved to our other mod Whisperwoods
+- Feral Wolves can now only be tamed when wearing an Ender Dragon head
+- Add custom textures for baby boar, deer, goose, pheasant, and turkey
+- Add new shark variants (hammerhead, goblin, mako, great white)
+- Update model for shark variants (tiger, whitetip, blue)
+- Make *all* animals available and non-hostile on Peaceful mode
+- Add baby brown bears (any meat)
+- Add baby black bears (salmon or honeycomb on 1.15)
+- Add baby feral wolves (antlers, must be tamed)
+- Add baby badgers (only occur naturally)
+- Brown bears, black bears, feral wolves, badgers, boar, crab, deer, goat, goose, horseshoe crab, turkey, squirrel, songbird, and pheasant will now naturally spawn as babies (25% chance)
+- Antlers can now be crafted into 3 bonemeal each
+- Bears can now rear and will defend their babies, like vanilla polar bears
+- Goats will now remember their friend when the world is unloaded
+
+## Localization
+- Update Russian Translation
+- Made more messages localizable (coyote/feral wolf messages, tooltips, etc)
+
+## Bugs
+- Make Lammergeiers Great Again! (No, seriously)
+- Fix crashes related to null variants (Shark rendering, whale rendering)
+- Fix heads with missing textures
+- Add Romanian and Finnish Translations
+- Fixed issue with serialization of types
+- Fix random crashes when certain entities spawned naturally
+- Fixed crash when taming animals
+- Fixed reindeer having weird leg placement
+- Fixed feral wolves not being able to heal to full health with food
+- Fixed coyote, feral wolves, and goats having odd walking animations
+- Fixed taranatulas spawning too much / in the light / in the wrong places
+- Fixed weird desync with feral wolves and coyotes when sitting (walking while sitting, etc)
+- Fix crash with Rosy's Update mod / overwriting vanilla bucket
+- 1.15: Fix songbirds sometimes not appearing as landed
+- 1.15: Fix walrus not moving when in water
+- 1.15: Possibly fix crash with Lammergeier navigation
+- 1.15: Fix Feral Wolves not dropping pelts and not changing eyes when tamed
+
 9.0.1
 -
 - 1.14: Fixed crash when Zotzpyre rode a turtle partially submerged in water
