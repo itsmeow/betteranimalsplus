@@ -115,10 +115,10 @@ public class BetterAnimalsPlusRegistrar {
         for(EntityTypeContainer<?> container : ModEntities.getEntities().values()) {
             if(container instanceof EntityTypeContainerBAPContainable<?, ?>) {
                 EntityTypeContainerBAPContainable<?, ?> c = (EntityTypeContainerBAPContainable<?, ?>) container;
-                if(!ForgeRegistries.ITEMS.containsValue(c.getContainerItem())) {
+                if(!ForgeRegistries.ITEMS.containsValue(c.getContainerItem()) && c.getContainerItem().getRegistryName().getNamespace().equals(Ref.MOD_ID)) {
                     event.getRegistry().register(c.getContainerItem());
                 }
-                if(!ForgeRegistries.ITEMS.containsValue(c.getEmptyContainerItem())) {
+                if(!ForgeRegistries.ITEMS.containsValue(c.getEmptyContainerItem()) && c.getEmptyContainerItem().getRegistryName().getNamespace().equals(Ref.MOD_ID)) {
                     event.getRegistry().register(c.getEmptyContainerItem());
                 }
             }
