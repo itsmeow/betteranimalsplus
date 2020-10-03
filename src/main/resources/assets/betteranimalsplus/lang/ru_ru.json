@@ -3,7 +3,6 @@
 
     "item.betteranimalsplus.venisonraw": "Сырая оленина",
     "item.betteranimalsplus.venisoncooked": "Приготовленная оленина",
-    "item.betteranimalsplus.hirschgeistskullwearable": "Носимый череп оленьего духа",
     "item.betteranimalsplus.antler": "Олений рог",
     "item.betteranimalsplus.goatmilk": "Козье молоко",
     "item.betteranimalsplus.goatcheese": "Козий сыр",
@@ -55,10 +54,9 @@
     "item.betteranimalsplus.calamari_raw": "Сырое щупальце",
     "item.betteranimalsplus.calamari_cooked": "Приготовленное щупальце",
     "item.betteranimalsplus.piranha_bucket": "Пиранья в ведре",
+    "item.betteranimalsplus.horseshoe_crab_blood": "Кровь мечехвоста",
 
     "block.betteranimalsplus.trillium": "Триллиум",
-    "block.betteranimalsplus.hirschgeistskull": "Череп оленьего духа",
-    "block.betteranimalsplus.handoffate": "Рука судьбы",
     "block.betteranimalsplus.feralwolfhead": "Голова дикого волка",
     "block.betteranimalsplus.deerhead": "Голова оленя",
     "block.betteranimalsplus.reindeerhead": "Голова северного оленя",
@@ -77,7 +75,6 @@
     "entity.betteranimalsplus.feralwolf": "Дикий волк",
     "entity.betteranimalsplus.coyote": "Койот",
     "entity.betteranimalsplus.tarantula": "Тарантул",
-    "entity.betteranimalsplus.hirschgeist": "Дух оленя",
     "entity.betteranimalsplus.goat": "Коза",
     "entity.betteranimalsplus.jellyfish": "Медуза",
     "entity.betteranimalsplus.pheasant": "Фазан",
@@ -93,7 +90,6 @@
     "entity.betteranimalsplus.shark": "Акула",
     "entity.betteranimalsplus.moose": "Лось",
     "entity.betteranimalsplus.turkey": "Индейка",
-    "entity.betteranimalsplus.zotzpyre": "Зотцпир",
     "entity.betteranimalsplus.bobbit_worm": "Пурпурный австралийский червь",
     "entity.betteranimalsplus.goose": "Гусь",
     "entity.betteranimalsplus.eel_freshwater": "Пресноводный угорь",
@@ -145,5 +141,6 @@
     "death.attack.betteranimalsplus.piranha": "%1$s был(а) съеден(а) до костей пираньями",	
 	
     "misc.betteranimalsplus.eggorder": "Яйцо призыва %s",
-    "tooltip.betteranimalsplus.nectar": "Имеет нектар"
+    "tooltip.betteranimalsplus.nectar": "Имеет нектар",
+    "tooltip.betteranimalsplus.cures_wither": "Лечит иссушение"
 }
