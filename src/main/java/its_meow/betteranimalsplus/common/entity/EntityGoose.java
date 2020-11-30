@@ -354,19 +354,17 @@ public class EntityGoose extends EntityAnimalWithTypes {
             types = new String[] {"1","2","3"};
             break;
         }
-       livingdata = EntityUtil.childChance(this, reason, super.onInitialSpawn(world, difficulty, reason, livingdata, compound), 0.25F);
-       if(!this.getImplementation().isChild()) {
-           IVariant variant = this.getContainer().getVariantForName(types[this.getRNG().nextInt(types.length)]);
-           if(livingdata instanceof AgeableTypeData) {
-               variant = ((AgeableTypeData) livingdata).typeData;
-           } else if(livingdata instanceof AgeableData) {
-               livingdata = new AgeableTypeData((AgeableData) livingdata, variant);
-           } else {
-               livingdata = new AgeableTypeData(variant);
-           }
-           this.setType(variant);
-       }
-       return livingdata;
+        livingdata = EntityUtil.childChance(this, reason, livingdata, 0.25F);
+        IVariant variant = this.getContainer().getVariantForName(types[this.getRNG().nextInt(types.length)]);
+        if (livingdata instanceof AgeableTypeData) {
+            variant = ((AgeableTypeData) livingdata).typeData;
+        } else if (livingdata instanceof AgeableData) {
+            livingdata = new AgeableTypeData((AgeableData) livingdata, variant);
+        } else {
+            livingdata = new AgeableTypeData(variant);
+        }
+        this.setType(variant);
+        return livingdata;
     }
 
     public static boolean canSpawn(EntityType<EntityGoose> type, IWorld world, SpawnReason reason, BlockPos pos, Random rand) {
