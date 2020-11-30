@@ -36,7 +36,7 @@ public class EntityPiranha extends EntityWaterMobPathingBucketable {
     protected void registerGoals() {
         this.goalSelector.addGoal(0, new MeleeAttackGoal(this, 1D, true));
         this.goalSelector.addGoal(1, new RandomSwimmingGoal(this, 1D, 1));
-        this.targetSelector.addGoal(0, new NearestAttackableTargetGoal<LivingEntity>(this, LivingEntity.class, 1, true, false, e -> e.getHealth() < e.getMaxHealth() && !(e instanceof EntityPiranha) && !(e instanceof SkeletonEntity) && !(e instanceof SkeletonHorseEntity) && (!(e instanceof PlayerEntity) || e.world.getDifficulty() != Difficulty.PEACEFUL)));
+        this.targetSelector.addGoal(0, new NearestAttackableTargetGoal<LivingEntity>(this, LivingEntity.class, 0, true, false, e -> e.getHealth() < e.getMaxHealth() && !(e instanceof EntityPiranha) && !(e instanceof SkeletonEntity) && !(e instanceof SkeletonHorseEntity) && (!(e instanceof PlayerEntity) || e.world.getDifficulty() != Difficulty.PEACEFUL)));
     }
 
     @Override
@@ -95,6 +95,7 @@ public class EntityPiranha extends EntityWaterMobPathingBucketable {
                 if(entityIn.hasCustomName()) {
                     skele.setCustomName(entityIn.getCustomName());
                 }
+                skele.setGrowingAge(((HorseEntity) entityIn).getGrowingAge());
                 skele.setCustomNameVisible(entityIn.isCustomNameVisible());
                 entityIn.world.addEntity(skele);
             }
