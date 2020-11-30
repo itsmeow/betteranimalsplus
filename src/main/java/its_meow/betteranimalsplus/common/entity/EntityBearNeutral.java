@@ -13,11 +13,7 @@ import its_meow.betteranimalsplus.init.ModLootTables;
 import net.minecraft.entity.AgeableEntity;
 import net.minecraft.entity.ILivingEntityData;
 import net.minecraft.entity.SpawnReason;
-import net.minecraft.entity.ai.goal.BreedGoal;
-import net.minecraft.entity.ai.goal.LookAtGoal;
-import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal;
-import net.minecraft.entity.ai.goal.RandomWalkingGoal;
-import net.minecraft.entity.ai.goal.SwimGoal;
+import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.passive.ChickenEntity;
 import net.minecraft.entity.passive.FoxEntity;
 import net.minecraft.entity.passive.RabbitEntity;
@@ -41,14 +37,16 @@ public class EntityBearNeutral extends EntityBear implements IVariantTypes<Entit
         this.goalSelector.addGoal(0, new SwimGoal(this));
         this.goalSelector.addGoal(1, new EntityBear.MeleeAttackGoal());
         this.goalSelector.addGoal(2, new BreedGoal(this, 1D));
+        this.goalSelector.addGoal(2, new FollowParentGoal(this, 1.25D));
         this.goalSelector.addGoal(2, new EntityAIEatBerries(this, 1.0D, 12, 2));
         this.targetSelector.addGoal(1, new EntityBear.HurtByTargetGoal());
+        this.targetSelector.addGoal(2, new EntityBear.AttackPlayerGoal());
         this.goalSelector.addGoal(5, new RandomWalkingGoal(this, 0.5D));
         this.goalSelector.addGoal(6, new LookAtGoal(this, PlayerEntity.class, 6.0F));
-        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<ChickenEntity>(this, ChickenEntity.class, true));
-        this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<RabbitEntity>(this, RabbitEntity.class, true));
-        this.targetSelector.addGoal(4, new NearestAttackableTargetGoal<EntityPheasant>(this, EntityPheasant.class, 90, true, true, Predicates.alwaysTrue()));
-        this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<FoxEntity>(this, FoxEntity.class, 90, true, true, Predicates.alwaysTrue()));
+        this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<ChickenEntity>(this, ChickenEntity.class, true));
+        this.targetSelector.addGoal(4, new NearestAttackableTargetGoal<RabbitEntity>(this, RabbitEntity.class, true));
+        this.targetSelector.addGoal(5, new NearestAttackableTargetGoal<EntityPheasant>(this, EntityPheasant.class, 90, true, true, Predicates.alwaysTrue()));
+        this.targetSelector.addGoal(4, new NearestAttackableTargetGoal<FoxEntity>(this, FoxEntity.class, 90, true, true, Predicates.alwaysTrue()));
     }
 
     @Override

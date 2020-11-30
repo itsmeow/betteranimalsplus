@@ -201,7 +201,7 @@ public class EntityBear extends AnimalEntity implements IDropHead<EntityBear> {
 
     class AttackPlayerGoal extends NearestAttackableTargetGoal<PlayerEntity> {
         public AttackPlayerGoal() {
-            super(EntityBear.this, PlayerEntity.class, 20, true, true, (Predicate<LivingEntity>) null);
+            super(EntityBear.this, PlayerEntity.class, 0, true, true, (Predicate<LivingEntity>) null);
         }
 
         public boolean shouldExecute() {

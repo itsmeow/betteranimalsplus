@@ -35,7 +35,7 @@ import java.util.Calendar;
 public class EntityDeer extends EntityAnimalEatsGrassWithTypes implements IDropHead<EntityAnimalWithTypes> {
 
     public EntityDeer(World worldIn) {
-        super(ModEntities.DEER.entityType, worldIn, 5);
+        super(ModEntities.DEER.entityType, worldIn, 6);
     }
 
     public int getEatTime() {
@@ -97,9 +97,10 @@ public class EntityDeer extends EntityAnimalEatsGrassWithTypes implements IDropH
         temptItems[4] = Items.GOLDEN_CARROT;
         this.goalSelector.addGoal(3, new TemptGoal(this, 0.45D, false, Ingredient.fromItems(temptItems)));
         this.goalSelector.addGoal(4, new AvoidEntityGoal<PlayerEntity>(this, PlayerEntity.class, 20, 0.55D, 0.7D));
-        // Eat Grass at Priority 5
-        this.goalSelector.addGoal(5, new RandomWalkingGoal(this, 0.45D));
-        this.goalSelector.addGoal(6, new LookRandomlyGoal(this));
+        this.goalSelector.addGoal(5, new FollowParentGoal(this, 1D));
+        // Eat Grass at Priority 6
+        this.goalSelector.addGoal(6, new RandomWalkingGoal(this, 0.45D));
+        this.goalSelector.addGoal(7, new LookRandomlyGoal(this));
     }
 
     @Override
