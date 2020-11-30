@@ -1,11 +1,12 @@
 package its_meow.betteranimalsplus.common.entity;
 
+import dev.itsmeow.imdlib.entity.util.EntityTypeContainer;
 import dev.itsmeow.imdlib.entity.util.IVariant;
 import its_meow.betteranimalsplus.common.entity.ai.EntityAIEatGrassCustom;
 import its_meow.betteranimalsplus.common.entity.ai.PeacefulNearestAttackableTargetGoal;
-import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainerBAP;
 import its_meow.betteranimalsplus.common.entity.util.IDropHead;
 import its_meow.betteranimalsplus.common.entity.util.abstracts.EntityAnimalEatsGrassWithTypes;
+import its_meow.betteranimalsplus.common.entity.util.abstracts.EntityAnimalWithTypes;
 import its_meow.betteranimalsplus.init.ModEntities;
 import its_meow.betteranimalsplus.init.ModLootTables;
 import net.minecraft.block.Block;
@@ -30,7 +31,7 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.World;
 
-public class EntityMoose extends EntityAnimalEatsGrassWithTypes implements IDropHead {
+public class EntityMoose extends EntityAnimalEatsGrassWithTypes implements IDropHead<EntityAnimalWithTypes> {
 
     public EntityMoose(World worldIn) {
         super(ModEntities.MOOSE.entityType, worldIn, 5);
@@ -143,7 +144,7 @@ public class EntityMoose extends EntityAnimalEatsGrassWithTypes implements IDrop
     }
     
     @Override
-    public EntityTypeContainerBAP<EntityMoose> getContainer() {
+    public EntityTypeContainer<EntityMoose> getContainer() {
         return ModEntities.MOOSE;
     }
 

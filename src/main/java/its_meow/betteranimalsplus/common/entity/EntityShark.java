@@ -6,9 +6,9 @@ import java.util.Set;
 
 import javax.annotation.Nullable;
 
+import dev.itsmeow.imdlib.entity.util.EntityTypeContainer;
 import dev.itsmeow.imdlib.entity.util.IVariant;
 import dev.itsmeow.imdlib.entity.util.IVariantTypes;
-import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainerBAP;
 import its_meow.betteranimalsplus.common.entity.util.abstracts.EntitySharkBase;
 import its_meow.betteranimalsplus.common.entity.util.abstracts.EntityWaterMobPathing;
 import its_meow.betteranimalsplus.init.ModEntities;
@@ -185,7 +185,7 @@ public class EntityShark extends EntitySharkBase {
     }
 
     @Override
-    public EntityTypeContainerBAP<EntityShark> getContainer() {
+    public EntityTypeContainer<EntityShark> getContainer() {
         return ModEntities.SHARK;
     }
 

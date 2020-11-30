@@ -11,8 +11,8 @@ import net.minecraft.world.World;
 
 public class BlockTurkeyRaw extends BlockTurkey {
 
-    public BlockTurkeyRaw(String name) {
-        super(name);
+    public BlockTurkeyRaw() {
+        super();
     }
     
     @Override

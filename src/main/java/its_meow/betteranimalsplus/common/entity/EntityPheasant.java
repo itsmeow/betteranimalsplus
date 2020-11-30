@@ -1,8 +1,6 @@
 package its_meow.betteranimalsplus.common.entity;
 
-import javax.annotation.Nullable;
-
-import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainerBAP;
+import dev.itsmeow.imdlib.entity.util.EntityTypeContainer;
 import its_meow.betteranimalsplus.common.entity.util.EntityUtil;
 import its_meow.betteranimalsplus.common.entity.util.abstracts.EntityAnimalWithTypes;
 import its_meow.betteranimalsplus.init.ModEntities;
@@ -12,13 +10,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.entity.ILivingEntityData;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.SpawnReason;
-import net.minecraft.entity.ai.goal.BreedGoal;
-import net.minecraft.entity.ai.goal.FollowParentGoal;
-import net.minecraft.entity.ai.goal.LookAtGoal;
-import net.minecraft.entity.ai.goal.PanicGoal;
-import net.minecraft.entity.ai.goal.SwimGoal;
-import net.minecraft.entity.ai.goal.TemptGoal;
-import net.minecraft.entity.ai.goal.WaterAvoidingRandomWalkingGoal;
+import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -37,6 +29,8 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
+
+import javax.annotation.Nullable;
 
 public class EntityPheasant extends EntityAnimalWithTypes {
 
@@ -109,7 +103,7 @@ public class EntityPheasant extends EntityAnimalWithTypes {
 
         if(!this.world.isRemote && !this.isChild() && --this.timeUntilNextEgg <= 0) {
             this.playSound(SoundEvents.ENTITY_CHICKEN_EGG, 1.0F, (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 1.0F);
-            this.entityDropItem(ModItems.PHEASANT_EGG, 1);
+            this.entityDropItem(ModItems.PHEASANT_EGG.get(), 1);
             this.timeUntilNextEgg = this.rand.nextInt(6000) + 6000;
         }
     }
@@ -169,7 +163,7 @@ public class EntityPheasant extends EntityAnimalWithTypes {
     }
 
     @Override
-    public EntityTypeContainerBAP<EntityPheasant> getContainer() {
+    public EntityTypeContainer<EntityPheasant> getContainer() {
         return ModEntities.PHEASANT;
     }
 

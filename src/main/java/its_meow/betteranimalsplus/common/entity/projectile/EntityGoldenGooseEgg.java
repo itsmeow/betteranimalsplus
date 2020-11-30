@@ -36,7 +36,7 @@ public class EntityGoldenGooseEgg extends EntityModEgg {
 
     @Override
     public Item getDefaultItem() {
-        return ModItems.GOLDEN_GOOSE_EGG;
+        return ModItems.GOLDEN_GOOSE_EGG.get();
     }
 
     @Override

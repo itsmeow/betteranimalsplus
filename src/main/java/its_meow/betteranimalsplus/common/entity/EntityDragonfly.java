@@ -1,22 +1,12 @@
 package its_meow.betteranimalsplus.common.entity;
 
-import java.util.List;
-import java.util.function.Predicate;
-
-import javax.annotation.Nullable;
-
 import dev.itsmeow.imdlib.entity.util.EntityTypeContainer;
-import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainerBAP;
-import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainerBAPContainable;
+import dev.itsmeow.imdlib.entity.util.EntityTypeContainerContainable;
 import its_meow.betteranimalsplus.common.entity.util.abstracts.EntityAnimalWithTypes;
 import its_meow.betteranimalsplus.common.entity.util.abstracts.EntityAnimalWithTypesAndSizeContainable;
 import its_meow.betteranimalsplus.init.ModEntities;
 import net.minecraft.block.BlockState;
-import net.minecraft.entity.CreatureAttribute;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityPredicate;
-import net.minecraft.entity.MobEntity;
-import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.*;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
@@ -34,6 +24,10 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import net.minecraftforge.common.util.Constants;
+
+import javax.annotation.Nullable;
+import java.util.List;
+import java.util.function.Predicate;
 
 public class EntityDragonfly extends EntityAnimalWithTypesAndSizeContainable {
 
@@ -315,7 +309,7 @@ public class EntityDragonfly extends EntityAnimalWithTypesAndSizeContainable {
     }
 
     @Override
-    public EntityTypeContainerBAPContainable<?, ?> getContainableContainer() {
+    public EntityTypeContainerContainable<?, ?> getContainableContainer() {
         return ModEntities.DRAGONFLY;
     }
 
@@ -335,7 +329,7 @@ public class EntityDragonfly extends EntityAnimalWithTypesAndSizeContainable {
         }
     }
 
-    public static void bottleTooltip(EntityTypeContainerBAP<? extends MobEntity> container, ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip) {
+    public static void bottleTooltip(EntityTypeContainer<? extends MobEntity> container, ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip) {
         CompoundNBT tag = stack.getTag();
         if(tag != null) {
             if(tag.contains("SizeTag", Constants.NBT.TAG_FLOAT)) {

@@ -36,7 +36,7 @@ public class EntityTurkeyEgg extends EntityModEgg {
 
     @Override
     public Item getDefaultItem() {
-        return ModItems.TURKEY_EGG;
+        return ModItems.TURKEY_EGG.get();
     }
 
     @Override

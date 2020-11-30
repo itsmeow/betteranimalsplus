@@ -12,13 +12,10 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 public abstract class ItemCape extends ItemModeledArmor {
 
-    public final String variant;
     public final Item repairItem;
 
-    public ItemCape(String name, String variant, Item repairItem, IArmorMaterial material) {
+    public ItemCape(Item repairItem, IArmorMaterial material) {
         super(material, EquipmentSlotType.CHEST, new Properties().group(BetterAnimalsPlusMod.group));
-        this.variant = variant;
-        this.setRegistryName(Ref.MOD_ID, name + variant);
         this.repairItem = repairItem;
     }
 

@@ -1,39 +1,15 @@
 package its_meow.betteranimalsplus.common.entity;
 
-import java.util.function.Predicate;
-
-import javax.annotation.Nullable;
-
 import com.google.common.base.Predicates;
-
-import dev.itsmeow.imdlib.entity.util.IContainerEntity;
+import dev.itsmeow.imdlib.entity.util.EntityTypeContainer;
 import its_meow.betteranimalsplus.common.entity.ai.EntityAIEatBerries;
-import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainerBAP;
 import its_meow.betteranimalsplus.common.entity.util.IDropHead;
 import its_meow.betteranimalsplus.init.ModEntities;
 import its_meow.betteranimalsplus.init.ModLootTables;
 import net.minecraft.block.BlockState;
-import net.minecraft.entity.AgeableEntity;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntitySize;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.ILivingEntityData;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.MobEntity;
-import net.minecraft.entity.Pose;
-import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.SpawnReason;
-import net.minecraft.entity.ai.goal.BreedGoal;
-import net.minecraft.entity.ai.goal.FollowParentGoal;
-import net.minecraft.entity.ai.goal.LookAtGoal;
-import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal;
-import net.minecraft.entity.ai.goal.RandomWalkingGoal;
-import net.minecraft.entity.ai.goal.SwimGoal;
-import net.minecraft.entity.passive.AnimalEntity;
-import net.minecraft.entity.passive.ChickenEntity;
-import net.minecraft.entity.passive.FoxEntity;
-import net.minecraft.entity.passive.PigEntity;
-import net.minecraft.entity.passive.RabbitEntity;
+import net.minecraft.entity.*;
+import net.minecraft.entity.ai.goal.*;
+import net.minecraft.entity.passive.*;
 import net.minecraft.entity.passive.fish.SalmonEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -56,7 +32,10 @@ import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
-public class EntityBear extends AnimalEntity implements IContainerEntity<EntityBear>, IDropHead {
+import javax.annotation.Nullable;
+import java.util.function.Predicate;
+
+public class EntityBear extends AnimalEntity implements IDropHead<EntityBear> {
     private static final DataParameter<Boolean> IS_STANDING = EntityDataManager.createKey(EntityBear.class, DataSerializers.BOOLEAN);
     private float clientSideStandAnimation0;
     private float clientSideStandAnimation;
@@ -338,7 +317,7 @@ public class EntityBear extends AnimalEntity implements IContainerEntity<EntityB
     }
 
     @Override
-    public EntityTypeContainerBAP<?> getContainer() {
+    public EntityTypeContainer<?> getContainer() {
         return ModEntities.BROWN_BEAR;
     }
 

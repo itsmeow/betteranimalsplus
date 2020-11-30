@@ -7,23 +7,26 @@ import dev.itsmeow.imdlib.util.ModSoundEvent;
 import its_meow.betteranimalsplus.Ref;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
+import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.fml.RegistryObject;
+import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.ForgeRegistries;
 
 public class ModSoundEvents {
 
-    public static final Map<ResourceLocation, SoundEvent> SOUNDS = new HashMap<ResourceLocation, SoundEvent>();
+    private static final DeferredRegister<SoundEvent> SOUNDS = DeferredRegister.create(ForgeRegistries.SOUND_EVENTS, Ref.MOD_ID);
 
-    public static final SoundEvent CRAB_RAVE = sound("record.crabrave");
+    public static final RegistryObject<SoundEvent> CRAB_RAVE = r("record_crabrave");
+    public static final RegistryObject<SoundEvent> GOOSE_DEATH = r("entity_goose_death");
+    public static final RegistryObject<SoundEvent> GOOSE_HURT = r("entity_goose_hurt");
+    public static final RegistryObject<SoundEvent> GOOSE_AMBIENT = r("entity_goose_ambient");
+    public static final RegistryObject<SoundEvent> WALRUS = r("record_walrus");
 
-    public static final SoundEvent GOOSE_DEATH = sound("entity.goose.death");
-    public static final SoundEvent GOOSE_HURT = sound("entity.goose.hurt");
-    public static final SoundEvent GOOSE_AMBIENT = sound("entity.goose.ambient");
-
-    public static final SoundEvent WALRUS = sound("record.walrus");
-
-    private static SoundEvent sound(String id) {
-        ModSoundEvent event = new ModSoundEvent(Ref.MOD_ID, id);
-        SOUNDS.put(event.getRegistryName(), event);
-        return event;
+    private static RegistryObject<SoundEvent> r(String name) {
+        return SOUNDS.register(name, () -> new SoundEvent(new ResourceLocation(Ref.MOD_ID, name.replaceAll("_", "."))));
     }
 
+    public static void subscribe(IEventBus modEventBus) {
+        SOUNDS.register(modEventBus);
+    }
 }

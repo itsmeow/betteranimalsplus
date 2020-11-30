@@ -2,9 +2,11 @@ package its_meow.betteranimalsplus.common.item;
 
 import java.util.List;
 
+import its_meow.betteranimalsplus.BetterAnimalsPlusMod;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.item.UseAction;
@@ -17,12 +19,12 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 
-public class ItemHorseshoeCrabBlood extends ItemNamedSimple {
+public class ItemHorseshoeCrabBlood extends Item {
 
     public static final ITextComponent CURES_WITHER = new TranslationTextComponent("tooltip.betteranimalsplus.cures_wither").applyTextStyle(TextFormatting.GREEN);
 
     public ItemHorseshoeCrabBlood() {
-        super("horseshoe_crab_blood", new Properties().maxStackSize(1).containerItem(Items.GLASS_BOTTLE));
+        super(new Properties().maxStackSize(1).containerItem(Items.GLASS_BOTTLE).group(BetterAnimalsPlusMod.group));
     }
 
     @Override

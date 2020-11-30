@@ -4,10 +4,10 @@ import javax.annotation.Nullable;
 
 import com.google.common.base.Predicates;
 
+import dev.itsmeow.imdlib.entity.util.EntityTypeContainer;
 import dev.itsmeow.imdlib.entity.util.IVariant;
 import dev.itsmeow.imdlib.entity.util.IVariantTypes;
 import its_meow.betteranimalsplus.common.entity.ai.EntityAIEatBerries;
-import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainerBAP;
 import its_meow.betteranimalsplus.init.ModEntities;
 import its_meow.betteranimalsplus.init.ModLootTables;
 import net.minecraft.entity.AgeableEntity;
@@ -104,7 +104,7 @@ public class EntityBearNeutral extends EntityBear implements IVariantTypes<Entit
     }
 
     @Override
-    public EntityTypeContainerBAP<EntityBearNeutral> getContainer() {
+    public EntityTypeContainer<EntityBearNeutral> getContainer() {
         return ModEntities.BLACK_BEAR;
     }
 

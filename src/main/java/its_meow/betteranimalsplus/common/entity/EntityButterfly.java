@@ -1,31 +1,13 @@
 package its_meow.betteranimalsplus.common.entity;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.function.Predicate;
-
-import javax.annotation.Nullable;
-
 import dev.itsmeow.imdlib.entity.util.EntityTypeContainer;
-import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainerBAP;
-import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainerBAPContainable;
+import dev.itsmeow.imdlib.entity.util.EntityTypeContainerContainable;
 import its_meow.betteranimalsplus.common.entity.util.abstracts.EntityAnimalWithTypes;
 import its_meow.betteranimalsplus.common.entity.util.abstracts.EntityAnimalWithTypesAndSizeContainable;
 import its_meow.betteranimalsplus.init.ModEntities;
 import its_meow.betteranimalsplus.init.ModResources;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.CropsBlock;
-import net.minecraft.block.DoublePlantBlock;
-import net.minecraft.block.StemBlock;
-import net.minecraft.block.SweetBerryBushBlock;
-import net.minecraft.entity.CreatureAttribute;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityPredicate;
-import net.minecraft.entity.MobEntity;
-import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.block.*;
+import net.minecraft.entity.*;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
@@ -52,6 +34,12 @@ import net.minecraft.world.biome.Biome;
 import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.BiomeDictionary.Type;
 import net.minecraftforge.common.util.Constants;
+
+import javax.annotation.Nullable;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.function.Predicate;
 
 public class EntityButterfly extends EntityAnimalWithTypesAndSizeContainable {
 
@@ -440,7 +428,7 @@ public class EntityButterfly extends EntityAnimalWithTypesAndSizeContainable {
     }
 
     @Override
-    public EntityTypeContainerBAPContainable<?, ?> getContainableContainer() {
+    public EntityTypeContainerContainable<?, ?> getContainableContainer() {
         return ModEntities.BUTTERFLY;
     }
 
@@ -462,7 +450,7 @@ public class EntityButterfly extends EntityAnimalWithTypesAndSizeContainable {
         }
     }
 
-    public static void bottleTooltip(EntityTypeContainerBAP<? extends MobEntity> container, ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip) {
+    public static void bottleTooltip(EntityTypeContainer<? extends MobEntity> container, ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip) {
         CompoundNBT tag = stack.getTag();
         if(tag != null) {
             if(tag.contains("SizeTag", Constants.NBT.TAG_FLOAT)) {

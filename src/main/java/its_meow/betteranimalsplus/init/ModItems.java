@@ -1,32 +1,16 @@
 package its_meow.betteranimalsplus.init;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import its_meow.betteranimalsplus.BetterAnimalsPlusMod;
 import its_meow.betteranimalsplus.Ref;
 import its_meow.betteranimalsplus.common.entity.projectile.EntityGoldenGooseEgg;
 import its_meow.betteranimalsplus.common.entity.projectile.EntityGooseEgg;
 import its_meow.betteranimalsplus.common.entity.projectile.EntityPheasantEgg;
 import its_meow.betteranimalsplus.common.entity.projectile.EntityTurkeyEgg;
-import its_meow.betteranimalsplus.common.item.ItemAdvancementIcon;
-import its_meow.betteranimalsplus.common.item.ItemBearCape;
-import its_meow.betteranimalsplus.common.item.ItemBetterFood;
-import its_meow.betteranimalsplus.common.item.ItemBlockSimple;
-import its_meow.betteranimalsplus.common.item.ItemHorseshoeCrabBlood;
-import its_meow.betteranimalsplus.common.item.ItemNamedSimple;
-import its_meow.betteranimalsplus.common.item.ItemThrowableCustomEgg;
-import its_meow.betteranimalsplus.common.item.ItemWolfCape;
+import its_meow.betteranimalsplus.common.item.*;
+import net.minecraft.block.Block;
 import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.item.Item;
+import net.minecraft.item.*;
 import net.minecraft.item.Item.Properties;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.item.MilkBucketItem;
-import net.minecraft.item.MusicDiscItem;
-import net.minecraft.item.Rarity;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.Style;
@@ -34,95 +18,130 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.registries.ObjectHolder;
+import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.fml.RegistryObject;
+import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.ForgeRegistries;
 
-@ObjectHolder(Ref.MOD_ID)
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.function.Supplier;
+
 public class ModItems {
 
-    public static final ItemBetterFood VENISON_RAW = new ItemBetterFood("venisonraw", 4, 0, 32, true);
-    public static final ItemBetterFood VENISON_COOKED = new ItemBetterFood("venisoncooked", 8, 1.2F, 32, true);
-    public static final Item ANTLER = new ItemNamedSimple("antler");
-    public static final Item BLUBBER = new ItemBetterFood("blubber", 1, 2.0F, 32, false) {
+    private static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, Ref.MOD_ID);
+
+    public static final RegistryObject<Item> ADVANCEMENT_ICON_JELLYFISH = rH("advancement_icon_jellyfish");
+    public static final RegistryObject<Item> ADVANCEMENT_ICON_JELLYFISH_CROSS = rH("advancement_icon_jellyfish_cross");
+    public static final RegistryObject<Item> ADVANCEMENT_ICON_GOAT = rH("advancement_icon_goat");
+    public static final RegistryObject<Item> ADVANCEMENT_ICON_SHARK = rH("advancement_icon_shark");
+    public static final RegistryObject<Item> ADVANCEMENT_ICON_LAMPREY = rH("advancement_icon_lamprey");
+    public static final RegistryObject<Item> ADVANCEMENT_ICON_SQUIRREL = rH("advancement_icon_squirrel");
+    public static final RegistryObject<Item> ADVANCEMENT_ICON_BADGER = rH("advancement_icon_badger");
+    public static final RegistryObject<Item> ADVANCEMENT_ICON_SUCCENING = rH("advancement_icon_succening");
+    public static final RegistryObject<Item> ADVANCEMENT_ICON_OCTOPUS = rH("advancement_icon_octopus");
+
+    public static final RegistryObject<ItemBetterFood> VENISON_RAW = r("venisonraw", () -> new ItemBetterFood(4, 0, 32, true));
+    public static final RegistryObject<ItemBetterFood> VENISON_COOKED = r("venisoncooked", () -> new ItemBetterFood(8, 1.2F, 32, true));
+    public static final RegistryObject<Item> ANTLER = r("antler");
+    public static final RegistryObject<Item> BLUBBER = r("blubber", () -> new ItemBetterFood(1, 2.0F, 32, false) {
         @Override
         public int getBurnTime(ItemStack itemStack) {
             return 800; // half of coal
         }
-    };
-    public static final Item GOAT_MILK = new MilkBucketItem(new Properties().containerItem(Items.BUCKET).group(BetterAnimalsPlusMod.group).maxStackSize(1)).setRegistryName("goatmilk");
-    public static final ItemBetterFood GOAT_CHEESE = new ItemBetterFood("goatcheese", 3, 1, 15, false);
-    public static final ItemBetterFood PHEASANT_RAW = new ItemBetterFood("pheasantraw", 3, 0, 32, true);
-    public static final ItemBetterFood PHEASANT_COOKED = new ItemBetterFood("pheasantcooked", 7, 1.2F, 32, true);
-    
-    public static final ItemBetterFood CRAB_MEAT_RAW = new ItemBetterFood("crab_meat_raw", 2, 1, 16, true);
-    public static final ItemBetterFood CRAB_MEAT_COOKED = new ItemBetterFood("crab_meat_cooked", 5, 1.2F, 16, true);
-    
-    public static final Item WOLF_PELT_SNOWY = new ItemNamedSimple("wolf_pelt_snowy");
-    public static final Item WOLF_PELT_TIMBER = new ItemNamedSimple("wolf_pelt_timber");
-    public static final Item WOLF_PELT_BLACK = new ItemNamedSimple("wolf_pelt_black");
-    
-    public static final Item WOLF_PELT_ARCTIC = new ItemNamedSimple("wolf_pelt_arctic");
-    public static final Item WOLF_PELT_BROWN = new ItemNamedSimple("wolf_pelt_brown");
-    public static final Item WOLF_PELT_RED = new ItemNamedSimple("wolf_pelt_red");
+    });
+    public static final RegistryObject<Item> GOAT_MILK = r("goatmilk", () -> new MilkBucketItem(new Properties().containerItem(Items.BUCKET).group(BetterAnimalsPlusMod.group).maxStackSize(1)));
+    public static final RegistryObject<ItemBetterFood> GOAT_CHEESE = r("goatcheese", () -> new ItemBetterFood(3, 1, 15, false));
+    public static final RegistryObject<ItemBetterFood> PHEASANT_RAW = r("pheasantraw", () -> new ItemBetterFood(3, 0, 32, true));
+    public static final RegistryObject<ItemBetterFood> PHEASANT_COOKED = r("pheasantcooked", () -> new ItemBetterFood(7, 1.2F, 32, true));
 
-    public static ItemWolfCape WOLF_CAPE_CLASSIC = new ItemWolfCape("classic", WOLF_PELT_SNOWY);
-    public static ItemWolfCape WOLF_CAPE_TIMBER = new ItemWolfCape("timber", WOLF_PELT_TIMBER);
-    public static ItemWolfCape WOLF_CAPE_BLACK = new ItemWolfCape("black", WOLF_PELT_BLACK);
+    public static final RegistryObject<ItemBetterFood> CRAB_MEAT_RAW = r("crab_meat_raw", () -> new ItemBetterFood(2, 1, 16, true));
+    public static final RegistryObject<ItemBetterFood> CRAB_MEAT_COOKED = r("crab_meat_cooked", () -> new ItemBetterFood(5, 1.2F, 16, true));
 
-    public static ItemWolfCape WOLF_CAPE_ARCTIC = new ItemWolfCape("arctic", WOLF_PELT_ARCTIC);
-    public static ItemWolfCape WOLF_CAPE_BROWN = new ItemWolfCape("brown", WOLF_PELT_BROWN);
-    public static ItemWolfCape WOLF_CAPE_RED = new ItemWolfCape("red", WOLF_PELT_RED);
-    
-    public static final Item BEAR_SKIN_BROWN = new ItemNamedSimple("bear_skin_brown");
-    public static final Item BEAR_SKIN_BLACK = new ItemNamedSimple("bear_skin_black");
-    public static final Item BEAR_SKIN_KERMODE = new ItemNamedSimple("bear_skin_kermode");
-    
-    public static ItemBearCape BEAR_CAPE_BROWN = new ItemBearCape("brown", BEAR_SKIN_BROWN);
-    public static ItemBearCape BEAR_CAPE_BLACK = new ItemBearCape("black", BEAR_SKIN_BLACK);
-    public static ItemBearCape BEAR_CAPE_KERMODE = new ItemBearCape("kermode", BEAR_SKIN_KERMODE);
+    public static final RegistryObject<Item> WOLF_PELT_SNOWY = r("wolf_pelt_snowy");
+    public static final RegistryObject<Item> WOLF_PELT_TIMBER = r("wolf_pelt_timber");
+    public static final RegistryObject<Item> WOLF_PELT_BLACK = r("wolf_pelt_black");
 
-    public static final MusicDiscItem RECORD_CRAB_RAVE = new MusicDiscItem(15, () -> ModSoundEvents.CRAB_RAVE, new Item.Properties().maxStackSize(1).rarity(Rarity.RARE)) {}; static {
-        RECORD_CRAB_RAVE.setRegistryName(new ResourceLocation(Ref.MOD_ID, "record_crab_rave"));
-    }
+    public static final RegistryObject<Item> WOLF_PELT_ARCTIC = r("wolf_pelt_arctic");
+    public static final RegistryObject<Item> WOLF_PELT_BROWN = r("wolf_pelt_brown");
+    public static final RegistryObject<Item> WOLF_PELT_RED = r("wolf_pelt_red");
 
-    public static final MusicDiscItem RECORD_WALRUS = new MusicDiscItem(15, () -> ModSoundEvents.WALRUS, new Item.Properties().maxStackSize(1).rarity(Rarity.RARE)) {}; static {
-        RECORD_WALRUS.setRegistryName(new ResourceLocation(Ref.MOD_ID, "record_walrus"));
-    }
+    public static final RegistryObject<ItemWolfCape> WOLF_CAPE_CLASSIC = varArg("wolf_cape_", "classic", s -> new ItemWolfCape(s, WOLF_PELT_SNOWY.get()));
+    public static final RegistryObject<ItemWolfCape> WOLF_CAPE_TIMBER = varArg("wolf_cape_", "timber", s -> new ItemWolfCape(s, WOLF_PELT_TIMBER.get()));
+    public static final RegistryObject<ItemWolfCape> WOLF_CAPE_BLACK = varArg("wolf_cape_", "black", s -> new ItemWolfCape(s, WOLF_PELT_BLACK.get()));
 
-    public static final ItemThrowableCustomEgg PHEASANT_EGG = new ItemThrowableCustomEgg("pheasant_egg", player -> new EntityPheasantEgg(player.world, player));
-    public static final ItemThrowableCustomEgg TURKEY_EGG = new ItemThrowableCustomEgg("turkey_egg", player -> new EntityTurkeyEgg(player.world, player));
-    public static final ItemThrowableCustomEgg GOOSE_EGG = new ItemThrowableCustomEgg("goose_egg", player -> new EntityGooseEgg(player.world, player));
-    public static final ItemThrowableCustomEgg GOLDEN_GOOSE_EGG = new ItemThrowableCustomEgg("golden_goose_egg", player -> new EntityGoldenGooseEgg(player.world, player)) {
+    public static final RegistryObject<ItemWolfCape> WOLF_CAPE_ARCTIC = varArg("wolf_cape_", "arctic", s -> new ItemWolfCape(s, WOLF_PELT_ARCTIC.get()));
+    public static final RegistryObject<ItemWolfCape> WOLF_CAPE_BROWN = varArg("wolf_cape_", "brown", s -> new ItemWolfCape(s, WOLF_PELT_BROWN.get()));
+    public static final RegistryObject<ItemWolfCape> WOLF_CAPE_RED = varArg("wolf_cape_", "red", s -> new ItemWolfCape(s, WOLF_PELT_RED.get()));
+
+    public static final RegistryObject<Item> BEAR_SKIN_BROWN = r("bear_skin_brown");
+    public static final RegistryObject<Item> BEAR_SKIN_BLACK = r("bear_skin_black");
+    public static final RegistryObject<Item> BEAR_SKIN_KERMODE = r("bear_skin_kermode");
+
+    public static RegistryObject<ItemBearCape> BEAR_CAPE_BROWN = varArg("bear_cape_", "brown", s -> new ItemBearCape(s, BEAR_SKIN_BROWN.get()));
+    public static RegistryObject<ItemBearCape> BEAR_CAPE_BLACK = varArg("bear_cape_", "black", s -> new ItemBearCape(s, BEAR_SKIN_BLACK.get()));
+    public static RegistryObject<ItemBearCape> BEAR_CAPE_KERMODE = varArg("bear_cape_", "kermode", s -> new ItemBearCape(s, BEAR_SKIN_KERMODE.get()));
+
+    public static final RegistryObject<ItemModMusicDisc> RECORD_CRAB_RAVE = r("record_crab_rave", () -> new ItemModMusicDisc(() -> ModSoundEvents.CRAB_RAVE.get()));
+
+    public static final RegistryObject<ItemModMusicDisc> RECORD_WALRUS = r("record_walrus", () -> new ItemModMusicDisc(() -> ModSoundEvents.WALRUS.get()));
+
+    public static final RegistryObject<ItemThrowableCustomEgg> PHEASANT_EGG = r("pheasant_egg", () -> new ItemThrowableCustomEgg(EntityPheasantEgg::new, EntityPheasantEgg::new));
+    public static final RegistryObject<ItemThrowableCustomEgg> TURKEY_EGG = r("turkey_egg", () -> new ItemThrowableCustomEgg(EntityTurkeyEgg::new, EntityTurkeyEgg::new));
+    public static final RegistryObject<ItemThrowableCustomEgg> GOOSE_EGG = r("goose_egg", () -> new ItemThrowableCustomEgg(EntityGooseEgg::new, EntityGooseEgg::new));
+    public static final RegistryObject<ItemThrowableCustomEgg> GOLDEN_GOOSE_EGG = r("golden_goose_egg", () -> new ItemThrowableCustomEgg(EntityGoldenGooseEgg::new, EntityGoldenGooseEgg::new) {
         @OnlyIn(Dist.CLIENT)
         @Override
         public void addInformation(ItemStack stack, World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
             tooltip.add(new StringTextComponent("Golden! Maybe you can melt this down for resources?").setStyle(new Style().setBold(true).setColor(TextFormatting.YELLOW)));
         }
-    };
-    
-    public static final ItemBetterFood TURKEY_LEG_RAW = new ItemBetterFood("turkey_leg_raw", 2, 0F, 16, true);
-    public static final ItemBetterFood TURKEY_LEG_COOKED = new ItemBetterFood("turkey_leg_cooked", 4, 1.2F, 16, true);
+    });
 
-    public static final ItemBetterFood EEL_MEAT_RAW = new ItemBetterFood("eel_meat_raw", 1, 0F, 32, true);
-    public static final ItemBetterFood EEL_MEAT_COOKED = new ItemBetterFood("eel_meat_cooked", 4, 0.7F, 32, true);
-    
-    public static final ItemBetterFood FRIED_EGG = new ItemBetterFood("fried_egg", 5, 1.5F, 16, true);
+    public static final RegistryObject<ItemBetterFood> TURKEY_LEG_RAW = r("turkey_leg_raw", () -> new ItemBetterFood(2, 0F, 16, true));
+    public static final RegistryObject<ItemBetterFood> TURKEY_LEG_COOKED = r("turkey_leg_cooked", () -> new ItemBetterFood(4, 1.2F, 16, true));
 
-    public static final ItemBetterFood CALAMARI_RAW = new ItemBetterFood("calamari_raw", 2, 0.25F, 32, true);
-    public static final ItemBetterFood CALAMARI_COOKED = new ItemBetterFood("calamari_cooked", 7, 0.65F, 32, true);
+    public static final RegistryObject<ItemBetterFood> EEL_MEAT_RAW = r("eel_meat_raw", () -> new ItemBetterFood(1, 0F, 32, true));
+    public static final RegistryObject<ItemBetterFood> EEL_MEAT_COOKED = r("eel_meat_cooked", () -> new ItemBetterFood(4, 0.7F, 32, true));
 
-    public static final ItemHorseshoeCrabBlood HORSESHOE_CRAB_BLOOD = new ItemHorseshoeCrabBlood();
-    
-    public static Map<String, ItemAdvancementIcon> ADVANCEMENT_ICONS = new HashMap<String, ItemAdvancementIcon>();
-    
-    @ObjectHolder("turkey_raw")
-    public static final ItemBlockSimple TURKEY_RAW = null;
+    public static final RegistryObject<ItemBetterFood> FRIED_EGG = r("fried_egg", () -> new ItemBetterFood(5, 1.5F, 16, true));
 
-    @ObjectHolder("turkey_cooked")
-    public static final ItemBlockSimple TURKEY_COOKED = null;
+    public static final RegistryObject<ItemBetterFood> CALAMARI_RAW = r("calamari_raw", () -> new ItemBetterFood(2, 0.25F, 32, true));
+    public static final RegistryObject<ItemBetterFood> CALAMARI_COOKED = r("calamari_cooked", () -> new ItemBetterFood(7, 0.65F, 32, true));
 
-    @ObjectHolder("handoffate")
-    public static final ItemBlockSimple HAND_OF_FATE = null;
+    public static final RegistryObject<ItemHorseshoeCrabBlood> HORSESHOE_CRAB_BLOOD = r("horseshoe_crab_blood", ItemHorseshoeCrabBlood::new);
 
-    @ObjectHolder("trillium")
-    public static final ItemBlockSimple TRILLIUM = null;
+    public static final RegistryObject<BlockItem> TURKEY_RAW = rIB(ModBlocks.TURKEY_RAW);
+    public static final RegistryObject<BlockItem> TURKEY_COOKED = rIB(ModBlocks.TURKEY_COOKED);
+    public static final RegistryObject<BlockItem> TRILLIUM = rIB(ModBlocks.TRILLIUM);
+
+    private static RegistryObject<Item> r(String name) {
+        return ITEMS.register(name, () -> new Item(new Item.Properties().group(BetterAnimalsPlusMod.group)));
+    }
+
+    private static RegistryObject<Item> rH(String name) {
+        return ITEMS.register(name, () -> new Item(new Item.Properties()));
+    }
+
+    private static <T extends Item> RegistryObject<T> r(String name, Supplier<T> b) {
+        return ITEMS.register(name, b);
+    }
+
+    private static <T extends Item> RegistryObject<T> varArg(String nameBase, String nameExt, Function<String, T> b) {
+        return ITEMS.register(nameBase + nameExt, () -> b.apply(nameExt));
+    }
+
+    private static RegistryObject<BlockItem> rIB(RegistryObject<? extends Block> parent) {
+        return ITEMS.register(parent.getId().getPath(), () -> new BlockItem(parent.get(), new Item.Properties().group(BetterAnimalsPlusMod.group)));
+    }
+
+    public static void subscribe(IEventBus modEventBus) {
+        ITEMS.register(modEventBus);
+    }
+
+    public static Collection<RegistryObject<Item>> getItems() {
+        return ITEMS.getEntries();
+    }
 }

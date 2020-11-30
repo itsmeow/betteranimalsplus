@@ -1,11 +1,7 @@
 package its_meow.betteranimalsplus.common.entity;
 
-import java.util.Set;
-
-import javax.annotation.Nullable;
-
+import dev.itsmeow.imdlib.entity.util.EntityTypeContainer;
 import its_meow.betteranimalsplus.common.entity.ai.EntityAIEatBerries;
-import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainerBAP;
 import its_meow.betteranimalsplus.common.entity.util.EntityUtil;
 import its_meow.betteranimalsplus.common.entity.util.IDropHead;
 import its_meow.betteranimalsplus.common.entity.util.abstracts.EntityAnimalWithSelectiveTypes;
@@ -16,22 +12,8 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.CropsBlock;
 import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.entity.AgeableEntity;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.ILivingEntityData;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.SpawnReason;
-import net.minecraft.entity.ai.goal.BreedGoal;
-import net.minecraft.entity.ai.goal.FollowParentGoal;
-import net.minecraft.entity.ai.goal.HurtByTargetGoal;
-import net.minecraft.entity.ai.goal.LookAtGoal;
-import net.minecraft.entity.ai.goal.MeleeAttackGoal;
-import net.minecraft.entity.ai.goal.MoveToBlockGoal;
-import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal;
-import net.minecraft.entity.ai.goal.SwimGoal;
-import net.minecraft.entity.ai.goal.WaterAvoidingRandomWalkingGoal;
+import net.minecraft.entity.*;
+import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.effect.LightningBoltEntity;
 import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.monster.ZombiePigmanEntity;
@@ -51,16 +33,15 @@ import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.Difficulty;
-import net.minecraft.world.DifficultyInstance;
-import net.minecraft.world.IWorld;
-import net.minecraft.world.IWorldReader;
-import net.minecraft.world.World;
+import net.minecraft.world.*;
 import net.minecraft.world.biome.Biome;
 import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.BiomeDictionary.Type;
 
-public class EntityBoar extends EntityAnimalWithSelectiveTypes implements IMob, IDropHead {
+import javax.annotation.Nullable;
+import java.util.Set;
+
+public class EntityBoar extends EntityAnimalWithSelectiveTypes implements IMob, IDropHead<EntityAnimalWithTypes> {
 
     public EntityBoar(World worldIn) {
         super(ModEntities.BOAR.entityType, worldIn);
@@ -307,7 +288,7 @@ public class EntityBoar extends EntityAnimalWithSelectiveTypes implements IMob, 
     }
 
     @Override
-    public EntityTypeContainerBAP<EntityBoar> getContainer() {
+    public EntityTypeContainer<EntityBoar> getContainer() {
         return ModEntities.BOAR;
     }
 

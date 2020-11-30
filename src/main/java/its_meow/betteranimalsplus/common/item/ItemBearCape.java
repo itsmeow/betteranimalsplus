@@ -10,7 +10,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 public class ItemBearCape extends ItemCape {
 
     public ItemBearCape(String variant, Item repairItem) {
-        super("bear_cape_", variant, repairItem, new ArmorMaterialCape("bear_cape_", variant));
+        super(repairItem, new ArmorMaterialCape("bear_cape_", variant));
     }
 
     @SuppressWarnings("unchecked")

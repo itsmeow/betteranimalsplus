@@ -1,7 +1,7 @@
 package its_meow.betteranimalsplus.common.entity;
 
-import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainerBAP;
-import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainerBAPContainable;
+import dev.itsmeow.imdlib.entity.util.EntityTypeContainer;
+import dev.itsmeow.imdlib.entity.util.EntityTypeContainerContainable;
 import its_meow.betteranimalsplus.common.entity.util.abstracts.EntityEelBase;
 import its_meow.betteranimalsplus.init.ModEntities;
 import net.minecraft.entity.LivingEntity;
@@ -57,12 +57,12 @@ public class EntitySaltwaterEel extends EntityEelBase {
     }
 
     @Override
-    public EntityTypeContainerBAP<EntitySaltwaterEel> getContainer() {
+    public EntityTypeContainer<EntitySaltwaterEel> getContainer() {
         return ModEntities.EEL_SALTWATER;
     }
 
     @Override
-    public EntityTypeContainerBAPContainable<?, ?> getContainableContainer() {
+    public EntityTypeContainerContainable<?, ?> getContainableContainer() {
         return ModEntities.EEL_SALTWATER;
     }
 

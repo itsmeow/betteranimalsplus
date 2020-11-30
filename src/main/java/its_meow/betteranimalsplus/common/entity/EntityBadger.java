@@ -1,12 +1,7 @@
 package its_meow.betteranimalsplus.common.entity;
 
-import java.util.EnumSet;
-import java.util.Set;
-
-import javax.annotation.Nullable;
-
+import dev.itsmeow.imdlib.entity.util.EntityTypeContainer;
 import its_meow.betteranimalsplus.common.entity.projectile.EntityBadgerDirt;
-import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainerBAP;
 import its_meow.betteranimalsplus.common.entity.util.EntityUtil;
 import its_meow.betteranimalsplus.common.entity.util.abstracts.EntityAnimalWithSelectiveTypes;
 import its_meow.betteranimalsplus.init.ModEntities;
@@ -14,18 +9,8 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.ILivingEntityData;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.SpawnReason;
-import net.minecraft.entity.ai.goal.Goal;
-import net.minecraft.entity.ai.goal.HurtByTargetGoal;
-import net.minecraft.entity.ai.goal.LookAtGoal;
-import net.minecraft.entity.ai.goal.MeleeAttackGoal;
-import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal;
-import net.minecraft.entity.ai.goal.RandomWalkingGoal;
-import net.minecraft.entity.ai.goal.SwimGoal;
+import net.minecraft.entity.*;
+import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.passive.ChickenEntity;
@@ -43,6 +28,10 @@ import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.BiomeDictionary.Type;
+
+import javax.annotation.Nullable;
+import java.util.EnumSet;
+import java.util.Set;
 
 public class EntityBadger extends EntityAnimalWithSelectiveTypes implements IMob {
 
@@ -233,7 +222,7 @@ public class EntityBadger extends EntityAnimalWithSelectiveTypes implements IMob
     }
 
     @Override
-    public EntityTypeContainerBAP<EntityBadger> getContainer() {
+    public EntityTypeContainer<EntityBadger> getContainer() {
         return ModEntities.BADGER;
     }
 

@@ -1,16 +1,13 @@
 package its_meow.betteranimalsplus.common.entity;
 
-import java.util.Calendar;
-
-import javax.annotation.Nullable;
-
+import dev.itsmeow.imdlib.entity.util.EntityTypeContainer;
 import dev.itsmeow.imdlib.entity.util.EntityVariant;
 import dev.itsmeow.imdlib.entity.util.IVariant;
 import its_meow.betteranimalsplus.Ref;
-import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainerBAP;
 import its_meow.betteranimalsplus.common.entity.util.EntityUtil;
 import its_meow.betteranimalsplus.common.entity.util.IDropHead;
 import its_meow.betteranimalsplus.common.entity.util.abstracts.EntityAnimalEatsGrassWithTypes;
+import its_meow.betteranimalsplus.common.entity.util.abstracts.EntityAnimalWithTypes;
 import its_meow.betteranimalsplus.init.ModEntities;
 import its_meow.betteranimalsplus.init.ModLootTables;
 import net.minecraft.block.BlockState;
@@ -18,23 +15,13 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.ILivingEntityData;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.SpawnReason;
-import net.minecraft.entity.ai.goal.AvoidEntityGoal;
-import net.minecraft.entity.ai.goal.BreedGoal;
-import net.minecraft.entity.ai.goal.LookRandomlyGoal;
-import net.minecraft.entity.ai.goal.PanicGoal;
-import net.minecraft.entity.ai.goal.RandomWalkingGoal;
-import net.minecraft.entity.ai.goal.SwimGoal;
-import net.minecraft.entity.ai.goal.TemptGoal;
+import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.Hand;
-import net.minecraft.util.IItemProvider;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.SoundEvents;
+import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.IWorld;
@@ -42,7 +29,10 @@ import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
-public class EntityDeer extends EntityAnimalEatsGrassWithTypes implements IDropHead {
+import javax.annotation.Nullable;
+import java.util.Calendar;
+
+public class EntityDeer extends EntityAnimalEatsGrassWithTypes implements IDropHead<EntityAnimalWithTypes> {
 
     public EntityDeer(World worldIn) {
         super(ModEntities.DEER.entityType, worldIn, 5);
@@ -148,7 +138,7 @@ public class EntityDeer extends EntityAnimalEatsGrassWithTypes implements IDropH
     }
 
     @Override
-    public EntityTypeContainerBAP<EntityDeer> getContainer() {
+    public EntityTypeContainer<EntityDeer> getContainer() {
         return ModEntities.DEER;
     }
 

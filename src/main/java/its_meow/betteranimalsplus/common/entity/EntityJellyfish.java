@@ -4,8 +4,8 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
-import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainerBAP;
-import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainerBAPContainable;
+import dev.itsmeow.imdlib.entity.util.EntityTypeContainer;
+import dev.itsmeow.imdlib.entity.util.EntityTypeContainerContainable;
 import its_meow.betteranimalsplus.common.entity.util.abstracts.EntityWaterMobWithTypesBucketable;
 import its_meow.betteranimalsplus.init.ModEntities;
 import net.minecraft.entity.EntitySize;
@@ -274,7 +274,7 @@ public class EntityJellyfish extends EntityWaterMobWithTypesBucketable {
     }
 
     @Override
-    public EntityTypeContainerBAP<EntityJellyfish> getContainer() {
+    public EntityTypeContainer<EntityJellyfish> getContainer() {
         return ModEntities.JELLYFISH;
     }
 
@@ -294,7 +294,7 @@ public class EntityJellyfish extends EntityWaterMobWithTypesBucketable {
         }
     }
 
-    public static void bucketTooltip(EntityTypeContainerBAP<? extends MobEntity> container, ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip) {
+    public static void bucketTooltip(EntityTypeContainer<? extends MobEntity> container, ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip) {
         CompoundNBT tag = stack.getTag();
         if(tag != null && tag.contains("JellyfishSizeTag", Constants.NBT.TAG_FLOAT)) {
             tooltip.add(new StringTextComponent("Size: " + tag.getFloat("JellyfishSizeTag")).applyTextStyles(new TextFormatting[] { TextFormatting.ITALIC, TextFormatting.GRAY }));
@@ -302,7 +302,7 @@ public class EntityJellyfish extends EntityWaterMobWithTypesBucketable {
     }
 
     @Override
-    public EntityTypeContainerBAPContainable<?, ?> getContainableContainer() {
+    public EntityTypeContainerContainable<?, ?> getContainableContainer() {
         return ModEntities.JELLYFISH;
     }
 

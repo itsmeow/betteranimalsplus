@@ -1,13 +1,7 @@
 package its_meow.betteranimalsplus.common.entity;
 
-import java.util.Set;
-import java.util.UUID;
-
-import javax.annotation.Nullable;
-
 import com.google.common.collect.Sets;
-
-import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainerBAP;
+import dev.itsmeow.imdlib.entity.util.EntityTypeContainer;
 import its_meow.betteranimalsplus.common.entity.util.EntityUtil;
 import its_meow.betteranimalsplus.common.entity.util.abstracts.EntityAnimalEatsGrassWithTypes;
 import its_meow.betteranimalsplus.init.ModEntities;
@@ -16,21 +10,8 @@ import its_meow.betteranimalsplus.init.ModLootTables;
 import its_meow.betteranimalsplus.init.ModTriggers;
 import net.minecraft.block.BlockState;
 import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.ILivingEntityData;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.MobEntity;
-import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.SpawnReason;
-import net.minecraft.entity.ai.goal.BreedGoal;
-import net.minecraft.entity.ai.goal.FollowParentGoal;
-import net.minecraft.entity.ai.goal.Goal;
-import net.minecraft.entity.ai.goal.HurtByTargetGoal;
-import net.minecraft.entity.ai.goal.MeleeAttackGoal;
-import net.minecraft.entity.ai.goal.PanicGoal;
-import net.minecraft.entity.ai.goal.RandomWalkingGoal;
-import net.minecraft.entity.ai.goal.SwimGoal;
-import net.minecraft.entity.ai.goal.TemptGoal;
+import net.minecraft.entity.*;
+import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.Item;
@@ -41,17 +22,17 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.Hand;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.SoundEvent;
-import net.minecraft.util.SoundEvents;
+import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
+
+import javax.annotation.Nullable;
+import java.util.Set;
+import java.util.UUID;
 
 public class EntityGoat extends EntityAnimalEatsGrassWithTypes {
 
@@ -173,7 +154,7 @@ public class EntityGoat extends EntityAnimalEatsGrassWithTypes {
             player.playSound(SoundEvents.ENTITY_COW_MILK, 1.0F, 1.0F);
             stack.shrink(1);
 
-            Item milk = VANILLA_MILK ? Items.MILK_BUCKET : ModItems.GOAT_MILK;
+            Item milk = VANILLA_MILK ? Items.MILK_BUCKET : ModItems.GOAT_MILK.get();
 
             if(stack.isEmpty()) {
                 player.setHeldItem(hand, new ItemStack(milk));
@@ -288,7 +269,7 @@ public class EntityGoat extends EntityAnimalEatsGrassWithTypes {
     }
 
     @Override
-    public EntityTypeContainerBAP<EntityGoat> getContainer() {
+    public EntityTypeContainer<EntityGoat> getContainer() {
         return ModEntities.GOAT;
     }
 

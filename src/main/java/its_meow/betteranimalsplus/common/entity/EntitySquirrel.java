@@ -1,8 +1,6 @@
 package its_meow.betteranimalsplus.common.entity;
 
-import java.util.Set;
-
-import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainerBAP;
+import dev.itsmeow.imdlib.entity.util.EntityTypeContainer;
 import its_meow.betteranimalsplus.common.entity.util.EntityUtil;
 import its_meow.betteranimalsplus.common.entity.util.abstracts.EntityAnimalWithSelectiveTypes;
 import its_meow.betteranimalsplus.common.entity.util.abstracts.EntityAnimalWithTypes;
@@ -13,12 +11,7 @@ import net.minecraft.entity.AgeableEntity;
 import net.minecraft.entity.ILivingEntityData;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.SpawnReason;
-import net.minecraft.entity.ai.goal.AvoidEntityGoal;
-import net.minecraft.entity.ai.goal.BreedGoal;
-import net.minecraft.entity.ai.goal.PanicGoal;
-import net.minecraft.entity.ai.goal.SwimGoal;
-import net.minecraft.entity.ai.goal.TemptGoal;
-import net.minecraft.entity.ai.goal.WaterAvoidingRandomWalkingGoal;
+import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -37,6 +30,8 @@ import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.BiomeDictionary.Type;
+
+import java.util.Set;
 
 public class EntitySquirrel extends EntityAnimalWithSelectiveTypes {
 
@@ -179,7 +174,7 @@ public class EntitySquirrel extends EntityAnimalWithSelectiveTypes {
     }
 
     @Override
-    public EntityTypeContainerBAP<? extends EntityAnimalWithTypes> getContainer() {
+    public EntityTypeContainer<? extends EntityAnimalWithTypes> getContainer() {
         return ModEntities.SQUIRREL;
     }
     

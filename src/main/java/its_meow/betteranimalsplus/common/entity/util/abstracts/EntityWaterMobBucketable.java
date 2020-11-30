@@ -1,7 +1,7 @@
 package its_meow.betteranimalsplus.common.entity.util.abstracts;
 
+import dev.itsmeow.imdlib.entity.util.IBucketable;
 import dev.itsmeow.imdlib.entity.util.IContainerEntity;
-import its_meow.betteranimalsplus.common.entity.util.IBucketable;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.passive.WaterMobEntity;

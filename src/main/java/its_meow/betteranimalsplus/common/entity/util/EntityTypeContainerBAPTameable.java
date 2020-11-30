@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
+import dev.itsmeow.imdlib.entity.util.EntityTypeContainer;
+import dev.itsmeow.imdlib.entity.util.builder.AbstractEntityBuilder;
 import dev.itsmeow.imdlib.entity.util.builder.EntityTypeDefinition;
 import net.minecraft.entity.passive.TameableEntity;
 import net.minecraft.world.World;
@@ -13,7 +15,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.common.ForgeConfigSpec.ConfigValue;
 
-public class EntityTypeContainerBAPTameable<T extends TameableEntity> extends EntityTypeContainerBAP<T> {
+public class EntityTypeContainerBAPTameable<T extends TameableEntity> extends EntityTypeContainer<T> {
 
     protected String[] tameItemsStore;
     protected ConfigValue<List<? extends String>> tameItems;
@@ -38,11 +40,11 @@ public class EntityTypeContainerBAPTameable<T extends TameableEntity> extends En
 
     }
 
-    public static abstract class AbstractEntityBuilderBAPTameable<T extends TameableEntity, C extends EntityTypeContainerBAPTameable<T>, B extends AbstractEntityBuilderBAPTameable<T, C, B>> extends AbstractEntityBuilderBAP<T, C, B> {
+    public static abstract class AbstractEntityBuilderBAPTameable<T extends TameableEntity, C extends EntityTypeContainerBAPTameable<T>, B extends AbstractEntityBuilderBAPTameable<T, C, B>> extends AbstractEntityBuilder<T, C, B> {
         protected String[] defaultTameItems;
 
-        protected AbstractEntityBuilderBAPTameable(Class<T> EntityClass, Function<World, T> func, String entityNameIn) {
-            super(EntityClass, func, entityNameIn);
+        protected AbstractEntityBuilderBAPTameable(Class<T> EntityClass, Function<World, T> func, String entityNameIn, String modid) {
+            super(EntityClass, func, entityNameIn, modid);
         }
 
         public B tameItems(String... items) {
@@ -54,8 +56,8 @@ public class EntityTypeContainerBAPTameable<T extends TameableEntity> extends En
 
     public static class Builder<T extends TameableEntity> extends AbstractEntityBuilderBAPTameable<T, EntityTypeContainerBAPTameable<T>, Builder<T>> {
 
-        protected Builder(Class<T> EntityClass, Function<World, T> func, String entityNameIn) {
-            super(EntityClass, func, entityNameIn);
+        protected Builder(Class<T> EntityClass, Function<World, T> func, String entityNameIn, String modid) {
+            super(EntityClass, func, entityNameIn, modid);
         }
 
         @Override
@@ -68,8 +70,8 @@ public class EntityTypeContainerBAPTameable<T extends TameableEntity> extends En
             return this;
         }
 
-        public static <T extends TameableEntity> Builder<T> create(Class<T> EntityClass, Function<World, T> func, String entityNameIn) {
-            return new Builder<T>(EntityClass, func, entityNameIn);
+        public static <T extends TameableEntity> Builder<T> create(Class<T> EntityClass, Function<World, T> func, String entityNameIn, String modid) {
+            return new Builder<T>(EntityClass, func, entityNameIn, modid);
         }
 
     }

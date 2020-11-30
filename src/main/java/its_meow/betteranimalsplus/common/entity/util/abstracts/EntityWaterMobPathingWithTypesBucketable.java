@@ -1,6 +1,6 @@
 package its_meow.betteranimalsplus.common.entity.util.abstracts;
 
-import its_meow.betteranimalsplus.common.entity.util.IBucketable;
+import dev.itsmeow.imdlib.entity.util.IBucketable;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;

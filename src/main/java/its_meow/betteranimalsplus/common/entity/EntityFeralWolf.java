@@ -10,7 +10,9 @@ import its_meow.betteranimalsplus.Ref;
 import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainerBAPTameable;
 import its_meow.betteranimalsplus.common.entity.util.EntityUtil;
 import its_meow.betteranimalsplus.common.entity.util.IDropHead;
+import its_meow.betteranimalsplus.common.entity.util.abstracts.EntityTameableBetterAnimalsPlus;
 import its_meow.betteranimalsplus.common.entity.util.abstracts.EntityTameableWithSelectiveTypes;
+import its_meow.betteranimalsplus.common.entity.util.abstracts.EntityTameableWithTypes;
 import its_meow.betteranimalsplus.init.ModEntities;
 import its_meow.betteranimalsplus.init.ModItems;
 import net.minecraft.block.Block;
@@ -74,7 +76,7 @@ import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.BiomeDictionary.Type;
 
 
-public class EntityFeralWolf extends EntityTameableWithSelectiveTypes implements IMob, IDropHead {
+public class EntityFeralWolf extends EntityTameableWithSelectiveTypes implements IMob, IDropHead<EntityTameableBetterAnimalsPlus> {
 
     public static final double TAMED_HEALTH = 30D;
     public static final double UNTAMED_HEALTH = 10D;
@@ -401,7 +403,7 @@ public class EntityFeralWolf extends EntityTameableWithSelectiveTypes implements
 
     @Override
     public boolean isBreedingItem(ItemStack stack) {
-        return stack.getItem() == ModItems.ANTLER;
+        return stack.getItem() == ModItems.ANTLER.get();
     }
 
     @Override

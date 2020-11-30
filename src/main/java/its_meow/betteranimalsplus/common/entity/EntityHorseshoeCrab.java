@@ -1,6 +1,6 @@
 package its_meow.betteranimalsplus.common.entity;
 
-import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainerBAP;
+import dev.itsmeow.imdlib.entity.util.EntityTypeContainer;
 import its_meow.betteranimalsplus.common.entity.util.EntityUtil;
 import its_meow.betteranimalsplus.common.entity.util.abstracts.EntityCrabLikeBase;
 import its_meow.betteranimalsplus.init.ModEntities;
@@ -43,7 +43,7 @@ public class EntityHorseshoeCrab extends EntityCrabLikeBase {
                 this.attackEntityFrom(DamageSource.causePlayerDamage(player), this.getHealth() * 10F);
             }
             player.getHeldItem(hand).shrink(1);
-            player.addItemStackToInventory(new ItemStack(ModItems.HORSESHOE_CRAB_BLOOD));
+            player.addItemStackToInventory(new ItemStack(ModItems.HORSESHOE_CRAB_BLOOD.get()));
             return true;
         }
         return super.processInteract(player, hand);
@@ -77,7 +77,7 @@ public class EntityHorseshoeCrab extends EntityCrabLikeBase {
     }
 
     @Override
-    public EntityTypeContainerBAP<EntityHorseshoeCrab> getContainer() {
+    public EntityTypeContainer<EntityHorseshoeCrab> getContainer() {
         return ModEntities.HORSESHOE_CRAB;
     }
 

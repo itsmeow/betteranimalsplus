@@ -11,9 +11,8 @@ public class ItemBetterFood extends Item {
 
     public final int itemUseDuration;
 
-    public ItemBetterFood(String name, int foodToFill, float saturationMultiplier, int eatLength, boolean isMeat) {
+    public ItemBetterFood(int foodToFill, float saturationMultiplier, int eatLength, boolean isMeat) {
         super(new Item.Properties().group(BetterAnimalsPlusMod.group).food(createFood(foodToFill, saturationMultiplier, isMeat)));
-        this.setRegistryName(Ref.MOD_ID, name);
         this.itemUseDuration = eatLength;
     }
 
@@ -25,12 +24,9 @@ public class ItemBetterFood extends Item {
         return builder.build();
     }
 
-    public int getMaxItemUseDuration(ItemStack stack) {
+    @Override
+    public int getUseDuration(ItemStack stack) {
         return this.itemUseDuration;
-    }
-
-    public UseAction getItemUseAction(ItemStack stack) {
-        return UseAction.EAT;
     }
 
 }

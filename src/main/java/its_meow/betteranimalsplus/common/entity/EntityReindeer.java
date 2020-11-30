@@ -1,13 +1,8 @@
 package its_meow.betteranimalsplus.common.entity;
 
-import java.util.Calendar;
-import java.util.Optional;
-
-import javax.annotation.Nullable;
-
+import dev.itsmeow.imdlib.entity.util.EntityTypeContainer;
 import dev.itsmeow.imdlib.entity.util.IVariant;
 import dev.itsmeow.imdlib.entity.util.IVariantTypes;
-import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainerBAP;
 import its_meow.betteranimalsplus.common.entity.util.IDropHead;
 import its_meow.betteranimalsplus.init.ModEntities;
 import its_meow.betteranimalsplus.init.ModLootTables;
@@ -17,24 +12,11 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
-import net.minecraft.entity.AgeableEntity;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityPredicate;
-import net.minecraft.entity.IJumpingMount;
-import net.minecraft.entity.ILivingEntityData;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.MobEntity;
-import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.SpawnReason;
+import net.minecraft.entity.*;
 import net.minecraft.entity.ai.attributes.IAttribute;
 import net.minecraft.entity.ai.attributes.IAttributeInstance;
 import net.minecraft.entity.ai.attributes.RangedAttribute;
-import net.minecraft.entity.ai.goal.BreedGoal;
-import net.minecraft.entity.ai.goal.FollowParentGoal;
-import net.minecraft.entity.ai.goal.LookAtGoal;
-import net.minecraft.entity.ai.goal.PanicGoal;
-import net.minecraft.entity.ai.goal.SwimGoal;
-import net.minecraft.entity.ai.goal.WaterAvoidingRandomWalkingGoal;
+import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.passive.horse.AbstractHorseEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -50,11 +32,7 @@ import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.particles.BasicParticleType;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.potion.Effects;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.Hand;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.SoundEvent;
-import net.minecraft.util.SoundEvents;
+import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
@@ -65,7 +43,11 @@ import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
-public class EntityReindeer extends AnimalEntity implements IJumpingMount, IVariantTypes<EntityReindeer>, IDropHead {
+import javax.annotation.Nullable;
+import java.util.Calendar;
+import java.util.Optional;
+
+public class EntityReindeer extends AnimalEntity implements IJumpingMount, IVariantTypes<EntityReindeer>, IDropHead<EntityReindeer> {
 
     protected static final java.util.function.Predicate<LivingEntity> IS_REINDEER_BREEDING = (entity) -> {
         return entity instanceof EntityReindeer && ((EntityReindeer)entity).isBreeding();
@@ -1008,7 +990,7 @@ public class EntityReindeer extends AnimalEntity implements IJumpingMount, IVari
     }
 
     @Override
-    public EntityTypeContainerBAP<EntityReindeer> getContainer() {
+    public EntityTypeContainer<EntityReindeer> getContainer() {
         return ModEntities.REINDEER;
     }
     

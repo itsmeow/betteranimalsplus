@@ -1,23 +1,28 @@
 package its_meow.betteranimalsplus.init;
 
+import dev.itsmeow.imdlib.tileentity.TileEntityHead;
+import dev.itsmeow.imdlib.util.HeadType;
 import its_meow.betteranimalsplus.Ref;
-import its_meow.betteranimalsplus.common.tileentity.TileEntityHead;
 import its_meow.betteranimalsplus.common.tileentity.TileEntityTrillium;
-import its_meow.betteranimalsplus.util.HeadType;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
+import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.fml.RegistryObject;
+import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.ForgeRegistries;
+
+import java.util.function.Supplier;
 
 public class ModTileEntities {
+    private static final DeferredRegister<TileEntityType<?>> TILE_ENTITIES = DeferredRegister.create(ForgeRegistries.TILE_ENTITIES, Ref.MOD_ID);
 
-    /*
-     * Tile Entities
-     */
-    public static final TileEntityType<TileEntityHead> HEAD_TYPE = TileEntityType.Builder.create(TileEntityHead::new, HeadType.getAllBlocks()).build(null);
-    static {
-        HEAD_TYPE.setRegistryName(Ref.MOD_ID, "head");
-    }
-    public static final TileEntityType<TileEntityTrillium> TRILLIUM_TYPE = TileEntityType.Builder.create(TileEntityTrillium::new, ModBlocks.TRILLIUM).build(null);
-    static {
-        TRILLIUM_TYPE.setRegistryName(Ref.MOD_ID, "trilliumtileentity");
+    public static final RegistryObject<TileEntityType<TileEntityTrillium>> TRILLIUM_TYPE = r("trilliumtileentity", () -> TileEntityType.Builder.create(TileEntityTrillium::new, ModBlocks.TRILLIUM.get()).build(null));
+
+    private static <T extends TileEntity> RegistryObject<TileEntityType<T>> r(String name, Supplier<TileEntityType<T>> b) {
+        return TILE_ENTITIES.register(name, b);
     }
 
+    public static void subscribe(IEventBus modEventBus) {
+        TILE_ENTITIES.register(modEventBus);
+    }
 }

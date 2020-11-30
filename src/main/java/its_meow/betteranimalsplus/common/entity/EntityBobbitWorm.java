@@ -1,20 +1,11 @@
 package its_meow.betteranimalsplus.common.entity;
 
-import java.util.HashSet;
-import java.util.Set;
-
-import javax.annotation.Nullable;
-
-import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainerBAP;
+import dev.itsmeow.imdlib.entity.util.EntityTypeContainer;
 import its_meow.betteranimalsplus.common.entity.util.abstracts.EntityAnimalWithTypes;
 import its_meow.betteranimalsplus.init.ModEntities;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
-import net.minecraft.entity.CreatureAttribute;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.MoverType;
-import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.*;
 import net.minecraft.entity.ai.RandomPositionGenerator;
 import net.minecraft.entity.ai.goal.LookAtGoal;
 import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal;
@@ -34,6 +25,10 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
+
+import javax.annotation.Nullable;
+import java.util.HashSet;
+import java.util.Set;
 
 public class EntityBobbitWorm extends EntityAnimalWithTypes {
 
@@ -251,7 +246,7 @@ public class EntityBobbitWorm extends EntityAnimalWithTypes {
     }
 
     @Override
-    public EntityTypeContainerBAP<EntityBobbitWorm> getContainer() {
+    public EntityTypeContainer<EntityBobbitWorm> getContainer() {
         return ModEntities.BOBBIT_WORM;
     }
 

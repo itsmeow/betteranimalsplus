@@ -25,7 +25,7 @@ public class TileEntityTrillium extends TileEntity {
     private final String keyModel = "trilliumModel";
 
     public TileEntityTrillium() {
-        super(ModTileEntities.TRILLIUM_TYPE);
+        super(ModTileEntities.TRILLIUM_TYPE.get());
         if (!this.getTileData().contains(this.keyType)) {
             this.setType(new Random().nextInt(5));
         }
@@ -104,7 +104,7 @@ public class TileEntityTrillium extends TileEntity {
     @OnlyIn(Dist.CLIENT)
     public float getRotation() {
         BlockState state = this.world.getBlockState(this.pos);
-        if (state.getBlock() == ModBlocks.TRILLIUM) {
+        if (state.getBlock() == ModBlocks.TRILLIUM.get()) {
             Direction facing = state.get(HorizontalBlock.HORIZONTAL_FACING).getOpposite();
             if (facing == Direction.NORTH) {
                 return 0F;

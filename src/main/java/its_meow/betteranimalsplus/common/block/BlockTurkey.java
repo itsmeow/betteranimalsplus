@@ -54,10 +54,9 @@ public class BlockTurkey extends Block implements IWaterLoggable {
         VoxelShapes.create(0.0625D * 4, 0.0D, 0.0625D * 2, 1D - (0.0625D * 4), 0.0625D * 3D, 1D - (0.0625D * 2)),
         VoxelShapes.create(0.0625D * 4, 0.0D, 0.0625D * 2, 1D - (0.0625D * 4), 0.0625D * 2D, 1D - (0.0625D * 2))
     };
-    
-    public BlockTurkey(String name) {
+
+    public BlockTurkey() {
         super(Block.Properties.create(Material.SPONGE));
-        this.setRegistryName(Ref.MOD_ID, name);
         this.setDefaultState(this.stateContainer.getBaseState().with(BITES, 0).with(FACING, Direction.NORTH).with(BlockStateProperties.WATERLOGGED, false));
     }
 
