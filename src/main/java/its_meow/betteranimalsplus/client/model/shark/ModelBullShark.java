@@ -237,7 +237,7 @@ public class ModelBullShark extends EntityModel<EntityShark> {
 
     public static <T extends LivingEntity> void animate(EntityShark entity, float ageInTicks, ModelRenderer body, ModelRenderer tail00, ModelRenderer tail01, ModelRenderer tail02, ModelRenderer lowerJaw) {
         if((Math.abs(entity.getMotion().getY()) > 0.01 && (Math.abs(entity.getMotion().getX()) > 0.01 || Math.abs(entity.getMotion().getZ()) > 0.01)) || Math.abs(entity.getMotion().getY()) > 0.03) {
-            float rotX = -((float) Math.atan(entity.getMotion().getY() / Math.sqrt(Math.pow(entity.getMotion().getX(), 2) + Math.pow(entity.getMotion().getZ(), 2))) / 1.5F);
+            float rotX = -((float) Math.atan2(entity.getMotion().getY(), Math.sqrt(Math.pow(entity.getMotion().getX(), 2) + Math.pow(entity.getMotion().getZ(), 2))) / 1.5F);
             if(rotX < 0) {
                 rotX /= 2;
             }

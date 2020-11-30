@@ -253,7 +253,7 @@ public class ModelSongbirdSmall<T extends LivingEntity> extends EntityModel<T> {
 
                 this.rWing01.rotateAngleZ = MathHelper.cos(f2) * (float) Math.PI / 5F;
                 if ((Math.abs(bird.getMotion().getY()) > 0 && (Math.abs(bird.getMotion().getX()) > 0.05 || Math.abs(bird.getMotion().getZ()) > 0.05)) || Math.abs(bird.getMotion().getY()) > 0.25) {
-                    float rotX = -((float) Math.atan(bird.getMotion().getY() / Math.sqrt(Math.pow(bird.getMotion().getX(), 2) + Math.pow(bird.getMotion().getZ(), 2))) / 1.5F);
+                    float rotX = -((float) Math.atan2(bird.getMotion().getY(), Math.sqrt(Math.pow(bird.getMotion().getX(), 2) + Math.pow(bird.getMotion().getZ(), 2))) / 1.5F);
                     if (rotX < 0) {
                         rotX /= 3;
                     }
