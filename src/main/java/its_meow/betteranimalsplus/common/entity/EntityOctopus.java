@@ -248,4 +248,8 @@ public class EntityOctopus extends EntityBAPCephalopod implements IVariantTypes<
         return this;
     }
 
+    @Override
+    public boolean canDespawn(double range) {
+        return super.canDespawn(range) && this.friend == null;
+    }
 }
