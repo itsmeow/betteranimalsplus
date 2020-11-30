@@ -213,6 +213,7 @@ public class EntityShark extends EntitySharkBase {
         }
         if(b.isWarm()) {
             list.add("mako");
+            list.add("hammerhead");
         }
         return list.toArray(new String[0]);
     }
