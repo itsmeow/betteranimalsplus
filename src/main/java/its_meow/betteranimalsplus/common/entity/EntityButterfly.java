@@ -102,6 +102,7 @@ public class EntityButterfly extends EntityAnimalWithTypesAndSizeContainable {
 
     public void setNotLanded() {
         this.dataManager.set(LANDED, 1);
+        this.setPositionAndUpdate(this.getPosition().getX() + 0.5D, this.getPosition().getY() + 0.5D, this.getPosition().getZ() + 0.5D);
     }
 
     public boolean hasNectar() {
@@ -283,16 +284,21 @@ public class EntityButterfly extends EntityAnimalWithTypesAndSizeContainable {
             }
         }
         if(!this.isLanded() && targetPosition != null) {
-            double d0 = (double) this.targetPosition.getX() + 0.5D - this.getPosX();
-            double d1 = (double) this.targetPosition.getY() + 0.1D - this.getPosY();
-            double d2 = (double) this.targetPosition.getZ() + 0.5D - this.getPosZ();
-            Vec3d vec3d = this.getMotion();
-            Vec3d vec3d1 = vec3d.add((Math.signum(d0) * 0.5D - vec3d.x) * (double) 0.1F, (Math.signum(d1) * (double) 0.7F - vec3d.y) * (double) 0.1F, (Math.signum(d2) * 0.5D - vec3d.z) * (double) 0.1F);
-            this.setMotion(vec3d1);
-            float f = (float) (MathHelper.atan2(vec3d1.z, vec3d1.x) * (double) (180F / (float) Math.PI)) - 90.0F;
-            float f1 = MathHelper.wrapDegrees(f - this.rotationYaw);
-            this.moveForward = 0.5F;
-            this.rotationYaw += f1;
+            if(this.isEntityInsideOpaqueBlock()) {
+                this.targetPosition = null;
+                this.setMotion(0, 0, 0);
+            } else {
+                double d0 = (double) this.targetPosition.getX() + 0.5D - this.getPosX();
+                double d1 = (double) this.targetPosition.getY() + 0.1D - this.getPosY();
+                double d2 = (double) this.targetPosition.getZ() + 0.5D - this.getPosZ();
+                Vec3d vec3d = this.getMotion();
+                Vec3d vec3d1 = vec3d.add((Math.signum(d0) * 0.5D - vec3d.x) * (double) 0.1F, (Math.signum(d1) * (double) 0.7F - vec3d.y) * (double) 0.1F, (Math.signum(d2) * 0.5D - vec3d.z) * (double) 0.1F);
+                this.setMotion(vec3d1);
+                float f = (float) (MathHelper.atan2(vec3d1.z, vec3d1.x) * (double) (180F / (float) Math.PI)) - 90.0F;
+                float f1 = MathHelper.wrapDegrees(f - this.rotationYaw);
+                this.moveForward = 0.5F;
+                this.rotationYaw += f1;
+            }
         }
     }
 
