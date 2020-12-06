@@ -2,6 +2,7 @@ package its_meow.betteranimalsplus.common.entity;
 
 import dev.itsmeow.imdlib.entity.util.EntityTypeContainer;
 import dev.itsmeow.imdlib.entity.util.EntityTypeContainerContainable;
+import its_meow.betteranimalsplus.common.entity.ai.EfficientMoveTowardsTargetGoal;
 import its_meow.betteranimalsplus.common.entity.util.abstracts.EntityWaterMobPathingWithTypesBucketable;
 import its_meow.betteranimalsplus.init.ModEntities;
 import its_meow.betteranimalsplus.init.ModLootTables;
@@ -40,7 +41,7 @@ public class EntityLamprey extends EntityWaterMobPathingWithTypesBucketable impl
 
     @Override
     protected void registerGoals() {
-        this.goalSelector.addGoal(0, new MoveTowardsTargetGoal(this, 0.8D, 15F));
+        this.goalSelector.addGoal(0, new EfficientMoveTowardsTargetGoal(this, 0.8D, false));
         this.goalSelector.addGoal(1, new LookAtGoal(this, WaterMobEntity.class, 10.0F));
         this.goalSelector.addGoal(1, new LookRandomlyGoal(this));
         this.goalSelector.addGoal(2, new RandomSwimmingGoal(this, 0.5D, 1));

@@ -9,6 +9,7 @@ import javax.annotation.Nullable;
 import dev.itsmeow.imdlib.entity.util.EntityTypeContainer;
 import dev.itsmeow.imdlib.entity.util.IVariant;
 import dev.itsmeow.imdlib.entity.util.IVariantTypes;
+import its_meow.betteranimalsplus.common.entity.ai.EfficientMoveTowardsTargetGoal;
 import its_meow.betteranimalsplus.common.entity.util.abstracts.EntitySharkBase;
 import its_meow.betteranimalsplus.common.entity.util.abstracts.EntityWaterMobPathing;
 import its_meow.betteranimalsplus.init.ModEntities;
@@ -50,7 +51,7 @@ public class EntityShark extends EntitySharkBase {
     @Override
     protected void registerGoals() {
         super.registerGoals();
-        this.goalSelector.addGoal(0, new MoveTowardsTargetGoal(this, 1D, 40F));
+        this.goalSelector.addGoal(0, new EfficientMoveTowardsTargetGoal(this, 1D, true));
         this.goalSelector.addGoal(1, new LookAtGoal(this, LivingEntity.class, 15F));
         this.goalSelector.addGoal(1, new LookRandomlyGoal(this));
         this.goalSelector.addGoal(2, new RandomSwimmingGoal(this, 1D, 1));

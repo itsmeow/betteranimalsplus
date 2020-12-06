@@ -1,22 +1,16 @@
 package its_meow.betteranimalsplus.common;
 
-import java.util.List;
-import java.util.Random;
-
 import dev.itsmeow.imdlib.entity.util.IVariant;
 import its_meow.betteranimalsplus.Ref;
-import its_meow.betteranimalsplus.common.entity.EntityBear;
-import its_meow.betteranimalsplus.common.entity.EntityBoar;
-import its_meow.betteranimalsplus.common.entity.EntityCrab;
+import its_meow.betteranimalsplus.common.entity.*;
 import its_meow.betteranimalsplus.common.entity.EntityFeralWolf.WolfVariant;
-import its_meow.betteranimalsplus.common.entity.EntityLamprey;
-import its_meow.betteranimalsplus.common.entity.EntityOctopus;
-import its_meow.betteranimalsplus.common.entity.EntitySquirrel;
+import its_meow.betteranimalsplus.common.entity.util.abstracts.EntitySharkBase;
 import its_meow.betteranimalsplus.init.ModEntities;
 import its_meow.betteranimalsplus.init.ModItems;
 import its_meow.betteranimalsplus.init.ModLootTables;
 import its_meow.betteranimalsplus.init.ModTriggers;
 import net.minecraft.block.Blocks;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.passive.PolarBearEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -43,8 +37,20 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.ObjectHolder;
 
+import java.util.HashSet;
+import java.util.List;
+import java.util.Random;
+import java.util.Set;
+import java.util.function.Predicate;
+
 @Mod.EventBusSubscriber(modid = Ref.MOD_ID)
 public class CommonEventHandler {
+
+    public static final Set<Predicate<Entity>> NO_ATTACKED_DROPS = new HashSet<>();
+    static {
+        NO_ATTACKED_DROPS.add(e -> e instanceof EntityLamprey);
+        NO_ATTACKED_DROPS.add(e -> e instanceof EntitySharkBase);
+    }
 
     @ObjectHolder("essentialfeatures:portable_jukebox")
     public static Item PORTABLE_JUKEBOX;
@@ -197,7 +203,7 @@ public class CommonEventHandler {
     
     @SubscribeEvent
     public static void onLivingDrop(LivingDropsEvent event) {
-        if(event.getSource().getTrueSource() instanceof EntityLamprey && !(event.getEntity() instanceof PlayerEntity)) {
+        if(NO_ATTACKED_DROPS.stream().anyMatch(predicate -> predicate.test(event.getSource().getTrueSource().getEntity())) && !(event.getEntity() instanceof PlayerEntity)) {
             event.getDrops().clear();
         }
     }
