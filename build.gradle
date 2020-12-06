@@ -9,10 +9,15 @@ repositories {
     maven {
         url = "https://cursemaven.com"
     }
+    maven {
+        url = "https://maven.theillusivec4.top/"
+    }
 }
 
 dependencies {
     compileOnly fg.deobf("mezz.jei:jei-${project.mc_version}:${jei_version}:api")
     runtimeOnly fg.deobf("mezz.jei:jei-${project.mc_version}:${jei_version}")
     runtimeOnly fg.deobf("curse.maven:AppleSkin-248787:2987251")
+    compileOnly fg.deobf("top.theillusivec4.curios:curios:FORGE-${curios_version}:api")
+    runtimeOnly fg.deobf("top.theillusivec4.curios:curios:FORGE-${curios_version}")
 }

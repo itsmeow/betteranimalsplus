@@ -1,6 +1,7 @@
 package its_meow.betteranimalsplus;
 
 import com.google.common.collect.ImmutableList;
+import dev.itsmeow.imdlib.util.ClassLoadHacks;
 import its_meow.betteranimalsplus.client.ClientLifecycleHandler;
 import its_meow.betteranimalsplus.client.dumb.SafeSyncThing;
 import its_meow.betteranimalsplus.client.dumb.SafeSyncThing.DumbOptions;
@@ -8,6 +9,7 @@ import its_meow.betteranimalsplus.common.entity.EntityCoyote;
 import its_meow.betteranimalsplus.config.BetterAnimalsPlusConfig;
 import its_meow.betteranimalsplus.init.*;
 import its_meow.betteranimalsplus.network.*;
+import its_meow.betteranimalsplus.compat.curios.CuriosModCompat;
 import net.minecraft.block.HorizontalBlock;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
@@ -79,6 +81,9 @@ public class BetterAnimalsPlusMod {
         ModTriggers.register();
         ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, BetterAnimalsPlusConfig.getClientSpec());
         BetterAnimalsPlusMod.logger.log(Level.INFO, "Injecting super coyotes...");
+        ClassLoadHacks.runWhenLoaded("curios", () -> () -> {
+            CuriosModCompat.subscribe(modBus);
+        });
     }
 
     public static final boolean isDev(UUID uuid) {

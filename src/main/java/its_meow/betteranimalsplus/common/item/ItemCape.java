@@ -1,17 +1,22 @@
 package its_meow.betteranimalsplus.common.item;
 
 import its_meow.betteranimalsplus.BetterAnimalsPlusMod;
-import its_meow.betteranimalsplus.Ref;
 import net.minecraft.client.renderer.entity.model.BipedModel;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.IArmorMaterial;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.Hand;
+import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 public abstract class ItemCape extends ItemModeledArmor {
 
+    public static CanEquipFunction can_equip = (s, a, e) -> true;
     public final Item repairItem;
 
     public ItemCape(Item repairItem, IArmorMaterial material) {
@@ -37,4 +42,18 @@ public abstract class ItemCape extends ItemModeledArmor {
         return armorModel;
     }
 
+    @Override
+    public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, Hand handIn) {
+        return this.canEquip(playerIn.getHeldItem(handIn), this.getEquipmentSlot(), playerIn) ? super.onItemRightClick(worldIn, playerIn, handIn) : ActionResult.resultFail(playerIn.getHeldItem(handIn));
+    }
+
+    @Override
+    public boolean canEquip(ItemStack stack, EquipmentSlotType armorType, Entity entity) {
+        return super.canEquip(stack, armorType, entity) && can_equip.canEquip(stack, armorType, entity);
+    }
+
+    @FunctionalInterface
+    public interface CanEquipFunction {
+        boolean canEquip(ItemStack stack, EquipmentSlotType armorType, Entity entity);
+    }
 }
