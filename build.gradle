@@ -14,5 +14,5 @@ repositories {
 dependencies {
     compileOnly fg.deobf("mezz.jei:jei-${project.mc_version}:${jei_version}:api")
     runtimeOnly fg.deobf("mezz.jei:jei-${project.mc_version}:${jei_version}")
-    runtimeOnly fg.deobf("curse.maven:appleskin:2987251")
+    runtimeOnly fg.deobf("curse.maven:AppleSkin-248787:2987251")
 }
