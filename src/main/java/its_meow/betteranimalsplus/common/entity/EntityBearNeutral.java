@@ -8,6 +8,7 @@ import dev.itsmeow.imdlib.entity.util.EntityTypeContainer;
 import dev.itsmeow.imdlib.entity.util.IVariant;
 import dev.itsmeow.imdlib.entity.util.IVariantTypes;
 import its_meow.betteranimalsplus.common.entity.ai.EntityAIEatBerries;
+import its_meow.betteranimalsplus.common.entity.ai.HungerNearestAttackableTargetGoal;
 import its_meow.betteranimalsplus.init.ModEntities;
 import its_meow.betteranimalsplus.init.ModLootTables;
 import net.minecraft.entity.AgeableEntity;
@@ -43,10 +44,10 @@ public class EntityBearNeutral extends EntityBear implements IVariantTypes<Entit
         this.targetSelector.addGoal(2, new EntityBear.AttackPlayerGoal());
         this.goalSelector.addGoal(5, new RandomWalkingGoal(this, 0.5D));
         this.goalSelector.addGoal(6, new LookAtGoal(this, PlayerEntity.class, 6.0F));
-        this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<ChickenEntity>(this, ChickenEntity.class, true));
-        this.targetSelector.addGoal(4, new NearestAttackableTargetGoal<RabbitEntity>(this, RabbitEntity.class, true));
-        this.targetSelector.addGoal(5, new NearestAttackableTargetGoal<EntityPheasant>(this, EntityPheasant.class, 90, true, true, Predicates.alwaysTrue()));
-        this.targetSelector.addGoal(4, new NearestAttackableTargetGoal<FoxEntity>(this, FoxEntity.class, 90, true, true, Predicates.alwaysTrue()));
+        this.targetSelector.addGoal(3, new HungerNearestAttackableTargetGoal<>(this, ChickenEntity.class, true));
+        this.targetSelector.addGoal(4, new HungerNearestAttackableTargetGoal<>(this, RabbitEntity.class, true));
+        this.targetSelector.addGoal(5, new HungerNearestAttackableTargetGoal<>(this, EntityPheasant.class, 90, true, true, Predicates.alwaysTrue()));
+        this.targetSelector.addGoal(4, new HungerNearestAttackableTargetGoal<>(this, FoxEntity.class, 90, true, true, Predicates.alwaysTrue()));
     }
 
     @Override
@@ -57,6 +58,7 @@ public class EntityBearNeutral extends EntityBear implements IVariantTypes<Entit
     @Override
     @Nullable
     public ILivingEntityData onInitialSpawn(IWorld world, DifficultyInstance difficulty, SpawnReason reason, @Nullable ILivingEntityData livingdata, CompoundNBT compound) {
+        this.setInitialHunger();
         if(livingdata instanceof AgeableTypeData) {
             this.setGrowingAge(-24000);
             this.setType(((AgeableTypeData) livingdata).typeData);

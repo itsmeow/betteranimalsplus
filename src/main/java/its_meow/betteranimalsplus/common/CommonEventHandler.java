@@ -4,6 +4,7 @@ import dev.itsmeow.imdlib.entity.util.IVariant;
 import its_meow.betteranimalsplus.Ref;
 import its_meow.betteranimalsplus.common.entity.*;
 import its_meow.betteranimalsplus.common.entity.EntityFeralWolf.WolfVariant;
+import its_meow.betteranimalsplus.common.entity.util.IHaveHunger;
 import its_meow.betteranimalsplus.common.entity.util.abstracts.EntitySharkBase;
 import its_meow.betteranimalsplus.init.ModEntities;
 import its_meow.betteranimalsplus.init.ModItems;
@@ -50,6 +51,7 @@ public class CommonEventHandler {
     static {
         NO_ATTACKED_DROPS.add(e -> e instanceof EntityLamprey);
         NO_ATTACKED_DROPS.add(e -> e instanceof EntitySharkBase);
+        NO_ATTACKED_DROPS.add(e -> e instanceof EntityBarracuda);
     }
 
     @ObjectHolder("essentialfeatures:portable_jukebox")
@@ -98,6 +100,9 @@ public class CommonEventHandler {
                     ModTriggers.OCTOPUS_SAVE_PLAYER.trigger((ServerPlayerEntity) octo.world.getPlayerByUuid(octo.friend));
                 }
             }
+        }
+        if(e.getSource().getImmediateSource() instanceof IHaveHunger) {
+            ((IHaveHunger<?>) e.getSource().getImmediateSource()).resetHunger();
         }
     }
     
@@ -203,7 +208,7 @@ public class CommonEventHandler {
     
     @SubscribeEvent
     public static void onLivingDrop(LivingDropsEvent event) {
-        if(NO_ATTACKED_DROPS.stream().anyMatch(predicate -> predicate.test(event.getSource().getTrueSource().getEntity())) && !(event.getEntity() instanceof PlayerEntity)) {
+        if(event.getSource().getTrueSource() != null && NO_ATTACKED_DROPS.stream().anyMatch(predicate -> predicate.test(event.getSource().getTrueSource())) && !(event.getEntity() instanceof PlayerEntity)) {
             event.getDrops().clear();
         }
     }

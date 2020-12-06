@@ -19,7 +19,7 @@ public interface IHaveHunger<T extends MobEntity> extends IContainerEntity<T> {
     }
 
     default int getHungerThreshold() {
-        return 120;
+        return 80;
     }
 
     default int getEffectiveHunger() {
@@ -27,15 +27,19 @@ public interface IHaveHunger<T extends MobEntity> extends IContainerEntity<T> {
     }
 
     default int getInitialHunger() {
-        return 10 + getImplementation().getRNG().nextInt(80);
+        return 10 + getImplementation().getRNG().nextInt(50);
     }
 
     default void setInitialHunger() {
         setHunger(getInitialHunger());
     }
 
+    default int getHungerResetValue() {
+        return getImplementation().getRNG().nextInt(20);
+    }
+
     default void resetHunger() {
-        setHunger(0);
+        setHunger(getHungerResetValue());
     }
 
     default void incrementHunger() {

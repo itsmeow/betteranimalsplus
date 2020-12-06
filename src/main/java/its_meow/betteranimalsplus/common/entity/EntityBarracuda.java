@@ -2,12 +2,17 @@ package its_meow.betteranimalsplus.common.entity;
 
 import dev.itsmeow.imdlib.entity.util.EntityTypeContainer;
 import dev.itsmeow.imdlib.entity.util.EntityTypeContainerContainable;
+import its_meow.betteranimalsplus.common.entity.ai.HungerNearestAttackableTargetGoal;
 import its_meow.betteranimalsplus.common.entity.ai.PeacefulNearestAttackableTargetGoal;
+import its_meow.betteranimalsplus.common.entity.util.IHaveHunger;
+import its_meow.betteranimalsplus.common.entity.util.abstracts.EntityWaterMobPathing;
 import its_meow.betteranimalsplus.common.entity.util.abstracts.EntityWaterMobPathingBucketable;
 import its_meow.betteranimalsplus.init.ModEntities;
 import its_meow.betteranimalsplus.init.ModLootTables;
+import net.minecraft.entity.ILivingEntityData;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.passive.WaterMobEntity;
@@ -16,15 +21,21 @@ import net.minecraft.item.ArmorItem;
 import net.minecraft.item.ArmorMaterial;
 import net.minecraft.item.IArmorMaterial;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.*;
 import net.minecraft.world.Difficulty;
+import net.minecraft.world.DifficultyInstance;
+import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 
+import javax.annotation.Nullable;
 import java.util.EnumSet;
 
-public class EntityBarracuda extends EntityWaterMobPathingBucketable {
+public class EntityBarracuda extends EntityWaterMobPathingBucketable implements IHaveHunger<EntityWaterMobPathing> {
+
+    private int hunger = 0;
 
     public EntityBarracuda(World world) {
         super(ModEntities.BARRACUDA.entityType, world);
@@ -43,7 +54,7 @@ public class EntityBarracuda extends EntityWaterMobPathingBucketable {
                 return EntityBarracuda.this.world.getDifficulty() != Difficulty.PEACEFUL && super.shouldExecute();
             }
         });
-        this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<WaterMobEntity>(this, WaterMobEntity.class, 100, true, true, e -> !(e instanceof IMob) && !(e instanceof EntityBarracuda)));
+        this.targetSelector.addGoal(1, new HungerNearestAttackableTargetGoal<WaterMobEntity, EntityBarracuda>(this, WaterMobEntity.class, 100, true, true, e -> !(e instanceof IMob) && !(e instanceof EntityBarracuda)));
         this.targetSelector.addGoal(1, new PeacefulNearestAttackableTargetGoal<PlayerEntity>(this, PlayerEntity.class, 100, true, true, EntityBarracuda::isWearingShiny));
     }
 
@@ -64,6 +75,44 @@ public class EntityBarracuda extends EntityWaterMobPathingBucketable {
         }
     }
 
+    @Override
+    public int getHunger() {
+        return hunger;
+    }
+
+    @Override
+    public void setHunger(int hunger) {
+        this.hunger = hunger;
+    }
+
+    @Override
+    public void tick() {
+        super.tick();
+        if (this.ticksExisted % 20 == 0) {
+            this.incrementHunger();
+        }
+    }
+
+    @Nullable
+    @Override
+    public ILivingEntityData onInitialSpawn(IWorld world, DifficultyInstance difficulty, SpawnReason reason, @Nullable ILivingEntityData livingdata, CompoundNBT compound) {
+        this.setInitialHunger();
+        return super.onInitialSpawn(world, difficulty, reason, livingdata, compound);
+    }
+
+    @Override
+    public void writeAdditional(CompoundNBT compound) {
+        super.writeAdditional(compound);
+        this.writeHunger(compound);
+    }
+
+    @Override
+    public void readAdditional(CompoundNBT compound) {
+        super.readAdditional(compound);
+        this.readHunger(compound);
+    }
+
+    @Override
     public void livingTick() {
         if(!this.isInWater() && this.onGround && this.collidedVertically) {
             this.setMotion(this.getMotion().add((double) ((this.rand.nextFloat() * 2.0F - 1.0F) * 0.05F), (double) 0.4F, (double) ((this.rand.nextFloat() * 2.0F - 1.0F) * 0.05F)));

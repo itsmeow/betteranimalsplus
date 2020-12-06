@@ -7,9 +7,12 @@ import com.google.common.base.Predicates;
 import dev.itsmeow.imdlib.entity.util.EntityVariant;
 import dev.itsmeow.imdlib.entity.util.IVariant;
 import its_meow.betteranimalsplus.Ref;
+import its_meow.betteranimalsplus.common.entity.ai.HungerNearestAttackableTargetGoal;
+import its_meow.betteranimalsplus.common.entity.ai.HungerNonTamedTargetGoal;
 import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainerBAPTameable;
 import its_meow.betteranimalsplus.common.entity.util.EntityUtil;
 import its_meow.betteranimalsplus.common.entity.util.IDropHead;
+import its_meow.betteranimalsplus.common.entity.util.IHaveHunger;
 import its_meow.betteranimalsplus.common.entity.util.abstracts.EntityTameableBetterAnimalsPlus;
 import its_meow.betteranimalsplus.common.entity.util.abstracts.EntityTameableWithSelectiveTypes;
 import its_meow.betteranimalsplus.common.entity.util.abstracts.EntityTameableWithTypes;
@@ -75,8 +78,10 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.BiomeDictionary.Type;
 
+import javax.annotation.Nullable;
 
-public class EntityFeralWolf extends EntityTameableWithSelectiveTypes implements IMob, IDropHead<EntityTameableBetterAnimalsPlus> {
+
+public class EntityFeralWolf extends EntityTameableWithSelectiveTypes implements IMob, IDropHead<EntityTameableBetterAnimalsPlus>, IHaveHunger<EntityTameableBetterAnimalsPlus> {
 
     public static final double TAMED_HEALTH = 30D;
     public static final double UNTAMED_HEALTH = 10D;
@@ -88,6 +93,7 @@ public class EntityFeralWolf extends EntityTameableWithSelectiveTypes implements
     protected boolean isShaking;
     protected float timeWolfIsShaking;
     protected float prevTimeWolfIsShaking;
+    private int hunger;
 
     public EntityFeralWolf(World worldIn) {
         super(ModEntities.FERAL_WOLF.entityType, worldIn);
@@ -112,13 +118,35 @@ public class EntityFeralWolf extends EntityTameableWithSelectiveTypes implements
         this.targetSelector.addGoal(1, new OwnerHurtByTargetGoal(this));
         this.targetSelector.addGoal(2, new OwnerHurtTargetGoal(this));
         this.targetSelector.addGoal(3, new HurtByTargetGoal(this, new Class[0]));
-        this.targetSelector.addGoal(4, new NonTamedTargetGoal<PlayerEntity>(this, PlayerEntity.class, false,  e -> e.world.getDifficulty() != Difficulty.PEACEFUL));
-        this.targetSelector.addGoal(4, new NonTamedTargetGoal<AnimalEntity>(this, AnimalEntity.class, false, e -> e instanceof SheepEntity || e instanceof RabbitEntity));
-        this.targetSelector.addGoal(4, new NonTamedTargetGoal<VillagerEntity>(this, VillagerEntity.class, false, Predicates.alwaysTrue()));
-        this.targetSelector.addGoal(4, new NonTamedTargetGoal<AbstractIllagerEntity>(this, AbstractIllagerEntity.class, false, Predicates.alwaysTrue()));
-        this.targetSelector.addGoal(4, new NonTamedTargetGoal<ChickenEntity>(this, ChickenEntity.class, false, Predicates.alwaysTrue()));
-        this.targetSelector.addGoal(4, new NonTamedTargetGoal<EntityGoat>(this, EntityGoat.class, false, Predicates.alwaysTrue()));
-        this.targetSelector.addGoal(5, new NearestAttackableTargetGoal<AbstractSkeletonEntity>(this, AbstractSkeletonEntity.class, false));
+        this.targetSelector.addGoal(4, new NonTamedTargetGoal<>(this, PlayerEntity.class, false,  e -> e.world.getDifficulty() != Difficulty.PEACEFUL));
+        this.targetSelector.addGoal(4, new HungerNonTamedTargetGoal<>(this, AnimalEntity.class, false, e -> e instanceof SheepEntity || e instanceof RabbitEntity));
+        this.targetSelector.addGoal(4, new HungerNonTamedTargetGoal<>(this, VillagerEntity.class, false, Predicates.alwaysTrue()));
+        this.targetSelector.addGoal(4, new HungerNonTamedTargetGoal<>(this, AbstractIllagerEntity.class, false, Predicates.alwaysTrue()));
+        this.targetSelector.addGoal(4, new HungerNonTamedTargetGoal<>(this, ChickenEntity.class, false, Predicates.alwaysTrue()));
+        this.targetSelector.addGoal(4, new HungerNonTamedTargetGoal<>(this, EntityGoat.class, false, Predicates.alwaysTrue()));
+        this.targetSelector.addGoal(5, new HungerNearestAttackableTargetGoal<>(this, AbstractSkeletonEntity.class, false));
+    }
+
+    @Override
+    public int getHunger() {
+        return hunger;
+    }
+
+    @Override
+    public void setHunger(int hunger) {
+        this.hunger = hunger;
+    }
+
+    @Override
+    public void writeAdditional(CompoundNBT compound) {
+        super.writeAdditional(compound);
+        this.writeHunger(compound);
+    }
+
+    @Override
+    public void readAdditional(CompoundNBT compound) {
+        super.readAdditional(compound);
+        this.readHunger(compound);
     }
 
     @Override
@@ -206,6 +234,9 @@ public class EntityFeralWolf extends EntityTameableWithSelectiveTypes implements
     @Override
     public void tick() {
         super.tick();
+        if (this.ticksExisted % 20 == 0) {
+            this.incrementHunger();
+        }
         this.headRotationCourseOld = this.headRotationCourse;
 
         this.headRotationCourse += (0.0F - this.headRotationCourse) * 0.4F;
@@ -466,6 +497,7 @@ public class EntityFeralWolf extends EntityTameableWithSelectiveTypes implements
 
     @Override
     public ILivingEntityData onInitialSpawn(IWorld world, DifficultyInstance difficulty, SpawnReason reason, ILivingEntityData livingdata, CompoundNBT compound) {
+        this.setInitialHunger();
         return EntityUtil.childChance(this, reason, super.onInitialSpawn(world, difficulty, reason, livingdata, compound), 0.25F);
     }
 

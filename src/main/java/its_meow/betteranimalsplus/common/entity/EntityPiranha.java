@@ -2,6 +2,10 @@ package its_meow.betteranimalsplus.common.entity;
 
 import dev.itsmeow.imdlib.entity.util.EntityTypeContainer;
 import dev.itsmeow.imdlib.entity.util.EntityTypeContainerContainable;
+import its_meow.betteranimalsplus.common.entity.ai.HungerNearestAttackableTargetGoal;
+import its_meow.betteranimalsplus.common.entity.ai.PeacefulNearestAttackableTargetGoal;
+import its_meow.betteranimalsplus.common.entity.util.IHaveHunger;
+import its_meow.betteranimalsplus.common.entity.util.abstracts.EntityWaterMobPathing;
 import its_meow.betteranimalsplus.common.entity.util.abstracts.EntityWaterMobPathingBucketable;
 import its_meow.betteranimalsplus.init.ModEntities;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -22,11 +26,17 @@ import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.Difficulty;
+import net.minecraft.world.DifficultyInstance;
+import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 
-public class EntityPiranha extends EntityWaterMobPathingBucketable {
+import javax.annotation.Nullable;
+import java.util.function.Predicate;
+
+public class EntityPiranha extends EntityWaterMobPathingBucketable implements IHaveHunger<EntityWaterMobPathing> {
 
     public final DamageSource PIRANHA_DAMAGE = (new EntityDamageSource("betteranimalsplus.piranha", this)).setDamageBypassesArmor();
+    private int hunger;
 
     public EntityPiranha(World world) {
         super(ModEntities.PIRANHA.entityType, world);
@@ -36,7 +46,9 @@ public class EntityPiranha extends EntityWaterMobPathingBucketable {
     protected void registerGoals() {
         this.goalSelector.addGoal(0, new MeleeAttackGoal(this, 1D, true));
         this.goalSelector.addGoal(1, new RandomSwimmingGoal(this, 1D, 1));
-        this.targetSelector.addGoal(0, new NearestAttackableTargetGoal<LivingEntity>(this, LivingEntity.class, 0, true, false, e -> e.getHealth() < e.getMaxHealth() && !(e instanceof EntityPiranha) && !(e instanceof SkeletonEntity) && !(e instanceof SkeletonHorseEntity) && (!(e instanceof PlayerEntity) || e.world.getDifficulty() != Difficulty.PEACEFUL)));
+        Predicate<LivingEntity> eP = e -> e.getHealth() < e.getMaxHealth();
+        this.targetSelector.addGoal(0, new HungerNearestAttackableTargetGoal<>(this, LivingEntity.class, 0, true, false, e -> eP.test(e) && !(e instanceof EntityPiranha) && !(e instanceof SkeletonEntity) && !(e instanceof SkeletonHorseEntity) && !(e instanceof PlayerEntity)));
+        this.targetSelector.addGoal(1, new PeacefulNearestAttackableTargetGoal<>(this, PlayerEntity.class, true, false));
     }
 
     @Override
@@ -46,6 +58,43 @@ public class EntityPiranha extends EntityWaterMobPathingBucketable {
         this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(1D);
         this.getAttributes().registerAttribute(SharedMonsterAttributes.ATTACK_DAMAGE);
         this.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(4D);
+    }
+
+    @Override
+    public int getHunger() {
+        return hunger;
+    }
+
+    @Override
+    public void setHunger(int hunger) {
+        this.hunger = hunger;
+    }
+
+    @Override
+    public void tick() {
+        super.tick();
+        if (this.ticksExisted % 20 == 0) {
+            this.incrementHunger();
+        }
+    }
+
+    @Nullable
+    @Override
+    public ILivingEntityData onInitialSpawn(IWorld world, DifficultyInstance difficulty, SpawnReason reason, @Nullable ILivingEntityData livingdata, CompoundNBT compound) {
+        this.setInitialHunger();
+        return super.onInitialSpawn(world, difficulty, reason, livingdata, compound);
+    }
+
+    @Override
+    public void writeAdditional(CompoundNBT compound) {
+        super.writeAdditional(compound);
+        this.writeHunger(compound);
+    }
+
+    @Override
+    public void readAdditional(CompoundNBT compound) {
+        super.readAdditional(compound);
+        this.readHunger(compound);
     }
 
     @Override

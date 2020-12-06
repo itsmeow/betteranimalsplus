@@ -3,7 +3,9 @@ package its_meow.betteranimalsplus.common.entity;
 import com.google.common.base.Predicates;
 import dev.itsmeow.imdlib.entity.util.EntityTypeContainer;
 import its_meow.betteranimalsplus.common.entity.ai.EntityAIEatBerries;
+import its_meow.betteranimalsplus.common.entity.ai.HungerNearestAttackableTargetGoal;
 import its_meow.betteranimalsplus.common.entity.util.IDropHead;
+import its_meow.betteranimalsplus.common.entity.util.IHaveHunger;
 import its_meow.betteranimalsplus.init.ModEntities;
 import its_meow.betteranimalsplus.init.ModLootTables;
 import net.minecraft.block.BlockState;
@@ -35,11 +37,12 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import javax.annotation.Nullable;
 import java.util.function.Predicate;
 
-public class EntityBear extends AnimalEntity implements IDropHead<EntityBear> {
+public class EntityBear extends AnimalEntity implements IDropHead<EntityBear>, IHaveHunger<EntityBear> {
     private static final DataParameter<Boolean> IS_STANDING = EntityDataManager.createKey(EntityBear.class, DataSerializers.BOOLEAN);
     private float clientSideStandAnimation0;
     private float clientSideStandAnimation;
     private int warningSoundTicks;
+    private int hunger;
 
     public EntityBear(World worldIn) {
         super(ModEntities.BROWN_BEAR.entityType, worldIn);
@@ -69,13 +72,34 @@ public class EntityBear extends AnimalEntity implements IDropHead<EntityBear> {
         this.goalSelector.addGoal(6, new LookAtGoal(this, PlayerEntity.class, 6.0F));
         this.targetSelector.addGoal(1, new EntityBear.HurtByTargetGoal());
         this.targetSelector.addGoal(2, new EntityBear.AttackPlayerGoal());
-        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<SalmonEntity>(this, SalmonEntity.class, 90, true, true, Predicates.alwaysTrue()));
-        this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<EntityDeer>(this, EntityDeer.class, 90, true, true, Predicates.alwaysTrue()));
-        this.targetSelector.addGoal(4, new NearestAttackableTargetGoal<PigEntity>(this, PigEntity.class, 90, true, true, Predicates.alwaysTrue()));
-        this.targetSelector.addGoal(5, new NearestAttackableTargetGoal<ChickenEntity>(this, ChickenEntity.class, 90, true, true, Predicates.alwaysTrue()));
-        this.targetSelector.addGoal(6, new NearestAttackableTargetGoal<RabbitEntity>(this, RabbitEntity.class, 90, true, true, Predicates.alwaysTrue()));
-        this.targetSelector.addGoal(5, new NearestAttackableTargetGoal<EntityPheasant>(this, EntityPheasant.class, 90, true, true, Predicates.alwaysTrue()));
-        this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<FoxEntity>(this, FoxEntity.class, 90, true, true, Predicates.alwaysTrue()));
+        this.targetSelector.addGoal(2, new HungerNearestAttackableTargetGoal<>(this, SalmonEntity.class, 90, true, true, Predicates.alwaysTrue()));
+        this.targetSelector.addGoal(3, new HungerNearestAttackableTargetGoal<>(this, EntityDeer.class, 90, true, true, Predicates.alwaysTrue()));
+        this.targetSelector.addGoal(4, new HungerNearestAttackableTargetGoal<>(this, PigEntity.class, 90, true, true, Predicates.alwaysTrue()));
+        this.targetSelector.addGoal(5, new HungerNearestAttackableTargetGoal<>(this, ChickenEntity.class, 90, true, true, Predicates.alwaysTrue()));
+        this.targetSelector.addGoal(6, new HungerNearestAttackableTargetGoal<>(this, RabbitEntity.class, 90, true, true, Predicates.alwaysTrue()));
+        this.targetSelector.addGoal(5, new HungerNearestAttackableTargetGoal<>(this, EntityPheasant.class, 90, true, true, Predicates.alwaysTrue()));
+        this.targetSelector.addGoal(3, new HungerNearestAttackableTargetGoal<>(this, FoxEntity.class, 90, true, true, Predicates.alwaysTrue()));
+    }
+    @Override
+    public int getHunger() {
+        return hunger;
+    }
+
+    @Override
+    public void setHunger(int hunger) {
+        this.hunger = hunger;
+    }
+
+    @Override
+    public void writeAdditional(CompoundNBT compound) {
+        super.writeAdditional(compound);
+        this.writeHunger(compound);
+    }
+
+    @Override
+    public void readAdditional(CompoundNBT compound) {
+        super.readAdditional(compound);
+        this.readHunger(compound);
     }
 
     @Override
@@ -108,6 +132,9 @@ public class EntityBear extends AnimalEntity implements IDropHead<EntityBear> {
     @Override
     public void tick() {
         super.tick();
+        if(this.ticksExisted % 20 == 0) {
+            this.incrementHunger();
+        }
         if(this.world.isRemote) {
             if(this.clientSideStandAnimation != this.clientSideStandAnimation0) {
                 this.recalculateSize();
@@ -333,6 +360,7 @@ public class EntityBear extends AnimalEntity implements IDropHead<EntityBear> {
 
     @Override
     public ILivingEntityData onInitialSpawn(IWorld worldIn, DifficultyInstance difficultyIn, SpawnReason reason, @Nullable ILivingEntityData spawnDataIn, @Nullable CompoundNBT dataTag) {
+        this.setInitialHunger();
         if(spawnDataIn instanceof GroupData) {
             this.setGrowingAge(-24000);
         } else {

@@ -128,6 +128,7 @@ public abstract class EntitySharkBase extends EntityWaterMobPathingWithSelective
 
     @Override
     public void tick() {
+        super.tick();
         if(this.ticksExisted % 20 == 0) {
             this.incrementHunger();
         }

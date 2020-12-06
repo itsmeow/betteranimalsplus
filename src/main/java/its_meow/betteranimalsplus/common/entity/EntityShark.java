@@ -10,6 +10,8 @@ import dev.itsmeow.imdlib.entity.util.EntityTypeContainer;
 import dev.itsmeow.imdlib.entity.util.IVariant;
 import dev.itsmeow.imdlib.entity.util.IVariantTypes;
 import its_meow.betteranimalsplus.common.entity.ai.EfficientMoveTowardsTargetGoal;
+import its_meow.betteranimalsplus.common.entity.ai.HungerNearestAttackableTargetGoal;
+import its_meow.betteranimalsplus.common.entity.ai.PeacefulNearestAttackableTargetGoal;
 import its_meow.betteranimalsplus.common.entity.util.abstracts.EntitySharkBase;
 import its_meow.betteranimalsplus.common.entity.util.abstracts.EntityWaterMobPathing;
 import its_meow.betteranimalsplus.init.ModEntities;
@@ -55,16 +57,10 @@ public class EntityShark extends EntitySharkBase {
         this.goalSelector.addGoal(1, new LookAtGoal(this, LivingEntity.class, 15F));
         this.goalSelector.addGoal(1, new LookRandomlyGoal(this));
         this.goalSelector.addGoal(2, new RandomSwimmingGoal(this, 1D, 1));
-        this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<LivingEntity>(this, LivingEntity.class, 5, false, false, e -> {
-            if(e instanceof EntitySharkBase || e instanceof EntityBobbitWorm) return false;
-            if(e instanceof PlayerEntity) return shouldAttackForHealth(e.getHealth());
-            return true;
-        }) {
-            @Override
-            public boolean shouldExecute() {
-                return super.shouldExecute() && !EntityShark.this.isPeaceful();
-            }
-        });
+        this.targetSelector.addGoal(1, new HungerNearestAttackableTargetGoal<LivingEntity, EntityShark>(this, LivingEntity.class, 5, false, false, e -> {
+            return !(e instanceof EntitySharkBase || e instanceof EntityBobbitWorm || e instanceof PlayerEntity);
+        }));
+        this.targetSelector.addGoal(2, new PeacefulNearestAttackableTargetGoal<>(this, PlayerEntity.class, 5, false, false, e -> shouldAttackForHealth(e.getHealth())));
     }
 
     @Override
