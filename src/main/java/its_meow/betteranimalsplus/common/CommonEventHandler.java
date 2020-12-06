@@ -1,5 +1,6 @@
 package its_meow.betteranimalsplus.common;
 
+import dev.itsmeow.imdlib.entity.util.IBucketable;
 import dev.itsmeow.imdlib.entity.util.IVariant;
 import its_meow.betteranimalsplus.Ref;
 import its_meow.betteranimalsplus.common.entity.*;
@@ -52,6 +53,7 @@ public class CommonEventHandler {
         NO_ATTACKED_DROPS.add(e -> e instanceof EntityLamprey);
         NO_ATTACKED_DROPS.add(e -> e instanceof EntitySharkBase);
         NO_ATTACKED_DROPS.add(e -> e instanceof EntityBarracuda);
+        NO_ATTACKED_DROPS.add(e -> e instanceof EntityPiranha);
     }
 
     @ObjectHolder("essentialfeatures:portable_jukebox")
@@ -208,7 +210,7 @@ public class CommonEventHandler {
     
     @SubscribeEvent
     public static void onLivingDrop(LivingDropsEvent event) {
-        if(event.getSource().getTrueSource() != null && NO_ATTACKED_DROPS.stream().anyMatch(predicate -> predicate.test(event.getSource().getTrueSource())) && !(event.getEntity() instanceof PlayerEntity)) {
+        if(event.getSource().getTrueSource() != null && !(event.getEntity() instanceof PlayerEntity) && NO_ATTACKED_DROPS.stream().anyMatch(predicate -> predicate.test(event.getSource().getTrueSource())) && (!(event.getSource().getTrueSource() instanceof IBucketable) || !((IBucketable) event.getSource().getTrueSource()).isFromContainer())) {
             event.getDrops().clear();
         }
     }
