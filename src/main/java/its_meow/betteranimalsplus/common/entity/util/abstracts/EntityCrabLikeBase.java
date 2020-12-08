@@ -1,5 +1,6 @@
 package its_meow.betteranimalsplus.common.entity.util.abstracts;
 
+import its_meow.betteranimalsplus.common.entity.EntityHorseshoeCrab;
 import its_meow.betteranimalsplus.init.ModLootTables;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
@@ -10,11 +11,16 @@ import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.pathfinding.PathNodeType;
+import net.minecraft.pathfinding.PathType;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.world.IServerWorld;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
+
+import java.util.Random;
 
 public abstract class EntityCrabLikeBase extends EntityAnimalWithTypes {
 
@@ -109,4 +115,7 @@ public abstract class EntityCrabLikeBase extends EntityAnimalWithTypes {
         return !this.hasCustomName() && super.canDespawn(range);
     }
 
+    public static <T extends EntityCrabLikeBase> boolean canCrabSpawn(EntityType<T> type, IServerWorld world, SpawnReason reason, BlockPos pos, Random rand) {
+        return (world.getBlockState(pos).allowsMovement(world, pos, PathType.WATER) || world.getBlockState(pos).allowsMovement(world, pos, PathType.LAND)) && !world.getBlockState(pos.down()).allowsMovement(world, pos.down(), PathType.LAND) && !world.getBlockState(pos.down()).allowsMovement(world, pos.down(), PathType.WATER);
+    }
 }

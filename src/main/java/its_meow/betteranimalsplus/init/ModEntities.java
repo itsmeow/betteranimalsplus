@@ -19,6 +19,7 @@ import its_meow.betteranimalsplus.client.model.*;
 import its_meow.betteranimalsplus.common.entity.*;
 import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainerBAPTameable;
 import its_meow.betteranimalsplus.common.entity.util.abstracts.EntityBAPSquid;
+import its_meow.betteranimalsplus.common.entity.util.abstracts.EntityCrabLikeBase;
 import its_meow.betteranimalsplus.util.OceanBiomeHelper;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntitySpawnPlacementRegistry.PlacementType;
@@ -316,7 +317,7 @@ public class ModEntities {
     .createMutableAttribute(Attributes.ATTACK_DAMAGE)
     .createMutableAttribute(Attributes.ATTACK_DAMAGE, 3D))
     .spawn(EntityClassification.CREATURE, 10, 1, 3)
-    .placement(PlacementType.ON_GROUND, Heightmap.Type.OCEAN_FLOOR, null)
+    .placement(PlacementType.NO_RESTRICTIONS, Heightmap.Type.OCEAN_FLOOR, EntityCrabLikeBase::canCrabSpawn)
     .egg(0xe21d16, 0x2d0504)
     .size(1F, 0.65F)
     .biomes(Type.BEACH, Type.SWAMP)
@@ -328,7 +329,7 @@ public class ModEntities {
     .createMutableAttribute(Attributes.ATTACK_DAMAGE)
     .createMutableAttribute(Attributes.ATTACK_DAMAGE, 3D))
     .spawn(EntityClassification.CREATURE, 8, 1, 3)
-    .placement(PlacementType.ON_GROUND, Heightmap.Type.OCEAN_FLOOR, null)
+    .placement(PlacementType.NO_RESTRICTIONS, Heightmap.Type.OCEAN_FLOOR, EntityCrabLikeBase::canCrabSpawn)
     .egg(0xba1111, 0x520807)
     .size(1F, 0.65F)
     .biomes(Type.BEACH)

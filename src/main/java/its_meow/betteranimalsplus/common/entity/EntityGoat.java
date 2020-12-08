@@ -184,8 +184,12 @@ public class EntityGoat extends EntityAnimalEatsGrassWithTypes {
     @Override
     public void readAdditional(CompoundNBT compound) {
         super.readAdditional(compound);
-        this.setAttackingOnClient(compound.getBoolean("AttackSync"));
-        this.friend = compound.getUniqueId("Friend");
+        if(compound.contains("AttackSync")) {
+            this.setAttackingOnClient(compound.getBoolean("AttackSync"));
+        }
+        if(compound.contains("Friend")) {
+            this.friend = compound.getUniqueId("Friend");
+        }
     }
 
     public static class GoatAIAttackForFriend extends Goal {
