@@ -166,7 +166,7 @@ public class EntityLammergeier extends EntityTameableFlyingWithTypes implements 
         if(this.isTamed() && !this.isInvulnerableTo(source)) {
             this.func_233687_w_(false);
         }
-        if(this.getAttackTarget() != null && this.getAttackTarget() == source.getTrueSource() && this.getAttackTarget().isRidingOrBeingRiddenBy(this)) {
+        if(this.getAttackTarget() != null && this.getAttackTarget() == source.getTrueSource() && this.isPassenger(this.getAttackTarget())) {
             return super.attackEntityFrom(source, amount / 2F);
         }
         return super.attackEntityFrom(source, amount);
@@ -386,7 +386,7 @@ public class EntityLammergeier extends EntityTameableFlyingWithTypes implements 
             // the timer and attack if the entity is not grabbed
             if(distanceToTarget <= reachToTarget && this.attackTick <= 0) {
                 this.attackTick = 20;
-                if(!attacker.isRidingOrBeingRiddenBy(entitylivingbase)) {
+                if(!entitylivingbase.isPassenger(attacker)) {
                     this.attacker.attackEntityAsMob(entitylivingbase);
                 }
             }

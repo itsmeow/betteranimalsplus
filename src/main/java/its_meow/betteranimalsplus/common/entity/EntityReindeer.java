@@ -238,8 +238,7 @@ public class EntityReindeer extends AnimalEntity implements IJumpingMount, IVari
     @Override
     public boolean attackEntityFrom(DamageSource source, float amount) {
         Entity entity = source.getTrueSource();
-        return this.isBeingRidden() && entity != null && this.isRidingOrBeingRiddenBy(entity) ? false
-                : super.attackEntityFrom(source, amount);
+        return this.isBeingRidden() && entity != null && this.isPassenger(entity) ? false : super.attackEntityFrom(source, amount);
     }
 
     /**

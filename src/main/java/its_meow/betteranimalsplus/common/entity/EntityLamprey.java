@@ -142,7 +142,7 @@ public class EntityLamprey extends EntityWaterMobPathingWithTypesBucketable impl
     }
 
     public void grabTarget(Entity entity) {
-        if(entity == this.getAttackTarget() && !this.isRidingOrBeingRiddenBy(entity) && this.inWater) {
+        if(entity == this.getAttackTarget() && !entity.isPassenger(this) && this.inWater) {
             this.startRiding(entity);
             if(entity instanceof ServerPlayerEntity) {
                ((ServerPlayerEntity) entity).connection.sendPacket(new SSetPassengersPacket(entity));
