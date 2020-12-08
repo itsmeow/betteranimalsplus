@@ -78,14 +78,6 @@ public class BetterAnimalsPlusMod {
             .networkProtocolVersion(() -> PROTOCOL_VERSION)
             .simpleChannel();
     public static int packets = 0;
-    public static final WeightedBlockStateProvider TRILLIUM_STATE_PROVIDER = new WeightedBlockStateProvider();
-    static {
-        for(int i = 0; i < 4; i++) {
-            TRILLIUM_STATE_PROVIDER.addWeightedBlockstate(ModBlocks.TRILLIUM.get().getDefaultState().with(HorizontalBlock.HORIZONTAL_FACING, Direction.byHorizontalIndex(i)), 1);
-        }
-    }
-    public static final BlockClusterFeatureConfig TRILLIUM_FEATURE_CONFIG = (new BlockClusterFeatureConfig.Builder(TRILLIUM_STATE_PROVIDER, new SimpleBlockPlacer())).tries(64).build();
-    public static final ConfiguredFeature<?, ?> TRILLIUM_CF = Feature.FLOWER.withConfiguration(TRILLIUM_FEATURE_CONFIG).withPlacement(Features.Placements.VEGETATION_PLACEMENT).withPlacement(Features.Placements.HEIGHTMAP_PLACEMENT);
     private static final ImmutableList<UUID> DEVS = ImmutableList.of(
     UUID.fromString("81d9726a-56d4-4419-9a2a-be1d7f7f7ef1"), // its_meow
     UUID.fromString("403f2fd4-f8a2-4608-a0b8-534da4184735"), // cyber
@@ -102,6 +94,7 @@ public class BetterAnimalsPlusMod {
         ModItems.subscribe(modBus);
         ModSoundEvents.subscribe(modBus);
         ModTileEntities.subscribe(modBus);
+        ModWorldGen.subscribe(modBus);
         ModTriggers.register();
         ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, BetterAnimalsPlusConfig.getClientSpec());
         BetterAnimalsPlusMod.logger.log(Level.INFO, "Injecting super coyotes...");
@@ -149,17 +142,7 @@ public class BetterAnimalsPlusMod {
         });
         HANDLER.registerMessage(packets++, StupidDevPacket.class, StupidDevPacket::encode, StupidDevPacket::decode, StupidDevPacket.Handler::handle);
         HANDLER.registerMessage(packets++, HonkPacket.class, HonkPacket::encode, HonkPacket::decode, HonkPacket.Handler::handle);
-        event.enqueueWork(() -> {
-            Registry.register(WorldGenRegistries.CONFIGURED_FEATURE, new ResourceLocation(Ref.MOD_ID, "trillium"), TRILLIUM_CF);
-        });
         BetterAnimalsPlusMod.logger.log(Level.INFO, "Overspawning lammergeiers...");
-    }
-
-    @SubscribeEvent
-    public static void biomeLoad(final BiomeLoadingEvent event) {
-        BetterAnimalsPlusConfig.biomeLoad(event);
-        if (event.getName() != null && BiomeDictionary.getTypes(RegistryKey.getOrCreateKey(Registry.BIOME_KEY, event.getName())).contains(BiomeDictionary.Type.SWAMP))
-            event.getGeneration().getFeatures(GenerationStage.Decoration.VEGETAL_DECORATION).add(() -> TRILLIUM_CF);
     }
 
     private void loadComplete(final FMLLoadCompleteEvent event) {
