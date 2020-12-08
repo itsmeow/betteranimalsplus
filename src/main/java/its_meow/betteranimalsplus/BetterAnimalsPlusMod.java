@@ -14,28 +14,15 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.google.common.collect.ImmutableList;
-
-import dev.itsmeow.imdlib.entity.util.EntityTypeContainer;
+import dev.itsmeow.imdlib.util.ClassLoadHacks;
 import its_meow.betteranimalsplus.client.ClientLifecycleHandler;
 import its_meow.betteranimalsplus.client.dumb.SafeSyncThing;
 import its_meow.betteranimalsplus.client.dumb.SafeSyncThing.DumbOptions;
 import its_meow.betteranimalsplus.common.entity.EntityCoyote;
-import its_meow.betteranimalsplus.common.entity.projectile.EntityGoldenGooseEgg;
-import its_meow.betteranimalsplus.common.entity.projectile.EntityGooseEgg;
-import its_meow.betteranimalsplus.common.entity.projectile.EntityModEgg;
-import its_meow.betteranimalsplus.common.entity.projectile.EntityPheasantEgg;
-import its_meow.betteranimalsplus.common.entity.projectile.EntityTurkeyEgg;
 import its_meow.betteranimalsplus.config.BetterAnimalsPlusConfig;
-import its_meow.betteranimalsplus.init.ModBlocks;
-import its_meow.betteranimalsplus.init.ModEntities;
-import its_meow.betteranimalsplus.init.ModItems;
-import its_meow.betteranimalsplus.init.ModTriggers;
-import its_meow.betteranimalsplus.network.ClientConfigurationPacket;
-import its_meow.betteranimalsplus.network.ClientRequestBAMPacket;
-import its_meow.betteranimalsplus.network.HonkPacket;
-import its_meow.betteranimalsplus.network.ServerNoBAMPacket;
-import its_meow.betteranimalsplus.network.StupidDevPacket;
-import net.minecraft.block.DispenserBlock;
+import its_meow.betteranimalsplus.init.*;
+import its_meow.betteranimalsplus.network.*;
+import its_meow.betteranimalsplus.compat.curios.CuriosModCompat;
 import net.minecraft.block.HorizontalBlock;
 import net.minecraft.dispenser.DefaultDispenseItemBehavior;
 import net.minecraft.dispenser.IBlockSource;
@@ -57,6 +44,7 @@ import net.minecraft.world.gen.feature.BlockClusterFeatureConfig;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.event.entity.player.PlayerEvent.PlayerLoggedInEvent;
+import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.ModLoadingContext;
@@ -65,11 +53,17 @@ import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
+import net.minecraftforge.fml.event.lifecycle.GatherDataEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.network.NetworkDirection;
 import net.minecraftforge.fml.network.NetworkRegistry;
 import net.minecraftforge.fml.network.PacketDistributor;
 import net.minecraftforge.fml.network.simple.SimpleChannel;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import java.util.UUID;
 
 @Mod.EventBusSubscriber(modid = Ref.MOD_ID)
 @Mod(value = Ref.MOD_ID)
@@ -87,7 +81,7 @@ public class BetterAnimalsPlusMod {
     public static final WeightedBlockStateProvider TRILLIUM_STATE_PROVIDER = new WeightedBlockStateProvider();
     static {
         for(int i = 0; i < 4; i++) {
-            TRILLIUM_STATE_PROVIDER.addWeightedBlockstate(ModBlocks.TRILLIUM.getDefaultState().with(HorizontalBlock.HORIZONTAL_FACING, Direction.byHorizontalIndex(i)), 1);
+            TRILLIUM_STATE_PROVIDER.addWeightedBlockstate(ModBlocks.TRILLIUM.get().getDefaultState().with(HorizontalBlock.HORIZONTAL_FACING, Direction.byHorizontalIndex(i)), 1);
         }
     }
     public static final BlockClusterFeatureConfig TRILLIUM_FEATURE_CONFIG = (new BlockClusterFeatureConfig.Builder(TRILLIUM_STATE_PROVIDER, new SimpleBlockPlacer())).tries(64).build();
@@ -99,12 +93,21 @@ public class BetterAnimalsPlusMod {
     );
 
     public BetterAnimalsPlusMod() {
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::loadComplete);
-        FMLJavaModLoadingContext.get().getModEventBus().<FMLClientSetupEvent>addListener(e -> new ClientLifecycleHandler().clientSetup(e));
+        IEventBus modBus = FMLJavaModLoadingContext.get().getModEventBus();
+        modBus.addListener(this::setup);
+        modBus.addListener(this::loadComplete);
+        modBus.addListener(this::dataSetup);
+        modBus.<FMLClientSetupEvent>addListener(e -> new ClientLifecycleHandler().clientSetup(e));
+        ModBlocks.subscribe(modBus);
+        ModItems.subscribe(modBus);
+        ModSoundEvents.subscribe(modBus);
+        ModTileEntities.subscribe(modBus);
         ModTriggers.register();
         ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, BetterAnimalsPlusConfig.getClientSpec());
         BetterAnimalsPlusMod.logger.log(Level.INFO, "Injecting super coyotes...");
+        ClassLoadHacks.runWhenLoaded("curios", () -> () -> {
+            CuriosModCompat.subscribe(modBus);
+        });
     }
 
     public static final boolean isDev(UUID uuid) {
@@ -118,16 +121,13 @@ public class BetterAnimalsPlusMod {
     public static ItemGroup group = new ItemGroup("Better Animals+") {
         @Override
         public ItemStack createIcon() {
-            return new ItemStack(ModItems.ANTLER);
+            return new ItemStack(ModItems.ANTLER.get());
         }
 
         @Override
         public void fill(NonNullList<ItemStack> toDisplay) {
             super.fill(toDisplay);
-            for(EntityTypeContainer<?> cont : ModEntities.getEntities().values()) {
-                ItemStack stack = new ItemStack(cont.egg);
-                toDisplay.add(stack);
-            }
+            ModEntities.getEntities().values().forEach(cont -> toDisplay.add(new ItemStack(cont.egg)));
         }
     };
 
@@ -152,23 +152,6 @@ public class BetterAnimalsPlusMod {
         event.enqueueWork(() -> {
             Registry.register(WorldGenRegistries.CONFIGURED_FEATURE, new ResourceLocation(Ref.MOD_ID, "trillium"), TRILLIUM_CF);
         });
-        registerEggDispenser(ModItems.PHEASANT_EGG, EntityPheasantEgg::new);
-        registerEggDispenser(ModItems.TURKEY_EGG, EntityTurkeyEgg::new);
-        registerEggDispenser(ModItems.GOOSE_EGG, EntityGooseEgg::new);
-        registerEggDispenser(ModItems.GOLDEN_GOOSE_EGG, EntityGoldenGooseEgg::new);
-        DefaultDispenseItemBehavior eggDispense = new DefaultDispenseItemBehavior() {
-
-            public ItemStack dispenseStack(IBlockSource source, ItemStack stack) {
-                Direction direction = source.getBlockState().get(DispenserBlock.FACING);
-                EntityType<?> entitytype = ((SpawnEggItem)stack.getItem()).getType(stack.getTag());
-                entitytype.spawn(source.getWorld(), stack, (PlayerEntity)null, source.getBlockPos().offset(direction), SpawnReason.DISPENSER, direction != Direction.UP, false);
-                stack.shrink(1);
-                return stack;
-            }
-        };
-        for(EntityTypeContainer<?> container : ModEntities.getEntities().values()) {
-            DispenserBlock.registerDispenseBehavior(container.egg, eggDispense);
-        }
         BetterAnimalsPlusMod.logger.log(Level.INFO, "Overspawning lammergeiers...");
     }
 
@@ -183,7 +166,11 @@ public class BetterAnimalsPlusMod {
         ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, BetterAnimalsPlusConfig.getServerSpec());
         BetterAnimalsPlusMod.logger.log(Level.INFO, "Finished crazy bird creation!");
     }
-	
+
+    private void dataSetup(final GatherDataEvent event) {
+        ModEntities.H.gatherData(event.getGenerator(), event.getExistingFileHelper());
+    }
+
 	@SubscribeEvent
 	public static void onPlayerJoin(PlayerLoggedInEvent e) {
 	    if(e.getPlayer() instanceof ServerPlayerEntity) {
@@ -197,27 +184,12 @@ public class BetterAnimalsPlusMod {
 
     @SubscribeEvent
     public static void onPlayerLeave(PlayerLoggedInEvent e) {
-        if(e.getPlayer() instanceof ServerPlayerEntity) {
-            for(UUID devId : DEVS) {
+        if (e.getPlayer() instanceof ServerPlayerEntity) {
+            for (UUID devId : DEVS) {
                 SafeSyncThing.put(devId, DumbOptions.OFF);
                 HANDLER.send(PacketDistributor.PLAYER.with(() -> (ServerPlayerEntity) e.getPlayer()), new StupidDevPacket(DumbOptions.OFF, devId));
             }
         }
     }
-	
-	private static <T extends EntityModEgg> void registerEggDispenser(Item item, IEggEntityProvider<T> provider) {
-	    DispenserBlock.registerDispenseBehavior(item, new ProjectileDispenseBehavior() {
-            protected ProjectileEntity getProjectileEntity(World worldIn, IPosition position, ItemStack stackIn) {
-                return Util.make(provider.create(worldIn, position), (p_218408_1_) -> {
-                    p_218408_1_.setItem(stackIn);
-                });
-             }
-        });
-	}
-	
-	@FunctionalInterface
-	private interface IEggEntityProvider<T extends EntityModEgg> {
-	    public T create(World world, IPosition pos);
-	}
 
 }

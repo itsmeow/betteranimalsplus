@@ -1,10 +1,8 @@
 package its_meow.betteranimalsplus.common.entity;
 
-import java.util.HashSet;
-import java.util.Set;
-
-import its_meow.betteranimalsplus.common.entity.miniboss.hirschgeist.EntityHirschgeist;
-import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainerBAP;
+import dev.itsmeow.imdlib.entity.util.EntityTypeContainer;
+import dev.itsmeow.imdlib.entity.util.EntityTypeContainerContainable;
+import its_meow.betteranimalsplus.common.entity.ai.EfficientMoveTowardsTargetGoal;
 import its_meow.betteranimalsplus.common.entity.util.abstracts.EntityWaterMobPathingWithTypesBucketable;
 import its_meow.betteranimalsplus.init.ModEntities;
 import its_meow.betteranimalsplus.init.ModLootTables;
@@ -14,7 +12,6 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.goal.LookAtGoal;
 import net.minecraft.entity.ai.goal.LookRandomlyGoal;
-import net.minecraft.entity.ai.goal.MoveTowardsTargetGoal;
 import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal;
 import net.minecraft.entity.ai.goal.RandomSwimmingGoal;
 import net.minecraft.entity.monster.EndermanEntity;
@@ -34,6 +31,9 @@ import net.minecraft.util.SoundEvents;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.World;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public class EntityLamprey extends EntityWaterMobPathingWithTypesBucketable implements IMob {
 
     protected int lastAttack = 0;
@@ -44,17 +44,16 @@ public class EntityLamprey extends EntityWaterMobPathingWithTypesBucketable impl
 
     @Override
     protected void registerGoals() {
-        this.goalSelector.addGoal(0, new MoveTowardsTargetGoal(this, 0.8D, 15F));
+        this.goalSelector.addGoal(0, new EfficientMoveTowardsTargetGoal(this, 0.8D, false));
         this.goalSelector.addGoal(1, new LookAtGoal(this, WaterMobEntity.class, 10.0F));
         this.goalSelector.addGoal(1, new LookRandomlyGoal(this));
         this.goalSelector.addGoal(2, new RandomSwimmingGoal(this, 0.5D, 1));
         Set<Class<? extends LivingEntity>> blackList = new HashSet<Class<? extends LivingEntity>>();
         blackList.add(SkeletonEntity.class);
         blackList.add(EndermanEntity.class);
-        blackList.add(EntityHirschgeist.class);
         blackList.add(EntityJellyfish.class);
         blackList.add(EntityBobbitWorm.class);
-        this.targetSelector.addGoal(0, new NearestAttackableTargetGoal<LivingEntity>(this, LivingEntity.class, 100, true, true, e -> e instanceof LivingEntity && !(e instanceof IMob) && !(e instanceof EntityLamprey) && !(blackList.contains(e.getClass()))));
+        this.targetSelector.addGoal(0, new NearestAttackableTargetGoal<LivingEntity>(this, LivingEntity.class, 100, true, true, e -> e instanceof LivingEntity && !(e instanceof IMob) && !(e instanceof EntityLamprey) && !(e.world.getDifficulty() == Difficulty.PEACEFUL && e instanceof PlayerEntity) && !(blackList.contains(e.getClass()))));
     }
 
     @Override
@@ -183,13 +182,18 @@ public class EntityLamprey extends EntityWaterMobPathingWithTypesBucketable impl
     }
 
     @Override
-    public EntityTypeContainerBAP<EntityLamprey> getContainer() {
+    public EntityTypeContainer<EntityLamprey> getContainer() {
         return ModEntities.LAMPREY;
     }
 
     @Override
     protected SoundEvent getFlopSound() {
         return SoundEvents.ENTITY_COD_FLOP;
+    }
+
+    @Override
+    public EntityTypeContainerContainable<?, ?> getContainableContainer() {
+        return ModEntities.LAMPREY;
     }
 
 }

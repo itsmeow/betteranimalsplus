@@ -6,7 +6,7 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 
 import its_meow.betteranimalsplus.common.entity.projectile.EntityTarantulaHair;
-import its_meow.betteranimalsplus.init.ModTextures;
+import its_meow.betteranimalsplus.init.ModResources;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRenderer;
@@ -63,7 +63,7 @@ public class RenderTarantulaHair extends EntityRenderer<EntityTarantulaHair> {
     @Override
     @Nonnull
     public ResourceLocation getEntityTexture(@Nonnull EntityTarantulaHair entity) {
-        return ModTextures.tarantula_hair;
+        return ModResources.tarantula_hair;
     }
 
 }

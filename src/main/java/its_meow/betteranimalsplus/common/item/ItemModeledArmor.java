@@ -20,15 +20,17 @@ public abstract class ItemModeledArmor extends ArmorItem {
     @OnlyIn(Dist.CLIENT)
     public <A extends BipedModel<?>> A getArmorModel(LivingEntity entityLiving, ItemStack itemStack, EquipmentSlotType armorSlot, A defaultModel) {
         if (itemStack != null) {
-            if (itemStack.getItem() instanceof ArmorItem && defaultModel != null && armorSlot != null) {
+            if (itemStack.getItem() instanceof ArmorItem && armorSlot != null) {
                 A armorModel = this.getBaseModelInstance();
                 armorModel = displays(armorModel, armorSlot);
 
-                armorModel.isSneak = defaultModel.isSneak;
-                armorModel.isSitting = defaultModel.isSitting;
-                armorModel.isChild = defaultModel.isChild;
-                armorModel.rightArmPose = defaultModel.rightArmPose;
-                armorModel.leftArmPose = defaultModel.leftArmPose;
+                if(defaultModel != null) {
+                    armorModel.isSneak = defaultModel.isSneak;
+                    armorModel.isSitting = defaultModel.isSitting;
+                    armorModel.isChild = defaultModel.isChild;
+                    armorModel.rightArmPose = defaultModel.rightArmPose;
+                    armorModel.leftArmPose = defaultModel.leftArmPose;
+                }
 
                 return armorModel;
             }

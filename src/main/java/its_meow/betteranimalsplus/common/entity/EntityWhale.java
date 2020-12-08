@@ -1,9 +1,7 @@
 package its_meow.betteranimalsplus.common.entity;
 
-import java.util.Set;
-
+import dev.itsmeow.imdlib.entity.util.EntityTypeContainer;
 import dev.itsmeow.imdlib.entity.util.ISelectiveVariantTypes;
-import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainerBAP;
 import its_meow.betteranimalsplus.common.entity.util.abstracts.EntityWaterMobPathing;
 import its_meow.betteranimalsplus.common.entity.util.abstracts.EntityWaterMobPathingWithTypesAirBreathing;
 import its_meow.betteranimalsplus.init.ModEntities;
@@ -14,13 +12,7 @@ import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.controller.DolphinLookController;
 import net.minecraft.entity.ai.controller.MovementController;
-import net.minecraft.entity.ai.goal.BreatheAirGoal;
-import net.minecraft.entity.ai.goal.FindWaterGoal;
-import net.minecraft.entity.ai.goal.HurtByTargetGoal;
-import net.minecraft.entity.ai.goal.LookAtGoal;
-import net.minecraft.entity.ai.goal.LookRandomlyGoal;
-import net.minecraft.entity.ai.goal.MeleeAttackGoal;
-import net.minecraft.entity.ai.goal.RandomSwimmingGoal;
+import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
@@ -36,6 +28,8 @@ import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.Biomes;
 import net.minecraftforge.common.BiomeDictionary.Type;
+
+import java.util.Set;
 
 public class EntityWhale extends EntityWaterMobPathingWithTypesAirBreathing implements ISelectiveVariantTypes<EntityWaterMobPathing> {
 
@@ -58,7 +52,12 @@ public class EntityWhale extends EntityWaterMobPathingWithTypesAirBreathing impl
         this.goalSelector.addGoal(3, new RandomSwimmingGoal(this, 1.0D, 10));
         this.goalSelector.addGoal(4, new LookAtGoal(this, PlayerEntity.class, 6.0F));
         this.goalSelector.addGoal(5, new LookRandomlyGoal(this));
-        this.targetSelector.addGoal(0, new HurtByTargetGoal(this, new Class[0]));
+        this.targetSelector.addGoal(0, new HurtByTargetGoal(this, new Class[0]) {
+            @Override
+            public boolean shouldExecute() {
+                return EntityWhale.this.world.getDifficulty() != Difficulty.PEACEFUL && super.shouldExecute();
+            }
+        });
     }
 
     protected SoundEvent getSplashSound() {
@@ -120,7 +119,7 @@ public class EntityWhale extends EntityWaterMobPathingWithTypesAirBreathing impl
     }
 
     @Override
-    public EntityTypeContainerBAP<?> getContainer() {
+    public EntityTypeContainer<?> getContainer() {
         return ModEntities.WHALE;
     }
 

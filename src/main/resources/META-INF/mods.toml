@@ -5,6 +5,7 @@ displayURL="https://www.curseforge.com/minecraft/mc-mods/betteranimalsplus" #opt
 logoFile="betteranimalsplus.png" #optional
 credits="Cybercat5555: Design, Modeling, Texturing, Ideas; its_meow: Programming, AI, Functionality" #optional
 authors="cybercat5555, its_meow (hiotewdew)" #optional
+license="CC BY-NC-SA 4.0 https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode"
 [[mods]] #mandatory
 modId="betteranimalsplus" #mandatory
 version="${file.jarVersion}" #mandatory

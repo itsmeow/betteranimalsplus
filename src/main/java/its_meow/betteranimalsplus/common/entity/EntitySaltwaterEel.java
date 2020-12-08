@@ -1,12 +1,14 @@
 package its_meow.betteranimalsplus.common.entity;
 
-import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainerBAP;
+import dev.itsmeow.imdlib.entity.util.EntityTypeContainer;
+import dev.itsmeow.imdlib.entity.util.EntityTypeContainerContainable;
 import its_meow.betteranimalsplus.common.entity.util.abstracts.EntityEelBase;
 import its_meow.betteranimalsplus.init.ModEntities;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.goal.HurtByTargetGoal;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
+import net.minecraft.world.Difficulty;
 import net.minecraft.world.World;
 
 public class EntitySaltwaterEel extends EntityEelBase {
@@ -29,7 +31,12 @@ public class EntitySaltwaterEel extends EntityEelBase {
     @Override
     protected void registerGoals() {
         super.registerGoals();
-        this.targetSelector.addGoal(0, new HurtByTargetGoal(this));
+        this.targetSelector.addGoal(0, new HurtByTargetGoal(this) {
+            @Override
+            public boolean shouldExecute() {
+                return EntitySaltwaterEel.this.world.getDifficulty() != Difficulty.PEACEFUL && super.shouldExecute();
+            }
+        });
     }
 
     @Override
@@ -50,7 +57,12 @@ public class EntitySaltwaterEel extends EntityEelBase {
     }
 
     @Override
-    public EntityTypeContainerBAP<EntitySaltwaterEel> getContainer() {
+    public EntityTypeContainer<EntitySaltwaterEel> getContainer() {
+        return ModEntities.EEL_SALTWATER;
+    }
+
+    @Override
+    public EntityTypeContainerContainable<?, ?> getContainableContainer() {
         return ModEntities.EEL_SALTWATER;
     }
 

@@ -8,7 +8,7 @@ import its_meow.betteranimalsplus.client.model.ModelTrillium;
 import its_meow.betteranimalsplus.client.model.ModelTrilliumMulti;
 import its_meow.betteranimalsplus.client.model.ModelTrilliumMulti2;
 import its_meow.betteranimalsplus.common.tileentity.TileEntityTrillium;
-import its_meow.betteranimalsplus.init.ModTextures;
+import its_meow.betteranimalsplus.init.ModResources;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.model.EntityModel;
@@ -54,7 +54,7 @@ public class RenderBlockTrillium extends TileEntityRenderer<TileEntityTrillium> 
                 g = g > 255F ? 250F : g;
                 b = b > 255F ? 250F : b;
                 mainModel.setRotationAngles((Entity) null, 0F, 0F, 0F, rotate, 0F);
-                mainModel.render(matrixStackIn, bufferIn.getBuffer(RenderType.getEntityCutout(ModTextures.trillium_base)), combinedLightIn, combinedOverlayIn, r, g, b, 1F);
+                mainModel.render(matrixStackIn, bufferIn.getBuffer(RenderType.getEntityCutout(ModResources.trillium_base)), combinedLightIn, combinedOverlayIn, r, g, b, 1F);
             }
             matrixStackIn.pop();
 

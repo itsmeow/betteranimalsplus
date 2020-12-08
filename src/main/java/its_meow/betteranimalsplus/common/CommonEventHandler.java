@@ -1,18 +1,18 @@
 package its_meow.betteranimalsplus.common;
 
-import java.util.List;
-import java.util.Random;
-
+import dev.itsmeow.imdlib.entity.util.IBucketable;
+import dev.itsmeow.imdlib.entity.util.IVariant;
 import its_meow.betteranimalsplus.Ref;
-import its_meow.betteranimalsplus.common.entity.EntityBear;
-import its_meow.betteranimalsplus.common.entity.EntityBoar;
-import its_meow.betteranimalsplus.common.entity.EntityCrab;
-import its_meow.betteranimalsplus.common.entity.EntityLamprey;
-import its_meow.betteranimalsplus.common.entity.EntitySquirrel;
+import its_meow.betteranimalsplus.common.entity.*;
+import its_meow.betteranimalsplus.common.entity.EntityFeralWolf.WolfVariant;
+import its_meow.betteranimalsplus.common.entity.util.IHaveHunger;
+import its_meow.betteranimalsplus.common.entity.util.abstracts.EntitySharkBase;
+import its_meow.betteranimalsplus.init.ModEntities;
 import its_meow.betteranimalsplus.init.ModItems;
 import its_meow.betteranimalsplus.init.ModLootTables;
 import its_meow.betteranimalsplus.init.ModTriggers;
 import net.minecraft.block.Blocks;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.passive.PolarBearEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -39,8 +39,22 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.ObjectHolder;
 
+import java.util.HashSet;
+import java.util.List;
+import java.util.Random;
+import java.util.Set;
+import java.util.function.Predicate;
+
 @Mod.EventBusSubscriber(modid = Ref.MOD_ID)
 public class CommonEventHandler {
+
+    public static final Set<Predicate<Entity>> NO_ATTACKED_DROPS = new HashSet<>();
+    static {
+        NO_ATTACKED_DROPS.add(e -> e instanceof EntityLamprey);
+        NO_ATTACKED_DROPS.add(e -> e instanceof EntitySharkBase);
+        NO_ATTACKED_DROPS.add(e -> e instanceof EntityBarracuda);
+        NO_ATTACKED_DROPS.add(e -> e instanceof EntityPiranha);
+    }
 
     @ObjectHolder("essentialfeatures:portable_jukebox")
     public static Item PORTABLE_JUKEBOX;
@@ -80,6 +94,17 @@ public class CommonEventHandler {
                     }
                 }
             }
+        } else if(e.getSource().getTrueSource() instanceof EntityOctopus) {
+            EntityOctopus octo = (EntityOctopus) e.getSource().getTrueSource();
+            if(octo.friend != null) {
+                PlayerEntity p = octo.world.getPlayerByUuid(octo.friend);
+                if(p != null && p instanceof ServerPlayerEntity && p.getAttackingEntity() == e.getEntityLiving()) {
+                    ModTriggers.OCTOPUS_SAVE_PLAYER.trigger((ServerPlayerEntity) octo.world.getPlayerByUuid(octo.friend));
+                }
+            }
+        }
+        if(e.getSource().getImmediateSource() instanceof IHaveHunger) {
+            ((IHaveHunger<?>) e.getSource().getImmediateSource()).resetHunger();
         }
     }
     
@@ -90,12 +115,12 @@ public class CommonEventHandler {
             if(te instanceof JukeboxTileEntity) {
                 JukeboxTileEntity box = (JukeboxTileEntity) te;
                 Item held = event.getPlayer().getHeldItem(event.getHand()).getItem();
-                if(box.getRecord().getItem() == ModItems.RECORD_CRAB_RAVE) {
+                if(box.getRecord().getItem() == ModItems.RECORD_CRAB_RAVE.get()) {
                     List<EntityCrab> crabs = event.getWorld().getEntitiesWithinAABB(EntityCrab.class, event.getPlayer().getBoundingBox().grow(50));
                     for(EntityCrab crab : crabs) {
                         crab.unCrabRave();
                     }
-                } else if(held == ModItems.RECORD_CRAB_RAVE) {
+                } else if(held == ModItems.RECORD_CRAB_RAVE.get()) {
                     List<EntityCrab> crabs = event.getWorld().getEntitiesWithinAABB(EntityCrab.class, event.getPlayer().getBoundingBox().grow(50));
                     if(event.getPlayer() instanceof ServerPlayerEntity) {
                         ModTriggers.USE_CRAB_DISK.trigger((ServerPlayerEntity) event.getPlayer());
@@ -103,7 +128,7 @@ public class CommonEventHandler {
                     for(EntityCrab crab : crabs) {
                         crab.crabRave();
                     }
-                } else if(held == ModItems.RECORD_WALRUS) {
+                } else if(held == ModItems.RECORD_WALRUS.get()) {
                     if(event.getPlayer() instanceof ServerPlayerEntity) {
                         ModTriggers.USE_WALRUS_DISK.trigger((ServerPlayerEntity) event.getPlayer());
                     }
@@ -117,7 +142,7 @@ public class CommonEventHandler {
         if(PORTABLE_JUKEBOX != null && event.getItemStack().getItem() == PORTABLE_JUKEBOX) {
             if(event.getItemStack().getChildTag("Disc") != null) {
                 Item item = ItemStack.read(event.getItemStack().getChildTag("Disc")).getItem();
-                if(item == ModItems.RECORD_CRAB_RAVE) {
+                if(item == ModItems.RECORD_CRAB_RAVE.get()) {
                     if(event.getPlayer().isCrouching()) {
                         List<EntityCrab> crabs = event.getWorld().getEntitiesWithinAABB(EntityCrab.class, event.getPlayer().getBoundingBox().grow(50));
                         for(EntityCrab crab : crabs) {
@@ -132,7 +157,7 @@ public class CommonEventHandler {
                             crab.crabRave();
                         }
                     }
-                } else if(item == ModItems.RECORD_WALRUS) {
+                } else if(item == ModItems.RECORD_WALRUS.get()) {
                     if(!event.getPlayer().isCrouching()) {
                         if(event.getPlayer() instanceof ServerPlayerEntity) {
                             ModTriggers.USE_WALRUS_DISK.trigger((ServerPlayerEntity) event.getPlayer());
@@ -145,19 +170,25 @@ public class CommonEventHandler {
     
     @SubscribeEvent
     public static void onLootLoad(LootTableLoadEvent event) {
-        if(event.getName().equals(EntityType.WOLF.getLootTable())) {
-            
-            event.getTable().addPool(LootPool.builder().rolls(new IRandomRange() {
-                @Override
-                public int generateInt(Random rand) {
-                    return 1;
-                }
+        IRandomRange simple_one = new IRandomRange() {
+            @Override
+            public int generateInt(Random rand) {
+                return 1;
+            }
 
-                @Override
-                public ResourceLocation getType() {
-                    return IRandomRange.CONSTANT;
-                }
-            }).name("snowy_pelt").addEntry(TableLootEntry.builder(ModLootTables.WOLF_SNOWY)).build());
+            @Override
+            public ResourceLocation getType() {
+                return IRandomRange.CONSTANT;
+            }
+        };
+        if(event.getName().equals(EntityType.WOLF.getLootTable())) {
+            IVariant v = ModEntities.FERAL_WOLF.getVariantForName("snowy");
+            if(v instanceof WolfVariant) {
+                WolfVariant variant = (WolfVariant) v;
+                event.getTable().addPool(LootPool.builder().rolls(simple_one).name("snowy_pelt").addEntry(TableLootEntry.builder(variant.getLootTable())).build());
+            }
+        } else if(event.getName().equals(EntityType.SQUID.getLootTable())) {
+            event.getTable().addPool(LootPool.builder().rolls(simple_one).name("bap_calamari").addEntry(TableLootEntry.builder(ModLootTables.SQUID)).build());
         }
     }
     
@@ -179,7 +210,7 @@ public class CommonEventHandler {
     
     @SubscribeEvent
     public static void onLivingDrop(LivingDropsEvent event) {
-        if(event.getSource().getTrueSource() instanceof EntityLamprey && !(event.getEntity() instanceof PlayerEntity)) {
+        if(event.getSource().getTrueSource() != null && !(event.getEntity() instanceof PlayerEntity) && NO_ATTACKED_DROPS.stream().anyMatch(predicate -> predicate.test(event.getSource().getTrueSource())) && (!(event.getSource().getTrueSource() instanceof IBucketable) || !((IBucketable) event.getSource().getTrueSource()).isFromContainer())) {
             event.getDrops().clear();
         }
     }

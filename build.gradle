@@ -1,2 +1,24 @@
 apply from: 'https://maven.itsmeow.dev/scripts/fg3.gradle'
 apply from: 'https://maven.itsmeow.dev/scripts/imdlib.gradle'
+
+repositories {
+    maven {
+        name = "JEI"
+        url = "http://dvs1.progwml6.com/files/maven"
+    }
+    maven {
+        url = "https://cursemaven.com"
+    }
+    maven {
+        url = "https://maven.theillusivec4.top/"
+    }
+}
+
+dependencies {
+    compileOnly fg.deobf("mezz.jei:jei-${project.mc_version}:${jei_version}:api")
+    runtimeOnly fg.deobf("mezz.jei:jei-${project.mc_version}:${jei_version}")
+    runtimeOnly fg.deobf("curse.maven:AppleSkin-248787:3035787")
+    implementation fg.deobf("curse.maven:curios-309927:3122651")
+    //compileOnly fg.deobf("top.theillusivec4.curios:curios:FORGE-${curios_version}:api")
+    //runtimeOnly fg.deobf("top.theillusivec4.curios:curios:FORGE-${curios_version}")
+}

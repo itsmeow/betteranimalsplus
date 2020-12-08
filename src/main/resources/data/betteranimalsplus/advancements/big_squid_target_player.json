@@ -1,0 +1,31 @@
+{
+    "display": {
+        "title": {
+        	"text": "20,000 Leagues of Trouble",
+        	"color": "green",
+        	"bold": true
+        },
+        "description": [
+            {"text":"Get targeted by a giant or colossal squid\n","color":"gray"},
+            {"text":"Something big is lurking...","color":"dark_red","italic":true,"bold":true}
+        ],
+        "icon": {
+            "item": "betteranimalsplus:calamari_raw"
+        },
+        "frame": "task",
+        "show_toast": true,
+        "announce_to_chat": true,
+        "hidden": false
+    },
+  "criteria": {
+        "targeted": {
+            "trigger": "betteranimalsplus:squid_targeted"
+        }
+    },
+    "requirements": [
+        [
+            "targeted"
+        ]
+    ],
+    "parent": "betteranimalsplus:root"
+}

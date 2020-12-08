@@ -1,7 +1,7 @@
 package its_meow.betteranimalsplus.common.entity.util.abstracts;
 
+import dev.itsmeow.imdlib.entity.util.IBucketable;
 import dev.itsmeow.imdlib.entity.util.IContainerEntity;
-import its_meow.betteranimalsplus.common.entity.util.IBucketable;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.passive.WaterMobEntity;
@@ -33,39 +33,39 @@ public abstract class EntityWaterMobBucketable extends WaterMobEntity implements
     }
 
     @Override
-    public boolean isFromBucket() {
+    public boolean isFromContainer() {
         return this.dataManager.get(FROM_BUCKET);
     }
 
     @Override
-    public void setFromBucket(boolean fromBucket) {
+    public void setFromContainer(boolean fromBucket) {
         this.dataManager.set(FROM_BUCKET, fromBucket);
     }
 
     @Override
     public void writeAdditional(CompoundNBT compound) {
         super.writeAdditional(compound);
-        compound.putBoolean("FromBucket", this.isFromBucket());
+        compound.putBoolean("FromBucket", this.isFromContainer());
     }
 
     @Override
     public void readAdditional(CompoundNBT compound) {
         super.readAdditional(compound);
-        this.setFromBucket(compound.getBoolean("FromBucket"));
+        this.setFromContainer(compound.getBoolean("FromBucket"));
     }
 
     @Override
     public boolean canDespawn(double distanceToClosestPlayer) {
-        return !this.isFromBucket() && despawn(distanceToClosestPlayer);
+        return !this.isFromContainer() && despawn(distanceToClosestPlayer);
     }
 
     @Override
     public boolean preventDespawn() {
-        return this.isFromBucket();
+        return this.isFromContainer();
     }
 
     @Override
-    public void setBucketData(ItemStack bucket) {
+    public void setContainerData(ItemStack bucket) {
         if(this.hasCustomName()) {
             bucket.setDisplayName(this.getCustomName());
         }
@@ -77,8 +77,8 @@ public abstract class EntityWaterMobBucketable extends WaterMobEntity implements
         if(itemstack.getItem() == Items.WATER_BUCKET && this.isAlive()) {
             this.playSound(SoundEvents.ITEM_BUCKET_FILL_FISH, 1.0F, 1.0F);
             itemstack.shrink(1);
-            ItemStack itemstack1 = this.getBucket();
-            this.setBucketData(itemstack1);
+            ItemStack itemstack1 = this.getContainerItem();
+            this.setContainerData(itemstack1);
             if(!this.world.isRemote) {
                 CriteriaTriggers.FILLED_BUCKET.trigger((ServerPlayerEntity) player, itemstack1);
             }

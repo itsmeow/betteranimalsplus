@@ -1,15 +1,10 @@
 package its_meow.betteranimalsplus.common.entity;
 
-import java.util.HashSet;
-import java.util.Set;
-
-import javax.annotation.Nullable;
-
-import its_meow.betteranimalsplus.common.entity.miniboss.hirschgeist.EntityHirschgeist;
-import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainerBAP;
+import dev.itsmeow.imdlib.entity.util.EntityTypeContainer;
 import its_meow.betteranimalsplus.common.entity.util.abstracts.EntityAnimalWithTypes;
 import its_meow.betteranimalsplus.init.ModEntities;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.CreatureAttribute;
 import net.minecraft.entity.Entity;
@@ -28,12 +23,19 @@ import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.pathfinding.PathNavigator;
 import net.minecraft.pathfinding.PathNodeType;
+import net.minecraft.pathfinding.PathType;
 import net.minecraft.pathfinding.SwimmerPathNavigator;
+import net.minecraft.tags.FluidTags;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.world.Difficulty;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
+
+import javax.annotation.Nullable;
+import java.util.HashSet;
+import java.util.Set;
 
 public class EntityBobbitWorm extends EntityAnimalWithTypes {
 
@@ -53,9 +55,8 @@ public class EntityBobbitWorm extends EntityAnimalWithTypes {
         Set<Class<? extends LivingEntity>> blackList = new HashSet<Class<? extends LivingEntity>>();
         blackList.add(SkeletonEntity.class);
         blackList.add(EndermanEntity.class);
-        blackList.add(EntityHirschgeist.class);
         blackList.add(EntityJellyfish.class);
-        this.targetSelector.addGoal(0, new NearestAttackableTargetGoal<LivingEntity>(this, LivingEntity.class, 0, true, true, e -> e.getWidth() < 3 && !(e instanceof IMob) && !(e instanceof EntityBobbitWorm) && !blackList.contains(e.getClass())));
+        this.targetSelector.addGoal(0, new NearestAttackableTargetGoal<LivingEntity>(this, LivingEntity.class, 0, true, true, e -> e.getWidth() < 3 && !(e instanceof IMob) && !(e instanceof EntityBobbitWorm) && !(e.world.getDifficulty() == Difficulty.PEACEFUL && e instanceof PlayerEntity) && !blackList.contains(e.getClass())));
     }
 
     @Override
@@ -94,7 +95,8 @@ public class EntityBobbitWorm extends EntityAnimalWithTypes {
 
     public boolean isGoodBurrowingPosition(BlockPos pos) {
         Block below = world.getBlockState(pos.down()).getBlock();
-        return (below == Blocks.CLAY || below == Blocks.SAND || below == Blocks.GRAVEL || below == Blocks.DIRT) && this.world.getBlockState(pos).getBlock() == Blocks.WATER;
+        BlockState here = this.world.getBlockState(pos);
+        return (below == Blocks.CLAY || below == Blocks.SAND || below == Blocks.GRAVEL || below == Blocks.DIRT) && here.allowsMovement(world, pos, PathType.WATER) && here.getFluidState().isTagged(FluidTags.WATER);
     }
 
     @Override
@@ -243,7 +245,7 @@ public class EntityBobbitWorm extends EntityAnimalWithTypes {
     }
 
     @Override
-    public EntityTypeContainerBAP<EntityBobbitWorm> getContainer() {
+    public EntityTypeContainer<EntityBobbitWorm> getContainer() {
         return ModEntities.BOBBIT_WORM;
     }
 

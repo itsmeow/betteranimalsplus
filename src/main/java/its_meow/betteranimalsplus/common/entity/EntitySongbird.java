@@ -1,12 +1,10 @@
 package its_meow.betteranimalsplus.common.entity;
 
-import java.util.Set;
-
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import com.google.common.collect.Sets;
-
-import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainerBAP;
+import dev.itsmeow.imdlib.entity.util.EntityTypeContainer;
+import its_meow.betteranimalsplus.common.entity.util.EntityUtil;
 import its_meow.betteranimalsplus.common.entity.util.abstracts.EntityAnimalWithSelectiveTypes;
 import its_meow.betteranimalsplus.init.ModEntities;
 import its_meow.betteranimalsplus.init.ModLootTables;
@@ -14,39 +12,43 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.LeavesBlock;
+import net.minecraft.entity.ILivingEntityData;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.MoverType;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.controller.FlyingMovementController;
-import net.minecraft.entity.ai.goal.AvoidEntityGoal;
-import net.minecraft.entity.ai.goal.BreedGoal;
-import net.minecraft.entity.ai.goal.LookAtGoal;
-import net.minecraft.entity.ai.goal.PanicGoal;
-import net.minecraft.entity.ai.goal.SwimGoal;
-import net.minecraft.entity.ai.goal.WaterAvoidingRandomFlyingGoal;
+import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.passive.IFlyingAnimal;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.network.datasync.DataParameter;
+import net.minecraft.network.datasync.DataSerializers;
+import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.pathfinding.FlyingPathNavigator;
 import net.minecraft.pathfinding.PathNavigator;
 import net.minecraft.tags.BlockTags;
-import net.minecraft.util.Hand;
-import net.minecraft.util.RegistryKey;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvents;
+import net.minecraft.util.Direction.Axis;
+import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.world.DifficultyInstance;
+import net.minecraft.world.IServerWorld;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.BiomeDictionary.Type;
 
+import java.util.Set;
+
 public class EntitySongbird extends EntityAnimalWithSelectiveTypes implements IFlyingAnimal {
 
+    protected static final DataParameter<Boolean> LANDED = EntityDataManager.<Boolean>createKey(EntitySongbird.class, DataSerializers.BOOLEAN);
     protected static final Set<Item> SEEDS = Sets.newHashSet(Items.WHEAT_SEEDS, Items.MELON_SEEDS, Items.PUMPKIN_SEEDS, Items.BEETROOT_SEEDS);
 
     public EntitySongbird(World worldIn) {
@@ -96,6 +98,21 @@ public class EntitySongbird extends EntityAnimalWithSelectiveTypes implements IF
     }
 
     @Override
+    protected void registerData() {
+        super.registerData();
+        this.dataManager.register(LANDED, true);
+    }
+
+    @Override
+    public void move(MoverType typeIn, Vector3d pos) {
+        super.move(typeIn, pos);
+        if(world.isBlockPresent(this.getPosition().down())) {
+            BlockState state = this.world.getBlockState(this.getPosition().down());
+            this.dataManager.set(LANDED, this.onGround || this.getPosY() == Math.floor(this.getPosY()) && state.getCollisionShape(this.world, this.getPosition().down()).getEnd(Axis.Y) == 1 && state.hasOpaqueCollisionShape(world, this.getPosition().down()));
+        }
+    }
+
+    @Override
     public boolean isBreedingItem(ItemStack stack) {
         return SEEDS.contains(stack.getItem());
     }
@@ -136,7 +153,7 @@ public class EntitySongbird extends EntityAnimalWithSelectiveTypes implements IF
     }
 
     public boolean isFlying() {
-        return !this.onGround;
+        return !this.dataManager.get(LANDED);
     }
 
     @Override
@@ -163,18 +180,23 @@ public class EntitySongbird extends EntityAnimalWithSelectiveTypes implements IF
     @Override
     public String[] getTypesFor(RegistryKey<Biome> biomeKey, Biome biome, Set<BiomeDictionary.Type> types, SpawnReason reason) {
         if(types.contains(Type.FOREST) && !types.contains(Type.CONIFEROUS)) {
-            return new String[] {"2", "small_2", "small_3", "small_4"};
+            return new String[] { "2", "small_2", "small_3", "small_4" };
         } else if(types.contains(Type.CONIFEROUS) && !types.contains(Type.SNOWY)) {
-            return new String[] {"1", "small_5", "small_6"};
+            return new String[] { "1", "small_5", "small_6" };
         } else if(types.contains(Type.CONIFEROUS) && types.contains(Type.SNOWY)) {
-            return new String[] {"3", "4", "small_1"};
+            return new String[] { "3", "4", "small_1" };
         } else {
-            return new String[] {"1", "2", "3", "4", "small_1", "small_2", "small_3", "small_4", "small_5", "small_6"};
+            return new String[] { "1", "2", "3", "4", "small_1", "small_2", "small_3", "small_4", "small_5", "small_6" };
         }
     }
 
     @Override
-    public EntityTypeContainerBAP<EntitySongbird> getContainer() {
+    public ILivingEntityData onInitialSpawn(IServerWorld world, DifficultyInstance difficulty, SpawnReason reason, ILivingEntityData livingdata, CompoundNBT compound) {
+        return EntityUtil.childChance(this, reason, super.onInitialSpawn(world, difficulty, reason, livingdata, compound), 0.25F);
+    }
+
+    @Override
+    public EntityTypeContainer<EntitySongbird> getContainer() {
         return ModEntities.SONGBIRD;
     }
 

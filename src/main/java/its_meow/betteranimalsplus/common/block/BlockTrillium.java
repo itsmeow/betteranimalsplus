@@ -27,7 +27,6 @@ public class BlockTrillium extends BushBlock {
 
     public BlockTrillium() {
         super(Properties.create(Material.PLANTS).sound(SoundType.PLANT).doesNotBlockMovement());
-        this.setRegistryName(Ref.MOD_ID, "trillium");
         this.setDefaultState(this.getDefaultState().with(HorizontalBlock.HORIZONTAL_FACING, Direction.NORTH));
     }
 

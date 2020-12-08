@@ -269,20 +269,49 @@ public class ModelCrab<T extends LivingEntity> extends EntityModel<T> {
         if(crabId == 1 || crabId == 2) {
             matrixStackIn.translate(0, -0.25, 0);
         } else if(crabId == 3) {
-            matrixStackIn.translate(0, -0.1, 0);
+            matrixStackIn.translate(0, -0.05, 0);
         }
         this.body.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn);
+
+        this.rLeg00a.rotateAngleY = -0.3141592653589793F;
+        this.lLeg00a.rotateAngleY = 0.3141592653589793F;
+        this.rLeg01a.rotateAngleY = -0.13962634015954636F;
+        this.lLeg01a.rotateAngleY = 0.13962634015954636F;
+        this.rLeg02a.rotateAngleY = 0.13962634015954636F;
+        this.lLeg02a.rotateAngleY = -0.13962634015954636F;
+        this.rLeg03a.rotateAngleY = 0.45378560551852565F;
+        this.lLeg03a.rotateAngleY = -0.45378560551852565F;
+        this.rLeg00a.rotateAngleZ = 0;
+        this.lLeg00a.rotateAngleZ = 0;
+        this.rLeg01a.rotateAngleZ = 0;
+        this.lLeg01a.rotateAngleZ = 0;
+        this.rLeg02a.rotateAngleZ = 0;
+        this.lLeg02a.rotateAngleZ = 0;
+        this.rLeg03a.rotateAngleZ = 0;
+        this.lLeg03a.rotateAngleZ = 0;
+        this.rLeg00a.rotateAngleX = 0;
+        this.lLeg00a.rotateAngleX = 0;
+        this.rLeg01a.rotateAngleX = 0;
+        this.lLeg01a.rotateAngleX = 0;
+        this.rLeg02a.rotateAngleX = 0;
+        this.lLeg02a.rotateAngleX = 0;
+        this.rLeg03a.rotateAngleX = 0;
+        this.lLeg03a.rotateAngleX = 0;
+        this.body.rotationPointX = 0;
+        this.body.rotationPointY = 0;
+        this.body.rotationPointZ = 0;
     }
 
     @Override
     public void setRotationAngles(T entity, float f, float f1, float f2, float f3, float f4) {
         {
-            if(entity instanceof EntityCrab && ((EntityCrab) entity).getIsCrabRave() !=  0) {
-                int crabID = ((EntityCrab) entity).getIsCrabRave();
+            if(entity instanceof EntityCrab) {
+                EntityCrab crab = (EntityCrab) entity;
+                int crabID = crab.getIsCrabRave();
                 this.crabId = crabID;
                 if(crabID == 1) {
                     float xOff = (((float) Math.sin(((f2 + 100) / 2.5F) % 200F)) / 5);
-                    this.body.rotationPointX = xOff;
+                    this.body.rotationPointX = xOff * 16F;
                     this.lArm00.rotateAngleX = -1.5F;
                     this.rArm00.rotateAngleX = -1.5F;
                     this.lArm00.rotateAngleY = 0F;
@@ -313,7 +342,7 @@ public class ModelCrab<T extends LivingEntity> extends EntityModel<T> {
                     this.lLeg03a.rotateAngleZ += rotOff;
                 } else if(crabID == 2) {
                     float zOff = (((float) Math.sin(((f2 + 100) / 2.5F) % 200F)) / 5);
-                    this.body.rotationPointZ = zOff;
+                    this.body.rotationPointZ = zOff * 16F;
                     this.lArm00.rotateAngleX = 0F;
                     this.rArm00.rotateAngleX = 0F;
                     this.lArm00.rotateAngleY = -1F + (float) Math.sin(f2 / 2.5F) / 2;
@@ -353,7 +382,7 @@ public class ModelCrab<T extends LivingEntity> extends EntityModel<T> {
                     this.lLeg03a.rotateAngleX += rotOff;
                 } else if(crabID == 3) {
                     float yOff = (((float) Math.sin(((f2 + 100) / 2.5F) % 200F)) / 5);
-                    this.body.rotationPointY = yOff;
+                    this.body.rotationPointY = yOff * 16F;
                     this.lArm00.rotateAngleX = -1.5F;
                     this.rArm00.rotateAngleX = -1.5F;
                     this.lArm00.rotateAngleY = -1.5F + (float) Math.sin(f2 / 2.5F) / 1.5F;
@@ -382,43 +411,26 @@ public class ModelCrab<T extends LivingEntity> extends EntityModel<T> {
                     this.lLeg02a.rotateAngleZ -= rotOff;
                     this.rLeg03a.rotateAngleZ += rotOff;
                     this.lLeg03a.rotateAngleZ -= rotOff;
-                }
-            }
-
-            this.rLeg00a.rotateAngleY = -0.3141592653589793F;
-            this.lLeg00a.rotateAngleY = 0.3141592653589793F;
-            this.rLeg01a.rotateAngleY = -0.13962634015954636F;
-            this.lLeg01a.rotateAngleY = 0.13962634015954636F;
-            this.rLeg02a.rotateAngleY = 0.13962634015954636F;
-            this.lLeg02a.rotateAngleY = -0.13962634015954636F;
-            this.rLeg03a.rotateAngleY = 0.45378560551852565F;
-            this.lLeg03a.rotateAngleY = -0.45378560551852565F;
-            this.rLeg00a.rotateAngleZ = 0;
-            this.lLeg00a.rotateAngleZ = 0;
-            this.rLeg01a.rotateAngleZ = 0;
-            this.lLeg01a.rotateAngleZ = 0;
-            this.rLeg02a.rotateAngleZ = 0;
-            this.lLeg02a.rotateAngleZ = 0;
-            this.rLeg03a.rotateAngleZ = 0;
-            this.lLeg03a.rotateAngleZ = 0;
-            this.rLeg00a.rotateAngleX = 0;
-            this.lLeg00a.rotateAngleX = 0;
-            this.rLeg01a.rotateAngleX = 0;
-            this.lLeg01a.rotateAngleX = 0;
-            this.rLeg02a.rotateAngleX = 0;
-            this.lLeg02a.rotateAngleX = 0;
-            this.rLeg03a.rotateAngleX = 0;
-            this.lLeg03a.rotateAngleX = 0;
-            this.body.rotationPointX = 0;
-            this.body.rotationPointY = 0;
-            this.body.rotationPointZ = 0;
-        }
-        
-        
-        {
-            if(entity instanceof EntityCrab) {
-                EntityCrab crab = (EntityCrab) entity;
-                if(crab.getIsCrabRave() == 0) {
+                } else {
+                    this.rLeg00a.rotateAngleZ = 0;
+                    this.lLeg00a.rotateAngleZ = 0;
+                    this.rLeg01a.rotateAngleZ = 0;
+                    this.lLeg01a.rotateAngleZ = 0;
+                    this.rLeg02a.rotateAngleZ = 0;
+                    this.lLeg02a.rotateAngleZ = 0;
+                    this.rLeg03a.rotateAngleZ = 0;
+                    this.lLeg03a.rotateAngleZ = 0;
+                    this.rLeg00a.rotateAngleX = 0;
+                    this.lLeg00a.rotateAngleX = 0;
+                    this.rLeg01a.rotateAngleX = 0;
+                    this.lLeg01a.rotateAngleX = 0;
+                    this.rLeg02a.rotateAngleX = 0;
+                    this.lLeg02a.rotateAngleX = 0;
+                    this.rLeg03a.rotateAngleX = 0;
+                    this.lLeg03a.rotateAngleX = 0;
+                    this.body.rotationPointX = 0;
+                    this.body.rotationPointY = 0;
+                    this.body.rotationPointZ = 0;
                     this.rLeg00a.rotateAngleY = -0.3141592653589793F;
                     this.lLeg00a.rotateAngleY = 0.3141592653589793F;
                     this.rLeg01a.rotateAngleY = -0.13962634015954636F;

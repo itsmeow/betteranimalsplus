@@ -11,7 +11,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 public class ItemWolfCape extends ItemCape {
 
     public ItemWolfCape(String variant, Item repairItem) {
-        super("wolf_cape_", variant, repairItem, new ArmorMaterialCape("wolf_cape_", variant));
+        super(repairItem, new ArmorMaterialCape("wolf_cape_", variant));
     }
 
     @SuppressWarnings("unchecked")

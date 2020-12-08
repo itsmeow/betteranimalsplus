@@ -1,42 +1,17 @@
 package its_meow.betteranimalsplus.common.entity;
 
-import java.util.EnumSet;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Random;
-import java.util.Set;
-import java.util.UUID;
-import java.util.function.Predicate;
-
+import dev.itsmeow.imdlib.entity.util.EntityTypeContainer;
 import dev.itsmeow.imdlib.entity.util.IVariant;
 import its_meow.betteranimalsplus.common.entity.ai.WaterfowlNavigator;
-import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainerBAP;
+import its_meow.betteranimalsplus.common.entity.util.EntityUtil;
 import its_meow.betteranimalsplus.common.entity.util.abstracts.EntityAnimalWithTypes;
 import its_meow.betteranimalsplus.init.ModEntities;
 import its_meow.betteranimalsplus.init.ModItems;
 import its_meow.betteranimalsplus.init.ModSoundEvents;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityPredicate;
-import net.minecraft.entity.EntitySize;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.ILivingEntityData;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.MobEntity;
-import net.minecraft.entity.Pose;
-import net.minecraft.entity.SpawnReason;
-import net.minecraft.entity.ai.goal.BreedGoal;
-import net.minecraft.entity.ai.goal.FollowParentGoal;
-import net.minecraft.entity.ai.goal.Goal;
-import net.minecraft.entity.ai.goal.HurtByTargetGoal;
-import net.minecraft.entity.ai.goal.LookAtGoal;
-import net.minecraft.entity.ai.goal.MeleeAttackGoal;
-import net.minecraft.entity.ai.goal.PanicGoal;
-import net.minecraft.entity.ai.goal.RandomWalkingGoal;
-import net.minecraft.entity.ai.goal.SwimGoal;
-import net.minecraft.entity.ai.goal.TargetGoal;
-import net.minecraft.entity.ai.goal.TemptGoal;
+import net.minecraft.entity.*;
+import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
@@ -59,13 +34,13 @@ import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.world.DifficultyInstance;
-import net.minecraft.world.IServerWorld;
-import net.minecraft.world.IWorld;
-import net.minecraft.world.World;
+import net.minecraft.world.*;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.util.Constants;
+
+import java.util.*;
+import java.util.function.Predicate;
 
 public class EntityGoose extends EntityAnimalWithTypes {
 
@@ -166,7 +141,7 @@ public class EntityGoose extends EntityAnimalWithTypes {
     }
 
     protected boolean isPassive() {
-        return this.getVariantString().equals("1");
+        return this.getVariantString().equals("1") || world.getDifficulty() == Difficulty.PEACEFUL;
     }
 
     @Override
@@ -194,7 +169,7 @@ public class EntityGoose extends EntityAnimalWithTypes {
         }
         if(!this.world.isRemote && !this.isChild() && --this.timeUntilNextEgg <= 0) {
             this.playSound(SoundEvents.ENTITY_CHICKEN_EGG, 1.0F, (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 1.0F);
-            this.entityDropItem(this.getRNG().nextInt(128) == 0 ? ModItems.GOLDEN_GOOSE_EGG : ModItems.GOOSE_EGG, 1);
+            this.entityDropItem(this.getRNG().nextInt(128) == 0 ? ModItems.GOLDEN_GOOSE_EGG.get() : ModItems.GOOSE_EGG.get(), 1);
             this.timeUntilNextEgg = this.rand.nextInt(6000) + 6000;
         }
     }
@@ -300,17 +275,17 @@ public class EntityGoose extends EntityAnimalWithTypes {
 
     @Override
     public SoundEvent getAmbientSound() {
-        return ModSoundEvents.GOOSE_AMBIENT;
+        return ModSoundEvents.GOOSE_AMBIENT.get();
     }
 
     @Override
     protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
-        return ModSoundEvents.GOOSE_HURT;
+        return ModSoundEvents.GOOSE_HURT.get();
     }
 
     @Override
     protected SoundEvent getDeathSound() {
-        return ModSoundEvents.GOOSE_DEATH;
+        return ModSoundEvents.GOOSE_DEATH.get();
     }
 
     @Override
@@ -367,20 +342,20 @@ public class EntityGoose extends EntityAnimalWithTypes {
             types = new String[] {"1","2","3"};
             break;
         }
-       livingdata = super.onInitialSpawn(world, difficulty, reason, livingdata, compound);
-       if(!this.getImplementation().isChild()) {
-           IVariant variant = this.getContainer().getVariantForName(types[this.getRNG().nextInt(types.length)]);
-           if(livingdata instanceof AgeableTypeData) {
-               variant = ((AgeableTypeData) livingdata).typeData;
-           } else {
-               livingdata = new AgeableTypeData(variant);
-           }
-           this.setType(variant);
-       }
-       return livingdata;
+        livingdata = EntityUtil.childChance(this, reason, livingdata, 0.25F);
+        IVariant variant = this.getContainer().getVariantForName(types[this.getRNG().nextInt(types.length)]);
+        if (livingdata instanceof AgeableTypeData) {
+            variant = ((AgeableTypeData) livingdata).typeData;
+        } else if (livingdata instanceof AgeableData) {
+            livingdata = new AgeableTypeData((AgeableData) livingdata, variant);
+        } else {
+            livingdata = new AgeableTypeData(variant);
+        }
+        this.setType(variant);
+        return livingdata;
     }
 
-    public static boolean canSpawn(EntityType<EntityGoose> type, IWorld world, SpawnReason reason, BlockPos pos, Random rand) {
+    public static boolean canGooseSpawn(EntityType<EntityGoose> type, IWorld world, SpawnReason reason, BlockPos pos, Random rand) {
         Block downBlock = world.getBlockState(pos.down()).getBlock();
         return ((downBlock == Blocks.GRASS_BLOCK && nearWater(world, pos)) || downBlock == Blocks.WATER) && world.getLightSubtracted(pos, 0) > 8 && world.isAirBlock(pos);
     }
@@ -410,7 +385,7 @@ public class EntityGoose extends EntityAnimalWithTypes {
     }
 
     @Override
-    public EntityTypeContainerBAP<EntityGoose> getContainer() {
+    public EntityTypeContainer<EntityGoose> getContainer() {
         return ModEntities.GOOSE;
     }
 

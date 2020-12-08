@@ -419,49 +419,34 @@ public class ModelReindeer<T extends LivingEntity> extends EntityModel<T> {
         this.body.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn);
     }
 
-    /**
-     * Fixes and offsets a rotation
-     */
     private static float updateReindeerRotation(float p_110683_1_, float p_110683_2_, float p_110683_3_) {
         float f;
-
-        for (f = p_110683_2_ - p_110683_1_; f < -180.0F; f += 360.0F) {
+        for(f = p_110683_2_ - p_110683_1_; f < -180.0F; f += 360.0F) {
 
         }
-
-        while (f >= 180.0F) {
+        while(f >= 180.0F) {
             f -= 360.0F;
         }
-
         return p_110683_1_ + p_110683_3_ * f;
     }
 
-    /**
-     * Used for easily adding entity-dependent animations. The second and third
-     * float params here are the same second and third as in the setRotationAngles
-     * method.
-     */
     @Override
     public void setLivingAnimations(T entitylivingbaseIn, float limbSwing, float limbSwingAmount, float partialTickTime) {
-        super.setLivingAnimations(entitylivingbaseIn, limbSwing, limbSwingAmount, partialTickTime);
-        float f = ModelReindeer.updateReindeerRotation(entitylivingbaseIn.prevRenderYawOffset,
-                entitylivingbaseIn.renderYawOffset, partialTickTime);
-        float f1 = ModelReindeer.updateReindeerRotation(entitylivingbaseIn.prevRotationYawHead,
-                entitylivingbaseIn.rotationYawHead, partialTickTime);
-        float f2 = entitylivingbaseIn.prevRotationPitch
-                + (entitylivingbaseIn.rotationPitch - entitylivingbaseIn.prevRotationPitch) * partialTickTime;
+        float f = ModelReindeer.updateReindeerRotation(entitylivingbaseIn.prevRenderYawOffset, entitylivingbaseIn.renderYawOffset, partialTickTime);
+        float f1 = ModelReindeer.updateReindeerRotation(entitylivingbaseIn.prevRotationYawHead, entitylivingbaseIn.rotationYawHead, partialTickTime);
+        float f2 = entitylivingbaseIn.prevRotationPitch + (entitylivingbaseIn.rotationPitch - entitylivingbaseIn.prevRotationPitch) * partialTickTime;
         float f3 = f1 - f;
         float f4 = f2 * 0.017453292F;
 
-        if (f3 > 20.0F) {
+        if(f3 > 20.0F) {
             f3 = 20.0F;
         }
 
-        if (f3 < -20.0F) {
+        if(f3 < -20.0F) {
             f3 = -20.0F;
         }
 
-        if (limbSwingAmount > 0.2F) {
+        if(limbSwingAmount > 0.2F) {
             f4 += MathHelper.cos(limbSwing * 0.4F) * 0.15F * limbSwingAmount;
         }
 
@@ -473,8 +458,7 @@ public class ModelReindeer<T extends LivingEntity> extends EntityModel<T> {
         this.body.rotateAngleX = 0.0F;
         float f16 = f3 * 0.017453292F;
         this.body.rotateAngleX = (f6 * -((float) Math.PI / 4F) + f7 * this.body.rotateAngleX) * 0.65F;
-        this.chest.rotateAngleX = f6 * (0.2617994F + f4) + f5 * 2.1816616F
-                + (1.0F - Math.max(f6, f5)) * (0.5235988F + f4) - (float) Math.toRadians(55);
+        this.chest.rotateAngleX = f6 * (0.2617994F + f4) + f5 * 2.1816616F + (1.0F - Math.max(f6, f5)) * (0.5235988F + f4) - (float) Math.toRadians(55);
         this.snout.rotateAngleX = -0.09424778F * f8;
         this.lowerJaw.rotateAngleX = 0.15707964F * f8;
         this.chest.rotateAngleY = f6 * f3 * 0.017453292F + (1.0F - Math.max(f6, f5)) * f16;
@@ -487,15 +471,12 @@ public class ModelReindeer<T extends LivingEntity> extends EntityModel<T> {
         float f14 = ((-1.0471976F + f13) * f6 + f11 * f7) * 0.8F;
         float f15 = ((-1.0471976F - f13) * f6 + -f11 * f7) * 0.8F;
 
-        this.lHindLeg01.rotateAngleX = f12 + -f10 * 0.5F * limbSwingAmount * f7;
-        this.rHindLeg01.rotateAngleX = f12 + f10 * 0.5F * limbSwingAmount * f7;
-        this.lForeleg01.rotateAngleX = f14;
-        this.rForeleg01.rotateAngleX = f15;
+        this.lHindLeg01.rotateAngleX = f12 + -f10 * 0.5F * limbSwingAmount * f7 - 0.22759093446006054F;
+        this.rHindLeg01.rotateAngleX = f12 + f10 * 0.5F * limbSwingAmount * f7 - 0.22759093446006054F;
+        this.lForeleg01.rotateAngleX = f14 + 0.136659280431156F;
+        this.rForeleg01.rotateAngleX = f15 + 0.136659280431156F;
     }
 
-    /**
-     * This is a helper function from Tabula to set the rotation of model parts
-     */
     public void setRotateAngle(ModelRenderer modelRenderer, float x, float y, float z) {
         modelRenderer.rotateAngleX = x;
         modelRenderer.rotateAngleY = y;

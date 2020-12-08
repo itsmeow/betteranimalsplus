@@ -266,7 +266,7 @@ public class EntityLammergeier extends EntityTameableFlyingWithTypes implements 
     @Override
     public void tick() {
         if((Math.abs(this.getMotion().getY()) > 0 && (Math.abs(this.getMotion().getX()) > 0.05 || Math.abs(this.getMotion().getZ()) > 0.05)) || Math.abs(this.getMotion().getY()) > 0.25) {
-            float x = -((float) Math.atan(this.getMotion().getY() / Math.sqrt(Math.pow(this.getMotion().getX(), 2) + Math.pow(this.getMotion().getZ(), 2))) / 1.5F);
+            float x = -((float) Math.atan2(this.getMotion().getY(), Math.sqrt(Math.pow(this.getMotion().getX(), 2) + Math.pow(this.getMotion().getZ(), 2))) / 1.5F);
             if(x < 0) {
                 x /= 3;
             }
@@ -565,8 +565,13 @@ public class EntityLammergeier extends EntityTameableFlyingWithTypes implements 
             if(!parentEntity.getFlying()) {
                 parentEntity.setFlying(true);
             }
-            double dist = parentEntity.getPosition().distanceSq(parentEntity.navigator.getPath().func_242948_g());
-            if(dist - lastDist < 0.05D) {
+            boolean idle = true;
+            if(parentEntity.navigator.getPath() != null && parentEntity.navigator.getPath().getCurrentPathIndex() < parentEntity.navigator.getPath().getCurrentPathLength()) {
+                double dist = parentEntity.getPosition().distanceSq(parentEntity.navigator.getPath().func_242948_g());
+                idle = dist - lastDist < 0.05D;
+                lastDist = dist;
+            }
+            if(idle) {
                 timeSinceLastMove++;
                 if(timeSinceLastMove > 60) {
                     parentEntity.navigator.clearPath();
@@ -576,7 +581,6 @@ public class EntityLammergeier extends EntityTameableFlyingWithTypes implements 
             } else {
                 timeSinceLastMove = 0;
             }
-            lastDist = dist;
         }
 
         @Override

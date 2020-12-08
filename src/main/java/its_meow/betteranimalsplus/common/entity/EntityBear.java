@@ -1,47 +1,47 @@
 package its_meow.betteranimalsplus.common.entity;
 
-import javax.annotation.Nullable;
-
 import com.google.common.base.Predicates;
-
-import dev.itsmeow.imdlib.entity.util.IContainerEntity;
+import dev.itsmeow.imdlib.entity.util.EntityTypeContainer;
 import its_meow.betteranimalsplus.common.entity.ai.EntityAIEatBerries;
-import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainerBAP;
+import its_meow.betteranimalsplus.common.entity.ai.HungerNearestAttackableTargetGoal;
 import its_meow.betteranimalsplus.common.entity.util.IDropHead;
+import its_meow.betteranimalsplus.common.entity.util.IHaveHunger;
 import its_meow.betteranimalsplus.init.ModEntities;
 import its_meow.betteranimalsplus.init.ModLootTables;
-import net.minecraft.block.Block;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.SpawnReason;
-import net.minecraft.entity.ai.goal.HurtByTargetGoal;
-import net.minecraft.entity.ai.goal.LookAtGoal;
-import net.minecraft.entity.ai.goal.MeleeAttackGoal;
-import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal;
-import net.minecraft.entity.ai.goal.RandomWalkingGoal;
-import net.minecraft.entity.ai.goal.SwimGoal;
-import net.minecraft.entity.monster.MonsterEntity;
-import net.minecraft.entity.passive.ChickenEntity;
-import net.minecraft.entity.passive.PigEntity;
-import net.minecraft.entity.passive.RabbitEntity;
+import net.minecraft.block.BlockState;
+import net.minecraft.entity.*;
+import net.minecraft.entity.ai.attributes.Attributes;
+import net.minecraft.entity.ai.goal.*;
+import net.minecraft.entity.passive.*;
 import net.minecraft.entity.passive.fish.SalmonEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.network.datasync.DataParameter;
+import net.minecraft.network.datasync.DataSerializers;
+import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.pathfinding.PathNodeType;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.Hand;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.SoundEvent;
-import net.minecraft.util.SoundEvents;
+import net.minecraft.tags.ItemTags;
+import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.Difficulty;
-import net.minecraft.world.IWorld;
+import net.minecraft.world.DifficultyInstance;
+import net.minecraft.world.IServerWorld;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
-public class EntityBear extends MonsterEntity implements IContainerEntity<EntityBear>, IDropHead {
+import javax.annotation.Nullable;
+import java.util.function.Predicate;
 
+public class EntityBear extends AnimalEntity implements IDropHead<EntityBear>, IHaveHunger<EntityBear> {
+    private static final DataParameter<Boolean> IS_STANDING = EntityDataManager.createKey(EntityBear.class, DataSerializers.BOOLEAN);
+    private float clientSideStandAnimation0;
+    private float clientSideStandAnimation;
     private int warningSoundTicks;
+    private int hunger;
 
     public EntityBear(World worldIn) {
         super(ModEntities.BROWN_BEAR.entityType, worldIn);
@@ -58,25 +58,52 @@ public class EntityBear extends MonsterEntity implements IContainerEntity<Entity
     @Override
     protected void registerGoals() {
         this.goalSelector.addGoal(0, new SwimGoal(this));
-        this.goalSelector.addGoal(1, new EntityBear.AIMeleeAttack());
-        this.goalSelector.addGoal(2, new EntityAIEatBerries(this, 1.0D, 12, 2));
+        this.goalSelector.addGoal(1, new EntityBear.BearMeleeAttackGoal());
+        this.goalSelector.addGoal(1, new EntityBear.BearPanicGoal());
+        this.goalSelector.addGoal(2, new BreedGoal(this, 1D));
+        this.goalSelector.addGoal(2, new FollowParentGoal(this, 1.25D));
+        this.goalSelector.addGoal(3, new EntityAIEatBerries(this, 1.0D, 12, 2));
         this.goalSelector.addGoal(5, new RandomWalkingGoal(this, 1.0D));
         this.goalSelector.addGoal(6, new LookAtGoal(this, PlayerEntity.class, 6.0F));
-        this.targetSelector.addGoal(1, new HurtByTargetGoal(this, EntityBear.class));
-        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<SalmonEntity>(this, SalmonEntity.class, 90,
-        true, true, Predicates.alwaysTrue()));
-        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<PlayerEntity>(this, PlayerEntity.class, 90,
-        true, true, Predicates.alwaysTrue()));
-        this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<EntityDeer>(this, EntityDeer.class, 90, true,
-        true, Predicates.alwaysTrue()));
-        this.targetSelector.addGoal(4, new NearestAttackableTargetGoal<PigEntity>(this, PigEntity.class, 90, true,
-        true, Predicates.alwaysTrue()));
-        this.targetSelector.addGoal(5, new NearestAttackableTargetGoal<ChickenEntity>(this, ChickenEntity.class, 90,
-        true, true, Predicates.alwaysTrue()));
-        this.targetSelector.addGoal(6, new NearestAttackableTargetGoal<RabbitEntity>(this, RabbitEntity.class, 90,
-        true, true, Predicates.alwaysTrue()));
-        this.targetSelector.addGoal(5, new NearestAttackableTargetGoal<EntityPheasant>(this, EntityPheasant.class, 90,
-        true, true, Predicates.alwaysTrue()));
+        this.targetSelector.addGoal(1, new EntityBear.BearHurtByTargetGoal());
+        this.targetSelector.addGoal(2, new EntityBear.AttackPlayerGoal());
+        this.targetSelector.addGoal(2, new HungerNearestAttackableTargetGoal<>(this, SalmonEntity.class, 90, true, true, Predicates.alwaysTrue()));
+        this.targetSelector.addGoal(3, new HungerNearestAttackableTargetGoal<>(this, EntityDeer.class, 90, true, true, Predicates.alwaysTrue()));
+        this.targetSelector.addGoal(4, new HungerNearestAttackableTargetGoal<>(this, PigEntity.class, 90, true, true, Predicates.alwaysTrue()));
+        this.targetSelector.addGoal(5, new HungerNearestAttackableTargetGoal<>(this, ChickenEntity.class, 90, true, true, Predicates.alwaysTrue()));
+        this.targetSelector.addGoal(6, new HungerNearestAttackableTargetGoal<>(this, RabbitEntity.class, 90, true, true, Predicates.alwaysTrue()));
+        this.targetSelector.addGoal(5, new HungerNearestAttackableTargetGoal<>(this, EntityPheasant.class, 90, true, true, Predicates.alwaysTrue()));
+        this.targetSelector.addGoal(3, new HungerNearestAttackableTargetGoal<>(this, FoxEntity.class, 90, true, true, Predicates.alwaysTrue()));
+    }
+    @Override
+    public int getHunger() {
+        return hunger;
+    }
+
+    @Override
+    public void setHunger(int hunger) {
+        this.hunger = hunger;
+    }
+
+    @Override
+    public void writeAdditional(CompoundNBT compound) {
+        super.writeAdditional(compound);
+        this.writeHunger(compound);
+    }
+
+    @Override
+    public void readAdditional(CompoundNBT compound) {
+        super.readAdditional(compound);
+        this.readHunger(compound);
+    }
+
+    @Override
+    public boolean isBreedingItem(ItemStack stack) {
+        return ItemTags.FISHES.contains(stack.getItem()) || (stack.getItem().isFood() && stack.getItem().getFood().isMeat());
+    }
+
+    public boolean isPeaceful() {
+        return world.getDifficulty() == Difficulty.PEACEFUL;
     }
 
     @Override
@@ -91,37 +118,72 @@ public class EntityBear extends MonsterEntity implements IContainerEntity<Entity
         return ModLootTables.BEAR_BROWN;
     }
 
-    public boolean canSpawn(IWorld p_213380_1_, SpawnReason p_213380_2_) {
-        return p_213380_1_.getDifficulty() != Difficulty.PEACEFUL;
-    }
-
-    @Override
-    public boolean attackEntityFrom(DamageSource source, float amount) {
-        if (this.isInvulnerableTo(source)) {
-            return false;
-        } else {
-            Entity entity = source.getTrueSource();
-
-            if (entity instanceof PlayerEntity) {
-                this.setAttackTarget((PlayerEntity) entity);
-                this.playWarningSound();
-            }
-
-            return super.attackEntityFrom(source, amount);
-        }
-    }
-
     @Override
     public void tick() {
         super.tick();
+        if(this.ticksExisted % 20 == 0) {
+            this.incrementHunger();
+        }
+        if(this.world.isRemote) {
+            if(this.clientSideStandAnimation != this.clientSideStandAnimation0) {
+                this.recalculateSize();
+            }
 
-        if (this.warningSoundTicks > 0) {
+            this.clientSideStandAnimation0 = this.clientSideStandAnimation;
+            if(this.isStanding()) {
+                this.clientSideStandAnimation = MathHelper.clamp(this.clientSideStandAnimation + 1.0F, 0.0F, 6.0F);
+            } else {
+                this.clientSideStandAnimation = MathHelper.clamp(this.clientSideStandAnimation - 1.0F, 0.0F, 6.0F);
+            }
+        }
+
+        if(this.warningSoundTicks > 0) {
             --this.warningSoundTicks;
+        }
+
+    }
+
+    public boolean isStanding() {
+        return this.dataManager.get(IS_STANDING);
+    }
+
+    public void setStanding(boolean standing) {
+        this.dataManager.set(IS_STANDING, standing);
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    public float getStandingAnimationScale(float p_189795_1_) {
+        return MathHelper.lerp(p_189795_1_, this.clientSideStandAnimation0, this.clientSideStandAnimation) / 6.0F;
+    }
+
+    @Override
+    protected float getWaterSlowDown() {
+        return 0.97F;
+    }
+
+    @Override
+    public EntitySize getSize(Pose poseIn) {
+        if(this.clientSideStandAnimation > 0.0F) {
+            float f = this.clientSideStandAnimation / 6.0F;
+            float f1 = 1.0F + f;
+            return super.getSize(poseIn).scale(1.0F, f1);
+        } else {
+            return super.getSize(poseIn);
         }
     }
 
+    @Override
+    public boolean attackEntityAsMob(Entity entityIn) {
+        boolean flag = entityIn.attackEntityFrom(DamageSource.causeMobDamage(this), (float) ((int) this.getAttribute(Attributes.ATTACK_DAMAGE).getValue()));
+        if(flag) {
+            this.applyEnchantments(this, entityIn);
+        }
+
+        return flag;
+    }
+
     protected void playWarningSound() {
-        if (this.warningSoundTicks <= 0) {
+        if(this.warningSoundTicks <= 0) {
             this.playSound(SoundEvents.ENTITY_POLAR_BEAR_WARNING, 1.0F, 1.0F);
             this.warningSoundTicks = 40;
         }
@@ -129,7 +191,7 @@ public class EntityBear extends MonsterEntity implements IContainerEntity<Entity
 
     @Override
     protected SoundEvent getAmbientSound() {
-        return SoundEvents.ENTITY_POLAR_BEAR_AMBIENT;
+        return this.isChild() ? SoundEvents.ENTITY_POLAR_BEAR_AMBIENT_BABY : SoundEvents.ENTITY_POLAR_BEAR_AMBIENT;
     }
 
     @Override
@@ -142,58 +204,110 @@ public class EntityBear extends MonsterEntity implements IContainerEntity<Entity
         return SoundEvents.ENTITY_POLAR_BEAR_DEATH;
     }
 
-    protected void playStepSound(BlockPos pos, Block blockIn) {
+    @Override
+    protected void playStepSound(BlockPos pos, BlockState blockIn) {
         this.playSound(SoundEvents.ENTITY_POLAR_BEAR_STEP, 0.15F, 1.0F);
     }
 
-    @Override
-    public ActionResultType func_230254_b_(PlayerEntity player, Hand hand) {
-        return ActionResultType.PASS;
+    protected void registerData() {
+        super.registerData();
+        this.dataManager.register(IS_STANDING, false);
     }
 
-    @Override
-    public boolean func_230292_f_(PlayerEntity playerIn) {
-        return this.world.getDifficulty() != Difficulty.PEACEFUL && this.getAttackingEntity() == playerIn;
-    }
-
-    public class AIMeleeAttack extends MeleeAttackGoal {
-
-        public AIMeleeAttack() {
-            super(EntityBear.this, 1.25D, true);
+    class AttackPlayerGoal extends NearestAttackableTargetGoal<PlayerEntity> {
+        public AttackPlayerGoal() {
+            super(EntityBear.this, PlayerEntity.class, 0, true, true, (Predicate<LivingEntity>) null);
         }
 
-        @Override
-        protected void checkAndPerformAttack(LivingEntity enemy, double distToEnemySqr) {
-            double d0 = this.getAttackReachSqr(enemy);
-            if(distToEnemySqr <= d0 && this.func_234040_h_()) {
-                this.func_234039_g_();
-                this.attacker.attackEntityAsMob(enemy);
-            } else if(distToEnemySqr <= d0 * 2.0D) {
-                if(this.func_234040_h_()) {
-                    this.func_234039_g_();
+        public boolean shouldExecute() {
+            if(EntityBear.this.isPeaceful() || EntityBear.this.isChild()) {
+                return false;
+            } else {
+                if(super.shouldExecute()) {
+                    for(EntityBear bear : EntityBear.this.world.getEntitiesWithinAABB(EntityBear.class, EntityBear.this.getBoundingBox().grow(8.0D, 4.0D, 8.0D))) {
+                        if(bear.isChild()) {
+                            return true;
+                        }
+                    }
                 }
 
-                if(this.func_234041_j_() <= 10) {
-                    EntityBear.this.playWarningSound();
-                }
-            } else {
-                this.func_234039_g_();
+                return false;
+            }
+        }
+
+        protected double getTargetDistance() {
+            return super.getTargetDistance() * 0.5D;
+        }
+    }
+
+    class BearHurtByTargetGoal extends HurtByTargetGoal {
+        public BearHurtByTargetGoal() {
+            super(EntityBear.this);
+        }
+
+        public void startExecuting() {
+            super.startExecuting();
+            if(EntityBear.this.isChild()) {
+                this.alertOthers();
+                this.resetTask();
             }
 
         }
 
-        /**
-         * Reset the task's internal state. Called when this task is interrupted by
-         * another one
-         */
-        @Override
+        protected void setAttackTarget(MobEntity mobIn, LivingEntity targetIn) {
+            if(mobIn instanceof EntityBear && !mobIn.isChild() && (!(targetIn instanceof PlayerEntity) || !((EntityBear) mobIn).isPeaceful())) {
+                super.setAttackTarget(mobIn, targetIn);
+            }
+
+        }
+    }
+
+    class BearMeleeAttackGoal extends MeleeAttackGoal {
+
+        public BearMeleeAttackGoal() {
+            super(EntityBear.this, 1.25D, true);
+        }
+
+        protected void checkAndPerformAttack(LivingEntity enemy, double distToEnemySqr) {
+            double d0 = this.getAttackReachSqr(enemy);
+            if (distToEnemySqr <= d0 && this.func_234040_h_()) {
+                this.func_234039_g_();
+                this.attacker.attackEntityAsMob(enemy);
+                EntityBear.this.setStanding(false);
+            } else if (distToEnemySqr <= d0 * 2.0D) {
+                if (this.func_234040_h_()) {
+                    EntityBear.this.setStanding(false);
+                    this.func_234039_g_();
+                }
+
+                if (this.func_234041_j_() <= 10) {
+                    EntityBear.this.setStanding(true);
+                    EntityBear.this.playWarningSound();
+                }
+            } else {
+                this.func_234039_g_();
+                EntityBear.this.setStanding(false);
+            }
+
+        }
+
         public void resetTask() {
+            EntityBear.this.setStanding(false);
             super.resetTask();
         }
 
-        @Override
         protected double getAttackReachSqr(LivingEntity attackTarget) {
-            return 10.0F + attackTarget.getWidth();
+            return (double) (8.0F + attackTarget.getWidth());
+        }
+    }
+
+    class BearPanicGoal extends PanicGoal {
+        public BearPanicGoal() {
+            super(EntityBear.this, 2.0D);
+        }
+
+        public boolean shouldExecute() {
+            return !EntityBear.this.isChild() && !EntityBear.this.isBurning() ? false : super.shouldExecute();
         }
     }
 
@@ -202,11 +316,6 @@ public class EntityBear extends MonsterEntity implements IContainerEntity<Entity
         return super.isInvulnerableTo(source) || source == DamageSource.SWEET_BERRY_BUSH;
     }
 
-    @Override
-    protected float getWaterSlowDown() {
-        return 0.95F;
-    }
-    
     @Override
     public void onDeath(DamageSource cause) {
         super.onDeath(cause);
@@ -224,8 +333,29 @@ public class EntityBear extends MonsterEntity implements IContainerEntity<Entity
     }
 
     @Override
-    public EntityTypeContainerBAP<?> getContainer() {
+    public EntityTypeContainer<?> getContainer() {
         return ModEntities.BROWN_BEAR;
+    }
+
+    @Override
+    public AgeableEntity func_241840_a(ServerWorld world, AgeableEntity ageable) {
+        return new EntityBear(this.world);
+    }
+
+    static class GroupData implements ILivingEntityData {
+        private GroupData() {
+        }
+    }
+
+    @Override
+    public ILivingEntityData onInitialSpawn(IServerWorld worldIn, DifficultyInstance difficultyIn, SpawnReason reason, @Nullable ILivingEntityData spawnDataIn, @Nullable CompoundNBT dataTag) {
+        this.setInitialHunger();
+        if(spawnDataIn instanceof GroupData) {
+            this.setGrowingAge(-24000);
+        } else {
+            spawnDataIn = new GroupData();
+        }
+        return spawnDataIn;
     }
 
 }

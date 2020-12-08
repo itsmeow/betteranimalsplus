@@ -1,11 +1,8 @@
 package its_meow.betteranimalsplus.common.entity;
 
-import java.util.Set;
-
-import javax.annotation.Nullable;
-
+import dev.itsmeow.imdlib.entity.util.EntityTypeContainer;
 import its_meow.betteranimalsplus.common.entity.ai.EntityAIEatBerries;
-import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainerBAP;
+import its_meow.betteranimalsplus.common.entity.util.EntityUtil;
 import its_meow.betteranimalsplus.common.entity.util.IDropHead;
 import its_meow.betteranimalsplus.common.entity.util.abstracts.EntityAnimalWithSelectiveTypes;
 import its_meow.betteranimalsplus.common.entity.util.abstracts.EntityAnimalWithTypes;
@@ -15,23 +12,10 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.CropsBlock;
 import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.entity.AgeableEntity;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.SpawnReason;
+import net.minecraft.entity.*;
 import net.minecraft.entity.ai.attributes.Attributes;
-import net.minecraft.entity.ai.goal.BreedGoal;
-import net.minecraft.entity.ai.goal.FollowParentGoal;
-import net.minecraft.entity.ai.goal.HurtByTargetGoal;
-import net.minecraft.entity.ai.goal.LookAtGoal;
-import net.minecraft.entity.ai.goal.MeleeAttackGoal;
-import net.minecraft.entity.ai.goal.MoveToBlockGoal;
-import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal;
-import net.minecraft.entity.ai.goal.SwimGoal;
-import net.minecraft.entity.ai.goal.WaterAvoidingRandomWalkingGoal;
+import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.effect.LightningBoltEntity;
-import net.minecraft.entity.monster.HoglinEntity;
 import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.monster.ZombifiedPiglinEntity;
 import net.minecraft.entity.passive.AnimalEntity;
@@ -41,24 +25,22 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.pathfinding.PathNodeType;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.RegistryKey;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.SoundEvent;
-import net.minecraft.util.SoundEvents;
+import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.world.Difficulty;
-import net.minecraft.world.IWorldReader;
-import net.minecraft.world.World;
+import net.minecraft.world.*;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.BiomeDictionary.Type;
 
-public class EntityBoar extends EntityAnimalWithSelectiveTypes implements IMob, IDropHead {
+import javax.annotation.Nullable;
+import java.util.Set;
+
+public class EntityBoar extends EntityAnimalWithSelectiveTypes implements IMob, IDropHead<EntityAnimalWithTypes> {
 
     public EntityBoar(World worldIn) {
         super(ModEntities.BOAR.entityType, worldIn);
@@ -69,9 +51,17 @@ public class EntityBoar extends EntityAnimalWithSelectiveTypes implements IMob, 
     @Override
     protected void registerGoals() {
         this.goalSelector.addGoal(0, new SwimGoal(this));
-        if (!this.isChild() && this.getEntityWorld().getDifficulty() != Difficulty.PEACEFUL) {
-            this.goalSelector.addGoal(1, new MeleeAttackGoal(this, 1.2D, false));
-        }
+        this.goalSelector.addGoal(1, new MeleeAttackGoal(this, 1.2D, false) {
+            @Override
+            public boolean shouldExecute() {
+                return !EntityBoar.this.isChild() && super.shouldExecute();
+            }
+
+            @Override
+            public boolean shouldContinueExecuting() {
+                return !EntityBoar.this.isChild() && super.shouldContinueExecuting();
+            }
+        });
         this.goalSelector.addGoal(2, new BreedGoal(this, 1.0D));
         this.goalSelector.addGoal(3, new FollowParentGoal(this, 1.1D));
         this.goalSelector.addGoal(4, new BoarAIEatCrops(this));
@@ -84,11 +74,43 @@ public class EntityBoar extends EntityAnimalWithSelectiveTypes implements IMob, 
         });
         this.goalSelector.addGoal(6, new WaterAvoidingRandomWalkingGoal(this, 1.0D));
         this.goalSelector.addGoal(7, new LookAtGoal(this, PlayerEntity.class, 6.0F));
-        if (!this.isChild() && this.getEntityWorld().getDifficulty() != Difficulty.PEACEFUL) {
-            this.targetSelector.addGoal(0, new HurtByTargetGoal(this, new Class[0]).setCallsForHelp(EntityBoar.class));
-            this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<AnimalEntity>(this, AnimalEntity.class, 90, true, true, (@Nullable LivingEntity in) -> in instanceof ChickenEntity || in instanceof EntityPheasant || in instanceof AnimalEntity && ((AnimalEntity) in).isChild() && !(in instanceof EntityBoar || in instanceof PigEntity)));
-            this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<LivingEntity>(this, LivingEntity.class, 50, true, true, (@Nullable LivingEntity in) -> in instanceof AnimalEntity && !(in instanceof EntityBoar || in instanceof PigEntity || in instanceof HoglinEntity) || in instanceof PlayerEntity));
-        }
+        this.targetSelector.addGoal(0, new HurtByTargetGoal(this) {
+            @Override
+            public boolean shouldExecute() {
+                return !EntityBoar.this.isChild() && !EntityBoar.this.isPeaceful() && super.shouldExecute();
+            }
+
+            @Override
+            public boolean shouldContinueExecuting() {
+                return !EntityBoar.this.isChild() && !EntityBoar.this.isPeaceful() && super.shouldContinueExecuting();
+            }
+        }.setCallsForHelp(EntityBoar.class));
+        this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<AnimalEntity>(this, AnimalEntity.class, 90, true, true, (@Nullable LivingEntity in) -> in instanceof ChickenEntity || in instanceof EntityPheasant || in instanceof AnimalEntity && ((AnimalEntity) in).isChild() && !(in instanceof EntityBoar || in instanceof PigEntity)) {
+            @Override
+            public boolean shouldExecute() {
+                return !EntityBoar.this.isChild() && super.shouldExecute();
+            }
+
+            @Override
+            public boolean shouldContinueExecuting() {
+                return !EntityBoar.this.isChild() && super.shouldContinueExecuting();
+            }
+        });
+        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<LivingEntity>(this, LivingEntity.class, 50, true, true, (@Nullable LivingEntity in) -> in instanceof AnimalEntity && !(in instanceof EntityBoar || in instanceof PigEntity) || in instanceof PlayerEntity) {
+            @Override
+            public boolean shouldExecute() {
+                return !EntityBoar.this.isChild() && !EntityBoar.this.isPeaceful() && super.shouldExecute();
+            }
+
+            @Override
+            public boolean shouldContinueExecuting() {
+                return !EntityBoar.this.isChild() && !EntityBoar.this.isPeaceful() && super.shouldContinueExecuting();
+            }
+        });
+    }
+
+    public boolean isPeaceful() {
+        return world.getDifficulty() == Difficulty.PEACEFUL;
     }
 
     @Override
@@ -133,7 +155,7 @@ public class EntityBoar extends EntityAnimalWithSelectiveTypes implements IMob, 
         float f = (float) this.getAttribute(Attributes.ATTACK_DAMAGE).getValue();
         int i = 0;
 
-        if (entityIn instanceof LivingEntity) {
+        if(entityIn instanceof LivingEntity) {
             f += EnchantmentHelper.getModifierForCreature(this.getHeldItemMainhand(),
             ((LivingEntity) entityIn).getCreatureAttribute());
             i += EnchantmentHelper.getKnockbackModifier(this);
@@ -143,29 +165,28 @@ public class EntityBoar extends EntityAnimalWithSelectiveTypes implements IMob, 
 
         if (flag) {
             if (i > 0 && entityIn instanceof LivingEntity) {
-                ((LivingEntity) entityIn).applyKnockback(i * 0.5F, MathHelper.sin(this.rotationYaw * 0.017453292F),
-                -MathHelper.cos(this.rotationYaw * 0.017453292F));
+                ((LivingEntity) entityIn).applyKnockback(i * 0.5F, MathHelper.sin(this.rotationYaw * 0.017453292F), -MathHelper.cos(this.rotationYaw * 0.017453292F));
                 this.setMotion(this.getMotion().getX() * 0.6D, this.getMotion().getY(), this.getMotion().getZ() * 0.6D);
             }
 
             int j = EnchantmentHelper.getFireAspectModifier(this);
 
-            if (j > 0) {
+            if(j > 0) {
                 entityIn.setFire(j * 4);
             }
 
-            if (entityIn instanceof PlayerEntity) {
+            if(entityIn instanceof PlayerEntity) {
                 PlayerEntity entityplayer = (PlayerEntity) entityIn;
                 ItemStack itemstack = this.getHeldItemMainhand();
                 ItemStack itemstack1 = entityplayer.isHandActive() ? entityplayer.getActiveItemStack()
                 : ItemStack.EMPTY;
 
-                if (!itemstack.isEmpty() && !itemstack1.isEmpty()
+                if(!itemstack.isEmpty() && !itemstack1.isEmpty()
                 && itemstack.getItem().canDisableShield(itemstack, itemstack1, entityplayer, this)
                 && itemstack1.getItem().isShield(itemstack1, entityplayer)) {
                     float f1 = 0.25F + EnchantmentHelper.getEfficiencyModifier(this) * 0.05F;
 
-                    if (this.rand.nextFloat() < f1) {
+                    if(this.rand.nextFloat() < f1) {
                         entityplayer.getCooldownTracker().setCooldown(itemstack1.getItem(), 100);
                         this.world.setEntityState(entityplayer, (byte) 30);
                     }
@@ -186,7 +207,7 @@ public class EntityBoar extends EntityAnimalWithSelectiveTypes implements IMob, 
             entitypigzombie.setLocationAndAngles(this.getPosX(), this.getPosY(), this.getPosZ(), this.rotationYaw, this.rotationPitch);
             entitypigzombie.setNoAI(this.isAIDisabled());
 
-            if (this.hasCustomName()) {
+            if(this.hasCustomName()) {
                 entitypigzombie.setCustomName(this.getCustomName());
                 entitypigzombie.setCustomNameVisible(true);
             }
@@ -202,7 +223,7 @@ public class EntityBoar extends EntityAnimalWithSelectiveTypes implements IMob, 
             EntityBoar boar = new EntityBoar(this.world);
             boar.setType(this.getVariant().get());
             return boar;
-        } else if (ageable instanceof PigEntity) {
+        } else if(ageable instanceof PigEntity) {
             PigEntity pig = new PigEntity(EntityType.PIG, this.world);
             EntityBoar boar = new EntityBoar(this.world);
             boar.setType(this.getVariant().get());
@@ -214,9 +235,9 @@ public class EntityBoar extends EntityAnimalWithSelectiveTypes implements IMob, 
 
     @Override
     public boolean canMateWith(AnimalEntity otherAnimal) {
-        if (otherAnimal != this) {
-            if (otherAnimal instanceof EntityBoar || otherAnimal instanceof PigEntity) {
-                if (otherAnimal.isInLove() && this.isInLove()) {
+        if(otherAnimal != this) {
+            if(otherAnimal instanceof EntityBoar || otherAnimal instanceof PigEntity) {
+                if(otherAnimal.isInLove() && this.isInLove()) {
                     return true;
                 }
             }
@@ -238,22 +259,22 @@ public class EntityBoar extends EntityAnimalWithSelectiveTypes implements IMob, 
     @Override
     public String[] getTypesFor(RegistryKey<Biome> biomeKey, Biome biome, Set<BiomeDictionary.Type> types, SpawnReason reason) {
         if(types.contains(Type.FOREST) && !types.contains(Type.CONIFEROUS)) {
-            return new String[] {"1", "2", "3"};
+            return new String[] { "1", "2", "3" };
         } else if(types.contains(Type.CONIFEROUS) && !types.contains(Type.SNOWY)) {
-            return new String[] {"1", "2", "3"};
+            return new String[] { "1", "2", "3" };
         } else if(types.contains(Type.CONIFEROUS) && types.contains(Type.SNOWY)) {
-            return new String[] {"1", "4"};
-        } else if(types.contains(Type.SNOWY) && !types.contains(Type.CONIFEROUS)) { 
-            return new String[] {"4"};
+            return new String[] { "1", "4" };
+        } else if(types.contains(Type.SNOWY) && !types.contains(Type.CONIFEROUS)) {
+            return new String[] { "4" };
         } else if(types.contains(Type.SAVANNA) || types.contains(Type.PLAINS)) {
-            return new String[] {"1", "2", "3"};
+            return new String[] { "1", "2", "3" };
         } else {
-            return new String[] {"1", "2", "3", "4"};
+            return new String[] { "1", "2", "3", "4" };
         }
     }
 
     @Override
-    public EntityTypeContainerBAP<EntityBoar> getContainer() {
+    public EntityTypeContainer<EntityBoar> getContainer() {
         return ModEntities.BOAR;
     }
 
@@ -283,15 +304,9 @@ public class EntityBoar extends EntityAnimalWithSelectiveTypes implements IMob, 
 
         @Override
         public void tick() {
-            if (!this.destinationBlock.withinDistance(this.creature.getPositionVec(), this.getTargetDistanceSq())) {
-                //this.creature.getNavigator().tryMoveToXYZ((double)((float)this.destinationBlock.getX()) + 0.5D, (double)(this.destinationBlock.getY()), (double)((float)this.destinationBlock.getZ()) + 0.5D, this.movementSpeed);
-                //++this.timeoutCounter;
-                //if (this.shouldMove()) {
+            if(!this.destinationBlock.withinDistance(this.creature.getPositionVec(), this.getTargetDistanceSq())) {
                 this.boar.getMoveHelper().setMoveTo((double) this.destinationBlock.getX() + 0.5D, (double) (this.destinationBlock.getY()), (double) this.destinationBlock.getZ() + 0.5D, this.movementSpeed);
-                    
-                //}
-             } else {
-                //--this.timeoutCounter;
+            } else {
                 World world = this.boar.world;
                 BlockPos pos = this.destinationBlock;
                 BlockState state = world.getBlockState(pos);
@@ -302,7 +317,7 @@ public class EntityBoar extends EntityAnimalWithSelectiveTypes implements IMob, 
                     world.destroyBlock(pos, true);
                     boar.setInLove(null);
                 }
-             }
+            }
             this.boar.getLookController().setLookPosition((double) this.destinationBlock.getX() + 0.5D, (double) (this.destinationBlock.getY() + 0.5D), (double) this.destinationBlock.getZ() + 0.5D, 10.0F, (float) this.boar.getVerticalFaceSpeed());
         }
 
@@ -322,6 +337,11 @@ public class EntityBoar extends EntityAnimalWithSelectiveTypes implements IMob, 
     @Override
     protected EntityAnimalWithTypes getBaseChild() {
         return new EntityBoar(world);
+    }
+
+    @Override
+    public ILivingEntityData onInitialSpawn(IServerWorld world, DifficultyInstance difficulty, SpawnReason reason, ILivingEntityData livingdata, CompoundNBT compound) {
+        return EntityUtil.childChance(this, reason, super.onInitialSpawn(world, difficulty, reason, livingdata, compound), 0.25F);
     }
 
 }

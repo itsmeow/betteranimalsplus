@@ -1,18 +1,10 @@
 package its_meow.betteranimalsplus.common.entity;
 
-import java.util.List;
-
-import javax.annotation.Nullable;
-
-import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainerBAP;
+import dev.itsmeow.imdlib.entity.util.EntityTypeContainer;
+import dev.itsmeow.imdlib.entity.util.EntityTypeContainerContainable;
 import its_meow.betteranimalsplus.common.entity.util.abstracts.EntityWaterMobWithTypesBucketable;
 import its_meow.betteranimalsplus.init.ModEntities;
-import net.minecraft.entity.EntitySize;
-import net.minecraft.entity.ILivingEntityData;
-import net.minecraft.entity.MobEntity;
-import net.minecraft.entity.MoverType;
-import net.minecraft.entity.Pose;
-import net.minecraft.entity.SpawnReason;
+import net.minecraft.entity.*;
 import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -30,12 +22,16 @@ import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TextFormatting;
+import net.minecraft.world.Difficulty;
 import net.minecraft.world.DifficultyInstance;
-import net.minecraft.world.IWorld;
+import net.minecraft.world.IServerWorld;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.util.Constants;
+
+import javax.annotation.Nullable;
+import java.util.List;
 
 public class EntityJellyfish extends EntityWaterMobWithTypesBucketable {
 
@@ -111,9 +107,6 @@ public class EntityJellyfish extends EntityWaterMobWithTypesBucketable {
             if(!world.isRemote) {
                 this.setMotion((randomMotionVecX * randomMotionSpeed), (randomMotionVecY * randomMotionSpeed), (randomMotionVecZ * randomMotionSpeed));
             }
-            // float lvt_1_2_ = MathHelper.sqrt(this.getMotion().getX() *
-            // this.getMotion().getX() + this.getMotion().getZ() * this.getMotion().getZ());
-
             renderYawOffset += (-(float) MathHelper.atan2(this.getMotion().getX(), this.getMotion().getZ()) * 57.295776F - renderYawOffset) * 0.1F;
             rotationYaw = renderYawOffset;
             jellyYaw = ((float) (jellyYaw + 3.141592653589793D * rotateSpeed * 1.5D));
@@ -133,7 +126,7 @@ public class EntityJellyfish extends EntityWaterMobWithTypesBucketable {
     @Override
     public void onCollideWithPlayer(PlayerEntity entity) {
         super.onCollideWithPlayer(entity);
-        if(!entity.isCreative() && this.attackCooldown == 0) {
+        if(!entity.isCreative() && this.attackCooldown == 0 && entity.world.getDifficulty() != Difficulty.PEACEFUL) {
             entity.attackEntityFrom(DamageSource.causeMobDamage(this), 2.0F);
             entity.addPotionEffect(new EffectInstance(Effects.POISON, 200, 0, false, false));
             entity.addPotionEffect(new EffectInstance(Effects.BLINDNESS, 90, 2, false, false));
@@ -203,7 +196,7 @@ public class EntityJellyfish extends EntityWaterMobWithTypesBucketable {
 
     @Override
     @Nullable
-    public ILivingEntityData onInitialSpawn(IWorld world, DifficultyInstance difficulty, SpawnReason reason, @Nullable ILivingEntityData livingdata, CompoundNBT compound) {
+    public ILivingEntityData onInitialSpawn(IServerWorld world, DifficultyInstance difficulty, SpawnReason reason, @Nullable ILivingEntityData livingdata, CompoundNBT compound) {
         livingdata = super.onInitialSpawn(world, difficulty, reason, livingdata, compound);
         if(!this.isChild()) {
             String i = this.getRandomType().getName();
@@ -269,31 +262,36 @@ public class EntityJellyfish extends EntityWaterMobWithTypesBucketable {
     }
 
     @Override
-    public EntityTypeContainerBAP<EntityJellyfish> getContainer() {
+    public EntityTypeContainer<EntityJellyfish> getContainer() {
         return ModEntities.JELLYFISH;
     }
 
     @Override
-    public void setBucketData(ItemStack bucket) {
-        super.setBucketData(bucket);
+    public void setContainerData(ItemStack bucket) {
+        super.setContainerData(bucket);
         CompoundNBT tag = bucket.getTag();
         tag.putFloat("JellyfishSizeTag", this.dataManager.get(EntityJellyfish.SIZE));
         bucket.setTag(tag);
     }
 
     @Override
-    public void readFromBucketTag(CompoundNBT tag) {
-        super.readFromBucketTag(tag);
+    public void readFromContainerTag(CompoundNBT tag) {
+        super.readFromContainerTag(tag);
         if(tag.contains("JellyfishSizeTag")) {
             this.setSize(tag.getFloat("JellyfishSizeTag"));
         }
     }
 
-    public static void bucketTooltip(EntityTypeContainerBAP<? extends MobEntity> container, ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip) {
+    public static void bucketTooltip(EntityTypeContainer<? extends MobEntity> container, ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip) {
         CompoundNBT tag = stack.getTag();
         if(tag != null && tag.contains("JellyfishSizeTag", Constants.NBT.TAG_FLOAT)) {
             tooltip.add(new StringTextComponent("Size: " + tag.getFloat("JellyfishSizeTag")).mergeStyle(TextFormatting.ITALIC).mergeStyle(TextFormatting.GRAY));
         }
+    }
+
+    @Override
+    public EntityTypeContainerContainable<?, ?> getContainableContainer() {
+        return ModEntities.JELLYFISH;
     }
 
 }

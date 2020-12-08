@@ -45,12 +45,8 @@ public class ModelSaltwaterEel<T extends LivingEntity> extends EntityModel<T> {
     public ModelRenderer topTeethL;
     public ModelRenderer topTeethR;
     public ModelRenderer snout;
-    public ModelRenderer ribbonNoseLeft01;
-    public ModelRenderer ribbonNoseRight01;
     public ModelRenderer lCrest;
     public ModelRenderer rCrest;
-    public ModelRenderer ribbonNoseLeft02;
-    public ModelRenderer ribbonNoseRight2;
     public ModelRenderer lowerJawUnder;
     public ModelRenderer lowJawPieceL;
     public ModelRenderer lowJawPieceR;
@@ -81,9 +77,6 @@ public class ModelSaltwaterEel<T extends LivingEntity> extends EntityModel<T> {
         this.lCrest.setRotationPoint(0.4F, 0.5F, 4.3F);
         this.lCrest.addBox(-0.5F, -3.0F, -0.5F, 1, 3, 0, 0.0F);
         this.setRotateAngle(lCrest, 0.0F, 0.0F, 0.31869712141416456F);
-        this.ribbonNoseRight2 = new ModelRenderer(this, 22, 52);
-        this.ribbonNoseRight2.setRotationPoint(0.0F, 0.0F, -1.8F);
-        this.ribbonNoseRight2.addBox(0.0F, -1.5F, -2.0F, 0, 3, 2, 0.0F);
         this.topFin06 = new ModelRenderer(this, 0, 125);
         this.topFin06.setRotationPoint(0.0F, -2.9F, 0.0F);
         this.topFin06.addBox(0.0F, -4.0F, 0.0F, 0, 5, 9, 0.0F);
@@ -112,10 +105,6 @@ public class ModelSaltwaterEel<T extends LivingEntity> extends EntityModel<T> {
         this.topTeethR = new ModelRenderer(this, 20, 0);
         this.topTeethR.setRotationPoint(-0.3F, 4.0F, -1.0F);
         this.topTeethR.addBox(-1.0F, 0.0F, -5.5F, 1, 1, 6, 0.0F);
-        this.ribbonNoseLeft01 = new ModelRenderer(this, 14, 53);
-        this.ribbonNoseLeft01.setRotationPoint(0.8F, 0.0F, -3.0F);
-        this.ribbonNoseLeft01.addBox(-0.5F, -0.5F, -2.0F, 1, 1, 2, 0.0F);
-        this.setRotateAngle(ribbonNoseLeft01, -0.40980330836826856F, -0.4553564018453205F, 0.0F);
         this.snout = new ModelRenderer(this, 26, 16);
         this.snout.setRotationPoint(0.0F, -1.0F, -4.0F);
         this.snout.addBox(-1.0F, 0.0F, 0.0F, 2, 2, 5, 0.0F);
@@ -129,9 +118,6 @@ public class ModelSaltwaterEel<T extends LivingEntity> extends EntityModel<T> {
         this.lowerJaw = new ModelRenderer(this, 16, 59);
         this.lowerJaw.setRotationPoint(0.5F, 5.0F, 0.3F);
         this.lowerJaw.addBox(-2.0F, -1.0F, -7.0F, 3, 1, 7, 0.0F);
-        this.ribbonNoseLeft02 = new ModelRenderer(this, 22, 52);
-        this.ribbonNoseLeft02.setRotationPoint(0.0F, 0.0F, -1.8F);
-        this.ribbonNoseLeft02.addBox(0.0F, -1.5F, -2.0F, 0, 3, 2, 0.0F);
         this.topFin04 = new ModelRenderer(this, 0, 114);
         this.topFin04.setRotationPoint(0.0F, -2.9F, 0.0F);
         this.topFin04.addBox(0.0F, -4.0F, 0.0F, 0, 4, 9, 0.0F);
@@ -160,10 +146,6 @@ public class ModelSaltwaterEel<T extends LivingEntity> extends EntityModel<T> {
         this.topFin02 = new ModelRenderer(this, 0, 104);
         this.topFin02.setRotationPoint(0.0F, -2.9F, 0.0F);
         this.topFin02.addBox(0.0F, -4.0F, 0.0F, 0, 4, 9, 0.0F);
-        this.ribbonNoseRight01 = new ModelRenderer(this, 14, 53);
-        this.ribbonNoseRight01.setRotationPoint(-0.8F, 0.0F, -3.0F);
-        this.ribbonNoseRight01.addBox(-0.5F, -0.5F, -2.0F, 1, 1, 2, 0.0F);
-        this.setRotateAngle(ribbonNoseRight01, -0.40980330836826856F, 0.4553564018453205F, 0.0F);
         this.lowJawPieceL = new ModelRenderer(this, 4, 3);
         this.lowJawPieceL.setRotationPoint(0.0F, -0.5F, -6.4F);
         this.lowJawPieceL.addBox(0.0F, -0.5F, -2.0F, 0, 1, 2, 0.0F);
@@ -199,7 +181,6 @@ public class ModelSaltwaterEel<T extends LivingEntity> extends EntityModel<T> {
         this.lowerJaw.addChild(this.lowTeethR);
         this.body00.addChild(this.lowFin01);
         this.snout.addChild(this.lCrest);
-        this.ribbonNoseRight01.addChild(this.ribbonNoseRight2);
         this.body05.addChild(this.topFin06);
         this.body01.addChild(this.lowFin02);
         this.body01.addChild(this.body02);
@@ -209,12 +190,10 @@ public class ModelSaltwaterEel<T extends LivingEntity> extends EntityModel<T> {
         this.body02.addChild(this.topFin03);
         this.body04.addChild(this.body05);
         this.head.addChild(this.topTeethR);
-        this.topJaw.addChild(this.ribbonNoseLeft01);
         this.topJaw.addChild(this.snout);
         this.body02.addChild(this.body03);
         this.body04.addChild(this.lowFin05);
         this.head.addChild(this.lowerJaw);
-        this.ribbonNoseLeft01.addChild(this.ribbonNoseLeft02);
         this.body03.addChild(this.topFin04);
         this.body04.addChild(this.topFin05);
         this.body03.addChild(this.body04);
@@ -224,7 +203,6 @@ public class ModelSaltwaterEel<T extends LivingEntity> extends EntityModel<T> {
         this.body05.addChild(this.body06);
         this.body00.addChild(this.body01);
         this.body01.addChild(this.topFin02);
-        this.topJaw.addChild(this.ribbonNoseRight01);
         this.lowerJaw.addChild(this.lowJawPieceL);
         this.body00.addChild(this.head);
         this.lowerJaw.addChild(this.lowJawPieceR);

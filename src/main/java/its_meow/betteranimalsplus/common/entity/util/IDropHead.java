@@ -1,13 +1,10 @@
 package its_meow.betteranimalsplus.common.entity.util;
 
-import its_meow.betteranimalsplus.util.HeadType;
+import dev.itsmeow.imdlib.entity.util.IContainerEntity;
+import dev.itsmeow.imdlib.util.HeadType;
 import net.minecraft.entity.MobEntity;
 
-public interface IDropHead {
-
-    MobEntity getImplementation();
-
-    EntityTypeContainerBAP<?> getContainer();
+public interface IDropHead<T extends MobEntity> extends IContainerEntity<T> {
 
     default HeadType getHeadType() {
         return getContainer().getHeadType();

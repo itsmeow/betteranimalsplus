@@ -2,7 +2,7 @@
   "display": {
     "description": [
       {"text":"Feed a goat, and then have it fight for you!\n","color":"gray"},
-      {"text":"pls give more food, i impaled zombs 4 u\n","color":"white","italic":true}
+      {"text":"pls give more food, i impaled zombs 4 u","color":"white","italic":true}
     ],
     "title": {
       "text": "Thx 4 da food",

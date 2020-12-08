@@ -204,7 +204,7 @@ public class ModelBeakedWhale<T extends LivingEntity> extends EntityModel<T> {
             this.inWater = entity.isInWater(); 
             if(inWater) {
                 float pitch = (float) Math.toRadians(ModelBetterAnimals.getHeadPitch(entity));
-                this.body.rotateAngleX = (float) ((pitch / Math.abs(pitch)) * Math.min(Math.abs(pitch), Math.toRadians(45F)));
+                this.body.rotateAngleX = pitch == 0 ? 0 : (float) ((pitch / Math.abs(pitch)) * Math.min(Math.abs(pitch), Math.toRadians(45F)));
                 this.body.rotateAngleY = (float) Math.toRadians(ModelBetterAnimals.getHeadYaw(entity));
             } else {
                 this.body.rotateAngleY = -(float) Math.toRadians(ModMathHelper.interpolateRotation(entity.renderYawOffset, entity.prevRenderYawOffset, Minecraft.getInstance().getRenderPartialTicks()));

@@ -33,7 +33,7 @@
             "conditions": {
                 "damage": {
                     "source_entity": {
-                        "type": "betteranimalsplus:zotzpyre"
+                        "type": "whisperwoods:zotzpyre"
                     }
                 }
             }
@@ -60,5 +60,11 @@
             "bobbit_succ"
         ]
     ],
-    "parent": "betteranimalsplus:lamprey_succ"
+    "parent": "betteranimalsplus:lamprey_succ",
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "whisperwoods"
+        }
+    ]
 }

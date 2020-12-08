@@ -1,24 +1,28 @@
 package its_meow.betteranimalsplus.common.entity.util.abstracts;
 
+import its_meow.betteranimalsplus.common.entity.util.IHaveHunger;
 import its_meow.betteranimalsplus.init.ModTriggers;
 import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.SpawnReason;
+import net.minecraft.entity.*;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.Difficulty;
-import net.minecraft.world.IWorld;
+import net.minecraft.world.DifficultyInstance;
+import net.minecraft.world.IServerWorld;
 import net.minecraft.world.World;
 
-public abstract class EntitySharkBase extends EntityWaterMobPathingWithSelectiveTypes implements IMob {
+import javax.annotation.Nullable;
+
+public abstract class EntitySharkBase extends EntityWaterMobPathingWithSelectiveTypes implements IMob, IHaveHunger<EntityWaterMobPathing> {
+
+    private int hunger = 0;
 
     public EntitySharkBase(EntityType<? extends EntitySharkBase> type, World world) {
         super(type, world);
@@ -39,17 +43,8 @@ public abstract class EntitySharkBase extends EntityWaterMobPathingWithSelective
         }
     }
 
-    @Override
-    public void tick() {
-        super.tick();
-        if(this.world.getDifficulty() == Difficulty.PEACEFUL) {
-            this.remove();
-        }
-    }
-
-    @Override
-    public boolean canSpawn(IWorld world, SpawnReason reason) {
-        return this.world.getDifficulty() != Difficulty.PEACEFUL && super.canSpawn(world, reason);
+    public boolean isPeaceful() {
+        return this.world.getDifficulty() == Difficulty.PEACEFUL;
     }
 
     @Override
@@ -113,10 +108,48 @@ public abstract class EntitySharkBase extends EntityWaterMobPathingWithSelective
 
     @Override
     public void setAttackTarget(LivingEntity entitylivingbaseIn) {
-        if(entitylivingbaseIn instanceof ServerPlayerEntity) {
-            ModTriggers.SHARK_TARGETED.trigger((ServerPlayerEntity) entitylivingbaseIn);
+        if(!this.isPeaceful()) {
+            if(entitylivingbaseIn instanceof ServerPlayerEntity) {
+                ModTriggers.SHARK_TARGETED.trigger((ServerPlayerEntity) entitylivingbaseIn);
+            }
+            super.setAttackTarget(entitylivingbaseIn);
         }
-        super.setAttackTarget(entitylivingbaseIn);
     }
 
+    @Override
+    public int getHunger() {
+        return hunger;
+    }
+
+    @Override
+    public void setHunger(int hunger) {
+        this.hunger = hunger;
+    }
+
+    @Override
+    public void tick() {
+        super.tick();
+        if(this.ticksExisted % 20 == 0) {
+            this.incrementHunger();
+        }
+    }
+
+    @Nullable
+    @Override
+    public ILivingEntityData onInitialSpawn(IServerWorld world, DifficultyInstance difficulty, SpawnReason reason, @Nullable ILivingEntityData livingdata, CompoundNBT compound) {
+        this.setInitialHunger();
+        return super.onInitialSpawn(world, difficulty, reason, livingdata, compound);
+    }
+
+    @Override
+    public void writeAdditional(CompoundNBT compound) {
+        super.writeAdditional(compound);
+        this.writeHunger(compound);
+    }
+
+    @Override
+    public void readAdditional(CompoundNBT compound) {
+        super.readAdditional(compound);
+        this.readHunger(compound);
+    }
 }

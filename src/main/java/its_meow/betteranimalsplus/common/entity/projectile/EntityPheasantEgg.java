@@ -36,7 +36,7 @@ public class EntityPheasantEgg extends EntityModEgg {
 
     @Override
     public Item getDefaultItem() {
-        return ModItems.PHEASANT_EGG;
+        return ModItems.PHEASANT_EGG.get();
     }
 
     @Override
