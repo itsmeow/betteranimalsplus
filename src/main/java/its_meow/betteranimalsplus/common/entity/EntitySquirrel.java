@@ -7,9 +7,7 @@ import its_meow.betteranimalsplus.common.entity.util.abstracts.EntityAnimalWithT
 import its_meow.betteranimalsplus.init.ModEntities;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
-import net.minecraft.entity.AgeableEntity;
-import net.minecraft.entity.ILivingEntityData;
-import net.minecraft.entity.SpawnReason;
+import net.minecraft.entity.*;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -21,6 +19,7 @@ import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.pathfinding.ClimberPathNavigator;
 import net.minecraft.pathfinding.PathNavigator;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.util.Direction;
 import net.minecraft.util.RegistryKey;
 import net.minecraft.util.math.BlockPos;
@@ -32,6 +31,7 @@ import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.BiomeDictionary.Type;
 
+import java.util.Random;
 import java.util.Set;
 
 public class EntitySquirrel extends EntityAnimalWithSelectiveTypes {
@@ -176,4 +176,8 @@ public class EntitySquirrel extends EntityAnimalWithSelectiveTypes {
         return "albino".equals(this.getVariantNameOrEmpty());
     }
 
+    public static boolean canSquirrelSpawn(EntityType<EntitySquirrel> type, IServerWorld world, SpawnReason reason, BlockPos pos, Random rand) {
+        Block below = world.getBlockState(pos.down()).getBlock();
+        return MobEntity.canSpawnOn(type, world, reason, pos, rand) || below.isIn(BlockTags.LEAVES) || below.isIn(BlockTags.LOGS);
+    }
 }

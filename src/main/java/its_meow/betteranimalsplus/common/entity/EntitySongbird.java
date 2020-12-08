@@ -12,10 +12,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.LeavesBlock;
-import net.minecraft.entity.ILivingEntityData;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.MoverType;
-import net.minecraft.entity.SpawnReason;
+import net.minecraft.entity.*;
 import net.minecraft.entity.ai.controller.FlyingMovementController;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.passive.AnimalEntity;
@@ -44,6 +41,7 @@ import net.minecraft.world.biome.Biome;
 import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.BiomeDictionary.Type;
 
+import java.util.Random;
 import java.util.Set;
 
 public class EntitySongbird extends EntityAnimalWithSelectiveTypes implements IFlyingAnimal {
@@ -200,4 +198,8 @@ public class EntitySongbird extends EntityAnimalWithSelectiveTypes implements IF
         return ModEntities.SONGBIRD;
     }
 
+    public static boolean canSongbirdSpawn(EntityType<EntitySongbird> type, IServerWorld world, SpawnReason reason, BlockPos pos, Random rand) {
+        Block below = world.getBlockState(pos.down()).getBlock();
+        return MobEntity.canSpawnOn(type, world, reason, pos, rand) || below.isIn(BlockTags.LEAVES) || below.isIn(BlockTags.LOGS);
+    }
 }
