@@ -10,6 +10,7 @@ import its_meow.betteranimalsplus.init.ModEntities;
 import its_meow.betteranimalsplus.init.ModLootTables;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.controller.DolphinLookController;
 import net.minecraft.entity.ai.controller.MovementController;
@@ -24,6 +25,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.RegistryKey;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
@@ -72,7 +74,7 @@ public class EntityWhale extends EntityWaterMobPathingWithTypesAirBreathing impl
     }
 
     public boolean attackEntityAsMob(Entity entityIn) {
-        boolean flag = entityIn.attackEntityFrom(DamageSource.causeMobDamage(this), (float) (isNarwhal() ? this.getAttribute(Attributes.field_233823_f_).getValue() : 1F));
+        boolean flag = entityIn.attackEntityFrom(DamageSource.causeMobDamage(this), (float) (isNarwhal() ? this.getAttribute(Attributes.ATTACK_DAMAGE).getValue() : 1F));
         if(flag) {
             if(!isNarwhal()) {
                 if(attacksLeft > 0) {
@@ -94,18 +96,18 @@ public class EntityWhale extends EntityWaterMobPathingWithTypesAirBreathing impl
             }
             Vector3d pos = this.getPositionVec();
             Vector3d targetPos = entityIn.getPositionVec();
-            ((LivingEntity) entityIn).func_233627_a_(isNarwhal() ? 0.8F : 2F, pos.x - targetPos.x, pos.z - targetPos.z);
+            ((LivingEntity) entityIn).applyKnockback(isNarwhal() ? 0.8F : 2F, pos.x - targetPos.x, pos.z - targetPos.z);
         }
         return flag;
     }
 
     @Override
-    public String[] getTypesFor(Biome biome, Set<Type> types) {
-        if(biome == Biomes.COLD_OCEAN || biome == Biomes.DEEP_COLD_OCEAN) {
+    public String[] getTypesFor(RegistryKey<Biome> biomeKey, Biome biome, Set<Type> types, SpawnReason reason) {
+        if(biomeKey == Biomes.COLD_OCEAN || biomeKey == Biomes.DEEP_COLD_OCEAN) {
             return new String[] { "bottlenose", "pilot" };
-        } else if(biome == Biomes.DEEP_FROZEN_OCEAN || biome == Biomes.FROZEN_OCEAN) {
+        } else if(biomeKey == Biomes.DEEP_FROZEN_OCEAN || biomeKey == Biomes.FROZEN_OCEAN) {
             return new String[] { "narwhal", "beluga" };
-        } else if(biome == Biomes.DEEP_LUKEWARM_OCEAN || biome == Biomes.DEEP_OCEAN || biome == Biomes.DEEP_WARM_OCEAN) {
+        } else if(biomeKey == Biomes.DEEP_LUKEWARM_OCEAN || biomeKey == Biomes.DEEP_OCEAN || biomeKey == Biomes.DEEP_WARM_OCEAN) {
             return new String[] { "cuviers", "pilot" };
         } else {
             return new String[] { "cuviers", "pilot", "false_killer" };
@@ -147,7 +149,7 @@ public class EntityWhale extends EntityWaterMobPathingWithTypesAirBreathing impl
                     this.whale.rotationYaw = this.limitAngle(this.whale.rotationYaw, f, 10.0F);
                     this.whale.renderYawOffset = this.whale.rotationYaw;
                     this.whale.rotationYawHead = this.whale.rotationYaw;
-                    float f1 = (float) (this.speed * this.whale.getAttribute(Attributes.field_233821_d_).getValue());
+                    float f1 = (float) (this.speed * this.whale.getAttribute(Attributes.MOVEMENT_SPEED).getValue());
                     if(this.whale.isInWater()) {
                         this.whale.setAIMoveSpeed(f1 * 0.02F);
                         float f2 = -((float) (MathHelper.atan2(d1, (double) MathHelper.sqrt(d0 * d0 + d2 * d2)) * (double) (180F / (float) Math.PI)));

@@ -18,6 +18,7 @@ import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.goal.FollowOwnerGoal;
 import net.minecraft.entity.ai.goal.HurtByTargetGoal;
@@ -55,6 +56,7 @@ import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.Hand;
+import net.minecraft.util.RegistryKey;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
@@ -285,7 +287,7 @@ public class EntityFeralWolf extends EntityTameableWithSelectiveTypes implements
      */
     @Override
     public int getVerticalFaceSpeed() {
-        return this.func_233685_eM_() ? 20 : super.getVerticalFaceSpeed();
+        return this.isEntitySleeping() ? 20 : super.getVerticalFaceSpeed();
     }
 
     /**
@@ -313,7 +315,7 @@ public class EntityFeralWolf extends EntityTameableWithSelectiveTypes implements
     @Override
     public boolean attackEntityAsMob(Entity entityIn) {
         boolean flag = entityIn.attackEntityFrom(DamageSource.causeMobDamage(this),
-        (int) this.getAttribute(Attributes.field_233823_f_).getValue());
+        (int) this.getAttribute(Attributes.ATTACK_DAMAGE).getValue());
 
         if(flag) {
             this.applyEnchantments(this, entityIn);
@@ -327,9 +329,9 @@ public class EntityFeralWolf extends EntityTameableWithSelectiveTypes implements
         super.setTamed(tamed);
 
         if(tamed) {
-            this.getAttribute(Attributes.field_233818_a_).setBaseValue(30.0D);
+            this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(30.0D);
         } else {
-            this.getAttribute(Attributes.field_233818_a_).setBaseValue(10.0D);
+            this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(10.0D);
         }
     }
 
@@ -355,7 +357,7 @@ public class EntityFeralWolf extends EntityTameableWithSelectiveTypes implements
 
             if(this.isOwner(player) && !this.world.isRemote && !this.isBreedingItem(itemstack)
             && (!(itemstack.getItem().isFood()) || !(itemstack.getItem().getFood().isMeat()))) {
-                this.func_233687_w_(!this.func_233685_eM_());
+                this.func_233687_w_(!this.isEntitySleeping());
                 this.isJumping = false;
                 this.navigator.clearPath();
                 this.setAttackTarget((LivingEntity) null);
@@ -476,7 +478,7 @@ public class EntityFeralWolf extends EntityTameableWithSelectiveTypes implements
     }
     
     @Override
-    public String[] getTypesFor(Biome biome, Set<BiomeDictionary.Type> types) {
+    public String[] getTypesFor(RegistryKey<Biome> biomeKey, Biome biome, Set<BiomeDictionary.Type> types, SpawnReason reason) {
         if(types.contains(Type.FOREST) && !types.contains(Type.CONIFEROUS)) {
             return new String[] {"timber", "red"};
         } else if(types.contains(Type.CONIFEROUS) && !types.contains(Type.SNOWY)) {

@@ -53,9 +53,11 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.DifficultyInstance;
+import net.minecraft.world.IServerWorld;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -103,11 +105,11 @@ public class EntityWalrus extends AnimalEntity implements IContainerEntity<Entit
     @Override
     public boolean attackEntityAsMob(Entity entityIn) {
         // 1/3 chance to pierce armor
-        boolean flag = entityIn.attackEntityFrom(this.getRNG().nextInt(3) == 0 ? DamageSource.causeMobDamage(this).setDamageBypassesArmor() : DamageSource.causeMobDamage(this), (float) this.getAttribute(Attributes.field_233823_f_).getValue());
+        boolean flag = entityIn.attackEntityFrom(this.getRNG().nextInt(3) == 0 ? DamageSource.causeMobDamage(this).setDamageBypassesArmor() : DamageSource.causeMobDamage(this), (float) this.getAttribute(Attributes.ATTACK_DAMAGE).getValue());
         if(flag) {
             Vector3d pos = this.getPositionVec();
             Vector3d targetPos = entityIn.getPositionVec();
-            ((LivingEntity) entityIn).func_233627_a_(0.5F, pos.x - targetPos.x, pos.z - targetPos.z);
+            ((LivingEntity) entityIn).applyKnockback(0.5F, pos.x - targetPos.x, pos.z - targetPos.z);
         }
         return flag;
     }
@@ -177,8 +179,8 @@ public class EntityWalrus extends AnimalEntity implements IContainerEntity<Entit
     }
 
     @Nullable
-    public ILivingEntityData onInitialSpawn(IWorld worldIn, DifficultyInstance difficultyIn, SpawnReason reason, @Nullable ILivingEntityData spawnDataIn, @Nullable CompoundNBT dataTag) {
-        this.setHome(this.func_233580_cy_());
+    public ILivingEntityData onInitialSpawn(IServerWorld worldIn, DifficultyInstance difficultyIn, SpawnReason reason, @Nullable ILivingEntityData spawnDataIn, @Nullable CompoundNBT dataTag) {
+        this.setHome(this.getPosition());
         this.setTravelPos(BlockPos.ZERO);
         return super.onInitialSpawn(worldIn, difficultyIn, reason, spawnDataIn, dataTag);
     }
@@ -244,7 +246,7 @@ public class EntityWalrus extends AnimalEntity implements IContainerEntity<Entit
         if(!this.isGoingHome() && worldIn.getFluidState(pos).isTagged(FluidTags.WATER)) {
             return 10.0F;
         } else {
-            return BlockTags.ICE.func_230235_a_(worldIn.getBlockState(pos.down()).getBlock()) ? 10.0F : worldIn.getBrightness(pos) - 0.5F;
+            return worldIn.getBlockState(pos.down()).getBlock().isIn(BlockTags.ICE) ? 10.0F : worldIn.getBrightness(pos) - 0.5F;
         }
     }
 
@@ -406,7 +408,7 @@ public class EntityWalrus extends AnimalEntity implements IContainerEntity<Entit
                 float f = (float) (MathHelper.atan2(d2, d0) * (double) (180F / (float) Math.PI)) - 90.0F;
                 this.walrus.rotationYaw = this.limitAngle(this.walrus.rotationYaw, f, 90.0F);
                 this.walrus.renderYawOffset = this.walrus.rotationYaw;
-                float f1 = (float) (this.speed * this.walrus.getAttribute(Attributes.field_233821_d_).getValue());
+                float f1 = (float) (this.speed * this.walrus.getAttribute(Attributes.MOVEMENT_SPEED).getValue());
                 this.walrus.setAIMoveSpeed(MathHelper.lerp(0.125F, this.walrus.getAIMoveSpeed(), f1));
                 this.walrus.setMotion(this.walrus.getMotion().add(0.0D, (double) this.walrus.getAIMoveSpeed() * d1 * 0.1D, 0.0D));
             } else {
@@ -526,7 +528,7 @@ public class EntityWalrus extends AnimalEntity implements IContainerEntity<Entit
     }
 
     @Override
-    public AgeableEntity createChild(AgeableEntity ageable) {
+    public AgeableEntity func_241840_a(ServerWorld world, AgeableEntity ageable) {
         return null;
     }
 

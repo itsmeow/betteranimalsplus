@@ -1,7 +1,5 @@
 package its_meow.betteranimalsplus.common.entity.util.abstracts;
 
-import javax.annotation.Nullable;
-
 import dev.itsmeow.imdlib.entity.util.IVariantTypes;
 import net.minecraft.entity.AgeableEntity;
 import net.minecraft.entity.EntityType;
@@ -10,8 +8,11 @@ import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.world.DifficultyInstance;
-import net.minecraft.world.IWorld;
+import net.minecraft.world.IServerWorld;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
+
+import javax.annotation.Nullable;
 
 public abstract class EntityAnimalWithTypes extends AnimalEntity implements IVariantTypes<EntityAnimalWithTypes> {
 
@@ -39,16 +40,16 @@ public abstract class EntityAnimalWithTypes extends AnimalEntity implements IVar
 
     @Override
     @Nullable
-    public ILivingEntityData onInitialSpawn(IWorld world, DifficultyInstance difficulty, SpawnReason reason, @Nullable ILivingEntityData livingdata, CompoundNBT compound) {
+    public ILivingEntityData onInitialSpawn(IServerWorld world, DifficultyInstance difficulty, SpawnReason reason, @Nullable ILivingEntityData livingdata, CompoundNBT compound) {
         return this.initAgeableData(world, reason, super.onInitialSpawn(world, difficulty, reason, livingdata, compound));
     }
 
     @Override
-    public AgeableEntity createChild(AgeableEntity ageable) {
-        if(!(ageable instanceof IVariantTypes))
+    public AgeableEntity func_241840_a(ServerWorld world, AgeableEntity ageable) {
+        if (!(ageable instanceof IVariantTypes))
             return null;
         IVariantTypes<?> child = getBaseChild();
-        if(child == null)
+        if (child == null)
             return null;
         return (AgeableEntity) child.setType(this.getOffspringType(this, (IVariantTypes<?>) ageable));
     }

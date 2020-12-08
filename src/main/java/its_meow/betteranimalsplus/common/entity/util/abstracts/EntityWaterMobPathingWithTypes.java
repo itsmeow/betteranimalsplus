@@ -8,7 +8,7 @@ import net.minecraft.entity.ILivingEntityData;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.world.DifficultyInstance;
-import net.minecraft.world.IWorld;
+import net.minecraft.world.IServerWorld;
 import net.minecraft.world.World;
 
 public abstract class EntityWaterMobPathingWithTypes extends EntityWaterMobPathing implements IVariantTypes<EntityWaterMobPathing> {
@@ -37,7 +37,7 @@ public abstract class EntityWaterMobPathingWithTypes extends EntityWaterMobPathi
 
     @Override
     @Nullable
-    public ILivingEntityData onInitialSpawn(IWorld world, DifficultyInstance difficulty, SpawnReason reason, @Nullable ILivingEntityData livingdata, CompoundNBT compound) {
+    public ILivingEntityData onInitialSpawn(IServerWorld world, DifficultyInstance difficulty, SpawnReason reason, @Nullable ILivingEntityData livingdata, CompoundNBT compound) {
         return this.initData(world, reason, super.onInitialSpawn(world, difficulty, reason, livingdata, compound));
     }
 

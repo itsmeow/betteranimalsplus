@@ -292,7 +292,7 @@ public class EntityJellyfish extends EntityWaterMobWithTypesBucketable {
     public static void bucketTooltip(EntityTypeContainerBAP<? extends MobEntity> container, ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip) {
         CompoundNBT tag = stack.getTag();
         if(tag != null && tag.contains("JellyfishSizeTag", Constants.NBT.TAG_FLOAT)) {
-            tooltip.add(new StringTextComponent("Size: " + tag.getFloat("JellyfishSizeTag")).func_240699_a_(TextFormatting.ITALIC).func_240699_a_(TextFormatting.GRAY));
+            tooltip.add(new StringTextComponent("Size: " + tag.getFloat("JellyfishSizeTag")).mergeStyle(TextFormatting.ITALIC).mergeStyle(TextFormatting.GRAY));
         }
     }
 

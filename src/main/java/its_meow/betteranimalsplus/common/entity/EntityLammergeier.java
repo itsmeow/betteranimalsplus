@@ -116,13 +116,13 @@ public class EntityLammergeier extends EntityTameableFlyingWithTypes implements 
         this.targetSelector.addGoal(1, new OwnerHurtByTargetGoal(this) {
             @Override
             public boolean shouldExecute() {
-                return !EntityLammergeier.this.func_233685_eM_() && super.shouldExecute();
+                return !EntityLammergeier.this.isEntitySleeping() && super.shouldExecute();
             }
         });
         this.targetSelector.addGoal(2, new OwnerHurtTargetGoal(this) {
             @Override
             public boolean shouldExecute() {
-                return !EntityLammergeier.this.func_233685_eM_() && super.shouldExecute();
+                return !EntityLammergeier.this.isEntitySleeping() && super.shouldExecute();
             }
         });
         this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<SkeletonEntity>(this, SkeletonEntity.class, false) {
@@ -135,7 +135,7 @@ public class EntityLammergeier extends EntityTameableFlyingWithTypes implements 
 
     @Override
     public void setAttackTarget(LivingEntity entitylivingbaseIn) {
-        if(!this.func_233685_eM_()) {
+        if(!this.isEntitySleeping()) {
             super.setAttackTarget(entitylivingbaseIn);
         }
     }
@@ -194,13 +194,13 @@ public class EntityLammergeier extends EntityTameableFlyingWithTypes implements 
                 }
             }
             if(this.isOwner(player) && !this.isBeingRidden() && !this.world.isRemote && this.ticksExisted - this.lastTick > 13 && (itemstack.getItem() == null || !itemstack.isFood())) {
-                if(!this.func_233685_eM_()) {
+                if(!this.isEntitySleeping()) {
                     this.setAttackTarget((LivingEntity) null);
                     this.navigator.clearPath();
                     this.readyToSit = true;
                 } else {
                     this.readyToSit = false;
-                    this.func_233687_w_(!this.func_233685_eM_());
+                    this.func_233687_w_(!this.isEntitySleeping());
                     this.navigator.clearPath();
                 }
                 this.lastTick = this.ticksExisted;
@@ -260,7 +260,7 @@ public class EntityLammergeier extends EntityTameableFlyingWithTypes implements 
 
     @Override
     public boolean attackEntityAsMob(Entity entityIn) {
-        return entityIn.attackEntityFrom(DamageSource.causeMobDamage(this), (float) this.getAttribute(Attributes.field_233823_f_).getValue());
+        return entityIn.attackEntityFrom(DamageSource.causeMobDamage(this), (float) this.getAttribute(Attributes.ATTACK_DAMAGE).getValue());
     }
 
     @Override
@@ -290,9 +290,9 @@ public class EntityLammergeier extends EntityTameableFlyingWithTypes implements 
     public void setTamed(boolean tamed) {
         super.setTamed(tamed);
         if(tamed) {
-            this.getAttribute(Attributes.field_233818_a_).setBaseValue(20.0D);
+            this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(20.0D);
         } else {
-            this.getAttribute(Attributes.field_233818_a_).setBaseValue(6.0D);
+            this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(6.0D);
         }
     }
 
@@ -393,7 +393,7 @@ public class EntityLammergeier extends EntityTameableFlyingWithTypes implements 
 
             // If the entity is not grabbing a target, set it to move to its target
             if(attacker.getPassengers().size() == 0) {
-                this.attacker.navigator.setPath(this.attacker.navigator.getPathToPos(entitylivingbase.func_233580_cy_(), 0), 0.4D);
+                this.attacker.navigator.setPath(this.attacker.navigator.getPathToPos(entitylivingbase.getPosition(), 0), 0.4D);
             } else { // If the entity is grabbing a target, set it to move upwards
                 this.attacker.navigator.setPath(this.attacker.navigator.getPathToPos(new BlockPos(targetX, this.liftY + 15, targetZ), 0), 0.4D);
             }
@@ -423,7 +423,7 @@ public class EntityLammergeier extends EntityTameableFlyingWithTypes implements 
 
             // If the entity is grabbing a target and the block above is solid
             // (stuck)
-            if(attacker.getPassengers().size() == 0 && this.attacker.getEntityWorld().getBlockState(this.attacker.func_233580_cy_().up()).isNormalCube(world, this.attacker.func_233580_cy_().up())) {
+            if(attacker.getPassengers().size() == 0 && this.attacker.getEntityWorld().getBlockState(this.attacker.getPosition().up()).isNormalCube(world, this.attacker.getPosition().up())) {
                 // Release target
                 entitylivingbase.stopRiding();
                 if(entitylivingbase instanceof MobEntity) {
@@ -434,7 +434,7 @@ public class EntityLammergeier extends EntityTameableFlyingWithTypes implements 
                 this.attacker.setAttackTarget(null);
                 // Create a random target position
                 BlockPos rPos = new BlockPos(this.attacker.getRNG().nextInt(50) - 25, this.attacker.getRNG().nextInt(40) - 20, this.attacker.getRNG().nextInt(50) - 25);
-                BlockPos pos = this.attacker.func_233580_cy_();
+                BlockPos pos = this.attacker.getPosition();
                 rPos = rPos.add(pos);
                 // Move to random target position
                 this.attacker.navigator.setPath(this.attacker.navigator.getPathToPos(rPos, 0), 0.4D);
@@ -565,7 +565,7 @@ public class EntityLammergeier extends EntityTameableFlyingWithTypes implements 
             if(!parentEntity.getFlying()) {
                 parentEntity.setFlying(true);
             }
-            double dist = parentEntity.func_233580_cy_().distanceSq(parentEntity.navigator.getPath().getCurrentPos());
+            double dist = parentEntity.getPosition().distanceSq(parentEntity.navigator.getPath().func_242948_g());
             if(dist - lastDist < 0.05D) {
                 timeSinceLastMove++;
                 if(timeSinceLastMove > 60) {
@@ -585,7 +585,7 @@ public class EntityLammergeier extends EntityTameableFlyingWithTypes implements 
                 parentEntity.setFlying(true);
             }
             BlockPos rPos = new BlockPos(this.parentEntity.getRNG().nextInt(50) - 25, this.parentEntity.getRNG().nextInt(40) - 20, this.parentEntity.getRNG().nextInt(50) - 25);
-            BlockPos pos = this.parentEntity.func_233580_cy_();
+            BlockPos pos = this.parentEntity.getPosition();
             rPos = rPos.add(pos);
             this.parentEntity.navigator.tryMoveToXYZ(rPos.getX(), rPos.getY(), rPos.getZ(), 1D);
         }
@@ -618,7 +618,7 @@ public class EntityLammergeier extends EntityTameableFlyingWithTypes implements 
 
         @Override
         public boolean shouldContinueExecuting() {
-            return target != null && this.parentEntity.func_233580_cy_().distanceSq(target) > 1;
+            return target != null && this.parentEntity.getPosition().distanceSq(target) > 1;
         }
 
         @Override
@@ -638,10 +638,10 @@ public class EntityLammergeier extends EntityTameableFlyingWithTypes implements 
         public void tick() {
             if(target != null) {
                 this.parentEntity.navigator.tryMoveToXYZ(target.getX(), target.getY(), target.getZ(), 1.1D);
-                double dist = parentEntity.func_233580_cy_().distanceSq(target);
+                double dist = parentEntity.getPosition().distanceSq(target);
                 World world = parentEntity.world;
-                BlockPos top = parentEntity.getTopSolidOrLiquidBlock(world, parentEntity.func_233580_cy_());
-                if(dist < 3D && top != null && Math.abs(parentEntity.func_233580_cy_().getY() - top.getY()) <= 3) {
+                BlockPos top = parentEntity.getTopSolidOrLiquidBlock(world, parentEntity.getPosition());
+                if(dist < 3D && top != null && Math.abs(parentEntity.getPosition().getY() - top.getY()) <= 3) {
                     parentEntity.setFlying(false);
                     this.target = null;
                     if(parentEntity.readyToSit) {
@@ -667,18 +667,18 @@ public class EntityLammergeier extends EntityTameableFlyingWithTypes implements 
 
     protected boolean isValidLandingPosition(World world, BlockPos pos) {
         BlockState state = world.getBlockState(pos.down());
-        return !state.isAir(world, pos.down()) && world.isAirBlock(pos) && (state.isSolid() || state.isNormalCube(world, pos.down()) || state.getBlock() instanceof LeavesBlock);
+        return !world.isAirBlock(pos.down()) && world.isAirBlock(pos) && (state.isSolid() || state.isNormalCube(world, pos.down()) || state.getBlock() instanceof LeavesBlock);
     }
 
     protected BlockPos findLandingPosition() {
-        if(this.isValidLandingPosition(world, this.func_233580_cy_())) {
-            return this.func_233580_cy_();
+        if(this.isValidLandingPosition(world, this.getPosition())) {
+            return this.getPosition();
         }
         Random random = this.getRNG();
         BlockPos top = null;
         for(int i = 0; i < 10 && top == null; i++) {
-            float x = this.func_233580_cy_().getX() + (readyToSit ? random.nextInt(4) - 2 : random.nextInt(16) - 8F) + 0.5F;
-            float z = this.func_233580_cy_().getZ() + (readyToSit ? random.nextInt(4) - 2 : random.nextInt(16) - 8F) + 0.5F;
+            float x = this.getPosition().getX() + (readyToSit ? random.nextInt(4) - 2 : random.nextInt(16) - 8F) + 0.5F;
+            float z = this.getPosition().getZ() + (readyToSit ? random.nextInt(4) - 2 : random.nextInt(16) - 8F) + 0.5F;
             top = getTopSolidOrLiquidBlock(world, new BlockPos(x, 0, z));
             if(top != null) {
                 float y = top.getY();

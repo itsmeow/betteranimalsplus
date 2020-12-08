@@ -628,7 +628,7 @@ public class ModelLammergeier<T extends LivingEntity> extends EntityModel<T> {
 
         }
 
-        if (lammergeier.func_233685_eM_()) {
+        if (lammergeier.isEntitySleeping()) { // not actually sleeping, sitting
             this.head.rotateAngleX = 0;
         } else {
             this.head.rotateAngleX = -0.81F;

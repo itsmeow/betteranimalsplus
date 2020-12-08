@@ -27,7 +27,7 @@ public abstract class EntitySharkBase extends EntityWaterMobPathingWithSelective
     @Override
     public void updatePassenger(Entity passenger) {
         if(this.isPassenger(passenger)) {
-            BlockPos pos = this.func_233580_cy_().offset(this.getHorizontalFacing()).subtract(this.func_233580_cy_());
+            BlockPos pos = this.getPosition().offset(this.getHorizontalFacing()).subtract(this.getPosition());
             pos = pos.add(pos.getX(), 0, pos.getZ());
             passenger.setPosition(this.getPosX() + this.getMotion().getX() + pos.getX(), this.getPosY() - (this.getHeight() / 2) + this.getMotion().getY(), this.getPosZ() + this.getMotion().getZ() + pos.getZ());
             if (passenger instanceof LivingEntity && (this.getAttackTarget() == null || this.getAttackTarget() != passenger)) {
@@ -69,7 +69,7 @@ public abstract class EntitySharkBase extends EntityWaterMobPathingWithSelective
 
     @Override
     public boolean attackEntityAsMob(Entity entityIn) {
-        float f = (float) this.getAttribute(Attributes.field_233823_f_).getValue();
+        float f = (float) this.getAttribute(Attributes.ATTACK_DAMAGE).getValue();
         int i = 0;
 
         if (entityIn instanceof LivingEntity) {
@@ -81,7 +81,7 @@ public abstract class EntitySharkBase extends EntityWaterMobPathingWithSelective
 
         if (flag) {
             if (i > 0 && entityIn instanceof LivingEntity) {
-                ((PlayerEntity) entityIn).func_233627_a_(i * 0.5F, MathHelper.sin(this.rotationYaw * 0.017453292F), (-MathHelper.cos(this.rotationYaw * 0.017453292F)));
+                ((PlayerEntity) entityIn).applyKnockback(i * 0.5F, MathHelper.sin(this.rotationYaw * 0.017453292F), (-MathHelper.cos(this.rotationYaw * 0.017453292F)));
             }
 
             int j = EnchantmentHelper.getFireAspectModifier(this);

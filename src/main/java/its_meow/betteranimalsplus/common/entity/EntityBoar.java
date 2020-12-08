@@ -19,6 +19,7 @@ import net.minecraft.entity.AgeableEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.goal.BreedGoal;
 import net.minecraft.entity.ai.goal.FollowParentGoal;
@@ -42,6 +43,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.pathfinding.PathNodeType;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.RegistryKey;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
@@ -52,6 +54,7 @@ import net.minecraft.world.Difficulty;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.BiomeDictionary.Type;
 
@@ -123,11 +126,11 @@ public class EntityBoar extends EntityAnimalWithSelectiveTypes implements IMob, 
     public boolean attackEntityAsMob(Entity entityIn) {
         Vector3d pos = this.getPositionVec();
         Vector3d targetPos = entityIn.getPositionVec();
-        ((LivingEntity) entityIn).func_233627_a_(0.8F, pos.x - targetPos.x, pos.z - targetPos.z);
+        ((LivingEntity) entityIn).applyKnockback(0.8F, pos.x - targetPos.x, pos.z - targetPos.z);
 
         // Vanilla attack code for mobs
 
-        float f = (float) this.getAttribute(Attributes.field_233823_f_).getValue();
+        float f = (float) this.getAttribute(Attributes.ATTACK_DAMAGE).getValue();
         int i = 0;
 
         if (entityIn instanceof LivingEntity) {
@@ -140,7 +143,7 @@ public class EntityBoar extends EntityAnimalWithSelectiveTypes implements IMob, 
 
         if (flag) {
             if (i > 0 && entityIn instanceof LivingEntity) {
-                ((LivingEntity) entityIn).func_233627_a_(i * 0.5F, MathHelper.sin(this.rotationYaw * 0.017453292F),
+                ((LivingEntity) entityIn).applyKnockback(i * 0.5F, MathHelper.sin(this.rotationYaw * 0.017453292F),
                 -MathHelper.cos(this.rotationYaw * 0.017453292F));
                 this.setMotion(this.getMotion().getX() * 0.6D, this.getMotion().getY(), this.getMotion().getZ() * 0.6D);
             }
@@ -175,13 +178,10 @@ public class EntityBoar extends EntityAnimalWithSelectiveTypes implements IMob, 
         return flag;
     }
 
-    /**
-     * Called when a lightning bolt hits the entity.
-     */
     @Override
-    public void onStruckByLightning(LightningBoltEntity lightningBolt) {
+    public void func_241841_a(ServerWorld p_241841_1_, LightningBoltEntity p_241841_2_) {
         if (!this.world.isRemote && !this.dead) {
-            ZombifiedPiglinEntity entitypigzombie = EntityType.field_233592_ba_.create(this.world);
+            ZombifiedPiglinEntity entitypigzombie = EntityType.ZOMBIFIED_PIGLIN.create(this.world);
             entitypigzombie.setItemStackToSlot(EquipmentSlotType.MAINHAND, new ItemStack(Items.GOLDEN_SWORD));
             entitypigzombie.setLocationAndAngles(this.getPosX(), this.getPosY(), this.getPosZ(), this.rotationYaw, this.rotationPitch);
             entitypigzombie.setNoAI(this.isAIDisabled());
@@ -197,7 +197,7 @@ public class EntityBoar extends EntityAnimalWithSelectiveTypes implements IMob, 
     }
 
     @Override
-    public AgeableEntity createChild(AgeableEntity ageable) {
+    public AgeableEntity func_241840_a(ServerWorld world, AgeableEntity ageable) {
         if (ageable instanceof EntityBoar) {
             EntityBoar boar = new EntityBoar(this.world);
             boar.setType(this.getVariant().get());
@@ -236,7 +236,7 @@ public class EntityBoar extends EntityAnimalWithSelectiveTypes implements IMob, 
     }
 
     @Override
-    public String[] getTypesFor(Biome biome, Set<BiomeDictionary.Type> types) {
+    public String[] getTypesFor(RegistryKey<Biome> biomeKey, Biome biome, Set<BiomeDictionary.Type> types, SpawnReason reason) {
         if(types.contains(Type.FOREST) && !types.contains(Type.CONIFEROUS)) {
             return new String[] {"1", "2", "3"};
         } else if(types.contains(Type.CONIFEROUS) && !types.contains(Type.SNOWY)) {

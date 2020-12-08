@@ -75,7 +75,7 @@ public class EntityBobbitWorm extends EntityAnimalWithTypes {
 
     @Override
     public boolean attackEntityAsMob(Entity entityIn) {
-        return entityIn.attackEntityFrom(DamageSource.causeMobDamage(this), (float) this.getAttribute(Attributes.field_233823_f_).getValue());
+        return entityIn.attackEntityFrom(DamageSource.causeMobDamage(this), (float) this.getAttribute(Attributes.ATTACK_DAMAGE).getValue());
     }
 
     @Nullable
@@ -86,7 +86,7 @@ public class EntityBobbitWorm extends EntityAnimalWithTypes {
                 return pos;
             }
         }
-        if(world.getBlockState(this.func_233580_cy_().down()).getBlock() == Blocks.WATER) {
+        if(world.getBlockState(this.getPosition().down()).getBlock() == Blocks.WATER) {
             return new Vector3d(this.getPosX(), this.getPosY() - 1D, this.getPosZ());
         }
         return null;
@@ -142,21 +142,21 @@ public class EntityBobbitWorm extends EntityAnimalWithTypes {
             if(this.targetPosition != null) {
                 this.setMotion((this.targetPosition.x - this.getPosX()) * 0.05F, (this.targetPosition.y - this.getPosY()) * 0.05F, (this.targetPosition.z - this.getPosZ()) * 0.05F);
             }
-            if(targetPosition != null && Math.sqrt(this.func_233580_cy_().distanceSq(this.targetPosition.x, this.targetPosition.y, this.targetPosition.z, false)) < 1) {
+            if(targetPosition != null && Math.sqrt(this.getPosition().distanceSq(this.targetPosition.x, this.targetPosition.y, this.targetPosition.z, false)) < 1) {
                 this.setMotion(this.getMotion().getX() * 0.2F, this.getMotion().getY(), this.getMotion().getZ() * 0.2F);
             }
         }
         if(world.isRemote) { // shut up client stop MOVING you stupid idiot
             this.setMotion(this.getMotion().getX() * 0.2F, this.getMotion().getY() * 0.2F, this.getMotion().getZ() * 0.2F);
         }
-        boolean goodPos = this.isGoodBurrowingPosition(this.func_233580_cy_());
+        boolean goodPos = this.isGoodBurrowingPosition(this.getPosition());
         if(this.targetPosition == null && !goodPos) {
             Vector3d pos = this.getNewTargetPosition();
             if(pos != null) {
                 this.targetPosition = pos;
             }
         }
-        if(targetPosition != null && Math.sqrt(this.func_233580_cy_().distanceSq(this.targetPosition.x, this.targetPosition.y, this.targetPosition.z, false)) < 1 && !goodPos) {
+        if(targetPosition != null && Math.sqrt(this.getPosition().distanceSq(this.targetPosition.x, this.targetPosition.y, this.targetPosition.z, false)) < 1 && !goodPos) {
             this.targetPosition = null;
         }
         if(this.getAttackState() > 0) {

@@ -26,7 +26,7 @@ public class HonkPacket {
             if(ctx.get().getDirection() == NetworkDirection.PLAY_TO_SERVER) {
                 ctx.get().enqueueWork(() -> {
                     if(BetterAnimalsPlusMod.isDev(ctx.get().getSender()) && SafeSyncThing.get(ctx.get().getSender().getGameProfile().getId()).on) {
-                        ctx.get().getSender().world.playSound(null, ctx.get().getSender().func_233580_cy_(), ModSoundEvents.GOOSE_AMBIENT, SoundCategory.PLAYERS, 2F, 1F);
+                        ctx.get().getSender().world.playSound(null, ctx.get().getSender().getPosition(), ModSoundEvents.GOOSE_AMBIENT, SoundCategory.PLAYERS, 2F, 1F);
                     }
                 });
             }

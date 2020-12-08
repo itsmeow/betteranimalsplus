@@ -58,8 +58,9 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.world.DifficultyInstance;
-import net.minecraft.world.IWorld;
+import net.minecraft.world.IServerWorld;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -142,7 +143,7 @@ public class EntityReindeer extends AnimalEntity implements IJumpingMount, IVari
                     return ActionResultType.SUCCESS;
                 }
 
-                if(itemstack.func_111282_a_(player, this, hand) == ActionResultType.SUCCESS) {
+                if(itemstack.interactWithEntity(player, this, hand) == ActionResultType.SUCCESS) {
                     return ActionResultType.SUCCESS;
                 }
 
@@ -172,7 +173,7 @@ public class EntityReindeer extends AnimalEntity implements IJumpingMount, IVari
     }
 
     @Override
-    public AgeableEntity createChild(AgeableEntity ageable) {
+    public AgeableEntity func_241840_a(ServerWorld world, AgeableEntity ageable) {
         EntityReindeer reindeer = new EntityReindeer(this.world);
         this.setOffspringAttributes(ageable, reindeer);
         if(ageable instanceof EntityReindeer) {
@@ -307,7 +308,7 @@ public class EntityReindeer extends AnimalEntity implements IJumpingMount, IVari
     }
 
     public double getReindeerJumpStrength() {
-        return this.getAttribute(Attributes.field_233830_m_).getValue();
+        return this.getAttribute(Attributes.HORSE_JUMP_STRENGTH).getValue();
     }
 
     @Override
@@ -721,7 +722,7 @@ public class EntityReindeer extends AnimalEntity implements IJumpingMount, IVari
             this.jumpMovementFactor = this.getAIMoveSpeed() * 0.1F;
 
             if (this.canPassengerSteer()) {
-                this.setAIMoveSpeed((float) this.getAttribute(Attributes.field_233821_d_).getValue());
+                this.setAIMoveSpeed((float) this.getAttribute(Attributes.MOVEMENT_SPEED).getValue());
                 super.travel(vec);
             } else if (entitylivingbase instanceof PlayerEntity) {
                 this.setMotion(0,0,0);
@@ -795,12 +796,12 @@ public class EntityReindeer extends AnimalEntity implements IJumpingMount, IVari
     }
 
     protected void setOffspringAttributes(AgeableEntity p_190681_1_, EntityReindeer p_190681_2_) {
-        double d0 = this.func_233638_c_(Attributes.field_233818_a_) + p_190681_1_.func_233638_c_(Attributes.field_233818_a_) + (double) this.getModifiedMaxHealth();
-        p_190681_2_.getAttribute(Attributes.field_233818_a_).setBaseValue(d0 / 3.0D);
-        double d1 = this.func_233638_c_(Attributes.field_233830_m_) + p_190681_1_.func_233638_c_(Attributes.field_233830_m_) + this.getModifiedJumpStrength();
-        p_190681_2_.getAttribute(Attributes.field_233830_m_).setBaseValue(d1 / 3.0D);
-        double d2 = this.func_233638_c_(Attributes.field_233821_d_) + p_190681_1_.func_233638_c_(Attributes.field_233821_d_) + this.getModifiedMovementSpeed();
-        p_190681_2_.getAttribute(Attributes.field_233821_d_).setBaseValue(d2 / 3.0D);
+        double d0 = this.getBaseAttributeValue(Attributes.MAX_HEALTH) + p_190681_1_.getBaseAttributeValue(Attributes.MAX_HEALTH) + (double) this.getModifiedMaxHealth();
+        p_190681_2_.getAttribute(Attributes.MAX_HEALTH).setBaseValue(d0 / 3.0D);
+        double d1 = this.getBaseAttributeValue(Attributes.HORSE_JUMP_STRENGTH) + p_190681_1_.getBaseAttributeValue(Attributes.HORSE_JUMP_STRENGTH) + this.getModifiedJumpStrength();
+        p_190681_2_.getAttribute(Attributes.HORSE_JUMP_STRENGTH).setBaseValue(d1 / 3.0D);
+        double d2 = this.getBaseAttributeValue(Attributes.MOVEMENT_SPEED) + p_190681_1_.getBaseAttributeValue(Attributes.MOVEMENT_SPEED) + this.getModifiedMovementSpeed();
+        p_190681_2_.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(d2 / 3.0D);
     }
 
     /**
@@ -950,10 +951,10 @@ public class EntityReindeer extends AnimalEntity implements IJumpingMount, IVari
 
     @Override
     @Nullable
-    public ILivingEntityData onInitialSpawn(IWorld world, DifficultyInstance difficulty, SpawnReason reason, @Nullable ILivingEntityData livingdata, CompoundNBT compound) {
-        this.getAttribute(Attributes.field_233818_a_).setBaseValue((double) this.getModifiedMaxHealth());
-        this.getAttribute(Attributes.field_233821_d_).setBaseValue(this.getModifiedMovementSpeed());
-        this.getAttribute(Attributes.field_233830_m_).setBaseValue(this.getModifiedJumpStrength());
+    public ILivingEntityData onInitialSpawn(IServerWorld world, DifficultyInstance difficulty, SpawnReason reason, @Nullable ILivingEntityData livingdata, CompoundNBT compound) {
+        this.getAttribute(Attributes.MAX_HEALTH).setBaseValue((double) this.getModifiedMaxHealth());
+        this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(this.getModifiedMovementSpeed());
+        this.getAttribute(Attributes.HORSE_JUMP_STRENGTH).setBaseValue(this.getModifiedJumpStrength());
         return this.initAgeableData(world, reason, super.onInitialSpawn(world, difficulty, reason, livingdata, compound));
     }
 

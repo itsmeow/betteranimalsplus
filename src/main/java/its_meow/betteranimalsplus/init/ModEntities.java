@@ -81,10 +81,10 @@ public class ModEntities {
      */
 
     public static final EntityTypeContainerBAP<EntityBear> BROWN_BEAR = setup(create(EntityBear.class, EntityBear::new, "brownbear", () -> MobEntity.func_233666_p_()
-    .func_233815_a_(Attributes.field_233818_a_, 30.0D)
+    .func_233815_a_(Attributes.MAX_HEALTH, 30.0D)
     .func_233815_a_(Attributes.field_233819_b_, 20.0D)
-    .func_233815_a_(Attributes.field_233821_d_, 0.3D)
-    .func_233815_a_(Attributes.field_233823_f_, 6.0D)
+    .func_233815_a_(Attributes.MOVEMENT_SPEED, 0.3D)
+    .func_233815_a_(Attributes.ATTACK_DAMAGE, 6.0D)
     .func_233814_a_(Attributes.field_233825_h_)
     .func_233815_a_(Attributes.field_233825_h_, 1D))
     .spawn(EntityClassification.CREATURE, 7, 1, 1)
@@ -94,10 +94,10 @@ public class ModEntities {
     .head().singleton("1", "bear_brown").setModel(() -> ModelBearHead::new).done());
 
     public static final EntityTypeContainerBAP<EntityBearNeutral> BLACK_BEAR = setup(create(EntityBearNeutral.class, EntityBearNeutral::new, "blackbear", () -> MobEntity.func_233666_p_()
-    .func_233815_a_(Attributes.field_233818_a_, 30.0D)
+    .func_233815_a_(Attributes.MAX_HEALTH, 30.0D)
     .func_233815_a_(Attributes.field_233819_b_, 20.0D)
-    .func_233815_a_(Attributes.field_233821_d_, 0.3D)
-    .func_233815_a_(Attributes.field_233823_f_, 6.0D)
+    .func_233815_a_(Attributes.MOVEMENT_SPEED, 0.3D)
+    .func_233815_a_(Attributes.ATTACK_DAMAGE, 6.0D)
     .func_233814_a_(Attributes.field_233825_h_)
     .func_233815_a_(Attributes.field_233825_h_, 1D))
     .spawn(EntityClassification.CREATURE, 6, 1, 1)
@@ -108,8 +108,8 @@ public class ModEntities {
     .head().mapToNames().setModel(() -> ModelBearHead::new).done());
 
     public static final EntityTypeContainerBAP<EntityDeer> DEER = setup(create(EntityDeer.class, EntityDeer::new, "deer", () -> MobEntity.func_233666_p_()
-    .func_233815_a_(Attributes.field_233818_a_, 15.0D)
-    .func_233815_a_(Attributes.field_233821_d_, 0.45D))
+    .func_233815_a_(Attributes.MAX_HEALTH, 15.0D)
+    .func_233815_a_(Attributes.MOVEMENT_SPEED, 0.45D))
     .spawn(EntityClassification.CREATURE, 16, 1, 4)
     .egg(0x8e510b, 0xc6863b)
     .size(1.2F, 1.6F)
@@ -122,14 +122,14 @@ public class ModEntities {
 
     public static final EntityTypeContainerBAPTameable<EntityLammergeier> LAMMERGEIER = setup(createTame(EntityLammergeier.class, EntityLammergeier::new, "lammergeier", () -> MobEntity.func_233666_p_()
     .func_233814_a_(Attributes.field_233825_h_)
-    .func_233814_a_(Attributes.field_233823_f_)
+    .func_233814_a_(Attributes.ATTACK_DAMAGE)
     .func_233814_a_(Attributes.field_233822_e_)
-    .func_233815_a_(Attributes.field_233818_a_, 6.0D)
+    .func_233815_a_(Attributes.MAX_HEALTH, 6.0D)
     .func_233815_a_(Attributes.field_233819_b_, 100.0D)
-    .func_233815_a_(Attributes.field_233823_f_, 2.0D)
+    .func_233815_a_(Attributes.ATTACK_DAMAGE, 2.0D)
     .func_233815_a_(Attributes.field_233825_h_, 1.0D)
     .func_233815_a_(Attributes.field_233822_e_, 1.0D)
-    .func_233815_a_(Attributes.field_233821_d_, 0.4D))
+    .func_233815_a_(Attributes.MOVEMENT_SPEED, 0.4D))
     .spawn(EntityClassification.CREATURE, 7, 1, 2)
     .egg(0xd8d8d8, 0xd82b11)
     .size(0.75F, 0.5F)
@@ -138,10 +138,10 @@ public class ModEntities {
     .variants("orange", "red", "white", "yellow"));
 
     public static final EntityTypeContainerBAPTameable<EntityFeralWolf> FERAL_WOLF = setup(createTame(EntityFeralWolf.class, EntityFeralWolf::new, "feralwolf", () -> MobEntity.func_233666_p_()
-    .func_233815_a_(Attributes.field_233821_d_, 0.3D)
-    .func_233815_a_(Attributes.field_233818_a_, 10.0D)
-    .func_233814_a_(Attributes.field_233823_f_)
-    .func_233815_a_(Attributes.field_233823_f_, 5.0D))
+    .func_233815_a_(Attributes.MOVEMENT_SPEED, 0.3D)
+    .func_233815_a_(Attributes.MAX_HEALTH, 10.0D)
+    .func_233814_a_(Attributes.ATTACK_DAMAGE)
+    .func_233815_a_(Attributes.ATTACK_DAMAGE, 5.0D))
     .spawn(EntityClassification.CREATURE, 7, 1, 6)
     .egg(0xbababa, 0x232323)
     .size(1.35F, 1.5F)
@@ -151,10 +151,10 @@ public class ModEntities {
     .head().mapToNames().allowFloor().setModel(() -> ModelFeralWolfHead::new).done());
 
     public static final EntityTypeContainerBAPTameable<EntityCoyote> COYOTE = setup(createTame(EntityCoyote.class, EntityCoyote::new, "coyote", () -> MobEntity.func_233666_p_()
-    .func_233815_a_(Attributes.field_233821_d_, 0.3D)
-    .func_233815_a_(Attributes.field_233818_a_, 10.0D)
-    .func_233814_a_(Attributes.field_233823_f_)
-    .func_233815_a_(Attributes.field_233823_f_, 5.0D))
+    .func_233815_a_(Attributes.MOVEMENT_SPEED, 0.3D)
+    .func_233815_a_(Attributes.MAX_HEALTH, 10.0D)
+    .func_233814_a_(Attributes.ATTACK_DAMAGE)
+    .func_233815_a_(Attributes.ATTACK_DAMAGE, 5.0D))
     .spawn(EntityClassification.CREATURE, 5, 1, 6)
     .egg(0x866a31, 0xb69762)
     .size(0.8F, 0.9F)
@@ -182,11 +182,11 @@ public class ModEntities {
     .biomes(Type.SANDY));
 
     public static final EntityTypeContainerBAP<EntityHirschgeist> HIRSCHGEIST = setup(create(EntityHirschgeist.class, EntityHirschgeist::new, "hirschgeist", () -> MobEntity.func_233666_p_()
-    .func_233815_a_(Attributes.field_233818_a_, 150.0D)
+    .func_233815_a_(Attributes.MAX_HEALTH, 150.0D)
     .func_233815_a_(Attributes.field_233819_b_, 50.0D)
-    .func_233815_a_(Attributes.field_233821_d_, 0.65D)
-    .func_233814_a_(Attributes.field_233823_f_)
-    .func_233815_a_(Attributes.field_233823_f_, 6.0D))
+    .func_233815_a_(Attributes.MOVEMENT_SPEED, 0.65D)
+    .func_233814_a_(Attributes.ATTACK_DAMAGE)
+    .func_233815_a_(Attributes.ATTACK_DAMAGE, 6.0D))
     .spawn(EntityClassification.CREATURE, 2, 1, 1)
     .egg(0xfffff, 0x00000)
     .size(3F, 4F)
@@ -194,10 +194,10 @@ public class ModEntities {
     .head("hirschgeistskull").allowFloor().offset(-0.2F).singleton("1", "hirschgeist").setModel(() -> ModelHirschgeistSkull::new).done());
 
     public static final EntityTypeContainerBAP<EntityGoat> GOAT = setup(create(EntityGoat.class, EntityGoat::new, "goat", () -> MobEntity.func_233666_p_()
-    .func_233815_a_(Attributes.field_233818_a_, 14.0D)
-    .func_233815_a_(Attributes.field_233821_d_, 0.5D)
-    .func_233814_a_(Attributes.field_233823_f_)
-    .func_233815_a_(Attributes.field_233823_f_, 0.8D))
+    .func_233815_a_(Attributes.MAX_HEALTH, 14.0D)
+    .func_233815_a_(Attributes.MOVEMENT_SPEED, 0.5D)
+    .func_233814_a_(Attributes.ATTACK_DAMAGE)
+    .func_233815_a_(Attributes.ATTACK_DAMAGE, 0.8D))
     .spawn(EntityClassification.CREATURE, 9, 1, 4)
     .egg(0xffffff, 0xeeeeee).size(1.2F, 1.2F)
     .biomes(Type.HILLS, Type.MOUNTAIN, Type.SAVANNA, Type.PLAINS, Type.FOREST)
@@ -217,7 +217,7 @@ public class ModEntities {
     .variants(7));
 
     public static final EntityTypeContainerBAP<EntityJellyfish> JELLYFISH = setup(create(EntityJellyfish.class, EntityJellyfish::new, "jellyfish", () -> MobEntity.func_233666_p_()
-    .func_233815_a_(Attributes.field_233818_a_, 10.0D))
+    .func_233815_a_(Attributes.MAX_HEALTH, 10.0D))
     .spawn(EntityClassification.WATER_CREATURE, 10, 1, 1)
     .waterPlacement()
     .egg(0x226fe2, 0xf2b3b3)
@@ -228,8 +228,8 @@ public class ModEntities {
     .bucketable(EntityJellyfish::bucketTooltip));
 
     public static final EntityTypeContainerBAP<EntityPheasant> PHEASANT = setup(create(EntityPheasant.class, EntityPheasant::new, "pheasant", () -> MobEntity.func_233666_p_()
-    .func_233815_a_(Attributes.field_233818_a_, 4.0D)
-    .func_233815_a_(Attributes.field_233821_d_, 0.25D))
+    .func_233815_a_(Attributes.MAX_HEALTH, 4.0D)
+    .func_233815_a_(Attributes.MOVEMENT_SPEED, 0.25D))
     .spawn(EntityClassification.CREATURE, 12, 1, 3)
     .egg(0x8e6b0b, 0xd8af3c)
     .size(1F, 1F)
@@ -238,8 +238,8 @@ public class ModEntities {
 
     public static final EntityTypeContainerBAP<EntityReindeer> REINDEER = setup(create(EntityReindeer.class, EntityReindeer::new, "reindeer", () -> MobEntity.func_233666_p_()
     .func_233814_a_(Attributes.field_233830_m_)
-    .func_233815_a_(Attributes.field_233818_a_, 53.0D)
-    .func_233815_a_(Attributes.field_233821_d_, 0.225D))
+    .func_233815_a_(Attributes.MAX_HEALTH, 53.0D)
+    .func_233815_a_(Attributes.MOVEMENT_SPEED, 0.225D))
     .spawn(EntityClassification.CREATURE, 10, 1, 4)
     .egg(0x8e510b, 0x017700).size(1.3964844F, 1.8F)
     .biomes(BiomeListBuilder.create().withTypes(Type.SNOWY).withoutTypes(Type.OCEAN)::collect)
@@ -268,10 +268,10 @@ public class ModEntities {
     }));
 
     public static final EntityTypeContainerBAP<EntityBoar> BOAR = setup(create(EntityBoar.class, EntityBoar::new, "boar", () -> MobEntity.func_233666_p_()
-    .func_233815_a_(Attributes.field_233818_a_, 12.0D)
-    .func_233815_a_(Attributes.field_233821_d_, 0.38D)
-    .func_233814_a_(Attributes.field_233823_f_)
-    .func_233815_a_(Attributes.field_233823_f_, 3.5D))
+    .func_233815_a_(Attributes.MAX_HEALTH, 12.0D)
+    .func_233815_a_(Attributes.MOVEMENT_SPEED, 0.38D)
+    .func_233814_a_(Attributes.ATTACK_DAMAGE)
+    .func_233815_a_(Attributes.ATTACK_DAMAGE, 3.5D))
     .spawn(EntityClassification.CREATURE, 9, 1, 4)
     .egg(0x3d3c3b, 0xbca895).size(0.9F, 0.9F)
     .biomes(Type.FOREST, Type.JUNGLE, Type.PLAINS, Type.SAVANNA)
@@ -279,8 +279,8 @@ public class ModEntities {
     .head().mapToNames().setModel(() -> ModelBoarHead::new).done());
 
     public static final EntityTypeContainerBAP<EntitySquirrel> SQUIRREL = setup(create(EntitySquirrel.class, EntitySquirrel::new, "squirrel", () -> MobEntity.func_233666_p_()
-    .func_233815_a_(Attributes.field_233818_a_, 4.5D)
-    .func_233815_a_(Attributes.field_233821_d_, 0.5D))
+    .func_233815_a_(Attributes.MAX_HEALTH, 4.5D)
+    .func_233815_a_(Attributes.MOVEMENT_SPEED, 0.5D))
     .spawn(EntityClassification.CREATURE, 8, 1, 3)
     .egg(0x89806f, 0xb2a489)
     .size(0.5F, 0.5F)
@@ -289,9 +289,9 @@ public class ModEntities {
 
     public static final EntityTypeContainerBAP<EntitySongbird> SONGBIRD = setup(create(EntitySongbird.class, EntitySongbird::new, "songbird", () -> MobEntity.func_233666_p_()
     .func_233814_a_(Attributes.field_233822_e_)
-    .func_233815_a_(Attributes.field_233818_a_, 6.0D)
+    .func_233815_a_(Attributes.MAX_HEALTH, 6.0D)
     .func_233815_a_(Attributes.field_233822_e_, 0.4D)
-    .func_233815_a_(Attributes.field_233821_d_, 0.2D))
+    .func_233815_a_(Attributes.MOVEMENT_SPEED, 0.2D))
     .spawn(EntityClassification.CREATURE, 11, 1, 4)
     .egg(0x46f4d2, 0x7df442)
     .size(0.5F, 0.5F)
@@ -299,10 +299,10 @@ public class ModEntities {
     .variants("1", "2", "3", "4", "small_1", "small_2", "small_3", "small_4", "small_5", "small_6"));
 
     public static final EntityTypeContainerBAP<EntityBadger> BADGER = setup(create(EntityBadger.class, EntityBadger::new, "badger", () -> MobEntity.func_233666_p_()
-    .func_233815_a_(Attributes.field_233818_a_, 12.0D)
-    .func_233815_a_(Attributes.field_233821_d_, 0.4D)
-    .func_233814_a_(Attributes.field_233823_f_)
-    .func_233815_a_(Attributes.field_233823_f_, 2.5D))
+    .func_233815_a_(Attributes.MAX_HEALTH, 12.0D)
+    .func_233815_a_(Attributes.MOVEMENT_SPEED, 0.4D)
+    .func_233814_a_(Attributes.ATTACK_DAMAGE)
+    .func_233815_a_(Attributes.ATTACK_DAMAGE, 2.5D))
     .spawn(EntityClassification.CREATURE, 7, 1, 2)
     .egg(0x0c0c0c, 0xd3d3d3)
     .size(0.8F, 0.8F)
@@ -310,10 +310,10 @@ public class ModEntities {
     .variants("american", "european", "honey"));
 
     public static final EntityTypeContainerBAP<EntityLamprey> LAMPREY = setup(create(EntityLamprey.class, EntityLamprey::new, "lamprey", () -> MobEntity.func_233666_p_()
-    .func_233815_a_(Attributes.field_233818_a_, 3.0D)
-    .func_233815_a_(Attributes.field_233821_d_, 0.8D)
-    .func_233814_a_(Attributes.field_233823_f_)
-    .func_233815_a_(Attributes.field_233823_f_, 0.5D))
+    .func_233815_a_(Attributes.MAX_HEALTH, 3.0D)
+    .func_233815_a_(Attributes.MOVEMENT_SPEED, 0.8D)
+    .func_233814_a_(Attributes.ATTACK_DAMAGE)
+    .func_233815_a_(Attributes.ATTACK_DAMAGE, 0.5D))
     .spawn(EntityClassification.WATER_CREATURE, 7, 1, 1)
     .waterPlacement().egg(0x0000ad, 0x0a0a0a)
     .size(1.0F, 0.7F)
@@ -323,8 +323,8 @@ public class ModEntities {
     .bucketable());
 
     public static final EntityTypeContainerBAP<EntityNautilus> NAUTILUS = setup(create(EntityNautilus.class, EntityNautilus::new, "nautilus", () -> MobEntity.func_233666_p_()
-    .func_233815_a_(Attributes.field_233818_a_, 5.0D)
-    .func_233815_a_(Attributes.field_233821_d_, 0.25D))
+    .func_233815_a_(Attributes.MAX_HEALTH, 5.0D)
+    .func_233815_a_(Attributes.MOVEMENT_SPEED, 0.25D))
     .spawn(EntityClassification.WATER_CREATURE, 4, 1, 1)
     .waterPlacement()
     .egg(0xFF9659, 0x241682)
@@ -334,10 +334,10 @@ public class ModEntities {
     .bucketable());
 
     public static final EntityTypeContainerBAP<EntityCrab> CRAB = setup(create(EntityCrab.class, EntityCrab::new, "crab", () -> MobEntity.func_233666_p_()
-    .func_233815_a_(Attributes.field_233818_a_, 6.5D)
-    .func_233815_a_(Attributes.field_233821_d_, 0.3D)
-    .func_233814_a_(Attributes.field_233823_f_)
-    .func_233815_a_(Attributes.field_233823_f_, 3D))
+    .func_233815_a_(Attributes.MAX_HEALTH, 6.5D)
+    .func_233815_a_(Attributes.MOVEMENT_SPEED, 0.3D)
+    .func_233814_a_(Attributes.ATTACK_DAMAGE)
+    .func_233815_a_(Attributes.ATTACK_DAMAGE, 3D))
     .spawn(EntityClassification.CREATURE, 10, 1, 3)
     .egg(0xe21d16, 0x2d0504)
     .size(1F, 0.65F)
@@ -345,10 +345,10 @@ public class ModEntities {
     .variants(4));
 
     public static final EntityTypeContainerBAP<EntityHorseshoeCrab> HORSESHOE_CRAB = setup(create(EntityHorseshoeCrab.class, EntityHorseshoeCrab::new, "horseshoecrab", () -> MobEntity.func_233666_p_()
-    .func_233815_a_(Attributes.field_233818_a_, 6.5D)
-    .func_233815_a_(Attributes.field_233821_d_, 0.3D)
-    .func_233814_a_(Attributes.field_233823_f_)
-    .func_233815_a_(Attributes.field_233823_f_, 3D))
+    .func_233815_a_(Attributes.MAX_HEALTH, 6.5D)
+    .func_233815_a_(Attributes.MOVEMENT_SPEED, 0.3D)
+    .func_233814_a_(Attributes.ATTACK_DAMAGE)
+    .func_233815_a_(Attributes.ATTACK_DAMAGE, 3D))
     .spawn(EntityClassification.CREATURE, 8, 1, 3)
     .egg(0xba1111, 0x520807)
     .size(1F, 0.65F)
@@ -356,10 +356,10 @@ public class ModEntities {
     .variants(3));
 
     public static final EntityTypeContainerBAP<EntityShark> SHARK = setup(create(EntityShark.class, EntityShark::new, "shark", () -> MobEntity.func_233666_p_()
-    .func_233815_a_(Attributes.field_233818_a_, 30D)
-    .func_233815_a_(Attributes.field_233821_d_, 1.5D)
-    .func_233814_a_(Attributes.field_233823_f_)
-    .func_233815_a_(Attributes.field_233823_f_, 6D))
+    .func_233815_a_(Attributes.MAX_HEALTH, 30D)
+    .func_233815_a_(Attributes.MOVEMENT_SPEED, 1.5D)
+    .func_233814_a_(Attributes.ATTACK_DAMAGE)
+    .func_233815_a_(Attributes.ATTACK_DAMAGE, 6D))
     .spawn(EntityClassification.WATER_CREATURE, 4, 1, 1)
     .waterPlacement()
     .egg(0x787878, 0xbdbdbd)
@@ -369,10 +369,10 @@ public class ModEntities {
     .variants("blue", "bull", "tiger", "whitetip", "greenland"));
 
     public static final EntityTypeContainerBAP<EntityMoose> MOOSE = setup(create(EntityMoose.class, EntityMoose::new, "moose", () -> MobEntity.func_233666_p_()
-    .func_233815_a_(Attributes.field_233818_a_, 52.0D)
-    .func_233815_a_(Attributes.field_233821_d_, 0.6D)
-    .func_233814_a_(Attributes.field_233823_f_)
-    .func_233815_a_(Attributes.field_233823_f_, 4.5D)
+    .func_233815_a_(Attributes.MAX_HEALTH, 52.0D)
+    .func_233815_a_(Attributes.MOVEMENT_SPEED, 0.6D)
+    .func_233814_a_(Attributes.ATTACK_DAMAGE)
+    .func_233815_a_(Attributes.ATTACK_DAMAGE, 4.5D)
     .func_233815_a_(Attributes.field_233820_c_, 0.7D))
     .spawn(EntityClassification.CREATURE, 8, 1, 1)
     .egg(0x46351c, 0x97866e)
@@ -384,10 +384,10 @@ public class ModEntities {
     .head().mapToNames().offset(-1.35F).setModel(() -> ModelMooseHead::new).done());
 
     public static final EntityTypeContainerBAP<EntityTurkey> TURKEY = setup(create(EntityTurkey.class, EntityTurkey::new, "turkey", () -> MobEntity.func_233666_p_()
-    .func_233815_a_(Attributes.field_233818_a_, 6.5D)
-    .func_233815_a_(Attributes.field_233821_d_, 0.25D)
-    .func_233814_a_(Attributes.field_233823_f_)
-    .func_233815_a_(Attributes.field_233823_f_, 1D))
+    .func_233815_a_(Attributes.MAX_HEALTH, 6.5D)
+    .func_233815_a_(Attributes.MOVEMENT_SPEED, 0.25D)
+    .func_233814_a_(Attributes.ATTACK_DAMAGE)
+    .func_233815_a_(Attributes.ATTACK_DAMAGE, 1D))
     .spawn(EntityClassification.CREATURE, 11, 1, 3)
     .egg(0x857445, 0x5099ba)
     .size(1F, 1F)
@@ -395,8 +395,8 @@ public class ModEntities {
     .variants(4));
 
     public static final EntityTypeContainerBAP<EntityZotzpyre> ZOTZPYRE = setup(create(EntityZotzpyre.class, EntityZotzpyre::new, "zotzpyre", () -> MobEntity.func_233666_p_()
-    .func_233815_a_(Attributes.field_233818_a_, 20.0D)
-    .func_233815_a_(Attributes.field_233823_f_, 3.0D))
+    .func_233815_a_(Attributes.MAX_HEALTH, 20.0D)
+    .func_233815_a_(Attributes.ATTACK_DAMAGE, 3.0D))
     .spawn(EntityClassification.MONSTER, 30, 1, 1)
     .defaultPlacement(EntityZotzpyre::canSpawn)
     .egg(0x321e13, 0x543a28).size(1F, 1F)
@@ -405,9 +405,9 @@ public class ModEntities {
     .variants(5));
 
     public static final EntityTypeContainerBAP<EntityBobbitWorm> BOBBIT_WORM = setup(create(EntityBobbitWorm.class, EntityBobbitWorm::new, "bobbit_worm", () -> MobEntity.func_233666_p_()
-    .func_233815_a_(Attributes.field_233818_a_, 15D)
-    .func_233814_a_(Attributes.field_233823_f_)
-    .func_233815_a_(Attributes.field_233823_f_, 4D)
+    .func_233815_a_(Attributes.MAX_HEALTH, 15D)
+    .func_233814_a_(Attributes.ATTACK_DAMAGE)
+    .func_233815_a_(Attributes.ATTACK_DAMAGE, 4D)
     .func_233815_a_(Attributes.field_233820_c_, 10D))
     .spawn(EntityClassification.WATER_CREATURE, 2, 1, 1)
     .waterPlacement()
@@ -418,10 +418,10 @@ public class ModEntities {
     .variants(2));
 
     public static final EntityTypeContainerBAP<EntityGoose> GOOSE = setup(create(EntityGoose.class, EntityGoose::new, "goose", () -> MobEntity.func_233666_p_()
-    .func_233815_a_(Attributes.field_233818_a_, 8D)
-    .func_233815_a_(Attributes.field_233821_d_, 0.3D)
-    .func_233814_a_(Attributes.field_233823_f_)
-    .func_233815_a_(Attributes.field_233823_f_, 3D))
+    .func_233815_a_(Attributes.MAX_HEALTH, 8D)
+    .func_233815_a_(Attributes.MOVEMENT_SPEED, 0.3D)
+    .func_233814_a_(Attributes.ATTACK_DAMAGE)
+    .func_233815_a_(Attributes.ATTACK_DAMAGE, 3D))
     .spawn(EntityClassification.CREATURE, 15, 2, 5)
     .placement(PlacementType.NO_RESTRICTIONS, Heightmap.Type.MOTION_BLOCKING, EntityGoose::canSpawn)
     .egg(0xd3cfcf, 0x5e5752)
@@ -445,10 +445,10 @@ public class ModEntities {
     }).variants(3));
 
     public static final EntityTypeContainerBAP<EntityFreshwaterEel> EEL_FRESHWATER = setup(create(EntityFreshwaterEel.class, EntityFreshwaterEel::new, "eel_freshwater", () -> MobEntity.func_233666_p_()
-    .func_233815_a_(Attributes.field_233818_a_, 5.0D)
-    .func_233815_a_(Attributes.field_233821_d_, 2D)
-    .func_233814_a_(Attributes.field_233823_f_)
-    .func_233815_a_(Attributes.field_233823_f_, 2.5D))
+    .func_233815_a_(Attributes.MAX_HEALTH, 5.0D)
+    .func_233815_a_(Attributes.MOVEMENT_SPEED, 2D)
+    .func_233814_a_(Attributes.ATTACK_DAMAGE)
+    .func_233815_a_(Attributes.ATTACK_DAMAGE, 2.5D))
     .spawn(EntityClassification.WATER_CREATURE, 7, 1, 2)
     .waterPlacement().egg(0x818077, 0x726c4f)
     .size(1F, 1F)
@@ -458,10 +458,10 @@ public class ModEntities {
     .bucketable());
 
     public static final EntityTypeContainerBAP<EntitySaltwaterEel> EEL_SALTWATER = setup(create(EntitySaltwaterEel.class, EntitySaltwaterEel::new, "eel_saltwater", () -> MobEntity.func_233666_p_()
-    .func_233815_a_(Attributes.field_233818_a_, 5.0D)
-    .func_233815_a_(Attributes.field_233821_d_, 2D)
-    .func_233814_a_(Attributes.field_233823_f_)
-    .func_233815_a_(Attributes.field_233823_f_, 2.5D))
+    .func_233815_a_(Attributes.MAX_HEALTH, 5.0D)
+    .func_233815_a_(Attributes.MOVEMENT_SPEED, 2D)
+    .func_233814_a_(Attributes.ATTACK_DAMAGE)
+    .func_233815_a_(Attributes.ATTACK_DAMAGE, 2.5D))
     .spawn(EntityClassification.WATER_CREATURE, 4, 1, 2)
     .waterPlacement().egg(0xa5a5a5, 0x515168)
     .size(1F, 1F)
@@ -474,11 +474,11 @@ public class ModEntities {
     .bucketable());
 
     public static final EntityTypeContainerBAP<EntityWhale> WHALE = setup(create(EntityWhale.class, EntityWhale::new, "whale", () -> MobEntity.func_233666_p_()
-    .func_233815_a_(Attributes.field_233818_a_, 50D)
-    .func_233815_a_(Attributes.field_233821_d_, 2D)
+    .func_233815_a_(Attributes.MAX_HEALTH, 50D)
+    .func_233815_a_(Attributes.MOVEMENT_SPEED, 2D)
     .func_233815_a_(Attributes.field_233820_c_, 1D)
-    .func_233814_a_(Attributes.field_233823_f_)
-    .func_233815_a_(Attributes.field_233823_f_, 8D))
+    .func_233814_a_(Attributes.ATTACK_DAMAGE)
+    .func_233815_a_(Attributes.ATTACK_DAMAGE, 8D))
     .spawn(EntityClassification.WATER_CREATURE, 2, 1, 3)
     .waterPlacement()
     .egg(0x328da8, 0x001c4f)
@@ -488,11 +488,11 @@ public class ModEntities {
     .variants("beluga", "bottlenose", "cuviers", "false_killer", "narwhal", "pilot"));
 
     public static final EntityTypeContainerBAP<EntityWalrus> WALRUS = setup(create(EntityWalrus.class, EntityWalrus::new, "walrus", () -> MobEntity.func_233666_p_()
-    .func_233815_a_(Attributes.field_233818_a_, 30.0D)
+    .func_233815_a_(Attributes.MAX_HEALTH, 30.0D)
     .func_233815_a_(Attributes.field_233826_i_, 5D)
-    .func_233815_a_(Attributes.field_233821_d_, 0.25D)
-    .func_233814_a_(Attributes.field_233823_f_)
-    .func_233815_a_(Attributes.field_233823_f_, 4D)
+    .func_233815_a_(Attributes.MOVEMENT_SPEED, 0.25D)
+    .func_233814_a_(Attributes.ATTACK_DAMAGE)
+    .func_233815_a_(Attributes.ATTACK_DAMAGE, 4D)
     .func_233815_a_(Attributes.field_233820_c_, 1D))
     .spawn(EntityClassification.CREATURE, 4, 1, 5)
     .defaultPlacement(EntityWalrus::canSpawn)

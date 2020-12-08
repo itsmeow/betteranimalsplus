@@ -71,7 +71,7 @@ public class WaterfowlNavigator extends GroundPathNavigator {
 
     @Override
     public Path getPathToEntity(Entity entityIn, int p_75494_2_) {
-        return this.getPathToPos(entityIn.func_233580_cy_(), p_75494_2_);
+        return this.getPathToPos(entityIn.getPosition(), p_75494_2_);
     }
 
     private int getPathablePosY() {

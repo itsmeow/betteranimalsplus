@@ -116,7 +116,7 @@ public abstract class EntityEelBase extends EntityWaterMobPathingWithTypesBucket
 
     @Override
     public boolean attackEntityAsMob(Entity entityIn) {
-        return entityIn.attackEntityFrom(DamageSource.causeMobDamage(this), (float) this.getAttribute(Attributes.field_233823_f_).getValue());
+        return entityIn.attackEntityFrom(DamageSource.causeMobDamage(this), (float) this.getAttribute(Attributes.ATTACK_DAMAGE).getValue());
     }
 
     protected static boolean isHoldingFood(LivingEntity entity) {

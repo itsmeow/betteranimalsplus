@@ -93,7 +93,7 @@ public abstract class MoveIntoBlockGoal extends Goal {
     protected boolean searchForDestination() {
        int i = this.searchLength;
        int j = this.field_203113_j;
-       BlockPos blockpos = this.creature.func_233580_cy_();
+       BlockPos blockpos = this.creature.getPosition();
        BlockPos.Mutable blockpos$mutableblockpos = new BlockPos.Mutable();
 
        for(int k = this.field_203112_e; k <= j; k = k > 0 ? -k : 1 - k) {

@@ -73,11 +73,11 @@ public class EntityGoat extends EntityAnimalEatsGrassWithTypes {
     public boolean attackEntityAsMob(Entity entityIn) {
         Vector3d pos = this.getPositionVec();
         Vector3d targetPos = entityIn.getPositionVec();
-        ((LivingEntity) entityIn).func_233627_a_(0.8F, pos.x - targetPos.x, pos.z - targetPos.z);
+        ((LivingEntity) entityIn).applyKnockback(0.8F, pos.x - targetPos.x, pos.z - targetPos.z);
 
         // Vanilla attack code for mobs
 
-        float f = (float) this.getAttribute(Attributes.field_233823_f_).getValue();
+        float f = (float) this.getAttribute(Attributes.ATTACK_DAMAGE).getValue();
         int i = 0;
 
         if (entityIn instanceof LivingEntity) {
@@ -90,7 +90,7 @@ public class EntityGoat extends EntityAnimalEatsGrassWithTypes {
 
         if (flag) {
             if (i > 0 && entityIn instanceof LivingEntity) {
-                ((LivingEntity) entityIn).func_233627_a_(i * 0.5F, MathHelper.sin(this.rotationYaw * 0.017453292F),
+                ((LivingEntity) entityIn).applyKnockback(i * 0.5F, MathHelper.sin(this.rotationYaw * 0.017453292F),
                 -MathHelper.cos(this.rotationYaw * 0.017453292F));
                 this.setMotion(this.getMotion().getX() * 0.6D, this.getMotion().getY(), this.getMotion().getZ() * 0.6D);
             }

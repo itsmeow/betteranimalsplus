@@ -50,7 +50,7 @@ public class CommonEventHandler {
         if(e.getSource().getImmediateSource() instanceof EntityBoar) {
             EntityBoar boar = (EntityBoar) e.getSource().getImmediateSource();
             boar.setInLove(null);
-            BlockPos p = boar.func_233580_cy_();
+            BlockPos p = boar.getPosition();
             boar.world.addParticle(ParticleTypes.HEART, p.getX(), p.getY(), p.getZ(), 0.0F, 0.05F, 0.0F);
         } else if(e.getSource().getImmediateSource() instanceof ServerPlayerEntity) {
             ServerPlayerEntity player = (ServerPlayerEntity) e.getSource().getImmediateSource();

@@ -65,8 +65,8 @@ public class CustomTrigger implements ICriterionTrigger<CustomTrigger.Instance> 
     }
 
     @Override
-    public CustomTrigger.Instance func_230307_a_(JsonObject json, ConditionArrayParser context) {
-        return new CustomTrigger.Instance(getId(), EntityPredicate.AndPredicate.field_234582_a_);
+    public CustomTrigger.Instance deserialize(JsonObject json, ConditionArrayParser context) {
+        return new CustomTrigger.Instance(getId(), EntityPredicate.AndPredicate.ANY_AND);
     }
 
     public void trigger(ServerPlayerEntity parPlayer) {

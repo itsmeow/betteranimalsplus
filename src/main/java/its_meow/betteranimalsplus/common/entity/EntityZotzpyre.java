@@ -322,7 +322,7 @@ public class EntityZotzpyre extends EntityMonsterWithTypes {
 
     @Override
     public boolean attackEntityAsMob(Entity entityIn) {
-        float f = (float) this.getAttribute(Attributes.field_233823_f_).getValue();
+        float f = (float) this.getAttribute(Attributes.ATTACK_DAMAGE).getValue();
         boolean flag = entityIn.attackEntityFrom(DamageSource.causeMobDamage(this), f);
         if(flag) {
             this.lastAttack = this.ticksExisted;

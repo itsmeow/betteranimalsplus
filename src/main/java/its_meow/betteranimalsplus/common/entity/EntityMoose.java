@@ -93,7 +93,7 @@ public class EntityMoose extends EntityAnimalEatsGrassWithTypes implements IDrop
     protected EntityAIEatGrassCustom provideEatTask() {
         return new EntityAIEatGrassCustom(this, 50, 500, eater -> {
             Direction facing = eater.getHorizontalFacing();
-            return eater.func_233580_cy_().offset(facing).offset(facing);
+            return eater.getPosition().offset(facing).offset(facing);
         });
     }
     
@@ -101,8 +101,8 @@ public class EntityMoose extends EntityAnimalEatsGrassWithTypes implements IDrop
     public boolean attackEntityAsMob(Entity entityIn) {
         Vector3d pos = this.getPositionVec();
         Vector3d targetPos = entityIn.getPositionVec();
-        ((LivingEntity) entityIn).func_233627_a_(1F, pos.x - targetPos.x, pos.z - targetPos.z);
-        float f = (float) this.getAttribute(Attributes.field_233823_f_).getValue();
+        ((LivingEntity) entityIn).applyKnockback(1F, pos.x - targetPos.x, pos.z - targetPos.z);
+        float f = (float) this.getAttribute(Attributes.ATTACK_DAMAGE).getValue();
         return entityIn.attackEntityFrom(DamageSource.causeMobDamage(this), f);
     }
 

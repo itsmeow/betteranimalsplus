@@ -69,7 +69,7 @@ public class EntityLamprey extends EntityWaterMobPathingWithTypesBucketable impl
 
     @Override
     public boolean attackEntityAsMob(Entity entityIn) {
-        float f = (float)this.getAttribute(Attributes.field_233823_f_).getValue();
+        float f = (float)this.getAttribute(Attributes.ATTACK_DAMAGE).getValue();
 
         if(entityIn instanceof LivingEntity) {
             f += EnchantmentHelper.getModifierForCreature(this.getHeldItemMainhand(), ((LivingEntity)entityIn).getCreatureAttribute());
@@ -131,7 +131,7 @@ public class EntityLamprey extends EntityWaterMobPathingWithTypesBucketable impl
     public void stopRiding() {
         Entity entity = this.getRidingEntity();
         if(entity != null) {
-            if((entity.canBeRiddenInWater(this) || this.getAttackTarget() == null) && this.world.isAreaLoaded(this.func_233580_cy_(), 10)) {
+            if((entity.canBeRiddenInWater(this) || this.getAttackTarget() == null) && this.world.isAreaLoaded(this.getPosition(), 10)) {
                 super.stopRiding();
             }
         }

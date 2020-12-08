@@ -33,12 +33,12 @@ public abstract class EntityCrabLikeBase extends EntityAnimalWithTypes {
         Vector3d pos = this.getPositionVec();
         Vector3d targetPos = entityIn.getPositionVec();
         if(entityIn instanceof LivingEntity) {
-            ((LivingEntity) entityIn).func_233627_a_(0.1F, pos.x - targetPos.x, pos.z - targetPos.z);
+            ((LivingEntity) entityIn).applyKnockback(0.1F, pos.x - targetPos.x, pos.z - targetPos.z);
         }
         
         // vanilla things
         
-        float f = (float)this.getAttribute(Attributes.field_233823_f_).getValue();
+        float f = (float)this.getAttribute(Attributes.ATTACK_DAMAGE).getValue();
 
         if(entityIn instanceof LivingEntity) {
             f += EnchantmentHelper.getModifierForCreature(this.getHeldItemMainhand(), ((LivingEntity)entityIn).getCreatureAttribute());

@@ -9,6 +9,7 @@ import its_meow.betteranimalsplus.init.ModEntities;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.AgeableEntity;
+import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.goal.AvoidEntityGoal;
 import net.minecraft.entity.ai.goal.BreedGoal;
 import net.minecraft.entity.ai.goal.PanicGoal;
@@ -25,9 +26,11 @@ import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.pathfinding.ClimberPathNavigator;
 import net.minecraft.pathfinding.PathNavigator;
 import net.minecraft.util.Direction;
+import net.minecraft.util.RegistryKey;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.BiomeDictionary.Type;
 
@@ -67,7 +70,7 @@ public class EntitySquirrel extends EntityAnimalWithSelectiveTypes {
         if (!this.world.isRemote) {
             boolean nearLog = false;
             for (Direction facing : Direction.values()) {
-                BlockPos pos = this.func_233580_cy_().offset(facing);
+                BlockPos pos = this.getPosition().offset(facing);
                 Block block = this.world.getBlockState(pos).getBlock();
                 if (block == Blocks.ACACIA_LOG || block == Blocks.BIRCH_LOG || block == Blocks.DARK_OAK_LOG
                         || block == Blocks.JUNGLE_LOG || block == Blocks.OAK_LOG || block == Blocks.SPRUCE_LOG) {
@@ -119,7 +122,7 @@ public class EntitySquirrel extends EntityAnimalWithSelectiveTypes {
     }
 
     @Override
-    public AgeableEntity createChild(AgeableEntity ageable) {
+    public AgeableEntity func_241840_a(ServerWorld world, AgeableEntity ageable) {
         EntitySquirrel squirrel = new EntitySquirrel(this.world);
         if (ageable instanceof EntitySquirrel) {
             EntitySquirrel other = (EntitySquirrel) ageable;
@@ -149,7 +152,7 @@ public class EntitySquirrel extends EntityAnimalWithSelectiveTypes {
     }
     
     @Override
-    public String[] getTypesFor(Biome biome, Set<BiomeDictionary.Type> types) {
+    public String[] getTypesFor(RegistryKey<Biome> biomeKey, Biome biome, Set<BiomeDictionary.Type> types, SpawnReason reason) {
         if(types.contains(Type.FOREST) && !types.contains(Type.CONIFEROUS)) {
             return new String[] {"gray", "albino"};
         } else if(types.contains(Type.CONIFEROUS) && !types.contains(Type.SNOWY)) {

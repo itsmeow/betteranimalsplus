@@ -2,6 +2,13 @@ package its_meow.betteranimalsplus;
 
 import java.util.UUID;
 
+import net.minecraft.util.*;
+import net.minecraft.util.registry.Registry;
+import net.minecraft.util.registry.WorldGenRegistries;
+import net.minecraft.world.gen.GenerationStage;
+import net.minecraft.world.gen.feature.ConfiguredFeature;
+import net.minecraft.world.gen.feature.Features;
+import net.minecraftforge.event.world.BiomeLoadingEvent;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -43,21 +50,14 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.SpawnEggItem;
-import net.minecraft.util.Direction;
-import net.minecraft.util.NonNullList;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.Util;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.blockplacer.SimpleBlockPlacer;
 import net.minecraft.world.gen.blockstateprovider.WeightedBlockStateProvider;
 import net.minecraft.world.gen.feature.BlockClusterFeatureConfig;
 import net.minecraft.world.gen.feature.Feature;
-import net.minecraft.world.gen.placement.NoiseDependant;
-import net.minecraft.world.gen.placement.Placement;
 import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.event.entity.player.PlayerEvent.PlayerLoggedInEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.DeferredWorkQueue;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
@@ -71,7 +71,6 @@ import net.minecraftforge.fml.network.NetworkRegistry;
 import net.minecraftforge.fml.network.PacketDistributor;
 import net.minecraftforge.fml.network.simple.SimpleChannel;
 
-@SuppressWarnings("deprecation")
 @Mod.EventBusSubscriber(modid = Ref.MOD_ID)
 @Mod(value = Ref.MOD_ID)
 public class BetterAnimalsPlusMod {
@@ -92,6 +91,7 @@ public class BetterAnimalsPlusMod {
         }
     }
     public static final BlockClusterFeatureConfig TRILLIUM_FEATURE_CONFIG = (new BlockClusterFeatureConfig.Builder(TRILLIUM_STATE_PROVIDER, new SimpleBlockPlacer())).tries(64).build();
+    public static final ConfiguredFeature<?, ?> TRILLIUM_CF = Feature.FLOWER.withConfiguration(TRILLIUM_FEATURE_CONFIG).withPlacement(Features.Placements.VEGETATION_PLACEMENT).withPlacement(Features.Placements.HEIGHTMAP_PLACEMENT);
     private static final ImmutableList<UUID> DEVS = ImmutableList.of(
     UUID.fromString("81d9726a-56d4-4419-9a2a-be1d7f7f7ef1"), // its_meow
     UUID.fromString("403f2fd4-f8a2-4608-a0b8-534da4184735"), // cyber
@@ -149,9 +149,8 @@ public class BetterAnimalsPlusMod {
         });
         HANDLER.registerMessage(packets++, StupidDevPacket.class, StupidDevPacket::encode, StupidDevPacket::decode, StupidDevPacket.Handler::handle);
         HANDLER.registerMessage(packets++, HonkPacket.class, HonkPacket::encode, HonkPacket::decode, HonkPacket.Handler::handle);
-        DeferredWorkQueue.runLater(() -> {
-            BiomeDictionary.getBiomes(BiomeDictionary.Type.SWAMP).forEach(biome -> biome.addFeature(net.minecraft.world.gen.GenerationStage.Decoration.VEGETAL_DECORATION,
-                    Feature.FLOWER.withConfiguration(TRILLIUM_FEATURE_CONFIG).withPlacement(Placement.NOISE_HEIGHTMAP_32.configure(new NoiseDependant(-0.8D, 0, 3)))));
+        event.enqueueWork(() -> {
+            Registry.register(WorldGenRegistries.CONFIGURED_FEATURE, new ResourceLocation(Ref.MOD_ID, "trillium"), TRILLIUM_CF);
         });
         registerEggDispenser(ModItems.PHEASANT_EGG, EntityPheasantEgg::new);
         registerEggDispenser(ModItems.TURKEY_EGG, EntityTurkeyEgg::new);
@@ -172,7 +171,14 @@ public class BetterAnimalsPlusMod {
         }
         BetterAnimalsPlusMod.logger.log(Level.INFO, "Overspawning lammergeiers...");
     }
-    
+
+    @SubscribeEvent
+    public static void biomeLoad(final BiomeLoadingEvent event) {
+        BetterAnimalsPlusConfig.biomeLoad(event);
+        if (event.getName() != null && BiomeDictionary.getTypes(RegistryKey.getOrCreateKey(Registry.BIOME_KEY, event.getName())).contains(BiomeDictionary.Type.SWAMP))
+            event.getGeneration().getFeatures(GenerationStage.Decoration.VEGETAL_DECORATION).add(() -> TRILLIUM_CF);
+    }
+
     private void loadComplete(final FMLLoadCompleteEvent event) {
         ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, BetterAnimalsPlusConfig.getServerSpec());
         BetterAnimalsPlusMod.logger.log(Level.INFO, "Finished crazy bird creation!");

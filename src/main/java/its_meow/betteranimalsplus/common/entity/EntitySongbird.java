@@ -33,6 +33,7 @@ import net.minecraft.pathfinding.FlyingPathNavigator;
 import net.minecraft.pathfinding.PathNavigator;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.Hand;
+import net.minecraft.util.RegistryKey;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvents;
@@ -78,7 +79,7 @@ public class EntitySongbird extends EntityAnimalWithSelectiveTypes implements IF
         BlockPos blockpos = new BlockPos(i, j, k);
         if(world instanceof World && !((World) world).isBlockPresent(new BlockPos(blockpos))) {
             Block block = this.world.getBlockState(blockpos.down()).getBlock();
-            return block instanceof LeavesBlock || block == Blocks.GRASS || BlockTags.LOGS.func_230235_a_(block)
+            return block instanceof LeavesBlock || block == Blocks.GRASS || block.isIn(BlockTags.LOGS)
                     || block == Blocks.AIR && this.world.getLight(blockpos) > 8 && super.canSpawn(world, reason);
         } else {
             return super.canSpawn(world, reason);
@@ -160,7 +161,7 @@ public class EntitySongbird extends EntityAnimalWithSelectiveTypes implements IF
     }
 
     @Override
-    public String[] getTypesFor(Biome biome, Set<BiomeDictionary.Type> types) {
+    public String[] getTypesFor(RegistryKey<Biome> biomeKey, Biome biome, Set<BiomeDictionary.Type> types, SpawnReason reason) {
         if(types.contains(Type.FOREST) && !types.contains(Type.CONIFEROUS)) {
             return new String[] {"2", "small_2", "small_3", "small_4"};
         } else if(types.contains(Type.CONIFEROUS) && !types.contains(Type.SNOWY)) {

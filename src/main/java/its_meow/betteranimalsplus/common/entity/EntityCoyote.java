@@ -154,7 +154,7 @@ public class EntityCoyote extends EntityFeralWolf {
 
             if (this.isOwner(player) && !this.world.isRemote && !this.isBreedingItem(itemstack)
                     && (!(itemstack.getItem().isFood()) || !itemstack.getItem().getFood().isMeat())) {
-                this.func_233687_w_(!this.func_233685_eM_());
+                this.func_233687_w_(!this.isEntitySleeping());
                 this.isJumping = false;
                 this.navigator.clearPath();
                 this.setAttackTarget((LivingEntity) null);

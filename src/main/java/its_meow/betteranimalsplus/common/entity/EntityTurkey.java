@@ -127,7 +127,7 @@ public class EntityTurkey extends EntityAnimalWithTypes {
         if(attacksLeft > 0) {
             attacksLeft--;
         }
-        float f = (float) this.getAttribute(Attributes.field_233823_f_).getValue();
+        float f = (float) this.getAttribute(Attributes.ATTACK_DAMAGE).getValue();
         this.lastAttackTime = this.ticksExisted;
         return entityIn.attackEntityFrom(DamageSource.causeMobDamage(this), f);
     }

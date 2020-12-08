@@ -3,6 +3,7 @@ package its_meow.betteranimalsplus.config;
 import java.util.HashMap;
 import java.util.Map;
 
+import net.minecraftforge.event.world.BiomeLoadingEvent;
 import org.apache.commons.lang3.tuple.Pair;
 
 import dev.itsmeow.imdlib.entity.EntityRegistrarHandler.ClientEntityConfiguration;
@@ -45,7 +46,7 @@ public class BetterAnimalsPlusConfig {
     public static void onLoad(final ModConfig.Loading configEvent) {
         BetterAnimalsPlusMod.logger.debug("Loading {} {}", Ref.MOD_ID, configEvent.getConfig().getFileName());
         if(configEvent.getConfig().getSpec() == SERVER_CONFIG_SPEC) {
-            SERVER_CONFIG.onWorldLoad();
+            SERVER_CONFIG.onLoad();
         } else if(configEvent.getConfig().getSpec() == CLIENT_CONFIG_SPEC) {
             CLIENT_CONFIG.onLoad();
         }
@@ -72,4 +73,7 @@ public class BetterAnimalsPlusConfig {
         return map;
     }
 
+    public static void biomeLoad(BiomeLoadingEvent event) {
+        SERVER_CONFIG.biomeLoad(event);
+    }
 }

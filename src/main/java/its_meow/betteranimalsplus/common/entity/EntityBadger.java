@@ -15,6 +15,7 @@ import net.minecraft.block.Blocks;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.entity.ai.goal.HurtByTargetGoal;
@@ -29,6 +30,7 @@ import net.minecraft.entity.passive.ChickenEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.RegistryKey;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
@@ -62,7 +64,7 @@ public class EntityBadger extends EntityAnimalWithSelectiveTypes implements IMob
 	@Override
 	public boolean attackEntityAsMob(Entity entityIn) {
 		// Vanilla attack code for mobs
-		float f = (float) this.getAttribute(Attributes.field_233823_f_).getValue();
+		float f = (float) this.getAttribute(Attributes.ATTACK_DAMAGE).getValue();
 		int i = 0;
 
 		if (entityIn instanceof LivingEntity) {
@@ -74,7 +76,7 @@ public class EntityBadger extends EntityAnimalWithSelectiveTypes implements IMob
 
 		if (flag) {
 			if (i > 0 && entityIn instanceof LivingEntity) {
-				((LivingEntity) entityIn).func_233627_a_(i * 0.5F, MathHelper.sin(this.rotationYaw * 0.017453292F), (-MathHelper.cos(this.rotationYaw * 0.017453292F)));
+				((LivingEntity) entityIn).applyKnockback(i * 0.5F, MathHelper.sin(this.rotationYaw * 0.017453292F), (-MathHelper.cos(this.rotationYaw * 0.017453292F)));
 				this.setMotion(this.getMotion().getX() * 0.6D, this.getMotion().getY(), this.getMotion().getZ() * 0.6D);
 			}
 
@@ -125,10 +127,10 @@ public class EntityBadger extends EntityAnimalWithSelectiveTypes implements IMob
 		public boolean shouldExecute() {
 			tick = 0;
 			World world = badger.world;
-			BlockPos below = badger.func_233580_cy_().down();
+			BlockPos below = badger.getPosition().down();
 			if(world.isBlockPresent(below)) {
 				BlockState state = world.getBlockState(below);
-				double dist = badger.getAttackTarget() == null ? 0 : Math.sqrt(badger.func_233580_cy_().distanceSq(badger.getAttackTarget().func_233580_cy_()));
+				double dist = badger.getAttackTarget() == null ? 0 : Math.sqrt(badger.getPosition().distanceSq(badger.getAttackTarget().getPosition()));
 				return badger.getAttackTarget() != null && dist < 10 && dist > 2 && (state.getBlock() == Blocks.DIRT || state.getBlock() == Blocks.GRASS_BLOCK || state.getBlock() == Blocks.SAND || state.getBlock() == Blocks.GRAVEL || state.getBlock() == Blocks.MYCELIUM);
 			}
 			return false;
@@ -138,7 +140,7 @@ public class EntityBadger extends EntityAnimalWithSelectiveTypes implements IMob
 		public boolean shouldContinueExecuting() {
 			boolean onDiggable = false;
 			World world = badger.world;
-			BlockPos below = badger.func_233580_cy_().down();
+			BlockPos below = badger.getPosition().down();
 			if(world.isBlockPresent(below)) {
 				BlockState state = world.getBlockState(below);
 				if(state.getBlock() == Blocks.DIRT || state.getBlock() == Blocks.GRASS_BLOCK || state.getBlock() == Blocks.SAND || state.getBlock() == Blocks.GRAVEL || state.getBlock() == Blocks.MYCELIUM) {
@@ -149,14 +151,14 @@ public class EntityBadger extends EntityAnimalWithSelectiveTypes implements IMob
 					onDiggable = true;
 				}
 			}
-			double dist = badger.getAttackTarget() == null ? 0 : Math.sqrt(badger.func_233580_cy_().distanceSq(badger.getAttackTarget().func_233580_cy_()));
+			double dist = badger.getAttackTarget() == null ? 0 : Math.sqrt(badger.getPosition().distanceSq(badger.getAttackTarget().getPosition()));
 			return badger.getAttackTarget() != null && tick <= 200 + Math.random() * 300 && dist < 10 && dist > 2 && onDiggable;
 		}
 
 		@Override
 		public void startExecuting() {
 			World world = badger.world;
-			BlockPos below = badger.func_233580_cy_().down();
+			BlockPos below = badger.getPosition().down();
 			if(world.isBlockPresent(below)) {
 				BlockState state = world.getBlockState(below);
 				if(state.getBlock() == Blocks.DIRT || state.getBlock() == Blocks.GRASS_BLOCK || state.getBlock() == Blocks.SAND || state.getBlock() == Blocks.GRAVEL || state.getBlock() == Blocks.MYCELIUM) {
@@ -198,7 +200,7 @@ public class EntityBadger extends EntityAnimalWithSelectiveTypes implements IMob
 	}
 	
     @Override
-    public String[] getTypesFor(Biome biome, Set<BiomeDictionary.Type> types) {
+    public String[] getTypesFor(RegistryKey<Biome> biomeKey, Biome biome, Set<BiomeDictionary.Type> types, SpawnReason reason) {
         if(types.contains(Type.SAVANNA)) {
             return new String[] {"honey"};
         } else if(types.contains(Type.FOREST) && !types.contains(Type.CONIFEROUS)) {

@@ -49,7 +49,7 @@ public class EntityNautilus extends EntityWaterMobBucketable {
             this.setMotion(this.getMotion().getX(), this.getMotion().getY() * 0.9800000190734863D, this.getMotion().getZ());
         } else if(!world.isRemote) {
             if(!this.navigator.noPath()) {
-                Vector3i target = this.navigator.getPath().getCurrentPos();
+                Vector3i target = this.navigator.getPath().func_242948_g();
                 this.setMotion((target.getX() - this.getPosX()) * 0.05F, (target.getY() - this.getPosY()) * 0.05F, (target.getZ() - this.getPosZ()) * 0.05F);
             } else if(this.getMoveHelper().isUpdating()) {
                 this.setMotion((this.getMoveHelper().getX() - this.getPosX()) * 0.05F, (this.getMoveHelper().getY() - this.getPosY()) * 0.05F, (this.getMoveHelper().getZ() - this.getPosZ()) * 0.05F);
