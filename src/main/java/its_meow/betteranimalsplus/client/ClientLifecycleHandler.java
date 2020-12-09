@@ -19,6 +19,7 @@ import its_meow.betteranimalsplus.common.entity.projectile.*;
 import its_meow.betteranimalsplus.init.ModEntities;
 import its_meow.betteranimalsplus.init.ModResources;
 import its_meow.betteranimalsplus.init.ModTileEntities;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.entity.Pose;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.vector.Vector3f;
@@ -60,7 +61,7 @@ public class ClientLifecycleHandler {
         R.addRender(ModEntities.BOAR.entityType, 0.6F, r -> r.tBabyVariant("boar_baby").mSingle(new ModelBoar<>()).childScale(0.6F));
         R.addRender(ModEntities.SQUIRREL.entityType, 0.3F, r -> r.tVariant().mSingle(new ModelSquirrel<>()).ageScale(0.5F, 0.35F));
         R.addRender(ModEntities.SONGBIRD.entityType, 0.3F, r -> r.tVariant().mCondition(e -> e.getVariantNameOrEmpty().isEmpty() || !e.getVariantNameOrEmpty().startsWith("small"), new ModelSongbird<>(), new ModelSongbirdSmall<>()).ageScale(0.5F, 0.3F));
-        R.addRender(ModEntities.BADGER.entityType, 0.4F, r -> r.tVariant().mSingle(new ModelBadger<>()).ageScale(0.7F, 0.35F));
+        R.addRender(ModEntities.BADGER.entityType, 0.4F, r -> r.tVariant().mSingle(new ModelBadger<>()).renderLayer((e, a, b, c, t) -> RenderType.getEntityTranslucent(t)).ageScale(0.7F, 0.35F));
         R.addRender(ModEntities.LAMPREY.entityType, 0.4F, r -> r.tVariant().mSingle(new ModelLamprey<>()).preRender((e, s, p) -> {
             s.scale(0.5F, 0.5F, 0.5F);
             if(e.getRidingEntity() != null) {
