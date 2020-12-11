@@ -263,16 +263,7 @@ public class ModelCrab<T extends LivingEntity> extends EntityModel<T> {
         this.rLeg01a.addChild(this.rLeg01b);
     }
 
-    @Override
-    public void render(MatrixStack matrixStackIn, IVertexBuilder bufferIn, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
-        matrixStackIn.translate(0F, 1.15F, 0F);
-        if(crabId == 1 || crabId == 2) {
-            matrixStackIn.translate(0, -0.25, 0);
-        } else if(crabId == 3) {
-            matrixStackIn.translate(0, -0.05, 0);
-        }
-        this.body.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn);
-
+    private void resetPose() {
         this.rLeg00a.rotateAngleY = -0.3141592653589793F;
         this.lLeg00a.rotateAngleY = 0.3141592653589793F;
         this.rLeg01a.rotateAngleY = -0.13962634015954636F;
@@ -303,181 +294,166 @@ public class ModelCrab<T extends LivingEntity> extends EntityModel<T> {
     }
 
     @Override
+    public void render(MatrixStack matrixStackIn, IVertexBuilder bufferIn, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
+        matrixStackIn.translate(0F, 1.15F, 0F);
+        if(crabId == 1) {
+            matrixStackIn.translate(0, -0.25, 0);
+        } else if(crabId == 2) {
+            matrixStackIn.translate(0, -0.15, 0);
+        } else if(crabId == 3) {
+            matrixStackIn.translate(0, -0.05, 0);
+        }
+        this.body.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn);
+    }
+
+    @Override
     public void setRotationAngles(T entity, float f, float f1, float f2, float f3, float f4) {
-        {
-            if(entity instanceof EntityCrab) {
-                EntityCrab crab = (EntityCrab) entity;
-                int crabID = crab.getIsCrabRave();
-                this.crabId = crabID;
-                if(crabID == 1) {
-                    float xOff = (((float) Math.sin(((f2 + 100) / 2.5F) % 200F)) / 5);
-                    this.body.rotationPointX = xOff * 16F;
-                    this.lArm00.rotateAngleX = -1.5F;
-                    this.rArm00.rotateAngleX = -1.5F;
-                    this.lArm00.rotateAngleY = 0F;
-                    this.rArm00.rotateAngleY = 0F;
-                    float rotOff = (float) Math.atan(xOff * 1.5F) * 1.5F;
-                    this.lArm00.rotateAngleZ = 1F - rotOff;
-                    this.rArm00.rotateAngleZ = -1F - rotOff;
+        this.resetPose();
+        if(entity instanceof EntityCrab) {
+            EntityCrab crab = (EntityCrab) entity;
+            int crabID = crab.getIsCrabRave();
+            this.crabId = crabID;
+            if(crabID == 1) {
+                float xOff = (((float) Math.sin(((f2 + 100) / 2.5F) % 200F)) / 5);
+                this.body.rotationPointX = xOff * 16F;
+                this.lArm00.rotateAngleX = -1.5F;
+                this.rArm00.rotateAngleX = -1.5F;
+                this.lArm00.rotateAngleY = 0F;
+                this.rArm00.rotateAngleY = 0F;
+                float rotOff = (float) Math.atan(xOff * 1.5F) * 1.5F;
+                this.lArm00.rotateAngleZ = 1F - rotOff;
+                this.rArm00.rotateAngleZ = -1F - rotOff;
 
-                    float mulFact = 2F;
-                    rotOff = -(float) Math.acos(xOff) * mulFact;
+                float mulFact = 2F;
+                rotOff = -(float) Math.acos(xOff) * mulFact;
 
-                    this.rLeg00a.rotateAngleZ = -90F * mulFact;
-                    this.lLeg00a.rotateAngleZ = 90F * mulFact;
-                    this.rLeg01a.rotateAngleZ = -90F * mulFact;
-                    this.lLeg01a.rotateAngleZ = 90F * mulFact;
-                    this.rLeg02a.rotateAngleZ = -90F * mulFact;
-                    this.lLeg02a.rotateAngleZ = 90F * mulFact;
-                    this.rLeg03a.rotateAngleZ = -90F * mulFact;
-                    this.lLeg03a.rotateAngleZ = 90F * mulFact;
+                this.rLeg00a.rotateAngleZ = -90F * mulFact;
+                this.lLeg00a.rotateAngleZ = 90F * mulFact;
+                this.rLeg01a.rotateAngleZ = -90F * mulFact;
+                this.lLeg01a.rotateAngleZ = 90F * mulFact;
+                this.rLeg02a.rotateAngleZ = -90F * mulFact;
+                this.lLeg02a.rotateAngleZ = 90F * mulFact;
+                this.rLeg03a.rotateAngleZ = -90F * mulFact;
+                this.lLeg03a.rotateAngleZ = 90F * mulFact;
 
-                    this.rLeg00a.rotateAngleZ += rotOff;
-                    this.lLeg00a.rotateAngleZ += rotOff;
-                    this.rLeg01a.rotateAngleZ += rotOff;
-                    this.lLeg01a.rotateAngleZ += rotOff;
-                    this.rLeg02a.rotateAngleZ += rotOff;
-                    this.lLeg02a.rotateAngleZ += rotOff;
-                    this.rLeg03a.rotateAngleZ += rotOff;
-                    this.lLeg03a.rotateAngleZ += rotOff;
-                } else if(crabID == 2) {
-                    float zOff = (((float) Math.sin(((f2 + 100) / 2.5F) % 200F)) / 5);
-                    this.body.rotationPointZ = zOff * 16F;
-                    this.lArm00.rotateAngleX = 0F;
-                    this.rArm00.rotateAngleX = 0F;
-                    this.lArm00.rotateAngleY = -1F + (float) Math.sin(f2 / 2.5F) / 2;
-                    this.rArm00.rotateAngleY = 1F - (float) Math.sin(f2 / 2.5F) / 2;
-                    this.lArm00.rotateAngleZ = 0F;
-                    this.rArm00.rotateAngleZ = 0F;
+                this.rLeg00a.rotateAngleZ += rotOff;
+                this.lLeg00a.rotateAngleZ += rotOff;
+                this.rLeg01a.rotateAngleZ += rotOff;
+                this.lLeg01a.rotateAngleZ += rotOff;
+                this.rLeg02a.rotateAngleZ += rotOff;
+                this.lLeg02a.rotateAngleZ += rotOff;
+                this.rLeg03a.rotateAngleZ += rotOff;
+                this.lLeg03a.rotateAngleZ += rotOff;
+            } else if(crabID == 2) {
+                float zOff = (((float) Math.sin(((f2 + 100) / 2.5F) % 200F)) / 5);
+                this.body.rotationPointZ = zOff * 16F;
+                this.lArm00.rotateAngleX = 0F;
+                this.rArm00.rotateAngleX = 0F;
+                this.lArm00.rotateAngleY = -1F + (float) Math.sin(f2 / 2.5F) / 2;
+                this.rArm00.rotateAngleY = 1F - (float) Math.sin(f2 / 2.5F) / 2;
+                this.lArm00.rotateAngleZ = 0F;
+                this.rArm00.rotateAngleZ = 0F;
 
-                    float mulFact = -3F;
-                    float pi = (float) Math.PI;
-                    float rotOff =-(float) Math.acos(zOff) * mulFact;
+                float mulFact = -3F;
+                float pi = (float) Math.PI;
+                float rotOff =-(float) Math.acos(zOff) * mulFact;
 
-                    this.rLeg00a.rotateAngleZ = -pi / 6;
-                    this.lLeg00a.rotateAngleZ = pi / 6;
-                    this.rLeg01a.rotateAngleZ = -pi / 6;
-                    this.lLeg01a.rotateAngleZ = pi / 6;
-                    this.rLeg02a.rotateAngleZ = -pi / 6;
-                    this.lLeg02a.rotateAngleZ = pi / 6;
-                    this.rLeg03a.rotateAngleZ = -pi / 6;
-                    this.lLeg03a.rotateAngleZ = pi / 6;
+                this.rLeg00a.rotateAngleZ = -pi / 6;
+                this.lLeg00a.rotateAngleZ = pi / 6;
+                this.rLeg01a.rotateAngleZ = -pi / 6;
+                this.lLeg01a.rotateAngleZ = pi / 6;
+                this.rLeg02a.rotateAngleZ = -pi / 6;
+                this.lLeg02a.rotateAngleZ = pi / 6;
+                this.rLeg03a.rotateAngleZ = -pi / 6;
+                this.lLeg03a.rotateAngleZ = pi / 6;
 
-                    this.rLeg00a.rotateAngleX = (pi / 2) * mulFact;
-                    this.lLeg00a.rotateAngleX = (pi / 2) * mulFact;
-                    this.rLeg01a.rotateAngleX = (pi / 2) * mulFact;
-                    this.lLeg01a.rotateAngleX = (pi / 2) * mulFact;
-                    this.rLeg02a.rotateAngleX = (pi / 2) * mulFact;
-                    this.lLeg02a.rotateAngleX = (pi / 2) * mulFact;
-                    this.rLeg03a.rotateAngleX = (pi / 2) * mulFact;
-                    this.lLeg03a.rotateAngleX = (pi / 2) * mulFact;
+                this.rLeg00a.rotateAngleX = (pi / 2) * mulFact;
+                this.lLeg00a.rotateAngleX = (pi / 2) * mulFact;
+                this.rLeg01a.rotateAngleX = (pi / 2) * mulFact;
+                this.lLeg01a.rotateAngleX = (pi / 2) * mulFact;
+                this.rLeg02a.rotateAngleX = (pi / 2) * mulFact;
+                this.lLeg02a.rotateAngleX = (pi / 2) * mulFact;
+                this.rLeg03a.rotateAngleX = (pi / 2) * mulFact;
+                this.lLeg03a.rotateAngleX = (pi / 2) * mulFact;
 
-                    this.rLeg00a.rotateAngleX += rotOff;
-                    this.lLeg00a.rotateAngleX += rotOff;
-                    this.rLeg01a.rotateAngleX += rotOff;
-                    this.lLeg01a.rotateAngleX += rotOff;
-                    this.rLeg02a.rotateAngleX += rotOff;
-                    this.lLeg02a.rotateAngleX += rotOff;
-                    this.rLeg03a.rotateAngleX += rotOff;
-                    this.lLeg03a.rotateAngleX += rotOff;
-                } else if(crabID == 3) {
-                    float yOff = (((float) Math.sin(((f2 + 100) / 2.5F) % 200F)) / 5);
-                    this.body.rotationPointY = yOff * 16F;
-                    this.lArm00.rotateAngleX = -1.5F;
-                    this.rArm00.rotateAngleX = -1.5F;
-                    this.lArm00.rotateAngleY = -1.5F + (float) Math.sin(f2 / 2.5F) / 1.5F;
-                    this.rArm00.rotateAngleY = 1.5F - (float) Math.sin(f2 / 2.5F) / 1.5F;
-                    this.lArm00.rotateAngleZ = 1.5F;
-                    this.rArm00.rotateAngleZ = -1.5F;
+                this.rLeg00a.rotateAngleX += rotOff;
+                this.lLeg00a.rotateAngleX += rotOff;
+                this.rLeg01a.rotateAngleX += rotOff;
+                this.lLeg01a.rotateAngleX += rotOff;
+                this.rLeg02a.rotateAngleX += rotOff;
+                this.lLeg02a.rotateAngleX += rotOff;
+                this.rLeg03a.rotateAngleX += rotOff;
+                this.lLeg03a.rotateAngleX += rotOff;
+            } else if(crabID == 3) {
+                float yOff = (((float) Math.sin(((f2 + 100) / 2.5F) % 200F)) / 5);
+                this.body.rotationPointY = yOff * 16F;
+                this.lArm00.rotateAngleX = -1.5F;
+                this.rArm00.rotateAngleX = -1.5F;
+                this.lArm00.rotateAngleY = -1.5F + (float) Math.sin(f2 / 2.5F) / 1.5F;
+                this.rArm00.rotateAngleY = 1.5F - (float) Math.sin(f2 / 2.5F) / 1.5F;
+                this.lArm00.rotateAngleZ = 1.5F;
+                this.rArm00.rotateAngleZ = -1.5F;
 
-                    float mulFact = 2F;
-                    float rotOff = -(float) Math.acos(yOff) * mulFact - 0.25F;
+                float mulFact = 2F;
+                float rotOff = -(float) Math.acos(yOff) * mulFact - 0.25F;
 
-                    float pi = (float) Math.PI;
-                    this.rLeg00a.rotateAngleZ = (pi / 2) * mulFact;
-                    this.lLeg00a.rotateAngleZ = (pi / 2) * mulFact;
-                    this.rLeg01a.rotateAngleZ = (pi / 2) * mulFact;
-                    this.lLeg01a.rotateAngleZ = (pi / 2) * mulFact;
-                    this.rLeg02a.rotateAngleZ = (pi / 2) * mulFact;
-                    this.lLeg02a.rotateAngleZ = (pi / 2) * mulFact;
-                    this.rLeg03a.rotateAngleZ = (pi / 2) * mulFact;
-                    this.lLeg03a.rotateAngleZ = (pi / 2) * mulFact;
+                float pi = (float) Math.PI;
+                this.rLeg00a.rotateAngleZ = (pi / 2) * mulFact;
+                this.lLeg00a.rotateAngleZ = (pi / 2) * mulFact;
+                this.rLeg01a.rotateAngleZ = (pi / 2) * mulFact;
+                this.lLeg01a.rotateAngleZ = (pi / 2) * mulFact;
+                this.rLeg02a.rotateAngleZ = (pi / 2) * mulFact;
+                this.lLeg02a.rotateAngleZ = (pi / 2) * mulFact;
+                this.rLeg03a.rotateAngleZ = (pi / 2) * mulFact;
+                this.lLeg03a.rotateAngleZ = (pi / 2) * mulFact;
 
-                    this.rLeg00a.rotateAngleZ += rotOff;
-                    this.lLeg00a.rotateAngleZ -= rotOff;
-                    this.rLeg01a.rotateAngleZ += rotOff;
-                    this.lLeg01a.rotateAngleZ -= rotOff;
-                    this.rLeg02a.rotateAngleZ += rotOff;
-                    this.lLeg02a.rotateAngleZ -= rotOff;
-                    this.rLeg03a.rotateAngleZ += rotOff;
-                    this.lLeg03a.rotateAngleZ -= rotOff;
-                } else {
-                    this.rLeg00a.rotateAngleZ = 0;
-                    this.lLeg00a.rotateAngleZ = 0;
-                    this.rLeg01a.rotateAngleZ = 0;
-                    this.lLeg01a.rotateAngleZ = 0;
-                    this.rLeg02a.rotateAngleZ = 0;
-                    this.lLeg02a.rotateAngleZ = 0;
-                    this.rLeg03a.rotateAngleZ = 0;
-                    this.lLeg03a.rotateAngleZ = 0;
-                    this.rLeg00a.rotateAngleX = 0;
-                    this.lLeg00a.rotateAngleX = 0;
-                    this.rLeg01a.rotateAngleX = 0;
-                    this.lLeg01a.rotateAngleX = 0;
-                    this.rLeg02a.rotateAngleX = 0;
-                    this.lLeg02a.rotateAngleX = 0;
-                    this.rLeg03a.rotateAngleX = 0;
-                    this.lLeg03a.rotateAngleX = 0;
-                    this.body.rotationPointX = 0;
-                    this.body.rotationPointY = 0;
-                    this.body.rotationPointZ = 0;
-                    this.rLeg00a.rotateAngleY = -0.3141592653589793F;
-                    this.lLeg00a.rotateAngleY = 0.3141592653589793F;
-                    this.rLeg01a.rotateAngleY = -0.13962634015954636F;
-                    this.lLeg01a.rotateAngleY = 0.13962634015954636F;
-                    this.rLeg02a.rotateAngleY = 0.13962634015954636F;
-                    this.lLeg02a.rotateAngleY = -0.13962634015954636F;
-                    this.rLeg03a.rotateAngleY = 0.45378560551852565F;
-                    this.lLeg03a.rotateAngleY = -0.45378560551852565F;
-                    float f5 = -(MathHelper.cos(f * 0.6662F * 2.0F + 0.0F) * 0.4F) * f1;
-                    float f6 = -(MathHelper.cos(f * 0.6662F * 2.0F + (float) Math.PI) * 0.4F) * f1;
-                    float f7 = -(MathHelper.cos(f * 0.6662F * 2.0F + ((float) Math.PI / 2F)) * 0.4F) * f1;
-                    float f8 = -(MathHelper.cos(f * 0.6662F * 2.0F + ((float) Math.PI * 3F / 2F)) * 0.4F) * f1;
-                    this.rLeg00a.rotateAngleY += f5;
-                    this.lLeg00a.rotateAngleY += -f5;
-                    this.rLeg01a.rotateAngleY += f6;
-                    this.lLeg01a.rotateAngleY += -f6;
-                    this.rLeg02a.rotateAngleY += f7;
-                    this.lLeg02a.rotateAngleY += -f7;
-                    this.rLeg03a.rotateAngleY += f8;
-                    this.lLeg03a.rotateAngleY += -f8;
-                    this.lClaw02.rotateAngleX = 0;
-                    this.rClaw01_1.rotateAngleX = 0;
-                    this.lClaw01.rotateAngleX = 0;
-                    this.rClaw01.rotateAngleX = 0;
-                    if(crab.snipTime > 0) {
-                        float angle = (crab.snipTime % 5) * 0.05F;
-                        angle -= (crab.snipTime % 10) * 0.05F;
-                        this.lClaw02.rotateAngleX = angle;
-                        this.rClaw01_1.rotateAngleX = angle;
-                        this.lClaw01.rotateAngleX = -angle;
-                        this.rClaw01.rotateAngleX = -angle;
-                    }
-
-                    float mul = 0.05F;
-                    float div = 20F;
-                    if(f1 > 0.1) {
-                        div = 5F;
-                    }
-                    float add = entity.getUniqueID().hashCode() * 0.001F;
-                    float tick = f2;
-                    this.lArm00.rotateAngleX = (float) Math.cos(tick * (mul + 0.05F) + add) / div + 0.3490658503988659F;
-                    this.rArm00.rotateAngleX = (float) Math.cos(-tick * (mul + 0.05F) + add) / div + 0.3490658503988659F;
-                    this.lArm00.rotateAngleY = (float) Math.cos(tick * (mul + 0.05F) + add) / div - 1.0471975511965976F;
-                    this.rArm00.rotateAngleY = (float) Math.cos(-tick * (mul + 0.05F) + add) / div + 1.0471975511965976F;
-                    this.lArm00.rotateAngleZ = (float) Math.cos(tick * (mul + 0.05F) + add) / div;
-                    this.rArm00.rotateAngleZ = (float) Math.cos(-tick * (mul + 0.05F) + add) / div;
+                this.rLeg00a.rotateAngleZ += rotOff;
+                this.lLeg00a.rotateAngleZ -= rotOff;
+                this.rLeg01a.rotateAngleZ += rotOff;
+                this.lLeg01a.rotateAngleZ -= rotOff;
+                this.rLeg02a.rotateAngleZ += rotOff;
+                this.lLeg02a.rotateAngleZ -= rotOff;
+                this.rLeg03a.rotateAngleZ += rotOff;
+                this.lLeg03a.rotateAngleZ -= rotOff;
+            } else {
+                float f5 = -(MathHelper.cos(f * 0.6662F * 2.0F + 0.0F) * 0.4F) * f1;
+                float f6 = -(MathHelper.cos(f * 0.6662F * 2.0F + (float) Math.PI) * 0.4F) * f1;
+                float f7 = -(MathHelper.cos(f * 0.6662F * 2.0F + ((float) Math.PI / 2F)) * 0.4F) * f1;
+                float f8 = -(MathHelper.cos(f * 0.6662F * 2.0F + ((float) Math.PI * 3F / 2F)) * 0.4F) * f1;
+                this.rLeg00a.rotateAngleY += f5;
+                this.lLeg00a.rotateAngleY += -f5;
+                this.rLeg01a.rotateAngleY += f6;
+                this.lLeg01a.rotateAngleY += -f6;
+                this.rLeg02a.rotateAngleY += f7;
+                this.lLeg02a.rotateAngleY += -f7;
+                this.rLeg03a.rotateAngleY += f8;
+                this.lLeg03a.rotateAngleY += -f8;
+                this.lClaw02.rotateAngleX = 0;
+                this.rClaw01_1.rotateAngleX = 0;
+                this.lClaw01.rotateAngleX = 0;
+                this.rClaw01.rotateAngleX = 0;
+                if(crab.snipTime > 0) {
+                    float angle = (crab.snipTime % 5) * 0.05F;
+                    angle -= (crab.snipTime % 10) * 0.05F;
+                    this.lClaw02.rotateAngleX = angle;
+                    this.rClaw01_1.rotateAngleX = angle;
+                    this.lClaw01.rotateAngleX = -angle;
+                    this.rClaw01.rotateAngleX = -angle;
                 }
+
+                float mul = 0.05F;
+                float div = 20F;
+                if(f1 > 0.1) {
+                    div = 5F;
+                }
+                float add = entity.getUniqueID().hashCode() * 0.001F;
+                float tick = f2;
+                this.lArm00.rotateAngleX = (float) Math.cos(tick * (mul + 0.05F) + add) / div + 0.3490658503988659F;
+                this.rArm00.rotateAngleX = (float) Math.cos(-tick * (mul + 0.05F) + add) / div + 0.3490658503988659F;
+                this.lArm00.rotateAngleY = (float) Math.cos(tick * (mul + 0.05F) + add) / div - 1.0471975511965976F;
+                this.rArm00.rotateAngleY = (float) Math.cos(-tick * (mul + 0.05F) + add) / div + 1.0471975511965976F;
+                this.lArm00.rotateAngleZ = (float) Math.cos(tick * (mul + 0.05F) + add) / div;
+                this.rArm00.rotateAngleZ = (float) Math.cos(-tick * (mul + 0.05F) + add) / div;
             }
         }
     }
