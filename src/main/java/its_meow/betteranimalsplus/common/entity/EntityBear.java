@@ -3,6 +3,7 @@ package its_meow.betteranimalsplus.common.entity;
 import com.google.common.base.Predicates;
 import dev.itsmeow.imdlib.entity.util.EntityTypeContainer;
 import its_meow.betteranimalsplus.common.entity.ai.EntityAIEatBerries;
+import its_meow.betteranimalsplus.common.entity.ai.FollowParentGoalButNotStupid;
 import its_meow.betteranimalsplus.common.entity.ai.HungerNearestAttackableTargetGoal;
 import its_meow.betteranimalsplus.common.entity.util.IDropHead;
 import its_meow.betteranimalsplus.common.entity.util.IHaveHunger;
@@ -38,6 +39,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 import javax.annotation.Nullable;
+import java.util.List;
 import java.util.function.Predicate;
 
 public class EntityBear extends AnimalEntity implements IDropHead<EntityBear>, IHaveHunger<EntityBear> {
@@ -69,7 +71,7 @@ public class EntityBear extends AnimalEntity implements IDropHead<EntityBear>, I
         this.goalSelector.addGoal(1, new EntityBear.MeleeAttackGoal());
         this.goalSelector.addGoal(1, new EntityBear.PanicGoal());
         this.goalSelector.addGoal(2, new BreedGoal(this, 1D));
-        this.goalSelector.addGoal(2, new FollowParentGoal(this, 1.25D));
+        this.goalSelector.addGoal(2, new FollowParentGoalButNotStupid(this, 1.25D, e -> !(e instanceof EntityBearNeutral)));
         this.goalSelector.addGoal(3, new EntityAIEatBerries(this, 1.0D, 12, 2));
         this.goalSelector.addGoal(5, new RandomWalkingGoal(this, 1.0D));
         this.goalSelector.addGoal(6, new LookAtGoal(this, PlayerEntity.class, 6.0F));
