@@ -19,6 +19,8 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
+import net.minecraft.pathfinding.GroundPathNavigator;
+import net.minecraft.pathfinding.PathNavigator;
 import net.minecraft.pathfinding.PathNodeType;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.util.DamageSource;
@@ -27,6 +29,7 @@ import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.IWorld;
@@ -80,6 +83,24 @@ public class EntityBear extends AnimalEntity implements IDropHead<EntityBear>, I
         this.targetSelector.addGoal(5, new HungerNearestAttackableTargetGoal<>(this, EntityPheasant.class, 90, true, true, Predicates.alwaysTrue()));
         this.targetSelector.addGoal(3, new HungerNearestAttackableTargetGoal<>(this, FoxEntity.class, 90, true, true, Predicates.alwaysTrue()));
     }
+
+    @Override
+    protected PathNavigator createNavigator(World worldIn) {
+        return new GroundPathNavigator(this, worldIn) {
+            @Override
+            protected void pathFollow() {
+                Vec3d vec3d = this.getEntityPosition();
+                this.maxDistanceToWaypoint = this.entity.getWidth() > 0.75F ? this.entity.getWidth() / 2.0F : 0.75F - this.entity.getWidth() / 2.0F;
+                Vec3d vec3d1 = this.currentPath.getCurrentPos();
+                if (Math.abs(this.entity.getPosX() - (vec3d1.x + ((int)(this.entity.getWidth() + 1) / 2D))) <= (double)this.maxDistanceToWaypoint && Math.abs(this.entity.getPosZ() - (vec3d1.z + ((int)(this.entity.getWidth() + 1) / 2D))) <= (double)this.maxDistanceToWaypoint && Math.abs(this.entity.getPosY() - vec3d1.y) <= 1.0D) {
+                    this.currentPath.setCurrentPathIndex(this.currentPath.getCurrentPathIndex() + 1);
+                }
+
+                this.checkForStuck(vec3d);
+            }
+        };
+    }
+
     @Override
     public int getHunger() {
         return hunger;
