@@ -54,6 +54,7 @@ public class CommonEventHandler {
         NO_ATTACKED_DROPS.add(e -> e instanceof EntitySharkBase);
         NO_ATTACKED_DROPS.add(e -> e instanceof EntityBarracuda);
         NO_ATTACKED_DROPS.add(e -> e instanceof EntityPiranha);
+        NO_ATTACKED_DROPS.add(e -> e instanceof EntityOctopus && ((EntityOctopus) e).friend == null);
     }
 
     @ObjectHolder("essentialfeatures:portable_jukebox")
