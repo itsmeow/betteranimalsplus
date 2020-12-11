@@ -2,6 +2,7 @@ package its_meow.betteranimalsplus.common.entity;
 
 import dev.itsmeow.imdlib.entity.util.EntityTypeContainer;
 import dev.itsmeow.imdlib.entity.util.IContainerEntity;
+import its_meow.betteranimalsplus.common.entity.ai.HybridPathNavigator;
 import its_meow.betteranimalsplus.init.ModEntities;
 import its_meow.betteranimalsplus.init.ModItems;
 import its_meow.betteranimalsplus.init.ModLootTables;
@@ -21,7 +22,8 @@ import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.particles.ParticleTypes;
-import net.minecraft.pathfinding.*;
+import net.minecraft.pathfinding.PathNavigator;
+import net.minecraft.pathfinding.PathNodeType;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.*;
@@ -219,7 +221,7 @@ public class EntityWalrus extends AnimalEntity implements IContainerEntity<Entit
     }
 
     protected PathNavigator createNavigator(World worldIn) {
-        return new EntityWalrus.Navigator(this, worldIn);
+        return new HybridPathNavigator<>(this, worldIn, EntityWalrus::isTravelling);
     }
 
     @SuppressWarnings("deprecation")
@@ -395,34 +397,6 @@ public class EntityWalrus extends AnimalEntity implements IContainerEntity<Entit
             } else {
                 this.walrus.setAIMoveSpeed(0.0F);
             }
-        }
-    }
-
-    public static class Navigator extends SwimmerPathNavigator {
-        public Navigator(EntityWalrus walrus, World world) {
-            super(walrus, world);
-        }
-
-        @Override
-        protected boolean canNavigate() {
-            return true;
-        }
-
-        @Override
-        protected PathFinder getPathFinder(int p_179679_1_) {
-            return new PathFinder(new WalkAndSwimNodeProcessor(), p_179679_1_);
-        }
-
-        @Override
-        public boolean canEntityStandOnPos(BlockPos pos) {
-            if(this.entity instanceof EntityWalrus) {
-                EntityWalrus walrus = (EntityWalrus) this.entity;
-                if(walrus.isTravelling()) {
-                    return this.world.getBlockState(pos).getBlock() == Blocks.WATER;
-                }
-            }
-
-            return !this.world.isAirBlock(pos.down());
         }
     }
 

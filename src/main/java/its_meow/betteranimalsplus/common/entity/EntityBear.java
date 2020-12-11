@@ -1,8 +1,10 @@
 package its_meow.betteranimalsplus.common.entity;
 
 import com.google.common.base.Predicates;
+import com.sun.javafx.geom.Vec3d;
 import dev.itsmeow.imdlib.entity.util.EntityTypeContainer;
 import its_meow.betteranimalsplus.common.entity.ai.EntityAIEatBerries;
+import its_meow.betteranimalsplus.common.entity.ai.FollowParentGoalButNotStupid;
 import its_meow.betteranimalsplus.common.entity.ai.HungerNearestAttackableTargetGoal;
 import its_meow.betteranimalsplus.common.entity.util.IDropHead;
 import its_meow.betteranimalsplus.common.entity.util.IHaveHunger;
@@ -20,11 +22,15 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
+import net.minecraft.pathfinding.GroundPathNavigator;
+import net.minecraft.pathfinding.PathNavigator;
 import net.minecraft.pathfinding.PathNodeType;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.util.math.vector.Vector3i;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.IServerWorld;
@@ -34,6 +40,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 import javax.annotation.Nullable;
+import java.util.List;
 import java.util.function.Predicate;
 
 public class EntityBear extends AnimalEntity implements IDropHead<EntityBear>, IHaveHunger<EntityBear> {
@@ -61,7 +68,7 @@ public class EntityBear extends AnimalEntity implements IDropHead<EntityBear>, I
         this.goalSelector.addGoal(1, new EntityBear.BearMeleeAttackGoal());
         this.goalSelector.addGoal(1, new EntityBear.BearPanicGoal());
         this.goalSelector.addGoal(2, new BreedGoal(this, 1D));
-        this.goalSelector.addGoal(2, new FollowParentGoal(this, 1.25D));
+        this.goalSelector.addGoal(2, new FollowParentGoalButNotStupid(this, 1.25D, e -> !(e instanceof EntityBearNeutral)));
         this.goalSelector.addGoal(3, new EntityAIEatBerries(this, 1.0D, 12, 2));
         this.goalSelector.addGoal(5, new RandomWalkingGoal(this, 1.0D));
         this.goalSelector.addGoal(6, new LookAtGoal(this, PlayerEntity.class, 6.0F));
@@ -75,6 +82,44 @@ public class EntityBear extends AnimalEntity implements IDropHead<EntityBear>, I
         this.targetSelector.addGoal(5, new HungerNearestAttackableTargetGoal<>(this, EntityPheasant.class, 90, true, true, Predicates.alwaysTrue()));
         this.targetSelector.addGoal(3, new HungerNearestAttackableTargetGoal<>(this, FoxEntity.class, 90, true, true, Predicates.alwaysTrue()));
     }
+
+    @Override
+    protected PathNavigator createNavigator(World worldIn) {
+        return new GroundPathNavigator(this, worldIn) {
+            @Override
+            protected void pathFollow() {
+                Vector3d vector3d = this.getEntityPosition();
+                this.maxDistanceToWaypoint = this.entity.getWidth() > 0.75F ? this.entity.getWidth() / 2.0F : 0.75F - this.entity.getWidth() / 2.0F;
+                Vector3i vector3i = this.currentPath.func_242948_g();
+                double d0 = Math.abs(this.entity.getPosX() - ((double)vector3i.getX() + (this.entity.getWidth() + 1) / 2D)); //Forge: Fix MC-94054
+                double d1 = Math.abs(this.entity.getPosY() - (double)vector3i.getY());
+                double d2 = Math.abs(this.entity.getPosZ() - ((double)vector3i.getZ() + (this.entity.getWidth() + 1) / 2D)); //Forge: Fix MC-94054
+                boolean flag = d0 <= (double)this.maxDistanceToWaypoint && d2 <= (double)this.maxDistanceToWaypoint && d1 < 1.0D;
+                if (flag || this.entity.func_233660_b_(this.currentPath.func_237225_h_().nodeType) && this.func_234112_b_(vector3d)) {
+                    this.currentPath.incrementPathIndex();
+                }
+
+                this.checkForStuck(vector3d);
+            }
+
+            private boolean func_234112_b_(Vector3d currentPosition) {
+                if (this.currentPath.getCurrentPathIndex() + 1 >= this.currentPath.getCurrentPathLength()) {
+                    return false;
+                } else {
+                    Vector3d vector3d = Vector3d.copyCenteredHorizontally(this.currentPath.func_242948_g());
+                    if (!currentPosition.isWithinDistanceOf(vector3d, 2.0D)) {
+                        return false;
+                    } else {
+                        Vector3d vector3d1 = Vector3d.copyCenteredHorizontally(this.currentPath.func_242947_d(this.currentPath.getCurrentPathIndex() + 1));
+                        Vector3d vector3d2 = vector3d1.subtract(vector3d);
+                        Vector3d vector3d3 = currentPosition.subtract(vector3d);
+                        return vector3d2.dotProduct(vector3d3) > 0.0D;
+                    }
+                }
+            }
+        };
+    }
+
     @Override
     public int getHunger() {
         return hunger;

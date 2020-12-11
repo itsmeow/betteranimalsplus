@@ -2,9 +2,8 @@ package its_meow.betteranimalsplus.common.entity;
 
 import dev.itsmeow.imdlib.entity.util.EntityTypeContainer;
 import dev.itsmeow.imdlib.entity.util.IVariantTypes;
-import its_meow.betteranimalsplus.common.entity.ai.HybridMoveController;
-import its_meow.betteranimalsplus.common.entity.ai.PeacefulNearestAttackableTargetGoal;
-import its_meow.betteranimalsplus.common.entity.ai.WaterfowlNavigator;
+import its_meow.betteranimalsplus.common.entity.ai.*;
+import its_meow.betteranimalsplus.common.entity.util.IHaveHunger;
 import its_meow.betteranimalsplus.common.entity.util.abstracts.EntityBAPCephalopod;
 import its_meow.betteranimalsplus.common.entity.util.abstracts.EntityWaterMobPathing;
 import its_meow.betteranimalsplus.init.ModEntities;
@@ -19,6 +18,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.pathfinding.PathNavigator;
+import net.minecraft.pathfinding.PathNodeType;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
 import net.minecraft.tags.ItemTags;
@@ -30,19 +30,24 @@ import net.minecraft.world.server.ServerWorld;
 import javax.annotation.Nullable;
 import java.util.UUID;
 
-public class EntityOctopus extends EntityBAPCephalopod implements IVariantTypes<EntityWaterMobPathing> {
+public class EntityOctopus extends EntityBAPCephalopod implements IVariantTypes<EntityWaterMobPathing>, IHaveHunger<EntityWaterMobPathing> {
 
     public UUID friend = null;
+    private int hunger = 0;
 
     public EntityOctopus(World world) {
         super(ModEntities.OCTOPUS.entityType, world);
+        this.setPathPriority(PathNodeType.WALKABLE, 1.5F);
+        this.setPathPriority(PathNodeType.WATER, 1.5F);
+        this.setPathPriority(PathNodeType.WATER_BORDER, 1F);
         this.moveController = new HybridMoveController(this);
+        this.stepHeight = 1F;
     }
 
     @Override
     protected void registerGoals() {
         this.goalSelector.addGoal(0, new GoToWaterGoal(this, 2D));
-        this.goalSelector.addGoal(1, new MeleeAttackGoal(this, 0.8D, false));
+        this.goalSelector.addGoal(1, new MeleeAttackGoal(this, 0.8D, true));
         this.goalSelector.addGoal(2, new LookAtGoal(this, WaterMobEntity.class, 10.0F));
         this.goalSelector.addGoal(2, new LookRandomlyGoal(this));
         this.goalSelector.addGoal(3, new MoveRandomGoal(this));
@@ -61,13 +66,13 @@ public class EntityOctopus extends EntityBAPCephalopod implements IVariantTypes<
             }
         });
         this.targetSelector.addGoal(1, new OctopusAIAttackForFriend(this));
-        this.targetSelector.addGoal(2, new PeacefulNearestAttackableTargetGoal<PlayerEntity>(this, PlayerEntity.class, 100, true, true, e -> (friend == null || ((PlayerEntity) e).getGameProfile().getId() != friend) && e.getDistance(EntityOctopus.this) < 4D && "blue_ringed".equals(EntityOctopus.this.getVariantNameOrEmpty())));
-        this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<WaterMobEntity>(this, WaterMobEntity.class, 100, true, true, e -> !(e instanceof IMob) && e.getSize(Pose.STANDING).width < this.getSize(Pose.STANDING).width));
+        this.targetSelector.addGoal(2, new PeacefulNearestAttackableTargetGoal<>(this, PlayerEntity.class, 0, true, true, e -> (friend == null || ((PlayerEntity) e).getGameProfile().getId() != friend) && e.getDistance(EntityOctopus.this) < 4D && "blue_ringed".equals(EntityOctopus.this.getVariantNameOrEmpty())));
+        this.targetSelector.addGoal(3, new HungerNearestAttackableTargetGoal<WaterMobEntity, EntityOctopus>(this, WaterMobEntity.class, 0, true, true, e -> !(e instanceof IMob) && e.getSize(Pose.STANDING).width < this.getSize(Pose.STANDING).width));
     }
 
     @Override
     protected PathNavigator createNavigator(World worldIn) {
-        return new WaterfowlNavigator(this, worldIn);
+        return new HybridPathNavigator<>(this, worldIn, e -> e.getAttackTarget() == null || (e.getAttackTarget().isInWater() && this.isInWater()) || (!e.getAttackTarget().isInWater() && this.isInWater()));
     }
 
     @Override
@@ -80,6 +85,24 @@ public class EntityOctopus extends EntityBAPCephalopod implements IVariantTypes<
             }
         } else {
             this.setAir(1600);
+        }
+    }
+
+    @Override
+    public int getHunger() {
+        return hunger;
+    }
+
+    @Override
+    public void setHunger(int hunger) {
+        this.hunger = hunger;
+    }
+
+    @Override
+    public void tick() {
+        super.tick();
+        if (this.ticksExisted % 20 == 0) {
+            this.incrementHunger();
         }
     }
 
@@ -171,7 +194,7 @@ public class EntityOctopus extends EntityBAPCephalopod implements IVariantTypes<
 
         @Override
         public boolean shouldExecute() {
-            return !this.octo.isInWater() && super.shouldExecute();
+            return !this.octo.isInWater() && this.octo.getAttackTarget() == null && super.shouldExecute();
         }
 
         @Override
@@ -196,6 +219,7 @@ public class EntityOctopus extends EntityBAPCephalopod implements IVariantTypes<
     public void writeAdditional(CompoundNBT compound) {
         super.writeAdditional(compound);
         this.writeType(compound);
+        this.writeHunger(compound);
         if(friend != null) {
             compound.putUniqueId("Friend", this.friend);
         }
@@ -205,12 +229,14 @@ public class EntityOctopus extends EntityBAPCephalopod implements IVariantTypes<
     public void readAdditional(CompoundNBT compound) {
         super.readAdditional(compound);
         this.readType(compound);
+        this.readHunger(compound);
         this.friend = compound.getUniqueId("Friend");
     }
 
     @Override
     @Nullable
     public ILivingEntityData onInitialSpawn(IServerWorld world, DifficultyInstance difficulty, SpawnReason reason, @Nullable ILivingEntityData livingdata, CompoundNBT compound) {
+        this.setInitialHunger();
         return this.initData(world, reason, super.onInitialSpawn(world, difficulty, reason, livingdata, compound));
     }
 
