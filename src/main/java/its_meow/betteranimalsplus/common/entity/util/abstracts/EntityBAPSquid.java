@@ -1,6 +1,7 @@
 package its_meow.betteranimalsplus.common.entity.util.abstracts;
 
 import com.google.common.base.Predicates;
+import its_meow.betteranimalsplus.common.entity.ai.EfficientMoveTowardsTargetGoal;
 import its_meow.betteranimalsplus.init.ModLootTables;
 import its_meow.betteranimalsplus.init.ModTriggers;
 import net.minecraft.block.Blocks;
@@ -37,7 +38,7 @@ public abstract class EntityBAPSquid extends EntityBAPCephalopod {
 
     @Override
     protected void registerGoals() {
-        this.goalSelector.addGoal(0, new MoveTowardsTargetGoal(this, 1D, 50F));
+        this.goalSelector.addGoal(0, new EfficientMoveTowardsTargetGoal(this, 1D, true));
         this.goalSelector.addGoal(1, new MoveRandomGoal(this));
         this.targetSelector.addGoal(0, new HurtByTargetGoal(this) {
             @Override
@@ -61,6 +62,9 @@ public abstract class EntityBAPSquid extends EntityBAPCephalopod {
     @Override
     public void livingTick() {
         super.livingTick();
+        if(this.isInWater() && this.getPosY() > world.getSeaLevel() - 8) {
+            this.setMotion(this.getMotion().add(0D, -0.05D, 0D));
+        }
         if(this.getAttackTarget() != null && !this.getAttackTarget().isAlive()) {
             this.setAttackTarget(null);
         }
