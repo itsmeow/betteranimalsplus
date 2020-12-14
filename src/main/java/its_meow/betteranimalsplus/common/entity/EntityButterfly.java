@@ -469,13 +469,12 @@ public class EntityButterfly extends EntityAnimalWithTypesAndSizeContainable {
         }
     }
 
-    public static Biome[] getSpawnBiomes() {
-        // java ****ing sucks at type inference, which is why this is here. because it won't compile as a lambda inside ModEntities. thanks java.
+    public static RegistryKey<Biome>[] getSpawnBiomes() {
         Set<RegistryKey<Biome>> set = new HashSet<>();
         set.addAll(BiomeDictionary.getBiomes(Type.FOREST));
         set.addAll(BiomeDictionary.getBiomes(Type.JUNGLE));
         set.addAll(BiomeDictionary.getBiomes(Type.MAGICAL));
         set.removeIf(b -> BiomeDictionary.getTypes(b).contains(Type.COLD));
-        return set.stream().map(b -> ForgeRegistries.BIOMES.getValue(b.getLocation())).toArray(Biome[]::new);
+        return set.toArray(new RegistryKey[0]);
     }
 }

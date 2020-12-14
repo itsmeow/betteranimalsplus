@@ -17,7 +17,9 @@ repositories {
 dependencies {
     compileOnly fg.deobf("mezz.jei:jei-${project.mc_version}:${jei_version}:api")
     runtimeOnly fg.deobf("mezz.jei:jei-${project.mc_version}:${jei_version}")
-    runtimeOnly fg.deobf("curse.maven:AppleSkin-248787:3035787")
+    runtimeOnly fg.deobf("curse.maven:AppleSkin-248787:${appleskin_version}")
     compileOnly fg.deobf("top.theillusivec4.curios:curios-forge:${curios_version}:api")
     runtimeOnly fg.deobf("top.theillusivec4.curios:curios-forge:${curios_version}")
+    runtimeOnly fg.deobf("curse.maven:BiomesOPlenty-3035787:${bop_version}")
+    runtimeOnly fg.deobf("curse.maven:TraverseReforged-267769:${traverse_version}")
 }

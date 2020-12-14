@@ -12,7 +12,6 @@ import dev.itsmeow.imdlib.entity.util.builder.IEntityBuilder;
 import dev.itsmeow.imdlib.item.IContainerItem;
 import dev.itsmeow.imdlib.item.ItemModEntityContainer;
 import dev.itsmeow.imdlib.item.ItemModFishBucket;
-import dev.itsmeow.imdlib.util.BiomeListBuilder;
 import its_meow.betteranimalsplus.BetterAnimalsPlusMod;
 import its_meow.betteranimalsplus.Ref;
 import its_meow.betteranimalsplus.client.model.*;
@@ -28,21 +27,27 @@ import net.minecraft.entity.ai.attributes.AttributeModifierMap;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.monster.MonsterEntity;
 import net.minecraft.entity.monster.SpiderEntity;
-import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.passive.TameableEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.Items;
+import net.minecraft.util.RegistryKey;
 import net.minecraft.world.World;
+import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.Biomes;
 import net.minecraft.world.gen.Heightmap;
+import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.BiomeDictionary.Type;
 import net.minecraftforge.common.ForgeConfigSpec;
+import net.minecraftforge.registries.ForgeRegistries;
 
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Set;
 import java.util.function.Function;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 public class ModEntities {
 
@@ -215,7 +220,7 @@ public class ModEntities {
     .spawn(EntityClassification.CREATURE, 10, 1, 4)
     .defaultPlacement(MobEntity::canSpawnOn)
     .egg(0x8e510b, 0x017700).size(1.3964844F, 1.8F)
-    .biomes(BiomeListBuilder.create().withTypes(Type.SNOWY).withoutTypes(Type.OCEAN)::collect)
+    .biomes(b -> b.withTypes(Type.SNOWY).withoutTypes(Type.OCEAN))
     .variants(
     new EntityVariant(MODID, "1", "reindeer_1"),
     new EntityVariant(MODID, "2", "reindeer_2"),
@@ -358,9 +363,9 @@ public class ModEntities {
     .defaultPlacement(MobEntity::canSpawnOn)
     .egg(0x46351c, 0x97866e)
     .size(2.25F, 3F)
-    .biomes(BiomeListBuilder.create()
+    .biomes(b -> b
     .extra(Type.SWAMP)
-    .extra(Biomes.GIANT_SPRUCE_TAIGA, Biomes.GIANT_SPRUCE_TAIGA_HILLS, Biomes.GIANT_TREE_TAIGA, Biomes.GIANT_TREE_TAIGA_HILLS)::collect)
+    .extra(Biomes.GIANT_SPRUCE_TAIGA, Biomes.GIANT_SPRUCE_TAIGA_HILLS, Biomes.GIANT_TREE_TAIGA, Biomes.GIANT_TREE_TAIGA_HILLS))
     .variants(4)
     .head().mapToNames().offset(-1.35F).setModel(() -> ModelMooseHead::new).done());
 
@@ -372,7 +377,7 @@ public class ModEntities {
     .spawn(EntityClassification.CREATURE, 11, 1, 3)
     .egg(0x857445, 0x5099ba)
     .size(1F, 1F)
-    .biomes(BiomeListBuilder.create().withTypes(Type.FOREST).withoutTypes(Type.SNOWY)::collect)
+    .biomes(b -> b.withTypes(Type.FOREST).withoutTypes(Type.SNOWY))
     .variants(4));
 
     public static final EntityTypeContainer<EntityBobbitWorm> BOBBIT_WORM = setup(create(EntityBobbitWorm.class, EntityBobbitWorm::new, "bobbit_worm", () -> MobEntity.func_233666_p_()
@@ -397,10 +402,10 @@ public class ModEntities {
     .placement(PlacementType.NO_RESTRICTIONS, Heightmap.Type.MOTION_BLOCKING, EntityGoose::canGooseSpawn)
     .egg(0xd3cfcf, 0x5e5752)
     .size(1F, 1F)
-    .biomes(BiomeListBuilder.create()
+    .biomes(b -> b
     .withTypes(Type.FOREST)
     .withoutTypes(Type.DRY, Type.COLD, Type.HOT, Type.DENSE, Type.DEAD, Type.SPARSE, Type.OCEAN)
-    .extra(Type.RIVER)::collect)
+    .extra(Type.RIVER))
     .config(new CustomConfigurationHolder() {
         private ForgeConfigSpec.ConfigValue<List<? extends String>> pickupBlacklist;
 
@@ -439,10 +444,10 @@ public class ModEntities {
     .egg(0xa5a5a5, 0x515168)
     .size(1F, 1F)
     .despawn()
-    .biomes(BiomeListBuilder.create()
+    .biomes(b -> b
     .withTypes(Type.OCEAN)
     .withoutTypes(Type.COLD)
-    .withoutBiomes(Biomes.DEEP_OCEAN, Biomes.DEEP_LUKEWARM_OCEAN, Biomes.DEEP_LUKEWARM_OCEAN)::collect)
+    .withoutBiomes(Biomes.DEEP_OCEAN, Biomes.DEEP_LUKEWARM_OCEAN, Biomes.DEEP_LUKEWARM_OCEAN))
     .variants("conger", "dragon", "moray", "ribbon", "snowflake")
     .containers(ItemModFishBucket.waterBucket(G), c->Items.BUCKET));
 
@@ -471,7 +476,7 @@ public class ModEntities {
     .defaultPlacement(EntityWalrus::canSpawn)
     .egg(0x854c03, 0x42300f)
     .size(3F, 1.25F)
-    .biomes(BiomeListBuilder.create().extra(Biomes.FROZEN_OCEAN, Biomes.DEEP_FROZEN_OCEAN, Biomes.SNOWY_BEACH, Biomes.STONE_SHORE)::collect));
+    .biomes(b -> b.extra(Biomes.FROZEN_OCEAN, Biomes.DEEP_FROZEN_OCEAN, Biomes.SNOWY_BEACH, Biomes.STONE_SHORE)));
 
     public static final EntityTypeContainerContainable<EntityButterfly, ItemModEntityContainer<EntityButterfly>> BUTTERFLY = setup(ModEntities.<EntityButterfly, ItemModEntityContainer<EntityButterfly>>createContainable(EntityButterfly.class, EntityButterfly::new, "butterfly", () -> MobEntity.func_233666_p_()
     .createMutableAttribute(Attributes.MAX_HEALTH, 2.0D))
@@ -517,7 +522,7 @@ public class ModEntities {
     .egg(0x575963, 0xCFCFCF)
     .size(1.5F, 1F)
     .despawn()
-    .biomeKeys(OceanBiomeHelper::subtropicalOcean)
+    .biomes(OceanBiomeHelper::subtropicalOcean)
     .containers(ItemModFishBucket.waterBucket(G), c -> Items.BUCKET));
 
     public static final EntityTypeContainerContainable<EntityFlyingFish, ItemModFishBucket<EntityFlyingFish>> FLYING_FISH = setup(createContainableB(EntityFlyingFish.class, EntityFlyingFish::new, "flying_fish", () -> MobEntity.func_233666_p_()
@@ -529,7 +534,7 @@ public class ModEntities {
     .size(1F, 0.8F)
     .despawn()
     .variants("purple", "yellow")
-    .biomeKeys(OceanBiomeHelper::subtropicalOcean)
+    .biomes(OceanBiomeHelper::subtropicalOcean)
     .containers(ItemModFishBucket.waterBucket(G), c -> Items.BUCKET));
 
     public static final EntityTypeContainer<EntityColossalSquid> SQUID_COLOSSAL = setup(create(EntityColossalSquid.class, EntityColossalSquid::new, "squid_colossal", () -> MobEntity.func_233666_p_()
@@ -542,7 +547,7 @@ public class ModEntities {
     .egg(0x8C354A, 0xFAD64A)
     .size(5F, 5F)
     .despawn()
-    .biomeKeys(() -> OceanBiomeHelper.removeIf(biome -> !OceanBiomeHelper.isDeepOcean(biome))));
+    .biomes(() -> OceanBiomeHelper.removeIf(biome -> !OceanBiomeHelper.isDeepOcean(biome))));
 
     public static final EntityTypeContainer<EntityGiantSquid> SQUID_GIANT = setup(create(EntityGiantSquid.class, EntityGiantSquid::new, "squid_giant", () -> MobEntity.func_233666_p_()
     .createMutableAttribute(Attributes.MAX_HEALTH, 30D)
@@ -554,7 +559,7 @@ public class ModEntities {
     .egg(0x741921, 0xFAD64A)
     .size(3F, 3F)
     .despawn()
-    .biomeKeys(() -> OceanBiomeHelper.removeIf(biome -> !OceanBiomeHelper.isDeepOcean(biome))));
+    .biomes(() -> OceanBiomeHelper.removeIf(biome -> !OceanBiomeHelper.isDeepOcean(biome))));
 
     public static final EntityTypeContainerContainable<EntityPiranha, ItemModFishBucket<EntityPiranha>> PIRANHA = setup(createContainableB(EntityPiranha.class, EntityPiranha::new, "piranha", () -> MobEntity.func_233666_p_()
     .createMutableAttribute(Attributes.MAX_HEALTH, 5.0D)
@@ -580,7 +585,7 @@ public class ModEntities {
     .size(1F, 1F)
     .despawn()
     .variants("east_pacific_red", "common", "giant_pacific", "blue_ringed")
-    .biomeKeys(() -> OceanBiomeHelper.returnIf(biome -> OceanBiomeHelper.isWarmOcean(biome) || OceanBiomeHelper.isLukewarmOcean(biome))));
+    .biomes(() -> OceanBiomeHelper.returnIf(biome -> OceanBiomeHelper.isWarmOcean(biome) || OceanBiomeHelper.isLukewarmOcean(biome))));
 
     /*
      * ##########################################################
