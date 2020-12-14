@@ -16,6 +16,7 @@ import net.minecraft.entity.*;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.effect.LightningBoltEntity;
+import net.minecraft.entity.monster.HoglinEntity;
 import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.monster.ZombifiedPiglinEntity;
 import net.minecraft.entity.passive.AnimalEntity;
@@ -85,7 +86,7 @@ public class EntityBoar extends EntityAnimalWithSelectiveTypes implements IMob, 
                 return !EntityBoar.this.isChild() && !EntityBoar.this.isPeaceful() && super.shouldContinueExecuting();
             }
         }.setCallsForHelp(EntityBoar.class));
-        this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<AnimalEntity>(this, AnimalEntity.class, 90, true, true, (@Nullable LivingEntity in) -> in instanceof ChickenEntity || in instanceof EntityPheasant || in instanceof AnimalEntity && ((AnimalEntity) in).isChild() && !(in instanceof EntityBoar || in instanceof PigEntity)) {
+        this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<AnimalEntity>(this, AnimalEntity.class, 90, true, true, (@Nullable LivingEntity in) -> in instanceof ChickenEntity || in instanceof EntityPheasant || in instanceof AnimalEntity && ((AnimalEntity) in).isChild() && !(in instanceof EntityBoar || in instanceof PigEntity || in instanceof HoglinEntity)) {
             @Override
             public boolean shouldExecute() {
                 return !EntityBoar.this.isChild() && super.shouldExecute();
@@ -96,7 +97,7 @@ public class EntityBoar extends EntityAnimalWithSelectiveTypes implements IMob, 
                 return !EntityBoar.this.isChild() && super.shouldContinueExecuting();
             }
         });
-        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<LivingEntity>(this, LivingEntity.class, 50, true, true, (@Nullable LivingEntity in) -> in instanceof AnimalEntity && !(in instanceof EntityBoar || in instanceof PigEntity) || in instanceof PlayerEntity) {
+        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<LivingEntity>(this, LivingEntity.class, 50, true, true, (@Nullable LivingEntity in) -> in instanceof AnimalEntity && !(in instanceof EntityBoar || in instanceof PigEntity || in instanceof HoglinEntity) || in instanceof PlayerEntity) {
             @Override
             public boolean shouldExecute() {
                 return !EntityBoar.this.isChild() && !EntityBoar.this.isPeaceful() && super.shouldExecute();
