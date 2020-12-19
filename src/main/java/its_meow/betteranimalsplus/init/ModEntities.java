@@ -31,23 +31,16 @@ import net.minecraft.entity.passive.TameableEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.Items;
-import net.minecraft.util.RegistryKey;
 import net.minecraft.world.World;
-import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.Biomes;
 import net.minecraft.world.gen.Heightmap;
-import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.BiomeDictionary.Type;
 import net.minecraftforge.common.ForgeConfigSpec;
-import net.minecraftforge.registries.ForgeRegistries;
 
-import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Set;
 import java.util.function.Function;
 import java.util.function.Supplier;
-import java.util.stream.Collectors;
 
 public class ModEntities {
 
@@ -73,7 +66,7 @@ public class ModEntities {
     .defaultPlacement(MobEntity::canSpawnOn)
     .egg(0x4F2900, 0x8E500E)
     .size(2F, 2F)
-    .biomes(Type.FOREST)
+    .biomesOverworld(Type.FOREST)
     .head().singleton("1", "bear_brown").setModel(() -> ModelBearHead::new).done());
 
     public static final EntityTypeContainer<EntityBearNeutral> BLACK_BEAR = setup(create(EntityBearNeutral.class, EntityBearNeutral::new, "blackbear", () -> MobEntity.func_233666_p_()
@@ -88,7 +81,7 @@ public class ModEntities {
     .defaultPlacement(MobEntity::canSpawnOn)
     .egg(0x000000, 0x333333)
     .size(2F, 1.5F)
-    .biomes(Type.FOREST)
+    .biomesOverworld(Type.FOREST)
     .variants("black", "kermode")
     .head().itemGroup(G).mapToNames().setModel(() -> ModelBearHead::new).done());
 
@@ -99,7 +92,7 @@ public class ModEntities {
     .defaultPlacement(MobEntity::canSpawnOn)
     .egg(0x8e510b, 0xc6863b)
     .size(1.2F, 1.6F)
-    .biomes(Type.FOREST, Type.MAGICAL)
+    .biomesOverworld(Type.FOREST, Type.MAGICAL)
     .variants(EntityDeer.EntityDeerVariant::new, "1", "2", "3", "4")
     .head().itemGroup(G).mapToNames().offset(-1.5F).setModel(() -> ModelDeerHead::new).done());
 
@@ -118,7 +111,7 @@ public class ModEntities {
     .egg(0xd8d8d8, 0xd82b11)
     .size(0.75F, 0.5F)
     .tameItems("minecraft:bone")
-    .biomes(Type.HILLS, Type.MOUNTAIN)
+    .biomesOverworld(Type.HILLS, Type.MOUNTAIN)
     .variants("orange", "red", "white", "yellow"));
 
     public static final EntityTypeContainerBAPTameable<EntityFeralWolf> FERAL_WOLF = setup(createTame(EntityFeralWolf.class, EntityFeralWolf::new, "feralwolf", () -> MobEntity.func_233666_p_()
@@ -131,7 +124,7 @@ public class ModEntities {
     .egg(0xbababa, 0x232323)
     .size(1.35F, 1.5F)
     .tameItems("minecraft:bone")
-    .biomes(Type.FOREST, Type.MAGICAL, Type.SPOOKY)
+    .biomesOverworld(Type.FOREST, Type.MAGICAL, Type.SPOOKY)
     .variants(EntityFeralWolf.WolfVariant::new, "black", "snowy", "timber", "arctic", "brown", "red")
     .head().itemGroup(G).mapToNames().allowFloor().setModel(() -> ModelFeralWolfHead::new).done());
 
@@ -145,7 +138,7 @@ public class ModEntities {
     .egg(0x866a31, 0xb69762)
     .size(0.8F, 0.9F)
     .tameItems("minecraft:rabbit", "minecraft:chicken", "betteranimalsplus:pheasantraw", "minecraft:cooked_rabbit", "minecraft:cooked_chicken", "betteranimalsplus:pheasantcooked")
-    .biomes(Type.SANDY, Type.PLAINS)
+    .biomesOverworld(Type.SANDY, Type.PLAINS)
     .config(new CustomConfigurationHolder() {
         private ForgeConfigSpec.BooleanValue coyoteHostileDaytime;
 
@@ -166,7 +159,7 @@ public class ModEntities {
     .size(1.4F, 0.9F)
     .defaultPlacement(MonsterEntity::canMonsterSpawnInLight)
     .despawn()
-    .biomes(Type.SANDY));
+    .biomesOverworld(Type.SANDY));
 
     public static final EntityTypeContainer<EntityGoat> GOAT = setup(create(EntityGoat.class, EntityGoat::new, "goat", () -> MobEntity.func_233666_p_()
     .createMutableAttribute(Attributes.MAX_HEALTH, 14.0D)
@@ -176,7 +169,7 @@ public class ModEntities {
     .spawn(EntityClassification.CREATURE, 9, 1, 4)
     .defaultPlacement(MobEntity::canSpawnOn)
     .egg(0xffffff, 0xeeeeee).size(1.2F, 1.2F)
-    .biomes(Type.HILLS, Type.MOUNTAIN, Type.SAVANNA, Type.PLAINS, Type.FOREST)
+    .biomesOverworld(Type.HILLS, Type.MOUNTAIN, Type.SAVANNA, Type.PLAINS, Type.FOREST)
     .config(new CustomConfigurationHolder() {
         private ForgeConfigSpec.BooleanValue goatVanillaMilk;
 
@@ -199,7 +192,7 @@ public class ModEntities {
     .egg(0x226fe2, 0xf2b3b3)
     .size(0.8F, 0.8F)
     .despawn()
-    .biomes(Type.OCEAN)
+    .biomesOverworld(Type.OCEAN)
     .variants("little_blue", "big_blue", "pink", "red_stripe", "green", "gray")
     .containers(ItemModFishBucket.waterBucket(G), c->Items.BUCKET, EntityJellyfish::bucketTooltip));
 
@@ -210,7 +203,7 @@ public class ModEntities {
     .defaultPlacement(MobEntity::canSpawnOn)
     .egg(0x8e6b0b, 0xd8af3c)
     .size(1F, 1F)
-    .biomes(Type.FOREST, Type.PLAINS, Type.SAVANNA)
+    .biomesOverworld(Type.FOREST, Type.PLAINS, Type.SAVANNA)
     .variants(2));
 
     public static final EntityTypeContainer<EntityReindeer> REINDEER = setup(create(EntityReindeer.class, EntityReindeer::new, "reindeer", () -> MobEntity.func_233666_p_()
@@ -220,7 +213,7 @@ public class ModEntities {
     .spawn(EntityClassification.CREATURE, 10, 1, 4)
     .defaultPlacement(MobEntity::canSpawnOn)
     .egg(0x8e510b, 0x017700).size(1.3964844F, 1.8F)
-    .biomes(b -> b.withTypes(Type.SNOWY).withoutTypes(Type.OCEAN))
+    .biomes(b -> b.withTypes(Type.SNOWY).withoutTypes(Type.OCEAN).onlyOverworld())
     .variants(
     new EntityVariant(MODID, "1", "reindeer_1"),
     new EntityVariant(MODID, "2", "reindeer_2"),
@@ -253,7 +246,7 @@ public class ModEntities {
     .spawn(EntityClassification.CREATURE, 9, 1, 4)
     .defaultPlacement(MobEntity::canSpawnOn)
     .egg(0x3d3c3b, 0xbca895).size(0.9F, 0.9F)
-    .biomes(Type.FOREST, Type.JUNGLE, Type.PLAINS, Type.SAVANNA)
+    .biomesOverworld(Type.FOREST, Type.JUNGLE, Type.PLAINS, Type.SAVANNA)
     .variants(4)
     .head().itemGroup(G).mapToNames().setModel(() -> ModelBoarHead::new).done());
 
@@ -264,7 +257,7 @@ public class ModEntities {
     .placement(PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING, EntitySquirrel::canSquirrelSpawn)
     .egg(0x89806f, 0xb2a489)
     .size(0.5F, 0.5F)
-    .biomes(Type.FOREST)
+    .biomesOverworld(Type.FOREST)
     .variants("gray", "red", "albino"));
 
     public static final EntityTypeContainer<EntitySongbird> SONGBIRD = setup(create(EntitySongbird.class, EntitySongbird::new, "songbird", () -> MobEntity.func_233666_p_()
@@ -276,7 +269,7 @@ public class ModEntities {
     .placement(PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING, EntitySongbird::canSongbirdSpawn)
     .egg(0x46f4d2, 0x7df442)
     .size(0.5F, 0.5F)
-    .biomes(Type.FOREST, Type.PLAINS)
+    .biomesOverworld(Type.FOREST, Type.PLAINS)
     .variants("1", "2", "3", "4", "small_1", "small_2", "small_3", "small_4", "small_5", "small_6"));
 
     public static final EntityTypeContainer<EntityBadger> BADGER = setup(create(EntityBadger.class, EntityBadger::new, "badger", () -> MobEntity.func_233666_p_()
@@ -288,7 +281,7 @@ public class ModEntities {
     .defaultPlacement(MobEntity::canSpawnOn)
     .egg(0x0c0c0c, 0xd3d3d3)
     .size(0.8F, 0.8F)
-    .biomes(Type.FOREST, Type.PLAINS, Type.SAVANNA)
+    .biomesOverworld(Type.FOREST, Type.PLAINS, Type.SAVANNA)
     .variants("american", "european", "honey"));
 
     public static final EntityTypeContainerContainable<EntityLamprey, ItemModFishBucket<EntityLamprey>> LAMPREY = setup(createContainableB(EntityLamprey.class, EntityLamprey::new, "lamprey", () -> MobEntity.func_233666_p_()
@@ -301,7 +294,7 @@ public class ModEntities {
     .egg(0x0000ad, 0x0a0a0a)
     .size(1.0F, 0.7F)
     .despawn()
-    .biomes(Type.RIVER, Type.SWAMP)
+    .biomesOverworld(Type.RIVER, Type.SWAMP)
     .variants("yellow", "spotted", "brown")
     .containers(ItemModFishBucket.waterBucket(G), c->Items.BUCKET));
 
@@ -313,7 +306,7 @@ public class ModEntities {
     .egg(0xFF9659, 0x241682)
     .size(0.75F, 0.75F)
     .despawn()
-    .biomes(Type.OCEAN)
+    .biomesOverworld(Type.OCEAN)
     .containers(ItemModFishBucket.waterBucket(G), c->Items.BUCKET));
 
     public static final EntityTypeContainer<EntityCrab> CRAB = setup(create(EntityCrab.class, EntityCrab::new, "crab", () -> MobEntity.func_233666_p_()
@@ -325,7 +318,7 @@ public class ModEntities {
     .placement(PlacementType.NO_RESTRICTIONS, Heightmap.Type.OCEAN_FLOOR, EntityCrabLikeBase::canCrabSpawn)
     .egg(0xe21d16, 0x2d0504)
     .size(1F, 0.65F)
-    .biomes(Type.BEACH, Type.SWAMP)
+    .biomesOverworld(Type.BEACH, Type.SWAMP)
     .variants(4));
 
     public static final EntityTypeContainer<EntityHorseshoeCrab> HORSESHOE_CRAB = setup(create(EntityHorseshoeCrab.class, EntityHorseshoeCrab::new, "horseshoecrab", () -> MobEntity.func_233666_p_()
@@ -337,7 +330,7 @@ public class ModEntities {
     .placement(PlacementType.NO_RESTRICTIONS, Heightmap.Type.OCEAN_FLOOR, EntityCrabLikeBase::canCrabSpawn)
     .egg(0xba1111, 0x520807)
     .size(1F, 0.65F)
-    .biomes(Type.BEACH)
+    .biomesOverworld(Type.BEACH)
     .variants(3));
 
     public static final EntityTypeContainer<EntityShark> SHARK = setup(create(EntityShark.class, EntityShark::new, "shark", () -> MobEntity.func_233666_p_()
@@ -350,7 +343,7 @@ public class ModEntities {
     .egg(0x787878, 0xbdbdbd)
     .size(2.5F, 1.2F)
     .despawn()
-    .biomes(Type.OCEAN)
+    .biomesOverworld(Type.OCEAN)
     .variants("blue", "bull", "tiger", "whitetip", "greenland", "hammerhead", "goblin", "mako", "great_white"));
 
     public static final EntityTypeContainer<EntityMoose> MOOSE = setup(create(EntityMoose.class, EntityMoose::new, "moose", () -> MobEntity.func_233666_p_()
@@ -377,7 +370,7 @@ public class ModEntities {
     .spawn(EntityClassification.CREATURE, 11, 1, 3)
     .egg(0x857445, 0x5099ba)
     .size(1F, 1F)
-    .biomes(b -> b.withTypes(Type.FOREST).withoutTypes(Type.SNOWY))
+    .biomes(b -> b.withTypes(Type.FOREST).withoutTypes(Type.SNOWY).onlyOverworld())
     .variants(4));
 
     public static final EntityTypeContainer<EntityBobbitWorm> BOBBIT_WORM = setup(create(EntityBobbitWorm.class, EntityBobbitWorm::new, "bobbit_worm", () -> MobEntity.func_233666_p_()
@@ -390,7 +383,7 @@ public class ModEntities {
     .egg(0xffe38f, 0x0f27bf)
     .size(1F, 1F)
     .despawn()
-    .biomes(Type.OCEAN)
+    .biomesOverworld(Type.OCEAN)
     .variants(2));
 
     public static final EntityTypeContainer<EntityGoose> GOOSE = setup(create(EntityGoose.class, EntityGoose::new, "goose", () -> MobEntity.func_233666_p_()
@@ -405,7 +398,7 @@ public class ModEntities {
     .biomes(b -> b
     .withTypes(Type.FOREST)
     .withoutTypes(Type.DRY, Type.COLD, Type.HOT, Type.DENSE, Type.DEAD, Type.SPARSE, Type.OCEAN)
-    .extra(Type.RIVER))
+    .extra(Type.RIVER).onlyOverworld())
     .config(new CustomConfigurationHolder() {
         private ForgeConfigSpec.ConfigValue<List<? extends String>> pickupBlacklist;
 
@@ -430,7 +423,7 @@ public class ModEntities {
     .egg(0x818077, 0x726c4f)
     .size(1F, 1F)
     .despawn()
-    .biomes(Type.RIVER, Type.SWAMP)
+    .biomesOverworld(Type.RIVER, Type.SWAMP)
     .variants("longfin", "silver")
     .containers(ItemModFishBucket.waterBucket(G), c->Items.BUCKET));
 
@@ -447,7 +440,8 @@ public class ModEntities {
     .biomes(b -> b
     .withTypes(Type.OCEAN)
     .withoutTypes(Type.COLD)
-    .withoutBiomes(Biomes.DEEP_OCEAN, Biomes.DEEP_LUKEWARM_OCEAN, Biomes.DEEP_LUKEWARM_OCEAN))
+    .withoutBiomes(Biomes.DEEP_OCEAN, Biomes.DEEP_LUKEWARM_OCEAN, Biomes.DEEP_LUKEWARM_OCEAN)
+    .onlyOverworld())
     .variants("conger", "dragon", "moray", "ribbon", "snowflake")
     .containers(ItemModFishBucket.waterBucket(G), c->Items.BUCKET));
 
@@ -462,7 +456,7 @@ public class ModEntities {
     .egg(0x328da8, 0x001c4f)
     .size(5F, 3F)
     .despawn()
-    .biomes(Type.OCEAN)
+    .biomesOverworld(Type.OCEAN)
     .variants("beluga", "bottlenose", "cuviers", "false_killer", "narwhal", "pilot"));
 
     public static final EntityTypeContainer<EntityWalrus> WALRUS = setup(create(EntityWalrus.class, EntityWalrus::new, "walrus", () -> MobEntity.func_233666_p_()
@@ -509,7 +503,7 @@ public class ModEntities {
     "green_darner",
     "yellow_winged_darter"
     )
-    .biomes(Type.SWAMP, Type.RIVER)
+    .biomesOverworld(Type.SWAMP, Type.RIVER)
     .containers(ItemModEntityContainer.get("bottled_%s", G), c -> Items.GLASS_BOTTLE, EntityDragonfly::bottleTooltip));
 
     public static final EntityTypeContainerContainable<EntityBarracuda, ItemModFishBucket<EntityBarracuda>> BARRACUDA = setup(createContainableB(EntityBarracuda.class, EntityBarracuda::new, "barracuda", () -> MobEntity.func_233666_p_()
@@ -571,7 +565,7 @@ public class ModEntities {
     .egg(0x545454, 0xB51B15)
     .size(0.5F, 0.5F)
     .despawn()
-    .biomes(Type.JUNGLE)
+    .biomesOverworld(Type.JUNGLE)
     .containers(ItemModFishBucket.waterBucket(G), c -> Items.BUCKET));
 
     public static final EntityTypeContainer<EntityOctopus> OCTOPUS = setup(create(EntityOctopus.class, EntityOctopus::new, "octopus", () -> MobEntity.func_233666_p_()
