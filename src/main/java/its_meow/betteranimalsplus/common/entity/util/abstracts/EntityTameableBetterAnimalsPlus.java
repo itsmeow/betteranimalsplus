@@ -15,6 +15,14 @@ public abstract class EntityTameableBetterAnimalsPlus extends TameableEntity imp
         super(type, world);
     }
 
+    @Override
+    public void tick() {
+        super.tick();
+        if(!world.isRemote && this.isEntitySleeping() != this.isSitting()) {
+            this.setSleeping(this.isSitting());
+        }
+    }
+
     public boolean isTamingItem(Item item) {
         EntityTypeContainer<?> container = getContainer();
         if(container instanceof EntityTypeContainerBAPTameable<?>) {

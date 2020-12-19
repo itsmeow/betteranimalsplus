@@ -129,7 +129,10 @@ public abstract class EntityTameableFlyingWithTypes extends EntityTameableWithTy
         if(isFlying) {
             this.navigator = flyNav;
             this.moveController = getFlightMoveController();
-        } else if(!isFlying) {
+            if(world.isAirBlock(this.getPosition().up())) {
+                this.setPosition(this.getPosX(), this.getPosY() + 1, this.getPosZ());
+            }
+        } else {
             this.navigator = walkNav;
             this.moveController = moveCtrlGrnd;
         }

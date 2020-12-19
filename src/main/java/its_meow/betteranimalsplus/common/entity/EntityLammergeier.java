@@ -18,6 +18,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.ai.attributes.Attributes;
+import net.minecraft.entity.ai.controller.FlyingMovementController;
 import net.minecraft.entity.ai.controller.MovementController;
 import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal;
@@ -164,7 +165,7 @@ public class EntityLammergeier extends EntityTameableFlyingWithTypes implements 
     @Override
     public boolean attackEntityFrom(DamageSource source, float amount) {
         if(this.isTamed() && !this.isInvulnerableTo(source)) {
-            this.func_233687_w_(false);
+            this.setSleeping(false);
         }
         if(this.getAttackTarget() != null && this.getAttackTarget() == source.getTrueSource() && this.isPassenger(this.getAttackTarget())) {
             return super.attackEntityFrom(source, amount / 2F);
@@ -200,7 +201,7 @@ public class EntityLammergeier extends EntityTameableFlyingWithTypes implements 
                     this.readyToSit = true;
                 } else {
                     this.readyToSit = false;
-                    this.func_233687_w_(!this.isEntitySleeping());
+                    this.setSleeping(!this.isEntitySleeping());
                     this.navigator.clearPath();
                 }
                 this.lastTick = this.ticksExisted;
@@ -217,7 +218,7 @@ public class EntityLammergeier extends EntityTameableFlyingWithTypes implements 
                     this.navigator.clearPath();
                     // ((LammerMoveHelper) this.getMoveHelper()).action = Action.WAIT;
                     this.setAttackTarget((LivingEntity) null);
-                    this.func_233687_w_(true);
+                    this.setSleeping(true);
                     this.setHealth(20.0F);
                     this.world.setEntityState(this, (byte) 7);
                 } else {
@@ -632,7 +633,7 @@ public class EntityLammergeier extends EntityTameableFlyingWithTypes implements 
                 this.target = rPos;
                 this.parentEntity.navigator.tryMoveToXYZ(rPos.getX(), rPos.getY(), rPos.getZ(), 1.1D);
             } else if(parentEntity.readyToSit) {
-                parentEntity.func_233687_w_(true);
+                parentEntity.setSleeping(true);
                 parentEntity.readyToSit = false;
             }
             this.timeSinceLastMove = 0;
@@ -649,7 +650,7 @@ public class EntityLammergeier extends EntityTameableFlyingWithTypes implements 
                     parentEntity.setFlying(false);
                     this.target = null;
                     if(parentEntity.readyToSit) {
-                        parentEntity.func_233687_w_(true);
+                        parentEntity.setSleeping(true);
                         parentEntity.readyToSit = false;
                     }
                 } else if(dist - lastDist < 0.05D) {
