@@ -117,13 +117,13 @@ public class EntityLammergeier extends EntityTameableFlyingWithTypes implements 
         this.targetSelector.addGoal(1, new OwnerHurtByTargetGoal(this) {
             @Override
             public boolean shouldExecute() {
-                return !EntityLammergeier.this.isEntitySleeping() && super.shouldExecute();
+                return !EntityLammergeier.this.isEntitySleeping() && !EntityLammergeier.this.isSitting() && super.shouldExecute();
             }
         });
         this.targetSelector.addGoal(2, new OwnerHurtTargetGoal(this) {
             @Override
             public boolean shouldExecute() {
-                return !EntityLammergeier.this.isEntitySleeping() && super.shouldExecute();
+                return !EntityLammergeier.this.isEntitySleeping() && !EntityLammergeier.this.isSitting() && super.shouldExecute();
             }
         });
         this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<SkeletonEntity>(this, SkeletonEntity.class, false) {
@@ -136,7 +136,7 @@ public class EntityLammergeier extends EntityTameableFlyingWithTypes implements 
 
     @Override
     public void setAttackTarget(LivingEntity entitylivingbaseIn) {
-        if(!this.isEntitySleeping()) {
+        if(!this.isEntitySleeping() && !this.isSitting()) {
             super.setAttackTarget(entitylivingbaseIn);
         }
     }
@@ -144,12 +144,12 @@ public class EntityLammergeier extends EntityTameableFlyingWithTypes implements 
     @Override
     protected void registerData() {
         super.registerData();
-        this.dataManager.register(EntityLammergeier.DATA_HEALTH_ID, Float.valueOf(this.getHealth()));
+        this.dataManager.register(EntityLammergeier.DATA_HEALTH_ID, this.getHealth());
     }
 
     @Override
     protected SoundEvent getAmbientSound() {
-        return this.isTamed() && this.dataManager.get(EntityLammergeier.DATA_HEALTH_ID).floatValue() < 6.0F ? SoundEvents.ENTITY_PARROT_HURT : null;
+        return this.isTamed() && this.dataManager.get(EntityLammergeier.DATA_HEALTH_ID) < 6.0F ? SoundEvents.ENTITY_PARROT_HURT : null;
     }
 
     @Override
@@ -166,6 +166,7 @@ public class EntityLammergeier extends EntityTameableFlyingWithTypes implements 
     public boolean attackEntityFrom(DamageSource source, float amount) {
         if(this.isTamed() && !this.isInvulnerableTo(source)) {
             this.setSleeping(false);
+            this.func_233687_w_(false);
         }
         if(this.getAttackTarget() != null && this.getAttackTarget() == source.getTrueSource() && this.isPassenger(this.getAttackTarget())) {
             return super.attackEntityFrom(source, amount / 2F);
@@ -195,13 +196,14 @@ public class EntityLammergeier extends EntityTameableFlyingWithTypes implements 
                 }
             }
             if(this.isOwner(player) && !this.isBeingRidden() && !this.world.isRemote && this.ticksExisted - this.lastTick > 13 && (itemstack.getItem() == null || !itemstack.isFood())) {
-                if(!this.isEntitySleeping()) {
+                if(!this.isEntitySleeping() && !this.isSitting()) {
                     this.setAttackTarget((LivingEntity) null);
                     this.navigator.clearPath();
                     this.readyToSit = true;
                 } else {
                     this.readyToSit = false;
-                    this.setSleeping(!this.isEntitySleeping());
+                    this.setSleeping(false);
+                    this.func_233687_w_(false);
                     this.navigator.clearPath();
                 }
                 this.lastTick = this.ticksExisted;
@@ -219,6 +221,7 @@ public class EntityLammergeier extends EntityTameableFlyingWithTypes implements 
                     // ((LammerMoveHelper) this.getMoveHelper()).action = Action.WAIT;
                     this.setAttackTarget((LivingEntity) null);
                     this.setSleeping(true);
+                    this.func_233687_w_(true);
                     this.setHealth(20.0F);
                     this.world.setEntityState(this, (byte) 7);
                 } else {
@@ -634,6 +637,7 @@ public class EntityLammergeier extends EntityTameableFlyingWithTypes implements 
                 this.parentEntity.navigator.tryMoveToXYZ(rPos.getX(), rPos.getY(), rPos.getZ(), 1.1D);
             } else if(parentEntity.readyToSit) {
                 parentEntity.setSleeping(true);
+                parentEntity.func_233687_w_(true);
                 parentEntity.readyToSit = false;
             }
             this.timeSinceLastMove = 0;
@@ -651,7 +655,10 @@ public class EntityLammergeier extends EntityTameableFlyingWithTypes implements 
                     this.target = null;
                     if(parentEntity.readyToSit) {
                         parentEntity.setSleeping(true);
+                        parentEntity.func_233687_w_(true);
                         parentEntity.readyToSit = false;
+                        parentEntity.getNavigator().clearPath();
+                        parentEntity.setMotion(0, 0, 0);
                     }
                 } else if(dist - lastDist < 0.05D) {
                     timeSinceLastMove++;

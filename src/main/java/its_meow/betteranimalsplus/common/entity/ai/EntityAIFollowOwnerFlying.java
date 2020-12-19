@@ -44,7 +44,7 @@ public class EntityAIFollowOwnerFlying extends Goal {
             return false;
         } else if (entitylivingbase instanceof PlayerEntity && ((PlayerEntity) entitylivingbase).isSpectator()) {
             return false;
-        } else if (this.tameable.isEntitySleeping()) { // it's actually sitting not sleeping
+        } else if (this.tameable.isEntitySleeping() || this.tameable.isSitting()) { // it's actually sitting not sleeping
             return false;
         } else if (this.tameable.getDistanceSq(entitylivingbase) < this.minDist * this.minDist) {
             return false;
@@ -63,7 +63,7 @@ public class EntityAIFollowOwnerFlying extends Goal {
         if (this.tameable.getAttackTarget() != null && this.tameable.getAttackTarget().isAlive()) {
             return false;
         }
-        return !this.petPathfinder.noPath() && this.tameable.getDistanceSq(this.owner) > this.maxDist * this.maxDist && !this.tameable.isEntitySleeping(); // sitting not sleeping
+        return !this.petPathfinder.noPath() && this.tameable.getDistanceSq(this.owner) > this.maxDist * this.maxDist && !this.tameable.isEntitySleeping() && !this.tameable.isSitting(); // sitting not sleeping
     }
 
     @Override
@@ -84,7 +84,7 @@ public class EntityAIFollowOwnerFlying extends Goal {
     public void tick() {
         this.tameable.getLookController().setLookPositionWithEntity(this.owner, 10.0F, 20);
 
-        if (!this.tameable.isEntitySleeping()) { // sitting not sleeping
+        if (!this.tameable.isEntitySleeping() && !this.tameable.isSitting()) { // sitting not sleeping
             if (--this.timeToRecalcPath <= 0) {
                 this.timeToRecalcPath = 10;
                 this.tameable.getMoveHelper().setMoveTo(this.owner.getPosX(), this.owner.getPosY() + 2, this.owner.getPosZ(), this.followSpeed);
