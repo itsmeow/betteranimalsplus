@@ -20,4 +20,5 @@ dependencies {
     runtimeOnly fg.deobf("curse.maven:AppleSkin-248787:2987251")
     compileOnly fg.deobf("top.theillusivec4.curios:curios:FORGE-${curios_version}:api")
     runtimeOnly fg.deobf("top.theillusivec4.curios:curios:FORGE-${curios_version}")
+    runtimeOnly fg.deobf("curse.maven:BiomesOPlenty-2988999:${bop_version}")
 }
