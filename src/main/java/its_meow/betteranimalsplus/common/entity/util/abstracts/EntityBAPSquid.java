@@ -14,7 +14,6 @@ import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.goal.HurtByTargetGoal;
-import net.minecraft.entity.ai.goal.MoveTowardsTargetGoal;
 import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal;
 import net.minecraft.entity.item.BoatEntity;
 import net.minecraft.entity.passive.WaterMobEntity;
@@ -40,7 +39,7 @@ public abstract class EntityBAPSquid extends EntityBAPCephalopod {
 
     @Override
     protected void registerGoals() {
-        this.goalSelector.addGoal(0, new EfficientMoveTowardsTargetGoal(this, 1D, 50F));
+        this.goalSelector.addGoal(0, new EfficientMoveTowardsTargetGoal(this, 1D, true));
         this.goalSelector.addGoal(1, new MoveRandomGoal(this));
         this.targetSelector.addGoal(0, new HurtByTargetGoal(this) {
             @Override
