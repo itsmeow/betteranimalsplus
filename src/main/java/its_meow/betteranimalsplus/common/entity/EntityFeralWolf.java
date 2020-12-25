@@ -18,6 +18,7 @@ import its_meow.betteranimalsplus.common.entity.util.abstracts.EntityTameableWit
 import its_meow.betteranimalsplus.common.entity.util.abstracts.EntityTameableWithTypes;
 import its_meow.betteranimalsplus.init.ModEntities;
 import its_meow.betteranimalsplus.init.ModItems;
+import its_meow.betteranimalsplus.init.ModResources;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -376,7 +377,7 @@ public class EntityFeralWolf extends EntityTameableWithSelectiveTypes implements
             }
         } else if(this.isTamingItem(itemstack.getItem())) {
             ItemStack stack = player.getItemStackFromSlot(EquipmentSlotType.HEAD);
-            if(stack.getItem() == Items.DRAGON_HEAD) {
+            if(stack.getItem().isIn(ModResources.Tags.Items.FERAL_WOLF_TAME_ARMOR)) {
                 if(!player.isCreative()) {
                     itemstack.shrink(1);
                 }

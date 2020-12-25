@@ -2,6 +2,7 @@ package its_meow.betteranimalsplus.init;
 
 import its_meow.betteranimalsplus.Ref;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.util.ResourceLocation;
 
 public class ModResources {
@@ -22,6 +23,10 @@ public class ModResources {
             public static final BlockTags.Wrapper FLOWERS = new BlockTags.Wrapper(new ResourceLocation(Ref.MOD_ID, "flowers"));
             public static final BlockTags.Wrapper TALL_FLOWERS = new BlockTags.Wrapper(new ResourceLocation(Ref.MOD_ID, "tall_flowers"));
             public static final BlockTags.Wrapper BUTTERFLY_GROWABLES = new BlockTags.Wrapper(new ResourceLocation(Ref.MOD_ID, "butterfly_growables"));
+        }
+        public static final class Items {
+            public static final ItemTags.Wrapper PELTS = new ItemTags.Wrapper(new ResourceLocation(Ref.MOD_ID, "pelts"));
+            public static final ItemTags.Wrapper FERAL_WOLF_TAME_ARMOR = new ItemTags.Wrapper(new ResourceLocation(Ref.MOD_ID, "feral_wolf_tame_armor"));
         }
     }
 
