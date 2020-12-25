@@ -1,8 +1,61 @@
-#10.0.0
+# 10.1.0
+
+## Feature Additions
+
+- Added hunger system for predatory animals (read more about it on the wiki)
+- Hunger for:
+  - Sharks
+  - Bears
+  - Coyotes
+  - Feral wolves
+  - Piranhas
+  - Barracudas
+- Added Curios support for wolf and bear capes
+- Added drop-blocking (like the Lamprey has) where killed targets of some animals will not drop items to reduce clutter
+- Drop blocking will no longer affect animals from buckets or with special attribute like taming
+- Drop blocking for:
+  - Barracudas (exception when from bucket)
+  - Octopus (exception when tamed or from bucket)
+  - Sharks
+  - Piranha (exception when from bucket)
+  - Lamprey (already present in mod before update, exception when from bucket)
+- Added "feral_wolf_tame_armor" tag to allow customizability of the helmet you must be wearing to tame a Feral Wolf
+- 1.16: Default spawn biomes will now filter to the OVERWORLD forge Biome Dictionary tag (to prevent spawning in nether forests, etc)
+- 1.16: Boars will not attack hoglins
+
+## Bugfixes
+
+- Fixed bug where all foods took 32 ticks to eat instead of 16 for some
+- Fixed whales being invisible when they had no pitch
+- Fixed deer fawn not following their parents
+- Fixed black bear cubs not following their parents
+- Fixed black bears not being territorial near players with cubs
+- Fixed brown bear cubs following black bear adults
+- Fixed bobbit worms not angling correctly when in non-water movable blocks (seagress, kelp)
+- Fixed bug where piranhas would spawn adult skeleton horses when a baby horse was killed
+- Fixed butterflies and moths sometimes suffocating themselves in walls when launching from a surface
+- Fixed geese sometimes spawning naturally as the egg-spawned only variant (white goose)
+- Fixed "tamed" octopi despawning
+- Fixed bug where hammerhead sharks had no natural spawn biomes
+- Fixed crab easter egg animations
+- Fixed weird nose cubes on ribbon eel
+- Fixed slow pathfinding in sharks, lampreys, giant/colossal squids, and octopus
+- Improved land/water pathfinding in octopus
+- Fixed octopus being bad at moving downwards
+- Fixed giant/colossal squids getting stuck on the surface of water
+- Fixed broken "ultimate succening" advancement, now works properly with Whisperwoods zotzpyres.
+
+## Localization
+
+- Updated Russian translation (Credit: Smollet777)
+- Updated Spanish translation (Credit: F2P26)
+
+# 10.0.0
 
 ## Feature Additions
 
 ### Animals
+
 - Add butterflies
 - Add dragonflies
 - Add barracuda
@@ -13,6 +66,7 @@
 - Add octopus
 
 ### Items
+
 - Add bottled butterflies
 - Add bottled dragonflies
 - Add Bucket of Barracuda
@@ -21,12 +75,14 @@
 - Add calamari
 
 ### Misc
+
 - Add Octopus' Garden advancement
 - Add 20,000 Leagues of Trouble advancement
 - Add Bug Collector advancement
 - Add secret developer feature
 
 ## Feature Changes
+
 - 1.15: Remove all mythical features (Hand Of Fate, Zotzpyre, Hirschgeist + Skull + Advancements) They will be moved to our other mod Whisperwoods
 - Feral Wolves can now only be tamed when wearing an Ender Dragon head
 - Add custom textures for baby boar, deer, goose, pheasant, and turkey
@@ -43,10 +99,12 @@
 - Goats will now remember their friend when the world is unloaded
 
 ## Localization
+
 - Update Russian Translation
 - Made more messages localizable (coyote/feral wolf messages, tooltips, etc)
 
 ## Bugs
+
 - Make Lammergeiers Great Again! (No, seriously)
 - Fix crashes related to null variants (Shark rendering, whale rendering)
 - Fix heads with missing textures
