@@ -2,7 +2,9 @@ package its_meow.betteranimalsplus.init;
 
 import its_meow.betteranimalsplus.Ref;
 import net.minecraft.block.Block;
+import net.minecraft.item.Item;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.Tags.IOptionalNamedTag;
 
@@ -29,7 +31,14 @@ public class ModResources {
                 return BlockTags.createOptional(new ResourceLocation(Ref.MOD_ID, name));
             }
         }
+        public static final class Items {
+            public static final IOptionalNamedTag<Item> PELTS = tag("pelts");
+            public static final IOptionalNamedTag<Item> FERAL_WOLF_TAME_ARMOR = tag("feral_wolf_tame_armor");
 
+            private static IOptionalNamedTag<Item> tag(String name) {
+                return ItemTags.createOptional(new ResourceLocation(Ref.MOD_ID, name));
+            }
+        }
     }
 
     private static ResourceLocation t(String tex) {
