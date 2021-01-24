@@ -57,9 +57,6 @@ public class CommonEventHandler {
         NO_ATTACKED_DROPS.add(e -> e instanceof EntityOctopus && ((EntityOctopus) e).friend == null);
     }
 
-    @ObjectHolder("essentialfeatures:portable_jukebox")
-    public static Item PORTABLE_JUKEBOX;
-
     @SubscribeEvent
     public static void onDeathOfEntity(LivingDeathEvent e) {
         if(e.getSource().getImmediateSource() instanceof EntityBoar) {
@@ -140,7 +137,8 @@ public class CommonEventHandler {
 
     @SubscribeEvent
     public static void onItemUsed(PlayerInteractEvent.RightClickItem event) {
-        if(PORTABLE_JUKEBOX != null && event.getItemStack().getItem() == PORTABLE_JUKEBOX) {
+        ResourceLocation itemRegistryName = event.getItemStack().getItem().getRegistryName();
+        if(itemRegistryName != null && itemRegistryName.getPath().equals("portable_jukebox")) {
             if(event.getItemStack().getChildTag("Disc") != null) {
                 Item item = ItemStack.read(event.getItemStack().getChildTag("Disc")).getItem();
                 if(item == ModItems.RECORD_CRAB_RAVE.get()) {
