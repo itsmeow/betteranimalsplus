@@ -3,7 +3,6 @@ package its_meow.betteranimalsplus.client;
 
 import dev.itsmeow.imdlib.client.IMDLibClient;
 import dev.itsmeow.imdlib.client.render.RenderFactory;
-import dev.itsmeow.imdlib.client.render.RenderGenericHead;
 import dev.itsmeow.imdlib.tileentity.TileEntityHead;
 import its_meow.betteranimalsplus.BetterAnimalsPlusMod;
 import its_meow.betteranimalsplus.Ref;
@@ -208,4 +207,16 @@ public class ClientLifecycleHandler {
         BetterAnimalsPlusMod.logger.info("Rendering squirrel physics...");
     }
 
+    public static class RenderTypes extends RenderType {
+
+        public RenderTypes() {
+            super(null, null, 0, 0, false, false, null, null);
+        }
+
+        public static RenderType getEyesEntityCutoutNoCullDepthMaskOff(ResourceLocation locationIn) {
+            RenderState.TextureState renderstate$texturestate = new RenderState.TextureState(locationIn, false, false);
+            return makeType("eyes_entity_cutout_no_cull_depth_mask_off", DefaultVertexFormats.ENTITY, 7, 256, false, true, RenderType.State.getBuilder().texture(renderstate$texturestate).cull(CULL_DISABLED).transparency(ADDITIVE_TRANSPARENCY).writeMask(COLOR_WRITE).fog(BLACK_FOG).diffuseLighting(DIFFUSE_LIGHTING_ENABLED).alpha(DEFAULT_ALPHA).lightmap(LIGHTMAP_DISABLED).overlay(OVERLAY_ENABLED).build(false));
+        }
+
+    }
 }
