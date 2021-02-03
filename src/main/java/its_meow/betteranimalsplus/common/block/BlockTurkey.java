@@ -117,7 +117,7 @@ public class BlockTurkey extends Block implements IWaterLoggable {
 
     @Override
     public BlockState getStateForPlacement(BlockItemUseContext context) {
-        return this.getDefaultState().with(FACING, context.getPlacementHorizontalFacing());
+        return this.getDefaultState().with(FACING, context.getPlacementHorizontalFacing()).with(BlockStateProperties.WATERLOGGED, context.getWorld().getFluidState(context.getPos()).getFluid() == Fluids.WATER);
     }
 
     @Override
