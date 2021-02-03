@@ -146,5 +146,12 @@
 				"down": {"uv": [2.5, 8, 1.75, 9], "texture": "#particle"}
 			}
 		}
-	]
+	],
+	"display": {
+		"fixed": {
+			"rotation": [-90, -90, 0],
+			"translation": [0.75, 1.5, -8.75],
+			"scale": [1.2, 1.2, 1.2]
+		}
+	}
 }
