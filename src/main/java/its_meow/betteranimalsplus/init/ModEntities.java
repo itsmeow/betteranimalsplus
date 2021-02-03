@@ -67,7 +67,7 @@ public class ModEntities {
     .egg(0x4F2900, 0x8E500E)
     .size(2F, 2F)
     .biomesOverworld(Type.FOREST)
-    .head().singleton("1", "bear_brown").setModel(() -> ModelBearHead::new).done());
+    .head().itemGroup(G).singleton("1", "bear_brown").setModel(() -> ModelBearHead::new).done());
 
     public static final EntityTypeContainer<EntityBearNeutral> BLACK_BEAR = setup(create(EntityBearNeutral.class, EntityBearNeutral::new, "blackbear", () -> MobEntity.func_233666_p_()
     .createMutableAttribute(Attributes.MAX_HEALTH, 30.0D)
