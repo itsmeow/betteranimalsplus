@@ -139,7 +139,7 @@ public class EntityFeralWolf extends EntityTameableWithSelectiveTypes implements
         if(!this.isTamed() || this.getAttackTarget() != null) {
             return SoundEvents.ENTITY_WOLF_GROWL;
         } else if(this.rand.nextInt(3) == 0) {
-            return this.isTamed() && this.dataManager.get(EntityFeralWolf.DATA_HEALTH_ID) < 10.0F ? SoundEvents.ENTITY_WOLF_WHINE : SoundEvents.ENTITY_WOLF_PANT;
+            return this.isTamed() && this.dataManager.get(EntityFeralWolf.DATA_HEALTH_ID) < TAMED_HEALTH / 2D ? SoundEvents.ENTITY_WOLF_WHINE : SoundEvents.ENTITY_WOLF_PANT;
         } else {
             return SoundEvents.ENTITY_WOLF_AMBIENT;
         }
@@ -251,7 +251,7 @@ public class EntityFeralWolf extends EntityTameableWithSelectiveTypes implements
                         this.navigator.clearPath();
                         this.setAttackTarget(null);
                         this.func_233687_w_(true);
-                        this.setHealth(20.0F);
+                        this.setHealth((float) TAMED_HEALTH);
                         this.world.setEntityState(this, (byte) 7);
                     } else {
                         this.world.setEntityState(this, (byte) 6);
