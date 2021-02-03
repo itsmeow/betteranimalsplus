@@ -1,9 +1,5 @@
 package its_meow.betteranimalsplus.common.entity;
 
-import javax.annotation.Nullable;
-
-import com.google.common.base.Predicates;
-
 import dev.itsmeow.imdlib.entity.util.EntityTypeContainer;
 import dev.itsmeow.imdlib.entity.util.IVariant;
 import dev.itsmeow.imdlib.entity.util.IVariantTypes;
@@ -27,6 +23,8 @@ import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 
+import javax.annotation.Nullable;
+
 public class EntityBearNeutral extends EntityBear implements IVariantTypes<EntityBear> {
 
     public EntityBearNeutral(World worldIn) {
@@ -46,8 +44,8 @@ public class EntityBearNeutral extends EntityBear implements IVariantTypes<Entit
         this.goalSelector.addGoal(6, new LookAtGoal(this, PlayerEntity.class, 6.0F));
         this.targetSelector.addGoal(3, new HungerNearestAttackableTargetGoal<>(this, ChickenEntity.class, true));
         this.targetSelector.addGoal(4, new HungerNearestAttackableTargetGoal<>(this, RabbitEntity.class, true));
-        this.targetSelector.addGoal(5, new HungerNearestAttackableTargetGoal<>(this, EntityPheasant.class, 90, true, true, Predicates.alwaysTrue()));
-        this.targetSelector.addGoal(4, new HungerNearestAttackableTargetGoal<>(this, FoxEntity.class, 90, true, true, Predicates.alwaysTrue()));
+        this.targetSelector.addGoal(5, new HungerNearestAttackableTargetGoal<>(this, EntityPheasant.class, 90, true, true, e -> true));
+        this.targetSelector.addGoal(4, new HungerNearestAttackableTargetGoal<>(this, FoxEntity.class, 90, true, true, e -> true));
     }
 
     @Override

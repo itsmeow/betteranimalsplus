@@ -1,7 +1,5 @@
 package its_meow.betteranimalsplus.init;
 
-import dev.itsmeow.imdlib.tileentity.TileEntityHead;
-import dev.itsmeow.imdlib.util.HeadType;
 import its_meow.betteranimalsplus.Ref;
 import its_meow.betteranimalsplus.common.tileentity.TileEntityTrillium;
 import net.minecraft.tileentity.TileEntity;

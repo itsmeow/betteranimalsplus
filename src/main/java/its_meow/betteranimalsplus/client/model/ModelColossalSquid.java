@@ -8,7 +8,7 @@ import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 
 /**
- * squid_colossal - Batman, Cybecat5555 Created using Tabula 8.0.0
+ * squid_colossal - Batman, Cybercat5555 Created using Tabula 8.0.0
  */
 public class ModelColossalSquid<T extends Entity> extends EntityModel<T> {
     public ModelRenderer head;

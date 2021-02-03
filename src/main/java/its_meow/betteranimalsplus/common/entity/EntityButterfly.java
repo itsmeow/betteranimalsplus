@@ -275,7 +275,7 @@ public class EntityButterfly extends EntityAnimalWithTypesAndSizeContainable {
                     }
                     if(age != null) {
                         world.playEvent(2005, targetPosition, 0);
-                        world.setBlockState(targetPosition, blockstate.with(age, Integer.valueOf(blockstate.get(age) + 1)));
+                        world.setBlockState(targetPosition, blockstate.with(age, blockstate.get(age) + 1));
                         this.setHasNectar(false);
                         this.targetPosition = null;
                         this.ticksUntilNextGrow = this.getRNG().nextInt(150 * 20) + (30 * 20);

@@ -24,7 +24,7 @@ public class ItemHorseshoeCrabBlood extends Item {
     public static final ITextComponent CURES_WITHER = new TranslationTextComponent("tooltip.betteranimalsplus.cures_wither").applyTextStyle(TextFormatting.GREEN);
 
     public ItemHorseshoeCrabBlood() {
-        super(new Properties().maxStackSize(1).containerItem(Items.GLASS_BOTTLE).group(BetterAnimalsPlusMod.group));
+        super(new Properties().maxStackSize(1).containerItem(Items.GLASS_BOTTLE).group(BetterAnimalsPlusMod.GROUP));
     }
 
     @Override
@@ -38,14 +38,17 @@ public class ItemHorseshoeCrabBlood extends Item {
         return entityLiving.removePotionEffect(Effects.WITHER);
     }
 
+    @Override
     public int getUseDuration(ItemStack stack) {
         return 32;
     }
 
+    @Override
     public UseAction getUseAction(ItemStack stack) {
         return UseAction.DRINK;
     }
 
+    @Override
     public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, Hand handIn) {
         playerIn.setActiveHand(handIn);
         return new ActionResult<>(ActionResultType.SUCCESS, playerIn.getHeldItem(handIn));

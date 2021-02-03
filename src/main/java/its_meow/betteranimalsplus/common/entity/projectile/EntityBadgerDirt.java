@@ -25,7 +25,7 @@ import net.minecraftforge.fml.network.NetworkHooks;
 public class EntityBadgerDirt extends ThrowableEntity {
 
 
-    public static EntityType<EntityBadgerDirt> DIRT_TYPE = ModEntities.H.<EntityBadgerDirt>createEntityType(EntityBadgerDirt.class, EntityBadgerDirt::new, "badgerdirt", EntityClassification.MISC, 64, 1, true, 1.2F, 1.2F);
+    public static final EntityType<EntityBadgerDirt> DIRT_TYPE = ModEntities.H.createEntityType(EntityBadgerDirt.class, EntityBadgerDirt::new, "badgerdirt", EntityClassification.MISC, 64, 1, true, 1.2F, 1.2F);
 
     protected int stateId = -1;
 
@@ -47,7 +47,7 @@ public class EntityBadgerDirt extends ThrowableEntity {
         if(stateId != -1 && !this.world.isRemote) {
             ServerWorld worldS = (ServerWorld) world;
             for(int i = 0; i < 100; i++) {
-                worldS.<BlockParticleData>spawnParticle(new BlockParticleData(ParticleTypes.BLOCK, Block.getStateById(stateId)), this.getPosX() + Math.random(), this.getPosY() + Math.random(), this.getPosZ() + Math.random(), 1, 0D, 0D, 0D, 0D);
+                worldS.spawnParticle(new BlockParticleData(ParticleTypes.BLOCK, Block.getStateById(stateId)), this.getPosX() + Math.random(), this.getPosY() + Math.random(), this.getPosZ() + Math.random(), 1, 0D, 0D, 0D, 0D);
             }
         }
     }

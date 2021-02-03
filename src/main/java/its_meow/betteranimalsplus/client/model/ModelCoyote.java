@@ -47,10 +47,6 @@ public class ModelCoyote<T extends LivingEntity> extends ModelBetterAnimals<T> {
     public ModelRenderer rEar03;
     public ModelRenderer rArm01_1;
     public ModelRenderer rForepaw;
-    
-    private float r = 1F;
-    private float g = 1F;
-    private float b = 1F;
 
     public ModelCoyote() {
         this.textureWidth = 64;
@@ -229,7 +225,7 @@ public class ModelCoyote<T extends LivingEntity> extends ModelBetterAnimals<T> {
 
     @Override
     public void render(MatrixStack matrixStackIn, IVertexBuilder bufferIn, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
-        this.chest.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red * r, green * g, blue * b, alpha);
+        this.chest.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
     }
 
     @Override
@@ -317,9 +313,4 @@ public class ModelCoyote<T extends LivingEntity> extends ModelBetterAnimals<T> {
         ModelRenderer.rotateAngleZ = (float) Math.toRadians(z);
     }
 
-    public void setColors(float r, float g, float b) {
-        this.r = r;
-        this.g = g;
-        this.b = b;
-    }
 }

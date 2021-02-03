@@ -6,7 +6,6 @@ import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.pathfinding.Path;
 import net.minecraft.util.EntityPredicates;
-import net.minecraft.util.math.BlockPos;
 
 import java.util.EnumSet;
 
@@ -60,7 +59,7 @@ public class EfficientMoveTowardsTargetGoal extends Goal {
             return false;
         } else if (!this.longMemory) {
             return !this.attacker.getNavigator().noPath();
-        } else if (!this.attacker.isWithinHomeDistanceFromPosition(new BlockPos(livingentity))) {
+        } else if (!this.attacker.isWithinHomeDistanceFromPosition(livingentity.getPosition())) {
             return false;
         } else {
             return !(livingentity instanceof PlayerEntity) || !livingentity.isSpectator() && !((PlayerEntity) livingentity).isCreative();

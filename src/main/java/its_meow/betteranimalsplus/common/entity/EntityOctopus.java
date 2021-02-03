@@ -87,7 +87,7 @@ public class EntityOctopus extends EntityBAPCephalopod implements IVariantTypes<
         });
         this.targetSelector.addGoal(1, new OctopusAIAttackForFriend(this));
         this.targetSelector.addGoal(2, new PeacefulNearestAttackableTargetGoal<>(this, PlayerEntity.class, 0, true, true, e -> (friend == null || ((PlayerEntity) e).getGameProfile().getId() != friend) && e.getDistance(EntityOctopus.this) < 4D && "blue_ringed".equals(EntityOctopus.this.getVariantNameOrEmpty())));
-        this.targetSelector.addGoal(3, new HungerNearestAttackableTargetGoal<WaterMobEntity, EntityOctopus>(this, WaterMobEntity.class, 0, true, true, e -> !(e instanceof IMob) && e.getSize(Pose.STANDING).width < this.getSize(Pose.STANDING).width));
+        this.targetSelector.addGoal(3, new HungerNearestAttackableTargetGoal<>(this, WaterMobEntity.class, 0, true, true, e -> !(e instanceof IMob) && e.getSize(Pose.STANDING).width < this.getSize(Pose.STANDING).width));
     }
 
     @Override
@@ -168,10 +168,6 @@ public class EntityOctopus extends EntityBAPCephalopod implements IVariantTypes<
         return ModLootTables.OCTOPUS;
     }
 
-    protected SoundEvent getFlopSound() {
-        return SoundEvents.ENTITY_COD_FLOP;
-    }
-
     @Override
     public EntityTypeContainer<?> getContainer() {
         return ModEntities.OCTOPUS;
@@ -179,7 +175,7 @@ public class EntityOctopus extends EntityBAPCephalopod implements IVariantTypes<
 
     public static class OctopusAIAttackForFriend extends Goal {
 
-        EntityOctopus octo = null;
+        EntityOctopus octo;
 
         public OctopusAIAttackForFriend(EntityOctopus entity) {
             this.octo = entity;

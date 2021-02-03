@@ -447,13 +447,12 @@ public class ModelCrab<T extends LivingEntity> extends EntityModel<T> {
                     div = 5F;
                 }
                 float add = entity.getUniqueID().hashCode() * 0.001F;
-                float tick = f2;
-                this.lArm00.rotateAngleX = (float) Math.cos(tick * (mul + 0.05F) + add) / div + 0.3490658503988659F;
-                this.rArm00.rotateAngleX = (float) Math.cos(-tick * (mul + 0.05F) + add) / div + 0.3490658503988659F;
-                this.lArm00.rotateAngleY = (float) Math.cos(tick * (mul + 0.05F) + add) / div - 1.0471975511965976F;
-                this.rArm00.rotateAngleY = (float) Math.cos(-tick * (mul + 0.05F) + add) / div + 1.0471975511965976F;
-                this.lArm00.rotateAngleZ = (float) Math.cos(tick * (mul + 0.05F) + add) / div;
-                this.rArm00.rotateAngleZ = (float) Math.cos(-tick * (mul + 0.05F) + add) / div;
+                this.lArm00.rotateAngleX = (float) Math.cos(f2 * (mul + 0.05F) + add) / div + 0.3490658503988659F;
+                this.rArm00.rotateAngleX = (float) Math.cos(-f2 * (mul + 0.05F) + add) / div + 0.3490658503988659F;
+                this.lArm00.rotateAngleY = (float) Math.cos(f2 * (mul + 0.05F) + add) / div - 1.0471975511965976F;
+                this.rArm00.rotateAngleY = (float) Math.cos(-f2 * (mul + 0.05F) + add) / div + 1.0471975511965976F;
+                this.lArm00.rotateAngleZ = (float) Math.cos(f2 * (mul + 0.05F) + add) / div;
+                this.rArm00.rotateAngleZ = (float) Math.cos(-f2 * (mul + 0.05F) + add) / div;
             }
         }
     }

@@ -336,8 +336,8 @@ public class ModelBoar<T extends LivingEntity> extends EntityModel<T> {
         this.lLeg01.rotateAngleX = MathHelper.cos(f * 0.6662F + (float) Math.PI) * 1.4F * f1;
 
         if (entity instanceof MobEntity) {
-            this.neck.rotateAngleX = ModelBetterAnimals.getHeadPitch((MobEntity) entity) * 0.017453292F;
-            this.neck.rotateAngleY = ModelBetterAnimals.getHeadYaw((MobEntity) entity) * 0.017453292F;
+            this.neck.rotateAngleX = ModelBetterAnimals.getHeadPitch(entity) * 0.017453292F;
+            this.neck.rotateAngleY = ModelBetterAnimals.getHeadYaw(entity) * 0.017453292F;
         }
     }
 

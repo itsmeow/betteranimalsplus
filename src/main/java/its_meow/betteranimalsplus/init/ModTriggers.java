@@ -17,7 +17,7 @@ public class ModTriggers {
     public static final CustomTrigger GOAT_FIGHT_FRIEND = new CustomTrigger(Ref.MOD_ID + ":goat_fight_friend");
     public static final CustomTrigger NO_BAM = new CustomTrigger(Ref.MOD_ID + ":no_bam");
     public static final CustomTrigger BADGERDIRT_IMPACT = new CustomTrigger(Ref.MOD_ID + ":badgerdirt_impact");
-    public static final Map<Integer, CustomTrigger> SQUIRREL_KILL_TRIGGERS = new HashMap<Integer, CustomTrigger>();
+    public static final Map<Integer, CustomTrigger> SQUIRREL_KILL_TRIGGERS = new HashMap<>();
     public static final CustomTrigger USE_WALRUS_DISK = new CustomTrigger(Ref.MOD_ID + ":walrus_disk_used");
     public static final CustomTrigger SQUID_TARGETED = new CustomTrigger(Ref.MOD_ID + ":squid_targeted");
     public static final CustomTrigger OCTOPUS_SAVE_PLAYER = new CustomTrigger(Ref.MOD_ID + ":octopus_save_player");

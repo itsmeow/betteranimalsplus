@@ -12,7 +12,7 @@ import net.minecraft.item.Item;
 import net.minecraft.world.World;
 
 public class EntityGoldenGooseEgg extends EntityModEgg {
-    public static EntityType<EntityGoldenGooseEgg> GOLDEN_GOOSE_EGG_TYPE = ModEntities.H.<EntityGoldenGooseEgg>createEntityType(EntityGoldenGooseEgg.class, EntityGoldenGooseEgg::new, "golden_goose_egg", EntityClassification.MISC, 64, 1, true, 0.25F, 0.25F);
+    public static EntityType<EntityGoldenGooseEgg> GOLDEN_GOOSE_EGG_TYPE = ModEntities.H.createEntityType(EntityGoldenGooseEgg.class, EntityGoldenGooseEgg::new, "golden_goose_egg", EntityClassification.MISC, 64, 1, true, 0.25F, 0.25F);
 
     public EntityGoldenGooseEgg(World world) {
         super(GOLDEN_GOOSE_EGG_TYPE, world);

@@ -45,12 +45,12 @@ public class EntityLamprey extends EntityWaterMobPathingWithTypesBucketable impl
         this.goalSelector.addGoal(1, new LookAtGoal(this, WaterMobEntity.class, 10.0F));
         this.goalSelector.addGoal(1, new LookRandomlyGoal(this));
         this.goalSelector.addGoal(2, new RandomSwimmingGoal(this, 0.5D, 1));
-        Set<Class<? extends LivingEntity>> blackList = new HashSet<Class<? extends LivingEntity>>();
+        Set<Class<? extends LivingEntity>> blackList = new HashSet<>();
         blackList.add(SkeletonEntity.class);
         blackList.add(EndermanEntity.class);
         blackList.add(EntityJellyfish.class);
         blackList.add(EntityBobbitWorm.class);
-        this.targetSelector.addGoal(0, new NearestAttackableTargetGoal<LivingEntity>(this, LivingEntity.class, 100, true, true, e -> e instanceof LivingEntity && !(e instanceof IMob) && !(e instanceof EntityLamprey) && !(e.world.getDifficulty() == Difficulty.PEACEFUL && e instanceof PlayerEntity) && !(blackList.contains(e.getClass()))));
+        this.targetSelector.addGoal(0, new NearestAttackableTargetGoal<>(this, LivingEntity.class, 100, true, true, e -> !(e instanceof IMob) && !(e.world.getDifficulty() == Difficulty.PEACEFUL && e instanceof PlayerEntity) && !blackList.contains(e.getClass())));
     }
 
     @Override

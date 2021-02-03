@@ -94,7 +94,7 @@ public abstract class ModelBetterAnimals<T extends LivingEntity> extends EntityM
      * @return ticksExisted + partialTicks of the object.
      */
     public static float idleProgress(Object o) {
-        if (o != null && o instanceof LivingEntity) {
+        if (o instanceof LivingEntity) {
             return ModelBetterAnimals.getIdleProgress((LivingEntity) o);
         }
 
@@ -109,7 +109,7 @@ public abstract class ModelBetterAnimals<T extends LivingEntity> extends EntityM
      * @return How far along the object is from completing its swing.
      */
     public static float swingProgress(Object o) {
-        if (o != null && o instanceof LivingEntity) {
+        if (o instanceof LivingEntity) {
             return ModelBetterAnimals.getSwingProgress((LivingEntity) o);
         }
 
@@ -124,7 +124,7 @@ public abstract class ModelBetterAnimals<T extends LivingEntity> extends EntityM
      * @return The time since the object's last swing was completed.
      */
     public static float swingProgressPrev(Object o) {
-        if (o != null && o instanceof LivingEntity) {
+        if (o instanceof LivingEntity) {
             return ModelBetterAnimals.getSwingProgressPrev((LivingEntity) o);
         }
 
@@ -139,7 +139,7 @@ public abstract class ModelBetterAnimals<T extends LivingEntity> extends EntityM
      * @return The yaw rotation of the object.
      */
     public static float headYaw(Object o) {
-        if (o != null && o instanceof LivingEntity) {
+        if (o instanceof LivingEntity) {
             return ModelBetterAnimals.getHeadYaw((LivingEntity) o);
         }
 
@@ -154,7 +154,7 @@ public abstract class ModelBetterAnimals<T extends LivingEntity> extends EntityM
      * @return The pitch rotation of the object.
      */
     public static float headPitch(Object o) {
-        if (o != null && o instanceof LivingEntity) {
+        if (o instanceof LivingEntity) {
             return ModelBetterAnimals.getHeadPitch((LivingEntity) o);
         }
 

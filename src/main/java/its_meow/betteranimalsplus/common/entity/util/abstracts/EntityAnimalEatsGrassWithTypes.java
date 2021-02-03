@@ -22,7 +22,8 @@ public abstract class EntityAnimalEatsGrassWithTypes extends EntityAnimalWithTyp
 		return eatTimer;
 	}
 
-	@OnlyIn(Dist.CLIENT)
+	@Override
+    @OnlyIn(Dist.CLIENT)
 	public void handleStatusUpdate(byte id) {
 		if (id == 10) {
 			this.eatTimer = 40;

@@ -17,7 +17,7 @@ public abstract class EntityTameableFlying extends EntityTameableBetterAnimalsPl
         if(this.isInWater()) {
             this.moveRelative(0.02F, p_213352_1_);
             this.move(MoverType.SELF, this.getMotion());
-            this.setMotion(this.getMotion().scale((double) 0.8F));
+            this.setMotion(this.getMotion().scale(0.8F));
         } else if(this.isInLava()) {
             this.moveRelative(0.02F, p_213352_1_);
             this.move(MoverType.SELF, this.getMotion());
@@ -37,7 +37,7 @@ public abstract class EntityTameableFlying extends EntityTameableBetterAnimalsPl
 
             this.moveRelative(this.onGround ? 0.1F * f1 : 0.02F, p_213352_1_);
             this.move(MoverType.SELF, this.getMotion());
-            this.setMotion(this.getMotion().scale((double) f));
+            this.setMotion(this.getMotion().scale(f));
         }
 
         this.prevLimbSwingAmount = this.limbSwingAmount;

@@ -217,18 +217,16 @@ public class ModelSquirrel<T extends LivingEntity> extends EntityModel<T> {
 
     @Override
     public void setRotationAngles(T entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
-        float f = limbSwing;
-        float f1 = limbSwingAmount;
 
-        this.lArm01.rotateAngleX = MathHelper.cos(f * 0.6662F) * 1.4F * f1 - 0.20943951023931953F;
-        this.rArm01.rotateAngleX = MathHelper.cos(f * 0.6662F + (float) Math.PI) * 1.4F * f1 - 0.20943951023931953F;
-        this.rLeg01.rotateAngleX = MathHelper.cos(f * 0.6662F) * 1.4F * f1 - 0.17453292519943295F;
-        this.lLeg01.rotateAngleX = MathHelper.cos(f * 0.6662F + (float) Math.PI) * 1.4F * f1 - 0.17453292519943295F;
-        this.tail01.rotateAngleX = MathHelper.sin(f * 0.2F) * f1 - (float) Math.toRadians(30);
+        this.lArm01.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount - 0.20943951023931953F;
+        this.rArm01.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F + (float) Math.PI) * 1.4F * limbSwingAmount - 0.20943951023931953F;
+        this.rLeg01.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount - 0.17453292519943295F;
+        this.lLeg01.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F + (float) Math.PI) * 1.4F * limbSwingAmount - 0.17453292519943295F;
+        this.tail01.rotateAngleX = MathHelper.sin(limbSwing * 0.2F) * limbSwingAmount - (float) Math.toRadians(30);
 
         if (entityIn instanceof MobEntity) {
-            this.neck.rotateAngleX = ModelBetterAnimals.getHeadPitch((MobEntity) entityIn) * 0.017453292F - 13;
-            this.neck.rotateAngleY = ModelBetterAnimals.getHeadYaw((MobEntity) entityIn) * 0.017453292F * 0.5F;
+            this.neck.rotateAngleX = ModelBetterAnimals.getHeadPitch(entityIn) * 0.017453292F - 13;
+            this.neck.rotateAngleY = ModelBetterAnimals.getHeadYaw(entityIn) * 0.017453292F * 0.5F;
             if (entityIn instanceof EntitySquirrel) {
                 EntitySquirrel ent = (EntitySquirrel) entityIn;
                 this.chest.rotateAngleX = ent.isBesideClimbableBlock() ? (float) Math.toRadians(-90) : 0.10471975511965977F;

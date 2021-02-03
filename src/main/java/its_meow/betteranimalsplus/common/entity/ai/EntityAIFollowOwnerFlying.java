@@ -1,7 +1,5 @@
 package its_meow.betteranimalsplus.common.entity.ai;
 
-import java.util.EnumSet;
-
 import its_meow.betteranimalsplus.common.entity.EntityLammergeier;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.LivingEntity;
@@ -13,16 +11,18 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 
+import java.util.EnumSet;
+
 public class EntityAIFollowOwnerFlying extends Goal {
 
     private final EntityLammergeier tameable;
     private LivingEntity owner;
-    World world;
+    final World world;
     private final double followSpeed;
     private final FlyingPathNavigator petPathfinder;
     private int timeToRecalcPath;
-    float maxDist;
-    float minDist;
+    final float maxDist;
+    final float minDist;
     private float oldWaterCost;
 
     public EntityAIFollowOwnerFlying(EntityLammergeier tameableIn, double followSpeedIn, float minDistIn, float maxDistIn) {
@@ -42,7 +42,7 @@ public class EntityAIFollowOwnerFlying extends Goal {
 
         if (entitylivingbase == null) {
             return false;
-        } else if (entitylivingbase instanceof PlayerEntity && ((PlayerEntity) entitylivingbase).isSpectator()) {
+        } else if (entitylivingbase instanceof PlayerEntity && entitylivingbase.isSpectator()) {
             return false;
         } else if (this.tameable.isSitting()) {
             return false;

@@ -4,12 +4,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.MobEntity;
-import net.minecraft.pathfinding.GroundPathNavigator;
-import net.minecraft.pathfinding.Path;
-import net.minecraft.pathfinding.PathFinder;
-import net.minecraft.pathfinding.PathNodeType;
-import net.minecraft.pathfinding.PathType;
-import net.minecraft.pathfinding.WalkNodeProcessor;
+import net.minecraft.pathfinding.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
@@ -37,7 +32,7 @@ public class WaterfowlNavigator extends GroundPathNavigator {
 
     @Override
     protected Vec3d getEntityPosition() {
-        return new Vec3d(this.entity.getPosX(), (double) this.getPathablePosY(), this.entity.getPosZ());
+        return new Vec3d(this.entity.getPosX(), this.getPathablePosY(), this.entity.getPosZ());
     }
 
     @Override
@@ -77,12 +72,12 @@ public class WaterfowlNavigator extends GroundPathNavigator {
     private int getPathablePosY() {
         if(this.entity.isInWater() && this.getCanSwim()) {
             int i = MathHelper.floor(this.entity.getBoundingBox().minY);
-            Block block = this.world.getBlockState(new BlockPos(this.entity.getPosX(), (double) i, this.entity.getPosZ())).getBlock();
+            Block block = this.world.getBlockState(new BlockPos(this.entity.getPosX(), i, this.entity.getPosZ())).getBlock();
             int j = 0;
 
             while(block == Blocks.WATER) {
                 ++i;
-                block = this.world.getBlockState(new BlockPos(this.entity.getPosX(), (double) i, this.entity.getPosZ())).getBlock();
+                block = this.world.getBlockState(new BlockPos(this.entity.getPosX(), i, this.entity.getPosZ())).getBlock();
                 ++j;
                 if(j > 16) {
                     return MathHelper.floor(this.entity.getBoundingBox().minY);

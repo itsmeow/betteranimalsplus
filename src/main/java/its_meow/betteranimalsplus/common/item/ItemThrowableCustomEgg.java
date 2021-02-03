@@ -19,18 +19,16 @@ import java.util.function.Function;
 
 public class ItemThrowableCustomEgg extends Item {
 
-    private BiFunction<World, IPosition, ProjectileItemEntity> eggSupplier;
-    private BiFunction<World, LivingEntity, ProjectileItemEntity> eggSupplier2;
+    private final BiFunction<World, IPosition, ProjectileItemEntity> eggSupplier;
+    private final BiFunction<World, LivingEntity, ProjectileItemEntity> eggSupplier2;
 
     public ItemThrowableCustomEgg(BiFunction<World, IPosition, ProjectileItemEntity> egg, BiFunction<World, LivingEntity, ProjectileItemEntity> egg2) {
-        super(new Item.Properties().maxStackSize(16).group(BetterAnimalsPlusMod.group));
+        super(new Item.Properties().maxStackSize(16).group(BetterAnimalsPlusMod.GROUP));
         this.eggSupplier = egg;
         this.eggSupplier2 = egg2;
         DispenserBlock.registerDispenseBehavior(this, new ProjectileDispenseBehavior() {
             protected IProjectile getProjectileEntity(World worldIn, IPosition position, ItemStack stackIn) {
-                return Util.make(eggSupplier.apply(worldIn, position), (p) -> {
-                    p.setItem(stackIn);
-                });
+                return Util.make(eggSupplier.apply(worldIn, position), (p) -> p.setItem(stackIn));
             }
         });
     }
@@ -43,7 +41,7 @@ public class ItemThrowableCustomEgg extends Item {
             itemstack.shrink(1);
         }
 
-        worldIn.playSound((PlayerEntity) null, playerIn.getPosX(), playerIn.getPosY(), playerIn.getPosZ(), SoundEvents.ENTITY_EGG_THROW, SoundCategory.PLAYERS, 0.5F, 0.4F / (random.nextFloat() * 0.4F + 0.8F));
+        worldIn.playSound(null, playerIn.getPosX(), playerIn.getPosY(), playerIn.getPosZ(), SoundEvents.ENTITY_EGG_THROW, SoundCategory.PLAYERS, 0.5F, 0.4F / (random.nextFloat() * 0.4F + 0.8F));
 
         if(!worldIn.isRemote) {
             ProjectileItemEntity ent = eggSupplier2.apply(playerIn.world, playerIn);

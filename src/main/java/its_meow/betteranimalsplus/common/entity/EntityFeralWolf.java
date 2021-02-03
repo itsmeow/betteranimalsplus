@@ -1,9 +1,5 @@
 package its_meow.betteranimalsplus.common.entity;
 
-import java.util.Set;
-
-import com.google.common.base.Predicates;
-
 import dev.itsmeow.imdlib.entity.util.EntityVariant;
 import dev.itsmeow.imdlib.entity.util.IVariant;
 import its_meow.betteranimalsplus.Ref;
@@ -15,36 +11,14 @@ import its_meow.betteranimalsplus.common.entity.util.IDropHead;
 import its_meow.betteranimalsplus.common.entity.util.IHaveHunger;
 import its_meow.betteranimalsplus.common.entity.util.abstracts.EntityTameableBetterAnimalsPlus;
 import its_meow.betteranimalsplus.common.entity.util.abstracts.EntityTameableWithSelectiveTypes;
-import its_meow.betteranimalsplus.common.entity.util.abstracts.EntityTameableWithTypes;
 import its_meow.betteranimalsplus.init.ModEntities;
 import its_meow.betteranimalsplus.init.ModItems;
 import its_meow.betteranimalsplus.init.ModResources;
-import net.minecraft.block.Block;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.ILivingEntityData;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.SpawnReason;
-import net.minecraft.entity.ai.goal.BreedGoal;
-import net.minecraft.entity.ai.goal.FollowOwnerGoal;
-import net.minecraft.entity.ai.goal.HurtByTargetGoal;
-import net.minecraft.entity.ai.goal.LeapAtTargetGoal;
-import net.minecraft.entity.ai.goal.LookAtGoal;
-import net.minecraft.entity.ai.goal.MeleeAttackGoal;
-import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal;
-import net.minecraft.entity.ai.goal.NonTamedTargetGoal;
-import net.minecraft.entity.ai.goal.OwnerHurtByTargetGoal;
-import net.minecraft.entity.ai.goal.OwnerHurtTargetGoal;
-import net.minecraft.entity.ai.goal.SitGoal;
-import net.minecraft.entity.ai.goal.SwimGoal;
-import net.minecraft.entity.ai.goal.WaterAvoidingRandomWalkingGoal;
+import net.minecraft.block.BlockState;
+import net.minecraft.entity.*;
+import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.merchant.villager.VillagerEntity;
-import net.minecraft.entity.monster.AbstractIllagerEntity;
-import net.minecraft.entity.monster.AbstractSkeletonEntity;
-import net.minecraft.entity.monster.CreeperEntity;
-import net.minecraft.entity.monster.GhastEntity;
-import net.minecraft.entity.monster.IMob;
+import net.minecraft.entity.monster.*;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.passive.ChickenEntity;
 import net.minecraft.entity.passive.RabbitEntity;
@@ -55,19 +29,12 @@ import net.minecraft.entity.projectile.AbstractArrowEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.Food;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.particles.ParticleTypes;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.Hand;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.SoundEvent;
-import net.minecraft.util.SoundEvents;
+import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.DifficultyInstance;
@@ -78,22 +45,17 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.BiomeDictionary.Type;
+import net.minecraftforge.event.ForgeEventFactory;
 
-import javax.annotation.Nullable;
+import java.util.Set;
 
 
 public class EntityFeralWolf extends EntityTameableWithSelectiveTypes implements IMob, IDropHead<EntityTameableBetterAnimalsPlus>, IHaveHunger<EntityTameableBetterAnimalsPlus> {
 
     public static final double TAMED_HEALTH = 30D;
     public static final double UNTAMED_HEALTH = 10D;
-    protected static final DataParameter<Float> DATA_HEALTH_ID = EntityDataManager.<Float>createKey(EntityFeralWolf.class, DataSerializers.FLOAT);
+    protected static final DataParameter<Float> DATA_HEALTH_ID = EntityDataManager.createKey(EntityFeralWolf.class, DataSerializers.FLOAT);
 
-    protected float headRotationCourse;
-    protected float headRotationCourseOld;
-    protected boolean isWet;
-    protected boolean isShaking;
-    protected float timeWolfIsShaking;
-    protected float prevTimeWolfIsShaking;
     private int hunger;
 
     public EntityFeralWolf(World worldIn) {
@@ -118,13 +80,13 @@ public class EntityFeralWolf extends EntityTameableWithSelectiveTypes implements
         this.goalSelector.addGoal(10, new LookAtGoal(this, PlayerEntity.class, 8.0F));
         this.targetSelector.addGoal(1, new OwnerHurtByTargetGoal(this));
         this.targetSelector.addGoal(2, new OwnerHurtTargetGoal(this));
-        this.targetSelector.addGoal(3, new HurtByTargetGoal(this, new Class[0]));
+        this.targetSelector.addGoal(3, new HurtByTargetGoal(this));
         this.targetSelector.addGoal(4, new NonTamedTargetGoal<>(this, PlayerEntity.class, false,  e -> e.world.getDifficulty() != Difficulty.PEACEFUL));
         this.targetSelector.addGoal(4, new HungerNonTamedTargetGoal<>(this, AnimalEntity.class, false, e -> e instanceof SheepEntity || e instanceof RabbitEntity));
-        this.targetSelector.addGoal(4, new HungerNonTamedTargetGoal<>(this, VillagerEntity.class, false, Predicates.alwaysTrue()));
-        this.targetSelector.addGoal(4, new HungerNonTamedTargetGoal<>(this, AbstractIllagerEntity.class, false, Predicates.alwaysTrue()));
-        this.targetSelector.addGoal(4, new HungerNonTamedTargetGoal<>(this, ChickenEntity.class, false, Predicates.alwaysTrue()));
-        this.targetSelector.addGoal(4, new HungerNonTamedTargetGoal<>(this, EntityGoat.class, false, Predicates.alwaysTrue()));
+        this.targetSelector.addGoal(4, new HungerNonTamedTargetGoal<>(this, VillagerEntity.class, false, e -> true));
+        this.targetSelector.addGoal(4, new HungerNonTamedTargetGoal<>(this, AbstractIllagerEntity.class, false, e -> true));
+        this.targetSelector.addGoal(4, new HungerNonTamedTargetGoal<>(this, ChickenEntity.class, false, e -> true));
+        this.targetSelector.addGoal(4, new HungerNonTamedTargetGoal<>(this, EntityGoat.class, false, e -> true));
         this.targetSelector.addGoal(5, new HungerNearestAttackableTargetGoal<>(this, AbstractSkeletonEntity.class, false));
     }
 
@@ -156,14 +118,6 @@ public class EntityFeralWolf extends EntityTameableWithSelectiveTypes implements
         this.doHeadDrop();
     }
 
-    public boolean isPreventingPlayerRest(PlayerEntity playerIn) {
-        return this.world.getDifficulty() != Difficulty.PEACEFUL && !this.isTamed() && this.getAttackTarget() != null && playerIn.getDistanceSq(this) <= 50D;
-    }
-
-    protected boolean isValidLightLevel() {
-        return true;
-    }
-
     @Override
     protected void registerAttributes() {
         super.registerAttributes();
@@ -181,16 +135,17 @@ public class EntityFeralWolf extends EntityTameableWithSelectiveTypes implements
     @Override
     protected void updateAITasks() {
         super.updateAITasks();
-        this.dataManager.set(EntityFeralWolf.DATA_HEALTH_ID, Float.valueOf(this.getHealth()));
+        this.dataManager.set(EntityFeralWolf.DATA_HEALTH_ID, this.getHealth());
     }
 
     @Override
     protected void registerData() {
         super.registerData();
-        this.dataManager.register(DATA_HEALTH_ID, Float.valueOf(this.getHealth()));
+        this.dataManager.register(DATA_HEALTH_ID, this.getHealth());
     }
 
-    protected void playStepSound(BlockPos pos, Block blockIn) {
+    @Override
+    protected void playStepSound(BlockPos pos, BlockState blockStateIn) {
         this.playSound(SoundEvents.ENTITY_WOLF_STEP, 0.15F, 1.0F);
     }
 
@@ -199,7 +154,7 @@ public class EntityFeralWolf extends EntityTameableWithSelectiveTypes implements
         if(!this.isTamed() || this.getAttackTarget() != null) {
             return SoundEvents.ENTITY_WOLF_GROWL;
         } else if(this.rand.nextInt(3) == 0) {
-            return this.isTamed() && this.dataManager.get(EntityFeralWolf.DATA_HEALTH_ID).floatValue() < 10.0F ? SoundEvents.ENTITY_WOLF_WHINE : SoundEvents.ENTITY_WOLF_PANT;
+            return this.isTamed() && this.dataManager.get(EntityFeralWolf.DATA_HEALTH_ID) < 10.0F ? SoundEvents.ENTITY_WOLF_WHINE : SoundEvents.ENTITY_WOLF_PANT;
         } else {
             return SoundEvents.ENTITY_WOLF_AMBIENT;
         }
@@ -221,87 +176,11 @@ public class EntityFeralWolf extends EntityTameableWithSelectiveTypes implements
     }
 
     @Override
-    public void livingTick() {
-        super.livingTick();
-
-        if(!this.world.isRemote && this.isWet && !this.isShaking && !this.hasPath() && this.onGround) {
-            this.isShaking = true;
-            this.timeWolfIsShaking = 0.0F;
-            this.prevTimeWolfIsShaking = 0.0F;
-            this.world.setEntityState(this, (byte) 8);
-        }
-    }
-
-    @Override
     public void tick() {
         super.tick();
         if (this.ticksExisted % 20 == 0) {
             this.incrementHunger();
         }
-        this.headRotationCourseOld = this.headRotationCourse;
-
-        this.headRotationCourse += (0.0F - this.headRotationCourse) * 0.4F;
-
-        if(this.isWet()) {
-            this.isWet = true;
-            this.isShaking = false;
-            this.timeWolfIsShaking = 0.0F;
-            this.prevTimeWolfIsShaking = 0.0F;
-        } else if((this.isWet || this.isShaking) && this.isShaking) {
-            if(this.timeWolfIsShaking == 0.0F) {
-                this.playSound(SoundEvents.ENTITY_WOLF_SHAKE, this.getSoundVolume(),
-                (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 1.0F);
-            }
-
-            this.prevTimeWolfIsShaking = this.timeWolfIsShaking;
-            this.timeWolfIsShaking += 0.05F;
-
-            if(this.prevTimeWolfIsShaking >= 2.0F) {
-                this.isWet = false;
-                this.isShaking = false;
-                this.prevTimeWolfIsShaking = 0.0F;
-                this.timeWolfIsShaking = 0.0F;
-            }
-
-            if(this.timeWolfIsShaking > 0.4F) {
-                float f = (float) this.getBoundingBox().minY;
-                int i = (int) (MathHelper.sin((this.timeWolfIsShaking - 0.4F) * (float) Math.PI) * 7.0F);
-
-                for(int j = 0; j < i; ++j) {
-                    float f1 = (this.rand.nextFloat() * 2.0F - 1.0F) * this.getWidth() * 0.5F;
-                    float f2 = (this.rand.nextFloat() * 2.0F - 1.0F) * this.getWidth() * 0.5F;
-                    this.world.addParticle(ParticleTypes.SPLASH, this.getPosX() + f1, f + 0.8F, this.getPosZ() + f2, this.getMotion().getX(), this.getMotion().getY(), this.getMotion().getZ());
-                }
-            }
-        }
-    }
-
-    @OnlyIn(Dist.CLIENT)
-    public boolean isWolfWet() {
-        return this.isWet;
-    }
-
-    @OnlyIn(Dist.CLIENT)
-    public float getShadingWhileWet(float p_70915_1_) {
-        return 0.75F + (this.prevTimeWolfIsShaking + (this.timeWolfIsShaking - this.prevTimeWolfIsShaking) * p_70915_1_) / 2.0F * 0.25F;
-    }
-
-    @OnlyIn(Dist.CLIENT)
-    public float getShakeAngle(float p_70923_1_, float p_70923_2_) {
-        float f = (this.prevTimeWolfIsShaking + (this.timeWolfIsShaking - this.prevTimeWolfIsShaking) * p_70923_1_ + p_70923_2_) / 1.8F;
-
-        if(f < 0.0F) {
-            f = 0.0F;
-        } else if(f > 1.0F) {
-            f = 1.0F;
-        }
-
-        return MathHelper.sin(f * (float) Math.PI) * MathHelper.sin(f * (float) Math.PI * 11.0F) * 0.15F * (float) Math.PI;
-    }
-
-    @OnlyIn(Dist.CLIENT)
-    public float getInterestedAngle(float p_70917_1_) {
-        return (this.headRotationCourseOld + (this.headRotationCourse - this.headRotationCourseOld) * p_70917_1_) * 0.15F * (float) Math.PI;
     }
 
     @Override
@@ -360,7 +239,7 @@ public class EntityFeralWolf extends EntityTameableWithSelectiveTypes implements
             if(!itemstack.isEmpty()) {
                 if(itemstack.getItem().isFood()) {
                     Food food = itemstack.getItem().getFood();
-                    if(food.isMeat() && this.dataManager.get(EntityFeralWolf.DATA_HEALTH_ID).floatValue() < TAMED_HEALTH) {
+                    if(food.isMeat() && this.dataManager.get(EntityFeralWolf.DATA_HEALTH_ID) < TAMED_HEALTH) {
                         if(!player.isCreative()) {
                             itemstack.shrink(1);
                         }
@@ -373,7 +252,7 @@ public class EntityFeralWolf extends EntityTameableWithSelectiveTypes implements
                 this.sitGoal.setSitting(!this.isSitting());
                 this.isJumping = false;
                 this.navigator.clearPath();
-                this.setAttackTarget((LivingEntity) null);
+                this.setAttackTarget(null);
             }
         } else if(this.isTamingItem(itemstack.getItem())) {
             ItemStack stack = player.getItemStackFromSlot(EquipmentSlotType.HEAD);
@@ -382,10 +261,10 @@ public class EntityFeralWolf extends EntityTameableWithSelectiveTypes implements
                     itemstack.shrink(1);
                 }
                 if(!this.world.isRemote) {
-                    if(this.rand.nextInt(100) <= 14 && !net.minecraftforge.event.ForgeEventFactory.onAnimalTame(this, player)) {
+                    if(this.rand.nextInt(100) <= 14 && !ForgeEventFactory.onAnimalTame(this, player)) {
                         this.setTamedBy(player);
                         this.navigator.clearPath();
-                        this.setAttackTarget((LivingEntity) null);
+                        this.setAttackTarget(null);
                         this.sitGoal.setSitting(true);
                         this.setHealth(20.0F);
                         this.world.setEntityState(this, (byte) 7);
@@ -409,25 +288,13 @@ public class EntityFeralWolf extends EntityTameableWithSelectiveTypes implements
         return this.isTamed() && super.canBreed();
     }
 
-    @Override
-    @OnlyIn(Dist.CLIENT)
-    public void handleStatusUpdate(byte id) {
-        if(id == 8) {
-            this.isShaking = true;
-            this.timeWolfIsShaking = 0.0F;
-            this.prevTimeWolfIsShaking = 0.0F;
-        } else {
-            super.handleStatusUpdate(id);
-        }
-    }
-
     @OnlyIn(Dist.CLIENT)
     public float getTailRotation() {
         if(!this.isTamed()) {
             return -0.15F;
         } else {
             return this.isTamed()
-            ? 0.25F - (this.getMaxHealth() - this.dataManager.get(EntityFeralWolf.DATA_HEALTH_ID).floatValue())
+            ? 0.25F - (this.getMaxHealth() - this.dataManager.get(EntityFeralWolf.DATA_HEALTH_ID))
             * 0.04F
             : -0.85F;
         }
@@ -514,8 +381,8 @@ public class EntityFeralWolf extends EntityTameableWithSelectiveTypes implements
     }
 
     public static class WolfVariant extends EntityVariant {
-        private ResourceLocation neutralTexture;
-        private ResourceLocation lootTable;
+        private final ResourceLocation neutralTexture;
+        private final ResourceLocation lootTable;
 
         public WolfVariant(String nameTexture) {
             super(Ref.MOD_ID, nameTexture, "feralwolf_" + nameTexture);
@@ -525,7 +392,7 @@ public class EntityFeralWolf extends EntityTameableWithSelectiveTypes implements
 
         @Override
         public ResourceLocation getTexture(Entity entity) {
-            if(entity != null && entity instanceof EntityFeralWolf && ((EntityFeralWolf) entity).isTamed()) {
+            if(entity instanceof EntityFeralWolf && ((EntityFeralWolf) entity).isTamed()) {
                 return neutralTexture;
             }
             return super.getTexture(entity);

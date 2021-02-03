@@ -6,10 +6,12 @@ import net.minecraft.entity.MobEntity;
 
 public interface IDropHead<T extends MobEntity> extends IContainerEntity<T> {
 
+    @Override
     default HeadType getHeadType() {
         return getContainer().getHeadType();
     }
 
+    @Override
     default void doHeadDrop() {
         getHeadType().drop(getImplementation(), 12);
     }

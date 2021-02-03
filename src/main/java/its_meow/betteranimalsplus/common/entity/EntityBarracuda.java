@@ -54,8 +54,8 @@ public class EntityBarracuda extends EntityWaterMobPathingBucketable implements 
                 return EntityBarracuda.this.world.getDifficulty() != Difficulty.PEACEFUL && super.shouldExecute();
             }
         });
-        this.targetSelector.addGoal(1, new HungerNearestAttackableTargetGoal<WaterMobEntity, EntityBarracuda>(this, WaterMobEntity.class, 100, true, true, e -> !(e instanceof IMob) && !(e instanceof EntityBarracuda)));
-        this.targetSelector.addGoal(1, new PeacefulNearestAttackableTargetGoal<PlayerEntity>(this, PlayerEntity.class, 100, true, true, EntityBarracuda::isWearingShiny));
+        this.targetSelector.addGoal(1, new HungerNearestAttackableTargetGoal<>(this, WaterMobEntity.class, 100, true, true, e -> !(e instanceof IMob) && !(e instanceof EntityBarracuda)));
+        this.targetSelector.addGoal(1, new PeacefulNearestAttackableTargetGoal<>(this, PlayerEntity.class, 100, true, true, EntityBarracuda::isWearingShiny));
     }
 
     public static boolean isWearingShiny(LivingEntity e) {
@@ -115,7 +115,7 @@ public class EntityBarracuda extends EntityWaterMobPathingBucketable implements 
     @Override
     public void livingTick() {
         if(!this.isInWater() && this.onGround && this.collidedVertically) {
-            this.setMotion(this.getMotion().add((double) ((this.rand.nextFloat() * 2.0F - 1.0F) * 0.05F), (double) 0.4F, (double) ((this.rand.nextFloat() * 2.0F - 1.0F) * 0.05F)));
+            this.setMotion(this.getMotion().add((this.rand.nextFloat() * 2.0F - 1.0F) * 0.05F, 0.4F, (this.rand.nextFloat() * 2.0F - 1.0F) * 0.05F));
             this.onGround = false;
             this.isAirBorne = true;
             this.playSound(this.getFlopSound(), this.getSoundVolume(), this.getSoundPitch());

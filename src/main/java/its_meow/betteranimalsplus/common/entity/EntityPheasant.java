@@ -30,11 +30,9 @@ import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 
-import javax.annotation.Nullable;
-
 public class EntityPheasant extends EntityAnimalWithTypes {
 
-    protected static final DataParameter<Integer> PECK_TIME = EntityDataManager.<Integer>createKey(EntityPheasant.class, DataSerializers.VARINT);
+    protected static final DataParameter<Integer> PECK_TIME = EntityDataManager.createKey(EntityPheasant.class, DataSerializers.VARINT);
     public float wingRotation;
     public float destPos;
     public float oFlapSpeed;
@@ -108,10 +106,12 @@ public class EntityPheasant extends EntityAnimalWithTypes {
         }
     }
 
+    @Override
     public boolean isBreedingItem(ItemStack stack) {
         return stack.getItem() == Items.PUMPKIN_SEEDS;
     }
 
+    @Override
     public boolean onLivingFall(float distance, float damageMultiplier) {
         return false;
     }
@@ -132,7 +132,6 @@ public class EntityPheasant extends EntityAnimalWithTypes {
     }
 
     @Override
-    @Nullable
     protected ResourceLocation getLootTable() {
         return ModLootTables.pheasant;
     }
@@ -140,15 +139,15 @@ public class EntityPheasant extends EntityAnimalWithTypes {
     @Override
     protected void registerData() {
         super.registerData();
-        this.dataManager.register(EntityPheasant.PECK_TIME, Integer.valueOf(0));
+        this.dataManager.register(EntityPheasant.PECK_TIME, 0);
     }
 
     public int getPeckTime() {
-        return this.dataManager.get(EntityPheasant.PECK_TIME).intValue();
+        return this.dataManager.get(EntityPheasant.PECK_TIME);
     }
 
     public int setPeckTime(int time) {
-        this.dataManager.set(EntityPheasant.PECK_TIME, Integer.valueOf(time));
+        this.dataManager.set(EntityPheasant.PECK_TIME, time);
         return time;
     }
 

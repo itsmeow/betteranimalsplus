@@ -16,7 +16,7 @@ import net.minecraft.world.World;
 
 public abstract class EntityTameableFlyingWithTypes extends EntityTameableWithTypes {
 
-    protected static final DataParameter<Boolean> FLYING = EntityDataManager.<Boolean>createKey(EntityTameableFlyingWithTypes.class, DataSerializers.BOOLEAN);
+    protected static final DataParameter<Boolean> FLYING = EntityDataManager.createKey(EntityTameableFlyingWithTypes.class, DataSerializers.BOOLEAN);
     private final GroundPathNavigator walkNav;
     private FlyingPathNavigator flyNav;
     private final MovementController moveCtrlGrnd;
@@ -39,46 +39,6 @@ public abstract class EntityTameableFlyingWithTypes extends EntityTameableWithTy
         this.flyNav = nav;
         return nav;
     }
-
-    /*@Override
-    public void travel(Vec3d p_213352_1_) {
-        if(this.isInWater()) {
-            this.moveRelative(0.02F, p_213352_1_);
-            this.move(MoverType.SELF, this.getMotion());
-            this.setMotion(this.getMotion().scale((double) 0.8F));
-        } else if(this.isInLava()) {
-            this.moveRelative(0.02F, p_213352_1_);
-            this.move(MoverType.SELF, this.getMotion());
-            this.setMotion(this.getMotion().scale(0.5D));
-        } else {
-            BlockPos ground = new BlockPos(this.posX, this.getBoundingBox().minY - 1.0D, this.posZ);
-            float f = 0.91F;
-            if(this.onGround) {
-                f = this.world.getBlockState(ground).getSlipperiness(world, ground, this) * 0.91F;
-            }
-
-            float f1 = 0.16277137F / (f * f * f);
-            f = 0.91F;
-            if(this.onGround) {
-                f = this.world.getBlockState(ground).getSlipperiness(world, ground, this) * 0.91F;
-            }
-
-            this.moveRelative(this.onGround ? 0.1F * f1 : 0.02F, p_213352_1_);
-            this.move(MoverType.SELF, this.getMotion());
-            this.setMotion(this.getMotion().scale((double) f));
-        }
-
-        this.prevLimbSwingAmount = this.limbSwingAmount;
-        double d1 = this.posX - this.prevPosX;
-        double d0 = this.posZ - this.prevPosZ;
-        float f2 = MathHelper.sqrt(d1 * d1 + d0 * d0) * 4.0F;
-        if(f2 > 1.0F) {
-            f2 = 1.0F;
-        }
-
-        this.limbSwingAmount += (f2 - this.limbSwingAmount) * 0.4F;
-        this.limbSwing += this.limbSwingAmount;
-    }*/
 
     @Override
     protected void registerData() {

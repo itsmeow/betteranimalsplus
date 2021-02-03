@@ -47,6 +47,7 @@ public class EntitySaltwaterEel extends EntityEelBase {
         super.setAttackTarget(entity);
     }
 
+    @Override
     protected boolean shouldCheckTarget() {
         return isTargetForFood;
     }

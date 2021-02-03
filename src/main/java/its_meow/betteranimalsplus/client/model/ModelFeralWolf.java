@@ -57,10 +57,6 @@ public class ModelFeralWolf<T extends LivingEntity> extends ModelBetterAnimals<T
     public ModelRenderer rForeleg02;
     public ModelRenderer rForePaw;
 
-    private float r = 1F;
-    private float g = 1F;
-    private float b = 1F;
-
     public ModelFeralWolf() {
         this.textureWidth = 128;
         this.textureHeight = 64;
@@ -291,7 +287,7 @@ public class ModelFeralWolf<T extends LivingEntity> extends ModelBetterAnimals<T
 
     @Override
     public void render(MatrixStack matrixStackIn, IVertexBuilder bufferIn, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
-        this.chest.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red * r, green * g, blue * b, alpha);
+        this.chest.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
     }
 
     @Override
@@ -360,15 +356,11 @@ public class ModelFeralWolf<T extends LivingEntity> extends ModelBetterAnimals<T
     /**
      * This is a helper function from Tabula to set the rotation of model parts
      */
+    @Override
     public void setRotateAngle(ModelRenderer ModelRenderer, float x, float y, float z) {
         ModelRenderer.rotateAngleX = x;
         ModelRenderer.rotateAngleY = y;
         ModelRenderer.rotateAngleZ = z;
     }
 
-    public void setColors(float r, float g, float b) {
-        this.r = r;
-        this.g = g;
-        this.b = b;
-    }
 }

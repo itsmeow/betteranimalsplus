@@ -77,6 +77,7 @@ public class EntityNautilus extends EntityWaterMobBucketable {
         return SoundEvents.ENTITY_SQUID_DEATH;
     }
     
+    @Override
     protected boolean canTriggerWalking() {
         return false;
     }

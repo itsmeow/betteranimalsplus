@@ -49,7 +49,7 @@ public class EntityMoose extends EntityAnimalEatsGrassWithTypes implements IDrop
                 return EntityMoose.this.world.getDifficulty() != Difficulty.PEACEFUL && super.shouldExecute();
             }
         });
-        this.targetSelector.addGoal(1, new PeacefulNearestAttackableTargetGoal<PlayerEntity>(this, PlayerEntity.class, 75, true, true, e -> e.getDistance(this) < 15));
+        this.targetSelector.addGoal(1, new PeacefulNearestAttackableTargetGoal<>(this, PlayerEntity.class, 75, true, true, e -> e.getDistance(this) < 15));
     }
 
     @Override
@@ -106,6 +106,7 @@ public class EntityMoose extends EntityAnimalEatsGrassWithTypes implements IDrop
         }
     }
 
+    @Override
     protected EntityAIEatGrassCustom provideEatTask() {
         return new EntityAIEatGrassCustom(this, 50, 500, eater -> {
             Direction facing = eater.getHorizontalFacing();

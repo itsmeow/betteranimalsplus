@@ -1,10 +1,5 @@
 package its_meow.betteranimalsplus.common.entity.util;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.function.Function;
-import java.util.function.Predicate;
-
 import dev.itsmeow.imdlib.entity.util.EntityTypeContainer;
 import dev.itsmeow.imdlib.entity.util.builder.AbstractEntityBuilder;
 import dev.itsmeow.imdlib.entity.util.builder.EntityTypeDefinition;
@@ -14,6 +9,10 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.common.ForgeConfigSpec.ConfigValue;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.function.Function;
 
 public class EntityTypeContainerBAPTameable<T extends TameableEntity> extends EntityTypeContainer<T> {
 
@@ -62,7 +61,7 @@ public class EntityTypeContainerBAPTameable<T extends TameableEntity> extends En
 
         @Override
         public EntityTypeContainerBAPTameable<T> rawBuild() {
-            return new EntityTypeContainerBAPTameable<T>(new TameableEntityTypeDefinition<T>(this));
+            return new EntityTypeContainerBAPTameable<>(new TameableEntityTypeDefinition<>(this));
         }
 
         @Override
@@ -71,7 +70,7 @@ public class EntityTypeContainerBAPTameable<T extends TameableEntity> extends En
         }
 
         public static <T extends TameableEntity> Builder<T> create(Class<T> EntityClass, Function<World, T> func, String entityNameIn, String modid) {
-            return new Builder<T>(EntityClass, func, entityNameIn, modid);
+            return new Builder<>(EntityClass, func, entityNameIn, modid);
         }
 
     }
@@ -94,7 +93,7 @@ public class EntityTypeContainerBAPTameable<T extends TameableEntity> extends En
     @Override
     public void customConfigurationInit(ForgeConfigSpec.Builder builder) {
         super.customConfigurationInit(builder);
-        this.tameItems = builder.comment("List of acceptable item IDs to use for taming. Accepts tags by prefixing them with '#'.").worldRestart().defineList("tameItems", Arrays.asList(defaultTameItems), (Predicate<Object>) input -> input instanceof String);
+        this.tameItems = builder.comment("List of acceptable item IDs to use for taming. Accepts tags by prefixing them with '#'.").worldRestart().defineList("tameItems", Arrays.asList(defaultTameItems), input -> input instanceof String);
     }
 
 }

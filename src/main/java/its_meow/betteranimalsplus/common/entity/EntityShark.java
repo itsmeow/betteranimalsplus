@@ -17,11 +17,7 @@ import its_meow.betteranimalsplus.common.entity.util.abstracts.EntityWaterMobPat
 import its_meow.betteranimalsplus.init.ModEntities;
 import its_meow.betteranimalsplus.init.ModLootTables;
 import its_meow.betteranimalsplus.util.OceanBiomeHelper;
-import net.minecraft.entity.ILivingEntityData;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.MobEntity;
-import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.SpawnReason;
+import net.minecraft.entity.*;
 import net.minecraft.entity.ai.goal.LookAtGoal;
 import net.minecraft.entity.ai.goal.LookRandomlyGoal;
 import net.minecraft.entity.ai.goal.MoveTowardsTargetGoal;
@@ -57,9 +53,7 @@ public class EntityShark extends EntitySharkBase {
         this.goalSelector.addGoal(1, new LookAtGoal(this, LivingEntity.class, 15F));
         this.goalSelector.addGoal(1, new LookRandomlyGoal(this));
         this.goalSelector.addGoal(2, new RandomSwimmingGoal(this, 1D, 1));
-        this.targetSelector.addGoal(1, new HungerNearestAttackableTargetGoal<LivingEntity, EntityShark>(this, LivingEntity.class, 5, false, false, e -> {
-            return !(e instanceof EntitySharkBase || e instanceof EntityBobbitWorm || e instanceof PlayerEntity);
-        }));
+        this.targetSelector.addGoal(1, new HungerNearestAttackableTargetGoal<>(this, LivingEntity.class, 5, false, false, e -> !(e instanceof EntitySharkBase || e instanceof EntityBobbitWorm || e instanceof PlayerEntity)));
         this.targetSelector.addGoal(2, new PeacefulNearestAttackableTargetGoal<>(this, PlayerEntity.class, 5, false, false, e -> shouldAttackForHealth(e.getHealth())));
     }
 
@@ -142,8 +136,7 @@ public class EntityShark extends EntitySharkBase {
             boolean isBoat = this.getAttackTarget() instanceof PlayerEntity && this.getAttackTarget().getRidingEntity() != null && this.getAttackTarget().getRidingEntity() instanceof BoatEntity;
             float grabDelay = isBoat ? 20F : 60F;
             if(this.getPassengers().contains(this.getAttackTarget())) {
-                float time = 30F;
-                time *= (Math.random() + 1F);
+                float time = 30F * ((float) Math.random() + 1F);
                 if(this.lastAttack + time < this.ticksExisted) {
                     this.attackEntityAsMob(this.getAttackTarget());
                 }
@@ -177,6 +170,15 @@ public class EntityShark extends EntitySharkBase {
     }
 
     @Override
+    public boolean attackEntityAsMob(Entity entityIn) {
+        if(super.attackEntityAsMob(entityIn)) {
+            this.lastAttack = this.ticksExisted;
+            return true;
+        }
+        return false;
+    }
+
+    @Override
     protected ResourceLocation getLootTable() {
         return ModLootTables.SHARK;
     }
@@ -189,7 +191,7 @@ public class EntityShark extends EntitySharkBase {
     @Override
     public String[] getTypesFor(Biome biome, Set<Type> types) {
         // types always contains OCEAN
-        List<String> list = new ArrayList<String>();
+        List<String> list = new ArrayList<>();
         OceanBiomeHelper.Wrapper b = new OceanBiomeHelper.Wrapper(biome);
         if(b.isColdOrFrozen()) {
             list.add("greenland");

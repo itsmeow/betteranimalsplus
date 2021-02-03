@@ -11,7 +11,6 @@ import its_meow.betteranimalsplus.init.ModEntities;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.goal.MeleeAttackGoal;
-import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal;
 import net.minecraft.entity.ai.goal.RandomSwimmingGoal;
 import net.minecraft.entity.monster.SkeletonEntity;
 import net.minecraft.entity.passive.horse.HorseEntity;
@@ -23,9 +22,7 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.EntityDamageSource;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.world.Difficulty;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
@@ -112,7 +109,7 @@ public class EntityPiranha extends EntityWaterMobPathingBucketable implements IH
         boolean flag = entityIn.attackEntityFrom(PIRANHA_DAMAGE, f);
         if(flag) {
             if(f1 > 0.0F && entityIn instanceof LivingEntity) {
-                ((LivingEntity) entityIn).knockBack(this, f1 * 0.5F, (double) MathHelper.sin(this.rotationYaw * ((float) Math.PI / 180F)), (double) (-MathHelper.cos(this.rotationYaw * ((float) Math.PI / 180F))));
+                ((LivingEntity) entityIn).knockBack(this, f1 * 0.5F, MathHelper.sin(this.rotationYaw * ((float) Math.PI / 180F)), -MathHelper.cos(this.rotationYaw * ((float) Math.PI / 180F)));
                 this.setMotion(this.getMotion().mul(0.6D, 1.0D, 0.6D));
             }
             if(entityIn instanceof PlayerEntity) {
@@ -136,7 +133,7 @@ public class EntityPiranha extends EntityWaterMobPathingBucketable implements IH
             } else if(entityIn instanceof HorseEntity && !entityIn.isAlive()) {
                 SkeletonHorseEntity skele = EntityType.SKELETON_HORSE.create(entityIn.world);
                 skele.setPositionAndRotation(entityIn.getPosX(), entityIn.getPosY(), entityIn.getPosZ(), entityIn.rotationYaw, entityIn.rotationPitch);
-                skele.onInitialSpawn(entityIn.world, entityIn.world.getDifficultyForLocation(new BlockPos(entityIn)), SpawnReason.MOB_SUMMONED, (ILivingEntityData) null, (CompoundNBT) null);
+                skele.onInitialSpawn(entityIn.world, entityIn.world.getDifficultyForLocation(entityIn.getPosition()), SpawnReason.MOB_SUMMONED, null, null);
                 skele.hurtResistantTime = 60;
                 skele.enablePersistence();
                 skele.setHorseTamed(true);
@@ -162,7 +159,7 @@ public class EntityPiranha extends EntityWaterMobPathingBucketable implements IH
     @Override
     public void livingTick() {
         if(!this.isInWater() && this.onGround && this.collidedVertically) {
-            this.setMotion(this.getMotion().add((double) ((this.rand.nextFloat() * 2.0F - 1.0F) * 0.05F), (double) 0.4F, (double) ((this.rand.nextFloat() * 2.0F - 1.0F) * 0.05F)));
+            this.setMotion(this.getMotion().add((this.rand.nextFloat() * 2.0F - 1.0F) * 0.05F, 0.4F, (this.rand.nextFloat() * 2.0F - 1.0F) * 0.05F));
             this.onGround = false;
             this.isAirBorne = true;
             this.playSound(SoundEvents.ENTITY_COD_FLOP, this.getSoundVolume(), this.getSoundPitch());

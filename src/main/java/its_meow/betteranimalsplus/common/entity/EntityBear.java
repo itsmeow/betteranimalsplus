@@ -1,6 +1,5 @@
 package its_meow.betteranimalsplus.common.entity;
 
-import com.google.common.base.Predicates;
 import dev.itsmeow.imdlib.entity.util.EntityTypeContainer;
 import its_meow.betteranimalsplus.common.entity.ai.EntityAIEatBerries;
 import its_meow.betteranimalsplus.common.entity.ai.FollowParentGoalButNotStupid;
@@ -39,8 +38,6 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 import javax.annotation.Nullable;
-import java.util.List;
-import java.util.function.Predicate;
 
 public class EntityBear extends AnimalEntity implements IDropHead<EntityBear>, IHaveHunger<EntityBear> {
     private static final DataParameter<Boolean> IS_STANDING = EntityDataManager.createKey(EntityBear.class, DataSerializers.BOOLEAN);
@@ -68,22 +65,22 @@ public class EntityBear extends AnimalEntity implements IDropHead<EntityBear>, I
                 return EntityBear.this.isInWater() && EntityBear.this.getSubmergedHeight() > 0.6 || EntityBear.this.isInLava();
             }
         });
-        this.goalSelector.addGoal(1, new EntityBear.MeleeAttackGoal());
-        this.goalSelector.addGoal(1, new EntityBear.PanicGoal());
+        this.goalSelector.addGoal(1, new MeleeAttackGoal());
+        this.goalSelector.addGoal(1, new PanicGoal());
         this.goalSelector.addGoal(2, new BreedGoal(this, 1D));
         this.goalSelector.addGoal(2, new FollowParentGoalButNotStupid(this, 1.25D, e -> !(e instanceof EntityBearNeutral)));
         this.goalSelector.addGoal(3, new EntityAIEatBerries(this, 1.0D, 12, 2));
         this.goalSelector.addGoal(5, new RandomWalkingGoal(this, 1.0D));
         this.goalSelector.addGoal(6, new LookAtGoal(this, PlayerEntity.class, 6.0F));
-        this.targetSelector.addGoal(1, new EntityBear.HurtByTargetGoal());
-        this.targetSelector.addGoal(2, new EntityBear.AttackPlayerGoal());
-        this.targetSelector.addGoal(2, new HungerNearestAttackableTargetGoal<>(this, SalmonEntity.class, 90, true, true, Predicates.alwaysTrue()));
-        this.targetSelector.addGoal(3, new HungerNearestAttackableTargetGoal<>(this, EntityDeer.class, 90, true, true, Predicates.alwaysTrue()));
-        this.targetSelector.addGoal(4, new HungerNearestAttackableTargetGoal<>(this, PigEntity.class, 90, true, true, Predicates.alwaysTrue()));
-        this.targetSelector.addGoal(5, new HungerNearestAttackableTargetGoal<>(this, ChickenEntity.class, 90, true, true, Predicates.alwaysTrue()));
-        this.targetSelector.addGoal(6, new HungerNearestAttackableTargetGoal<>(this, RabbitEntity.class, 90, true, true, Predicates.alwaysTrue()));
-        this.targetSelector.addGoal(5, new HungerNearestAttackableTargetGoal<>(this, EntityPheasant.class, 90, true, true, Predicates.alwaysTrue()));
-        this.targetSelector.addGoal(3, new HungerNearestAttackableTargetGoal<>(this, FoxEntity.class, 90, true, true, Predicates.alwaysTrue()));
+        this.targetSelector.addGoal(1, new HurtByTargetGoal());
+        this.targetSelector.addGoal(2, new AttackPlayerGoal());
+        this.targetSelector.addGoal(2, new HungerNearestAttackableTargetGoal<>(this, SalmonEntity.class, 90, true, true, e -> true));
+        this.targetSelector.addGoal(3, new HungerNearestAttackableTargetGoal<>(this, EntityDeer.class, 90, true, true, e -> true));
+        this.targetSelector.addGoal(4, new HungerNearestAttackableTargetGoal<>(this, PigEntity.class, 90, true, true, e -> true));
+        this.targetSelector.addGoal(5, new HungerNearestAttackableTargetGoal<>(this, ChickenEntity.class, 90, true, true, e -> true));
+        this.targetSelector.addGoal(6, new HungerNearestAttackableTargetGoal<>(this, RabbitEntity.class, 90, true, true, e -> true));
+        this.targetSelector.addGoal(5, new HungerNearestAttackableTargetGoal<>(this, EntityPheasant.class, 90, true, true, e -> true));
+        this.targetSelector.addGoal(3, new HungerNearestAttackableTargetGoal<>(this, FoxEntity.class, 90, true, true, e -> true));
     }
 
     @Override
@@ -147,7 +144,6 @@ public class EntityBear extends AnimalEntity implements IDropHead<EntityBear>, I
     }
 
     @Override
-    @Nullable
     protected ResourceLocation getLootTable() {
         return ModLootTables.BEAR_BROWN;
     }
@@ -251,9 +247,10 @@ public class EntityBear extends AnimalEntity implements IDropHead<EntityBear>, I
 
     class AttackPlayerGoal extends NearestAttackableTargetGoal<PlayerEntity> {
         public AttackPlayerGoal() {
-            super(EntityBear.this, PlayerEntity.class, 0, true, true, (Predicate<LivingEntity>) null);
+            super(EntityBear.this, PlayerEntity.class, 0, true, true, null);
         }
 
+        @Override
         public boolean shouldExecute() {
             if(EntityBear.this.isPeaceful() || EntityBear.this.isChild()) {
                 return false;
@@ -270,6 +267,7 @@ public class EntityBear extends AnimalEntity implements IDropHead<EntityBear>, I
             }
         }
 
+        @Override
         protected double getTargetDistance() {
             return super.getTargetDistance() * 0.5D;
         }
@@ -280,6 +278,7 @@ public class EntityBear extends AnimalEntity implements IDropHead<EntityBear>, I
             super(EntityBear.this);
         }
 
+        @Override
         public void startExecuting() {
             super.startExecuting();
             if(EntityBear.this.isChild()) {
@@ -289,6 +288,7 @@ public class EntityBear extends AnimalEntity implements IDropHead<EntityBear>, I
 
         }
 
+        @Override
         protected void setAttackTarget(MobEntity mobIn, LivingEntity targetIn) {
             if(mobIn instanceof EntityBear && !mobIn.isChild() && (!(targetIn instanceof PlayerEntity) || !((EntityBear) mobIn).isPeaceful())) {
                 super.setAttackTarget(mobIn, targetIn);
@@ -302,6 +302,7 @@ public class EntityBear extends AnimalEntity implements IDropHead<EntityBear>, I
             super(EntityBear.this, 1.25D, true);
         }
 
+        @Override
         protected void checkAndPerformAttack(LivingEntity enemy, double distToEnemySqr) {
             double d0 = this.getAttackReachSqr(enemy);
             if(distToEnemySqr <= d0 && this.attackTick <= 0) {
@@ -325,13 +326,15 @@ public class EntityBear extends AnimalEntity implements IDropHead<EntityBear>, I
 
         }
 
+        @Override
         public void resetTask() {
             EntityBear.this.setStanding(false);
             super.resetTask();
         }
 
+        @Override
         protected double getAttackReachSqr(LivingEntity attackTarget) {
-            return (double) (8.0F + attackTarget.getWidth());
+            return 8.0F + attackTarget.getWidth();
         }
     }
 
@@ -340,8 +343,9 @@ public class EntityBear extends AnimalEntity implements IDropHead<EntityBear>, I
             super(EntityBear.this, 2.0D);
         }
 
+        @Override
         public boolean shouldExecute() {
-            return !EntityBear.this.isChild() && !EntityBear.this.isBurning() ? false : super.shouldExecute();
+            return (EntityBear.this.isChild() || EntityBear.this.isBurning()) && super.shouldExecute();
         }
     }
 

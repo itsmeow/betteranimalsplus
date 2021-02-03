@@ -2,13 +2,11 @@ package its_meow.betteranimalsplus.client.model.shark;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
-
 import its_meow.betteranimalsplus.common.entity.EntityShark;
 import its_meow.betteranimalsplus.util.ModMathHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.math.MathHelper;
 
 /**
@@ -235,7 +233,7 @@ public class ModelBullShark extends EntityModel<EntityShark> {
         ModelBullShark.animate(entity, ageInTicks, body, tail00, tail01, tail02, lowerJaw);
     }
 
-    public static <T extends LivingEntity> void animate(EntityShark entity, float ageInTicks, ModelRenderer body, ModelRenderer tail00, ModelRenderer tail01, ModelRenderer tail02, ModelRenderer lowerJaw) {
+    public static void animate(EntityShark entity, float ageInTicks, ModelRenderer body, ModelRenderer tail00, ModelRenderer tail01, ModelRenderer tail02, ModelRenderer lowerJaw) {
         if((Math.abs(entity.getMotion().getY()) > 0.01 && (Math.abs(entity.getMotion().getX()) > 0.01 || Math.abs(entity.getMotion().getZ()) > 0.01)) || Math.abs(entity.getMotion().getY()) > 0.03) {
             float rotX = -((float) Math.atan2(entity.getMotion().getY(), Math.sqrt(Math.pow(entity.getMotion().getX(), 2) + Math.pow(entity.getMotion().getZ(), 2))) / 1.5F);
             if(rotX < 0) {

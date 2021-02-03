@@ -10,7 +10,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.controller.DolphinLookController;
-import net.minecraft.entity.ai.controller.MovementController;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.potion.EffectInstance;
@@ -19,7 +18,6 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.World;
@@ -32,11 +30,9 @@ import java.util.Set;
 public class EntityWhale extends EntityWaterMobPathingWithTypesAirBreathing implements ISelectiveVariantTypes<EntityWaterMobPathing> {
 
     public int attacksLeft = 0;
-    public float lastBodyRotation = 0;
 
     public EntityWhale(World world) {
         super(ModEntities.WHALE.entityType, world);
-        //this.moveController = new WhaleMoveHelper(this);
         this.lookController = new DolphinLookController(this, 10);
     }
 
@@ -45,12 +41,11 @@ public class EntityWhale extends EntityWaterMobPathingWithTypesAirBreathing impl
         super.registerGoals();
         this.goalSelector.addGoal(0, new BreatheAirGoal(this));
         this.goalSelector.addGoal(0, new FindWaterGoal(this));
-        //this.goalSelector.addGoal(1, new MoveTowardsTargetGoal(this, 1.0D, 30F));
         this.goalSelector.addGoal(2, new WhaleMeleeAttackGoal(this));
         this.goalSelector.addGoal(3, new RandomSwimmingGoal(this, 1.0D, 10));
         this.goalSelector.addGoal(4, new LookAtGoal(this, PlayerEntity.class, 6.0F));
         this.goalSelector.addGoal(5, new LookRandomlyGoal(this));
-        this.targetSelector.addGoal(0, new HurtByTargetGoal(this, new Class[0]) {
+        this.targetSelector.addGoal(0, new HurtByTargetGoal(this) {
             @Override
             public boolean shouldExecute() {
                 return EntityWhale.this.world.getDifficulty() != Difficulty.PEACEFUL && super.shouldExecute();
@@ -68,10 +63,12 @@ public class EntityWhale extends EntityWaterMobPathingWithTypesAirBreathing impl
         this.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(8D);
     }
 
+    @Override
     protected SoundEvent getSplashSound() {
         return SoundEvents.ENTITY_DOLPHIN_SPLASH;
     }
 
+    @Override
     protected SoundEvent getSwimSound() {
         return SoundEvents.ENTITY_DOLPHIN_SWIM;
     }
@@ -80,6 +77,7 @@ public class EntityWhale extends EntityWaterMobPathingWithTypesAirBreathing impl
         return "narwhal".equals(this.getVariantNameOrEmpty());
     }
 
+    @Override
     public boolean attackEntityAsMob(Entity entityIn) {
         boolean flag = entityIn.attackEntityFrom(DamageSource.causeMobDamage(this), (float) (isNarwhal() ? this.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getValue() : 1F));
         if(flag) {
@@ -131,58 +129,9 @@ public class EntityWhale extends EntityWaterMobPathingWithTypesAirBreathing impl
         return ModEntities.WHALE;
     }
 
-    public static class WhaleMoveHelper extends MovementController {
-        private final EntityWhale whale;
-
-        public WhaleMoveHelper(EntityWhale whale) {
-            super(whale);
-            this.whale = whale;
-        }
-
-        public void tick() {
-            if(this.whale.isInWater()) {
-                this.whale.setMotion(this.whale.getMotion().add(0.0D, 0.005D, 0.0D));
-            }
-
-            if(this.action == MovementController.Action.MOVE_TO && !this.whale.getNavigator().noPath()) {
-                double d0 = this.posX - this.whale.getPosX();
-                double d1 = this.posY - this.whale.getPosY();
-                double d2 = this.posZ - this.whale.getPosZ();
-                double d3 = d0 * d0 + d1 * d1 + d2 * d2;
-                if(d3 < (double) 2.5000003E-7F) {
-                    this.mob.setMoveForward(0.0F);
-                } else {
-                    float f = (float) (MathHelper.atan2(d2, d0) * (double) (180F / (float) Math.PI)) - 90.0F;
-                    this.whale.rotationYaw = this.limitAngle(this.whale.rotationYaw, f, 10.0F);
-                    this.whale.renderYawOffset = this.whale.rotationYaw;
-                    this.whale.rotationYawHead = this.whale.rotationYaw;
-                    float f1 = (float) (this.speed * this.whale.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).getValue());
-                    if(this.whale.isInWater()) {
-                        this.whale.setAIMoveSpeed(f1 * 0.02F);
-                        float f2 = -((float) (MathHelper.atan2(d1, (double) MathHelper.sqrt(d0 * d0 + d2 * d2)) * (double) (180F / (float) Math.PI)));
-                        f2 = MathHelper.clamp(MathHelper.wrapDegrees(f2), -85.0F, 85.0F);
-                        this.whale.rotationPitch = this.limitAngle(this.whale.rotationPitch, f2, 5.0F);
-                        float f3 = MathHelper.cos(this.whale.rotationPitch * ((float) Math.PI / 180F));
-                        float f4 = MathHelper.sin(this.whale.rotationPitch * ((float) Math.PI / 180F));
-                        this.whale.moveForward = f3 * f1;
-                        this.whale.moveVertical = -f4 * f1;
-                    } else {
-                        this.whale.setAIMoveSpeed(f1 * 0.1F);
-                    }
-
-                }
-            } else {
-                this.whale.setAIMoveSpeed(0.0F);
-                this.whale.setMoveStrafing(0.0F);
-                this.whale.setMoveVertical(0.0F);
-                this.whale.setMoveForward(0.0F);
-            }
-        }
-    }
-    
     public static class WhaleMeleeAttackGoal extends MeleeAttackGoal {
         
-        private EntityWhale whale;
+        private final EntityWhale whale;
 
         public WhaleMeleeAttackGoal(EntityWhale whale) {
             super(whale, 1.2F, true);
@@ -221,7 +170,7 @@ public class EntityWhale extends EntityWaterMobPathingWithTypesAirBreathing impl
         
         @Override
         protected double getAttackReachSqr(LivingEntity attackTarget) {
-            return (double)(this.attacker.getWidth() * this.attacker.getWidth() + attackTarget.getWidth());
+            return this.attacker.getWidth() * this.attacker.getWidth() + attackTarget.getWidth();
          }
         
     }

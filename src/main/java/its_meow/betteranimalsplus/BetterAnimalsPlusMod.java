@@ -6,10 +6,10 @@ import its_meow.betteranimalsplus.client.ClientLifecycleHandler;
 import its_meow.betteranimalsplus.client.dumb.SafeSyncThing;
 import its_meow.betteranimalsplus.client.dumb.SafeSyncThing.DumbOptions;
 import its_meow.betteranimalsplus.common.entity.EntityCoyote;
+import its_meow.betteranimalsplus.compat.curios.CuriosModCompat;
 import its_meow.betteranimalsplus.config.BetterAnimalsPlusConfig;
 import its_meow.betteranimalsplus.init.*;
 import its_meow.betteranimalsplus.network.*;
-import its_meow.betteranimalsplus.compat.curios.CuriosModCompat;
 import net.minecraft.block.HorizontalBlock;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
@@ -81,20 +81,18 @@ public class BetterAnimalsPlusMod {
         ModTriggers.register();
         ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, BetterAnimalsPlusConfig.getClientSpec());
         BetterAnimalsPlusMod.logger.log(Level.INFO, "Injecting super coyotes...");
-        ClassLoadHacks.runWhenLoaded("curios", () -> () -> {
-            CuriosModCompat.subscribe(modBus);
-        });
+        ClassLoadHacks.runWhenLoaded("curios", () -> () -> CuriosModCompat.subscribe(modBus));
     }
 
-    public static final boolean isDev(UUID uuid) {
+    public static boolean isDev(UUID uuid) {
         return DEVS.contains(uuid);
     }
 
-    public static final boolean isDev(PlayerEntity player) {
+    public static boolean isDev(PlayerEntity player) {
         return isDev(player.getGameProfile().getId());
     }
 
-    public static ItemGroup group = new ItemGroup("Better Animals+") {
+    public static final ItemGroup GROUP = new ItemGroup("Better Animals+") {
         @Override
         public ItemStack createIcon() {
             return new ItemStack(ModItems.ANTLER.get());
@@ -110,12 +108,10 @@ public class BetterAnimalsPlusMod {
     private void setup(final FMLCommonSetupEvent event) {
         HANDLER.registerMessage(packets++, ClientConfigurationPacket.class, ClientConfigurationPacket::encode, ClientConfigurationPacket::decode, ClientConfigurationPacket.Handler::handle);
         HANDLER.registerMessage(packets++, ServerNoBAMPacket.class, (pkt, buf) -> {}, buf -> new ServerNoBAMPacket(), (pkt, ctx) -> {
-            ctx.get().enqueueWork(() -> {
-                ModTriggers.NO_BAM.trigger(ctx.get().getSender());
-            });
+            ctx.get().enqueueWork(() -> ModTriggers.NO_BAM.trigger(ctx.get().getSender()));
             ctx.get().setPacketHandled(true);
         });
-        HANDLER.<ClientRequestBAMPacket>registerMessage(packets++, ClientRequestBAMPacket.class, (pkt, buf) -> {}, buf -> new ClientRequestBAMPacket(), (pkt, ctx) -> {
+        HANDLER.registerMessage(packets++, ClientRequestBAMPacket.class, (pkt, buf) -> {}, buf -> new ClientRequestBAMPacket(), (pkt, ctx) -> {
             ctx.get().enqueueWork(() -> {
                 if(!ModList.get().isLoaded("betteranimals")) {
                     HANDLER.sendToServer(new ServerNoBAMPacket());

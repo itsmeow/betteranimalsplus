@@ -1,9 +1,5 @@
 package its_meow.betteranimalsplus.init;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import dev.itsmeow.imdlib.util.ModSoundEvent;
 import its_meow.betteranimalsplus.Ref;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;

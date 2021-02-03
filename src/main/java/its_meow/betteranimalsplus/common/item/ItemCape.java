@@ -20,7 +20,7 @@ public abstract class ItemCape extends ItemModeledArmor {
     public final Item repairItem;
 
     public ItemCape(Item repairItem, IArmorMaterial material) {
-        super(material, EquipmentSlotType.CHEST, new Properties().group(BetterAnimalsPlusMod.group));
+        super(material, EquipmentSlotType.CHEST, new Properties().group(BetterAnimalsPlusMod.GROUP));
         this.repairItem = repairItem;
     }
 

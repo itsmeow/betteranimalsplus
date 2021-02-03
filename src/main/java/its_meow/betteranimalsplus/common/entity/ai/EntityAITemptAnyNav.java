@@ -31,6 +31,7 @@ public class EntityAITemptAnyNav extends Goal {
         this(creature, speed, Sets.newHashSet(temptItems));
      }
 
+    @Override
     public boolean shouldExecute() {
         if(this.cooldown > 0) {
             --this.cooldown;
@@ -49,16 +50,19 @@ public class EntityAITemptAnyNav extends Goal {
         return this.temptItems.contains(stack.getItem());
     }
 
+    @Override
     public boolean shouldContinueExecuting() {
         return this.shouldExecute();
     }
 
+    @Override
     public void resetTask() {
         this.tempter = null;
         this.entity.getNavigator().clearPath();
         this.cooldown = 100;
     }
 
+    @Override
     public void tick() {
         this.entity.getLookController().setLookPositionWithEntity(this.tempter, (float) (this.entity.getHorizontalFaceSpeed() + 20), (float) this.entity.getVerticalFaceSpeed());
         if(this.entity.getDistanceSq(this.tempter) < 6.25D) {

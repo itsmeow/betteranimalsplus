@@ -32,7 +32,7 @@ public class LammerMoveHelper extends MovementController {
         this.parentEntity.setMotion(vec.scale(0.5D));
         float yawAngle = (float)(MathHelper.atan2(diffZ, diffX) * (double)(180F / (float)Math.PI)) - 90.0F;
         this.mob.rotationYaw = this.limitAngle(this.mob.rotationYaw, yawAngle, 35.0F);
-        double xZDist = (double)MathHelper.sqrt(diffX * diffX + diffZ * diffZ);
+        double xZDist = MathHelper.sqrt(diffX * diffX + diffZ * diffZ);
         float pitchAngle = (float)(-(MathHelper.atan2(diffY, xZDist) * (double)(180F / (float)Math.PI)));
         this.mob.rotationPitch = this.limitAngle(this.mob.rotationPitch, pitchAngle, 35.0F);
     }

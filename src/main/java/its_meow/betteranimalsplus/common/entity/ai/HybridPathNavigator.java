@@ -1,6 +1,5 @@
 package its_meow.betteranimalsplus.common.entity.ai;
 
-import its_meow.betteranimalsplus.common.entity.EntityWalrus;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.pathfinding.PathFinder;
@@ -14,7 +13,7 @@ import java.util.function.Predicate;
 public class HybridPathNavigator<T extends MobEntity> extends SwimmerPathNavigator {
 
     private final Predicate<T> shouldPathAsWater;
-    private T entity;
+    private final T entity;
 
     public HybridPathNavigator(T entity, World world, Predicate<T> shouldPathAsWater) {
         super(entity, world);

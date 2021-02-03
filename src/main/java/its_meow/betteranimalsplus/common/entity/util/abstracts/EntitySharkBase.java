@@ -1,6 +1,5 @@
 package its_meow.betteranimalsplus.common.entity.util.abstracts;
 
-import its_meow.betteranimalsplus.common.entity.EntityShark;
 import its_meow.betteranimalsplus.common.entity.util.IHaveHunger;
 import its_meow.betteranimalsplus.init.ModTriggers;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -75,7 +74,7 @@ public abstract class EntitySharkBase extends EntityWaterMobPathingWithSelective
         boolean flag = entityIn.attackEntityFrom(DamageSource.causeMobDamage(this), f);
 
         if (flag) {
-            if (i > 0 && entityIn instanceof LivingEntity) {
+            if (i > 0) {
                 ((PlayerEntity) entityIn).knockBack(this, i * 0.5F, MathHelper.sin(this.rotationYaw * 0.017453292F), (-MathHelper.cos(this.rotationYaw * 0.017453292F)));
             }
 

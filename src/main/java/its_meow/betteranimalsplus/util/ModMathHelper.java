@@ -139,10 +139,10 @@ public class ModMathHelper {
     }
 
     public static int compare(int a, int b) {
-        return a == b ? 0 : a < b ? -1 : 1;
+        return Integer.compare(a, b);
     }
 
     public static int compare(double a, double b) {
-        return a == b ? 0 : a < b ? -1 : 1;
+        return Double.compare(a, b);
     }
 }

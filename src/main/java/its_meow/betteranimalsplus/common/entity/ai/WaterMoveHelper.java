@@ -14,6 +14,7 @@ public class WaterMoveHelper extends MovementController {
         this.entity = entity;
     }
 
+    @Override
     public void tick() {
         if(this.entity.areEyesInFluid(FluidTags.WATER)) {
             this.entity.setMotion(this.entity.getMotion().add(0.0D, 0.005D, 0.0D));
@@ -23,7 +24,7 @@ public class WaterMoveHelper extends MovementController {
             double d0 = this.posX - this.entity.getPosX();
             double d1 = this.posY - this.entity.getPosY();
             double d2 = this.posZ - this.entity.getPosZ();
-            double d3 = (double) MathHelper.sqrt(d0 * d0 + d1 * d1 + d2 * d2);
+            double d3 = MathHelper.sqrt(d0 * d0 + d1 * d1 + d2 * d2);
             d1 = d1 / d3;
             float f = (float) (MathHelper.atan2(d2, d0) * (double) (180F / (float) Math.PI)) - 90.0F;
             this.entity.rotationYaw = this.limitAngle(this.entity.rotationYaw, f, 90.0F);

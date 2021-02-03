@@ -16,10 +16,12 @@ public abstract class EntityWaterMobPathingWithTypesAirBreathing extends EntityW
         super(entityType, worldIn);
     }
 
+    @Override
     public boolean canBreatheUnderwater() {
         return false;
     }
 
+    @Override
     protected void updateAir(int p_209207_1_) {
     }
 
@@ -31,29 +33,35 @@ public abstract class EntityWaterMobPathingWithTypesAirBreathing extends EntityW
         this.dataManager.set(MOISTNESS, p_211137_1_);
     }
 
+    @Override
     protected void registerData() {
         super.registerData();
         this.dataManager.register(MOISTNESS, 2400);
     }
 
+    @Override
     public void writeAdditional(CompoundNBT compound) {
         super.writeAdditional(compound);
         compound.putInt("Moistness", this.getMoistness());
     }
 
+    @Override
     public void readAdditional(CompoundNBT compound) {
         super.readAdditional(compound);
         this.setMoistness(compound.getInt("Moistness"));
     }
 
+    @Override
     public int getMaxAir() {
         return 4800;
     }
 
+    @Override
     protected int determineNextAir(int currentAir) {
         return this.getMaxAir();
     }
 
+    @Override
     public void tick() {
         super.tick();
         if(!this.isAIDisabled()) {

@@ -35,7 +35,7 @@ import java.util.Set;
 
 public class EntityBobbitWorm extends EntityAnimalWithTypes {
 
-    protected static final DataParameter<Integer> ATTACK_STATE = EntityDataManager.<Integer>createKey(EntityBobbitWorm.class, DataSerializers.VARINT);
+    protected static final DataParameter<Integer> ATTACK_STATE = EntityDataManager.createKey(EntityBobbitWorm.class, DataSerializers.VARINT);
     private float lastAttack = 0;
     private float lastGrab = 0;
     private Vec3d targetPosition;
@@ -48,11 +48,11 @@ public class EntityBobbitWorm extends EntityAnimalWithTypes {
     @Override
     protected void registerGoals() {
         this.goalSelector.addGoal(0, new LookAtGoal(this, LivingEntity.class, 10.0F));
-        Set<Class<? extends LivingEntity>> blackList = new HashSet<Class<? extends LivingEntity>>();
+        Set<Class<? extends LivingEntity>> blackList = new HashSet<>();
         blackList.add(SkeletonEntity.class);
         blackList.add(EndermanEntity.class);
         blackList.add(EntityJellyfish.class);
-        this.targetSelector.addGoal(0, new NearestAttackableTargetGoal<LivingEntity>(this, LivingEntity.class, 0, true, true, e -> e.getWidth() < 3 && !(e instanceof IMob) && !(e instanceof EntityBobbitWorm) && !(e.world.getDifficulty() == Difficulty.PEACEFUL && e instanceof PlayerEntity) && !blackList.contains(e.getClass())));
+        this.targetSelector.addGoal(0, new NearestAttackableTargetGoal<>(this, LivingEntity.class, 0, true, true, e -> e.getWidth() < 3 && !(e instanceof IMob) && !(e instanceof EntityBobbitWorm) && !(e.world.getDifficulty() == Difficulty.PEACEFUL && e instanceof PlayerEntity) && !blackList.contains(e.getClass())));
     }
 
     @Override
@@ -65,9 +65,8 @@ public class EntityBobbitWorm extends EntityAnimalWithTypes {
         return this.dataManager.get(ATTACK_STATE);
     }
 
-    public int setAttackState(int state) {
+    public void setAttackState(int state) {
         this.dataManager.set(ATTACK_STATE, state);
-        return state;
     }
 
     @Override

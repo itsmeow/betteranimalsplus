@@ -62,7 +62,7 @@ public class BetterAnimalsPlusConfig {
     }
 
     public static Map<String, String[]> getTameItemsMap() {
-        Map<String, String[]> map = new HashMap<String, String[]>();
+        Map<String, String[]> map = new HashMap<>();
         for(EntityTypeContainer<?> cont : ModEntities.getEntities().values()) {
             if(cont instanceof EntityTypeContainerBAPTameable) {
                 EntityTypeContainerBAPTameable<?> c = (EntityTypeContainerBAPTameable<?>) cont;
