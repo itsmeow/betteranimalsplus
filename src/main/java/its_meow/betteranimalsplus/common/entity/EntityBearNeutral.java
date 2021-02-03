@@ -1,9 +1,5 @@
 package its_meow.betteranimalsplus.common.entity;
 
-import javax.annotation.Nullable;
-
-import com.google.common.base.Predicates;
-
 import dev.itsmeow.imdlib.entity.util.EntityTypeContainer;
 import dev.itsmeow.imdlib.entity.util.IVariant;
 import dev.itsmeow.imdlib.entity.util.IVariantTypes;
@@ -28,6 +24,8 @@ import net.minecraft.world.IServerWorld;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 
+import javax.annotation.Nullable;
+
 public class EntityBearNeutral extends EntityBear implements IVariantTypes<EntityBear> {
 
     public EntityBearNeutral(World worldIn) {
@@ -37,18 +35,18 @@ public class EntityBearNeutral extends EntityBear implements IVariantTypes<Entit
     @Override
     protected void registerGoals() {
         this.goalSelector.addGoal(0, new SwimGoal(this));
-        this.goalSelector.addGoal(1, new EntityBear.BearMeleeAttackGoal());
+        this.goalSelector.addGoal(1, new BearMeleeAttackGoal());
         this.goalSelector.addGoal(2, new BreedGoal(this, 1D));
         this.goalSelector.addGoal(2, new FollowParentGoal(this, 1.25D));
         this.goalSelector.addGoal(2, new EntityAIEatBerries(this, 1.0D, 12, 2));
-        this.targetSelector.addGoal(1, new EntityBear.BearHurtByTargetGoal());
-        this.targetSelector.addGoal(2, new EntityBear.AttackPlayerGoal());
+        this.targetSelector.addGoal(1, new BearHurtByTargetGoal());
+        this.targetSelector.addGoal(2, new AttackPlayerGoal());
         this.goalSelector.addGoal(5, new RandomWalkingGoal(this, 0.5D));
         this.goalSelector.addGoal(6, new LookAtGoal(this, PlayerEntity.class, 6.0F));
         this.targetSelector.addGoal(3, new HungerNearestAttackableTargetGoal<>(this, ChickenEntity.class, true));
         this.targetSelector.addGoal(4, new HungerNearestAttackableTargetGoal<>(this, RabbitEntity.class, true));
-        this.targetSelector.addGoal(5, new HungerNearestAttackableTargetGoal<>(this, EntityPheasant.class, 90, true, true, Predicates.alwaysTrue()));
-        this.targetSelector.addGoal(4, new HungerNearestAttackableTargetGoal<>(this, FoxEntity.class, 90, true, true, Predicates.alwaysTrue()));
+        this.targetSelector.addGoal(5, new HungerNearestAttackableTargetGoal<>(this, EntityPheasant.class, 90, true, true, e -> true));
+        this.targetSelector.addGoal(4, new HungerNearestAttackableTargetGoal<>(this, FoxEntity.class, 90, true, true, e -> true));
     }
 
     @Override

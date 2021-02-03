@@ -24,12 +24,10 @@ import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.IServerWorld;
-import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
-import javax.annotation.Nullable;
 import java.util.Calendar;
 
 public class EntityDeer extends EntityAnimalEatsGrassWithTypes implements IDropHead<EntityAnimalWithTypes> {
@@ -38,6 +36,7 @@ public class EntityDeer extends EntityAnimalEatsGrassWithTypes implements IDropH
         super(ModEntities.DEER.entityType, worldIn, 6);
     }
 
+    @Override
     public int getEatTime() {
         return eatTimer;
     }
@@ -96,7 +95,7 @@ public class EntityDeer extends EntityAnimalEatsGrassWithTypes implements IDropH
         temptItems[3] = Items.CARROT_ON_A_STICK;
         temptItems[4] = Items.GOLDEN_CARROT;
         this.goalSelector.addGoal(3, new TemptGoal(this, 0.45D, false, Ingredient.fromItems(temptItems)));
-        this.goalSelector.addGoal(4, new AvoidEntityGoal<PlayerEntity>(this, PlayerEntity.class, 20, 0.55D, 0.7D));
+        this.goalSelector.addGoal(4, new AvoidEntityGoal<>(this, PlayerEntity.class, 20, 0.55D, 0.7D));
         this.goalSelector.addGoal(5, new FollowParentGoal(this, 1D));
         // Eat Grass at Priority 6
         this.goalSelector.addGoal(6, new RandomWalkingGoal(this, 0.45D));
@@ -116,7 +115,6 @@ public class EntityDeer extends EntityAnimalEatsGrassWithTypes implements IDropH
     }
 
     @Override
-    @Nullable
     protected ResourceLocation getLootTable() {
         return ModLootTables.deer;
     }
@@ -156,12 +154,12 @@ public class EntityDeer extends EntityAnimalEatsGrassWithTypes implements IDropH
         static {
             Calendar calendar = Calendar.getInstance();
 
-            if(calendar.get(2) + 1 == 12 && calendar.get(5) >= 24 && calendar.get(5) <= 26) {
+            if(calendar.get(Calendar.MONTH) + 1 == 12 && calendar.get(Calendar.DATE) >= 24 && calendar.get(Calendar.DATE) <= 26) {
                 isChristmas = true;
             }
         }
 
-        private ResourceLocation christmasTexture;
+        private final ResourceLocation christmasTexture;
 
         public EntityDeerVariant(String nameTexture) {
             super(Ref.MOD_ID, nameTexture, "deer_" + nameTexture);

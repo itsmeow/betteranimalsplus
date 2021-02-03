@@ -14,7 +14,6 @@ import its_meow.betteranimalsplus.client.renderer.entity.layers.LayerEyes;
 import its_meow.betteranimalsplus.client.renderer.entity.layers.LayerEyesCondition;
 import its_meow.betteranimalsplus.client.renderer.tileentity.RenderBlockTrillium;
 import its_meow.betteranimalsplus.common.entity.EntityCoyote;
-import its_meow.betteranimalsplus.common.entity.EntityWalrus;
 import its_meow.betteranimalsplus.common.entity.projectile.*;
 import its_meow.betteranimalsplus.init.ModEntities;
 import its_meow.betteranimalsplus.init.ModResources;
@@ -166,7 +165,7 @@ public class ClientLifecycleHandler {
                 break;
             }
         }));
-        R.addRender(ModEntities.WALRUS.entityType, 1.5F, r -> r.tSingle("walrus").mSingle(new ModelWalrus<EntityWalrus>()));
+        R.addRender(ModEntities.WALRUS.entityType, 1.5F, r -> r.tSingle("walrus").mSingle(new ModelWalrus<>()));
         R.addRender(ModEntities.BUTTERFLY.entityType, 0.1F, r -> r.tVariant().mSingle(new ModelButterfly<>()).simpleScale(e -> e.getSize(Pose.STANDING).width));
         R.addRender(ModEntities.DRAGONFLY.entityType, 0.1F, r -> r.tVariant().mSingle(new ModelDragonfly<>()).simpleScale(e -> (e.getSize(Pose.STANDING).width / 2F)));
         R.addRender(ModEntities.BARRACUDA.entityType, 1F, r -> r.tSingle("barracuda").mSingle(new ModelBarracuda<>()).simpleScale(e -> 0.6F));

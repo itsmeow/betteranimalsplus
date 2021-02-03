@@ -15,7 +15,7 @@ public class EntityUtil {
     private static boolean hasFailed =  false;
 
     public static ILivingEntityData childChance(AgeableEntity e, SpawnReason reason, ILivingEntityData livingdata, float chance) {
-        if(livingdata != null && livingdata instanceof AgeableData) {
+        if(livingdata instanceof AgeableData) {
             try {
                 Field babySpawnProbability = ObfuscationReflectionHelper.findField(AgeableData.class, "field_226256_c_");
                 FieldUtils.removeFinalModifier(babySpawnProbability);

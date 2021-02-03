@@ -1,14 +1,14 @@
 package its_meow.betteranimalsplus.client.dumb;
 
+import its_meow.betteranimalsplus.BetterAnimalsPlusMod;
+import its_meow.betteranimalsplus.network.StupidDevPacket;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-import its_meow.betteranimalsplus.BetterAnimalsPlusMod;
-import its_meow.betteranimalsplus.network.StupidDevPacket;
-
 public class SafeSyncThing {
-    private static Map<UUID, DumbOptions> CLIENT_ENABLED_MAP = new HashMap<UUID, DumbOptions>();
+    private static final Map<UUID, DumbOptions> CLIENT_ENABLED_MAP = new HashMap<>();
 
     public static void put(UUID uuid, StupidDevPacket val) {
         put(uuid, new DumbOptions(val));

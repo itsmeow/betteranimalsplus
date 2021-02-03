@@ -22,8 +22,8 @@ import java.util.Map;
 
 public class CurioCape implements ICurio {
 
-    protected static Map<String, BipedModel<LivingEntity>> models = new HashMap<>();
-    protected ItemStack stack;
+    protected static final Map<String, BipedModel<LivingEntity>> models = new HashMap<>();
+    protected final ItemStack stack;
     protected final String modelKey;
 
     public CurioCape(String modelKey, ItemStack stack) {

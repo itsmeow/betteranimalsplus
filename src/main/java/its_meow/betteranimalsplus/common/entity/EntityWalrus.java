@@ -66,6 +66,7 @@ public class EntityWalrus extends AnimalEntity implements IContainerEntity<Entit
         return super.func_230254_b_(player, hand);
     }
 
+    @Override
     @OnlyIn(Dist.CLIENT)
     public void handleStatusUpdate(byte id) {
         if(id == 90) {
@@ -124,6 +125,7 @@ public class EntityWalrus extends AnimalEntity implements IContainerEntity<Entit
         this.dataManager.set(TRAVELLING, isTravelling);
     }
 
+    @Override
     protected void registerData() {
         super.registerData();
         this.dataManager.register(HOME_POS, BlockPos.ZERO);
@@ -132,6 +134,7 @@ public class EntityWalrus extends AnimalEntity implements IContainerEntity<Entit
         this.dataManager.register(TRAVELLING, false);
     }
 
+    @Override
     public void writeAdditional(CompoundNBT compound) {
         super.writeAdditional(compound);
         compound.putInt("HomePosX", this.getHome().getX());
@@ -143,6 +146,7 @@ public class EntityWalrus extends AnimalEntity implements IContainerEntity<Entit
         compound.putBoolean("DiscGiven", hasGivenDisc);
     }
 
+    @Override
     public void readAdditional(CompoundNBT compound) {
         int i = compound.getInt("HomePosX");
         int j = compound.getInt("HomePosY");
@@ -156,6 +160,7 @@ public class EntityWalrus extends AnimalEntity implements IContainerEntity<Entit
         this.hasGivenDisc = compound.getBoolean("DiscGiven");
     }
 
+    @Override
     @Nullable
     public ILivingEntityData onInitialSpawn(IServerWorld worldIn, DifficultyInstance difficultyIn, SpawnReason reason, @Nullable ILivingEntityData spawnDataIn, @Nullable CompoundNBT dataTag) {
         this.setHome(this.getPosition());
@@ -168,6 +173,7 @@ public class EntityWalrus extends AnimalEntity implements IContainerEntity<Entit
         return pos.getY() < world.getSeaLevel() + 4 && world.getLightSubtracted(pos, 0) > 8;
     }
 
+    @Override
     protected void registerGoals() {
         this.goalSelector.addGoal(0, new BreatheAirGoal(this));
         this.goalSelector.addGoal(1, new EntityWalrus.GoToWaterGoal(this, 1.0D));
@@ -176,7 +182,7 @@ public class EntityWalrus extends AnimalEntity implements IContainerEntity<Entit
         this.goalSelector.addGoal(4, new MeleeAttackGoal(this, 1.0D, false) {
             @Override
             protected double getAttackReachSqr(LivingEntity attackTarget) {
-                return (double) (this.attacker.getWidth() * this.attacker.getWidth() + attackTarget.getWidth());
+                return this.attacker.getWidth() * this.attacker.getWidth() + attackTarget.getWidth();
             }
         });
         this.goalSelector.addGoal(4, new LookAtGoal(this, PlayerEntity.class, 8.0F));
@@ -189,41 +195,47 @@ public class EntityWalrus extends AnimalEntity implements IContainerEntity<Entit
         });
     }
 
+    @Override
     public boolean isPushedByWater() {
         return false;
     }
 
+    @Override
     public boolean canBreatheUnderwater() {
         return false;
     }
 
-    protected void updateAir(int p_209207_1_) {
-    }
-
+    @Override
     public int getMaxAir() {
         return 6000; // 5m
     }
 
+    @Override
     protected int determineNextAir(int currentAir) {
         return this.getMaxAir();
     }
 
+    @Override
     public CreatureAttribute getCreatureAttribute() {
         return CreatureAttribute.WATER;
     }
 
+    @Override
     protected void playStepSound(BlockPos pos, BlockState blockIn) {
         this.playSound(SoundEvents.ENTITY_COW_STEP, 0.15F, 0.6F);
     }
 
+    @Override
     protected float determineNextStepDistance() {
         return this.distanceWalkedOnStepModified + 0.15F;
     }
 
+    @Override
     protected PathNavigator createNavigator(World worldIn) {
         return new HybridPathNavigator<>(this, worldIn, EntityWalrus::isTravelling);
     }
 
+    @Override
     @SuppressWarnings("deprecation")
     public float getBlockPathWeight(BlockPos pos, IWorldReader worldIn) {
         if(!this.isGoingHome() && worldIn.getFluidState(pos).isTagged(FluidTags.WATER)) {
@@ -233,6 +245,7 @@ public class EntityWalrus extends AnimalEntity implements IContainerEntity<Entit
         }
     }
 
+    @Override
     public void travel(Vector3d p_213352_1_) {
         if(this.isServerWorld() && this.isInWater()) {
             this.moveRelative(0.1F, p_213352_1_);
@@ -247,6 +260,7 @@ public class EntityWalrus extends AnimalEntity implements IContainerEntity<Entit
 
     }
 
+    @Override
     public boolean canBeLeashedTo(PlayerEntity player) {
         return false;
     }
@@ -304,13 +318,13 @@ public class EntityWalrus extends AnimalEntity implements IContainerEntity<Entit
             }
 
             if(this.walrus.getNavigator().noPath()) {
-                Vector3d vec3d = RandomPositionGenerator.findRandomTargetTowardsScaled(this.walrus, 16, 3, new Vector3d((double) blockpos.getX(), (double) blockpos.getY(), (double) blockpos.getZ()), (double) ((float) Math.PI / 10F));
+                Vector3d vec3d = RandomPositionGenerator.findRandomTargetTowardsScaled(this.walrus, 16, 3, new Vector3d(blockpos.getX(), blockpos.getY(), blockpos.getZ()), (float) Math.PI / 10F);
                 if(vec3d == null) {
-                    vec3d = RandomPositionGenerator.findRandomTargetBlockTowards(this.walrus, 8, 7, new Vector3d((double) blockpos.getX(), (double) blockpos.getY(), (double) blockpos.getZ()));
+                    vec3d = RandomPositionGenerator.findRandomTargetBlockTowards(this.walrus, 8, 7, new Vector3d(blockpos.getX(), blockpos.getY(), blockpos.getZ()));
                 }
 
                 if(vec3d != null && !nearHome && this.walrus.world.getBlockState(new BlockPos(vec3d)).getBlock() != Blocks.WATER) {
-                    vec3d = RandomPositionGenerator.findRandomTargetBlockTowards(this.walrus, 16, 5, new Vector3d((double) blockpos.getX(), (double) blockpos.getY(), (double) blockpos.getZ()));
+                    vec3d = RandomPositionGenerator.findRandomTargetBlockTowards(this.walrus, 16, 5, new Vector3d(blockpos.getX(), blockpos.getY(), blockpos.getZ()));
                 }
 
                 if(vec3d == null) {
@@ -386,7 +400,7 @@ public class EntityWalrus extends AnimalEntity implements IContainerEntity<Entit
                 double d0 = this.posX - this.walrus.getPosX();
                 double d1 = this.posY - this.walrus.getPosY();
                 double d2 = this.posZ - this.walrus.getPosZ();
-                double d3 = (double) MathHelper.sqrt(d0 * d0 + d1 * d1 + d2 * d2);
+                double d3 = MathHelper.sqrt(d0 * d0 + d1 * d1 + d2 * d2);
                 d1 = d1 / d3;
                 float f = (float) (MathHelper.atan2(d2, d0) * (double) (180F / (float) Math.PI)) - 90.0F;
                 this.walrus.rotationYaw = this.limitAngle(this.walrus.rotationYaw, f, 90.0F);
@@ -410,10 +424,12 @@ public class EntityWalrus extends AnimalEntity implements IContainerEntity<Entit
             this.speed = speed;
         }
 
+        @Override
         public boolean shouldExecute() {
             return !this.walrus.isGoingHome() && this.walrus.isInWater();
         }
 
+        @Override
         public void startExecuting() {
             int xzRange = 512;
             int yRange = 4;
@@ -431,6 +447,7 @@ public class EntityWalrus extends AnimalEntity implements IContainerEntity<Entit
             this.noPosition = false;
         }
 
+        @Override
         @SuppressWarnings("deprecation")
         public void tick() {
             if(this.walrus.getNavigator().noPath()) {
@@ -459,10 +476,12 @@ public class EntityWalrus extends AnimalEntity implements IContainerEntity<Entit
 
         }
 
+        @Override
         public boolean shouldContinueExecuting() {
             return !this.walrus.getNavigator().noPath() && !this.noPosition && !this.walrus.isGoingHome();
         }
 
+        @Override
         public void resetTask() {
             this.walrus.setTravelling(false);
             super.resetTask();
@@ -477,6 +496,7 @@ public class EntityWalrus extends AnimalEntity implements IContainerEntity<Entit
             this.walrus = walrus;
         }
 
+        @Override
         public boolean shouldExecute() {
             return !this.creature.isInWater() && !this.walrus.isGoingHome() && super.shouldExecute();
         }

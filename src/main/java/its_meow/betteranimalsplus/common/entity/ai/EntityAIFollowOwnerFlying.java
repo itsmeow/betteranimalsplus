@@ -1,7 +1,5 @@
 package its_meow.betteranimalsplus.common.entity.ai;
 
-import java.util.EnumSet;
-
 import its_meow.betteranimalsplus.common.entity.EntityLammergeier;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.LivingEntity;
@@ -13,16 +11,18 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 
+import java.util.EnumSet;
+
 public class EntityAIFollowOwnerFlying extends Goal {
 
     private final EntityLammergeier tameable;
     private LivingEntity owner;
-    World world;
+    final World world;
     private final double followSpeed;
     private final FlyingPathNavigator petPathfinder;
     private int timeToRecalcPath;
-    float maxDist;
-    float minDist;
+    final float maxDist;
+    final float minDist;
     private float oldWaterCost;
 
     public EntityAIFollowOwnerFlying(EntityLammergeier tameableIn, double followSpeedIn, float minDistIn, float maxDistIn) {
@@ -42,7 +42,7 @@ public class EntityAIFollowOwnerFlying extends Goal {
 
         if (entitylivingbase == null) {
             return false;
-        } else if (entitylivingbase instanceof PlayerEntity && ((PlayerEntity) entitylivingbase).isSpectator()) {
+        } else if (entitylivingbase instanceof PlayerEntity && entitylivingbase.isSpectator()) {
             return false;
         } else if (this.tameable.isEntitySleeping() || this.tameable.isSitting()) { // it's actually sitting not sleeping
             return false;
@@ -99,9 +99,6 @@ public class EntityAIFollowOwnerFlying extends Goal {
                             for (int l = 0; l <= 4; ++l) {
                                 for (int i1 = 0; i1 <= 4; ++i1) {
                                     if ((l < 1 || i1 < 1 || l > 3 || i1 > 3) && this.isTeleportFriendlyBlock(i, j, k, l, i1)) {
-                                        /*if (this.tameable.getEntityWorld() != this.owner.getEntityWorld()) {
-                                            this.tameable.func_241206_a_((ServerWorld) this.owner.getEntityWorld());
-                                        }*/
                                         this.tameable.setLocationAndAngles(i + l + 0.5F, k, j + i1 + 0.5F, this.tameable.rotationYaw, this.tameable.rotationPitch);
                                         this.petPathfinder.clearPath();
                                         return;

@@ -86,7 +86,7 @@ public class EntityBoar extends EntityAnimalWithSelectiveTypes implements IMob, 
                 return !EntityBoar.this.isChild() && !EntityBoar.this.isPeaceful() && super.shouldContinueExecuting();
             }
         }.setCallsForHelp(EntityBoar.class));
-        this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<AnimalEntity>(this, AnimalEntity.class, 90, true, true, (@Nullable LivingEntity in) -> in instanceof ChickenEntity || in instanceof EntityPheasant || in instanceof AnimalEntity && ((AnimalEntity) in).isChild() && !(in instanceof EntityBoar || in instanceof PigEntity || in instanceof HoglinEntity)) {
+        this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<AnimalEntity>(this, AnimalEntity.class, 90, true, true, (@Nullable LivingEntity in) -> in instanceof ChickenEntity || in instanceof EntityPheasant || in instanceof AnimalEntity && in.isChild() && !(in instanceof EntityBoar || in instanceof PigEntity || in instanceof HoglinEntity)) {
             @Override
             public boolean shouldExecute() {
                 return !EntityBoar.this.isChild() && super.shouldExecute();
@@ -129,7 +129,8 @@ public class EntityBoar extends EntityAnimalWithSelectiveTypes implements IMob, 
         return SoundEvents.ENTITY_PIG_DEATH;
     }
 
-    protected void playStepSound(BlockPos pos, Block blockIn) {
+    @Override
+    protected void playStepSound(BlockPos pos, BlockState blockIn) {
         this.playSound(SoundEvents.ENTITY_PIG_STEP, 0.15F, 1.0F);
     }
 
@@ -140,7 +141,6 @@ public class EntityBoar extends EntityAnimalWithSelectiveTypes implements IMob, 
     }
 
     @Override
-    @Nullable
     protected ResourceLocation getLootTable() {
         return EntityType.PIG.getLootTable();
     }
@@ -156,16 +156,14 @@ public class EntityBoar extends EntityAnimalWithSelectiveTypes implements IMob, 
         float f = (float) this.getAttribute(Attributes.ATTACK_DAMAGE).getValue();
         int i = 0;
 
-        if(entityIn instanceof LivingEntity) {
-            f += EnchantmentHelper.getModifierForCreature(this.getHeldItemMainhand(),
-            ((LivingEntity) entityIn).getCreatureAttribute());
-            i += EnchantmentHelper.getKnockbackModifier(this);
-        }
+        f += EnchantmentHelper.getModifierForCreature(this.getHeldItemMainhand(),
+        ((LivingEntity) entityIn).getCreatureAttribute());
+        i += EnchantmentHelper.getKnockbackModifier(this);
 
         boolean flag = entityIn.attackEntityFrom(DamageSource.causeMobDamage(this), f);
 
         if (flag) {
-            if (i > 0 && entityIn instanceof LivingEntity) {
+            if (i > 0) {
                 ((LivingEntity) entityIn).applyKnockback(i * 0.5F, MathHelper.sin(this.rotationYaw * 0.017453292F), -MathHelper.cos(this.rotationYaw * 0.017453292F));
                 this.setMotion(this.getMotion().getX() * 0.6D, this.getMotion().getY(), this.getMotion().getZ() * 0.6D);
             }
@@ -220,27 +218,26 @@ public class EntityBoar extends EntityAnimalWithSelectiveTypes implements IMob, 
 
     @Override
     public AgeableEntity func_241840_a(ServerWorld world, AgeableEntity ageable) {
-        if (ageable instanceof EntityBoar) {
-            EntityBoar boar = new EntityBoar(this.world);
-            boar.setType(this.getVariant().get());
-            return boar;
-        } else if(ageable instanceof PigEntity) {
-            PigEntity pig = new PigEntity(EntityType.PIG, this.world);
-            EntityBoar boar = new EntityBoar(this.world);
-            boar.setType(this.getVariant().get());
-            return this.rand.nextBoolean() ? pig : boar;
-        } else {
-            return null;
+        if(this.getVariant().isPresent()) {
+            if (ageable instanceof EntityBoar) {
+                EntityBoar boar = new EntityBoar(this.world);
+                boar.setType(this.getVariant().get());
+                return boar;
+            } else if (ageable instanceof PigEntity) {
+                PigEntity pig = new PigEntity(EntityType.PIG, this.world);
+                EntityBoar boar = new EntityBoar(this.world);
+                boar.setType(this.getVariant().get());
+                return this.rand.nextBoolean() ? pig : boar;
+            }
         }
+        return null;
     }
 
     @Override
     public boolean canMateWith(AnimalEntity otherAnimal) {
         if(otherAnimal != this) {
             if(otherAnimal instanceof EntityBoar || otherAnimal instanceof PigEntity) {
-                if(otherAnimal.isInLove() && this.isInLove()) {
-                    return true;
-                }
+                return otherAnimal.isInLove() && this.isInLove();
             }
         }
 
@@ -306,7 +303,7 @@ public class EntityBoar extends EntityAnimalWithSelectiveTypes implements IMob, 
         @Override
         public void tick() {
             if(!this.destinationBlock.withinDistance(this.creature.getPositionVec(), this.getTargetDistanceSq())) {
-                this.boar.getMoveHelper().setMoveTo((double) this.destinationBlock.getX() + 0.5D, (double) (this.destinationBlock.getY()), (double) this.destinationBlock.getZ() + 0.5D, this.movementSpeed);
+                this.boar.getMoveHelper().setMoveTo((double) this.destinationBlock.getX() + 0.5D, this.destinationBlock.getY(), (double) this.destinationBlock.getZ() + 0.5D, this.movementSpeed);
             } else {
                 World world = this.boar.world;
                 BlockPos pos = this.destinationBlock;
@@ -319,7 +316,7 @@ public class EntityBoar extends EntityAnimalWithSelectiveTypes implements IMob, 
                     boar.setInLove(null);
                 }
             }
-            this.boar.getLookController().setLookPosition((double) this.destinationBlock.getX() + 0.5D, (double) (this.destinationBlock.getY() + 0.5D), (double) this.destinationBlock.getZ() + 0.5D, 10.0F, (float) this.boar.getVerticalFaceSpeed());
+            this.boar.getLookController().setLookPosition((double) this.destinationBlock.getX() + 0.5D, this.destinationBlock.getY() + 0.5D, (double) this.destinationBlock.getZ() + 0.5D, 10.0F, (float) this.boar.getVerticalFaceSpeed());
         }
 
         @Override
@@ -327,9 +324,7 @@ public class EntityBoar extends EntityAnimalWithSelectiveTypes implements IMob, 
             BlockState state = worldIn.getBlockState(pos);
             Block block = state.getBlock();
             if(!this.boar.isInLove() && block instanceof CropsBlock && ((CropsBlock) block).isMaxAge(state)) {
-                if(worldIn.getBlockState(pos.down()).getBlock() == Blocks.FARMLAND) {
-                    return true;
-                }
+                return worldIn.getBlockState(pos.down()).getBlock() == Blocks.FARMLAND;
             }
             return false;
         }

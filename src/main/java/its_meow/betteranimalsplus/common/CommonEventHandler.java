@@ -99,7 +99,7 @@ public class CommonEventHandler {
             EntityOctopus octo = (EntityOctopus) e.getSource().getTrueSource();
             if(octo.friend != null) {
                 PlayerEntity p = octo.world.getPlayerByUuid(octo.friend);
-                if(p != null && p instanceof ServerPlayerEntity && p.getAttackingEntity() == e.getEntityLiving()) {
+                if(p instanceof ServerPlayerEntity && p.getAttackingEntity() == e.getEntityLiving()) {
                     ModTriggers.OCTOPUS_SAVE_PLAYER.trigger((ServerPlayerEntity) octo.world.getPlayerByUuid(octo.friend));
                 }
             }

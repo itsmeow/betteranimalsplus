@@ -36,7 +36,7 @@ import java.util.Set;
 
 public class EntitySquirrel extends EntityAnimalWithSelectiveTypes {
 
-    protected static final DataParameter<Byte> CLIMBING = EntityDataManager.<Byte>createKey(EntitySquirrel.class, DataSerializers.BYTE);
+    protected static final DataParameter<Byte> CLIMBING = EntityDataManager.createKey(EntitySquirrel.class, DataSerializers.BYTE);
 
     private int climbTimeWithoutLog = 0;
 
@@ -57,7 +57,7 @@ public class EntitySquirrel extends EntityAnimalWithSelectiveTypes {
     @Override
     protected void registerData() {
         super.registerData();
-        this.dataManager.register(EntitySquirrel.CLIMBING, Byte.valueOf((byte) 0));
+        this.dataManager.register(EntitySquirrel.CLIMBING, (byte) 0);
     }
 
     /**
@@ -81,7 +81,7 @@ public class EntitySquirrel extends EntityAnimalWithSelectiveTypes {
                     this.collidedHorizontally && nearLog || this.collidedHorizontally && this.climbTimeWithoutLog < 15);
             if (this.collidedHorizontally && !nearLog) {
                 this.climbTimeWithoutLog++;
-            } else if (this.climbTimeWithoutLog > 0 || this.collidedHorizontally && nearLog) {
+            } else if (this.climbTimeWithoutLog > 0 || this.collidedHorizontally) {
                 this.climbTimeWithoutLog = 0;
             }
         }
@@ -97,7 +97,7 @@ public class EntitySquirrel extends EntityAnimalWithSelectiveTypes {
      * The WatchableObject is updated using setBesideClimableBlock.
      */
     public boolean isBesideClimbableBlock() {
-        return (this.dataManager.get(EntitySquirrel.CLIMBING).byteValue() & 1) != 0;
+        return (this.dataManager.get(EntitySquirrel.CLIMBING) & 1) != 0;
     }
 
     /**
@@ -105,7 +105,7 @@ public class EntitySquirrel extends EntityAnimalWithSelectiveTypes {
      * 0x01 if par1 is true or 0x00 if it is false.
      */
     public void setBesideClimbableBlock(boolean climbing) {
-        byte b0 = this.dataManager.get(EntitySquirrel.CLIMBING).byteValue();
+        byte b0 = this.dataManager.get(EntitySquirrel.CLIMBING);
 
         if (climbing) {
             b0 = (byte) (b0 | 1);
@@ -113,7 +113,7 @@ public class EntitySquirrel extends EntityAnimalWithSelectiveTypes {
             b0 = (byte) (b0 & -2);
         }
 
-        this.dataManager.set(EntitySquirrel.CLIMBING, Byte.valueOf(b0));
+        this.dataManager.set(EntitySquirrel.CLIMBING, b0);
     }
 
     @Override

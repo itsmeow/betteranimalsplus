@@ -35,7 +35,7 @@ import java.util.List;
 
 public class EntityJellyfish extends EntityWaterMobWithTypesBucketable {
 
-    protected static final DataParameter<Float> SIZE = EntityDataManager.<Float>createKey(EntityJellyfish.class, DataSerializers.FLOAT);
+    protected static final DataParameter<Float> SIZE = EntityDataManager.createKey(EntityJellyfish.class, DataSerializers.FLOAT);
     protected int attackCooldown = 0;
 
     public float jellyYaw;
@@ -55,6 +55,7 @@ public class EntityJellyfish extends EntityWaterMobWithTypesBucketable {
         rotationVelocity = (1.0F / (rand.nextFloat() + 1.0F) * 0.2F);
     }
 
+    @Override
     protected boolean canTriggerWalking() {
         return false;
     }
@@ -144,6 +145,7 @@ public class EntityJellyfish extends EntityWaterMobWithTypesBucketable {
         move(MoverType.SELF, this.getMotion());
     }
 
+    @Override
     @OnlyIn(Dist.CLIENT)
     public void handleStatusUpdate(byte p_70103_1_) {
         if(p_70103_1_ == 19) {
@@ -173,7 +175,7 @@ public class EntityJellyfish extends EntityWaterMobWithTypesBucketable {
 
     @Override
     public EntitySize getSize(Pose pose) {
-        float size = this.dataManager.get(EntityJellyfish.SIZE).floatValue();
+        float size = this.dataManager.get(EntityJellyfish.SIZE);
         return EntitySize.flexible(size, size).scale(this.getRenderScale());
     }
 

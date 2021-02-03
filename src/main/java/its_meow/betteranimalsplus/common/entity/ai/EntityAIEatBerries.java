@@ -53,13 +53,13 @@ public class EntityAIEatBerries extends MoveToBlockGoal {
             BlockState blockstate = this.creature.world.getBlockState(this.destinationBlock);
             if(blockstate.getBlock() == Blocks.SWEET_BERRY_BUSH) {
                 int i = blockstate.get(SweetBerryBushBlock.AGE);
-                blockstate.with(SweetBerryBushBlock.AGE, Integer.valueOf(1));
+                blockstate.with(SweetBerryBushBlock.AGE, 1);
                 int j = 1 + this.creature.world.rand.nextInt(2) + (i == 3 ? 1 : 0);
                 if(j > 0) {
                     Block.spawnAsEntity(this.creature.world, this.destinationBlock, new ItemStack(Items.SWEET_BERRIES, j));
                 }
                 this.creature.playSound(SoundEvents.ITEM_SWEET_BERRIES_PICK_FROM_BUSH, 1.0F, 1.0F);
-                this.creature.world.setBlockState(this.destinationBlock, blockstate.with(SweetBerryBushBlock.AGE, Integer.valueOf(1)), 2);
+                this.creature.world.setBlockState(this.destinationBlock, blockstate.with(SweetBerryBushBlock.AGE, 1), 2);
             }
         }
     }

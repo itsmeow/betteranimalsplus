@@ -32,12 +32,10 @@ import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.IServerWorld;
 import net.minecraft.world.World;
 
-import javax.annotation.Nullable;
-
 public class EntityTurkey extends EntityAnimalWithTypes {
 
-    protected static final DataParameter<Integer> PECK_TIME = EntityDataManager.<Integer>createKey(EntityTurkey.class, DataSerializers.VARINT);
-    protected static final DataParameter<Boolean> ATTACKING = EntityDataManager.<Boolean>createKey(EntityTurkey.class, DataSerializers.BOOLEAN);
+    protected static final DataParameter<Integer> PECK_TIME = EntityDataManager.createKey(EntityTurkey.class, DataSerializers.VARINT);
+    protected static final DataParameter<Boolean> ATTACKING = EntityDataManager.createKey(EntityTurkey.class, DataSerializers.BOOLEAN);
     public float wingRotation;
     public float destPos;
     public float oFlapSpeed;
@@ -103,7 +101,7 @@ public class EntityTurkey extends EntityAnimalWithTypes {
         this.goalSelector.addGoal(5, new FollowParentGoal(this, 1.1D));
         this.goalSelector.addGoal(6, new WaterAvoidingRandomWalkingGoal(this, 1.0D));
         this.goalSelector.addGoal(7, new LookAtGoal(this, PlayerEntity.class, 6.0F));
-        this.targetSelector.addGoal(0, new HurtByTargetGoal(this, new Class[0]));
+        this.targetSelector.addGoal(0, new HurtByTargetGoal(this));
     }
 
     @Override
@@ -113,11 +111,11 @@ public class EntityTurkey extends EntityAnimalWithTypes {
     }
 
     public boolean isTailUp() {
-        return this.dataManager.get(ATTACKING).booleanValue();
+        return this.dataManager.get(ATTACKING);
     }
 
     public void setTailUp(boolean in) {
-        this.dataManager.set(ATTACKING, Boolean.valueOf(in));
+        this.dataManager.set(ATTACKING, in);
     }
 
     @Override
@@ -205,7 +203,6 @@ public class EntityTurkey extends EntityAnimalWithTypes {
     }
 
     @Override
-    @Nullable
     protected ResourceLocation getLootTable() {
         return ModLootTables.TURKEY;
     }
@@ -213,16 +210,16 @@ public class EntityTurkey extends EntityAnimalWithTypes {
     @Override
     protected void registerData() {
         super.registerData();
-        this.dataManager.register(PECK_TIME, Integer.valueOf(0));
-        this.dataManager.register(ATTACKING, Boolean.valueOf(false));
+        this.dataManager.register(PECK_TIME, 0);
+        this.dataManager.register(ATTACKING, Boolean.FALSE);
     }
 
     public int getPeckTime() {
-        return this.dataManager.get(PECK_TIME).intValue();
+        return this.dataManager.get(PECK_TIME);
     }
 
     public int setPeckTime(int time) {
-        this.dataManager.set(PECK_TIME, Integer.valueOf(time));
+        this.dataManager.set(PECK_TIME, time);
         return time;
     }
 

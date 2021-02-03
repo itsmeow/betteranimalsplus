@@ -87,14 +87,14 @@ public abstract class EntityBAPCephalopod extends EntityWaterMobPathing {
                 this.rotateSpeed *= 0.99F;
             }
             if(!this.world.isRemote && this.getNavigator().noPath()) {
-                this.setMotion((double) (this.randomMotionVecX * this.randomMotionSpeed), (double) (this.randomMotionVecY * this.randomMotionSpeed), (double) (this.randomMotionVecZ * this.randomMotionSpeed));
+                this.setMotion(this.randomMotionVecX * this.randomMotionSpeed, this.randomMotionVecY * this.randomMotionSpeed, this.randomMotionVecZ * this.randomMotionSpeed);
             }
             Vector3d vec3d = this.getMotion();
             float f1 = MathHelper.sqrt(horizontalMag(vec3d));
             this.renderYawOffset += (-((float) MathHelper.atan2(vec3d.x, vec3d.z)) * (180F / (float) Math.PI) - this.renderYawOffset) * 0.1F;
             this.rotationYaw = this.renderYawOffset;
             this.squidYaw = (float) ((double) this.squidYaw + Math.PI * (double) this.rotateSpeed * 1.5D);
-            this.squidPitch += (-((float) MathHelper.atan2((double) f1, vec3d.y)) * (180F / (float) Math.PI) - this.squidPitch) * 0.1F;
+            this.squidPitch += (-((float) MathHelper.atan2(f1, vec3d.y)) * (180F / (float) Math.PI) - this.squidPitch) * 0.1F;
         } else {
             this.tentacleAngle = MathHelper.abs(MathHelper.sin(this.squidRotation)) * (float) Math.PI * 0.25F;
             if(!this.world.isRemote) {
@@ -110,6 +110,7 @@ public abstract class EntityBAPCephalopod extends EntityWaterMobPathing {
         }
     }
 
+    @Override
     @OnlyIn(Dist.CLIENT)
     public void handleStatusUpdate(byte id) {
         if(id == 19) {
@@ -147,7 +148,7 @@ public abstract class EntityBAPCephalopod extends EntityWaterMobPathing {
         boolean flag = entityIn.attackEntityFrom(DamageSource.causeMobDamage(this), f);
         if(flag) {
             if(f1 > 0.0F && entityIn instanceof LivingEntity) {
-                ((LivingEntity) entityIn).applyKnockback(f1 * 0.5F, (double) MathHelper.sin(this.rotationYaw * ((float) Math.PI / 180F)), (double) (-MathHelper.cos(this.rotationYaw * ((float) Math.PI / 180F))));
+                ((LivingEntity) entityIn).applyKnockback(f1 * 0.5F, MathHelper.sin(this.rotationYaw * ((float) Math.PI / 180F)), -MathHelper.cos(this.rotationYaw * ((float) Math.PI / 180F)));
                 this.setMotion(this.getMotion().mul(0.6D, 1.0D, 0.6D));
             }
             if(entityIn instanceof PlayerEntity) {
@@ -168,22 +169,27 @@ public abstract class EntityBAPCephalopod extends EntityWaterMobPathing {
         return flag;
     }
 
+    @Override
     protected float getStandingEyeHeight(Pose poseIn, EntitySize sizeIn) {
         return sizeIn.height * 0.5F;
     }
 
+    @Override
     protected SoundEvent getAmbientSound() {
         return SoundEvents.ENTITY_SQUID_AMBIENT;
     }
 
+    @Override
     protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
         return SoundEvents.ENTITY_SQUID_HURT;
     }
 
+    @Override
     protected SoundEvent getDeathSound() {
         return SoundEvents.ENTITY_SQUID_DEATH;
     }
 
+    @Override
     protected float getSoundVolume() {
         return 0.4F;
     }
@@ -200,7 +206,7 @@ public abstract class EntityBAPCephalopod extends EntityWaterMobPathing {
         for(int i = 0; i < 30; ++i) {
             Vector3d vec3d1 = this.getInkAngle(new Vector3d((double) this.rand.nextFloat() * 0.6D - 0.3D, -1.0D, (double) this.rand.nextFloat() * 0.6D - 0.3D));
             Vector3d vec3d2 = vec3d1.scale(0.3D + (double) (this.rand.nextFloat() * 2.0F));
-            ((ServerWorld) this.world).spawnParticle(ParticleTypes.SQUID_INK, vec3d.x, vec3d.y + 0.5D, vec3d.z, 0, vec3d2.x, vec3d2.y, vec3d2.z, (double) 0.1F);
+            ((ServerWorld) this.world).spawnParticle(ParticleTypes.SQUID_INK, vec3d.x, vec3d.y + 0.5D, vec3d.z, 0, vec3d2.x, vec3d2.y, vec3d2.z, 0.1F);
         }
     }
 
@@ -222,14 +228,17 @@ public abstract class EntityBAPCephalopod extends EntityWaterMobPathing {
             this.setMutexFlags(EnumSet.of(Flag.MOVE, Flag.LOOK));
         }
 
+        @Override
         public boolean shouldExecute() {
             return cephalopod.getAttackTarget() == null;
         }
 
+        @Override
         public boolean shouldContinueExecuting() {
             return cephalopod.getAttackTarget() == null;
         }
 
+        @Override
         public void tick() {
             int i = this.cephalopod.getIdleTime();
             if(i > 100) {

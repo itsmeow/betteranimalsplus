@@ -1,14 +1,10 @@
 package its_meow.betteranimalsplus.common.entity.util.abstracts;
 
-import com.google.common.base.Predicates;
 import its_meow.betteranimalsplus.common.entity.ai.EfficientMoveTowardsTargetGoal;
 import its_meow.betteranimalsplus.init.ModLootTables;
 import its_meow.betteranimalsplus.init.ModTriggers;
 import net.minecraft.block.Blocks;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.MobEntity;
-import net.minecraft.entity.SpawnReason;
+import net.minecraft.entity.*;
 import net.minecraft.entity.ai.goal.HurtByTargetGoal;
 import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal;
 import net.minecraft.entity.item.BoatEntity;
@@ -45,7 +41,7 @@ public abstract class EntityBAPSquid extends EntityBAPCephalopod {
                 return EntityBAPSquid.this.world.getDifficulty() != Difficulty.PEACEFUL && super.shouldExecute();
             }
         });
-        this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, WaterMobEntity.class, 20, true, true, Predicates.alwaysTrue()));
+        this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, WaterMobEntity.class, 20, true, true, e -> true));
     }
 
     @Override
@@ -71,8 +67,7 @@ public abstract class EntityBAPSquid extends EntityBAPCephalopod {
             boolean isBoat = this.getAttackTarget() instanceof PlayerEntity && this.getAttackTarget().getRidingEntity() != null && this.getAttackTarget().getRidingEntity() instanceof BoatEntity;
             float grabDelay = isBoat ? 20F : 60F;
             if(this.getPassengers().contains(this.getAttackTarget())) {
-                float time = 30F;
-                time *= (Math.random() + 1F);
+                float time = 30F * ((float) Math.random() + 1F);
                 if(this.lastAttack + time < this.ticksExisted) {
                     this.attackEntityAsMob(this.getAttackTarget());
                 }
@@ -103,6 +98,15 @@ public abstract class EntityBAPSquid extends EntityBAPCephalopod {
             }
         }
         this.lastTickHealth = this.getHealth();
+    }
+
+    @Override
+    public boolean attackEntityAsMob(Entity entityIn) {
+        if(super.attackEntityAsMob(entityIn)) {
+            this.lastAttack = this.ticksExisted;
+            return true;
+        }
+        return false;
     }
 
     @Override

@@ -1,48 +1,21 @@
 package its_meow.betteranimalsplus;
 
-import java.util.UUID;
-
-import net.minecraft.util.*;
-import net.minecraft.util.registry.Registry;
-import net.minecraft.util.registry.WorldGenRegistries;
-import net.minecraft.world.gen.GenerationStage;
-import net.minecraft.world.gen.feature.ConfiguredFeature;
-import net.minecraft.world.gen.feature.Features;
-import net.minecraftforge.event.world.BiomeLoadingEvent;
-import org.apache.logging.log4j.Level;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import com.google.common.collect.ImmutableList;
 import dev.itsmeow.imdlib.util.ClassLoadHacks;
 import its_meow.betteranimalsplus.client.ClientLifecycleHandler;
 import its_meow.betteranimalsplus.client.dumb.SafeSyncThing;
 import its_meow.betteranimalsplus.client.dumb.SafeSyncThing.DumbOptions;
 import its_meow.betteranimalsplus.common.entity.EntityCoyote;
+import its_meow.betteranimalsplus.compat.curios.CuriosModCompat;
 import its_meow.betteranimalsplus.config.BetterAnimalsPlusConfig;
 import its_meow.betteranimalsplus.init.*;
 import its_meow.betteranimalsplus.network.*;
-import its_meow.betteranimalsplus.compat.curios.CuriosModCompat;
-import net.minecraft.block.HorizontalBlock;
-import net.minecraft.dispenser.DefaultDispenseItemBehavior;
-import net.minecraft.dispenser.IBlockSource;
-import net.minecraft.dispenser.IPosition;
-import net.minecraft.dispenser.ProjectileDispenseBehavior;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.entity.projectile.ProjectileEntity;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.SpawnEggItem;
-import net.minecraft.world.World;
-import net.minecraft.world.gen.blockplacer.SimpleBlockPlacer;
-import net.minecraft.world.gen.blockstateprovider.WeightedBlockStateProvider;
-import net.minecraft.world.gen.feature.BlockClusterFeatureConfig;
-import net.minecraft.world.gen.feature.Feature;
-import net.minecraftforge.common.BiomeDictionary;
+import net.minecraft.util.NonNullList;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.event.entity.player.PlayerEvent.PlayerLoggedInEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -98,20 +71,18 @@ public class BetterAnimalsPlusMod {
         ModTriggers.register();
         ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, BetterAnimalsPlusConfig.getClientSpec());
         BetterAnimalsPlusMod.logger.log(Level.INFO, "Injecting super coyotes...");
-        ClassLoadHacks.runWhenLoaded("curios", () -> () -> {
-            CuriosModCompat.subscribe(modBus);
-        });
+        ClassLoadHacks.runWhenLoaded("curios", () -> () -> CuriosModCompat.subscribe(modBus));
     }
 
-    public static final boolean isDev(UUID uuid) {
+    public static boolean isDev(UUID uuid) {
         return DEVS.contains(uuid);
     }
 
-    public static final boolean isDev(PlayerEntity player) {
+    public static boolean isDev(PlayerEntity player) {
         return isDev(player.getGameProfile().getId());
     }
 
-    public static ItemGroup group = new ItemGroup("Better Animals+") {
+    public static final ItemGroup GROUP = new ItemGroup("Better Animals+") {
         @Override
         public ItemStack createIcon() {
             return new ItemStack(ModItems.ANTLER.get());
@@ -127,12 +98,10 @@ public class BetterAnimalsPlusMod {
     private void setup(final FMLCommonSetupEvent event) {
         HANDLER.registerMessage(packets++, ClientConfigurationPacket.class, ClientConfigurationPacket::encode, ClientConfigurationPacket::decode, ClientConfigurationPacket.Handler::handle);
         HANDLER.registerMessage(packets++, ServerNoBAMPacket.class, (pkt, buf) -> {}, buf -> new ServerNoBAMPacket(), (pkt, ctx) -> {
-            ctx.get().enqueueWork(() -> {
-                ModTriggers.NO_BAM.trigger(ctx.get().getSender());
-            });
+            ctx.get().enqueueWork(() -> ModTriggers.NO_BAM.trigger(ctx.get().getSender()));
             ctx.get().setPacketHandled(true);
         });
-        HANDLER.<ClientRequestBAMPacket>registerMessage(packets++, ClientRequestBAMPacket.class, (pkt, buf) -> {}, buf -> new ClientRequestBAMPacket(), (pkt, ctx) -> {
+        HANDLER.registerMessage(packets++, ClientRequestBAMPacket.class, (pkt, buf) -> {}, buf -> new ClientRequestBAMPacket(), (pkt, ctx) -> {
             ctx.get().enqueueWork(() -> {
                 if(!ModList.get().isLoaded("betteranimals")) {
                     HANDLER.sendToServer(new ServerNoBAMPacket());

@@ -36,9 +36,10 @@ public class EntityFlyingFish extends EntityWaterMobPathingWithTypesBucketable {
         this.goalSelector.addGoal(3, new RandomSwimmingGoal(this, 0.5D, 1));
     }
 
+    @Override
     public void livingTick() {
         if(!this.isInWater() && this.onGround && this.collidedVertically) {
-            this.setMotion(this.getMotion().add((double) ((this.rand.nextFloat() * 2.0F - 1.0F) * 0.05F), (double) 0.4F, (double) ((this.rand.nextFloat() * 2.0F - 1.0F) * 0.05F)));
+            this.setMotion(this.getMotion().add((this.rand.nextFloat() * 2.0F - 1.0F) * 0.05F, 0.4F, (this.rand.nextFloat() * 2.0F - 1.0F) * 0.05F));
             this.onGround = false;
             this.isAirBorne = true;
             this.playSound(this.getFlopSound(), this.getSoundVolume(), this.getSoundPitch());
@@ -46,6 +47,7 @@ public class EntityFlyingFish extends EntityWaterMobPathingWithTypesBucketable {
         super.livingTick();
     }
 
+    @Override
     protected SoundEvent getFlopSound() {
         return SoundEvents.ENTITY_COD_FLOP;
     }
@@ -78,6 +80,7 @@ public class EntityFlyingFish extends EntityWaterMobPathingWithTypesBucketable {
             this.chance = chance;
         }
 
+        @Override
         public boolean shouldExecute() {
             boolean revenge = this.fish.getRevengeTarget() != null && this.fish.getRevengeTarget().getDistance(this.fish) < 10;
             if(revenge || this.fish.getRNG().nextInt(this.chance) == 0) {
@@ -112,23 +115,28 @@ public class EntityFlyingFish extends EntityWaterMobPathingWithTypesBucketable {
             return this.fish.world.isAirBlock(pos.add(dx * scale, 1, dz * scale)) && this.fish.world.isAirBlock(pos.add(dx * scale, 2, dz * scale));
         }
 
+        @Override
         public boolean shouldContinueExecuting() {
             return this.ticks < 200 && this.fish.getRevengeTarget() != null ? this.fish.getRevengeTarget().getDistance(fish) > 10 : this.fish.getPositionVec().distanceTo(new Vector3d(start.getX() + 0.5, start.getY(), start.getZ() + 0.5)) < scale;
         }
 
+        @Override
         public boolean isPreemptible() {
             return false;
         }
 
+        @Override
         public void startExecuting() {
             this.ticks = 0;
         }
 
+        @Override
         public void resetTask() {
             this.fish.rotationPitch = 0.0F;
             this.ticks = 0;
         }
 
+        @Override
         @SuppressWarnings("deprecation")
         public void tick() {
             boolean lastInWater = this.inWater;

@@ -472,17 +472,15 @@ public class ModelMoose<T extends LivingEntity> extends EntityModel<T> {
 
     @Override
     public void setRotationAngles(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
-        float f = limbSwing;
-        float f1 = limbSwingAmount;
 
-        this.lForeleg01.rotateAngleX = MathHelper.cos(f * 0.6662F) * 1.4F * f1 + 0.19198621771937624F;
-        this.rForeleg01.rotateAngleX = MathHelper.cos(f * 0.6662F + (float) Math.PI) * 1.4F * f1 + 0.19198621771937624F;
-        this.rHindLeg01.rotateAngleX = MathHelper.cos(f * 0.6662F) * 1.4F * f1 - 0.22759093446006054F;
-        this.lHindLeg01.rotateAngleX = MathHelper.cos(f * 0.6662F + (float) Math.PI) * 1.4F * f1 - 0.22759093446006054F;
+        this.lForeleg01.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount + 0.19198621771937624F;
+        this.rForeleg01.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F + (float) Math.PI) * 1.4F * limbSwingAmount + 0.19198621771937624F;
+        this.rHindLeg01.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount - 0.22759093446006054F;
+        this.lHindLeg01.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F + (float) Math.PI) * 1.4F * limbSwingAmount - 0.22759093446006054F;
 
         if (entity instanceof MobEntity) {
-            this.neck.rotateAngleX = ModelBetterAnimals.getHeadPitch((MobEntity) entity) * 0.017453292F - 0.08726646259971647F;
-            this.chest.rotateAngleY = ModelBetterAnimals.getHeadYaw((MobEntity) entity) * 0.017453292F * 0.5F;
+            this.neck.rotateAngleX = ModelBetterAnimals.getHeadPitch(entity) * 0.017453292F - 0.08726646259971647F;
+            this.chest.rotateAngleY = ModelBetterAnimals.getHeadYaw(entity) * 0.017453292F * 0.5F;
         }
 
         if(entity instanceof EntityMoose) {

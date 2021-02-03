@@ -2,11 +2,9 @@ package its_meow.betteranimalsplus.client.model;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
-
 import its_meow.betteranimalsplus.common.entity.EntityBear;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.model.ModelRenderer;
-import net.minecraft.entity.MobEntity;
 import net.minecraft.util.math.MathHelper;
 
 /**
@@ -389,9 +387,9 @@ public class ModelBear<T extends EntityBear> extends ModelBetterAnimals<T> {
         this.rLeg01.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount - 0.136659280431156F;
         this.lLeg01.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F + (float) Math.PI) * 1.4F * limbSwingAmount - 0.136659280431156F;
 
-        if(entityIn instanceof MobEntity && !Minecraft.getInstance().isGamePaused()) {
-            this.neck.rotateAngleX = ModelBetterAnimals.getHeadPitch((MobEntity) entityIn) * 0.017453292F;
-            this.neck.rotateAngleY = ModelBetterAnimals.getHeadYaw((MobEntity) entityIn) * 0.017453292F;
+        if(!Minecraft.getInstance().isGamePaused()) {
+            this.neck.rotateAngleX = ModelBetterAnimals.getHeadPitch(entityIn) * 0.017453292F;
+            this.neck.rotateAngleY = ModelBetterAnimals.getHeadYaw(entityIn) * 0.017453292F;
         }
 
         float f = ageInTicks - (float) entityIn.ticksExisted;

@@ -46,11 +46,9 @@ public class EntityGoose extends EntityAnimalWithTypes {
 
     public int attacksLeft = 0;
     public int lastAttackTime = 0;
-    protected final Set<UUID> dislikedPlayers = new HashSet<UUID>();
+    protected final Set<UUID> dislikedPlayers = new HashSet<>();
     private int eatTicks;
-    private static final Predicate<ItemEntity> ITEM_SELECTOR = (item) -> {
-        return !item.cannotPickup() && item.isAlive();
-    };
+    private static final Predicate<ItemEntity> ITEM_SELECTOR = (item) -> !item.cannotPickup() && item.isAlive();
     public int timeUntilNextEgg;
     public static String[] pickupBlockList;
 
@@ -121,7 +119,7 @@ public class EntityGoose extends EntityAnimalWithTypes {
                 }
             }
         });
-        this.targetSelector.addGoal(0, new HurtByTargetGoal(this, new Class[0]) {
+        this.targetSelector.addGoal(0, new HurtByTargetGoal(this) {
             @Override
             public boolean shouldExecute() {
                 return super.shouldExecute() && !EntityGoose.this.isPassive();
@@ -174,6 +172,7 @@ public class EntityGoose extends EntityAnimalWithTypes {
         }
     }
 
+    @Override
     @OnlyIn(Dist.CLIENT)
     public void handleStatusUpdate(byte id) {
         if(id == 45) {
@@ -194,9 +193,7 @@ public class EntityGoose extends EntityAnimalWithTypes {
         super.setAttackTarget(entity);
         if(entity instanceof PlayerEntity) {
             UUID uuid = ((PlayerEntity) entity).getGameProfile().getId();
-            if(!dislikedPlayers.contains(uuid)) {
-                dislikedPlayers.add(uuid);
-            }
+            dislikedPlayers.add(uuid);
         }
     }
 
@@ -415,7 +412,7 @@ public class EntityGoose extends EntityAnimalWithTypes {
             List<ItemEntity> list = EntityGoose.this.world.getEntitiesWithinAABB(ItemEntity.class, EntityGoose.this.getBoundingBox().grow(8.0D, 8.0D, 8.0D), EntityGoose.ITEM_SELECTOR);
             ItemStack itemstack = EntityGoose.this.getItemStackFromSlot(EquipmentSlotType.MAINHAND);
             if (itemstack.isEmpty() && !list.isEmpty()) {
-                EntityGoose.this.getNavigator().tryMoveToEntityLiving(list.get(0), (double) 1.2F);
+                EntityGoose.this.getNavigator().tryMoveToEntityLiving(list.get(0), 1.2F);
             }
 
         }
@@ -424,7 +421,7 @@ public class EntityGoose extends EntityAnimalWithTypes {
         public void startExecuting() {
             List<ItemEntity> list = EntityGoose.this.world.getEntitiesWithinAABB(ItemEntity.class, EntityGoose.this.getBoundingBox().grow(8.0D, 8.0D, 8.0D), EntityGoose.ITEM_SELECTOR);
             if (!list.isEmpty()) {
-                EntityGoose.this.getNavigator().tryMoveToEntityLiving(list.get(0), (double) 1.2F);
+                EntityGoose.this.getNavigator().tryMoveToEntityLiving(list.get(0), 1.2F);
             }
 
         }

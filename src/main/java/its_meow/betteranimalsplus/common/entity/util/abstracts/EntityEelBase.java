@@ -1,9 +1,5 @@
 package its_meow.betteranimalsplus.common.entity.util.abstracts;
 
-import java.util.EnumSet;
-import java.util.List;
-import java.util.function.Predicate;
-
 import its_meow.betteranimalsplus.common.entity.ai.PeacefulNearestAttackableTargetGoal;
 import its_meow.betteranimalsplus.init.ModLootTables;
 import net.minecraft.entity.Entity;
@@ -26,11 +22,13 @@ import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
+import java.util.EnumSet;
+import java.util.List;
+import java.util.function.Predicate;
+
 public abstract class EntityEelBase extends EntityWaterMobPathingWithTypesBucketable {
 
-    private static final Predicate<ItemEntity> ITEM_SELECTOR = (item) -> {
-        return !item.cannotPickup() && item.isAlive() && item.getItem().isFood();
-    };
+    private static final Predicate<ItemEntity> ITEM_SELECTOR = (item) -> !item.cannotPickup() && item.isAlive() && item.getItem().isFood();
     private int collideWithItemTicks = 0;
     private ItemEntity collidedItem = null;
 
@@ -53,7 +51,7 @@ public abstract class EntityEelBase extends EntityWaterMobPathingWithTypesBucket
         this.goalSelector.addGoal(2, new EntityEelBase.MoveToFoodItemsGoal());
         //this.goalSelector.addGoal(2, new LookRandomlyGoal(this));
         this.goalSelector.addGoal(3, new RandomSwimmingGoal(this, 0.25D, 1));
-        this.targetSelector.addGoal(1, new PeacefulNearestAttackableTargetGoal<PlayerEntity>(this, PlayerEntity.class, 0, true, true, EntityEelBase::isHoldingFood));
+        this.targetSelector.addGoal(1, new PeacefulNearestAttackableTargetGoal<>(this, PlayerEntity.class, 0, true, true, EntityEelBase::isHoldingFood));
     }
 
     protected boolean shouldCheckTarget() {
@@ -97,6 +95,7 @@ public abstract class EntityEelBase extends EntityWaterMobPathingWithTypesBucket
         }
     }
 
+    @Override
     @OnlyIn(Dist.CLIENT)
     public void handleStatusUpdate(byte id) {
         if(id == 45) {
@@ -151,7 +150,7 @@ public abstract class EntityEelBase extends EntityWaterMobPathingWithTypesBucket
         public void tick() {
             List<ItemEntity> list = EntityEelBase.this.world.getEntitiesWithinAABB(ItemEntity.class, EntityEelBase.this.getBoundingBox().grow(8.0D, 8.0D, 8.0D), EntityEelBase.ITEM_SELECTOR);
             if(!list.isEmpty()) {
-                EntityEelBase.this.getNavigator().tryMoveToEntityLiving(list.get(0), (double) 1.2F);
+                EntityEelBase.this.getNavigator().tryMoveToEntityLiving(list.get(0), 1.2F);
             }
 
         }
@@ -160,7 +159,7 @@ public abstract class EntityEelBase extends EntityWaterMobPathingWithTypesBucket
         public void startExecuting() {
             List<ItemEntity> list = EntityEelBase.this.world.getEntitiesWithinAABB(ItemEntity.class, EntityEelBase.this.getBoundingBox().grow(8.0D, 8.0D, 8.0D), EntityEelBase.ITEM_SELECTOR);
             if(!list.isEmpty()) {
-                EntityEelBase.this.getNavigator().tryMoveToEntityLiving(list.get(0), (double) 1.2F);
+                EntityEelBase.this.getNavigator().tryMoveToEntityLiving(list.get(0), 1.2F);
             }
         }
     }

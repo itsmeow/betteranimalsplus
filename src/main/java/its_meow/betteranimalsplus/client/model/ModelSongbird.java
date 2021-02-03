@@ -231,9 +231,9 @@ public class ModelSongbird<T extends LivingEntity> extends EntityModel<T> {
 
     @Override
     public void setRotationAngles(T entity, float f, float f1, float f2, float f3, float f4) {
-        boolean show = true;
         if (entity instanceof EntitySongbird) {
             EntitySongbird bird = (EntitySongbird) entity;
+            boolean show;
             if (bird.isFlying()) {
                 this.rWing01.rotateAngleY = 0F;
                 this.lWing01.rotateAngleY = 0F;
@@ -275,7 +275,7 @@ public class ModelSongbird<T extends LivingEntity> extends EntityModel<T> {
                 this.rWingFeather01.rotateAngleX = -0.5585053606381855F;
                 this.body.rotateAngleX = -0.2617993877991494F;
 
-                boolean flag = entity instanceof LivingEntity && ((LivingEntity) entity).getTicksElytraFlying() > 4;
+                boolean flag = entity.getTicksElytraFlying() > 4;
                 float e = 1.0F;
 
                 if (flag) {

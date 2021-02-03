@@ -1,9 +1,6 @@
 package its_meow.betteranimalsplus.client.renderer.tileentity;
 
-import java.awt.Color;
-
 import com.mojang.blaze3d.matrix.MatrixStack;
-
 import its_meow.betteranimalsplus.client.model.ModelTrillium;
 import its_meow.betteranimalsplus.client.model.ModelTrilliumMulti;
 import its_meow.betteranimalsplus.client.model.ModelTrilliumMulti2;
@@ -17,11 +14,13 @@ import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.vector.Vector3f;
 
+import java.awt.*;
+
 public class RenderBlockTrillium extends TileEntityRenderer<TileEntityTrillium> {
 
-    public static ModelTrillium<Entity> singleT = new ModelTrillium<Entity>();
-    public static ModelTrilliumMulti<Entity> doubleT = new ModelTrilliumMulti<Entity>();
-    public static ModelTrilliumMulti2<Entity> tripleT = new ModelTrilliumMulti2<Entity>();
+    public static ModelTrillium<Entity> singleT = new ModelTrillium<>();
+    public static ModelTrilliumMulti<Entity> doubleT = new ModelTrilliumMulti<>();
+    public static ModelTrilliumMulti2<Entity> tripleT = new ModelTrilliumMulti2<>();
     
     public RenderBlockTrillium(TileEntityRendererDispatcher dispatcher) {
         super(dispatcher);
@@ -53,14 +52,14 @@ public class RenderBlockTrillium extends TileEntityRenderer<TileEntityTrillium> 
                 r = r > 255F ? 250F : r;
                 g = g > 255F ? 250F : g;
                 b = b > 255F ? 250F : b;
-                mainModel.setRotationAngles((Entity) null, 0F, 0F, 0F, rotate, 0F);
+                mainModel.setRotationAngles(null, 0F, 0F, 0F, rotate, 0F);
                 mainModel.render(matrixStackIn, bufferIn.getBuffer(RenderType.getEntityCutout(ModResources.trillium_base)), combinedLightIn, combinedOverlayIn, r, g, b, 1F);
             }
             matrixStackIn.pop();
 
             matrixStackIn.push();
             {
-                mainModel.setRotationAngles((Entity) null, 0F, 0F, 0F, rotate, 0F);
+                mainModel.setRotationAngles(null, 0F, 0F, 0F, rotate, 0F);
                 mainModel.render(matrixStackIn, bufferIn.getBuffer(RenderType.getEntityCutout(tileentity.getTexture())), combinedLightIn, combinedOverlayIn, 1F, 1F, 1F, 1F);
             }
             matrixStackIn.pop();

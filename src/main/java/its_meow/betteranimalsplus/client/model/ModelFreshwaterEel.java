@@ -31,7 +31,7 @@ public class ModelFreshwaterEel<T extends LivingEntity> extends EntityModel<T> {
     public ModelRenderer lowJaw;
     public ModelRenderer snout;
     public ModelRenderer noseNubL;
-    public ModelRenderer noseNubr;
+    public ModelRenderer noseNubR;
     public ModelRenderer topTeeth1;
     public ModelRenderer topTeeth2;
     public ModelRenderer topTeeth3;
@@ -44,10 +44,10 @@ public class ModelFreshwaterEel<T extends LivingEntity> extends EntityModel<T> {
         this.snout.setRotationPoint(0.0F, 0.0F, -2.8F);
         this.snout.addBox(-1.5F, -0.5F, 0.0F, 3, 1, 3, 0.0F);
         this.setRotateAngle(snout, 0.31869712141416456F, 0.0F, 0.0F);
-        this.noseNubr = new ModelRenderer(this, 11, 75);
-        this.noseNubr.setRotationPoint(-1.0F, 0.0F, -2.8F);
-        this.noseNubr.addBox(-0.5F, -0.5F, -1.0F, 1, 1, 1, 0.0F);
-        this.setRotateAngle(noseNubr, 0.091106186954104F, 0.136659280431156F, 0.0F);
+        this.noseNubR = new ModelRenderer(this, 11, 75);
+        this.noseNubR.setRotationPoint(-1.0F, 0.0F, -2.8F);
+        this.noseNubR.addBox(-0.5F, -0.5F, -1.0F, 1, 1, 1, 0.0F);
+        this.setRotateAngle(noseNubR, 0.091106186954104F, 0.136659280431156F, 0.0F);
         this.topTeeth2 = new ModelRenderer(this, 0, 0);
         this.topTeeth2.setRotationPoint(-1.1F, 0.2F, -2.5F);
         this.topTeeth2.addBox(0.0F, 0.0F, -0.2F, 0, 1, 2, 0.0F);
@@ -121,7 +121,7 @@ public class ModelFreshwaterEel<T extends LivingEntity> extends EntityModel<T> {
         this.lowFin1.setRotationPoint(0.0F, 1.5F, -3.0F);
         this.lowFin1.addBox(0.0F, 0.0F, 0.0F, 0, 3, 3, 0.0F);
         this.topJaw.addChild(this.snout);
-        this.topJaw.addChild(this.noseNubr);
+        this.topJaw.addChild(this.noseNubR);
         this.topJaw.addChild(this.topTeeth2);
         this.lowJaw.addChild(this.lowTeeth);
         this.body.addChild(this.neck);

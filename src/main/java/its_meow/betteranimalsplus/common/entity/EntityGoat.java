@@ -31,13 +31,12 @@ import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.IServerWorld;
 import net.minecraft.world.World;
 
-import javax.annotation.Nullable;
 import java.util.Set;
 import java.util.UUID;
 
 public class EntityGoat extends EntityAnimalEatsGrassWithTypes {
 
-    protected static final DataParameter<Boolean> ATTACKING = EntityDataManager.<Boolean>createKey(EntityGoat.class, DataSerializers.BOOLEAN);
+    protected static final DataParameter<Boolean> ATTACKING = EntityDataManager.createKey(EntityGoat.class, DataSerializers.BOOLEAN);
     public UUID friend = null;
     private static final Set<Item> TEMPT_ITEMS = Sets.newHashSet(Items.WHEAT, Items.POTATO, Items.CARROT, Items.BEETROOT);
     public static boolean VANILLA_MILK = false;
@@ -92,11 +91,11 @@ public class EntityGoat extends EntityAnimalEatsGrassWithTypes {
     }
 
     public boolean isAttackingFromServer() {
-        return this.dataManager.get(EntityGoat.ATTACKING).booleanValue();
+        return this.dataManager.get(EntityGoat.ATTACKING);
     }
 
     public void setAttackingOnClient(boolean in) {
-        this.dataManager.set(EntityGoat.ATTACKING, Boolean.valueOf(in));
+        this.dataManager.set(EntityGoat.ATTACKING, in);
     }
 
     public float getHeadPitch() {
@@ -110,7 +109,7 @@ public class EntityGoat extends EntityAnimalEatsGrassWithTypes {
         this.goalSelector.addGoal(1, new PanicGoal(this, 0.8D));
         this.goalSelector.addGoal(2, new BreedGoal(this, 1.0D));
         this.goalSelector.addGoal(2, new MeleeAttackGoal(this, 0.7D, true));
-        this.goalSelector.addGoal(3, new TemptGoal(this, 0.6D, false, Ingredient.fromItems(TEMPT_ITEMS.toArray(new Item[TEMPT_ITEMS.size()]))));
+        this.goalSelector.addGoal(3, new TemptGoal(this, 0.6D, false, Ingredient.fromItems(TEMPT_ITEMS.toArray(new Item[0]))));
         this.goalSelector.addGoal(4, new FollowParentGoal(this, 0.6D));
         // Eats grass at priority 5
         this.goalSelector.addGoal(5, new RandomWalkingGoal(this, 0.6D));
@@ -161,7 +160,6 @@ public class EntityGoat extends EntityAnimalEatsGrassWithTypes {
     }
 
     @Override
-    @Nullable
     protected ResourceLocation getLootTable() {
         return ModLootTables.goat;
     }
@@ -169,7 +167,7 @@ public class EntityGoat extends EntityAnimalEatsGrassWithTypes {
     @Override
     protected void registerData() {
         super.registerData();
-        this.dataManager.register(EntityGoat.ATTACKING, Boolean.valueOf(false));
+        this.dataManager.register(EntityGoat.ATTACKING, Boolean.FALSE);
     }
 
     @Override
@@ -194,7 +192,7 @@ public class EntityGoat extends EntityAnimalEatsGrassWithTypes {
 
     public static class GoatAIAttackForFriend extends Goal {
 
-        EntityGoat goat = null;
+        EntityGoat goat;
 
         public GoatAIAttackForFriend(EntityGoat entity) {
             this.goat = entity;
@@ -228,7 +226,7 @@ public class EntityGoat extends EntityAnimalEatsGrassWithTypes {
     class AIHurtByTarget extends HurtByTargetGoal {
 
         public AIHurtByTarget() {
-            super(EntityGoat.this, new Class[0]);
+            super(EntityGoat.this);
         }
 
         @Override

@@ -23,9 +23,7 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
@@ -52,7 +50,7 @@ public class ModItems {
             return 800; // half of coal
         }
     });
-    public static final RegistryObject<Item> GOAT_MILK = r("goatmilk", () -> new MilkBucketItem(new Properties().containerItem(Items.BUCKET).group(BetterAnimalsPlusMod.group).maxStackSize(1)));
+    public static final RegistryObject<Item> GOAT_MILK = r("goatmilk", () -> new MilkBucketItem(new Properties().containerItem(Items.BUCKET).group(BetterAnimalsPlusMod.GROUP).maxStackSize(1)));
     public static final RegistryObject<ItemBetterFood> GOAT_CHEESE = r("goatcheese", () -> new ItemBetterFood(3, 1, 15, false));
     public static final RegistryObject<ItemBetterFood> PHEASANT_RAW = r("pheasantraw", () -> new ItemBetterFood(3, 0, 32, true));
     public static final RegistryObject<ItemBetterFood> PHEASANT_COOKED = r("pheasantcooked", () -> new ItemBetterFood(7, 1.2F, 32, true));
@@ -84,9 +82,9 @@ public class ModItems {
     public static RegistryObject<ItemBearCape> BEAR_CAPE_BLACK = varArg("bear_cape_", "black", s -> new ItemBearCape(s, BEAR_SKIN_BLACK.get()));
     public static RegistryObject<ItemBearCape> BEAR_CAPE_KERMODE = varArg("bear_cape_", "kermode", s -> new ItemBearCape(s, BEAR_SKIN_KERMODE.get()));
 
-    public static final RegistryObject<ItemModMusicDisc> RECORD_CRAB_RAVE = r("record_crab_rave", () -> new ItemModMusicDisc(() -> ModSoundEvents.CRAB_RAVE.get()));
+    public static final RegistryObject<ItemModMusicDisc> RECORD_CRAB_RAVE = r("record_crab_rave", () -> new ItemModMusicDisc(ModSoundEvents.CRAB_RAVE::get));
 
-    public static final RegistryObject<ItemModMusicDisc> RECORD_WALRUS = r("record_walrus", () -> new ItemModMusicDisc(() -> ModSoundEvents.WALRUS.get()));
+    public static final RegistryObject<ItemModMusicDisc> RECORD_WALRUS = r("record_walrus", () -> new ItemModMusicDisc(ModSoundEvents.WALRUS::get));
 
     public static final RegistryObject<ItemThrowableCustomEgg> PHEASANT_EGG = r("pheasant_egg", () -> new ItemThrowableCustomEgg(EntityPheasantEgg::new, EntityPheasantEgg::new));
     public static final RegistryObject<ItemThrowableCustomEgg> TURKEY_EGG = r("turkey_egg", () -> new ItemThrowableCustomEgg(EntityTurkeyEgg::new, EntityTurkeyEgg::new));
@@ -117,7 +115,7 @@ public class ModItems {
     public static final RegistryObject<BlockItem> TRILLIUM = rIB(ModBlocks.TRILLIUM);
 
     private static RegistryObject<Item> r(String name) {
-        return ITEMS.register(name, () -> new Item(new Item.Properties().group(BetterAnimalsPlusMod.group)));
+        return ITEMS.register(name, () -> new Item(new Item.Properties().group(BetterAnimalsPlusMod.GROUP)));
     }
 
     private static RegistryObject<Item> rH(String name) {
@@ -133,7 +131,7 @@ public class ModItems {
     }
 
     private static RegistryObject<BlockItem> rIB(RegistryObject<? extends Block> parent) {
-        return ITEMS.register(parent.getId().getPath(), () -> new BlockItem(parent.get(), new Item.Properties().group(BetterAnimalsPlusMod.group)));
+        return ITEMS.register(parent.getId().getPath(), () -> new BlockItem(parent.get(), new Item.Properties().group(BetterAnimalsPlusMod.GROUP)));
     }
 
     public static void subscribe(IEventBus modEventBus) {

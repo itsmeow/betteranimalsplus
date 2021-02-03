@@ -1,6 +1,5 @@
 package its_meow.betteranimalsplus.common.entity;
 
-import com.sun.javafx.geom.Vec3d;
 import dev.itsmeow.imdlib.entity.util.EntityTypeContainer;
 import dev.itsmeow.imdlib.entity.util.EntityTypeContainerContainable;
 import its_meow.betteranimalsplus.common.entity.util.abstracts.EntityAnimalWithTypes;
@@ -39,14 +38,12 @@ import net.minecraft.world.biome.Biome;
 import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.BiomeDictionary.Type;
 import net.minecraftforge.common.util.Constants;
-import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nullable;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.function.Predicate;
-import java.util.stream.Collectors;
 
 public class EntityButterfly extends EntityAnimalWithTypesAndSizeContainable {
 
@@ -276,7 +273,7 @@ public class EntityButterfly extends EntityAnimalWithTypesAndSizeContainable {
                     }
                     if(age != null) {
                         world.playEvent(2005, targetPosition, 0);
-                        world.setBlockState(targetPosition, blockstate.with(age, Integer.valueOf(blockstate.get(age) + 1)));
+                        world.setBlockState(targetPosition, blockstate.with(age, blockstate.get(age) + 1));
                         this.setHasNectar(false);
                         this.targetPosition = null;
                         this.ticksUntilNextGrow = this.getRNG().nextInt(150 * 20) + (30 * 20);

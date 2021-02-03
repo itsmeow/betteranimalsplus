@@ -15,7 +15,7 @@ import net.minecraft.world.World;
 
 public class EntityAIEatGrassCustom extends Goal {
 
-    private static final Predicate<BlockState> IS_GRASS = (Predicate<BlockState>) BlockStateMatcher.forBlock(Blocks.GRASS);
+    private static final Predicate<BlockState> IS_GRASS = BlockStateMatcher.forBlock(Blocks.GRASS);
     protected final MobEntity eater;
     protected final World world;
     protected int eatingGrassTimer;

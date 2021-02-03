@@ -17,7 +17,7 @@ import net.minecraft.util.math.vector.Vector3f;
  */
 public class ModelBearCape<T extends LivingEntity> extends BipedModel<T> {
     
-    public static final ModelBearCape<LivingEntity> INSTANCE = new ModelBearCape<LivingEntity>();
+    public static final ModelBearCape<LivingEntity> INSTANCE = new ModelBearCape<>();
     
     public ModelRenderer baseCube;
     public ModelRenderer bearCapeArmR1;
@@ -126,7 +126,7 @@ public class ModelBearCape<T extends LivingEntity> extends BipedModel<T> {
             matrixStackIn.push();
             matrixStackIn.translate(0.0F, 0.05F, 0.025F);
             float angle = 6.0F + f2_r / 2.0F + f1_r;
-            angle = angle > 90F ? 90F : angle;
+            angle = Math.min(angle, 90F);
             matrixStackIn.rotate(Vector3f.XP.rotationDegrees(angle));
             matrixStackIn.rotate(Vector3f.ZP.rotationDegrees(f3_r / 2.0F));
             super.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
@@ -155,8 +155,8 @@ public class ModelBearCape<T extends LivingEntity> extends BipedModel<T> {
             double d1 = player.prevChasingPosY + (player.chasingPosY - player.prevChasingPosY) * (double)partialTicks - (player.prevPosY + (player.getPosY() - player.prevPosY) * (double)partialTicks);
             double d2 = player.prevChasingPosZ + (player.chasingPosZ - player.prevChasingPosZ) * (double)partialTicks - (player.prevPosZ + (player.getPosZ() - player.prevPosZ) * (double)partialTicks);
             float f = player.prevRenderYawOffset + (player.renderYawOffset - player.prevRenderYawOffset) * partialTicks;
-            double d3 = (double)MathHelper.sin(f * 0.017453292F);
-            double d4 = (double)(-MathHelper.cos(f * 0.017453292F));
+            double d3 = MathHelper.sin(f * 0.017453292F);
+            double d4 = -MathHelper.cos(f * 0.017453292F);
             float f1 = (float)d1 * 10.0F;
             f1 = MathHelper.clamp(f1, -6.0F, 32.0F);
             float f2 = (float)(d0 * d3 + d2 * d4) * 100.0F;

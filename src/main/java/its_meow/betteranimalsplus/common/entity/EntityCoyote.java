@@ -1,6 +1,5 @@
 package its_meow.betteranimalsplus.common.entity;
 
-import com.google.common.base.Predicates;
 import its_meow.betteranimalsplus.common.entity.ai.HungerNearestAttackableTargetGoal;
 import its_meow.betteranimalsplus.common.entity.ai.HungerNonTamedTargetGoal;
 import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainerBAPTameable;
@@ -32,6 +31,7 @@ import net.minecraft.world.Difficulty;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
+import net.minecraftforge.event.ForgeEventFactory;
 
 public class EntityCoyote extends EntityFeralWolf {
 
@@ -57,9 +57,9 @@ public class EntityCoyote extends EntityFeralWolf {
         this.targetSelector.addGoal(3, new HurtByTargetGoal(this));
         this.targetSelector.addGoal(4, new NonTamedTargetGoal<>(this, PlayerEntity.class, false, e -> e.world.getDifficulty() != Difficulty.PEACEFUL));
         this.targetSelector.addGoal(4, new HungerNonTamedTargetGoal<>(this, AnimalEntity.class, false, e -> e instanceof SheepEntity || e instanceof RabbitEntity));
-        this.targetSelector.addGoal(4, new HungerNonTamedTargetGoal<>(this, VillagerEntity.class, false, Predicates.alwaysTrue()));
-        this.targetSelector.addGoal(4, new HungerNonTamedTargetGoal<>(this, AbstractIllagerEntity.class, false, Predicates.alwaysTrue()));
-        this.targetSelector.addGoal(4, new HungerNonTamedTargetGoal<>(this, ChickenEntity.class, false, Predicates.alwaysTrue()));
+        this.targetSelector.addGoal(4, new HungerNonTamedTargetGoal<>(this, VillagerEntity.class, false, e -> true));
+        this.targetSelector.addGoal(4, new HungerNonTamedTargetGoal<>(this, AbstractIllagerEntity.class, false, e -> true));
+        this.targetSelector.addGoal(4, new HungerNonTamedTargetGoal<>(this, ChickenEntity.class, false, e -> true));
         this.targetSelector.addGoal(5, new HungerNearestAttackableTargetGoal<>(this, AbstractSkeletonEntity.class, false));
     }
 
@@ -100,7 +100,7 @@ public class EntityCoyote extends EntityFeralWolf {
         if((!this.isDaytime() || HOSTILE_DAYTIME) && !this.isTamed()) {
             return SoundEvents.ENTITY_WOLF_GROWL;
         } else if(this.rand.nextInt(3) == 0) {
-            return this.isTamed() && this.dataManager.get(EntityFeralWolf.DATA_HEALTH_ID).floatValue() < 10.0F ? SoundEvents.ENTITY_WOLF_WHINE : SoundEvents.ENTITY_WOLF_PANT;
+            return this.isTamed() && this.dataManager.get(EntityFeralWolf.DATA_HEALTH_ID) < 10.0F ? SoundEvents.ENTITY_WOLF_WHINE : SoundEvents.ENTITY_WOLF_PANT;
         } else if(this.getAttackTarget() != null) {
             return SoundEvents.ENTITY_WOLF_GROWL;
         }
@@ -117,7 +117,7 @@ public class EntityCoyote extends EntityFeralWolf {
                     Food food = itemstack.getItem().getFood();
 
                     if(food.isMeat()
-                    && this.dataManager.get(EntityFeralWolf.DATA_HEALTH_ID).floatValue() < 20.0F) {
+                    && this.dataManager.get(EntityFeralWolf.DATA_HEALTH_ID) < 20.0F) {
                         if(!player.isCreative()) {
                             itemstack.shrink(1);
                         }
@@ -133,7 +133,7 @@ public class EntityCoyote extends EntityFeralWolf {
                 this.func_233687_w_(!this.isEntitySleeping());
                 this.isJumping = false;
                 this.navigator.clearPath();
-                this.setAttackTarget((LivingEntity) null);
+                this.setAttackTarget(null);
             }
         } else if(this.isTamingItem(itemstack.getItem())) {
             if(HOSTILE_DAYTIME) {
@@ -146,10 +146,10 @@ public class EntityCoyote extends EntityFeralWolf {
                 }
 
                 if(!this.world.isRemote) {
-                    if(this.rand.nextInt(100) <= 14 && !net.minecraftforge.event.ForgeEventFactory.onAnimalTame(this, player)) {
+                    if(this.rand.nextInt(100) <= 14 && !ForgeEventFactory.onAnimalTame(this, player)) {
                         this.setTamedBy(player);
                         this.navigator.clearPath();
-                        this.setAttackTarget((LivingEntity) null);
+                        this.setAttackTarget(null);
                         this.func_233687_w_(true);
                         this.setHealth(20.0F);
                         this.world.setEntityState(this, (byte) 7);

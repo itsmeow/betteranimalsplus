@@ -1,11 +1,11 @@
 package its_meow.betteranimalsplus.common.entity.ai;
 
-import java.util.EnumSet;
-
 import net.minecraft.entity.CreatureEntity;
 import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IWorldReader;
+
+import java.util.EnumSet;
 
 public abstract class MoveIntoBlockGoal extends Goal {
     protected final CreatureEntity creature;
@@ -60,7 +60,7 @@ public abstract class MoveIntoBlockGoal extends Goal {
     }
 
     protected void func_220725_g() {
-       this.creature.getNavigator().tryMoveToXYZ((double)((float)this.destinationBlock.getX()) + 0.5D, (double)(this.destinationBlock.getY()), (double)((float)this.destinationBlock.getZ()) + 0.5D, this.movementSpeed);
+       this.creature.getNavigator().tryMoveToXYZ((double)((float)this.destinationBlock.getX()) + 0.5D, this.destinationBlock.getY(), (double)((float)this.destinationBlock.getZ()) + 0.5D, this.movementSpeed);
     }
 
     public double getTargetDistanceSq() {
@@ -73,7 +73,7 @@ public abstract class MoveIntoBlockGoal extends Goal {
           this.isAtDestination = false;
           ++this.timeoutCounter;
           if (this.shouldMove()) {
-             this.creature.getNavigator().tryMoveToXYZ((double)((float)this.destinationBlock.getX()) + 0.5D, (double)(this.destinationBlock.getY()), (double)((float)this.destinationBlock.getZ()) + 0.5D, this.movementSpeed);
+             this.creature.getNavigator().tryMoveToXYZ((double)((float)this.destinationBlock.getX()) + 0.5D, this.destinationBlock.getY(), (double)((float)this.destinationBlock.getZ()) + 0.5D, this.movementSpeed);
           }
        } else {
           this.isAtDestination = true;
@@ -91,13 +91,11 @@ public abstract class MoveIntoBlockGoal extends Goal {
     }
 
     protected boolean searchForDestination() {
-       int i = this.searchLength;
-       int j = this.field_203113_j;
-       BlockPos blockpos = this.creature.getPosition();
+        BlockPos blockpos = this.creature.getPosition();
        BlockPos.Mutable blockpos$mutableblockpos = new BlockPos.Mutable();
 
-       for(int k = this.field_203112_e; k <= j; k = k > 0 ? -k : 1 - k) {
-          for(int l = 0; l < i; ++l) {
+       for(int k = this.field_203112_e; k <= this.field_203113_j; k = k > 0 ? -k : 1 - k) {
+          for(int l = 0; l < this.searchLength; ++l) {
              for(int i1 = 0; i1 <= l; i1 = i1 > 0 ? -i1 : 1 - i1) {
                 for(int j1 = i1 < l && i1 > -l ? l : 0; j1 <= l; j1 = j1 > 0 ? -j1 : 1 - j1) {
                    blockpos$mutableblockpos.setPos(blockpos).move(i1, k - 1, j1);

@@ -1,18 +1,16 @@
 package its_meow.betteranimalsplus.common.item;
 
 import its_meow.betteranimalsplus.BetterAnimalsPlusMod;
-import its_meow.betteranimalsplus.Ref;
 import net.minecraft.item.Food;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.UseAction;
 
 public class ItemBetterFood extends Item {
 
     public final int itemUseDuration;
 
     public ItemBetterFood(int foodToFill, float saturationMultiplier, int eatLength, boolean isMeat) {
-        super(new Item.Properties().group(BetterAnimalsPlusMod.group).food(createFood(foodToFill, saturationMultiplier, isMeat)));
+        super(new Item.Properties().group(BetterAnimalsPlusMod.GROUP).food(createFood(foodToFill, saturationMultiplier, isMeat)));
         this.itemUseDuration = eatLength;
     }
 

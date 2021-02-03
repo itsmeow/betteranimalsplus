@@ -46,7 +46,7 @@ public class ModEntities {
 
     public static final EntityRegistrarHandler H = IMDLib.entityHandler(Ref.MOD_ID);
     private static final String MODID = Ref.MOD_ID;
-    private static final ItemGroup G = BetterAnimalsPlusMod.group;
+    private static final ItemGroup G = BetterAnimalsPlusMod.GROUP;
 
     /*
      * ##########################################################

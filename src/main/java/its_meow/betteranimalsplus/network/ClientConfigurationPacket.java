@@ -19,7 +19,7 @@ public class ClientConfigurationPacket {
     public ClientConfigurationPacket() {}
     
     public boolean coyoteHostileDaytime = false;
-    public Map<String, String[]> tameItems = new HashMap<String, String[]>();
+    public Map<String, String[]> tameItems = new HashMap<>();
     
     public ClientConfigurationPacket(boolean coyoteHostileDaytime, Map<String, String[]> tameItems) {
         this.coyoteHostileDaytime = coyoteHostileDaytime;
@@ -47,7 +47,7 @@ public class ClientConfigurationPacket {
 
     public static ClientConfigurationPacket decode(PacketBuffer buf) {
         boolean coyote = buf.readBoolean();
-        Map<String, String[]> tames = new HashMap<String, String[]>();
+        Map<String, String[]> tames = new HashMap<>();
         int mapSize = buf.readInt();
         for(int l = 0; l < mapSize; l++) {
             int keyL = buf.readInt();
@@ -71,7 +71,7 @@ public class ClientConfigurationPacket {
                     for(String key : msg.tameItems.keySet()) {
                         String[] items = msg.tameItems.get(key);
                         EntityTypeContainer<?> container = ModEntities.H.getEntityTypeContainer(key);
-                        if(container != null && container instanceof EntityTypeContainerBAPTameable) {
+                        if(container instanceof EntityTypeContainerBAPTameable) {
                             EntityTypeContainerBAPTameable<?> cont2 = (EntityTypeContainerBAPTameable<?>) container;
                             cont2.setTameItems(items);
                         }

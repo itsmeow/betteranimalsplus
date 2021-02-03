@@ -1,6 +1,5 @@
 package its_meow.betteranimalsplus.common.entity.util.abstracts;
 
-import its_meow.betteranimalsplus.common.entity.EntityHorseshoeCrab;
 import its_meow.betteranimalsplus.init.ModLootTables;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;

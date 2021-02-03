@@ -48,11 +48,9 @@ import java.util.Optional;
 
 public class EntityReindeer extends AnimalEntity implements IJumpingMount, IVariantTypes<EntityReindeer>, IDropHead<EntityReindeer> {
 
-    protected static final java.util.function.Predicate<LivingEntity> IS_REINDEER_BREEDING = (entity) -> {
-        return entity instanceof EntityReindeer && ((EntityReindeer)entity).isBreeding();
-    };
+    protected static final java.util.function.Predicate<LivingEntity> IS_REINDEER_BREEDING = (entity) -> entity instanceof EntityReindeer && ((EntityReindeer)entity).isBreeding();
     private static final EntityPredicate PARENT_TARGETING = (new EntityPredicate()).setDistance(16.0D).allowInvulnerable().allowFriendlyFire().setLineOfSiteRequired().setCustomPredicate(IS_REINDEER_BREEDING);
-    protected static final DataParameter<Byte> STATUS = EntityDataManager.<Byte>createKey(EntityReindeer.class, DataSerializers.BYTE);
+    protected static final DataParameter<Byte> STATUS = EntityDataManager.createKey(EntityReindeer.class, DataSerializers.BYTE);
     private int eatingCounter;
     private int openMouthCounter;
     private int jumpRearingCounter;
@@ -94,7 +92,7 @@ public class EntityReindeer extends AnimalEntity implements IJumpingMount, IVari
     protected void registerData() {
         super.registerData();
         this.registerTypeKey();
-        this.dataManager.register(STATUS, Byte.valueOf((byte) 0));
+        this.dataManager.register(STATUS, (byte) 0);
     }
 
     // Implementation
@@ -179,21 +177,17 @@ public class EntityReindeer extends AnimalEntity implements IJumpingMount, IVari
     // Abstract Reindeer
 
     protected boolean getReindeerWatchableBoolean(int p_110233_1_) {
-        return (this.dataManager.get(EntityReindeer.STATUS).byteValue() & p_110233_1_) != 0;
+        return (this.dataManager.get(EntityReindeer.STATUS) & p_110233_1_) != 0;
     }
 
     protected void setReindeerWatchableBoolean(int p_110208_1_, boolean p_110208_2_) {
-        byte b0 = this.dataManager.get(EntityReindeer.STATUS).byteValue();
+        byte b0 = this.dataManager.get(EntityReindeer.STATUS);
 
         if (p_110208_2_) {
-            this.dataManager.set(EntityReindeer.STATUS, Byte.valueOf((byte) (b0 | p_110208_1_)));
+            this.dataManager.set(EntityReindeer.STATUS, (byte) (b0 | p_110208_1_));
         } else {
-            this.dataManager.set(EntityReindeer.STATUS, Byte.valueOf((byte) (b0 & ~p_110208_1_)));
+            this.dataManager.set(EntityReindeer.STATUS, (byte) (b0 & ~p_110208_1_));
         }
-    }
-
-    public float getReindeerSize() {
-        return 0.5F;
     }
 
     public boolean isReindeerJumping() {
@@ -238,7 +232,7 @@ public class EntityReindeer extends AnimalEntity implements IJumpingMount, IVari
     @Override
     public boolean attackEntityFrom(DamageSource source, float amount) {
         Entity entity = source.getTrueSource();
-        return this.isBeingRidden() && entity != null && this.isPassenger(entity) ? false : super.attackEntityFrom(source, amount);
+        return (!this.isBeingRidden() || entity == null || !this.isPassenger(entity)) && super.attackEntityFrom(source, amount);
     }
 
     /**
@@ -254,7 +248,7 @@ public class EntityReindeer extends AnimalEntity implements IJumpingMount, IVari
         this.openReindeerMouth();
 
         if (!this.isSilent()) {
-            this.world.playSound((PlayerEntity) null, this.getPosX(), this.getPosY(), this.getPosZ(), SoundEvents.ENTITY_HORSE_EAT,
+            this.world.playSound(null, this.getPosX(), this.getPosY(), this.getPosZ(), SoundEvents.ENTITY_HORSE_EAT,
                     this.getSoundCategory(), 1.0F, 1.0F + (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F);
         }
     }
@@ -281,7 +275,7 @@ public class EntityReindeer extends AnimalEntity implements IJumpingMount, IVari
 
             if (iblockstate.getMaterial() != Material.AIR && !this.isSilent()) {
                 SoundType soundtype = block.getSoundType(block.getDefaultState(), this.world, pos, this);
-                this.world.playSound((PlayerEntity) null, this.getPosX(), this.getPosY(), this.getPosZ(), soundtype.getStepSound(),
+                this.world.playSound(null, this.getPosX(), this.getPosY(), this.getPosZ(), soundtype.getStepSound(),
                         this.getSoundCategory(), soundtype.getVolume() * 0.5F, soundtype.getPitch() * 0.75F);
             }
         }
@@ -323,16 +317,10 @@ public class EntityReindeer extends AnimalEntity implements IJumpingMount, IVari
         return null;
     }
 
-    @Nullable
-    protected SoundEvent getAngrySound() {
-        this.openReindeerMouth();
-        this.makeReindeerRear();
-        return null;
-    }
-
-    protected void playStepSound(BlockPos pos, Block blockIn) {
-        if (!blockIn.getDefaultState().getMaterial().isLiquid()) {
-            SoundType soundtype = blockIn.getSoundType(blockIn.getDefaultState(), this.world, pos, this);
+    @Override
+    protected void playStepSound(BlockPos pos, BlockState blockStateIn) {
+        if (!blockStateIn.getMaterial().isLiquid()) {
+            SoundType soundtype = blockStateIn.getSoundType(this.world, pos, this);
 
             if (this.world.getBlockState(pos.up()).getBlock() == Blocks.SNOW) {
                 soundtype = Blocks.SNOW.getSoundType(Blocks.SNOW.getDefaultState(), this.world, pos, this);
@@ -359,29 +347,16 @@ public class EntityReindeer extends AnimalEntity implements IJumpingMount, IVari
         this.playSound(SoundEvents.ENTITY_HORSE_GALLOP, p_190680_1_.getVolume() * 0.15F, p_190680_1_.getPitch());
     }
 
-    /**
-     * Will return how many at most can spawn in a chunk at once.
-     */
     @Override
     public int getMaxSpawnedInChunk() {
         return 6;
     }
 
-    public int getMaxTemper() {
-        return 100;
-    }
-
-    /**
-     * Returns the volume for the sounds this mob makes.
-     */
     @Override
     protected float getSoundVolume() {
         return 0.8F;
     }
 
-    /**
-     * Get number of ticks, at least during which the living entity will be silent.
-     */
     @Override
     public int getTalkInterval() {
         return 400;
@@ -458,7 +433,6 @@ public class EntityReindeer extends AnimalEntity implements IJumpingMount, IVari
     }
 
     @Override
-    @Nullable
     protected ResourceLocation getLootTable() {
         return ModLootTables.reindeer;
     }
@@ -482,7 +456,7 @@ public class EntityReindeer extends AnimalEntity implements IJumpingMount, IVari
      */
     @Override
     protected boolean isMovementBlocked() {
-        return super.isMovementBlocked() && this.isBeingRidden() && true || this.isEatingHaystack() || this.isRearing();
+        return super.isMovementBlocked() && this.isBeingRidden() || this.isEatingHaystack() || this.isRearing();
     }
 
     /**
@@ -733,8 +707,8 @@ public class EntityReindeer extends AnimalEntity implements IJumpingMount, IVari
 
     @Override
     public void setCustomName(ITextComponent comp) {
-        if(comp.getString().toLowerCase().equals("rudolph")) {
-            if(this.getVariant() != null && !this.getVariantNameOrEmpty().endsWith("_christmas")) {
+        if(comp.getString().equalsIgnoreCase("rudolph")) {
+            if(this.getVariant().isPresent() && !this.getVariantNameOrEmpty().endsWith("_christmas")) {
                 this.setType(this.getVariantNameOrEmpty() + "_christmas");
             }
         }
@@ -761,8 +735,8 @@ public class EntityReindeer extends AnimalEntity implements IJumpingMount, IVari
 
         this.readType(compound);
         Calendar calendar = Calendar.getInstance();
-        if (this.getVariantNameOrEmpty().endsWith("_christmas") && !(calendar.get(2) + 1 == 12 && calendar.get(5) >= 22 && calendar.get(5) <= 28)
-                && !(this.getCustomName().getString().toLowerCase().equals("rudolph") || this.parentRudolph)) {
+        if (this.getVariantNameOrEmpty().endsWith("_christmas") && !(calendar.get(Calendar.MONTH) + 1 == 12 && calendar.get(Calendar.DATE) >= 22 && calendar.get(Calendar.DATE) <= 28)
+                && !(this.getCustomName().getString().equalsIgnoreCase("rudolph") || this.parentRudolph)) {
             this.setType(this.getVariantNameOrEmpty().substring(0, 1)); // Remove red noses after Christmas season after loading entity
         }
     }
@@ -916,24 +890,16 @@ public class EntityReindeer extends AnimalEntity implements IJumpingMount, IVari
         return false;
     }
 
-    public boolean wearsArmor() {
-        return false;
-    }
-
-    public boolean isArmor(ItemStack stack) {
-        return false;
-    }
-
     @Override
     @Nullable
     public Entity getControllingPassenger() {
-        return this.getPassengers().isEmpty() ? null : (Entity) this.getPassengers().get(0);
+        return this.getPassengers().isEmpty() ? null : this.getPassengers().get(0);
     }
 
     @Override
     @Nullable
     public ILivingEntityData onInitialSpawn(IServerWorld world, DifficultyInstance difficulty, SpawnReason reason, @Nullable ILivingEntityData livingdata, CompoundNBT compound) {
-        this.getAttribute(Attributes.MAX_HEALTH).setBaseValue((double) this.getModifiedMaxHealth());
+        this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(this.getModifiedMaxHealth());
         this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(this.getModifiedMovementSpeed());
         this.getAttribute(Attributes.HORSE_JUMP_STRENGTH).setBaseValue(this.getModifiedJumpStrength());
         return this.initAgeableData(world, reason, super.onInitialSpawn(world, difficulty, reason, livingdata, compound));
@@ -942,7 +908,7 @@ public class EntityReindeer extends AnimalEntity implements IJumpingMount, IVari
     @Override
     public IVariant getRandomType() {
         Calendar calendar = Calendar.getInstance();
-        boolean isChristmasSeason = calendar.get(2) + 1 == 12 && calendar.get(5) >= 22 && calendar.get(5) <= 28;
+        boolean isChristmasSeason = calendar.get(Calendar.MONTH) + 1 == 12 && calendar.get(Calendar.DATE) >= 22 && calendar.get(Calendar.DATE) <= 28;
         boolean redNosed = this.rand.nextInt(9) == 0;
         return this.getContainer().getVariantForName((this.rand.nextInt(4) + 1) + (isChristmasSeason && redNosed ? "_christmas" : ""));
     }

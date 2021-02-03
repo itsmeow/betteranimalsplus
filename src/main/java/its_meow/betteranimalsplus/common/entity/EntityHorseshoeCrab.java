@@ -31,7 +31,7 @@ public class EntityHorseshoeCrab extends EntityCrabLikeBase {
 
     @Override
     protected void registerGoals() {
-        this.goalSelector.addGoal(1, new AvoidEntityGoal<PlayerEntity>(this, PlayerEntity.class, 20F, 0.44F, 0.55F));
+        this.goalSelector.addGoal(1, new AvoidEntityGoal<>(this, PlayerEntity.class, 20F, 0.44F, 0.55F));
         this.goalSelector.addGoal(2, new RandomWalkingGoal(this, 0.3D));
     }
 

@@ -14,7 +14,6 @@ import net.minecraft.util.math.MathHelper;
  */
 public class ModelLammergeier<T extends LivingEntity> extends EntityModel<T> {
 
-    private boolean isFlying = false;
     private boolean lastFlying = false;
 
     public ModelRenderer body;
@@ -587,9 +586,9 @@ public class ModelLammergeier<T extends LivingEntity> extends EntityModel<T> {
     @Override
     public void setRotationAngles(T entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
         EntityLammergeier lammergeier = (EntityLammergeier) entityIn;
-        this.isFlying = lammergeier.getFlying();
+        boolean isFlying = lammergeier.getFlying();
 
-        if (this.isFlying) {
+        if (isFlying) {
             this.rWing01.rotateAngleZ = MathHelper.cos(ageInTicks * 0.3F) * (float) Math.PI * 0.25F;
 
             if ((Math.abs(lammergeier.getMotion().getY()) > 0 && (Math.abs(lammergeier.getMotion().getX()) > 0.05 || Math.abs(lammergeier.getMotion().getZ()) > 0.05))
@@ -602,15 +601,14 @@ public class ModelLammergeier<T extends LivingEntity> extends EntityModel<T> {
             this.lWing01.rotateAngleZ = -this.rWing01.rotateAngleZ;
             this.rWing02.rotateAngleZ = this.rWing01.rotateAngleZ * 0.5F;
             this.lWing02.rotateAngleZ = -this.rWing01.rotateAngleZ * 0.5F;
-            if (this.lastFlying == false) {
+            if (!this.lastFlying) {
                 this.switchToFlight();
             }
         } else {
-            if (this.lastFlying == true) {
+            if (this.lastFlying) {
                 this.switchToWalk();
             }
-            boolean flag = entityIn instanceof LivingEntity
-                    && ((LivingEntity) entityIn).getTicksElytraFlying() > 4;
+            boolean flag = entityIn.getTicksElytraFlying() > 4;
             float f = 1.0F;
 
             if (flag) {
@@ -634,7 +632,7 @@ public class ModelLammergeier<T extends LivingEntity> extends EntityModel<T> {
             this.head.rotateAngleX = -0.81F;
         }
 
-        this.lastFlying = this.isFlying;
+        this.lastFlying = isFlying;
     }
 
     /**

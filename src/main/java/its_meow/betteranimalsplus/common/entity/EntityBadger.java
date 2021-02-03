@@ -54,8 +54,8 @@ public class EntityBadger extends EntityAnimalWithSelectiveTypes implements IMob
 		this.goalSelector.addGoal(3, new RandomWalkingGoal(this, 0.4D));
 		this.goalSelector.addGoal(4, new LookAtGoal(this, PlayerEntity.class, 6.0F));
 		if (!this.isChild() && this.getEntityWorld().getDifficulty() != Difficulty.PEACEFUL) {
-			this.targetSelector.addGoal(0, new HurtByTargetGoal(this, new Class[0]));
-			this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<AnimalEntity>(this, AnimalEntity.class, 90, true, true, (@Nullable LivingEntity in) -> in instanceof ChickenEntity || in instanceof EntityPheasant || (in instanceof AnimalEntity && ((AnimalEntity) in).isChild() && !(in instanceof EntityBadger))));
+			this.targetSelector.addGoal(0, new HurtByTargetGoal(this));
+			this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, AnimalEntity.class, 90, true, true, (@Nullable LivingEntity in) -> in instanceof ChickenEntity || in instanceof EntityPheasant || (in instanceof AnimalEntity && in.isChild() && !(in instanceof EntityBadger))));
 		}
 	}
 
@@ -73,7 +73,7 @@ public class EntityBadger extends EntityAnimalWithSelectiveTypes implements IMob
 		boolean flag = entityIn.attackEntityFrom(DamageSource.causeMobDamage(this), f);
 
 		if (flag) {
-			if (i > 0 && entityIn instanceof LivingEntity) {
+			if (i > 0) {
 				((LivingEntity) entityIn).applyKnockback(i * 0.5F, MathHelper.sin(this.rotationYaw * 0.017453292F), (-MathHelper.cos(this.rotationYaw * 0.017453292F)));
 				this.setMotion(this.getMotion().getX() * 0.6D, this.getMotion().getY(), this.getMotion().getZ() * 0.6D);
 			}

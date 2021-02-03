@@ -25,7 +25,7 @@ import net.minecraft.world.World;
 
 public class EntityCrab extends EntityCrabLikeBase {
 
-    protected static final DataParameter<Integer> CRAB_RAVE = EntityDataManager.<Integer>createKey(EntityCrab.class, DataSerializers.VARINT);
+    protected static final DataParameter<Integer> CRAB_RAVE = EntityDataManager.createKey(EntityCrab.class, DataSerializers.VARINT);
 
     public EntityCrab(World world) {
         super(ModEntities.CRAB.entityType, world);
@@ -46,7 +46,7 @@ public class EntityCrab extends EntityCrabLikeBase {
                 return EntityCrab.this.world.getDifficulty() != Difficulty.PEACEFUL && super.shouldContinueExecuting() && this.attacker.getHealth() > this.attacker.getMaxHealth() / 2F;
             }
         });
-        this.goalSelector.addGoal(1, new AvoidEntityGoal<PlayerEntity>(this, PlayerEntity.class, 20F, 0.8F, 1.0F));
+        this.goalSelector.addGoal(1, new AvoidEntityGoal<>(this, PlayerEntity.class, 20F, 0.8F, 1.0F));
         this.goalSelector.addGoal(2, new RandomWalkingGoal(this, 0.3D));
         this.targetSelector.addGoal(1, new AIHurtByTarget());
     }
@@ -55,14 +55,14 @@ public class EntityCrab extends EntityCrabLikeBase {
     @Override
     protected void registerData() {
         super.registerData();
-        this.dataManager.register(CRAB_RAVE, Integer.valueOf(0));
+        this.dataManager.register(CRAB_RAVE, 0);
     }
     public int getIsCrabRave() {
-        return this.dataManager.get(CRAB_RAVE).intValue();
+        return this.dataManager.get(CRAB_RAVE);
     }
 
     private void setCrabRave(int in) {
-        this.dataManager.set(CRAB_RAVE, Integer.valueOf(in));
+        this.dataManager.set(CRAB_RAVE, in);
     }
 
     @Override

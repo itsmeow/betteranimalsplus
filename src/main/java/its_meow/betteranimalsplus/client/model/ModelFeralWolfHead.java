@@ -8,7 +8,7 @@ import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 
 /**
- * wolf_v2_head - cybecat5555
+ * wolf_v2_head - cybercat5555
  * Created using Tabula 7.0.1
  */
 public class ModelFeralWolfHead extends EntityModel<Entity> {

@@ -2,11 +2,9 @@ package its_meow.betteranimalsplus.client.model;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
-
 import its_meow.betteranimalsplus.common.entity.EntityGoat;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.MobEntity;
 import net.minecraft.util.math.MathHelper;
 
 /**
@@ -376,7 +374,7 @@ public class ModelGoat<T extends LivingEntity> extends ModelBetterAnimals<T> {
 		if (entityIn instanceof EntityGoat) {
 			EntityGoat goat = (EntityGoat) entityIn;
 			this.neck.rotateAngleX = goat.getHeadPitch(); // Ram attack
-			this.neck.rotateAngleY = ModelBetterAnimals.getHeadYaw((MobEntity) entityIn) * 0.017453292F * 0.5F;
+			this.neck.rotateAngleY = ModelBetterAnimals.getHeadYaw(entityIn) * 0.017453292F * 0.5F;
 			if(!goat.isAttackingFromServer()) {
 				float eatTime = goat.getEatTime();
 				if(eatTime > 0) {

@@ -1,7 +1,5 @@
 package its_meow.betteranimalsplus.common.entity;
 
-import com.google.common.base.Predicate;
-import com.google.common.base.Predicates;
 import com.google.common.collect.Sets;
 import dev.itsmeow.imdlib.entity.util.EntityTypeContainer;
 import its_meow.betteranimalsplus.common.entity.util.EntityUtil;
@@ -38,15 +36,15 @@ import net.minecraft.world.IServerWorld;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
-import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.BiomeDictionary.Type;
 
 import java.util.Random;
 import java.util.Set;
+import java.util.function.Predicate;
 
 public class EntitySongbird extends EntityAnimalWithSelectiveTypes implements IFlyingAnimal {
 
-    protected static final DataParameter<Boolean> LANDED = EntityDataManager.<Boolean>createKey(EntitySongbird.class, DataSerializers.BOOLEAN);
+    protected static final DataParameter<Boolean> LANDED = EntityDataManager.createKey(EntitySongbird.class, DataSerializers.BOOLEAN);
     protected static final Set<Item> SEEDS = Sets.newHashSet(Items.WHEAT_SEEDS, Items.MELON_SEEDS, Items.PUMPKIN_SEEDS, Items.BEETROOT_SEEDS);
 
     public EntitySongbird(World worldIn) {
@@ -60,12 +58,12 @@ public class EntitySongbird extends EntityAnimalWithSelectiveTypes implements IF
         this.goalSelector.addGoal(1, new PanicGoal(this, 1.25D));
         Predicate<LivingEntity> avoidPredicate = input -> {
             boolean result1 = (input instanceof PlayerEntity);
-            boolean result2 = !SEEDS.contains(((PlayerEntity) input).getHeldItem(Hand.MAIN_HAND).getItem())
-                    && !SEEDS.contains(((PlayerEntity) input).getHeldItem(Hand.OFF_HAND).getItem());
+            boolean result2 = !SEEDS.contains(input.getHeldItem(Hand.MAIN_HAND).getItem())
+                    && !SEEDS.contains(input.getHeldItem(Hand.OFF_HAND).getItem());
             return result1 && result2;
         };
-        this.goalSelector.addGoal(2, new AvoidEntityGoal<PlayerEntity>(this, PlayerEntity.class, avoidPredicate, 10F, 0.8D,
-                1D, Predicates.alwaysTrue()));
+        this.goalSelector.addGoal(2, new AvoidEntityGoal<>(this, PlayerEntity.class, avoidPredicate, 10F, 0.8D,
+                1D, e -> true));
         this.goalSelector.addGoal(3, new LookAtGoal(this, PlayerEntity.class, 8.0F));
         this.goalSelector.addGoal(4, new BreedGoal(this, 0.4F));
         this.goalSelector.addGoal(5, new WaterAvoidingRandomFlyingGoal(this, 1.0D));
@@ -176,7 +174,7 @@ public class EntitySongbird extends EntityAnimalWithSelectiveTypes implements IF
     }
 
     @Override
-    public String[] getTypesFor(RegistryKey<Biome> biomeKey, Biome biome, Set<BiomeDictionary.Type> types, SpawnReason reason) {
+    public String[] getTypesFor(RegistryKey<Biome> biomeKey, Biome biome, Set<Type> types, SpawnReason reason) {
         if(types.contains(Type.FOREST) && !types.contains(Type.CONIFEROUS)) {
             return new String[] { "2", "small_2", "small_3", "small_4" };
         } else if(types.contains(Type.CONIFEROUS) && !types.contains(Type.SNOWY)) {

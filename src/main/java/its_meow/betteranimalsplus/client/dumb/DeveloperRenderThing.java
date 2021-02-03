@@ -77,7 +77,7 @@ public class DeveloperRenderThing {
 
         public StupidRender(EntityRendererManager mgr) {
             super(mgr, new ModelGoose<>(), 0.5F);
-            this.addLayer(new GooseItemLayerRenderer<PlayerEntity>(this));
+            this.addLayer(new GooseItemLayerRenderer<>(this));
         }
 
         @Override
@@ -113,47 +113,44 @@ public class DeveloperRenderThing {
                     event.setCanceled(true);
                     return;
                 }
-                if(args.length >= 2) {
-                    if(!args[1].equals("on") && !args[1].equals("off")) {
-                        msg("[BA+] Invalid option for argument 1. Must be \"on\" or \"off\"");
-                        event.setCanceled(true);
-                        return;
-                    }
-                    boolean on = args[1].equals("on");
-                    boolean nametag = false;
-                    String variant = "1";
-                    if(on) {
-                        if(args.length >= 3) {
-                            if(!args[2].equals("on") && !args[2].equals("off")) {
-                                msg("[BA+] Invalid option for argument 2. Must be \"on\" or \"off\"");
+                if(!args[1].equals("on") && !args[1].equals("off")) {
+                    msg("[BA+] Invalid option for argument 1. Must be \"on\" or \"off\"");
+                    event.setCanceled(true);
+                    return;
+                }
+                boolean on = args[1].equals("on");
+                boolean nametag = false;
+                String variant = "1";
+                if(on) {
+                    if(args.length >= 3) {
+                        if(!args[2].equals("on") && !args[2].equals("off")) {
+                            msg("[BA+] Invalid option for argument 2. Must be \"on\" or \"off\"");
+                            event.setCanceled(true);
+                            return;
+                        }
+                        nametag = args[2].equals("on");
+                        if(args.length == 4) {
+                            if(!args[3].equals("1") && !args[3].equals("2") && !args[3].equals("3")) {
+                                msg("[BA+] Invalid option for argument 3. Must be 1, 2, or 3");
                                 event.setCanceled(true);
                                 return;
                             }
-                            nametag = args[2].equals("on");
-                            if(args.length == 4) {
-                                if(!args[3].equals("1") && !args[3].equals("2") && !args[3].equals("3")) {
-                                    msg("[BA+] Invalid option for argument 3. Must be 1, 2, or 3");
-                                    event.setCanceled(true);
-                                    return;
-                                }
-                                variant = args[3];
-                            }
+                            variant = args[3];
                         }
-                    } else if(args.length >= 3) {
-                        msg("[BA+] Too many arguments for disabling goose!");
-                        event.setCanceled(true);
-                        return;
                     }
+                } else if(args.length >= 3) {
+                    msg("[BA+] Too many arguments for disabling goose!");
                     event.setCanceled(true);
-                    msg("Goose " + (on ? "ENABLED" : "DISABLED") + " with nametag " + (nametag ? "ENABLED" : "DISABLED") + " and variant " + variant);
-                    StupidDevPacket pkt = new StupidDevPacket(on, nametag, variant);
-                    SafeSyncThing.put(Minecraft.getInstance().player.getGameProfile().getId(), pkt);
-                    BetterAnimalsPlusMod.HANDLER.sendToServer(pkt);
+                    return;
                 }
+                event.setCanceled(true);
+                msg("Goose " + (on ? "ENABLED" : "DISABLED") + " with nametag " + (nametag ? "ENABLED" : "DISABLED") + " and variant " + variant);
+                StupidDevPacket pkt = new StupidDevPacket(on, nametag, variant);
+                SafeSyncThing.put(Minecraft.getInstance().player.getGameProfile().getId(), pkt);
+                BetterAnimalsPlusMod.HANDLER.sendToServer(pkt);
             } else if(m.startsWith("/help goosedev")) {
                 msg("[BA+] Args 2 & 3 optional. Default nametag OFF, variant 1. Usage: /goosedev [on/off] [show nametag(on/off)] [variant]");
                 event.setCanceled(true);
-                return;
             }
         }
     }
