@@ -202,7 +202,11 @@ public class EntityDragonfly extends EntityAnimalWithTypesAndSizeContainable {
                         }
                     }
                     if(!found) {
-                        this.targetPosition = new BlockPos(this.getPosX() + (double) this.rand.nextInt(5) - (double) this.rand.nextInt(5), this.getPosY() + (double) this.rand.nextInt(4) - 1.0D, this.getPosZ() + (double) this.rand.nextInt(5) - (double) this.rand.nextInt(5));
+                        int attempts = 0;
+                        while(attempts < 5 && (targetPosition == null || !world.isAirBlock(targetPosition))) {
+                            this.targetPosition = new BlockPos(this.getPosX() + (double) this.rand.nextInt(5) - (double) this.rand.nextInt(5), this.getPosY() + (double) this.rand.nextInt(4) - 1.0D, this.getPosZ() + (double) this.rand.nextInt(5) - (double) this.rand.nextInt(5));
+                            attempts++;
+                        }
                     }
                 }
             }

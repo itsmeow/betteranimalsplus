@@ -251,7 +251,11 @@ public class EntityButterfly extends EntityAnimalWithTypesAndSizeContainable {
                             }
                         }
                         if(!found) {
-                            this.targetPosition = new BlockPos(this.getPosX() + (double) this.rand.nextInt(5) - (double) this.rand.nextInt(5), this.getPosY() + (double) this.rand.nextInt(4) - 1.0D, this.getPosZ() + (double) this.rand.nextInt(5) - (double) this.rand.nextInt(5));
+                            int attempts = 0;
+                            while(attempts < 5 && (targetPosition == null || !world.isAirBlock(targetPosition))) {
+                                this.targetPosition = new BlockPos(this.getPosX() + (double) this.rand.nextInt(5) - (double) this.rand.nextInt(5), this.getPosY() + (double) this.rand.nextInt(4) - 1.0D, this.getPosZ() + (double) this.rand.nextInt(5) - (double) this.rand.nextInt(5));
+                                attempts++;
+                            }
                         }
                     }
                 }
@@ -278,6 +282,8 @@ public class EntityButterfly extends EntityAnimalWithTypesAndSizeContainable {
                         this.targetPosition = null;
                         this.ticksUntilNextGrow = this.getRNG().nextInt(150 * 20) + (30 * 20);
                     }
+                } else {
+                    this.targetPosition = null;
                 }
             }
         }
