@@ -18,8 +18,11 @@ import its_meow.betteranimalsplus.common.entity.projectile.*;
 import its_meow.betteranimalsplus.init.ModEntities;
 import its_meow.betteranimalsplus.init.ModResources;
 import its_meow.betteranimalsplus.init.ModTileEntities;
+import net.minecraft.client.renderer.RenderState;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.Pose;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.vector.Vector3f;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
@@ -204,4 +207,16 @@ public class ClientLifecycleHandler {
         BetterAnimalsPlusMod.logger.info("Rendering squirrel physics...");
     }
 
+    public static class RenderTypes extends RenderType {
+
+        public RenderTypes() {
+            super(null, null, 0, 0, false, false, null, null);
+        }
+
+        public static RenderType getEyesEntityCutoutNoCullDepthMaskOff(ResourceLocation locationIn) {
+            RenderState.TextureState renderstate$texturestate = new RenderState.TextureState(locationIn, false, false);
+            return makeType("eyes_entity_cutout_no_cull_depth_mask_off", DefaultVertexFormats.ENTITY, 7, 256, false, true, RenderType.State.getBuilder().texture(renderstate$texturestate).cull(CULL_DISABLED).transparency(ADDITIVE_TRANSPARENCY).writeMask(COLOR_WRITE).fog(BLACK_FOG).diffuseLighting(DIFFUSE_LIGHTING_ENABLED).alpha(DEFAULT_ALPHA).lightmap(LIGHTMAP_DISABLED).overlay(OVERLAY_ENABLED).build(false));
+        }
+
+    }
 }

@@ -1,7 +1,7 @@
 package its_meow.betteranimalsplus.client.renderer.entity.layers;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
-
+import its_meow.betteranimalsplus.client.ClientLifecycleHandler;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.MobRenderer;
@@ -13,11 +13,11 @@ import net.minecraft.util.ResourceLocation;
 
 public class LayerEyes<T extends MobEntity, A extends EntityModel<T>> extends LayerRenderer<T, A> {
 
-    protected final RenderType GLOW_STATE;
+    protected RenderType GLOW_STATE;
 
     public LayerEyes(MobRenderer<T, A> baseRenderer, ResourceLocation texture) {
         super(baseRenderer);
-        this.GLOW_STATE = RenderType.getEyes(texture);
+        this.GLOW_STATE = ClientLifecycleHandler.RenderTypes.getEyesEntityCutoutNoCullDepthMaskOff(texture);
     }
 
     @Override
