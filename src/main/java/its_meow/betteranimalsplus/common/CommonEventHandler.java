@@ -37,7 +37,6 @@ import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.registries.ObjectHolder;
 
 import java.util.HashSet;
 import java.util.List;
@@ -56,9 +55,6 @@ public class CommonEventHandler {
         NO_ATTACKED_DROPS.add(e -> e instanceof EntityPiranha);
         NO_ATTACKED_DROPS.add(e -> e instanceof EntityOctopus && ((EntityOctopus) e).friend == null);
     }
-
-    @ObjectHolder("essentialfeatures:portable_jukebox")
-    public static Item PORTABLE_JUKEBOX;
 
     @SubscribeEvent
     public static void onDeathOfEntity(LivingDeathEvent e) {
@@ -125,7 +121,8 @@ public class CommonEventHandler {
 
     @SubscribeEvent
     public static void onItemUsed(PlayerInteractEvent.RightClickItem event) {
-        if(PORTABLE_JUKEBOX != null && event.getItemStack().getItem() == PORTABLE_JUKEBOX && event.getPlayer() instanceof ServerPlayerEntity) {
+        ResourceLocation reg = event.getItemStack().getItem().getRegistryName();
+        if(reg != null && reg.getPath().equals("portable_jukebox") && event.getPlayer() instanceof ServerPlayerEntity) {
             if(event.getItemStack().getChildTag("Disc") != null) {
                 Item item = ItemStack.read(event.getItemStack().getChildTag("Disc")).getItem();
                 onDiskUse(event.getPlayer().isCrouching(), (ServerPlayerEntity) event.getPlayer(), item);
