@@ -302,6 +302,8 @@ public class ModelCrab<T extends LivingEntity> extends EntityModel<T> {
             matrixStackIn.translate(0, -0.15, 0);
         } else if(crabId == 3) {
             matrixStackIn.translate(0, -0.05, 0);
+        } else {
+            matrixStackIn.translate(0F, 0.05F, 0F);
         }
         this.body.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn);
     }
@@ -416,10 +418,10 @@ public class ModelCrab<T extends LivingEntity> extends EntityModel<T> {
                 this.rLeg03a.rotateAngleZ += rotOff;
                 this.lLeg03a.rotateAngleZ -= rotOff;
             } else {
-                float f5 = -(MathHelper.cos(f * 0.6662F * 2.0F + 0.0F) * 0.4F) * f1;
-                float f6 = -(MathHelper.cos(f * 0.6662F * 2.0F + (float) Math.PI) * 0.4F) * f1;
-                float f7 = -(MathHelper.cos(f * 0.6662F * 2.0F + ((float) Math.PI / 2F)) * 0.4F) * f1;
-                float f8 = -(MathHelper.cos(f * 0.6662F * 2.0F + ((float) Math.PI * 3F / 2F)) * 0.4F) * f1;
+                float f5 = -(MathHelper.cos(f * 0.6662F * 2.0F + 0.0F) * 1.0F) * f1;
+                float f6 = -(MathHelper.cos(f * 0.6662F * 2.0F + (float) Math.PI) * 1.0F) * f1;
+                float f7 = -(MathHelper.cos(f * 0.6662F * 2.0F + ((float) Math.PI / 2F)) * 1.0F) * f1;
+                float f8 = -(MathHelper.cos(f * 0.6662F * 2.0F + ((float) Math.PI * 3F / 2F)) * 1.0F) * f1;
                 this.rLeg00a.rotateAngleY += f5;
                 this.lLeg00a.rotateAngleY += -f5;
                 this.rLeg01a.rotateAngleY += f6;
