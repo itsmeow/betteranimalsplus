@@ -17,6 +17,7 @@ import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.util.InputMappings;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.Util;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.ClientChatEvent;
@@ -156,7 +157,7 @@ public class DeveloperRenderThing {
     }
 
     private static void msg(String msg) {
-        Minecraft.getInstance().player.sendMessage(new StringTextComponent(msg), Ref.EMPTY_UUID);
+        Minecraft.getInstance().player.sendMessage(new StringTextComponent(msg), Util.DUMMY_UUID);
     }
 
 }

@@ -111,61 +111,45 @@ public class CommonEventHandler {
     
     @SubscribeEvent
     public static void onBlockActivate(PlayerInteractEvent.RightClickBlock event) {
-        if(event.getWorld().getBlockState(event.getPos()).getBlock() == Blocks.JUKEBOX) {
+        if(event.getWorld().getBlockState(event.getPos()).getBlock() == Blocks.JUKEBOX && event.getPlayer() instanceof ServerPlayerEntity) {
             TileEntity te = event.getWorld().getTileEntity(event.getPos());
             if(te instanceof JukeboxTileEntity) {
                 JukeboxTileEntity box = (JukeboxTileEntity) te;
                 Item held = event.getPlayer().getHeldItem(event.getHand()).getItem();
-                if(box.getRecord().getItem() == ModItems.RECORD_CRAB_RAVE.get()) {
-                    List<EntityCrab> crabs = event.getWorld().getEntitiesWithinAABB(EntityCrab.class, event.getPlayer().getBoundingBox().grow(50));
-                    for(EntityCrab crab : crabs) {
-                        crab.unCrabRave();
-                    }
-                } else if(held == ModItems.RECORD_CRAB_RAVE.get()) {
-                    List<EntityCrab> crabs = event.getWorld().getEntitiesWithinAABB(EntityCrab.class, event.getPlayer().getBoundingBox().grow(50));
-                    if(event.getPlayer() instanceof ServerPlayerEntity) {
-                        ModTriggers.USE_CRAB_DISK.trigger((ServerPlayerEntity) event.getPlayer());
-                    }
-                    for(EntityCrab crab : crabs) {
-                        crab.crabRave();
-                    }
-                } else if(held == ModItems.RECORD_WALRUS.get()) {
-                    if(event.getPlayer() instanceof ServerPlayerEntity) {
-                        ModTriggers.USE_WALRUS_DISK.trigger((ServerPlayerEntity) event.getPlayer());
-                    }
-                }
+                Item boxItem = box.getRecord().getItem();
+                boolean added = box.getRecord().isEmpty();
+                onDiskUse(added, (ServerPlayerEntity) event.getPlayer(), added ? held : boxItem);
             }
         }
     }
 
     @SubscribeEvent
     public static void onItemUsed(PlayerInteractEvent.RightClickItem event) {
-        if(PORTABLE_JUKEBOX != null && event.getItemStack().getItem() == PORTABLE_JUKEBOX) {
+        if(PORTABLE_JUKEBOX != null && event.getItemStack().getItem() == PORTABLE_JUKEBOX && event.getPlayer() instanceof ServerPlayerEntity) {
             if(event.getItemStack().getChildTag("Disc") != null) {
                 Item item = ItemStack.read(event.getItemStack().getChildTag("Disc")).getItem();
-                if(item == ModItems.RECORD_CRAB_RAVE.get()) {
-                    if(event.getPlayer().isCrouching()) {
-                        List<EntityCrab> crabs = event.getWorld().getEntitiesWithinAABB(EntityCrab.class, event.getPlayer().getBoundingBox().grow(50));
-                        for(EntityCrab crab : crabs) {
-                            crab.unCrabRave();
-                        }
-                    } else {
-                        List<EntityCrab> crabs = event.getWorld().getEntitiesWithinAABB(EntityCrab.class, event.getPlayer().getBoundingBox().grow(50));
-                        if(event.getPlayer() instanceof ServerPlayerEntity) {
-                            ModTriggers.USE_CRAB_DISK.trigger((ServerPlayerEntity) event.getPlayer());
-                        }
-                        for(EntityCrab crab : crabs) {
-                            crab.crabRave();
-                        }
-                    }
-                } else if(item == ModItems.RECORD_WALRUS.get()) {
-                    if(!event.getPlayer().isCrouching()) {
-                        if(event.getPlayer() instanceof ServerPlayerEntity) {
-                            ModTriggers.USE_WALRUS_DISK.trigger((ServerPlayerEntity) event.getPlayer());
-                        }
-                    }
+                onDiskUse(event.getPlayer().isCrouching(), (ServerPlayerEntity) event.getPlayer(), item);
+            }
+        }
+    }
+
+    private static void onDiskUse(boolean added, ServerPlayerEntity player, Item item) {
+        if(item == ModItems.RECORD_CRAB_RAVE.get()) {
+            if(added) {
+                List<EntityCrab> crabs = player.getEntityWorld().getEntitiesWithinAABB(EntityCrab.class, player.getBoundingBox().grow(50));
+                ModTriggers.USE_CRAB_DISK.trigger(player);
+                for(EntityCrab crab : crabs) {
+                    crab.crabRave();
+                }
+
+            } else {
+                List<EntityCrab> crabs = player.getEntityWorld().getEntitiesWithinAABB(EntityCrab.class, player.getBoundingBox().grow(100));
+                for(EntityCrab crab : crabs) {
+                    crab.unCrabRave();
                 }
             }
+        } else if(item == ModItems.RECORD_WALRUS.get() && added) {
+            ModTriggers.USE_WALRUS_DISK.trigger(player);
         }
     }
     

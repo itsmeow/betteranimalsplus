@@ -26,6 +26,7 @@ import net.minecraft.world.World;
 public class EntityCrab extends EntityCrabLikeBase {
 
     protected static final DataParameter<Integer> CRAB_RAVE = EntityDataManager.createKey(EntityCrab.class, DataSerializers.VARINT);
+    private int raveTicks = 0;
 
     public EntityCrab(World world) {
         super(ModEntities.CRAB.entityType, world);
@@ -74,10 +75,24 @@ public class EntityCrab extends EntityCrabLikeBase {
         this.setCrabRave(this.getRNG().nextInt(3) + 1);
         this.setAttackTarget(null);
         this.navigator.clearPath();
+        this.raveTicks = 2840; // 2:20 in ticks
     }
 
     public void unCrabRave() {
         this.setCrabRave(0);
+        this.raveTicks = 0;
+    }
+
+    @Override
+    public void tick() {
+        super.tick();
+        if(!world.isRemote()) {
+            if (this.raveTicks > 0) {
+                this.raveTicks--;
+            } else if (this.raveTicks <= 0 && this.getIsCrabRave() > 0) {
+                this.unCrabRave();
+            }
+        }
     }
 
     @Override
