@@ -1,7 +1,6 @@
 package its_meow.betteranimalsplus.init;
 
 import its_meow.betteranimalsplus.Ref;
-import its_meow.betteranimalsplus.config.BetterAnimalsPlusConfig;
 import net.minecraft.block.HorizontalBlock;
 import net.minecraft.util.Direction;
 import net.minecraft.util.RegistryKey;
@@ -52,7 +51,6 @@ public class ModWorldGen {
 
     @SubscribeEvent
     public static void biomeLoad(final BiomeLoadingEvent event) {
-        BetterAnimalsPlusConfig.biomeLoad(event);
         if (event.getName() != null && BiomeDictionary.getTypes(RegistryKey.getOrCreateKey(Registry.BIOME_KEY, event.getName())).contains(BiomeDictionary.Type.SWAMP))
             event.getGeneration().getFeatures(GenerationStage.Decoration.VEGETAL_DECORATION).add(() -> TRILLIUM_CF);
     }

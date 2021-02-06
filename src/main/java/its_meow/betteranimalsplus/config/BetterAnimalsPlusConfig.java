@@ -1,11 +1,5 @@
 package its_meow.betteranimalsplus.config;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import net.minecraftforge.event.world.BiomeLoadingEvent;
-import org.apache.commons.lang3.tuple.Pair;
-
 import dev.itsmeow.imdlib.entity.EntityRegistrarHandler.ClientEntityConfiguration;
 import dev.itsmeow.imdlib.entity.EntityRegistrarHandler.ServerEntityConfiguration;
 import dev.itsmeow.imdlib.entity.util.EntityTypeContainer;
@@ -18,6 +12,10 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.config.ModConfig;
+import org.apache.commons.lang3.tuple.Pair;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @Mod.EventBusSubscriber(modid = Ref.MOD_ID, bus = EventBusSubscriber.Bus.MOD)
 public class BetterAnimalsPlusConfig {
@@ -73,7 +71,4 @@ public class BetterAnimalsPlusConfig {
         return map;
     }
 
-    public static void biomeLoad(BiomeLoadingEvent event) {
-        SERVER_CONFIG.biomeLoad(event);
-    }
 }
