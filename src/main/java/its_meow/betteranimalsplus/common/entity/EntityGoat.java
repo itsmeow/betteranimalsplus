@@ -138,7 +138,7 @@ public class EntityGoat extends EntityAnimalEatsGrassWithTypes {
     }
 
     @Override
-    public ActionResultType func_230254_b_(PlayerEntity player, Hand hand) {
+    public ActionResultType getEntityInteractionResult(PlayerEntity player, Hand hand) {
         ItemStack stack = player.getHeldItem(hand);
 
         if(stack.getItem() == Items.BUCKET && !player.isCreative() && !this.isChild()) {
@@ -156,7 +156,7 @@ public class EntityGoat extends EntityAnimalEatsGrassWithTypes {
         } else if(this.isBreedingItem(stack) && !this.isChild()) {
             this.friend = player.getGameProfile().getId();
         }
-        return super.func_230254_b_(player, hand);
+        return super.getEntityInteractionResult(player, hand);
     }
 
     @Override

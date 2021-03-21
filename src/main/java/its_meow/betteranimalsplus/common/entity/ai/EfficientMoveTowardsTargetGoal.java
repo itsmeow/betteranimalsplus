@@ -40,7 +40,7 @@ public class EfficientMoveTowardsTargetGoal extends Goal {
             } else if (!livingentity.isAlive()) {
                 return false;
             } else {
-                this.path = this.attacker.getNavigator().getPathToEntity(livingentity, 0);
+                this.path = this.attacker.getNavigator().pathfind(livingentity, 0);
                 if (this.path != null) {
                     return true;
                 } else {

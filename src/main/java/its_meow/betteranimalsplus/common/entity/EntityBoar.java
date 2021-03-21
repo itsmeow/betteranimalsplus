@@ -199,7 +199,7 @@ public class EntityBoar extends EntityAnimalWithSelectiveTypes implements IMob, 
     }
 
     @Override
-    public void func_241841_a(ServerWorld p_241841_1_, LightningBoltEntity p_241841_2_) {
+    public void causeLightningStrike(ServerWorld p_241841_1_, LightningBoltEntity p_241841_2_) {
         if (!this.world.isRemote && !this.dead) {
             ZombifiedPiglinEntity entitypigzombie = EntityType.ZOMBIFIED_PIGLIN.create(this.world);
             entitypigzombie.setItemStackToSlot(EquipmentSlotType.MAINHAND, new ItemStack(Items.GOLDEN_SWORD));
@@ -217,7 +217,7 @@ public class EntityBoar extends EntityAnimalWithSelectiveTypes implements IMob, 
     }
 
     @Override
-    public AgeableEntity func_241840_a(ServerWorld world, AgeableEntity ageable) {
+    public AgeableEntity createChild(ServerWorld world, AgeableEntity ageable) {
         if(this.getVariant().isPresent()) {
             if (ageable instanceof EntityBoar) {
                 EntityBoar boar = new EntityBoar(this.world);

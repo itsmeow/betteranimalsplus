@@ -76,11 +76,11 @@ public abstract class EntityWaterMobPathingWithTypesBucketable extends EntityWat
     }
 
     @Override
-    protected ActionResultType func_230254_b_(PlayerEntity player, Hand hand) {
+    protected ActionResultType getEntityInteractionResult(PlayerEntity player, Hand hand) {
         if(this.processContainerInteract(player, hand)) {
             return ActionResultType.SUCCESS;
         }
-        return super.func_230254_b_(player, hand);
+        return super.getEntityInteractionResult(player, hand);
     }
 
     @Override

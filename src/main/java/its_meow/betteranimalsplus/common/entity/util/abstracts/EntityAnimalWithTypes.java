@@ -45,7 +45,7 @@ public abstract class EntityAnimalWithTypes extends AnimalEntity implements IVar
     }
 
     @Override
-    public AgeableEntity func_241840_a(ServerWorld world, AgeableEntity ageable) {
+    public AgeableEntity createChild(ServerWorld world, AgeableEntity ageable) {
         if (!(ageable instanceof IVariantTypes))
             return null;
         IVariantTypes<?> child = getBaseChild();

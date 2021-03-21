@@ -181,7 +181,7 @@ public class EntityFeralWolf extends EntityTameableWithSelectiveTypes implements
             Entity entity = source.getTrueSource();
 
             if(this.isEntitySleeping()) { // sitting
-                this.func_233687_w_(false);
+                this.setSitting(false);
             }
 
             if(entity != null && !(entity instanceof PlayerEntity) && !(entity instanceof AbstractArrowEntity)) {
@@ -216,7 +216,7 @@ public class EntityFeralWolf extends EntityTameableWithSelectiveTypes implements
     }
 
     @Override
-    public ActionResultType func_230254_b_(PlayerEntity player, Hand hand) {
+    public ActionResultType getEntityInteractionResult(PlayerEntity player, Hand hand) {
         ItemStack itemstack = player.getHeldItem(hand);
         if(this.isTamed()) {
             if(!itemstack.isEmpty()) {
@@ -234,7 +234,7 @@ public class EntityFeralWolf extends EntityTameableWithSelectiveTypes implements
 
             if(this.isOwner(player) && !this.world.isRemote && !this.isBreedingItem(itemstack)
             && (!(itemstack.getItem().isFood()) || !(itemstack.getItem().getFood().isMeat()))) {
-                this.func_233687_w_(!this.isEntitySleeping());
+                this.setSitting(!this.isEntitySleeping());
                 this.isJumping = false;
                 this.navigator.clearPath();
                 this.setAttackTarget(null);
@@ -250,7 +250,7 @@ public class EntityFeralWolf extends EntityTameableWithSelectiveTypes implements
                         this.setTamedBy(player);
                         this.navigator.clearPath();
                         this.setAttackTarget(null);
-                        this.func_233687_w_(true);
+                        this.setSitting(true);
                         this.setHealth((float) TAMED_HEALTH);
                         this.world.setEntityState(this, (byte) 7);
                     } else {
@@ -266,7 +266,7 @@ public class EntityFeralWolf extends EntityTameableWithSelectiveTypes implements
             }
         }
 
-        return super.func_230254_b_(player, hand);
+        return super.getEntityInteractionResult(player, hand);
     }
 
     @Override

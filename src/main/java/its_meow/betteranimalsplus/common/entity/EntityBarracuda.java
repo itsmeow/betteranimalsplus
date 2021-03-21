@@ -132,9 +132,9 @@ public class EntityBarracuda extends EntityWaterMobPathingBucketable implements 
     }
 
     @Override
-    public ActionResultType func_230254_b_(PlayerEntity player, Hand hand) {
+    public ActionResultType getEntityInteractionResult(PlayerEntity player, Hand hand) {
         if(player != this.getAttackTarget()) {
-            return super.func_230254_b_(player, hand);
+            return super.getEntityInteractionResult(player, hand);
         } else {
             return ActionResultType.PASS;
         }

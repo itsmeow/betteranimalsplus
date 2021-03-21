@@ -49,7 +49,7 @@ import java.util.Optional;
 public class EntityReindeer extends AnimalEntity implements IJumpingMount, IVariantTypes<EntityReindeer>, IDropHead<EntityReindeer> {
 
     protected static final java.util.function.Predicate<LivingEntity> IS_REINDEER_BREEDING = (entity) -> entity instanceof EntityReindeer && ((EntityReindeer)entity).isBreeding();
-    private static final EntityPredicate PARENT_TARGETING = (new EntityPredicate()).setDistance(16.0D).allowInvulnerable().allowFriendlyFire().setLineOfSiteRequired().setCustomPredicate(IS_REINDEER_BREEDING);
+    private static final EntityPredicate PARENT_TARGETING = (new EntityPredicate()).setDistance(16.0D).allowInvulnerable().allowFriendlyFire().setIgnoresLineOfSight().setCustomPredicate(IS_REINDEER_BREEDING);
     protected static final DataParameter<Byte> STATUS = EntityDataManager.createKey(EntityReindeer.class, DataSerializers.BYTE);
     private int eatingCounter;
     private int openMouthCounter;
@@ -97,12 +97,12 @@ public class EntityReindeer extends AnimalEntity implements IJumpingMount, IVari
 
     // Implementation
     @Override
-    public ActionResultType func_230254_b_(PlayerEntity player, Hand hand) {
+    public ActionResultType getEntityInteractionResult(PlayerEntity player, Hand hand) {
         ItemStack itemstack = player.getHeldItem(hand);
         boolean flag = !itemstack.isEmpty();
 
         if(flag && itemstack.getItem() instanceof SpawnEggItem) {
-            return super.func_230254_b_(player, hand);
+            return super.getEntityInteractionResult(player, hand);
         } else {
             if(!this.isChild()) {
                 if(player.isCrouching()) {
@@ -110,7 +110,7 @@ public class EntityReindeer extends AnimalEntity implements IJumpingMount, IVari
                 }
 
                 if(this.isBeingRidden()) {
-                    return super.func_230254_b_(player, hand);
+                    return super.getEntityInteractionResult(player, hand);
                 }
             }
 
@@ -130,7 +130,7 @@ public class EntityReindeer extends AnimalEntity implements IJumpingMount, IVari
             }
 
             if(this.isChild()) {
-                return super.func_230254_b_(player, hand);
+                return super.getEntityInteractionResult(player, hand);
             } else {
                 this.mountTo(player);
                 return ActionResultType.SUCCESS;
@@ -153,7 +153,7 @@ public class EntityReindeer extends AnimalEntity implements IJumpingMount, IVari
     }
 
     @Override
-    public AgeableEntity func_241840_a(ServerWorld world, AgeableEntity ageable) {
+    public AgeableEntity createChild(ServerWorld world, AgeableEntity ageable) {
         EntityReindeer reindeer = new EntityReindeer(this.world);
         this.setOffspringAttributes(ageable, reindeer);
         if(ageable instanceof EntityReindeer) {
@@ -515,7 +515,7 @@ public class EntityReindeer extends AnimalEntity implements IJumpingMount, IVari
         if(this.isBreeding() && this.isChild() && !this.isEatingHaystack()) {
             LivingEntity livingentity = this.world.getClosestEntityWithinAABB(AbstractHorseEntity.class, PARENT_TARGETING, this, this.getPosX(), this.getPosY(), this.getPosZ(), this.getBoundingBox().grow(16.0D));
             if(livingentity != null && this.getDistanceSq(livingentity) > 4.0D) {
-                this.navigator.getPathToEntity(livingentity, 0);
+                this.navigator.pathfind(livingentity, 0);
             }
         }
     }

@@ -72,7 +72,7 @@ public abstract class EntityWaterMobBucketable extends WaterMobEntity implements
     }
 
     @Override
-    protected ActionResultType func_230254_b_(PlayerEntity player, Hand hand) {
+    protected ActionResultType getEntityInteractionResult(PlayerEntity player, Hand hand) {
         ItemStack itemstack = player.getHeldItem(hand);
         if(itemstack.getItem() == Items.WATER_BUCKET && this.isAlive()) {
             this.playSound(SoundEvents.ITEM_BUCKET_FILL_FISH, 1.0F, 1.0F);
@@ -90,7 +90,7 @@ public abstract class EntityWaterMobBucketable extends WaterMobEntity implements
             this.remove();
             return ActionResultType.SUCCESS;
         } else {
-            return super.func_230254_b_(player, hand);
+            return super.getEntityInteractionResult(player, hand);
         }
     }
 

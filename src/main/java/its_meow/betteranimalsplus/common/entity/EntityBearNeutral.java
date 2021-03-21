@@ -118,7 +118,7 @@ public class EntityBearNeutral extends EntityBear implements IVariantTypes<Entit
     }
 
     @Override
-    public AgeableEntity func_241840_a(ServerWorld world, AgeableEntity ageable) {
+    public AgeableEntity createChild(ServerWorld world, AgeableEntity ageable) {
         EntityBearNeutral child = new EntityBearNeutral(this.world);
         if(ageable instanceof EntityBearNeutral) {
             if("kermode".equals(((EntityBearNeutral) ageable).getVariantNameOrEmpty()) && "kermode".equals(this.getVariantNameOrEmpty())) {

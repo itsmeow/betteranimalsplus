@@ -54,7 +54,7 @@ public class EntityWalrus extends AnimalEntity implements IContainerEntity<Entit
     }
 
     @Override
-    public ActionResultType func_230254_b_(PlayerEntity player, Hand hand) {
+    public ActionResultType getEntityInteractionResult(PlayerEntity player, Hand hand) {
         ItemStack stack = player.getHeldItem(hand);
         if(!hasGivenDisc && stack.getItem() == ModItems.FRIED_EGG.get()) {
             this.consumeItemFromStack(player, stack);
@@ -63,7 +63,7 @@ public class EntityWalrus extends AnimalEntity implements IContainerEntity<Entit
             this.entityDropItem(new ItemStack(ModItems.RECORD_WALRUS.get()));
             return ActionResultType.SUCCESS;
         }
-        return super.func_230254_b_(player, hand);
+        return super.getEntityInteractionResult(player, hand);
     }
 
     @Override
@@ -503,7 +503,7 @@ public class EntityWalrus extends AnimalEntity implements IContainerEntity<Entit
     }
 
     @Override
-    public AgeableEntity func_241840_a(ServerWorld world, AgeableEntity ageable) {
+    public AgeableEntity createChild(ServerWorld world, AgeableEntity ageable) {
         return null;
     }
 

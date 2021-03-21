@@ -39,7 +39,7 @@ public class EntityTarantulaHair extends ThrowableEntity {
         if(result instanceof EntityRayTraceResult) {
             EntityRayTraceResult rayR = (EntityRayTraceResult) result;
             int i = 8;
-            rayR.getEntity().attackEntityFrom(DamageSource.causeThrownDamage(this, this.func_234616_v_()), i);
+            rayR.getEntity().attackEntityFrom(DamageSource.causeThrownDamage(this, this.getShooter()), i);
             if(!this.world.isRemote) {
                 if(rayR.getEntity() instanceof PlayerEntity) {
                     PlayerEntity player = (PlayerEntity) rayR.getEntity();

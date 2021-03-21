@@ -94,7 +94,7 @@ public class EntityBear extends AnimalEntity implements IDropHead<EntityBear>, I
                 double d1 = Math.abs(this.entity.getPosY() - (double)vector3i.getY());
                 double d2 = Math.abs(this.entity.getPosZ() - ((double)vector3i.getZ() + (this.entity.getWidth() + 1) / 2D)); //Forge: Fix MC-94054
                 boolean flag = d0 <= (double)this.maxDistanceToWaypoint && d2 <= (double)this.maxDistanceToWaypoint && d1 < 1.0D;
-                if (flag || this.entity.func_233660_b_(this.currentPath.func_237225_h_().nodeType) && this.func_234112_b_(vector3d)) {
+                if (flag || this.entity.func_233660_b_(this.currentPath.getCurrentPoint().nodeType) && this.func_234112_b_(vector3d)) {
                     this.currentPath.incrementPathIndex();
                 }
 
@@ -151,7 +151,7 @@ public class EntityBear extends AnimalEntity implements IDropHead<EntityBear>, I
     }
 
     @Override
-    public double func_233579_cu_() {
+    public double getFluidJumpHeight() {
         // max submerged
         return 0.6D;
     }
@@ -319,22 +319,22 @@ public class EntityBear extends AnimalEntity implements IDropHead<EntityBear>, I
         @Override
         protected void checkAndPerformAttack(LivingEntity enemy, double distToEnemySqr) {
             double d0 = this.getAttackReachSqr(enemy);
-            if (distToEnemySqr <= d0 && this.func_234040_h_()) {
-                this.func_234039_g_();
+            if (distToEnemySqr <= d0 && this.isSwingOnCooldown()) {
+                this.resetSwingCooldown();
                 this.attacker.attackEntityAsMob(enemy);
                 EntityBear.this.setStanding(false);
             } else if (distToEnemySqr <= d0 * 2.0D) {
-                if (this.func_234040_h_()) {
+                if (this.isSwingOnCooldown()) {
                     EntityBear.this.setStanding(false);
-                    this.func_234039_g_();
+                    this.resetSwingCooldown();
                 }
 
-                if (this.func_234041_j_() <= 10) {
+                if (this.getSwingCooldown() <= 10) {
                     EntityBear.this.setStanding(true);
                     EntityBear.this.playWarningSound();
                 }
             } else {
-                this.func_234039_g_();
+                this.resetSwingCooldown();
                 EntityBear.this.setStanding(false);
             }
 
@@ -390,7 +390,7 @@ public class EntityBear extends AnimalEntity implements IDropHead<EntityBear>, I
     }
 
     @Override
-    public AgeableEntity func_241840_a(ServerWorld world, AgeableEntity ageable) {
+    public AgeableEntity createChild(ServerWorld world, AgeableEntity ageable) {
         return new EntityBear(this.world);
     }
 

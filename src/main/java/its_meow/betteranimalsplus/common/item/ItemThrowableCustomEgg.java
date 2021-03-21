@@ -46,7 +46,7 @@ public class ItemThrowableCustomEgg extends Item {
         if(!worldIn.isRemote) {
             ProjectileItemEntity ent = eggSupplier2.apply(playerIn.world, playerIn);
             ent.setItem(itemstack);
-            ent.func_234612_a_(playerIn, playerIn.rotationPitch, playerIn.rotationYaw, 0.0F, 1.5F, 1.0F);
+            ent.setDirectionAndMovement(playerIn, playerIn.rotationPitch, playerIn.rotationYaw, 0.0F, 1.5F, 1.0F);
             worldIn.addEntity(ent);
         }
 

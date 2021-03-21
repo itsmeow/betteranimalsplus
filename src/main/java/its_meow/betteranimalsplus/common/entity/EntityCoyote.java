@@ -108,7 +108,7 @@ public class EntityCoyote extends EntityFeralWolf {
     }
 
     @Override
-    public ActionResultType func_230254_b_(PlayerEntity player, Hand hand) {
+    public ActionResultType getEntityInteractionResult(PlayerEntity player, Hand hand) {
         ItemStack itemstack = player.getHeldItem(hand);
 
         if(this.isTamed()) {
@@ -130,7 +130,7 @@ public class EntityCoyote extends EntityFeralWolf {
 
             if (this.isOwner(player) && !this.world.isRemote && !this.isBreedingItem(itemstack)
                     && (!(itemstack.getItem().isFood()) || !itemstack.getItem().getFood().isMeat())) {
-                this.func_233687_w_(!this.isEntitySleeping());
+                this.setSitting(!this.isEntitySleeping());
                 this.isJumping = false;
                 this.navigator.clearPath();
                 this.setAttackTarget(null);
@@ -150,7 +150,7 @@ public class EntityCoyote extends EntityFeralWolf {
                         this.setTamedBy(player);
                         this.navigator.clearPath();
                         this.setAttackTarget(null);
-                        this.func_233687_w_(true);
+                        this.setSitting(true);
                         this.setHealth((float) TAMED_HEALTH);
                         this.world.setEntityState(this, (byte) 7);
                     } else {
@@ -182,7 +182,7 @@ public class EntityCoyote extends EntityFeralWolf {
         Item item = itemstack.getItem();
         if(item instanceof SpawnEggItem && ((SpawnEggItem) item).hasType(itemstack.getTag(), this.getType())) {
             if(!this.world.isRemote && world instanceof ServerWorld) {
-                AgeableEntity ageableentity = this.func_241840_a((ServerWorld) this.world, this);
+                AgeableEntity ageableentity = this.createChild((ServerWorld) this.world, this);
                 if(ageableentity != null) {
                     ageableentity.setGrowingAge(-24000);
                     ageableentity.setLocationAndAngles(this.getPosX(), this.getPosY(), this.getPosZ(), 0.0F, 0.0F);
@@ -236,7 +236,7 @@ public class EntityCoyote extends EntityFeralWolf {
     }
 
     @Override
-    public AgeableEntity func_241840_a(ServerWorld world, AgeableEntity ageable) {
+    public AgeableEntity createChild(ServerWorld world, AgeableEntity ageable) {
         EntityCoyote coyote = this.getBaseChild();
         if(this.isTamed()) {
             coyote.setTamed(true);

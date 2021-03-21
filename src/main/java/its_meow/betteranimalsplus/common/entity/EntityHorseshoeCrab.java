@@ -36,7 +36,7 @@ public class EntityHorseshoeCrab extends EntityCrabLikeBase {
     }
 
     @Override
-    public ActionResultType func_230254_b_(PlayerEntity player, Hand hand) {
+    public ActionResultType getEntityInteractionResult(PlayerEntity player, Hand hand) {
         if(player.getHeldItem(hand).getItem() == Items.GLASS_BOTTLE & bloodLeft > 0) {
             this.attackEntityFrom(DamageSource.causePlayerDamage(player), 1.3F);
             this.bloodLeft--;
@@ -47,7 +47,7 @@ public class EntityHorseshoeCrab extends EntityCrabLikeBase {
             player.addItemStackToInventory(new ItemStack(ModItems.HORSESHOE_CRAB_BLOOD.get()));
             return ActionResultType.SUCCESS;
         }
-        return super.func_230254_b_(player, hand);
+        return super.getEntityInteractionResult(player, hand);
     }
 
     @Override

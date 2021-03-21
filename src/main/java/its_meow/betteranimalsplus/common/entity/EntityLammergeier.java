@@ -105,13 +105,13 @@ public class EntityLammergeier extends EntityTameableFlyingWithTypes implements 
         this.targetSelector.addGoal(1, new OwnerHurtByTargetGoal(this) {
             @Override
             public boolean shouldExecute() {
-                return !EntityLammergeier.this.isEntitySleeping() && !EntityLammergeier.this.isSitting() && super.shouldExecute();
+                return !EntityLammergeier.this.isEntitySleeping() && !EntityLammergeier.this.isQueuedToSit() && super.shouldExecute();
             }
         });
         this.targetSelector.addGoal(2, new OwnerHurtTargetGoal(this) {
             @Override
             public boolean shouldExecute() {
-                return !EntityLammergeier.this.isEntitySleeping() && !EntityLammergeier.this.isSitting() && super.shouldExecute();
+                return !EntityLammergeier.this.isEntitySleeping() && !EntityLammergeier.this.isQueuedToSit() && super.shouldExecute();
             }
         });
         this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<SkeletonEntity>(this, SkeletonEntity.class, false) {
@@ -124,7 +124,7 @@ public class EntityLammergeier extends EntityTameableFlyingWithTypes implements 
 
     @Override
     public void setAttackTarget(LivingEntity entitylivingbaseIn) {
-        if(!this.isEntitySleeping() && !this.isSitting()) {
+        if(!this.isEntitySleeping() && !this.isQueuedToSit()) {
             super.setAttackTarget(entitylivingbaseIn);
         }
     }
@@ -153,8 +153,8 @@ public class EntityLammergeier extends EntityTameableFlyingWithTypes implements 
     @Override
     public boolean attackEntityFrom(DamageSource source, float amount) {
         if(this.isTamed() && !this.isInvulnerableTo(source)) {
-            this.setSleeping(false);
-            this.func_233687_w_(false);
+            this.setQueuedToSit(false);
+            this.setSitting(false);
         }
         if(this.getAttackTarget() != null && this.getAttackTarget() == source.getTrueSource() && this.isPassenger(this.getAttackTarget())) {
             return super.attackEntityFrom(source, amount / 2F);
@@ -163,7 +163,7 @@ public class EntityLammergeier extends EntityTameableFlyingWithTypes implements 
     }
 
     @Override
-    public ActionResultType func_230254_b_(PlayerEntity player, Hand hand) {
+    public ActionResultType getEntityInteractionResult(PlayerEntity player, Hand hand) {
         ItemStack itemstack = player.getHeldItem(hand);
 
         if(this.isTamed()) {
@@ -184,14 +184,14 @@ public class EntityLammergeier extends EntityTameableFlyingWithTypes implements 
                 }
             }
             if(this.isOwner(player) && !this.isBeingRidden() && !this.world.isRemote && this.ticksExisted - this.lastTick > 13 && !itemstack.isFood()) {
-                if(!this.isEntitySleeping() && !this.isSitting()) {
+                if(!this.isEntitySleeping() && !this.isQueuedToSit()) {
                     this.setAttackTarget(null);
                     this.navigator.clearPath();
                     this.readyToSit = true;
                 } else {
                     this.readyToSit = false;
-                    this.setSleeping(false);
-                    this.func_233687_w_(false);
+                    this.setQueuedToSit(false);
+                    this.setSitting(false);
                     this.navigator.clearPath();
                 }
                 this.lastTick = this.ticksExisted;
@@ -208,8 +208,8 @@ public class EntityLammergeier extends EntityTameableFlyingWithTypes implements 
                     this.navigator.clearPath();
                     // ((LammerMoveHelper) this.getMoveHelper()).action = Action.WAIT;
                     this.setAttackTarget(null);
-                    this.setSleeping(true);
-                    this.func_233687_w_(true);
+                    this.setQueuedToSit(true);
+                    this.setSitting(true);
                     this.setHealth(20.0F);
                     this.world.setEntityState(this, (byte) 7);
                 } else {
@@ -220,7 +220,7 @@ public class EntityLammergeier extends EntityTameableFlyingWithTypes implements 
             return ActionResultType.SUCCESS;
         }
 
-        return super.func_230254_b_(player, hand);
+        return super.getEntityInteractionResult(player, hand);
     }
 
     @Override
@@ -558,8 +558,8 @@ public class EntityLammergeier extends EntityTameableFlyingWithTypes implements 
                 this.target = rPos;
                 this.parentEntity.navigator.tryMoveToXYZ(rPos.getX(), rPos.getY(), rPos.getZ(), 1.1D);
             } else if(parentEntity.readyToSit) {
-                parentEntity.setSleeping(true);
-                parentEntity.func_233687_w_(true);
+                parentEntity.setQueuedToSit(true);
+                parentEntity.setSitting(true);
                 parentEntity.readyToSit = false;
             }
             this.timeSinceLastMove = 0;
@@ -576,8 +576,8 @@ public class EntityLammergeier extends EntityTameableFlyingWithTypes implements 
                     parentEntity.setFlying(false);
                     this.target = null;
                     if(parentEntity.readyToSit) {
-                        parentEntity.setSleeping(true);
-                        parentEntity.func_233687_w_(true);
+                        parentEntity.setQueuedToSit(true);
+                        parentEntity.setSitting(true);
                         parentEntity.readyToSit = false;
                         parentEntity.getNavigator().clearPath();
                         parentEntity.setMotion(0, 0, 0);

@@ -18,8 +18,8 @@ public abstract class EntityTameableBetterAnimalsPlus extends TameableEntity imp
     @Override
     public void tick() {
         super.tick();
-        if(!world.isRemote && this.isEntitySleeping() != this.isSitting()) {
-            this.setSleeping(this.isSitting());
+        if(!world.isRemote && this.isEntitySleeping() != this.isQueuedToSit()) {
+            this.setQueuedToSit(this.isQueuedToSit());
         }
     }
 

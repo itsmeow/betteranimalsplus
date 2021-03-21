@@ -122,7 +122,7 @@ public class EntitySquirrel extends EntityAnimalWithSelectiveTypes {
     }
 
     @Override
-    public AgeableEntity func_241840_a(ServerWorld world, AgeableEntity ageable) {
+    public AgeableEntity createChild(ServerWorld world, AgeableEntity ageable) {
         EntitySquirrel squirrel = new EntitySquirrel(this.world);
         if (ageable instanceof EntitySquirrel) {
             EntitySquirrel other = (EntitySquirrel) ageable;

@@ -116,7 +116,7 @@ public class EntityOctopus extends EntityBAPCephalopod implements IVariantTypes<
     }
 
     @Override
-    public ActionResultType func_230254_b_(PlayerEntity player, Hand hand) {
+    public ActionResultType getEntityInteractionResult(PlayerEntity player, Hand hand) {
         if(!"blue_ringed".equals(this.getVariantNameOrEmpty()) && ItemTags.FISHES.contains(player.getHeldItem(hand).getItem()) && !this.isChild()) {
             this.friend = player.getGameProfile().getId();
             if(!player.isCreative()) {
@@ -127,7 +127,7 @@ public class EntityOctopus extends EntityBAPCephalopod implements IVariantTypes<
                 s.spawnParticle(ParticleTypes.HEART, this.getPositionVec().getX(), this.getPositionVec().getY(), this.getPositionVec().getZ(), 20, 0.5, 0.5, 0.5, 0.3D);
             }
         }
-        return super.func_230254_b_(player, hand);
+        return super.getEntityInteractionResult(player, hand);
     }
 
     public boolean isAboveBlock() {
