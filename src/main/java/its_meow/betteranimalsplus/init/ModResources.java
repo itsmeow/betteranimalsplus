@@ -23,8 +23,6 @@ public class ModResources {
 
     public static final class Tags {
         public static final class Blocks {
-            public static final IOptionalNamedTag<Block> FLOWERS = tag("flowers");
-            public static final IOptionalNamedTag<Block> TALL_FLOWERS = tag("tall_flowers");
             public static final IOptionalNamedTag<Block> BUTTERFLY_GROWABLES = tag("butterfly_growables");
 
             private static IOptionalNamedTag<Block> tag(String name) {
