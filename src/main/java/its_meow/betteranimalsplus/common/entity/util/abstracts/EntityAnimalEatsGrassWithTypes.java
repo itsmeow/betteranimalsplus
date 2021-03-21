@@ -61,7 +61,7 @@ public abstract class EntityAnimalEatsGrassWithTypes extends EntityAnimalWithTyp
 	}
 	
 	protected EntityAIEatGrassCustom provideEatTask() {
-	    return new EntityAIEatGrassCustom(this, 50, 500);
+	    return new EntityAIEatGrassCustom(this, 200, 1000);
 	}
 
 }

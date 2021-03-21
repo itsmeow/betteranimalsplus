@@ -108,7 +108,7 @@ public class EntityMoose extends EntityAnimalEatsGrassWithTypes implements IDrop
 
     @Override
     protected EntityAIEatGrassCustom provideEatTask() {
-        return new EntityAIEatGrassCustom(this, 50, 500, eater -> {
+        return new EntityAIEatGrassCustom(this, 200, 1000, eater -> {
             Direction facing = eater.getHorizontalFacing();
             return eater.getPosition().offset(facing).offset(facing);
         });

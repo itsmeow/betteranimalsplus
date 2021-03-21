@@ -1,9 +1,5 @@
 package its_meow.betteranimalsplus.common.entity.ai;
 
-import java.util.EnumSet;
-import java.util.function.Function;
-import java.util.function.Predicate;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -12,6 +8,10 @@ import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+
+import java.util.EnumSet;
+import java.util.function.Function;
+import java.util.function.Predicate;
 
 public class EntityAIEatGrassCustom extends Goal {
 
