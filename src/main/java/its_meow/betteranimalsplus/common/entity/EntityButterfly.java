@@ -357,9 +357,9 @@ public class EntityButterfly extends EntityAnimalWithTypesAndSizeContainable {
 
     private boolean isFlowers(BlockPos pos) {
         BlockState state = this.world.getBlockState(pos);
-        boolean isFlower = this.world.isBlockPresent(pos) && state.getBlock().isIn(ModResources.Tags.Blocks.FLOWERS);
+        boolean isFlower = this.world.isBlockPresent(pos) && state.getBlock().isIn(BlockTags.FLOWERS);
         if(isFlower) {
-            if(state.isIn(ModResources.Tags.Blocks.TALL_FLOWERS)) {
+            if(state.isIn(BlockTags.TALL_FLOWERS)) {
                 if(state.getBlock() == Blocks.SUNFLOWER) {
                     return state.get(DoublePlantBlock.HALF) == DoubleBlockHalf.UPPER;
                 } else {

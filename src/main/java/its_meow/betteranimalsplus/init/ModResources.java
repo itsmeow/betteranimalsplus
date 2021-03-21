@@ -20,8 +20,6 @@ public class ModResources {
 
     public static final class Tags {
         public static final class Blocks {
-            public static final BlockTags.Wrapper FLOWERS = new BlockTags.Wrapper(new ResourceLocation(Ref.MOD_ID, "flowers"));
-            public static final BlockTags.Wrapper TALL_FLOWERS = new BlockTags.Wrapper(new ResourceLocation(Ref.MOD_ID, "tall_flowers"));
             public static final BlockTags.Wrapper BUTTERFLY_GROWABLES = new BlockTags.Wrapper(new ResourceLocation(Ref.MOD_ID, "butterfly_growables"));
         }
         public static final class Items {
