@@ -360,7 +360,7 @@ public class ModEntities {
     .extra(Type.SWAMP)
     .extra(Biomes.GIANT_SPRUCE_TAIGA, Biomes.GIANT_SPRUCE_TAIGA_HILLS, Biomes.GIANT_TREE_TAIGA, Biomes.GIANT_TREE_TAIGA_HILLS))
     .variants(4)
-    .head().mapToNames().offset(-1.35F).setModel(() -> ModelMooseHead::new).done());
+    .head().itemGroup(G).mapToNames().offset(-1.35F).setModel(() -> ModelMooseHead::new).done());
 
     public static final EntityTypeContainer<EntityTurkey> TURKEY = setup(create(EntityTurkey.class, EntityTurkey::new, "turkey", () -> MobEntity.func_233666_p_()
     .createMutableAttribute(Attributes.MAX_HEALTH, 6.5D)
