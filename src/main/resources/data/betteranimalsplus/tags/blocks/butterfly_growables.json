@@ -1,7 +1,7 @@
 {
   "replace": false,
   "values": [
-    "#betteranimalsplus:crops",
+    "#minecraft:crops",
     "minecraft:sweet_berry_bush"
   ]
 }

@@ -25,6 +25,10 @@ public class ModResources {
         public static final class Blocks {
             public static final IOptionalNamedTag<Block> BUTTERFLY_GROWABLES = tag("butterfly_growables");
 
+            public static void loadTags() {
+                // This is a classloading dummy.
+            }
+
             private static IOptionalNamedTag<Block> tag(String name) {
                 return BlockTags.createOptional(new ResourceLocation(Ref.MOD_ID, name));
             }
@@ -32,6 +36,10 @@ public class ModResources {
         public static final class Items {
             public static final IOptionalNamedTag<Item> PELTS = tag("pelts");
             public static final IOptionalNamedTag<Item> FERAL_WOLF_TAME_ARMOR = tag("feral_wolf_tame_armor");
+
+            public static void loadTags() {
+                // This is a classloading dummy.
+            }
 
             private static IOptionalNamedTag<Item> tag(String name) {
                 return ItemTags.createOptional(new ResourceLocation(Ref.MOD_ID, name));

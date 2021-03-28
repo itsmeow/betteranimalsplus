@@ -63,6 +63,8 @@ public class BetterAnimalsPlusMod {
         modBus.addListener(this::loadComplete);
         modBus.addListener(this::dataSetup);
         modBus.<FMLClientSetupEvent>addListener(e -> new ClientLifecycleHandler().clientSetup(e));
+        ModResources.Tags.Blocks.loadTags();
+        ModResources.Tags.Items.loadTags();
         ModBlocks.subscribe(modBus);
         ModItems.subscribe(modBus);
         ModSoundEvents.subscribe(modBus);
