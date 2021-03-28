@@ -21,10 +21,18 @@ public class ModResources {
     public static final class Tags {
         public static final class Blocks {
             public static final BlockTags.Wrapper BUTTERFLY_GROWABLES = new BlockTags.Wrapper(new ResourceLocation(Ref.MOD_ID, "butterfly_growables"));
+
+            public static void loadTags() {
+                // This is a classloading dummy.
+            }
         }
         public static final class Items {
             public static final ItemTags.Wrapper PELTS = new ItemTags.Wrapper(new ResourceLocation(Ref.MOD_ID, "pelts"));
             public static final ItemTags.Wrapper FERAL_WOLF_TAME_ARMOR = new ItemTags.Wrapper(new ResourceLocation(Ref.MOD_ID, "feral_wolf_tame_armor"));
+
+            public static void loadTags() {
+                // This is a classloading dummy.
+            }
         }
     }
 
