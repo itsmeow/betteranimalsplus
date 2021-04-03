@@ -34,7 +34,7 @@ public class CurioCape implements ICurio {
     @Override
     public boolean canEquip(String identifier, LivingEntity livingEntity) {
         ItemStack chest = livingEntity.getItemStackFromSlot(EquipmentSlotType.CHEST);
-        return chest.isEmpty() && !(chest.getItem() instanceof ItemCape) && !CuriosApi.getCuriosHelper().findEquippedCurio(stack -> stack.getItem() instanceof ItemCape, livingEntity).isPresent();
+        return chest.isEmpty() || (!(chest.getItem() instanceof ItemCape) && !CuriosApi.getCuriosHelper().findEquippedCurio(stack -> stack.getItem() instanceof ItemCape, livingEntity).isPresent());
     }
 
     @Override
