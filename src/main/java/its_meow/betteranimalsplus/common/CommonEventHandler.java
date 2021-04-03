@@ -14,6 +14,9 @@ import its_meow.betteranimalsplus.init.ModTriggers;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.ai.goal.GoalSelector;
+import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal;
+import net.minecraft.entity.passive.IronGolemEntity;
 import net.minecraft.entity.passive.PolarBearEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
@@ -30,6 +33,7 @@ import net.minecraft.world.storage.loot.LootPool;
 import net.minecraft.world.storage.loot.TableLootEntry;
 import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.event.LootTableLoadEvent;
+import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.event.entity.player.AttackEntityEvent;
@@ -197,6 +201,14 @@ public class CommonEventHandler {
     public static void onLivingDrop(LivingDropsEvent event) {
         if(event.getSource().getTrueSource() != null && !(event.getEntity() instanceof PlayerEntity) && NO_ATTACKED_DROPS.stream().anyMatch(predicate -> predicate.test(event.getSource().getTrueSource())) && (!(event.getSource().getTrueSource() instanceof IBucketable) || !((IBucketable) event.getSource().getTrueSource()).isFromContainer())) {
             event.getDrops().clear();
+        }
+    }
+
+    @SubscribeEvent
+    public static void onEntitySpawn(EntityJoinWorldEvent event) {
+        if(event.getEntity() instanceof IronGolemEntity) {
+            GoalSelector targetSelector = ((IronGolemEntity) event.getEntity()).targetSelector;
+            targetSelector.addGoal(3, new NearestAttackableTargetGoal<>((IronGolemEntity) event.getEntity(), EntityFeralWolf.class, 5, false, false, e -> !((EntityFeralWolf) e).isTamed() && (e instanceof EntityCoyote ? !((EntityCoyote) e).isDaytime() : true)));
         }
     }
 

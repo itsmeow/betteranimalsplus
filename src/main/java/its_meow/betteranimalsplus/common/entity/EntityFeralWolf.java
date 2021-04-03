@@ -50,7 +50,7 @@ import net.minecraftforge.event.ForgeEventFactory;
 import java.util.Set;
 
 
-public class EntityFeralWolf extends EntityTameableWithSelectiveTypes implements IMob, IDropHead<EntityTameableBetterAnimalsPlus>, IHaveHunger<EntityTameableBetterAnimalsPlus> {
+public class EntityFeralWolf extends EntityTameableWithSelectiveTypes implements IDropHead<EntityTameableBetterAnimalsPlus>, IHaveHunger<EntityTameableBetterAnimalsPlus> {
 
     public static final double TAMED_HEALTH = 30D;
     public static final double UNTAMED_HEALTH = 10D;
