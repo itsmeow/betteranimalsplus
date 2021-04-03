@@ -36,6 +36,7 @@ import net.minecraft.world.biome.Biomes;
 import net.minecraft.world.gen.Heightmap;
 import net.minecraftforge.common.BiomeDictionary.Type;
 import net.minecraftforge.common.ForgeConfigSpec;
+import net.minecraftforge.eventbus.api.IEventBus;
 
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -611,4 +612,7 @@ public class ModEntities {
         return EntityTypeContainerContainable.Builder.create(EntityClass, func, entityNameIn, attributeMap, MODID);
     }
 
+    public static void subscribe(IEventBus modBus) {
+        H.subscribe(modBus);
+    }
 }
