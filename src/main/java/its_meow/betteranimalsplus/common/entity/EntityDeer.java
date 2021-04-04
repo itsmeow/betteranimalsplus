@@ -17,11 +17,15 @@ import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.*;
+import net.minecraft.util.DamageSource;
+import net.minecraft.util.IItemProvider;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.IWorld;
@@ -61,16 +65,9 @@ public class EntityDeer extends EntityAnimalEatsGrassWithTypes implements IDropH
     }
 
     @Override
-    public boolean processInteract(PlayerEntity player, Hand hand) {
-        ItemStack stack = player.getHeldItem(hand);
-        boolean isEmpty = stack.isEmpty();
-        if(!isEmpty) {
-            if(stack.getItem() == Items.WHEAT || stack.getItem() == Items.CARROT) {
-                this.setInLove(player);
-            }
-        }
-
-        return super.processInteract(player, hand);
+    public boolean isBreedingItem(ItemStack stack) {
+        Item i = stack.getItem();
+        return i == Items.WHEAT || i == Items.CARROT || i == Items.GOLDEN_CARROT ||  i == Items.APPLE || i == Items.GOLDEN_APPLE;
     }
 
     @Override
@@ -89,12 +86,7 @@ public class EntityDeer extends EntityAnimalEatsGrassWithTypes implements IDropH
         this.goalSelector.addGoal(0, new SwimGoal(this));
         this.goalSelector.addGoal(1, new BreedGoal(this, 0.45D));
         this.goalSelector.addGoal(2, new PanicGoal(this, 0.65D));
-        IItemProvider[] temptItems = new IItemProvider[5];
-        temptItems[0] = Items.APPLE;
-        temptItems[1] = Items.GOLDEN_APPLE;
-        temptItems[2] = Items.CARROT;
-        temptItems[3] = Items.CARROT_ON_A_STICK;
-        temptItems[4] = Items.GOLDEN_CARROT;
+        IItemProvider[] temptItems = new IItemProvider[] {Items.APPLE, Items.GOLDEN_APPLE, Items.CARROT, Items.CARROT_ON_A_STICK, Items.GOLDEN_CARROT, Items.WHEAT};
         this.goalSelector.addGoal(3, new TemptGoal(this, 0.45D, false, Ingredient.fromItems(temptItems)));
         this.goalSelector.addGoal(4, new AvoidEntityGoal<>(this, PlayerEntity.class, 20, 0.55D, 0.7D));
         this.goalSelector.addGoal(5, new FollowParentGoal(this, 1D));
