@@ -72,8 +72,8 @@ public class BetterAnimalsPlusMod {
         IEventBus modBus = FMLJavaModLoadingContext.get().getModEventBus();
         modBus.addListener(this::setup);
         modBus.addListener(this::loadComplete);
-        modBus.addListener(this::dataSetup);
         modBus.<FMLClientSetupEvent>addListener(e -> new ClientLifecycleHandler().clientSetup(e));
+        ModEntities.subscribe(modBus);
         ModBlocks.subscribe(modBus);
         ModItems.subscribe(modBus);
         ModSoundEvents.subscribe(modBus);
@@ -136,10 +136,6 @@ public class BetterAnimalsPlusMod {
     private void loadComplete(final FMLLoadCompleteEvent event) {
         ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, BetterAnimalsPlusConfig.getServerSpec());
         BetterAnimalsPlusMod.logger.log(Level.INFO, "Finished crazy bird creation!");
-    }
-
-    private void dataSetup(final GatherDataEvent event) {
-        ModEntities.H.gatherData(event.getGenerator(), event.getExistingFileHelper());
     }
 
 	@SubscribeEvent
