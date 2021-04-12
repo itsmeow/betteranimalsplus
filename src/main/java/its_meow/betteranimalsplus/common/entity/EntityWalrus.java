@@ -1,7 +1,7 @@
 package its_meow.betteranimalsplus.common.entity;
 
-import dev.itsmeow.imdlib.entity.util.EntityTypeContainer;
-import dev.itsmeow.imdlib.entity.util.IContainerEntity;
+import dev.itsmeow.imdlib.entity.EntityTypeContainer;
+import dev.itsmeow.imdlib.entity.interfaces.IContainerEntity;
 import its_meow.betteranimalsplus.common.entity.ai.HybridPathNavigator;
 import its_meow.betteranimalsplus.init.ModEntities;
 import its_meow.betteranimalsplus.init.ModItems;
@@ -46,8 +46,8 @@ public class EntityWalrus extends AnimalEntity implements IContainerEntity<Entit
     private static final DataParameter<Boolean> TRAVELLING = EntityDataManager.createKey(EntityWalrus.class, DataSerializers.BOOLEAN);
     public boolean hasGivenDisc = false;
 
-    public EntityWalrus(World worldIn) {
-        super(ModEntities.WALRUS.entityType, worldIn);
+    public EntityWalrus(EntityType<? extends EntityWalrus> entityType, World worldIn) {
+        super(entityType, worldIn);
         this.setPathPriority(PathNodeType.WATER, 0.0F);
         this.moveController = new EntityWalrus.MoveHelperController(this);
         this.stepHeight = 1.0F;
@@ -518,7 +518,7 @@ public class EntityWalrus extends AnimalEntity implements IContainerEntity<Entit
     }
 
     @Override
-    public EntityTypeContainer<?> getContainer() {
+    public EntityTypeContainer<? extends EntityWalrus> getContainer() {
         return ModEntities.WALRUS;
     }
 

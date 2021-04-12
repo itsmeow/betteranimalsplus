@@ -1,12 +1,13 @@
 package its_meow.betteranimalsplus.common.entity;
 
-import dev.itsmeow.imdlib.entity.util.EntityTypeContainer;
-import dev.itsmeow.imdlib.entity.util.ISelectiveVariantTypes;
+import dev.itsmeow.imdlib.entity.EntityTypeContainer;
+import dev.itsmeow.imdlib.entity.interfaces.ISelectiveVariantTypes;
 import its_meow.betteranimalsplus.common.entity.util.abstracts.EntityWaterMobPathing;
 import its_meow.betteranimalsplus.common.entity.util.abstracts.EntityWaterMobPathingWithTypesAirBreathing;
 import its_meow.betteranimalsplus.init.ModEntities;
 import its_meow.betteranimalsplus.init.ModLootTables;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.attributes.Attributes;
@@ -29,8 +30,8 @@ public class EntityWhale extends EntityWaterMobPathingWithTypesAirBreathing impl
 
     public int attacksLeft = 0;
 
-    public EntityWhale(World world) {
-        super(ModEntities.WHALE.entityType, world);
+    public EntityWhale(EntityType<? extends EntityWhale> entityType, World worldIn) {
+        super(entityType, worldIn);
         this.lookController = new DolphinLookController(this, 10);
     }
 
@@ -113,7 +114,7 @@ public class EntityWhale extends EntityWaterMobPathingWithTypesAirBreathing impl
     }
 
     @Override
-    public EntityTypeContainer<?> getContainer() {
+    public EntityTypeContainer<? extends EntityWhale> getContainer() {
         return ModEntities.WHALE;
     }
     

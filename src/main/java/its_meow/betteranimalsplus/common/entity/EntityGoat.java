@@ -1,7 +1,7 @@
 package its_meow.betteranimalsplus.common.entity;
 
 import com.google.common.collect.Sets;
-import dev.itsmeow.imdlib.entity.util.EntityTypeContainer;
+import dev.itsmeow.imdlib.entity.EntityTypeContainer;
 import its_meow.betteranimalsplus.common.entity.util.EntityUtil;
 import its_meow.betteranimalsplus.common.entity.util.abstracts.EntityAnimalEatsGrassWithTypes;
 import its_meow.betteranimalsplus.init.ModEntities;
@@ -39,10 +39,10 @@ public class EntityGoat extends EntityAnimalEatsGrassWithTypes {
     protected static final DataParameter<Boolean> ATTACKING = EntityDataManager.createKey(EntityGoat.class, DataSerializers.BOOLEAN);
     public UUID friend = null;
     private static final Set<Item> TEMPT_ITEMS = Sets.newHashSet(Items.WHEAT, Items.POTATO, Items.CARROT, Items.BEETROOT);
-    public static boolean VANILLA_MILK = false;
+    public static final String VANILLA_MILK_KEY = "use_vanilla_milk";
 
-    public EntityGoat(World worldIn) {
-        super(ModEntities.GOAT.entityType, worldIn, 5);
+    public EntityGoat(EntityType<? extends EntityGoat> entityType, World worldIn) {
+        super(entityType, worldIn, 5);
     }
 
     @Override
@@ -145,7 +145,7 @@ public class EntityGoat extends EntityAnimalEatsGrassWithTypes {
             player.playSound(SoundEvents.ENTITY_COW_MILK, 1.0F, 1.0F);
             stack.shrink(1);
 
-            Item milk = VANILLA_MILK ? Items.MILK_BUCKET : ModItems.GOAT_MILK.get();
+            Item milk = getContainer().getCustomConfiguration().getBoolean(VANILLA_MILK_KEY) ? Items.MILK_BUCKET : ModItems.GOAT_MILK.get();
 
             if(stack.isEmpty()) {
                 player.setHeldItem(hand, new ItemStack(milk));
@@ -254,7 +254,7 @@ public class EntityGoat extends EntityAnimalEatsGrassWithTypes {
 
     @Override
     protected EntityGoat getBaseChild() {
-        return new EntityGoat(this.world);
+        return getContainer().getEntityType().create(world);
     }
 
     @Override

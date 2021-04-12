@@ -1,8 +1,8 @@
 package its_meow.betteranimalsplus.common.entity;
 
-import dev.itsmeow.imdlib.entity.util.EntityTypeContainer;
-import dev.itsmeow.imdlib.entity.util.IVariant;
-import dev.itsmeow.imdlib.entity.util.IVariantTypes;
+import dev.itsmeow.imdlib.entity.EntityTypeContainer;
+import dev.itsmeow.imdlib.entity.interfaces.IVariantTypes;
+import dev.itsmeow.imdlib.entity.util.variant.IVariant;
 import its_meow.betteranimalsplus.common.entity.util.IDropHead;
 import its_meow.betteranimalsplus.init.ModEntities;
 import its_meow.betteranimalsplus.init.ModLootTables;
@@ -44,7 +44,6 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 import javax.annotation.Nullable;
 import java.util.Calendar;
-import java.util.Optional;
 
 public class EntityReindeer extends AnimalEntity implements IJumpingMount, IVariantTypes<EntityReindeer>, IDropHead<EntityReindeer> {
 
@@ -71,10 +70,10 @@ public class EntityReindeer extends AnimalEntity implements IJumpingMount, IVari
      */
     protected int gallopTime;
     public boolean parentRudolph = false;
-    public static boolean CREATE_SNOW = true;
+    public static final String CREATE_SNOW_KEY = "create_snow";
 
-    public EntityReindeer(World worldIn) {
-        super(ModEntities.REINDEER.entityType, worldIn);
+    public EntityReindeer(EntityType<? extends EntityReindeer> entityType, World worldIn) {
+        super(entityType, worldIn);
         this.stepHeight = 1.0F;
     }
 
@@ -154,7 +153,7 @@ public class EntityReindeer extends AnimalEntity implements IJumpingMount, IVari
 
     @Override
     public AgeableEntity createChild(ServerWorld world, AgeableEntity ageable) {
-        EntityReindeer reindeer = new EntityReindeer(this.world);
+        EntityReindeer reindeer = getContainer().getEntityType().create(world);
         this.setOffspringAttributes(ageable, reindeer);
         if(ageable instanceof EntityReindeer) {
             EntityReindeer other = (EntityReindeer) ageable;
@@ -484,7 +483,7 @@ public class EntityReindeer extends AnimalEntity implements IJumpingMount, IVari
         }
 
         super.livingTick();
-        if(world.isRemote() && CREATE_SNOW  && rand.nextInt(10) == 0) {
+        if(world.isRemote() && getContainer().getCustomConfigurationClient().getBoolean(CREATE_SNOW_KEY) && rand.nextInt(10) == 0) {
             this.world.addParticle(ParticleTypes.POOF, this.getPosX() + this.rand.nextInt(4) - 2F, this.getPosY() + this.rand.nextInt(4), this.getPosZ() + this.rand.nextInt(4) - 2F, 0F, -0.2F, 0F);
         }
         if(!this.world.isRemote) {
@@ -927,10 +926,10 @@ public class EntityReindeer extends AnimalEntity implements IJumpingMount, IVari
     public EntityTypeContainer<EntityReindeer> getContainer() {
         return ModEntities.REINDEER;
     }
-    
+
     @Override
     public void doHeadDrop() {
-        this.getHeadType().drop(this, 12, Optional.of(this.getContainer().getVariantForName(this.getVariantNameOrEmpty().substring(0, 1))));
+        this.getHeadType().drop(this, 12, this.getContainer().getVariantForName(this.getVariantNameOrEmpty().substring(0, 1)));
     }
 
 }

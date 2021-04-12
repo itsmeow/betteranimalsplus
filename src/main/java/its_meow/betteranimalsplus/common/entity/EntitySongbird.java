@@ -1,7 +1,7 @@
 package its_meow.betteranimalsplus.common.entity;
 
 import com.google.common.collect.Sets;
-import dev.itsmeow.imdlib.entity.util.EntityTypeContainer;
+import dev.itsmeow.imdlib.entity.EntityTypeContainer;
 import its_meow.betteranimalsplus.common.entity.util.EntityUtil;
 import its_meow.betteranimalsplus.common.entity.util.abstracts.EntityAnimalWithSelectiveTypes;
 import its_meow.betteranimalsplus.init.ModEntities;
@@ -47,8 +47,8 @@ public class EntitySongbird extends EntityAnimalWithSelectiveTypes implements IF
     protected static final DataParameter<Boolean> LANDED = EntityDataManager.createKey(EntitySongbird.class, DataSerializers.BOOLEAN);
     protected static final Set<Item> SEEDS = Sets.newHashSet(Items.WHEAT_SEEDS, Items.MELON_SEEDS, Items.PUMPKIN_SEEDS, Items.BEETROOT_SEEDS);
 
-    public EntitySongbird(World worldIn) {
-        super(ModEntities.SONGBIRD.entityType, worldIn);
+    public EntitySongbird(EntityType<? extends EntitySongbird> entityType, World worldIn) {
+        super(entityType, worldIn);
         this.moveController = new FlyingMovementController(this, 180, true);
     }
 
@@ -170,7 +170,7 @@ public class EntitySongbird extends EntityAnimalWithSelectiveTypes implements IF
 
     @Override
     protected EntitySongbird getBaseChild() {
-        return new EntitySongbird(this.world);
+        return getContainer().getEntityType().create(world);
     }
 
     @Override

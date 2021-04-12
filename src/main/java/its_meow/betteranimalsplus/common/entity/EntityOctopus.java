@@ -1,8 +1,11 @@
 package its_meow.betteranimalsplus.common.entity;
 
-import dev.itsmeow.imdlib.entity.util.EntityTypeContainer;
-import dev.itsmeow.imdlib.entity.util.IVariantTypes;
-import its_meow.betteranimalsplus.common.entity.ai.*;
+import dev.itsmeow.imdlib.entity.EntityTypeContainer;
+import dev.itsmeow.imdlib.entity.interfaces.IVariantTypes;
+import its_meow.betteranimalsplus.common.entity.ai.HungerNearestAttackableTargetGoal;
+import its_meow.betteranimalsplus.common.entity.ai.HybridMoveController;
+import its_meow.betteranimalsplus.common.entity.ai.HybridPathNavigator;
+import its_meow.betteranimalsplus.common.entity.ai.PeacefulNearestAttackableTargetGoal;
 import its_meow.betteranimalsplus.common.entity.util.IHaveHunger;
 import its_meow.betteranimalsplus.common.entity.util.abstracts.EntityBAPCephalopod;
 import its_meow.betteranimalsplus.common.entity.util.abstracts.EntityWaterMobPathing;
@@ -22,7 +25,10 @@ import net.minecraft.pathfinding.PathNodeType;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
 import net.minecraft.tags.ItemTags;
-import net.minecraft.util.*;
+import net.minecraft.util.ActionResultType;
+import net.minecraft.util.DamageSource;
+import net.minecraft.util.Hand;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.*;
 import net.minecraft.world.server.ServerWorld;
@@ -35,8 +41,8 @@ public class EntityOctopus extends EntityBAPCephalopod implements IVariantTypes<
     public UUID friend = null;
     private int hunger = 0;
 
-    public EntityOctopus(World world) {
-        super(ModEntities.OCTOPUS.entityType, world);
+    public EntityOctopus(EntityType<? extends EntityOctopus> entityType, World world) {
+        super(entityType, world);
         this.setPathPriority(PathNodeType.WALKABLE, 1.5F);
         this.setPathPriority(PathNodeType.WATER, 1.5F);
         this.setPathPriority(PathNodeType.WATER_BORDER, 1F);
@@ -140,7 +146,7 @@ public class EntityOctopus extends EntityBAPCephalopod implements IVariantTypes<
     }
 
     @Override
-    public EntityTypeContainer<?> getContainer() {
+    public EntityTypeContainer<? extends EntityOctopus> getContainer() {
         return ModEntities.OCTOPUS;
     }
 

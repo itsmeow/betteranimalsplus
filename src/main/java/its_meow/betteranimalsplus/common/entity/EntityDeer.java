@@ -1,8 +1,8 @@
 package its_meow.betteranimalsplus.common.entity;
 
-import dev.itsmeow.imdlib.entity.util.EntityTypeContainer;
-import dev.itsmeow.imdlib.entity.util.EntityVariant;
-import dev.itsmeow.imdlib.entity.util.IVariant;
+import dev.itsmeow.imdlib.entity.EntityTypeContainer;
+import dev.itsmeow.imdlib.entity.util.variant.EntityVariant;
+import dev.itsmeow.imdlib.entity.util.variant.IVariant;
 import its_meow.betteranimalsplus.Ref;
 import its_meow.betteranimalsplus.common.entity.util.EntityUtil;
 import its_meow.betteranimalsplus.common.entity.util.IDropHead;
@@ -12,6 +12,7 @@ import its_meow.betteranimalsplus.init.ModEntities;
 import its_meow.betteranimalsplus.init.ModLootTables;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ILivingEntityData;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.goal.*;
@@ -36,8 +37,8 @@ import java.util.Calendar;
 
 public class EntityDeer extends EntityAnimalEatsGrassWithTypes implements IDropHead<EntityAnimalWithTypes> {
 
-    public EntityDeer(World worldIn) {
-        super(ModEntities.DEER.entityType, worldIn, 6);
+    public EntityDeer(EntityType<? extends EntityDeer> entityType, World worldIn) {
+        super(entityType, worldIn, 6);
     }
 
     @Override
@@ -113,7 +114,7 @@ public class EntityDeer extends EntityAnimalEatsGrassWithTypes implements IDropH
 
     @Override
     protected EntityDeer getBaseChild() {
-        return new EntityDeer(this.world);
+        return getContainer().getEntityType().create(world);
     }
 
     @Override

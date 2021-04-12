@@ -1,6 +1,6 @@
 package its_meow.betteranimalsplus.common.entity.util.abstracts;
 
-import dev.itsmeow.imdlib.entity.util.IVariant;
+import dev.itsmeow.imdlib.entity.util.variant.IVariant;
 import net.minecraft.entity.*;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.datasync.DataParameter;

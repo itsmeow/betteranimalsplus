@@ -1,6 +1,6 @@
 package its_meow.betteranimalsplus.common.entity;
 
-import dev.itsmeow.imdlib.entity.util.EntityTypeContainer;
+import dev.itsmeow.imdlib.entity.EntityTypeContainer;
 import dev.itsmeow.imdlib.entity.util.EntityTypeContainerContainable;
 import its_meow.betteranimalsplus.common.entity.ai.HungerNearestAttackableTargetGoal;
 import its_meow.betteranimalsplus.common.entity.ai.PeacefulNearestAttackableTargetGoal;
@@ -36,8 +36,8 @@ public class EntityPiranha extends EntityWaterMobPathingBucketable implements IH
     public final DamageSource PIRANHA_DAMAGE = (new EntityDamageSource("betteranimalsplus.piranha", this)).setDamageBypassesArmor();
     private int hunger;
 
-    public EntityPiranha(World world) {
-        super(ModEntities.PIRANHA.entityType, world);
+    public EntityPiranha(EntityType<? extends EntityPiranha> entityType, World worldIn) {
+        super(entityType, worldIn);
     }
 
     @Override
@@ -161,7 +161,7 @@ public class EntityPiranha extends EntityWaterMobPathingBucketable implements IH
     }
 
     @Override
-    public EntityTypeContainer<?> getContainer() {
+    public EntityTypeContainer<? extends EntityPiranha> getContainer() {
         return ModEntities.PIRANHA;
     }
 

@@ -1,6 +1,6 @@
 package its_meow.betteranimalsplus.common.entity;
 
-import dev.itsmeow.imdlib.entity.util.EntityTypeContainer;
+import dev.itsmeow.imdlib.entity.EntityTypeContainer;
 import its_meow.betteranimalsplus.common.entity.ai.EntityAIEatBerries;
 import its_meow.betteranimalsplus.common.entity.ai.FollowParentGoalButNotStupid;
 import its_meow.betteranimalsplus.common.entity.ai.HungerNearestAttackableTargetGoal;
@@ -49,14 +49,8 @@ public class EntityBear extends AnimalEntity implements IDropHead<EntityBear>, I
     private int warningSoundTicks;
     private int hunger;
 
-    public EntityBear(World worldIn) {
-        super(ModEntities.BROWN_BEAR.entityType, worldIn);
-        this.setPathPriority(PathNodeType.DANGER_OTHER, 0.0F);
-        this.setPathPriority(PathNodeType.DAMAGE_OTHER, 0.0F);
-    }
-
-    public EntityBear(EntityType<? extends EntityBear> type, World worldIn) {
-        super(type, worldIn);
+    public EntityBear(EntityType<? extends EntityBear> entityType, World worldIn) {
+        super(entityType, worldIn);
         this.setPathPriority(PathNodeType.DANGER_OTHER, 0.0F);
         this.setPathPriority(PathNodeType.DAMAGE_OTHER, 0.0F);
     }
@@ -385,13 +379,13 @@ public class EntityBear extends AnimalEntity implements IDropHead<EntityBear>, I
     }
 
     @Override
-    public EntityTypeContainer<?> getContainer() {
+    public EntityTypeContainer<? extends EntityBear> getContainer() {
         return ModEntities.BROWN_BEAR;
     }
 
     @Override
     public AgeableEntity createChild(ServerWorld world, AgeableEntity ageable) {
-        return new EntityBear(this.world);
+        return getContainer().getEntityType().create(world);
     }
 
     static class GroupData implements ILivingEntityData {

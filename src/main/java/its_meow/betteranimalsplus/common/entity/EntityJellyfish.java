@@ -1,6 +1,6 @@
 package its_meow.betteranimalsplus.common.entity;
 
-import dev.itsmeow.imdlib.entity.util.EntityTypeContainer;
+import dev.itsmeow.imdlib.entity.EntityTypeContainer;
 import dev.itsmeow.imdlib.entity.util.EntityTypeContainerContainable;
 import its_meow.betteranimalsplus.common.entity.util.abstracts.EntityWaterMobWithTypesBucketable;
 import its_meow.betteranimalsplus.init.ModEntities;
@@ -49,8 +49,8 @@ public class EntityJellyfish extends EntityWaterMobWithTypesBucketable {
     private float randomMotionVecY;
     private float randomMotionVecZ;
 
-    public EntityJellyfish(World worldIn) {
-        super(ModEntities.JELLYFISH.entityType, worldIn);
+    public EntityJellyfish(EntityType<? extends EntityJellyfish> entityType, World worldIn) {
+        super(entityType, worldIn);
         this.setSize(0.8F);
         rotationVelocity = (1.0F / (rand.nextFloat() + 1.0F) * 0.2F);
     }

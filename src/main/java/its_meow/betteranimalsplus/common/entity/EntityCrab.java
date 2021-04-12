@@ -1,13 +1,10 @@
 package its_meow.betteranimalsplus.common.entity;
 
-import dev.itsmeow.imdlib.entity.util.EntityTypeContainer;
+import dev.itsmeow.imdlib.entity.EntityTypeContainer;
 import its_meow.betteranimalsplus.common.entity.util.EntityUtil;
 import its_meow.betteranimalsplus.common.entity.util.abstracts.EntityCrabLikeBase;
 import its_meow.betteranimalsplus.init.ModEntities;
-import net.minecraft.entity.ILivingEntityData;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.MobEntity;
-import net.minecraft.entity.SpawnReason;
+import net.minecraft.entity.*;
 import net.minecraft.entity.ai.goal.AvoidEntityGoal;
 import net.minecraft.entity.ai.goal.HurtByTargetGoal;
 import net.minecraft.entity.ai.goal.MeleeAttackGoal;
@@ -28,8 +25,8 @@ public class EntityCrab extends EntityCrabLikeBase {
     protected static final DataParameter<Integer> CRAB_RAVE = EntityDataManager.createKey(EntityCrab.class, DataSerializers.VARINT);
     private int raveTicks = 0;
 
-    public EntityCrab(World world) {
-        super(ModEntities.CRAB.entityType, world);
+    public EntityCrab(EntityType<? extends EntityCrab> entityType, World worldIn) {
+        super(entityType, worldIn);
         this.setPathPriority(PathNodeType.WATER, 10F);
     }
 
@@ -102,7 +99,7 @@ public class EntityCrab extends EntityCrabLikeBase {
 
     @Override
     protected EntityCrab getBaseChild() {
-        return new EntityCrab(this.world);
+        return getContainer().getEntityType().create(world);
     }
 
     @Override

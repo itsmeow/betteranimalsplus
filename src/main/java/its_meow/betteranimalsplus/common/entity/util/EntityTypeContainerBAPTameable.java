@@ -1,11 +1,11 @@
 package its_meow.betteranimalsplus.common.entity.util;
 
-import dev.itsmeow.imdlib.entity.util.EntityTypeContainer;
-import dev.itsmeow.imdlib.entity.util.builder.AbstractEntityBuilder;
-import dev.itsmeow.imdlib.entity.util.builder.EntityTypeDefinition;
+import dev.itsmeow.imdlib.entity.AbstractEntityBuilder;
+import dev.itsmeow.imdlib.entity.EntityTypeContainer;
+import dev.itsmeow.imdlib.entity.EntityTypeDefinition;
+import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
 import net.minecraft.entity.passive.TameableEntity;
-import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.ForgeConfigSpec;
@@ -13,7 +13,6 @@ import net.minecraftforge.common.ForgeConfigSpec.ConfigValue;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.function.Function;
 import java.util.function.Supplier;
 
 public class EntityTypeContainerBAPTameable<T extends TameableEntity> extends EntityTypeContainer<T> {
@@ -44,8 +43,8 @@ public class EntityTypeContainerBAPTameable<T extends TameableEntity> extends En
     public static abstract class AbstractEntityBuilderBAPTameable<T extends TameableEntity, C extends EntityTypeContainerBAPTameable<T>, B extends AbstractEntityBuilderBAPTameable<T, C, B>> extends AbstractEntityBuilder<T, C, B> {
         protected String[] defaultTameItems;
 
-        protected AbstractEntityBuilderBAPTameable(Class<T> EntityClass, Function<World, T> func, String entityNameIn, Supplier<AttributeModifierMap.MutableAttribute> attributeMap, String modid) {
-            super(EntityClass, func, entityNameIn, attributeMap, modid);
+        protected AbstractEntityBuilderBAPTameable(Class<T> EntityClass, EntityType.IFactory<T> factory, String entityNameIn, Supplier<AttributeModifierMap.MutableAttribute> attributeMap, String modid) {
+            super(EntityClass, factory, entityNameIn, attributeMap, modid);
         }
 
         public B tameItems(String... items) {
@@ -57,8 +56,8 @@ public class EntityTypeContainerBAPTameable<T extends TameableEntity> extends En
 
     public static class Builder<T extends TameableEntity> extends AbstractEntityBuilderBAPTameable<T, EntityTypeContainerBAPTameable<T>, Builder<T>> {
 
-        protected Builder(Class<T> EntityClass, Function<World, T> func, String entityNameIn, Supplier<AttributeModifierMap.MutableAttribute> attributeMap, String modid) {
-            super(EntityClass, func, entityNameIn, attributeMap, modid);
+        protected Builder(Class<T> EntityClass, EntityType.IFactory<T> factory, String entityNameIn, Supplier<AttributeModifierMap.MutableAttribute> attributeMap, String modid) {
+            super(EntityClass, factory, entityNameIn, attributeMap, modid);
         }
 
         @Override
@@ -71,8 +70,8 @@ public class EntityTypeContainerBAPTameable<T extends TameableEntity> extends En
             return this;
         }
 
-        public static <T extends TameableEntity> Builder<T> create(Class<T> EntityClass, Function<World, T> func, String entityNameIn, Supplier<AttributeModifierMap.MutableAttribute> attributeMap, String modid) {
-            return new Builder<>(EntityClass, func, entityNameIn, attributeMap, modid);
+        public static <T extends TameableEntity> Builder<T> create(Class<T> EntityClass, EntityType.IFactory<T> factory, String entityNameIn, Supplier<AttributeModifierMap.MutableAttribute> attributeMap, String modid) {
+            return new Builder<>(EntityClass, factory, entityNameIn, attributeMap, modid);
         }
 
     }
@@ -87,15 +86,15 @@ public class EntityTypeContainerBAPTameable<T extends TameableEntity> extends En
     }
 
     @Override
-    public void configurationLoad() {
-        super.configurationLoad();
+    protected void customConfigurationLoad() {
+        super.customConfigurationLoad();
         this.tameItemsStore = tameItems.get().toArray(new String[0]);
     }
 
     @Override
-    public void customConfigurationInit(ForgeConfigSpec.Builder builder) {
+    protected void customConfigurationInit(ForgeConfigSpec.Builder builder) {
         super.customConfigurationInit(builder);
-        this.tameItems = builder.comment("List of acceptable item IDs to use for taming. Accepts tags by prefixing them with '#'.").worldRestart().defineList("tameItems", Arrays.asList(defaultTameItems), input -> input instanceof String);
+        this.tameItems = builder.comment("List of acceptable item IDs to use for taming. Accepts tags by prefixing them with '#'.").worldRestart().defineList("taming_items", Arrays.asList(defaultTameItems), input -> input instanceof String);
     }
 
 }

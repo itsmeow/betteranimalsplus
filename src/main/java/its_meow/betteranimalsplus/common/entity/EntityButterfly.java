@@ -1,16 +1,13 @@
 package its_meow.betteranimalsplus.common.entity;
 
-import dev.itsmeow.imdlib.entity.util.EntityTypeContainer;
+import dev.itsmeow.imdlib.entity.EntityTypeContainer;
 import dev.itsmeow.imdlib.entity.util.EntityTypeContainerContainable;
 import its_meow.betteranimalsplus.common.entity.util.abstracts.EntityAnimalWithTypes;
 import its_meow.betteranimalsplus.common.entity.util.abstracts.EntityAnimalWithTypesAndSizeContainable;
 import its_meow.betteranimalsplus.init.ModEntities;
 import its_meow.betteranimalsplus.init.ModResources;
 import net.minecraft.block.*;
-import net.minecraft.entity.CreatureAttribute;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityPredicate;
-import net.minecraft.entity.MobEntity;
+import net.minecraft.entity.*;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
@@ -54,8 +51,8 @@ public class EntityButterfly extends EntityAnimalWithTypesAndSizeContainable {
     private int rainTicks = 0;
     private int ticksUntilNextGrow = 0;
 
-    public EntityButterfly(World worldIn) {
-        super(ModEntities.BUTTERFLY.entityType, worldIn);
+    public EntityButterfly(EntityType<? extends EntityButterfly> entityType, World worldIn) {
+        super(entityType, worldIn);
     }
 
     @Override
@@ -428,7 +425,7 @@ public class EntityButterfly extends EntityAnimalWithTypesAndSizeContainable {
     }
 
     @Override
-    public EntityTypeContainer<?> getContainer() {
+    public EntityTypeContainer<? extends EntityButterfly> getContainer() {
         return ModEntities.BUTTERFLY;
     }
 

@@ -1,6 +1,6 @@
 package its_meow.betteranimalsplus.common.entity;
 
-import dev.itsmeow.imdlib.entity.util.EntityTypeContainer;
+import dev.itsmeow.imdlib.entity.EntityTypeContainer;
 import its_meow.betteranimalsplus.common.entity.projectile.EntityBadgerDirt;
 import its_meow.betteranimalsplus.common.entity.util.EntityUtil;
 import its_meow.betteranimalsplus.common.entity.util.abstracts.EntityAnimalWithSelectiveTypes;
@@ -9,10 +9,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.ILivingEntityData;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.SpawnReason;
+import net.minecraft.entity.*;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.monster.IMob;
@@ -40,8 +37,8 @@ import java.util.Set;
 
 public class EntityBadger extends EntityAnimalWithSelectiveTypes implements IMob {
 
-    public EntityBadger(World worldIn) {
-        super(ModEntities.BADGER.entityType, worldIn);
+    public EntityBadger(EntityType<? extends EntityBadger> entityType, World worldIn) {
+        super(entityType, worldIn);
     }
 
 	@Override
@@ -107,7 +104,7 @@ public class EntityBadger extends EntityAnimalWithSelectiveTypes implements IMob
 
 	@Override
 	protected EntityBadger getBaseChild() {
-		return new EntityBadger(this.world);
+		return getContainer().getEntityType().create(world);
 	}
 
 	public static class EntityAIBadgerDigDirtThrow extends Goal {

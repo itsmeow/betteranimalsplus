@@ -1,7 +1,7 @@
 package its_meow.betteranimalsplus.common.entity;
 
-import dev.itsmeow.imdlib.entity.util.EntityTypeContainer;
-import dev.itsmeow.imdlib.entity.util.IVariant;
+import dev.itsmeow.imdlib.entity.EntityTypeContainer;
+import dev.itsmeow.imdlib.entity.util.variant.IVariant;
 import its_meow.betteranimalsplus.common.entity.ai.WaterfowlNavigator;
 import its_meow.betteranimalsplus.common.entity.util.EntityUtil;
 import its_meow.betteranimalsplus.common.entity.util.abstracts.EntityAnimalWithTypes;
@@ -50,10 +50,10 @@ public class EntityGoose extends EntityAnimalWithTypes {
     private int eatTicks;
     private static final Predicate<ItemEntity> ITEM_SELECTOR = (item) -> !item.cannotPickup() && item.isAlive();
     public int timeUntilNextEgg;
-    public static String[] pickupBlockList;
+    public static final String PICKUP_BLOCK_LIST_KEY = "pickup_blacklist";
 
-    public EntityGoose(World world) {
-        super(ModEntities.GOOSE.entityType, world);
+    public EntityGoose(EntityType<? extends EntityGoose> entityType, World worldIn) {
+        super(entityType, worldIn);
         this.setCanPickUpLoot(true);
         this.timeUntilNextEgg = this.rand.nextInt(6000) + 6000;
         this.setPathPriority(PathNodeType.WATER, 0.0F);
@@ -243,7 +243,7 @@ public class EntityGoose extends EntityAnimalWithTypes {
     
     public boolean isPickupBlacklisted(Item item) {
         String id = item.getRegistryName().toString();
-        for(String itemsId : pickupBlockList) {
+        for(String itemsId : getContainer().getCustomConfiguration().getStringListHolder(PICKUP_BLOCK_LIST_KEY).get()) {
             if (itemsId.startsWith("#")) {
                 if (item.getTags().contains(new ResourceLocation(itemsId.substring(1)))) {
                     return true;
@@ -378,7 +378,7 @@ public class EntityGoose extends EntityAnimalWithTypes {
 
     @Override
     protected EntityGoose getBaseChild() {
-        return new EntityGoose(world);
+        return getContainer().getEntityType().create(world);
     }
 
     @Override

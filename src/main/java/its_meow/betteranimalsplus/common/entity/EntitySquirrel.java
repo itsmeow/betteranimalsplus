@@ -1,9 +1,8 @@
 package its_meow.betteranimalsplus.common.entity;
 
-import dev.itsmeow.imdlib.entity.util.EntityTypeContainer;
+import dev.itsmeow.imdlib.entity.EntityTypeContainer;
 import its_meow.betteranimalsplus.common.entity.util.EntityUtil;
 import its_meow.betteranimalsplus.common.entity.util.abstracts.EntityAnimalWithSelectiveTypes;
-import its_meow.betteranimalsplus.common.entity.util.abstracts.EntityAnimalWithTypes;
 import its_meow.betteranimalsplus.init.ModEntities;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
@@ -40,8 +39,8 @@ public class EntitySquirrel extends EntityAnimalWithSelectiveTypes {
 
     private int climbTimeWithoutLog = 0;
 
-    public EntitySquirrel(World worldIn) {
-        super(ModEntities.SQUIRREL.entityType, worldIn);
+    public EntitySquirrel(EntityType<? extends EntitySquirrel> entityType, World worldIn) {
+        super(entityType, worldIn);
     }
 
     @Override
@@ -123,7 +122,7 @@ public class EntitySquirrel extends EntityAnimalWithSelectiveTypes {
 
     @Override
     public AgeableEntity createChild(ServerWorld world, AgeableEntity ageable) {
-        EntitySquirrel squirrel = new EntitySquirrel(this.world);
+        EntitySquirrel squirrel = getContainer().getEntityType().create(world);
         if (ageable instanceof EntitySquirrel) {
             EntitySquirrel other = (EntitySquirrel) ageable;
             if ((this.isAlbino() || other.isAlbino()) && !this.getVariantNameOrEmpty().equals(other.getVariantNameOrEmpty())) {
@@ -168,10 +167,10 @@ public class EntitySquirrel extends EntityAnimalWithSelectiveTypes {
     }
 
     @Override
-    public EntityTypeContainer<? extends EntityAnimalWithTypes> getContainer() {
+    public EntityTypeContainer<EntitySquirrel> getContainer() {
         return ModEntities.SQUIRREL;
     }
-    
+
     protected boolean isAlbino() {
         return "albino".equals(this.getVariantNameOrEmpty());
     }

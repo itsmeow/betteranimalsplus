@@ -12,7 +12,7 @@ import net.minecraft.item.Item;
 import net.minecraft.world.World;
 
 public class EntityGooseEgg extends EntityModEgg {
-    public static EntityType<EntityGooseEgg> GOOSE_EGG_TYPE = ModEntities.H.createEntityType(EntityGooseEgg.class, EntityGooseEgg::new, "goose_egg", EntityClassification.MISC, 64, 1, true, 0.25F, 0.25F);
+    public static EntityType<EntityGooseEgg> GOOSE_EGG_TYPE = ModEntities.H.createEntityType(EntityGooseEgg::new, "goose_egg", EntityClassification.MISC, 64, 1, true, 0.25F, 0.25F);
 
     public EntityGooseEgg(World world) {
         super(GOOSE_EGG_TYPE, world);
@@ -41,7 +41,7 @@ public class EntityGooseEgg extends EntityModEgg {
 
     @Override
     protected Entity createEntity() {
-        EntityGoose goose = ModEntities.GOOSE.entityType.create(this.world);
+        EntityGoose goose = ModEntities.GOOSE.getEntityType().create(this.world);
         goose.setGrowingAge(-24000);
         goose.setLocationAndAngles(this.getPosX(), this.getPosY(), this.getPosZ(), this.rotationYaw, 0.0F);
         goose.setType("1");
