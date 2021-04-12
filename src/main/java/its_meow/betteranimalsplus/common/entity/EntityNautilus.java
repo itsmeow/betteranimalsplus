@@ -1,10 +1,11 @@
 package its_meow.betteranimalsplus.common.entity;
 
-import dev.itsmeow.imdlib.entity.util.EntityTypeContainer;
+import dev.itsmeow.imdlib.entity.EntityTypeContainer;
 import dev.itsmeow.imdlib.entity.util.EntityTypeContainerContainable;
 import its_meow.betteranimalsplus.common.entity.util.abstracts.EntityWaterMobBucketable;
 import its_meow.betteranimalsplus.init.ModEntities;
 import its_meow.betteranimalsplus.init.ModLootTables;
+import net.minecraft.entity.EntityType;
 import net.minecraft.entity.MoverType;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.goal.RandomWalkingGoal;
@@ -19,8 +20,8 @@ import net.minecraft.world.World;
 
 public class EntityNautilus extends EntityWaterMobBucketable {
 
-    public EntityNautilus(World world) {
-        super(ModEntities.NAUTILUS.entityType, world);
+    public EntityNautilus(EntityType<? extends EntityNautilus> entityType, World worldIn) {
+        super(entityType, worldIn);
     }
     
     @Override
@@ -93,7 +94,7 @@ public class EntityNautilus extends EntityWaterMobBucketable {
     }
 
     @Override
-    public EntityTypeContainer<?> getContainer() {
+    public EntityTypeContainer<? extends EntityNautilus> getContainer() {
         return ModEntities.NAUTILUS;
     }
 

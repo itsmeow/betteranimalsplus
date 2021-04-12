@@ -1,11 +1,12 @@
 package its_meow.betteranimalsplus.common.entity;
 
-import dev.itsmeow.imdlib.entity.util.EntityTypeContainer;
+import dev.itsmeow.imdlib.entity.EntityTypeContainer;
 import dev.itsmeow.imdlib.entity.util.EntityTypeContainerContainable;
 import its_meow.betteranimalsplus.common.entity.util.abstracts.EntityWaterMobPathingWithTypesBucketable;
 import its_meow.betteranimalsplus.init.ModEntities;
 import its_meow.betteranimalsplus.init.ModLootTables;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.goal.*;
@@ -24,8 +25,8 @@ import java.util.EnumSet;
 
 public class EntityFlyingFish extends EntityWaterMobPathingWithTypesBucketable {
 
-    public EntityFlyingFish(World world) {
-        super(ModEntities.FLYING_FISH.entityType, world);
+    public EntityFlyingFish(EntityType<? extends EntityFlyingFish> entityType, World worldIn) {
+        super(entityType, worldIn);
     }
 
     @Override
@@ -66,7 +67,7 @@ public class EntityFlyingFish extends EntityWaterMobPathingWithTypesBucketable {
     }
 
     @Override
-    public EntityTypeContainer<?> getContainer() {
+    public EntityTypeContainer<? extends EntityFlyingFish> getContainer() {
         return ModEntities.FLYING_FISH;
     }
 

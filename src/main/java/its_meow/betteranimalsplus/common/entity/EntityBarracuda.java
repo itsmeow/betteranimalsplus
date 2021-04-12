@@ -1,6 +1,6 @@
 package its_meow.betteranimalsplus.common.entity;
 
-import dev.itsmeow.imdlib.entity.util.EntityTypeContainer;
+import dev.itsmeow.imdlib.entity.EntityTypeContainer;
 import dev.itsmeow.imdlib.entity.util.EntityTypeContainerContainable;
 import its_meow.betteranimalsplus.common.entity.ai.HungerNearestAttackableTargetGoal;
 import its_meow.betteranimalsplus.common.entity.ai.PeacefulNearestAttackableTargetGoal;
@@ -9,6 +9,7 @@ import its_meow.betteranimalsplus.common.entity.util.abstracts.EntityWaterMobPat
 import its_meow.betteranimalsplus.common.entity.util.abstracts.EntityWaterMobPathingBucketable;
 import its_meow.betteranimalsplus.init.ModEntities;
 import its_meow.betteranimalsplus.init.ModLootTables;
+import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ILivingEntityData;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -37,8 +38,8 @@ public class EntityBarracuda extends EntityWaterMobPathingBucketable implements 
 
     private int hunger = 0;
 
-    public EntityBarracuda(World world) {
-        super(ModEntities.BARRACUDA.entityType, world);
+    public EntityBarracuda(EntityType<? extends EntityBarracuda> entityType, World world) {
+        super(entityType, world);
     }
 
     @Override
@@ -151,7 +152,7 @@ public class EntityBarracuda extends EntityWaterMobPathingBucketable implements 
     }
 
     @Override
-    public EntityTypeContainer<?> getContainer() {
+    public EntityTypeContainer<? extends EntityBarracuda> getContainer() {
         return ModEntities.BARRACUDA;
     }
 

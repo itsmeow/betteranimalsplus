@@ -1,13 +1,14 @@
 package its_meow.betteranimalsplus.common.entity;
 
-import dev.itsmeow.imdlib.entity.util.EntityTypeContainer;
-import dev.itsmeow.imdlib.entity.util.IVariant;
-import dev.itsmeow.imdlib.entity.util.IVariantTypes;
+import dev.itsmeow.imdlib.entity.EntityTypeContainer;
+import dev.itsmeow.imdlib.entity.interfaces.IVariantTypes;
+import dev.itsmeow.imdlib.entity.util.variant.IVariant;
 import its_meow.betteranimalsplus.common.entity.ai.EntityAIEatBerries;
 import its_meow.betteranimalsplus.common.entity.ai.HungerNearestAttackableTargetGoal;
 import its_meow.betteranimalsplus.init.ModEntities;
 import its_meow.betteranimalsplus.init.ModLootTables;
 import net.minecraft.entity.AgeableEntity;
+import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ILivingEntityData;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.goal.*;
@@ -27,8 +28,8 @@ import javax.annotation.Nullable;
 
 public class EntityBearNeutral extends EntityBear implements IVariantTypes<EntityBear> {
 
-    public EntityBearNeutral(World worldIn) {
-        super(ModEntities.BLACK_BEAR.entityType, worldIn);
+    public EntityBearNeutral(EntityType<? extends EntityBearNeutral> entityType, World worldIn) {
+        super(entityType, worldIn);
     }
 
     @Override
@@ -118,7 +119,7 @@ public class EntityBearNeutral extends EntityBear implements IVariantTypes<Entit
 
     @Override
     public AgeableEntity createChild(AgeableEntity ageable) {
-        EntityBearNeutral child = new EntityBearNeutral(this.world);
+        EntityBearNeutral child = getContainer().getEntityType().create(world);
         if(ageable instanceof EntityBearNeutral) {
             if("kermode".equals(((EntityBearNeutral) ageable).getVariantNameOrEmpty()) && "kermode".equals(this.getVariantNameOrEmpty())) {
                 child.setType("kermode");

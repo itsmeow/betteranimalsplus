@@ -1,7 +1,7 @@
 package its_meow.betteranimalsplus.common;
 
-import dev.itsmeow.imdlib.entity.util.IBucketable;
-import dev.itsmeow.imdlib.entity.util.IVariant;
+import dev.itsmeow.imdlib.entity.interfaces.IBucketable;
+import dev.itsmeow.imdlib.entity.util.variant.IVariant;
 import its_meow.betteranimalsplus.Ref;
 import its_meow.betteranimalsplus.common.entity.*;
 import its_meow.betteranimalsplus.common.entity.EntityFeralWolf.WolfVariant;

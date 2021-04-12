@@ -1,6 +1,6 @@
 package its_meow.betteranimalsplus.common.entity.util;
 
-import dev.itsmeow.imdlib.entity.util.IContainerEntity;
+import dev.itsmeow.imdlib.entity.interfaces.IContainerEntity;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.nbt.CompoundNBT;
 

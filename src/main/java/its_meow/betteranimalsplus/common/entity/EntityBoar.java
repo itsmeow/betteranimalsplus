@@ -1,6 +1,6 @@
 package its_meow.betteranimalsplus.common.entity;
 
-import dev.itsmeow.imdlib.entity.util.EntityTypeContainer;
+import dev.itsmeow.imdlib.entity.EntityTypeContainer;
 import its_meow.betteranimalsplus.common.entity.ai.EntityAIEatBerries;
 import its_meow.betteranimalsplus.common.entity.util.EntityUtil;
 import its_meow.betteranimalsplus.common.entity.util.IDropHead;
@@ -43,8 +43,8 @@ import java.util.Set;
 
 public class EntityBoar extends EntityAnimalWithSelectiveTypes implements IMob, IDropHead<EntityAnimalWithTypes> {
 
-    public EntityBoar(World worldIn) {
-        super(ModEntities.BOAR.entityType, worldIn);
+    public EntityBoar(EntityType<? extends EntityBoar> entityType, World worldIn) {
+        super(entityType, worldIn);
         this.setPathPriority(PathNodeType.DANGER_OTHER, 0.0F);
         this.setPathPriority(PathNodeType.DAMAGE_OTHER, 0.0F);
     }
@@ -233,12 +233,12 @@ public class EntityBoar extends EntityAnimalWithSelectiveTypes implements IMob, 
     public AgeableEntity createChild(AgeableEntity ageable) {
         if(this.getVariant().isPresent()) {
             if (ageable instanceof EntityBoar) {
-                EntityBoar boar = new EntityBoar(this.world);
+                EntityBoar boar = getContainer().getEntityType().create(world);
                 boar.setType(this.getVariant().get());
                 return boar;
             } else if (ageable instanceof PigEntity) {
                 PigEntity pig = new PigEntity(EntityType.PIG, this.world);
-                EntityBoar boar = new EntityBoar(this.world);
+                EntityBoar boar = getContainer().getEntityType().create(world);
                 boar.setType(this.getVariant().get());
                 return this.rand.nextBoolean() ? pig : boar;
             }
@@ -268,7 +268,7 @@ public class EntityBoar extends EntityAnimalWithSelectiveTypes implements IMob, 
     }
 
     @Override
-    public String[] getTypesFor(Biome biome, Set<BiomeDictionary.Type> types) {
+    public String[] getTypesFor(Biome biome, Set<BiomeDictionary.Type> types, SpawnReason reason) {
         if(types.contains(Type.FOREST) && !types.contains(Type.CONIFEROUS)) {
             return new String[] { "1", "2", "3" };
         } else if(types.contains(Type.CONIFEROUS) && !types.contains(Type.SNOWY)) {
@@ -345,7 +345,7 @@ public class EntityBoar extends EntityAnimalWithSelectiveTypes implements IMob, 
 
     @Override
     protected EntityAnimalWithTypes getBaseChild() {
-        return new EntityBoar(world);
+        return getContainer().getEntityType().create(world);
     }
 
     @Override

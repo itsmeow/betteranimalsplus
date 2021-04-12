@@ -1,14 +1,8 @@
 package its_meow.betteranimalsplus.common.entity;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-
-import javax.annotation.Nullable;
-
-import dev.itsmeow.imdlib.entity.util.EntityTypeContainer;
-import dev.itsmeow.imdlib.entity.util.IVariant;
-import dev.itsmeow.imdlib.entity.util.IVariantTypes;
+import dev.itsmeow.imdlib.entity.EntityTypeContainer;
+import dev.itsmeow.imdlib.entity.interfaces.IVariantTypes;
+import dev.itsmeow.imdlib.entity.util.variant.IVariant;
 import its_meow.betteranimalsplus.common.entity.ai.EfficientMoveTowardsTargetGoal;
 import its_meow.betteranimalsplus.common.entity.ai.HungerNearestAttackableTargetGoal;
 import its_meow.betteranimalsplus.common.entity.ai.PeacefulNearestAttackableTargetGoal;
@@ -20,8 +14,6 @@ import its_meow.betteranimalsplus.util.OceanBiomeHelper;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.goal.LookAtGoal;
 import net.minecraft.entity.ai.goal.LookRandomlyGoal;
-import net.minecraft.entity.ai.goal.MoveTowardsTargetGoal;
-import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal;
 import net.minecraft.entity.ai.goal.RandomSwimmingGoal;
 import net.minecraft.entity.item.BoatEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -35,6 +27,12 @@ import net.minecraft.world.biome.Biome;
 import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.BiomeDictionary.Type;
 
+import javax.annotation.CheckForNull;
+import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+
 public class EntityShark extends EntitySharkBase {
 
     private float lastAttack = 0;
@@ -42,8 +40,8 @@ public class EntityShark extends EntitySharkBase {
     private float lastTickHealth = 0;
     public float lastBodyRotation = 0;
 
-    public EntityShark(World world) {
-        super(ModEntities.SHARK.entityType, world);
+    public EntityShark(EntityType<? extends EntityShark> entityType, World worldIn) {
+        super(entityType, worldIn);
     }
 
     @Override
@@ -189,7 +187,7 @@ public class EntityShark extends EntitySharkBase {
     }
 
     @Override
-    public String[] getTypesFor(Biome biome, Set<Type> types) {
+    public String[] getTypesFor(Biome biome, Set<Type> types, SpawnReason reason) {
         // types always contains OCEAN
         List<String> list = new ArrayList<>();
         OceanBiomeHelper.Wrapper b = new OceanBiomeHelper.Wrapper(biome);
@@ -217,41 +215,29 @@ public class EntityShark extends EntitySharkBase {
         return list.toArray(new String[0]);
     }
 
-    @Override
     @Nullable
-    public ILivingEntityData onInitialSpawn(IWorld world, DifficultyInstance difficulty, SpawnReason reason, @Nullable ILivingEntityData livingdata, CompoundNBT compound) {
-        if(this.getContainer().biomeVariants && (reason == SpawnReason.CHUNK_GENERATION || reason == SpawnReason.NATURAL)) {
-            if(!this.getImplementation().isChild()) {
-                Biome biome = world.getBiome(this.getImplementation().getPosition());
-                String[] validTypes = this.getTypesFor(biome, BiomeDictionary.getTypes(biome));
-                String varStr = validTypes[this.getImplementation().getRNG().nextInt(validTypes.length)];
-                for(int i = 0; i < 2; i++) {
-                    if("great_white".equals(varStr) || "goblin".equals(varStr)) {
-                        varStr = validTypes[this.getImplementation().getRNG().nextInt(validTypes.length)];
-                    }
-                }
-                if(world instanceof World && ((World) world).isDaytime()) {
-                    if(validTypes.length > 1 && "goblin".equals(varStr)) {
-                        for(int i = 0; i < validTypes.length && "goblin".equals(varStr); i++) {
-                            varStr = validTypes[i];
-                        }
-                    }
-                }
-                IVariant variant = this.getContainer().getVariantForName(varStr);
-                if(variant == null || !varStr.equals(variant.getName())) {
-                    throw new RuntimeException("Received invalid variant string from selective type: " + varStr + " on entity " + this.getContainer().entityName);
-                }
-                if(livingdata instanceof TypeData) {
-                    variant = ((TypeData) livingdata).typeData;
-                } else {
-                    livingdata = new TypeData(variant);
-                }
-                this.setType(variant);
+    @CheckForNull
+    @Override
+    public IVariant getRandomVariantForBiome(IWorld world, SpawnReason reason) {
+        Biome biome = world.getBiome(this.getImplementation().getPosition());
+        String[] validTypes = this.getTypesFor(biome, BiomeDictionary.getTypes(biome), reason);
+        String varStr = validTypes[this.getImplementation().getRNG().nextInt(validTypes.length)];
+        for(int i = 0; i < 2; i++) {
+            if("great_white".equals(varStr) || "goblin".equals(varStr)) {
+                varStr = validTypes[this.getImplementation().getRNG().nextInt(validTypes.length)];
             }
-        } else {
-            return super.onInitialSpawn(world, difficulty, reason, livingdata, compound);
         }
-        return livingdata;
+        if(world instanceof World && ((World) world).isDaytime()) {
+            if(validTypes.length > 1 && "goblin".equals(varStr)) {
+                for(int i = 0; i < validTypes.length && "goblin".equals(varStr); i++) {
+                    varStr = validTypes[i];
+                }
+            }
+        }
+        IVariant variant = this.getContainer().getVariantForName(varStr);
+        if(variant == null || !varStr.equals(variant.getName())) {
+            throw new RuntimeException("Received invalid variant \"" + varStr + "\" from selective type on entity " + this.getContainer().getEntityName());
+        }
+        return variant;
     }
-
 }

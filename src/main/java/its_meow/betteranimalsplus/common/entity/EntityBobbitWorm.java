@@ -1,6 +1,6 @@
 package its_meow.betteranimalsplus.common.entity;
 
-import dev.itsmeow.imdlib.entity.util.EntityTypeContainer;
+import dev.itsmeow.imdlib.entity.EntityTypeContainer;
 import its_meow.betteranimalsplus.common.entity.util.abstracts.EntityAnimalWithTypes;
 import its_meow.betteranimalsplus.init.ModEntities;
 import net.minecraft.block.Block;
@@ -40,8 +40,8 @@ public class EntityBobbitWorm extends EntityAnimalWithTypes {
     private float lastGrab = 0;
     private Vec3d targetPosition;
 
-    public EntityBobbitWorm(World world) {
-        super(ModEntities.BOBBIT_WORM.entityType, world);
+    public EntityBobbitWorm(EntityType<? extends EntityBobbitWorm> entityType, World worldIn) {
+        super(entityType, worldIn);
         this.setPathPriority(PathNodeType.WATER, 10F);
     }
 

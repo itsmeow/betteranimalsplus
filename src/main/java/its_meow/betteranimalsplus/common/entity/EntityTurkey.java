@@ -1,6 +1,6 @@
 package its_meow.betteranimalsplus.common.entity;
 
-import dev.itsmeow.imdlib.entity.util.EntityTypeContainer;
+import dev.itsmeow.imdlib.entity.EntityTypeContainer;
 import its_meow.betteranimalsplus.common.entity.util.EntityUtil;
 import its_meow.betteranimalsplus.common.entity.util.abstracts.EntityAnimalWithTypes;
 import its_meow.betteranimalsplus.init.ModEntities;
@@ -41,8 +41,8 @@ public class EntityTurkey extends EntityAnimalWithTypes {
     public int attacksLeft = 0;
     public int lastAttackTime = 0;
 
-    public EntityTurkey(World worldIn) {
-        super(ModEntities.TURKEY.entityType, worldIn);
+    public EntityTurkey(EntityType<? extends EntityTurkey> entityType, World worldIn) {
+        super(entityType, worldIn);
         this.setPeckTime(this.getNewPeck());
         this.setPathPriority(PathNodeType.WATER, 0.0F);
         this.timeUntilNextEgg = this.rand.nextInt(6000) + 6000;
@@ -230,7 +230,7 @@ public class EntityTurkey extends EntityAnimalWithTypes {
 
     @Override
     protected EntityTurkey getBaseChild() {
-        return new EntityTurkey(this.world);
+        return getContainer().getEntityType().create(world);
     }
 
     @Override

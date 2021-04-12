@@ -1,7 +1,7 @@
 package its_meow.betteranimalsplus.common.entity;
 
-import dev.itsmeow.imdlib.entity.util.EntityVariant;
-import dev.itsmeow.imdlib.entity.util.IVariant;
+import dev.itsmeow.imdlib.entity.util.variant.EntityVariant;
+import dev.itsmeow.imdlib.entity.util.variant.IVariant;
 import its_meow.betteranimalsplus.Ref;
 import its_meow.betteranimalsplus.common.entity.ai.HungerNearestAttackableTargetGoal;
 import its_meow.betteranimalsplus.common.entity.ai.HungerNonTamedTargetGoal;
@@ -58,13 +58,8 @@ public class EntityFeralWolf extends EntityTameableWithSelectiveTypes implements
 
     private int hunger;
 
-    public EntityFeralWolf(World worldIn) {
-        super(ModEntities.FERAL_WOLF.entityType, worldIn);
-        this.setTamed(false);
-    }
-
-    public EntityFeralWolf(EntityType<? extends EntityFeralWolf> type, World worldIn) {
-        super(type, worldIn);
+    public EntityFeralWolf(EntityType<? extends EntityFeralWolf> entityType, World worldIn) {
+        super(entityType, worldIn);
     }
 
     @Override
@@ -338,7 +333,7 @@ public class EntityFeralWolf extends EntityTameableWithSelectiveTypes implements
 
     @Override
     protected EntityFeralWolf getBaseChild() {
-        EntityFeralWolf wolf = new EntityFeralWolf(this.world);
+        EntityFeralWolf wolf = getContainer().getEntityType().create(world);
         if(this.isTamed()) {
             wolf.setTamed(true);
             wolf.setOwnerId(this.getOwnerId());
@@ -347,7 +342,7 @@ public class EntityFeralWolf extends EntityTameableWithSelectiveTypes implements
     }
 
     @Override
-    public String[] getTypesFor(Biome biome, Set<BiomeDictionary.Type> types) {
+    public String[] getTypesFor(Biome biome, Set<BiomeDictionary.Type> types, SpawnReason reason) {
         if(types.contains(Type.FOREST) && !types.contains(Type.CONIFEROUS)) {
             return new String[] {"timber", "red"};
         } else if(types.contains(Type.CONIFEROUS) && !types.contains(Type.SNOWY)) {
@@ -404,7 +399,7 @@ public class EntityFeralWolf extends EntityTameableWithSelectiveTypes implements
     }
 
     @Override
-    public EntityTypeContainerBAPTameable<? extends EntityTameableWithSelectiveTypes> getContainer() {
+    public EntityTypeContainerBAPTameable<? extends EntityFeralWolf> getContainer() {
         return ModEntities.FERAL_WOLF;
     }
 

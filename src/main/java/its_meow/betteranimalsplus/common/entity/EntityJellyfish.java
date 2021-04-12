@@ -1,20 +1,10 @@
 package its_meow.betteranimalsplus.common.entity;
 
-import java.util.List;
-
-import javax.annotation.Nullable;
-
-import dev.itsmeow.imdlib.entity.util.EntityTypeContainer;
+import dev.itsmeow.imdlib.entity.EntityTypeContainer;
 import dev.itsmeow.imdlib.entity.util.EntityTypeContainerContainable;
 import its_meow.betteranimalsplus.common.entity.util.abstracts.EntityWaterMobWithTypesBucketable;
 import its_meow.betteranimalsplus.init.ModEntities;
-import net.minecraft.entity.EntitySize;
-import net.minecraft.entity.ILivingEntityData;
-import net.minecraft.entity.MobEntity;
-import net.minecraft.entity.MoverType;
-import net.minecraft.entity.Pose;
-import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.SpawnReason;
+import net.minecraft.entity.*;
 import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -40,6 +30,9 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.util.Constants;
 
+import javax.annotation.Nullable;
+import java.util.List;
+
 public class EntityJellyfish extends EntityWaterMobWithTypesBucketable {
 
     protected static final DataParameter<Float> SIZE = EntityDataManager.createKey(EntityJellyfish.class, DataSerializers.FLOAT);
@@ -56,8 +49,8 @@ public class EntityJellyfish extends EntityWaterMobWithTypesBucketable {
     private float randomMotionVecY;
     private float randomMotionVecZ;
 
-    public EntityJellyfish(World worldIn) {
-        super(ModEntities.JELLYFISH.entityType, worldIn);
+    public EntityJellyfish(EntityType<? extends EntityJellyfish> entityType, World worldIn) {
+        super(entityType, worldIn);
         this.setSize(0.8F);
         rotationVelocity = (1.0F / (rand.nextFloat() + 1.0F) * 0.2F);
     }

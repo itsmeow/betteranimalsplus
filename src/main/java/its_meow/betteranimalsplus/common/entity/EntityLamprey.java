@@ -1,6 +1,6 @@
 package its_meow.betteranimalsplus.common.entity;
 
-import dev.itsmeow.imdlib.entity.util.EntityTypeContainer;
+import dev.itsmeow.imdlib.entity.EntityTypeContainer;
 import dev.itsmeow.imdlib.entity.util.EntityTypeContainerContainable;
 import its_meow.betteranimalsplus.common.entity.ai.EfficientMoveTowardsTargetGoal;
 import its_meow.betteranimalsplus.common.entity.util.abstracts.EntityWaterMobPathingWithTypesBucketable;
@@ -8,6 +8,7 @@ import its_meow.betteranimalsplus.init.ModEntities;
 import its_meow.betteranimalsplus.init.ModLootTables;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.goal.*;
@@ -35,8 +36,8 @@ public class EntityLamprey extends EntityWaterMobPathingWithTypesBucketable impl
 
     protected int lastAttack = 0;
 
-    public EntityLamprey(World worldIn) {
-        super(ModEntities.LAMPREY.entityType, worldIn);
+    public EntityLamprey(EntityType<? extends EntityLamprey> entityType, World worldIn) {
+        super(entityType, worldIn);
     }
 
     @Override

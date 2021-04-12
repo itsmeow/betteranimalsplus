@@ -7,7 +7,7 @@ import org.apache.commons.lang3.tuple.Pair;
 
 import dev.itsmeow.imdlib.entity.EntityRegistrarHandler.ClientEntityConfiguration;
 import dev.itsmeow.imdlib.entity.EntityRegistrarHandler.ServerEntityConfiguration;
-import dev.itsmeow.imdlib.entity.util.EntityTypeContainer;
+import dev.itsmeow.imdlib.entity.EntityTypeContainer;
 import its_meow.betteranimalsplus.BetterAnimalsPlusMod;
 import its_meow.betteranimalsplus.Ref;
 import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainerBAPTameable;
@@ -45,7 +45,7 @@ public class BetterAnimalsPlusConfig {
     public static void onLoad(final ModConfig.Loading configEvent) {
         BetterAnimalsPlusMod.logger.debug("Loading {} {}", Ref.MOD_ID, configEvent.getConfig().getFileName());
         if(configEvent.getConfig().getSpec() == SERVER_CONFIG_SPEC) {
-            SERVER_CONFIG.onWorldLoad();
+            SERVER_CONFIG.onLoad();
         } else if(configEvent.getConfig().getSpec() == CLIENT_CONFIG_SPEC) {
             CLIENT_CONFIG.onLoad();
         }
@@ -66,7 +66,7 @@ public class BetterAnimalsPlusConfig {
         for(EntityTypeContainer<?> cont : ModEntities.getEntities().values()) {
             if(cont instanceof EntityTypeContainerBAPTameable) {
                 EntityTypeContainerBAPTameable<?> c = (EntityTypeContainerBAPTameable<?>) cont;
-                map.put(c.entityName, c.getTameItems());
+                map.put(c.getEntityName(), c.getTameItems());
             }
         }
         return map;

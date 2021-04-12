@@ -1,11 +1,10 @@
 package its_meow.betteranimalsplus.common.entity;
 
+import dev.itsmeow.imdlib.entity.EntityTypeContainer;
+import dev.itsmeow.imdlib.entity.interfaces.IContainerEntity;
 import its_meow.betteranimalsplus.common.entity.projectile.EntityTarantulaHair;
 import its_meow.betteranimalsplus.init.ModEntities;
-import net.minecraft.entity.ILivingEntityData;
-import net.minecraft.entity.IRangedAttackMob;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.SpawnReason;
+import net.minecraft.entity.*;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.monster.SpiderEntity;
 import net.minecraft.entity.passive.IronGolemEntity;
@@ -19,10 +18,10 @@ import net.minecraft.world.World;
 
 import java.util.EnumSet;
 
-public class EntityTarantula extends SpiderEntity implements IRangedAttackMob {
+public class EntityTarantula extends SpiderEntity implements IRangedAttackMob, IContainerEntity<EntityTarantula> {
 
-    public EntityTarantula(World worldIn) {
-        super(ModEntities.TARANTULA.entityType, worldIn);
+    public EntityTarantula(EntityType<? extends EntityTarantula> entityType, World worldIn) {
+        super(entityType, worldIn);
     }
 
     @Override
@@ -64,7 +63,16 @@ public class EntityTarantula extends SpiderEntity implements IRangedAttackMob {
     
     @Override
     public boolean canDespawn(double range) {
-        return ModEntities.TARANTULA.despawn && !this.hasCustomName();
+        return despawn(range);
     }
 
+    @Override
+    public EntityTarantula getImplementation() {
+        return this;
+    }
+
+    @Override
+    public EntityTypeContainer<? extends EntityTarantula> getContainer() {
+        return ModEntities.TARANTULA;
+    }
 }

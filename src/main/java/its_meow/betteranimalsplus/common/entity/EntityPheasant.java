@@ -1,12 +1,13 @@
 package its_meow.betteranimalsplus.common.entity;
 
-import dev.itsmeow.imdlib.entity.util.EntityTypeContainer;
+import dev.itsmeow.imdlib.entity.EntityTypeContainer;
 import its_meow.betteranimalsplus.common.entity.util.EntityUtil;
 import its_meow.betteranimalsplus.common.entity.util.abstracts.EntityAnimalWithTypes;
 import its_meow.betteranimalsplus.init.ModEntities;
 import its_meow.betteranimalsplus.init.ModItems;
 import its_meow.betteranimalsplus.init.ModLootTables;
 import net.minecraft.block.BlockState;
+import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ILivingEntityData;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.SpawnReason;
@@ -40,8 +41,8 @@ public class EntityPheasant extends EntityAnimalWithTypes {
     public float wingRotDelta = 0.3F;
     public int timeUntilNextEgg;
 
-    public EntityPheasant(World worldIn) {
-        super(ModEntities.PHEASANT.entityType, worldIn);
+    public EntityPheasant(EntityType<? extends EntityPheasant> entityType, World worldIn) {
+        super(entityType, worldIn);
         this.setPeckTime(this.getNewPeck());
         this.setPathPriority(PathNodeType.WATER, 0.0F);
         this.timeUntilNextEgg = this.rand.nextInt(6000) + 6000;
@@ -158,7 +159,7 @@ public class EntityPheasant extends EntityAnimalWithTypes {
 
     @Override
     protected EntityPheasant getBaseChild() {
-        return new EntityPheasant(this.world);
+        return getContainer().getEntityType().create(world);
     }
 
     @Override

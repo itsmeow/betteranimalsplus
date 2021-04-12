@@ -1,7 +1,7 @@
 package its_meow.betteranimalsplus.common.entity;
 
-import dev.itsmeow.imdlib.entity.util.EntityTypeContainer;
-import dev.itsmeow.imdlib.entity.util.IVariant;
+import dev.itsmeow.imdlib.entity.EntityTypeContainer;
+import dev.itsmeow.imdlib.entity.util.variant.IVariant;
 import its_meow.betteranimalsplus.common.entity.ai.EntityAIEatGrassCustom;
 import its_meow.betteranimalsplus.common.entity.ai.PeacefulNearestAttackableTargetGoal;
 import its_meow.betteranimalsplus.common.entity.util.IDropHead;
@@ -16,6 +16,7 @@ import net.minecraft.crash.CrashReport;
 import net.minecraft.crash.CrashReportCategory;
 import net.minecraft.crash.ReportedException;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.goal.HurtByTargetGoal;
@@ -33,8 +34,8 @@ import net.minecraft.world.World;
 
 public class EntityMoose extends EntityAnimalEatsGrassWithTypes implements IDropHead<EntityAnimalWithTypes> {
 
-    public EntityMoose(World worldIn) {
-        super(ModEntities.MOOSE.entityType, worldIn, 5);
+    public EntityMoose(EntityType<? extends EntityMoose> entityType, World worldIn) {
+        super(entityType, worldIn, 5);
         this.stepHeight = 1F;
     }
     

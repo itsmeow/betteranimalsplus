@@ -1,12 +1,11 @@
 package its_meow.betteranimalsplus.common.entity;
 
-import java.util.UUID;
-
-import javax.annotation.Nullable;
-
-import dev.itsmeow.imdlib.entity.util.EntityTypeContainer;
-import dev.itsmeow.imdlib.entity.util.IVariantTypes;
-import its_meow.betteranimalsplus.common.entity.ai.*;
+import dev.itsmeow.imdlib.entity.EntityTypeContainer;
+import dev.itsmeow.imdlib.entity.interfaces.IVariantTypes;
+import its_meow.betteranimalsplus.common.entity.ai.HungerNearestAttackableTargetGoal;
+import its_meow.betteranimalsplus.common.entity.ai.HybridMoveController;
+import its_meow.betteranimalsplus.common.entity.ai.HybridPathNavigator;
+import its_meow.betteranimalsplus.common.entity.ai.PeacefulNearestAttackableTargetGoal;
 import its_meow.betteranimalsplus.common.entity.util.IHaveHunger;
 import its_meow.betteranimalsplus.common.entity.util.abstracts.EntityBAPCephalopod;
 import its_meow.betteranimalsplus.common.entity.util.abstracts.EntityWaterMobPathing;
@@ -14,19 +13,8 @@ import its_meow.betteranimalsplus.init.ModEntities;
 import its_meow.betteranimalsplus.init.ModLootTables;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.ILivingEntityData;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.Pose;
-import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.SpawnReason;
-import net.minecraft.entity.ai.goal.Goal;
-import net.minecraft.entity.ai.goal.HurtByTargetGoal;
-import net.minecraft.entity.ai.goal.LookAtGoal;
-import net.minecraft.entity.ai.goal.LookRandomlyGoal;
-import net.minecraft.entity.ai.goal.MeleeAttackGoal;
-import net.minecraft.entity.ai.goal.MoveToBlockGoal;
-import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal;
+import net.minecraft.entity.*;
+import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.passive.WaterMobEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -40,23 +28,20 @@ import net.minecraft.tags.ItemTags;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.SoundEvent;
-import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.Difficulty;
-import net.minecraft.world.DifficultyInstance;
-import net.minecraft.world.IWorld;
-import net.minecraft.world.IWorldReader;
-import net.minecraft.world.World;
+import net.minecraft.world.*;
 import net.minecraft.world.server.ServerWorld;
+
+import javax.annotation.Nullable;
+import java.util.UUID;
 
 public class EntityOctopus extends EntityBAPCephalopod implements IVariantTypes<EntityWaterMobPathing>, IHaveHunger<EntityWaterMobPathing> {
 
     public UUID friend = null;
     private int hunger = 0;
 
-    public EntityOctopus(World world) {
-        super(ModEntities.OCTOPUS.entityType, world);
+    public EntityOctopus(EntityType<? extends EntityOctopus> entityType, World world) {
+        super(entityType, world);
         this.setPathPriority(PathNodeType.WALKABLE, 1.5F);
         this.setPathPriority(PathNodeType.WATER, 1.5F);
         this.setPathPriority(PathNodeType.WATER_BORDER, 1F);
@@ -169,7 +154,7 @@ public class EntityOctopus extends EntityBAPCephalopod implements IVariantTypes<
     }
 
     @Override
-    public EntityTypeContainer<?> getContainer() {
+    public EntityTypeContainer<? extends EntityOctopus> getContainer() {
         return ModEntities.OCTOPUS;
     }
 

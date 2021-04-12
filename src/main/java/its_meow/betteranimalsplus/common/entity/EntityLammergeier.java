@@ -1,6 +1,6 @@
 package its_meow.betteranimalsplus.common.entity;
 
-import dev.itsmeow.imdlib.entity.util.IVariantTypes;
+import dev.itsmeow.imdlib.entity.interfaces.IVariantTypes;
 import its_meow.betteranimalsplus.common.entity.ai.EntityAIFollowOwnerFlying;
 import its_meow.betteranimalsplus.common.entity.ai.LammerMoveHelper;
 import its_meow.betteranimalsplus.common.entity.util.EntityTypeContainerBAPTameable;
@@ -12,6 +12,7 @@ import its_meow.betteranimalsplus.init.ModLootTables;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.LeavesBlock;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -47,8 +48,8 @@ public class EntityLammergeier extends EntityTameableFlyingWithTypes implements 
     public double lastMotionY = 0;
     private final MovementController flightControl;
 
-    public EntityLammergeier(World worldIn) {
-        super(ModEntities.LAMMERGEIER.entityType, worldIn);
+    public EntityLammergeier(EntityType<? extends EntityLammergeier> entityType, World worldIn) {
+        super(entityType, worldIn);
         this.flightControl = new LammerMoveHelper(this);
         this.moveController = flightControl;
     }

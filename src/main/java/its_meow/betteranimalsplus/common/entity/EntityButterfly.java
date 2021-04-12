@@ -1,6 +1,6 @@
 package its_meow.betteranimalsplus.common.entity;
 
-import dev.itsmeow.imdlib.entity.util.EntityTypeContainer;
+import dev.itsmeow.imdlib.entity.EntityTypeContainer;
 import dev.itsmeow.imdlib.entity.util.EntityTypeContainerContainable;
 import its_meow.betteranimalsplus.common.entity.util.abstracts.EntityAnimalWithTypes;
 import its_meow.betteranimalsplus.common.entity.util.abstracts.EntityAnimalWithTypesAndSizeContainable;
@@ -50,8 +50,8 @@ public class EntityButterfly extends EntityAnimalWithTypesAndSizeContainable {
     private int rainTicks = 0;
     private int ticksUntilNextGrow = 0;
 
-    public EntityButterfly(World worldIn) {
-        super(ModEntities.BUTTERFLY.entityType, worldIn);
+    public EntityButterfly(EntityType<? extends EntityButterfly> entityType, World worldIn) {
+        super(entityType, worldIn);
     }
 
     @Override
@@ -430,7 +430,7 @@ public class EntityButterfly extends EntityAnimalWithTypesAndSizeContainable {
     }
 
     @Override
-    public EntityTypeContainer<?> getContainer() {
+    public EntityTypeContainer<? extends EntityButterfly> getContainer() {
         return ModEntities.BUTTERFLY;
     }
 

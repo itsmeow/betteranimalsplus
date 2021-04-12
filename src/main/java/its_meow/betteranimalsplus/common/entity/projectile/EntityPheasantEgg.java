@@ -12,7 +12,7 @@ import net.minecraft.item.Item;
 import net.minecraft.world.World;
 
 public class EntityPheasantEgg extends EntityModEgg {
-    public static EntityType<EntityPheasantEgg> PHEASANT_EGG_TYPE = ModEntities.H.createEntityType(EntityPheasantEgg.class, EntityPheasantEgg::new, "pheasant_egg", EntityClassification.MISC, 64, 1, true, 0.25F, 0.25F);
+    public static EntityType<EntityPheasantEgg> PHEASANT_EGG_TYPE = ModEntities.H.createEntityType(EntityPheasantEgg::new, "pheasant_egg", EntityClassification.MISC, 64, 1, true, 0.25F, 0.25F);
     
     public EntityPheasantEgg(World world) {
         super(PHEASANT_EGG_TYPE, world);
@@ -41,7 +41,7 @@ public class EntityPheasantEgg extends EntityModEgg {
 
     @Override
     protected Entity createEntity() {
-        EntityPheasant pheasant = ModEntities.PHEASANT.entityType.create(this.world);
+        EntityPheasant pheasant = ModEntities.PHEASANT.getEntityType().create(this.world);
         pheasant.setGrowingAge(-24000);
         pheasant.setLocationAndAngles(this.getPosX(), this.getPosY(), this.getPosZ(), this.rotationYaw, 0.0F);
         pheasant.setType(pheasant.getRandomType());

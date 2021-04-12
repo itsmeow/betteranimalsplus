@@ -1,6 +1,6 @@
 package its_meow.betteranimalsplus.common.entity.util.abstracts;
 
-import dev.itsmeow.imdlib.entity.util.IContainerEntity;
+import dev.itsmeow.imdlib.entity.interfaces.IContainerEntity;
 import its_meow.betteranimalsplus.common.entity.ai.WaterMoveHelper;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.MoverType;
@@ -39,7 +39,7 @@ public abstract class EntityWaterMobPathing extends WaterMobEntity implements IC
 
     @Override
     public boolean canDespawn(double range) {
-        return getContainer().despawn && !this.hasCustomName();
+        return despawn(range);
     }
 
     @Override

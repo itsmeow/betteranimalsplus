@@ -1,6 +1,6 @@
 package its_meow.betteranimalsplus.common.entity;
 
-import dev.itsmeow.imdlib.entity.util.EntityTypeContainer;
+import dev.itsmeow.imdlib.entity.EntityTypeContainer;
 import its_meow.betteranimalsplus.common.entity.projectile.EntityBadgerDirt;
 import its_meow.betteranimalsplus.common.entity.util.EntityUtil;
 import its_meow.betteranimalsplus.common.entity.util.abstracts.EntityAnimalWithSelectiveTypes;
@@ -35,8 +35,8 @@ import java.util.Set;
 
 public class EntityBadger extends EntityAnimalWithSelectiveTypes implements IMob {
 
-    public EntityBadger(World worldIn) {
-        super(ModEntities.BADGER.entityType, worldIn);
+    public EntityBadger(EntityType<? extends EntityBadger> entityType, World worldIn) {
+        super(entityType, worldIn);
     }
 
 	@Override
@@ -111,7 +111,7 @@ public class EntityBadger extends EntityAnimalWithSelectiveTypes implements IMob
 
 	@Override
 	protected EntityBadger getBaseChild() {
-		return new EntityBadger(this.world);
+		return getContainer().getEntityType().create(world);
 	}
 
 	public static class EntityAIBadgerDigDirtThrow extends Goal {
@@ -202,7 +202,7 @@ public class EntityBadger extends EntityAnimalWithSelectiveTypes implements IMob
 	}
 	
     @Override
-    public String[] getTypesFor(Biome biome, Set<BiomeDictionary.Type> types) {
+    public String[] getTypesFor(Biome biome, Set<BiomeDictionary.Type> types, SpawnReason reason) {
         if(types.contains(Type.SAVANNA)) {
             return new String[] { "honey" };
         } else if(types.contains(Type.FOREST) && !types.contains(Type.CONIFEROUS)) {

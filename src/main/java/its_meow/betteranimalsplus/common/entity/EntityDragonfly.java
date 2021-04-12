@@ -1,6 +1,6 @@
 package its_meow.betteranimalsplus.common.entity;
 
-import dev.itsmeow.imdlib.entity.util.EntityTypeContainer;
+import dev.itsmeow.imdlib.entity.EntityTypeContainer;
 import dev.itsmeow.imdlib.entity.util.EntityTypeContainerContainable;
 import its_meow.betteranimalsplus.common.entity.util.abstracts.EntityAnimalWithTypes;
 import its_meow.betteranimalsplus.common.entity.util.abstracts.EntityAnimalWithTypesAndSizeContainable;
@@ -36,8 +36,8 @@ public class EntityDragonfly extends EntityAnimalWithTypesAndSizeContainable {
     private BlockPos targetPosition;
     private int rainTicks = 0;
 
-    public EntityDragonfly(World worldIn) {
-        super(ModEntities.DRAGONFLY.entityType, worldIn);
+    public EntityDragonfly(EntityType<? extends EntityDragonfly> entityType, World worldIn) {
+        super(entityType, worldIn);
     }
 
     @Override
@@ -309,7 +309,7 @@ public class EntityDragonfly extends EntityAnimalWithTypesAndSizeContainable {
     }
 
     @Override
-    public EntityTypeContainer<?> getContainer() {
+    public EntityTypeContainer<? extends EntityDragonfly> getContainer() {
         return ModEntities.DRAGONFLY;
     }
 
@@ -319,7 +319,7 @@ public class EntityDragonfly extends EntityAnimalWithTypesAndSizeContainable {
     }
 
     @Override
-    public EntityTypeContainerContainable<?, ?> getContainableContainer() {
+    public EntityTypeContainerContainable<? extends EntityDragonfly, ?> getContainableContainer() {
         return ModEntities.DRAGONFLY;
     }
 

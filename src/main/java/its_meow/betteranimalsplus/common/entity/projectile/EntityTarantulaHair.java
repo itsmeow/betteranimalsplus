@@ -18,12 +18,16 @@ import net.minecraftforge.fml.network.NetworkHooks;
 
 public class EntityTarantulaHair extends ThrowableEntity {
 
-    public static EntityType<EntityTarantulaHair> HAIR_TYPE = ModEntities.H.createEntityType(EntityTarantulaHair.class, EntityTarantulaHair::new, "tarantulahair", EntityClassification.MISC, 64, 1, true, 0.5F, 0.5F);
+    public static EntityType<EntityTarantulaHair> HAIR_TYPE = ModEntities.H.createEntityType(EntityTarantulaHair::new, "tarantulahair", EntityClassification.MISC, 64, 1, true, 0.5F, 0.5F);
 
     public LivingEntity thrower;
 
     public EntityTarantulaHair(World worldIn) {
         super(EntityTarantulaHair.HAIR_TYPE, worldIn);
+    }
+
+    public EntityTarantulaHair(EntityType<? extends EntityTarantulaHair> entityType, World worldIn) {
+        super(entityType, worldIn);
     }
 
     public EntityTarantulaHair(World worldIn, LivingEntity throwerIn) {

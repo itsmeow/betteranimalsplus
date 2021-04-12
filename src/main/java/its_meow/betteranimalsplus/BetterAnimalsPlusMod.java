@@ -5,7 +5,6 @@ import dev.itsmeow.imdlib.util.ClassLoadHacks;
 import its_meow.betteranimalsplus.client.ClientLifecycleHandler;
 import its_meow.betteranimalsplus.client.dumb.SafeSyncThing;
 import its_meow.betteranimalsplus.client.dumb.SafeSyncThing.DumbOptions;
-import its_meow.betteranimalsplus.common.entity.EntityCoyote;
 import its_meow.betteranimalsplus.compat.curios.CuriosModCompat;
 import its_meow.betteranimalsplus.config.BetterAnimalsPlusConfig;
 import its_meow.betteranimalsplus.init.*;
@@ -25,6 +24,7 @@ import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.placement.NoiseDependant;
 import net.minecraft.world.gen.placement.Placement;
 import net.minecraftforge.common.BiomeDictionary;
+import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent.PlayerLoggedInEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -36,7 +36,6 @@ import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
-import net.minecraftforge.fml.event.lifecycle.GatherDataEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.network.NetworkDirection;
 import net.minecraftforge.fml.network.NetworkRegistry;
@@ -103,7 +102,7 @@ public class BetterAnimalsPlusMod {
         @Override
         public void fill(NonNullList<ItemStack> toDisplay) {
             super.fill(toDisplay);
-            ModEntities.getEntities().values().forEach(cont -> toDisplay.add(new ItemStack(cont.egg)));
+            ModEntities.getEntities().values().forEach(cont -> toDisplay.add(new ItemStack(cont.getEggItem())));
         }
     };
 
@@ -143,7 +142,7 @@ public class BetterAnimalsPlusMod {
 	@SubscribeEvent
 	public static void onPlayerJoin(PlayerLoggedInEvent e) {
 	    if(e.getPlayer() instanceof ServerPlayerEntity) {
-	        HANDLER.sendTo(new ClientConfigurationPacket(EntityCoyote.HOSTILE_DAYTIME, BetterAnimalsPlusConfig.getTameItemsMap()), ((ServerPlayerEntity) e.getPlayer()).connection.netManager, NetworkDirection.PLAY_TO_CLIENT);
+	        HANDLER.sendTo(new ClientConfigurationPacket(BetterAnimalsPlusConfig.getTameItemsMap()), ((ServerPlayerEntity) e.getPlayer()).connection.netManager, NetworkDirection.PLAY_TO_CLIENT);
 	        HANDLER.sendTo(new ClientRequestBAMPacket(), ((ServerPlayerEntity) e.getPlayer()).connection.netManager, NetworkDirection.PLAY_TO_CLIENT);
             for(UUID devId : DEVS) {
                 HANDLER.send(PacketDistributor.PLAYER.with(() -> (ServerPlayerEntity) e.getPlayer()), new StupidDevPacket(SafeSyncThing.get(devId), devId));
@@ -152,7 +151,7 @@ public class BetterAnimalsPlusMod {
 	}
 
     @SubscribeEvent
-    public static void onPlayerLeave(PlayerLoggedInEvent e) {
+    public static void onPlayerLeave(PlayerEvent.PlayerLoggedOutEvent e) {
         if (e.getPlayer() instanceof ServerPlayerEntity) {
             for (UUID devId : DEVS) {
                 SafeSyncThing.put(devId, DumbOptions.OFF);

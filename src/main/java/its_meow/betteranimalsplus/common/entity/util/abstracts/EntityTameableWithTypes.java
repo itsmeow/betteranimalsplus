@@ -1,8 +1,6 @@
 package its_meow.betteranimalsplus.common.entity.util.abstracts;
 
-import javax.annotation.Nullable;
-
-import dev.itsmeow.imdlib.entity.util.IVariantTypes;
+import dev.itsmeow.imdlib.entity.interfaces.IVariantTypes;
 import net.minecraft.entity.AgeableEntity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ILivingEntityData;
@@ -11,6 +9,8 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
+
+import javax.annotation.Nullable;
 
 public abstract class EntityTameableWithTypes extends EntityTameableBetterAnimalsPlus implements IVariantTypes<EntityTameableBetterAnimalsPlus> {
 
