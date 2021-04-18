@@ -68,7 +68,14 @@ public class ModEntities {
     new EntityVariant(MODID, "2_christmas", "reindeer_2_christmas", false),
     new EntityVariant(MODID, "3_christmas", "reindeer_3_christmas", false),
     new EntityVariant(MODID, "4_christmas", "reindeer_4_christmas", false)).head("reindeerhead").mapToNames().setModel(() -> ModelReindeerHead::new).done().clientConfig((holder, builder) -> holder.put(builder.comment("Generates snow particles around reindeer.").worldRestart().define("create_snow", true))));
-    public static final EntityTypeContainer<EntityBoar> BOAR = H.add(EntityBoar.class, EntityBoar::new, "boar", b -> b.spawn(EntityClassification.CREATURE, 9, 1, 4).egg(0x3d3c3b, 0xbca895).size(0.9F, 0.9F).biomes(Type.FOREST, Type.JUNGLE, Type.PLAINS, Type.SAVANNA).variants(4).head().itemGroup(G).mapToNames().setModel(() -> ModelBoarHead::new).done());
+    public static final EntityTypeContainer<EntityBoar> BOAR = H.add(EntityBoar.class, EntityBoar::new, "boar", b -> b.spawn(EntityClassification.CREATURE, 9, 1, 4).egg(0x3d3c3b, 0xbca895).size(0.9F, 0.9F).biomes(Type.FOREST, Type.JUNGLE, Type.PLAINS, Type.SAVANNA).variants(4).config((holder, builder) -> {
+        builder.push("nerf_options");
+        holder.put(builder.comment("Sets boars in breeding mode if they kill something").worldRestart().define("breed_from_kill", true));
+        holder.put(builder.comment("Sets boars in breeding mode if they eat crops or berries").worldRestart().define("breed_from_crops", true));
+        holder.put(builder.comment("Makes boars eat crops").worldRestart().define("eat_crops", true));
+        holder.put(builder.comment("Chance out of 100 the boar will execute targeting AI: lower number = less common attacks").worldRestart().defineInRange("target_chance", 100, 0, 100));
+        builder.pop();
+    }).head().itemGroup(G).mapToNames().setModel(() -> ModelBoarHead::new).done());
     public static final EntityTypeContainer<EntitySquirrel> SQUIRREL = H.add(EntitySquirrel.class, EntitySquirrel::new, "squirrel", b -> b.spawn(EntityClassification.CREATURE, 8, 1, 3).egg(0x89806f, 0xb2a489).size(0.5F, 0.5F).biomes(Type.FOREST).variants("gray", "red", "albino"));
     public static final EntityTypeContainer<EntitySongbird> SONGBIRD = H.add(EntitySongbird.class, EntitySongbird::new, "songbird", b -> b.spawn(EntityClassification.CREATURE, 11, 1, 4).egg(0x46f4d2, 0x7df442).size(0.5F, 0.5F).biomes(Type.FOREST, Type.PLAINS).variants("1", "2", "3", "4", "small_1", "small_2", "small_3", "small_4", "small_5", "small_6"));
     public static final EntityTypeContainer<EntityBadger> BADGER = H.add(EntityBadger.class, EntityBadger::new, "badger", b -> b.spawn(EntityClassification.CREATURE, 7, 1, 2).egg(0x0c0c0c, 0xd3d3d3).size(0.8F, 0.8F).biomes(Type.FOREST, Type.PLAINS, Type.SAVANNA).variants("american", "european", "honey"));

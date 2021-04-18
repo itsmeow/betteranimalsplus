@@ -66,7 +66,7 @@ public class CommonEventHandler {
 
     @SubscribeEvent
     public static void onDeathOfEntity(LivingDeathEvent e) {
-        if(e.getSource().getImmediateSource() instanceof EntityBoar) {
+        if(e.getSource().getImmediateSource() instanceof EntityBoar && ModEntities.BOAR.getCustomConfiguration().getBoolean("nerf_options/breed_from_kill")) {
             EntityBoar boar = (EntityBoar) e.getSource().getImmediateSource();
             boar.setInLove(null);
             BlockPos p = boar.getPosition();
