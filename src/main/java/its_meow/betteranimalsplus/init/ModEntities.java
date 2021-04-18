@@ -202,6 +202,14 @@ public class ModEntities {
     .egg(0x3d3c3b, 0xbca895).size(0.9F, 0.9F)
     .biomesOverworld(Type.FOREST, Type.JUNGLE, Type.PLAINS, Type.SAVANNA)
     .variants(4)
+    .config((holder, builder) -> {
+        builder.push("nerf_options");
+        holder.put(builder.comment("Sets boars in breeding mode if they kill something").worldRestart().define("breed_from_kill", true));
+        holder.put(builder.comment("Sets boars in breeding mode if they eat crops or berries").worldRestart().define("breed_from_crops", true));
+        holder.put(builder.comment("Makes boars eat crops").worldRestart().define("eat_crops", true));
+        holder.put(builder.comment("Chance out of 100 the boar will execute targeting AI: lower number = less common attacks").worldRestart().defineInRange("target_chance", 100, 0, 100));
+        builder.pop();
+    })
     .head().itemGroup(G).mapToNames().setModel(() -> ModelBoarHead::new).done());
 
     public static final EntityTypeContainer<EntitySquirrel> SQUIRREL = H.add(EntitySquirrel.class, EntitySquirrel::new, "squirrel", () -> MobEntity.func_233666_p_()

@@ -65,14 +65,17 @@ public class EntityBoar extends EntityAnimalWithSelectiveTypes implements IMob, 
         });
         this.goalSelector.addGoal(2, new BreedGoal(this, 1.0D));
         this.goalSelector.addGoal(3, new FollowParentGoal(this, 1.1D));
-        this.goalSelector.addGoal(4, new BoarAIEatCrops(this));
-        this.goalSelector.addGoal(5, new EntityAIEatBerries(this, 1.0D, 12, 2) {
-            @Override
-            protected void eatBerry() {
-                super.eatBerry();
-                EntityBoar.this.setInLove(null);
-            }
-        });
+        if(this.getContainer().getCustomConfiguration().getBoolean("nerf_options/eat_crops")) {
+            this.goalSelector.addGoal(4, new BoarAIEatCrops(this));
+            this.goalSelector.addGoal(5, new EntityAIEatBerries(this, 1.0D, 12, 2) {
+                @Override
+                protected void eatBerry() {
+                    super.eatBerry();
+                    if (EntityBoar.this.getContainer().getCustomConfiguration().getBoolean("nerf_options/breed_from_crops"))
+                        EntityBoar.this.setInLove(null);
+                }
+            });
+        }
         this.goalSelector.addGoal(6, new WaterAvoidingRandomWalkingGoal(this, 1.0D));
         this.goalSelector.addGoal(7, new LookAtGoal(this, PlayerEntity.class, 6.0F));
         this.targetSelector.addGoal(0, new HurtByTargetGoal(this) {
@@ -89,25 +92,33 @@ public class EntityBoar extends EntityAnimalWithSelectiveTypes implements IMob, 
         this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<AnimalEntity>(this, AnimalEntity.class, 90, true, true, (@Nullable LivingEntity in) -> in instanceof ChickenEntity || in instanceof EntityPheasant || in instanceof AnimalEntity && in.isChild() && !(in instanceof EntityBoar || in instanceof PigEntity || in instanceof HoglinEntity)) {
             @Override
             public boolean shouldExecute() {
-                return !EntityBoar.this.isChild() && super.shouldExecute();
+                return EntityBoar.this.shouldAttack() && EntityBoar.this.attackChance() && super.shouldExecute();
             }
 
             @Override
             public boolean shouldContinueExecuting() {
-                return !EntityBoar.this.isChild() && super.shouldContinueExecuting();
+                return EntityBoar.this.shouldAttack() && super.shouldContinueExecuting();
             }
         });
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<LivingEntity>(this, LivingEntity.class, 50, true, true, (@Nullable LivingEntity in) -> in instanceof AnimalEntity && !(in instanceof EntityBoar || in instanceof PigEntity || in instanceof HoglinEntity) || in instanceof PlayerEntity) {
             @Override
             public boolean shouldExecute() {
-                return !EntityBoar.this.isChild() && !EntityBoar.this.isPeaceful() && super.shouldExecute();
+                return EntityBoar.this.shouldAttack() && EntityBoar.this.attackChance() && super.shouldExecute();
             }
 
             @Override
             public boolean shouldContinueExecuting() {
-                return !EntityBoar.this.isChild() && !EntityBoar.this.isPeaceful() && super.shouldContinueExecuting();
+                return EntityBoar.this.shouldAttack() && super.shouldContinueExecuting();
             }
         });
+    }
+
+    public boolean shouldAttack() {
+        return !this.isChild() && !this.isPeaceful();
+    }
+
+    public boolean attackChance() {
+        return ((double) this.getContainer().getCustomConfiguration().getInt("nerf_options/target_chance") / 100D) > Math.random();
     }
 
     public boolean isPeaceful() {
@@ -313,7 +324,8 @@ public class EntityBoar extends EntityAnimalWithSelectiveTypes implements IMob, 
                 if(!this.boar.isInLove() && block instanceof CropsBlock && ((CropsBlock) block).isMaxAge(state)) {
                     world.setBlockState(pos, Blocks.AIR.getDefaultState(), 2);
                     world.destroyBlock(pos, true);
-                    boar.setInLove(null);
+                    if(boar.getContainer().getCustomConfiguration().getBoolean("nerf_options/breed_from_crops"))
+                        boar.setInLove(null);
                 }
             }
             this.boar.getLookController().setLookPosition((double) this.destinationBlock.getX() + 0.5D, this.destinationBlock.getY() + 0.5D, (double) this.destinationBlock.getZ() + 0.5D, 10.0F, (float) this.boar.getVerticalFaceSpeed());
