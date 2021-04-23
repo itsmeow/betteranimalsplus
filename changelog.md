@@ -1,3 +1,43 @@
+# 10.2.0
+
+## Feature Additions
+- Tags for foods (recipe support for Pam's HarvestCraft, etc)
+- Configuration options to allow nerfing of boars
+- New configuration layout, names, and comments (THIS WILL BREAK YOUR CONFIG! Back them up!)
+- Live, in-game reloading of configuration (you need to exit to the menu for full functionality)
+- Deer can now additionally be bred with golden carrots, apples, and golden apples (originally wheat and carrots)
+
+## Bugfixes
+- Fixed timing of shark and squid attacks
+- Fixed some step sounds not working
+- Improved code stability and readability
+- Fixed turkey block not displaying correctly in campfires or item frames
+- Fixed animals with eye glow not looking right/having a fully black texture with most shaders
+- Fixed placement of animal heads and turkey blocks in water not waterlogging properly
+- Fixed bees not being able to pollinate from trillium (added to small_flowers tag)
+- Fixed feral wolves and coyotes not being set to full health when tamed
+- Fixed feral wolves and coyotes whimpering at 1/3 health - now is 1/2
+- Fixed insect (butterfly/dragonfly) pathfinder pathing to non-air or water blocks
+- Fixed butterflies not pathing to a new position after reaching first position
+- Tweak crab animations, fix slight floating off ground
+- Improved behavior of crab easter egg (auto-expiration of animation)
+- Decreased the rate of grass eating in animals that eat grass
+- Cleaned up internal tags
+- Fixed being unable to equip a cape if anything was in the chestplate slot
+- Fixed tamed coyotes and feral wolves being considered hostiles
+- Fixed deer not consuming wheat or carrots but still breeding
+- Fixed serializable errors on newer Java versions (Java 11+)
+- Fixed configuration using last loaded biomes as defaults instead of the actual defaults
+- 1.15: Fixed duplicate spawn entries when the world is reloaded
+- 1.16: Fixed GlobalEntityTypeAttributes.put warnings on newer Forge versions 
+- 1.16: Fixed moose heads and brown bear heads not appearing in the creative menu or JEI
+- 1.16: Essential Features portable jukebox compat now works with standalone version
+- 1.16: Fixed config loading issues
+- 1.16: Fixed animals not spawning in modded biomes properly
+
+## Localization
+- Updated Italian translation (Credit: NinoSecret)
+
 # 10.1.0
 
 ## Feature Additions
