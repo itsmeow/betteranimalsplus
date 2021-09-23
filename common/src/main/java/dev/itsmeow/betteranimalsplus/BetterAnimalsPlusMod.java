@@ -1,55 +1,35 @@
 package dev.itsmeow.betteranimalsplus;
 
 import com.google.common.collect.ImmutableList;
-import dev.itsmeow.betteranimalsplus.client.ClientLifecycleHandler;
-import dev.itsmeow.betteranimalsplus.client.dumb.SafeSyncThing;
-import dev.itsmeow.betteranimalsplus.client.dumb.SafeSyncThing.DumbOptions;
+import dev.architectury.injectables.annotations.ExpectPlatform;
 import dev.itsmeow.betteranimalsplus.compat.curios.CuriosModCompat;
-import dev.itsmeow.betteranimalsplus.config.BetterAnimalsPlusConfig;
-import dev.itsmeow.betteranimalsplus.init.*;
-import dev.itsmeow.betteranimalsplus.network.*;
+import dev.itsmeow.betteranimalsplus.init.ModEntities;
+import dev.itsmeow.betteranimalsplus.init.ModItems;
 import dev.itsmeow.imdlib.util.ClassLoadHacks;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.NonNullList;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.event.entity.player.PlayerEvent;
-import net.minecraftforge.event.entity.player.PlayerEvent.PlayerLoggedInEvent;
-import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.ModList;
-import net.minecraftforge.fml.ModLoadingContext;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.config.ModConfig;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
-import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.minecraftforge.fml.network.NetworkDirection;
-import net.minecraftforge.fml.network.NetworkRegistry;
-import net.minecraftforge.fml.network.PacketDistributor;
-import net.minecraftforge.fml.network.simple.SimpleChannel;
+import me.shedaniel.architectury.utils.PlatformExpectedError;
+import net.minecraft.core.NonNullList;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.ItemStack;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.UUID;
 
-@Mod.EventBusSubscriber(modid = Ref.MOD_ID)
-@Mod(value = Ref.MOD_ID)
+//@Mod.EventBusSubscriber(modid = Ref.MOD_ID)
+//@Mod(value = Ref.MOD_ID)
 public class BetterAnimalsPlusMod {
-    
+
     public static final Logger logger = LogManager.getLogger();
-    public static final String PROTOCOL_VERSION = "2";
+    /*public static final String PROTOCOL_VERSION = "2";
     public static final SimpleChannel HANDLER = NetworkRegistry.ChannelBuilder
             .named(new ResourceLocation(Ref.MOD_ID, "main_channel"))
             .clientAcceptedVersions(PROTOCOL_VERSION::equals)
             .serverAcceptedVersions(PROTOCOL_VERSION::equals)
             .networkProtocolVersion(() -> PROTOCOL_VERSION)
             .simpleChannel();
-    public static int packets = 0;
+    public static int packets = 0;*/
     private static final ImmutableList<UUID> DEVS = ImmutableList.of(
     UUID.fromString("81d9726a-56d4-4419-9a2a-be1d7f7f7ef1"), // its_meow
     UUID.fromString("403f2fd4-f8a2-4608-a0b8-534da4184735"), // cyber
@@ -57,7 +37,7 @@ public class BetterAnimalsPlusMod {
     );
 
     public BetterAnimalsPlusMod() {
-        IEventBus modBus = FMLJavaModLoadingContext.get().getModEventBus();
+       /* IEventBus modBus = FMLJavaModLoadingContext.get().getModEventBus();
         modBus.addListener(this::setup);
         modBus.addListener(this::loadComplete);
         modBus.<FMLClientSetupEvent>addListener(e -> new ClientLifecycleHandler().clientSetup(e));
@@ -71,31 +51,30 @@ public class BetterAnimalsPlusMod {
         ModWorldGen.subscribe(modBus);
         ModTriggers.register();
         ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, BetterAnimalsPlusConfig.getClientSpec());
+        */
+        ModItems.init();
         BetterAnimalsPlusMod.logger.log(Level.INFO, "Injecting super coyotes...");
-        ClassLoadHacks.runWhenLoaded("curios", () -> () -> CuriosModCompat.subscribe(modBus));
+        //ClassLoadHacks.runWhenLoaded("curios", () -> () -> CuriosModCompat.subscribe(modBus));
+
+
     }
 
     public static boolean isDev(UUID uuid) {
         return DEVS.contains(uuid);
     }
 
-    public static boolean isDev(PlayerEntity player) {
+    public static boolean isDev(Player player) {
         return isDev(player.getGameProfile().getId());
     }
 
-    public static final ItemGroup GROUP = new ItemGroup("Better Animals+") {
-        @Override
-        public ItemStack makeIcon() {
-            return new ItemStack(ModItems.ANTLER.get());
-        }
+    public static final CreativeModeTab TAB = getPlatformTab();
 
-        @Override
-        public void fillItemList(NonNullList<ItemStack> toDisplay) {
-            super.fillItemList(toDisplay);
-            ModEntities.getEntities().values().forEach(cont -> toDisplay.add(new ItemStack(cont.getEggItem())));
-        }
-    };
+    @ExpectPlatform
+    private static CreativeModeTab getPlatformTab() {
+        throw new PlatformExpectedError("getPlatformTab(): Expected Platform");
+    }
 
+    /*
     private void setup(final FMLCommonSetupEvent event) {
         HANDLER.registerMessage(packets++, ClientConfigurationPacket.class, ClientConfigurationPacket::encode, ClientConfigurationPacket::decode, ClientConfigurationPacket.Handler::handle);
         HANDLER.registerMessage(packets++, ServerNoBAMPacket.class, (pkt, buf) -> {}, buf -> new ServerNoBAMPacket(), (pkt, ctx) -> {
@@ -140,5 +119,5 @@ public class BetterAnimalsPlusMod {
             }
         }
     }
-
+    */
 }
