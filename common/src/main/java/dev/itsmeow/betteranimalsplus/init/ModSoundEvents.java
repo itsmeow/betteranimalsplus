@@ -1,28 +1,27 @@
 package dev.itsmeow.betteranimalsplus.init;
 
 import dev.itsmeow.betteranimalsplus.Ref;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.SoundEvent;
-import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.fml.RegistryObject;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.ForgeRegistries;
+import me.shedaniel.architectury.registry.DeferredRegister;
+import me.shedaniel.architectury.registry.RegistrySupplier;
+import net.minecraft.core.Registry;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundEvent;
 
 public class ModSoundEvents {
 
-    private static final DeferredRegister<SoundEvent> SOUNDS = DeferredRegister.create(ForgeRegistries.SOUND_EVENTS, Ref.MOD_ID);
+    private static final DeferredRegister<SoundEvent> SOUNDS = DeferredRegister.create(Ref.MOD_ID, Registry.SOUND_EVENT_REGISTRY);
 
-    public static final RegistryObject<SoundEvent> CRAB_RAVE = r("record_crabrave");
-    public static final RegistryObject<SoundEvent> GOOSE_DEATH = r("entity_goose_death");
-    public static final RegistryObject<SoundEvent> GOOSE_HURT = r("entity_goose_hurt");
-    public static final RegistryObject<SoundEvent> GOOSE_AMBIENT = r("entity_goose_ambient");
-    public static final RegistryObject<SoundEvent> WALRUS = r("record_walrus");
+    public static final RegistrySupplier<SoundEvent> CRAB_RAVE = r("record_crabrave");
+    public static final RegistrySupplier<SoundEvent> GOOSE_DEATH = r("entity_goose_death");
+    public static final RegistrySupplier<SoundEvent> GOOSE_HURT = r("entity_goose_hurt");
+    public static final RegistrySupplier<SoundEvent> GOOSE_AMBIENT = r("entity_goose_ambient");
+    public static final RegistrySupplier<SoundEvent> WALRUS = r("record_walrus");
 
-    private static RegistryObject<SoundEvent> r(String name) {
+    private static RegistrySupplier<SoundEvent> r(String name) {
         return SOUNDS.register(name, () -> new SoundEvent(new ResourceLocation(Ref.MOD_ID, name.replaceAll("_", "."))));
     }
 
-    public static void subscribe(IEventBus modEventBus) {
-        SOUNDS.register(modEventBus);
+    public static void init() {
+        SOUNDS.register();
     }
 }

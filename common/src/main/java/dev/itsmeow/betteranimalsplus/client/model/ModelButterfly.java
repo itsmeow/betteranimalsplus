@@ -1,36 +1,32 @@
 package dev.itsmeow.betteranimalsplus.client.model;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
-import com.mojang.blaze3d.vertex.IVertexBuilder;
-
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
 import dev.itsmeow.betteranimalsplus.common.entity.EntityButterfly;
-import net.minecraft.client.renderer.entity.model.EntityModel;
-import net.minecraft.client.renderer.model.ModelRenderer;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.Pose;
-import net.minecraft.util.Direction;
-import net.minecraft.util.math.BlockPos;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraft.client.model.EntityModel;
+import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.Pose;
 
 /**
  * butterfly - cybecat5555 Created using Tabula 8.0.0
  */
-@OnlyIn(Dist.CLIENT)
 public class ModelButterfly<T extends Entity> extends EntityModel<T> {
-    public ModelRenderer thorax;
-    public ModelRenderer head;
-    public ModelRenderer abdomin;
-    public ModelRenderer lLeg00;
-    public ModelRenderer lLeg01;
-    public ModelRenderer lLeg02;
-    public ModelRenderer rLeg00;
-    public ModelRenderer rLeg01;
-    public ModelRenderer rLeg02;
-    public ModelRenderer lWing;
-    public ModelRenderer rWing;
-    public ModelRenderer lAntenna;
-    public ModelRenderer rAntenna;
+    public ModelPart thorax;
+    public ModelPart head;
+    public ModelPart abdomin;
+    public ModelPart lLeg00;
+    public ModelPart lLeg01;
+    public ModelPart lLeg02;
+    public ModelPart rLeg00;
+    public ModelPart rLeg01;
+    public ModelPart rLeg02;
+    public ModelPart lWing;
+    public ModelPart rWing;
+    public ModelPart lAntenna;
+    public ModelPart rAntenna;
     private boolean isOffset = false;
     private double xOff = 0;
     private double zOff = 0;
@@ -38,56 +34,56 @@ public class ModelButterfly<T extends Entity> extends EntityModel<T> {
     public ModelButterfly() {
         this.texWidth = 64;
         this.texHeight = 32;
-        this.abdomin = new ModelRenderer(this, 0, 16);
+        this.abdomin = new ModelPart(this, 0, 16);
         this.abdomin.setPos(0.0F, 0.2F, 1.8F);
         this.abdomin.addBox(-1.5F, -1.5F, 0.0F, 3, 3, 6, 0.0F);
         this.setRotateAngle(abdomin, -0.12217304763960307F, 0.0F, 0.0F);
-        this.rWing = new ModelRenderer(this, -4, 0);
+        this.rWing = new ModelPart(this, -4, 0);
         this.rWing.mirror = true;
         this.rWing.setPos(-1.2F, -1.0F, -1.0F);
         this.rWing.addBox(-20.0F, 0.0F, -4.5F, 20, 0, 27, 0.0F);
-        this.thorax = new ModelRenderer(this, 0, 7);
+        this.thorax = new ModelPart(this, 0, 7);
         this.thorax.setPos(0.0F, 20.9F, 0.0F);
         this.thorax.addBox(-1.5F, -1.5F, -2.0F, 3, 3, 4, 0.0F);
-        this.rLeg00 = new ModelRenderer(this, 17, 6);
+        this.rLeg00 = new ModelPart(this, 17, 6);
         this.rLeg00.mirror = true;
         this.rLeg00.setPos(-0.9F, 1.2F, -0.5F);
         this.rLeg00.addBox(-0.5F, 0.0F, -0.0F, 1, 4, 0, 0.0F);
         this.setRotateAngle(rLeg00, -1.0471975511965976F, 0.8726646259971648F, 0.0F);
-        this.lLeg01 = new ModelRenderer(this, 20, 5);
+        this.lLeg01 = new ModelPart(this, 20, 5);
         this.lLeg01.setPos(0.9F, 1.2F, 0.0F);
         this.lLeg01.addBox(-0.0F, 0.0F, -0.5F, 0, 4, 1, 0.0F);
         this.setRotateAngle(lLeg01, 0.0F, 0.0F, -1.0471975511965976F);
-        this.lAntenna = new ModelRenderer(this, 11, 0);
+        this.lAntenna = new ModelPart(this, 11, 0);
         this.lAntenna.setPos(0.4F, -3.0F, -2.0F);
         this.lAntenna.addBox(0.0F, 0.0F, -5.0F, 2, 0, 5, 0.0F);
         this.setRotateAngle(lAntenna, -0.7853981633974483F, -0.2792526803190927F, 0.0F);
-        this.lLeg02 = new ModelRenderer(this, 17, 6);
+        this.lLeg02 = new ModelPart(this, 17, 6);
         this.lLeg02.setPos(0.9F, 1.2F, 0.5F);
         this.lLeg02.addBox(-0.5F, 0.0F, -0.0F, 1, 4, 0, 0.0F);
         this.setRotateAngle(lLeg02, 1.0471975511965976F, 0.8726646259971648F, 0.0F);
-        this.lWing = new ModelRenderer(this, -4, 0);
+        this.lWing = new ModelPart(this, -4, 0);
         this.lWing.setPos(1.2F, -1.0F, -1.0F);
         this.lWing.addBox(0.0F, 0.0F, -4.5F, 20, 0, 27, 0.0F);
-        this.head = new ModelRenderer(this, 0, 0);
+        this.head = new ModelPart(this, 0, 0);
         this.head.setPos(0.0F, 0.2F, -1.4F);
         this.head.addBox(-1.5F, -3.0F, -3.0F, 3, 3, 3, 0.0F);
         this.setRotateAngle(head, 0.7853981633974483F, 0.0F, 0.0F);
-        this.rLeg01 = new ModelRenderer(this, 20, 5);
+        this.rLeg01 = new ModelPart(this, 20, 5);
         this.rLeg01.mirror = true;
         this.rLeg01.setPos(-0.9F, 1.2F, 0.0F);
         this.rLeg01.addBox(-0.0F, 0.0F, -0.5F, 0, 4, 1, 0.0F);
         this.setRotateAngle(rLeg01, 0.0F, 0.0F, 1.0471975511965976F);
-        this.lLeg00 = new ModelRenderer(this, 17, 6);
+        this.lLeg00 = new ModelPart(this, 17, 6);
         this.lLeg00.setPos(0.9F, 1.2F, -0.5F);
         this.lLeg00.addBox(-0.5F, 0.0F, -0.0F, 1, 4, 0, 0.0F);
         this.setRotateAngle(lLeg00, -1.0471975511965976F, -0.8726646259971648F, 0.0F);
-        this.rLeg02 = new ModelRenderer(this, 17, 6);
+        this.rLeg02 = new ModelPart(this, 17, 6);
         this.rLeg02.mirror = true;
         this.rLeg02.setPos(-0.9F, 1.2F, 0.5F);
         this.rLeg02.addBox(-0.5F, 0.0F, -0.0F, 1, 4, 0, 0.0F);
         this.setRotateAngle(rLeg02, 1.0471975511965976F, -0.8726646259971648F, 0.0F);
-        this.rAntenna = new ModelRenderer(this, 11, 0);
+        this.rAntenna = new ModelPart(this, 11, 0);
         this.rAntenna.mirror = true;
         this.rAntenna.setPos(-0.4F, -3.0F, -2.0F);
         this.rAntenna.addBox(-2.0F, 0.0F, -5.0F, 2, 0, 5, 0.0F);
@@ -107,8 +103,8 @@ public class ModelButterfly<T extends Entity> extends EntityModel<T> {
     }
 
     @Override
-    public void renderToBuffer(MatrixStack matrixStackIn, IVertexBuilder bufferIn, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
-        if(this.isOffset) {
+    public void renderToBuffer(PoseStack matrixStackIn, VertexConsumer bufferIn, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
+        if (this.isOffset) {
             matrixStackIn.translate(-this.xOff, 0D, this.zOff);
         }
         this.thorax.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn);
@@ -116,9 +112,9 @@ public class ModelButterfly<T extends Entity> extends EntityModel<T> {
 
     @Override
     public void setupAnim(T entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
-        if(entityIn instanceof EntityButterfly) {
+        if (entityIn instanceof EntityButterfly) {
             EntityButterfly entity = (EntityButterfly) entityIn;
-            if(entity.isLanded()) {
+            if (entity.isLanded()) {
                 this.setRotateAngle(lLeg00, -1.0471975511965976F, -0.8726646259971648F, 0.0F);
                 this.setRotateAngle(rAntenna, -0.7853981633974483F, 0.2792526803190927F, 0.0F);
                 this.setRotateAngle(lLeg01, 0.0F, 0.0F, -1.0471975511965976F);
@@ -134,7 +130,7 @@ public class ModelButterfly<T extends Entity> extends EntityModel<T> {
                 this.lWing.yRot = (float) Math.toRadians(-30);
                 this.rWing.yRot = (float) Math.toRadians(30);
                 this.isOffset = Direction.from3DDataValue(entity.getLandedInteger()) != Direction.DOWN;
-                if(isOffset) {
+                if (isOffset) {
                     this.thorax.xRot = (float) Math.toRadians(-90);
                     this.thorax.yRot = (float) Math.toRadians(Direction.from3DDataValue(entity.getLandedInteger()).toYRot());
                     double x = Math.floor(entity.getX()) + 0.5D;
@@ -159,7 +155,7 @@ public class ModelButterfly<T extends Entity> extends EntityModel<T> {
         }
     }
 
-    public void setRotateAngle(ModelRenderer ModelRenderer, float x, float y, float z) {
+    public void setRotateAngle(ModelPart ModelRenderer, float x, float y, float z) {
         ModelRenderer.xRot = x;
         ModelRenderer.yRot = y;
         ModelRenderer.zRot = z;

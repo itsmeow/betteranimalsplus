@@ -1,6 +1,6 @@
 package dev.itsmeow.betteranimalsplus.util;
 
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.Mth;
 
 public class ModMathHelper {
 
@@ -40,7 +40,7 @@ public class ModMathHelper {
     }
 
     public static float wrapAngle(float a1, float a2, float delta) {
-        float angle = MathHelper.wrapDegrees(a2 - a1);
+        float angle = Mth.wrapDegrees(a2 - a1);
 
         if (angle > delta) {
             angle = delta;
@@ -59,9 +59,9 @@ public class ModMathHelper {
      * @param p  - A float between 0.0 and 1.0 that determines the progress between
      *           the two angles.
      * @return a rotation angle that is between two other rotation angles. 'a1' and
-     *         'a2' are the angles between which to interpolate.
-     * 
-     *         Example: angle1 = 30, angle2 = 50, progress = 0.5, return = 40
+     * 'a2' are the angles between which to interpolate.
+     * <p>
+     * Example: angle1 = 30, angle2 = 50, progress = 0.5, return = 40
      */
     public static float interpolateRotation(float a1, float a2, float p) {
         float angle = a2 - a1;

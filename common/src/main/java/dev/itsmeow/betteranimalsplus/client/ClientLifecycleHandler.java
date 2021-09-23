@@ -1,6 +1,8 @@
 package dev.itsmeow.betteranimalsplus.client;
 
 
+import com.mojang.blaze3d.vertex.DefaultVertexFormat;
+import com.mojang.math.Vector3f;
 import dev.itsmeow.betteranimalsplus.BetterAnimalsPlusMod;
 import dev.itsmeow.betteranimalsplus.Ref;
 import dev.itsmeow.betteranimalsplus.client.model.*;
@@ -9,30 +11,25 @@ import dev.itsmeow.betteranimalsplus.client.renderer.entity.RenderTarantulaHair;
 import dev.itsmeow.betteranimalsplus.client.renderer.entity.layers.GooseItemLayerRenderer;
 import dev.itsmeow.betteranimalsplus.client.renderer.entity.layers.LayerEyes;
 import dev.itsmeow.betteranimalsplus.client.renderer.entity.layers.LayerEyesCondition;
-import dev.itsmeow.betteranimalsplus.client.renderer.tileentity.RenderBlockTrillium;
+import dev.itsmeow.betteranimalsplus.client.renderer.blockentity.RenderBlockTrillium;
 import dev.itsmeow.betteranimalsplus.common.entity.projectile.*;
 import dev.itsmeow.betteranimalsplus.init.ModEntities;
 import dev.itsmeow.betteranimalsplus.init.ModResources;
-import dev.itsmeow.betteranimalsplus.init.ModTileEntities;
+import dev.itsmeow.betteranimalsplus.init.ModBlockEntities;
 import dev.itsmeow.imdlib.client.IMDLibClient;
 import dev.itsmeow.imdlib.client.render.RenderFactory;
-import dev.itsmeow.imdlib.tileentity.TileEntityHead;
-import net.minecraft.client.renderer.RenderState;
+import net.minecraft.client.renderer.RenderStateShard;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
-import net.minecraft.entity.Pose;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.vector.Vector3f;
-import net.minecraftforge.fml.client.registry.ClientRegistry;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
+import net.minecraft.world.entity.Pose;
 
 public class ClientLifecycleHandler {
 
     public static final RenderFactory R = IMDLibClient.getRenderRegistry(Ref.MOD_ID);
 
     public void clientSetup(final FMLClientSetupEvent event) {
-        ClientRegistry.bindTileEntityRenderer(ModTileEntities.TRILLIUM_TYPE.get(), RenderBlockTrillium::new);
+        ClientRegistry.bindTileEntityRenderer(ModBlockEntities.TRILLIUM_TYPE.get(), RenderBlockTrillium::new);
         TileEntityHead.registerTypeRender();
         R.addRender(ModEntities.BROWN_BEAR.getEntityType(), 1F, r -> r.tSingle("bear_brown").mSingle(new ModelBear<>()).ageScale(1.3F, 0.65F));
         R.addRender(ModEntities.BLACK_BEAR.getEntityType(), 1F, r -> r.tVariant().mSingle(new ModelBear<>()).childScale(0.5F));
@@ -56,7 +53,7 @@ public class ClientLifecycleHandler {
         R.addRender(ModEntities.PHEASANT.getEntityType(), 0.5F, r -> r.tBabyVariant("pheasant_baby").mSingle(new ModelPheasant<>()).childScale(0.5F).handleRotation((e, p) -> {
             float f = e.oFlap + (e.wingRotation - e.oFlap) * p;
             float f1 = e.oFlapSpeed + (e.destPos - e.oFlapSpeed) * p;
-            return (MathHelper.sin(f) + 1.0F) * f1;
+            return (Mth.sin(f) + 1.0F) * f1;
         }));
         R.addRender(ModEntities.REINDEER.getEntityType(), 1F, r -> r.tVariant().mSingle(new ModelReindeer<>()).ageScale(1.3F, 0.7F));
         R.addRender(ModEntities.BOAR.getEntityType(), 0.6F, r -> r.tBabyVariant("boar_baby").mSingle(new ModelBoar<>()).childScale(0.6F));
@@ -134,7 +131,7 @@ public class ClientLifecycleHandler {
         R.addRender(ModEntities.TURKEY.getEntityType(), 0.5F, r -> r.tBabyVariant("turkey_baby").mSingle(new ModelTurkey<>()).ageScale(0.8F, 0.5F).handleRotation((e, p) -> {
             float f = e.oFlap + (e.wingRotation - e.oFlap) * p;
             float f1 = e.oFlapSpeed + (e.destPos - e.oFlapSpeed) * p;
-            return (MathHelper.sin(f) + 1.0F) * f1;
+            return (Mth.sin(f) + 1.0F) * f1;
         }));
         RenderFactory.addRender(EntityTurkeyEgg.TURKEY_EGG_TYPE, RenderFactory.sprite());
         R.addRender(ModEntities.BOBBIT_WORM.getEntityType(), 0.4F, r -> r.tVariant().mSingle(new ModelBobbitWorm<>()));
@@ -172,18 +169,18 @@ public class ClientLifecycleHandler {
         R.addRender(ModEntities.DRAGONFLY.getEntityType(), 0.1F, r -> r.tVariant().mSingle(new ModelDragonfly<>()).simpleScale(e -> (e.getDimensions(Pose.STANDING).width / 2F)));
         R.addRender(ModEntities.BARRACUDA.getEntityType(), 1F, r -> r.tSingle("barracuda").mSingle(new ModelBarracuda<>()).simpleScale(e -> 0.6F));
         R.addRender(ModEntities.FLYING_FISH.getEntityType(), 1F, r -> r.tVariant().mSingle(new ModelFlyingFish<>()).simpleScale(e -> 0.4F));
-        R.addRender(ModEntities.SQUID_COLOSSAL.getEntityType(), 5F, r -> r.tSingle("squid_colossal").mSingle(new ModelColossalSquid<>()).simpleScale(e -> 1.9F).handleRotation((e, p) -> MathHelper.lerp(p, e.lastTentacleAngle, e.tentacleAngle)).applyRotations((e, s, a, y, p) -> {
-            float f = MathHelper.lerp(p, e.prevSquidPitch, e.squidPitch);
-            float f1 = MathHelper.lerp(p, e.prevSquidYaw, e.squidYaw);
+        R.addRender(ModEntities.SQUID_COLOSSAL.getEntityType(), 5F, r -> r.tSingle("squid_colossal").mSingle(new ModelColossalSquid<>()).simpleScale(e -> 1.9F).handleRotation((e, p) -> Mth.lerp(p, e.lastTentacleAngle, e.tentacleAngle)).applyRotations((e, s, a, y, p) -> {
+            float f = Mth.lerp(p, e.prevSquidPitch, e.squidPitch);
+            float f1 = Mth.lerp(p, e.prevSquidYaw, e.squidYaw);
             s.translate(0.0F, 0.5F, 0.0F);
             s.mulPose(Vector3f.YP.rotationDegrees(180.0F - y));
             s.mulPose(Vector3f.XP.rotationDegrees(f));
             s.mulPose(Vector3f.YP.rotationDegrees(f1));
             s.translate(0.0F, -1.2F, 0.0F);
         }));
-        R.addRender(ModEntities.SQUID_GIANT.getEntityType(), 3F, r -> r.tSingle("squid_giant").mSingle(new ModelGiantSquid<>()).simpleScale(e -> 2.2F).handleRotation((e, p) -> MathHelper.lerp(p, e.lastTentacleAngle, e.tentacleAngle)).applyRotations((e, s, a, y, p) -> {
-            float f = MathHelper.lerp(p, e.prevSquidPitch, e.squidPitch);
-            float f1 = MathHelper.lerp(p, e.prevSquidYaw, e.squidYaw);
+        R.addRender(ModEntities.SQUID_GIANT.getEntityType(), 3F, r -> r.tSingle("squid_giant").mSingle(new ModelGiantSquid<>()).simpleScale(e -> 2.2F).handleRotation((e, p) -> Mth.lerp(p, e.lastTentacleAngle, e.tentacleAngle)).applyRotations((e, s, a, y, p) -> {
+            float f = Mth.lerp(p, e.prevSquidPitch, e.squidPitch);
+            float f1 = Mth.lerp(p, e.prevSquidYaw, e.squidYaw);
             s.translate(0.0F, 0.5F, 0.0F);
             s.mulPose(Vector3f.YP.rotationDegrees(180.0F - y));
             s.mulPose(Vector3f.XP.rotationDegrees(f));
@@ -191,12 +188,12 @@ public class ClientLifecycleHandler {
             s.translate(0.0F, -1.2F, 0.0F);
         }));
         R.addRender(ModEntities.PIRANHA.getEntityType(), 0.4F, r -> r.tSingle("piranha").mSingle(new ModelPiranha<>()).simpleScale(e -> 0.3F));
-        R.addRender(ModEntities.OCTOPUS.getEntityType(), 1F, r -> r.tVariant().mSingle(new ModelOctopus<>()).handleRotation((e, p) -> MathHelper.lerp(p, e.lastTentacleAngle, e.tentacleAngle)).applyRotations((e, s, a, y, p) -> {
+        R.addRender(ModEntities.OCTOPUS.getEntityType(), 1F, r -> r.tVariant().mSingle(new ModelOctopus<>()).handleRotation((e, p) -> Mth.lerp(p, e.lastTentacleAngle, e.tentacleAngle)).applyRotations((e, s, a, y, p) -> {
             // s.translate(0.0F, 0.5F, 0.0F);
             s.mulPose(Vector3f.YP.rotationDegrees(180.0F - y));
             if(e.isInWaterOrBubble() && (!e.isAboveBlock() || e.getDeltaMovement().length() > 0.01)) {
-                float f = MathHelper.lerp(p, e.prevSquidPitch, e.squidPitch);
-                float f1 = MathHelper.lerp(p, e.prevSquidYaw, e.squidYaw);
+                float f = Mth.lerp(p, e.prevSquidPitch, e.squidPitch);
+                float f1 = Mth.lerp(p, e.prevSquidYaw, e.squidYaw);
                 s.mulPose(Vector3f.XP.rotationDegrees(f));
                 s.mulPose(Vector3f.YP.rotationDegrees(f1));
             }
@@ -213,8 +210,8 @@ public class ClientLifecycleHandler {
         }
 
         public static RenderType getEyesEntityCutoutNoCullDepthMaskOff(ResourceLocation locationIn) {
-            RenderState.TextureState renderstate$texturestate = new RenderState.TextureState(locationIn, false, false);
-            return create("eyes_entity_cutout_no_cull_depth_mask_off", DefaultVertexFormats.NEW_ENTITY, 7, 256, false, true, RenderType.State.builder().setTextureState(renderstate$texturestate).setCullState(NO_CULL).setTransparencyState(ADDITIVE_TRANSPARENCY).setWriteMaskState(COLOR_WRITE).setFogState(BLACK_FOG).setDiffuseLightingState(DIFFUSE_LIGHTING).setAlphaState(DEFAULT_ALPHA).setLightmapState(NO_LIGHTMAP).setOverlayState(OVERLAY).createCompositeState(false));
+            RenderStateShard.TextureStateShard renderstate$texturestate = new RenderStateShard.TextureStateShard(locationIn, false, false);
+            return create("eyes_entity_cutout_no_cull_depth_mask_off", DefaultVertexFormat.NEW_ENTITY, 7, 256, false, true, RenderType.CompositeState.builder().setTextureState(renderstate$texturestate).setCullState(NO_CULL).setTransparencyState(ADDITIVE_TRANSPARENCY).setWriteMaskState(COLOR_WRITE).setFogState(BLACK_FOG).setDiffuseLightingState(DIFFUSE_LIGHTING).setAlphaState(DEFAULT_ALPHA).setLightmapState(NO_LIGHTMAP).setOverlayState(OVERLAY).createCompositeState(false));
         }
 
     }

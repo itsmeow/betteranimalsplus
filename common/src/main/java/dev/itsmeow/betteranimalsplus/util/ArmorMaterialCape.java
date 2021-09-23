@@ -1,23 +1,23 @@
 package dev.itsmeow.betteranimalsplus.util;
 
-import net.minecraft.inventory.EquipmentSlotType;
-import net.minecraft.item.IArmorMaterial;
-import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.util.SoundEvent;
-import net.minecraft.util.SoundEvents;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.item.ArmorMaterial;
+import net.minecraft.world.item.crafting.Ingredient;
 
-public class ArmorMaterialCape implements IArmorMaterial {
-    
+public class ArmorMaterialCape implements ArmorMaterial {
+
     private final String name;
     private final String variant;
-    
+
     public ArmorMaterialCape(String name, String variant) {
         this.name = name;
         this.variant = variant;
     }
 
     @Override
-    public int getDefenseForSlot(EquipmentSlotType arg0) {
+    public int getDefenseForSlot(EquipmentSlot arg0) {
         return 3;
     }
 
@@ -42,7 +42,7 @@ public class ArmorMaterialCape implements IArmorMaterial {
     }
 
     @Override
-    public int getDurabilityForSlot(EquipmentSlotType slotIn) {
+    public int getDurabilityForSlot(EquipmentSlot slotIn) {
         return 81; // leather chestplate https://minecraft.gamepedia.com/Armor#Durability
     }
 

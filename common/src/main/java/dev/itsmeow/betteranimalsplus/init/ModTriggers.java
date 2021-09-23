@@ -1,11 +1,11 @@
 package dev.itsmeow.betteranimalsplus.init;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import dev.itsmeow.betteranimalsplus.Ref;
 import dev.itsmeow.betteranimalsplus.common.advancements.CustomTrigger;
 import net.minecraft.advancements.CriteriaTriggers;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class ModTriggers {
 
@@ -24,15 +24,15 @@ public class ModTriggers {
 
     public static void register() {
         registerTriggers(PUNCH_BEAR, PUNCH_BEAR_DEATH, USE_CRAB_DISK, SHARK_TARGETED, RIDE_REINDEER, GOAT_FIGHT_FRIEND, NO_BAM, BADGERDIRT_IMPACT, USE_WALRUS_DISK, SQUID_TARGETED, OCTOPUS_SAVE_PLAYER);
-        for(int i = 1; i <= 100; i++) {
+        for (int i = 1; i <= 100; i++) {
             CustomTrigger trigger = new CustomTrigger(Ref.MOD_ID + ":squirrel_kill" + i);
             SQUIRREL_KILL_TRIGGERS.put(i, trigger);
             CriteriaTriggers.register(trigger);
         }
     }
-    
+
     private static void registerTriggers(CustomTrigger... triggers) {
-        for(CustomTrigger trigger : triggers) {
+        for (CustomTrigger trigger : triggers) {
             CriteriaTriggers.register(trigger);
         }
     }

@@ -1,65 +1,62 @@
 package dev.itsmeow.betteranimalsplus.common.block;
 
-import dev.itsmeow.betteranimalsplus.common.tileentity.TileEntityTrillium;
-import net.minecraft.block.*;
-import net.minecraft.block.material.Material;
-import net.minecraft.item.BlockItemUseContext;
-import net.minecraft.state.StateContainer.Builder;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.Direction;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.shapes.ISelectionContext;
-import net.minecraft.util.math.shapes.VoxelShape;
-import net.minecraft.util.math.shapes.VoxelShapes;
-import net.minecraft.world.IBlockReader;
-import net.minecraft.world.IWorldReader;
-import net.minecraft.world.World;
-
-import net.minecraft.block.AbstractBlock.Properties;
+import dev.itsmeow.betteranimalsplus.common.blockentity.BlockEntityTrillium;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.*;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition.Builder;
+import net.minecraft.world.level.material.Material;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.phys.shapes.VoxelShape;
 
 public class BlockTrillium extends BushBlock {
 
-    private static final VoxelShape SHAPE = VoxelShapes.box(0.15F, 0.0F, 0.15F, 0.85F, 0.9F, 0.85F);
+    private static final VoxelShape SHAPE = Shapes.box(0.15F, 0.0F, 0.15F, 0.85F, 0.9F, 0.85F);
 
     public BlockTrillium() {
         super(Properties.of(Material.PLANT).sound(SoundType.GRASS).noCollission());
-        this.registerDefaultState(this.defaultBlockState().setValue(HorizontalBlock.FACING, Direction.NORTH));
+        this.registerDefaultState(this.defaultBlockState().setValue(HorizontalDirectionalBlock.FACING, Direction.NORTH));
     }
 
     @Override
-    public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext ctx) {
+    public VoxelShape getShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext ctx) {
         return SHAPE;
     }
 
     @Override
-    public void onNeighborChange(BlockState state, IWorldReader world, BlockPos pos, BlockPos neighbor) {
-        super.onNeighborChange(state, world, pos, neighbor);
-        if(!world.getBlockState(neighbor).isRedstoneConductor(world, pos) && pos.below() == neighbor) {
-            World world1 = (World) world;
-            world1.destroyBlock(pos, true);
+    public void neighborChanged(BlockState state, Level level, BlockPos pos, Block block, BlockPos neighbor, boolean bl) {
+        super.neighborChanged(state, level, pos, block, neighbor, bl);
+        if (!level.getBlockState(neighbor).isRedstoneConductor(level, pos) && pos.below() == neighbor) {
+            level.destroyBlock(pos, true);
         }
     }
 
     @Override
     protected void createBlockStateDefinition(Builder<Block, BlockState> builder) {
-        builder.add(HorizontalBlock.FACING);
+        builder.add(HorizontalDirectionalBlock.FACING);
     }
 
     @Override
-    public void onPlace(BlockState state1, World world, BlockPos pos, BlockState state2, boolean unknown) {
-        if(!world.getBlockState(pos.below()).isRedstoneConductor(world, pos)) {
+    public void onPlace(BlockState state1, Level world, BlockPos pos, BlockState state2, boolean unknown) {
+        if (!world.getBlockState(pos.below()).isRedstoneConductor(world, pos)) {
             world.destroyBlock(pos, true);
         }
     }
 
     @Override
-    public BlockState getStateForPlacement(BlockItemUseContext context) {
-        return this.defaultBlockState().setValue(HorizontalBlock.FACING, context.getHorizontalDirection());
+    public BlockState getStateForPlacement(BlockPlaceContext context) {
+        return this.defaultBlockState().setValue(HorizontalDirectionalBlock.FACING, context.getHorizontalDirection());
     }
 
     @Override
-    public BlockRenderType getRenderShape(BlockState state) {
-        return BlockRenderType.ENTITYBLOCK_ANIMATED;
+    public RenderShape getRenderShape(BlockState state) {
+        return RenderShape.ENTITYBLOCK_ANIMATED;
     }
 
     @Override
@@ -68,7 +65,7 @@ public class BlockTrillium extends BushBlock {
     }
 
     @Override
-    public TileEntity createTileEntity(BlockState state, IBlockReader world) {
-        return new TileEntityTrillium();
+    public BlockEntity createTileEntity(BlockState state, BlockGetter world) {
+        return new BlockEntityTrillium();
     }
 }

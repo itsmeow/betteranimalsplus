@@ -1,33 +1,33 @@
-package dev.itsmeow.betteranimalsplus.client.renderer.tileentity;
+package dev.itsmeow.betteranimalsplus.client.renderer.blockentity;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.math.Vector3f;
+import dev.itsmeow.betteranimalsplus.common.blockentity.TileEntityTrillium;
 import dev.itsmeow.betteranimalsplus.client.model.ModelTrillium;
 import dev.itsmeow.betteranimalsplus.client.model.ModelTrilliumMulti;
 import dev.itsmeow.betteranimalsplus.client.model.ModelTrilliumMulti2;
-import dev.itsmeow.betteranimalsplus.common.tileentity.TileEntityTrillium;
 import dev.itsmeow.betteranimalsplus.init.ModResources;
-import net.minecraft.client.renderer.IRenderTypeBuffer;
+import net.minecraft.client.model.EntityModel;
+import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.entity.model.EntityModel;
-import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
-import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
-import net.minecraft.entity.Entity;
-import net.minecraft.util.math.vector.Vector3f;
+import net.minecraft.client.renderer.blockentity.BlockEntityRenderDispatcher;
+import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
+import net.minecraft.world.entity.Entity;
 
 import java.awt.*;
 
-public class RenderBlockTrillium extends TileEntityRenderer<TileEntityTrillium> {
+public class RenderBlockTrillium extends BlockEntityRenderer<TileEntityTrillium> {
 
     public static ModelTrillium<Entity> singleT = new ModelTrillium<>();
     public static ModelTrilliumMulti<Entity> doubleT = new ModelTrilliumMulti<>();
     public static ModelTrilliumMulti2<Entity> tripleT = new ModelTrilliumMulti2<>();
-    
-    public RenderBlockTrillium(TileEntityRendererDispatcher dispatcher) {
+
+    public RenderBlockTrillium(BlockEntityRenderDispatcher dispatcher) {
         super(dispatcher);
     }
 
     @Override
-    public void render(TileEntityTrillium tileentity, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int combinedLightIn, int combinedOverlayIn) {
+    public void render(TileEntityTrillium tileentity, float partialTicks, PoseStack matrixStackIn, MultiBufferSource bufferIn, int combinedLightIn, int combinedOverlayIn) {
         float rotate = 0F;
         if (!tileentity.getLevel().isEmptyBlock(tileentity.getBlockPos())) {
             rotate = tileentity.getRotation();
@@ -42,7 +42,7 @@ public class RenderBlockTrillium extends TileEntityRenderer<TileEntityTrillium> 
 
             matrixStackIn.pushPose();
             {
-                Color color = new Color(tileentity.getLevel().getBiome(tileentity.getBlockPos()).getGrassColor(0,0));
+                Color color = new Color(tileentity.getLevel().getBiome(tileentity.getBlockPos()).getGrassColor(0, 0));
                 float r = color.getRed() / 255F;
                 float g = color.getGreen() / 255F;
                 float b = color.getBlue() / 255F;

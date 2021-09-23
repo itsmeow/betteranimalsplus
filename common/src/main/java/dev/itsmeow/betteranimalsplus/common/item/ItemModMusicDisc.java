@@ -1,14 +1,12 @@
 package dev.itsmeow.betteranimalsplus.common.item;
 
-import net.minecraft.item.Item;
-import net.minecraft.item.MusicDiscItem;
-import net.minecraft.item.Rarity;
-import net.minecraft.util.SoundEvent;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Rarity;
+import net.minecraft.world.item.RecordItem;
 
-import java.util.function.Supplier;
-
-public class ItemModMusicDisc extends MusicDiscItem {
-    public ItemModMusicDisc(Supplier<SoundEvent> soundSupplier) {
-        super(15, soundSupplier, new Item.Properties().stacksTo(1).rarity(Rarity.RARE));
+public class ItemModMusicDisc extends RecordItem {
+    public ItemModMusicDisc(SoundEvent soundEvent) {
+        super(15, soundEvent, new Item.Properties().stacksTo(1).rarity(Rarity.RARE));
     }
 }

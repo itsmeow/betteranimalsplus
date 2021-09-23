@@ -1,57 +1,62 @@
 package dev.itsmeow.betteranimalsplus.common.item;
 
 import dev.itsmeow.betteranimalsplus.BetterAnimalsPlusMod;
-import net.minecraft.block.DispenserBlock;
-import net.minecraft.dispenser.IPosition;
-import net.minecraft.dispenser.ProjectileDispenseBehavior;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.projectile.ProjectileEntity;
-import net.minecraft.entity.projectile.ProjectileItemEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
+import net.minecraft.Util;
+import net.minecraft.core.Position;
+import net.minecraft.core.dispenser.AbstractProjectileDispenseBehavior;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
-import net.minecraft.util.*;
-import net.minecraft.world.World;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.Projectile;
+import net.minecraft.world.entity.projectile.ThrowableItemProjectile;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.DispenserBlock;
 
 import java.util.function.BiFunction;
 
 public class ItemThrowableCustomEgg extends Item {
 
-    private final BiFunction<World, IPosition, ProjectileItemEntity> eggSupplier;
-    private final BiFunction<World, LivingEntity, ProjectileItemEntity> eggSupplier2;
+    private final BiFunction<Level, Position, ThrowableItemProjectile> eggSupplier;
+    private final BiFunction<Level, LivingEntity, ThrowableItemProjectile> eggSupplier2;
 
-    public ItemThrowableCustomEgg(BiFunction<World, IPosition, ProjectileItemEntity> egg, BiFunction<World, LivingEntity, ProjectileItemEntity> egg2) {
-        super(new Item.Properties().stacksTo(16).tab(BetterAnimalsPlusMod.GROUP));
+    public ItemThrowableCustomEgg(BiFunction<Level, Position, ThrowableItemProjectile> egg, BiFunction<Level, LivingEntity, ThrowableItemProjectile> egg2) {
+        super(new Item.Properties().stacksTo(16).tab(BetterAnimalsPlusMod.TAB));
         this.eggSupplier = egg;
         this.eggSupplier2 = egg2;
-        DispenserBlock.registerBehavior(this, new ProjectileDispenseBehavior() {
+        DispenserBlock.registerBehavior(this, new AbstractProjectileDispenseBehavior() {
             @Override
-            protected ProjectileEntity getProjectile(World worldIn, IPosition position, ItemStack stackIn) {
+            protected Projectile getProjectile(Level worldIn, Position position, ItemStack stackIn) {
                 return Util.make(eggSupplier.apply(worldIn, position), (p) -> p.setItem(stackIn));
             }
         });
     }
 
     @Override
-    public ActionResult<ItemStack> use(World worldIn, PlayerEntity playerIn, Hand handIn) {
+    public InteractionResultHolder<ItemStack> use(Level worldIn, Player playerIn, InteractionHand handIn) {
         ItemStack itemstack = playerIn.getItemInHand(handIn);
 
-        if(!playerIn.abilities.instabuild) {
+        if (!playerIn.abilities.instabuild) {
             itemstack.shrink(1);
         }
 
-        worldIn.playSound(null, playerIn.getX(), playerIn.getY(), playerIn.getZ(), SoundEvents.EGG_THROW, SoundCategory.PLAYERS, 0.5F, 0.4F / (random.nextFloat() * 0.4F + 0.8F));
+        worldIn.playSound(null, playerIn.getX(), playerIn.getY(), playerIn.getZ(), SoundEvents.EGG_THROW, SoundSource.PLAYERS, 0.5F, 0.4F / (random.nextFloat() * 0.4F + 0.8F));
 
-        if(!worldIn.isClientSide) {
-            ProjectileItemEntity ent = eggSupplier2.apply(playerIn.level, playerIn);
+        if (!worldIn.isClientSide) {
+            ThrowableItemProjectile ent = eggSupplier2.apply(playerIn.level, playerIn);
             ent.setItem(itemstack);
             ent.shootFromRotation(playerIn, playerIn.xRot, playerIn.yRot, 0.0F, 1.5F, 1.0F);
             worldIn.addFreshEntity(ent);
         }
 
         playerIn.awardStat(Stats.ITEM_USED.get(this));
-        return new ActionResult<>(ActionResultType.SUCCESS, itemstack);
+        return new InteractionResultHolder<>(InteractionResult.SUCCESS, itemstack);
     }
 
 }

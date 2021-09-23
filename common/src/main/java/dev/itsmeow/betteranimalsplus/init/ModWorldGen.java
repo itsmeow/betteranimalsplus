@@ -1,19 +1,18 @@
 package dev.itsmeow.betteranimalsplus.init;
 
 import dev.itsmeow.betteranimalsplus.Ref;
-import net.minecraft.block.HorizontalBlock;
-import net.minecraft.util.Direction;
-import net.minecraft.util.RegistryKey;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.registry.Registry;
-import net.minecraft.util.registry.WorldGenRegistries;
-import net.minecraft.world.gen.GenerationStage;
-import net.minecraft.world.gen.blockplacer.SimpleBlockPlacer;
-import net.minecraft.world.gen.blockstateprovider.WeightedBlockStateProvider;
-import net.minecraft.world.gen.feature.BlockClusterFeatureConfig;
-import net.minecraft.world.gen.feature.ConfiguredFeature;
-import net.minecraft.world.gen.feature.Feature;
-import net.minecraft.world.gen.feature.Features;
+import net.minecraft.core.Direction;
+import net.minecraft.core.Registry;
+import net.minecraft.data.worldgen.Features;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.block.HorizontalDirectionalBlock;
+import net.minecraft.world.level.levelgen.GenerationStep;
+import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
+import net.minecraft.world.level.levelgen.feature.Feature;
+import net.minecraft.world.level.levelgen.feature.blockplacers.SimpleBlockPlacer;
+import net.minecraft.world.level.levelgen.feature.configurations.RandomPatchConfiguration;
+import net.minecraft.world.level.levelgen.feature.stateproviders.WeightedStateProvider;
 import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.event.world.BiomeLoadingEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -27,9 +26,9 @@ import javax.annotation.Nullable;
 public class ModWorldGen {
 
     @Nullable
-    public static WeightedBlockStateProvider TRILLIUM_STATE_PROVIDER = new WeightedBlockStateProvider();
+    public static WeightedStateProvider TRILLIUM_STATE_PROVIDER = new WeightedStateProvider();
     @Nullable
-    public static BlockClusterFeatureConfig TRILLIUM_FEATURE_CONFIG = null;
+    public static RandomPatchConfiguration TRILLIUM_FEATURE_CONFIG = null;
     @Nullable
     public static ConfiguredFeature<?, ?> TRILLIUM_CF = null;
 
@@ -38,12 +37,12 @@ public class ModWorldGen {
     }
 
     public static void setup(final FMLCommonSetupEvent event) {
-        TRILLIUM_STATE_PROVIDER = new WeightedBlockStateProvider();
-        for(int i = 0; i < 4; i++) {
-            TRILLIUM_STATE_PROVIDER.add(ModBlocks.TRILLIUM.get().defaultBlockState().setValue(HorizontalBlock.FACING, Direction.from2DDataValue(i)), 1);
+        TRILLIUM_STATE_PROVIDER = new WeightedStateProvider();
+        for (int i = 0; i < 4; i++) {
+            TRILLIUM_STATE_PROVIDER.add(ModBlocks.TRILLIUM.get().getDefaultState().with(HorizontalDirectionalBlock.FACING, Direction.from2DDataValue(i)), 1);
         }
-        TRILLIUM_FEATURE_CONFIG = (new BlockClusterFeatureConfig.Builder(TRILLIUM_STATE_PROVIDER, new SimpleBlockPlacer())).tries(64).build();
-        TRILLIUM_CF = Feature.FLOWER.configured(TRILLIUM_FEATURE_CONFIG).decorated(Features.Placements.ADD_32).decorated(Features.Placements.HEIGHTMAP_SQUARE);
+        TRILLIUM_FEATURE_CONFIG = (new RandomPatchConfiguration.GrassConfigurationBuilder(TRILLIUM_STATE_PROVIDER, new SimpleBlockPlacer())).tries(64).build();
+        TRILLIUM_CF = Feature.FLOWER.configured(TRILLIUM_FEATURE_CONFIG).decorated(Features.Decorators.ADD_32).decorated(Features.Decorators.HEIGHTMAP_SQUARE);
         event.enqueueWork(() -> {
             Registry.register(WorldGenRegistries.CONFIGURED_FEATURE, new ResourceLocation(Ref.MOD_ID, "trillium"), TRILLIUM_CF);
         });
@@ -51,7 +50,7 @@ public class ModWorldGen {
 
     @SubscribeEvent
     public static void biomeLoad(final BiomeLoadingEvent event) {
-        if (event.getName() != null && BiomeDictionary.getTypes(RegistryKey.create(Registry.BIOME_REGISTRY, event.getName())).contains(BiomeDictionary.Type.SWAMP))
-            event.getGeneration().getFeatures(GenerationStage.Decoration.VEGETAL_DECORATION).add(() -> TRILLIUM_CF);
+        if (event.getName() != null && BiomeDictionary.getTypes(ResourceKey.create(Registry.BIOME_REGISTRY, event.getName())).contains(BiomeDictionary.Type.SWAMP))
+            event.getGeneration().getFeatures(GenerationStep.Decoration.VEGETAL_DECORATION).add(() -> TRILLIUM_CF);
     }
 }

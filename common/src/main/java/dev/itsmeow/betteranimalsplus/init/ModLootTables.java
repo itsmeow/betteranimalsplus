@@ -1,7 +1,7 @@
 package dev.itsmeow.betteranimalsplus.init;
 
 import dev.itsmeow.betteranimalsplus.Ref;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
 
 public class ModLootTables {
 
