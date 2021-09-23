@@ -1,25 +1,71 @@
-apply from: 'https://maven.itsmeow.dev/scripts/fg3.gradle'
-apply from: 'https://maven.itsmeow.dev/scripts/imdlib.gradle'
+plugins {
+    id "architectury-plugin" version "3.2-SNAPSHOT"
+    id "dev.architectury.loom" version "0.7.2-SNAPSHOT" apply false
+}
 
-repositories {
-    maven {
-        name = "JEI"
-        url = "http://dvs1.progwml6.com/files/maven"
+architectury {
+    minecraft = rootProject.mc_version
+}
+
+subprojects {
+    apply plugin: "dev.architectury.loom"
+    loom {
+        silentMojangMappingsLicense()
     }
-    maven {
-        url = "https://cursemaven.com"
-    }
-    maven {
-        url = "https://maven.theillusivec4.top/"
+    dependencies {
+        minecraft "com.mojang:minecraft:${rootProject.mc_version}"
+        mappings loom.officialMojangMappings()
+
     }
 }
 
-dependencies {
-    compileOnly fg.deobf("mezz.jei:jei-${project.mc_version}:${jei_version}:api")
-    runtimeOnly fg.deobf("mezz.jei:jei-${project.mc_version}:${jei_version}")
-    runtimeOnly fg.deobf("curse.maven:AppleSkin-248787:${appleskin_version}")
-    compileOnly fg.deobf("top.theillusivec4.curios:curios-forge:${curios_version}:api")
-    runtimeOnly fg.deobf("top.theillusivec4.curios:curios-forge:${curios_version}")
-    runtimeOnly fg.deobf("curse.maven:BiomesOPlenty-3035787:${bop_version}")
-    runtimeOnly fg.deobf("curse.maven:TraverseReforged-267769:${traverse_version}")
+allprojects {
+    apply plugin: "java"
+    apply plugin: "architectury-plugin"
+    apply plugin: "maven-publish"
+    archivesBaseName = rootProject.mod_id
+    version = rootProject.mc_version+ "-" + rootProject.mod_version
+    group = rootProject.maven_group
+    tasks.withType(JavaCompile) {
+        options.encoding = "UTF-8"
+        def targetVersion = 8
+        if (JavaVersion.current().isJava9Compatible()) {
+            options.release = targetVersion
+        }
+    }
+    java {
+        withSourcesJar()
+    }
+    processResources {
+        doLast {
+            def jsonMinifyStart = System.currentTimeMillis()
+            def jsonMinified = 0
+            def jsonBytesSaved = 0
+            fileTree(dir: outputs.files.asPath, include: '**/*.json').each {
+                File file = it
+                jsonMinified++
+                def oldLength = file.length()
+                file.text = groovy.json.JsonOutput.toJson(new groovy.json.JsonSlurper().parse(file))
+                jsonBytesSaved += oldLength - file.length()
+            }
+            println('Minified ' + jsonMinified + ' json files. Saved ' + jsonBytesSaved + ' bytes. Took ' + (System.currentTimeMillis() - jsonMinifyStart) + 'ms.')
+        }
+    }
+    publishing {
+        repositories {
+            maven {
+                if ((System.getenv("MAVEN_USER") != '') && (System.getenv("MAVEN_PASSWORD") != '')) {
+                    credentials {
+                        username System.getenv("MAVEN_USER")
+                        password System.getenv("MAVEN_PASSWORD")
+                    }
+                }
+                if (System.getenv("MAVEN_URL") != '') {
+                    url System.getenv("MAVEN_URL")
+                } else {
+                    url "file:///${project.buildDir}/repo"
+                }
+            }
+        }
+    }
 }

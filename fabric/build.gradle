@@ -1,0 +1,130 @@
+plugins {
+    id "com.github.johnrengelman.shadow" version "5.0.0"
+}
+
+configurations {
+    shadowCommon // Don't use shadow from the shadow plugin because we don't want IDEA to index this.
+}
+
+architectury {
+    platformSetupLoomIde()
+    fabric()
+}
+
+repositories {
+    flatDir {
+        dirs 'libs'
+    }
+}
+dependencies {
+    modImplementation "net.fabricmc:fabric-loader:${rootProject.fabric_loader_version}"
+    modApi "net.fabricmc.fabric-api:fabric-api:${rootProject.fabric_api_version}"
+    modApi "me.shedaniel:architectury-fabric:${rootProject.architectury_version}"
+    modImplementation("dev.itsmeow.imdlib:imdlib:1.16.5-dev:fabric") {
+        transitive = false
+    }
+
+    implementation(project(path: ":common")) {
+        transitive = false
+    }
+    developmentFabric(project(path: ":common")) {
+        transitive = false
+    }
+    shadowCommon(project(path: ":common", configuration: "transformProductionFabric")) {
+        transitive = false
+    }
+}
+
+processResources {
+    inputs.property "version", project.version
+
+    filesMatching("fabric.mod.json") {
+        expand "version": project.version
+    }
+}
+
+shadowJar {
+    configurations = [project.configurations.shadowCommon]
+    classifier "dev-shadow"
+}
+
+remapJar {
+    input.set shadowJar.archiveFile
+    dependsOn shadowJar
+    classifier "fabric"
+    manifest {
+        mainAttributes(
+                "Maven-Artifact": "${rootProject.maven_group}:${rootProject.mod_id}-${project.name}:${rootProject.version}",
+                "Specification-Title": rootProject.mod_id,
+                "Specification-Vendor": "its_meow",
+                "Specification-Version": "1",
+                "Implementation-Title": rootProject.mod_id,
+                "Implementation-Version": project.version,
+                "Implementation-Vendor": "its_meow",
+                "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
+                "Built-On-Java": "${System.getProperty('java.vm.version')} (${System.getProperty('java.vm.vendor')})",
+                "Built-On": "${rootProject.mc_version}-${rootProject.forge_version}"
+        )
+    }
+}
+
+jar {
+    classifier "dev"
+}
+
+java {
+    withSourcesJar()
+}
+
+sourcesJar {
+    def commonSources = project(":common").sourcesJar
+    dependsOn commonSources
+    from commonSources.archiveFile.map { zipTree(it) }
+    manifest {
+        mainAttributes(
+                "Maven-Artifact": "${rootProject.maven_group}:${rootProject.mod_id}-${project.name}:${rootProject.version}",
+                "Specification-Title": rootProject.mod_id,
+                "Specification-Vendor": "its_meow",
+                "Specification-Version": "1",
+                "Implementation-Title": rootProject.mod_id,
+                "Implementation-Version": project.version,
+                "Implementation-Vendor": "its_meow",
+                "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
+                "Built-On-Java": "${System.getProperty('java.vm.version')} (${System.getProperty('java.vm.vendor')})",
+                "Built-On": "${rootProject.mc_version}-${rootProject.forge_version}"
+        )
+    }
+}
+
+publishing {
+    publications {
+        mavenFabric(MavenPublication) {
+            artifactId = rootProject.mod_id + "-" + project.name
+            artifact(remapJar) {
+                classifier null
+            }
+            artifact(sourcesJar) {
+                builtBy remapSourcesJar
+            }
+            pom {
+                name = rootProject.name + "-" + project.name
+                url = rootProject.url
+                packaging = 'jar'
+                scm {
+                    connection = "scm:git:git://github.com/" + rootProject.github + ".git"
+                    developerConnection = "scm:git:git@github.com:" + rootProject.github + ".git"
+                    url = "https://github.com/" + rootProject.github
+                }
+                issueManagement {
+                    system = 'github'
+                    url = "https://github.com/" + rootProject.github + ".git/issues"
+                }
+                organization {
+                    name = 'itsmeow Mods'
+                    url = 'https://itsmeow.dev/'
+                }
+            }
+        }
+    }
+
+}

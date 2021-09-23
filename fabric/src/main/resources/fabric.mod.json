@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "id": "betteranimalsplus",
+  "version": "${version}",
+  "name": "Better Animals Plus",
+  "description": "This is an example description! Tell everyone what your mod is about!",
+  "authors": [
+    "Me!"
+  ],
+  "contact": {
+    "homepage": "https://fabricmc.net/",
+    "sources": "https://github.com/FabricMC/fabric-example-mod"
+  },
+  "license": "Insert License Here",
+  "icon": "assets/betteranimalsplus/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "dev.itsmeow.betteranimalsplus.FabricMod"
+    ]
+  },
+  "depends": {
+    "minecraft": "1.16.5",
+    "architectury": ">=1.1.55"
+  },
+  "suggests": {
+    "flamingo": "*"
+  }
+}

@@ -1,0 +1,23 @@
+dependencies {
+    modImplementation "net.fabricmc:fabric-loader:${rootProject.fabric_loader_version}"
+    modApi "me.shedaniel:architectury:${rootProject.architectury_version}"
+}
+architectury {
+    common()
+}
+java {
+    withSourcesJar()
+}
+loom {
+    mixinConfig "mixin.imdlib.json"
+}
+repositories {
+    flatDir {
+        dirs 'libs'
+    }
+}
+dependencies {
+    modImplementation("dev.itsmeow.imdlib:imdlib:1.16.5-dev") {
+        transitive = false
+    }
+}

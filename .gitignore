@@ -20,8 +20,5 @@ build
 # other
 eclipse
 run
-<<<<<<< HEAD
 logs
-=======
-src/generated/resources/.cache/
->>>>>>> origin/1.15
+.vscode
