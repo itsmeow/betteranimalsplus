@@ -85,13 +85,13 @@ public class BetterAnimalsPlusMod {
 
     public static final ItemGroup GROUP = new ItemGroup("Better Animals+") {
         @Override
-        public ItemStack createIcon() {
+        public ItemStack makeIcon() {
             return new ItemStack(ModItems.ANTLER.get());
         }
 
         @Override
-        public void fill(NonNullList<ItemStack> toDisplay) {
-            super.fill(toDisplay);
+        public void fillItemList(NonNullList<ItemStack> toDisplay) {
+            super.fillItemList(toDisplay);
             ModEntities.getEntities().values().forEach(cont -> toDisplay.add(new ItemStack(cont.getEggItem())));
         }
     };
@@ -123,8 +123,8 @@ public class BetterAnimalsPlusMod {
 	@SubscribeEvent
 	public static void onPlayerJoin(PlayerLoggedInEvent e) {
 	    if(e.getPlayer() instanceof ServerPlayerEntity) {
-	        HANDLER.sendTo(new ClientConfigurationPacket(BetterAnimalsPlusConfig.getTameItemsMap()), ((ServerPlayerEntity) e.getPlayer()).connection.netManager, NetworkDirection.PLAY_TO_CLIENT);
-	        HANDLER.sendTo(new ClientRequestBAMPacket(), ((ServerPlayerEntity) e.getPlayer()).connection.netManager, NetworkDirection.PLAY_TO_CLIENT);
+	        HANDLER.sendTo(new ClientConfigurationPacket(BetterAnimalsPlusConfig.getTameItemsMap()), ((ServerPlayerEntity) e.getPlayer()).connection.connection, NetworkDirection.PLAY_TO_CLIENT);
+	        HANDLER.sendTo(new ClientRequestBAMPacket(), ((ServerPlayerEntity) e.getPlayer()).connection.connection, NetworkDirection.PLAY_TO_CLIENT);
             for(UUID devId : DEVS) {
                 HANDLER.send(PacketDistributor.PLAYER.with(() -> (ServerPlayerEntity) e.getPlayer()), new StupidDevPacket(SafeSyncThing.get(devId), devId));
             }

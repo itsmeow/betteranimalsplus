@@ -21,17 +21,17 @@ public class FollowParentGoalButNotStupid extends Goal {
     }
 
     @Override
-    public boolean shouldExecute() {
-        if (this.childAnimal.getGrowingAge() >= 0) {
+    public boolean canUse() {
+        if (this.childAnimal.getAge() >= 0) {
             return false;
         } else {
-            List<AnimalEntity> list = this.childAnimal.world.getEntitiesWithinAABB(this.childAnimal.getClass(), this.childAnimal.getBoundingBox().grow(8.0D, 4.0D, 8.0D), filter);
+            List<AnimalEntity> list = this.childAnimal.level.getEntitiesOfClass(this.childAnimal.getClass(), this.childAnimal.getBoundingBox().inflate(8.0D, 4.0D, 8.0D), filter);
             AnimalEntity animalentity = null;
             double d0 = Double.MAX_VALUE;
 
             for (AnimalEntity animalentity1 : list) {
-                if (animalentity1.getGrowingAge() >= 0) {
-                    double d1 = this.childAnimal.getDistanceSq(animalentity1);
+                if (animalentity1.getAge() >= 0) {
+                    double d1 = this.childAnimal.distanceToSqr(animalentity1);
                     if (!(d1 > d0)) {
                         d0 = d1;
                         animalentity = animalentity1;
@@ -51,24 +51,24 @@ public class FollowParentGoalButNotStupid extends Goal {
     }
 
     @Override
-    public boolean shouldContinueExecuting() {
-        if (this.childAnimal.getGrowingAge() >= 0) {
+    public boolean canContinueToUse() {
+        if (this.childAnimal.getAge() >= 0) {
             return false;
         } else if (!this.parentAnimal.isAlive()) {
             return false;
         } else {
-            double d0 = this.childAnimal.getDistanceSq(this.parentAnimal);
+            double d0 = this.childAnimal.distanceToSqr(this.parentAnimal);
             return !(d0 < 9.0D) && !(d0 > 256.0D);
         }
     }
 
     @Override
-    public void startExecuting() {
+    public void start() {
         this.delayCounter = 0;
     }
 
     @Override
-    public void resetTask() {
+    public void stop() {
         this.parentAnimal = null;
     }
 
@@ -76,7 +76,7 @@ public class FollowParentGoalButNotStupid extends Goal {
     public void tick() {
         if (--this.delayCounter <= 0) {
             this.delayCounter = 10;
-            this.childAnimal.getNavigator().tryMoveToEntityLiving(this.parentAnimal, this.moveSpeed);
+            this.childAnimal.getNavigation().moveTo(this.parentAnimal, this.moveSpeed);
         }
     }
 }

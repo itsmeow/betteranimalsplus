@@ -9,6 +9,6 @@ import java.util.function.Supplier;
 
 public class ItemModMusicDisc extends MusicDiscItem {
     public ItemModMusicDisc(Supplier<SoundEvent> soundSupplier) {
-        super(15, soundSupplier, new Item.Properties().maxStackSize(1).rarity(Rarity.RARE));
+        super(15, soundSupplier, new Item.Properties().stacksTo(1).rarity(Rarity.RARE));
     }
 }

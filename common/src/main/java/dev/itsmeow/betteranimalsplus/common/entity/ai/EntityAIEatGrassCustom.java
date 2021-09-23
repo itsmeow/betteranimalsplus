@@ -24,41 +24,41 @@ public class EntityAIEatGrassCustom extends Goal {
     protected final Function<MobEntity, BlockPos> getPosition;
 
     public EntityAIEatGrassCustom(MobEntity eater, int childChance, int adultChance) {
-        this(eater, childChance, adultChance, e -> new BlockPos(e.getPosX(), e.getPosY(), e.getPosZ()));
+        this(eater, childChance, adultChance, e -> new BlockPos(e.getX(), e.getY(), e.getZ()));
     }
     
     public EntityAIEatGrassCustom(MobEntity eater, int childChance, int adultChance, Function<MobEntity, BlockPos> getPosition) {
         this.eater = eater;
-        this.world = eater.world;
+        this.world = eater.level;
         this.childChance = childChance;
         this.adultChance = adultChance;
         this.getPosition = getPosition;
-        this.setMutexFlags(EnumSet.of(Goal.Flag.MOVE, Goal.Flag.LOOK, Goal.Flag.JUMP));
+        this.setFlags(EnumSet.of(Goal.Flag.MOVE, Goal.Flag.LOOK, Goal.Flag.JUMP));
     }
 
     @Override
-    public boolean shouldExecute() {
-        if(this.eater.getRNG().nextInt(this.eater.isChild() ? childChance : adultChance) == 0) {
+    public boolean canUse() {
+        if(this.eater.getRandom().nextInt(this.eater.isBaby() ? childChance : adultChance) == 0) {
             BlockPos blockpos = getPosition.apply(eater);
-            return IS_GRASS.test(this.world.getBlockState(blockpos)) || this.world.getBlockState(blockpos.down()).getBlock() == Blocks.GRASS_BLOCK;
+            return IS_GRASS.test(this.world.getBlockState(blockpos)) || this.world.getBlockState(blockpos.below()).getBlock() == Blocks.GRASS_BLOCK;
         }
         return false;
     }
 
     @Override
-    public void startExecuting() {
+    public void start() {
         this.eatingGrassTimer = 40;
-        this.world.setEntityState(this.eater, (byte) 10);
-        this.eater.getNavigator().clearPath();
+        this.world.broadcastEntityEvent(this.eater, (byte) 10);
+        this.eater.getNavigation().stop();
     }
 
     @Override
-    public void resetTask() {
+    public void stop() {
         this.eatingGrassTimer = 0;
     }
 
     @Override
-    public boolean shouldContinueExecuting() {
+    public boolean canContinueToUse() {
         return this.eatingGrassTimer > 0;
     }
 
@@ -75,15 +75,15 @@ public class EntityAIEatGrassCustom extends Goal {
                 if(net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(this.world, this.eater)) {
                     this.world.destroyBlock(blockpos, false);
                 }
-                this.eater.eatGrassBonus();
+                this.eater.ate();
             } else {
-                BlockPos blockpos1 = blockpos.down();
+                BlockPos blockpos1 = blockpos.below();
                 if(this.world.getBlockState(blockpos1).getBlock() == Blocks.GRASS_BLOCK) {
                     if(net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(this.world, this.eater)) {
-                        this.world.playEvent(2001, blockpos1, Block.getStateId(Blocks.GRASS_BLOCK.getDefaultState()));
-                        this.world.setBlockState(blockpos1, Blocks.DIRT.getDefaultState(), 2);
+                        this.world.levelEvent(2001, blockpos1, Block.getId(Blocks.GRASS_BLOCK.defaultBlockState()));
+                        this.world.setBlock(blockpos1, Blocks.DIRT.defaultBlockState(), 2);
                     }
-                    this.eater.eatGrassBonus();
+                    this.eater.ate();
                 }
             }
         }

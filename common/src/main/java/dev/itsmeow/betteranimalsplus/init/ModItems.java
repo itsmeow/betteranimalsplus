@@ -50,7 +50,7 @@ public class ModItems {
             return 800; // half of coal
         }
     });
-    public static final RegistryObject<Item> GOAT_MILK = r("goatmilk", () -> new MilkBucketItem(new Properties().containerItem(Items.BUCKET).group(BetterAnimalsPlusMod.GROUP).maxStackSize(1)));
+    public static final RegistryObject<Item> GOAT_MILK = r("goatmilk", () -> new MilkBucketItem(new Properties().craftRemainder(Items.BUCKET).tab(BetterAnimalsPlusMod.GROUP).stacksTo(1)));
     public static final RegistryObject<ItemBetterFood> GOAT_CHEESE = r("goatcheese", () -> new ItemBetterFood(3, 1, 15, false));
     public static final RegistryObject<ItemBetterFood> PHEASANT_RAW = r("pheasantraw", () -> new ItemBetterFood(3, 0, 32, true));
     public static final RegistryObject<ItemBetterFood> PHEASANT_COOKED = r("pheasantcooked", () -> new ItemBetterFood(7, 1.2F, 32, true));
@@ -92,8 +92,8 @@ public class ModItems {
     public static final RegistryObject<ItemThrowableCustomEgg> GOLDEN_GOOSE_EGG = r("golden_goose_egg", () -> new ItemThrowableCustomEgg(EntityGoldenGooseEgg::new, EntityGoldenGooseEgg::new) {
         @OnlyIn(Dist.CLIENT)
         @Override
-        public void addInformation(ItemStack stack, World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
-            tooltip.add(new StringTextComponent("Golden! Maybe you can melt this down for resources?").mergeStyle(TextFormatting.YELLOW).mergeStyle(TextFormatting.BOLD));
+        public void appendHoverText(ItemStack stack, World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
+            tooltip.add(new StringTextComponent("Golden! Maybe you can melt this down for resources?").withStyle(TextFormatting.YELLOW).withStyle(TextFormatting.BOLD));
         }
     });
 
@@ -115,7 +115,7 @@ public class ModItems {
     public static final RegistryObject<BlockItem> TRILLIUM = rIB(ModBlocks.TRILLIUM);
 
     private static RegistryObject<Item> r(String name) {
-        return ITEMS.register(name, () -> new Item(new Item.Properties().group(BetterAnimalsPlusMod.GROUP)));
+        return ITEMS.register(name, () -> new Item(new Item.Properties().tab(BetterAnimalsPlusMod.GROUP)));
     }
 
     private static RegistryObject<Item> rH(String name) {
@@ -131,7 +131,7 @@ public class ModItems {
     }
 
     private static RegistryObject<BlockItem> rIB(RegistryObject<? extends Block> parent) {
-        return ITEMS.register(parent.getId().getPath(), () -> new BlockItem(parent.get(), new Item.Properties().group(BetterAnimalsPlusMod.GROUP)));
+        return ITEMS.register(parent.getId().getPath(), () -> new BlockItem(parent.get(), new Item.Properties().tab(BetterAnimalsPlusMod.GROUP)));
     }
 
     public static void subscribe(IEventBus modEventBus) {

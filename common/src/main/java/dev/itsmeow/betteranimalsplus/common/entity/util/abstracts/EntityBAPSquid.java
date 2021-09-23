@@ -37,63 +37,63 @@ public abstract class EntityBAPSquid extends EntityBAPCephalopod {
         this.goalSelector.addGoal(1, new MoveRandomGoal(this));
         this.targetSelector.addGoal(0, new HurtByTargetGoal(this) {
             @Override
-            public boolean shouldExecute() {
-                return EntityBAPSquid.this.world.getDifficulty() != Difficulty.PEACEFUL && super.shouldExecute();
+            public boolean canUse() {
+                return EntityBAPSquid.this.level.getDifficulty() != Difficulty.PEACEFUL && super.canUse();
             }
         });
         this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, WaterMobEntity.class, 20, true, true, e -> true));
     }
 
     @Override
-    public void setAttackTarget(LivingEntity entitylivingbaseIn) {
+    public void setTarget(LivingEntity entitylivingbaseIn) {
         if(!this.isPeaceful()) {
             if(entitylivingbaseIn instanceof ServerPlayerEntity) {
                 ModTriggers.SQUID_TARGETED.trigger((ServerPlayerEntity) entitylivingbaseIn);
             }
-            super.setAttackTarget(entitylivingbaseIn);
+            super.setTarget(entitylivingbaseIn);
         }
     }
 
     @Override
-    public void livingTick() {
-        super.livingTick();
-        if(this.isInWater() && this.getPosY() > world.getSeaLevel() - 8) {
-            this.setMotion(this.getMotion().add(0D, -0.05D, 0D));
+    public void aiStep() {
+        super.aiStep();
+        if(this.isInWater() && this.getY() > level.getSeaLevel() - 8) {
+            this.setDeltaMovement(this.getDeltaMovement().add(0D, -0.05D, 0D));
         }
-        if(this.getAttackTarget() != null && !this.getAttackTarget().isAlive()) {
-            this.setAttackTarget(null);
+        if(this.getTarget() != null && !this.getTarget().isAlive()) {
+            this.setTarget(null);
         }
-        if(!this.world.isRemote && this.getAttackTarget() != null && this.getAttackTarget().isAlive() && this.isAlive() && !this.isPeaceful()) {
-            boolean isBoat = this.getAttackTarget() instanceof PlayerEntity && this.getAttackTarget().getRidingEntity() != null && this.getAttackTarget().getRidingEntity() instanceof BoatEntity;
+        if(!this.level.isClientSide && this.getTarget() != null && this.getTarget().isAlive() && this.isAlive() && !this.isPeaceful()) {
+            boolean isBoat = this.getTarget() instanceof PlayerEntity && this.getTarget().getVehicle() != null && this.getTarget().getVehicle() instanceof BoatEntity;
             float grabDelay = isBoat ? 20F : 60F;
-            if(this.getPassengers().contains(this.getAttackTarget())) {
+            if(this.getPassengers().contains(this.getTarget())) {
                 float time = 30F * ((float) Math.random() + 1F);
-                if(this.lastAttack + time < this.ticksExisted) {
-                    this.attackEntityAsMob(this.getAttackTarget());
+                if(this.lastAttack + time < this.tickCount) {
+                    this.doHurtTarget(this.getTarget());
                 }
-            } else if(lastGrab + grabDelay < this.ticksExisted && this.getDistanceSq(this.getAttackTarget()) < 5) {
+            } else if(lastGrab + grabDelay < this.tickCount && this.distanceToSqr(this.getTarget()) < 5) {
                 if(isBoat) {
-                    BoatEntity boat = (BoatEntity) this.getAttackTarget().getRidingEntity();
-                    boat.attackEntityFrom(DamageSource.causeMobDamage(this), 5F);
-                } else if(!this.getAttackTarget().isInvulnerable() && this.getAttackTarget().getWidth() < 2.5 && this.getAttackTarget().getHeight() < 2.5) {
-                    if(this.getAttackTarget() instanceof MobEntity) {
-                        MobEntity el = (MobEntity) this.getAttackTarget();
-                        el.setAttackTarget(null);
-                        el.setRevengeTarget(null);
-                        el.getNavigator().clearPath();
-                        el.setNoAI(true);
+                    BoatEntity boat = (BoatEntity) this.getTarget().getVehicle();
+                    boat.hurt(DamageSource.mobAttack(this), 5F);
+                } else if(!this.getTarget().isInvulnerable() && this.getTarget().getBbWidth() < 2.5 && this.getTarget().getBbHeight() < 2.5) {
+                    if(this.getTarget() instanceof MobEntity) {
+                        MobEntity el = (MobEntity) this.getTarget();
+                        el.setTarget(null);
+                        el.setLastHurtByMob(null);
+                        el.getNavigation().stop();
+                        el.setNoAi(true);
                     }
-                    this.getAttackTarget().startRiding(this, false);
-                } else if(!this.getAttackTarget().isInvulnerable()) {
-                    this.attackEntityAsMob(this.getAttackTarget());
+                    this.getTarget().startRiding(this, false);
+                } else if(!this.getTarget().isInvulnerable()) {
+                    this.doHurtTarget(this.getTarget());
                 }
-                lastGrab = this.ticksExisted;
+                lastGrab = this.tickCount;
             }
             if(lastTickHealth - 4F > this.getHealth()) {
-                this.getAttackTarget().stopRiding();
-                if(this.getAttackTarget() instanceof MobEntity) {
-                    MobEntity el = (MobEntity) this.getAttackTarget();
-                    el.setNoAI(false);
+                this.getTarget().stopRiding();
+                if(this.getTarget() instanceof MobEntity) {
+                    MobEntity el = (MobEntity) this.getTarget();
+                    el.setNoAi(false);
                 }
             }
         }
@@ -101,20 +101,20 @@ public abstract class EntityBAPSquid extends EntityBAPCephalopod {
     }
 
     @Override
-    public boolean attackEntityAsMob(Entity entityIn) {
-        if(super.attackEntityAsMob(entityIn)) {
-            this.lastAttack = this.ticksExisted;
+    public boolean doHurtTarget(Entity entityIn) {
+        if(super.doHurtTarget(entityIn)) {
+            this.lastAttack = this.tickCount;
             return true;
         }
         return false;
     }
 
     @Override
-    protected ResourceLocation getLootTable() {
+    protected ResourceLocation getDefaultLootTable() {
         return ModLootTables.BIG_SQUID;
     }
 
     public static <T extends EntityBAPSquid> boolean placement(EntityType<T> type, IWorld world, SpawnReason reason, BlockPos pos, Random rng) {
-        return pos.getY() < (world.getSeaLevel() - 31) && world.getBlockState(pos).getBlock() == Blocks.WATER && world.getEntitiesWithinAABB(EntityBAPSquid.class, new AxisAlignedBB(pos).grow(100D)).size() == 0;
+        return pos.getY() < (world.getSeaLevel() - 31) && world.getBlockState(pos).getBlock() == Blocks.WATER && world.getEntitiesOfClass(EntityBAPSquid.class, new AxisAlignedBB(pos).inflate(100D)).size() == 0;
     }
 }

@@ -33,7 +33,7 @@ public class CurioCape implements ICurio {
 
     @Override
     public boolean canEquip(String identifier, LivingEntity livingEntity) {
-        ItemStack chest = livingEntity.getItemStackFromSlot(EquipmentSlotType.CHEST);
+        ItemStack chest = livingEntity.getItemBySlot(EquipmentSlotType.CHEST);
         return chest.isEmpty() || (!(chest.getItem() instanceof ItemCape) && !CuriosApi.getCuriosHelper().findEquippedCurio(stack -> stack.getItem() instanceof ItemCape, livingEntity).isPresent());
     }
 
@@ -56,7 +56,7 @@ public class CurioCape implements ICurio {
             ICurio.RenderHelper.translateIfSneaking(matrixStack, livingEntity);
             ICurio.RenderHelper.rotateIfSneaking(matrixStack, livingEntity);
             ICurio.RenderHelper.followBodyRotations(livingEntity, model);
-            String texture = ((ArmorItem) stack.getItem()).getArmorMaterial().getName();
+            String texture = ((ArmorItem) stack.getItem()).getMaterial().getName();
             String domain = "minecraft";
             int idx = texture.indexOf(':');
             if (idx != -1)
@@ -65,9 +65,9 @@ public class CurioCape implements ICurio {
                 texture = texture.substring(idx + 1);
             }
             String tex = String.format("%s:textures/models/armor/%s_layer_%d.png", domain, texture, 1);
-            IVertexBuilder ivertexbuilder = renderTypeBuffer.getBuffer(RenderType.getEntityTranslucent(new ResourceLocation(tex)));
-            model.setRotationAngles(livingEntity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
-            model.render(matrixStack, ivertexbuilder, light, LivingRenderer.getPackedOverlay(livingEntity, 0.0F), 1F, 1F, 1F, 1F);
+            IVertexBuilder ivertexbuilder = renderTypeBuffer.getBuffer(RenderType.entityTranslucent(new ResourceLocation(tex)));
+            model.setupAnim(livingEntity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
+            model.renderToBuffer(matrixStack, ivertexbuilder, light, LivingRenderer.getOverlayCoords(livingEntity, 0.0F), 1F, 1F, 1F, 1F);
         }
     }
 

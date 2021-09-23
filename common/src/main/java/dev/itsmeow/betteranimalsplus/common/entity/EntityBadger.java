@@ -44,59 +44,59 @@ public class EntityBadger extends EntityAnimalWithSelectiveTypes implements IMob
 	@Override
 	protected void registerGoals() {
 		this.goalSelector.addGoal(0, new SwimGoal(this));
-		if (!this.isChild() && this.getEntityWorld().getDifficulty() != Difficulty.PEACEFUL) {
+		if (!this.isBaby() && this.getCommandSenderWorld().getDifficulty() != Difficulty.PEACEFUL) {
 			this.goalSelector.addGoal(1, new EntityAIBadgerDigDirtThrow(this));
 			this.goalSelector.addGoal(3, new MeleeAttackGoal(this, 0.5D, true));
 		}
 		this.goalSelector.addGoal(3, new RandomWalkingGoal(this, 0.4D));
 		this.goalSelector.addGoal(4, new LookAtGoal(this, PlayerEntity.class, 6.0F));
-		if (!this.isChild() && this.getEntityWorld().getDifficulty() != Difficulty.PEACEFUL) {
+		if (!this.isBaby() && this.getCommandSenderWorld().getDifficulty() != Difficulty.PEACEFUL) {
 			this.targetSelector.addGoal(0, new HurtByTargetGoal(this));
-			this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, AnimalEntity.class, 90, true, true, (@Nullable LivingEntity in) -> in instanceof ChickenEntity || in instanceof EntityPheasant || (in instanceof AnimalEntity && in.isChild() && !(in instanceof EntityBadger))));
+			this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, AnimalEntity.class, 90, true, true, (@Nullable LivingEntity in) -> in instanceof ChickenEntity || in instanceof EntityPheasant || (in instanceof AnimalEntity && in.isBaby() && !(in instanceof EntityBadger))));
 		}
 	}
 
 	@Override
-	public boolean attackEntityAsMob(Entity entityIn) {
+	public boolean doHurtTarget(Entity entityIn) {
 		// Vanilla attack code for mobs
 		float f = (float) this.getAttribute(Attributes.ATTACK_DAMAGE).getValue();
 		int i = 0;
 
 		if (entityIn instanceof LivingEntity) {
-			f += EnchantmentHelper.getModifierForCreature(this.getHeldItemMainhand(), ((LivingEntity) entityIn).getCreatureAttribute());
-			i += EnchantmentHelper.getKnockbackModifier(this);
+			f += EnchantmentHelper.getDamageBonus(this.getMainHandItem(), ((LivingEntity) entityIn).getMobType());
+			i += EnchantmentHelper.getKnockbackBonus(this);
 		}
 
-		boolean flag = entityIn.attackEntityFrom(DamageSource.causeMobDamage(this), f);
+		boolean flag = entityIn.hurt(DamageSource.mobAttack(this), f);
 
 		if (flag) {
 			if (i > 0) {
-				((LivingEntity) entityIn).applyKnockback(i * 0.5F, MathHelper.sin(this.rotationYaw * 0.017453292F), (-MathHelper.cos(this.rotationYaw * 0.017453292F)));
-				this.setMotion(this.getMotion().getX() * 0.6D, this.getMotion().getY(), this.getMotion().getZ() * 0.6D);
+				((LivingEntity) entityIn).knockback(i * 0.5F, MathHelper.sin(this.yRot * 0.017453292F), (-MathHelper.cos(this.yRot * 0.017453292F)));
+				this.setDeltaMovement(this.getDeltaMovement().x() * 0.6D, this.getDeltaMovement().y(), this.getDeltaMovement().z() * 0.6D);
 			}
 
-			int j = EnchantmentHelper.getFireAspectModifier(this);
+			int j = EnchantmentHelper.getFireAspect(this);
 
 			if (j > 0) {
-				entityIn.setFire(j * 4);
+				entityIn.setSecondsOnFire(j * 4);
 			}
 
 			if (entityIn instanceof PlayerEntity) {
 				PlayerEntity entityplayer = (PlayerEntity) entityIn;
-				ItemStack itemstack = this.getHeldItemMainhand();
-				ItemStack itemstack1 = entityplayer.isHandActive() ? entityplayer.getActiveItemStack() : ItemStack.EMPTY;
+				ItemStack itemstack = this.getMainHandItem();
+				ItemStack itemstack1 = entityplayer.isUsingItem() ? entityplayer.getUseItem() : ItemStack.EMPTY;
 
 				if (!itemstack.isEmpty() && !itemstack1.isEmpty() && itemstack.getItem().canDisableShield(itemstack, itemstack1, entityplayer, this) && itemstack1.getItem().isShield(itemstack1, entityplayer)) {
-					float f1 = 0.25F + EnchantmentHelper.getEfficiencyModifier(this) * 0.05F;
+					float f1 = 0.25F + EnchantmentHelper.getBlockEfficiency(this) * 0.05F;
 
-					if (this.rand.nextFloat() < f1) {
-						entityplayer.getCooldownTracker().setCooldown(itemstack1.getItem(), 100);
-						this.world.setEntityState(entityplayer, (byte) 30);
+					if (this.random.nextFloat() < f1) {
+						entityplayer.getCooldowns().addCooldown(itemstack1.getItem(), 100);
+						this.level.broadcastEntityEvent(entityplayer, (byte) 30);
 					}
 				}
 			}
 
-			this.applyEnchantments(this, entityIn);
+			this.doEnchantDamageEffects(this, entityIn);
 		}
 
 		return flag;
@@ -104,7 +104,7 @@ public class EntityBadger extends EntityAnimalWithSelectiveTypes implements IMob
 
 	@Override
 	protected EntityBadger getBaseChild() {
-		return getContainer().getEntityType().create(world);
+		return getContainer().getEntityType().create(level);
 	}
 
 	public static class EntityAIBadgerDigDirtThrow extends Goal {
@@ -115,52 +115,52 @@ public class EntityBadger extends EntityAnimalWithSelectiveTypes implements IMob
 
 		public EntityAIBadgerDigDirtThrow(EntityBadger badger) {
 			this.badger = badger;
-			this.setMutexFlags(EnumSet.of(Goal.Flag.MOVE, Goal.Flag.TARGET));
+			this.setFlags(EnumSet.of(Goal.Flag.MOVE, Goal.Flag.TARGET));
 		}
 
 		@Override
-		public boolean shouldExecute() {
+		public boolean canUse() {
 			tick = 0;
-			World world = badger.world;
-			BlockPos below = badger.getPosition().down();
-			if(world.isBlockPresent(below)) {
+			World world = badger.level;
+			BlockPos below = badger.blockPosition().below();
+			if(world.isLoaded(below)) {
 				BlockState state = world.getBlockState(below);
-				double dist = badger.getAttackTarget() == null ? 0 : Math.sqrt(badger.getPosition().distanceSq(badger.getAttackTarget().getPosition()));
-				return badger.getAttackTarget() != null && dist < 10 && dist > 2 && (state.getBlock() == Blocks.DIRT || state.getBlock() == Blocks.GRASS_BLOCK || state.getBlock() == Blocks.SAND || state.getBlock() == Blocks.GRAVEL || state.getBlock() == Blocks.MYCELIUM);
+				double dist = badger.getTarget() == null ? 0 : Math.sqrt(badger.blockPosition().distSqr(badger.getTarget().blockPosition()));
+				return badger.getTarget() != null && dist < 10 && dist > 2 && (state.getBlock() == Blocks.DIRT || state.getBlock() == Blocks.GRASS_BLOCK || state.getBlock() == Blocks.SAND || state.getBlock() == Blocks.GRAVEL || state.getBlock() == Blocks.MYCELIUM);
 			}
 			return false;
 		}
 
 		@Override
-		public boolean shouldContinueExecuting() {
+		public boolean canContinueToUse() {
 			boolean onDiggable = false;
-			World world = badger.world;
-			BlockPos below = badger.getPosition().down();
-			if(world.isBlockPresent(below)) {
+			World world = badger.level;
+			BlockPos below = badger.blockPosition().below();
+			if(world.isLoaded(below)) {
 				BlockState state = world.getBlockState(below);
 				if(state.getBlock() == Blocks.DIRT || state.getBlock() == Blocks.GRASS_BLOCK || state.getBlock() == Blocks.SAND || state.getBlock() == Blocks.GRAVEL || state.getBlock() == Blocks.MYCELIUM) {
 					if(state.getBlock() == Blocks.GRASS_BLOCK) {
-						state = Blocks.DIRT.getDefaultState();
+						state = Blocks.DIRT.defaultBlockState();
 					}
-					stateId = Block.getStateId(state);
+					stateId = Block.getId(state);
 					onDiggable = true;
 				}
 			}
-			double dist = badger.getAttackTarget() == null ? 0 : Math.sqrt(badger.getPosition().distanceSq(badger.getAttackTarget().getPosition()));
-			return badger.getAttackTarget() != null && tick <= 200 + Math.random() * 300 && dist < 10 && dist > 2 && onDiggable;
+			double dist = badger.getTarget() == null ? 0 : Math.sqrt(badger.blockPosition().distSqr(badger.getTarget().blockPosition()));
+			return badger.getTarget() != null && tick <= 200 + Math.random() * 300 && dist < 10 && dist > 2 && onDiggable;
 		}
 
 		@Override
-		public void startExecuting() {
-			World world = badger.world;
-			BlockPos below = badger.getPosition().down();
-			if(world.isBlockPresent(below)) {
+		public void start() {
+			World world = badger.level;
+			BlockPos below = badger.blockPosition().below();
+			if(world.isLoaded(below)) {
 				BlockState state = world.getBlockState(below);
 				if(state.getBlock() == Blocks.DIRT || state.getBlock() == Blocks.GRASS_BLOCK || state.getBlock() == Blocks.SAND || state.getBlock() == Blocks.GRAVEL || state.getBlock() == Blocks.MYCELIUM) {
 					if(state.getBlock() == Blocks.GRASS_BLOCK) {
-						state = Blocks.DIRT.getDefaultState();
+						state = Blocks.DIRT.defaultBlockState();
 					}
-					stateId = Block.getStateId(state);
+					stateId = Block.getId(state);
 					tick = 1;      
 				}
 			}
@@ -169,26 +169,26 @@ public class EntityBadger extends EntityAnimalWithSelectiveTypes implements IMob
 		@Override
 		public void tick() {
 			tick++;
-			LivingEntity t = badger.getAttackTarget();
+			LivingEntity t = badger.getTarget();
 			if(tick % 15 == 0) { // Throw dirt every second (20 ticks)
-				EntityBadgerDirt proj = new EntityBadgerDirt(badger.world, badger, stateId);
-				proj.setLocationAndAngles(badger.getPosX(), badger.getPosY() + 1, badger.getPosZ(), 0, 0);
-				double d0 = t.getPosY() + t.getEyeHeight() - 1.100000023841858D;
-				double d1 = t.getPosX() - badger.getPosX();
-				double d2 = d0 - proj.getPosY();
-				double d3 = t.getPosZ() - badger.getPosZ();
+				EntityBadgerDirt proj = new EntityBadgerDirt(badger.level, badger, stateId);
+				proj.moveTo(badger.getX(), badger.getY() + 1, badger.getZ(), 0, 0);
+				double d0 = t.getY() + t.getEyeHeight() - 1.100000023841858D;
+				double d1 = t.getX() - badger.getX();
+				double d2 = d0 - proj.getY();
+				double d3 = t.getZ() - badger.getZ();
 				float f = MathHelper.sqrt(d1 * d1 + d3 * d3) * 0.2F;
 				proj.shoot(d1, d2 + f, d3, 0.6F, 4.8F);
-				badger.playSound(SoundEvents.BLOCK_GRASS_BREAK, 1.0F, 1.0F / (badger.getRNG().nextFloat() * 0.4F + 0.8F));
-				badger.world.addEntity(proj);
+				badger.playSound(SoundEvents.GRASS_BREAK, 1.0F, 1.0F / (badger.getRandom().nextFloat() * 0.4F + 0.8F));
+				badger.level.addFreshEntity(proj);
 			}
 			if(tick % 5 == 0) {
-				badger.playSound(SoundEvents.BLOCK_GRASS_BREAK, 1.0F, 1.0F / (badger.getRNG().nextFloat() * 0.4F + 0.8F));
+				badger.playSound(SoundEvents.GRASS_BREAK, 1.0F, 1.0F / (badger.getRandom().nextFloat() * 0.4F + 0.8F));
 			}
 		}
 
 		@Override
-		public void resetTask() {
+		public void stop() {
 			tick = 0;
 		}
 
@@ -210,8 +210,8 @@ public class EntityBadger extends EntityAnimalWithSelectiveTypes implements IMob
     }
 
     @Override
-    public ILivingEntityData onInitialSpawn(IServerWorld world, DifficultyInstance difficulty, SpawnReason reason, ILivingEntityData livingdata, CompoundNBT compound) {
-        return EntityUtil.childChance(this, reason, super.onInitialSpawn(world, difficulty, reason, livingdata, compound), 0.25F);
+    public ILivingEntityData finalizeSpawn(IServerWorld world, DifficultyInstance difficulty, SpawnReason reason, ILivingEntityData livingdata, CompoundNBT compound) {
+        return EntityUtil.childChance(this, reason, super.finalizeSpawn(world, difficulty, reason, livingdata, compound), 0.25F);
     }
 
     @Override

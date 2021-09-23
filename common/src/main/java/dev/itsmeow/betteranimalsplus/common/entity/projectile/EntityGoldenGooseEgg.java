@@ -31,7 +31,7 @@ public class EntityGoldenGooseEgg extends EntityModEgg {
     }
 
     public EntityGoldenGooseEgg(World worldIn, IPosition pos) {
-        super(GOLDEN_GOOSE_EGG_TYPE, worldIn, pos.getX(), pos.getY(), pos.getZ());
+        super(GOLDEN_GOOSE_EGG_TYPE, worldIn, pos.x(), pos.y(), pos.z());
     }
 
     @Override
@@ -41,9 +41,9 @@ public class EntityGoldenGooseEgg extends EntityModEgg {
 
     @Override
     protected Entity createEntity() {
-        EntityGoose goose = ModEntities.GOOSE.getEntityType().create(this.world);
-        goose.setGrowingAge(-24000);
-        goose.setLocationAndAngles(this.getPosX(), this.getPosY(), this.getPosZ(), this.rotationYaw, 0.0F);
+        EntityGoose goose = ModEntities.GOOSE.getEntityType().create(this.level);
+        goose.setAge(-24000);
+        goose.moveTo(this.getX(), this.getY(), this.getZ(), this.yRot, 0.0F);
         goose.setType("1");
         return goose;
     }

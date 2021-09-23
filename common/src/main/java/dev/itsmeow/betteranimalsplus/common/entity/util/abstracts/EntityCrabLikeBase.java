@@ -27,18 +27,18 @@ public abstract class EntityCrabLikeBase extends EntityAnimalWithTypes {
 
     public EntityCrabLikeBase(EntityType<? extends EntityCrabLikeBase> type, World worldIn) {
         super(type, worldIn);
-        this.setPathPriority(PathNodeType.WATER, 10F);
+        this.setPathfindingMalus(PathNodeType.WATER, 10F);
     }
 
     @Override
-    public boolean attackEntityAsMob(Entity entityIn) {
+    public boolean doHurtTarget(Entity entityIn) {
         if(snipTime == 0) {
             snipTime = 20;
         }
-        Vector3d pos = this.getPositionVec();
-        Vector3d targetPos = entityIn.getPositionVec();
+        Vector3d pos = this.position();
+        Vector3d targetPos = entityIn.position();
         if(entityIn instanceof LivingEntity) {
-            ((LivingEntity) entityIn).applyKnockback(0.1F, pos.x - targetPos.x, pos.z - targetPos.z);
+            ((LivingEntity) entityIn).knockback(0.1F, pos.x - targetPos.x, pos.z - targetPos.z);
         }
         
         // vanilla things
@@ -46,23 +46,23 @@ public abstract class EntityCrabLikeBase extends EntityAnimalWithTypes {
         float f = (float)this.getAttribute(Attributes.ATTACK_DAMAGE).getValue();
 
         if(entityIn instanceof LivingEntity) {
-            f += EnchantmentHelper.getModifierForCreature(this.getHeldItemMainhand(), ((LivingEntity)entityIn).getCreatureAttribute());
+            f += EnchantmentHelper.getDamageBonus(this.getMainHandItem(), ((LivingEntity)entityIn).getMobType());
         }
-        boolean flag = entityIn.attackEntityFrom(DamageSource.causeMobDamage(this), f);
+        boolean flag = entityIn.hurt(DamageSource.mobAttack(this), f);
         if(flag) {
             if(entityIn instanceof PlayerEntity) {
                 PlayerEntity entityplayer = (PlayerEntity)entityIn;
-                ItemStack itemstack = this.getHeldItemMainhand();
-                ItemStack itemstack1 = entityplayer.isHandActive() ? entityplayer.getActiveItemStack() : ItemStack.EMPTY;
+                ItemStack itemstack = this.getMainHandItem();
+                ItemStack itemstack1 = entityplayer.isUsingItem() ? entityplayer.getUseItem() : ItemStack.EMPTY;
                 if(!itemstack.isEmpty() && !itemstack1.isEmpty() && itemstack.getItem().canDisableShield(itemstack, itemstack1, entityplayer, this) && itemstack1.getItem().isShield(itemstack1, entityplayer)) {
-                    float f1 = 0.25F + (float)EnchantmentHelper.getEfficiencyModifier(this) * 0.05F;
-                    if(this.rand.nextFloat() < f1) {
-                        entityplayer.getCooldownTracker().setCooldown(itemstack1.getItem(), 100);
-                        this.world.setEntityState(entityplayer, (byte)30);
+                    float f1 = 0.25F + (float)EnchantmentHelper.getBlockEfficiency(this) * 0.05F;
+                    if(this.random.nextFloat() < f1) {
+                        entityplayer.getCooldowns().addCooldown(itemstack1.getItem(), 100);
+                        this.level.broadcastEntityEvent(entityplayer, (byte)30);
                     }
                 }
             }
-            this.applyEnchantments(this, entityIn);
+            this.doEnchantDamageEffects(this, entityIn);
         }
         return flag;
     }
@@ -85,36 +85,36 @@ public abstract class EntityCrabLikeBase extends EntityAnimalWithTypes {
     }
 
     @Override
-    public boolean canSpawn(IWorld p_213380_1_, SpawnReason p_213380_2_) {
+    public boolean checkSpawnRules(IWorld p_213380_1_, SpawnReason p_213380_2_) {
         return true;
     }
 
     @Override
-    public int getTalkInterval() {
+    public int getAmbientSoundInterval() {
         return 120;
     }
 
     @Override
-    protected int getExperiencePoints(PlayerEntity player) {
-        return 1 + this.world.rand.nextInt(3);
+    protected int getExperienceReward(PlayerEntity player) {
+        return 1 + this.level.random.nextInt(3);
     }
 
     @Override
-    public boolean isPushedByWater() {
+    public boolean isPushedByFluid() {
         return false;
     }
     
     @Override
-    protected ResourceLocation getLootTable() {
+    protected ResourceLocation getDefaultLootTable() {
         return ModLootTables.CRAB;
     }
 
     @Override
-    public boolean canDespawn(double range) {
-        return !this.hasCustomName() && super.canDespawn(range);
+    public boolean removeWhenFarAway(double range) {
+        return !this.hasCustomName() && super.removeWhenFarAway(range);
     }
 
     public static <T extends EntityCrabLikeBase> boolean canCrabSpawn(EntityType<T> type, IServerWorld world, SpawnReason reason, BlockPos pos, Random rand) {
-        return (world.getBlockState(pos).allowsMovement(world, pos, PathType.WATER) || world.getBlockState(pos).allowsMovement(world, pos, PathType.LAND)) && !world.getBlockState(pos.down()).allowsMovement(world, pos.down(), PathType.LAND) && !world.getBlockState(pos.down()).allowsMovement(world, pos.down(), PathType.WATER);
+        return (world.getBlockState(pos).isPathfindable(world, pos, PathType.WATER) || world.getBlockState(pos).isPathfindable(world, pos, PathType.LAND)) && !world.getBlockState(pos.below()).isPathfindable(world, pos.below(), PathType.LAND) && !world.getBlockState(pos.below()).isPathfindable(world, pos.below(), PathType.WATER);
     }
 }

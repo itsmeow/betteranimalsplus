@@ -31,8 +31,8 @@ import java.util.function.Predicate;
 
 public class EntityDragonfly extends EntityAnimalWithTypesAndSizeContainable {
 
-    private static final DataParameter<Integer> LANDED = EntityDataManager.createKey(EntityDragonfly.class, DataSerializers.VARINT);
-    private static final EntityPredicate playerPredicate = (new EntityPredicate()).setDistance(4.0D).allowFriendlyFire().allowInvulnerable();
+    private static final DataParameter<Integer> LANDED = EntityDataManager.defineId(EntityDragonfly.class, DataSerializers.INT);
+    private static final EntityPredicate playerPredicate = (new EntityPredicate()).range(4.0D).allowSameTeam().allowInvulnerable();
     private BlockPos targetPosition;
     private int rainTicks = 0;
 
@@ -41,9 +41,9 @@ public class EntityDragonfly extends EntityAnimalWithTypesAndSizeContainable {
     }
 
     @Override
-    protected void registerData() {
-        super.registerData();
-        this.dataManager.register(LANDED, 1);
+    protected void defineSynchedData() {
+        super.defineSynchedData();
+        this.entityData.define(LANDED, 1);
     }
 
     @Override
@@ -52,40 +52,40 @@ public class EntityDragonfly extends EntityAnimalWithTypesAndSizeContainable {
     }
 
     @Override
-    public boolean canBePushed() {
+    public boolean isPushable() {
         return false;
     }
 
     @Override
-    protected void collideWithEntity(Entity entityIn) {
+    protected void doPush(Entity entityIn) {
     }
 
     @Override
-    protected void collideWithNearbyEntities() {
+    protected void pushEntities() {
     }
 
     public boolean isLanded() {
-        return this.dataManager.get(LANDED) != 1;
+        return this.entityData.get(LANDED) != 1;
     }
 
     public int getLandedInteger() {
-        return this.dataManager.get(LANDED);
+        return this.entityData.get(LANDED);
     }
 
     public void setLanded(Direction direction) {
         if(direction == Direction.UP) {
             throw new RuntimeException("Invalid landing direction!");
         }
-        this.dataManager.set(LANDED, direction.ordinal());
+        this.entityData.set(LANDED, direction.ordinal());
     }
 
     public void setNotLanded() {
-        this.dataManager.set(LANDED, 1);
-        this.setPositionAndUpdate(this.getPosition().getX() + 0.5D, this.getPosition().getY() + 0.5D, this.getPosition().getZ() + 0.5D);
+        this.entityData.set(LANDED, 1);
+        this.teleportTo(this.blockPosition().getX() + 0.5D, this.blockPosition().getY() + 0.5D, this.blockPosition().getZ() + 0.5D);
     }
 
     @Override
-    public CreatureAttribute getCreatureAttribute() {
+    public CreatureAttribute getMobType() {
         return CreatureAttribute.ARTHROPOD;
     }
 
@@ -93,63 +93,63 @@ public class EntityDragonfly extends EntityAnimalWithTypesAndSizeContainable {
     public void tick() {
         super.tick();
         if(this.isLanded()) {
-            this.setMotion(Vector3d.ZERO);
-            if(Direction.byIndex(this.getLandedInteger()) != Direction.DOWN) {
-                double x = Math.floor(this.getPosX()) + 0.5D;
-                double z = Math.floor(this.getPosZ()) + 0.5D;
-                BlockPos pos = new BlockPos(x, Math.floor(this.getPosY()) + 0.5D, z);
-                BlockPos offset = pos.offset(Direction.byIndex(this.getLandedInteger()));
+            this.setDeltaMovement(Vector3d.ZERO);
+            if(Direction.from3DDataValue(this.getLandedInteger()) != Direction.DOWN) {
+                double x = Math.floor(this.getX()) + 0.5D;
+                double z = Math.floor(this.getZ()) + 0.5D;
+                BlockPos pos = new BlockPos(x, Math.floor(this.getY()) + 0.5D, z);
+                BlockPos offset = pos.relative(Direction.from3DDataValue(this.getLandedInteger()));
                 BlockPos diff = pos.subtract(offset);
-                this.setPositionAndUpdate(x - ((double) diff.getX()) / 2.778D, Math.floor(this.getPosY()) + 0.5D, z - ((double) diff.getZ()) / 2.778D);
-                this.rotationYaw = 0;
-                this.rotationYawHead = 0;
+                this.teleportTo(x - ((double) diff.getX()) / 2.778D, Math.floor(this.getY()) + 0.5D, z - ((double) diff.getZ()) / 2.778D);
+                this.yRot = 0;
+                this.yHeadRot = 0;
             } else {
-                this.setPositionAndUpdate(this.getPosX(), Math.floor(this.getPosY()), this.getPosZ());
+                this.teleportTo(this.getX(), Math.floor(this.getY()), this.getZ());
             }
         } else {
-            this.setMotion(this.getMotion().mul(1.0D, 0.6D, 1.0D));
+            this.setDeltaMovement(this.getDeltaMovement().multiply(1.0D, 0.6D, 1.0D));
         }
     }
 
     public boolean isRainingAt(BlockPos position) {
-        if(!world.isRaining()) {
+        if(!level.isRaining()) {
             return false;
         } else if(position == null) {
             return true;
-        } else if(!world.isBlockPresent(position) || !world.canBlockSeeSky(position)) {
+        } else if(!level.isLoaded(position) || !level.canSeeSkyFromBelowWater(position)) {
             return false;
         } else {
-            return world.getBiome(position).getPrecipitation() == Biome.RainType.RAIN;
+            return level.getBiome(position).getPrecipitation() == Biome.RainType.RAIN;
         }
     }
 
     @Override
-    protected void updateAITasks() {
-        super.updateAITasks();
-        BlockPos blockpos = this.getPosition();
+    protected void customServerAiStep() {
+        super.customServerAiStep();
+        BlockPos blockpos = this.blockPosition();
         if(this.isLanded()) {
-            BlockPos offset = blockpos.offset(Direction.byIndex(this.getLandedInteger()));
-            if(this.world.getBlockState(offset).isNormalCube(this.world, offset)) {
-                if(this.world.getClosestPlayer(playerPredicate, this) != null || this.getRNG().nextInt(500) == 0) {
+            BlockPos offset = blockpos.relative(Direction.from3DDataValue(this.getLandedInteger()));
+            if(this.level.getBlockState(offset).isRedstoneConductor(this.level, offset)) {
+                if(this.level.getNearestPlayer(playerPredicate, this) != null || this.getRandom().nextInt(500) == 0) {
                     this.setNotLanded();
                 }
             } else {
                 this.setNotLanded();
             }
         }
-        if(isRainingAt(this.getPosition())) {
+        if(isRainingAt(this.blockPosition())) {
             rainTicks++;
             if(this.isLanded()) {
                 this.setNotLanded();
             }
             if(this.targetPosition == null || isRainingAt(this.targetPosition)) {
                 this.targetPosition = tryToFindPosition(pos -> {
-                    if(pos != null && !isRainingAt(pos) && world.isAirBlock(pos)) {
+                    if(pos != null && !isRainingAt(pos) && level.isEmptyBlock(pos)) {
                         boolean found = false;
                         for(Direction direction : Direction.values()) {
                             if(direction != Direction.UP) {
-                                BlockPos offset = pos.offset(direction);
-                                if(world.getBlockState(offset).isNormalCube(world, offset)) {
+                                BlockPos offset = pos.relative(direction);
+                                if(level.getBlockState(offset).isRedstoneConductor(level, offset)) {
                                     found = true;
                                 }
                             }
@@ -159,19 +159,19 @@ public class EntityDragonfly extends EntityAnimalWithTypesAndSizeContainable {
                     return false;
                 });
             }
-            if(this.getRNG().nextFloat() < 0.0025F && rainTicks > 100) {
-                this.attackEntityFrom(DamageSource.DROWN, 1F);
+            if(this.getRandom().nextFloat() < 0.0025F && rainTicks > 100) {
+                this.hurt(DamageSource.DROWN, 1F);
             }
         } else {
             rainTicks = 0;
-            if(this.targetPosition == null || this.rand.nextInt(30) == 0 || (this.targetPosition.withinDistance(this.getPositionVec(), 1.0D))) {
-                if(world.isRaining() && world.getBiome(this.getPosition()).getPrecipitation() == Biome.RainType.RAIN) {
+            if(this.targetPosition == null || this.random.nextInt(30) == 0 || (this.targetPosition.closerThan(this.position(), 1.0D))) {
+                if(level.isRaining() && level.getBiome(this.blockPosition()).getPrecipitation() == Biome.RainType.RAIN) {
                     // attempt to land
                     boolean found = false;
                     for(Direction direction : Direction.values()) {
                         if(direction != Direction.UP) {
-                            BlockPos offset = blockpos.offset(direction);
-                            if(world.getBlockState(offset).isNormalCube(world, offset) && world.isAirBlock(blockpos)) {
+                            BlockPos offset = blockpos.relative(direction);
+                            if(level.getBlockState(offset).isRedstoneConductor(level, offset) && level.isEmptyBlock(blockpos)) {
                                 this.setLanded(direction);
                                 this.targetPosition = null;
                                 found = true;
@@ -179,18 +179,18 @@ public class EntityDragonfly extends EntityAnimalWithTypesAndSizeContainable {
                         }
                     }
                     if(!found) {
-                        BlockPos temp = new BlockPos(this.getPosX() + (double) this.rand.nextInt(5) - (double) this.rand.nextInt(5), this.getPosY() + (double) this.rand.nextInt(4) - 1.0D, this.getPosZ() + (double) this.rand.nextInt(5) - (double) this.rand.nextInt(5));
+                        BlockPos temp = new BlockPos(this.getX() + (double) this.random.nextInt(5) - (double) this.random.nextInt(5), this.getY() + (double) this.random.nextInt(4) - 1.0D, this.getZ() + (double) this.random.nextInt(5) - (double) this.random.nextInt(5));
                         if(!isRainingAt(temp)) {
                             this.targetPosition = temp;
                         }
                     }
                 } else {
                     boolean found = false;
-                    if(this.world.getClosestPlayer(playerPredicate, this) == null) {
+                    if(this.level.getNearestPlayer(playerPredicate, this) == null) {
                         for(Direction direction : Direction.values()) {
                             if(direction != Direction.UP) {
-                                BlockPos offset = blockpos.offset(direction);
-                                if(world.getBlockState(offset).isNormalCube(world, offset) && world.isAirBlock(blockpos)) {
+                                BlockPos offset = blockpos.relative(direction);
+                                if(level.getBlockState(offset).isRedstoneConductor(level, offset) && level.isEmptyBlock(blockpos)) {
                                     this.setLanded(direction);
                                     this.targetPosition = null;
                                     found = true;
@@ -200,32 +200,32 @@ public class EntityDragonfly extends EntityAnimalWithTypesAndSizeContainable {
                     }
                     if(!found) {
                         int attempts = 0;
-                        while(attempts < 5 && (targetPosition == null || !world.isAirBlock(targetPosition))) {
-                            this.targetPosition = new BlockPos(this.getPosX() + (double) this.rand.nextInt(5) - (double) this.rand.nextInt(5), this.getPosY() + (double) this.rand.nextInt(4) - 1.0D, this.getPosZ() + (double) this.rand.nextInt(5) - (double) this.rand.nextInt(5));
+                        while(attempts < 5 && (targetPosition == null || !level.isEmptyBlock(targetPosition))) {
+                            this.targetPosition = new BlockPos(this.getX() + (double) this.random.nextInt(5) - (double) this.random.nextInt(5), this.getY() + (double) this.random.nextInt(4) - 1.0D, this.getZ() + (double) this.random.nextInt(5) - (double) this.random.nextInt(5));
                             attempts++;
                         }
                     }
                 }
             }
-            if(this.targetPosition != null && this.targetPosition.withinDistance(this.getPositionVec(), 1.0D)) {
+            if(this.targetPosition != null && this.targetPosition.closerThan(this.position(), 1.0D)) {
                 this.targetPosition = null;
             }
         }
         if(!this.isLanded() && targetPosition != null) {
-            if(this.isEntityInsideOpaqueBlock()) {
+            if(this.isInWall()) {
                 this.targetPosition = null;
-                this.setMotion(0, 0, 0);
+                this.setDeltaMovement(0, 0, 0);
             } else {
-                double d0 = (double) this.targetPosition.getX() + 0.5D - this.getPosX();
-                double d1 = (double) this.targetPosition.getY() + 0.1D - this.getPosY();
-                double d2 = (double) this.targetPosition.getZ() + 0.5D - this.getPosZ();
-                Vector3d vec3d = this.getMotion();
+                double d0 = (double) this.targetPosition.getX() + 0.5D - this.getX();
+                double d1 = (double) this.targetPosition.getY() + 0.1D - this.getY();
+                double d2 = (double) this.targetPosition.getZ() + 0.5D - this.getZ();
+                Vector3d vec3d = this.getDeltaMovement();
                 Vector3d vec3d1 = vec3d.add((Math.signum(d0) * 0.5D - vec3d.x) * (double) 0.1F, (Math.signum(d1) * (double) 0.7F - vec3d.y) * (double) 0.1F, (Math.signum(d2) * 0.5D - vec3d.z) * (double) 0.1F);
-                this.setMotion(vec3d1);
+                this.setDeltaMovement(vec3d1);
                 float f = (float) (MathHelper.atan2(vec3d1.z, vec3d1.x) * (double) (180F / (float) Math.PI)) - 90.0F;
-                float f1 = MathHelper.wrapDegrees(f - this.rotationYaw);
-                this.moveForward = 0.5F;
-                this.rotationYaw += f1;
+                float f1 = MathHelper.wrapDegrees(f - this.yRot);
+                this.zza = 0.5F;
+                this.yRot += f1;
             }
         }
     }
@@ -238,9 +238,9 @@ public class EntityDragonfly extends EntityAnimalWithTypesAndSizeContainable {
             for(int l = 0; l < i; ++l) {
                 for(int i1 = 0; i1 <= l; i1 = i1 > 0 ? -i1 : 1 - i1) {
                     for(int j1 = i1 < l && i1 > -l ? l : 0; j1 <= l; j1 = j1 > 0 ? -j1 : 1 - j1) {
-                        pos.setPos(this.getPosition()).move(i1, k - 1, j1);
-                        if(condition.test(pos.toImmutable())) {
-                            return pos.toImmutable();
+                        pos.set(this.blockPosition()).move(i1, k - 1, j1);
+                        if(condition.test(pos.immutable())) {
+                            return pos.immutable();
                         }
                     }
                 }
@@ -250,55 +250,55 @@ public class EntityDragonfly extends EntityAnimalWithTypesAndSizeContainable {
     }
 
     @Override
-    protected boolean canTriggerWalking() {
+    protected boolean isMovementNoisy() {
         return false;
     }
 
     @Override
-    public boolean onLivingFall(float distance, float damageMultiplier) {
+    public boolean causeFallDamage(float distance, float damageMultiplier) {
         return false;
     }
 
     @Override
-    protected void updateFallState(double y, boolean onGroundIn, BlockState state, BlockPos pos) {
+    protected void checkFallDamage(double y, boolean onGroundIn, BlockState state, BlockPos pos) {
     }
 
     @Override
-    public boolean doesEntityNotTriggerPressurePlate() {
+    public boolean isIgnoringBlockTriggers() {
         return true;
     }
 
     @Override
-    public boolean attackEntityFrom(DamageSource source, float amount) {
+    public boolean hurt(DamageSource source, float amount) {
         if(this.isInvulnerableTo(source)) {
             return false;
         } else {
-            if(!this.world.isRemote && this.isLanded()) {
+            if(!this.level.isClientSide && this.isLanded()) {
                 this.setNotLanded();
             }
-            return super.attackEntityFrom(source, amount);
+            return super.hurt(source, amount);
         }
     }
 
     @Override
-    public void readAdditional(CompoundNBT compound) {
-        super.readAdditional(compound);
-        this.dataManager.set(LANDED, compound.getInt("Landed"));
+    public void readAdditionalSaveData(CompoundNBT compound) {
+        super.readAdditionalSaveData(compound);
+        this.entityData.set(LANDED, compound.getInt("Landed"));
     }
 
     @Override
-    public void writeAdditional(CompoundNBT compound) {
-        super.writeAdditional(compound);
-        compound.putInt("Landed", this.dataManager.get(LANDED));
+    public void addAdditionalSaveData(CompoundNBT compound) {
+        super.addAdditionalSaveData(compound);
+        compound.putInt("Landed", this.entityData.get(LANDED));
     }
 
     @Override
     protected float getRandomizedSize() {
-        return (this.rand.nextInt(30) + 1F) / 100F + 0.15F;
+        return (this.random.nextInt(30) + 1F) / 100F + 0.15F;
     }
 
     @Override
-    public boolean canBeLeashedTo(PlayerEntity player) {
+    public boolean canBeLeashed(PlayerEntity player) {
         return false;
     }
 
@@ -321,7 +321,7 @@ public class EntityDragonfly extends EntityAnimalWithTypesAndSizeContainable {
     public void setContainerData(ItemStack bucket) {
         super.setContainerData(bucket);
         CompoundNBT tag = bucket.getTag();
-        tag.putFloat("SizeTag", this.dataManager.get(SIZE));
+        tag.putFloat("SizeTag", this.entityData.get(SIZE));
         bucket.setTag(tag);
     }
 
@@ -337,7 +337,7 @@ public class EntityDragonfly extends EntityAnimalWithTypesAndSizeContainable {
         CompoundNBT tag = stack.getTag();
         if(tag != null) {
             if(tag.contains("SizeTag", Constants.NBT.TAG_FLOAT)) {
-                tooltip.add(new StringTextComponent("Size: " + tag.getFloat("SizeTag")).mergeStyle(TextFormatting.ITALIC).mergeStyle(TextFormatting.GRAY));
+                tooltip.add(new StringTextComponent("Size: " + tag.getFloat("SizeTag")).withStyle(TextFormatting.ITALIC).withStyle(TextFormatting.GRAY));
             }
         }
     }

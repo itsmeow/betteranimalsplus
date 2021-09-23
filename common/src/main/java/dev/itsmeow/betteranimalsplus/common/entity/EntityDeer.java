@@ -48,36 +48,36 @@ public class EntityDeer extends EntityAnimalEatsGrassWithTypes implements IDropH
 
     @OnlyIn(Dist.CLIENT)
     @Override
-    public void handleStatusUpdate(byte id) {
+    public void handleEntityEvent(byte id) {
         if(id == 10) {
             this.eatTimer = 40;
         } else {
-            super.handleStatusUpdate(id);
+            super.handleEntityEvent(id);
         }
     }
 
     @Override
     public void baseTick() {
         super.baseTick();
-        if(this.world.isRemote) {
+        if(this.level.isClientSide) {
             this.eatTimer = Math.max(0, this.eatTimer - 1);
         }
     }
 
     @Override
-    public boolean isBreedingItem(ItemStack stack) {
+    public boolean isFood(ItemStack stack) {
         Item i = stack.getItem();
         return i == Items.WHEAT || i == Items.CARROT || i == Items.GOLDEN_CARROT ||  i == Items.APPLE || i == Items.GOLDEN_APPLE;
     }
 
     @Override
-    public int getMaxSpawnedInChunk() {
+    public int getMaxSpawnClusterSize() {
         return 4;
     }
 
     @Override
     protected void playStepSound(BlockPos pos, BlockState state) {
-        this.playSound(SoundEvents.ENTITY_SHEEP_STEP, 0.15F, 1.0F);
+        this.playSound(SoundEvents.SHEEP_STEP, 0.15F, 1.0F);
     }
 
     @Override
@@ -87,7 +87,7 @@ public class EntityDeer extends EntityAnimalEatsGrassWithTypes implements IDropH
         this.goalSelector.addGoal(1, new BreedGoal(this, 0.45D));
         this.goalSelector.addGoal(2, new PanicGoal(this, 0.65D));
         IItemProvider[] temptItems = new IItemProvider[] {Items.APPLE, Items.GOLDEN_APPLE, Items.CARROT, Items.CARROT_ON_A_STICK, Items.GOLDEN_CARROT, Items.WHEAT};
-        this.goalSelector.addGoal(3, new TemptGoal(this, 0.45D, false, Ingredient.fromItems(temptItems)));
+        this.goalSelector.addGoal(3, new TemptGoal(this, 0.45D, false, Ingredient.of(temptItems)));
         this.goalSelector.addGoal(4, new AvoidEntityGoal<>(this, PlayerEntity.class, 20, 0.55D, 0.7D));
         this.goalSelector.addGoal(5, new FollowParentGoal(this, 1D));
         // Eat Grass at Priority 6
@@ -96,30 +96,30 @@ public class EntityDeer extends EntityAnimalEatsGrassWithTypes implements IDropH
     }
 
     @Override
-    public void eatGrassBonus() {
-        super.eatGrassBonus();
-        this.addGrowth(60);
+    public void ate() {
+        super.ate();
+        this.ageUp(60);
     }
 
     @Override
-    public void onDeath(DamageSource cause) {
-        super.onDeath(cause);
+    public void die(DamageSource cause) {
+        super.die(cause);
         this.doHeadDrop();
     }
 
     @Override
-    protected ResourceLocation getLootTable() {
+    protected ResourceLocation getDefaultLootTable() {
         return ModLootTables.deer;
     }
 
     @Override
     protected EntityDeer getBaseChild() {
-        return getContainer().getEntityType().create(world);
+        return getContainer().getEntityType().create(level);
     }
 
     @Override
-    public ILivingEntityData onInitialSpawn(IServerWorld world, DifficultyInstance difficulty, SpawnReason reason, ILivingEntityData livingdata, CompoundNBT compound) {
-        return EntityUtil.childChance(this, reason, super.onInitialSpawn(world, difficulty, reason, livingdata, compound), 0.25F);
+    public ILivingEntityData finalizeSpawn(IServerWorld world, DifficultyInstance difficulty, SpawnReason reason, ILivingEntityData livingdata, CompoundNBT compound) {
+        return EntityUtil.childChance(this, reason, super.finalizeSpawn(world, difficulty, reason, livingdata, compound), 0.25F);
     }
 
     @Override
@@ -130,12 +130,12 @@ public class EntityDeer extends EntityAnimalEatsGrassWithTypes implements IDropH
     @Override
     public IVariant getRandomType() {
         int[] validTypes = new int[] { 1, 2, 3, 4 };
-        int r = validTypes[this.getRNG().nextInt(validTypes.length)];
+        int r = validTypes[this.getRandom().nextInt(validTypes.length)];
         if(r > 2) {
-            r = validTypes[this.getRNG().nextInt(validTypes.length)];
+            r = validTypes[this.getRandom().nextInt(validTypes.length)];
         }
         if(r > 2) {
-            r = validTypes[this.getRNG().nextInt(validTypes.length)];
+            r = validTypes[this.getRandom().nextInt(validTypes.length)];
         }
         return this.getContainer().getVariantForName(String.valueOf(r));
     }

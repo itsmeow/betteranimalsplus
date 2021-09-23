@@ -35,7 +35,7 @@ import java.util.List;
 
 public class EntityJellyfish extends EntityWaterMobWithTypesBucketable {
 
-    protected static final DataParameter<Float> SIZE = EntityDataManager.createKey(EntityJellyfish.class, DataSerializers.FLOAT);
+    protected static final DataParameter<Float> SIZE = EntityDataManager.defineId(EntityJellyfish.class, DataSerializers.FLOAT);
     protected int attackCooldown = 0;
 
     public float jellyYaw;
@@ -52,11 +52,11 @@ public class EntityJellyfish extends EntityWaterMobWithTypesBucketable {
     public EntityJellyfish(EntityType<? extends EntityJellyfish> entityType, World worldIn) {
         super(entityType, worldIn);
         this.setSize(0.8F);
-        rotationVelocity = (1.0F / (rand.nextFloat() + 1.0F) * 0.2F);
+        rotationVelocity = (1.0F / (random.nextFloat() + 1.0F) * 0.2F);
     }
 
     @Override
-    protected boolean canTriggerWalking() {
+    protected boolean isMovementNoisy() {
         return false;
     }
 
@@ -74,25 +74,25 @@ public class EntityJellyfish extends EntityWaterMobWithTypesBucketable {
     }
 
     @Override
-    public void livingTick() {
-        super.livingTick();
+    public void aiStep() {
+        super.aiStep();
 
         prevJellyYaw = jellyYaw;
         prevJellyRotation = jellyRotation;
 
         jellyRotation += rotationVelocity;
         if(jellyRotation > 6.283185307179586D) {
-            if(world.isRemote) {
+            if(level.isClientSide) {
                 jellyRotation = 6.2831855F;
             } else {
                 jellyRotation = ((float) (jellyRotation - 6.283185307179586D));
-                if(rand.nextInt(10) == 0) {
-                    rotationVelocity = (1.0F / (rand.nextFloat() + 1.0F) * 0.2F);
+                if(random.nextInt(10) == 0) {
+                    rotationVelocity = (1.0F / (random.nextFloat() + 1.0F) * 0.2F);
                 }
-                world.setEntityState(this, (byte) 19);
+                level.broadcastEntityEvent(this, (byte) 19);
             }
         }
-        if(isInWaterOrBubbleColumn()) {
+        if(isInWaterOrBubble()) {
             if(jellyRotation < 3.1415927F) {
                 float lvt_1_1_ = jellyRotation / 3.1415927F;
                 if(lvt_1_1_ > 0.75D) {
@@ -105,53 +105,53 @@ public class EntityJellyfish extends EntityWaterMobWithTypesBucketable {
                 randomMotionSpeed *= 0.9F;
                 rotateSpeed *= 0.99F;
             }
-            if(!world.isRemote) {
-                this.setMotion((randomMotionVecX * randomMotionSpeed), (randomMotionVecY * randomMotionSpeed), (randomMotionVecZ * randomMotionSpeed));
+            if(!level.isClientSide) {
+                this.setDeltaMovement((randomMotionVecX * randomMotionSpeed), (randomMotionVecY * randomMotionSpeed), (randomMotionVecZ * randomMotionSpeed));
             }
-            renderYawOffset += (-(float) MathHelper.atan2(this.getMotion().getX(), this.getMotion().getZ()) * 57.295776F - renderYawOffset) * 0.1F;
-            rotationYaw = renderYawOffset;
+            yBodyRot += (-(float) MathHelper.atan2(this.getDeltaMovement().x(), this.getDeltaMovement().z()) * 57.295776F - yBodyRot) * 0.1F;
+            yRot = yBodyRot;
             jellyYaw = ((float) (jellyYaw + 3.141592653589793D * rotateSpeed * 1.5D));
         } else {
-            if(!world.isRemote) {
-                this.setMotion(0, this.getMotion().getY(), 0);
-                if(isPotionActive(Effects.LEVITATION)) {
-                    this.setMotion(this.getMotion().getX(), this.getMotion().getY() + 0.05D * (getActivePotionEffect(Effects.LEVITATION).getAmplifier() + 1) - this.getMotion().getY(), this.getMotion().getZ());
-                } else if(!hasNoGravity()) {
-                    this.setMotion(this.getMotion().getX(), this.getMotion().getY() - 0.08D, this.getMotion().getZ());
+            if(!level.isClientSide) {
+                this.setDeltaMovement(0, this.getDeltaMovement().y(), 0);
+                if(hasEffect(Effects.LEVITATION)) {
+                    this.setDeltaMovement(this.getDeltaMovement().x(), this.getDeltaMovement().y() + 0.05D * (getEffect(Effects.LEVITATION).getAmplifier() + 1) - this.getDeltaMovement().y(), this.getDeltaMovement().z());
+                } else if(!isNoGravity()) {
+                    this.setDeltaMovement(this.getDeltaMovement().x(), this.getDeltaMovement().y() - 0.08D, this.getDeltaMovement().z());
                 }
-                this.setMotion(this.getMotion().getX(), this.getMotion().getY() * 0.9800000190734863D, this.getMotion().getZ());
+                this.setDeltaMovement(this.getDeltaMovement().x(), this.getDeltaMovement().y() * 0.9800000190734863D, this.getDeltaMovement().z());
             }
         }
     }
 
     @Override
-    public void onCollideWithPlayer(PlayerEntity entity) {
-        super.onCollideWithPlayer(entity);
-        if(!entity.isCreative() && this.attackCooldown == 0 && entity.world.getDifficulty() != Difficulty.PEACEFUL) {
-            entity.attackEntityFrom(DamageSource.causeMobDamage(this), 2.0F);
-            entity.addPotionEffect(new EffectInstance(Effects.POISON, 200, 0, false, false));
-            entity.addPotionEffect(new EffectInstance(Effects.BLINDNESS, 90, 2, false, false));
+    public void playerTouch(PlayerEntity entity) {
+        super.playerTouch(entity);
+        if(!entity.isCreative() && this.attackCooldown == 0 && entity.level.getDifficulty() != Difficulty.PEACEFUL) {
+            entity.hurt(DamageSource.mobAttack(this), 2.0F);
+            entity.addEffect(new EffectInstance(Effects.POISON, 200, 0, false, false));
+            entity.addEffect(new EffectInstance(Effects.BLINDNESS, 90, 2, false, false));
             this.attackCooldown = 80;
         }
     }
 
     @Override
     protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
-        return SoundEvents.ENTITY_SLIME_SQUISH;
+        return SoundEvents.SLIME_SQUISH;
     }
 
     @Override
     public void travel(Vector3d vec) {
-        move(MoverType.SELF, this.getMotion());
+        move(MoverType.SELF, this.getDeltaMovement());
     }
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public void handleStatusUpdate(byte p_70103_1_) {
+    public void handleEntityEvent(byte p_70103_1_) {
         if(p_70103_1_ == 19) {
             jellyRotation = 0.0F;
         } else {
-            super.handleStatusUpdate(p_70103_1_);
+            super.handleEntityEvent(p_70103_1_);
         }
     }
 
@@ -168,41 +168,41 @@ public class EntityJellyfish extends EntityWaterMobWithTypesBucketable {
     /* NBT AND TYPE CODE: */
 
     @Override
-    protected void registerData() {
-        super.registerData();
-        this.dataManager.register(EntityJellyfish.SIZE, 1F);
+    protected void defineSynchedData() {
+        super.defineSynchedData();
+        this.entityData.define(EntityJellyfish.SIZE, 1F);
     }
 
     @Override
-    public EntitySize getSize(Pose pose) {
-        float size = this.dataManager.get(EntityJellyfish.SIZE);
-        return EntitySize.flexible(size, size).scale(this.getRenderScale());
+    public EntitySize getDimensions(Pose pose) {
+        float size = this.entityData.get(EntityJellyfish.SIZE);
+        return EntitySize.scalable(size, size).scale(this.getScale());
     }
 
     public void setSize(float size) {
-        this.dataManager.set(EntityJellyfish.SIZE, size);
+        this.entityData.set(EntityJellyfish.SIZE, size);
     }
 
     @Override
-    public void writeAdditional(CompoundNBT compound) {
-        super.writeAdditional(compound);
-        compound.putFloat("Size", this.getSize(Pose.STANDING).width);
+    public void addAdditionalSaveData(CompoundNBT compound) {
+        super.addAdditionalSaveData(compound);
+        compound.putFloat("Size", this.getDimensions(Pose.STANDING).width);
     }
 
     @Override
-    public void readAdditional(CompoundNBT compound) {
-        super.readAdditional(compound);
+    public void readAdditionalSaveData(CompoundNBT compound) {
+        super.readAdditionalSaveData(compound);
         float size = compound.getFloat("Size");
         this.setSize(size);
     }
 
     @Override
     @Nullable
-    public ILivingEntityData onInitialSpawn(IServerWorld world, DifficultyInstance difficulty, SpawnReason reason, @Nullable ILivingEntityData livingdata, CompoundNBT compound) {
-        livingdata = super.onInitialSpawn(world, difficulty, reason, livingdata, compound);
-        if(!this.isChild()) {
+    public ILivingEntityData finalizeSpawn(IServerWorld world, DifficultyInstance difficulty, SpawnReason reason, @Nullable ILivingEntityData livingdata, CompoundNBT compound) {
+        livingdata = super.finalizeSpawn(world, difficulty, reason, livingdata, compound);
+        if(!this.isBaby()) {
             String i = this.getRandomType().getName();
-            float rand = (this.rand.nextInt(30) + 1F) / 50F + 0.05F;
+            float rand = (this.random.nextInt(30) + 1F) / 50F + 0.05F;
 
             if(livingdata instanceof JellyfishData) {
                 i = ((JellyfishData) livingdata).typeData;
@@ -237,21 +237,21 @@ public class EntityJellyfish extends EntityWaterMobWithTypesBucketable {
         }
 
         @Override
-        public boolean shouldExecute() {
+        public boolean canUse() {
             return true;
         }
 
         @Override
         public void tick() {
-            int i = this.entity.getIdleTime();
+            int i = this.entity.getNoActionTime();
 
             if(i > 100) {
                 this.entity.setMovementVector(0.0F, 0.0F, 0.0F);
-            } else if(this.entity.getRNG().nextInt(50) == 0 || !this.entity.inWater
+            } else if(this.entity.getRandom().nextInt(50) == 0 || !this.entity.wasTouchingWater
             || !this.entity.hasMovementVector()) {
-                float f = this.entity.getRNG().nextFloat() * ((float) Math.PI * 2F);
+                float f = this.entity.getRandom().nextFloat() * ((float) Math.PI * 2F);
                 float f1 = MathHelper.cos(f) * 0.2F;
-                float f2 = -0.1F + this.entity.getRNG().nextFloat() * 0.2F;
+                float f2 = -0.1F + this.entity.getRandom().nextFloat() * 0.2F;
                 float f3 = MathHelper.sin(f) * 0.2F;
                 this.entity.setMovementVector(f1 / 3, f2 / 3, f3 / 3);
             }
@@ -272,7 +272,7 @@ public class EntityJellyfish extends EntityWaterMobWithTypesBucketable {
     public void setContainerData(ItemStack bucket) {
         super.setContainerData(bucket);
         CompoundNBT tag = bucket.getTag();
-        tag.putFloat("JellyfishSizeTag", this.dataManager.get(EntityJellyfish.SIZE));
+        tag.putFloat("JellyfishSizeTag", this.entityData.get(EntityJellyfish.SIZE));
         bucket.setTag(tag);
     }
 
@@ -287,7 +287,7 @@ public class EntityJellyfish extends EntityWaterMobWithTypesBucketable {
     public static void bucketTooltip(EntityTypeContainer<? extends MobEntity> container, ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip) {
         CompoundNBT tag = stack.getTag();
         if(tag != null && tag.contains("JellyfishSizeTag", Constants.NBT.TAG_FLOAT)) {
-            tooltip.add(new StringTextComponent("Size: " + tag.getFloat("JellyfishSizeTag")).mergeStyle(TextFormatting.ITALIC).mergeStyle(TextFormatting.GRAY));
+            tooltip.add(new StringTextComponent("Size: " + tag.getFloat("JellyfishSizeTag")).withStyle(TextFormatting.ITALIC).withStyle(TextFormatting.GRAY));
         }
     }
 

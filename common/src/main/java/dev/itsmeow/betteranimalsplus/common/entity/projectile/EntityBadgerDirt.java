@@ -48,32 +48,32 @@ public class EntityBadgerDirt extends ThrowableEntity {
     @Override
     public void baseTick() {
         super.baseTick();
-        if(stateId != -1 && !this.world.isRemote) {
-            ServerWorld worldS = (ServerWorld) world;
+        if(stateId != -1 && !this.level.isClientSide) {
+            ServerWorld worldS = (ServerWorld) level;
             for(int i = 0; i < 100; i++) {
-                worldS.spawnParticle(new BlockParticleData(ParticleTypes.BLOCK, Block.getStateById(stateId)), this.getPosX() + Math.random(), this.getPosY() + Math.random(), this.getPosZ() + Math.random(), 1, 0D, 0D, 0D, 0D);
+                worldS.sendParticles(new BlockParticleData(ParticleTypes.BLOCK, Block.stateById(stateId)), this.getX() + Math.random(), this.getY() + Math.random(), this.getZ() + Math.random(), 1, 0D, 0D, 0D, 0D);
             }
         }
     }
 
     @Override
-    protected void onImpact(RayTraceResult result) {
+    protected void onHit(RayTraceResult result) {
         if(result instanceof EntityRayTraceResult) {
             EntityRayTraceResult rayR = (EntityRayTraceResult) result;
             int i = 2;
-            rayR.getEntity().attackEntityFrom(DamageSource.causeThrownDamage(this, this.getShooter()), i);
-            if(Math.random() >= 0.5 && !this.world.isRemote) {
+            rayR.getEntity().hurt(DamageSource.thrown(this, this.getOwner()), i);
+            if(Math.random() >= 0.5 && !this.level.isClientSide) {
                 if(rayR.getEntity() instanceof PlayerEntity) {
                     PlayerEntity player = (PlayerEntity) rayR.getEntity();
                     int blindnessTicks = 0;
-                    if(player.getEntityWorld().getDifficulty() == Difficulty.EASY) {
+                    if(player.getCommandSenderWorld().getDifficulty() == Difficulty.EASY) {
                         blindnessTicks = 10;
-                    } else if(player.getEntityWorld().getDifficulty() == Difficulty.NORMAL) {
+                    } else if(player.getCommandSenderWorld().getDifficulty() == Difficulty.NORMAL) {
                         blindnessTicks = 20;
-                    } else if(player.getEntityWorld().getDifficulty() == Difficulty.HARD) {
+                    } else if(player.getCommandSenderWorld().getDifficulty() == Difficulty.HARD) {
                         blindnessTicks = 35;
                     }
-                    player.addPotionEffect(new EffectInstance(Effects.BLINDNESS, blindnessTicks, 2, false, false));
+                    player.addEffect(new EffectInstance(Effects.BLINDNESS, blindnessTicks, 2, false, false));
                 }
             }
 
@@ -82,19 +82,19 @@ public class EntityBadgerDirt extends ThrowableEntity {
             }
         }
 
-        if (!this.world.isRemote) {
-            this.world.setEntityState(this, (byte) 3);
+        if (!this.level.isClientSide) {
+            this.level.broadcastEntityEvent(this, (byte) 3);
             this.remove();
         }
     }
 
     @Override
-    public IPacket<?> createSpawnPacket() {
+    public IPacket<?> getAddEntityPacket() {
         return NetworkHooks.getEntitySpawningPacket(this);
     }
 
     @Override
-    protected void registerData() {
+    protected void defineSynchedData() {
 
     }
 

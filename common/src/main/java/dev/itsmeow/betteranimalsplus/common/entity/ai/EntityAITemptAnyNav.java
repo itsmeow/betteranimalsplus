@@ -13,7 +13,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
 public class EntityAITemptAnyNav extends Goal {
-    private static final EntityPredicate selector = (new EntityPredicate()).setDistance(10.0D).allowFriendlyFire().allowInvulnerable();
+    private static final EntityPredicate selector = (new EntityPredicate()).range(10.0D).allowSameTeam().allowInvulnerable();
     private final CreatureEntity entity;
     private final double speed;
     private PlayerEntity tempter;
@@ -24,7 +24,7 @@ public class EntityAITemptAnyNav extends Goal {
        this.entity = creature;
        this.speed = speed;
        this.temptItems = temptItems;
-       this.setMutexFlags(EnumSet.of(Goal.Flag.MOVE, Goal.Flag.LOOK));
+       this.setFlags(EnumSet.of(Goal.Flag.MOVE, Goal.Flag.LOOK));
     }
     
     public EntityAITemptAnyNav(CreatureEntity creature, double speed, Item... temptItems) {
@@ -32,16 +32,16 @@ public class EntityAITemptAnyNav extends Goal {
      }
 
     @Override
-    public boolean shouldExecute() {
+    public boolean canUse() {
         if(this.cooldown > 0) {
             --this.cooldown;
             return false;
         } else {
-            this.tempter = this.entity.world.getClosestPlayer(selector, this.entity);
+            this.tempter = this.entity.level.getNearestPlayer(selector, this.entity);
             if(this.tempter == null) {
                 return false;
             } else {
-                return this.isTemptedBy(this.tempter.getHeldItemMainhand()) || this.isTemptedBy(this.tempter.getHeldItemOffhand());
+                return this.isTemptedBy(this.tempter.getMainHandItem()) || this.isTemptedBy(this.tempter.getOffhandItem());
             }
         }
     }
@@ -51,24 +51,24 @@ public class EntityAITemptAnyNav extends Goal {
     }
 
     @Override
-    public boolean shouldContinueExecuting() {
-        return this.shouldExecute();
+    public boolean canContinueToUse() {
+        return this.canUse();
     }
 
     @Override
-    public void resetTask() {
+    public void stop() {
         this.tempter = null;
-        this.entity.getNavigator().clearPath();
+        this.entity.getNavigation().stop();
         this.cooldown = 100;
     }
 
     @Override
     public void tick() {
-        this.entity.getLookController().setLookPositionWithEntity(this.tempter, (float) (this.entity.getHorizontalFaceSpeed() + 20), (float) this.entity.getVerticalFaceSpeed());
-        if(this.entity.getDistanceSq(this.tempter) < 6.25D) {
-            this.entity.getNavigator().clearPath();
+        this.entity.getLookControl().setLookAt(this.tempter, (float) (this.entity.getMaxHeadYRot() + 20), (float) this.entity.getMaxHeadXRot());
+        if(this.entity.distanceToSqr(this.tempter) < 6.25D) {
+            this.entity.getNavigation().stop();
         } else {
-            this.entity.getNavigator().tryMoveToEntityLiving(this.tempter, this.speed);
+            this.entity.getNavigation().moveTo(this.tempter, this.speed);
         }
 
     }

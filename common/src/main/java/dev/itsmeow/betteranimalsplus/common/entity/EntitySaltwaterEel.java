@@ -34,18 +34,18 @@ public class EntitySaltwaterEel extends EntityEelBase {
         super.registerGoals();
         this.targetSelector.addGoal(0, new HurtByTargetGoal(this) {
             @Override
-            public boolean shouldExecute() {
-                return EntitySaltwaterEel.this.world.getDifficulty() != Difficulty.PEACEFUL && super.shouldExecute();
+            public boolean canUse() {
+                return EntitySaltwaterEel.this.level.getDifficulty() != Difficulty.PEACEFUL && super.canUse();
             }
         });
     }
 
     @Override
-    public void setAttackTarget(LivingEntity entity) {
-        if(entity != null && (this.getAttackTarget() == null || this.getAttackTarget() != entity)) {
+    public void setTarget(LivingEntity entity) {
+        if(entity != null && (this.getTarget() == null || this.getTarget() != entity)) {
             isTargetForFood = isHoldingFood(entity);
         }
-        super.setAttackTarget(entity);
+        super.setTarget(entity);
     }
 
     @Override
@@ -55,7 +55,7 @@ public class EntitySaltwaterEel extends EntityEelBase {
 
     @Override
     protected SoundEvent getFlopSound() {
-        return SoundEvents.ENTITY_TROPICAL_FISH_FLOP;
+        return SoundEvents.TROPICAL_FISH_FLOP;
     }
 
     @Override

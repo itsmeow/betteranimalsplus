@@ -33,7 +33,7 @@ import java.util.function.Predicate;
 
 public class EntityPiranha extends EntityWaterMobPathingBucketable implements IHaveHunger<EntityWaterMobPathing> {
 
-    public final DamageSource PIRANHA_DAMAGE = (new EntityDamageSource("betteranimalsplus.piranha", this)).setDamageBypassesArmor();
+    public final DamageSource PIRANHA_DAMAGE = (new EntityDamageSource("betteranimalsplus.piranha", this)).bypassArmor();
     private int hunger;
 
     public EntityPiranha(EntityType<? extends EntityPiranha> entityType, World worldIn) {
@@ -62,82 +62,82 @@ public class EntityPiranha extends EntityWaterMobPathingBucketable implements IH
     @Override
     public void tick() {
         super.tick();
-        if (this.ticksExisted % 20 == 0) {
+        if (this.tickCount % 20 == 0) {
             this.incrementHunger();
         }
     }
 
     @Nullable
     @Override
-    public ILivingEntityData onInitialSpawn(IServerWorld world, DifficultyInstance difficulty, SpawnReason reason, @Nullable ILivingEntityData livingdata, CompoundNBT compound) {
+    public ILivingEntityData finalizeSpawn(IServerWorld world, DifficultyInstance difficulty, SpawnReason reason, @Nullable ILivingEntityData livingdata, CompoundNBT compound) {
         this.setInitialHunger();
-        return super.onInitialSpawn(world, difficulty, reason, livingdata, compound);
+        return super.finalizeSpawn(world, difficulty, reason, livingdata, compound);
     }
 
     @Override
-    public void writeAdditional(CompoundNBT compound) {
-        super.writeAdditional(compound);
+    public void addAdditionalSaveData(CompoundNBT compound) {
+        super.addAdditionalSaveData(compound);
         this.writeHunger(compound);
     }
 
     @Override
-    public void readAdditional(CompoundNBT compound) {
-        super.readAdditional(compound);
+    public void readAdditionalSaveData(CompoundNBT compound) {
+        super.readAdditionalSaveData(compound);
         this.readHunger(compound);
     }
 
     @Override
-    public boolean attackEntityAsMob(Entity entityIn) {
+    public boolean doHurtTarget(Entity entityIn) {
         float f = (float) this.getAttribute(Attributes.ATTACK_DAMAGE).getValue();
         float f1 = (float) this.getAttribute(Attributes.ATTACK_KNOCKBACK).getValue();
         if(entityIn instanceof LivingEntity) {
-            f += EnchantmentHelper.getModifierForCreature(this.getHeldItemMainhand(), ((LivingEntity) entityIn).getCreatureAttribute());
-            f1 += (float) EnchantmentHelper.getKnockbackModifier(this);
+            f += EnchantmentHelper.getDamageBonus(this.getMainHandItem(), ((LivingEntity) entityIn).getMobType());
+            f1 += (float) EnchantmentHelper.getKnockbackBonus(this);
         }
-        int i = EnchantmentHelper.getFireAspectModifier(this);
+        int i = EnchantmentHelper.getFireAspect(this);
         if(i > 0) {
-            entityIn.setFire(i * 4);
+            entityIn.setSecondsOnFire(i * 4);
         }
-        boolean flag = entityIn.attackEntityFrom(PIRANHA_DAMAGE, f);
+        boolean flag = entityIn.hurt(PIRANHA_DAMAGE, f);
         if(flag) {
             if(f1 > 0.0F && entityIn instanceof LivingEntity) {
-                ((LivingEntity) entityIn).applyKnockback(f1 * 0.5F, MathHelper.sin(this.rotationYaw * ((float) Math.PI / 180F)), -MathHelper.cos(this.rotationYaw * ((float) Math.PI / 180F)));
-                this.setMotion(this.getMotion().mul(0.6D, 1.0D, 0.6D));
+                ((LivingEntity) entityIn).knockback(f1 * 0.5F, MathHelper.sin(this.yRot * ((float) Math.PI / 180F)), -MathHelper.cos(this.yRot * ((float) Math.PI / 180F)));
+                this.setDeltaMovement(this.getDeltaMovement().multiply(0.6D, 1.0D, 0.6D));
             }
             if(entityIn instanceof PlayerEntity) {
                 PlayerEntity playerentity = (PlayerEntity) entityIn;
-                ItemStack itemstack = this.getHeldItemMainhand();
-                ItemStack itemstack1 = playerentity.isHandActive() ? playerentity.getActiveItemStack() : ItemStack.EMPTY;
+                ItemStack itemstack = this.getMainHandItem();
+                ItemStack itemstack1 = playerentity.isUsingItem() ? playerentity.getUseItem() : ItemStack.EMPTY;
                 if(!itemstack.isEmpty() && !itemstack1.isEmpty() && itemstack.canDisableShield(itemstack1, playerentity, this) && itemstack1.isShield(playerentity)) {
-                    float f2 = 0.25F + (float) EnchantmentHelper.getEfficiencyModifier(this) * 0.05F;
-                    if(this.rand.nextFloat() < f2) {
-                        playerentity.getCooldownTracker().setCooldown(itemstack.getItem(), 100);
-                        this.world.setEntityState(playerentity, (byte) 30);
+                    float f2 = 0.25F + (float) EnchantmentHelper.getBlockEfficiency(this) * 0.05F;
+                    if(this.random.nextFloat() < f2) {
+                        playerentity.getCooldowns().addCooldown(itemstack.getItem(), 100);
+                        this.level.broadcastEntityEvent(playerentity, (byte) 30);
                     }
                 }
                 if(!playerentity.isAlive()) {
-                    SkeletonEntity skele = EntityType.SKELETON.create(playerentity.world);
+                    SkeletonEntity skele = EntityType.SKELETON.create(playerentity.level);
                     skele.setCustomName(playerentity.getName());
                     skele.setCustomNameVisible(true);
-                    skele.setPositionAndRotation(playerentity.getPosX(), playerentity.getPosY(), playerentity.getPosZ(), playerentity.rotationYaw, playerentity.rotationPitch);
-                    playerentity.world.addEntity(skele);
+                    skele.absMoveTo(playerentity.getX(), playerentity.getY(), playerentity.getZ(), playerentity.yRot, playerentity.xRot);
+                    playerentity.level.addFreshEntity(skele);
                 }
-            } else if(entityIn instanceof HorseEntity && !entityIn.isAlive() && entityIn.world instanceof IServerWorld) {
-                SkeletonHorseEntity skele = EntityType.SKELETON_HORSE.create(entityIn.world);
-                skele.setPositionAndRotation(entityIn.getPosX(), entityIn.getPosY(), entityIn.getPosZ(), entityIn.rotationYaw, entityIn.rotationPitch);
-                skele.onInitialSpawn((IServerWorld) entityIn.world, entityIn.world.getDifficultyForLocation(entityIn.getPosition()), SpawnReason.MOB_SUMMONED, null, null);
-                skele.hurtResistantTime = 60;
-                skele.enablePersistence();
-                skele.setHorseTamed(true);
-                skele.setGrowingAge(0);
+            } else if(entityIn instanceof HorseEntity && !entityIn.isAlive() && entityIn.level instanceof IServerWorld) {
+                SkeletonHorseEntity skele = EntityType.SKELETON_HORSE.create(entityIn.level);
+                skele.absMoveTo(entityIn.getX(), entityIn.getY(), entityIn.getZ(), entityIn.yRot, entityIn.xRot);
+                skele.finalizeSpawn((IServerWorld) entityIn.level, entityIn.level.getCurrentDifficultyAt(entityIn.blockPosition()), SpawnReason.MOB_SUMMONED, null, null);
+                skele.invulnerableTime = 60;
+                skele.setPersistenceRequired();
+                skele.setTamed(true);
+                skele.setAge(0);
                 if(entityIn.hasCustomName()) {
                     skele.setCustomName(entityIn.getCustomName());
                 }
-                skele.setGrowingAge(((HorseEntity) entityIn).getGrowingAge());
+                skele.setAge(((HorseEntity) entityIn).getAge());
                 skele.setCustomNameVisible(entityIn.isCustomNameVisible());
-                entityIn.world.addEntity(skele);
+                entityIn.level.addFreshEntity(skele);
             }
-            this.applyEnchantments(this, entityIn);
+            this.doEnchantDamageEffects(this, entityIn);
         }
 
         return flag;
@@ -145,19 +145,19 @@ public class EntityPiranha extends EntityWaterMobPathingBucketable implements IH
 
     @Override
     protected SoundEvent getSwimSound() {
-        return SoundEvents.ENTITY_FISH_SWIM;
+        return SoundEvents.FISH_SWIM;
     }
 
     @Override
-    public void livingTick() {
-        if(!this.isInWater() && this.onGround && this.collidedVertically) {
-            this.setMotion(this.getMotion().add((this.rand.nextFloat() * 2.0F - 1.0F) * 0.05F, 0.4F, (this.rand.nextFloat() * 2.0F - 1.0F) * 0.05F));
+    public void aiStep() {
+        if(!this.isInWater() && this.onGround && this.verticalCollision) {
+            this.setDeltaMovement(this.getDeltaMovement().add((this.random.nextFloat() * 2.0F - 1.0F) * 0.05F, 0.4F, (this.random.nextFloat() * 2.0F - 1.0F) * 0.05F));
             this.onGround = false;
-            this.isAirBorne = true;
-            this.playSound(SoundEvents.ENTITY_COD_FLOP, this.getSoundVolume(), this.getSoundPitch());
+            this.hasImpulse = true;
+            this.playSound(SoundEvents.COD_FLOP, this.getSoundVolume(), this.getVoicePitch());
         }
 
-        super.livingTick();
+        super.aiStep();
     }
 
     @Override

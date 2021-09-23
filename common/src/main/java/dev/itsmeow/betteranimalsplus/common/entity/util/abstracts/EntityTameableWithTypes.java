@@ -20,31 +20,31 @@ public abstract class EntityTameableWithTypes extends EntityTameableBetterAnimal
     }
 
     @Override
-    protected void registerData() {
-        super.registerData();
+    protected void defineSynchedData() {
+        super.defineSynchedData();
         this.registerTypeKey();
     }
 
     @Override
-    public void writeAdditional(CompoundNBT compound) {
-        super.writeAdditional(compound);
+    public void addAdditionalSaveData(CompoundNBT compound) {
+        super.addAdditionalSaveData(compound);
         this.writeType(compound);
     }
 
     @Override
-    public void readAdditional(CompoundNBT compound) {
-        super.readAdditional(compound);
+    public void readAdditionalSaveData(CompoundNBT compound) {
+        super.readAdditionalSaveData(compound);
         this.readType(compound);
     }
 
     @Override
     @Nullable
-    public ILivingEntityData onInitialSpawn(IServerWorld world, DifficultyInstance difficulty, SpawnReason reason, @Nullable ILivingEntityData livingdata, CompoundNBT compound) {
-        return this.initAgeableData(world, reason, super.onInitialSpawn(world, difficulty, reason, livingdata, compound));
+    public ILivingEntityData finalizeSpawn(IServerWorld world, DifficultyInstance difficulty, SpawnReason reason, @Nullable ILivingEntityData livingdata, CompoundNBT compound) {
+        return this.initAgeableData(world, reason, super.finalizeSpawn(world, difficulty, reason, livingdata, compound));
     }
 
     @Override
-    public AgeableEntity createChild(ServerWorld world, AgeableEntity ageable) {
+    public AgeableEntity getBreedOffspring(ServerWorld world, AgeableEntity ageable) {
         if (!(ageable instanceof IVariantTypes))
             return null;
         IVariantTypes<?> child = getBaseChild();

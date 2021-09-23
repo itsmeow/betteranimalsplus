@@ -18,30 +18,30 @@ public abstract class EntityWaterMobPathingWithTypesBucketable extends EntityWat
     }
 
     @Override
-    protected void registerData() {
-        super.registerData();
+    protected void defineSynchedData() {
+        super.defineSynchedData();
         this.registerFromContainerKey();
     }
 
     @Override
-    public void writeAdditional(CompoundNBT compound) {
-        super.writeAdditional(compound);
+    public void addAdditionalSaveData(CompoundNBT compound) {
+        super.addAdditionalSaveData(compound);
         this.writeFromContainerToEntity(compound);
     }
 
     @Override
-    public void readAdditional(CompoundNBT compound) {
-        super.readAdditional(compound);
+    public void readAdditionalSaveData(CompoundNBT compound) {
+        super.readAdditionalSaveData(compound);
         this.readFromContainerToEntity(compound);
     }
 
     @Override
-    public boolean canDespawn(double distanceToClosestPlayer) {
+    public boolean removeWhenFarAway(double distanceToClosestPlayer) {
         return !this.isFromContainer() && despawn(distanceToClosestPlayer);
     }
 
     @Override
-    public boolean preventDespawn() {
+    public boolean requiresCustomPersistence() {
         return this.isFromContainer();
     }
 
@@ -60,27 +60,27 @@ public abstract class EntityWaterMobPathingWithTypesBucketable extends EntityWat
 
     @Override
     protected SoundEvent getSwimSound() {
-        return SoundEvents.ENTITY_FISH_SWIM;
+        return SoundEvents.FISH_SWIM;
     }
 
     @Override
-    public void livingTick() {
-        if(!this.isInWater() && this.onGround && this.collidedVertically) {
-            this.setMotion(this.getMotion().add((this.rand.nextFloat() * 2.0F - 1.0F) * 0.05F, 0.4F, (this.rand.nextFloat() * 2.0F - 1.0F) * 0.05F));
+    public void aiStep() {
+        if(!this.isInWater() && this.onGround && this.verticalCollision) {
+            this.setDeltaMovement(this.getDeltaMovement().add((this.random.nextFloat() * 2.0F - 1.0F) * 0.05F, 0.4F, (this.random.nextFloat() * 2.0F - 1.0F) * 0.05F));
             this.onGround = false;
-            this.isAirBorne = true;
-            this.playSound(this.getFlopSound(), this.getSoundVolume(), this.getSoundPitch());
+            this.hasImpulse = true;
+            this.playSound(this.getFlopSound(), this.getSoundVolume(), this.getVoicePitch());
         }
 
-        super.livingTick();
+        super.aiStep();
     }
 
     @Override
-    protected ActionResultType getEntityInteractionResult(PlayerEntity player, Hand hand) {
+    protected ActionResultType mobInteract(PlayerEntity player, Hand hand) {
         if(this.processContainerInteract(player, hand)) {
             return ActionResultType.SUCCESS;
         }
-        return super.getEntityInteractionResult(player, hand);
+        return super.mobInteract(player, hand);
     }
 
     @Override

@@ -44,12 +44,12 @@ import java.util.function.Predicate;
 
 public class EntitySongbird extends EntityAnimalWithSelectiveTypes implements IFlyingAnimal {
 
-    protected static final DataParameter<Boolean> LANDED = EntityDataManager.createKey(EntitySongbird.class, DataSerializers.BOOLEAN);
+    protected static final DataParameter<Boolean> LANDED = EntityDataManager.defineId(EntitySongbird.class, DataSerializers.BOOLEAN);
     protected static final Set<Item> SEEDS = Sets.newHashSet(Items.WHEAT_SEEDS, Items.MELON_SEEDS, Items.PUMPKIN_SEEDS, Items.BEETROOT_SEEDS);
 
     public EntitySongbird(EntityType<? extends EntitySongbird> entityType, World worldIn) {
         super(entityType, worldIn);
-        this.moveController = new FlyingMovementController(this, 180, true);
+        this.moveControl = new FlyingMovementController(this, 180, true);
     }
 
     @Override
@@ -58,8 +58,8 @@ public class EntitySongbird extends EntityAnimalWithSelectiveTypes implements IF
         this.goalSelector.addGoal(1, new PanicGoal(this, 1.25D));
         Predicate<LivingEntity> avoidPredicate = input -> {
             boolean result1 = (input instanceof PlayerEntity);
-            boolean result2 = !SEEDS.contains(input.getHeldItem(Hand.MAIN_HAND).getItem())
-                    && !SEEDS.contains(input.getHeldItem(Hand.OFF_HAND).getItem());
+            boolean result2 = !SEEDS.contains(input.getItemInHand(Hand.MAIN_HAND).getItem())
+                    && !SEEDS.contains(input.getItemInHand(Hand.OFF_HAND).getItem());
             return result1 && result2;
         };
         this.goalSelector.addGoal(2, new AvoidEntityGoal<>(this, PlayerEntity.class, avoidPredicate, 10F, 0.8D,
@@ -70,66 +70,66 @@ public class EntitySongbird extends EntityAnimalWithSelectiveTypes implements IF
     }
 
     @Override
-    public boolean canSpawn(IWorld world, SpawnReason reason) {
-        int i = MathHelper.floor(this.getPosX());
+    public boolean checkSpawnRules(IWorld world, SpawnReason reason) {
+        int i = MathHelper.floor(this.getX());
         int j = MathHelper.floor(this.getBoundingBox().minY);
-        int k = MathHelper.floor(this.getPosZ());
+        int k = MathHelper.floor(this.getZ());
         BlockPos blockpos = new BlockPos(i, j, k);
-        if(world instanceof World && !((World) world).isBlockPresent(new BlockPos(blockpos))) {
-            Block block = this.world.getBlockState(blockpos.down()).getBlock();
-            return block instanceof LeavesBlock || block == Blocks.GRASS || block.isIn(BlockTags.LOGS)
-                    || block == Blocks.AIR && this.world.getLight(blockpos) > 8 && super.canSpawn(world, reason);
+        if(world instanceof World && !((World) world).isLoaded(new BlockPos(blockpos))) {
+            Block block = this.level.getBlockState(blockpos.below()).getBlock();
+            return block instanceof LeavesBlock || block == Blocks.GRASS || block.is(BlockTags.LOGS)
+                    || block == Blocks.AIR && this.level.getMaxLocalRawBrightness(blockpos) > 8 && super.checkSpawnRules(world, reason);
         } else {
-            return super.canSpawn(world, reason);
+            return super.checkSpawnRules(world, reason);
         }
     }
 
     @Override
-    protected PathNavigator createNavigator(World worldIn) {
+    protected PathNavigator createNavigation(World worldIn) {
         FlyingPathNavigator pathnavigateflying = new FlyingPathNavigator(this, worldIn);
         pathnavigateflying.setCanOpenDoors(false);
-        pathnavigateflying.setCanSwim(true);
-        pathnavigateflying.setCanEnterDoors(true);
+        pathnavigateflying.setCanFloat(true);
+        pathnavigateflying.setCanPassDoors(true);
         return pathnavigateflying;
     }
 
     @Override
-    protected void registerData() {
-        super.registerData();
-        this.dataManager.register(LANDED, true);
+    protected void defineSynchedData() {
+        super.defineSynchedData();
+        this.entityData.define(LANDED, true);
     }
 
     @Override
     public void move(MoverType typeIn, Vector3d pos) {
         super.move(typeIn, pos);
-        if(world.isBlockPresent(this.getPosition().down())) {
-            BlockState state = this.world.getBlockState(this.getPosition().down());
-            this.dataManager.set(LANDED, this.onGround || this.getPosY() == Math.floor(this.getPosY()) && state.getCollisionShape(this.world, this.getPosition().down()).getEnd(Axis.Y) == 1 && state.hasOpaqueCollisionShape(world, this.getPosition().down()));
+        if(level.isLoaded(this.blockPosition().below())) {
+            BlockState state = this.level.getBlockState(this.blockPosition().below());
+            this.entityData.set(LANDED, this.onGround || this.getY() == Math.floor(this.getY()) && state.getBlockSupportShape(this.level, this.blockPosition().below()).max(Axis.Y) == 1 && state.isCollisionShapeFullBlock(level, this.blockPosition().below()));
         }
     }
 
     @Override
-    public boolean isBreedingItem(ItemStack stack) {
+    public boolean isFood(ItemStack stack) {
         return SEEDS.contains(stack.getItem());
     }
 
     @Override
-    public boolean onLivingFall(float distance, float damageMultiplier) {
+    public boolean causeFallDamage(float distance, float damageMultiplier) {
         return false;
     }
 
     @Override
-    protected void updateFallState(double y, boolean onGroundIn, BlockState state, BlockPos pos) {
+    protected void checkFallDamage(double y, boolean onGroundIn, BlockState state, BlockPos pos) {
     }
 
     @Override
     protected void playStepSound(BlockPos pos, BlockState state) {
-        this.playSound(SoundEvents.ENTITY_PARROT_STEP, 0.15F, 1.0F);
+        this.playSound(SoundEvents.PARROT_STEP, 0.15F, 1.0F);
     }
 
     @Override
     protected float playFlySound(float p_191954_1_) {
-        this.playSound(SoundEvents.ENTITY_PARROT_FLY, 0.15F, 1.0F);
+        this.playSound(SoundEvents.PARROT_FLY, 0.15F, 1.0F);
         return p_191954_1_;
     }
 
@@ -139,22 +139,22 @@ public class EntitySongbird extends EntityAnimalWithSelectiveTypes implements IF
     }
 
     @Override
-    public SoundCategory getSoundCategory() {
+    public SoundCategory getSoundSource() {
         return SoundCategory.NEUTRAL;
     }
 
     @Override
-    public boolean canBePushed() {
+    public boolean isPushable() {
         return true;
     }
 
     public boolean isFlying() {
-        return !this.dataManager.get(LANDED);
+        return !this.entityData.get(LANDED);
     }
 
     @Override
-    public boolean canMateWith(AnimalEntity otherAnimal) {
-        if (super.canMateWith(otherAnimal)) {
+    public boolean canMate(AnimalEntity otherAnimal) {
+        if (super.canMate(otherAnimal)) {
             if (!(otherAnimal instanceof EntitySongbird)) {
                 return false;
             }
@@ -164,13 +164,13 @@ public class EntitySongbird extends EntityAnimalWithSelectiveTypes implements IF
     }
 
     @Override
-    protected ResourceLocation getLootTable() {
+    protected ResourceLocation getDefaultLootTable() {
         return ModLootTables.songbird;
     }
 
     @Override
     protected EntitySongbird getBaseChild() {
-        return getContainer().getEntityType().create(world);
+        return getContainer().getEntityType().create(level);
     }
 
     @Override
@@ -187,8 +187,8 @@ public class EntitySongbird extends EntityAnimalWithSelectiveTypes implements IF
     }
 
     @Override
-    public ILivingEntityData onInitialSpawn(IServerWorld world, DifficultyInstance difficulty, SpawnReason reason, ILivingEntityData livingdata, CompoundNBT compound) {
-        return EntityUtil.childChance(this, reason, super.onInitialSpawn(world, difficulty, reason, livingdata, compound), 0.25F);
+    public ILivingEntityData finalizeSpawn(IServerWorld world, DifficultyInstance difficulty, SpawnReason reason, ILivingEntityData livingdata, CompoundNBT compound) {
+        return EntityUtil.childChance(this, reason, super.finalizeSpawn(world, difficulty, reason, livingdata, compound), 0.25F);
     }
 
     @Override
@@ -197,7 +197,7 @@ public class EntitySongbird extends EntityAnimalWithSelectiveTypes implements IF
     }
 
     public static boolean canSongbirdSpawn(EntityType<EntitySongbird> type, IServerWorld world, SpawnReason reason, BlockPos pos, Random rand) {
-        Block below = world.getBlockState(pos.down()).getBlock();
-        return MobEntity.canSpawnOn(type, world, reason, pos, rand) || below.isIn(BlockTags.LEAVES) || below.isIn(BlockTags.LOGS);
+        Block below = world.getBlockState(pos.below()).getBlock();
+        return MobEntity.checkMobSpawnRules(type, world, reason, pos, rand) || below.is(BlockTags.LEAVES) || below.is(BlockTags.LOGS);
     }
 }

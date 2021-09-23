@@ -43,7 +43,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import javax.annotation.Nullable;
 
 public class EntityBear extends AnimalEntity implements IDropHead<EntityBear>, IHaveHunger<EntityBear> {
-    private static final DataParameter<Boolean> IS_STANDING = EntityDataManager.createKey(EntityBear.class, DataSerializers.BOOLEAN);
+    private static final DataParameter<Boolean> IS_STANDING = EntityDataManager.defineId(EntityBear.class, DataSerializers.BOOLEAN);
     private float clientSideStandAnimation0;
     private float clientSideStandAnimation;
     private int warningSoundTicks;
@@ -51,8 +51,8 @@ public class EntityBear extends AnimalEntity implements IDropHead<EntityBear>, I
 
     public EntityBear(EntityType<? extends EntityBear> entityType, World worldIn) {
         super(entityType, worldIn);
-        this.setPathPriority(PathNodeType.DANGER_OTHER, 0.0F);
-        this.setPathPriority(PathNodeType.DAMAGE_OTHER, 0.0F);
+        this.setPathfindingMalus(PathNodeType.DANGER_OTHER, 0.0F);
+        this.setPathfindingMalus(PathNodeType.DAMAGE_OTHER, 0.0F);
     }
 
     @Override
@@ -77,36 +77,36 @@ public class EntityBear extends AnimalEntity implements IDropHead<EntityBear>, I
     }
 
     @Override
-    protected PathNavigator createNavigator(World worldIn) {
+    protected PathNavigator createNavigation(World worldIn) {
         return new GroundPathNavigator(this, worldIn) {
             @Override
-            protected void pathFollow() {
-                Vector3d vector3d = this.getEntityPosition();
-                this.maxDistanceToWaypoint = this.entity.getWidth() > 0.75F ? this.entity.getWidth() / 2.0F : 0.75F - this.entity.getWidth() / 2.0F;
-                Vector3i vector3i = this.currentPath.func_242948_g();
-                double d0 = Math.abs(this.entity.getPosX() - ((double)vector3i.getX() + (this.entity.getWidth() + 1) / 2D)); //Forge: Fix MC-94054
-                double d1 = Math.abs(this.entity.getPosY() - (double)vector3i.getY());
-                double d2 = Math.abs(this.entity.getPosZ() - ((double)vector3i.getZ() + (this.entity.getWidth() + 1) / 2D)); //Forge: Fix MC-94054
+            protected void followThePath() {
+                Vector3d vector3d = this.getTempMobPos();
+                this.maxDistanceToWaypoint = this.mob.getBbWidth() > 0.75F ? this.mob.getBbWidth() / 2.0F : 0.75F - this.mob.getBbWidth() / 2.0F;
+                Vector3i vector3i = this.path.getNextNodePos();
+                double d0 = Math.abs(this.mob.getX() - ((double)vector3i.getX() + (this.mob.getBbWidth() + 1) / 2D)); //Forge: Fix MC-94054
+                double d1 = Math.abs(this.mob.getY() - (double)vector3i.getY());
+                double d2 = Math.abs(this.mob.getZ() - ((double)vector3i.getZ() + (this.mob.getBbWidth() + 1) / 2D)); //Forge: Fix MC-94054
                 boolean flag = d0 <= (double)this.maxDistanceToWaypoint && d2 <= (double)this.maxDistanceToWaypoint && d1 < 1.0D;
-                if (flag || this.entity.func_233660_b_(this.currentPath.getCurrentPoint().nodeType) && this.func_234112_b_(vector3d)) {
-                    this.currentPath.incrementPathIndex();
+                if (flag || this.mob.canCutCorner(this.path.getNextNode().type) && this.shouldTargetNextNodeInDirection(vector3d)) {
+                    this.path.advance();
                 }
 
-                this.checkForStuck(vector3d);
+                this.doStuckDetection(vector3d);
             }
 
-            private boolean func_234112_b_(Vector3d currentPosition) {
-                if (this.currentPath.getCurrentPathIndex() + 1 >= this.currentPath.getCurrentPathLength()) {
+            private boolean shouldTargetNextNodeInDirection(Vector3d currentPosition) {
+                if (this.path.getNextNodeIndex() + 1 >= this.path.getNodeCount()) {
                     return false;
                 } else {
-                    Vector3d vector3d = Vector3d.copyCenteredHorizontally(this.currentPath.func_242948_g());
-                    if (!currentPosition.isWithinDistanceOf(vector3d, 2.0D)) {
+                    Vector3d vector3d = Vector3d.atBottomCenterOf(this.path.getNextNodePos());
+                    if (!currentPosition.closerThan(vector3d, 2.0D)) {
                         return false;
                     } else {
-                        Vector3d vector3d1 = Vector3d.copyCenteredHorizontally(this.currentPath.func_242947_d(this.currentPath.getCurrentPathIndex() + 1));
+                        Vector3d vector3d1 = Vector3d.atBottomCenterOf(this.path.getNodePos(this.path.getNextNodeIndex() + 1));
                         Vector3d vector3d2 = vector3d1.subtract(vector3d);
                         Vector3d vector3d3 = currentPosition.subtract(vector3d);
-                        return vector3d2.dotProduct(vector3d3) > 0.0D;
+                        return vector3d2.dot(vector3d3) > 0.0D;
                     }
                 }
             }
@@ -124,46 +124,46 @@ public class EntityBear extends AnimalEntity implements IDropHead<EntityBear>, I
     }
 
     @Override
-    public void writeAdditional(CompoundNBT compound) {
-        super.writeAdditional(compound);
+    public void addAdditionalSaveData(CompoundNBT compound) {
+        super.addAdditionalSaveData(compound);
         this.writeHunger(compound);
     }
 
     @Override
-    public void readAdditional(CompoundNBT compound) {
-        super.readAdditional(compound);
+    public void readAdditionalSaveData(CompoundNBT compound) {
+        super.readAdditionalSaveData(compound);
         this.readHunger(compound);
     }
 
     @Override
-    public boolean isBreedingItem(ItemStack stack) {
-        return ItemTags.FISHES.contains(stack.getItem()) || (stack.getItem().isFood() && stack.getItem().getFood().isMeat());
+    public boolean isFood(ItemStack stack) {
+        return ItemTags.FISHES.contains(stack.getItem()) || (stack.getItem().isEdible() && stack.getItem().getFoodProperties().isMeat());
     }
 
     public boolean isPeaceful() {
-        return world.getDifficulty() == Difficulty.PEACEFUL;
+        return level.getDifficulty() == Difficulty.PEACEFUL;
     }
 
     @Override
-    public double getFluidJumpHeight() {
+    public double getFluidJumpThreshold() {
         // max submerged
         return 0.6D;
     }
 
     @Override
-    protected ResourceLocation getLootTable() {
+    protected ResourceLocation getDefaultLootTable() {
         return ModLootTables.BEAR_BROWN;
     }
 
     @Override
     public void tick() {
         super.tick();
-        if(this.ticksExisted % 20 == 0) {
+        if(this.tickCount % 20 == 0) {
             this.incrementHunger();
         }
-        if(this.world.isRemote) {
+        if(this.level.isClientSide) {
             if(this.clientSideStandAnimation != this.clientSideStandAnimation0) {
-                this.recalculateSize();
+                this.refreshDimensions();
             }
 
             this.clientSideStandAnimation0 = this.clientSideStandAnimation;
@@ -181,11 +181,11 @@ public class EntityBear extends AnimalEntity implements IDropHead<EntityBear>, I
     }
 
     public boolean isStanding() {
-        return this.dataManager.get(IS_STANDING);
+        return this.entityData.get(IS_STANDING);
     }
 
     public void setStanding(boolean standing) {
-        this.dataManager.set(IS_STANDING, standing);
+        this.entityData.set(IS_STANDING, standing);
     }
 
     @OnlyIn(Dist.CLIENT)
@@ -199,21 +199,21 @@ public class EntityBear extends AnimalEntity implements IDropHead<EntityBear>, I
     }
 
     @Override
-    public EntitySize getSize(Pose poseIn) {
+    public EntitySize getDimensions(Pose poseIn) {
         if(this.clientSideStandAnimation > 0.0F) {
             float f = this.clientSideStandAnimation / 6.0F;
             float f1 = 1.0F + f;
-            return super.getSize(poseIn).scale(1.0F, f1);
+            return super.getDimensions(poseIn).scale(1.0F, f1);
         } else {
-            return super.getSize(poseIn);
+            return super.getDimensions(poseIn);
         }
     }
 
     @Override
-    public boolean attackEntityAsMob(Entity entityIn) {
-        boolean flag = entityIn.attackEntityFrom(DamageSource.causeMobDamage(this), (float) ((int) this.getAttribute(Attributes.ATTACK_DAMAGE).getValue()));
+    public boolean doHurtTarget(Entity entityIn) {
+        boolean flag = entityIn.hurt(DamageSource.mobAttack(this), (float) ((int) this.getAttribute(Attributes.ATTACK_DAMAGE).getValue()));
         if(flag) {
-            this.applyEnchantments(this, entityIn);
+            this.doEnchantDamageEffects(this, entityIn);
         }
 
         return flag;
@@ -221,35 +221,35 @@ public class EntityBear extends AnimalEntity implements IDropHead<EntityBear>, I
 
     protected void playWarningSound() {
         if(this.warningSoundTicks <= 0) {
-            this.playSound(SoundEvents.ENTITY_POLAR_BEAR_WARNING, 1.0F, 1.0F);
+            this.playSound(SoundEvents.POLAR_BEAR_WARNING, 1.0F, 1.0F);
             this.warningSoundTicks = 40;
         }
     }
 
     @Override
     protected SoundEvent getAmbientSound() {
-        return this.isChild() ? SoundEvents.ENTITY_POLAR_BEAR_AMBIENT_BABY : SoundEvents.ENTITY_POLAR_BEAR_AMBIENT;
+        return this.isBaby() ? SoundEvents.POLAR_BEAR_AMBIENT_BABY : SoundEvents.POLAR_BEAR_AMBIENT;
     }
 
     @Override
     protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
-        return SoundEvents.ENTITY_POLAR_BEAR_HURT;
+        return SoundEvents.POLAR_BEAR_HURT;
     }
 
     @Override
     protected SoundEvent getDeathSound() {
-        return SoundEvents.ENTITY_POLAR_BEAR_DEATH;
+        return SoundEvents.POLAR_BEAR_DEATH;
     }
 
     @Override
     protected void playStepSound(BlockPos pos, BlockState blockIn) {
-        this.playSound(SoundEvents.ENTITY_POLAR_BEAR_STEP, 0.15F, 1.0F);
+        this.playSound(SoundEvents.POLAR_BEAR_STEP, 0.15F, 1.0F);
     }
 
     @Override
-    protected void registerData() {
-        super.registerData();
-        this.dataManager.register(IS_STANDING, false);
+    protected void defineSynchedData() {
+        super.defineSynchedData();
+        this.entityData.define(IS_STANDING, false);
     }
 
     class AttackPlayerGoal extends NearestAttackableTargetGoal<PlayerEntity> {
@@ -258,13 +258,13 @@ public class EntityBear extends AnimalEntity implements IDropHead<EntityBear>, I
         }
 
         @Override
-        public boolean shouldExecute() {
-            if(EntityBear.this.isPeaceful() || EntityBear.this.isChild()) {
+        public boolean canUse() {
+            if(EntityBear.this.isPeaceful() || EntityBear.this.isBaby()) {
                 return false;
             } else {
-                if(super.shouldExecute()) {
-                    for(EntityBear bear : EntityBear.this.world.getEntitiesWithinAABB(EntityBear.class, EntityBear.this.getBoundingBox().grow(8.0D, 4.0D, 8.0D))) {
-                        if(bear.isChild()) {
+                if(super.canUse()) {
+                    for(EntityBear bear : EntityBear.this.level.getEntitiesOfClass(EntityBear.class, EntityBear.this.getBoundingBox().inflate(8.0D, 4.0D, 8.0D))) {
+                        if(bear.isBaby()) {
                             return true;
                         }
                     }
@@ -275,8 +275,8 @@ public class EntityBear extends AnimalEntity implements IDropHead<EntityBear>, I
         }
 
         @Override
-        protected double getTargetDistance() {
-            return super.getTargetDistance() * 0.5D;
+        protected double getFollowDistance() {
+            return super.getFollowDistance() * 0.5D;
         }
     }
 
@@ -286,19 +286,19 @@ public class EntityBear extends AnimalEntity implements IDropHead<EntityBear>, I
         }
 
         @Override
-        public void startExecuting() {
-            super.startExecuting();
-            if(EntityBear.this.isChild()) {
+        public void start() {
+            super.start();
+            if(EntityBear.this.isBaby()) {
                 this.alertOthers();
-                this.resetTask();
+                this.stop();
             }
 
         }
 
         @Override
-        protected void setAttackTarget(MobEntity mobIn, LivingEntity targetIn) {
-            if(mobIn instanceof EntityBear && !mobIn.isChild() && (!(targetIn instanceof PlayerEntity) || !((EntityBear) mobIn).isPeaceful())) {
-                super.setAttackTarget(mobIn, targetIn);
+        protected void alertOther(MobEntity mobIn, LivingEntity targetIn) {
+            if(mobIn instanceof EntityBear && !mobIn.isBaby() && (!(targetIn instanceof PlayerEntity) || !((EntityBear) mobIn).isPeaceful())) {
+                super.alertOther(mobIn, targetIn);
             }
 
         }
@@ -313,36 +313,36 @@ public class EntityBear extends AnimalEntity implements IDropHead<EntityBear>, I
         @Override
         protected void checkAndPerformAttack(LivingEntity enemy, double distToEnemySqr) {
             double d0 = this.getAttackReachSqr(enemy);
-            if (distToEnemySqr <= d0 && this.isSwingOnCooldown()) {
-                this.resetSwingCooldown();
-                this.attacker.attackEntityAsMob(enemy);
+            if (distToEnemySqr <= d0 && this.isTimeToAttack()) {
+                this.resetAttackCooldown();
+                this.mob.doHurtTarget(enemy);
                 EntityBear.this.setStanding(false);
             } else if (distToEnemySqr <= d0 * 2.0D) {
-                if (this.isSwingOnCooldown()) {
+                if (this.isTimeToAttack()) {
                     EntityBear.this.setStanding(false);
-                    this.resetSwingCooldown();
+                    this.resetAttackCooldown();
                 }
 
-                if (this.getSwingCooldown() <= 10) {
+                if (this.getTicksUntilNextAttack() <= 10) {
                     EntityBear.this.setStanding(true);
                     EntityBear.this.playWarningSound();
                 }
             } else {
-                this.resetSwingCooldown();
+                this.resetAttackCooldown();
                 EntityBear.this.setStanding(false);
             }
 
         }
 
         @Override
-        public void resetTask() {
+        public void stop() {
             EntityBear.this.setStanding(false);
-            super.resetTask();
+            super.stop();
         }
 
         @Override
         protected double getAttackReachSqr(LivingEntity attackTarget) {
-            return 8.0F + attackTarget.getWidth();
+            return 8.0F + attackTarget.getBbWidth();
         }
     }
 
@@ -352,8 +352,8 @@ public class EntityBear extends AnimalEntity implements IDropHead<EntityBear>, I
         }
 
         @Override
-        public boolean shouldExecute() {
-            return (EntityBear.this.isChild() || EntityBear.this.isBurning()) && super.shouldExecute();
+        public boolean canUse() {
+            return (EntityBear.this.isBaby() || EntityBear.this.isOnFire()) && super.canUse();
         }
     }
 
@@ -363,13 +363,13 @@ public class EntityBear extends AnimalEntity implements IDropHead<EntityBear>, I
     }
 
     @Override
-    public void onDeath(DamageSource cause) {
-        super.onDeath(cause);
+    public void die(DamageSource cause) {
+        super.die(cause);
         this.doHeadDrop();
     }
 
     @Override
-    public boolean canDespawn(double range) {
+    public boolean removeWhenFarAway(double range) {
         return despawn(range);
     }
 
@@ -384,7 +384,7 @@ public class EntityBear extends AnimalEntity implements IDropHead<EntityBear>, I
     }
 
     @Override
-    public AgeableEntity createChild(ServerWorld world, AgeableEntity ageable) {
+    public AgeableEntity getBreedOffspring(ServerWorld world, AgeableEntity ageable) {
         return getContainer().getEntityType().create(world);
     }
 
@@ -394,10 +394,10 @@ public class EntityBear extends AnimalEntity implements IDropHead<EntityBear>, I
     }
 
     @Override
-    public ILivingEntityData onInitialSpawn(IServerWorld worldIn, DifficultyInstance difficultyIn, SpawnReason reason, @Nullable ILivingEntityData spawnDataIn, @Nullable CompoundNBT dataTag) {
+    public ILivingEntityData finalizeSpawn(IServerWorld worldIn, DifficultyInstance difficultyIn, SpawnReason reason, @Nullable ILivingEntityData spawnDataIn, @Nullable CompoundNBT dataTag) {
         this.setInitialHunger();
         if(spawnDataIn instanceof GroupData) {
-            this.setGrowingAge(-24000);
+            this.setAge(-24000);
         } else {
             spawnDataIn = new GroupData();
         }

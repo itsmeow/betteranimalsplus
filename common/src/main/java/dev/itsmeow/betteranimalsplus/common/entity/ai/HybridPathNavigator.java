@@ -22,21 +22,21 @@ public class HybridPathNavigator<T extends MobEntity> extends SwimmerPathNavigat
     }
 
     @Override
-    protected boolean canNavigate() {
+    protected boolean canUpdatePath() {
         return true;
     }
 
     @Override
-    protected PathFinder getPathFinder(int p_179679_1_) {
-        this.nodeProcessor = new WalkAndSwimNodeProcessor();
-        return new PathFinder(this.nodeProcessor, p_179679_1_);
+    protected PathFinder createPathFinder(int p_179679_1_) {
+        this.nodeEvaluator = new WalkAndSwimNodeProcessor();
+        return new PathFinder(this.nodeEvaluator, p_179679_1_);
     }
 
     @Override
-    public boolean canEntityStandOnPos(BlockPos pos) {
+    public boolean isStableDestination(BlockPos pos) {
         if (shouldPathAsWater.test(entity)) {
-            return this.world.getBlockState(pos).getBlock() == Blocks.WATER;
+            return this.level.getBlockState(pos).getBlock() == Blocks.WATER;
         }
-        return !this.world.isAirBlock(pos.down());
+        return !this.level.isEmptyBlock(pos.below());
     }
 }

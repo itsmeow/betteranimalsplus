@@ -54,7 +54,7 @@ public class EntityFeralWolf extends EntityTameableWithSelectiveTypes implements
 
     public static final double TAMED_HEALTH = 30D;
     public static final double UNTAMED_HEALTH = 10D;
-    protected static final DataParameter<Float> DATA_HEALTH_ID = EntityDataManager.createKey(EntityFeralWolf.class, DataSerializers.FLOAT);
+    protected static final DataParameter<Float> DATA_HEALTH_ID = EntityDataManager.defineId(EntityFeralWolf.class, DataSerializers.FLOAT);
 
     private int hunger;
 
@@ -75,7 +75,7 @@ public class EntityFeralWolf extends EntityTameableWithSelectiveTypes implements
         this.targetSelector.addGoal(1, new OwnerHurtByTargetGoal(this));
         this.targetSelector.addGoal(2, new OwnerHurtTargetGoal(this));
         this.targetSelector.addGoal(3, new HurtByTargetGoal(this));
-        this.targetSelector.addGoal(4, new NonTamedTargetGoal<>(this, PlayerEntity.class, false,  e -> e.world.getDifficulty() != Difficulty.PEACEFUL));
+        this.targetSelector.addGoal(4, new NonTamedTargetGoal<>(this, PlayerEntity.class, false,  e -> e.level.getDifficulty() != Difficulty.PEACEFUL));
         this.targetSelector.addGoal(4, new HungerNonTamedTargetGoal<>(this, AnimalEntity.class, false, e -> e instanceof SheepEntity || e instanceof RabbitEntity));
         this.targetSelector.addGoal(4, new HungerNonTamedTargetGoal<>(this, VillagerEntity.class, false, e -> true));
         this.targetSelector.addGoal(4, new HungerNonTamedTargetGoal<>(this, AbstractIllagerEntity.class, false, e -> true));
@@ -95,59 +95,59 @@ public class EntityFeralWolf extends EntityTameableWithSelectiveTypes implements
     }
 
     @Override
-    public void writeAdditional(CompoundNBT compound) {
-        super.writeAdditional(compound);
+    public void addAdditionalSaveData(CompoundNBT compound) {
+        super.addAdditionalSaveData(compound);
         this.writeHunger(compound);
     }
 
     @Override
-    public void readAdditional(CompoundNBT compound) {
-        super.readAdditional(compound);
+    public void readAdditionalSaveData(CompoundNBT compound) {
+        super.readAdditionalSaveData(compound);
         this.readHunger(compound);
     }
 
     @Override
-    public void onDeath(DamageSource cause) {
-        super.onDeath(cause);
+    public void die(DamageSource cause) {
+        super.die(cause);
         this.doHeadDrop();
     }
 
     @Override
-    protected void updateAITasks() {
-        super.updateAITasks();
-        this.dataManager.set(EntityFeralWolf.DATA_HEALTH_ID, this.getHealth());
+    protected void customServerAiStep() {
+        super.customServerAiStep();
+        this.entityData.set(EntityFeralWolf.DATA_HEALTH_ID, this.getHealth());
     }
 
     @Override
-    protected void registerData() {
-        super.registerData();
-        this.dataManager.register(DATA_HEALTH_ID, this.getHealth());
+    protected void defineSynchedData() {
+        super.defineSynchedData();
+        this.entityData.define(DATA_HEALTH_ID, this.getHealth());
     }
 
     @Override
     protected void playStepSound(BlockPos pos, BlockState blockStateIn) {
-        this.playSound(SoundEvents.ENTITY_WOLF_STEP, 0.15F, 1.0F);
+        this.playSound(SoundEvents.WOLF_STEP, 0.15F, 1.0F);
     }
 
     @Override
     protected SoundEvent getAmbientSound() {
-        if(!this.isTamed() || this.getAttackTarget() != null) {
-            return SoundEvents.ENTITY_WOLF_GROWL;
-        } else if(this.rand.nextInt(3) == 0) {
-            return this.isTamed() && this.dataManager.get(EntityFeralWolf.DATA_HEALTH_ID) < TAMED_HEALTH / 2D ? SoundEvents.ENTITY_WOLF_WHINE : SoundEvents.ENTITY_WOLF_PANT;
+        if(!this.isTame() || this.getTarget() != null) {
+            return SoundEvents.WOLF_GROWL;
+        } else if(this.random.nextInt(3) == 0) {
+            return this.isTame() && this.entityData.get(EntityFeralWolf.DATA_HEALTH_ID) < TAMED_HEALTH / 2D ? SoundEvents.WOLF_WHINE : SoundEvents.WOLF_PANT;
         } else {
-            return SoundEvents.ENTITY_WOLF_AMBIENT;
+            return SoundEvents.WOLF_AMBIENT;
         }
     }
 
     @Override
     protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
-        return SoundEvents.ENTITY_WOLF_HURT;
+        return SoundEvents.WOLF_HURT;
     }
 
     @Override
     protected SoundEvent getDeathSound() {
-        return SoundEvents.ENTITY_WOLF_DEATH;
+        return SoundEvents.WOLF_DEATH;
     }
 
     @Override
@@ -158,50 +158,50 @@ public class EntityFeralWolf extends EntityTameableWithSelectiveTypes implements
     @Override
     public void tick() {
         super.tick();
-        if (this.ticksExisted % 20 == 0) {
+        if (this.tickCount % 20 == 0) {
             this.incrementHunger();
         }
     }
 
     @Override
-    public int getVerticalFaceSpeed() {
-        return this.isEntitySleeping() ? 20 : super.getVerticalFaceSpeed();
+    public int getMaxHeadXRot() {
+        return this.isInSittingPose() ? 20 : super.getMaxHeadXRot();
     }
 
     @Override
-    public boolean attackEntityFrom(DamageSource source, float amount) {
+    public boolean hurt(DamageSource source, float amount) {
         if(this.isInvulnerableTo(source)) {
             return false;
         } else {
-            Entity entity = source.getTrueSource();
+            Entity entity = source.getEntity();
 
-            if(this.isEntitySleeping()) { // sitting
-                this.setSitting(false);
+            if(this.isInSittingPose()) { // sitting
+                this.setOrderedToSit(false);
             }
 
             if(entity != null && !(entity instanceof PlayerEntity) && !(entity instanceof AbstractArrowEntity)) {
                 amount = (amount + 1.0F) / 2.0F;
             }
 
-            return super.attackEntityFrom(source, amount);
+            return super.hurt(source, amount);
         }
     }
 
     @Override
-    public boolean attackEntityAsMob(Entity entityIn) {
-        boolean flag = entityIn.attackEntityFrom(DamageSource.causeMobDamage(this),
+    public boolean doHurtTarget(Entity entityIn) {
+        boolean flag = entityIn.hurt(DamageSource.mobAttack(this),
         (int) this.getAttribute(Attributes.ATTACK_DAMAGE).getValue());
 
         if(flag) {
-            this.applyEnchantments(this, entityIn);
+            this.doEnchantDamageEffects(this, entityIn);
         }
 
         return flag;
     }
 
     @Override
-    public void setTamed(boolean tamed) {
-        super.setTamed(tamed);
+    public void setTame(boolean tamed) {
+        super.setTame(tamed);
 
         if(tamed) {
             this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(TAMED_HEALTH);
@@ -211,101 +211,101 @@ public class EntityFeralWolf extends EntityTameableWithSelectiveTypes implements
     }
 
     @Override
-    public ActionResultType getEntityInteractionResult(PlayerEntity player, Hand hand) {
-        ItemStack itemstack = player.getHeldItem(hand);
-        if(this.isTamed()) {
+    public ActionResultType mobInteract(PlayerEntity player, Hand hand) {
+        ItemStack itemstack = player.getItemInHand(hand);
+        if(this.isTame()) {
             if(!itemstack.isEmpty()) {
-                if(itemstack.getItem().isFood()) {
-                    Food food = itemstack.getItem().getFood();
-                    if(food.isMeat() && this.dataManager.get(EntityFeralWolf.DATA_HEALTH_ID) < TAMED_HEALTH) {
+                if(itemstack.getItem().isEdible()) {
+                    Food food = itemstack.getItem().getFoodProperties();
+                    if(food.isMeat() && this.entityData.get(EntityFeralWolf.DATA_HEALTH_ID) < TAMED_HEALTH) {
                         if(!player.isCreative()) {
                             itemstack.shrink(1);
                         }
-                        this.heal(food.getHealing());
+                        this.heal(food.getNutrition());
                         return ActionResultType.SUCCESS;
                     }
                 }
             }
 
-            if(this.isOwner(player) && !this.world.isRemote && !this.isBreedingItem(itemstack)
-            && (!(itemstack.getItem().isFood()) || !(itemstack.getItem().getFood().isMeat()))) {
-                this.setSitting(!this.isEntitySleeping());
-                this.isJumping = false;
-                this.navigator.clearPath();
-                this.setAttackTarget(null);
+            if(this.isOwnedBy(player) && !this.level.isClientSide && !this.isFood(itemstack)
+            && (!(itemstack.getItem().isEdible()) || !(itemstack.getItem().getFoodProperties().isMeat()))) {
+                this.setOrderedToSit(!this.isInSittingPose());
+                this.jumping = false;
+                this.navigation.stop();
+                this.setTarget(null);
             }
         } else if(this.isTamingItem(itemstack.getItem())) {
-            ItemStack stack = player.getItemStackFromSlot(EquipmentSlotType.HEAD);
-            if(stack.getItem().isIn(ModResources.Tags.Items.FERAL_WOLF_TAME_ARMOR)) {
+            ItemStack stack = player.getItemBySlot(EquipmentSlotType.HEAD);
+            if(stack.getItem().is(ModResources.Tags.Items.FERAL_WOLF_TAME_ARMOR)) {
                 if(!player.isCreative()) {
                     itemstack.shrink(1);
                 }
-                if(!this.world.isRemote) {
-                    if(this.rand.nextInt(100) <= 14 && !ForgeEventFactory.onAnimalTame(this, player)) {
-                        this.setTamedBy(player);
-                        this.navigator.clearPath();
-                        this.setAttackTarget(null);
-                        this.setSitting(true);
+                if(!this.level.isClientSide) {
+                    if(this.random.nextInt(100) <= 14 && !ForgeEventFactory.onAnimalTame(this, player)) {
+                        this.tame(player);
+                        this.navigation.stop();
+                        this.setTarget(null);
+                        this.setOrderedToSit(true);
                         this.setHealth((float) TAMED_HEALTH);
-                        this.world.setEntityState(this, (byte) 7);
+                        this.level.broadcastEntityEvent(this, (byte) 7);
                     } else {
-                        this.world.setEntityState(this, (byte) 6);
+                        this.level.broadcastEntityEvent(this, (byte) 6);
                     }
                 }
 
                 return ActionResultType.SUCCESS;
             } else {
-                if(!this.world.isRemote) {
-                    player.sendMessage(new TranslationTextComponent("entity.betteranimalsplus.feralwolf.message.wear_head"), Util.DUMMY_UUID);
+                if(!this.level.isClientSide) {
+                    player.sendMessage(new TranslationTextComponent("entity.betteranimalsplus.feralwolf.message.wear_head"), Util.NIL_UUID);
                 }
             }
         }
 
-        return super.getEntityInteractionResult(player, hand);
+        return super.mobInteract(player, hand);
     }
 
     @Override
     public boolean canBreed() {
-        return this.isTamed() && super.canBreed();
+        return this.isTame() && super.canBreed();
     }
 
     @OnlyIn(Dist.CLIENT)
     public float getTailRotation() {
-        if(!this.isTamed()) {
+        if(!this.isTame()) {
             return -0.15F;
         } else {
-            return this.isTamed()
-            ? 0.25F - (this.getMaxHealth() - this.dataManager.get(EntityFeralWolf.DATA_HEALTH_ID))
+            return this.isTame()
+            ? 0.25F - (this.getMaxHealth() - this.entityData.get(EntityFeralWolf.DATA_HEALTH_ID))
             * 0.04F
             : -0.85F;
         }
     }
 
     @Override
-    public boolean isBreedingItem(ItemStack stack) {
+    public boolean isFood(ItemStack stack) {
         return stack.getItem() == ModItems.ANTLER.get();
     }
 
     @Override
-    public int getMaxSpawnedInChunk() {
+    public int getMaxSpawnClusterSize() {
         return 8;
     }
 
     @Override
-    public boolean shouldAttackEntity(LivingEntity target, LivingEntity owner) {
+    public boolean wantsToAttack(LivingEntity target, LivingEntity owner) {
         if(!(target instanceof CreeperEntity) && !(target instanceof GhastEntity)) {
             if(target instanceof EntityFeralWolf) {
                 EntityFeralWolf entityferalwolf = (EntityFeralWolf) target;
 
-                if(entityferalwolf.isTamed() && entityferalwolf.getOwner() == owner) {
+                if(entityferalwolf.isTame() && entityferalwolf.getOwner() == owner) {
                     return false;
                 }
             }
 
-            if(target instanceof PlayerEntity && owner instanceof PlayerEntity && !((PlayerEntity) owner).canAttackPlayer((PlayerEntity) target)) {
+            if(target instanceof PlayerEntity && owner instanceof PlayerEntity && !((PlayerEntity) owner).canHarmPlayer((PlayerEntity) target)) {
                 return false;
             } else {
-                return !(target instanceof AbstractHorseEntity) || !((AbstractHorseEntity) target).isTame();
+                return !(target instanceof AbstractHorseEntity) || !((AbstractHorseEntity) target).isTamed();
             }
         } else {
             return false;
@@ -313,16 +313,16 @@ public class EntityFeralWolf extends EntityTameableWithSelectiveTypes implements
     }
 
     @Override
-    public boolean canBeLeashedTo(PlayerEntity player) {
-        return this.isTamed() && super.canBeLeashedTo(player);
+    public boolean canBeLeashed(PlayerEntity player) {
+        return this.isTame() && super.canBeLeashed(player);
     }
 
     @Override
     protected EntityFeralWolf getBaseChild() {
-        EntityFeralWolf wolf = getContainer().getEntityType().create(world);
-        if(this.isTamed()) {
-            wolf.setTamed(true);
-            wolf.setOwnerId(this.getOwnerId());
+        EntityFeralWolf wolf = getContainer().getEntityType().create(level);
+        if(this.isTame()) {
+            wolf.setTame(true);
+            wolf.setOwnerUUID(this.getOwnerUUID());
         }
         return wolf;
     }
@@ -345,13 +345,13 @@ public class EntityFeralWolf extends EntityTameableWithSelectiveTypes implements
     }
 
     @Override
-    public ILivingEntityData onInitialSpawn(IServerWorld world, DifficultyInstance difficulty, SpawnReason reason, ILivingEntityData livingdata, CompoundNBT compound) {
+    public ILivingEntityData finalizeSpawn(IServerWorld world, DifficultyInstance difficulty, SpawnReason reason, ILivingEntityData livingdata, CompoundNBT compound) {
         this.setInitialHunger();
-        return EntityUtil.childChance(this, reason, super.onInitialSpawn(world, difficulty, reason, livingdata, compound), 0.25F);
+        return EntityUtil.childChance(this, reason, super.finalizeSpawn(world, difficulty, reason, livingdata, compound), 0.25F);
     }
 
     @Override
-    protected ResourceLocation getLootTable() {
+    protected ResourceLocation getDefaultLootTable() {
         if(this.getVariant().isPresent()) {
             IVariant variant = this.getVariant().get();
             if(variant instanceof WolfVariant) {
@@ -373,7 +373,7 @@ public class EntityFeralWolf extends EntityTameableWithSelectiveTypes implements
 
         @Override
         public ResourceLocation getTexture(Entity entity) {
-            if(entity instanceof EntityFeralWolf && ((EntityFeralWolf) entity).isTamed()) {
+            if(entity instanceof EntityFeralWolf && ((EntityFeralWolf) entity).isTame()) {
                 return neutralTexture;
             }
             return super.getTexture(entity);

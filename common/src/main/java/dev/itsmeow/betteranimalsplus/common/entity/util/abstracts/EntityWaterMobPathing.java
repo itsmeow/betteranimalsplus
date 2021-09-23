@@ -15,22 +15,22 @@ public abstract class EntityWaterMobPathing extends WaterMobEntity implements IC
 
     public EntityWaterMobPathing(EntityType<? extends WaterMobEntity> type, World world) {
         super(type, world);
-        this.moveController = new WaterMoveHelper(this);
+        this.moveControl = new WaterMoveHelper(this);
     }
 
     @Override
-    protected PathNavigator createNavigator(World worldIn) {
+    protected PathNavigator createNavigation(World worldIn) {
         return new SwimmerPathNavigator(this, worldIn);
     }
 
     @Override
     public void travel(Vector3d p_213352_1_) {
-        if(this.isServerWorld() && this.isInWater()) {
+        if(this.isEffectiveAi() && this.isInWater()) {
             this.moveRelative(0.01F * (float) this.getAttribute(Attributes.MOVEMENT_SPEED).getValue(), p_213352_1_);
-            this.move(MoverType.SELF, this.getMotion());
-            this.setMotion(this.getMotion().scale(0.9D));
-            if(this.getAttackTarget() == null) {
-                this.setMotion(this.getMotion().add(0.0D, -0.005D, 0.0D));
+            this.move(MoverType.SELF, this.getDeltaMovement());
+            this.setDeltaMovement(this.getDeltaMovement().scale(0.9D));
+            if(this.getTarget() == null) {
+                this.setDeltaMovement(this.getDeltaMovement().add(0.0D, -0.005D, 0.0D));
             }
         } else {
             super.travel(p_213352_1_);
@@ -38,7 +38,7 @@ public abstract class EntityWaterMobPathing extends WaterMobEntity implements IC
     }
 
     @Override
-    public boolean canDespawn(double range) {
+    public boolean removeWhenFarAway(double range) {
         return despawn(range);
     }
 

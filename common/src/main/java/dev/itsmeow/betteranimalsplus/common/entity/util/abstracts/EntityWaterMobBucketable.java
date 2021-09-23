@@ -20,77 +20,77 @@ import net.minecraft.world.World;
 
 public abstract class EntityWaterMobBucketable extends WaterMobEntity implements IBucketable, IContainerEntity<EntityWaterMobBucketable> {
 
-    private static final DataParameter<Boolean> FROM_BUCKET = EntityDataManager.createKey(EntityWaterMobBucketable.class, DataSerializers.BOOLEAN);
+    private static final DataParameter<Boolean> FROM_BUCKET = EntityDataManager.defineId(EntityWaterMobBucketable.class, DataSerializers.BOOLEAN);
 
     public EntityWaterMobBucketable(EntityType<? extends EntityWaterMobBucketable> entityType, World worldIn) {
         super(entityType, worldIn);
     }
 
     @Override
-    protected void registerData() {
-        super.registerData();
-        this.dataManager.register(FROM_BUCKET, false);
+    protected void defineSynchedData() {
+        super.defineSynchedData();
+        this.entityData.define(FROM_BUCKET, false);
     }
 
     @Override
     public boolean isFromContainer() {
-        return this.dataManager.get(FROM_BUCKET);
+        return this.entityData.get(FROM_BUCKET);
     }
 
     @Override
     public void setFromContainer(boolean fromBucket) {
-        this.dataManager.set(FROM_BUCKET, fromBucket);
+        this.entityData.set(FROM_BUCKET, fromBucket);
     }
 
     @Override
-    public void writeAdditional(CompoundNBT compound) {
-        super.writeAdditional(compound);
+    public void addAdditionalSaveData(CompoundNBT compound) {
+        super.addAdditionalSaveData(compound);
         compound.putBoolean("FromBucket", this.isFromContainer());
     }
 
     @Override
-    public void readAdditional(CompoundNBT compound) {
-        super.readAdditional(compound);
+    public void readAdditionalSaveData(CompoundNBT compound) {
+        super.readAdditionalSaveData(compound);
         this.setFromContainer(compound.getBoolean("FromBucket"));
     }
 
     @Override
-    public boolean canDespawn(double distanceToClosestPlayer) {
+    public boolean removeWhenFarAway(double distanceToClosestPlayer) {
         return !this.isFromContainer() && despawn(distanceToClosestPlayer);
     }
 
     @Override
-    public boolean preventDespawn() {
+    public boolean requiresCustomPersistence() {
         return this.isFromContainer();
     }
 
     @Override
     public void setContainerData(ItemStack bucket) {
         if(this.hasCustomName()) {
-            bucket.setDisplayName(this.getCustomName());
+            bucket.setHoverName(this.getCustomName());
         }
     }
 
     @Override
-    protected ActionResultType getEntityInteractionResult(PlayerEntity player, Hand hand) {
-        ItemStack itemstack = player.getHeldItem(hand);
+    protected ActionResultType mobInteract(PlayerEntity player, Hand hand) {
+        ItemStack itemstack = player.getItemInHand(hand);
         if(itemstack.getItem() == Items.WATER_BUCKET && this.isAlive()) {
-            this.playSound(SoundEvents.ITEM_BUCKET_FILL_FISH, 1.0F, 1.0F);
+            this.playSound(SoundEvents.BUCKET_FILL_FISH, 1.0F, 1.0F);
             itemstack.shrink(1);
             ItemStack itemstack1 = this.getContainerItem();
             this.setContainerData(itemstack1);
-            if(!this.world.isRemote) {
+            if(!this.level.isClientSide) {
                 CriteriaTriggers.FILLED_BUCKET.trigger((ServerPlayerEntity) player, itemstack1);
             }
             if(itemstack.isEmpty()) {
-                player.setHeldItem(hand, itemstack1);
-            } else if(!player.inventory.addItemStackToInventory(itemstack1)) {
-                player.dropItem(itemstack1, false);
+                player.setItemInHand(hand, itemstack1);
+            } else if(!player.inventory.add(itemstack1)) {
+                player.drop(itemstack1, false);
             }
             this.remove();
             return ActionResultType.SUCCESS;
         } else {
-            return super.getEntityInteractionResult(player, hand);
+            return super.mobInteract(player, hand);
         }
     }
 

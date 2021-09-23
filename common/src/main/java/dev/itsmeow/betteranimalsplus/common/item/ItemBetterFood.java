@@ -10,12 +10,12 @@ public class ItemBetterFood extends Item {
     public final int itemUseDuration;
 
     public ItemBetterFood(int foodToFill, float saturationMultiplier, int eatLength, boolean isMeat) {
-        super(new Item.Properties().group(BetterAnimalsPlusMod.GROUP).food(createFood(foodToFill, saturationMultiplier, isMeat)));
+        super(new Item.Properties().tab(BetterAnimalsPlusMod.GROUP).food(createFood(foodToFill, saturationMultiplier, isMeat)));
         this.itemUseDuration = eatLength;
     }
 
     private static Food createFood(int foodToFill, float saturationMultiplier, boolean isMeat) {
-        Food.Builder builder = new Food.Builder().hunger(foodToFill).saturation(saturationMultiplier);
+        Food.Builder builder = new Food.Builder().nutrition(foodToFill).saturationMod(saturationMultiplier);
         if(isMeat) {
             builder.meat();
         }

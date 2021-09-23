@@ -10,7 +10,7 @@ import net.minecraft.world.World;
 
 public abstract class EntityWaterMobPathingWithTypesAirBreathing extends EntityWaterMobPathingWithTypes {
 
-    private static final DataParameter<Integer> MOISTNESS = EntityDataManager.createKey(EntityWaterMobPathingWithTypesAirBreathing.class, DataSerializers.VARINT);
+    private static final DataParameter<Integer> MOISTNESS = EntityDataManager.defineId(EntityWaterMobPathingWithTypesAirBreathing.class, DataSerializers.INT);
 
     public EntityWaterMobPathingWithTypesAirBreathing(EntityType<? extends EntityWaterMobPathingWithTypesAirBreathing> entityType, World worldIn) {
         super(entityType, worldIn);
@@ -22,55 +22,55 @@ public abstract class EntityWaterMobPathingWithTypesAirBreathing extends EntityW
     }
 
     @Override
-    protected void updateAir(int p_209207_1_) {
+    protected void handleAirSupply(int p_209207_1_) {
     }
 
     public int getMoistness() {
-        return this.dataManager.get(MOISTNESS);
+        return this.entityData.get(MOISTNESS);
     }
 
     public void setMoistness(int p_211137_1_) {
-        this.dataManager.set(MOISTNESS, p_211137_1_);
+        this.entityData.set(MOISTNESS, p_211137_1_);
     }
 
     @Override
-    protected void registerData() {
-        super.registerData();
-        this.dataManager.register(MOISTNESS, 2400);
+    protected void defineSynchedData() {
+        super.defineSynchedData();
+        this.entityData.define(MOISTNESS, 2400);
     }
 
     @Override
-    public void writeAdditional(CompoundNBT compound) {
-        super.writeAdditional(compound);
+    public void addAdditionalSaveData(CompoundNBT compound) {
+        super.addAdditionalSaveData(compound);
         compound.putInt("Moistness", this.getMoistness());
     }
 
     @Override
-    public void readAdditional(CompoundNBT compound) {
-        super.readAdditional(compound);
+    public void readAdditionalSaveData(CompoundNBT compound) {
+        super.readAdditionalSaveData(compound);
         this.setMoistness(compound.getInt("Moistness"));
     }
 
     @Override
-    public int getMaxAir() {
+    public int getMaxAirSupply() {
         return 4800;
     }
 
     @Override
-    protected int determineNextAir(int currentAir) {
-        return this.getMaxAir();
+    protected int increaseAirSupply(int currentAir) {
+        return this.getMaxAirSupply();
     }
 
     @Override
     public void tick() {
         super.tick();
-        if(!this.isAIDisabled()) {
-            if(this.isInWaterRainOrBubbleColumn()) {
+        if(!this.isNoAi()) {
+            if(this.isInWaterRainOrBubble()) {
                 this.setMoistness(2400);
             } else {
                 this.setMoistness(this.getMoistness() - 1);
                 if(this.getMoistness() <= 0) {
-                    this.attackEntityFrom(DamageSource.DRYOUT, 1.0F);
+                    this.hurt(DamageSource.DRY_OUT, 1.0F);
                 }
             }
 

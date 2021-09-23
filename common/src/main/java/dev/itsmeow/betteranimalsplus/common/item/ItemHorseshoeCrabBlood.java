@@ -19,23 +19,25 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 
+import net.minecraft.item.Item.Properties;
+
 public class ItemHorseshoeCrabBlood extends Item {
 
-    public static final ITextComponent CURES_WITHER = new TranslationTextComponent("tooltip.betteranimalsplus.cures_wither").mergeStyle(TextFormatting.GREEN);
+    public static final ITextComponent CURES_WITHER = new TranslationTextComponent("tooltip.betteranimalsplus.cures_wither").withStyle(TextFormatting.GREEN);
 
     public ItemHorseshoeCrabBlood() {
-        super(new Properties().maxStackSize(1).containerItem(Items.GLASS_BOTTLE).group(BetterAnimalsPlusMod.GROUP));
+        super(new Properties().stacksTo(1).craftRemainder(Items.GLASS_BOTTLE).tab(BetterAnimalsPlusMod.GROUP));
     }
 
     @Override
-    public ItemStack onItemUseFinish(ItemStack stack, World worldIn, LivingEntity entityLiving) {
+    public ItemStack finishUsingItem(ItemStack stack, World worldIn, LivingEntity entityLiving) {
         return cure(entityLiving) ? new ItemStack(Items.GLASS_BOTTLE) : stack;
     }
 
     private static boolean cure(LivingEntity entityLiving) {
-        if(entityLiving.world.isRemote)
+        if(entityLiving.level.isClientSide)
             return false;
-        return entityLiving.removePotionEffect(Effects.WITHER);
+        return entityLiving.removeEffect(Effects.WITHER);
     }
 
     @Override
@@ -44,18 +46,18 @@ public class ItemHorseshoeCrabBlood extends Item {
     }
 
     @Override
-    public UseAction getUseAction(ItemStack stack) {
+    public UseAction getUseAnimation(ItemStack stack) {
         return UseAction.DRINK;
     }
 
     @Override
-    public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, Hand handIn) {
-        playerIn.setActiveHand(handIn);
-        return new ActionResult<>(ActionResultType.SUCCESS, playerIn.getHeldItem(handIn));
+    public ActionResult<ItemStack> use(World worldIn, PlayerEntity playerIn, Hand handIn) {
+        playerIn.startUsingItem(handIn);
+        return new ActionResult<>(ActionResultType.SUCCESS, playerIn.getItemInHand(handIn));
     }
 
     @Override
-    public void addInformation(ItemStack stack, World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
+    public void appendHoverText(ItemStack stack, World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
         tooltip.add(CURES_WITHER);
     }
 

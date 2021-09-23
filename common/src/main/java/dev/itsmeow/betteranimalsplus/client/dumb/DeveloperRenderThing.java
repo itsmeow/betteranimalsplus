@@ -44,7 +44,7 @@ public class DeveloperRenderThing {
             timeSinceLastPacket--;
         }
         if(timeSinceLastPacket <= 0) {
-            long handle = Minecraft.getInstance().getMainWindow().getHandle();
+            long handle = Minecraft.getInstance().getWindow().getWindow();
             if(InputMappings.isKeyDown(handle, 72) && InputMappings.isKeyDown(handle, 341)) { // ctrl + h
                 timeSinceLastPacket = 10;
                 BetterAnimalsPlusMod.HANDLER.sendToServer(new HonkPacket());
@@ -57,9 +57,9 @@ public class DeveloperRenderThing {
         if(SafeSyncThing.get(event.getPlayer().getGameProfile().getId()).on) {
             event.setCanceled(true);
             if(RENDER_INSTANCE == null) {
-                RENDER_INSTANCE = new StupidRender(event.getRenderer().getRenderManager());
+                RENDER_INSTANCE = new StupidRender(event.getRenderer().getDispatcher());
             }
-            float rot = interpolateRotation(event.getPlayer().prevRotationYaw, event.getPlayer().rotationYaw, event.getPartialRenderTick());
+            float rot = interpolateRotation(event.getPlayer().yRotO, event.getPlayer().yRot, event.getPartialRenderTick());
             RENDER_INSTANCE.render(event.getPlayer(), rot, event.getPartialRenderTick(), event.getMatrixStack(), event.getBuffers(), event.getLight());
         }
     }
@@ -87,17 +87,17 @@ public class DeveloperRenderThing {
         }
 
         @Override
-        protected boolean canRenderName(PlayerEntity entity) {
+        protected boolean shouldShowName(PlayerEntity entity) {
             return SafeSyncThing.get(entity.getGameProfile().getId()).nametag;
         }
 
         @Override
-        protected void preRenderCallback(PlayerEntity entitylivingbaseIn, MatrixStack stack, float partialTickTime) {
+        protected void scale(PlayerEntity entitylivingbaseIn, MatrixStack stack, float partialTickTime) {
             stack.scale(0.8F, 0.8F, 0.8F);
         }
 
         @Override
-        public ResourceLocation getEntityTexture(PlayerEntity entity) {
+        public ResourceLocation getTextureLocation(PlayerEntity entity) {
             return ModEntities.GOOSE.getVariantForName(SafeSyncThing.get(entity.getGameProfile().getId()).variant).getTexture(null);
         }
 
@@ -157,7 +157,7 @@ public class DeveloperRenderThing {
     }
 
     private static void msg(String msg) {
-        Minecraft.getInstance().player.sendMessage(new StringTextComponent(msg), Util.DUMMY_UUID);
+        Minecraft.getInstance().player.sendMessage(new StringTextComponent(msg), Util.NIL_UUID);
     }
 
 }

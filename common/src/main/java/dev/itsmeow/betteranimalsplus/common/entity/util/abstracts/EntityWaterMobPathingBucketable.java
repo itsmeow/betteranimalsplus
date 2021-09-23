@@ -15,39 +15,39 @@ public abstract class EntityWaterMobPathingBucketable extends EntityWaterMobPath
     }
 
     @Override
-    protected void registerData() {
-        super.registerData();
+    protected void defineSynchedData() {
+        super.defineSynchedData();
         this.registerFromContainerKey();
     }
 
     @Override
-    public void writeAdditional(CompoundNBT compound) {
-        super.writeAdditional(compound);
+    public void addAdditionalSaveData(CompoundNBT compound) {
+        super.addAdditionalSaveData(compound);
         this.writeFromContainerToEntity(compound);
     }
 
     @Override
-    public void readAdditional(CompoundNBT compound) {
-        super.readAdditional(compound);
+    public void readAdditionalSaveData(CompoundNBT compound) {
+        super.readAdditionalSaveData(compound);
         this.readFromContainerToEntity(compound);
     }
 
     @Override
-    public boolean canDespawn(double distanceToClosestPlayer) {
+    public boolean removeWhenFarAway(double distanceToClosestPlayer) {
         return !this.isFromContainer() && despawn(distanceToClosestPlayer);
     }
 
     @Override
-    public boolean preventDespawn() {
+    public boolean requiresCustomPersistence() {
         return this.isFromContainer();
     }
 
     @Override
-    public ActionResultType getEntityInteractionResult(PlayerEntity player, Hand hand) {
+    public ActionResultType mobInteract(PlayerEntity player, Hand hand) {
         if(this.processContainerInteract(player, hand)) {
             return ActionResultType.SUCCESS;
         }
-        return super.getEntityInteractionResult(player, hand);
+        return super.mobInteract(player, hand);
     }
 
 }

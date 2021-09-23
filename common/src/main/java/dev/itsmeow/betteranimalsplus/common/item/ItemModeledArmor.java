@@ -25,9 +25,9 @@ public abstract class ItemModeledArmor extends ArmorItem {
                 armorModel = displays(armorModel, armorSlot);
 
                 if(defaultModel != null) {
-                    armorModel.isSneak = defaultModel.isSneak;
-                    armorModel.isSitting = defaultModel.isSitting;
-                    armorModel.isChild = defaultModel.isChild;
+                    armorModel.crouching = defaultModel.crouching;
+                    armorModel.riding = defaultModel.riding;
+                    armorModel.young = defaultModel.young;
                     armorModel.rightArmPose = defaultModel.rightArmPose;
                     armorModel.leftArmPose = defaultModel.leftArmPose;
                 }

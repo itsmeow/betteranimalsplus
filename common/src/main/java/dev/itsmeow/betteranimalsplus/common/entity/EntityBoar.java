@@ -45,8 +45,8 @@ public class EntityBoar extends EntityAnimalWithSelectiveTypes implements IMob, 
 
     public EntityBoar(EntityType<? extends EntityBoar> entityType, World worldIn) {
         super(entityType, worldIn);
-        this.setPathPriority(PathNodeType.DANGER_OTHER, 0.0F);
-        this.setPathPriority(PathNodeType.DAMAGE_OTHER, 0.0F);
+        this.setPathfindingMalus(PathNodeType.DANGER_OTHER, 0.0F);
+        this.setPathfindingMalus(PathNodeType.DAMAGE_OTHER, 0.0F);
     }
 
     @Override
@@ -54,13 +54,13 @@ public class EntityBoar extends EntityAnimalWithSelectiveTypes implements IMob, 
         this.goalSelector.addGoal(0, new SwimGoal(this));
         this.goalSelector.addGoal(1, new MeleeAttackGoal(this, 1.2D, false) {
             @Override
-            public boolean shouldExecute() {
-                return !EntityBoar.this.isChild() && super.shouldExecute();
+            public boolean canUse() {
+                return !EntityBoar.this.isBaby() && super.canUse();
             }
 
             @Override
-            public boolean shouldContinueExecuting() {
-                return !EntityBoar.this.isChild() && super.shouldContinueExecuting();
+            public boolean canContinueToUse() {
+                return !EntityBoar.this.isBaby() && super.canContinueToUse();
             }
         });
         this.goalSelector.addGoal(2, new BreedGoal(this, 1.0D));
@@ -80,41 +80,41 @@ public class EntityBoar extends EntityAnimalWithSelectiveTypes implements IMob, 
         this.goalSelector.addGoal(7, new LookAtGoal(this, PlayerEntity.class, 6.0F));
         this.targetSelector.addGoal(0, new HurtByTargetGoal(this) {
             @Override
-            public boolean shouldExecute() {
-                return !EntityBoar.this.isChild() && !EntityBoar.this.isPeaceful() && super.shouldExecute();
+            public boolean canUse() {
+                return !EntityBoar.this.isBaby() && !EntityBoar.this.isPeaceful() && super.canUse();
             }
 
             @Override
-            public boolean shouldContinueExecuting() {
-                return !EntityBoar.this.isChild() && !EntityBoar.this.isPeaceful() && super.shouldContinueExecuting();
+            public boolean canContinueToUse() {
+                return !EntityBoar.this.isBaby() && !EntityBoar.this.isPeaceful() && super.canContinueToUse();
             }
-        }.setCallsForHelp(EntityBoar.class));
-        this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<AnimalEntity>(this, AnimalEntity.class, 90, true, true, (@Nullable LivingEntity in) -> in instanceof ChickenEntity || in instanceof EntityPheasant || in instanceof AnimalEntity && in.isChild() && !(in instanceof EntityBoar || in instanceof PigEntity || in instanceof HoglinEntity)) {
+        }.setAlertOthers(EntityBoar.class));
+        this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<AnimalEntity>(this, AnimalEntity.class, 90, true, true, (@Nullable LivingEntity in) -> in instanceof ChickenEntity || in instanceof EntityPheasant || in instanceof AnimalEntity && in.isBaby() && !(in instanceof EntityBoar || in instanceof PigEntity || in instanceof HoglinEntity)) {
             @Override
-            public boolean shouldExecute() {
-                return EntityBoar.this.shouldAttack() && EntityBoar.this.attackChance() && super.shouldExecute();
+            public boolean canUse() {
+                return EntityBoar.this.shouldAttack() && EntityBoar.this.attackChance() && super.canUse();
             }
 
             @Override
-            public boolean shouldContinueExecuting() {
-                return EntityBoar.this.shouldAttack() && super.shouldContinueExecuting();
+            public boolean canContinueToUse() {
+                return EntityBoar.this.shouldAttack() && super.canContinueToUse();
             }
         });
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<LivingEntity>(this, LivingEntity.class, 50, true, true, (@Nullable LivingEntity in) -> in instanceof AnimalEntity && !(in instanceof EntityBoar || in instanceof PigEntity || in instanceof HoglinEntity) || in instanceof PlayerEntity) {
             @Override
-            public boolean shouldExecute() {
-                return EntityBoar.this.shouldAttack() && EntityBoar.this.attackChance() && super.shouldExecute();
+            public boolean canUse() {
+                return EntityBoar.this.shouldAttack() && EntityBoar.this.attackChance() && super.canUse();
             }
 
             @Override
-            public boolean shouldContinueExecuting() {
-                return EntityBoar.this.shouldAttack() && super.shouldContinueExecuting();
+            public boolean canContinueToUse() {
+                return EntityBoar.this.shouldAttack() && super.canContinueToUse();
             }
         });
     }
 
     public boolean shouldAttack() {
-        return !this.isChild() && !this.isPeaceful();
+        return !this.isBaby() && !this.isPeaceful();
     }
 
     public boolean attackChance() {
@@ -122,130 +122,130 @@ public class EntityBoar extends EntityAnimalWithSelectiveTypes implements IMob, 
     }
 
     public boolean isPeaceful() {
-        return world.getDifficulty() == Difficulty.PEACEFUL;
+        return level.getDifficulty() == Difficulty.PEACEFUL;
     }
 
     @Override
     protected SoundEvent getAmbientSound() {
-        return SoundEvents.ENTITY_PIG_AMBIENT;
+        return SoundEvents.PIG_AMBIENT;
     }
 
     @Override
     protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
-        return SoundEvents.ENTITY_PIG_HURT;
+        return SoundEvents.PIG_HURT;
     }
 
     @Override
     protected SoundEvent getDeathSound() {
-        return SoundEvents.ENTITY_PIG_DEATH;
+        return SoundEvents.PIG_DEATH;
     }
 
     @Override
     protected void playStepSound(BlockPos pos, BlockState blockIn) {
-        this.playSound(SoundEvents.ENTITY_PIG_STEP, 0.15F, 1.0F);
+        this.playSound(SoundEvents.PIG_STEP, 0.15F, 1.0F);
     }
 
     @Override
-    public void onDeath(DamageSource cause) {
-        super.onDeath(cause);
+    public void die(DamageSource cause) {
+        super.die(cause);
         this.doHeadDrop();
     }
 
     @Override
-    protected ResourceLocation getLootTable() {
-        return EntityType.PIG.getLootTable();
+    protected ResourceLocation getDefaultLootTable() {
+        return EntityType.PIG.getDefaultLootTable();
     }
 
     @Override
-    public boolean attackEntityAsMob(Entity entityIn) {
-        Vector3d pos = this.getPositionVec();
-        Vector3d targetPos = entityIn.getPositionVec();
-        ((LivingEntity) entityIn).applyKnockback(0.8F, pos.x - targetPos.x, pos.z - targetPos.z);
+    public boolean doHurtTarget(Entity entityIn) {
+        Vector3d pos = this.position();
+        Vector3d targetPos = entityIn.position();
+        ((LivingEntity) entityIn).knockback(0.8F, pos.x - targetPos.x, pos.z - targetPos.z);
 
         // Vanilla attack code for mobs
 
         float f = (float) this.getAttribute(Attributes.ATTACK_DAMAGE).getValue();
         int i = 0;
 
-        f += EnchantmentHelper.getModifierForCreature(this.getHeldItemMainhand(),
-        ((LivingEntity) entityIn).getCreatureAttribute());
-        i += EnchantmentHelper.getKnockbackModifier(this);
+        f += EnchantmentHelper.getDamageBonus(this.getMainHandItem(),
+        ((LivingEntity) entityIn).getMobType());
+        i += EnchantmentHelper.getKnockbackBonus(this);
 
-        boolean flag = entityIn.attackEntityFrom(DamageSource.causeMobDamage(this), f);
+        boolean flag = entityIn.hurt(DamageSource.mobAttack(this), f);
 
         if (flag) {
             if (i > 0) {
-                ((LivingEntity) entityIn).applyKnockback(i * 0.5F, MathHelper.sin(this.rotationYaw * 0.017453292F), -MathHelper.cos(this.rotationYaw * 0.017453292F));
-                this.setMotion(this.getMotion().getX() * 0.6D, this.getMotion().getY(), this.getMotion().getZ() * 0.6D);
+                ((LivingEntity) entityIn).knockback(i * 0.5F, MathHelper.sin(this.yRot * 0.017453292F), -MathHelper.cos(this.yRot * 0.017453292F));
+                this.setDeltaMovement(this.getDeltaMovement().x() * 0.6D, this.getDeltaMovement().y(), this.getDeltaMovement().z() * 0.6D);
             }
 
-            int j = EnchantmentHelper.getFireAspectModifier(this);
+            int j = EnchantmentHelper.getFireAspect(this);
 
             if(j > 0) {
-                entityIn.setFire(j * 4);
+                entityIn.setSecondsOnFire(j * 4);
             }
 
             if(entityIn instanceof PlayerEntity) {
                 PlayerEntity entityplayer = (PlayerEntity) entityIn;
-                ItemStack itemstack = this.getHeldItemMainhand();
-                ItemStack itemstack1 = entityplayer.isHandActive() ? entityplayer.getActiveItemStack()
+                ItemStack itemstack = this.getMainHandItem();
+                ItemStack itemstack1 = entityplayer.isUsingItem() ? entityplayer.getUseItem()
                 : ItemStack.EMPTY;
 
                 if(!itemstack.isEmpty() && !itemstack1.isEmpty()
                 && itemstack.getItem().canDisableShield(itemstack, itemstack1, entityplayer, this)
                 && itemstack1.getItem().isShield(itemstack1, entityplayer)) {
-                    float f1 = 0.25F + EnchantmentHelper.getEfficiencyModifier(this) * 0.05F;
+                    float f1 = 0.25F + EnchantmentHelper.getBlockEfficiency(this) * 0.05F;
 
-                    if(this.rand.nextFloat() < f1) {
-                        entityplayer.getCooldownTracker().setCooldown(itemstack1.getItem(), 100);
-                        this.world.setEntityState(entityplayer, (byte) 30);
+                    if(this.random.nextFloat() < f1) {
+                        entityplayer.getCooldowns().addCooldown(itemstack1.getItem(), 100);
+                        this.level.broadcastEntityEvent(entityplayer, (byte) 30);
                     }
                 }
             }
 
-            this.applyEnchantments(this, entityIn);
+            this.doEnchantDamageEffects(this, entityIn);
         }
 
         return flag;
     }
 
     @Override
-    public void causeLightningStrike(ServerWorld p_241841_1_, LightningBoltEntity p_241841_2_) {
-        if (!this.world.isRemote && !this.dead) {
-            ZombifiedPiglinEntity entitypigzombie = EntityType.ZOMBIFIED_PIGLIN.create(this.world);
-            entitypigzombie.setItemStackToSlot(EquipmentSlotType.MAINHAND, new ItemStack(Items.GOLDEN_SWORD));
-            entitypigzombie.setLocationAndAngles(this.getPosX(), this.getPosY(), this.getPosZ(), this.rotationYaw, this.rotationPitch);
-            entitypigzombie.setNoAI(this.isAIDisabled());
+    public void thunderHit(ServerWorld p_241841_1_, LightningBoltEntity p_241841_2_) {
+        if (!this.level.isClientSide && !this.dead) {
+            ZombifiedPiglinEntity entitypigzombie = EntityType.ZOMBIFIED_PIGLIN.create(this.level);
+            entitypigzombie.setItemSlot(EquipmentSlotType.MAINHAND, new ItemStack(Items.GOLDEN_SWORD));
+            entitypigzombie.moveTo(this.getX(), this.getY(), this.getZ(), this.yRot, this.xRot);
+            entitypigzombie.setNoAi(this.isNoAi());
 
             if(this.hasCustomName()) {
                 entitypigzombie.setCustomName(this.getCustomName());
                 entitypigzombie.setCustomNameVisible(true);
             }
 
-            this.world.addEntity(entitypigzombie);
+            this.level.addFreshEntity(entitypigzombie);
             this.remove();
         }
     }
 
     @Override
-    public AgeableEntity createChild(ServerWorld world, AgeableEntity ageable) {
+    public AgeableEntity getBreedOffspring(ServerWorld world, AgeableEntity ageable) {
         if(this.getVariant().isPresent()) {
             if (ageable instanceof EntityBoar) {
                 EntityBoar boar = getContainer().getEntityType().create(world);
                 boar.setType(this.getVariant().get());
                 return boar;
             } else if (ageable instanceof PigEntity) {
-                PigEntity pig = new PigEntity(EntityType.PIG, this.world);
+                PigEntity pig = new PigEntity(EntityType.PIG, this.level);
                 EntityBoar boar = getContainer().getEntityType().create(world);
                 boar.setType(this.getVariant().get());
-                return this.rand.nextBoolean() ? pig : boar;
+                return this.random.nextBoolean() ? pig : boar;
             }
         }
         return null;
     }
 
     @Override
-    public boolean canMateWith(AnimalEntity otherAnimal) {
+    public boolean canMate(AnimalEntity otherAnimal) {
         if(otherAnimal != this) {
             if(otherAnimal instanceof EntityBoar || otherAnimal instanceof PigEntity) {
                 return otherAnimal.isInLove() && this.isInLove();
@@ -261,7 +261,7 @@ public class EntityBoar extends EntityAnimalWithSelectiveTypes implements IMob, 
     }
 
     @Override
-    public boolean isBreedingItem(ItemStack stack) {
+    public boolean isFood(ItemStack stack) {
         return stack.getItem() == Items.CARROT || stack.getItem() == Items.GOLDEN_CARROT;
     }
 
@@ -296,47 +296,47 @@ public class EntityBoar extends EntityAnimalWithSelectiveTypes implements IMob, 
         }
 
         @Override
-        public boolean shouldExecute() {
-            if(this.runDelay <= 0) {
-                if(!net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(this.boar.world, this.boar)) {
+        public boolean canUse() {
+            if(this.nextStartTick <= 0) {
+                if(!net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(this.boar.level, this.boar)) {
                     return false;
                 }
             }
 
-            return !this.boar.isInLove() && super.shouldExecute();
+            return !this.boar.isInLove() && super.canUse();
         }
 
         @Override
-        public boolean shouldContinueExecuting() {
-            return !this.boar.isInLove() && super.shouldContinueExecuting();
+        public boolean canContinueToUse() {
+            return !this.boar.isInLove() && super.canContinueToUse();
         }
 
         @Override
         public void tick() {
-            if(!this.destinationBlock.withinDistance(this.creature.getPositionVec(), this.getTargetDistanceSq())) {
-                this.boar.getMoveHelper().setMoveTo((double) this.destinationBlock.getX() + 0.5D, this.destinationBlock.getY(), (double) this.destinationBlock.getZ() + 0.5D, this.movementSpeed);
+            if(!this.blockPos.closerThan(this.mob.position(), this.acceptedDistance())) {
+                this.boar.getMoveControl().setWantedPosition((double) this.blockPos.getX() + 0.5D, this.blockPos.getY(), (double) this.blockPos.getZ() + 0.5D, this.speedModifier);
             } else {
-                World world = this.boar.world;
-                BlockPos pos = this.destinationBlock;
+                World world = this.boar.level;
+                BlockPos pos = this.blockPos;
                 BlockState state = world.getBlockState(pos);
                 Block block = state.getBlock();
 
                 if(!this.boar.isInLove() && block instanceof CropsBlock && ((CropsBlock) block).isMaxAge(state)) {
-                    world.setBlockState(pos, Blocks.AIR.getDefaultState(), 2);
+                    world.setBlock(pos, Blocks.AIR.defaultBlockState(), 2);
                     world.destroyBlock(pos, true);
                     if(boar.getContainer().getCustomConfiguration().getBoolean("nerf_options/breed_from_crops"))
                         boar.setInLove(null);
                 }
             }
-            this.boar.getLookController().setLookPosition((double) this.destinationBlock.getX() + 0.5D, this.destinationBlock.getY() + 0.5D, (double) this.destinationBlock.getZ() + 0.5D, 10.0F, (float) this.boar.getVerticalFaceSpeed());
+            this.boar.getLookControl().setLookAt((double) this.blockPos.getX() + 0.5D, this.blockPos.getY() + 0.5D, (double) this.blockPos.getZ() + 0.5D, 10.0F, (float) this.boar.getMaxHeadXRot());
         }
 
         @Override
-        protected boolean shouldMoveTo(IWorldReader worldIn, BlockPos pos) {
+        protected boolean isValidTarget(IWorldReader worldIn, BlockPos pos) {
             BlockState state = worldIn.getBlockState(pos);
             Block block = state.getBlock();
             if(!this.boar.isInLove() && block instanceof CropsBlock && ((CropsBlock) block).isMaxAge(state)) {
-                return worldIn.getBlockState(pos.down()).getBlock() == Blocks.FARMLAND;
+                return worldIn.getBlockState(pos.below()).getBlock() == Blocks.FARMLAND;
             }
             return false;
         }
@@ -344,12 +344,12 @@ public class EntityBoar extends EntityAnimalWithSelectiveTypes implements IMob, 
 
     @Override
     protected EntityAnimalWithTypes getBaseChild() {
-        return getContainer().getEntityType().create(world);
+        return getContainer().getEntityType().create(level);
     }
 
     @Override
-    public ILivingEntityData onInitialSpawn(IServerWorld world, DifficultyInstance difficulty, SpawnReason reason, ILivingEntityData livingdata, CompoundNBT compound) {
-        return EntityUtil.childChance(this, reason, super.onInitialSpawn(world, difficulty, reason, livingdata, compound), 0.25F);
+    public ILivingEntityData finalizeSpawn(IServerWorld world, DifficultyInstance difficulty, SpawnReason reason, ILivingEntityData livingdata, CompoundNBT compound) {
+        return EntityUtil.childChance(this, reason, super.finalizeSpawn(world, difficulty, reason, livingdata, compound), 0.25F);
     }
 
 }

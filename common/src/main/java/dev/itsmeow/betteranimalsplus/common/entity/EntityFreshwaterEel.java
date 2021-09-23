@@ -17,7 +17,7 @@ public class EntityFreshwaterEel extends EntityEelBase {
 
     @Override
     protected SoundEvent getFlopSound() {
-        return SoundEvents.ENTITY_COD_FLOP;
+        return SoundEvents.COD_FLOP;
     }
 
     @Override

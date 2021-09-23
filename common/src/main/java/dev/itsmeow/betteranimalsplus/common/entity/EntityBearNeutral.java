@@ -27,6 +27,8 @@ import net.minecraft.world.server.ServerWorld;
 
 import javax.annotation.Nullable;
 
+import dev.itsmeow.imdlib.entity.interfaces.IVariantTypes.AgeableTypeData;
+
 public class EntityBearNeutral extends EntityBear implements IVariantTypes<EntityBear> {
 
     public EntityBearNeutral(EntityType<? extends EntityBearNeutral> entityType, World worldIn) {
@@ -51,16 +53,16 @@ public class EntityBearNeutral extends EntityBear implements IVariantTypes<Entit
     }
 
     @Override
-    public boolean isBreedingItem(ItemStack stack) {
+    public boolean isFood(ItemStack stack) {
         return stack.getItem() == Items.SALMON || stack.getItem() == Items.COOKED_SALMON || stack.getItem() == Items.HONEYCOMB;
     }
 
     @Override
     @Nullable
-    public ILivingEntityData onInitialSpawn(IServerWorld world, DifficultyInstance difficulty, SpawnReason reason, @Nullable ILivingEntityData livingdata, CompoundNBT compound) {
+    public ILivingEntityData finalizeSpawn(IServerWorld world, DifficultyInstance difficulty, SpawnReason reason, @Nullable ILivingEntityData livingdata, CompoundNBT compound) {
         this.setInitialHunger();
         if(livingdata instanceof AgeableTypeData) {
-            this.setGrowingAge(-24000);
+            this.setAge(-24000);
             this.setType(((AgeableTypeData) livingdata).typeData);
         } else {
             livingdata = this.initAgeableData(world, reason, null);
@@ -70,29 +72,29 @@ public class EntityBearNeutral extends EntityBear implements IVariantTypes<Entit
 
     @Override
     public IVariant getRandomType() {
-        return this.getContainer().getVariantForName(this.getRNG().nextFloat() <= 0.125F ? "kermode" : "black");
+        return this.getContainer().getVariantForName(this.getRandom().nextFloat() <= 0.125F ? "kermode" : "black");
     }
 
     @Override
-    protected void registerData() {
-        super.registerData();
+    protected void defineSynchedData() {
+        super.defineSynchedData();
         this.registerTypeKey();
     }
 
     @Override
-    public void writeAdditional(CompoundNBT compound) {
-        super.writeAdditional(compound);
+    public void addAdditionalSaveData(CompoundNBT compound) {
+        super.addAdditionalSaveData(compound);
         this.writeType(compound);
     }
 
     @Override
-    public void readAdditional(CompoundNBT compound) {
-        super.readAdditional(compound);
+    public void readAdditionalSaveData(CompoundNBT compound) {
+        super.readAdditionalSaveData(compound);
         this.readType(compound);
     }
 
     @Override
-    protected ResourceLocation getLootTable() {
+    protected ResourceLocation getDefaultLootTable() {
         switch(this.getVariantNameOrEmpty()) {
         case "black":
             return ModLootTables.BEAR_BLACK;
@@ -114,12 +116,12 @@ public class EntityBearNeutral extends EntityBear implements IVariantTypes<Entit
     }
 
     @Override
-    public boolean canDespawn(double range) {
+    public boolean removeWhenFarAway(double range) {
         return despawn(range);
     }
 
     @Override
-    public AgeableEntity createChild(ServerWorld world, AgeableEntity ageable) {
+    public AgeableEntity getBreedOffspring(ServerWorld world, AgeableEntity ageable) {
         EntityBearNeutral child = getContainer().getEntityType().create(world);
         if(ageable instanceof EntityBearNeutral) {
             if("kermode".equals(((EntityBearNeutral) ageable).getVariantNameOrEmpty()) && "kermode".equals(this.getVariantNameOrEmpty())) {

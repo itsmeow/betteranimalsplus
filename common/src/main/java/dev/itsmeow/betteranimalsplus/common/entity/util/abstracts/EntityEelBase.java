@@ -28,7 +28,7 @@ import java.util.function.Predicate;
 
 public abstract class EntityEelBase extends EntityWaterMobPathingWithTypesBucketable {
 
-    private static final Predicate<ItemEntity> ITEM_SELECTOR = (item) -> !item.cannotPickup() && item.isAlive() && item.getItem().isFood();
+    private static final Predicate<ItemEntity> ITEM_SELECTOR = (item) -> !item.hasPickUpDelay() && item.isAlive() && item.getItem().isEdible();
     private int collideWithItemTicks = 0;
     private ItemEntity collidedItem = null;
 
@@ -40,12 +40,12 @@ public abstract class EntityEelBase extends EntityWaterMobPathingWithTypesBucket
     protected void registerGoals() {
         this.goalSelector.addGoal(0, new MeleeAttackGoal(this, 0.8D, false) {
             @Override
-            public boolean shouldContinueExecuting() {
-                if(shouldCheckTarget() && EntityEelBase.this.getAttackTarget() != null && !isHoldingFood(EntityEelBase.this.getAttackTarget())) {
-                    EntityEelBase.this.setAttackTarget(null);
+            public boolean canContinueToUse() {
+                if(shouldCheckTarget() && EntityEelBase.this.getTarget() != null && !isHoldingFood(EntityEelBase.this.getTarget())) {
+                    EntityEelBase.this.setTarget(null);
                     return false;
                 }
-                return super.shouldContinueExecuting();
+                return super.canContinueToUse();
             }
         });
         this.goalSelector.addGoal(2, new EntityEelBase.MoveToFoodItemsGoal());
@@ -59,30 +59,30 @@ public abstract class EntityEelBase extends EntityWaterMobPathingWithTypesBucket
     }
 
     @Override
-    protected boolean canTriggerWalking() {
+    protected boolean isMovementNoisy() {
         return false;
     }
 
     @Override
     public void tick() {
         super.tick();
-        List<ItemEntity> items = world.getEntitiesWithinAABB(ItemEntity.class, this.getBoundingBox().grow(0.4D), EntityEelBase.ITEM_SELECTOR);
+        List<ItemEntity> items = level.getEntitiesOfClass(ItemEntity.class, this.getBoundingBox().inflate(0.4D), EntityEelBase.ITEM_SELECTOR);
         if(items.size() > 0 && (collidedItem == null || items.contains(collidedItem))) {
             if(collidedItem == null) {
-                collidedItem = items.get(this.getRNG().nextInt(items.size()));
+                collidedItem = items.get(this.getRandom().nextInt(items.size()));
             }
             collideWithItemTicks++;
             if(collideWithItemTicks > 35) {
-                if(this.getRNG().nextFloat() < 0.1F) {
-                    this.playSound(SoundEvents.ENTITY_GENERIC_EAT, 1.0F, 1.0F);
-                    this.world.setEntityState(this, (byte) 45); // calls handleStatusUpdate((byte) 45);
+                if(this.getRandom().nextFloat() < 0.1F) {
+                    this.playSound(SoundEvents.GENERIC_EAT, 1.0F, 1.0F);
+                    this.level.broadcastEntityEvent(this, (byte) 45); // calls handleStatusUpdate((byte) 45);
                 }
-                if(collideWithItemTicks > 40 && this.getRNG().nextInt(20) == 0) {
+                if(collideWithItemTicks > 40 && this.getRandom().nextInt(20) == 0) {
                     collideWithItemTicks = 0;
                     ItemEntity item = collidedItem;
                     ItemStack stack = item.getItem();
-                    if(stack.isFood()) {
-                        this.heal(stack.getItem().getFood().getSaturation());
+                    if(stack.isEdible()) {
+                        this.heal(stack.getItem().getFoodProperties().getSaturationModifier());
                         item.remove();
                         collidedItem = null;
                         collideWithItemTicks = 0;
@@ -97,48 +97,48 @@ public abstract class EntityEelBase extends EntityWaterMobPathingWithTypesBucket
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public void handleStatusUpdate(byte id) {
+    public void handleEntityEvent(byte id) {
         if(id == 45) {
             if(collidedItem != null) {
                 ItemStack stack = collidedItem.getItem();
                 if(!stack.isEmpty()) {
                     for(int i = 0; i < 8; ++i) {
-                        Vector3d vec3d = (new Vector3d(((double) this.rand.nextFloat() - 0.5D) * 0.1D, Math.random() * 0.1D + 0.1D, 0.0D)).rotatePitch(-this.rotationPitch * ((float) Math.PI / 180F)).rotateYaw(-this.rotationYaw * ((float) Math.PI / 180F));
-                        this.world.addParticle(new ItemParticleData(ParticleTypes.ITEM, stack), this.getPosX() + this.getLookVec().x / 2.0D, this.getPosY(), this.getPosZ() + this.getLookVec().z / 2.0D, vec3d.x, vec3d.y + 0.05D, vec3d.z);
+                        Vector3d vec3d = (new Vector3d(((double) this.random.nextFloat() - 0.5D) * 0.1D, Math.random() * 0.1D + 0.1D, 0.0D)).xRot(-this.xRot * ((float) Math.PI / 180F)).yRot(-this.yRot * ((float) Math.PI / 180F));
+                        this.level.addParticle(new ItemParticleData(ParticleTypes.ITEM, stack), this.getX() + this.getLookAngle().x / 2.0D, this.getY(), this.getZ() + this.getLookAngle().z / 2.0D, vec3d.x, vec3d.y + 0.05D, vec3d.z);
                     }
                 }
             }
         } else {
-            super.handleStatusUpdate(id);
+            super.handleEntityEvent(id);
         }
     }
 
     @Override
-    public boolean attackEntityAsMob(Entity entityIn) {
-        return entityIn.attackEntityFrom(DamageSource.causeMobDamage(this), (float) this.getAttribute(Attributes.ATTACK_DAMAGE).getValue());
+    public boolean doHurtTarget(Entity entityIn) {
+        return entityIn.hurt(DamageSource.mobAttack(this), (float) this.getAttribute(Attributes.ATTACK_DAMAGE).getValue());
     }
 
     protected static boolean isHoldingFood(LivingEntity entity) {
-        return entity.getHeldItemMainhand().isFood() || entity.getHeldItemOffhand().isFood();
+        return entity.getMainHandItem().isEdible() || entity.getOffhandItem().isEdible();
     }
 
     @Override
-    protected ResourceLocation getLootTable() {
+    protected ResourceLocation getDefaultLootTable() {
         return ModLootTables.EELY;
     }
 
     public class MoveToFoodItemsGoal extends Goal {
         public MoveToFoodItemsGoal() {
-            this.setMutexFlags(EnumSet.of(Goal.Flag.MOVE));
+            this.setFlags(EnumSet.of(Goal.Flag.MOVE));
         }
 
         @Override
-        public boolean shouldExecute() {
-            if(EntityEelBase.this.getAttackTarget() == null && EntityEelBase.this.getRevengeTarget() == null) {
-                if(EntityEelBase.this.getRNG().nextInt(2) != 0) {
+        public boolean canUse() {
+            if(EntityEelBase.this.getTarget() == null && EntityEelBase.this.getLastHurtByMob() == null) {
+                if(EntityEelBase.this.getRandom().nextInt(2) != 0) {
                     return false;
                 } else {
-                    List<ItemEntity> list = EntityEelBase.this.world.getEntitiesWithinAABB(ItemEntity.class, EntityEelBase.this.getBoundingBox().grow(8.0D, 8.0D, 8.0D), EntityEelBase.ITEM_SELECTOR);
+                    List<ItemEntity> list = EntityEelBase.this.level.getEntitiesOfClass(ItemEntity.class, EntityEelBase.this.getBoundingBox().inflate(8.0D, 8.0D, 8.0D), EntityEelBase.ITEM_SELECTOR);
                     return !list.isEmpty();
                 }
             } else {
@@ -148,18 +148,18 @@ public abstract class EntityEelBase extends EntityWaterMobPathingWithTypesBucket
 
         @Override
         public void tick() {
-            List<ItemEntity> list = EntityEelBase.this.world.getEntitiesWithinAABB(ItemEntity.class, EntityEelBase.this.getBoundingBox().grow(8.0D, 8.0D, 8.0D), EntityEelBase.ITEM_SELECTOR);
+            List<ItemEntity> list = EntityEelBase.this.level.getEntitiesOfClass(ItemEntity.class, EntityEelBase.this.getBoundingBox().inflate(8.0D, 8.0D, 8.0D), EntityEelBase.ITEM_SELECTOR);
             if(!list.isEmpty()) {
-                EntityEelBase.this.getNavigator().tryMoveToEntityLiving(list.get(0), 1.2F);
+                EntityEelBase.this.getNavigation().moveTo(list.get(0), 1.2F);
             }
 
         }
 
         @Override
-        public void startExecuting() {
-            List<ItemEntity> list = EntityEelBase.this.world.getEntitiesWithinAABB(ItemEntity.class, EntityEelBase.this.getBoundingBox().grow(8.0D, 8.0D, 8.0D), EntityEelBase.ITEM_SELECTOR);
+        public void start() {
+            List<ItemEntity> list = EntityEelBase.this.level.getEntitiesOfClass(ItemEntity.class, EntityEelBase.this.getBoundingBox().inflate(8.0D, 8.0D, 8.0D), EntityEelBase.ITEM_SELECTOR);
             if(!list.isEmpty()) {
-                EntityEelBase.this.getNavigator().tryMoveToEntityLiving(list.get(0), 1.2F);
+                EntityEelBase.this.getNavigation().moveTo(list.get(0), 1.2F);
             }
         }
     }

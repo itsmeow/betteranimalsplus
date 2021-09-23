@@ -40,10 +40,10 @@ public class ModWorldGen {
     public static void setup(final FMLCommonSetupEvent event) {
         TRILLIUM_STATE_PROVIDER = new WeightedBlockStateProvider();
         for(int i = 0; i < 4; i++) {
-            TRILLIUM_STATE_PROVIDER.addWeightedBlockstate(ModBlocks.TRILLIUM.get().getDefaultState().with(HorizontalBlock.HORIZONTAL_FACING, Direction.byHorizontalIndex(i)), 1);
+            TRILLIUM_STATE_PROVIDER.add(ModBlocks.TRILLIUM.get().defaultBlockState().setValue(HorizontalBlock.FACING, Direction.from2DDataValue(i)), 1);
         }
         TRILLIUM_FEATURE_CONFIG = (new BlockClusterFeatureConfig.Builder(TRILLIUM_STATE_PROVIDER, new SimpleBlockPlacer())).tries(64).build();
-        TRILLIUM_CF = Feature.FLOWER.withConfiguration(TRILLIUM_FEATURE_CONFIG).withPlacement(Features.Placements.VEGETATION_PLACEMENT).withPlacement(Features.Placements.HEIGHTMAP_PLACEMENT);
+        TRILLIUM_CF = Feature.FLOWER.configured(TRILLIUM_FEATURE_CONFIG).decorated(Features.Placements.ADD_32).decorated(Features.Placements.HEIGHTMAP_SQUARE);
         event.enqueueWork(() -> {
             Registry.register(WorldGenRegistries.CONFIGURED_FEATURE, new ResourceLocation(Ref.MOD_ID, "trillium"), TRILLIUM_CF);
         });
@@ -51,7 +51,7 @@ public class ModWorldGen {
 
     @SubscribeEvent
     public static void biomeLoad(final BiomeLoadingEvent event) {
-        if (event.getName() != null && BiomeDictionary.getTypes(RegistryKey.getOrCreateKey(Registry.BIOME_KEY, event.getName())).contains(BiomeDictionary.Type.SWAMP))
+        if (event.getName() != null && BiomeDictionary.getTypes(RegistryKey.create(Registry.BIOME_REGISTRY, event.getName())).contains(BiomeDictionary.Type.SWAMP))
             event.getGeneration().getFeatures(GenerationStage.Decoration.VEGETAL_DECORATION).add(() -> TRILLIUM_CF);
     }
 }

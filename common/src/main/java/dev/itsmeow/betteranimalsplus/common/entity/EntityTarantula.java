@@ -28,7 +28,7 @@ public class EntityTarantula extends SpiderEntity implements IRangedAttackMob, I
     protected void registerGoals() {
         this.goalSelector.addGoal(1, new SwimGoal(this));
         RangedAttackGoal atkrange = new RangedAttackGoal(this, 1.0D, 160, 15.0F);
-        atkrange.setMutexFlags(EnumSet.of(Goal.Flag.TARGET)); // Allow it to run at the same time as melee attacks
+        atkrange.setFlags(EnumSet.of(Goal.Flag.TARGET)); // Allow it to run at the same time as melee attacks
         this.goalSelector.addGoal(2, atkrange);
         this.goalSelector.addGoal(3, new LeapAtTargetGoal(this, 0.4F));
         this.goalSelector.addGoal(4, new MeleeAttackGoal(this, 0.8D, false));
@@ -40,28 +40,28 @@ public class EntityTarantula extends SpiderEntity implements IRangedAttackMob, I
     }
 
     @Override
-    public void attackEntityWithRangedAttack(LivingEntity target, float distanceFactor) {
-        EntityTarantulaHair entityhair = new EntityTarantulaHair(this.world, this);
-        entityhair.setLocationAndAngles(this.getPosX(), this.getPosY() + 1, this.getPosZ(), 0, 0);
-        double d0 = target.getPosY() + target.getEyeHeight() - 1.100000023841858D;
-        double d1 = target.getPosX() - this.getPosX();
-        double d2 = d0 - entityhair.getPosY();
-        double d3 = target.getPosZ() - this.getPosZ();
+    public void performRangedAttack(LivingEntity target, float distanceFactor) {
+        EntityTarantulaHair entityhair = new EntityTarantulaHair(this.level, this);
+        entityhair.moveTo(this.getX(), this.getY() + 1, this.getZ(), 0, 0);
+        double d0 = target.getY() + target.getEyeHeight() - 1.100000023841858D;
+        double d1 = target.getX() - this.getX();
+        double d2 = d0 - entityhair.getY();
+        double d3 = target.getZ() - this.getZ();
         float f = MathHelper.sqrt(d1 * d1 + d3 * d3) * 0.2F;
         entityhair.shoot(d1, d2 + f, d3, 1.5F, 8.0F);
-        this.playSound(SoundEvents.BLOCK_WOOL_PLACE, 1.0F, 1.0F / (this.getRNG().nextFloat() * 0.4F + 0.8F));
-        this.world.addEntity(entityhair);
+        this.playSound(SoundEvents.WOOL_PLACE, 1.0F, 1.0F / (this.getRandom().nextFloat() * 0.4F + 0.8F));
+        this.level.addFreshEntity(entityhair);
 
     }
 
     @Override
-    public ILivingEntityData onInitialSpawn(IServerWorld world, DifficultyInstance difficulty, SpawnReason reason, ILivingEntityData entityLivingData, CompoundNBT itemNbt) {
-        this.setLocationAndAngles(this.getPosX(), this.getPosY(), this.getPosZ(), this.rotationYaw, 0F);
-        return super.onInitialSpawn(world, difficulty, reason, entityLivingData, itemNbt);
+    public ILivingEntityData finalizeSpawn(IServerWorld world, DifficultyInstance difficulty, SpawnReason reason, ILivingEntityData entityLivingData, CompoundNBT itemNbt) {
+        this.moveTo(this.getX(), this.getY(), this.getZ(), this.yRot, 0F);
+        return super.finalizeSpawn(world, difficulty, reason, entityLivingData, itemNbt);
     }
     
     @Override
-    public boolean canDespawn(double range) {
+    public boolean removeWhenFarAway(double range) {
         return despawn(range);
     }
 

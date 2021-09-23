@@ -39,7 +39,7 @@ import java.util.Random;
 
 public class EntityLammergeier extends EntityTameableFlyingWithTypes implements IVariantTypes<EntityTameableBetterAnimalsPlus> {
 
-    protected static final DataParameter<Float> DATA_HEALTH_ID = EntityDataManager.createKey(EntityLammergeier.class, DataSerializers.FLOAT);
+    protected static final DataParameter<Float> DATA_HEALTH_ID = EntityDataManager.defineId(EntityLammergeier.class, DataSerializers.FLOAT);
 
     protected boolean readyToSit = false;
     public float lastRotX = 0;
@@ -51,22 +51,22 @@ public class EntityLammergeier extends EntityTameableFlyingWithTypes implements 
     public EntityLammergeier(EntityType<? extends EntityLammergeier> entityType, World worldIn) {
         super(entityType, worldIn);
         this.flightControl = new LammerMoveHelper(this);
-        this.moveController = flightControl;
+        this.moveControl = flightControl;
     }
 
     @Override
-    protected ResourceLocation getLootTable() {
+    protected ResourceLocation getDefaultLootTable() {
         return ModLootTables.lammergeier;
     }
 
     @Override
-    public int getMaxSpawnedInChunk() {
+    public int getMaxSpawnClusterSize() {
         return 2;
     }
 
     @Override
-    public boolean canBePushed() {
-        return super.canBePushed() && this.getPassengers().size() != 0;
+    public boolean isPushable() {
+        return super.isPushable() && this.getPassengers().size() != 0;
     }
 
     @Override
@@ -75,11 +75,11 @@ public class EntityLammergeier extends EntityTameableFlyingWithTypes implements 
         this.goalSelector.addGoal(2, new EntityLammergeier.AIMeleeAttack(this));
         this.goalSelector.addGoal(3, new EntityAIFollowOwnerFlying(this, 2D, 8.0F, 50.0F) {
             @Override
-            public void startExecuting() {
+            public void start() {
                 if(!EntityLammergeier.this.getFlying()) {
                     EntityLammergeier.this.setFlying(true);
                 }
-                super.startExecuting();
+                super.start();
             }
 
             @Override
@@ -94,157 +94,157 @@ public class EntityLammergeier extends EntityTameableFlyingWithTypes implements 
         this.goalSelector.addGoal(5, new EntityLammergeier.AIRandomFly(this));
         this.goalSelector.addGoal(5, new RandomWalkingGoal(this, 0.1F) {
             @Override
-            public boolean shouldExecute() {
-                return !EntityLammergeier.this.isTamed() && !EntityLammergeier.this.getFlying() && super.shouldContinueExecuting();
+            public boolean canUse() {
+                return !EntityLammergeier.this.isTame() && !EntityLammergeier.this.getFlying() && super.canContinueToUse();
             }
 
             @Override
-            public boolean shouldContinueExecuting() {
-                return !EntityLammergeier.this.isTamed() && !EntityLammergeier.this.getFlying() && super.shouldContinueExecuting();
+            public boolean canContinueToUse() {
+                return !EntityLammergeier.this.isTame() && !EntityLammergeier.this.getFlying() && super.canContinueToUse();
             }
         });
         this.targetSelector.addGoal(1, new OwnerHurtByTargetGoal(this) {
             @Override
-            public boolean shouldExecute() {
-                return !EntityLammergeier.this.isEntitySleeping() && !EntityLammergeier.this.isQueuedToSit() && super.shouldExecute();
+            public boolean canUse() {
+                return !EntityLammergeier.this.isInSittingPose() && !EntityLammergeier.this.isOrderedToSit() && super.canUse();
             }
         });
         this.targetSelector.addGoal(2, new OwnerHurtTargetGoal(this) {
             @Override
-            public boolean shouldExecute() {
-                return !EntityLammergeier.this.isEntitySleeping() && !EntityLammergeier.this.isQueuedToSit() && super.shouldExecute();
+            public boolean canUse() {
+                return !EntityLammergeier.this.isInSittingPose() && !EntityLammergeier.this.isOrderedToSit() && super.canUse();
             }
         });
         this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<SkeletonEntity>(this, SkeletonEntity.class, false) {
             @Override
-            public boolean shouldExecute() {
-                return !EntityLammergeier.this.isTamed() && super.shouldExecute();
+            public boolean canUse() {
+                return !EntityLammergeier.this.isTame() && super.canUse();
             }
         });
     }
 
     @Override
-    public void setAttackTarget(LivingEntity entitylivingbaseIn) {
-        if(!this.isEntitySleeping() && !this.isQueuedToSit()) {
-            super.setAttackTarget(entitylivingbaseIn);
+    public void setTarget(LivingEntity entitylivingbaseIn) {
+        if(!this.isInSittingPose() && !this.isOrderedToSit()) {
+            super.setTarget(entitylivingbaseIn);
         }
     }
 
     @Override
-    protected void registerData() {
-        super.registerData();
-        this.dataManager.register(EntityLammergeier.DATA_HEALTH_ID, this.getHealth());
+    protected void defineSynchedData() {
+        super.defineSynchedData();
+        this.entityData.define(EntityLammergeier.DATA_HEALTH_ID, this.getHealth());
     }
 
     @Override
     protected SoundEvent getAmbientSound() {
-        return this.isTamed() && this.dataManager.get(EntityLammergeier.DATA_HEALTH_ID) < 6.0F ? SoundEvents.ENTITY_PARROT_HURT : null;
+        return this.isTame() && this.entityData.get(EntityLammergeier.DATA_HEALTH_ID) < 6.0F ? SoundEvents.PARROT_HURT : null;
     }
 
     @Override
     protected SoundEvent getDeathSound() {
-        return SoundEvents.ENTITY_PARROT_DEATH;
+        return SoundEvents.PARROT_DEATH;
     }
 
     @Override
-    protected float getSoundPitch() {
+    protected float getVoicePitch() {
         return 0.4F; // Lower pitch
     }
 
     @Override
-    public boolean attackEntityFrom(DamageSource source, float amount) {
-        if(this.isTamed() && !this.isInvulnerableTo(source)) {
-            this.setQueuedToSit(false);
-            this.setSitting(false);
+    public boolean hurt(DamageSource source, float amount) {
+        if(this.isTame() && !this.isInvulnerableTo(source)) {
+            this.setInSittingPose(false);
+            this.setOrderedToSit(false);
         }
-        if(this.getAttackTarget() != null && this.getAttackTarget() == source.getTrueSource() && this.isPassenger(this.getAttackTarget())) {
-            return super.attackEntityFrom(source, amount / 2F);
+        if(this.getTarget() != null && this.getTarget() == source.getEntity() && this.hasPassenger(this.getTarget())) {
+            return super.hurt(source, amount / 2F);
         }
-        return super.attackEntityFrom(source, amount);
+        return super.hurt(source, amount);
     }
 
     @Override
-    public ActionResultType getEntityInteractionResult(PlayerEntity player, Hand hand) {
-        ItemStack itemstack = player.getHeldItem(hand);
+    public ActionResultType mobInteract(PlayerEntity player, Hand hand) {
+        ItemStack itemstack = player.getItemInHand(hand);
 
-        if(this.isTamed()) {
+        if(this.isTame()) {
             if(!itemstack.isEmpty()) {
-                if(itemstack.getItem().isFood()) {
-                    Food food = itemstack.getItem().getFood();
+                if(itemstack.getItem().isEdible()) {
+                    Food food = itemstack.getItem().getFoodProperties();
 
-                    if(this.dataManager.get(EntityLammergeier.DATA_HEALTH_ID) < 20.0F) {
+                    if(this.entityData.get(EntityLammergeier.DATA_HEALTH_ID) < 20.0F) {
                         if(!player.isCreative()) {
                             itemstack.shrink(1);
                         }
                         for(int i = 0; i < 10; i++) {
-                            this.world.addParticle(ParticleTypes.HAPPY_VILLAGER, getPosX() + (this.getRNG().nextFloat() - 0.5F), getPosY() + this.getRNG().nextFloat(), getPosZ() + (this.getRNG().nextFloat() - 0.5F), 0, 0, 0);
+                            this.level.addParticle(ParticleTypes.HAPPY_VILLAGER, getX() + (this.getRandom().nextFloat() - 0.5F), getY() + this.getRandom().nextFloat(), getZ() + (this.getRandom().nextFloat() - 0.5F), 0, 0, 0);
                         }
-                        this.heal((float) food.getHealing());
+                        this.heal((float) food.getNutrition());
                         return ActionResultType.SUCCESS;
                     }
                 }
             }
-            if(this.isOwner(player) && !this.isBeingRidden() && !this.world.isRemote && this.ticksExisted - this.lastTick > 13 && !itemstack.isFood()) {
-                if(!this.isEntitySleeping() && !this.isQueuedToSit()) {
-                    this.setAttackTarget(null);
-                    this.navigator.clearPath();
+            if(this.isOwnedBy(player) && !this.isVehicle() && !this.level.isClientSide && this.tickCount - this.lastTick > 13 && !itemstack.isEdible()) {
+                if(!this.isInSittingPose() && !this.isOrderedToSit()) {
+                    this.setTarget(null);
+                    this.navigation.stop();
                     this.readyToSit = true;
                 } else {
                     this.readyToSit = false;
-                    this.setQueuedToSit(false);
-                    this.setSitting(false);
-                    this.navigator.clearPath();
+                    this.setInSittingPose(false);
+                    this.setOrderedToSit(false);
+                    this.navigation.stop();
                 }
-                this.lastTick = this.ticksExisted;
+                this.lastTick = this.tickCount;
             }
-        } else if(this.isTamingItem(itemstack.getItem()) && !this.isTamed()) {
+        } else if(this.isTamingItem(itemstack.getItem()) && !this.isTame()) {
             if(!player.isCreative()) {
                 itemstack.shrink(1);
             }
 
-            if(!this.world.isRemote) {
+            if(!this.level.isClientSide) {
                 if(!net.minecraftforge.event.ForgeEventFactory.onAnimalTame(this, player)) {
-                    this.setTamedBy(player);
+                    this.tame(player);
                     // this.setOwnerId(player.getUniqueID());
-                    this.navigator.clearPath();
+                    this.navigation.stop();
                     // ((LammerMoveHelper) this.getMoveHelper()).action = Action.WAIT;
-                    this.setAttackTarget(null);
-                    this.setQueuedToSit(true);
-                    this.setSitting(true);
+                    this.setTarget(null);
+                    this.setInSittingPose(true);
+                    this.setOrderedToSit(true);
                     this.setHealth(20.0F);
-                    this.world.setEntityState(this, (byte) 7);
+                    this.level.broadcastEntityEvent(this, (byte) 7);
                 } else {
-                    this.world.setEntityState(this, (byte) 6);
+                    this.level.broadcastEntityEvent(this, (byte) 6);
                 }
             }
 
             return ActionResultType.SUCCESS;
         }
 
-        return super.getEntityInteractionResult(player, hand);
+        return super.mobInteract(player, hand);
     }
 
     @Override
-    public boolean isBreedingItem(ItemStack stack) {
+    public boolean isFood(ItemStack stack) {
         return this.isTamingItem(stack.getItem());
     }
 
     @Override
-    public boolean shouldAttackEntity(LivingEntity target, LivingEntity owner) {
+    public boolean wantsToAttack(LivingEntity target, LivingEntity owner) {
         if(!(target instanceof CreeperEntity) && !(target instanceof GhastEntity)) {
             if(target instanceof EntityLammergeier) {
                 EntityLammergeier entitylam = (EntityLammergeier) target;
 
-                if(entitylam.isTamed() && entitylam.getOwner() == owner) {
+                if(entitylam.isTame() && entitylam.getOwner() == owner) {
                     return false;
                 }
             }
 
             if(target instanceof PlayerEntity && owner instanceof PlayerEntity
-            && !((PlayerEntity) owner).canAttackPlayer((PlayerEntity) target)) {
+            && !((PlayerEntity) owner).canHarmPlayer((PlayerEntity) target)) {
                 return false;
             } else {
-                return !(target instanceof AbstractHorseEntity) || !((AbstractHorseEntity) target).isTame();
+                return !(target instanceof AbstractHorseEntity) || !((AbstractHorseEntity) target).isTamed();
             }
         } else {
             return false;
@@ -252,14 +252,14 @@ public class EntityLammergeier extends EntityTameableFlyingWithTypes implements 
     }
 
     @Override
-    public boolean attackEntityAsMob(Entity entityIn) {
-        return entityIn.attackEntityFrom(DamageSource.causeMobDamage(this), (float) this.getAttribute(Attributes.ATTACK_DAMAGE).getValue());
+    public boolean doHurtTarget(Entity entityIn) {
+        return entityIn.hurt(DamageSource.mobAttack(this), (float) this.getAttribute(Attributes.ATTACK_DAMAGE).getValue());
     }
 
     @Override
     public void tick() {
-        if((Math.abs(this.getMotion().getY()) > 0 && (Math.abs(this.getMotion().getX()) > 0.05 || Math.abs(this.getMotion().getZ()) > 0.05)) || Math.abs(this.getMotion().getY()) > 0.25) {
-            float x = -((float) Math.atan2(this.getMotion().getY(), Math.sqrt(Math.pow(this.getMotion().getX(), 2) + Math.pow(this.getMotion().getZ(), 2))) / 1.5F);
+        if((Math.abs(this.getDeltaMovement().y()) > 0 && (Math.abs(this.getDeltaMovement().x()) > 0.05 || Math.abs(this.getDeltaMovement().z()) > 0.05)) || Math.abs(this.getDeltaMovement().y()) > 0.25) {
+            float x = -((float) Math.atan2(this.getDeltaMovement().y(), Math.sqrt(Math.pow(this.getDeltaMovement().x(), 2) + Math.pow(this.getDeltaMovement().z(), 2))) / 1.5F);
             if(x < 0) {
                 x /= 3;
             }
@@ -268,20 +268,20 @@ public class EntityLammergeier extends EntityTameableFlyingWithTypes implements 
             rotX = 0;
         }
         super.tick();
-        this.lastMotionY = this.getMotion().getY();
+        this.lastMotionY = this.getDeltaMovement().y();
         lastRotX = rotX;
     }
 
     @Override
-    protected void updateAITasks() {
-        super.updateAITasks();
-        this.dataManager.set(EntityLammergeier.DATA_HEALTH_ID, this.getHealth());
+    protected void customServerAiStep() {
+        super.customServerAiStep();
+        this.entityData.set(EntityLammergeier.DATA_HEALTH_ID, this.getHealth());
         this.setNoGravity(this.getFlying());
     }
 
     @Override
-    public void setTamed(boolean tamed) {
-        super.setTamed(tamed);
+    public void setTame(boolean tamed) {
+        super.setTame(tamed);
         if(tamed) {
             this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(20.0D);
         } else {
@@ -290,15 +290,15 @@ public class EntityLammergeier extends EntityTameableFlyingWithTypes implements 
     }
 
     @Override
-    public void updatePassenger(Entity passenger) {
-        passenger.setPosition(this.getPosX() + this.getMotion().getX(), this.getPosY() - passenger.getHeight() - 0.05 + this.getMotion().getY(),
-        this.getPosZ() + this.getMotion().getZ());
-        this.setMotion(this.getMotion().getX(), this.getMotion().getY() + Math.abs(passenger.getMotion().getY()), this.getMotion().getZ());
-        if(passenger instanceof LivingEntity && (this.getAttackTarget() == null || this.getAttackTarget() != passenger)) {
-            this.setAttackTarget((LivingEntity) passenger);
+    public void positionRider(Entity passenger) {
+        passenger.setPos(this.getX() + this.getDeltaMovement().x(), this.getY() - passenger.getBbHeight() - 0.05 + this.getDeltaMovement().y(),
+        this.getZ() + this.getDeltaMovement().z());
+        this.setDeltaMovement(this.getDeltaMovement().x(), this.getDeltaMovement().y() + Math.abs(passenger.getDeltaMovement().y()), this.getDeltaMovement().z());
+        if(passenger instanceof LivingEntity && (this.getTarget() == null || this.getTarget() != passenger)) {
+            this.setTarget((LivingEntity) passenger);
         }
-        if(this.world.isRemote) {
-            this.applyOrientationToEntity(passenger);
+        if(this.level.isClientSide) {
+            this.onPassengerTurned(passenger);
         }
     }
 
@@ -310,13 +310,13 @@ public class EntityLammergeier extends EntityTameableFlyingWithTypes implements 
 
         public AIMeleeAttack(EntityLammergeier lam) {
             this.attacker = lam;
-            this.world = lam.getEntityWorld();
-            this.setMutexFlags(EnumSet.of(Goal.Flag.MOVE, Goal.Flag.TARGET));
+            this.world = lam.getCommandSenderWorld();
+            this.setFlags(EnumSet.of(Goal.Flag.MOVE, Goal.Flag.TARGET));
         }
 
         @Override
-        public boolean shouldExecute() {
-            LivingEntity entitylivingbase = this.attacker.getAttackTarget();
+        public boolean canUse() {
+            LivingEntity entitylivingbase = this.attacker.getTarget();
 
             if(entitylivingbase == null) {
                 return false;
@@ -328,21 +328,21 @@ public class EntityLammergeier extends EntityTameableFlyingWithTypes implements 
         }
 
         @Override
-        public boolean shouldContinueExecuting() {
-            return shouldExecute();
+        public boolean canContinueToUse() {
+            return canUse();
         }
 
         @Override
-        public void startExecuting() {
+        public void start() {
 
         }
 
         @Override
-        public void resetTask() {
-            LivingEntity entitylivingbase = this.attacker.getAttackTarget();
+        public void stop() {
+            LivingEntity entitylivingbase = this.attacker.getTarget();
 
             if(entitylivingbase instanceof PlayerEntity && (entitylivingbase.isSpectator() || ((PlayerEntity) entitylivingbase).isCreative())) {
-                this.attacker.setAttackTarget(null);
+                this.attacker.setTarget(null);
             }
         }
 
@@ -351,21 +351,21 @@ public class EntityLammergeier extends EntityTameableFlyingWithTypes implements 
             if(!attacker.getFlying()) {
                 attacker.setFlying(true);
             }
-            LivingEntity entitylivingbase = this.attacker.getAttackTarget();
+            LivingEntity entitylivingbase = this.attacker.getTarget();
 
-            double targetX = entitylivingbase.getPosX();
-            double targetZ = entitylivingbase.getPosZ();
+            double targetX = entitylivingbase.getX();
+            double targetZ = entitylivingbase.getZ();
 
-            if(entitylivingbase.getDistanceSq(this.attacker) < 4096.0D) // If the distance is less than 4096 square blocks rotate towards them
+            if(entitylivingbase.distanceToSqr(this.attacker) < 4096.0D) // If the distance is less than 4096 square blocks rotate towards them
             {
-                double d1 = entitylivingbase.getPosX() - this.attacker.getPosX();
-                double d2 = entitylivingbase.getPosZ() - this.attacker.getPosZ();
-                this.attacker.rotationYaw = -((float) MathHelper.atan2(d1, d2)) * (180F / (float) Math.PI);
-                this.attacker.renderYawOffset = this.attacker.rotationYaw;
+                double d1 = entitylivingbase.getX() - this.attacker.getX();
+                double d2 = entitylivingbase.getZ() - this.attacker.getZ();
+                this.attacker.yRot = -((float) MathHelper.atan2(d1, d2)) * (180F / (float) Math.PI);
+                this.attacker.yBodyRot = this.attacker.yRot;
             }
 
-            double distanceToTarget = this.attacker.getDistanceSq(entitylivingbase.getPosX(), entitylivingbase.getPosY(),
-            entitylivingbase.getPosZ());
+            double distanceToTarget = this.attacker.distanceToSqr(entitylivingbase.getX(), entitylivingbase.getY(),
+            entitylivingbase.getZ());
 
             // Reduce time till attack
             this.attackTick--;
@@ -376,74 +376,74 @@ public class EntityLammergeier extends EntityTameableFlyingWithTypes implements 
             // the timer and attack if the entity is not grabbed
             if(distanceToTarget <= reachToTarget && this.attackTick <= 0) {
                 this.attackTick = 20;
-                if(!entitylivingbase.isPassenger(attacker)) {
-                    this.attacker.attackEntityAsMob(entitylivingbase);
+                if(!entitylivingbase.hasPassenger(attacker)) {
+                    this.attacker.doHurtTarget(entitylivingbase);
                 }
             }
 
             // If the entity is not grabbing a target, set it to move to its target
             if(attacker.getPassengers().size() == 0) {
-                this.attacker.navigator.setPath(this.attacker.navigator.getPathToPos(entitylivingbase.getPosition(), 0), 0.4D);
+                this.attacker.navigation.moveTo(this.attacker.navigation.createPath(entitylivingbase.blockPosition(), 0), 0.4D);
             } else { // If the entity is grabbing a target, set it to move upwards
-                this.attacker.navigator.setPath(this.attacker.navigator.getPathToPos(new BlockPos(targetX, this.liftY + 15, targetZ), 0), 0.4D);
+                this.attacker.navigation.moveTo(this.attacker.navigation.createPath(new BlockPos(targetX, this.liftY + 15, targetZ), 0), 0.4D);
             }
 
             // If the entity is in range and entity is not grabbing a target and
             // the target's height is less than 3 blocks
-            if(distanceToTarget <= reachToTarget && attacker.getPassengers().size() == 0 && entitylivingbase.getHeight() <= 3 && this.attackTick == 15) {
+            if(distanceToTarget <= reachToTarget && attacker.getPassengers().size() == 0 && entitylivingbase.getBbHeight() <= 3 && this.attackTick == 15) {
                 // Move the entity upwards to avoid being stuck in the ground
-                this.attacker.setLocationAndAngles(this.attacker.getPosX(), this.attacker.getPosY() + entitylivingbase.getHeight() + 2,
-                this.attacker.getPosZ(), this.attacker.rotationYaw, this.attacker.rotationPitch);
+                this.attacker.moveTo(this.attacker.getX(), this.attacker.getY() + entitylivingbase.getBbHeight() + 2,
+                this.attacker.getZ(), this.attacker.yRot, this.attacker.xRot);
                 // Grab the target
                 entitylivingbase.startRiding(this.attacker, true);
                 // Set liftY so entity can continue moving up from the spot
-                this.liftY = entitylivingbase.getPosY();
+                this.liftY = entitylivingbase.getY();
                 // Remove targets of the entity (to avoid something stupid like
                 // a skeleton shooting while being eaten by a bird)
                 if(entitylivingbase instanceof MobEntity) {
                     MobEntity el = (MobEntity) entitylivingbase;
-                    el.setAttackTarget(null);
-                    el.setRevengeTarget(null);
-                    el.getNavigator().clearPath();
-                    el.setNoAI(true);
+                    el.setTarget(null);
+                    el.setLastHurtByMob(null);
+                    el.getNavigation().stop();
+                    el.setNoAi(true);
                 }
                 // Move upwards
-                this.attacker.navigator.setPath(this.attacker.navigator.getPathToPos(new BlockPos(targetX, this.liftY + 15, targetZ), 0), 0.4D);
+                this.attacker.navigation.moveTo(this.attacker.navigation.createPath(new BlockPos(targetX, this.liftY + 15, targetZ), 0), 0.4D);
             }
 
             // If the entity is grabbing a target and the block above is solid
             // (stuck)
-            if(attacker.getPassengers().size() == 0 && this.attacker.getEntityWorld().getBlockState(this.attacker.getPosition().up()).isNormalCube(world, this.attacker.getPosition().up())) {
+            if(attacker.getPassengers().size() == 0 && this.attacker.getCommandSenderWorld().getBlockState(this.attacker.blockPosition().above()).isRedstoneConductor(world, this.attacker.blockPosition().above())) {
                 // Release target
                 entitylivingbase.stopRiding();
                 if(entitylivingbase instanceof MobEntity) {
                     MobEntity el = (MobEntity) entitylivingbase;
-                    el.setNoAI(false);
+                    el.setNoAi(false);
                 }
                 // Remove target
-                this.attacker.setAttackTarget(null);
+                this.attacker.setTarget(null);
                 // Create a random target position
-                BlockPos rPos = new BlockPos(this.attacker.getRNG().nextInt(50) - 25, this.attacker.getRNG().nextInt(40) - 20, this.attacker.getRNG().nextInt(50) - 25);
-                BlockPos pos = this.attacker.getPosition();
-                rPos = rPos.add(pos);
+                BlockPos rPos = new BlockPos(this.attacker.getRandom().nextInt(50) - 25, this.attacker.getRandom().nextInt(40) - 20, this.attacker.getRandom().nextInt(50) - 25);
+                BlockPos pos = this.attacker.blockPosition();
+                rPos = rPos.offset(pos);
                 // Move to random target position
-                this.attacker.navigator.setPath(this.attacker.navigator.getPathToPos(rPos, 0), 0.4D);
+                this.attacker.navigation.moveTo(this.attacker.navigation.createPath(rPos, 0), 0.4D);
             }
 
             // If we've about reached the target lifting point and have a target
             // grabbed, or have completed movement, drop the entity
-            if (Math.abs(this.attacker.getPosY() - (this.liftY + 15)) <= 3 && attacker.getPassengers().size() > 0) {
+            if (Math.abs(this.attacker.getY() - (this.liftY + 15)) <= 3 && attacker.getPassengers().size() > 0) {
                 entitylivingbase.stopRiding();
                 if(entitylivingbase instanceof MobEntity) {
                     MobEntity el = (MobEntity) entitylivingbase;
-                    el.setNoAI(false);
+                    el.setNoAi(false);
                 }
             }
 
         }
 
         protected double getAttackReachSqr(LivingEntity attackTarget) {
-            return 4D + attackTarget.getWidth();
+            return 4D + attackTarget.getBbWidth();
         }
     }
 
@@ -455,21 +455,21 @@ public class EntityLammergeier extends EntityTameableFlyingWithTypes implements 
 
         public AIRandomFly(EntityLammergeier lam) {
             this.parentEntity = lam;
-            this.setMutexFlags(EnumSet.of(Goal.Flag.MOVE));
+            this.setFlags(EnumSet.of(Goal.Flag.MOVE));
         }
 
         @Override
-        public boolean shouldExecute() {
-            if(this.parentEntity.isTamed() || (this.parentEntity.getAttackTarget() != null && this.parentEntity.getAttackTarget().isAlive())) {
+        public boolean canUse() {
+            if(this.parentEntity.isTame() || (this.parentEntity.getTarget() != null && this.parentEntity.getTarget().isAlive())) {
                 return false;
             }
-            if(!parentEntity.getFlying() && parentEntity.getRNG().nextInt(100) != 1) {
+            if(!parentEntity.getFlying() && parentEntity.getRandom().nextInt(100) != 1) {
                 return false;
             }
-            MovementController move = this.parentEntity.getMoveHelper();
-            double d0 = move.getX() - this.parentEntity.getPosX();
-            double d1 = move.getY() - this.parentEntity.getPosY();
-            double d2 = move.getZ() - this.parentEntity.getPosZ();
+            MovementController move = this.parentEntity.getMoveControl();
+            double d0 = move.getWantedX() - this.parentEntity.getX();
+            double d1 = move.getWantedY() - this.parentEntity.getY();
+            double d2 = move.getWantedZ() - this.parentEntity.getZ();
             double distance = d0 * d0 + d1 * d1 + d2 * d2;
             boolean exec = distance < 1.0D || distance > 3600.0D;
             if(!exec) {
@@ -483,8 +483,8 @@ public class EntityLammergeier extends EntityTameableFlyingWithTypes implements 
         }
 
         @Override
-        public boolean shouldContinueExecuting() {
-            return !this.parentEntity.getNavigator().noPath();
+        public boolean canContinueToUse() {
+            return !this.parentEntity.getNavigation().isDone();
         }
 
         @Override
@@ -493,17 +493,17 @@ public class EntityLammergeier extends EntityTameableFlyingWithTypes implements 
                 parentEntity.setFlying(true);
             }
             boolean idle = true;
-            if(parentEntity.navigator.getPath() != null && parentEntity.navigator.getPath().getCurrentPathIndex() < parentEntity.navigator.getPath().getCurrentPathLength()) {
-                double dist = parentEntity.getPosition().distanceSq(parentEntity.navigator.getPath().func_242948_g());
+            if(parentEntity.navigation.getPath() != null && parentEntity.navigation.getPath().getNextNodeIndex() < parentEntity.navigation.getPath().getNodeCount()) {
+                double dist = parentEntity.blockPosition().distSqr(parentEntity.navigation.getPath().getNextNodePos());
                 idle = dist - lastDist < 0.05D;
                 lastDist = dist;
             }
             if(idle) {
                 timeSinceLastMove++;
                 if(timeSinceLastMove > 60) {
-                    parentEntity.navigator.clearPath();
-                    parentEntity.navigator.updatePath();
-                    parentEntity.getMoveHelper().setMoveTo(parentEntity.getPosX() + parentEntity.getRNG().nextInt(3) - 1, parentEntity.getPosY() + parentEntity.getRNG().nextInt(3) - 1, parentEntity.getPosZ() + parentEntity.getRNG().nextInt(3) - 1, 0.5D);
+                    parentEntity.navigation.stop();
+                    parentEntity.navigation.recomputePath();
+                    parentEntity.getMoveControl().setWantedPosition(parentEntity.getX() + parentEntity.getRandom().nextInt(3) - 1, parentEntity.getY() + parentEntity.getRandom().nextInt(3) - 1, parentEntity.getZ() + parentEntity.getRandom().nextInt(3) - 1, 0.5D);
                 }
             } else {
                 timeSinceLastMove = 0;
@@ -511,14 +511,14 @@ public class EntityLammergeier extends EntityTameableFlyingWithTypes implements 
         }
 
         @Override
-        public void startExecuting() {
+        public void start() {
             if(!parentEntity.getFlying()) {
                 parentEntity.setFlying(true);
             }
-            BlockPos rPos = new BlockPos(this.parentEntity.getRNG().nextInt(50) - 25, this.parentEntity.getRNG().nextInt(40) - 20, this.parentEntity.getRNG().nextInt(50) - 25);
-            BlockPos pos = this.parentEntity.getPosition();
-            rPos = rPos.add(pos);
-            this.parentEntity.navigator.tryMoveToXYZ(rPos.getX(), rPos.getY(), rPos.getZ(), 1D);
+            BlockPos rPos = new BlockPos(this.parentEntity.getRandom().nextInt(50) - 25, this.parentEntity.getRandom().nextInt(40) - 20, this.parentEntity.getRandom().nextInt(50) - 25);
+            BlockPos pos = this.parentEntity.blockPosition();
+            rPos = rPos.offset(pos);
+            this.parentEntity.navigation.moveTo(rPos.getX(), rPos.getY(), rPos.getZ(), 1D);
         }
 
     }
@@ -532,35 +532,35 @@ public class EntityLammergeier extends EntityTameableFlyingWithTypes implements 
 
         public AILanding(EntityLammergeier lam) {
             this.parentEntity = lam;
-            this.setMutexFlags(EnumSet.of(Goal.Flag.MOVE));
+            this.setFlags(EnumSet.of(Goal.Flag.MOVE));
         }
 
         @Override
-        public boolean shouldExecute() {
-            if(this.parentEntity.getAttackTarget() != null && this.parentEntity.getAttackTarget().isAlive()) {
+        public boolean canUse() {
+            if(this.parentEntity.getTarget() != null && this.parentEntity.getTarget().isAlive()) {
                 return false;
             }
-            if(!this.parentEntity.isTamed() && this.parentEntity.getFlying() && parentEntity.getRNG().nextInt(200) == 1) {
+            if(!this.parentEntity.isTame() && this.parentEntity.getFlying() && parentEntity.getRandom().nextInt(200) == 1) {
                 return true;
             } else {
-                return this.parentEntity.isTamed() && this.parentEntity.readyToSit;
+                return this.parentEntity.isTame() && this.parentEntity.readyToSit;
             }
         }
 
         @Override
-        public boolean shouldContinueExecuting() {
-            return target != null && this.parentEntity.getPosition().distanceSq(target) > 1;
+        public boolean canContinueToUse() {
+            return target != null && this.parentEntity.blockPosition().distSqr(target) > 1;
         }
 
         @Override
-        public void startExecuting() {
+        public void start() {
             BlockPos rPos = parentEntity.findLandingPosition();
             if(rPos != null) {
                 this.target = rPos;
-                this.parentEntity.navigator.tryMoveToXYZ(rPos.getX(), rPos.getY(), rPos.getZ(), 1.1D);
+                this.parentEntity.navigation.moveTo(rPos.getX(), rPos.getY(), rPos.getZ(), 1.1D);
             } else if(parentEntity.readyToSit) {
-                parentEntity.setQueuedToSit(true);
-                parentEntity.setSitting(true);
+                parentEntity.setInSittingPose(true);
+                parentEntity.setOrderedToSit(true);
                 parentEntity.readyToSit = false;
             }
             this.timeSinceLastMove = 0;
@@ -569,19 +569,19 @@ public class EntityLammergeier extends EntityTameableFlyingWithTypes implements 
         @Override
         public void tick() {
             if(target != null) {
-                this.parentEntity.navigator.tryMoveToXYZ(target.getX(), target.getY(), target.getZ(), 1.1D);
-                double dist = parentEntity.getPosition().distanceSq(target);
-                World world = parentEntity.world;
-                BlockPos top = parentEntity.getTopSolidOrLiquidBlock(world, parentEntity.getPosition());
-                if(dist < 3D && top != null && Math.abs(parentEntity.getPosition().getY() - top.getY()) <= 3) {
+                this.parentEntity.navigation.moveTo(target.getX(), target.getY(), target.getZ(), 1.1D);
+                double dist = parentEntity.blockPosition().distSqr(target);
+                World world = parentEntity.level;
+                BlockPos top = parentEntity.getTopSolidOrLiquidBlock(world, parentEntity.blockPosition());
+                if(dist < 3D && top != null && Math.abs(parentEntity.blockPosition().getY() - top.getY()) <= 3) {
                     parentEntity.setFlying(false);
                     this.target = null;
                     if(parentEntity.readyToSit) {
-                        parentEntity.setQueuedToSit(true);
-                        parentEntity.setSitting(true);
+                        parentEntity.setInSittingPose(true);
+                        parentEntity.setOrderedToSit(true);
                         parentEntity.readyToSit = false;
-                        parentEntity.getNavigator().clearPath();
-                        parentEntity.setMotion(0, 0, 0);
+                        parentEntity.getNavigation().stop();
+                        parentEntity.setDeltaMovement(0, 0, 0);
                     }
                 } else if(dist - lastDist < 0.05D) {
                     timeSinceLastMove++;
@@ -589,7 +589,7 @@ public class EntityLammergeier extends EntityTameableFlyingWithTypes implements 
                         BlockPos rPos = parentEntity.findLandingPosition();
                         if(rPos != null) {
                             this.target = rPos;
-                            this.parentEntity.navigator.tryMoveToXYZ(rPos.getX(), rPos.getY(), rPos.getZ(), 1.1D);
+                            this.parentEntity.navigation.moveTo(rPos.getX(), rPos.getY(), rPos.getZ(), 1.1D);
                         }
                     }
                 } else {
@@ -601,20 +601,20 @@ public class EntityLammergeier extends EntityTameableFlyingWithTypes implements 
     }
 
     protected boolean isValidLandingPosition(World world, BlockPos pos) {
-        BlockState state = world.getBlockState(pos.down());
-        return !world.isAirBlock(pos.down()) && world.isAirBlock(pos) && (state.isSolid() || state.isNormalCube(world, pos.down()) || state.getBlock() instanceof LeavesBlock);
+        BlockState state = world.getBlockState(pos.below());
+        return !world.isEmptyBlock(pos.below()) && world.isEmptyBlock(pos) && (state.canOcclude() || state.isRedstoneConductor(world, pos.below()) || state.getBlock() instanceof LeavesBlock);
     }
 
     protected BlockPos findLandingPosition() {
-        if(this.isValidLandingPosition(world, this.getPosition())) {
-            return this.getPosition();
+        if(this.isValidLandingPosition(level, this.blockPosition())) {
+            return this.blockPosition();
         }
-        Random random = this.getRNG();
+        Random random = this.getRandom();
         BlockPos top;
         for(int i = 0; i < 10; i++) {
-            float x = this.getPosition().getX() + (readyToSit ? random.nextInt(4) - 2 : random.nextInt(16) - 8F) + 0.5F;
-            float z = this.getPosition().getZ() + (readyToSit ? random.nextInt(4) - 2 : random.nextInt(16) - 8F) + 0.5F;
-            top = getTopSolidOrLiquidBlock(world, new BlockPos(x, 0, z));
+            float x = this.blockPosition().getX() + (readyToSit ? random.nextInt(4) - 2 : random.nextInt(16) - 8F) + 0.5F;
+            float z = this.blockPosition().getZ() + (readyToSit ? random.nextInt(4) - 2 : random.nextInt(16) - 8F) + 0.5F;
+            top = getTopSolidOrLiquidBlock(level, new BlockPos(x, 0, z));
             if(top != null) {
                 float y = top.getY();
                 return new BlockPos(x, y, z);
@@ -624,7 +624,7 @@ public class EntityLammergeier extends EntityTameableFlyingWithTypes implements 
     }
 
     protected BlockPos getTopSolidOrLiquidBlock(World world, BlockPos pos) {
-        for(int i = world.getHeight(); i > world.getSeaLevel(); i--) {
+        for(int i = world.getMaxBuildHeight(); i > world.getSeaLevel(); i--) {
             BlockPos pos2 = new BlockPos(pos.getX(), i, pos.getZ());
             if(this.isValidLandingPosition(world, pos2)) {
                 return pos2;

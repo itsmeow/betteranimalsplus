@@ -16,23 +16,23 @@ public class HybridMoveController extends MovementController {
     @Override
     public void tick() {
         if(!this.parent.isInWater()) {
-            this.speed = 0.25F;
+            this.speedModifier = 0.25F;
             super.tick();
         } else {
-            this.speed = 1F;
-            this.parent.setMotion(this.parent.getMotion().add(0.0D, 0.005D, 0.0D));
-            if (this.action == MovementController.Action.MOVE_TO && !this.parent.getNavigator().noPath()) {
-                double d0 = this.posX - this.parent.getPosX();
-                double d1 = this.posY - this.parent.getPosY();
-                double d2 = this.posZ - this.parent.getPosZ();
+            this.speedModifier = 1F;
+            this.parent.setDeltaMovement(this.parent.getDeltaMovement().add(0.0D, 0.005D, 0.0D));
+            if (this.operation == MovementController.Action.MOVE_TO && !this.parent.getNavigation().isDone()) {
+                double d0 = this.wantedX - this.parent.getX();
+                double d1 = this.wantedY - this.parent.getY();
+                double d2 = this.wantedZ - this.parent.getZ();
                 float f = (float) (MathHelper.atan2(d2, d0) * (double) (180F / (float) Math.PI)) - 90.0F;
-                this.parent.rotationYaw = this.limitAngle(this.parent.rotationYaw, f, 90.0F);
-                this.parent.renderYawOffset = this.parent.rotationYaw;
-                float f1 = (float)(this.speed * this.parent.getAttribute(Attributes.MOVEMENT_SPEED).getValue());
-                this.parent.setAIMoveSpeed(MathHelper.lerp(0.125F, this.parent.getAIMoveSpeed(), f1));
-                this.parent.setMotion(this.parent.getMotion().add(0.0D, (double)this.parent.getAIMoveSpeed() * d1 * 0.1D, 0.0D));
+                this.parent.yRot = this.rotlerp(this.parent.yRot, f, 90.0F);
+                this.parent.yBodyRot = this.parent.yRot;
+                float f1 = (float)(this.speedModifier * this.parent.getAttribute(Attributes.MOVEMENT_SPEED).getValue());
+                this.parent.setSpeed(MathHelper.lerp(0.125F, this.parent.getSpeed(), f1));
+                this.parent.setDeltaMovement(this.parent.getDeltaMovement().add(0.0D, (double)this.parent.getSpeed() * d1 * 0.1D, 0.0D));
             } else {
-                this.mob.setAIMoveSpeed(0F);
+                this.mob.setSpeed(0F);
             }
         }
     }

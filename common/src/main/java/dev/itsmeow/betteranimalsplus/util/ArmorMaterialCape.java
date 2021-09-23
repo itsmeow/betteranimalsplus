@@ -17,22 +17,22 @@ public class ArmorMaterialCape implements IArmorMaterial {
     }
 
     @Override
-    public int getDamageReductionAmount(EquipmentSlotType arg0) {
+    public int getDefenseForSlot(EquipmentSlotType arg0) {
         return 3;
     }
 
     @Override
-    public int getEnchantability() {
+    public int getEnchantmentValue() {
         return 15;
     }
 
     @Override
-    public SoundEvent getSoundEvent() {
-        return SoundEvents.ITEM_ARMOR_EQUIP_LEATHER;
+    public SoundEvent getEquipSound() {
+        return SoundEvents.ARMOR_EQUIP_LEATHER;
     }
 
     @Override
-    public Ingredient getRepairMaterial() {
+    public Ingredient getRepairIngredient() {
         return null;
     }
 
@@ -42,7 +42,7 @@ public class ArmorMaterialCape implements IArmorMaterial {
     }
 
     @Override
-    public int getDurability(EquipmentSlotType slotIn) {
+    public int getDurabilityForSlot(EquipmentSlotType slotIn) {
         return 81; // leather chestplate https://minecraft.gamepedia.com/Armor#Durability
     }
 

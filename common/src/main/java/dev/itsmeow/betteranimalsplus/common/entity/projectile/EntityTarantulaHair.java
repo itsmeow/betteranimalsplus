@@ -39,40 +39,40 @@ public class EntityTarantulaHair extends ThrowableEntity {
      * Called when this EntityThrowable hits a block or entity.
      */
     @Override
-    protected void onImpact(RayTraceResult result) {
+    protected void onHit(RayTraceResult result) {
         if(result instanceof EntityRayTraceResult) {
             EntityRayTraceResult rayR = (EntityRayTraceResult) result;
             int i = 8;
-            rayR.getEntity().attackEntityFrom(DamageSource.causeThrownDamage(this, this.getShooter()), i);
-            if(!this.world.isRemote) {
+            rayR.getEntity().hurt(DamageSource.thrown(this, this.getOwner()), i);
+            if(!this.level.isClientSide) {
                 if(rayR.getEntity() instanceof PlayerEntity) {
                     PlayerEntity player = (PlayerEntity) rayR.getEntity();
                     int blindnessTicks = 0;
-                    if(player.getEntityWorld().getDifficulty() == Difficulty.EASY) {
+                    if(player.getCommandSenderWorld().getDifficulty() == Difficulty.EASY) {
                         blindnessTicks = 40;
-                    } else if(player.getEntityWorld().getDifficulty() == Difficulty.NORMAL) {
+                    } else if(player.getCommandSenderWorld().getDifficulty() == Difficulty.NORMAL) {
                         blindnessTicks = 60;
-                    } else if(player.getEntityWorld().getDifficulty() == Difficulty.HARD) {
+                    } else if(player.getCommandSenderWorld().getDifficulty() == Difficulty.HARD) {
                         blindnessTicks = 80;
                     }
-                    player.addPotionEffect(new EffectInstance(Effects.BLINDNESS, blindnessTicks, 10, false, false));
+                    player.addEffect(new EffectInstance(Effects.BLINDNESS, blindnessTicks, 10, false, false));
                 }
             }
         }
 
-        if (!this.world.isRemote) {
-            this.world.setEntityState(this, (byte) 3);
+        if (!this.level.isClientSide) {
+            this.level.broadcastEntityEvent(this, (byte) 3);
             this.remove();
         }
     }
 
     @Override
-    public IPacket<?> createSpawnPacket() {
+    public IPacket<?> getAddEntityPacket() {
         return NetworkHooks.getEntitySpawningPacket(this);
     }
 
     @Override
-    protected void registerData() {
+    protected void defineSynchedData() {
 
     }
 

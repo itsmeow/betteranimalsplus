@@ -19,31 +19,31 @@ public abstract class EntityCreatureWithTypes extends CreatureEntity implements 
     }
 
     @Override
-    protected void registerData() {
-        super.registerData();
+    protected void defineSynchedData() {
+        super.defineSynchedData();
         this.registerTypeKey();
     }
 
     @Override
-    public void writeAdditional(CompoundNBT compound) {
-        super.writeAdditional(compound);
+    public void addAdditionalSaveData(CompoundNBT compound) {
+        super.addAdditionalSaveData(compound);
         this.writeType(compound);
     }
 
     @Override
-    public void readAdditional(CompoundNBT compound) {
-        super.readAdditional(compound);
+    public void readAdditionalSaveData(CompoundNBT compound) {
+        super.readAdditionalSaveData(compound);
         this.readType(compound);
     }
 
     @Override
     @Nullable
-    public ILivingEntityData onInitialSpawn(IServerWorld world, DifficultyInstance difficulty, SpawnReason reason, @Nullable ILivingEntityData livingdata, CompoundNBT compound) {
-        return this.initData(world, reason, super.onInitialSpawn(world, difficulty, reason, livingdata, compound));
+    public ILivingEntityData finalizeSpawn(IServerWorld world, DifficultyInstance difficulty, SpawnReason reason, @Nullable ILivingEntityData livingdata, CompoundNBT compound) {
+        return this.initData(world, reason, super.finalizeSpawn(world, difficulty, reason, livingdata, compound));
     }
 
     @Override
-    public boolean canDespawn(double range) {
+    public boolean removeWhenFarAway(double range) {
         return despawn(range);
     }
 

@@ -27,7 +27,7 @@ public interface IHaveHunger<T extends MobEntity> extends IContainerEntity<T> {
     }
 
     default int getInitialHunger() {
-        return 10 + getImplementation().getRNG().nextInt(50);
+        return 10 + getImplementation().getRandom().nextInt(50);
     }
 
     default void setInitialHunger() {
@@ -35,7 +35,7 @@ public interface IHaveHunger<T extends MobEntity> extends IContainerEntity<T> {
     }
 
     default int getHungerResetValue() {
-        return getImplementation().getRNG().nextInt(20);
+        return getImplementation().getRandom().nextInt(20);
     }
 
     default void resetHunger() {

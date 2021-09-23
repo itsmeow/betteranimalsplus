@@ -17,7 +17,7 @@ public class EntityUtil {
     public static ILivingEntityData childChance(AgeableEntity e, SpawnReason reason, ILivingEntityData livingdata, float chance) {
         if(livingdata instanceof AgeableData) {
             try {
-                Field babySpawnProbability = ObfuscationReflectionHelper.findField(AgeableData.class, "field_226256_c_");
+                Field babySpawnProbability = ObfuscationReflectionHelper.findField(AgeableData.class, "babySpawnChance");
                 FieldUtils.removeFinalModifier(babySpawnProbability);
                 babySpawnProbability.set(livingdata, chance);
             } catch(Exception ex) {

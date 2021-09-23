@@ -54,84 +54,84 @@ public class EntityLamprey extends EntityWaterMobPathingWithTypesBucketable impl
         blackList.add(EndermanEntity.class);
         blackList.add(EntityJellyfish.class);
         blackList.add(EntityBobbitWorm.class);
-        this.targetSelector.addGoal(0, new NearestAttackableTargetGoal<>(this, LivingEntity.class, 100, true, true, e -> !(e instanceof IMob) && !(e.world.getDifficulty() == Difficulty.PEACEFUL && e instanceof PlayerEntity) && !blackList.contains(e.getClass())));
+        this.targetSelector.addGoal(0, new NearestAttackableTargetGoal<>(this, LivingEntity.class, 100, true, true, e -> !(e instanceof IMob) && !(e.level.getDifficulty() == Difficulty.PEACEFUL && e instanceof PlayerEntity) && !blackList.contains(e.getClass())));
     }
 
     @Override
     protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
-        return SoundEvents.ENTITY_SQUID_HURT;
+        return SoundEvents.SQUID_HURT;
     }
 
     @Override
     protected SoundEvent getDeathSound() {
-        return SoundEvents.ENTITY_SQUID_DEATH;
+        return SoundEvents.SQUID_DEATH;
     }
 
     @Override
-    public boolean attackEntityAsMob(Entity entityIn) {
+    public boolean doHurtTarget(Entity entityIn) {
         float f = (float)this.getAttribute(Attributes.ATTACK_DAMAGE).getValue();
 
         if(entityIn instanceof LivingEntity) {
-            f += EnchantmentHelper.getModifierForCreature(this.getHeldItemMainhand(), ((LivingEntity)entityIn).getCreatureAttribute());
+            f += EnchantmentHelper.getDamageBonus(this.getMainHandItem(), ((LivingEntity)entityIn).getMobType());
         }
-        boolean flag = entityIn.attackEntityFrom(DamageSource.causeMobDamage(this), f);
+        boolean flag = entityIn.hurt(DamageSource.mobAttack(this), f);
         if(flag) {
-            this.lastAttack = this.ticksExisted;
+            this.lastAttack = this.tickCount;
             if(entityIn instanceof PlayerEntity) {
                 PlayerEntity entityplayer = (PlayerEntity)entityIn;
 
                 int weakTicks = 0;
-                if (this.world.getDifficulty() == Difficulty.EASY) {
+                if (this.level.getDifficulty() == Difficulty.EASY) {
                     weakTicks = 200;
-                } else if (this.world.getDifficulty() == Difficulty.NORMAL) {
+                } else if (this.level.getDifficulty() == Difficulty.NORMAL) {
                     weakTicks = 300;
-                } else if (this.world.getDifficulty() == Difficulty.HARD) {
+                } else if (this.level.getDifficulty() == Difficulty.HARD) {
                     weakTicks = 600;
                 }
-                entityplayer.addPotionEffect(new EffectInstance(Effects.WEAKNESS, weakTicks, 1, false, false));
-                ItemStack itemstack = this.getHeldItemMainhand();
-                ItemStack itemstack1 = entityplayer.isHandActive() ? entityplayer.getActiveItemStack() : ItemStack.EMPTY;
+                entityplayer.addEffect(new EffectInstance(Effects.WEAKNESS, weakTicks, 1, false, false));
+                ItemStack itemstack = this.getMainHandItem();
+                ItemStack itemstack1 = entityplayer.isUsingItem() ? entityplayer.getUseItem() : ItemStack.EMPTY;
                 if(!itemstack.isEmpty() && !itemstack1.isEmpty() && itemstack.getItem().canDisableShield(itemstack, itemstack1, entityplayer, this) && itemstack1.getItem().isShield(itemstack1, entityplayer)) {
-                    float f1 = 0.25F + (float)EnchantmentHelper.getEfficiencyModifier(this) * 0.05F;
-                    if(this.rand.nextFloat() < f1) {
-                        entityplayer.getCooldownTracker().setCooldown(itemstack1.getItem(), 100);
-                        this.world.setEntityState(entityplayer, (byte)30);
+                    float f1 = 0.25F + (float)EnchantmentHelper.getBlockEfficiency(this) * 0.05F;
+                    if(this.random.nextFloat() < f1) {
+                        entityplayer.getCooldowns().addCooldown(itemstack1.getItem(), 100);
+                        this.level.broadcastEntityEvent(entityplayer, (byte)30);
                     }
                 }
             }
-            this.applyEnchantments(this, entityIn);
+            this.doEnchantDamageEffects(this, entityIn);
         }
         return flag;
     }
 
     @Override
-    public void livingTick() {
-        super.livingTick();
-        if(!this.isAlive() && this.getRidingEntity() != null) {
+    public void aiStep() {
+        super.aiStep();
+        if(!this.isAlive() && this.getVehicle() != null) {
             this.stopRiding();
         }
-        if(!this.world.isRemote && this.getAttackTarget() != null && this.getAttackTarget().isAlive()) {
-            if(this.getRidingEntity() != null && this.getRidingEntity() == this.getAttackTarget()) {
+        if(!this.level.isClientSide && this.getTarget() != null && this.getTarget().isAlive()) {
+            if(this.getVehicle() != null && this.getVehicle() == this.getTarget()) {
                 float time = 20F; 
-                if(!this.inWater) {
+                if(!this.wasTouchingWater) {
                     time *= 2F * (Math.random() + 1F);
                 } else {
                     time += Math.random() * Math.random() * 2 * ((Math.random() < 0.5) ? -1 : 1);
                 }
-                if(this.lastAttack + time < this.ticksExisted) {
-                    this.attackEntityAsMob(this.getAttackTarget());
+                if(this.lastAttack + time < this.tickCount) {
+                    this.doHurtTarget(this.getTarget());
                 }
-            } else if(this.getDistanceSq(this.getAttackTarget()) < 3) {
-                this.grabTarget(this.getAttackTarget());
+            } else if(this.distanceToSqr(this.getTarget()) < 3) {
+                this.grabTarget(this.getTarget());
             }
         }
     }
 
     @Override
     public void stopRiding() {
-        Entity entity = this.getRidingEntity();
+        Entity entity = this.getVehicle();
         if(entity != null) {
-            if((entity.canBeRiddenInWater(this) || this.getAttackTarget() == null) && this.world.isAreaLoaded(this.getPosition(), 10)) {
+            if((entity.canBeRiddenInWater(this) || this.getTarget() == null) && this.level.isAreaLoaded(this.blockPosition(), 10)) {
                 super.stopRiding();
             }
         }
@@ -143,10 +143,10 @@ public class EntityLamprey extends EntityWaterMobPathingWithTypesBucketable impl
     }
 
     public void grabTarget(Entity entity) {
-        if(entity == this.getAttackTarget() && !entity.isPassenger(this) && this.inWater) {
+        if(entity == this.getTarget() && !entity.hasPassenger(this) && this.wasTouchingWater) {
             this.startRiding(entity);
             if(entity instanceof ServerPlayerEntity) {
-               ((ServerPlayerEntity) entity).connection.sendPacket(new SSetPassengersPacket(entity));
+               ((ServerPlayerEntity) entity).connection.send(new SSetPassengersPacket(entity));
             }
         }
     }
@@ -157,18 +157,18 @@ public class EntityLamprey extends EntityWaterMobPathingWithTypesBucketable impl
     }
 
     @Override
-    public double getYOffset() {
-        if(getRidingEntity() != null && getRidingEntity() instanceof PlayerEntity) {
-            return getRidingEntity().getHeight() - 2.25F;
-        } else if(getRidingEntity() != null) {
-            return getRidingEntity().getHeight() * 0.5D - 1.25D;
+    public double getMyRidingOffset() {
+        if(getVehicle() != null && getVehicle() instanceof PlayerEntity) {
+            return getVehicle().getBbHeight() - 2.25F;
+        } else if(getVehicle() != null) {
+            return getVehicle().getBbHeight() * 0.5D - 1.25D;
         } else {
-            return super.getYOffset();
+            return super.getMyRidingOffset();
         }
     }
 
     @Override
-    protected boolean canTriggerWalking() {
+    protected boolean isMovementNoisy() {
         return false;
     }
     
@@ -178,7 +178,7 @@ public class EntityLamprey extends EntityWaterMobPathingWithTypesBucketable impl
     }
 
     @Override
-    protected ResourceLocation getLootTable() {
+    protected ResourceLocation getDefaultLootTable() {
         return ModLootTables.EELY;
     }
 
@@ -189,7 +189,7 @@ public class EntityLamprey extends EntityWaterMobPathingWithTypesBucketable impl
 
     @Override
     protected SoundEvent getFlopSound() {
-        return SoundEvents.ENTITY_COD_FLOP;
+        return SoundEvents.COD_FLOP;
     }
 
     @Override

@@ -18,8 +18,8 @@ public abstract class EntityTameableBetterAnimalsPlus extends TameableEntity imp
     @Override
     public void tick() {
         super.tick();
-        if(!world.isRemote && this.isEntitySleeping() != this.isQueuedToSit()) {
-            this.setQueuedToSit(this.isQueuedToSit());
+        if(!level.isClientSide && this.isInSittingPose() != this.isOrderedToSit()) {
+            this.setInSittingPose(this.isOrderedToSit());
         }
     }
 
@@ -42,7 +42,7 @@ public abstract class EntityTameableBetterAnimalsPlus extends TameableEntity imp
     }
 
     @Override
-    public boolean canDespawn(double range) {
+    public boolean removeWhenFarAway(double range) {
         return despawn(range);
     }
 

@@ -12,9 +12,12 @@ import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
 
+import dev.itsmeow.imdlib.entity.interfaces.IVariantTypes.AgeableTypeData;
+import net.minecraft.entity.AgeableEntity.AgeableData;
+
 public abstract class EntityAnimalWithTypesAndSize extends EntityAnimalWithTypes {
 
-    protected static final DataParameter<Float> SIZE = EntityDataManager.createKey(EntityAnimalWithTypesAndSize.class, DataSerializers.FLOAT);
+    protected static final DataParameter<Float> SIZE = EntityDataManager.defineId(EntityAnimalWithTypesAndSize.class, DataSerializers.FLOAT);
 
     public EntityAnimalWithTypesAndSize(EntityType<? extends EntityAnimalWithTypes> entityType, World worldIn) {
         super(entityType, worldIn);
@@ -22,39 +25,39 @@ public abstract class EntityAnimalWithTypesAndSize extends EntityAnimalWithTypes
     }
 
     @Override
-    protected void registerData() {
-        super.registerData();
-        this.dataManager.register(SIZE, 1F);
+    protected void defineSynchedData() {
+        super.defineSynchedData();
+        this.entityData.define(SIZE, 1F);
     }
 
     @Override
-    public EntitySize getSize(Pose pose) {
-        float size = this.dataManager.get(SIZE);
-        return EntitySize.flexible(size, size).scale(this.getRenderScale());
+    public EntitySize getDimensions(Pose pose) {
+        float size = this.entityData.get(SIZE);
+        return EntitySize.scalable(size, size).scale(this.getScale());
     }
 
     public void setSize(float size) {
-        this.dataManager.set(SIZE, size);
+        this.entityData.set(SIZE, size);
     }
 
     @Override
-    public void writeAdditional(CompoundNBT compound) {
-        super.writeAdditional(compound);
-        compound.putFloat("Size", this.getSize(Pose.STANDING).width);
+    public void addAdditionalSaveData(CompoundNBT compound) {
+        super.addAdditionalSaveData(compound);
+        compound.putFloat("Size", this.getDimensions(Pose.STANDING).width);
     }
 
     @Override
-    public void readAdditional(CompoundNBT compound) {
-        super.readAdditional(compound);
+    public void readAdditionalSaveData(CompoundNBT compound) {
+        super.readAdditionalSaveData(compound);
         float size = compound.getFloat("Size");
         this.setSize(size);
     }
 
     @Override
     @Nullable
-    public ILivingEntityData onInitialSpawn(IServerWorld world, DifficultyInstance difficulty, SpawnReason reason, @Nullable ILivingEntityData livingdata, CompoundNBT compound) {
-        livingdata = super.onInitialSpawn(world, difficulty, reason, livingdata, compound);
-        if(!this.isChild()) {
+    public ILivingEntityData finalizeSpawn(IServerWorld world, DifficultyInstance difficulty, SpawnReason reason, @Nullable ILivingEntityData livingdata, CompoundNBT compound) {
+        livingdata = super.finalizeSpawn(world, difficulty, reason, livingdata, compound);
+        if(!this.isBaby()) {
             IVariant i = this.getRandomType();
             float rand = this.getRandomizedSize();
 

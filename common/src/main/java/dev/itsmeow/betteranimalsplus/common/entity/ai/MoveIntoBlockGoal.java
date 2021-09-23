@@ -16,8 +16,8 @@ public abstract class MoveIntoBlockGoal extends Goal {
     protected BlockPos destinationBlock = BlockPos.ZERO;
     private boolean isAtDestination;
     private final int searchLength;
-    private final int field_203113_j;
-    protected int field_203112_e;
+    private final int verticalSearchRange;
+    protected int verticalSearchStart;
 
     public MoveIntoBlockGoal(CreatureEntity creature, double speedIn, int length) {
        this(creature, speedIn, length, 1);
@@ -27,13 +27,13 @@ public abstract class MoveIntoBlockGoal extends Goal {
        this.creature = creatureIn;
        this.movementSpeed = speed;
        this.searchLength = length;
-       this.field_203112_e = 0;
-       this.field_203113_j = p_i48796_5_;
-       this.setMutexFlags(EnumSet.of(Goal.Flag.MOVE, Goal.Flag.JUMP));
+       this.verticalSearchStart = 0;
+       this.verticalSearchRange = p_i48796_5_;
+       this.setFlags(EnumSet.of(Goal.Flag.MOVE, Goal.Flag.JUMP));
     }
 
     @Override
-    public boolean shouldExecute() {
+    public boolean canUse() {
        if (this.runDelay > 0) {
           --this.runDelay;
           return false;
@@ -44,23 +44,23 @@ public abstract class MoveIntoBlockGoal extends Goal {
     }
 
     protected int getRunDelay(CreatureEntity creatureIn) {
-       return 200 + creatureIn.getRNG().nextInt(200);
+       return 200 + creatureIn.getRandom().nextInt(200);
     }
 
     @Override
-    public boolean shouldContinueExecuting() {
-       return this.timeoutCounter >= -this.maxStayTicks && this.timeoutCounter <= 1200 && this.shouldMoveTo(this.creature.world, this.destinationBlock);
+    public boolean canContinueToUse() {
+       return this.timeoutCounter >= -this.maxStayTicks && this.timeoutCounter <= 1200 && this.shouldMoveTo(this.creature.level, this.destinationBlock);
     }
 
     @Override
-    public void startExecuting() {
-       this.func_220725_g();
+    public void start() {
+       this.moveMobToBlock();
        this.timeoutCounter = 0;
-       this.maxStayTicks = this.creature.getRNG().nextInt(this.creature.getRNG().nextInt(1200) + 1200) + 1200;
+       this.maxStayTicks = this.creature.getRandom().nextInt(this.creature.getRandom().nextInt(1200) + 1200) + 1200;
     }
 
-    protected void func_220725_g() {
-       this.creature.getNavigator().tryMoveToXYZ((double)((float)this.destinationBlock.getX()) + 0.5D, this.destinationBlock.getY(), (double)((float)this.destinationBlock.getZ()) + 0.5D, this.movementSpeed);
+    protected void moveMobToBlock() {
+       this.creature.getNavigation().moveTo((double)((float)this.destinationBlock.getX()) + 0.5D, this.destinationBlock.getY(), (double)((float)this.destinationBlock.getZ()) + 0.5D, this.movementSpeed);
     }
 
     public double getTargetDistanceSq() {
@@ -69,11 +69,11 @@ public abstract class MoveIntoBlockGoal extends Goal {
 
     @Override
     public void tick() {
-       if (!this.destinationBlock.withinDistance(this.creature.getPositionVec(), this.getTargetDistanceSq())) {
+       if (!this.destinationBlock.closerThan(this.creature.position(), this.getTargetDistanceSq())) {
           this.isAtDestination = false;
           ++this.timeoutCounter;
           if (this.shouldMove()) {
-             this.creature.getNavigator().tryMoveToXYZ((double)((float)this.destinationBlock.getX()) + 0.5D, this.destinationBlock.getY(), (double)((float)this.destinationBlock.getZ()) + 0.5D, this.movementSpeed);
+             this.creature.getNavigation().moveTo((double)((float)this.destinationBlock.getX()) + 0.5D, this.destinationBlock.getY(), (double)((float)this.destinationBlock.getZ()) + 0.5D, this.movementSpeed);
           }
        } else {
           this.isAtDestination = true;
@@ -91,15 +91,15 @@ public abstract class MoveIntoBlockGoal extends Goal {
     }
 
     protected boolean searchForDestination() {
-        BlockPos blockpos = this.creature.getPosition();
+        BlockPos blockpos = this.creature.blockPosition();
        BlockPos.Mutable blockpos$mutableblockpos = new BlockPos.Mutable();
 
-       for(int k = this.field_203112_e; k <= this.field_203113_j; k = k > 0 ? -k : 1 - k) {
+       for(int k = this.verticalSearchStart; k <= this.verticalSearchRange; k = k > 0 ? -k : 1 - k) {
           for(int l = 0; l < this.searchLength; ++l) {
              for(int i1 = 0; i1 <= l; i1 = i1 > 0 ? -i1 : 1 - i1) {
                 for(int j1 = i1 < l && i1 > -l ? l : 0; j1 <= l; j1 = j1 > 0 ? -j1 : 1 - j1) {
-                   blockpos$mutableblockpos.setPos(blockpos).move(i1, k - 1, j1);
-                   if (this.creature.isWithinHomeDistanceFromPosition(blockpos$mutableblockpos) && this.shouldMoveTo(this.creature.world, blockpos$mutableblockpos)) {
+                   blockpos$mutableblockpos.set(blockpos).move(i1, k - 1, j1);
+                   if (this.creature.isWithinRestriction(blockpos$mutableblockpos) && this.shouldMoveTo(this.creature.level, blockpos$mutableblockpos)) {
                       this.destinationBlock = blockpos$mutableblockpos;
                       return true;
                    }

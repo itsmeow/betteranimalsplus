@@ -31,7 +31,7 @@ public class TileEntityTrillium extends TileEntity {
         }
         if (!this.getTileData().contains(this.keyModel)) {
             this.modelNum = new Random().nextInt(3);
-            this.markDirty();
+            this.setChanged();
         }
     }
 
@@ -41,7 +41,7 @@ public class TileEntityTrillium extends TileEntity {
 
     public void setType(int i) {
         this.typeNum = i;
-        this.markDirty();
+        this.setChanged();
     }
 
     public int typeValue() {
@@ -49,8 +49,8 @@ public class TileEntityTrillium extends TileEntity {
     }
 
     @Override
-    public void read(BlockState state, CompoundNBT compound) {
-        super.read(state, compound);
+    public void load(BlockState state, CompoundNBT compound) {
+        super.load(state, compound);
         if (compound.contains(this.keyType)) {
             this.typeNum = compound.getInt(this.keyType);
         } else {
@@ -64,8 +64,8 @@ public class TileEntityTrillium extends TileEntity {
     }
 
     @Override
-    public CompoundNBT write(CompoundNBT compound) {
-        super.write(compound);
+    public CompoundNBT save(CompoundNBT compound) {
+        super.save(compound);
         compound.putInt(this.keyType, this.typeNum);
         compound.putInt(this.keyModel, this.modelNum);
         return compound;
@@ -74,38 +74,38 @@ public class TileEntityTrillium extends TileEntity {
     @Override
     public SUpdateTileEntityPacket getUpdatePacket() {
         CompoundNBT tag = new CompoundNBT();
-        this.write(tag);
-        return new SUpdateTileEntityPacket(this.pos, 1, tag);
+        this.save(tag);
+        return new SUpdateTileEntityPacket(this.worldPosition, 1, tag);
     }
 
     @Override
     public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket packet) {
-        this.read(null, packet.getNbtCompound());
-        this.world.getPendingBlockTicks().scheduleTick(this.pos, this.getBlockState().getBlock(), 100);
+        this.load(null, packet.getTag());
+        this.level.getBlockTicks().scheduleTick(this.worldPosition, this.getBlockState().getBlock(), 100);
     }
 
     @Override
     public CompoundNBT getUpdateTag() {
         CompoundNBT tag = new CompoundNBT();
-        this.write(tag);
+        this.save(tag);
         return tag;
     }
 
     public void setModelNum(int i) {
         this.modelNum = i;
-        this.markDirty();
+        this.setChanged();
     }
 
     @Override
     public void handleUpdateTag(BlockState state, CompoundNBT tag) {
-        this.read(state, tag);
+        this.load(state, tag);
     }
 
     @OnlyIn(Dist.CLIENT)
     public float getRotation() {
-        BlockState state = this.world.getBlockState(this.pos);
+        BlockState state = this.level.getBlockState(this.worldPosition);
         if (state.getBlock() == ModBlocks.TRILLIUM.get()) {
-            Direction facing = state.get(HorizontalBlock.HORIZONTAL_FACING).getOpposite();
+            Direction facing = state.getValue(HorizontalBlock.FACING).getOpposite();
             if (facing == Direction.NORTH) {
                 return 0F;
             }

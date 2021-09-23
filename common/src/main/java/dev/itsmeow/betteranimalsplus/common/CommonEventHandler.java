@@ -62,18 +62,18 @@ public class CommonEventHandler {
 
     @SubscribeEvent
     public static void onDeathOfEntity(LivingDeathEvent e) {
-        if(e.getSource().getImmediateSource() instanceof EntityBoar && ModEntities.BOAR.getCustomConfiguration().getBoolean("nerf_options/breed_from_kill")) {
-            EntityBoar boar = (EntityBoar) e.getSource().getImmediateSource();
+        if(e.getSource().getDirectEntity() instanceof EntityBoar && ModEntities.BOAR.getCustomConfiguration().getBoolean("nerf_options/breed_from_kill")) {
+            EntityBoar boar = (EntityBoar) e.getSource().getDirectEntity();
             boar.setInLove(null);
-            BlockPos p = boar.getPosition();
-            boar.world.addParticle(ParticleTypes.HEART, p.getX(), p.getY(), p.getZ(), 0.0F, 0.05F, 0.0F);
-        } else if(e.getSource().getImmediateSource() instanceof ServerPlayerEntity) {
-            ServerPlayerEntity player = (ServerPlayerEntity) e.getSource().getImmediateSource();
+            BlockPos p = boar.blockPosition();
+            boar.level.addParticle(ParticleTypes.HEART, p.getX(), p.getY(), p.getZ(), 0.0F, 0.05F, 0.0F);
+        } else if(e.getSource().getDirectEntity() instanceof ServerPlayerEntity) {
+            ServerPlayerEntity player = (ServerPlayerEntity) e.getSource().getDirectEntity();
             if(e.getEntity() instanceof EntityBear || e.getEntity() instanceof PolarBearEntity) {
-                if(player.getHeldItemMainhand().isEmpty()) {
+                if(player.getMainHandItem().isEmpty()) {
                     ModTriggers.PUNCH_BEAR_DEATH.trigger(player);
                 }
-            } else if(e.getEntity() instanceof EntitySquirrel && !player.getAdvancements().getProgress(player.server.getAdvancementManager().getAdvancement(new ResourceLocation("betteranimalsplus:squirrel_kill_100"))).isDone()) {
+            } else if(e.getEntity() instanceof EntitySquirrel && !player.getAdvancements().getOrStartProgress(player.server.getAdvancements().getAdvancement(new ResourceLocation("betteranimalsplus:squirrel_kill_100"))).isDone()) {
                 CompoundNBT pTag = player.getPersistentData();
                 if(!pTag.contains("betteranimalsplus", Constants.NBT.TAG_COMPOUND)) {
                     pTag.put("betteranimalsplus", new CompoundNBT());
@@ -95,27 +95,27 @@ public class CommonEventHandler {
                     }
                 }
             }
-        } else if(e.getSource().getTrueSource() instanceof EntityOctopus) {
-            EntityOctopus octo = (EntityOctopus) e.getSource().getTrueSource();
+        } else if(e.getSource().getEntity() instanceof EntityOctopus) {
+            EntityOctopus octo = (EntityOctopus) e.getSource().getEntity();
             if(octo.friend != null) {
-                PlayerEntity p = octo.world.getPlayerByUuid(octo.friend);
-                if(p instanceof ServerPlayerEntity && p.getAttackingEntity() == e.getEntityLiving()) {
-                    ModTriggers.OCTOPUS_SAVE_PLAYER.trigger((ServerPlayerEntity) octo.world.getPlayerByUuid(octo.friend));
+                PlayerEntity p = octo.level.getPlayerByUUID(octo.friend);
+                if(p instanceof ServerPlayerEntity && p.getKillCredit() == e.getEntityLiving()) {
+                    ModTriggers.OCTOPUS_SAVE_PLAYER.trigger((ServerPlayerEntity) octo.level.getPlayerByUUID(octo.friend));
                 }
             }
         }
-        if(e.getSource().getImmediateSource() instanceof IHaveHunger) {
-            ((IHaveHunger<?>) e.getSource().getImmediateSource()).resetHunger();
+        if(e.getSource().getDirectEntity() instanceof IHaveHunger) {
+            ((IHaveHunger<?>) e.getSource().getDirectEntity()).resetHunger();
         }
     }
     
     @SubscribeEvent
     public static void onBlockActivate(PlayerInteractEvent.RightClickBlock event) {
         if(event.getWorld().getBlockState(event.getPos()).getBlock() == Blocks.JUKEBOX && event.getPlayer() instanceof ServerPlayerEntity) {
-            TileEntity te = event.getWorld().getTileEntity(event.getPos());
+            TileEntity te = event.getWorld().getBlockEntity(event.getPos());
             if(te instanceof JukeboxTileEntity) {
                 JukeboxTileEntity box = (JukeboxTileEntity) te;
-                Item held = event.getPlayer().getHeldItem(event.getHand()).getItem();
+                Item held = event.getPlayer().getItemInHand(event.getHand()).getItem();
                 Item boxItem = box.getRecord().getItem();
                 boolean added = box.getRecord().isEmpty();
                 onDiskUse(added, (ServerPlayerEntity) event.getPlayer(), added ? held : boxItem);
@@ -127,8 +127,8 @@ public class CommonEventHandler {
     public static void onItemUsed(PlayerInteractEvent.RightClickItem event) {
         ResourceLocation reg = event.getItemStack().getItem().getRegistryName();
         if(reg != null && reg.getPath().equals("portable_jukebox") && event.getPlayer() instanceof ServerPlayerEntity) {
-            if(event.getItemStack().getChildTag("Disc") != null) {
-                Item item = ItemStack.read(event.getItemStack().getChildTag("Disc")).getItem();
+            if(event.getItemStack().getTagElement("Disc") != null) {
+                Item item = ItemStack.of(event.getItemStack().getTagElement("Disc")).getItem();
                 onDiskUse(event.getPlayer().isCrouching(), (ServerPlayerEntity) event.getPlayer(), item);
             }
         }
@@ -137,14 +137,14 @@ public class CommonEventHandler {
     private static void onDiskUse(boolean added, ServerPlayerEntity player, Item item) {
         if(item == ModItems.RECORD_CRAB_RAVE.get()) {
             if(added) {
-                List<EntityCrab> crabs = player.getEntityWorld().getEntitiesWithinAABB(EntityCrab.class, player.getBoundingBox().grow(50));
+                List<EntityCrab> crabs = player.getCommandSenderWorld().getEntitiesOfClass(EntityCrab.class, player.getBoundingBox().inflate(50));
                 ModTriggers.USE_CRAB_DISK.trigger(player);
                 for(EntityCrab crab : crabs) {
                     crab.crabRave();
                 }
 
             } else {
-                List<EntityCrab> crabs = player.getEntityWorld().getEntitiesWithinAABB(EntityCrab.class, player.getBoundingBox().grow(100));
+                List<EntityCrab> crabs = player.getCommandSenderWorld().getEntitiesOfClass(EntityCrab.class, player.getBoundingBox().inflate(100));
                 for(EntityCrab crab : crabs) {
                     crab.unCrabRave();
                 }
@@ -158,7 +158,7 @@ public class CommonEventHandler {
     public static void onLootLoad(LootTableLoadEvent event) {
         IRandomRange simple_one = new IRandomRange() {
             @Override
-            public int generateInt(Random rand) {
+            public int getInt(Random rand) {
                 return 1;
             }
 
@@ -167,21 +167,21 @@ public class CommonEventHandler {
                 return IRandomRange.CONSTANT;
             }
         };
-        if(event.getName().equals(EntityType.WOLF.getLootTable())) {
+        if(event.getName().equals(EntityType.WOLF.getDefaultLootTable())) {
             IVariant v = ModEntities.FERAL_WOLF.getVariantForName("snowy");
             if(v instanceof WolfVariant) {
                 WolfVariant variant = (WolfVariant) v;
-                event.getTable().addPool(LootPool.builder().rolls(simple_one).name("snowy_pelt").addEntry(TableLootEntry.builder(variant.getLootTable())).build());
+                event.getTable().addPool(LootPool.lootPool().setRolls(simple_one).name("snowy_pelt").add(TableLootEntry.lootTableReference(variant.getLootTable())).build());
             }
-        } else if(event.getName().equals(EntityType.SQUID.getLootTable())) {
-            event.getTable().addPool(LootPool.builder().rolls(simple_one).name("bap_calamari").addEntry(TableLootEntry.builder(ModLootTables.SQUID)).build());
+        } else if(event.getName().equals(EntityType.SQUID.getDefaultLootTable())) {
+            event.getTable().addPool(LootPool.lootPool().setRolls(simple_one).name("bap_calamari").add(TableLootEntry.lootTableReference(ModLootTables.SQUID)).build());
         }
     }
     
     @SubscribeEvent
     public static void onPlayerDamage(AttackEntityEvent event) {
         if(event.getPlayer() instanceof ServerPlayerEntity && (event.getTarget() instanceof EntityBear || event.getTarget() instanceof PolarBearEntity)) {
-            if(event.getPlayer().getHeldItemMainhand().isEmpty()) {
+            if(event.getPlayer().getMainHandItem().isEmpty()) {
                 ModTriggers.PUNCH_BEAR.trigger((ServerPlayerEntity) event.getPlayer());
             }
         }
@@ -196,7 +196,7 @@ public class CommonEventHandler {
     
     @SubscribeEvent
     public static void onLivingDrop(LivingDropsEvent event) {
-        if(event.getSource().getTrueSource() != null && !(event.getEntity() instanceof PlayerEntity) && NO_ATTACKED_DROPS.stream().anyMatch(predicate -> predicate.test(event.getSource().getTrueSource())) && (!(event.getSource().getTrueSource() instanceof IBucketable) || !((IBucketable) event.getSource().getTrueSource()).isFromContainer())) {
+        if(event.getSource().getEntity() != null && !(event.getEntity() instanceof PlayerEntity) && NO_ATTACKED_DROPS.stream().anyMatch(predicate -> predicate.test(event.getSource().getEntity())) && (!(event.getSource().getEntity() instanceof IBucketable) || !((IBucketable) event.getSource().getEntity()).isFromContainer())) {
             event.getDrops().clear();
         }
     }
@@ -205,7 +205,7 @@ public class CommonEventHandler {
     public static void onEntitySpawn(EntityJoinWorldEvent event) {
         if(event.getEntity() instanceof IronGolemEntity) {
             GoalSelector targetSelector = ((IronGolemEntity) event.getEntity()).targetSelector;
-            targetSelector.addGoal(3, new NearestAttackableTargetGoal<>((IronGolemEntity) event.getEntity(), EntityFeralWolf.class, 5, false, false, e -> !((EntityFeralWolf) e).isTamed() && (e instanceof EntityCoyote ? !((EntityCoyote) e).isDaytime() : true)));
+            targetSelector.addGoal(3, new NearestAttackableTargetGoal<>((IronGolemEntity) event.getEntity(), EntityFeralWolf.class, 5, false, false, e -> !((EntityFeralWolf) e).isTame() && (e instanceof EntityCoyote ? !((EntityCoyote) e).isDaytime() : true)));
         }
     }
 

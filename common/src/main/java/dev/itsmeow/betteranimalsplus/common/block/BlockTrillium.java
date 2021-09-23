@@ -15,13 +15,15 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
 
+import net.minecraft.block.AbstractBlock.Properties;
+
 public class BlockTrillium extends BushBlock {
 
-    private static final VoxelShape SHAPE = VoxelShapes.create(0.15F, 0.0F, 0.15F, 0.85F, 0.9F, 0.85F);
+    private static final VoxelShape SHAPE = VoxelShapes.box(0.15F, 0.0F, 0.15F, 0.85F, 0.9F, 0.85F);
 
     public BlockTrillium() {
-        super(Properties.create(Material.PLANTS).sound(SoundType.PLANT).doesNotBlockMovement());
-        this.setDefaultState(this.getDefaultState().with(HorizontalBlock.HORIZONTAL_FACING, Direction.NORTH));
+        super(Properties.of(Material.PLANT).sound(SoundType.GRASS).noCollission());
+        this.registerDefaultState(this.defaultBlockState().setValue(HorizontalBlock.FACING, Direction.NORTH));
     }
 
     @Override
@@ -32,31 +34,31 @@ public class BlockTrillium extends BushBlock {
     @Override
     public void onNeighborChange(BlockState state, IWorldReader world, BlockPos pos, BlockPos neighbor) {
         super.onNeighborChange(state, world, pos, neighbor);
-        if(!world.getBlockState(neighbor).isNormalCube(world, pos) && pos.down() == neighbor) {
+        if(!world.getBlockState(neighbor).isRedstoneConductor(world, pos) && pos.below() == neighbor) {
             World world1 = (World) world;
             world1.destroyBlock(pos, true);
         }
     }
 
     @Override
-    protected void fillStateContainer(Builder<Block, BlockState> builder) {
-        builder.add(HorizontalBlock.HORIZONTAL_FACING);
+    protected void createBlockStateDefinition(Builder<Block, BlockState> builder) {
+        builder.add(HorizontalBlock.FACING);
     }
 
     @Override
-    public void onBlockAdded(BlockState state1, World world, BlockPos pos, BlockState state2, boolean unknown) {
-        if(!world.getBlockState(pos.down()).isNormalCube(world, pos)) {
+    public void onPlace(BlockState state1, World world, BlockPos pos, BlockState state2, boolean unknown) {
+        if(!world.getBlockState(pos.below()).isRedstoneConductor(world, pos)) {
             world.destroyBlock(pos, true);
         }
     }
 
     @Override
     public BlockState getStateForPlacement(BlockItemUseContext context) {
-        return this.getDefaultState().with(HorizontalBlock.HORIZONTAL_FACING, context.getPlacementHorizontalFacing());
+        return this.defaultBlockState().setValue(HorizontalBlock.FACING, context.getHorizontalDirection());
     }
 
     @Override
-    public BlockRenderType getRenderType(BlockState state) {
+    public BlockRenderType getRenderShape(BlockState state) {
         return BlockRenderType.ENTITYBLOCK_ANIMATED;
     }
 

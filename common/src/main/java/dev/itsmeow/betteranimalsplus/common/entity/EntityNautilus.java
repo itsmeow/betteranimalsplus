@@ -31,53 +31,53 @@ public class EntityNautilus extends EntityWaterMobBucketable {
     }
 
     @Override
-    protected PathNavigator createNavigator(World worldIn) {
+    protected PathNavigator createNavigation(World worldIn) {
         return new SwimmerPathNavigator(this, worldIn);
     }
 
     @Override
     public void travel(Vector3d vec) {
-        this.move(MoverType.SELF, this.getMotion());
+        this.move(MoverType.SELF, this.getDeltaMovement());
     }
 
     @Override
     public void tick() {
         super.tick();
-        if(!this.inWater) {
-            this.setMotion(this.getMotion().getX() * 0.2F, this.getMotion().getY(), this.getMotion().getZ() * 0.2F);
-            if (!this.hasNoGravity()) {
-                this.setMotion(this.getMotion().getX(), this.getMotion().getY() - 0.08D, this.getMotion().getZ());
+        if(!this.wasTouchingWater) {
+            this.setDeltaMovement(this.getDeltaMovement().x() * 0.2F, this.getDeltaMovement().y(), this.getDeltaMovement().z() * 0.2F);
+            if (!this.isNoGravity()) {
+                this.setDeltaMovement(this.getDeltaMovement().x(), this.getDeltaMovement().y() - 0.08D, this.getDeltaMovement().z());
             }
-            this.setMotion(this.getMotion().getX(), this.getMotion().getY() * 0.9800000190734863D, this.getMotion().getZ());
-        } else if(!world.isRemote) {
-            if(!this.navigator.noPath()) {
-                Vector3i target = this.navigator.getPath().func_242948_g();
-                this.setMotion((target.getX() - this.getPosX()) * 0.05F, (target.getY() - this.getPosY()) * 0.05F, (target.getZ() - this.getPosZ()) * 0.05F);
-            } else if(this.getMoveHelper().isUpdating()) {
-                this.setMotion((this.getMoveHelper().getX() - this.getPosX()) * 0.05F, (this.getMoveHelper().getY() - this.getPosY()) * 0.05F, (this.getMoveHelper().getZ() - this.getPosZ()) * 0.05F);
+            this.setDeltaMovement(this.getDeltaMovement().x(), this.getDeltaMovement().y() * 0.9800000190734863D, this.getDeltaMovement().z());
+        } else if(!level.isClientSide) {
+            if(!this.navigation.isDone()) {
+                Vector3i target = this.navigation.getPath().getNextNodePos();
+                this.setDeltaMovement((target.getX() - this.getX()) * 0.05F, (target.getY() - this.getY()) * 0.05F, (target.getZ() - this.getZ()) * 0.05F);
+            } else if(this.getMoveControl().hasWanted()) {
+                this.setDeltaMovement((this.getMoveControl().getWantedX() - this.getX()) * 0.05F, (this.getMoveControl().getWantedY() - this.getY()) * 0.05F, (this.getMoveControl().getWantedZ() - this.getZ()) * 0.05F);
             } else {
-                this.setMotion(this.getMotion().getX() * 0.85F, this.getMotion().getY() * 0.85F, this.getMotion().getZ() * 0.85F);
+                this.setDeltaMovement(this.getDeltaMovement().x() * 0.85F, this.getDeltaMovement().y() * 0.85F, this.getDeltaMovement().z() * 0.85F);
             }
         }
     }
 
     @Override
     protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
-        return SoundEvents.ENTITY_SQUID_HURT;
+        return SoundEvents.SQUID_HURT;
     }
 
     @Override
     protected SoundEvent getDeathSound() {
-        return SoundEvents.ENTITY_SQUID_DEATH;
+        return SoundEvents.SQUID_DEATH;
     }
     
     @Override
-    protected boolean canTriggerWalking() {
+    protected boolean isMovementNoisy() {
         return false;
     }
 
     @Override
-    protected ResourceLocation getLootTable() {
+    protected ResourceLocation getDefaultLootTable() {
         return ModLootTables.NAUTILUS;
     }
 

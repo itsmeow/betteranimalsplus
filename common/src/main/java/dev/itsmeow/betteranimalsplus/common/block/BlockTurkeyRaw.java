@@ -20,20 +20,20 @@ public class BlockTurkeyRaw extends BlockTurkey {
         if(!player.canEat(false)) {
             return ActionResultType.FAIL;
         } else {
-            int i = state.get(BITES);
+            int i = state.getValue(BITES);
 
             if(i < 7) {
-                worldIn.setBlockState(pos, state.with(BITES, i + 1), 3);
+                worldIn.setBlock(pos, state.setValue(BITES, i + 1), 3);
                 if(i < 2) {
-                    player.getFoodStats().addStats(1, 0.1F);
+                    player.getFoodData().eat(1, 0.1F);
                 } else {
-                    player.getFoodStats().addStats(2, 0.1F);
+                    player.getFoodData().eat(2, 0.1F);
                 }
             } else {
-                worldIn.setBlockState(pos, Blocks.AIR.getDefaultState());
-                player.getFoodStats().addStats(2, 0.1F);
+                worldIn.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());
+                player.getFoodData().eat(2, 0.1F);
             }
-            player.addPotionEffect(new EffectInstance(Effects.POISON, 400, 1, false, false));
+            player.addEffect(new EffectInstance(Effects.POISON, 400, 1, false, false));
             return ActionResultType.CONSUME;
         }
     }

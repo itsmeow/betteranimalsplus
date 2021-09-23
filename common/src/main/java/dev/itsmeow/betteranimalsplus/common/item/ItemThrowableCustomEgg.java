@@ -22,35 +22,35 @@ public class ItemThrowableCustomEgg extends Item {
     private final BiFunction<World, LivingEntity, ProjectileItemEntity> eggSupplier2;
 
     public ItemThrowableCustomEgg(BiFunction<World, IPosition, ProjectileItemEntity> egg, BiFunction<World, LivingEntity, ProjectileItemEntity> egg2) {
-        super(new Item.Properties().maxStackSize(16).group(BetterAnimalsPlusMod.GROUP));
+        super(new Item.Properties().stacksTo(16).tab(BetterAnimalsPlusMod.GROUP));
         this.eggSupplier = egg;
         this.eggSupplier2 = egg2;
-        DispenserBlock.registerDispenseBehavior(this, new ProjectileDispenseBehavior() {
+        DispenserBlock.registerBehavior(this, new ProjectileDispenseBehavior() {
             @Override
-            protected ProjectileEntity getProjectileEntity(World worldIn, IPosition position, ItemStack stackIn) {
+            protected ProjectileEntity getProjectile(World worldIn, IPosition position, ItemStack stackIn) {
                 return Util.make(eggSupplier.apply(worldIn, position), (p) -> p.setItem(stackIn));
             }
         });
     }
 
     @Override
-    public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, Hand handIn) {
-        ItemStack itemstack = playerIn.getHeldItem(handIn);
+    public ActionResult<ItemStack> use(World worldIn, PlayerEntity playerIn, Hand handIn) {
+        ItemStack itemstack = playerIn.getItemInHand(handIn);
 
-        if(!playerIn.abilities.isCreativeMode) {
+        if(!playerIn.abilities.instabuild) {
             itemstack.shrink(1);
         }
 
-        worldIn.playSound(null, playerIn.getPosX(), playerIn.getPosY(), playerIn.getPosZ(), SoundEvents.ENTITY_EGG_THROW, SoundCategory.PLAYERS, 0.5F, 0.4F / (random.nextFloat() * 0.4F + 0.8F));
+        worldIn.playSound(null, playerIn.getX(), playerIn.getY(), playerIn.getZ(), SoundEvents.EGG_THROW, SoundCategory.PLAYERS, 0.5F, 0.4F / (random.nextFloat() * 0.4F + 0.8F));
 
-        if(!worldIn.isRemote) {
-            ProjectileItemEntity ent = eggSupplier2.apply(playerIn.world, playerIn);
+        if(!worldIn.isClientSide) {
+            ProjectileItemEntity ent = eggSupplier2.apply(playerIn.level, playerIn);
             ent.setItem(itemstack);
-            ent.setDirectionAndMovement(playerIn, playerIn.rotationPitch, playerIn.rotationYaw, 0.0F, 1.5F, 1.0F);
-            worldIn.addEntity(ent);
+            ent.shootFromRotation(playerIn, playerIn.xRot, playerIn.yRot, 0.0F, 1.5F, 1.0F);
+            worldIn.addFreshEntity(ent);
         }
 
-        playerIn.addStat(Stats.ITEM_USED.get(this));
+        playerIn.awardStat(Stats.ITEM_USED.get(this));
         return new ActionResult<>(ActionResultType.SUCCESS, itemstack);
     }
 

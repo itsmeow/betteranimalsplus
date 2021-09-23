@@ -53,7 +53,7 @@ public class StupidDevPacket {
         buf.writeInt(pkt.variant.length());
         buf.writeCharSequence(pkt.variant, Charsets.UTF_8);
         if(pkt.appliesTo != null) {
-            buf.writeUniqueId(pkt.appliesTo);
+            buf.writeUUID(pkt.appliesTo);
         }
     }
 
@@ -63,7 +63,7 @@ public class StupidDevPacket {
         int len = buf.readInt();
         String variant = String.valueOf(buf.readCharSequence(len, Charsets.UTF_8));
         if(buf.isReadable()) {
-            UUID from = buf.readUniqueId();
+            UUID from = buf.readUUID();
             return new StupidDevPacket(on, nametag, variant, from);
         }
         return new StupidDevPacket(on, nametag, variant);

@@ -31,7 +31,7 @@ public class EntityPheasantEgg extends EntityModEgg {
     }
     
     public EntityPheasantEgg(World worldIn, IPosition pos) {
-        super(PHEASANT_EGG_TYPE, worldIn, pos.getX(), pos.getY(), pos.getZ());
+        super(PHEASANT_EGG_TYPE, worldIn, pos.x(), pos.y(), pos.z());
     }
 
     @Override
@@ -41,9 +41,9 @@ public class EntityPheasantEgg extends EntityModEgg {
 
     @Override
     protected Entity createEntity() {
-        EntityPheasant pheasant = ModEntities.PHEASANT.getEntityType().create(this.world);
-        pheasant.setGrowingAge(-24000);
-        pheasant.setLocationAndAngles(this.getPosX(), this.getPosY(), this.getPosZ(), this.rotationYaw, 0.0F);
+        EntityPheasant pheasant = ModEntities.PHEASANT.getEntityType().create(this.level);
+        pheasant.setAge(-24000);
+        pheasant.moveTo(this.getX(), this.getY(), this.getZ(), this.yRot, 0.0F);
         pheasant.setType(pheasant.getRandomType());
         return pheasant;
     }

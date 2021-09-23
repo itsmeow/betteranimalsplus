@@ -31,46 +31,46 @@ public abstract class EntityModEgg extends ProjectileItemEntity {
     }
     
     public EntityModEgg(EntityType<? extends EntityModEgg> type, World worldIn, IPosition pos) {
-        this(type, worldIn, pos.getX(), pos.getY(), pos.getZ());
+        this(type, worldIn, pos.x(), pos.y(), pos.z());
     }
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public void handleStatusUpdate(byte id) {
+    public void handleEntityEvent(byte id) {
         if(id == 3) {
             for(int i = 0; i < 8; ++i) {
-                this.world.addParticle(new ItemParticleData(ParticleTypes.ITEM, this.getItem()), this.getPosX(), this.getPosY(), this.getPosZ(), ((double) this.rand.nextFloat() - 0.5D) * 0.08D, ((double) this.rand.nextFloat() - 0.5D) * 0.08D, ((double) this.rand.nextFloat() - 0.5D) * 0.08D);
+                this.level.addParticle(new ItemParticleData(ParticleTypes.ITEM, this.getItem()), this.getX(), this.getY(), this.getZ(), ((double) this.random.nextFloat() - 0.5D) * 0.08D, ((double) this.random.nextFloat() - 0.5D) * 0.08D, ((double) this.random.nextFloat() - 0.5D) * 0.08D);
             }
         }
 
     }
 
     @Override
-    protected void onImpact(RayTraceResult result) {
+    protected void onHit(RayTraceResult result) {
         if(result.getType() == RayTraceResult.Type.ENTITY) {
-            ((EntityRayTraceResult) result).getEntity().attackEntityFrom(DamageSource.causeThrownDamage(this, this.getShooter()), 0.0F);
+            ((EntityRayTraceResult) result).getEntity().hurt(DamageSource.thrown(this, this.getOwner()), 0.0F);
         }
 
-        if(!this.world.isRemote) {
-            if(this.rand.nextInt(8) == 0) {
+        if(!this.level.isClientSide) {
+            if(this.random.nextInt(8) == 0) {
                 int i = 1;
-                if(this.rand.nextInt(32) == 0) {
+                if(this.random.nextInt(32) == 0) {
                     i = 4;
                 }
 
                 for(int j = 0; j < i; ++j) {
-                    this.world.addEntity(createEntity());
+                    this.level.addFreshEntity(createEntity());
                 }
             }
 
-            this.world.setEntityState(this, (byte) 3);
+            this.level.broadcastEntityEvent(this, (byte) 3);
             this.remove();
         }
 
     }
     
     @Override
-    public IPacket<?> createSpawnPacket() {
+    public IPacket<?> getAddEntityPacket() {
         return NetworkHooks.getEntitySpawningPacket(this);
     }
     

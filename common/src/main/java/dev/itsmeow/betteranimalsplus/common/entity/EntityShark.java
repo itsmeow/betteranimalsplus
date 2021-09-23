@@ -58,12 +58,12 @@ public class EntityShark extends EntitySharkBase {
     }
 
     @Override
-    public boolean attackEntityFrom(DamageSource source, float amount) {
-        if(super.attackEntityFrom(source, amount)) {
-            if(source.getImmediateSource() instanceof PlayerEntity && !this.isPeaceful()) {
-                PlayerEntity player = (PlayerEntity) source.getImmediateSource();
+    public boolean hurt(DamageSource source, float amount) {
+        if(super.hurt(source, amount)) {
+            if(source.getDirectEntity() instanceof PlayerEntity && !this.isPeaceful()) {
+                PlayerEntity player = (PlayerEntity) source.getDirectEntity();
                 if(!player.isCreative() && !player.isInvisible()) {
-                    this.setAttackTarget(player);
+                    this.setTarget(player);
                 }
             }
             return true;
@@ -118,42 +118,42 @@ public class EntityShark extends EntitySharkBase {
     }
 
     @Override
-    public void livingTick() {
-        super.livingTick();
-        if(this.getAttackTarget() != null && !this.getAttackTarget().isAlive()) {
-            this.setAttackTarget(null);
+    public void aiStep() {
+        super.aiStep();
+        if(this.getTarget() != null && !this.getTarget().isAlive()) {
+            this.setTarget(null);
         }
-        if(!this.world.isRemote && this.getAttackTarget() != null && this.getAttackTarget().isAlive() && this.isAlive() && !this.isPeaceful()) {
-            boolean isBoat = this.getAttackTarget() instanceof PlayerEntity && this.getAttackTarget().getRidingEntity() != null && this.getAttackTarget().getRidingEntity() instanceof BoatEntity;
+        if(!this.level.isClientSide && this.getTarget() != null && this.getTarget().isAlive() && this.isAlive() && !this.isPeaceful()) {
+            boolean isBoat = this.getTarget() instanceof PlayerEntity && this.getTarget().getVehicle() != null && this.getTarget().getVehicle() instanceof BoatEntity;
             float grabDelay = isBoat ? 20F : 60F;
-            if(this.getPassengers().contains(this.getAttackTarget())) {
+            if(this.getPassengers().contains(this.getTarget())) {
                 float time = 30F * ((float) Math.random() + 1F);
-                if(this.lastAttack + time < this.ticksExisted) {
-                    this.attackEntityAsMob(this.getAttackTarget());
+                if(this.lastAttack + time < this.tickCount) {
+                    this.doHurtTarget(this.getTarget());
                 }
-            } else if(lastGrab + grabDelay < this.ticksExisted && this.getDistanceSq(this.getAttackTarget()) < 5) {
+            } else if(lastGrab + grabDelay < this.tickCount && this.distanceToSqr(this.getTarget()) < 5) {
                 if(isBoat) {
-                    BoatEntity boat = (BoatEntity) this.getAttackTarget().getRidingEntity();
-                    boat.attackEntityFrom(DamageSource.causeMobDamage(this), 3F);
-                } else if(!this.getAttackTarget().isInvulnerable() && this.getAttackTarget().getWidth() < 2.5 && this.getAttackTarget().getHeight() < 2.5) {
-                    if (this.getAttackTarget() instanceof MobEntity) {
-                        MobEntity el = (MobEntity) this.getAttackTarget();
-                        el.setAttackTarget(null);
-                        el.setRevengeTarget(null);
-                        el.getNavigator().clearPath(); 
-                        el.setNoAI(true);
+                    BoatEntity boat = (BoatEntity) this.getTarget().getVehicle();
+                    boat.hurt(DamageSource.mobAttack(this), 3F);
+                } else if(!this.getTarget().isInvulnerable() && this.getTarget().getBbWidth() < 2.5 && this.getTarget().getBbHeight() < 2.5) {
+                    if (this.getTarget() instanceof MobEntity) {
+                        MobEntity el = (MobEntity) this.getTarget();
+                        el.setTarget(null);
+                        el.setLastHurtByMob(null);
+                        el.getNavigation().stop(); 
+                        el.setNoAi(true);
                     }
-                    this.getAttackTarget().startRiding(this, false);
-                } else if(!this.getAttackTarget().isInvulnerable()) {
-                    this.attackEntityAsMob(this.getAttackTarget());
+                    this.getTarget().startRiding(this, false);
+                } else if(!this.getTarget().isInvulnerable()) {
+                    this.doHurtTarget(this.getTarget());
                 }
-                lastGrab = this.ticksExisted;
+                lastGrab = this.tickCount;
             }
             if(lastTickHealth - 4F > this.getHealth()) {
-                this.getAttackTarget().stopRiding();
-                if (this.getAttackTarget() instanceof MobEntity) {
-                    MobEntity el = (MobEntity) this.getAttackTarget();
-                    el.setNoAI(false);
+                this.getTarget().stopRiding();
+                if (this.getTarget() instanceof MobEntity) {
+                    MobEntity el = (MobEntity) this.getTarget();
+                    el.setNoAi(false);
                 }
             }
         }
@@ -161,16 +161,16 @@ public class EntityShark extends EntitySharkBase {
     }
 
     @Override
-    public boolean attackEntityAsMob(Entity entityIn) {
-        if(super.attackEntityAsMob(entityIn)) {
-            this.lastAttack = this.ticksExisted;
+    public boolean doHurtTarget(Entity entityIn) {
+        if(super.doHurtTarget(entityIn)) {
+            this.lastAttack = this.tickCount;
             return true;
         }
         return false;
     }
 
     @Override
-    protected ResourceLocation getLootTable() {
+    protected ResourceLocation getDefaultLootTable() {
         return ModLootTables.SHARK;
     }
 
@@ -212,17 +212,17 @@ public class EntityShark extends EntitySharkBase {
     @CheckForNull
     @Override
     public IVariant getRandomVariantForBiome(IWorld world, SpawnReason reason) {
-        Biome biome = world.getBiome(this.getImplementation().getPosition());
-        Optional<RegistryKey<Biome>> biomeKey = world.func_241828_r().getRegistry(Registry.BIOME_KEY).getOptionalKey(biome);
+        Biome biome = world.getBiome(this.getImplementation().blockPosition());
+        Optional<RegistryKey<Biome>> biomeKey = world.registryAccess().registryOrThrow(Registry.BIOME_REGISTRY).getResourceKey(biome);
         biomeKey.orElseThrow(() -> new RuntimeException("Biome provided to selective type generation has no ID found."));
         String[] validTypes = this.getTypesFor(biomeKey.get(), biome, BiomeDictionary.getTypes(biomeKey.get()), reason);
-        String varStr = validTypes[this.getImplementation().getRNG().nextInt(validTypes.length)];
+        String varStr = validTypes[this.getImplementation().getRandom().nextInt(validTypes.length)];
         for(int i = 0; i < 2; i++) {
             if("great_white".equals(varStr) || "goblin".equals(varStr)) {
-                varStr = validTypes[this.getImplementation().getRNG().nextInt(validTypes.length)];
+                varStr = validTypes[this.getImplementation().getRandom().nextInt(validTypes.length)];
             }
         }
-        if(world instanceof World && ((World) world).isDaytime()) {
+        if(world instanceof World && ((World) world).isDay()) {
             if(validTypes.length > 1 && "goblin".equals(varStr)) {
                 for(int i = 0; i < validTypes.length && "goblin".equals(varStr); i++) {
                     varStr = validTypes[i];

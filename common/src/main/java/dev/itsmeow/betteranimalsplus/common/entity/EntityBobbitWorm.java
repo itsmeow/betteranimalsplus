@@ -36,14 +36,14 @@ import java.util.Set;
 
 public class EntityBobbitWorm extends EntityAnimalWithTypes {
 
-    protected static final DataParameter<Integer> ATTACK_STATE = EntityDataManager.createKey(EntityBobbitWorm.class, DataSerializers.VARINT);
+    protected static final DataParameter<Integer> ATTACK_STATE = EntityDataManager.defineId(EntityBobbitWorm.class, DataSerializers.INT);
     private float lastAttack = 0;
     private float lastGrab = 0;
     private Vector3d targetPosition;
 
     public EntityBobbitWorm(EntityType<? extends EntityBobbitWorm> entityType, World worldIn) {
         super(entityType, worldIn);
-        this.setPathPriority(PathNodeType.WATER, 10F);
+        this.setPathfindingMalus(PathNodeType.WATER, 10F);
     }
 
     @Override
@@ -53,62 +53,62 @@ public class EntityBobbitWorm extends EntityAnimalWithTypes {
         blackList.add(SkeletonEntity.class);
         blackList.add(EndermanEntity.class);
         blackList.add(EntityJellyfish.class);
-        this.targetSelector.addGoal(0, new NearestAttackableTargetGoal<>(this, LivingEntity.class, 0, true, true, e -> e.getWidth() < 3 && !(e instanceof IMob) && !(e instanceof EntityBobbitWorm) && !(e.world.getDifficulty() == Difficulty.PEACEFUL && e instanceof PlayerEntity) && !blackList.contains(e.getClass())));
+        this.targetSelector.addGoal(0, new NearestAttackableTargetGoal<>(this, LivingEntity.class, 0, true, true, e -> e.getBbWidth() < 3 && !(e instanceof IMob) && !(e instanceof EntityBobbitWorm) && !(e.level.getDifficulty() == Difficulty.PEACEFUL && e instanceof PlayerEntity) && !blackList.contains(e.getClass())));
     }
 
     @Override
-    protected void registerData() {
-        super.registerData();
-        this.dataManager.register(ATTACK_STATE, 0);
+    protected void defineSynchedData() {
+        super.defineSynchedData();
+        this.entityData.define(ATTACK_STATE, 0);
     }
 
     public int getAttackState() {
-        return this.dataManager.get(ATTACK_STATE);
+        return this.entityData.get(ATTACK_STATE);
     }
 
     public void setAttackState(int state) {
-        this.dataManager.set(ATTACK_STATE, state);
+        this.entityData.set(ATTACK_STATE, state);
     }
 
     @Override
-    public boolean attackEntityAsMob(Entity entityIn) {
-        return entityIn.attackEntityFrom(DamageSource.causeMobDamage(this), (float) this.getAttribute(Attributes.ATTACK_DAMAGE).getValue());
+    public boolean doHurtTarget(Entity entityIn) {
+        return entityIn.hurt(DamageSource.mobAttack(this), (float) this.getAttribute(Attributes.ATTACK_DAMAGE).getValue());
     }
 
     @Nullable
     protected Vector3d getNewTargetPosition() {
-        Vector3d pos = RandomPositionGenerator.findRandomTarget(this, 20, 5);
+        Vector3d pos = RandomPositionGenerator.getPos(this, 20, 5);
         if(pos != null) {
             if(isGoodBurrowingPosition(new BlockPos(pos))) {
                 return pos;
             }
         }
-        if(world.getBlockState(this.getPosition().down()).getBlock() == Blocks.WATER) {
-            return new Vector3d(this.getPosX(), this.getPosY() - 1D, this.getPosZ());
+        if(level.getBlockState(this.blockPosition().below()).getBlock() == Blocks.WATER) {
+            return new Vector3d(this.getX(), this.getY() - 1D, this.getZ());
         }
         return null;
     }
 
     public boolean isGoodBurrowingPosition(BlockPos pos) {
-        Block below = world.getBlockState(pos.down()).getBlock();
-        BlockState here = this.world.getBlockState(pos);
-        return (below == Blocks.CLAY || below == Blocks.SAND || below == Blocks.GRAVEL || below == Blocks.DIRT) && here.allowsMovement(world, pos, PathType.WATER) && here.getFluidState().isTagged(FluidTags.WATER);
+        Block below = level.getBlockState(pos.below()).getBlock();
+        BlockState here = this.level.getBlockState(pos);
+        return (below == Blocks.CLAY || below == Blocks.SAND || below == Blocks.GRAVEL || below == Blocks.DIRT) && here.isPathfindable(level, pos, PathType.WATER) && here.getFluidState().is(FluidTags.WATER);
     }
 
     @Override
-    protected PathNavigator createNavigator(World worldIn) {
+    protected PathNavigator createNavigation(World worldIn) {
         return new SwimmerPathNavigator(this, worldIn);
     }
 
     @Override
     public void travel(Vector3d vec) {
-        this.move(MoverType.SELF, this.getMotion());
+        this.move(MoverType.SELF, this.getDeltaMovement());
     }
 
     @Override
-    public void updatePassenger(Entity passenger) {
-        if(this.isPassenger(passenger)) {
-            passenger.setPosition(this.getPosX(), this.getPosY() - (this.getHeight() / 2), this.getPosZ());
+    public void positionRider(Entity passenger) {
+        if(this.hasPassenger(passenger)) {
+            passenger.setPos(this.getX(), this.getY() - (this.getBbHeight() / 2), this.getZ());
         }
     }
 
@@ -131,63 +131,63 @@ public class EntityBobbitWorm extends EntityAnimalWithTypes {
     public void tick() {
         super.tick();
         if(!this.isInWater()) {
-            this.setMotion(this.getMotion().getX() * 0.2F, this.getMotion().getY(), this.getMotion().getZ() * 0.2F);
-            if(!this.hasNoGravity()) {
-                this.setMotion(this.getMotion().getX(), this.getMotion().getY() - 0.08D, this.getMotion().getZ());
+            this.setDeltaMovement(this.getDeltaMovement().x() * 0.2F, this.getDeltaMovement().y(), this.getDeltaMovement().z() * 0.2F);
+            if(!this.isNoGravity()) {
+                this.setDeltaMovement(this.getDeltaMovement().x(), this.getDeltaMovement().y() - 0.08D, this.getDeltaMovement().z());
             }
-            this.setMotion(this.getMotion().getX(), this.getMotion().getY() * 0.9800000190734863D, this.getMotion().getZ());
-        } else if(!world.isRemote) {
+            this.setDeltaMovement(this.getDeltaMovement().x(), this.getDeltaMovement().y() * 0.9800000190734863D, this.getDeltaMovement().z());
+        } else if(!level.isClientSide) {
             if(this.targetPosition != null) {
-                this.setMotion((this.targetPosition.x - this.getPosX()) * 0.05F, (this.targetPosition.y - this.getPosY()) * 0.05F, (this.targetPosition.z - this.getPosZ()) * 0.05F);
+                this.setDeltaMovement((this.targetPosition.x - this.getX()) * 0.05F, (this.targetPosition.y - this.getY()) * 0.05F, (this.targetPosition.z - this.getZ()) * 0.05F);
             }
-            if(targetPosition != null && Math.sqrt(this.getPosition().distanceSq(this.targetPosition.x, this.targetPosition.y, this.targetPosition.z, false)) < 1) {
-                this.setMotion(this.getMotion().getX() * 0.2F, this.getMotion().getY(), this.getMotion().getZ() * 0.2F);
+            if(targetPosition != null && Math.sqrt(this.blockPosition().distSqr(this.targetPosition.x, this.targetPosition.y, this.targetPosition.z, false)) < 1) {
+                this.setDeltaMovement(this.getDeltaMovement().x() * 0.2F, this.getDeltaMovement().y(), this.getDeltaMovement().z() * 0.2F);
             }
         }
-        if(world.isRemote) { // shut up client stop MOVING you stupid idiot
-            this.setMotion(this.getMotion().getX() * 0.2F, this.getMotion().getY() * 0.2F, this.getMotion().getZ() * 0.2F);
+        if(level.isClientSide) { // shut up client stop MOVING you stupid idiot
+            this.setDeltaMovement(this.getDeltaMovement().x() * 0.2F, this.getDeltaMovement().y() * 0.2F, this.getDeltaMovement().z() * 0.2F);
         }
-        boolean goodPos = this.isGoodBurrowingPosition(this.getPosition());
+        boolean goodPos = this.isGoodBurrowingPosition(this.blockPosition());
         if(this.targetPosition == null && !goodPos) {
             Vector3d pos = this.getNewTargetPosition();
             if(pos != null) {
                 this.targetPosition = pos;
             }
         }
-        if(targetPosition != null && Math.sqrt(this.getPosition().distanceSq(this.targetPosition.x, this.targetPosition.y, this.targetPosition.z, false)) < 1 && !goodPos) {
+        if(targetPosition != null && Math.sqrt(this.blockPosition().distSqr(this.targetPosition.x, this.targetPosition.y, this.targetPosition.z, false)) < 1 && !goodPos) {
             this.targetPosition = null;
         }
         if(this.getAttackState() > 0) {
             this.setAttackState(this.getAttackState() - 1);
         }
-        if(!this.world.isRemote && this.getAttackTarget() != null && this.getAttackTarget().isAlive() && this.isAlive()) {
-            if(this.getPassengers().contains(this.getAttackTarget())) {
+        if(!this.level.isClientSide && this.getTarget() != null && this.getTarget().isAlive() && this.isAlive()) {
+            if(this.getPassengers().contains(this.getTarget())) {
                 float time = 30F;
-                if(this.lastAttack + (time - 20) < this.ticksExisted) {
+                if(this.lastAttack + (time - 20) < this.tickCount) {
                     this.setAttackState(20);
                 }
-                if(this.lastAttack + time < this.ticksExisted) {
-                    this.attackEntityAsMob(this.getAttackTarget());
-                    this.lastAttack = this.ticksExisted;
+                if(this.lastAttack + time < this.tickCount) {
+                    this.doHurtTarget(this.getTarget());
+                    this.lastAttack = this.tickCount;
                 }
-            } else if(lastGrab + 60F < this.ticksExisted && this.getDistanceSq(this.getAttackTarget()) < 5) {
-                if(!this.getAttackTarget().isInvulnerable() && this.getAttackTarget().getWidth() < 2.5 && this.getAttackTarget().getHeight() < 2.5) {
-                    this.getAttackTarget().startRiding(this, false);
-                } else if(!this.getAttackTarget().isInvulnerable()) {
-                    this.attackEntityAsMob(this.getAttackTarget());
+            } else if(lastGrab + 60F < this.tickCount && this.distanceToSqr(this.getTarget()) < 5) {
+                if(!this.getTarget().isInvulnerable() && this.getTarget().getBbWidth() < 2.5 && this.getTarget().getBbHeight() < 2.5) {
+                    this.getTarget().startRiding(this, false);
+                } else if(!this.getTarget().isInvulnerable()) {
+                    this.doHurtTarget(this.getTarget());
                 }
-                lastGrab = this.ticksExisted;
+                lastGrab = this.tickCount;
             }
         }
     }
 
     @Override
-    public boolean canBePushed() {
+    public boolean isPushable() {
         return false;
     }
 
     @Override
-    protected void collideWithNearbyEntities() {
+    protected void pushEntities() {
     }
 
     @Override
@@ -196,47 +196,47 @@ public class EntityBobbitWorm extends EntityAnimalWithTypes {
     }
 
     @Override
-    public CreatureAttribute getCreatureAttribute() {
+    public CreatureAttribute getMobType() {
         return CreatureAttribute.WATER;
     }
 
     @Override
-    public boolean isNotColliding(IWorldReader worldIn) {
-        return worldIn.checkNoEntityCollision(this);
+    public boolean checkSpawnObstruction(IWorldReader worldIn) {
+        return worldIn.isUnobstructed(this);
     }
 
     @Override
-    public int getTalkInterval() {
+    public int getAmbientSoundInterval() {
         return 120;
     }
 
     @Override
-    protected int getExperiencePoints(PlayerEntity player) {
-        return 1 + this.world.rand.nextInt(3);
+    protected int getExperienceReward(PlayerEntity player) {
+        return 1 + this.level.random.nextInt(3);
     }
 
     protected void updateAir(int air) {
-        if(this.isAlive() && !this.isInWaterOrBubbleColumn()) {
-            this.setAir(air - 1);
-            if(this.getAir() == -20) {
-                this.setAir(0);
-                this.attackEntityFrom(DamageSource.DROWN, 2.0F);
+        if(this.isAlive() && !this.isInWaterOrBubble()) {
+            this.setAirSupply(air - 1);
+            if(this.getAirSupply() == -20) {
+                this.setAirSupply(0);
+                this.hurt(DamageSource.DROWN, 2.0F);
             }
         } else {
-            this.setAir(300);
+            this.setAirSupply(300);
         }
 
     }
 
     @Override
     public void baseTick() {
-        int i = this.getAir();
+        int i = this.getAirSupply();
         super.baseTick();
         this.updateAir(i);
     }
 
     @Override
-    public boolean isPushedByWater() {
+    public boolean isPushedByFluid() {
         return false;
     }
 

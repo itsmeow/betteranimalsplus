@@ -29,20 +29,20 @@ public class RenderBlockTrillium extends TileEntityRenderer<TileEntityTrillium> 
     @Override
     public void render(TileEntityTrillium tileentity, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int combinedLightIn, int combinedOverlayIn) {
         float rotate = 0F;
-        if (!tileentity.getWorld().isAirBlock(tileentity.getPos())) {
+        if (!tileentity.getLevel().isEmptyBlock(tileentity.getBlockPos())) {
             rotate = tileentity.getRotation();
         }
         int modelNum = tileentity.getModelNum();
         EntityModel<Entity> mainModel = (modelNum == 0 ? doubleT : (modelNum == 1 ? singleT : tripleT));
 
-        matrixStackIn.push();
+        matrixStackIn.pushPose();
         {
             matrixStackIn.translate(0.5F, 1.5F, 0.5F);
-            matrixStackIn.rotate(Vector3f.ZP.rotationDegrees(180F));
+            matrixStackIn.mulPose(Vector3f.ZP.rotationDegrees(180F));
 
-            matrixStackIn.push();
+            matrixStackIn.pushPose();
             {
-                Color color = new Color(tileentity.getWorld().getBiome(tileentity.getPos()).getGrassColor(0,0));
+                Color color = new Color(tileentity.getLevel().getBiome(tileentity.getBlockPos()).getGrassColor(0,0));
                 float r = color.getRed() / 255F;
                 float g = color.getGreen() / 255F;
                 float b = color.getBlue() / 255F;
@@ -52,19 +52,19 @@ public class RenderBlockTrillium extends TileEntityRenderer<TileEntityTrillium> 
                 r = r > 255F ? 250F : r;
                 g = g > 255F ? 250F : g;
                 b = b > 255F ? 250F : b;
-                mainModel.setRotationAngles(null, 0F, 0F, 0F, rotate, 0F);
-                mainModel.render(matrixStackIn, bufferIn.getBuffer(RenderType.getEntityCutout(ModResources.trillium_base)), combinedLightIn, combinedOverlayIn, r, g, b, 1F);
+                mainModel.setupAnim(null, 0F, 0F, 0F, rotate, 0F);
+                mainModel.renderToBuffer(matrixStackIn, bufferIn.getBuffer(RenderType.entityCutout(ModResources.trillium_base)), combinedLightIn, combinedOverlayIn, r, g, b, 1F);
             }
-            matrixStackIn.pop();
+            matrixStackIn.popPose();
 
-            matrixStackIn.push();
+            matrixStackIn.pushPose();
             {
-                mainModel.setRotationAngles(null, 0F, 0F, 0F, rotate, 0F);
-                mainModel.render(matrixStackIn, bufferIn.getBuffer(RenderType.getEntityCutout(tileentity.getTexture())), combinedLightIn, combinedOverlayIn, 1F, 1F, 1F, 1F);
+                mainModel.setupAnim(null, 0F, 0F, 0F, rotate, 0F);
+                mainModel.renderToBuffer(matrixStackIn, bufferIn.getBuffer(RenderType.entityCutout(tileentity.getTexture())), combinedLightIn, combinedOverlayIn, 1F, 1F, 1F, 1F);
             }
-            matrixStackIn.pop();
+            matrixStackIn.popPose();
         }
-        matrixStackIn.pop();
+        matrixStackIn.popPose();
     }
 
 }

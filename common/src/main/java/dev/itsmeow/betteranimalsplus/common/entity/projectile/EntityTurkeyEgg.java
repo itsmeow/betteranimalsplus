@@ -31,7 +31,7 @@ public class EntityTurkeyEgg extends EntityModEgg {
     }
 
     public EntityTurkeyEgg(World worldIn, IPosition pos) {
-        super(TURKEY_EGG_TYPE, worldIn, pos.getX(), pos.getY(), pos.getZ());
+        super(TURKEY_EGG_TYPE, worldIn, pos.x(), pos.y(), pos.z());
     }
 
     @Override
@@ -41,9 +41,9 @@ public class EntityTurkeyEgg extends EntityModEgg {
 
     @Override
     protected Entity createEntity() {
-        EntityTurkey turkey = ModEntities.TURKEY.getEntityType().create(this.world);
-        turkey.setGrowingAge(-24000);
-        turkey.setLocationAndAngles(this.getPosX(), this.getPosY(), this.getPosZ(), this.rotationYaw, 0.0F);
+        EntityTurkey turkey = ModEntities.TURKEY.getEntityType().create(this.level);
+        turkey.setAge(-24000);
+        turkey.moveTo(this.getX(), this.getY(), this.getZ(), this.yRot, 0.0F);
         turkey.setType(turkey.getRandomType());
         return turkey;
     }

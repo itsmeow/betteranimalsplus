@@ -17,6 +17,8 @@ import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.loot.ConditionArrayParser;
 import net.minecraft.util.ResourceLocation;
 
+import net.minecraft.advancements.ICriterionTrigger.Listener;
+
 public class CustomTrigger implements ICriterionTrigger<CustomTrigger.Instance> {
     private final ResourceLocation id;
     private final Map<PlayerAdvancements, Listeners> listeners = Maps.newHashMap();
@@ -35,7 +37,7 @@ public class CustomTrigger implements ICriterionTrigger<CustomTrigger.Instance> 
     }
 
     @Override
-    public void addListener(PlayerAdvancements playerAdvancementsIn, ICriterionTrigger.Listener<CustomTrigger.Instance> listener) {
+    public void addPlayerListener(PlayerAdvancements playerAdvancementsIn, ICriterionTrigger.Listener<CustomTrigger.Instance> listener) {
         CustomTrigger.Listeners myCustomTrigger$listeners = listeners.get(playerAdvancementsIn);
 
         if(myCustomTrigger$listeners == null) {
@@ -47,7 +49,7 @@ public class CustomTrigger implements ICriterionTrigger<CustomTrigger.Instance> 
     }
 
     @Override
-    public void removeListener(PlayerAdvancements playerAdvancementsIn, ICriterionTrigger.Listener<Instance> listener) {
+    public void removePlayerListener(PlayerAdvancements playerAdvancementsIn, ICriterionTrigger.Listener<Instance> listener) {
         CustomTrigger.Listeners tameanimaltrigger$listeners = listeners.get(playerAdvancementsIn);
 
         if(tameanimaltrigger$listeners != null) {
@@ -60,13 +62,13 @@ public class CustomTrigger implements ICriterionTrigger<CustomTrigger.Instance> 
     }
 
     @Override
-    public void removeAllListeners(PlayerAdvancements playerAdvancementsIn) {
+    public void removePlayerListeners(PlayerAdvancements playerAdvancementsIn) {
         listeners.remove(playerAdvancementsIn);
     }
 
     @Override
-    public CustomTrigger.Instance deserialize(JsonObject json, ConditionArrayParser context) {
-        return new CustomTrigger.Instance(getId(), EntityPredicate.AndPredicate.ANY_AND);
+    public CustomTrigger.Instance createInstance(JsonObject json, ConditionArrayParser context) {
+        return new CustomTrigger.Instance(getId(), EntityPredicate.AndPredicate.ANY);
     }
 
     public void trigger(ServerPlayerEntity parPlayer) {
@@ -112,7 +114,7 @@ public class CustomTrigger implements ICriterionTrigger<CustomTrigger.Instance> 
             ArrayList<Listener<Instance>> list = null;
 
             for(ICriterionTrigger.Listener<Instance> listener : listeners) {
-                if(listener.getCriterionInstance().test()) {
+                if(listener.getTriggerInstance().test()) {
                     if(list == null) {
                         list = Lists.newArrayList();
                     }
@@ -123,7 +125,7 @@ public class CustomTrigger implements ICriterionTrigger<CustomTrigger.Instance> 
 
             if(list != null) {
                 for(ICriterionTrigger.Listener<Instance> listener1 : list) {
-                    listener1.grantCriterion(playerAdvancements);
+                    listener1.run(playerAdvancements);
                 }
             }
         }

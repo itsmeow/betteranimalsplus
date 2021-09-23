@@ -22,6 +22,8 @@ import net.minecraft.world.World;
 
 import java.util.EnumSet;
 
+import net.minecraft.entity.ai.goal.Goal.Flag;
+
 public class EntityFlyingFish extends EntityWaterMobPathingWithTypesBucketable {
 
     public EntityFlyingFish(EntityType<? extends EntityFlyingFish> entityType, World worldIn) {
@@ -38,23 +40,23 @@ public class EntityFlyingFish extends EntityWaterMobPathingWithTypesBucketable {
     }
 
     @Override
-    public void livingTick() {
-        if(!this.isInWater() && this.onGround && this.collidedVertically) {
-            this.setMotion(this.getMotion().add((this.rand.nextFloat() * 2.0F - 1.0F) * 0.05F, 0.4F, (this.rand.nextFloat() * 2.0F - 1.0F) * 0.05F));
+    public void aiStep() {
+        if(!this.isInWater() && this.onGround && this.verticalCollision) {
+            this.setDeltaMovement(this.getDeltaMovement().add((this.random.nextFloat() * 2.0F - 1.0F) * 0.05F, 0.4F, (this.random.nextFloat() * 2.0F - 1.0F) * 0.05F));
             this.onGround = false;
-            this.isAirBorne = true;
-            this.playSound(this.getFlopSound(), this.getSoundVolume(), this.getSoundPitch());
+            this.hasImpulse = true;
+            this.playSound(this.getFlopSound(), this.getSoundVolume(), this.getVoicePitch());
         }
-        super.livingTick();
+        super.aiStep();
     }
 
     @Override
     protected SoundEvent getFlopSound() {
-        return SoundEvents.ENTITY_COD_FLOP;
+        return SoundEvents.COD_FLOP;
     }
 
     @Override
-    protected ResourceLocation getLootTable() {
+    protected ResourceLocation getDefaultLootTable() {
         return ModLootTables.DROPS_COD;
     }
 
@@ -82,58 +84,58 @@ public class EntityFlyingFish extends EntityWaterMobPathingWithTypesBucketable {
         }
 
         @Override
-        public boolean shouldExecute() {
-            boolean revenge = this.fish.getRevengeTarget() != null && this.fish.getRevengeTarget().getDistance(this.fish) < 10;
-            if(revenge || this.fish.getRNG().nextInt(this.chance) == 0) {
-                Direction direction = this.fish.getAdjustedHorizontalFacing();
-                int dx = direction.getXOffset();
-                int dz = direction.getZOffset();
+        public boolean canUse() {
+            boolean revenge = this.fish.getLastHurtByMob() != null && this.fish.getLastHurtByMob().distanceTo(this.fish) < 10;
+            if(revenge || this.fish.getRandom().nextInt(this.chance) == 0) {
+                Direction direction = this.fish.getMotionDirection();
+                int dx = direction.getStepX();
+                int dz = direction.getStepZ();
                 if(revenge) {
-                    LivingEntity attacker = this.fish.getRevengeTarget();
-                    Vector3d vec = attacker.getPositionVec().subtract(fish.getPositionVec()).normalize();
+                    LivingEntity attacker = this.fish.getLastHurtByMob();
+                    Vector3d vec = attacker.position().subtract(fish.position()).normalize();
                     dx = (int) vec.x;
                     dz = (int) vec.z;
                 }
-                this.scale = this.fish.getRNG().nextInt(4) + (revenge ? 7 : 5);
+                this.scale = this.fish.getRandom().nextInt(4) + (revenge ? 7 : 5);
                 // loop through all blocks between this and target, make sure won't get trapped on land
                 for(int tempScale = scale; tempScale >= 1; tempScale--) {
-                    if(!this.canJumpTo(fish.getPosition(), dx, dz, tempScale) || !this.isAirAbove(fish.getPosition(), dx, dz, tempScale)) {
+                    if(!this.canJumpTo(fish.blockPosition(), dx, dz, tempScale) || !this.isAirAbove(fish.blockPosition(), dx, dz, tempScale)) {
                         return false;
                     }
                 }
-                this.start = fish.getPosition();
+                this.start = fish.blockPosition();
                 return true;
             }
             return false;
         }
 
         private boolean canJumpTo(BlockPos pos, int dx, int dz, int scale) {
-            BlockPos blockpos = pos.add(dx * scale, 0, dz * scale);
-            return this.fish.world.getFluidState(blockpos).isTagged(FluidTags.WATER) && !this.fish.world.getBlockState(blockpos).getMaterial().blocksMovement();
+            BlockPos blockpos = pos.offset(dx * scale, 0, dz * scale);
+            return this.fish.level.getFluidState(blockpos).is(FluidTags.WATER) && !this.fish.level.getBlockState(blockpos).getMaterial().blocksMotion();
         }
 
         private boolean isAirAbove(BlockPos pos, int dx, int dz, int scale) {
-            return this.fish.world.isAirBlock(pos.add(dx * scale, 1, dz * scale)) && this.fish.world.isAirBlock(pos.add(dx * scale, 2, dz * scale));
+            return this.fish.level.isEmptyBlock(pos.offset(dx * scale, 1, dz * scale)) && this.fish.level.isEmptyBlock(pos.offset(dx * scale, 2, dz * scale));
         }
 
         @Override
-        public boolean shouldContinueExecuting() {
-            return this.ticks < 200 && this.fish.getRevengeTarget() != null ? this.fish.getRevengeTarget().getDistance(fish) > 10 : this.fish.getPositionVec().distanceTo(new Vector3d(start.getX() + 0.5, start.getY(), start.getZ() + 0.5)) < scale;
+        public boolean canContinueToUse() {
+            return this.ticks < 200 && this.fish.getLastHurtByMob() != null ? this.fish.getLastHurtByMob().distanceTo(fish) > 10 : this.fish.position().distanceTo(new Vector3d(start.getX() + 0.5, start.getY(), start.getZ() + 0.5)) < scale;
         }
 
         @Override
-        public boolean isPreemptible() {
+        public boolean isInterruptable() {
             return false;
         }
 
         @Override
-        public void startExecuting() {
+        public void start() {
             this.ticks = 0;
         }
 
         @Override
-        public void resetTask() {
-            this.fish.rotationPitch = 0.0F;
+        public void stop() {
+            this.fish.xRot = 0.0F;
             this.ticks = 0;
         }
 
@@ -142,23 +144,23 @@ public class EntityFlyingFish extends EntityWaterMobPathingWithTypesBucketable {
         public void tick() {
             boolean lastInWater = this.inWater;
             if(!lastInWater) {
-                this.inWater = this.fish.world.getFluidState(this.fish.getPosition()).isTagged(FluidTags.WATER);
+                this.inWater = this.fish.level.getFluidState(this.fish.blockPosition()).is(FluidTags.WATER);
             }
 
             if(this.inWater && !lastInWater) {
-                this.fish.playSound(SoundEvents.ENTITY_DOLPHIN_JUMP, 1.0F, 1.0F);
+                this.fish.playSound(SoundEvents.DOLPHIN_JUMP, 1.0F, 1.0F);
             }
-            Vector3d vec3d = this.fish.getMotion();
-            if(vec3d.y * vec3d.y < (double) 0.03F && this.fish.rotationPitch != 0.0F) {
-                this.fish.rotationPitch = MathHelper.rotLerp(this.fish.rotationPitch, 0.0F, 0.2F);
+            Vector3d vec3d = this.fish.getDeltaMovement();
+            if(vec3d.y * vec3d.y < (double) 0.03F && this.fish.xRot != 0.0F) {
+                this.fish.xRot = MathHelper.rotlerp(this.fish.xRot, 0.0F, 0.2F);
             } else {
-                double d0 = Math.sqrt(Entity.horizontalMag(vec3d));
+                double d0 = Math.sqrt(Entity.getHorizontalDistanceSqr(vec3d));
                 double d1 = Math.signum(-vec3d.y) * Math.acos(d0 / vec3d.length()) * (double) (180F / (float) Math.PI);
-                this.fish.rotationPitch = (float) d1;
+                this.fish.xRot = (float) d1;
             }
-            Direction direction = this.fish.getAdjustedHorizontalFacing();
-            this.fish.setMotion(this.fish.getMotion().add((double) direction.getXOffset() * 0.03D, 0.04D, (double) direction.getZOffset() * 0.03D));
-            this.fish.getNavigator().clearPath();
+            Direction direction = this.fish.getMotionDirection();
+            this.fish.setDeltaMovement(this.fish.getDeltaMovement().add((double) direction.getStepX() * 0.03D, 0.04D, (double) direction.getStepZ() * 0.03D));
+            this.fish.getNavigation().stop();
             this.ticks++;
         }
     }
@@ -170,45 +172,45 @@ public class EntityFlyingFish extends EntityWaterMobPathingWithTypesBucketable {
 
         public SurfaceOnAttackGoal(EntityFlyingFish fish) {
             this.fish = fish;
-            this.setMutexFlags(EnumSet.of(Flag.MOVE));
+            this.setFlags(EnumSet.of(Flag.MOVE));
         }
 
         @Override
-        public boolean shouldExecute() {
+        public boolean canUse() {
             int i = getTopWaterBlock();
-            return fish.getRevengeTarget() != null && i != -1 && fish.getPosition().getY() < i;
+            return fish.getLastHurtByMob() != null && i != -1 && fish.blockPosition().getY() < i;
         }
 
         @Override
-        public boolean shouldContinueExecuting() {
-            return !fail && fish.getPosition().getY() != targetY;
+        public boolean canContinueToUse() {
+            return !fail && fish.blockPosition().getY() != targetY;
         }
 
         @Override
-        public void startExecuting() {
+        public void start() {
             this.fail = false;
             this.targetY = this.getTopWaterBlock();
         }
 
         @Override
         public void tick() {
-            if(!this.fish.getNavigator().tryMoveToXYZ(fish.getPosition().getX(), targetY, fish.getPosition().getZ(), 1D)) {
+            if(!this.fish.getNavigation().moveTo(fish.blockPosition().getX(), targetY, fish.blockPosition().getZ(), 1D)) {
                 this.fail = true;
             }
         }
 
         @Override
-        public void resetTask() {
+        public void stop() {
             this.fail = false;
         }
 
         private int getTopWaterBlock() {
             if(fish.isInWater()) {
-                World world = fish.world;
-                BlockPos.Mutable pos = new BlockPos.Mutable(fish.getPosition().getX(), fish.getPosition().getY(), fish.getPosition().getZ());
-                for(int i = fish.getPosition().getY(); i < fish.world.func_234938_ad_(); i++) {
+                World world = fish.level;
+                BlockPos.Mutable pos = new BlockPos.Mutable(fish.blockPosition().getX(), fish.blockPosition().getY(), fish.blockPosition().getZ());
+                for(int i = fish.blockPosition().getY(); i < fish.level.getHeight(); i++) {
                     pos.setY(i);
-                    if(world.getFluidState(pos).isTagged(FluidTags.WATER) && world.isAirBlock(pos.up())) {
+                    if(world.getFluidState(pos).is(FluidTags.WATER) && world.isEmptyBlock(pos.above())) {
                         return i;
                     }
                 }

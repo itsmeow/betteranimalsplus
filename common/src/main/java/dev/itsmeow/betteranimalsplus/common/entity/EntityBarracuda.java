@@ -33,6 +33,8 @@ import net.minecraft.world.server.ServerWorld;
 import javax.annotation.Nullable;
 import java.util.EnumSet;
 
+import net.minecraft.entity.ai.goal.Goal.Flag;
+
 public class EntityBarracuda extends EntityWaterMobPathingBucketable implements IHaveHunger<EntityWaterMobPathing> {
 
     private int hunger = 0;
@@ -50,8 +52,8 @@ public class EntityBarracuda extends EntityWaterMobPathingBucketable implements 
         this.goalSelector.addGoal(3, new RandomSwimmingGoal(this, 0.5D, 1));
         this.targetSelector.addGoal(0, new HurtByTargetGoal(this) {
             @Override
-            public boolean shouldExecute() {
-                return EntityBarracuda.this.world.getDifficulty() != Difficulty.PEACEFUL && super.shouldExecute();
+            public boolean canUse() {
+                return EntityBarracuda.this.level.getDifficulty() != Difficulty.PEACEFUL && super.canUse();
             }
         });
         this.targetSelector.addGoal(1, new HungerNearestAttackableTargetGoal<>(this, WaterMobEntity.class, 100, true, true, e -> !(e instanceof IMob) && !(e instanceof EntityBarracuda)));
@@ -60,10 +62,10 @@ public class EntityBarracuda extends EntityWaterMobPathingBucketable implements 
 
     public static boolean isWearingShiny(LivingEntity e) {
         if(e instanceof PlayerEntity) {
-            for(ItemStack stack : e.getArmorInventoryList()) {
+            for(ItemStack stack : e.getArmorSlots()) {
                 if(stack.getItem() instanceof ArmorItem) {
                     ArmorItem i = (ArmorItem) stack.getItem();
-                    IArmorMaterial mat = i.getArmorMaterial();
+                    IArmorMaterial mat = i.getMaterial();
                     if(mat == ArmorMaterial.CHAIN || mat == ArmorMaterial.DIAMOND || mat == ArmorMaterial.GOLD || mat == ArmorMaterial.IRON) {
                         return true;
                     }
@@ -88,54 +90,54 @@ public class EntityBarracuda extends EntityWaterMobPathingBucketable implements 
     @Override
     public void tick() {
         super.tick();
-        if (this.ticksExisted % 20 == 0) {
+        if (this.tickCount % 20 == 0) {
             this.incrementHunger();
         }
     }
 
     @Nullable
     @Override
-    public ILivingEntityData onInitialSpawn(IServerWorld world, DifficultyInstance difficulty, SpawnReason reason, @Nullable ILivingEntityData livingdata, CompoundNBT compound) {
+    public ILivingEntityData finalizeSpawn(IServerWorld world, DifficultyInstance difficulty, SpawnReason reason, @Nullable ILivingEntityData livingdata, CompoundNBT compound) {
         this.setInitialHunger();
-        return super.onInitialSpawn(world, difficulty, reason, livingdata, compound);
+        return super.finalizeSpawn(world, difficulty, reason, livingdata, compound);
     }
 
     @Override
-    public void writeAdditional(CompoundNBT compound) {
-        super.writeAdditional(compound);
+    public void addAdditionalSaveData(CompoundNBT compound) {
+        super.addAdditionalSaveData(compound);
         this.writeHunger(compound);
     }
 
     @Override
-    public void readAdditional(CompoundNBT compound) {
-        super.readAdditional(compound);
+    public void readAdditionalSaveData(CompoundNBT compound) {
+        super.readAdditionalSaveData(compound);
         this.readHunger(compound);
     }
 
     @Override
-    public void livingTick() {
-        if(!this.isInWater() && this.onGround && this.collidedVertically) {
-            this.setMotion(this.getMotion().add((this.rand.nextFloat() * 2.0F - 1.0F) * 0.05F, 0.4F, (this.rand.nextFloat() * 2.0F - 1.0F) * 0.05F));
+    public void aiStep() {
+        if(!this.isInWater() && this.onGround && this.verticalCollision) {
+            this.setDeltaMovement(this.getDeltaMovement().add((this.random.nextFloat() * 2.0F - 1.0F) * 0.05F, 0.4F, (this.random.nextFloat() * 2.0F - 1.0F) * 0.05F));
             this.onGround = false;
-            this.isAirBorne = true;
-            this.playSound(this.getFlopSound(), this.getSoundVolume(), this.getSoundPitch());
+            this.hasImpulse = true;
+            this.playSound(this.getFlopSound(), this.getSoundVolume(), this.getVoicePitch());
         }
-        super.livingTick();
+        super.aiStep();
     }
 
     @Override
-    protected ResourceLocation getLootTable() {
+    protected ResourceLocation getDefaultLootTable() {
         return ModLootTables.DROPS_COD;
     }
 
     protected SoundEvent getFlopSound() {
-        return SoundEvents.ENTITY_COD_FLOP;
+        return SoundEvents.COD_FLOP;
     }
 
     @Override
-    public ActionResultType getEntityInteractionResult(PlayerEntity player, Hand hand) {
-        if(player != this.getAttackTarget()) {
-            return super.getEntityInteractionResult(player, hand);
+    public ActionResultType mobInteract(PlayerEntity player, Hand hand) {
+        if(player != this.getTarget()) {
+            return super.mobInteract(player, hand);
         } else {
             return ActionResultType.PASS;
         }
@@ -158,42 +160,42 @@ public class EntityBarracuda extends EntityWaterMobPathingBucketable implements 
 
         public RushAttackGoal(EntityBarracuda e) {
             this.e = e;
-            this.setMutexFlags(EnumSet.of(Flag.MOVE));
+            this.setFlags(EnumSet.of(Flag.MOVE));
         }
 
         @Override
-        public boolean shouldExecute() {
-            return this.shouldContinueExecuting() && e.getPositionVec().distanceTo(e.getAttackTarget().getPositionVec()) >= 8D;
+        public boolean canUse() {
+            return this.canContinueToUse() && e.position().distanceTo(e.getTarget().position()) >= 8D;
         }
 
         @Override
-        public boolean shouldContinueExecuting() {
-            return !done && e.getAttackTarget() != null && e.getAttackTarget().isAlive() && EntityBarracuda.isWearingShiny(e);
+        public boolean canContinueToUse() {
+            return !done && e.getTarget() != null && e.getTarget().isAlive() && EntityBarracuda.isWearingShiny(e);
         }
 
         @Override
-        public void startExecuting() {
+        public void start() {
             // rush!
-            e.getNavigator().tryMoveToEntityLiving(e.getAttackTarget(), 10D);
+            e.getNavigation().moveTo(e.getTarget(), 10D);
         }
 
         @Override
-        public void resetTask() {
+        public void stop() {
             done = false;
         }
 
         @Override
         public void tick() {
-            e.getNavigator().tryMoveToEntityLiving(e.getAttackTarget(), 10D);
-            e.setMotion(e.getMotion().add(0, -0.005D, 0));
+            e.getNavigation().moveTo(e.getTarget(), 10D);
+            e.setDeltaMovement(e.getDeltaMovement().add(0, -0.005D, 0));
             // attack 5HP when close and then move to regular attack
-            if(e.getPositionVec().distanceTo(e.getAttackTarget().getPositionVec()) < 1.5D) {
+            if(e.position().distanceTo(e.getTarget().position()) < 1.5D) {
                 done = true;
-                e.getAttackTarget().attackEntityFrom(DamageSource.causeMobDamage(e), 5F);
+                e.getTarget().hurt(DamageSource.mobAttack(e), 5F);
             }
-            if(e.world instanceof ServerWorld) {
-                ServerWorld world = (ServerWorld) e.world;
-                world.spawnParticle(ParticleTypes.BUBBLE, e.getPosX(), e.getPosY() + 0.5D, e.getPosZ(), 5, 0.25D, 0.5D, 0.25D, 0D);
+            if(e.level instanceof ServerWorld) {
+                ServerWorld world = (ServerWorld) e.level;
+                world.sendParticles(ParticleTypes.BUBBLE, e.getX(), e.getY() + 0.5D, e.getZ(), 5, 0.25D, 0.5D, 0.25D, 0D);
             }
         }
 

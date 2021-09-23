@@ -16,7 +16,7 @@ import net.minecraft.world.World;
 
 public abstract class EntityTameableFlyingWithTypes extends EntityTameableWithTypes {
 
-    protected static final DataParameter<Boolean> FLYING = EntityDataManager.createKey(EntityTameableFlyingWithTypes.class, DataSerializers.BOOLEAN);
+    protected static final DataParameter<Boolean> FLYING = EntityDataManager.defineId(EntityTameableFlyingWithTypes.class, DataSerializers.BOOLEAN);
     private final GroundPathNavigator walkNav;
     private FlyingPathNavigator flyNav;
     private final MovementController moveCtrlGrnd;
@@ -24,94 +24,94 @@ public abstract class EntityTameableFlyingWithTypes extends EntityTameableWithTy
     public EntityTameableFlyingWithTypes(EntityType<? extends EntityTameableFlyingWithTypes> type, World worldIn) {
         super(type, worldIn);
         this.walkNav = new GroundPathNavigator(this, worldIn);
-        walkNav.setCanSwim(false);
+        walkNav.setCanFloat(false);
         this.moveCtrlGrnd = new MovementController(this);
     }
 
     protected abstract MovementController getFlightMoveController();
     
     @Override
-    protected PathNavigator createNavigator(World worldIn) {
+    protected PathNavigator createNavigation(World worldIn) {
         FlyingPathNavigator nav = new FlyingPathNavigator(this, worldIn);
         nav.setCanOpenDoors(false);
-        nav.setCanSwim(false);
-        nav.setCanEnterDoors(true);
+        nav.setCanFloat(false);
+        nav.setCanPassDoors(true);
         this.flyNav = nav;
         return nav;
     }
 
     @Override
-    protected void registerData() {
-        super.registerData();
-        this.dataManager.register(FLYING, false);
+    protected void defineSynchedData() {
+        super.defineSynchedData();
+        this.entityData.define(FLYING, false);
     }
 
     @Override
-    public boolean isOnLadder() {
+    public boolean onClimbable() {
         return false;
     }
 
     @Override
-    protected void collideWithEntity(Entity entityIn) {
+    protected void doPush(Entity entityIn) {
         if(!this.getFlying()) {
-            super.collideWithEntity(entityIn);
+            super.doPush(entityIn);
         }
     }
 
     @Override
-    protected void collideWithNearbyEntities() {
+    protected void pushEntities() {
         if(!this.getFlying()) {
-            super.collideWithNearbyEntities();
+            super.pushEntities();
         }
     }
 
     @Override
-    public boolean onLivingFall(float distance, float damageMultiplier) {
+    public boolean causeFallDamage(float distance, float damageMultiplier) {
         if(!this.getFlying()) {
-            return super.onLivingFall(distance, damageMultiplier);
+            return super.causeFallDamage(distance, damageMultiplier);
         }
         return false;
     }
 
     @Override
-    protected void updateFallState(double y, boolean onGroundIn, BlockState state, BlockPos pos) {
+    protected void checkFallDamage(double y, boolean onGroundIn, BlockState state, BlockPos pos) {
         if(!this.getFlying()) {
-            super.updateFallState(y, onGroundIn, state, pos);
+            super.checkFallDamage(y, onGroundIn, state, pos);
         }
     }
 
     public boolean getFlying() {
-        return this.dataManager.get(FLYING);
+        return this.entityData.get(FLYING);
     }
 
     public void setFlying(boolean isFlying) {
-        this.dataManager.set(FLYING, isFlying);
+        this.entityData.set(FLYING, isFlying);
         if(isFlying) {
-            this.navigator = flyNav;
-            this.moveController = getFlightMoveController();
-            if(world.isAirBlock(this.getPosition().up())) {
-                this.setPosition(this.getPosX(), this.getPosY() + 1, this.getPosZ());
+            this.navigation = flyNav;
+            this.moveControl = getFlightMoveController();
+            if(level.isEmptyBlock(this.blockPosition().above())) {
+                this.setPos(this.getX(), this.getY() + 1, this.getZ());
             }
         } else {
-            this.navigator = walkNav;
-            this.moveController = moveCtrlGrnd;
+            this.navigation = walkNav;
+            this.moveControl = moveCtrlGrnd;
         }
     }
 
     @Override
-    public void writeAdditional(CompoundNBT compound) {
-        super.writeAdditional(compound);
-        compound.putBoolean("IsFlying", this.dataManager.get(FLYING));
+    public void addAdditionalSaveData(CompoundNBT compound) {
+        super.addAdditionalSaveData(compound);
+        compound.putBoolean("IsFlying", this.entityData.get(FLYING));
     }
 
     @Override
-    public void readAdditional(CompoundNBT compound) {
-        super.readAdditional(compound);
-        this.dataManager.set(FLYING, compound.getBoolean("IsFlying"));
+    public void readAdditionalSaveData(CompoundNBT compound) {
+        super.readAdditionalSaveData(compound);
+        this.entityData.set(FLYING, compound.getBoolean("IsFlying"));
     }
 
     @Override
-    public boolean doesEntityNotTriggerPressurePlate() {
+    public boolean isIgnoringBlockTriggers() {
         return !this.getFlying();
     }
 }

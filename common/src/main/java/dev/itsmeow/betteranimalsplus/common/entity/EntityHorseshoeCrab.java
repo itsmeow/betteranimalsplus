@@ -37,44 +37,44 @@ public class EntityHorseshoeCrab extends EntityCrabLikeBase {
     }
 
     @Override
-    public ActionResultType getEntityInteractionResult(PlayerEntity player, Hand hand) {
-        if(player.getHeldItem(hand).getItem() == Items.GLASS_BOTTLE & bloodLeft > 0) {
-            this.attackEntityFrom(DamageSource.causePlayerDamage(player), 1.3F);
+    public ActionResultType mobInteract(PlayerEntity player, Hand hand) {
+        if(player.getItemInHand(hand).getItem() == Items.GLASS_BOTTLE & bloodLeft > 0) {
+            this.hurt(DamageSource.playerAttack(player), 1.3F);
             this.bloodLeft--;
             if(this.bloodLeft == 0 && this.getHealth() >= 0F) {
-                this.attackEntityFrom(DamageSource.causePlayerDamage(player), this.getHealth() * 10F);
+                this.hurt(DamageSource.playerAttack(player), this.getHealth() * 10F);
             }
-            player.getHeldItem(hand).shrink(1);
-            player.addItemStackToInventory(new ItemStack(ModItems.HORSESHOE_CRAB_BLOOD.get()));
+            player.getItemInHand(hand).shrink(1);
+            player.addItem(new ItemStack(ModItems.HORSESHOE_CRAB_BLOOD.get()));
             return ActionResultType.SUCCESS;
         }
-        return super.getEntityInteractionResult(player, hand);
+        return super.mobInteract(player, hand);
     }
 
     @Override
     protected EntityHorseshoeCrab getBaseChild() {
-        return getContainer().getEntityType().create(world);
+        return getContainer().getEntityType().create(level);
     }
 
     @Override
-    public ILivingEntityData onInitialSpawn(IServerWorld world, DifficultyInstance difficulty, SpawnReason reason, ILivingEntityData livingdata, CompoundNBT compound) {
-        return EntityUtil.childChance(this, reason, super.onInitialSpawn(world, difficulty, reason, livingdata, compound), 0.25F);
+    public ILivingEntityData finalizeSpawn(IServerWorld world, DifficultyInstance difficulty, SpawnReason reason, ILivingEntityData livingdata, CompoundNBT compound) {
+        return EntityUtil.childChance(this, reason, super.finalizeSpawn(world, difficulty, reason, livingdata, compound), 0.25F);
     }
 
     @Override
-    public void readAdditional(CompoundNBT compound) {
-        super.readAdditional(compound);
+    public void readAdditionalSaveData(CompoundNBT compound) {
+        super.readAdditionalSaveData(compound);
         this.bloodLeft = compound.getInt("BloodLeft");
     }
 
     @Override
-    public void writeAdditional(CompoundNBT compound) {
-        super.writeAdditional(compound);
+    public void addAdditionalSaveData(CompoundNBT compound) {
+        super.addAdditionalSaveData(compound);
         compound.putInt("BloodLeft", this.bloodLeft);
     }
 
     @Override
-    protected ResourceLocation getLootTable() {
+    protected ResourceLocation getDefaultLootTable() {
         return null;
     }
 

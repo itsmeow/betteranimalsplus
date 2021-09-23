@@ -18,8 +18,8 @@ public class HungerNonTamedTargetGoal<T extends LivingEntity, O extends Tameable
     }
 
     @Override
-    public boolean shouldExecute() {
-        return super.shouldExecute() && this.hunger.getEffectiveHunger() > 0 && (this.hunger.getEffectiveHunger() >= 100 || this.goalOwner.getRNG().nextInt(100 - this.hunger.getEffectiveHunger()) == 0);
+    public boolean canUse() {
+        return super.canUse() && this.hunger.getEffectiveHunger() > 0 && (this.hunger.getEffectiveHunger() >= 100 || this.mob.getRandom().nextInt(100 - this.hunger.getEffectiveHunger()) == 0);
     }
 
 }

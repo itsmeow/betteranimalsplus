@@ -24,34 +24,34 @@ public abstract class EntityAnimalEatsGrassWithTypes extends EntityAnimalWithTyp
 
 	@Override
     @OnlyIn(Dist.CLIENT)
-	public void handleStatusUpdate(byte id) {
+	public void handleEntityEvent(byte id) {
 		if (id == 10) {
 			this.eatTimer = 40;
 		} else {
-			super.handleStatusUpdate(id);
+			super.handleEntityEvent(id);
 		}
 	}
 	
     @Override
-    public void livingTick() {
-        super.livingTick();
-        if (this.world.isRemote) {
+    public void aiStep() {
+        super.aiStep();
+        if (this.level.isClientSide) {
             this.eatTimer = Math.max(0, this.eatTimer - 1);
         }
     }
     
     @Override
-    public void eatGrassBonus() {
-        super.eatGrassBonus();
-        this.addGrowth(60);
+    public void ate() {
+        super.ate();
+        this.ageUp(60);
     }
     
     @Override
-    public void updateAITasks() {
+    public void customServerAiStep() {
         if(this.eatTask != null) {
             this.eatTimer = this.eatTask.getEatingGrassTimer();
         }
-        super.updateAITasks();
+        super.customServerAiStep();
     }
 
 	@Override

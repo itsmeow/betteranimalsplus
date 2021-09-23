@@ -24,8 +24,8 @@ public class PeacefulNearestAttackableTargetGoal<T extends LivingEntity> extends
     }
 
     @Override
-    public boolean shouldExecute() {
-        return this.goalOwner.world.getDifficulty() != Difficulty.PEACEFUL && super.shouldExecute();
+    public boolean canUse() {
+        return this.mob.level.getDifficulty() != Difficulty.PEACEFUL && super.canUse();
     }
 
 }

@@ -36,7 +36,7 @@ public class EntityMoose extends EntityAnimalEatsGrassWithTypes implements IDrop
 
     public EntityMoose(EntityType<? extends EntityMoose> entityType, World worldIn) {
         super(entityType, worldIn, 5);
-        this.stepHeight = 1F;
+        this.maxUpStep = 1F;
     }
     
     @Override
@@ -46,11 +46,11 @@ public class EntityMoose extends EntityAnimalEatsGrassWithTypes implements IDrop
         this.goalSelector.addGoal(1, new MeleeAttackGoal(this, 0.65D, false));
         this.targetSelector.addGoal(0, new HurtByTargetGoal(this) {
             @Override
-            public boolean shouldExecute() {
-                return EntityMoose.this.world.getDifficulty() != Difficulty.PEACEFUL && super.shouldExecute();
+            public boolean canUse() {
+                return EntityMoose.this.level.getDifficulty() != Difficulty.PEACEFUL && super.canUse();
             }
         });
-        this.targetSelector.addGoal(1, new PeacefulNearestAttackableTargetGoal<>(this, PlayerEntity.class, 75, true, true, e -> e.getDistance(this) < 15));
+        this.targetSelector.addGoal(1, new PeacefulNearestAttackableTargetGoal<>(this, PlayerEntity.class, 75, true, true, e -> e.distanceTo(this) < 15));
     }
 
     @Override
@@ -59,35 +59,35 @@ public class EntityMoose extends EntityAnimalEatsGrassWithTypes implements IDrop
     }
     
     @Override
-    protected void collideWithNearbyEntities() {
+    protected void pushEntities() {
         // prevent pushing
     }
 
     @SuppressWarnings("deprecation")
     @Override
-    protected void doBlockCollisions() {
+    protected void checkInsideBlocks() {
         AxisAlignedBB axisalignedbb = this.getBoundingBox();
         BlockPos blockpos = new BlockPos(axisalignedbb.minX + 0.001D, axisalignedbb.minY + 0.001D, axisalignedbb.minZ + 0.001D);
         BlockPos blockpos1 = new BlockPos(axisalignedbb.maxX - 0.001D, axisalignedbb.maxY - 0.001D, axisalignedbb.maxZ - 0.001D);
         BlockPos.Mutable blockpos$mutable = new BlockPos.Mutable();
-        if(this.world.isAreaLoaded(blockpos, blockpos1)) {
+        if(this.level.hasChunksAt(blockpos, blockpos1)) {
             for(int i = blockpos.getX(); i <= blockpos1.getX(); ++i) {
                 for(int j = blockpos.getY(); j <= blockpos1.getY(); ++j) {
                     for(int k = blockpos.getZ(); k <= blockpos1.getZ(); ++k) {
-                        blockpos$mutable.setPos(i, j, k);
-                        BlockState blockstate = this.world.getBlockState(blockpos$mutable);
+                        blockpos$mutable.set(i, j, k);
+                        BlockState blockstate = this.level.getBlockState(blockpos$mutable);
 
                         try {
-                            blockstate.onEntityCollision(this.world, blockpos$mutable, this);
+                            blockstate.entityInside(this.level, blockpos$mutable, this);
                             this.onInsideBlock(blockstate);
                             if(blockstate.getBlock() == Blocks.LILY_PAD) {
-                                Block.spawnDrops(blockstate, world, blockpos$mutable.toImmutable());
-                                world.setBlockState(blockpos$mutable.toImmutable(), Blocks.AIR.getDefaultState());
+                                Block.dropResources(blockstate, level, blockpos$mutable.immutable());
+                                level.setBlockAndUpdate(blockpos$mutable.immutable(), Blocks.AIR.defaultBlockState());
                             }
                         } catch(Throwable throwable) {
-                            CrashReport crashreport = CrashReport.makeCrashReport(throwable, "Colliding entity with block");
-                            CrashReportCategory crashreportcategory = crashreport.makeCategory("Block being collided with");
-                            CrashReportCategory.addBlockInfo(crashreportcategory, blockpos$mutable, blockstate);
+                            CrashReport crashreport = CrashReport.forThrowable(throwable, "Colliding entity with block");
+                            CrashReportCategory crashreportcategory = crashreport.addCategory("Block being collided with");
+                            CrashReportCategory.populateBlockDetails(crashreportcategory, blockpos$mutable, blockstate);
                             throw new ReportedException(crashreport);
                         }
                     }
@@ -99,23 +99,23 @@ public class EntityMoose extends EntityAnimalEatsGrassWithTypes implements IDrop
     @Override
     protected EntityAIEatGrassCustom provideEatTask() {
         return new EntityAIEatGrassCustom(this, 200, 1000, eater -> {
-            Direction facing = eater.getHorizontalFacing();
-            return eater.getPosition().offset(facing).offset(facing);
+            Direction facing = eater.getDirection();
+            return eater.blockPosition().relative(facing).relative(facing);
         });
     }
 
     @Override
-    public boolean attackEntityAsMob(Entity entityIn) {
-        Vector3d pos = this.getPositionVec();
-        Vector3d targetPos = entityIn.getPositionVec();
-        ((LivingEntity) entityIn).applyKnockback(1F, pos.x - targetPos.x, pos.z - targetPos.z);
+    public boolean doHurtTarget(Entity entityIn) {
+        Vector3d pos = this.position();
+        Vector3d targetPos = entityIn.position();
+        ((LivingEntity) entityIn).knockback(1F, pos.x - targetPos.x, pos.z - targetPos.z);
         float f = (float) this.getAttribute(Attributes.ATTACK_DAMAGE).getValue();
-        return entityIn.attackEntityFrom(DamageSource.causeMobDamage(this), f);
+        return entityIn.hurt(DamageSource.mobAttack(this), f);
     }
 
     @Override
-    public void onDeath(DamageSource cause) {
-        super.onDeath(cause);
+    public void die(DamageSource cause) {
+        super.die(cause);
         this.doHeadDrop();
     }
 
@@ -125,7 +125,7 @@ public class EntityMoose extends EntityAnimalEatsGrassWithTypes implements IDrop
     }
 
     @Override
-    protected ResourceLocation getLootTable() {
+    protected ResourceLocation getDefaultLootTable() {
         return ModLootTables.MOOSE;
     }
 
@@ -142,12 +142,12 @@ public class EntityMoose extends EntityAnimalEatsGrassWithTypes implements IDrop
     @Override
     public IVariant getRandomType() {
         int[] validTypes = new int[] {1, 2, 3, 4};
-        int r = validTypes[this.getRNG().nextInt(validTypes.length)];
+        int r = validTypes[this.getRandom().nextInt(validTypes.length)];
         if(r > 2) {
-            r = validTypes[this.getRNG().nextInt(validTypes.length)];
+            r = validTypes[this.getRandom().nextInt(validTypes.length)];
         }
         if(r > 2) {
-            r = validTypes[this.getRNG().nextInt(validTypes.length)];
+            r = validTypes[this.getRandom().nextInt(validTypes.length)];
         }
         return this.getContainer().getVariantForName(String.valueOf(r));
     }

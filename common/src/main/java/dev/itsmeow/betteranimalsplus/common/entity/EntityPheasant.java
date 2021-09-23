@@ -32,7 +32,7 @@ import net.minecraft.world.World;
 
 public class EntityPheasant extends EntityAnimalWithTypes {
 
-    protected static final DataParameter<Integer> PECK_TIME = EntityDataManager.createKey(EntityPheasant.class, DataSerializers.VARINT);
+    protected static final DataParameter<Integer> PECK_TIME = EntityDataManager.defineId(EntityPheasant.class, DataSerializers.INT);
     public float wingRotation;
     public float destPos;
     public float oFlapSpeed;
@@ -43,8 +43,8 @@ public class EntityPheasant extends EntityAnimalWithTypes {
     public EntityPheasant(EntityType<? extends EntityPheasant> entityType, World worldIn) {
         super(entityType, worldIn);
         this.setPeckTime(this.getNewPeck());
-        this.setPathPriority(PathNodeType.WATER, 0.0F);
-        this.timeUntilNextEgg = this.rand.nextInt(6000) + 6000;
+        this.setPathfindingMalus(PathNodeType.WATER, 0.0F);
+        this.timeUntilNextEgg = this.random.nextInt(6000) + 6000;
     }
 
     @Override
@@ -52,19 +52,19 @@ public class EntityPheasant extends EntityAnimalWithTypes {
         this.goalSelector.addGoal(0, new SwimGoal(this));
         this.goalSelector.addGoal(1, new PanicGoal(this, 1.4D));
         this.goalSelector.addGoal(2, new BreedGoal(this, 1.0D));
-        this.goalSelector.addGoal(3, new TemptGoal(this, 1.0D, Ingredient.fromItems(Items.PUMPKIN_SEEDS), false));
+        this.goalSelector.addGoal(3, new TemptGoal(this, 1.0D, Ingredient.of(Items.PUMPKIN_SEEDS), false));
         this.goalSelector.addGoal(4, new FollowParentGoal(this, 1.1D));
         this.goalSelector.addGoal(5, new WaterAvoidingRandomWalkingGoal(this, 1.0D));
         this.goalSelector.addGoal(6, new LookAtGoal(this, PlayerEntity.class, 6.0F));
     }
 
     private int getNewPeck() {
-        return this.rand.nextInt(600) + 30;
+        return this.random.nextInt(600) + 30;
     }
 
     @Override
-    public void livingTick() {
-        super.livingTick();
+    public void aiStep() {
+        super.aiStep();
         this.oFlap = this.wingRotation;
         this.oFlapSpeed = this.destPos;
         this.destPos = (float) (this.destPos + (this.onGround ? -1 : 4) * 0.3D);
@@ -76,82 +76,82 @@ public class EntityPheasant extends EntityAnimalWithTypes {
 
         this.wingRotDelta = (float) (this.wingRotDelta * 0.9D);
 
-        if(!this.onGround && this.getMotion().getY() < 0.0D) {
-            this.setMotion(this.getMotion().getX(), this.getMotion().getY() * 0.6D, this.getMotion().getZ());
+        if(!this.onGround && this.getDeltaMovement().y() < 0.0D) {
+            this.setDeltaMovement(this.getDeltaMovement().x(), this.getDeltaMovement().y() * 0.6D, this.getDeltaMovement().z());
         }
 
         this.wingRotation += this.wingRotDelta * 2.0F;
 
-        if(!this.onGround || this.getMoveHelper().isUpdating()) {
+        if(!this.onGround || this.getMoveControl().hasWanted()) {
             if(this.getPeckTime() <= 61) {
                 this.setPeckTime(80);
             }
         }
 
-        if(!this.world.isRemote && this.setPeckTime(this.getPeckTime() - 1) <= 0) {
+        if(!this.level.isClientSide && this.setPeckTime(this.getPeckTime() - 1) <= 0) {
             this.setPeckTime(this.getNewPeck());
         }
 
-        if(!this.world.isRemote && !this.isChild() && --this.timeUntilNextEgg <= 0) {
-            this.playSound(SoundEvents.ENTITY_CHICKEN_EGG, 1.0F, (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 1.0F);
-            this.entityDropItem(ModItems.PHEASANT_EGG.get(), 1);
-            this.timeUntilNextEgg = this.rand.nextInt(6000) + 6000;
+        if(!this.level.isClientSide && !this.isBaby() && --this.timeUntilNextEgg <= 0) {
+            this.playSound(SoundEvents.CHICKEN_EGG, 1.0F, (this.random.nextFloat() - this.random.nextFloat()) * 0.2F + 1.0F);
+            this.spawnAtLocation(ModItems.PHEASANT_EGG.get(), 1);
+            this.timeUntilNextEgg = this.random.nextInt(6000) + 6000;
         }
     }
 
     @Override
-    public boolean isBreedingItem(ItemStack stack) {
+    public boolean isFood(ItemStack stack) {
         return stack.getItem() == Items.PUMPKIN_SEEDS;
     }
 
     @Override
-    public boolean onLivingFall(float distance, float damageMultiplier) {
+    public boolean causeFallDamage(float distance, float damageMultiplier) {
         return false;
     }
 
     @Override
     protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
-        return SoundEvents.ENTITY_CHICKEN_HURT;
+        return SoundEvents.CHICKEN_HURT;
     }
 
     @Override
     protected SoundEvent getDeathSound() {
-        return SoundEvents.ENTITY_CHICKEN_DEATH;
+        return SoundEvents.CHICKEN_DEATH;
     }
 
     @Override
     protected void playStepSound(BlockPos pos, BlockState state) {
-        this.playSound(SoundEvents.ENTITY_CHICKEN_STEP, 0.15F, 1.0F);
+        this.playSound(SoundEvents.CHICKEN_STEP, 0.15F, 1.0F);
     }
 
     @Override
-    protected ResourceLocation getLootTable() {
+    protected ResourceLocation getDefaultLootTable() {
         return ModLootTables.pheasant;
     }
 
     @Override
-    protected void registerData() {
-        super.registerData();
-        this.dataManager.register(EntityPheasant.PECK_TIME, 0);
+    protected void defineSynchedData() {
+        super.defineSynchedData();
+        this.entityData.define(EntityPheasant.PECK_TIME, 0);
     }
 
     public int getPeckTime() {
-        return this.dataManager.get(EntityPheasant.PECK_TIME);
+        return this.entityData.get(EntityPheasant.PECK_TIME);
     }
 
     public int setPeckTime(int time) {
-        this.dataManager.set(EntityPheasant.PECK_TIME, time);
+        this.entityData.set(EntityPheasant.PECK_TIME, time);
         return time;
     }
 
     @Override
-    public ILivingEntityData onInitialSpawn(IServerWorld world, DifficultyInstance difficulty, SpawnReason reason, ILivingEntityData livingdata, CompoundNBT compound) {
-        return EntityUtil.childChance(this, reason, super.onInitialSpawn(world, difficulty, reason, livingdata, compound), 0.25F);
+    public ILivingEntityData finalizeSpawn(IServerWorld world, DifficultyInstance difficulty, SpawnReason reason, ILivingEntityData livingdata, CompoundNBT compound) {
+        return EntityUtil.childChance(this, reason, super.finalizeSpawn(world, difficulty, reason, livingdata, compound), 0.25F);
     }
 
     @Override
     protected EntityPheasant getBaseChild() {
-        return getContainer().getEntityType().create(world);
+        return getContainer().getEntityType().create(level);
     }
 
     @Override
