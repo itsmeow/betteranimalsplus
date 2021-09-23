@@ -1,10 +1,10 @@
 modLoader="javafml" #mandatory
 loaderVersion="[34,)" #mandatory
 issueTrackerURL="http://github.com/itsmeow/betteranimalsplus/issues" #optional
-displayURL="https://www.curseforge.com/minecraft/mc-mods/betteranimalsplus" #optional
-logoFile="betteranimalsplus.png" #optional
-credits="Cybercat5555: Design, Modeling, Texturing, Ideas; its_meow: Programming, AI, Functionality" #optional
-authors="cybercat5555, its_meow (hiotewdew)" #optional
+displayURL="https://betteranimalsplus.com/" #optional
+logoFile="icon.png" #optional
+credits="Cybercat5555: Design, Modeling, Texturing, Ideas; its_meow: Programming, AI, Functionality, Ideas; Batpixxler: Design, Modeling, Texturing, Ideas" #optional
+authors="cybercat5555, itsmeowdev, Batpixxler" #optional
 license="CC BY-NC-SA 4.0 https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode"
 [[mods]] #mandatory
 modId="betteranimalsplus" #mandatory
@@ -12,10 +12,11 @@ version="${file.jarVersion}" #mandatory
 displayName="Better Animals Plus" #mandatory
 # The description text for the mod (multi line!) (#mandatory)
 description='''
-Companion mod to Better Animals adding new creatures with the Better Animals art style.'''
+~Breathing new life into your worlds~
+Adds 35+ new animals to your world, with items, food, blocks, and armor to supplement them.'''
 [[dependencies.betteranimalsplus]]
     modId="forge"
     mandatory=true
-    versionRange="[34.1.21,)"
+    versionRange="[36.2.0,)"
     ordering="NONE"
     side="BOTH"

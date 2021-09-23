@@ -59,7 +59,9 @@ public class BlockTrillium extends BushBlock {
         return RenderShape.ENTITYBLOCK_ANIMATED;
     }
 
-    @Override
+    // TODO block entities relation
+
+    /*@Override
     public boolean hasTileEntity(BlockState state) {
         return true;
     }
@@ -67,5 +69,5 @@ public class BlockTrillium extends BushBlock {
     @Override
     public BlockEntity createTileEntity(BlockState state, BlockGetter world) {
         return new BlockEntityTrillium();
-    }
+    }*/
 }

@@ -34,7 +34,9 @@ public class ModResources {
             }
 
             private static Tag.Named<Block> tag(String name) {
-                return BlockTags.bind(new ResourceLocation(Ref.MOD_ID, name));
+                // TODO fix tags
+                return null;
+                //return BlockTags.bind(new ResourceLocation(Ref.MOD_ID, name));
             }
         }
 
@@ -47,7 +49,9 @@ public class ModResources {
             }
 
             private static Tag.Named<Item> tag(String name) {
-                return ItemTags.bind(new ResourceLocation(Ref.MOD_ID, name));
+                // TODO fix tags
+                return null;
+                //return ItemTags.bind(new ResourceLocation(Ref.MOD_ID, name));
             }
         }
     }

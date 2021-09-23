@@ -3,16 +3,18 @@
   "id": "betteranimalsplus",
   "version": "${version}",
   "name": "Better Animals Plus",
-  "description": "This is an example description! Tell everyone what your mod is about!",
+  "description": "~Breathing new life into your worlds~\nAdds 35+ new animals to your world, with items, food, blocks, and armor to supplement them.",
   "authors": [
-    "Me!"
+    "cybercat5555",
+    "itsmeowdev",
+    "Batpixxler"
   ],
   "contact": {
-    "homepage": "https://fabricmc.net/",
-    "sources": "https://github.com/FabricMC/fabric-example-mod"
+    "homepage": "https://betteranimalsplus.com/",
+    "sources": "https://github.com/itsmeow/betteranimalsplus"
   },
   "license": "Insert License Here",
-  "icon": "assets/betteranimalsplus/icon.png",
+  "icon": "icon.png",
   "environment": "*",
   "entrypoints": {
     "main": [

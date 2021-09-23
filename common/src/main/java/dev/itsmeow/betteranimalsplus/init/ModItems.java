@@ -40,12 +40,7 @@ public class ModItems {
     public static final RegistrySupplier<ItemBetterFood> VENISON_RAW = r("venisonraw", () -> new ItemBetterFood(4, 0, 32, true));
     public static final RegistrySupplier<ItemBetterFood> VENISON_COOKED = r("venisoncooked", () -> new ItemBetterFood(8, 1.2F, 32, true));
     public static final RegistrySupplier<Item> ANTLER = r("antler");
-    public static final RegistrySupplier<Item> BLUBBER = r("blubber", () -> new ItemBetterFood(1, 2.0F, 32, false) {
-        @Override
-        public int getBurnTime(ItemStack itemStack) {
-            return 800; // half of coal
-        }
-    });
+    public static final RegistrySupplier<Item> BLUBBER = r("blubber", () -> new ItemBetterFood(1, 2.0F, 32, false)); // TODO burn time 800 ticks
     public static final RegistrySupplier<Item> GOAT_MILK = r("goatmilk", () -> new MilkBucketItem(new Item.Properties().craftRemainder(Items.BUCKET).tab(BetterAnimalsPlusMod.TAB).stacksTo(1)));
     public static final RegistrySupplier<ItemBetterFood> GOAT_CHEESE = r("goatcheese", () -> new ItemBetterFood(3, 1, 15, false));
     public static final RegistrySupplier<ItemBetterFood> PHEASANT_RAW = r("pheasantraw", () -> new ItemBetterFood(3, 0, 32, true));
@@ -78,9 +73,9 @@ public class ModItems {
     public static RegistrySupplier<ItemBearCape> BEAR_CAPE_BLACK = varArg("bear_cape_", "black", s -> new ItemBearCape(s, BEAR_SKIN_BLACK.get()));
     public static RegistrySupplier<ItemBearCape> BEAR_CAPE_KERMODE = varArg("bear_cape_", "kermode", s -> new ItemBearCape(s, BEAR_SKIN_KERMODE.get()));
 
-    public static final RegistrySupplier<ItemModMusicDisc> RECORD_CRAB_RAVE = r("record_crab_rave", () -> new ItemModMusicDisc(ModSoundEvents.CRAB_RAVE::get));
+    public static final RegistrySupplier<ItemModMusicDisc> RECORD_CRAB_RAVE = r("record_crab_rave", () -> new ItemModMusicDisc(ModSoundEvents.CRAB_RAVE.get()));
 
-    public static final RegistrySupplier<ItemModMusicDisc> RECORD_WALRUS = r("record_walrus", () -> new ItemModMusicDisc(ModSoundEvents.WALRUS::get));
+    public static final RegistrySupplier<ItemModMusicDisc> RECORD_WALRUS = r("record_walrus", () -> new ItemModMusicDisc(ModSoundEvents.WALRUS.get()));
 
     public static final RegistrySupplier<ItemThrowableCustomEgg> PHEASANT_EGG = r("pheasant_egg", () -> new ItemThrowableCustomEgg(EntityPheasantEgg::new, EntityPheasantEgg::new));
     public static final RegistrySupplier<ItemThrowableCustomEgg> TURKEY_EGG = r("turkey_egg", () -> new ItemThrowableCustomEgg(EntityTurkeyEgg::new, EntityTurkeyEgg::new));

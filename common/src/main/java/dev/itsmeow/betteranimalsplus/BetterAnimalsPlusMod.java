@@ -22,6 +22,9 @@ import java.util.UUID;
 public class BetterAnimalsPlusMod {
 
     public static final Logger logger = LogManager.getLogger();
+    // TODO networking
+    // TODO stupid dev thing
+    // TODO config
     /*public static final String PROTOCOL_VERSION = "2";
     public static final SimpleChannel HANDLER = NetworkRegistry.ChannelBuilder
             .named(new ResourceLocation(Ref.MOD_ID, "main_channel"))
@@ -36,7 +39,7 @@ public class BetterAnimalsPlusMod {
     UUID.fromString("4605663e-fb07-4843-98c5-73adbfb2625e") // batman
     );
 
-    public BetterAnimalsPlusMod() {
+    public static void init() {
        /* IEventBus modBus = FMLJavaModLoadingContext.get().getModEventBus();
         modBus.addListener(this::setup);
         modBus.addListener(this::loadComplete);

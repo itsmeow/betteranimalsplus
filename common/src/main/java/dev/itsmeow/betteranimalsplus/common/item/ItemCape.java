@@ -20,7 +20,7 @@ public abstract class ItemCape extends ItemModeledArmor {
     public final Item repairItem;
 
     public ItemCape(Item repairItem, ArmorMaterial material) {
-        super(material, EquipmentSlot.CHEST, new Properties().tab(BetterAnimalsPlusMod.GROUP));
+        super(material, EquipmentSlot.CHEST, new Properties().tab(BetterAnimalsPlusMod.TAB));
         this.repairItem = repairItem;
     }
 
@@ -44,13 +44,15 @@ public abstract class ItemCape extends ItemModeledArmor {
 
     @Override
     public InteractionResultHolder<ItemStack> use(Level worldIn, Player playerIn, InteractionHand handIn) {
-        return this.canEquip(playerIn.getItemInHand(handIn), this.getSlot(), playerIn) ? super.use(worldIn, playerIn, handIn) : InteractionResultHolder.fail(playerIn.getItemInHand(handIn));
+        return true /* TODO this.canEquip(playerIn.getItemInHand(handIn), this.getSlot(), playerIn)*/ ? super.use(worldIn, playerIn, handIn) : InteractionResultHolder.fail(playerIn.getItemInHand(handIn));
     }
 
+    // TODO canEquip
+    /*
     @Override
     public boolean canEquip(ItemStack stack, EquipmentSlot armorType, Entity entity) {
         return super.canEquip(stack, armorType, entity) && can_equip.canEquip(stack, armorType, entity);
-    }
+    }*/
 
     @FunctionalInterface
     public interface CanEquipFunction {

@@ -28,7 +28,8 @@ public class ClientLifecycleHandler {
 
     public static final RenderFactory R = IMDLibClient.getRenderRegistry(Ref.MOD_ID);
 
-    public void clientSetup(final FMLClientSetupEvent event) {
+    // TODO client setup registration
+    public void clientInit() {
         ClientRegistry.bindTileEntityRenderer(ModBlockEntities.TRILLIUM_TYPE.get(), RenderBlockTrillium::new);
         TileEntityHead.registerTypeRender();
         R.addRender(ModEntities.BROWN_BEAR.getEntityType(), 1F, r -> r.tSingle("bear_brown").mSingle(new ModelBear<>()).ageScale(1.3F, 0.65F));
