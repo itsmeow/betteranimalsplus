@@ -11,9 +11,6 @@ configurations {
 artifacts {
     dev(jar)
 }
-loom {
-    mixinConfig "mixin.imdlib.json"
-}
 repositories {
     flatDir {
         dirs 'libs'

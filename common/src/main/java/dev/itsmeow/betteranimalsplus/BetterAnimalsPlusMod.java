@@ -57,7 +57,7 @@ public class BetterAnimalsPlusMod {
     public static final CreativeModeTab TAB = getPlatformTab();
 
     @ExpectPlatform
-    private static CreativeModeTab getPlatformTab() {
+    public static CreativeModeTab getPlatformTab() {
         throw new PlatformExpectedError("getPlatformTab(): Expected Platform");
     }
 

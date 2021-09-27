@@ -1,3 +1,4 @@
+// BEFORE SYNCING, YOU MUST GO TO Settings -> Build, Execution, Deployment -> Build Tools -> Gradle and change "Gradle JVM" to Java 11 or higher
 plugins {
     id "architectury-plugin" version "3.4-SNAPSHOT"
     id "dev.architectury.loom" version "0.10.0-SNAPSHOT" apply false
@@ -15,7 +16,6 @@ subprojects {
     dependencies {
         minecraft "com.mojang:minecraft:${rootProject.mc_version}"
         mappings loom.officialMojangMappings()
-
     }
 }
 
@@ -28,7 +28,7 @@ allprojects {
     group = rootProject.maven_group
     tasks.withType(JavaCompile) {
         options.encoding = "UTF-8"
-        def targetVersion = 11
+        def targetVersion = 8
         if (JavaVersion.current().isJava9Compatible()) {
             options.release = targetVersion
         }

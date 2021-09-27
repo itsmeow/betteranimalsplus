@@ -8,7 +8,7 @@ import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 
 public class BetterAnimalsPlusModImpl {
-    private static CreativeModeTab getPlatformTab() {
+    public static CreativeModeTab getPlatformTab() {
         return new CreativeModeTab(Ref.MOD_ID + ".main") {
             @Override
             public ItemStack makeIcon() {

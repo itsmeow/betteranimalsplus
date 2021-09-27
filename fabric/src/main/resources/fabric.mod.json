@@ -13,7 +13,7 @@
     "homepage": "https://betteranimalsplus.com/",
     "sources": "https://github.com/itsmeow/betteranimalsplus"
   },
-  "license": "Insert License Here",
+  "license": "CC BY-NC-SA 4.0 https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode",
   "icon": "icon.png",
   "environment": "*",
   "entrypoints": {
@@ -27,8 +27,5 @@
   "depends": {
     "minecraft": "1.16.5",
     "architectury": ">=1.1.55"
-  },
-  "suggests": {
-    "flamingo": "*"
   }
 }

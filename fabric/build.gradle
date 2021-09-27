@@ -13,16 +13,13 @@ architectury {
 
 repositories {
     flatDir {
-        dirs 'libs'
+        dirs 'libs', '../common/libs'
     }
 }
 dependencies {
     modImplementation "net.fabricmc:fabric-loader:${rootProject.fabric_loader_version}"
     modApi "net.fabricmc.fabric-api:fabric-api:${rootProject.fabric_api_version}"
     modApi "me.shedaniel:architectury-fabric:${rootProject.architectury_version}"
-    modImplementation("dev.itsmeow.imdlib:imdlib:1.16.5-dev:fabric") {
-        transitive = false
-    }
 
     implementation(project(path: ":common", configuration: "dev")) {
         transitive = false
@@ -31,6 +28,13 @@ dependencies {
         transitive = false
     }
     shadowCommon(project(path: ":common", configuration: "transformProductionFabric")) {
+        transitive = false
+    }
+
+    modImplementation("dev.itsmeow.imdlib:imdlib:1.16.5-dev") {
+        transitive = false
+    }
+    modImplementation("dev.itsmeow.imdlib:imdlib:1.16.5-dev:dev") {
         transitive = false
     }
 }

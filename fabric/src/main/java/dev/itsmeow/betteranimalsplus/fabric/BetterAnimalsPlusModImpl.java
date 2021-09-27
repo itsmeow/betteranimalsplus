@@ -12,7 +12,7 @@ import net.minecraft.world.level.ItemLike;
 import java.util.stream.Collectors;
 
 public class BetterAnimalsPlusModImpl {
-    private static CreativeModeTab getPlatformTab() {
+    public static CreativeModeTab getPlatformTab() {
         return FabricItemGroupBuilder.create(new ResourceLocation(Ref.MOD_ID, "main"))
                 .icon(() -> new ItemStack(ModItems.ANTLER.get()))
                 .appendItems(list -> list.addAll(ModEntities.getEntities().values().stream().map(cont -> new ItemStack((ItemLike) cont.getEggItem().get())).collect(Collectors.toList())))

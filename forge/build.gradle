@@ -11,22 +11,14 @@ architectury {
     forge()
 }
 
-loom {
-    useFabricMixin = true
-}
-
 repositories {
     flatDir {
-        dirs 'libs'
+        dirs 'libs', '../common/libs'
     }
 }
 dependencies {
     forge "net.minecraftforge:forge:${rootProject.mc_version}-${rootProject.forge_version}"
     modApi "me.shedaniel:architectury-forge:${rootProject.architectury_version}"
-
-    modImplementation("dev.itsmeow.imdlib:imdlib:1.16.5-dev:forge") {
-        transitive = false
-    }
 
     implementation(project(path: ":common", configuration: "dev")) {
         transitive = false
@@ -35,6 +27,13 @@ dependencies {
         transitive = false
     }
     shadowCommon(project(path: ":common", configuration: "transformProductionForge")) {
+        transitive = false
+    }
+
+    modImplementation("dev.itsmeow.imdlib:imdlib:1.16.5-dev") {
+        transitive = false
+    }
+    modImplementation("dev.itsmeow.imdlib:imdlib:1.16.5-dev:dev") {
         transitive = false
     }
 }
@@ -129,7 +128,4 @@ publishing {
             }
         }
     }
-}
-loom {
-    mixinConfig "mixin.imdlib.json"
 }
