@@ -1,42 +1,45 @@
 package dev.itsmeow.betteranimalsplus.common.entity;
 
-import dev.itsmeow.imdlib.entity.EntityTypeContainer;
-import dev.itsmeow.imdlib.entity.util.EntityTypeContainerContainable;
 import dev.itsmeow.betteranimalsplus.common.entity.util.abstracts.EntityAnimalWithTypes;
 import dev.itsmeow.betteranimalsplus.common.entity.util.abstracts.EntityAnimalWithTypesAndSizeContainable;
 import dev.itsmeow.betteranimalsplus.init.ModEntities;
 import dev.itsmeow.betteranimalsplus.init.ModResources;
-import net.minecraft.block.*;
-import net.minecraft.entity.*;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.datasync.DataParameter;
-import net.minecraft.network.datasync.DataSerializers;
-import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.particles.BlockParticleData;
-import net.minecraft.particles.IParticleData;
-import net.minecraft.particles.ParticleTypes;
-import net.minecraft.state.IntegerProperty;
-import net.minecraft.state.properties.DoubleBlockHalf;
+import dev.itsmeow.imdlib.entity.EntityTypeContainer;
+import dev.itsmeow.imdlib.entity.util.BiomeTypes;
+import dev.itsmeow.imdlib.entity.util.EntityTypeContainerContainable;
+import me.shedaniel.architectury.utils.NbtType;
+import net.minecraft.ChatFormatting;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.core.particles.BlockParticleOption;
+import net.minecraft.core.particles.ParticleOptions;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.tags.BlockTags;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.Direction;
-import net.minecraft.util.RegistryKey;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.World;
-import net.minecraft.world.biome.Biome;
-import net.minecraftforge.common.BiomeDictionary;
-import net.minecraftforge.common.BiomeDictionary.Type;
-import net.minecraftforge.common.util.Constants;
+import net.minecraft.util.Mth;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.MobType;
+import net.minecraft.world.entity.ai.targeting.TargetingConditions;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.block.*;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
+import net.minecraft.world.level.block.state.properties.IntegerProperty;
+import net.minecraft.world.phys.Vec3;
 
-import javax.annotation.Nullable;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -44,14 +47,14 @@ import java.util.function.Predicate;
 
 public class EntityButterfly extends EntityAnimalWithTypesAndSizeContainable {
 
-    private static final DataParameter<Boolean> HAS_NECTAR = EntityDataManager.defineId(EntityButterfly.class, DataSerializers.BOOLEAN);
-    private static final DataParameter<Integer> LANDED = EntityDataManager.defineId(EntityButterfly.class, DataSerializers.INT);
-    private static final EntityPredicate playerPredicate = (new EntityPredicate()).range(4.0D).allowSameTeam().allowInvulnerable();
+    private static final EntityDataAccessor<Boolean> HAS_NECTAR = SynchedEntityData.defineId(EntityButterfly.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Integer> LANDED = SynchedEntityData.defineId(EntityButterfly.class, EntityDataSerializers.INT);
+    private static final TargetingConditions playerPredicate = (new TargetingConditions()).range(4.0D).allowSameTeam().allowInvulnerable();
     private BlockPos targetPosition;
     private int rainTicks = 0;
     private int ticksUntilNextGrow = 0;
 
-    public EntityButterfly(EntityType<? extends EntityButterfly> entityType, World worldIn) {
+    public EntityButterfly(EntityType<? extends EntityButterfly> entityType, Level worldIn) {
         super(entityType, worldIn);
     }
 
@@ -109,15 +112,15 @@ public class EntityButterfly extends EntityAnimalWithTypesAndSizeContainable {
     }
 
     @Override
-    public CreatureAttribute getMobType() {
-        return CreatureAttribute.ARTHROPOD;
+    public MobType getMobType() {
+        return MobType.ARTHROPOD;
     }
 
     @Override
     public void tick() {
         super.tick();
         if(this.isLanded()) {
-            this.setDeltaMovement(Vector3d.ZERO);
+            this.setDeltaMovement(Vec3.ZERO);
             if(Direction.from3DDataValue(this.getLandedInteger()) != Direction.DOWN) {
                 double x = Math.floor(this.getX()) + 0.5D;
                 double z = Math.floor(this.getZ()) + 0.5D;
@@ -135,13 +138,13 @@ public class EntityButterfly extends EntityAnimalWithTypesAndSizeContainable {
         }
         if(this.hasNectar() && this.random.nextFloat() < 0.05F) {
             for(int i = 0; i < this.random.nextInt(2) + 1; ++i) {
-                addParticle(this.level, this.getX() - (double) 0.3F, this.getX() + (double) 0.3F, this.getZ() - (double) 0.3F, this.getZ() + (double) 0.3F, this.getY() + 0.5D, new BlockParticleData(ParticleTypes.FALLING_DUST, Blocks.SAND.defaultBlockState()));
+                addParticle(this.level, this.getX() - (double) 0.3F, this.getX() + (double) 0.3F, this.getZ() - (double) 0.3F, this.getZ() + (double) 0.3F, this.getY() + 0.5D, new BlockParticleOption(ParticleTypes.FALLING_DUST, Blocks.SAND.defaultBlockState()));
             }
         }
     }
 
-    private static void addParticle(World worldIn, double xStart, double xEnd, double zStart, double zEnd, double posY, IParticleData particleData) {
-        worldIn.addParticle(particleData, MathHelper.lerp(worldIn.random.nextDouble(), xStart, xEnd), posY, MathHelper.lerp(worldIn.random.nextDouble(), zStart, zEnd), 0.0D, 0.0D, 0.0D);
+    private static void addParticle(Level worldIn, double xStart, double xEnd, double zStart, double zEnd, double posY, ParticleOptions particleData) {
+        worldIn.addParticle(particleData, Mth.lerp(worldIn.random.nextDouble(), xStart, xEnd), posY, Mth.lerp(worldIn.random.nextDouble(), zStart, zEnd), 0.0D, 0.0D, 0.0D);
     }
 
     public boolean isRainingAt(BlockPos position) {
@@ -152,7 +155,7 @@ public class EntityButterfly extends EntityAnimalWithTypesAndSizeContainable {
         } else if (!level.isLoaded(position) || !level.canSeeSkyFromBelowWater(position)) {
            return false;
         } else {
-           return level.getBiome(position).getPrecipitation() == Biome.RainType.RAIN;
+           return level.getBiome(position).getPrecipitation() == Biome.Precipitation.RAIN;
         }
      }
 
@@ -198,7 +201,7 @@ public class EntityButterfly extends EntityAnimalWithTypesAndSizeContainable {
         } else {
             rainTicks = 0;
             if(this.targetPosition == null || this.random.nextInt(30) == 0 || (this.targetPosition.closerThan(this.position(), 1.0D) && !isFlowers(this.targetPosition) && !isGrowable(this.targetPosition))) {
-                if(level.isRaining() && level.getBiome(this.blockPosition()).getPrecipitation() == Biome.RainType.RAIN) {
+                if(level.isRaining() && level.getBiome(this.blockPosition()).getPrecipitation() == Biome.Precipitation.RAIN) {
                     // attempt to land
                     boolean found = false;
                     for(Direction direction : Direction.values()) {
@@ -265,8 +268,8 @@ public class EntityButterfly extends EntityAnimalWithTypesAndSizeContainable {
                     BlockState blockstate = this.level.getBlockState(targetPosition);
                     Block block = blockstate.getBlock();
                     IntegerProperty age = null;
-                    if(block instanceof CropsBlock) {
-                        age = ((CropsBlock) block).getAgeProperty();
+                    if(block instanceof CropBlock) {
+                        age = ((CropBlock) block).getAgeProperty();
                     } else if(block instanceof StemBlock) {
                         age = StemBlock.AGE;
                     } else if(block == Blocks.SWEET_BERRY_BUSH) {
@@ -292,11 +295,11 @@ public class EntityButterfly extends EntityAnimalWithTypesAndSizeContainable {
                 double d0 = (double) this.targetPosition.getX() + 0.5D - this.getX();
                 double d1 = (double) this.targetPosition.getY() + 0.1D - this.getY();
                 double d2 = (double) this.targetPosition.getZ() + 0.5D - this.getZ();
-                Vector3d vec3d = this.getDeltaMovement();
-                Vector3d vec3d1 = vec3d.add((Math.signum(d0) * 0.5D - vec3d.x) * (double) 0.1F, (Math.signum(d1) * (double) 0.7F - vec3d.y) * (double) 0.1F, (Math.signum(d2) * 0.5D - vec3d.z) * (double) 0.1F);
+                Vec3 vec3d = this.getDeltaMovement();
+                Vec3 vec3d1 = vec3d.add((Math.signum(d0) * 0.5D - vec3d.x) * (double) 0.1F, (Math.signum(d1) * (double) 0.7F - vec3d.y) * (double) 0.1F, (Math.signum(d2) * 0.5D - vec3d.z) * (double) 0.1F);
                 this.setDeltaMovement(vec3d1);
-                float f = (float) (MathHelper.atan2(vec3d1.z, vec3d1.x) * (double) (180F / (float) Math.PI)) - 90.0F;
-                float f1 = MathHelper.wrapDegrees(f - this.yRot);
+                float f = (float) (Mth.atan2(vec3d1.z, vec3d1.x) * (double) (180F / (float) Math.PI)) - 90.0F;
+                float f1 = Mth.wrapDegrees(f - this.yRot);
                 this.zza = 0.5F;
                 this.yRot += f1;
             }
@@ -304,7 +307,7 @@ public class EntityButterfly extends EntityAnimalWithTypesAndSizeContainable {
     }
 
     private BlockPos tryToFindPosition(Predicate<BlockPos> condition) {
-        BlockPos.Mutable pos = new BlockPos.Mutable();
+        BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos();
         int i = 12;
         int j = 2;
         for(int k = 0; k <= j; k = k > 0 ? -k : 1 - k) {
@@ -327,8 +330,8 @@ public class EntityButterfly extends EntityAnimalWithTypesAndSizeContainable {
         Block block = blockstate.getBlock();
         boolean flag = false;
         if(block.is(ModResources.Tags.Blocks.BUTTERFLY_GROWABLES)) {
-            if(block instanceof CropsBlock) {
-                CropsBlock cropsblock = (CropsBlock) block;
+            if(block instanceof CropBlock) {
+                CropBlock cropsblock = (CropBlock) block;
                 if(!cropsblock.isMaxAge(blockstate)) {
                     flag = true;
 
@@ -399,7 +402,7 @@ public class EntityButterfly extends EntityAnimalWithTypesAndSizeContainable {
     }
 
     @Override
-    public void readAdditionalSaveData(CompoundNBT compound) {
+    public void readAdditionalSaveData(CompoundTag compound) {
         super.readAdditionalSaveData(compound);
         this.entityData.set(LANDED, compound.getInt("Landed"));
         this.entityData.set(HAS_NECTAR, compound.getBoolean("HasNectar"));
@@ -407,7 +410,7 @@ public class EntityButterfly extends EntityAnimalWithTypesAndSizeContainable {
     }
 
     @Override
-    public void addAdditionalSaveData(CompoundNBT compound) {
+    public void addAdditionalSaveData(CompoundTag compound) {
         super.addAdditionalSaveData(compound);
         compound.putInt("Landed", this.entityData.get(LANDED));
         compound.putBoolean("HasNectar", this.entityData.get(HAS_NECTAR));
@@ -420,7 +423,7 @@ public class EntityButterfly extends EntityAnimalWithTypesAndSizeContainable {
     }
 
     @Override
-    public boolean canBeLeashed(PlayerEntity player) {
+    public boolean canBeLeashed(Player player) {
         return false;
     }
 
@@ -442,14 +445,14 @@ public class EntityButterfly extends EntityAnimalWithTypesAndSizeContainable {
     @Override
     public void setContainerData(ItemStack bucket) {
         super.setContainerData(bucket);
-        CompoundNBT tag = bucket.getTag();
+        CompoundTag tag = bucket.getTag();
         tag.putFloat("SizeTag", this.entityData.get(SIZE));
         tag.putBoolean("HasNectar", this.entityData.get(HAS_NECTAR));
         bucket.setTag(tag);
     }
 
     @Override
-    public void readFromContainerTag(CompoundNBT tag) {
+    public void readFromContainerTag(CompoundTag tag) {
         super.readFromContainerTag(tag);
         if(tag.contains("SizeTag")) {
             this.setSize(tag.getFloat("SizeTag"));
@@ -457,24 +460,24 @@ public class EntityButterfly extends EntityAnimalWithTypesAndSizeContainable {
         }
     }
 
-    public static void bottleTooltip(EntityTypeContainer<? extends MobEntity> container, ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip) {
-        CompoundNBT tag = stack.getTag();
+    public static void bottleTooltip(EntityTypeContainer<? extends Mob> container, ItemStack stack, Level worldIn, List<Component> tooltip) {
+        CompoundTag tag = stack.getTag();
         if(tag != null) {
-            if(tag.contains("SizeTag", Constants.NBT.TAG_FLOAT)) {
-                tooltip.add(new StringTextComponent("Size: " + tag.getFloat("SizeTag")).withStyle(TextFormatting.ITALIC).withStyle(TextFormatting.GRAY));
+            if(tag.contains("SizeTag", NbtType.FLOAT)) {
+                tooltip.add(new TextComponent("Size: " + tag.getFloat("SizeTag")).withStyle(ChatFormatting.ITALIC).withStyle(ChatFormatting.GRAY));
             }
             if(tag.contains("HasNectar") && tag.getBoolean("HasNectar")) {
-                tooltip.add(new TranslationTextComponent("tooltip.betteranimalsplus.nectar").withStyle(TextFormatting.ITALIC).withStyle(TextFormatting.YELLOW));
+                tooltip.add(new TranslatableComponent("tooltip.betteranimalsplus.nectar").withStyle(ChatFormatting.ITALIC).withStyle(ChatFormatting.YELLOW));
             }
         }
     }
 
-    public static RegistryKey<Biome>[] getSpawnBiomes() {
-        Set<RegistryKey<Biome>> set = new HashSet<>();
-        set.addAll(BiomeDictionary.getBiomes(Type.FOREST));
-        set.addAll(BiomeDictionary.getBiomes(Type.JUNGLE));
-        set.addAll(BiomeDictionary.getBiomes(Type.MAGICAL));
-        set.removeIf(b -> BiomeDictionary.hasType(b, Type.COLD) || !BiomeDictionary.hasType(b, Type.OVERWORLD));
-        return set.toArray(new RegistryKey[0]);
+    public static ResourceKey<Biome>[] getSpawnBiomes() {
+        Set<ResourceKey<Biome>> set = new HashSet<>();
+        set.addAll(BiomeTypes.getBiomes(BiomeTypes.FOREST));
+        set.addAll(BiomeTypes.getBiomes(BiomeTypes.JUNGLE));
+        set.addAll(BiomeTypes.getBiomes(BiomeTypes.MAGICAL));
+        set.removeIf(b -> BiomeTypes.COLD.hasType(b) || !BiomeTypes.OVERWORLD.hasType(b));
+        return set.toArray(new ResourceKey[0]);
     }
 }

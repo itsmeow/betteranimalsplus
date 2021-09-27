@@ -224,9 +224,9 @@ public class ModelBullShark extends EntityModel<EntityShark> {
     }
 
     public static void animate(EntityShark entity, float ageInTicks, ModelPart body, ModelPart tail00, ModelPart tail01, ModelPart tail02, ModelPart lowerJaw) {
-        if ((Math.abs(entity.getMotion().getY()) > 0.01 && (Math.abs(entity.getMotion().getX()) > 0.01 || Math.abs(entity.getMotion().getZ()) > 0.01)) || Math.abs(entity.getMotion().getY()) > 0.03) {
-            float rotX = -((float) Math.atan2(entity.getMotion().getY(), Math.sqrt(Math.pow(entity.getMotion().getX(), 2) + Math.pow(entity.getMotion().getZ(), 2))) / 1.5F);
-            if (rotX < 0) {
+        if((Math.abs(entity.getDeltaMovement().y()) > 0.01 && (Math.abs(entity.getDeltaMovement().x()) > 0.01 || Math.abs(entity.getDeltaMovement().z()) > 0.01)) || Math.abs(entity.getDeltaMovement().y()) > 0.03) {
+            float rotX = -((float) Math.atan2(entity.getDeltaMovement().y(), Math.sqrt(Math.pow(entity.getDeltaMovement().x(), 2) + Math.pow(entity.getDeltaMovement().z(), 2))) / 1.5F);
+            if(rotX < 0) {
                 rotX /= 2;
             }
             rotX += 0.022863813201125717F;
@@ -236,14 +236,14 @@ public class ModelBullShark extends EntityModel<EntityShark> {
         } else {
             body.xRot = 0.022863813201125717F;
         }
-        float motionFactor = Math.min((float) entity.getMotion().length() * 25F, 75);
+        float motionFactor = Math.min((float) entity.getDeltaMovement().length() * 25F, 75);
         tail00.yRot = Mth.cos(ageInTicks * 0.25F) * 0.05F * motionFactor;
         tail01.yRot = Mth.cos(ageInTicks * 0.25F) * 0.05F * motionFactor;
         tail02.yRot = Mth.cos(ageInTicks * 0.25F) * 0.05F * motionFactor;
-        if (entity.getPassengers().size() == 0) {
+        if(entity.getPassengers().size() == 0) {
             float mul = 0.05F;
             float div = 20F;
-            float add = entity.getUniqueID().hashCode() * 0.0001F;
+            float add = entity.getUUID().hashCode() * 0.0001F;
             lowerJaw.xRot = (float) Math.cos(ageInTicks * (mul + 0.05F) + add) / div;
         } else {
             lowerJaw.xRot = (float) Math.PI / 4F;

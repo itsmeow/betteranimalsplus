@@ -1,23 +1,23 @@
 package dev.itsmeow.betteranimalsplus.common.entity.ai;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.Blocks;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.MobEntity;
-import net.minecraft.pathfinding.GroundPathNavigator;
-import net.minecraft.pathfinding.Path;
-import net.minecraft.pathfinding.PathFinder;
-import net.minecraft.pathfinding.PathNodeType;
-import net.minecraft.pathfinding.PathType;
-import net.minecraft.pathfinding.WalkNodeProcessor;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.world.World;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.ai.navigation.GroundPathNavigation;
+import net.minecraft.world.level.pathfinder.Path;
+import net.minecraft.world.level.pathfinder.PathFinder;
+import net.minecraft.world.level.pathfinder.BlockPathTypes;
+import net.minecraft.world.level.pathfinder.PathComputationType;
+import net.minecraft.world.level.pathfinder.WalkNodeEvaluator;
+import net.minecraft.core.BlockPos;
+import net.minecraft.util.Mth;
+import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.level.Level;
 
-public class WaterfowlNavigator extends GroundPathNavigator {
+public class WaterfowlNavigator extends GroundPathNavigation {
 
-    public WaterfowlNavigator(MobEntity entitylivingIn, World worldIn) {
+    public WaterfowlNavigator(Mob entitylivingIn, Level worldIn) {
         super(entitylivingIn, worldIn);
         this.nodeEvaluator.setCanOpenDoors(false);
         this.nodeEvaluator.setCanFloat(true);
@@ -25,7 +25,7 @@ public class WaterfowlNavigator extends GroundPathNavigator {
 
     @Override
     protected PathFinder createPathFinder(int p_179679_1_) {
-        this.nodeEvaluator = new WalkNodeProcessor();
+        this.nodeEvaluator = new WalkNodeEvaluator();
         this.nodeEvaluator.setCanPassDoors(true);
         return new PathFinder(this.nodeEvaluator, p_179679_1_);
     }
@@ -36,8 +36,8 @@ public class WaterfowlNavigator extends GroundPathNavigator {
     }
 
     @Override
-    protected Vector3d getTempMobPos() {
-        return new Vector3d(this.mob.getX(), this.getPathablePosY(), this.mob.getZ());
+    protected Vec3 getTempMobPos() {
+        return new Vec3(this.mob.getX(), this.getPathablePosY(), this.mob.getZ());
     }
 
     @Override
@@ -76,7 +76,7 @@ public class WaterfowlNavigator extends GroundPathNavigator {
 
     private int getPathablePosY() {
         if(this.mob.isInWater() && this.canFloat()) {
-            int i = MathHelper.floor(this.mob.getBoundingBox().minY);
+            int i = Mth.floor(this.mob.getBoundingBox().minY);
             Block block = this.level.getBlockState(new BlockPos(this.mob.getX(), i, this.mob.getZ())).getBlock();
             int j = 0;
 
@@ -85,20 +85,20 @@ public class WaterfowlNavigator extends GroundPathNavigator {
                 block = this.level.getBlockState(new BlockPos(this.mob.getX(), i, this.mob.getZ())).getBlock();
                 ++j;
                 if(j > 16) {
-                    return MathHelper.floor(this.mob.getBoundingBox().minY);
+                    return Mth.floor(this.mob.getBoundingBox().minY);
                 }
             }
 
             return i;
         } else {
-            return MathHelper.floor(this.mob.getBoundingBox().minY + 0.5D);
+            return Mth.floor(this.mob.getBoundingBox().minY + 0.5D);
         }
     }
 
     @Override
-    protected boolean canMoveDirectly(Vector3d posVec31, Vector3d posVec32, int sizeX, int sizeY, int sizeZ) {
-        int i = MathHelper.floor(posVec31.x);
-        int j = MathHelper.floor(posVec31.z);
+    protected boolean canMoveDirectly(Vec3 posVec31, Vec3 posVec32, int sizeX, int sizeY, int sizeZ) {
+        int i = Mth.floor(posVec31.x);
+        int j = Mth.floor(posVec31.z);
         double d0 = posVec32.x - posVec31.x;
         double d1 = posVec32.z - posVec31.z;
         double d2 = d0 * d0 + d1 * d1;
@@ -110,7 +110,7 @@ public class WaterfowlNavigator extends GroundPathNavigator {
             d1 = d1 * d3;
             sizeX = sizeX + 2;
             sizeZ = sizeZ + 2;
-            if(!this.isSafeToStandAt(i, MathHelper.floor(posVec31.y), j, sizeX, sizeY, sizeZ, posVec31, d0, d1)) {
+            if(!this.isSafeToStandAt(i, Mth.floor(posVec31.y), j, sizeX, sizeY, sizeZ, posVec31, d0, d1)) {
                 return false;
             } else {
                 sizeX = sizeX - 2;
@@ -131,8 +131,8 @@ public class WaterfowlNavigator extends GroundPathNavigator {
                 d7 = d7 / d1;
                 int k = d0 < 0.0D ? -1 : 1;
                 int l = d1 < 0.0D ? -1 : 1;
-                int i1 = MathHelper.floor(posVec32.x);
-                int j1 = MathHelper.floor(posVec32.z);
+                int i1 = Mth.floor(posVec32.x);
+                int j1 = Mth.floor(posVec32.z);
                 int k1 = i1 - i;
                 int l1 = j1 - j;
 
@@ -147,7 +147,7 @@ public class WaterfowlNavigator extends GroundPathNavigator {
                         l1 = j1 - j;
                     }
 
-                    if(!this.isSafeToStandAt(i, MathHelper.floor(posVec31.y), j, sizeX, sizeY, sizeZ, posVec31, d0, d1)) {
+                    if(!this.isSafeToStandAt(i, Mth.floor(posVec31.y), j, sizeX, sizeY, sizeZ, posVec31, d0, d1)) {
                         return false;
                     }
                 }
@@ -157,7 +157,7 @@ public class WaterfowlNavigator extends GroundPathNavigator {
         }
     }
 
-    private boolean isSafeToStandAt(int x, int y, int z, int sizeX, int sizeY, int sizeZ, Vector3d vec31, double p_179683_8_, double p_179683_10_) {
+    private boolean isSafeToStandAt(int x, int y, int z, int sizeX, int sizeY, int sizeZ, Vec3 vec31, double p_179683_8_, double p_179683_10_) {
         int i = x - sizeX / 2;
         int j = z - sizeZ / 2;
         if(!this.isPositionClear(i, y, j, sizeX, sizeY, sizeZ, vec31, p_179683_8_, p_179683_10_)) {
@@ -168,13 +168,13 @@ public class WaterfowlNavigator extends GroundPathNavigator {
                     double d0 = (double) k + 0.5D - vec31.x;
                     double d1 = (double) l + 0.5D - vec31.z;
                     if(!(d0 * p_179683_8_ + d1 * p_179683_10_ < 0.0D)) {
-                        PathNodeType pathnodetype = this.nodeEvaluator.getBlockPathType(this.level, k, y - 1, l, this.mob, sizeX, sizeY, sizeZ, true, true);
+                        BlockPathTypes pathnodetype = this.nodeEvaluator.getBlockPathType(this.level, k, y - 1, l, this.mob, sizeX, sizeY, sizeZ, true, true);
 
-                        if(pathnodetype == PathNodeType.LAVA) {
+                        if(pathnodetype == BlockPathTypes.LAVA) {
                             return false;
                         }
 
-                        if(pathnodetype == PathNodeType.OPEN) {
+                        if(pathnodetype == BlockPathTypes.OPEN) {
                             return false;
                         }
 
@@ -184,7 +184,7 @@ public class WaterfowlNavigator extends GroundPathNavigator {
                             return false;
                         }
 
-                        if(pathnodetype == PathNodeType.DAMAGE_FIRE || pathnodetype == PathNodeType.DANGER_FIRE || pathnodetype == PathNodeType.DAMAGE_OTHER) {
+                        if(pathnodetype == BlockPathTypes.DAMAGE_FIRE || pathnodetype == BlockPathTypes.DANGER_FIRE || pathnodetype == BlockPathTypes.DAMAGE_OTHER) {
                             return false;
                         }
                     }
@@ -195,11 +195,11 @@ public class WaterfowlNavigator extends GroundPathNavigator {
         }
     }
 
-    private boolean isPositionClear(int x, int y, int z, int sizeX, int sizeY, int sizeZ, Vector3d p_179692_7_, double p_179692_8_, double p_179692_10_) {
+    private boolean isPositionClear(int x, int y, int z, int sizeX, int sizeY, int sizeZ, Vec3 p_179692_7_, double p_179692_8_, double p_179692_10_) {
         for(BlockPos blockpos : BlockPos.betweenClosed(new BlockPos(x, y, z), new BlockPos(x + sizeX - 1, y + sizeY - 1, z + sizeZ - 1))) {
             double d0 = (double) blockpos.getX() + 0.5D - p_179692_7_.x;
             double d1 = (double) blockpos.getZ() + 0.5D - p_179692_7_.z;
-            if(!(d0 * p_179692_8_ + d1 * p_179692_10_ < 0.0D) && !this.level.getBlockState(blockpos).isPathfindable(this.level, blockpos, PathType.LAND) && !this.level.getBlockState(blockpos).isPathfindable(this.level, blockpos, PathType.WATER)) {
+            if(!(d0 * p_179692_8_ + d1 * p_179692_10_ < 0.0D) && !this.level.getBlockState(blockpos).isPathfindable(this.level, blockpos, PathComputationType.LAND) && !this.level.getBlockState(blockpos).isPathfindable(this.level, blockpos, PathComputationType.WATER)) {
                 return false;
             }
         }

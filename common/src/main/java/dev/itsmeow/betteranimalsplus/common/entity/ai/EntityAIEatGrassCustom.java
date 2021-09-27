@@ -1,13 +1,13 @@
 package dev.itsmeow.betteranimalsplus.common.entity.ai;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.pattern.BlockStateMatcher;
-import net.minecraft.entity.MobEntity;
-import net.minecraft.entity.ai.goal.Goal;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.predicate.BlockStatePredicate;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.ai.goal.Goal;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.Level;
 
 import java.util.EnumSet;
 import java.util.function.Function;
@@ -15,25 +15,25 @@ import java.util.function.Predicate;
 
 public class EntityAIEatGrassCustom extends Goal {
 
-    private static final Predicate<BlockState> IS_GRASS = BlockStateMatcher.forBlock(Blocks.GRASS);
-    protected final MobEntity eater;
-    protected final World world;
+    private static final Predicate<BlockState> IS_GRASS = BlockStatePredicate.forBlock(Blocks.GRASS);
+    protected final Mob eater;
+    protected final Level world;
     protected int eatingGrassTimer;
     protected final int childChance;
     protected final int adultChance;
-    protected final Function<MobEntity, BlockPos> getPosition;
+    protected final Function<Mob, BlockPos> getPosition;
 
-    public EntityAIEatGrassCustom(MobEntity eater, int childChance, int adultChance) {
+    public EntityAIEatGrassCustom(Mob eater, int childChance, int adultChance) {
         this(eater, childChance, adultChance, e -> new BlockPos(e.getX(), e.getY(), e.getZ()));
     }
     
-    public EntityAIEatGrassCustom(MobEntity eater, int childChance, int adultChance, Function<MobEntity, BlockPos> getPosition) {
+    public EntityAIEatGrassCustom(Mob eater, int childChance, int adultChance, Function<Mob, BlockPos> getPosition) {
         this.eater = eater;
         this.world = eater.level;
         this.childChance = childChance;
         this.adultChance = adultChance;
         this.getPosition = getPosition;
-        this.setFlags(EnumSet.of(Goal.Flag.MOVE, Goal.Flag.LOOK, Goal.Flag.JUMP));
+        this.setFlags(EnumSet.of(Flag.MOVE, Flag.LOOK, Flag.JUMP));
     }
 
     @Override

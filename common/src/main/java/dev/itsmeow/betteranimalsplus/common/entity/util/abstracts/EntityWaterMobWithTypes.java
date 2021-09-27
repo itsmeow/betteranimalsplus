@@ -1,20 +1,20 @@
 package dev.itsmeow.betteranimalsplus.common.entity.util.abstracts;
 
 import dev.itsmeow.imdlib.entity.interfaces.IVariantTypes;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.ILivingEntityData;
-import net.minecraft.entity.SpawnReason;
-import net.minecraft.entity.passive.WaterMobEntity;
-import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.SpawnGroupData;
+import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.animal.WaterAnimal;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.DifficultyInstance;
-import net.minecraft.world.IServerWorld;
-import net.minecraft.world.World;
+import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.Level;
 
 import javax.annotation.Nullable;
 
-public abstract class EntityWaterMobWithTypes extends WaterMobEntity implements IVariantTypes<EntityWaterMobWithTypes> {
+public abstract class EntityWaterMobWithTypes extends WaterAnimal implements IVariantTypes<EntityWaterMobWithTypes> {
 
-    public EntityWaterMobWithTypes(EntityType<? extends WaterMobEntity> entityType, World worldIn) {
+    public EntityWaterMobWithTypes(EntityType<? extends WaterAnimal> entityType, Level worldIn) {
         super(entityType, worldIn);
     }
 
@@ -25,20 +25,20 @@ public abstract class EntityWaterMobWithTypes extends WaterMobEntity implements 
     }
 
     @Override
-    public void addAdditionalSaveData(CompoundNBT compound) {
+    public void addAdditionalSaveData(CompoundTag compound) {
         super.addAdditionalSaveData(compound);
         this.writeType(compound);
     }
 
     @Override
-    public void readAdditionalSaveData(CompoundNBT compound) {
+    public void readAdditionalSaveData(CompoundTag compound) {
         super.readAdditionalSaveData(compound);
         this.readType(compound);
     }
 
     @Override
     @Nullable
-    public ILivingEntityData finalizeSpawn(IServerWorld world, DifficultyInstance difficulty, SpawnReason reason, @Nullable ILivingEntityData livingdata, CompoundNBT compound) {
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor world, DifficultyInstance difficulty, MobSpawnType reason, @Nullable SpawnGroupData livingdata, CompoundTag compound) {
         return this.initData(world, reason, super.finalizeSpawn(world, difficulty, reason, livingdata, compound));
     }
 

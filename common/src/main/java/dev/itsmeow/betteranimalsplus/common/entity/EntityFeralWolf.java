@@ -1,7 +1,5 @@
 package dev.itsmeow.betteranimalsplus.common.entity;
 
-import dev.itsmeow.imdlib.entity.util.variant.EntityVariant;
-import dev.itsmeow.imdlib.entity.util.variant.IVariant;
 import dev.itsmeow.betteranimalsplus.Ref;
 import dev.itsmeow.betteranimalsplus.common.entity.ai.HungerNearestAttackableTargetGoal;
 import dev.itsmeow.betteranimalsplus.common.entity.ai.HungerNonTamedTargetGoal;
@@ -14,74 +12,87 @@ import dev.itsmeow.betteranimalsplus.common.entity.util.abstracts.EntityTameable
 import dev.itsmeow.betteranimalsplus.init.ModEntities;
 import dev.itsmeow.betteranimalsplus.init.ModItems;
 import dev.itsmeow.betteranimalsplus.init.ModResources;
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.*;
-import net.minecraft.entity.ai.attributes.Attributes;
-import net.minecraft.entity.ai.goal.*;
-import net.minecraft.entity.merchant.villager.VillagerEntity;
-import net.minecraft.entity.monster.*;
-import net.minecraft.entity.passive.AnimalEntity;
-import net.minecraft.entity.passive.ChickenEntity;
-import net.minecraft.entity.passive.RabbitEntity;
-import net.minecraft.entity.passive.SheepEntity;
-import net.minecraft.entity.passive.horse.AbstractHorseEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.projectile.AbstractArrowEntity;
-import net.minecraft.inventory.EquipmentSlotType;
-import net.minecraft.item.Food;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.datasync.DataParameter;
-import net.minecraft.network.datasync.DataSerializers;
-import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.util.*;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.TranslationTextComponent;
+import dev.itsmeow.imdlib.entity.util.BiomeTypes;
+import dev.itsmeow.imdlib.entity.util.variant.EntityVariant;
+import dev.itsmeow.imdlib.entity.util.variant.IVariant;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
+import net.minecraft.Util;
+import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.DifficultyInstance;
-import net.minecraft.world.IServerWorld;
-import net.minecraft.world.World;
-import net.minecraft.world.biome.Biome;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.common.BiomeDictionary.Type;
-import net.minecraftforge.event.ForgeEventFactory;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.goal.*;
+import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
+import net.minecraft.world.entity.ai.goal.target.NonTameRandomTargetGoal;
+import net.minecraft.world.entity.ai.goal.target.OwnerHurtByTargetGoal;
+import net.minecraft.world.entity.ai.goal.target.OwnerHurtTargetGoal;
+import net.minecraft.world.entity.animal.Animal;
+import net.minecraft.world.entity.animal.Chicken;
+import net.minecraft.world.entity.animal.Rabbit;
+import net.minecraft.world.entity.animal.Sheep;
+import net.minecraft.world.entity.animal.horse.AbstractHorse;
+import net.minecraft.world.entity.monster.AbstractIllager;
+import net.minecraft.world.entity.monster.AbstractSkeleton;
+import net.minecraft.world.entity.monster.Creeper;
+import net.minecraft.world.entity.monster.Ghast;
+import net.minecraft.world.entity.npc.Villager;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.AbstractArrow;
+import net.minecraft.world.food.FoodProperties;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.Set;
-
 
 public class EntityFeralWolf extends EntityTameableWithSelectiveTypes implements IDropHead<EntityTameableBetterAnimalsPlus>, IHaveHunger<EntityTameableBetterAnimalsPlus> {
 
     public static final double TAMED_HEALTH = 30D;
     public static final double UNTAMED_HEALTH = 10D;
-    protected static final DataParameter<Float> DATA_HEALTH_ID = EntityDataManager.defineId(EntityFeralWolf.class, DataSerializers.FLOAT);
+    protected static final EntityDataAccessor<Float> DATA_HEALTH_ID = SynchedEntityData.defineId(EntityFeralWolf.class, EntityDataSerializers.FLOAT);
 
     private int hunger;
 
-    public EntityFeralWolf(EntityType<? extends EntityFeralWolf> entityType, World worldIn) {
+    public EntityFeralWolf(EntityType<? extends EntityFeralWolf> entityType, Level worldIn) {
         super(entityType, worldIn);
     }
 
     @Override
     protected void registerGoals() {
-        this.goalSelector.addGoal(1, new SwimGoal(this));
-        this.goalSelector.addGoal(2, new SitGoal(this));
+        this.goalSelector.addGoal(1, new FloatGoal(this));
+        this.goalSelector.addGoal(2, new SitWhenOrderedToGoal(this));
         this.goalSelector.addGoal(3, new BreedGoal(this, 1D));
         this.goalSelector.addGoal(4, new LeapAtTargetGoal(this, 0.4F));
         this.goalSelector.addGoal(5, new MeleeAttackGoal(this, 1.0D, true));
         this.goalSelector.addGoal(6, new FollowOwnerGoal(this, 1.0D, 10.0F, 2.0F, false));
-        this.goalSelector.addGoal(8, new WaterAvoidingRandomWalkingGoal(this, 1.0D));
-        this.goalSelector.addGoal(10, new LookAtGoal(this, PlayerEntity.class, 8.0F));
+        this.goalSelector.addGoal(8, new WaterAvoidingRandomStrollGoal(this, 1.0D));
+        this.goalSelector.addGoal(10, new LookAtPlayerGoal(this, Player.class, 8.0F));
         this.targetSelector.addGoal(1, new OwnerHurtByTargetGoal(this));
         this.targetSelector.addGoal(2, new OwnerHurtTargetGoal(this));
         this.targetSelector.addGoal(3, new HurtByTargetGoal(this));
-        this.targetSelector.addGoal(4, new NonTamedTargetGoal<>(this, PlayerEntity.class, false,  e -> e.level.getDifficulty() != Difficulty.PEACEFUL));
-        this.targetSelector.addGoal(4, new HungerNonTamedTargetGoal<>(this, AnimalEntity.class, false, e -> e instanceof SheepEntity || e instanceof RabbitEntity));
-        this.targetSelector.addGoal(4, new HungerNonTamedTargetGoal<>(this, VillagerEntity.class, false, e -> true));
-        this.targetSelector.addGoal(4, new HungerNonTamedTargetGoal<>(this, AbstractIllagerEntity.class, false, e -> true));
-        this.targetSelector.addGoal(4, new HungerNonTamedTargetGoal<>(this, ChickenEntity.class, false, e -> true));
+        this.targetSelector.addGoal(4, new NonTameRandomTargetGoal<>(this, Player.class, false,  e -> e.level.getDifficulty() != Difficulty.PEACEFUL));
+        this.targetSelector.addGoal(4, new HungerNonTamedTargetGoal<>(this, Animal.class, false, e -> e instanceof Sheep || e instanceof Rabbit));
+        this.targetSelector.addGoal(4, new HungerNonTamedTargetGoal<>(this, Villager.class, false, e -> true));
+        this.targetSelector.addGoal(4, new HungerNonTamedTargetGoal<>(this, AbstractIllager.class, false, e -> true));
+        this.targetSelector.addGoal(4, new HungerNonTamedTargetGoal<>(this, Chicken.class, false, e -> true));
         this.targetSelector.addGoal(4, new HungerNonTamedTargetGoal<>(this, EntityGoat.class, false, e -> true));
-        this.targetSelector.addGoal(5, new HungerNearestAttackableTargetGoal<>(this, AbstractSkeletonEntity.class, false));
+        this.targetSelector.addGoal(5, new HungerNearestAttackableTargetGoal<>(this, AbstractSkeleton.class, false));
     }
 
     @Override
@@ -95,13 +106,13 @@ public class EntityFeralWolf extends EntityTameableWithSelectiveTypes implements
     }
 
     @Override
-    public void addAdditionalSaveData(CompoundNBT compound) {
+    public void addAdditionalSaveData(CompoundTag compound) {
         super.addAdditionalSaveData(compound);
         this.writeHunger(compound);
     }
 
     @Override
-    public void readAdditionalSaveData(CompoundNBT compound) {
+    public void readAdditionalSaveData(CompoundTag compound) {
         super.readAdditionalSaveData(compound);
         this.readHunger(compound);
     }
@@ -179,7 +190,7 @@ public class EntityFeralWolf extends EntityTameableWithSelectiveTypes implements
                 this.setOrderedToSit(false);
             }
 
-            if(entity != null && !(entity instanceof PlayerEntity) && !(entity instanceof AbstractArrowEntity)) {
+            if(entity != null && !(entity instanceof Player) && !(entity instanceof AbstractArrow)) {
                 amount = (amount + 1.0F) / 2.0F;
             }
 
@@ -211,18 +222,18 @@ public class EntityFeralWolf extends EntityTameableWithSelectiveTypes implements
     }
 
     @Override
-    public ActionResultType mobInteract(PlayerEntity player, Hand hand) {
+    public InteractionResult mobInteract(Player player, InteractionHand hand) {
         ItemStack itemstack = player.getItemInHand(hand);
         if(this.isTame()) {
             if(!itemstack.isEmpty()) {
                 if(itemstack.getItem().isEdible()) {
-                    Food food = itemstack.getItem().getFoodProperties();
+                    FoodProperties food = itemstack.getItem().getFoodProperties();
                     if(food.isMeat() && this.entityData.get(EntityFeralWolf.DATA_HEALTH_ID) < TAMED_HEALTH) {
                         if(!player.isCreative()) {
                             itemstack.shrink(1);
                         }
                         this.heal(food.getNutrition());
-                        return ActionResultType.SUCCESS;
+                        return InteractionResult.SUCCESS;
                     }
                 }
             }
@@ -235,13 +246,13 @@ public class EntityFeralWolf extends EntityTameableWithSelectiveTypes implements
                 this.setTarget(null);
             }
         } else if(this.isTamingItem(itemstack.getItem())) {
-            ItemStack stack = player.getItemBySlot(EquipmentSlotType.HEAD);
+            ItemStack stack = player.getItemBySlot(EquipmentSlot.HEAD);
             if(stack.getItem().is(ModResources.Tags.Items.FERAL_WOLF_TAME_ARMOR)) {
                 if(!player.isCreative()) {
                     itemstack.shrink(1);
                 }
                 if(!this.level.isClientSide) {
-                    if(this.random.nextInt(100) <= 14 && !ForgeEventFactory.onAnimalTame(this, player)) {
+                    if(this.random.nextInt(100) <= 14) {// TODO tame event && !ForgeEventFactory.onAnimalTame(this, player)) {
                         this.tame(player);
                         this.navigation.stop();
                         this.setTarget(null);
@@ -253,10 +264,10 @@ public class EntityFeralWolf extends EntityTameableWithSelectiveTypes implements
                     }
                 }
 
-                return ActionResultType.SUCCESS;
+                return InteractionResult.SUCCESS;
             } else {
                 if(!this.level.isClientSide) {
-                    player.sendMessage(new TranslationTextComponent("entity.betteranimalsplus.feralwolf.message.wear_head"), Util.NIL_UUID);
+                    player.sendMessage(new TranslatableComponent("entity.betteranimalsplus.feralwolf.message.wear_head"), Util.NIL_UUID);
                 }
             }
         }
@@ -269,7 +280,7 @@ public class EntityFeralWolf extends EntityTameableWithSelectiveTypes implements
         return this.isTame() && super.canBreed();
     }
 
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public float getTailRotation() {
         if(!this.isTame()) {
             return -0.15F;
@@ -293,7 +304,7 @@ public class EntityFeralWolf extends EntityTameableWithSelectiveTypes implements
 
     @Override
     public boolean wantsToAttack(LivingEntity target, LivingEntity owner) {
-        if(!(target instanceof CreeperEntity) && !(target instanceof GhastEntity)) {
+        if(!(target instanceof Creeper) && !(target instanceof Ghast)) {
             if(target instanceof EntityFeralWolf) {
                 EntityFeralWolf entityferalwolf = (EntityFeralWolf) target;
 
@@ -302,10 +313,10 @@ public class EntityFeralWolf extends EntityTameableWithSelectiveTypes implements
                 }
             }
 
-            if(target instanceof PlayerEntity && owner instanceof PlayerEntity && !((PlayerEntity) owner).canHarmPlayer((PlayerEntity) target)) {
+            if(target instanceof Player && owner instanceof Player && !((Player) owner).canHarmPlayer((Player) target)) {
                 return false;
             } else {
-                return !(target instanceof AbstractHorseEntity) || !((AbstractHorseEntity) target).isTamed();
+                return !(target instanceof AbstractHorse) || !((AbstractHorse) target).isTamed();
             }
         } else {
             return false;
@@ -313,7 +324,7 @@ public class EntityFeralWolf extends EntityTameableWithSelectiveTypes implements
     }
 
     @Override
-    public boolean canBeLeashed(PlayerEntity player) {
+    public boolean canBeLeashed(Player player) {
         return this.isTame() && super.canBeLeashed(player);
     }
 
@@ -328,16 +339,16 @@ public class EntityFeralWolf extends EntityTameableWithSelectiveTypes implements
     }
 
     @Override
-    public String[] getTypesFor(RegistryKey<Biome> biomeKey, Biome biome, Set<Type> types, SpawnReason reason) {
-        if(types.contains(Type.FOREST) && !types.contains(Type.CONIFEROUS)) {
+    public String[] getTypesFor(ResourceKey<Biome> biomeKey, Biome biome, Set<BiomeTypes.Type> types, MobSpawnType reason) {
+        if(types.contains(BiomeTypes.FOREST) && !types.contains(BiomeTypes.CONIFEROUS)) {
             return new String[] {"timber", "red"};
-        } else if(types.contains(Type.CONIFEROUS) && !types.contains(Type.SNOWY)) {
+        } else if(types.contains(BiomeTypes.CONIFEROUS) && !types.contains(BiomeTypes.SNOWY)) {
             return new String[] {"black", "timber", "red"};
-        } else if(types.contains(Type.CONIFEROUS) && types.contains(Type.SNOWY)) {
+        } else if(types.contains(BiomeTypes.CONIFEROUS) && types.contains(BiomeTypes.SNOWY)) {
             return new String[] {"snowy", "timber"};
-        } else if(types.contains(Type.SNOWY) && !types.contains(Type.FOREST)) { 
+        } else if(types.contains(BiomeTypes.SNOWY) && !types.contains(BiomeTypes.FOREST)) {
             return new String[] {"snowy", "arctic"};
-        } else if(types.contains(Type.FOREST) && types.contains(Type.CONIFEROUS) && !types.contains(Type.SNOWY)) { 
+        } else if(types.contains(BiomeTypes.FOREST) && types.contains(BiomeTypes.CONIFEROUS) && !types.contains(BiomeTypes.SNOWY)) {
             return new String[] {"brown", "red", "timber", "black"};
         } else {
             return new String[] {"black", "snowy", "timber", "arctic", "brown", "red"};
@@ -345,7 +356,7 @@ public class EntityFeralWolf extends EntityTameableWithSelectiveTypes implements
     }
 
     @Override
-    public ILivingEntityData finalizeSpawn(IServerWorld world, DifficultyInstance difficulty, SpawnReason reason, ILivingEntityData livingdata, CompoundNBT compound) {
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor world, DifficultyInstance difficulty, MobSpawnType reason, SpawnGroupData livingdata, CompoundTag compound) {
         this.setInitialHunger();
         return EntityUtil.childChance(this, reason, super.finalizeSpawn(world, difficulty, reason, livingdata, compound), 0.25F);
     }

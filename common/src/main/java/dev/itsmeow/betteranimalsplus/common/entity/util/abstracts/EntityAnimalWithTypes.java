@@ -1,22 +1,22 @@
 package dev.itsmeow.betteranimalsplus.common.entity.util.abstracts;
 
 import dev.itsmeow.imdlib.entity.interfaces.IVariantTypes;
-import net.minecraft.entity.AgeableEntity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.ILivingEntityData;
-import net.minecraft.entity.SpawnReason;
-import net.minecraft.entity.passive.AnimalEntity;
-import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.world.entity.AgableMob;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.SpawnGroupData;
+import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.animal.Animal;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.DifficultyInstance;
-import net.minecraft.world.IServerWorld;
-import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.Level;
+import net.minecraft.server.level.ServerLevel;
 
 import javax.annotation.Nullable;
 
-public abstract class EntityAnimalWithTypes extends AnimalEntity implements IVariantTypes<EntityAnimalWithTypes> {
+public abstract class EntityAnimalWithTypes extends Animal implements IVariantTypes<EntityAnimalWithTypes> {
 
-    public EntityAnimalWithTypes(EntityType<? extends AnimalEntity> entityType, World worldIn) {
+    public EntityAnimalWithTypes(EntityType<? extends Animal> entityType, Level worldIn) {
         super(entityType, worldIn);
     }
 
@@ -27,31 +27,31 @@ public abstract class EntityAnimalWithTypes extends AnimalEntity implements IVar
     }
 
     @Override
-    public void addAdditionalSaveData(CompoundNBT compound) {
+    public void addAdditionalSaveData(CompoundTag compound) {
         super.addAdditionalSaveData(compound);
         this.writeType(compound);
     }
 
     @Override
-    public void readAdditionalSaveData(CompoundNBT compound) {
+    public void readAdditionalSaveData(CompoundTag compound) {
         super.readAdditionalSaveData(compound);
         this.readType(compound);
     }
 
     @Override
     @Nullable
-    public ILivingEntityData finalizeSpawn(IServerWorld world, DifficultyInstance difficulty, SpawnReason reason, @Nullable ILivingEntityData livingdata, CompoundNBT compound) {
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor world, DifficultyInstance difficulty, MobSpawnType reason, @Nullable SpawnGroupData livingdata, CompoundTag compound) {
         return this.initAgeableData(world, reason, super.finalizeSpawn(world, difficulty, reason, livingdata, compound));
     }
 
     @Override
-    public AgeableEntity getBreedOffspring(ServerWorld world, AgeableEntity ageable) {
+    public AgableMob getBreedOffspring(ServerLevel world, AgableMob ageable) {
         if (!(ageable instanceof IVariantTypes))
             return null;
         IVariantTypes<?> child = getBaseChild();
         if (child == null)
             return null;
-        return (AgeableEntity) child.setType(this.getOffspringType(this, (IVariantTypes<?>) ageable));
+        return (AgableMob) child.setType(this.getOffspringType(this, (IVariantTypes<?>) ageable));
     }
 
     protected abstract EntityAnimalWithTypes getBaseChild();

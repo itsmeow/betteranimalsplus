@@ -3,34 +3,34 @@ package dev.itsmeow.betteranimalsplus.common.entity.projectile;
 import dev.itsmeow.betteranimalsplus.common.entity.EntityGoose;
 import dev.itsmeow.betteranimalsplus.init.ModEntities;
 import dev.itsmeow.betteranimalsplus.init.ModItems;
-import net.minecraft.dispenser.IPosition;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityClassification;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.item.Item;
-import net.minecraft.world.World;
+import net.minecraft.core.Position;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.MobCategory;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.level.Level;
 
 public class EntityGooseEgg extends EntityModEgg {
-    public static EntityType<EntityGooseEgg> GOOSE_EGG_TYPE = ModEntities.H.createEntityType(EntityGooseEgg::new, "goose_egg", EntityClassification.MISC, 64, 1, true, 0.25F, 0.25F);
+    public static EntityType<EntityGooseEgg> GOOSE_EGG_TYPE = ModEntities.H.createEntityType(EntityGooseEgg::new, "goose_egg", MobCategory.MISC, 64, 1, true, 0.25F, 0.25F);
 
-    public EntityGooseEgg(World world) {
+    public EntityGooseEgg(Level world) {
         super(GOOSE_EGG_TYPE, world);
     }
 
-    public EntityGooseEgg(EntityType<? extends EntityGooseEgg> type, World world) {
+    public EntityGooseEgg(EntityType<? extends EntityGooseEgg> type, Level world) {
         super(type, world);
     }
 
-    public EntityGooseEgg(World world, LivingEntity thrower) {
+    public EntityGooseEgg(Level world, LivingEntity thrower) {
         super(GOOSE_EGG_TYPE, world, thrower);
     }
 
-    public EntityGooseEgg(World world, double x, double y, double z) {
+    public EntityGooseEgg(Level world, double x, double y, double z) {
         super(GOOSE_EGG_TYPE, world, x, y, z);
     }
 
-    public EntityGooseEgg(World worldIn, IPosition pos) {
+    public EntityGooseEgg(Level worldIn, Position pos) {
         super(GOOSE_EGG_TYPE, worldIn, pos.x(), pos.y(), pos.z());
     }
 

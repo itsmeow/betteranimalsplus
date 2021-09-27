@@ -1,60 +1,55 @@
 package dev.itsmeow.betteranimalsplus.common.entity;
 
-import dev.itsmeow.imdlib.entity.EntityTypeContainer;
-import dev.itsmeow.imdlib.entity.util.EntityTypeContainerContainable;
 import dev.itsmeow.betteranimalsplus.common.entity.ai.EfficientMoveTowardsTargetGoal;
 import dev.itsmeow.betteranimalsplus.common.entity.util.abstracts.EntityWaterMobPathingWithTypesBucketable;
 import dev.itsmeow.betteranimalsplus.init.ModEntities;
 import dev.itsmeow.betteranimalsplus.init.ModLootTables;
-import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.ai.attributes.Attributes;
-import net.minecraft.entity.ai.goal.LookAtGoal;
-import net.minecraft.entity.ai.goal.LookRandomlyGoal;
-import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal;
-import net.minecraft.entity.ai.goal.RandomSwimmingGoal;
-import net.minecraft.entity.monster.EndermanEntity;
-import net.minecraft.entity.monster.IMob;
-import net.minecraft.entity.monster.SkeletonEntity;
-import net.minecraft.entity.passive.WaterMobEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.network.play.server.SSetPassengersPacket;
-import net.minecraft.potion.EffectInstance;
-import net.minecraft.potion.Effects;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.SoundEvent;
-import net.minecraft.util.SoundEvents;
+import dev.itsmeow.imdlib.entity.EntityTypeContainer;
+import dev.itsmeow.imdlib.entity.util.EntityTypeContainerContainable;
+import net.minecraft.network.protocol.game.ClientboundSetPassengersPacket;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.Difficulty;
-import net.minecraft.world.World;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
+import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
+import net.minecraft.world.entity.ai.goal.RandomSwimmingGoal;
+import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
+import net.minecraft.world.entity.animal.WaterAnimal;
+import net.minecraft.world.entity.monster.EnderMan;
+import net.minecraft.world.entity.monster.Enemy;
+import net.minecraft.world.entity.monster.Skeleton;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
 
 import java.util.HashSet;
 import java.util.Set;
 
-public class EntityLamprey extends EntityWaterMobPathingWithTypesBucketable implements IMob {
+public class EntityLamprey extends EntityWaterMobPathingWithTypesBucketable implements Enemy {
 
     protected int lastAttack = 0;
 
-    public EntityLamprey(EntityType<? extends EntityLamprey> entityType, World worldIn) {
+    public EntityLamprey(EntityType<? extends EntityLamprey> entityType, Level worldIn) {
         super(entityType, worldIn);
     }
 
     @Override
     protected void registerGoals() {
         this.goalSelector.addGoal(0, new EfficientMoveTowardsTargetGoal(this, 0.8D, false));
-        this.goalSelector.addGoal(1, new LookAtGoal(this, WaterMobEntity.class, 10.0F));
-        this.goalSelector.addGoal(1, new LookRandomlyGoal(this));
+        this.goalSelector.addGoal(1, new LookAtPlayerGoal(this, WaterAnimal.class, 10.0F));
+        this.goalSelector.addGoal(1, new RandomLookAroundGoal(this));
         this.goalSelector.addGoal(2, new RandomSwimmingGoal(this, 0.5D, 1));
         Set<Class<? extends LivingEntity>> blackList = new HashSet<>();
-        blackList.add(SkeletonEntity.class);
-        blackList.add(EndermanEntity.class);
+        blackList.add(Skeleton.class);
+        blackList.add(EnderMan.class);
         blackList.add(EntityJellyfish.class);
         blackList.add(EntityBobbitWorm.class);
-        this.targetSelector.addGoal(0, new NearestAttackableTargetGoal<>(this, LivingEntity.class, 100, true, true, e -> !(e instanceof IMob) && !(e.level.getDifficulty() == Difficulty.PEACEFUL && e instanceof PlayerEntity) && !blackList.contains(e.getClass())));
+        this.targetSelector.addGoal(0, new NearestAttackableTargetGoal<>(this, LivingEntity.class, 100, true, true, e -> !(e instanceof Enemy) && !(e.level.getDifficulty() == Difficulty.PEACEFUL && e instanceof Player) && !blackList.contains(e.getClass())));
     }
 
     @Override
@@ -65,43 +60,6 @@ public class EntityLamprey extends EntityWaterMobPathingWithTypesBucketable impl
     @Override
     protected SoundEvent getDeathSound() {
         return SoundEvents.SQUID_DEATH;
-    }
-
-    @Override
-    public boolean doHurtTarget(Entity entityIn) {
-        float f = (float)this.getAttribute(Attributes.ATTACK_DAMAGE).getValue();
-
-        if(entityIn instanceof LivingEntity) {
-            f += EnchantmentHelper.getDamageBonus(this.getMainHandItem(), ((LivingEntity)entityIn).getMobType());
-        }
-        boolean flag = entityIn.hurt(DamageSource.mobAttack(this), f);
-        if(flag) {
-            this.lastAttack = this.tickCount;
-            if(entityIn instanceof PlayerEntity) {
-                PlayerEntity entityplayer = (PlayerEntity)entityIn;
-
-                int weakTicks = 0;
-                if (this.level.getDifficulty() == Difficulty.EASY) {
-                    weakTicks = 200;
-                } else if (this.level.getDifficulty() == Difficulty.NORMAL) {
-                    weakTicks = 300;
-                } else if (this.level.getDifficulty() == Difficulty.HARD) {
-                    weakTicks = 600;
-                }
-                entityplayer.addEffect(new EffectInstance(Effects.WEAKNESS, weakTicks, 1, false, false));
-                ItemStack itemstack = this.getMainHandItem();
-                ItemStack itemstack1 = entityplayer.isUsingItem() ? entityplayer.getUseItem() : ItemStack.EMPTY;
-                if(!itemstack.isEmpty() && !itemstack1.isEmpty() && itemstack.getItem().canDisableShield(itemstack, itemstack1, entityplayer, this) && itemstack1.getItem().isShield(itemstack1, entityplayer)) {
-                    float f1 = 0.25F + (float)EnchantmentHelper.getBlockEfficiency(this) * 0.05F;
-                    if(this.random.nextFloat() < f1) {
-                        entityplayer.getCooldowns().addCooldown(itemstack1.getItem(), 100);
-                        this.level.broadcastEntityEvent(entityplayer, (byte)30);
-                    }
-                }
-            }
-            this.doEnchantDamageEffects(this, entityIn);
-        }
-        return flag;
     }
 
     @Override
@@ -131,34 +89,29 @@ public class EntityLamprey extends EntityWaterMobPathingWithTypesBucketable impl
     public void stopRiding() {
         Entity entity = this.getVehicle();
         if(entity != null) {
-            if((entity.canBeRiddenInWater(this) || this.getTarget() == null) && this.level.isAreaLoaded(this.blockPosition(), 10)) {
+            if((entity.rideableUnderWater() || this.getTarget() == null) && this.level.isLoaded(this.blockPosition())) {
                 super.stopRiding();
             }
         }
     }
 
     @Override
-    public boolean canBeRiddenInWater(Entity rider) {
+    public boolean rideableUnderWater() {
         return true;
     }
 
     public void grabTarget(Entity entity) {
         if(entity == this.getTarget() && !entity.hasPassenger(this) && this.wasTouchingWater) {
             this.startRiding(entity);
-            if(entity instanceof ServerPlayerEntity) {
-               ((ServerPlayerEntity) entity).connection.send(new SSetPassengersPacket(entity));
+            if(entity instanceof ServerPlayer) {
+               ((ServerPlayer) entity).connection.send(new ClientboundSetPassengersPacket(entity));
             }
         }
     }
 
     @Override
-    public boolean shouldRiderSit() {
-        return false;
-    }
-
-    @Override
     public double getMyRidingOffset() {
-        if(getVehicle() != null && getVehicle() instanceof PlayerEntity) {
+        if(getVehicle() != null && getVehicle() instanceof Player) {
             return getVehicle().getBbHeight() - 2.25F;
         } else if(getVehicle() != null) {
             return getVehicle().getBbHeight() * 0.5D - 1.25D;
@@ -170,11 +123,6 @@ public class EntityLamprey extends EntityWaterMobPathingWithTypesBucketable impl
     @Override
     protected boolean isMovementNoisy() {
         return false;
-    }
-    
-    @Override
-    public boolean canRiderInteract() {
-        return true;
     }
 
     @Override

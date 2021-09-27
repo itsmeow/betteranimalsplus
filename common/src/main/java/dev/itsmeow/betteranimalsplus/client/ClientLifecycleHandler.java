@@ -7,17 +7,19 @@ import dev.itsmeow.betteranimalsplus.BetterAnimalsPlusMod;
 import dev.itsmeow.betteranimalsplus.Ref;
 import dev.itsmeow.betteranimalsplus.client.model.*;
 import dev.itsmeow.betteranimalsplus.client.model.shark.*;
+import dev.itsmeow.betteranimalsplus.client.renderer.blockentity.RenderBlockTrillium;
 import dev.itsmeow.betteranimalsplus.client.renderer.entity.RenderTarantulaHair;
 import dev.itsmeow.betteranimalsplus.client.renderer.entity.layers.GooseItemLayerRenderer;
 import dev.itsmeow.betteranimalsplus.client.renderer.entity.layers.LayerEyes;
 import dev.itsmeow.betteranimalsplus.client.renderer.entity.layers.LayerEyesCondition;
-import dev.itsmeow.betteranimalsplus.client.renderer.blockentity.RenderBlockTrillium;
 import dev.itsmeow.betteranimalsplus.common.entity.projectile.*;
+import dev.itsmeow.betteranimalsplus.init.ModBlockEntities;
 import dev.itsmeow.betteranimalsplus.init.ModEntities;
 import dev.itsmeow.betteranimalsplus.init.ModResources;
-import dev.itsmeow.betteranimalsplus.init.ModBlockEntities;
+import dev.itsmeow.imdlib.blockentity.HeadBlockEntity;
 import dev.itsmeow.imdlib.client.IMDLibClient;
 import dev.itsmeow.imdlib.client.render.RenderFactory;
+import me.shedaniel.architectury.registry.BlockEntityRenderers;
 import net.minecraft.client.renderer.RenderStateShard;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
@@ -30,8 +32,8 @@ public class ClientLifecycleHandler {
 
     // TODO client setup registration
     public void clientInit() {
-        ClientRegistry.bindTileEntityRenderer(ModBlockEntities.TRILLIUM_TYPE.get(), RenderBlockTrillium::new);
-        TileEntityHead.registerTypeRender();
+        BlockEntityRenderers.registerRenderer(ModBlockEntities.TRILLIUM_TYPE.get(), RenderBlockTrillium::new);
+        HeadBlockEntity.registerTypeRender();
         R.addRender(ModEntities.BROWN_BEAR.getEntityType(), 1F, r -> r.tSingle("bear_brown").mSingle(new ModelBear<>()).ageScale(1.3F, 0.65F));
         R.addRender(ModEntities.BLACK_BEAR.getEntityType(), 1F, r -> r.tVariant().mSingle(new ModelBear<>()).childScale(0.5F));
         R.addRender(ModEntities.DEER.getEntityType(), 1F, r -> r.tBabyVariant("deer_baby").mSingle(new ModelDeer<>()).childScale(0.6F));

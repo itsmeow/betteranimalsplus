@@ -1,20 +1,20 @@
 package dev.itsmeow.betteranimalsplus.common.entity.ai;
 
-import net.minecraft.entity.MobEntity;
-import net.minecraft.entity.ai.goal.Goal;
-import net.minecraft.entity.passive.AnimalEntity;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.ai.goal.Goal;
+import net.minecraft.world.entity.animal.Animal;
 
 import java.util.List;
 import java.util.function.Predicate;
 
 public class FollowParentGoalButNotStupid extends Goal {
-    protected final AnimalEntity childAnimal;
-    protected AnimalEntity parentAnimal;
+    protected final Animal childAnimal;
+    protected Animal parentAnimal;
     protected final double moveSpeed;
     protected int delayCounter;
-    protected Predicate<MobEntity> filter;
+    protected Predicate<Mob> filter;
 
-    public FollowParentGoalButNotStupid(AnimalEntity animal, double speed, Predicate<MobEntity> filter) {
+    public FollowParentGoalButNotStupid(Animal animal, double speed, Predicate<Mob> filter) {
         this.childAnimal = animal;
         this.moveSpeed = speed;
         this.filter = filter;
@@ -25,11 +25,11 @@ public class FollowParentGoalButNotStupid extends Goal {
         if (this.childAnimal.getAge() >= 0) {
             return false;
         } else {
-            List<AnimalEntity> list = this.childAnimal.level.getEntitiesOfClass(this.childAnimal.getClass(), this.childAnimal.getBoundingBox().inflate(8.0D, 4.0D, 8.0D), filter);
-            AnimalEntity animalentity = null;
+            List<Animal> list = this.childAnimal.level.getEntitiesOfClass(this.childAnimal.getClass(), this.childAnimal.getBoundingBox().inflate(8.0D, 4.0D, 8.0D), filter);
+            Animal animalentity = null;
             double d0 = Double.MAX_VALUE;
 
-            for (AnimalEntity animalentity1 : list) {
+            for (Animal animalentity1 : list) {
                 if (animalentity1.getAge() >= 0) {
                     double d1 = this.childAnimal.distanceToSqr(animalentity1);
                     if (!(d1 > d0)) {

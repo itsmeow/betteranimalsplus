@@ -3,26 +3,26 @@ package dev.itsmeow.betteranimalsplus.common.entity.util.abstracts;
 import dev.itsmeow.imdlib.entity.interfaces.IBucketable;
 import dev.itsmeow.imdlib.entity.interfaces.IContainerEntity;
 import net.minecraft.advancements.CriteriaTriggers;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.passive.WaterMobEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.datasync.DataParameter;
-import net.minecraft.network.datasync.DataSerializers;
-import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Hand;
-import net.minecraft.util.SoundEvents;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.animal.WaterAnimal;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.level.Level;
 
-public abstract class EntityWaterMobBucketable extends WaterMobEntity implements IBucketable, IContainerEntity<EntityWaterMobBucketable> {
+public abstract class EntityWaterMobBucketable extends WaterAnimal implements IBucketable, IContainerEntity<EntityWaterMobBucketable> {
 
-    private static final DataParameter<Boolean> FROM_BUCKET = EntityDataManager.defineId(EntityWaterMobBucketable.class, DataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Boolean> FROM_BUCKET = SynchedEntityData.defineId(EntityWaterMobBucketable.class, EntityDataSerializers.BOOLEAN);
 
-    public EntityWaterMobBucketable(EntityType<? extends EntityWaterMobBucketable> entityType, World worldIn) {
+    public EntityWaterMobBucketable(EntityType<? extends EntityWaterMobBucketable> entityType, Level worldIn) {
         super(entityType, worldIn);
     }
 
@@ -43,13 +43,13 @@ public abstract class EntityWaterMobBucketable extends WaterMobEntity implements
     }
 
     @Override
-    public void addAdditionalSaveData(CompoundNBT compound) {
+    public void addAdditionalSaveData(CompoundTag compound) {
         super.addAdditionalSaveData(compound);
         compound.putBoolean("FromBucket", this.isFromContainer());
     }
 
     @Override
-    public void readAdditionalSaveData(CompoundNBT compound) {
+    public void readAdditionalSaveData(CompoundTag compound) {
         super.readAdditionalSaveData(compound);
         this.setFromContainer(compound.getBoolean("FromBucket"));
     }
@@ -72,7 +72,7 @@ public abstract class EntityWaterMobBucketable extends WaterMobEntity implements
     }
 
     @Override
-    protected ActionResultType mobInteract(PlayerEntity player, Hand hand) {
+    protected InteractionResult mobInteract(Player player, InteractionHand hand) {
         ItemStack itemstack = player.getItemInHand(hand);
         if(itemstack.getItem() == Items.WATER_BUCKET && this.isAlive()) {
             this.playSound(SoundEvents.BUCKET_FILL_FISH, 1.0F, 1.0F);
@@ -80,7 +80,7 @@ public abstract class EntityWaterMobBucketable extends WaterMobEntity implements
             ItemStack itemstack1 = this.getContainerItem();
             this.setContainerData(itemstack1);
             if(!this.level.isClientSide) {
-                CriteriaTriggers.FILLED_BUCKET.trigger((ServerPlayerEntity) player, itemstack1);
+                CriteriaTriggers.FILLED_BUCKET.trigger((ServerPlayer) player, itemstack1);
             }
             if(itemstack.isEmpty()) {
                 player.setItemInHand(hand, itemstack1);
@@ -88,7 +88,7 @@ public abstract class EntityWaterMobBucketable extends WaterMobEntity implements
                 player.drop(itemstack1, false);
             }
             this.remove();
-            return ActionResultType.SUCCESS;
+            return InteractionResult.SUCCESS;
         } else {
             return super.mobInteract(player, hand);
         }

@@ -1,38 +1,38 @@
 package dev.itsmeow.betteranimalsplus.common.entity.util.abstracts;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.ai.controller.MovementController;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.datasync.DataParameter;
-import net.minecraft.network.datasync.DataSerializers;
-import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.pathfinding.FlyingPathNavigator;
-import net.minecraft.pathfinding.GroundPathNavigator;
-import net.minecraft.pathfinding.PathNavigator;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.ai.control.MoveControl;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.world.entity.ai.navigation.FlyingPathNavigation;
+import net.minecraft.world.entity.ai.navigation.GroundPathNavigation;
+import net.minecraft.world.entity.ai.navigation.PathNavigation;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.Level;
 
 public abstract class EntityTameableFlyingWithTypes extends EntityTameableWithTypes {
 
-    protected static final DataParameter<Boolean> FLYING = EntityDataManager.defineId(EntityTameableFlyingWithTypes.class, DataSerializers.BOOLEAN);
-    private final GroundPathNavigator walkNav;
-    private FlyingPathNavigator flyNav;
-    private final MovementController moveCtrlGrnd;
+    protected static final EntityDataAccessor<Boolean> FLYING = SynchedEntityData.defineId(EntityTameableFlyingWithTypes.class, EntityDataSerializers.BOOLEAN);
+    private final GroundPathNavigation walkNav;
+    private FlyingPathNavigation flyNav;
+    private final MoveControl moveCtrlGrnd;
 
-    public EntityTameableFlyingWithTypes(EntityType<? extends EntityTameableFlyingWithTypes> type, World worldIn) {
+    public EntityTameableFlyingWithTypes(EntityType<? extends EntityTameableFlyingWithTypes> type, Level worldIn) {
         super(type, worldIn);
-        this.walkNav = new GroundPathNavigator(this, worldIn);
+        this.walkNav = new GroundPathNavigation(this, worldIn);
         walkNav.setCanFloat(false);
-        this.moveCtrlGrnd = new MovementController(this);
+        this.moveCtrlGrnd = new MoveControl(this);
     }
 
-    protected abstract MovementController getFlightMoveController();
+    protected abstract MoveControl getFlightMoveController();
     
     @Override
-    protected PathNavigator createNavigation(World worldIn) {
-        FlyingPathNavigator nav = new FlyingPathNavigator(this, worldIn);
+    protected PathNavigation createNavigation(Level worldIn) {
+        FlyingPathNavigation nav = new FlyingPathNavigation(this, worldIn);
         nav.setCanOpenDoors(false);
         nav.setCanFloat(false);
         nav.setCanPassDoors(true);
@@ -99,13 +99,13 @@ public abstract class EntityTameableFlyingWithTypes extends EntityTameableWithTy
     }
 
     @Override
-    public void addAdditionalSaveData(CompoundNBT compound) {
+    public void addAdditionalSaveData(CompoundTag compound) {
         super.addAdditionalSaveData(compound);
         compound.putBoolean("IsFlying", this.entityData.get(FLYING));
     }
 
     @Override
-    public void readAdditionalSaveData(CompoundNBT compound) {
+    public void readAdditionalSaveData(CompoundTag compound) {
         super.readAdditionalSaveData(compound);
         this.entityData.set(FLYING, compound.getBoolean("IsFlying"));
     }

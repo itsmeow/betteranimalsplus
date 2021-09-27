@@ -1,16 +1,16 @@
 package dev.itsmeow.betteranimalsplus.common.entity.ai;
 
-import net.minecraft.entity.CreatureEntity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.ai.goal.Goal;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.pathfinding.Path;
-import net.minecraft.util.EntityPredicates;
+import net.minecraft.world.entity.PathfinderMob;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.goal.Goal;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.pathfinder.Path;
+import net.minecraft.world.entity.EntitySelector;
 
 import java.util.EnumSet;
 
 public class EfficientMoveTowardsTargetGoal extends Goal {
-    protected final CreatureEntity attacker;
+    protected final PathfinderMob attacker;
     private final double speedTowardsTarget;
     private final boolean longMemory;
     private Path path;
@@ -20,11 +20,11 @@ public class EfficientMoveTowardsTargetGoal extends Goal {
     private double targetZ;
     private long lastCheckTime;
 
-    public EfficientMoveTowardsTargetGoal(CreatureEntity creature, double speedIn, boolean useLongMemory) {
+    public EfficientMoveTowardsTargetGoal(PathfinderMob creature, double speedIn, boolean useLongMemory) {
         this.attacker = creature;
         this.speedTowardsTarget = speedIn;
         this.longMemory = useLongMemory;
-        this.setFlags(EnumSet.of(Goal.Flag.MOVE, Goal.Flag.LOOK));
+        this.setFlags(EnumSet.of(Flag.MOVE, Flag.LOOK));
     }
 
     @Override
@@ -62,7 +62,7 @@ public class EfficientMoveTowardsTargetGoal extends Goal {
         } else if (!this.attacker.isWithinRestriction(livingentity.blockPosition())) {
             return false;
         } else {
-            return !(livingentity instanceof PlayerEntity) || !livingentity.isSpectator() && !((PlayerEntity) livingentity).isCreative();
+            return !(livingentity instanceof Player) || !livingentity.isSpectator() && !((Player) livingentity).isCreative();
         }
     }
 
@@ -76,7 +76,7 @@ public class EfficientMoveTowardsTargetGoal extends Goal {
     @Override
     public void stop() {
         LivingEntity livingentity = this.attacker.getTarget();
-        if (!EntityPredicates.NO_CREATIVE_OR_SPECTATOR.test(livingentity)) {
+        if (!EntitySelector.NO_CREATIVE_OR_SPECTATOR.test(livingentity)) {
             this.attacker.setTarget(null);
         }
         this.attacker.setAggressive(false);

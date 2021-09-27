@@ -1,36 +1,36 @@
 package dev.itsmeow.betteranimalsplus.common.entity.projectile;
 
 import dev.itsmeow.betteranimalsplus.init.ModEntities;
-import net.minecraft.entity.EntityClassification;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.projectile.ThrowableEntity;
-import net.minecraft.network.IPacket;
-import net.minecraft.potion.EffectInstance;
-import net.minecraft.potion.Effects;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.math.EntityRayTraceResult;
-import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.world.entity.MobCategory;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.ThrowableProjectile;
+import net.minecraft.network.protocol.Packet;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.phys.EntityHitResult;
+import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.Difficulty;
-import net.minecraft.world.World;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.fml.network.NetworkHooks;
 
-public class EntityTarantulaHair extends ThrowableEntity {
+public class EntityTarantulaHair extends ThrowableProjectile {
 
-    public static EntityType<EntityTarantulaHair> HAIR_TYPE = ModEntities.H.createEntityType(EntityTarantulaHair::new, "tarantulahair", EntityClassification.MISC, 64, 1, true, 0.5F, 0.5F);
+    public static EntityType<EntityTarantulaHair> HAIR_TYPE = ModEntities.H.createEntityType(EntityTarantulaHair::new, "tarantulahair", MobCategory.MISC, 64, 1, true, 0.5F, 0.5F);
 
     public LivingEntity thrower;
 
-    public EntityTarantulaHair(World worldIn) {
+    public EntityTarantulaHair(Level worldIn) {
         super(EntityTarantulaHair.HAIR_TYPE, worldIn);
     }
 
-    public EntityTarantulaHair(EntityType<? extends EntityTarantulaHair> entityType, World worldIn) {
+    public EntityTarantulaHair(EntityType<? extends EntityTarantulaHair> entityType, Level worldIn) {
         super(entityType, worldIn);
     }
 
-    public EntityTarantulaHair(World worldIn, LivingEntity throwerIn) {
+    public EntityTarantulaHair(Level worldIn, LivingEntity throwerIn) {
         super(EntityTarantulaHair.HAIR_TYPE, worldIn);
         this.thrower = throwerIn;
     }
@@ -39,14 +39,14 @@ public class EntityTarantulaHair extends ThrowableEntity {
      * Called when this EntityThrowable hits a block or entity.
      */
     @Override
-    protected void onHit(RayTraceResult result) {
-        if(result instanceof EntityRayTraceResult) {
-            EntityRayTraceResult rayR = (EntityRayTraceResult) result;
+    protected void onHit(HitResult result) {
+        if(result instanceof EntityHitResult) {
+            EntityHitResult rayR = (EntityHitResult) result;
             int i = 8;
             rayR.getEntity().hurt(DamageSource.thrown(this, this.getOwner()), i);
             if(!this.level.isClientSide) {
-                if(rayR.getEntity() instanceof PlayerEntity) {
-                    PlayerEntity player = (PlayerEntity) rayR.getEntity();
+                if(rayR.getEntity() instanceof Player) {
+                    Player player = (Player) rayR.getEntity();
                     int blindnessTicks = 0;
                     if(player.getCommandSenderWorld().getDifficulty() == Difficulty.EASY) {
                         blindnessTicks = 40;
@@ -55,7 +55,7 @@ public class EntityTarantulaHair extends ThrowableEntity {
                     } else if(player.getCommandSenderWorld().getDifficulty() == Difficulty.HARD) {
                         blindnessTicks = 80;
                     }
-                    player.addEffect(new EffectInstance(Effects.BLINDNESS, blindnessTicks, 10, false, false));
+                    player.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, blindnessTicks, 10, false, false));
                 }
             }
         }
@@ -67,7 +67,7 @@ public class EntityTarantulaHair extends ThrowableEntity {
     }
 
     @Override
-    public IPacket<?> getAddEntityPacket() {
+    public Packet<?> getAddEntityPacket() {
         return NetworkHooks.getEntitySpawningPacket(this);
     }
 

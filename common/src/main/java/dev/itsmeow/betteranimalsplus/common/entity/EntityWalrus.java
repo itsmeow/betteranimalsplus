@@ -1,73 +1,82 @@
 package dev.itsmeow.betteranimalsplus.common.entity;
 
-import dev.itsmeow.imdlib.entity.EntityTypeContainer;
-import dev.itsmeow.imdlib.entity.interfaces.IContainerEntity;
 import dev.itsmeow.betteranimalsplus.common.entity.ai.HybridPathNavigator;
 import dev.itsmeow.betteranimalsplus.init.ModEntities;
 import dev.itsmeow.betteranimalsplus.init.ModItems;
 import dev.itsmeow.betteranimalsplus.init.ModLootTables;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.entity.*;
-import net.minecraft.entity.ai.RandomPositionGenerator;
-import net.minecraft.entity.ai.attributes.Attributes;
-import net.minecraft.entity.ai.controller.MovementController;
-import net.minecraft.entity.ai.goal.*;
-import net.minecraft.entity.passive.AnimalEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.datasync.DataParameter;
-import net.minecraft.network.datasync.DataSerializers;
-import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.particles.ParticleTypes;
-import net.minecraft.pathfinding.PathNavigator;
-import net.minecraft.pathfinding.PathNodeType;
+import dev.itsmeow.imdlib.entity.EntityTypeContainer;
+import dev.itsmeow.imdlib.entity.interfaces.IContainerEntity;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.FluidTags;
-import net.minecraft.util.*;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.world.*;
-import net.minecraft.world.server.ServerWorld;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraft.util.Mth;
+import net.minecraft.world.Difficulty;
+import net.minecraft.world.DifficultyInstance;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.control.MoveControl;
+import net.minecraft.world.entity.ai.goal.*;
+import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
+import net.minecraft.world.entity.ai.navigation.PathNavigation;
+import net.minecraft.world.entity.ai.util.RandomPos;
+import net.minecraft.world.entity.animal.Animal;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.pathfinder.BlockPathTypes;
+import net.minecraft.world.phys.Vec3;
 
-import javax.annotation.Nullable;
 import java.util.Random;
 
-public class EntityWalrus extends AnimalEntity implements IContainerEntity<EntityWalrus> {
+public class EntityWalrus extends Animal implements IContainerEntity<EntityWalrus> {
 
-    private static final DataParameter<BlockPos> HOME_POS = EntityDataManager.defineId(EntityWalrus.class, DataSerializers.BLOCK_POS);
-    private static final DataParameter<BlockPos> TRAVEL_POS = EntityDataManager.defineId(EntityWalrus.class, DataSerializers.BLOCK_POS);
-    private static final DataParameter<Boolean> GOING_HOME = EntityDataManager.defineId(EntityWalrus.class, DataSerializers.BOOLEAN);
-    private static final DataParameter<Boolean> TRAVELLING = EntityDataManager.defineId(EntityWalrus.class, DataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<BlockPos> HOME_POS = SynchedEntityData.defineId(EntityWalrus.class, EntityDataSerializers.BLOCK_POS);
+    private static final EntityDataAccessor<BlockPos> TRAVEL_POS = SynchedEntityData.defineId(EntityWalrus.class, EntityDataSerializers.BLOCK_POS);
+    private static final EntityDataAccessor<Boolean> GOING_HOME = SynchedEntityData.defineId(EntityWalrus.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Boolean> TRAVELLING = SynchedEntityData.defineId(EntityWalrus.class, EntityDataSerializers.BOOLEAN);
     public boolean hasGivenDisc = false;
 
-    public EntityWalrus(EntityType<? extends EntityWalrus> entityType, World worldIn) {
+    public EntityWalrus(EntityType<? extends EntityWalrus> entityType, Level worldIn) {
         super(entityType, worldIn);
-        this.setPathfindingMalus(PathNodeType.WATER, 0.0F);
-        this.moveControl = new EntityWalrus.MoveHelperController(this);
+        this.setPathfindingMalus(BlockPathTypes.WATER, 0.0F);
+        this.moveControl = new MoveHelperController(this);
         this.maxUpStep = 1.0F;
     }
 
     @Override
-    public ActionResultType mobInteract(PlayerEntity player, Hand hand) {
+    public InteractionResult mobInteract(Player player, InteractionHand hand) {
         ItemStack stack = player.getItemInHand(hand);
         if(!hasGivenDisc && stack.getItem() == ModItems.FRIED_EGG.get()) {
             this.usePlayerItem(player, stack);
             this.level.broadcastEntityEvent(this, (byte) 90);
             this.hasGivenDisc = true;
             this.spawnAtLocation(new ItemStack(ModItems.RECORD_WALRUS.get()));
-            return ActionResultType.SUCCESS;
+            return InteractionResult.SUCCESS;
         }
         return super.mobInteract(player, hand);
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public void handleEntityEvent(byte id) {
         if(id == 90) {
             for(int i = 0; i < 7; ++i) {
@@ -84,10 +93,11 @@ public class EntityWalrus extends AnimalEntity implements IContainerEntity<Entit
     @Override
     public boolean doHurtTarget(Entity entityIn) {
         // 1/3 chance to pierce armor
+        // TODO get access
         boolean flag = entityIn.hurt(this.getRandom().nextInt(3) == 0 ? DamageSource.mobAttack(this).bypassArmor() : DamageSource.mobAttack(this), (float) this.getAttribute(Attributes.ATTACK_DAMAGE).getValue());
         if(flag) {
-            Vector3d pos = this.position();
-            Vector3d targetPos = entityIn.position();
+            Vec3 pos = this.position();
+            Vec3 targetPos = entityIn.position();
             ((LivingEntity) entityIn).knockback(0.5F, pos.x - targetPos.x, pos.z - targetPos.z);
         }
         return flag;
@@ -135,7 +145,7 @@ public class EntityWalrus extends AnimalEntity implements IContainerEntity<Entit
     }
 
     @Override
-    public void addAdditionalSaveData(CompoundNBT compound) {
+    public void addAdditionalSaveData(CompoundTag compound) {
         super.addAdditionalSaveData(compound);
         compound.putInt("HomePosX", this.getHome().getX());
         compound.putInt("HomePosY", this.getHome().getY());
@@ -147,7 +157,7 @@ public class EntityWalrus extends AnimalEntity implements IContainerEntity<Entit
     }
 
     @Override
-    public void readAdditionalSaveData(CompoundNBT compound) {
+    public void readAdditionalSaveData(CompoundTag compound) {
         int i = compound.getInt("HomePosX");
         int j = compound.getInt("HomePosY");
         int k = compound.getInt("HomePosZ");
@@ -161,32 +171,31 @@ public class EntityWalrus extends AnimalEntity implements IContainerEntity<Entit
     }
 
     @Override
-    @Nullable
-    public ILivingEntityData finalizeSpawn(IServerWorld worldIn, DifficultyInstance difficultyIn, SpawnReason reason, @Nullable ILivingEntityData spawnDataIn, @Nullable CompoundNBT dataTag) {
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor worldIn, DifficultyInstance difficultyIn, MobSpawnType reason, SpawnGroupData spawnDataIn, CompoundTag dataTag) {
         this.setHome(this.blockPosition());
         this.setTravelPos(BlockPos.ZERO);
         return super.finalizeSpawn(worldIn, difficultyIn, reason, spawnDataIn, dataTag);
     }
 
     @SuppressWarnings("deprecation")
-    public static boolean canSpawn(EntityType<EntityWalrus> walrus, IWorld world, SpawnReason reason, BlockPos pos, Random rand) {
+    public static boolean canSpawn(EntityType<EntityWalrus> walrus, LevelAccessor world, MobSpawnType reason, BlockPos pos, Random rand) {
         return pos.getY() < world.getSeaLevel() + 4 && world.getRawBrightness(pos, 0) > 8;
     }
 
     @Override
     protected void registerGoals() {
-        this.goalSelector.addGoal(0, new BreatheAirGoal(this));
-        this.goalSelector.addGoal(1, new EntityWalrus.GoToWaterGoal(this, 1.0D));
-        this.goalSelector.addGoal(2, new EntityWalrus.GoHomeGoal(this, 1.0D));
-        this.goalSelector.addGoal(3, new EntityWalrus.TravelGoal(this, 1.0D));
+        this.goalSelector.addGoal(0, new BreathAirGoal(this));
+        this.goalSelector.addGoal(1, new GoToWaterGoal(this, 1.0D));
+        this.goalSelector.addGoal(2, new GoHomeGoal(this, 1.0D));
+        this.goalSelector.addGoal(3, new TravelGoal(this, 1.0D));
         this.goalSelector.addGoal(4, new MeleeAttackGoal(this, 1.0D, false) {
             @Override
             protected double getAttackReachSqr(LivingEntity attackTarget) {
                 return this.mob.getBbWidth() * this.mob.getBbWidth() + attackTarget.getBbWidth();
             }
         });
-        this.goalSelector.addGoal(4, new LookAtGoal(this, PlayerEntity.class, 8.0F));
-        this.goalSelector.addGoal(5, new EntityWalrus.WanderGoal(this, 1.0D, 100));
+        this.goalSelector.addGoal(4, new LookAtPlayerGoal(this, Player.class, 8.0F));
+        this.goalSelector.addGoal(5, new WanderGoal(this, 1.0D, 100));
         this.targetSelector.addGoal(0, new HurtByTargetGoal(this) {
             @Override
             public boolean canUse() {
@@ -216,8 +225,8 @@ public class EntityWalrus extends AnimalEntity implements IContainerEntity<Entit
     }
 
     @Override
-    public CreatureAttribute getMobType() {
-        return CreatureAttribute.WATER;
+    public MobType getMobType() {
+        return MobType.WATER;
     }
 
     @Override
@@ -231,13 +240,13 @@ public class EntityWalrus extends AnimalEntity implements IContainerEntity<Entit
     }
 
     @Override
-    protected PathNavigator createNavigation(World worldIn) {
+    protected PathNavigation createNavigation(Level worldIn) {
         return new HybridPathNavigator<>(this, worldIn, EntityWalrus::isTravelling);
     }
 
     @Override
     @SuppressWarnings("deprecation")
-    public float getWalkTargetValue(BlockPos pos, IWorldReader worldIn) {
+    public float getWalkTargetValue(BlockPos pos, LevelReader worldIn) {
         if(!this.isGoingHome() && worldIn.getFluidState(pos).is(FluidTags.WATER)) {
             return 10.0F;
         } else {
@@ -246,7 +255,7 @@ public class EntityWalrus extends AnimalEntity implements IContainerEntity<Entit
     }
 
     @Override
-    public void travel(Vector3d p_213352_1_) {
+    public void travel(Vec3 p_213352_1_) {
         if(this.isEffectiveAi() && this.isInWater()) {
             this.moveRelative(0.1F, p_213352_1_);
             this.move(MoverType.SELF, this.getDeltaMovement());
@@ -261,7 +270,7 @@ public class EntityWalrus extends AnimalEntity implements IContainerEntity<Entit
     }
 
     @Override
-    public boolean canBeLeashed(PlayerEntity player) {
+    public boolean canBeLeashed(Player player) {
         return false;
     }
 
@@ -318,13 +327,13 @@ public class EntityWalrus extends AnimalEntity implements IContainerEntity<Entit
             }
 
             if(this.walrus.getNavigation().isDone()) {
-                Vector3d vec3d = RandomPositionGenerator.getPosTowards(this.walrus, 16, 3, new Vector3d(blockpos.getX(), blockpos.getY(), blockpos.getZ()), (float) Math.PI / 10F);
+                Vec3 vec3d = RandomPos.getPosTowards(this.walrus, 16, 3, new Vec3(blockpos.getX(), blockpos.getY(), blockpos.getZ()), (float) Math.PI / 10F);
                 if(vec3d == null) {
-                    vec3d = RandomPositionGenerator.getPosTowards(this.walrus, 8, 7, new Vector3d(blockpos.getX(), blockpos.getY(), blockpos.getZ()));
+                    vec3d = RandomPos.getPosTowards(this.walrus, 8, 7, new Vec3(blockpos.getX(), blockpos.getY(), blockpos.getZ()));
                 }
 
                 if(vec3d != null && !nearHome && this.walrus.level.getBlockState(new BlockPos(vec3d)).getBlock() != Blocks.WATER) {
-                    vec3d = RandomPositionGenerator.getPosTowards(this.walrus, 16, 5, new Vector3d(blockpos.getX(), blockpos.getY(), blockpos.getZ()));
+                    vec3d = RandomPos.getPosTowards(this.walrus, 16, 5, new Vec3(blockpos.getX(), blockpos.getY(), blockpos.getZ()));
                 }
 
                 if(vec3d == null) {
@@ -367,13 +376,13 @@ public class EntityWalrus extends AnimalEntity implements IContainerEntity<Entit
         }
 
         @Override
-        protected boolean isValidTarget(IWorldReader worldIn, BlockPos pos) {
+        protected boolean isValidTarget(LevelReader worldIn, BlockPos pos) {
             Block block = worldIn.getBlockState(pos).getBlock();
             return block == Blocks.WATER;
         }
     }
 
-    static class MoveHelperController extends MovementController {
+    static class MoveHelperController extends MoveControl {
         private final EntityWalrus walrus;
 
         MoveHelperController(EntityWalrus walrus) {
@@ -396,17 +405,17 @@ public class EntityWalrus extends AnimalEntity implements IContainerEntity<Entit
         @Override
         public void tick() {
             this.updateSpeed();
-            if(this.operation == MovementController.Action.MOVE_TO && !this.walrus.getNavigation().isDone()) {
+            if(this.operation == Operation.MOVE_TO && !this.walrus.getNavigation().isDone()) {
                 double d0 = this.wantedX - this.walrus.getX();
                 double d1 = this.wantedY - this.walrus.getY();
                 double d2 = this.wantedZ - this.walrus.getZ();
-                double d3 = MathHelper.sqrt(d0 * d0 + d1 * d1 + d2 * d2);
+                double d3 = Mth.sqrt(d0 * d0 + d1 * d1 + d2 * d2);
                 d1 = d1 / d3;
-                float f = (float) (MathHelper.atan2(d2, d0) * (double) (180F / (float) Math.PI)) - 90.0F;
+                float f = (float) (Mth.atan2(d2, d0) * (double) (180F / (float) Math.PI)) - 90.0F;
                 this.walrus.yRot = this.rotlerp(this.walrus.yRot, f, 90.0F);
                 this.walrus.yBodyRot = this.walrus.yRot;
                 float f1 = (float) (this.speedModifier * this.walrus.getAttribute(Attributes.MOVEMENT_SPEED).getValue());
-                this.walrus.setSpeed(MathHelper.lerp(0.125F, this.walrus.getSpeed(), f1));
+                this.walrus.setSpeed(Mth.lerp(0.125F, this.walrus.getSpeed(), f1));
                 this.walrus.setDeltaMovement(this.walrus.getDeltaMovement().add(0.0D, (double) this.walrus.getSpeed() * d1 * 0.1D, 0.0D));
             } else {
                 this.walrus.setSpeed(0.0F);
@@ -452,14 +461,14 @@ public class EntityWalrus extends AnimalEntity implements IContainerEntity<Entit
         public void tick() {
             if(this.walrus.getNavigation().isDone()) {
                 BlockPos blockpos = this.walrus.getTravelPos();
-                Vector3d dest = RandomPositionGenerator.getPosTowards(this.walrus, 16, 3, new Vector3d(blockpos.getX(), blockpos.getY(), blockpos.getZ()), Math.PI / 10D);
+                Vec3 dest = RandomPos.getPosTowards(this.walrus, 16, 3, new Vec3(blockpos.getX(), blockpos.getY(), blockpos.getZ()), Math.PI / 10D);
                 if(dest == null) {
-                    dest = RandomPositionGenerator.getPosTowards(this.walrus, 8, 7, new Vector3d(blockpos.getX(), blockpos.getY(), blockpos.getZ()));
+                    dest = RandomPos.getPosTowards(this.walrus, 8, 7, new Vec3(blockpos.getX(), blockpos.getY(), blockpos.getZ()));
                 }
 
                 if(dest != null) {
-                    int x = MathHelper.floor(dest.x);
-                    int z = MathHelper.floor(dest.z);
+                    int x = Mth.floor(dest.x);
+                    int z = Mth.floor(dest.z);
                     int range = 34;
                     if(!this.walrus.level.hasChunksAt(x - range, 0, z - range, x + range, 0, z + range)) {
                         dest = null;
@@ -488,7 +497,7 @@ public class EntityWalrus extends AnimalEntity implements IContainerEntity<Entit
         }
     }
 
-    public static class WanderGoal extends RandomWalkingGoal {
+    public static class WanderGoal extends RandomStrollGoal {
         private final EntityWalrus walrus;
 
         public WanderGoal(EntityWalrus walrus, double speed, int chance) {
@@ -503,7 +512,7 @@ public class EntityWalrus extends AnimalEntity implements IContainerEntity<Entit
     }
 
     @Override
-    public AgeableEntity getBreedOffspring(ServerWorld world, AgeableEntity ageable) {
+    public AgableMob getBreedOffspring(ServerLevel world, AgableMob ageable) {
         return null;
     }
 

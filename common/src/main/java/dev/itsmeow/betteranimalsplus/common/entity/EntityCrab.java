@@ -1,33 +1,33 @@
 package dev.itsmeow.betteranimalsplus.common.entity;
 
-import dev.itsmeow.imdlib.entity.EntityTypeContainer;
 import dev.itsmeow.betteranimalsplus.common.entity.util.EntityUtil;
 import dev.itsmeow.betteranimalsplus.common.entity.util.abstracts.EntityCrabLikeBase;
 import dev.itsmeow.betteranimalsplus.init.ModEntities;
-import net.minecraft.entity.*;
-import net.minecraft.entity.ai.goal.AvoidEntityGoal;
-import net.minecraft.entity.ai.goal.HurtByTargetGoal;
-import net.minecraft.entity.ai.goal.MeleeAttackGoal;
-import net.minecraft.entity.ai.goal.RandomWalkingGoal;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.datasync.DataParameter;
-import net.minecraft.network.datasync.DataSerializers;
-import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.pathfinding.PathNodeType;
+import dev.itsmeow.imdlib.entity.EntityTypeContainer;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.DifficultyInstance;
-import net.minecraft.world.IServerWorld;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.ai.goal.AvoidEntityGoal;
+import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
+import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
+import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.pathfinder.BlockPathTypes;
 
 public class EntityCrab extends EntityCrabLikeBase {
 
-    protected static final DataParameter<Integer> CRAB_RAVE = EntityDataManager.defineId(EntityCrab.class, DataSerializers.INT);
+    protected static final EntityDataAccessor<Integer> CRAB_RAVE = SynchedEntityData.defineId(EntityCrab.class, EntityDataSerializers.INT);
     private int raveTicks = 0;
 
-    public EntityCrab(EntityType<? extends EntityCrab> entityType, World worldIn) {
+    public EntityCrab(EntityType<? extends EntityCrab> entityType, Level worldIn) {
         super(entityType, worldIn);
-        this.setPathfindingMalus(PathNodeType.WATER, 10F);
+        this.setPathfindingMalus(BlockPathTypes.WATER, 10F);
     }
 
     @Override
@@ -44,8 +44,8 @@ public class EntityCrab extends EntityCrabLikeBase {
                 return EntityCrab.this.level.getDifficulty() != Difficulty.PEACEFUL && super.canContinueToUse() && this.mob.getHealth() > this.mob.getMaxHealth() / 2F;
             }
         });
-        this.goalSelector.addGoal(1, new AvoidEntityGoal<>(this, PlayerEntity.class, 20F, 0.8F, 1.0F));
-        this.goalSelector.addGoal(2, new RandomWalkingGoal(this, 0.3D));
+        this.goalSelector.addGoal(1, new AvoidEntityGoal<>(this, Player.class, 20F, 0.8F, 1.0F));
+        this.goalSelector.addGoal(2, new RandomStrollGoal(this, 0.3D));
         this.targetSelector.addGoal(1, new AIHurtByTarget());
     }
 
@@ -103,7 +103,7 @@ public class EntityCrab extends EntityCrabLikeBase {
     }
 
     @Override
-    public ILivingEntityData finalizeSpawn(IServerWorld world, DifficultyInstance difficulty, SpawnReason reason, ILivingEntityData livingdata, CompoundNBT compound) {
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor world, DifficultyInstance difficulty, MobSpawnType reason, SpawnGroupData livingdata, CompoundTag compound) {
         return EntityUtil.childChance(this, reason, super.finalizeSpawn(world, difficulty, reason, livingdata, compound), 0.25F);
     }
 
@@ -131,7 +131,7 @@ public class EntityCrab extends EntityCrabLikeBase {
         }
 
         @Override
-        protected void alertOther(MobEntity mob, LivingEntity living) {
+        protected void alertOther(Mob mob, LivingEntity living) {
             if (mob instanceof EntityCrab && !mob.isBaby()) {
                 super.alertOther(mob, living);
             }

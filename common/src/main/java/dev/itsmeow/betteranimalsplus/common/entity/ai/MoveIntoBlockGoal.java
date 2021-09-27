@@ -1,14 +1,14 @@
 package dev.itsmeow.betteranimalsplus.common.entity.ai;
 
-import net.minecraft.entity.CreatureEntity;
-import net.minecraft.entity.ai.goal.Goal;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IWorldReader;
+import net.minecraft.world.entity.PathfinderMob;
+import net.minecraft.world.entity.ai.goal.Goal;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.LevelReader;
 
 import java.util.EnumSet;
 
 public abstract class MoveIntoBlockGoal extends Goal {
-    protected final CreatureEntity creature;
+    protected final PathfinderMob creature;
     public final double movementSpeed;
     protected int runDelay;
     protected int timeoutCounter;
@@ -19,17 +19,17 @@ public abstract class MoveIntoBlockGoal extends Goal {
     private final int verticalSearchRange;
     protected int verticalSearchStart;
 
-    public MoveIntoBlockGoal(CreatureEntity creature, double speedIn, int length) {
+    public MoveIntoBlockGoal(PathfinderMob creature, double speedIn, int length) {
        this(creature, speedIn, length, 1);
     }
 
-    public MoveIntoBlockGoal(CreatureEntity creatureIn, double speed, int length, int p_i48796_5_) {
+    public MoveIntoBlockGoal(PathfinderMob creatureIn, double speed, int length, int p_i48796_5_) {
        this.creature = creatureIn;
        this.movementSpeed = speed;
        this.searchLength = length;
        this.verticalSearchStart = 0;
        this.verticalSearchRange = p_i48796_5_;
-       this.setFlags(EnumSet.of(Goal.Flag.MOVE, Goal.Flag.JUMP));
+       this.setFlags(EnumSet.of(Flag.MOVE, Flag.JUMP));
     }
 
     @Override
@@ -43,7 +43,7 @@ public abstract class MoveIntoBlockGoal extends Goal {
        }
     }
 
-    protected int getRunDelay(CreatureEntity creatureIn) {
+    protected int getRunDelay(PathfinderMob creatureIn) {
        return 200 + creatureIn.getRandom().nextInt(200);
     }
 
@@ -92,7 +92,7 @@ public abstract class MoveIntoBlockGoal extends Goal {
 
     protected boolean searchForDestination() {
         BlockPos blockpos = this.creature.blockPosition();
-       BlockPos.Mutable blockpos$mutableblockpos = new BlockPos.Mutable();
+       BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
 
        for(int k = this.verticalSearchStart; k <= this.verticalSearchRange; k = k > 0 ? -k : 1 - k) {
           for(int l = 0; l < this.searchLength; ++l) {
@@ -111,5 +111,5 @@ public abstract class MoveIntoBlockGoal extends Goal {
        return false;
     }
 
-    protected abstract boolean shouldMoveTo(IWorldReader worldIn, BlockPos pos);
+    protected abstract boolean shouldMoveTo(LevelReader worldIn, BlockPos pos);
 }

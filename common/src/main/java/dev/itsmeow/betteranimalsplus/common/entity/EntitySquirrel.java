@@ -1,56 +1,55 @@
 package dev.itsmeow.betteranimalsplus.common.entity;
 
-import dev.itsmeow.imdlib.entity.EntityTypeContainer;
 import dev.itsmeow.betteranimalsplus.common.entity.util.EntityUtil;
 import dev.itsmeow.betteranimalsplus.common.entity.util.abstracts.EntityAnimalWithSelectiveTypes;
 import dev.itsmeow.betteranimalsplus.init.ModEntities;
-import net.minecraft.block.Block;
-import net.minecraft.block.Blocks;
-import net.minecraft.entity.*;
-import net.minecraft.entity.ai.goal.*;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.datasync.DataParameter;
-import net.minecraft.network.datasync.DataSerializers;
-import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.pathfinding.ClimberPathNavigator;
-import net.minecraft.pathfinding.PathNavigator;
+import dev.itsmeow.imdlib.entity.EntityTypeContainer;
+import dev.itsmeow.imdlib.entity.util.BiomeTypes;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.BlockTags;
-import net.minecraft.util.Direction;
-import net.minecraft.util.RegistryKey;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.DifficultyInstance;
-import net.minecraft.world.IServerWorld;
-import net.minecraft.world.World;
-import net.minecraft.world.biome.Biome;
-import net.minecraft.world.server.ServerWorld;
-import net.minecraftforge.common.BiomeDictionary;
-import net.minecraftforge.common.BiomeDictionary.Type;
+import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.ai.goal.*;
+import net.minecraft.world.entity.ai.navigation.PathNavigation;
+import net.minecraft.world.entity.ai.navigation.WallClimberNavigation;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 
 import java.util.Random;
 import java.util.Set;
 
 public class EntitySquirrel extends EntityAnimalWithSelectiveTypes {
 
-    protected static final DataParameter<Byte> CLIMBING = EntityDataManager.defineId(EntitySquirrel.class, DataSerializers.BYTE);
+    protected static final EntityDataAccessor<Byte> CLIMBING = SynchedEntityData.defineId(EntitySquirrel.class, EntityDataSerializers.BYTE);
 
     private int climbTimeWithoutLog = 0;
 
-    public EntitySquirrel(EntityType<? extends EntitySquirrel> entityType, World worldIn) {
+    public EntitySquirrel(EntityType<? extends EntitySquirrel> entityType, Level worldIn) {
         super(entityType, worldIn);
     }
 
     @Override
     protected void registerGoals() {
-        this.goalSelector.addGoal(1, new SwimGoal(this));
+        this.goalSelector.addGoal(1, new FloatGoal(this));
         this.goalSelector.addGoal(2, new PanicGoal(this, 0.72D));
         this.goalSelector.addGoal(3, new BreedGoal(this, 0.5D));
         this.goalSelector.addGoal(4, new TemptGoal(this, 0.5D, Ingredient.of(Items.WHEAT_SEEDS), false));
-        this.goalSelector.addGoal(5, new AvoidEntityGoal<>(this, PlayerEntity.class, 10F, 0.5D, 0.7D));
-        this.goalSelector.addGoal(6, new WaterAvoidingRandomWalkingGoal(this, 0.5D));
+        this.goalSelector.addGoal(5, new AvoidEntityGoal<>(this, Player.class, 10F, 0.5D, 0.7D));
+        this.goalSelector.addGoal(6, new WaterAvoidingRandomStrollGoal(this, 0.5D));
     }
 
     @Override
@@ -116,12 +115,12 @@ public class EntitySquirrel extends EntityAnimalWithSelectiveTypes {
     }
 
     @Override
-    protected PathNavigator createNavigation(World worldIn) {
-        return new ClimberPathNavigator(this, worldIn);
+    protected PathNavigation createNavigation(Level worldIn) {
+        return new WallClimberNavigation(this, worldIn);
     }
 
     @Override
-    public AgeableEntity getBreedOffspring(ServerWorld world, AgeableEntity ageable) {
+    public AgableMob getBreedOffspring(ServerLevel world, AgableMob ageable) {
         EntitySquirrel squirrel = getContainer().getEntityType().create(world);
         if (ageable instanceof EntitySquirrel) {
             EntitySquirrel other = (EntitySquirrel) ageable;
@@ -151,15 +150,15 @@ public class EntitySquirrel extends EntityAnimalWithSelectiveTypes {
     }
 
     @Override
-    public ILivingEntityData finalizeSpawn(IServerWorld world, DifficultyInstance difficulty, SpawnReason reason, ILivingEntityData livingdata, CompoundNBT compound) {
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor world, DifficultyInstance difficulty, MobSpawnType reason, SpawnGroupData livingdata, CompoundTag compound) {
         return EntityUtil.childChance(this, reason, super.finalizeSpawn(world, difficulty, reason, livingdata, compound), 0.25F);
     }
 
     @Override
-    public String[] getTypesFor(RegistryKey<Biome> biomeKey, Biome biome, Set<BiomeDictionary.Type> types, SpawnReason reason) {
-        if(types.contains(Type.FOREST) && !types.contains(Type.CONIFEROUS)) {
+    public String[] getTypesFor(ResourceKey<Biome> biomeKey, Biome biome, Set<BiomeTypes.Type> types, MobSpawnType reason) {
+        if(types.contains(BiomeTypes.FOREST) && !types.contains(BiomeTypes.CONIFEROUS)) {
             return new String[] { "gray", "albino" };
-        } else if(types.contains(Type.CONIFEROUS) && !types.contains(Type.SNOWY)) {
+        } else if(types.contains(BiomeTypes.CONIFEROUS) && !types.contains(BiomeTypes.SNOWY)) {
             return new String[] { "red" };
         } else {
             return new String[] { "gray", "red", "albino" };
@@ -175,8 +174,8 @@ public class EntitySquirrel extends EntityAnimalWithSelectiveTypes {
         return "albino".equals(this.getVariantNameOrEmpty());
     }
 
-    public static boolean canSquirrelSpawn(EntityType<EntitySquirrel> type, IServerWorld world, SpawnReason reason, BlockPos pos, Random rand) {
+    public static boolean canSquirrelSpawn(EntityType<EntitySquirrel> type, ServerLevelAccessor world, MobSpawnType reason, BlockPos pos, Random rand) {
         Block below = world.getBlockState(pos.below()).getBlock();
-        return MobEntity.checkMobSpawnRules(type, world, reason, pos, rand) || below.is(BlockTags.LEAVES) || below.is(BlockTags.LOGS);
+        return Mob.checkMobSpawnRules(type, world, reason, pos, rand) || below.is(BlockTags.LEAVES) || below.is(BlockTags.LOGS);
     }
 }

@@ -1,55 +1,60 @@
 package dev.itsmeow.betteranimalsplus.common.entity;
 
-import dev.itsmeow.imdlib.entity.EntityTypeContainer;
-import dev.itsmeow.imdlib.entity.interfaces.IVariantTypes;
-import dev.itsmeow.imdlib.entity.util.variant.IVariant;
 import dev.itsmeow.betteranimalsplus.common.entity.util.IDropHead;
 import dev.itsmeow.betteranimalsplus.init.ModEntities;
 import dev.itsmeow.betteranimalsplus.init.ModLootTables;
 import dev.itsmeow.betteranimalsplus.init.ModTriggers;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.SoundType;
-import net.minecraft.block.material.Material;
-import net.minecraft.entity.*;
-import net.minecraft.entity.ai.attributes.Attributes;
-import net.minecraft.entity.ai.goal.*;
-import net.minecraft.entity.passive.AnimalEntity;
-import net.minecraft.entity.passive.horse.AbstractHorseEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.item.SpawnEggItem;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.datasync.DataParameter;
-import net.minecraft.network.datasync.DataSerializers;
-import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.particles.BasicParticleType;
-import net.minecraft.particles.ParticleTypes;
-import net.minecraft.potion.Effects;
-import net.minecraft.util.*;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.util.text.ITextComponent;
+import dev.itsmeow.imdlib.entity.EntityTypeContainer;
+import dev.itsmeow.imdlib.entity.interfaces.IVariantTypes;
+import dev.itsmeow.imdlib.entity.util.variant.IVariant;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.core.particles.SimpleParticleType;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.util.Mth;
 import net.minecraft.world.DifficultyInstance;
-import net.minecraft.world.IServerWorld;
-import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.goal.*;
+import net.minecraft.world.entity.ai.targeting.TargetingConditions;
+import net.minecraft.world.entity.animal.Animal;
+import net.minecraft.world.entity.animal.horse.AbstractHorse;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.SpawnEggItem;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.Material;
+import net.minecraft.world.phys.Vec3;
 
-import javax.annotation.Nullable;
 import java.util.Calendar;
 
-public class EntityReindeer extends AnimalEntity implements IJumpingMount, IVariantTypes<EntityReindeer>, IDropHead<EntityReindeer> {
+public class EntityReindeer extends Animal implements PlayerRideableJumping, IVariantTypes<EntityReindeer>, IDropHead<EntityReindeer> {
 
     protected static final java.util.function.Predicate<LivingEntity> IS_REINDEER_BREEDING = (entity) -> entity instanceof EntityReindeer && ((EntityReindeer)entity).isBreeding();
-    private static final EntityPredicate PARENT_TARGETING = (new EntityPredicate()).range(16.0D).allowInvulnerable().allowSameTeam().allowUnseeable().selector(IS_REINDEER_BREEDING);
-    protected static final DataParameter<Byte> STATUS = EntityDataManager.defineId(EntityReindeer.class, DataSerializers.BYTE);
+    private static final TargetingConditions PARENT_TARGETING = (new TargetingConditions()).range(16.0D).allowInvulnerable().allowSameTeam().allowUnseeable().selector(IS_REINDEER_BREEDING);
+    protected static final EntityDataAccessor<Byte> STATUS = SynchedEntityData.defineId(EntityReindeer.class, EntityDataSerializers.BYTE);
     private int eatingCounter;
     private int openMouthCounter;
     private int jumpRearingCounter;
@@ -72,19 +77,19 @@ public class EntityReindeer extends AnimalEntity implements IJumpingMount, IVari
     public boolean parentRudolph = false;
     public static final String CREATE_SNOW_KEY = "create_snow";
 
-    public EntityReindeer(EntityType<? extends EntityReindeer> entityType, World worldIn) {
+    public EntityReindeer(EntityType<? extends EntityReindeer> entityType, Level worldIn) {
         super(entityType, worldIn);
         this.maxUpStep = 1.0F;
     }
 
     @Override
     protected void registerGoals() {
-        this.goalSelector.addGoal(0, new SwimGoal(this));
+        this.goalSelector.addGoal(0, new FloatGoal(this));
         this.goalSelector.addGoal(1, new PanicGoal(this, 1.2D));
         this.goalSelector.addGoal(2, new BreedGoal(this, 1.0D, EntityReindeer.class));
         this.goalSelector.addGoal(4, new FollowParentGoal(this, 1.0D));
-        this.goalSelector.addGoal(6, new WaterAvoidingRandomWalkingGoal(this, 0.7D));
-        this.goalSelector.addGoal(7, new LookAtGoal(this, PlayerEntity.class, 6.0F));
+        this.goalSelector.addGoal(6, new WaterAvoidingRandomStrollGoal(this, 0.7D));
+        this.goalSelector.addGoal(7, new LookAtPlayerGoal(this, Player.class, 6.0F));
     }
 
     @Override
@@ -96,7 +101,7 @@ public class EntityReindeer extends AnimalEntity implements IJumpingMount, IVari
 
     // Implementation
     @Override
-    public ActionResultType mobInteract(PlayerEntity player, Hand hand) {
+    public InteractionResult mobInteract(Player player, InteractionHand hand) {
         ItemStack itemstack = player.getItemInHand(hand);
         boolean flag = !itemstack.isEmpty();
 
@@ -105,7 +110,7 @@ public class EntityReindeer extends AnimalEntity implements IJumpingMount, IVari
         } else {
             if(!this.isBaby()) {
                 if(player.isCrouching()) {
-                    return ActionResultType.PASS;
+                    return InteractionResult.PASS;
                 }
 
                 if(this.isVehicle()) {
@@ -119,11 +124,11 @@ public class EntityReindeer extends AnimalEntity implements IJumpingMount, IVari
                         itemstack.shrink(1);
                     }
 
-                    return ActionResultType.SUCCESS;
+                    return InteractionResult.SUCCESS;
                 }
 
-                if(itemstack.interactLivingEntity(player, this, hand) == ActionResultType.SUCCESS) {
-                    return ActionResultType.SUCCESS;
+                if(itemstack.interactLivingEntity(player, this, hand) == InteractionResult.SUCCESS) {
+                    return InteractionResult.SUCCESS;
                 }
 
             }
@@ -132,7 +137,7 @@ public class EntityReindeer extends AnimalEntity implements IJumpingMount, IVari
                 return super.mobInteract(player, hand);
             } else {
                 this.mountTo(player);
-                return ActionResultType.SUCCESS;
+                return InteractionResult.SUCCESS;
             }
         }
     }
@@ -141,7 +146,7 @@ public class EntityReindeer extends AnimalEntity implements IJumpingMount, IVari
      * Returns true if the mob is currently able to mate with the specified mob.
      */
     @Override
-    public boolean canMate(AnimalEntity otherAnimal) {
+    public boolean canMate(Animal otherAnimal) {
         if (otherAnimal == this) {
             return false;
         } else if (!(otherAnimal instanceof EntityReindeer)) {
@@ -152,7 +157,7 @@ public class EntityReindeer extends AnimalEntity implements IJumpingMount, IVari
     }
 
     @Override
-    public AgeableEntity getBreedOffspring(ServerWorld world, AgeableEntity ageable) {
+    public AgableMob getBreedOffspring(ServerLevel world, AgableMob ageable) {
         EntityReindeer reindeer = getContainer().getEntityType().create(world);
         this.setOffspringAttributes(ageable, reindeer);
         if(ageable instanceof EntityReindeer) {
@@ -198,7 +203,7 @@ public class EntityReindeer extends AnimalEntity implements IJumpingMount, IVari
     }
 
     @Override
-    public boolean canBeLeashed(PlayerEntity player) {
+    public boolean canBeLeashed(Player player) {
         return super.canBeLeashed(player);
     }
 
@@ -258,7 +263,7 @@ public class EntityReindeer extends AnimalEntity implements IJumpingMount, IVari
             this.playSound(SoundEvents.HORSE_LAND, 0.4F, 1.0F);
         }
 
-        int i = MathHelper.ceil((distance * 0.5F - 3.0F) * damageMultiplier);
+        int i = Mth.ceil((distance * 0.5F - 3.0F) * damageMultiplier);
 
         if (i > 0) {
             this.hurt(DamageSource.FALL, i);
@@ -273,7 +278,7 @@ public class EntityReindeer extends AnimalEntity implements IJumpingMount, IVari
             Block block = iblockstate.getBlock();
 
             if (iblockstate.getMaterial() != Material.AIR && !this.isSilent()) {
-                SoundType soundtype = block.getSoundType(block.defaultBlockState(), this.level, pos, this);
+                SoundType soundtype = block.getSoundType(block.defaultBlockState());
                 this.level.playSound(null, this.getX(), this.getY(), this.getZ(), soundtype.getStepSound(),
                         this.getSoundSource(), soundtype.getVolume() * 0.5F, soundtype.getPitch() * 0.75F);
             }
@@ -286,14 +291,12 @@ public class EntityReindeer extends AnimalEntity implements IJumpingMount, IVari
     }
 
     @Override
-    @Nullable
     protected SoundEvent getDeathSound() {
         this.openReindeerMouth();
         return null;
     }
 
     @Override
-    @Nullable
     protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
         this.openReindeerMouth();
 
@@ -305,7 +308,6 @@ public class EntityReindeer extends AnimalEntity implements IJumpingMount, IVari
     }
 
     @Override
-    @Nullable
     protected SoundEvent getAmbientSound() {
         this.openReindeerMouth();
 
@@ -319,10 +321,10 @@ public class EntityReindeer extends AnimalEntity implements IJumpingMount, IVari
     @Override
     protected void playStepSound(BlockPos pos, BlockState blockStateIn) {
         if (!blockStateIn.getMaterial().isLiquid()) {
-            SoundType soundtype = blockStateIn.getSoundType(this.level, pos, this);
+            SoundType soundtype = blockStateIn.getSoundType();
 
             if (this.level.getBlockState(pos.above()).getBlock() == Blocks.SNOW) {
-                soundtype = Blocks.SNOW.getSoundType(Blocks.SNOW.defaultBlockState(), this.level, pos, this);
+                soundtype = Blocks.SNOW.getSoundType(Blocks.SNOW.defaultBlockState());
             }
 
             if (this.isVehicle() && this.canGallop) {
@@ -361,7 +363,7 @@ public class EntityReindeer extends AnimalEntity implements IJumpingMount, IVari
         return 400;
     }
 
-    protected boolean handleEating(PlayerEntity player, ItemStack stack) {
+    protected boolean handleEating(Player player, ItemStack stack) {
         boolean flag = false;
         float f = 0.0F;
         int i = 0;
@@ -436,13 +438,13 @@ public class EntityReindeer extends AnimalEntity implements IJumpingMount, IVari
         return ModLootTables.reindeer;
     }
 
-    protected void mountTo(PlayerEntity player) {
+    protected void mountTo(Player player) {
         player.yRot = this.yRot;
         player.xRot = this.xRot;
         this.setEatingHaystack(false);
         this.setRearing(false);
-        if(player instanceof ServerPlayerEntity) {
-            ModTriggers.RIDE_REINDEER.trigger((ServerPlayerEntity) player);
+        if(player instanceof ServerPlayer) {
+            ModTriggers.RIDE_REINDEER.trigger((ServerPlayer) player);
         }
 
         if (!this.level.isClientSide) {
@@ -494,8 +496,8 @@ public class EntityReindeer extends AnimalEntity implements IJumpingMount, IVari
             if (this.canEatGrass()) {
                 if (!this.isEatingHaystack() && !this.isVehicle() && this.random.nextInt(300) == 0
                         && this.level
-                                .getBlockState(new BlockPos(MathHelper.floor(this.getX()),
-                                        MathHelper.floor(this.getY()) - 1, MathHelper.floor(this.getZ())))
+                                .getBlockState(new BlockPos(Mth.floor(this.getX()),
+                                        Mth.floor(this.getY()) - 1, Mth.floor(this.getZ())))
                                 .getBlock() == Blocks.GRASS) {
                     this.setEatingHaystack(true);
                 }
@@ -512,7 +514,7 @@ public class EntityReindeer extends AnimalEntity implements IJumpingMount, IVari
 
     protected void followMother() {
         if(this.isBreeding() && this.isBaby() && !this.isEatingHaystack()) {
-            LivingEntity livingentity = this.level.getNearestEntity(AbstractHorseEntity.class, PARENT_TARGETING, this, this.getX(), this.getY(), this.getZ(), this.getBoundingBox().inflate(16.0D));
+            LivingEntity livingentity = this.level.getNearestEntity(AbstractHorse.class, PARENT_TARGETING, this, this.getX(), this.getY(), this.getZ(), this.getBoundingBox().inflate(16.0D));
             if(livingentity != null && this.distanceToSqr(livingentity) > 4.0D) {
                 this.navigation.createPath(livingentity, 0);
             }
@@ -632,7 +634,7 @@ public class EntityReindeer extends AnimalEntity implements IJumpingMount, IVari
     }
 
     @Override
-    public void travel(Vector3d vec) {
+    public void travel(Vec3 vec) {
         if (this.isVehicle() && this.canBeControlledByRider()) {
             LivingEntity entitylivingbase = (LivingEntity) this.getControllingPassenger();
             this.yRot = entitylivingbase.yRot;
@@ -656,16 +658,16 @@ public class EntityReindeer extends AnimalEntity implements IJumpingMount, IVari
             if (this.jumpPower > 0.0F && !this.isReindeerJumping() && this.onGround) {
                 this.setDeltaMovement(this.getDeltaMovement().add(0, this.getReindeerJumpStrength() * this.jumpPower - this.getDeltaMovement().y, 0));
 
-                if (this.hasEffect(Effects.JUMP)) {
-                    this.setDeltaMovement(this.getDeltaMovement().add(0, (this.getEffect(Effects.JUMP).getAmplifier() + 1) * 0.1F, 0));
+                if (this.hasEffect(MobEffects.JUMP)) {
+                    this.setDeltaMovement(this.getDeltaMovement().add(0, (this.getEffect(MobEffects.JUMP).getAmplifier() + 1) * 0.1F, 0));
                 }
 
                 this.setReindeerJumping(true);
                 this.hasImpulse = true;
 
                 if (vec.z > 0.0F) {
-                    float f = MathHelper.sin(this.yRot * 0.017453292F);
-                    float f1 = MathHelper.cos(this.yRot * 0.017453292F);
+                    float f = Mth.sin(this.yRot * 0.017453292F);
+                    float f1 = Mth.cos(this.yRot * 0.017453292F);
                     this.setDeltaMovement(this.getDeltaMovement().add(-0.4F * f * this.jumpPower, 0, 0.4F * f1 * this.jumpPower));
                     this.playSound(SoundEvents.HORSE_JUMP, 0.4F, 1.0F);
                 }
@@ -678,7 +680,7 @@ public class EntityReindeer extends AnimalEntity implements IJumpingMount, IVari
             if (this.isControlledByLocalInstance()) {
                 this.setSpeed((float) this.getAttribute(Attributes.MOVEMENT_SPEED).getValue());
                 super.travel(vec);
-            } else if (entitylivingbase instanceof PlayerEntity) {
+            } else if (entitylivingbase instanceof Player) {
                 this.setDeltaMovement(0,0,0);
             }
 
@@ -690,7 +692,7 @@ public class EntityReindeer extends AnimalEntity implements IJumpingMount, IVari
             this.animationSpeedOld = this.animationSpeed;
             double d1 = this.getX() - this.xo;
             double d0 = this.getZ() - this.zo;
-            float f2 = MathHelper.sqrt(d1 * d1 + d0 * d0) * 4.0F;
+            float f2 = Mth.sqrt(d1 * d1 + d0 * d0) * 4.0F;
 
             if (f2 > 1.0F) {
                 f2 = 1.0F;
@@ -705,7 +707,7 @@ public class EntityReindeer extends AnimalEntity implements IJumpingMount, IVari
     }
 
     @Override
-    public void setCustomName(ITextComponent comp) {
+    public void setCustomName(Component comp) {
         if(comp.getString().equalsIgnoreCase("rudolph")) {
             if(this.getVariant().isPresent() && !this.getVariantNameOrEmpty().endsWith("_christmas")) {
                 this.setType(this.getVariantNameOrEmpty() + "_christmas");
@@ -715,7 +717,7 @@ public class EntityReindeer extends AnimalEntity implements IJumpingMount, IVari
     }
 
     @Override
-    public void addAdditionalSaveData(CompoundNBT compound) {
+    public void addAdditionalSaveData(CompoundTag compound) {
         super.addAdditionalSaveData(compound);
         compound.putBoolean("EatingHaystack", this.isEatingHaystack());
         compound.putBoolean("Bred", this.isBreeding());
@@ -725,7 +727,7 @@ public class EntityReindeer extends AnimalEntity implements IJumpingMount, IVari
     }
 
     @Override
-    public void readAdditionalSaveData(CompoundNBT compound) {
+    public void readAdditionalSaveData(CompoundTag compound) {
         super.readAdditionalSaveData(compound);
         this.setEatingHaystack(compound.getBoolean("EatingHaystack"));
         this.setBreeding(compound.getBoolean("Bred"));
@@ -749,7 +751,7 @@ public class EntityReindeer extends AnimalEntity implements IJumpingMount, IVari
                 && this.getHealth() >= this.getMaxHealth() && this.isInLove();
     }
 
-    protected void setOffspringAttributes(AgeableEntity p_190681_1_, EntityReindeer p_190681_2_) {
+    protected void setOffspringAttributes(AgableMob p_190681_1_, EntityReindeer p_190681_2_) {
         double d0 = this.getAttributeBaseValue(Attributes.MAX_HEALTH) + p_190681_1_.getAttributeBaseValue(Attributes.MAX_HEALTH) + (double) this.getModifiedMaxHealth();
         p_190681_2_.getAttribute(Attributes.MAX_HEALTH).setBaseValue(d0 / 3.0D);
         double d1 = this.getAttributeBaseValue(Attributes.JUMP_STRENGTH) + p_190681_1_.getAttributeBaseValue(Attributes.JUMP_STRENGTH) + this.getModifiedJumpStrength();
@@ -768,23 +770,23 @@ public class EntityReindeer extends AnimalEntity implements IJumpingMount, IVari
         return this.getControllingPassenger() instanceof LivingEntity;
     }
 
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public float getGrassEatingAmount(float p_110258_1_) {
         return this.prevHeadLean + (this.headLean - this.prevHeadLean) * p_110258_1_;
     }
 
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public float getRearingAmount(float p_110223_1_) {
         return this.prevRearingAmount + (this.rearingAmount - this.prevRearingAmount) * p_110223_1_;
     }
 
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public float getMouthOpennessAngle(float p_110201_1_) {
         return this.prevMouthOpenness + (this.mouthOpenness - this.prevMouthOpenness) * p_110201_1_;
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public void onPlayerJump(int jumpPowerIn) {
         if (jumpPowerIn < 0) {
             jumpPowerIn = 0;
@@ -819,9 +821,9 @@ public class EntityReindeer extends AnimalEntity implements IJumpingMount, IVari
      * "Spawns particles for the reindeer entity. par1 tells whether to spawn
      * hearts. If it is false, it spawns smoke."
      */
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     protected void spawnReindeerParticles(boolean p_110216_1_) {
-        BasicParticleType enumparticletypes = p_110216_1_ ? ParticleTypes.HEART : ParticleTypes.SMOKE;
+        SimpleParticleType enumparticletypes = p_110216_1_ ? ParticleTypes.HEART : ParticleTypes.SMOKE;
 
         for (int i = 0; i < 7; ++i) {
             double d0 = this.random.nextGaussian() * 0.02D;
@@ -834,11 +836,8 @@ public class EntityReindeer extends AnimalEntity implements IJumpingMount, IVari
         }
     }
 
-    /**
-     * Handler for {@link World#setEntityState}
-     */
     @Override
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public void handleEntityEvent(byte id) {
         if (id == 7) {
             this.spawnReindeerParticles(true);
@@ -853,14 +852,14 @@ public class EntityReindeer extends AnimalEntity implements IJumpingMount, IVari
     public void positionRider(Entity passenger) {
         super.positionRider(passenger);
 
-        if (passenger instanceof MobEntity) {
-            MobEntity entityliving = (MobEntity) passenger;
+        if (passenger instanceof Mob) {
+            Mob entityliving = (Mob) passenger;
             this.yBodyRot = entityliving.yBodyRot;
         }
 
         if (this.prevRearingAmount > 0.0F) {
-            float f3 = MathHelper.sin(this.yBodyRot * 0.017453292F);
-            float f = MathHelper.cos(this.yBodyRot * 0.017453292F);
+            float f3 = Mth.sin(this.yBodyRot * 0.017453292F);
+            float f = Mth.cos(this.yBodyRot * 0.017453292F);
             float f1 = 0.7F * this.prevRearingAmount;
             float f2 = 0.15F * this.prevRearingAmount;
             passenger.setPos(this.getX() + f1 * f3,
@@ -890,14 +889,12 @@ public class EntityReindeer extends AnimalEntity implements IJumpingMount, IVari
     }
 
     @Override
-    @Nullable
     public Entity getControllingPassenger() {
         return this.getPassengers().isEmpty() ? null : this.getPassengers().get(0);
     }
 
     @Override
-    @Nullable
-    public ILivingEntityData finalizeSpawn(IServerWorld world, DifficultyInstance difficulty, SpawnReason reason, @Nullable ILivingEntityData livingdata, CompoundNBT compound) {
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor world, DifficultyInstance difficulty, MobSpawnType reason, SpawnGroupData livingdata, CompoundTag compound) {
         this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(this.getModifiedMaxHealth());
         this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(this.getModifiedMovementSpeed());
         this.getAttribute(Attributes.JUMP_STRENGTH).setBaseValue(this.getModifiedJumpStrength());

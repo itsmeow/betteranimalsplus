@@ -1,7 +1,5 @@
 package dev.itsmeow.betteranimalsplus.common.entity;
 
-import dev.itsmeow.imdlib.entity.EntityTypeContainer;
-import dev.itsmeow.imdlib.entity.util.EntityTypeContainerContainable;
 import dev.itsmeow.betteranimalsplus.common.entity.ai.HungerNearestAttackableTargetGoal;
 import dev.itsmeow.betteranimalsplus.common.entity.ai.PeacefulNearestAttackableTargetGoal;
 import dev.itsmeow.betteranimalsplus.common.entity.util.IHaveHunger;
@@ -9,37 +7,42 @@ import dev.itsmeow.betteranimalsplus.common.entity.util.abstracts.EntityWaterMob
 import dev.itsmeow.betteranimalsplus.common.entity.util.abstracts.EntityWaterMobPathingBucketable;
 import dev.itsmeow.betteranimalsplus.init.ModEntities;
 import dev.itsmeow.betteranimalsplus.init.ModLootTables;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.ILivingEntityData;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.SpawnReason;
-import net.minecraft.entity.ai.goal.*;
-import net.minecraft.entity.monster.IMob;
-import net.minecraft.entity.passive.WaterMobEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ArmorItem;
-import net.minecraft.item.ArmorMaterial;
-import net.minecraft.item.IArmorMaterial;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.particles.ParticleTypes;
-import net.minecraft.util.*;
+import dev.itsmeow.imdlib.entity.EntityTypeContainer;
+import dev.itsmeow.imdlib.entity.util.EntityTypeContainerContainable;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.DifficultyInstance;
-import net.minecraft.world.IServerWorld;
-import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.SpawnGroupData;
+import net.minecraft.world.entity.ai.goal.*;
+import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
+import net.minecraft.world.entity.animal.WaterAnimal;
+import net.minecraft.world.entity.monster.Enemy;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ArmorItem;
+import net.minecraft.world.item.ArmorMaterial;
+import net.minecraft.world.item.ArmorMaterials;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.ServerLevelAccessor;
 
-import javax.annotation.Nullable;
 import java.util.EnumSet;
-
-import net.minecraft.entity.ai.goal.Goal.Flag;
 
 public class EntityBarracuda extends EntityWaterMobPathingBucketable implements IHaveHunger<EntityWaterMobPathing> {
 
     private int hunger = 0;
 
-    public EntityBarracuda(EntityType<? extends EntityBarracuda> entityType, World world) {
+    public EntityBarracuda(EntityType<? extends EntityBarracuda> entityType, Level world) {
         super(entityType, world);
     }
 
@@ -47,8 +50,8 @@ public class EntityBarracuda extends EntityWaterMobPathingBucketable implements 
     protected void registerGoals() {
         this.goalSelector.addGoal(0, new RushAttackGoal(this));
         this.goalSelector.addGoal(1, new MeleeAttackGoal(this, 0.8D, false));
-        this.goalSelector.addGoal(2, new LookAtGoal(this, WaterMobEntity.class, 10.0F));
-        this.goalSelector.addGoal(2, new LookRandomlyGoal(this));
+        this.goalSelector.addGoal(2, new LookAtPlayerGoal(this, WaterAnimal.class, 10.0F));
+        this.goalSelector.addGoal(2, new RandomLookAroundGoal(this));
         this.goalSelector.addGoal(3, new RandomSwimmingGoal(this, 0.5D, 1));
         this.targetSelector.addGoal(0, new HurtByTargetGoal(this) {
             @Override
@@ -56,17 +59,17 @@ public class EntityBarracuda extends EntityWaterMobPathingBucketable implements 
                 return EntityBarracuda.this.level.getDifficulty() != Difficulty.PEACEFUL && super.canUse();
             }
         });
-        this.targetSelector.addGoal(1, new HungerNearestAttackableTargetGoal<>(this, WaterMobEntity.class, 100, true, true, e -> !(e instanceof IMob) && !(e instanceof EntityBarracuda)));
-        this.targetSelector.addGoal(1, new PeacefulNearestAttackableTargetGoal<>(this, PlayerEntity.class, 100, true, true, EntityBarracuda::isWearingShiny));
+        this.targetSelector.addGoal(1, new HungerNearestAttackableTargetGoal<>(this, WaterAnimal.class, 100, true, true, e -> !(e instanceof Enemy) && !(e instanceof EntityBarracuda)));
+        this.targetSelector.addGoal(1, new PeacefulNearestAttackableTargetGoal<>(this, Player.class, 100, true, true, EntityBarracuda::isWearingShiny));
     }
 
     public static boolean isWearingShiny(LivingEntity e) {
-        if(e instanceof PlayerEntity) {
+        if(e instanceof Player) {
             for(ItemStack stack : e.getArmorSlots()) {
                 if(stack.getItem() instanceof ArmorItem) {
                     ArmorItem i = (ArmorItem) stack.getItem();
-                    IArmorMaterial mat = i.getMaterial();
-                    if(mat == ArmorMaterial.CHAIN || mat == ArmorMaterial.DIAMOND || mat == ArmorMaterial.GOLD || mat == ArmorMaterial.IRON) {
+                    ArmorMaterial mat = i.getMaterial();
+                    if(mat == ArmorMaterials.CHAIN || mat == ArmorMaterials.DIAMOND || mat == ArmorMaterials.GOLD || mat == ArmorMaterials.IRON) {
                         return true;
                     }
                 }
@@ -95,21 +98,20 @@ public class EntityBarracuda extends EntityWaterMobPathingBucketable implements 
         }
     }
 
-    @Nullable
     @Override
-    public ILivingEntityData finalizeSpawn(IServerWorld world, DifficultyInstance difficulty, SpawnReason reason, @Nullable ILivingEntityData livingdata, CompoundNBT compound) {
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor world, DifficultyInstance difficulty, MobSpawnType reason, SpawnGroupData livingdata, CompoundTag compound) {
         this.setInitialHunger();
         return super.finalizeSpawn(world, difficulty, reason, livingdata, compound);
     }
 
     @Override
-    public void addAdditionalSaveData(CompoundNBT compound) {
+    public void addAdditionalSaveData(CompoundTag compound) {
         super.addAdditionalSaveData(compound);
         this.writeHunger(compound);
     }
 
     @Override
-    public void readAdditionalSaveData(CompoundNBT compound) {
+    public void readAdditionalSaveData(CompoundTag compound) {
         super.readAdditionalSaveData(compound);
         this.readHunger(compound);
     }
@@ -135,11 +137,11 @@ public class EntityBarracuda extends EntityWaterMobPathingBucketable implements 
     }
 
     @Override
-    public ActionResultType mobInteract(PlayerEntity player, Hand hand) {
+    public InteractionResult mobInteract(Player player, InteractionHand hand) {
         if(player != this.getTarget()) {
             return super.mobInteract(player, hand);
         } else {
-            return ActionResultType.PASS;
+            return InteractionResult.PASS;
         }
     }
 
@@ -193,8 +195,8 @@ public class EntityBarracuda extends EntityWaterMobPathingBucketable implements 
                 done = true;
                 e.getTarget().hurt(DamageSource.mobAttack(e), 5F);
             }
-            if(e.level instanceof ServerWorld) {
-                ServerWorld world = (ServerWorld) e.level;
+            if(e.level instanceof ServerLevel) {
+                ServerLevel world = (ServerLevel) e.level;
                 world.sendParticles(ParticleTypes.BUBBLE, e.getX(), e.getY() + 0.5D, e.getZ(), 5, 0.25D, 0.5D, 0.25D, 0D);
             }
         }

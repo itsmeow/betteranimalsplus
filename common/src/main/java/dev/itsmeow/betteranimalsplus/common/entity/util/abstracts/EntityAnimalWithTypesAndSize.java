@@ -2,24 +2,30 @@ package dev.itsmeow.betteranimalsplus.common.entity.util.abstracts;
 
 import dev.itsmeow.imdlib.entity.util.variant.IVariant;
 import net.minecraft.entity.*;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.datasync.DataParameter;
-import net.minecraft.network.datasync.DataSerializers;
-import net.minecraft.network.datasync.EntityDataManager;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.world.DifficultyInstance;
-import net.minecraft.world.IServerWorld;
-import net.minecraft.world.World;
+import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.Level;
 
 import javax.annotation.Nullable;
 
 import dev.itsmeow.imdlib.entity.interfaces.IVariantTypes.AgeableTypeData;
-import net.minecraft.entity.AgeableEntity.AgeableData;
+import net.minecraft.world.entity.AgableMob.AgableMobGroupData;
+
+import net.minecraft.world.entity.EntityDimensions;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.Pose;
+import net.minecraft.world.entity.SpawnGroupData;
 
 public abstract class EntityAnimalWithTypesAndSize extends EntityAnimalWithTypes {
 
-    protected static final DataParameter<Float> SIZE = EntityDataManager.defineId(EntityAnimalWithTypesAndSize.class, DataSerializers.FLOAT);
+    protected static final EntityDataAccessor<Float> SIZE = SynchedEntityData.defineId(EntityAnimalWithTypesAndSize.class, EntityDataSerializers.FLOAT);
 
-    public EntityAnimalWithTypesAndSize(EntityType<? extends EntityAnimalWithTypes> entityType, World worldIn) {
+    public EntityAnimalWithTypesAndSize(EntityType<? extends EntityAnimalWithTypes> entityType, Level worldIn) {
         super(entityType, worldIn);
         this.setSize(0.35F);
     }
@@ -31,9 +37,9 @@ public abstract class EntityAnimalWithTypesAndSize extends EntityAnimalWithTypes
     }
 
     @Override
-    public EntitySize getDimensions(Pose pose) {
+    public EntityDimensions getDimensions(Pose pose) {
         float size = this.entityData.get(SIZE);
-        return EntitySize.scalable(size, size).scale(this.getScale());
+        return EntityDimensions.scalable(size, size).scale(this.getScale());
     }
 
     public void setSize(float size) {
@@ -41,13 +47,13 @@ public abstract class EntityAnimalWithTypesAndSize extends EntityAnimalWithTypes
     }
 
     @Override
-    public void addAdditionalSaveData(CompoundNBT compound) {
+    public void addAdditionalSaveData(CompoundTag compound) {
         super.addAdditionalSaveData(compound);
         compound.putFloat("Size", this.getDimensions(Pose.STANDING).width);
     }
 
     @Override
-    public void readAdditionalSaveData(CompoundNBT compound) {
+    public void readAdditionalSaveData(CompoundTag compound) {
         super.readAdditionalSaveData(compound);
         float size = compound.getFloat("Size");
         this.setSize(size);
@@ -55,7 +61,7 @@ public abstract class EntityAnimalWithTypesAndSize extends EntityAnimalWithTypes
 
     @Override
     @Nullable
-    public ILivingEntityData finalizeSpawn(IServerWorld world, DifficultyInstance difficulty, SpawnReason reason, @Nullable ILivingEntityData livingdata, CompoundNBT compound) {
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor world, DifficultyInstance difficulty, MobSpawnType reason, @Nullable SpawnGroupData livingdata, CompoundTag compound) {
         livingdata = super.finalizeSpawn(world, difficulty, reason, livingdata, compound);
         if(!this.isBaby()) {
             IVariant i = this.getRandomType();
@@ -85,7 +91,7 @@ public abstract class EntityAnimalWithTypesAndSize extends EntityAnimalWithTypes
             this.size = size;
         }
 
-        public AgeableSizeTypeData(AgeableData ageable, IVariant type, float size) {
+        public AgeableSizeTypeData(AgableMobGroupData ageable, IVariant type, float size) {
             super(ageable, type);
             this.size = size;
         }

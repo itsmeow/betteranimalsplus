@@ -1,14 +1,14 @@
 package dev.itsmeow.betteranimalsplus.common.entity.ai;
 
 import dev.itsmeow.betteranimalsplus.common.entity.util.IHaveHunger;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.MobEntity;
-import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 
 import javax.annotation.Nullable;
 import java.util.function.Predicate;
 
-public class HungerNearestAttackableTargetGoal<T extends LivingEntity, O extends MobEntity & IHaveHunger> extends NearestAttackableTargetGoal<T> {
+public class HungerNearestAttackableTargetGoal<T extends LivingEntity, O extends Mob & IHaveHunger> extends NearestAttackableTargetGoal<T> {
 
     private final O hunger;
 

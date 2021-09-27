@@ -1,49 +1,53 @@
 package dev.itsmeow.betteranimalsplus.common.entity;
 
-import dev.itsmeow.imdlib.entity.EntityTypeContainer;
-import dev.itsmeow.imdlib.entity.util.variant.IVariant;
 import dev.itsmeow.betteranimalsplus.common.entity.ai.WaterfowlNavigator;
 import dev.itsmeow.betteranimalsplus.common.entity.util.EntityUtil;
 import dev.itsmeow.betteranimalsplus.common.entity.util.abstracts.EntityAnimalWithTypes;
 import dev.itsmeow.betteranimalsplus.init.ModEntities;
 import dev.itsmeow.betteranimalsplus.init.ModItems;
 import dev.itsmeow.betteranimalsplus.init.ModSoundEvents;
-import net.minecraft.block.Block;
-import net.minecraft.block.Blocks;
-import net.minecraft.entity.*;
-import net.minecraft.entity.ai.goal.*;
-import net.minecraft.entity.item.ItemEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.EquipmentSlotType;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.ListNBT;
-import net.minecraft.nbt.StringNBT;
-import net.minecraft.particles.ItemParticleData;
-import net.minecraft.particles.ParticleTypes;
-import net.minecraft.pathfinding.PathNavigator;
-import net.minecraft.pathfinding.PathNodeType;
-import net.minecraft.potion.EffectInstance;
-import net.minecraft.potion.Effects;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.SoundEvent;
-import net.minecraft.util.SoundEvents;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.world.*;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.common.util.Constants;
+import dev.itsmeow.imdlib.entity.EntityTypeContainer;
+import dev.itsmeow.imdlib.entity.util.variant.IVariant;
+import me.shedaniel.architectury.utils.NbtType;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.ItemParticleOption;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.StringTag;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.tags.ItemTags;
+import net.minecraft.world.Difficulty;
+import net.minecraft.world.DifficultyInstance;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.ai.goal.*;
+import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
+import net.minecraft.world.entity.ai.goal.target.TargetGoal;
+import net.minecraft.world.entity.ai.navigation.PathNavigation;
+import net.minecraft.world.entity.ai.targeting.TargetingConditions;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.pathfinder.BlockPathTypes;
+import net.minecraft.world.phys.Vec3;
 
 import java.util.*;
 import java.util.function.Predicate;
-
-import dev.itsmeow.imdlib.entity.interfaces.IVariantTypes.AgeableTypeData;
-import net.minecraft.entity.AgeableEntity.AgeableData;
 
 public class EntityGoose extends EntityAnimalWithTypes {
 
@@ -55,15 +59,15 @@ public class EntityGoose extends EntityAnimalWithTypes {
     public int timeUntilNextEgg;
     public static final String PICKUP_BLOCK_LIST_KEY = "pickup_blacklist";
 
-    public EntityGoose(EntityType<? extends EntityGoose> entityType, World worldIn) {
+    public EntityGoose(EntityType<? extends EntityGoose> entityType, Level worldIn) {
         super(entityType, worldIn);
         this.setCanPickUpLoot(true);
         this.timeUntilNextEgg = this.random.nextInt(6000) + 6000;
-        this.setPathfindingMalus(PathNodeType.WATER, 0.0F);
+        this.setPathfindingMalus(BlockPathTypes.WATER, 0.0F);
     }
 
     @Override
-    protected PathNavigator createNavigation(World worldIn) {
+    protected PathNavigation createNavigation(Level worldIn) {
         return new WaterfowlNavigator(this, worldIn);
     }
 
@@ -74,7 +78,7 @@ public class EntityGoose extends EntityAnimalWithTypes {
 
     @Override
     protected void registerGoals() {
-        this.goalSelector.addGoal(0, new SwimGoal(this));
+        this.goalSelector.addGoal(0, new FloatGoal(this));
         this.goalSelector.addGoal(2, new PanicGoal(this, 1.4D) {
             @Override
             public boolean canUse() {
@@ -84,9 +88,9 @@ public class EntityGoose extends EntityAnimalWithTypes {
         this.goalSelector.addGoal(3, new BreedGoal(this, 1.0D));
         this.goalSelector.addGoal(4, new TemptGoal(this, 1.0D, Ingredient.of(Items.PUMPKIN_SEEDS, Items.WHEAT_SEEDS, Items.BEETROOT_SEEDS, Items.MELON_SEEDS, Items.BREAD), false));
         this.goalSelector.addGoal(5, new FollowParentGoal(this, 1.1D));
-        this.goalSelector.addGoal(6, new RandomWalkingGoal(this, 1.0D));
-        this.goalSelector.addGoal(7, new EntityGoose.FindItemsGoal());
-        this.goalSelector.addGoal(8, new LookAtGoal(this, PlayerEntity.class, 6.0F));
+        this.goalSelector.addGoal(6, new RandomStrollGoal(this, 1.0D));
+        this.goalSelector.addGoal(7, new FindItemsGoal());
+        this.goalSelector.addGoal(8, new LookAtPlayerGoal(this, Player.class, 6.0F));
 
         this.goalSelector.addGoal(1, new MeleeAttackGoal(this, 1.1D, false) {
             @Override
@@ -137,7 +141,7 @@ public class EntityGoose extends EntityAnimalWithTypes {
     }
 
     @Override
-    protected float getStandingEyeHeight(Pose poseIn, EntitySize sizeIn) {
+    protected float getStandingEyeHeight(Pose poseIn, EntityDimensions sizeIn) {
         return sizeIn.height;
     }
 
@@ -149,17 +153,17 @@ public class EntityGoose extends EntityAnimalWithTypes {
     public void aiStep() {
         super.aiStep();
         if(!this.level.isClientSide && this.isAlive() && this.isEffectiveAi()) {
-            ItemStack itemstack = this.getItemBySlot(EquipmentSlotType.MAINHAND);
+            ItemStack itemstack = this.getItemBySlot(EquipmentSlot.MAINHAND);
             if(itemstack.getItem().isEdible() && this.getTarget() == null) {
                 ++this.eatTicks;
                 if(this.eatTicks > 200) {
                     if(itemstack.getItem() == Items.BREAD) {
-                        this.addEffect(new EffectInstance(Effects.POISON, 900));
+                        this.addEffect(new MobEffectInstance(MobEffects.POISON, 900));
                     }
                     ItemStack itemstack1 = itemstack.finishUsingItem(this.level, this);
 
                     if(!itemstack1.isEmpty()) {
-                        this.setItemSlot(EquipmentSlotType.MAINHAND, itemstack1);
+                        this.setItemSlot(EquipmentSlot.MAINHAND, itemstack1);
                     }
                     this.eatTicks = 0;
                 } else if(this.eatTicks > 160 && this.random.nextFloat() < 0.1F) {
@@ -176,14 +180,14 @@ public class EntityGoose extends EntityAnimalWithTypes {
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public void handleEntityEvent(byte id) {
         if(id == 45) {
-            ItemStack stack = this.getItemBySlot(EquipmentSlotType.MAINHAND);
+            ItemStack stack = this.getItemBySlot(EquipmentSlot.MAINHAND);
             if(!stack.isEmpty()) {
                 for(int i = 0; i < 8; ++i) {
-                    Vector3d vec3d = (new Vector3d(((double) this.random.nextFloat() - 0.5D) * 0.1D, Math.random() * 0.1D + 0.1D, 0.0D)).xRot(-this.xRot * ((float) Math.PI / 180F)).yRot(-this.yRot * ((float) Math.PI / 180F));
-                    this.level.addParticle(new ItemParticleData(ParticleTypes.ITEM, stack), this.getX() + this.getLookAngle().x / 2.0D, this.getY(), this.getZ() + this.getLookAngle().z / 2.0D, vec3d.x, vec3d.y + 0.05D, vec3d.z);
+                    Vec3 vec3d = (new Vec3(((double) this.random.nextFloat() - 0.5D) * 0.1D, Math.random() * 0.1D + 0.1D, 0.0D)).xRot(-this.xRot * ((float) Math.PI / 180F)).yRot(-this.yRot * ((float) Math.PI / 180F));
+                    this.level.addParticle(new ItemParticleOption(ParticleTypes.ITEM, stack), this.getX() + this.getLookAngle().x / 2.0D, this.getY(), this.getZ() + this.getLookAngle().z / 2.0D, vec3d.x, vec3d.y + 0.05D, vec3d.z);
                 }
             }
         } else {
@@ -194,8 +198,8 @@ public class EntityGoose extends EntityAnimalWithTypes {
     @Override
     public void setTarget(LivingEntity entity) {
         super.setTarget(entity);
-        if(entity instanceof PlayerEntity) {
-            UUID uuid = ((PlayerEntity) entity).getGameProfile().getId();
+        if(entity instanceof Player) {
+            UUID uuid = ((Player) entity).getGameProfile().getId();
             dislikedPlayers.add(uuid);
         }
     }
@@ -219,10 +223,10 @@ public class EntityGoose extends EntityAnimalWithTypes {
 
     @Override
     protected void dropAllDeathLoot(DamageSource damageSourceIn) {
-        ItemStack itemstack = this.getItemBySlot(EquipmentSlotType.MAINHAND);
+        ItemStack itemstack = this.getItemBySlot(EquipmentSlot.MAINHAND);
         if (!itemstack.isEmpty()) {
             this.spawnAtLocation(itemstack);
-            this.setItemSlot(EquipmentSlotType.MAINHAND, ItemStack.EMPTY);
+            this.setItemSlot(EquipmentSlot.MAINHAND, ItemStack.EMPTY);
         }
 
         super.dropAllDeathLoot(damageSourceIn);
@@ -230,25 +234,26 @@ public class EntityGoose extends EntityAnimalWithTypes {
 
     @Override
     public boolean canTakeItem(ItemStack stack) {
-        EquipmentSlotType type = MobEntity.getEquipmentSlotForItem(stack);
+        EquipmentSlot type = Mob.getEquipmentSlotForItem(stack);
         if (!this.getItemBySlot(type).isEmpty()) {
             return false;
         } else {
-            return type == EquipmentSlotType.MAINHAND && super.canTakeItem(stack);
+            return type == EquipmentSlot.MAINHAND && super.canTakeItem(stack);
         }
     }
 
     @Override
     public boolean canHoldItem(ItemStack newStack) {
-        ItemStack oldStack = this.getItemBySlot(EquipmentSlotType.MAINHAND);
+        ItemStack oldStack = this.getItemBySlot(EquipmentSlot.MAINHAND);
         return !isPickupBlacklisted(newStack.getItem()) && (oldStack.isEmpty() || this.eatTicks == 0 && newStack.getItem().isEdible() && !oldStack.getItem().isEdible());
     }
-    
+
     public boolean isPickupBlacklisted(Item item) {
-        String id = item.getRegistryName().toString();
-        for(String itemsId : getContainer().getCustomConfiguration().getStringListHolder(PICKUP_BLOCK_LIST_KEY).get()) {
+        String id = item.getDescriptionId();
+        for(String itemsId : (List<String>) getContainer().getCustomConfiguration().getAnyHolder(List.class, PICKUP_BLOCK_LIST_KEY).get()) {
             if (itemsId.startsWith("#")) {
-                if (item.getTags().contains(new ResourceLocation(itemsId.substring(1)))) {
+                // TODO test impl
+                if (ItemTags.getAllTags().getMatchingTags(item).contains(new ResourceLocation(itemsId.substring(1)))) {
                     return true;
                 }
             } else if(id.equals(itemsId)) {
@@ -296,9 +301,9 @@ public class EntityGoose extends EntityAnimalWithTypes {
             if (i > 1) {
                 this.spawnItem(stack.split(i - 1));
             }
-            this.dropItem(this.getItemBySlot(EquipmentSlotType.MAINHAND));
-            this.setItemSlot(EquipmentSlotType.MAINHAND, stack.split(1));
-            this.handDropChances[EquipmentSlotType.MAINHAND.getIndex()] = 2.0F;
+            this.dropItem(this.getItemBySlot(EquipmentSlot.MAINHAND));
+            this.setItemSlot(EquipmentSlot.MAINHAND, stack.split(1));
+            this.handDropChances[EquipmentSlot.MAINHAND.getIndex()] = 2.0F;
             this.take(itemEntity, stack.getCount());
             itemEntity.remove();
             this.eatTicks = 0;
@@ -306,23 +311,23 @@ public class EntityGoose extends EntityAnimalWithTypes {
     }
 
     @Override
-    public void addAdditionalSaveData(CompoundNBT compound) {
+    public void addAdditionalSaveData(CompoundTag compound) {
         super.addAdditionalSaveData(compound);
-        ListNBT list = new ListNBT();
+        ListTag list = new ListTag();
         for(UUID uuid : dislikedPlayers) {
-            list.add(StringNBT.valueOf(uuid.toString()));
+            list.add(StringTag.valueOf(uuid.toString()));
         }
         compound.put("disliked_players", list);
     }
 
     @Override
-    public void readAdditionalSaveData(CompoundNBT compound) {
+    public void readAdditionalSaveData(CompoundTag compound) {
         super.readAdditionalSaveData(compound);
-        compound.getList("disliked_players", Constants.NBT.TAG_STRING).forEach(nbt -> dislikedPlayers.add(UUID.fromString(nbt.getAsString())));
+        compound.getList("disliked_players", NbtType.STRING).forEach(nbt -> dislikedPlayers.add(UUID.fromString(nbt.getAsString())));
     }
 
     @Override
-    public ILivingEntityData finalizeSpawn(IServerWorld world, DifficultyInstance difficulty, SpawnReason reason, ILivingEntityData livingdata, CompoundNBT compound) {
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor world, DifficultyInstance difficulty, MobSpawnType reason, SpawnGroupData livingdata, CompoundTag compound) {
         // getRandomType() should really pass in some more information...
         String[] types;
         switch (reason) {
@@ -346,8 +351,8 @@ public class EntityGoose extends EntityAnimalWithTypes {
         IVariant variant = this.getContainer().getVariantForName(types[this.getRandom().nextInt(types.length)]);
         if (livingdata instanceof AgeableTypeData) {
             variant = ((AgeableTypeData) livingdata).typeData;
-        } else if (livingdata instanceof AgeableData) {
-            livingdata = new AgeableTypeData((AgeableData) livingdata, variant);
+        } else if (livingdata instanceof AgableMobGroupData) {
+            livingdata = new AgeableTypeData((AgableMobGroupData) livingdata, variant);
         } else {
             livingdata = new AgeableTypeData(variant);
         }
@@ -355,15 +360,15 @@ public class EntityGoose extends EntityAnimalWithTypes {
         return livingdata;
     }
 
-    public static boolean canGooseSpawn(EntityType<EntityGoose> type, IWorld world, SpawnReason reason, BlockPos pos, Random rand) {
+    public static boolean canGooseSpawn(EntityType<EntityGoose> type, LevelAccessor world, MobSpawnType reason, BlockPos pos, Random rand) {
         Block downBlock = world.getBlockState(pos.below()).getBlock();
         return ((downBlock == Blocks.GRASS_BLOCK && nearWater(world, pos)) || downBlock == Blocks.WATER) && world.getRawBrightness(pos, 0) > 8 && world.isEmptyBlock(pos);
     }
 
-    protected static boolean nearWater(IWorld world, BlockPos pos) {
+    protected static boolean nearWater(LevelAccessor world, BlockPos pos) {
         int i = 12;
         int j = 2;
-        BlockPos.Mutable newpos = new BlockPos.Mutable();
+        BlockPos.MutableBlockPos newpos = new BlockPos.MutableBlockPos();
         for(int k = 0; k <= j; k = k > 0 ? -k : 1 - k) {
             for(int l = 0; l < i; ++l) {
                 for(int i1 = 0; i1 <= l; i1 = i1 > 0 ? -i1 : 1 - i1) {
@@ -391,19 +396,19 @@ public class EntityGoose extends EntityAnimalWithTypes {
 
     public class FindItemsGoal extends Goal {
         public FindItemsGoal() {
-            this.setFlags(EnumSet.of(Goal.Flag.MOVE));
+            this.setFlags(EnumSet.of(Flag.MOVE));
         }
 
         @Override
         public boolean canUse() {
-            if (!EntityGoose.this.getItemBySlot(EquipmentSlotType.MAINHAND).isEmpty()) {
+            if (!EntityGoose.this.getItemBySlot(EquipmentSlot.MAINHAND).isEmpty()) {
                 return false;
             } else if (EntityGoose.this.getTarget() == null && EntityGoose.this.getLastHurtByMob() == null) {
                 if (EntityGoose.this.getRandom().nextInt(10) != 0) {
                     return false;
                 } else {
                     List<ItemEntity> list = EntityGoose.this.level.getEntitiesOfClass(ItemEntity.class, EntityGoose.this.getBoundingBox().inflate(8.0D, 8.0D, 8.0D), EntityGoose.ITEM_SELECTOR);
-                    return !list.isEmpty() && EntityGoose.this.getItemBySlot(EquipmentSlotType.MAINHAND).isEmpty();
+                    return !list.isEmpty() && EntityGoose.this.getItemBySlot(EquipmentSlot.MAINHAND).isEmpty();
                 }
             } else {
                 return false;
@@ -413,7 +418,7 @@ public class EntityGoose extends EntityAnimalWithTypes {
         @Override
         public void tick() {
             List<ItemEntity> list = EntityGoose.this.level.getEntitiesOfClass(ItemEntity.class, EntityGoose.this.getBoundingBox().inflate(8.0D, 8.0D, 8.0D), EntityGoose.ITEM_SELECTOR);
-            ItemStack itemstack = EntityGoose.this.getItemBySlot(EquipmentSlotType.MAINHAND);
+            ItemStack itemstack = EntityGoose.this.getItemBySlot(EquipmentSlot.MAINHAND);
             if (itemstack.isEmpty() && !list.isEmpty()) {
                 EntityGoose.this.getNavigation().moveTo(list.get(0), 1.2F);
             }
@@ -445,8 +450,8 @@ public class EntityGoose extends EntityAnimalWithTypes {
         }
 
         @Override
-        protected boolean canAttack(LivingEntity potentialTarget, EntityPredicate targetPredicate) {
-            return potentialTarget instanceof PlayerEntity && super.canAttack(potentialTarget, targetPredicate) && dislikedPlayers.contains(((PlayerEntity)potentialTarget).getGameProfile().getId());
+        protected boolean canAttack(LivingEntity potentialTarget, TargetingConditions targetPredicate) {
+            return potentialTarget instanceof Player && super.canAttack(potentialTarget, targetPredicate) && dislikedPlayers.contains(((Player)potentialTarget).getGameProfile().getId());
         }
 
     }

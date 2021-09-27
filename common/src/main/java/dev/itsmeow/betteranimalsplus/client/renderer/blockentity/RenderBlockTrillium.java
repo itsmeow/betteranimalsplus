@@ -2,7 +2,7 @@ package dev.itsmeow.betteranimalsplus.client.renderer.blockentity;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Vector3f;
-import dev.itsmeow.betteranimalsplus.common.blockentity.TileEntityTrillium;
+import dev.itsmeow.betteranimalsplus.common.blockentity.BlockEntityTrillium;
 import dev.itsmeow.betteranimalsplus.client.model.ModelTrillium;
 import dev.itsmeow.betteranimalsplus.client.model.ModelTrilliumMulti;
 import dev.itsmeow.betteranimalsplus.client.model.ModelTrilliumMulti2;
@@ -16,7 +16,7 @@ import net.minecraft.world.entity.Entity;
 
 import java.awt.*;
 
-public class RenderBlockTrillium extends BlockEntityRenderer<TileEntityTrillium> {
+public class RenderBlockTrillium extends BlockEntityRenderer<BlockEntityTrillium> {
 
     public static ModelTrillium<Entity> singleT = new ModelTrillium<>();
     public static ModelTrilliumMulti<Entity> doubleT = new ModelTrilliumMulti<>();
@@ -27,12 +27,12 @@ public class RenderBlockTrillium extends BlockEntityRenderer<TileEntityTrillium>
     }
 
     @Override
-    public void render(TileEntityTrillium tileentity, float partialTicks, PoseStack matrixStackIn, MultiBufferSource bufferIn, int combinedLightIn, int combinedOverlayIn) {
+    public void render(BlockEntityTrillium blockEntity, float partialTicks, PoseStack matrixStackIn, MultiBufferSource bufferIn, int combinedLightIn, int combinedOverlayIn) {
         float rotate = 0F;
-        if (!tileentity.getLevel().isEmptyBlock(tileentity.getBlockPos())) {
-            rotate = tileentity.getRotation();
+        if (!blockEntity.getLevel().isEmptyBlock(blockEntity.getBlockPos())) {
+            rotate = blockEntity.getRotation();
         }
-        int modelNum = tileentity.getModelNum();
+        int modelNum = blockEntity.getModelNum();
         EntityModel<Entity> mainModel = (modelNum == 0 ? doubleT : (modelNum == 1 ? singleT : tripleT));
 
         matrixStackIn.pushPose();
@@ -42,7 +42,7 @@ public class RenderBlockTrillium extends BlockEntityRenderer<TileEntityTrillium>
 
             matrixStackIn.pushPose();
             {
-                Color color = new Color(tileentity.getLevel().getBiome(tileentity.getBlockPos()).getGrassColor(0, 0));
+                Color color = new Color(blockEntity.getLevel().getBiome(blockEntity.getBlockPos()).getGrassColor(0, 0));
                 float r = color.getRed() / 255F;
                 float g = color.getGreen() / 255F;
                 float b = color.getBlue() / 255F;
@@ -60,7 +60,7 @@ public class RenderBlockTrillium extends BlockEntityRenderer<TileEntityTrillium>
             matrixStackIn.pushPose();
             {
                 mainModel.setupAnim(null, 0F, 0F, 0F, rotate, 0F);
-                mainModel.renderToBuffer(matrixStackIn, bufferIn.getBuffer(RenderType.entityCutout(tileentity.getTexture())), combinedLightIn, combinedOverlayIn, 1F, 1F, 1F, 1F);
+                mainModel.renderToBuffer(matrixStackIn, bufferIn.getBuffer(RenderType.entityCutout(blockEntity.getTexture())), combinedLightIn, combinedOverlayIn, 1F, 1F, 1F, 1F);
             }
             matrixStackIn.popPose();
         }

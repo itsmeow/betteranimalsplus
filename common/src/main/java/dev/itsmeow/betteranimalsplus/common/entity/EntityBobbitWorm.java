@@ -1,59 +1,58 @@
 package dev.itsmeow.betteranimalsplus.common.entity;
 
-import dev.itsmeow.imdlib.entity.EntityTypeContainer;
 import dev.itsmeow.betteranimalsplus.common.entity.util.abstracts.EntityAnimalWithTypes;
 import dev.itsmeow.betteranimalsplus.init.ModEntities;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.entity.*;
-import net.minecraft.entity.ai.RandomPositionGenerator;
-import net.minecraft.entity.ai.attributes.Attributes;
-import net.minecraft.entity.ai.goal.LookAtGoal;
-import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal;
-import net.minecraft.entity.monster.EndermanEntity;
-import net.minecraft.entity.monster.IMob;
-import net.minecraft.entity.monster.SkeletonEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.network.datasync.DataParameter;
-import net.minecraft.network.datasync.DataSerializers;
-import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.pathfinding.PathNavigator;
-import net.minecraft.pathfinding.PathNodeType;
-import net.minecraft.pathfinding.PathType;
-import net.minecraft.pathfinding.SwimmerPathNavigator;
+import dev.itsmeow.imdlib.entity.EntityTypeContainer;
+import net.minecraft.core.BlockPos;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.tags.FluidTags;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.Difficulty;
-import net.minecraft.world.IWorldReader;
-import net.minecraft.world.World;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
+import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
+import net.minecraft.world.entity.ai.navigation.PathNavigation;
+import net.minecraft.world.entity.ai.navigation.WaterBoundPathNavigation;
+import net.minecraft.world.entity.ai.util.RandomPos;
+import net.minecraft.world.entity.monster.EnderMan;
+import net.minecraft.world.entity.monster.Enemy;
+import net.minecraft.world.entity.monster.Skeleton;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.pathfinder.BlockPathTypes;
+import net.minecraft.world.level.pathfinder.PathComputationType;
+import net.minecraft.world.phys.Vec3;
 
-import javax.annotation.Nullable;
 import java.util.HashSet;
 import java.util.Set;
 
 public class EntityBobbitWorm extends EntityAnimalWithTypes {
 
-    protected static final DataParameter<Integer> ATTACK_STATE = EntityDataManager.defineId(EntityBobbitWorm.class, DataSerializers.INT);
+    protected static final EntityDataAccessor<Integer> ATTACK_STATE = SynchedEntityData.defineId(EntityBobbitWorm.class, EntityDataSerializers.INT);
     private float lastAttack = 0;
     private float lastGrab = 0;
-    private Vector3d targetPosition;
+    private Vec3 targetPosition;
 
-    public EntityBobbitWorm(EntityType<? extends EntityBobbitWorm> entityType, World worldIn) {
+    public EntityBobbitWorm(EntityType<? extends EntityBobbitWorm> entityType, Level worldIn) {
         super(entityType, worldIn);
-        this.setPathfindingMalus(PathNodeType.WATER, 10F);
+        this.setPathfindingMalus(BlockPathTypes.WATER, 10F);
     }
 
     @Override
     protected void registerGoals() {
-        this.goalSelector.addGoal(0, new LookAtGoal(this, LivingEntity.class, 10.0F));
+        this.goalSelector.addGoal(0, new LookAtPlayerGoal(this, LivingEntity.class, 10.0F));
         Set<Class<? extends LivingEntity>> blackList = new HashSet<>();
-        blackList.add(SkeletonEntity.class);
-        blackList.add(EndermanEntity.class);
+        blackList.add(Skeleton.class);
+        blackList.add(EnderMan.class);
         blackList.add(EntityJellyfish.class);
-        this.targetSelector.addGoal(0, new NearestAttackableTargetGoal<>(this, LivingEntity.class, 0, true, true, e -> e.getBbWidth() < 3 && !(e instanceof IMob) && !(e instanceof EntityBobbitWorm) && !(e.level.getDifficulty() == Difficulty.PEACEFUL && e instanceof PlayerEntity) && !blackList.contains(e.getClass())));
+        this.targetSelector.addGoal(0, new NearestAttackableTargetGoal<>(this, LivingEntity.class, 0, true, true, e -> e.getBbWidth() < 3 && !(e instanceof Enemy) && !(e instanceof EntityBobbitWorm) && !(e.level.getDifficulty() == Difficulty.PEACEFUL && e instanceof Player) && !blackList.contains(e.getClass())));
     }
 
     @Override
@@ -75,16 +74,15 @@ public class EntityBobbitWorm extends EntityAnimalWithTypes {
         return entityIn.hurt(DamageSource.mobAttack(this), (float) this.getAttribute(Attributes.ATTACK_DAMAGE).getValue());
     }
 
-    @Nullable
-    protected Vector3d getNewTargetPosition() {
-        Vector3d pos = RandomPositionGenerator.getPos(this, 20, 5);
+    protected Vec3 getNewTargetPosition() {
+        Vec3 pos = RandomPos.getPos(this, 20, 5);
         if(pos != null) {
             if(isGoodBurrowingPosition(new BlockPos(pos))) {
                 return pos;
             }
         }
         if(level.getBlockState(this.blockPosition().below()).getBlock() == Blocks.WATER) {
-            return new Vector3d(this.getX(), this.getY() - 1D, this.getZ());
+            return new Vec3(this.getX(), this.getY() - 1D, this.getZ());
         }
         return null;
     }
@@ -92,16 +90,16 @@ public class EntityBobbitWorm extends EntityAnimalWithTypes {
     public boolean isGoodBurrowingPosition(BlockPos pos) {
         Block below = level.getBlockState(pos.below()).getBlock();
         BlockState here = this.level.getBlockState(pos);
-        return (below == Blocks.CLAY || below == Blocks.SAND || below == Blocks.GRAVEL || below == Blocks.DIRT) && here.isPathfindable(level, pos, PathType.WATER) && here.getFluidState().is(FluidTags.WATER);
+        return (below == Blocks.CLAY || below == Blocks.SAND || below == Blocks.GRAVEL || below == Blocks.DIRT) && here.isPathfindable(level, pos, PathComputationType.WATER) && here.getFluidState().is(FluidTags.WATER);
     }
 
     @Override
-    protected PathNavigator createNavigation(World worldIn) {
-        return new SwimmerPathNavigator(this, worldIn);
+    protected PathNavigation createNavigation(Level worldIn) {
+        return new WaterBoundPathNavigation(this, worldIn);
     }
 
     @Override
-    public void travel(Vector3d vec) {
+    public void travel(Vec3 vec) {
         this.move(MoverType.SELF, this.getDeltaMovement());
     }
 
@@ -113,17 +111,12 @@ public class EntityBobbitWorm extends EntityAnimalWithTypes {
     }
 
     @Override
-    public boolean canRiderInteract() {
-        return true;
-    }
-
-    @Override
-    public boolean shouldRiderSit() {
+    public boolean canBeControlledByRider() {
         return false;
     }
 
     @Override
-    public boolean canBeRiddenInWater(Entity rider) {
+    public boolean rideableUnderWater() {
         return true;
     }
 
@@ -149,7 +142,7 @@ public class EntityBobbitWorm extends EntityAnimalWithTypes {
         }
         boolean goodPos = this.isGoodBurrowingPosition(this.blockPosition());
         if(this.targetPosition == null && !goodPos) {
-            Vector3d pos = this.getNewTargetPosition();
+            Vec3 pos = this.getNewTargetPosition();
             if(pos != null) {
                 this.targetPosition = pos;
             }
@@ -196,12 +189,12 @@ public class EntityBobbitWorm extends EntityAnimalWithTypes {
     }
 
     @Override
-    public CreatureAttribute getMobType() {
-        return CreatureAttribute.WATER;
+    public MobType getMobType() {
+        return MobType.WATER;
     }
 
     @Override
-    public boolean checkSpawnObstruction(IWorldReader worldIn) {
+    public boolean checkSpawnObstruction(LevelReader worldIn) {
         return worldIn.isUnobstructed(this);
     }
 
@@ -211,7 +204,7 @@ public class EntityBobbitWorm extends EntityAnimalWithTypes {
     }
 
     @Override
-    protected int getExperienceReward(PlayerEntity player) {
+    protected int getExperienceReward(Player player) {
         return 1 + this.level.random.nextInt(3);
     }
 

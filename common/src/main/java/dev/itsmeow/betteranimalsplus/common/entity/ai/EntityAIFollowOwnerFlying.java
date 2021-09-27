@@ -1,15 +1,15 @@
 package dev.itsmeow.betteranimalsplus.common.entity.ai;
 
 import dev.itsmeow.betteranimalsplus.common.entity.EntityLammergeier;
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.ai.goal.Goal;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.pathfinding.FlyingPathNavigator;
-import net.minecraft.pathfinding.PathNodeType;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.world.World;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.goal.Goal;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.ai.navigation.FlyingPathNavigation;
+import net.minecraft.world.level.pathfinder.BlockPathTypes;
+import net.minecraft.core.BlockPos;
+import net.minecraft.util.Mth;
+import net.minecraft.world.level.Level;
 
 import java.util.EnumSet;
 
@@ -17,9 +17,9 @@ public class EntityAIFollowOwnerFlying extends Goal {
 
     private final EntityLammergeier tameable;
     private LivingEntity owner;
-    final World world;
+    final Level world;
     private final double followSpeed;
-    private final FlyingPathNavigator petPathfinder;
+    private final FlyingPathNavigation petPathfinder;
     private int timeToRecalcPath;
     final float maxDist;
     final float minDist;
@@ -30,10 +30,10 @@ public class EntityAIFollowOwnerFlying extends Goal {
         this.tameable = tameableIn;
         this.world = tameableIn.level;
         this.followSpeed = followSpeedIn;
-        this.petPathfinder = (FlyingPathNavigator) tameableIn.getNavigation();
+        this.petPathfinder = (FlyingPathNavigation) tameableIn.getNavigation();
         this.minDist = minDistIn;
         this.maxDist = maxDistIn;
-        this.setFlags(EnumSet.of(Goal.Flag.MOVE));
+        this.setFlags(EnumSet.of(Flag.MOVE));
     }
 
     @Override
@@ -42,7 +42,7 @@ public class EntityAIFollowOwnerFlying extends Goal {
 
         if (entitylivingbase == null) {
             return false;
-        } else if (entitylivingbase instanceof PlayerEntity && entitylivingbase.isSpectator()) {
+        } else if (entitylivingbase instanceof Player && entitylivingbase.isSpectator()) {
             return false;
         } else if (this.tameable.isInSittingPose() || this.tameable.isOrderedToSit()) { // it's actually sitting not sleeping
             return false;
@@ -69,15 +69,15 @@ public class EntityAIFollowOwnerFlying extends Goal {
     @Override
     public void start() {
         this.timeToRecalcPath = 0;
-        this.oldWaterCost = this.tameable.getPathfindingMalus(PathNodeType.WATER);
-        this.tameable.setPathfindingMalus(PathNodeType.WATER, 0.0F);
+        this.oldWaterCost = this.tameable.getPathfindingMalus(BlockPathTypes.WATER);
+        this.tameable.setPathfindingMalus(BlockPathTypes.WATER, 0.0F);
     }
 
     @Override
     public void stop() {
         this.owner = null;
         this.petPathfinder.stop();
-        this.tameable.setPathfindingMalus(PathNodeType.WATER, this.oldWaterCost);
+        this.tameable.setPathfindingMalus(BlockPathTypes.WATER, this.oldWaterCost);
     }
 
     @Override
@@ -92,9 +92,9 @@ public class EntityAIFollowOwnerFlying extends Goal {
                     if (!this.tameable.isLeashed() && this.tameable.getVehicle() == null) {
                         // Distance too large, teleport!
                         if (this.tameable.distanceToSqr(this.owner) >= 144.0D || this.tameable.getCommandSenderWorld() != this.owner.getCommandSenderWorld()) {
-                            int i = MathHelper.floor(this.owner.getX()) - 2;
-                            int j = MathHelper.floor(this.owner.getZ()) - 2;
-                            int k = MathHelper.floor(this.owner.getBoundingBox().minY);
+                            int i = Mth.floor(this.owner.getX()) - 2;
+                            int j = Mth.floor(this.owner.getZ()) - 2;
+                            int k = Mth.floor(this.owner.getBoundingBox().minY);
 
                             for (int l = 0; l <= 4; ++l) {
                                 for (int i1 = 0; i1 <= 4; ++i1) {

@@ -33,6 +33,8 @@ import java.util.List;
 public class ModEntities {
 
     public static final EntityRegistrarHandlerBAP H = new EntityRegistrarHandlerBAP();
+    private static final String MODID = Ref.MOD_ID;
+    private static final CreativeModeTab G = BetterAnimalsPlusMod.TAB;
     public static final EntityTypeContainerBAPTameable<EntityLammergeier> LAMMERGEIER = H.addTame(EntityLammergeier.class, EntityLammergeier::new, "lammergeier", () -> Mob.createMobAttributes()
             .add(Attributes.ATTACK_SPEED)
             .add(Attributes.ATTACK_DAMAGE)
@@ -238,8 +240,6 @@ public class ModEntities {
             .despawn()
             .variants("east_pacific_red", "common", "giant_pacific", "blue_ringed")
             .biomes(() -> OceanBiomeHelper.returnIf(biome -> OceanBiomeHelper.isWarmOcean(biome) || OceanBiomeHelper.isLukewarmOcean(biome))));
-    private static final String MODID = Ref.MOD_ID;
-    private static final CreativeModeTab G = BetterAnimalsPlusMod.GROUP;
     public static final EntityTypeContainer<EntityBear> BROWN_BEAR = H.add(EntityBear.class, EntityBear::new, "brownbear", () -> Mob.createMobAttributes()
             .add(Attributes.MAX_HEALTH, 30.0D)
             .add(Attributes.FOLLOW_RANGE, 20.0D)

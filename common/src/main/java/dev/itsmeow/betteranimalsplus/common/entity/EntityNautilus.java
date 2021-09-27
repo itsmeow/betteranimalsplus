@@ -1,42 +1,42 @@
 package dev.itsmeow.betteranimalsplus.common.entity;
 
-import dev.itsmeow.imdlib.entity.EntityTypeContainer;
-import dev.itsmeow.imdlib.entity.util.EntityTypeContainerContainable;
 import dev.itsmeow.betteranimalsplus.common.entity.util.abstracts.EntityWaterMobBucketable;
 import dev.itsmeow.betteranimalsplus.init.ModEntities;
 import dev.itsmeow.betteranimalsplus.init.ModLootTables;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.MoverType;
-import net.minecraft.entity.ai.goal.RandomWalkingGoal;
-import net.minecraft.pathfinding.PathNavigator;
-import net.minecraft.pathfinding.SwimmerPathNavigator;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.SoundEvent;
-import net.minecraft.util.SoundEvents;
-import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.util.math.vector.Vector3i;
-import net.minecraft.world.World;
+import dev.itsmeow.imdlib.entity.EntityTypeContainer;
+import dev.itsmeow.imdlib.entity.util.EntityTypeContainerContainable;
+import net.minecraft.core.Vec3i;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.MoverType;
+import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
+import net.minecraft.world.entity.ai.navigation.PathNavigation;
+import net.minecraft.world.entity.ai.navigation.WaterBoundPathNavigation;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.Vec3;
 
 public class EntityNautilus extends EntityWaterMobBucketable {
 
-    public EntityNautilus(EntityType<? extends EntityNautilus> entityType, World worldIn) {
+    public EntityNautilus(EntityType<? extends EntityNautilus> entityType, Level worldIn) {
         super(entityType, worldIn);
     }
     
     @Override
     protected void registerGoals() {
         super.registerGoals();
-        this.goalSelector.addGoal(0, new RandomWalkingGoal(this, 0.15D));
+        this.goalSelector.addGoal(0, new RandomStrollGoal(this, 0.15D));
     }
 
     @Override
-    protected PathNavigator createNavigation(World worldIn) {
-        return new SwimmerPathNavigator(this, worldIn);
+    protected PathNavigation createNavigation(Level worldIn) {
+        return new WaterBoundPathNavigation(this, worldIn);
     }
 
     @Override
-    public void travel(Vector3d vec) {
+    public void travel(Vec3 vec) {
         this.move(MoverType.SELF, this.getDeltaMovement());
     }
 
@@ -51,7 +51,7 @@ public class EntityNautilus extends EntityWaterMobBucketable {
             this.setDeltaMovement(this.getDeltaMovement().x(), this.getDeltaMovement().y() * 0.9800000190734863D, this.getDeltaMovement().z());
         } else if(!level.isClientSide) {
             if(!this.navigation.isDone()) {
-                Vector3i target = this.navigation.getPath().getNextNodePos();
+                Vec3i target = this.navigation.getPath().getNextNodePos();
                 this.setDeltaMovement((target.getX() - this.getX()) * 0.05F, (target.getY() - this.getY()) * 0.05F, (target.getZ() - this.getZ()) * 0.05F);
             } else if(this.getMoveControl().hasWanted()) {
                 this.setDeltaMovement((this.getMoveControl().getWantedX() - this.getX()) * 0.05F, (this.getMoveControl().getWantedY() - this.getY()) * 0.05F, (this.getMoveControl().getWantedZ() - this.getZ()) * 0.05F);

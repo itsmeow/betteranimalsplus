@@ -1,57 +1,60 @@
 package dev.itsmeow.betteranimalsplus.common.entity;
 
-import dev.itsmeow.imdlib.entity.EntityTypeContainer;
 import dev.itsmeow.betteranimalsplus.common.entity.ai.EntityAIEatBerries;
 import dev.itsmeow.betteranimalsplus.common.entity.util.EntityUtil;
 import dev.itsmeow.betteranimalsplus.common.entity.util.IDropHead;
 import dev.itsmeow.betteranimalsplus.common.entity.util.abstracts.EntityAnimalWithSelectiveTypes;
 import dev.itsmeow.betteranimalsplus.common.entity.util.abstracts.EntityAnimalWithTypes;
 import dev.itsmeow.betteranimalsplus.init.ModEntities;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.CropsBlock;
-import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.entity.*;
-import net.minecraft.entity.ai.attributes.Attributes;
-import net.minecraft.entity.ai.goal.*;
-import net.minecraft.entity.effect.LightningBoltEntity;
-import net.minecraft.entity.monster.HoglinEntity;
-import net.minecraft.entity.monster.IMob;
-import net.minecraft.entity.monster.ZombifiedPiglinEntity;
-import net.minecraft.entity.passive.AnimalEntity;
-import net.minecraft.entity.passive.ChickenEntity;
-import net.minecraft.entity.passive.PigEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.EquipmentSlotType;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.pathfinding.PathNodeType;
-import net.minecraft.util.*;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.world.*;
-import net.minecraft.world.biome.Biome;
-import net.minecraft.world.server.ServerWorld;
-import net.minecraftforge.common.BiomeDictionary;
-import net.minecraftforge.common.BiomeDictionary.Type;
+import dev.itsmeow.imdlib.entity.EntityTypeContainer;
+import dev.itsmeow.imdlib.entity.util.BiomeTypes;
+import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.Difficulty;
+import net.minecraft.world.DifficultyInstance;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.ai.goal.*;
+import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
+import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
+import net.minecraft.world.entity.animal.Animal;
+import net.minecraft.world.entity.animal.Chicken;
+import net.minecraft.world.entity.animal.Pig;
+import net.minecraft.world.entity.monster.Enemy;
+import net.minecraft.world.entity.monster.ZombifiedPiglin;
+import net.minecraft.world.entity.monster.hoglin.Hoglin;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.CropBlock;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.pathfinder.BlockPathTypes;
+import net.minecraft.world.phys.Vec3;
 
-import javax.annotation.Nullable;
 import java.util.Set;
 
-public class EntityBoar extends EntityAnimalWithSelectiveTypes implements IMob, IDropHead<EntityAnimalWithTypes> {
+public class EntityBoar extends EntityAnimalWithSelectiveTypes implements Enemy, IDropHead<EntityAnimalWithTypes> {
 
-    public EntityBoar(EntityType<? extends EntityBoar> entityType, World worldIn) {
+    public EntityBoar(EntityType<? extends EntityBoar> entityType, Level worldIn) {
         super(entityType, worldIn);
-        this.setPathfindingMalus(PathNodeType.DANGER_OTHER, 0.0F);
-        this.setPathfindingMalus(PathNodeType.DAMAGE_OTHER, 0.0F);
+        this.setPathfindingMalus(BlockPathTypes.DANGER_OTHER, 0.0F);
+        this.setPathfindingMalus(BlockPathTypes.DAMAGE_OTHER, 0.0F);
     }
 
     @Override
     protected void registerGoals() {
-        this.goalSelector.addGoal(0, new SwimGoal(this));
+        this.goalSelector.addGoal(0, new FloatGoal(this));
         this.goalSelector.addGoal(1, new MeleeAttackGoal(this, 1.2D, false) {
             @Override
             public boolean canUse() {
@@ -76,8 +79,8 @@ public class EntityBoar extends EntityAnimalWithSelectiveTypes implements IMob, 
                 }
             });
         }
-        this.goalSelector.addGoal(6, new WaterAvoidingRandomWalkingGoal(this, 1.0D));
-        this.goalSelector.addGoal(7, new LookAtGoal(this, PlayerEntity.class, 6.0F));
+        this.goalSelector.addGoal(6, new WaterAvoidingRandomStrollGoal(this, 1.0D));
+        this.goalSelector.addGoal(7, new LookAtPlayerGoal(this, Player.class, 6.0F));
         this.targetSelector.addGoal(0, new HurtByTargetGoal(this) {
             @Override
             public boolean canUse() {
@@ -89,7 +92,7 @@ public class EntityBoar extends EntityAnimalWithSelectiveTypes implements IMob, 
                 return !EntityBoar.this.isBaby() && !EntityBoar.this.isPeaceful() && super.canContinueToUse();
             }
         }.setAlertOthers(EntityBoar.class));
-        this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<AnimalEntity>(this, AnimalEntity.class, 90, true, true, (@Nullable LivingEntity in) -> in instanceof ChickenEntity || in instanceof EntityPheasant || in instanceof AnimalEntity && in.isBaby() && !(in instanceof EntityBoar || in instanceof PigEntity || in instanceof HoglinEntity)) {
+        this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<Animal>(this, Animal.class, 90, true, true, (LivingEntity in) -> in instanceof Chicken || in instanceof EntityPheasant || in instanceof Animal && in.isBaby() && !(in instanceof EntityBoar || in instanceof Pig || in instanceof Hoglin)) {
             @Override
             public boolean canUse() {
                 return EntityBoar.this.shouldAttack() && EntityBoar.this.attackChance() && super.canUse();
@@ -100,7 +103,7 @@ public class EntityBoar extends EntityAnimalWithSelectiveTypes implements IMob, 
                 return EntityBoar.this.shouldAttack() && super.canContinueToUse();
             }
         });
-        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<LivingEntity>(this, LivingEntity.class, 50, true, true, (@Nullable LivingEntity in) -> in instanceof AnimalEntity && !(in instanceof EntityBoar || in instanceof PigEntity || in instanceof HoglinEntity) || in instanceof PlayerEntity) {
+        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<LivingEntity>(this, LivingEntity.class, 50, true, true, (LivingEntity in) -> in instanceof Animal && !(in instanceof EntityBoar || in instanceof Pig || in instanceof Hoglin) || in instanceof Player) {
             @Override
             public boolean canUse() {
                 return EntityBoar.this.shouldAttack() && EntityBoar.this.attackChance() && super.canUse();
@@ -158,62 +161,17 @@ public class EntityBoar extends EntityAnimalWithSelectiveTypes implements IMob, 
 
     @Override
     public boolean doHurtTarget(Entity entityIn) {
-        Vector3d pos = this.position();
-        Vector3d targetPos = entityIn.position();
+        Vec3 pos = this.position();
+        Vec3 targetPos = entityIn.position();
         ((LivingEntity) entityIn).knockback(0.8F, pos.x - targetPos.x, pos.z - targetPos.z);
-
-        // Vanilla attack code for mobs
-
-        float f = (float) this.getAttribute(Attributes.ATTACK_DAMAGE).getValue();
-        int i = 0;
-
-        f += EnchantmentHelper.getDamageBonus(this.getMainHandItem(),
-        ((LivingEntity) entityIn).getMobType());
-        i += EnchantmentHelper.getKnockbackBonus(this);
-
-        boolean flag = entityIn.hurt(DamageSource.mobAttack(this), f);
-
-        if (flag) {
-            if (i > 0) {
-                ((LivingEntity) entityIn).knockback(i * 0.5F, MathHelper.sin(this.yRot * 0.017453292F), -MathHelper.cos(this.yRot * 0.017453292F));
-                this.setDeltaMovement(this.getDeltaMovement().x() * 0.6D, this.getDeltaMovement().y(), this.getDeltaMovement().z() * 0.6D);
-            }
-
-            int j = EnchantmentHelper.getFireAspect(this);
-
-            if(j > 0) {
-                entityIn.setSecondsOnFire(j * 4);
-            }
-
-            if(entityIn instanceof PlayerEntity) {
-                PlayerEntity entityplayer = (PlayerEntity) entityIn;
-                ItemStack itemstack = this.getMainHandItem();
-                ItemStack itemstack1 = entityplayer.isUsingItem() ? entityplayer.getUseItem()
-                : ItemStack.EMPTY;
-
-                if(!itemstack.isEmpty() && !itemstack1.isEmpty()
-                && itemstack.getItem().canDisableShield(itemstack, itemstack1, entityplayer, this)
-                && itemstack1.getItem().isShield(itemstack1, entityplayer)) {
-                    float f1 = 0.25F + EnchantmentHelper.getBlockEfficiency(this) * 0.05F;
-
-                    if(this.random.nextFloat() < f1) {
-                        entityplayer.getCooldowns().addCooldown(itemstack1.getItem(), 100);
-                        this.level.broadcastEntityEvent(entityplayer, (byte) 30);
-                    }
-                }
-            }
-
-            this.doEnchantDamageEffects(this, entityIn);
-        }
-
-        return flag;
+       return super.doHurtTarget(entityIn);
     }
 
     @Override
-    public void thunderHit(ServerWorld p_241841_1_, LightningBoltEntity p_241841_2_) {
+    public void thunderHit(ServerLevel p_241841_1_, LightningBolt p_241841_2_) {
         if (!this.level.isClientSide && !this.dead) {
-            ZombifiedPiglinEntity entitypigzombie = EntityType.ZOMBIFIED_PIGLIN.create(this.level);
-            entitypigzombie.setItemSlot(EquipmentSlotType.MAINHAND, new ItemStack(Items.GOLDEN_SWORD));
+            ZombifiedPiglin entitypigzombie = EntityType.ZOMBIFIED_PIGLIN.create(this.level);
+            entitypigzombie.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(Items.GOLDEN_SWORD));
             entitypigzombie.moveTo(this.getX(), this.getY(), this.getZ(), this.yRot, this.xRot);
             entitypigzombie.setNoAi(this.isNoAi());
 
@@ -228,14 +186,14 @@ public class EntityBoar extends EntityAnimalWithSelectiveTypes implements IMob, 
     }
 
     @Override
-    public AgeableEntity getBreedOffspring(ServerWorld world, AgeableEntity ageable) {
+    public AgableMob getBreedOffspring(ServerLevel world, AgableMob ageable) {
         if(this.getVariant().isPresent()) {
             if (ageable instanceof EntityBoar) {
                 EntityBoar boar = getContainer().getEntityType().create(world);
                 boar.setType(this.getVariant().get());
                 return boar;
-            } else if (ageable instanceof PigEntity) {
-                PigEntity pig = new PigEntity(EntityType.PIG, this.level);
+            } else if (ageable instanceof Pig) {
+                Pig pig = new Pig(EntityType.PIG, this.level);
                 EntityBoar boar = getContainer().getEntityType().create(world);
                 boar.setType(this.getVariant().get());
                 return this.random.nextBoolean() ? pig : boar;
@@ -245,9 +203,9 @@ public class EntityBoar extends EntityAnimalWithSelectiveTypes implements IMob, 
     }
 
     @Override
-    public boolean canMate(AnimalEntity otherAnimal) {
+    public boolean canMate(Animal otherAnimal) {
         if(otherAnimal != this) {
-            if(otherAnimal instanceof EntityBoar || otherAnimal instanceof PigEntity) {
+            if(otherAnimal instanceof EntityBoar || otherAnimal instanceof Pig) {
                 return otherAnimal.isInLove() && this.isInLove();
             }
         }
@@ -266,16 +224,16 @@ public class EntityBoar extends EntityAnimalWithSelectiveTypes implements IMob, 
     }
 
     @Override
-    public String[] getTypesFor(RegistryKey<Biome> biomeKey, Biome biome, Set<BiomeDictionary.Type> types, SpawnReason reason) {
-        if(types.contains(Type.FOREST) && !types.contains(Type.CONIFEROUS)) {
+    public String[] getTypesFor(ResourceKey<Biome> biomeKey, Biome biome, Set<BiomeTypes.Type> types, MobSpawnType reason) {
+        if(types.contains(BiomeTypes.FOREST) && !types.contains(BiomeTypes.CONIFEROUS)) {
             return new String[] { "1", "2", "3" };
-        } else if(types.contains(Type.CONIFEROUS) && !types.contains(Type.SNOWY)) {
+        } else if(types.contains(BiomeTypes.CONIFEROUS) && !types.contains(BiomeTypes.SNOWY)) {
             return new String[] { "1", "2", "3" };
-        } else if(types.contains(Type.CONIFEROUS) && types.contains(Type.SNOWY)) {
+        } else if(types.contains(BiomeTypes.CONIFEROUS) && types.contains(BiomeTypes.SNOWY)) {
             return new String[] { "1", "4" };
-        } else if(types.contains(Type.SNOWY) && !types.contains(Type.CONIFEROUS)) {
+        } else if(types.contains(BiomeTypes.SNOWY) && !types.contains(BiomeTypes.CONIFEROUS)) {
             return new String[] { "4" };
-        } else if(types.contains(Type.SAVANNA) || types.contains(Type.PLAINS)) {
+        } else if(types.contains(BiomeTypes.SAVANNA) || types.contains(BiomeTypes.PLAINS)) {
             return new String[] { "1", "2", "3" };
         } else {
             return new String[] { "1", "2", "3", "4" };
@@ -297,11 +255,12 @@ public class EntityBoar extends EntityAnimalWithSelectiveTypes implements IMob, 
 
         @Override
         public boolean canUse() {
-            if(this.nextStartTick <= 0) {
+            // TODO mob grief event
+            /*if(this.nextStartTick <= 0) {
                 if(!net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(this.boar.level, this.boar)) {
                     return false;
                 }
-            }
+            }*/
 
             return !this.boar.isInLove() && super.canUse();
         }
@@ -316,12 +275,12 @@ public class EntityBoar extends EntityAnimalWithSelectiveTypes implements IMob, 
             if(!this.blockPos.closerThan(this.mob.position(), this.acceptedDistance())) {
                 this.boar.getMoveControl().setWantedPosition((double) this.blockPos.getX() + 0.5D, this.blockPos.getY(), (double) this.blockPos.getZ() + 0.5D, this.speedModifier);
             } else {
-                World world = this.boar.level;
+                Level world = this.boar.level;
                 BlockPos pos = this.blockPos;
                 BlockState state = world.getBlockState(pos);
                 Block block = state.getBlock();
 
-                if(!this.boar.isInLove() && block instanceof CropsBlock && ((CropsBlock) block).isMaxAge(state)) {
+                if(!this.boar.isInLove() && block instanceof CropBlock && ((CropBlock) block).isMaxAge(state)) {
                     world.setBlock(pos, Blocks.AIR.defaultBlockState(), 2);
                     world.destroyBlock(pos, true);
                     if(boar.getContainer().getCustomConfiguration().getBoolean("nerf_options/breed_from_crops"))
@@ -332,10 +291,10 @@ public class EntityBoar extends EntityAnimalWithSelectiveTypes implements IMob, 
         }
 
         @Override
-        protected boolean isValidTarget(IWorldReader worldIn, BlockPos pos) {
+        protected boolean isValidTarget(LevelReader worldIn, BlockPos pos) {
             BlockState state = worldIn.getBlockState(pos);
             Block block = state.getBlock();
-            if(!this.boar.isInLove() && block instanceof CropsBlock && ((CropsBlock) block).isMaxAge(state)) {
+            if(!this.boar.isInLove() && block instanceof CropBlock && ((CropBlock) block).isMaxAge(state)) {
                 return worldIn.getBlockState(pos.below()).getBlock() == Blocks.FARMLAND;
             }
             return false;
@@ -348,7 +307,7 @@ public class EntityBoar extends EntityAnimalWithSelectiveTypes implements IMob, 
     }
 
     @Override
-    public ILivingEntityData finalizeSpawn(IServerWorld world, DifficultyInstance difficulty, SpawnReason reason, ILivingEntityData livingdata, CompoundNBT compound) {
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor world, DifficultyInstance difficulty, MobSpawnType reason, SpawnGroupData livingdata, CompoundTag compound) {
         return EntityUtil.childChance(this, reason, super.finalizeSpawn(world, difficulty, reason, livingdata, compound), 0.25F);
     }
 

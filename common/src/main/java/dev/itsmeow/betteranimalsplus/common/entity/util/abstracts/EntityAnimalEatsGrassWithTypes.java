@@ -1,11 +1,11 @@
 package dev.itsmeow.betteranimalsplus.common.entity.util.abstracts;
 
 import dev.itsmeow.betteranimalsplus.common.entity.ai.EntityAIEatGrassCustom;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.passive.AnimalEntity;
-import net.minecraft.world.World;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.animal.Animal;
+import net.minecraft.world.level.Level;
 
 public abstract class EntityAnimalEatsGrassWithTypes extends EntityAnimalWithTypes {
 
@@ -13,7 +13,7 @@ public abstract class EntityAnimalEatsGrassWithTypes extends EntityAnimalWithTyp
 	private EntityAIEatGrassCustom eatTask = null;
 	public int eatTimer;
 
-	public EntityAnimalEatsGrassWithTypes(EntityType<? extends AnimalEntity> entityType, World worldIn, int taskPriority) {
+	public EntityAnimalEatsGrassWithTypes(EntityType<? extends Animal> entityType, Level worldIn, int taskPriority) {
 		super(entityType, worldIn);
 		this.taskPriority = taskPriority;
 	}
@@ -23,7 +23,7 @@ public abstract class EntityAnimalEatsGrassWithTypes extends EntityAnimalWithTyp
 	}
 
 	@Override
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
 	public void handleEntityEvent(byte id) {
 		if (id == 10) {
 			this.eatTimer = 40;

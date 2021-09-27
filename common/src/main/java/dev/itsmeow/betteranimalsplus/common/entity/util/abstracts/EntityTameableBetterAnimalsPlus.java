@@ -3,15 +3,15 @@ package dev.itsmeow.betteranimalsplus.common.entity.util.abstracts;
 import dev.itsmeow.imdlib.entity.EntityTypeContainer;
 import dev.itsmeow.imdlib.entity.interfaces.IContainerEntity;
 import dev.itsmeow.betteranimalsplus.common.entity.util.EntityTypeContainerBAPTameable;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.passive.TameableEntity;
-import net.minecraft.item.Item;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.TamableAnimal;
+import net.minecraft.world.item.Item;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.Level;
 
-public abstract class EntityTameableBetterAnimalsPlus extends TameableEntity implements IContainerEntity<EntityTameableBetterAnimalsPlus> {
+public abstract class EntityTameableBetterAnimalsPlus extends TamableAnimal implements IContainerEntity<EntityTameableBetterAnimalsPlus> {
 
-    protected EntityTameableBetterAnimalsPlus(EntityType<? extends EntityTameableBetterAnimalsPlus> type, World world) {
+    protected EntityTameableBetterAnimalsPlus(EntityType<? extends EntityTameableBetterAnimalsPlus> type, Level world) {
         super(type, world);
     }
 

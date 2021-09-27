@@ -5,29 +5,29 @@ import java.util.Set;
 
 import com.google.common.collect.Sets;
 
-import net.minecraft.entity.CreatureEntity;
-import net.minecraft.entity.EntityPredicate;
-import net.minecraft.entity.ai.goal.Goal;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.entity.PathfinderMob;
+import net.minecraft.world.entity.ai.targeting.TargetingConditions;
+import net.minecraft.world.entity.ai.goal.Goal;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 
 public class EntityAITemptAnyNav extends Goal {
-    private static final EntityPredicate selector = (new EntityPredicate()).range(10.0D).allowSameTeam().allowInvulnerable();
-    private final CreatureEntity entity;
+    private static final TargetingConditions selector = (new TargetingConditions()).range(10.0D).allowSameTeam().allowInvulnerable();
+    private final PathfinderMob entity;
     private final double speed;
-    private PlayerEntity tempter;
+    private Player tempter;
     private int cooldown;
     private final Set<Item> temptItems;
 
-    public EntityAITemptAnyNav(CreatureEntity creature, double speed, Set<Item> temptItems) {
+    public EntityAITemptAnyNav(PathfinderMob creature, double speed, Set<Item> temptItems) {
        this.entity = creature;
        this.speed = speed;
        this.temptItems = temptItems;
-       this.setFlags(EnumSet.of(Goal.Flag.MOVE, Goal.Flag.LOOK));
+       this.setFlags(EnumSet.of(Flag.MOVE, Flag.LOOK));
     }
     
-    public EntityAITemptAnyNav(CreatureEntity creature, double speed, Item... temptItems) {
+    public EntityAITemptAnyNav(PathfinderMob creature, double speed, Item... temptItems) {
         this(creature, speed, Sets.newHashSet(temptItems));
      }
 

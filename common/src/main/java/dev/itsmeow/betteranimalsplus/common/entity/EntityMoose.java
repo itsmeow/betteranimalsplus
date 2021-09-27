@@ -1,7 +1,5 @@
 package dev.itsmeow.betteranimalsplus.common.entity;
 
-import dev.itsmeow.imdlib.entity.EntityTypeContainer;
-import dev.itsmeow.imdlib.entity.util.variant.IVariant;
 import dev.itsmeow.betteranimalsplus.common.entity.ai.EntityAIEatGrassCustom;
 import dev.itsmeow.betteranimalsplus.common.entity.ai.PeacefulNearestAttackableTargetGoal;
 import dev.itsmeow.betteranimalsplus.common.entity.util.IDropHead;
@@ -9,32 +7,34 @@ import dev.itsmeow.betteranimalsplus.common.entity.util.abstracts.EntityAnimalEa
 import dev.itsmeow.betteranimalsplus.common.entity.util.abstracts.EntityAnimalWithTypes;
 import dev.itsmeow.betteranimalsplus.init.ModEntities;
 import dev.itsmeow.betteranimalsplus.init.ModLootTables;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.crash.CrashReport;
-import net.minecraft.crash.CrashReportCategory;
-import net.minecraft.crash.ReportedException;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.ai.attributes.Attributes;
-import net.minecraft.entity.ai.goal.HurtByTargetGoal;
-import net.minecraft.entity.ai.goal.MeleeAttackGoal;
-import net.minecraft.entity.ai.goal.RandomWalkingGoal;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.Direction;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.vector.Vector3d;
+import dev.itsmeow.imdlib.entity.EntityTypeContainer;
+import dev.itsmeow.imdlib.entity.util.variant.IVariant;
+import net.minecraft.CrashReport;
+import net.minecraft.CrashReportCategory;
+import net.minecraft.ReportedException;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Difficulty;
-import net.minecraft.world.World;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
+import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
+import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.Vec3;
 
 public class EntityMoose extends EntityAnimalEatsGrassWithTypes implements IDropHead<EntityAnimalWithTypes> {
 
-    public EntityMoose(EntityType<? extends EntityMoose> entityType, World worldIn) {
+    public EntityMoose(EntityType<? extends EntityMoose> entityType, Level worldIn) {
         super(entityType, worldIn, 5);
         this.maxUpStep = 1F;
     }
@@ -42,7 +42,7 @@ public class EntityMoose extends EntityAnimalEatsGrassWithTypes implements IDrop
     @Override
     protected void registerGoals() {
         super.registerGoals();
-        this.goalSelector.addGoal(0, new RandomWalkingGoal(this, 0.65D));
+        this.goalSelector.addGoal(0, new RandomStrollGoal(this, 0.65D));
         this.goalSelector.addGoal(1, new MeleeAttackGoal(this, 0.65D, false));
         this.targetSelector.addGoal(0, new HurtByTargetGoal(this) {
             @Override
@@ -50,7 +50,7 @@ public class EntityMoose extends EntityAnimalEatsGrassWithTypes implements IDrop
                 return EntityMoose.this.level.getDifficulty() != Difficulty.PEACEFUL && super.canUse();
             }
         });
-        this.targetSelector.addGoal(1, new PeacefulNearestAttackableTargetGoal<>(this, PlayerEntity.class, 75, true, true, e -> e.distanceTo(this) < 15));
+        this.targetSelector.addGoal(1, new PeacefulNearestAttackableTargetGoal<>(this, Player.class, 75, true, true, e -> e.distanceTo(this) < 15));
     }
 
     @Override
@@ -66,10 +66,10 @@ public class EntityMoose extends EntityAnimalEatsGrassWithTypes implements IDrop
     @SuppressWarnings("deprecation")
     @Override
     protected void checkInsideBlocks() {
-        AxisAlignedBB axisalignedbb = this.getBoundingBox();
+        AABB axisalignedbb = this.getBoundingBox();
         BlockPos blockpos = new BlockPos(axisalignedbb.minX + 0.001D, axisalignedbb.minY + 0.001D, axisalignedbb.minZ + 0.001D);
         BlockPos blockpos1 = new BlockPos(axisalignedbb.maxX - 0.001D, axisalignedbb.maxY - 0.001D, axisalignedbb.maxZ - 0.001D);
-        BlockPos.Mutable blockpos$mutable = new BlockPos.Mutable();
+        BlockPos.MutableBlockPos blockpos$mutable = new BlockPos.MutableBlockPos();
         if(this.level.hasChunksAt(blockpos, blockpos1)) {
             for(int i = blockpos.getX(); i <= blockpos1.getX(); ++i) {
                 for(int j = blockpos.getY(); j <= blockpos1.getY(); ++j) {
@@ -106,8 +106,8 @@ public class EntityMoose extends EntityAnimalEatsGrassWithTypes implements IDrop
 
     @Override
     public boolean doHurtTarget(Entity entityIn) {
-        Vector3d pos = this.position();
-        Vector3d targetPos = entityIn.position();
+        Vec3 pos = this.position();
+        Vec3 targetPos = entityIn.position();
         ((LivingEntity) entityIn).knockback(1F, pos.x - targetPos.x, pos.z - targetPos.z);
         float f = (float) this.getAttribute(Attributes.ATTACK_DAMAGE).getValue();
         return entityIn.hurt(DamageSource.mobAttack(this), f);

@@ -4,14 +4,14 @@ import dev.itsmeow.imdlib.entity.EntityTypeContainer;
 import dev.itsmeow.imdlib.entity.util.EntityTypeContainerContainable;
 import dev.itsmeow.betteranimalsplus.common.entity.util.abstracts.EntityEelBase;
 import dev.itsmeow.betteranimalsplus.init.ModEntities;
-import net.minecraft.entity.EntityType;
-import net.minecraft.util.SoundEvent;
-import net.minecraft.util.SoundEvents;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.level.Level;
 
 public class EntityFreshwaterEel extends EntityEelBase {
 
-    public EntityFreshwaterEel(EntityType<? extends EntityFreshwaterEel> entityType, World worldIn) {
+    public EntityFreshwaterEel(EntityType<? extends EntityFreshwaterEel> entityType, Level worldIn) {
         super(entityType, worldIn);
     }
 

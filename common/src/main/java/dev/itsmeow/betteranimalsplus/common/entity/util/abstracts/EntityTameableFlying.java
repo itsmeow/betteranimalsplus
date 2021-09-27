@@ -1,20 +1,20 @@
 package dev.itsmeow.betteranimalsplus.common.entity.util.abstracts;
 
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.MoverType;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.MoverType;
+import net.minecraft.core.BlockPos;
+import net.minecraft.util.Mth;
+import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.level.Level;
 
 public abstract class EntityTameableFlying extends EntityTameableBetterAnimalsPlus {
 
-    public EntityTameableFlying(EntityType<? extends EntityTameableFlying> type, World worldIn) {
+    public EntityTameableFlying(EntityType<? extends EntityTameableFlying> type, Level worldIn) {
         super(type, worldIn);
     }
 
     @Override
-    public void travel(Vector3d p_213352_1_) {
+    public void travel(Vec3 p_213352_1_) {
         if(this.isInWater()) {
             this.moveRelative(0.02F, p_213352_1_);
             this.move(MoverType.SELF, this.getDeltaMovement());
@@ -44,7 +44,7 @@ public abstract class EntityTameableFlying extends EntityTameableBetterAnimalsPl
         this.animationSpeedOld = this.animationSpeed;
         double d1 = this.getX() - this.xo;
         double d0 = this.getZ() - this.zo;
-        float f2 = MathHelper.sqrt(d1 * d1 + d0 * d0) * 4.0F;
+        float f2 = Mth.sqrt(d1 * d1 + d0 * d0) * 4.0F;
         if(f2 > 1.0F) {
             f2 = 1.0F;
         }

@@ -1,6 +1,5 @@
 package dev.itsmeow.betteranimalsplus.common.entity;
 
-import dev.itsmeow.imdlib.entity.EntityTypeContainer;
 import dev.itsmeow.betteranimalsplus.common.entity.ai.EntityAIEatBerries;
 import dev.itsmeow.betteranimalsplus.common.entity.ai.FollowParentGoalButNotStupid;
 import dev.itsmeow.betteranimalsplus.common.entity.ai.HungerNearestAttackableTargetGoal;
@@ -8,82 +7,82 @@ import dev.itsmeow.betteranimalsplus.common.entity.util.IDropHead;
 import dev.itsmeow.betteranimalsplus.common.entity.util.IHaveHunger;
 import dev.itsmeow.betteranimalsplus.init.ModEntities;
 import dev.itsmeow.betteranimalsplus.init.ModLootTables;
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.*;
-import net.minecraft.entity.ai.attributes.Attributes;
-import net.minecraft.entity.ai.goal.*;
-import net.minecraft.entity.passive.*;
-import net.minecraft.entity.passive.fish.SalmonEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.datasync.DataParameter;
-import net.minecraft.network.datasync.DataSerializers;
-import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.pathfinding.GroundPathNavigator;
-import net.minecraft.pathfinding.PathNavigator;
-import net.minecraft.pathfinding.PathNodeType;
+import dev.itsmeow.imdlib.entity.EntityTypeContainer;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Vec3i;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.ItemTags;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.SoundEvent;
-import net.minecraft.util.SoundEvents;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.util.math.vector.Vector3i;
+import net.minecraft.util.Mth;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.DifficultyInstance;
-import net.minecraft.world.IServerWorld;
-import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.goal.*;
+import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
+import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
+import net.minecraft.world.entity.ai.navigation.GroundPathNavigation;
+import net.minecraft.world.entity.ai.navigation.PathNavigation;
+import net.minecraft.world.entity.animal.*;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.pathfinder.BlockPathTypes;
+import net.minecraft.world.phys.Vec3;
 
-import javax.annotation.Nullable;
-
-public class EntityBear extends AnimalEntity implements IDropHead<EntityBear>, IHaveHunger<EntityBear> {
-    private static final DataParameter<Boolean> IS_STANDING = EntityDataManager.defineId(EntityBear.class, DataSerializers.BOOLEAN);
+public class EntityBear extends Animal implements IDropHead<EntityBear>, IHaveHunger<EntityBear> {
+    private static final EntityDataAccessor<Boolean> IS_STANDING = SynchedEntityData.defineId(EntityBear.class, EntityDataSerializers.BOOLEAN);
     private float clientSideStandAnimation0;
     private float clientSideStandAnimation;
     private int warningSoundTicks;
     private int hunger;
 
-    public EntityBear(EntityType<? extends EntityBear> entityType, World worldIn) {
+    public EntityBear(EntityType<? extends EntityBear> entityType, Level worldIn) {
         super(entityType, worldIn);
-        this.setPathfindingMalus(PathNodeType.DANGER_OTHER, 0.0F);
-        this.setPathfindingMalus(PathNodeType.DAMAGE_OTHER, 0.0F);
+        this.setPathfindingMalus(BlockPathTypes.DANGER_OTHER, 0.0F);
+        this.setPathfindingMalus(BlockPathTypes.DAMAGE_OTHER, 0.0F);
     }
 
     @Override
     protected void registerGoals() {
-        this.goalSelector.addGoal(0, new SwimGoal(this));
+        this.goalSelector.addGoal(0, new FloatGoal(this));
         this.goalSelector.addGoal(1, new BearMeleeAttackGoal());
         this.goalSelector.addGoal(1, new BearPanicGoal());
         this.goalSelector.addGoal(2, new BreedGoal(this, 1D));
         this.goalSelector.addGoal(2, new FollowParentGoalButNotStupid(this, 1.25D, e -> !(e instanceof EntityBearNeutral)));
         this.goalSelector.addGoal(3, new EntityAIEatBerries(this, 1.0D, 12, 2));
-        this.goalSelector.addGoal(5, new RandomWalkingGoal(this, 1.0D));
-        this.goalSelector.addGoal(6, new LookAtGoal(this, PlayerEntity.class, 6.0F));
+        this.goalSelector.addGoal(5, new RandomStrollGoal(this, 1.0D));
+        this.goalSelector.addGoal(6, new LookAtPlayerGoal(this, Player.class, 6.0F));
         this.targetSelector.addGoal(1, new BearHurtByTargetGoal());
         this.targetSelector.addGoal(2, new AttackPlayerGoal());
-        this.targetSelector.addGoal(2, new HungerNearestAttackableTargetGoal<>(this, SalmonEntity.class, 90, true, true, e -> true));
+        this.targetSelector.addGoal(2, new HungerNearestAttackableTargetGoal<>(this, Salmon.class, 90, true, true, e -> true));
         this.targetSelector.addGoal(3, new HungerNearestAttackableTargetGoal<>(this, EntityDeer.class, 90, true, true, e -> true));
-        this.targetSelector.addGoal(4, new HungerNearestAttackableTargetGoal<>(this, PigEntity.class, 90, true, true, e -> true));
-        this.targetSelector.addGoal(5, new HungerNearestAttackableTargetGoal<>(this, ChickenEntity.class, 90, true, true, e -> true));
-        this.targetSelector.addGoal(6, new HungerNearestAttackableTargetGoal<>(this, RabbitEntity.class, 90, true, true, e -> true));
+        this.targetSelector.addGoal(4, new HungerNearestAttackableTargetGoal<>(this, Pig.class, 90, true, true, e -> true));
+        this.targetSelector.addGoal(5, new HungerNearestAttackableTargetGoal<>(this, Chicken.class, 90, true, true, e -> true));
+        this.targetSelector.addGoal(6, new HungerNearestAttackableTargetGoal<>(this, Rabbit.class, 90, true, true, e -> true));
         this.targetSelector.addGoal(5, new HungerNearestAttackableTargetGoal<>(this, EntityPheasant.class, 90, true, true, e -> true));
-        this.targetSelector.addGoal(3, new HungerNearestAttackableTargetGoal<>(this, FoxEntity.class, 90, true, true, e -> true));
+        this.targetSelector.addGoal(3, new HungerNearestAttackableTargetGoal<>(this, Fox.class, 90, true, true, e -> true));
     }
 
     @Override
-    protected PathNavigator createNavigation(World worldIn) {
-        return new GroundPathNavigator(this, worldIn) {
+    protected PathNavigation createNavigation(Level worldIn) {
+        return new GroundPathNavigation(this, worldIn) {
             @Override
             protected void followThePath() {
-                Vector3d vector3d = this.getTempMobPos();
+                Vec3 vector3d = this.getTempMobPos();
                 this.maxDistanceToWaypoint = this.mob.getBbWidth() > 0.75F ? this.mob.getBbWidth() / 2.0F : 0.75F - this.mob.getBbWidth() / 2.0F;
-                Vector3i vector3i = this.path.getNextNodePos();
+                Vec3i vector3i = this.path.getNextNodePos();
                 double d0 = Math.abs(this.mob.getX() - ((double)vector3i.getX() + (this.mob.getBbWidth() + 1) / 2D)); //Forge: Fix MC-94054
                 double d1 = Math.abs(this.mob.getY() - (double)vector3i.getY());
                 double d2 = Math.abs(this.mob.getZ() - ((double)vector3i.getZ() + (this.mob.getBbWidth() + 1) / 2D)); //Forge: Fix MC-94054
@@ -95,17 +94,17 @@ public class EntityBear extends AnimalEntity implements IDropHead<EntityBear>, I
                 this.doStuckDetection(vector3d);
             }
 
-            private boolean shouldTargetNextNodeInDirection(Vector3d currentPosition) {
+            private boolean shouldTargetNextNodeInDirection(Vec3 currentPosition) {
                 if (this.path.getNextNodeIndex() + 1 >= this.path.getNodeCount()) {
                     return false;
                 } else {
-                    Vector3d vector3d = Vector3d.atBottomCenterOf(this.path.getNextNodePos());
+                    Vec3 vector3d = Vec3.atBottomCenterOf(this.path.getNextNodePos());
                     if (!currentPosition.closerThan(vector3d, 2.0D)) {
                         return false;
                     } else {
-                        Vector3d vector3d1 = Vector3d.atBottomCenterOf(this.path.getNodePos(this.path.getNextNodeIndex() + 1));
-                        Vector3d vector3d2 = vector3d1.subtract(vector3d);
-                        Vector3d vector3d3 = currentPosition.subtract(vector3d);
+                        Vec3 vector3d1 = Vec3.atBottomCenterOf(this.path.getNodePos(this.path.getNextNodeIndex() + 1));
+                        Vec3 vector3d2 = vector3d1.subtract(vector3d);
+                        Vec3 vector3d3 = currentPosition.subtract(vector3d);
                         return vector3d2.dot(vector3d3) > 0.0D;
                     }
                 }
@@ -124,13 +123,13 @@ public class EntityBear extends AnimalEntity implements IDropHead<EntityBear>, I
     }
 
     @Override
-    public void addAdditionalSaveData(CompoundNBT compound) {
+    public void addAdditionalSaveData(CompoundTag compound) {
         super.addAdditionalSaveData(compound);
         this.writeHunger(compound);
     }
 
     @Override
-    public void readAdditionalSaveData(CompoundNBT compound) {
+    public void readAdditionalSaveData(CompoundTag compound) {
         super.readAdditionalSaveData(compound);
         this.readHunger(compound);
     }
@@ -168,9 +167,9 @@ public class EntityBear extends AnimalEntity implements IDropHead<EntityBear>, I
 
             this.clientSideStandAnimation0 = this.clientSideStandAnimation;
             if(this.isStanding()) {
-                this.clientSideStandAnimation = MathHelper.clamp(this.clientSideStandAnimation + 1.0F, 0.0F, 6.0F);
+                this.clientSideStandAnimation = Mth.clamp(this.clientSideStandAnimation + 1.0F, 0.0F, 6.0F);
             } else {
-                this.clientSideStandAnimation = MathHelper.clamp(this.clientSideStandAnimation - 1.0F, 0.0F, 6.0F);
+                this.clientSideStandAnimation = Mth.clamp(this.clientSideStandAnimation - 1.0F, 0.0F, 6.0F);
             }
         }
 
@@ -188,9 +187,9 @@ public class EntityBear extends AnimalEntity implements IDropHead<EntityBear>, I
         this.entityData.set(IS_STANDING, standing);
     }
 
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public float getStandingAnimationScale(float p_189795_1_) {
-        return MathHelper.lerp(p_189795_1_, this.clientSideStandAnimation0, this.clientSideStandAnimation) / 6.0F;
+        return Mth.lerp(p_189795_1_, this.clientSideStandAnimation0, this.clientSideStandAnimation) / 6.0F;
     }
 
     @Override
@@ -199,7 +198,7 @@ public class EntityBear extends AnimalEntity implements IDropHead<EntityBear>, I
     }
 
     @Override
-    public EntitySize getDimensions(Pose poseIn) {
+    public EntityDimensions getDimensions(Pose poseIn) {
         if(this.clientSideStandAnimation > 0.0F) {
             float f = this.clientSideStandAnimation / 6.0F;
             float f1 = 1.0F + f;
@@ -252,9 +251,9 @@ public class EntityBear extends AnimalEntity implements IDropHead<EntityBear>, I
         this.entityData.define(IS_STANDING, false);
     }
 
-    class AttackPlayerGoal extends NearestAttackableTargetGoal<PlayerEntity> {
+    class AttackPlayerGoal extends NearestAttackableTargetGoal<Player> {
         public AttackPlayerGoal() {
-            super(EntityBear.this, PlayerEntity.class, 0, true, true, null);
+            super(EntityBear.this, Player.class, 0, true, true, null);
         }
 
         @Override
@@ -296,8 +295,8 @@ public class EntityBear extends AnimalEntity implements IDropHead<EntityBear>, I
         }
 
         @Override
-        protected void alertOther(MobEntity mobIn, LivingEntity targetIn) {
-            if(mobIn instanceof EntityBear && !mobIn.isBaby() && (!(targetIn instanceof PlayerEntity) || !((EntityBear) mobIn).isPeaceful())) {
+        protected void alertOther(Mob mobIn, LivingEntity targetIn) {
+            if(mobIn instanceof EntityBear && !mobIn.isBaby() && (!(targetIn instanceof Player) || !((EntityBear) mobIn).isPeaceful())) {
                 super.alertOther(mobIn, targetIn);
             }
 
@@ -384,17 +383,17 @@ public class EntityBear extends AnimalEntity implements IDropHead<EntityBear>, I
     }
 
     @Override
-    public AgeableEntity getBreedOffspring(ServerWorld world, AgeableEntity ageable) {
+    public AgableMob getBreedOffspring(ServerLevel world, AgableMob ageable) {
         return getContainer().getEntityType().create(world);
     }
 
-    static class GroupData implements ILivingEntityData {
+    static class GroupData implements SpawnGroupData {
         private GroupData() {
         }
     }
 
     @Override
-    public ILivingEntityData finalizeSpawn(IServerWorld worldIn, DifficultyInstance difficultyIn, SpawnReason reason, @Nullable ILivingEntityData spawnDataIn, @Nullable CompoundNBT dataTag) {
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor worldIn, DifficultyInstance difficultyIn, MobSpawnType reason, SpawnGroupData spawnDataIn, CompoundTag dataTag) {
         this.setInitialHunger();
         if(spawnDataIn instanceof GroupData) {
             this.setAge(-24000);

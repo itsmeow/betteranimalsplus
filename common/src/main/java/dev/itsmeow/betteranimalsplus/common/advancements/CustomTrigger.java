@@ -1,25 +1,22 @@
 package dev.itsmeow.betteranimalsplus.common.advancements;
 
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.Set;
-
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.gson.JsonObject;
+import net.minecraft.advancements.CriterionTrigger;
+import net.minecraft.advancements.critereon.AbstractCriterionTriggerInstance;
+import net.minecraft.advancements.critereon.DeserializationContext;
+import net.minecraft.advancements.critereon.EntityPredicate;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.PlayerAdvancements;
+import net.minecraft.server.level.ServerPlayer;
 
-import net.minecraft.advancements.ICriterionTrigger;
-import net.minecraft.advancements.PlayerAdvancements;
-import net.minecraft.advancements.criterion.CriterionInstance;
-import net.minecraft.advancements.criterion.EntityPredicate;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.loot.ConditionArrayParser;
-import net.minecraft.util.ResourceLocation;
+import java.util.ArrayList;
+import java.util.Map;
+import java.util.Set;
 
-import net.minecraft.advancements.ICriterionTrigger.Listener;
-
-public class CustomTrigger implements ICriterionTrigger<CustomTrigger.Instance> {
+public class CustomTrigger implements CriterionTrigger<CustomTrigger.Instance> {
     private final ResourceLocation id;
     private final Map<PlayerAdvancements, Listeners> listeners = Maps.newHashMap();
 
@@ -37,25 +34,25 @@ public class CustomTrigger implements ICriterionTrigger<CustomTrigger.Instance> 
     }
 
     @Override
-    public void addPlayerListener(PlayerAdvancements playerAdvancementsIn, ICriterionTrigger.Listener<CustomTrigger.Instance> listener) {
-        CustomTrigger.Listeners myCustomTrigger$listeners = listeners.get(playerAdvancementsIn);
+    public void addPlayerListener(PlayerAdvancements playerAdvancementsIn, Listener<Instance> listener) {
+        Listeners playerListeners = listeners.get(playerAdvancementsIn);
 
-        if(myCustomTrigger$listeners == null) {
-            myCustomTrigger$listeners = new CustomTrigger.Listeners(playerAdvancementsIn);
-            listeners.put(playerAdvancementsIn, myCustomTrigger$listeners);
+        if(playerListeners == null) {
+            playerListeners = new Listeners(playerAdvancementsIn);
+            listeners.put(playerAdvancementsIn, playerListeners);
         }
 
-        myCustomTrigger$listeners.add(listener);
+        playerListeners.add(listener);
     }
 
     @Override
-    public void removePlayerListener(PlayerAdvancements playerAdvancementsIn, ICriterionTrigger.Listener<Instance> listener) {
-        CustomTrigger.Listeners tameanimaltrigger$listeners = listeners.get(playerAdvancementsIn);
+    public void removePlayerListener(PlayerAdvancements playerAdvancementsIn, Listener<Instance> listener) {
+        Listeners playerListeners = listeners.get(playerAdvancementsIn);
 
-        if(tameanimaltrigger$listeners != null) {
-            tameanimaltrigger$listeners.remove(listener);
+        if(playerListeners != null) {
+            playerListeners.remove(listener);
 
-            if(tameanimaltrigger$listeners.isEmpty()) {
+            if(playerListeners.isEmpty()) {
                 listeners.remove(playerAdvancementsIn);
             }
         }
@@ -67,21 +64,21 @@ public class CustomTrigger implements ICriterionTrigger<CustomTrigger.Instance> 
     }
 
     @Override
-    public CustomTrigger.Instance createInstance(JsonObject json, ConditionArrayParser context) {
-        return new CustomTrigger.Instance(getId(), EntityPredicate.AndPredicate.ANY);
+    public Instance createInstance(JsonObject json, DeserializationContext context) {
+        return new Instance(getId(), EntityPredicate.Composite.ANY);
     }
 
-    public void trigger(ServerPlayerEntity parPlayer) {
-        CustomTrigger.Listeners tameanimaltrigger$listeners = listeners.get(parPlayer.getAdvancements());
+    public void trigger(ServerPlayer player) {
+        Listeners playerListeners = listeners.get(player.getAdvancements());
 
-        if(tameanimaltrigger$listeners != null) {
-            tameanimaltrigger$listeners.trigger(parPlayer);
+        if(playerListeners != null) {
+            playerListeners.trigger(player);
         }
     }
 
-    public static class Instance extends CriterionInstance {
+    public static class Instance extends AbstractCriterionTriggerInstance {
 
-        public Instance(ResourceLocation parRL, EntityPredicate.AndPredicate predicate) {
+        public Instance(ResourceLocation parRL, EntityPredicate.Composite predicate) {
             super(parRL, predicate);
         }
 
@@ -102,18 +99,18 @@ public class CustomTrigger implements ICriterionTrigger<CustomTrigger.Instance> 
             return listeners.isEmpty();
         }
 
-        public void add(ICriterionTrigger.Listener<Instance> listener) {
+        public void add(Listener<Instance> listener) {
             listeners.add(listener);
         }
 
-        public void remove(ICriterionTrigger.Listener<Instance> listener) {
+        public void remove(Listener<Instance> listener) {
             listeners.remove(listener);
         }
 
-        public void trigger(ServerPlayerEntity player) {
+        public void trigger(ServerPlayer player) {
             ArrayList<Listener<Instance>> list = null;
 
-            for(ICriterionTrigger.Listener<Instance> listener : listeners) {
+            for(Listener<Instance> listener : listeners) {
                 if(listener.getTriggerInstance().test()) {
                     if(list == null) {
                         list = Lists.newArrayList();
@@ -124,7 +121,7 @@ public class CustomTrigger implements ICriterionTrigger<CustomTrigger.Instance> 
             }
 
             if(list != null) {
-                for(ICriterionTrigger.Listener<Instance> listener1 : list) {
+                for(Listener<Instance> listener1 : list) {
                     listener1.run(playerAdvancements);
                 }
             }

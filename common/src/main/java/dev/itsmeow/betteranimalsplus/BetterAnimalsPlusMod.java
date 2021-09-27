@@ -3,8 +3,7 @@ package dev.itsmeow.betteranimalsplus;
 import com.google.common.collect.ImmutableList;
 import dev.architectury.injectables.annotations.ExpectPlatform;
 import dev.itsmeow.betteranimalsplus.compat.curios.CuriosModCompat;
-import dev.itsmeow.betteranimalsplus.init.ModEntities;
-import dev.itsmeow.betteranimalsplus.init.ModItems;
+import dev.itsmeow.betteranimalsplus.init.*;
 import dev.itsmeow.imdlib.util.ClassLoadHacks;
 import me.shedaniel.architectury.utils.PlatformExpectedError;
 import net.minecraft.core.NonNullList;
@@ -40,22 +39,21 @@ public class BetterAnimalsPlusMod {
     );
 
     public static void init() {
-       /* IEventBus modBus = FMLJavaModLoadingContext.get().getModEventBus();
+        /*
+        IEventBus modBus = FMLJavaModLoadingContext.get().getModEventBus();
         modBus.addListener(this::setup);
         modBus.addListener(this::loadComplete);
         modBus.<FMLClientSetupEvent>addListener(e -> new ClientLifecycleHandler().clientSetup(e));
+        */
         ModResources.Tags.Blocks.loadTags();
         ModResources.Tags.Items.loadTags();
-        ModEntities.subscribe(modBus);
-        ModBlocks.subscribe(modBus);
-        ModItems.subscribe(modBus);
-        ModSoundEvents.subscribe(modBus);
-        ModTileEntities.subscribe(modBus);
-        ModWorldGen.subscribe(modBus);
-        ModTriggers.register();
-        ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, BetterAnimalsPlusConfig.getClientSpec());
-        */
+        ModEntities.init();
+        ModBlocks.init();
         ModItems.init();
+        ModSoundEvents.init();
+        ModBlockEntities.init();
+        ModTriggers.register();
+        //ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, BetterAnimalsPlusConfig.getClientSpec());
         BetterAnimalsPlusMod.logger.log(Level.INFO, "Injecting super coyotes...");
         //ClassLoadHacks.runWhenLoaded("curios", () -> () -> CuriosModCompat.subscribe(modBus));
 

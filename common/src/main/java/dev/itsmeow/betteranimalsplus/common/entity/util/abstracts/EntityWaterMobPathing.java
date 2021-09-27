@@ -2,29 +2,29 @@ package dev.itsmeow.betteranimalsplus.common.entity.util.abstracts;
 
 import dev.itsmeow.imdlib.entity.interfaces.IContainerEntity;
 import dev.itsmeow.betteranimalsplus.common.entity.ai.WaterMoveHelper;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.MoverType;
-import net.minecraft.entity.ai.attributes.Attributes;
-import net.minecraft.entity.passive.WaterMobEntity;
-import net.minecraft.pathfinding.PathNavigator;
-import net.minecraft.pathfinding.SwimmerPathNavigator;
-import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.MoverType;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.animal.WaterAnimal;
+import net.minecraft.world.entity.ai.navigation.PathNavigation;
+import net.minecraft.world.entity.ai.navigation.WaterBoundPathNavigation;
+import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.level.Level;
 
-public abstract class EntityWaterMobPathing extends WaterMobEntity implements IContainerEntity<EntityWaterMobPathing> {
+public abstract class EntityWaterMobPathing extends WaterAnimal implements IContainerEntity<EntityWaterMobPathing> {
 
-    public EntityWaterMobPathing(EntityType<? extends WaterMobEntity> type, World world) {
+    public EntityWaterMobPathing(EntityType<? extends WaterAnimal> type, Level world) {
         super(type, world);
         this.moveControl = new WaterMoveHelper(this);
     }
 
     @Override
-    protected PathNavigator createNavigation(World worldIn) {
-        return new SwimmerPathNavigator(this, worldIn);
+    protected PathNavigation createNavigation(Level worldIn) {
+        return new WaterBoundPathNavigation(this, worldIn);
     }
 
     @Override
-    public void travel(Vector3d p_213352_1_) {
+    public void travel(Vec3 p_213352_1_) {
         if(this.isEffectiveAi() && this.isInWater()) {
             this.moveRelative(0.01F * (float) this.getAttribute(Attributes.MOVEMENT_SPEED).getValue(), p_213352_1_);
             this.move(MoverType.SELF, this.getDeltaMovement());

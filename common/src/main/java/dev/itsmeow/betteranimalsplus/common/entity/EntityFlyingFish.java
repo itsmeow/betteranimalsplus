@@ -1,39 +1,37 @@
 package dev.itsmeow.betteranimalsplus.common.entity;
 
-import dev.itsmeow.imdlib.entity.EntityTypeContainer;
-import dev.itsmeow.imdlib.entity.util.EntityTypeContainerContainable;
 import dev.itsmeow.betteranimalsplus.common.entity.util.abstracts.EntityWaterMobPathingWithTypesBucketable;
 import dev.itsmeow.betteranimalsplus.init.ModEntities;
 import dev.itsmeow.betteranimalsplus.init.ModLootTables;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.ai.goal.*;
-import net.minecraft.entity.passive.WaterMobEntity;
+import dev.itsmeow.imdlib.entity.EntityTypeContainer;
+import dev.itsmeow.imdlib.entity.util.EntityTypeContainerContainable;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.FluidTags;
-import net.minecraft.util.Direction;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.SoundEvent;
-import net.minecraft.util.SoundEvents;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.world.World;
+import net.minecraft.util.Mth;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.goal.*;
+import net.minecraft.world.entity.animal.WaterAnimal;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.Vec3;
 
 import java.util.EnumSet;
 
-import net.minecraft.entity.ai.goal.Goal.Flag;
-
 public class EntityFlyingFish extends EntityWaterMobPathingWithTypesBucketable {
 
-    public EntityFlyingFish(EntityType<? extends EntityFlyingFish> entityType, World worldIn) {
+    public EntityFlyingFish(EntityType<? extends EntityFlyingFish> entityType, Level worldIn) {
         super(entityType, worldIn);
     }
 
     @Override
     protected void registerGoals() {
-        this.goalSelector.addGoal(0, new LookAtGoal(this, WaterMobEntity.class, 10.0F));
-        this.goalSelector.addGoal(0, new LookRandomlyGoal(this));
+        this.goalSelector.addGoal(0, new LookAtPlayerGoal(this, WaterAnimal.class, 10.0F));
+        this.goalSelector.addGoal(0, new RandomLookAroundGoal(this));
         this.goalSelector.addGoal(1, new SurfaceOnAttackGoal(this));
         this.goalSelector.addGoal(2, new FlyingFishFlyGoal(this, 5));
         this.goalSelector.addGoal(3, new RandomSwimmingGoal(this, 0.5D, 1));
@@ -92,7 +90,7 @@ public class EntityFlyingFish extends EntityWaterMobPathingWithTypesBucketable {
                 int dz = direction.getStepZ();
                 if(revenge) {
                     LivingEntity attacker = this.fish.getLastHurtByMob();
-                    Vector3d vec = attacker.position().subtract(fish.position()).normalize();
+                    Vec3 vec = attacker.position().subtract(fish.position()).normalize();
                     dx = (int) vec.x;
                     dz = (int) vec.z;
                 }
@@ -120,7 +118,7 @@ public class EntityFlyingFish extends EntityWaterMobPathingWithTypesBucketable {
 
         @Override
         public boolean canContinueToUse() {
-            return this.ticks < 200 && this.fish.getLastHurtByMob() != null ? this.fish.getLastHurtByMob().distanceTo(fish) > 10 : this.fish.position().distanceTo(new Vector3d(start.getX() + 0.5, start.getY(), start.getZ() + 0.5)) < scale;
+            return this.ticks < 200 && this.fish.getLastHurtByMob() != null ? this.fish.getLastHurtByMob().distanceTo(fish) > 10 : this.fish.position().distanceTo(new Vec3(start.getX() + 0.5, start.getY(), start.getZ() + 0.5)) < scale;
         }
 
         @Override
@@ -150,9 +148,9 @@ public class EntityFlyingFish extends EntityWaterMobPathingWithTypesBucketable {
             if(this.inWater && !lastInWater) {
                 this.fish.playSound(SoundEvents.DOLPHIN_JUMP, 1.0F, 1.0F);
             }
-            Vector3d vec3d = this.fish.getDeltaMovement();
+            Vec3 vec3d = this.fish.getDeltaMovement();
             if(vec3d.y * vec3d.y < (double) 0.03F && this.fish.xRot != 0.0F) {
-                this.fish.xRot = MathHelper.rotlerp(this.fish.xRot, 0.0F, 0.2F);
+                this.fish.xRot = Mth.rotlerp(this.fish.xRot, 0.0F, 0.2F);
             } else {
                 double d0 = Math.sqrt(Entity.getHorizontalDistanceSqr(vec3d));
                 double d1 = Math.signum(-vec3d.y) * Math.acos(d0 / vec3d.length()) * (double) (180F / (float) Math.PI);
@@ -206,8 +204,8 @@ public class EntityFlyingFish extends EntityWaterMobPathingWithTypesBucketable {
 
         private int getTopWaterBlock() {
             if(fish.isInWater()) {
-                World world = fish.level;
-                BlockPos.Mutable pos = new BlockPos.Mutable(fish.blockPosition().getX(), fish.blockPosition().getY(), fish.blockPosition().getZ());
+                Level world = fish.level;
+                BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos(fish.blockPosition().getX(), fish.blockPosition().getY(), fish.blockPosition().getZ());
                 for(int i = fish.blockPosition().getY(); i < fish.level.getHeight(); i++) {
                     pos.setY(i);
                     if(world.getFluidState(pos).is(FluidTags.WATER) && world.isEmptyBlock(pos.above())) {

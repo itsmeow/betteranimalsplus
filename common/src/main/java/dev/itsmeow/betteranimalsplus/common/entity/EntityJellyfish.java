@@ -1,41 +1,40 @@
 package dev.itsmeow.betteranimalsplus.common.entity;
 
-import dev.itsmeow.imdlib.entity.EntityTypeContainer;
-import dev.itsmeow.imdlib.entity.util.EntityTypeContainerContainable;
 import dev.itsmeow.betteranimalsplus.common.entity.util.abstracts.EntityWaterMobWithTypesBucketable;
 import dev.itsmeow.betteranimalsplus.init.ModEntities;
-import net.minecraft.entity.*;
-import net.minecraft.entity.ai.goal.Goal;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.datasync.DataParameter;
-import net.minecraft.network.datasync.DataSerializers;
-import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.potion.EffectInstance;
-import net.minecraft.potion.Effects;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.SoundEvent;
-import net.minecraft.util.SoundEvents;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.util.text.TextFormatting;
+import dev.itsmeow.imdlib.entity.EntityTypeContainer;
+import dev.itsmeow.imdlib.entity.util.EntityTypeContainerContainable;
+import me.shedaniel.architectury.utils.NbtType;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
+import net.minecraft.ChatFormatting;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.util.Mth;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.DifficultyInstance;
-import net.minecraft.world.IServerWorld;
-import net.minecraft.world.World;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.common.util.Constants;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.ai.goal.Goal;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.phys.Vec3;
 
-import javax.annotation.Nullable;
 import java.util.List;
 
 public class EntityJellyfish extends EntityWaterMobWithTypesBucketable {
 
-    protected static final DataParameter<Float> SIZE = EntityDataManager.defineId(EntityJellyfish.class, DataSerializers.FLOAT);
+    protected static final EntityDataAccessor<Float> SIZE = SynchedEntityData.defineId(EntityJellyfish.class, EntityDataSerializers.FLOAT);
     protected int attackCooldown = 0;
 
     public float jellyYaw;
@@ -49,7 +48,7 @@ public class EntityJellyfish extends EntityWaterMobWithTypesBucketable {
     private float randomMotionVecY;
     private float randomMotionVecZ;
 
-    public EntityJellyfish(EntityType<? extends EntityJellyfish> entityType, World worldIn) {
+    public EntityJellyfish(EntityType<? extends EntityJellyfish> entityType, Level worldIn) {
         super(entityType, worldIn);
         this.setSize(0.8F);
         rotationVelocity = (1.0F / (random.nextFloat() + 1.0F) * 0.2F);
@@ -62,7 +61,7 @@ public class EntityJellyfish extends EntityWaterMobWithTypesBucketable {
 
     @Override
     protected void registerGoals() {
-        this.goalSelector.addGoal(0, new EntityJellyfish.AIMoveRandom(this));
+        this.goalSelector.addGoal(0, new AIMoveRandom(this));
     }
 
     @Override
@@ -108,14 +107,14 @@ public class EntityJellyfish extends EntityWaterMobWithTypesBucketable {
             if(!level.isClientSide) {
                 this.setDeltaMovement((randomMotionVecX * randomMotionSpeed), (randomMotionVecY * randomMotionSpeed), (randomMotionVecZ * randomMotionSpeed));
             }
-            yBodyRot += (-(float) MathHelper.atan2(this.getDeltaMovement().x(), this.getDeltaMovement().z()) * 57.295776F - yBodyRot) * 0.1F;
+            yBodyRot += (-(float) Mth.atan2(this.getDeltaMovement().x(), this.getDeltaMovement().z()) * 57.295776F - yBodyRot) * 0.1F;
             yRot = yBodyRot;
             jellyYaw = ((float) (jellyYaw + 3.141592653589793D * rotateSpeed * 1.5D));
         } else {
             if(!level.isClientSide) {
                 this.setDeltaMovement(0, this.getDeltaMovement().y(), 0);
-                if(hasEffect(Effects.LEVITATION)) {
-                    this.setDeltaMovement(this.getDeltaMovement().x(), this.getDeltaMovement().y() + 0.05D * (getEffect(Effects.LEVITATION).getAmplifier() + 1) - this.getDeltaMovement().y(), this.getDeltaMovement().z());
+                if(hasEffect(MobEffects.LEVITATION)) {
+                    this.setDeltaMovement(this.getDeltaMovement().x(), this.getDeltaMovement().y() + 0.05D * (getEffect(MobEffects.LEVITATION).getAmplifier() + 1) - this.getDeltaMovement().y(), this.getDeltaMovement().z());
                 } else if(!isNoGravity()) {
                     this.setDeltaMovement(this.getDeltaMovement().x(), this.getDeltaMovement().y() - 0.08D, this.getDeltaMovement().z());
                 }
@@ -125,12 +124,12 @@ public class EntityJellyfish extends EntityWaterMobWithTypesBucketable {
     }
 
     @Override
-    public void playerTouch(PlayerEntity entity) {
+    public void playerTouch(Player entity) {
         super.playerTouch(entity);
         if(!entity.isCreative() && this.attackCooldown == 0 && entity.level.getDifficulty() != Difficulty.PEACEFUL) {
             entity.hurt(DamageSource.mobAttack(this), 2.0F);
-            entity.addEffect(new EffectInstance(Effects.POISON, 200, 0, false, false));
-            entity.addEffect(new EffectInstance(Effects.BLINDNESS, 90, 2, false, false));
+            entity.addEffect(new MobEffectInstance(MobEffects.POISON, 200, 0, false, false));
+            entity.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 90, 2, false, false));
             this.attackCooldown = 80;
         }
     }
@@ -141,12 +140,12 @@ public class EntityJellyfish extends EntityWaterMobWithTypesBucketable {
     }
 
     @Override
-    public void travel(Vector3d vec) {
+    public void travel(Vec3 vec) {
         move(MoverType.SELF, this.getDeltaMovement());
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public void handleEntityEvent(byte p_70103_1_) {
         if(p_70103_1_ == 19) {
             jellyRotation = 0.0F;
@@ -174,9 +173,9 @@ public class EntityJellyfish extends EntityWaterMobWithTypesBucketable {
     }
 
     @Override
-    public EntitySize getDimensions(Pose pose) {
+    public EntityDimensions getDimensions(Pose pose) {
         float size = this.entityData.get(EntityJellyfish.SIZE);
-        return EntitySize.scalable(size, size).scale(this.getScale());
+        return EntityDimensions.scalable(size, size).scale(this.getScale());
     }
 
     public void setSize(float size) {
@@ -184,21 +183,20 @@ public class EntityJellyfish extends EntityWaterMobWithTypesBucketable {
     }
 
     @Override
-    public void addAdditionalSaveData(CompoundNBT compound) {
+    public void addAdditionalSaveData(CompoundTag compound) {
         super.addAdditionalSaveData(compound);
         compound.putFloat("Size", this.getDimensions(Pose.STANDING).width);
     }
 
     @Override
-    public void readAdditionalSaveData(CompoundNBT compound) {
+    public void readAdditionalSaveData(CompoundTag compound) {
         super.readAdditionalSaveData(compound);
         float size = compound.getFloat("Size");
         this.setSize(size);
     }
 
     @Override
-    @Nullable
-    public ILivingEntityData finalizeSpawn(IServerWorld world, DifficultyInstance difficulty, SpawnReason reason, @Nullable ILivingEntityData livingdata, CompoundNBT compound) {
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor world, DifficultyInstance difficulty, MobSpawnType reason, SpawnGroupData livingdata, CompoundTag compound) {
         livingdata = super.finalizeSpawn(world, difficulty, reason, livingdata, compound);
         if(!this.isBaby()) {
             String i = this.getRandomType().getName();
@@ -217,7 +215,7 @@ public class EntityJellyfish extends EntityWaterMobWithTypesBucketable {
         return livingdata;
     }
 
-    public static class JellyfishData implements ILivingEntityData {
+    public static class JellyfishData implements SpawnGroupData {
 
         public String typeData;
         public float size;
@@ -250,9 +248,9 @@ public class EntityJellyfish extends EntityWaterMobWithTypesBucketable {
             } else if(this.entity.getRandom().nextInt(50) == 0 || !this.entity.wasTouchingWater
             || !this.entity.hasMovementVector()) {
                 float f = this.entity.getRandom().nextFloat() * ((float) Math.PI * 2F);
-                float f1 = MathHelper.cos(f) * 0.2F;
+                float f1 = Mth.cos(f) * 0.2F;
                 float f2 = -0.1F + this.entity.getRandom().nextFloat() * 0.2F;
-                float f3 = MathHelper.sin(f) * 0.2F;
+                float f3 = Mth.sin(f) * 0.2F;
                 this.entity.setMovementVector(f1 / 3, f2 / 3, f3 / 3);
             }
         }
@@ -271,23 +269,23 @@ public class EntityJellyfish extends EntityWaterMobWithTypesBucketable {
     @Override
     public void setContainerData(ItemStack bucket) {
         super.setContainerData(bucket);
-        CompoundNBT tag = bucket.getTag();
+        CompoundTag tag = bucket.getTag();
         tag.putFloat("JellyfishSizeTag", this.entityData.get(EntityJellyfish.SIZE));
         bucket.setTag(tag);
     }
 
     @Override
-    public void readFromContainerTag(CompoundNBT tag) {
+    public void readFromContainerTag(CompoundTag tag) {
         super.readFromContainerTag(tag);
         if(tag.contains("JellyfishSizeTag")) {
             this.setSize(tag.getFloat("JellyfishSizeTag"));
         }
     }
 
-    public static void bucketTooltip(EntityTypeContainer<? extends MobEntity> container, ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip) {
-        CompoundNBT tag = stack.getTag();
-        if(tag != null && tag.contains("JellyfishSizeTag", Constants.NBT.TAG_FLOAT)) {
-            tooltip.add(new StringTextComponent("Size: " + tag.getFloat("JellyfishSizeTag")).withStyle(TextFormatting.ITALIC).withStyle(TextFormatting.GRAY));
+    public static void bucketTooltip(EntityTypeContainer<? extends Mob> container, ItemStack stack, Level worldIn, List<Component> tooltip) {
+        CompoundTag tag = stack.getTag();
+        if(tag != null && tag.contains("JellyfishSizeTag", NbtType.FLOAT)) {
+            tooltip.add(new TextComponent("Size: " + tag.getFloat("JellyfishSizeTag")).withStyle(ChatFormatting.ITALIC).withStyle(ChatFormatting.GRAY));
         }
     }
 

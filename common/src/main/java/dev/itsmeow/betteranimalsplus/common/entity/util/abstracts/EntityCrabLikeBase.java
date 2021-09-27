@@ -1,23 +1,23 @@
 package dev.itsmeow.betteranimalsplus.common.entity.util.abstracts;
 
 import dev.itsmeow.betteranimalsplus.init.ModLootTables;
-import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.SpawnReason;
-import net.minecraft.entity.ai.attributes.Attributes;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.pathfinding.PathNodeType;
-import net.minecraft.pathfinding.PathType;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.world.IServerWorld;
-import net.minecraft.world.IWorld;
-import net.minecraft.world.World;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.pathfinder.BlockPathTypes;
+import net.minecraft.world.level.pathfinder.PathComputationType;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.Level;
 
 import java.util.Random;
 
@@ -25,9 +25,9 @@ public abstract class EntityCrabLikeBase extends EntityAnimalWithTypes {
 
     public int snipTime = 0;
 
-    public EntityCrabLikeBase(EntityType<? extends EntityCrabLikeBase> type, World worldIn) {
+    public EntityCrabLikeBase(EntityType<? extends EntityCrabLikeBase> type, Level worldIn) {
         super(type, worldIn);
-        this.setPathfindingMalus(PathNodeType.WATER, 10F);
+        this.setPathfindingMalus(BlockPathTypes.WATER, 10F);
     }
 
     @Override
@@ -35,8 +35,8 @@ public abstract class EntityCrabLikeBase extends EntityAnimalWithTypes {
         if(snipTime == 0) {
             snipTime = 20;
         }
-        Vector3d pos = this.position();
-        Vector3d targetPos = entityIn.position();
+        Vec3 pos = this.position();
+        Vec3 targetPos = entityIn.position();
         if(entityIn instanceof LivingEntity) {
             ((LivingEntity) entityIn).knockback(0.1F, pos.x - targetPos.x, pos.z - targetPos.z);
         }
@@ -50,8 +50,8 @@ public abstract class EntityCrabLikeBase extends EntityAnimalWithTypes {
         }
         boolean flag = entityIn.hurt(DamageSource.mobAttack(this), f);
         if(flag) {
-            if(entityIn instanceof PlayerEntity) {
-                PlayerEntity entityplayer = (PlayerEntity)entityIn;
+            if(entityIn instanceof Player) {
+                Player entityplayer = (Player)entityIn;
                 ItemStack itemstack = this.getMainHandItem();
                 ItemStack itemstack1 = entityplayer.isUsingItem() ? entityplayer.getUseItem() : ItemStack.EMPTY;
                 if(!itemstack.isEmpty() && !itemstack1.isEmpty() && itemstack.getItem().canDisableShield(itemstack, itemstack1, entityplayer, this) && itemstack1.getItem().isShield(itemstack1, entityplayer)) {
@@ -85,7 +85,7 @@ public abstract class EntityCrabLikeBase extends EntityAnimalWithTypes {
     }
 
     @Override
-    public boolean checkSpawnRules(IWorld p_213380_1_, SpawnReason p_213380_2_) {
+    public boolean checkSpawnRules(LevelAccessor p_213380_1_, MobSpawnType p_213380_2_) {
         return true;
     }
 
@@ -95,7 +95,7 @@ public abstract class EntityCrabLikeBase extends EntityAnimalWithTypes {
     }
 
     @Override
-    protected int getExperienceReward(PlayerEntity player) {
+    protected int getExperienceReward(Player player) {
         return 1 + this.level.random.nextInt(3);
     }
 
@@ -114,7 +114,7 @@ public abstract class EntityCrabLikeBase extends EntityAnimalWithTypes {
         return !this.hasCustomName() && super.removeWhenFarAway(range);
     }
 
-    public static <T extends EntityCrabLikeBase> boolean canCrabSpawn(EntityType<T> type, IServerWorld world, SpawnReason reason, BlockPos pos, Random rand) {
-        return (world.getBlockState(pos).isPathfindable(world, pos, PathType.WATER) || world.getBlockState(pos).isPathfindable(world, pos, PathType.LAND)) && !world.getBlockState(pos.below()).isPathfindable(world, pos.below(), PathType.LAND) && !world.getBlockState(pos.below()).isPathfindable(world, pos.below(), PathType.WATER);
+    public static <T extends EntityCrabLikeBase> boolean canCrabSpawn(EntityType<T> type, ServerLevelAccessor world, MobSpawnType reason, BlockPos pos, Random rand) {
+        return (world.getBlockState(pos).isPathfindable(world, pos, PathComputationType.WATER) || world.getBlockState(pos).isPathfindable(world, pos, PathComputationType.LAND)) && !world.getBlockState(pos.below()).isPathfindable(world, pos.below(), PathComputationType.LAND) && !world.getBlockState(pos.below()).isPathfindable(world, pos.below(), PathComputationType.WATER);
     }
 }

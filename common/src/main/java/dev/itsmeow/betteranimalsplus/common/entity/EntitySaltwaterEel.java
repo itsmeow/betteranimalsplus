@@ -4,13 +4,13 @@ import dev.itsmeow.imdlib.entity.EntityTypeContainer;
 import dev.itsmeow.imdlib.entity.util.EntityTypeContainerContainable;
 import dev.itsmeow.betteranimalsplus.common.entity.util.abstracts.EntityEelBase;
 import dev.itsmeow.betteranimalsplus.init.ModEntities;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.ai.goal.HurtByTargetGoal;
-import net.minecraft.util.SoundEvent;
-import net.minecraft.util.SoundEvents;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.Difficulty;
-import net.minecraft.world.World;
+import net.minecraft.world.level.Level;
 
 public class EntitySaltwaterEel extends EntityEelBase {
 
@@ -25,7 +25,7 @@ public class EntitySaltwaterEel extends EntityEelBase {
     /* Server Logic Fields */
     protected boolean isTargetForFood = false;
 
-    public EntitySaltwaterEel(EntityType<? extends EntitySaltwaterEel> entityType, World worldIn) {
+    public EntitySaltwaterEel(EntityType<? extends EntitySaltwaterEel> entityType, Level worldIn) {
         super(entityType, worldIn);
     }
 

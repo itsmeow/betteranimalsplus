@@ -2,23 +2,23 @@ package dev.itsmeow.betteranimalsplus.common.entity.util.abstracts;
 
 import dev.itsmeow.betteranimalsplus.common.entity.ai.PeacefulNearestAttackableTargetGoal;
 import dev.itsmeow.betteranimalsplus.init.ModLootTables;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.ai.attributes.Attributes;
-import net.minecraft.entity.ai.goal.Goal;
-import net.minecraft.entity.ai.goal.MeleeAttackGoal;
-import net.minecraft.entity.ai.goal.RandomSwimmingGoal;
-import net.minecraft.entity.item.ItemEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.particles.ItemParticleData;
-import net.minecraft.particles.ParticleTypes;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.SoundEvents;
-import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.goal.Goal;
+import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
+import net.minecraft.world.entity.ai.goal.RandomSwimmingGoal;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.core.particles.ItemParticleOption;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -32,7 +32,7 @@ public abstract class EntityEelBase extends EntityWaterMobPathingWithTypesBucket
     private int collideWithItemTicks = 0;
     private ItemEntity collidedItem = null;
 
-    public EntityEelBase(EntityType<? extends EntityEelBase> entityType, World worldIn) {
+    public EntityEelBase(EntityType<? extends EntityEelBase> entityType, Level worldIn) {
         super(entityType, worldIn);
     }
 
@@ -48,10 +48,10 @@ public abstract class EntityEelBase extends EntityWaterMobPathingWithTypesBucket
                 return super.canContinueToUse();
             }
         });
-        this.goalSelector.addGoal(2, new EntityEelBase.MoveToFoodItemsGoal());
+        this.goalSelector.addGoal(2, new MoveToFoodItemsGoal());
         //this.goalSelector.addGoal(2, new LookRandomlyGoal(this));
         this.goalSelector.addGoal(3, new RandomSwimmingGoal(this, 0.25D, 1));
-        this.targetSelector.addGoal(1, new PeacefulNearestAttackableTargetGoal<>(this, PlayerEntity.class, 0, true, true, EntityEelBase::isHoldingFood));
+        this.targetSelector.addGoal(1, new PeacefulNearestAttackableTargetGoal<>(this, Player.class, 0, true, true, EntityEelBase::isHoldingFood));
     }
 
     protected boolean shouldCheckTarget() {
@@ -96,15 +96,15 @@ public abstract class EntityEelBase extends EntityWaterMobPathingWithTypesBucket
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public void handleEntityEvent(byte id) {
         if(id == 45) {
             if(collidedItem != null) {
                 ItemStack stack = collidedItem.getItem();
                 if(!stack.isEmpty()) {
                     for(int i = 0; i < 8; ++i) {
-                        Vector3d vec3d = (new Vector3d(((double) this.random.nextFloat() - 0.5D) * 0.1D, Math.random() * 0.1D + 0.1D, 0.0D)).xRot(-this.xRot * ((float) Math.PI / 180F)).yRot(-this.yRot * ((float) Math.PI / 180F));
-                        this.level.addParticle(new ItemParticleData(ParticleTypes.ITEM, stack), this.getX() + this.getLookAngle().x / 2.0D, this.getY(), this.getZ() + this.getLookAngle().z / 2.0D, vec3d.x, vec3d.y + 0.05D, vec3d.z);
+                        Vec3 vec3d = (new Vec3(((double) this.random.nextFloat() - 0.5D) * 0.1D, Math.random() * 0.1D + 0.1D, 0.0D)).xRot(-this.xRot * ((float) Math.PI / 180F)).yRot(-this.yRot * ((float) Math.PI / 180F));
+                        this.level.addParticle(new ItemParticleOption(ParticleTypes.ITEM, stack), this.getX() + this.getLookAngle().x / 2.0D, this.getY(), this.getZ() + this.getLookAngle().z / 2.0D, vec3d.x, vec3d.y + 0.05D, vec3d.z);
                     }
                 }
             }
@@ -129,7 +129,7 @@ public abstract class EntityEelBase extends EntityWaterMobPathingWithTypesBucket
 
     public class MoveToFoodItemsGoal extends Goal {
         public MoveToFoodItemsGoal() {
-            this.setFlags(EnumSet.of(Goal.Flag.MOVE));
+            this.setFlags(EnumSet.of(Flag.MOVE));
         }
 
         @Override

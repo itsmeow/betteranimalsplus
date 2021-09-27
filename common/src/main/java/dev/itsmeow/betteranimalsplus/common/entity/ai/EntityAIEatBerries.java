@@ -1,21 +1,21 @@
 package dev.itsmeow.betteranimalsplus.common.entity.ai;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.SweetBerryBushBlock;
-import net.minecraft.entity.CreatureEntity;
-import net.minecraft.entity.ai.goal.MoveToBlockGoal;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.util.SoundEvents;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IWorldReader;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.SweetBerryBushBlock;
+import net.minecraft.world.entity.PathfinderMob;
+import net.minecraft.world.entity.ai.goal.MoveToBlockGoal;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.LevelReader;
 
 public class EntityAIEatBerries extends MoveToBlockGoal {
     protected int eatTicks;
 
-    public EntityAIEatBerries(CreatureEntity creature, double speed, int length, int iterations) {
+    public EntityAIEatBerries(PathfinderMob creature, double speed, int length, int iterations) {
         super(creature, speed, length, iterations);
     }
 
@@ -30,7 +30,7 @@ public class EntityAIEatBerries extends MoveToBlockGoal {
     }
 
     @Override
-    protected boolean isValidTarget(IWorldReader worldIn, BlockPos pos) {
+    protected boolean isValidTarget(LevelReader worldIn, BlockPos pos) {
         BlockState blockstate = worldIn.getBlockState(pos);
         return blockstate.getBlock() == Blocks.SWEET_BERRY_BUSH && blockstate.getValue(SweetBerryBushBlock.AGE) >= 2;
     }

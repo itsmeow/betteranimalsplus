@@ -1,28 +1,33 @@
 package dev.itsmeow.betteranimalsplus.common.entity;
 
-import dev.itsmeow.imdlib.entity.EntityTypeContainer;
-import dev.itsmeow.imdlib.entity.interfaces.ISelectiveVariantTypes;
 import dev.itsmeow.betteranimalsplus.common.entity.util.abstracts.EntityWaterMobPathing;
 import dev.itsmeow.betteranimalsplus.common.entity.util.abstracts.EntityWaterMobPathingWithTypesAirBreathing;
 import dev.itsmeow.betteranimalsplus.init.ModEntities;
 import dev.itsmeow.betteranimalsplus.init.ModLootTables;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.SpawnReason;
-import net.minecraft.entity.ai.attributes.Attributes;
-import net.minecraft.entity.ai.controller.DolphinLookController;
-import net.minecraft.entity.ai.goal.*;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.potion.EffectInstance;
-import net.minecraft.potion.Effects;
-import net.minecraft.util.*;
-import net.minecraft.util.math.vector.Vector3d;
+import dev.itsmeow.imdlib.entity.EntityTypeContainer;
+import dev.itsmeow.imdlib.entity.interfaces.ISelectiveVariantTypes;
+import dev.itsmeow.imdlib.entity.util.BiomeTypes;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.Difficulty;
-import net.minecraft.world.World;
-import net.minecraft.world.biome.Biome;
-import net.minecraft.world.biome.Biomes;
-import net.minecraftforge.common.BiomeDictionary.Type;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.control.DolphinLookControl;
+import net.minecraft.world.entity.ai.goal.*;
+import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.biome.Biomes;
+import net.minecraft.world.phys.Vec3;
 
 import java.util.Set;
 
@@ -30,20 +35,20 @@ public class EntityWhale extends EntityWaterMobPathingWithTypesAirBreathing impl
 
     public int attacksLeft = 0;
 
-    public EntityWhale(EntityType<? extends EntityWhale> entityType, World worldIn) {
+    public EntityWhale(EntityType<? extends EntityWhale> entityType, Level worldIn) {
         super(entityType, worldIn);
-        this.lookControl = new DolphinLookController(this, 10);
+        this.lookControl = new DolphinLookControl(this, 10);
     }
 
     @Override
     protected void registerGoals() {
         super.registerGoals();
-        this.goalSelector.addGoal(0, new BreatheAirGoal(this));
-        this.goalSelector.addGoal(0, new FindWaterGoal(this));
+        this.goalSelector.addGoal(0, new BreathAirGoal(this));
+        this.goalSelector.addGoal(0, new TryFindWaterGoal(this));
         this.goalSelector.addGoal(2, new WhaleMeleeAttackGoal(this));
         this.goalSelector.addGoal(3, new RandomSwimmingGoal(this, 1.0D, 10));
-        this.goalSelector.addGoal(4, new LookAtGoal(this, PlayerEntity.class, 6.0F));
-        this.goalSelector.addGoal(5, new LookRandomlyGoal(this));
+        this.goalSelector.addGoal(4, new LookAtPlayerGoal(this, Player.class, 6.0F));
+        this.goalSelector.addGoal(5, new RandomLookAroundGoal(this));
         this.targetSelector.addGoal(0, new HurtByTargetGoal(this) {
             @Override
             public boolean canUse() {
@@ -74,8 +79,8 @@ public class EntityWhale extends EntityWaterMobPathingWithTypesAirBreathing impl
                 if(attacksLeft > 0) {
                     attacksLeft--;
                 }
-                if(entityIn instanceof PlayerEntity) {
-                    PlayerEntity player = (PlayerEntity) entityIn;
+                if(entityIn instanceof Player) {
+                    Player player = (Player) entityIn;
                     int ticks = 0;
                     if (this.level.getDifficulty() == Difficulty.EASY) {
                         ticks = 50;
@@ -84,19 +89,19 @@ public class EntityWhale extends EntityWaterMobPathingWithTypesAirBreathing impl
                     } else if (this.level.getDifficulty() == Difficulty.HARD) {
                         ticks = 140;
                     }
-                    player.addEffect(new EffectInstance(Effects.MOVEMENT_SLOWDOWN, ticks, 1, false, false));
-                    player.addEffect(new EffectInstance(Effects.CONFUSION, ticks + 40, 1, false, false));
+                    player.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, ticks, 1, false, false));
+                    player.addEffect(new MobEffectInstance(MobEffects.CONFUSION, ticks + 40, 1, false, false));
                 }
             }
-            Vector3d pos = this.position();
-            Vector3d targetPos = entityIn.position();
+            Vec3 pos = this.position();
+            Vec3 targetPos = entityIn.position();
             ((LivingEntity) entityIn).knockback(isNarwhal() ? 0.8F : 2F, pos.x - targetPos.x, pos.z - targetPos.z);
         }
         return flag;
     }
 
     @Override
-    public String[] getTypesFor(RegistryKey<Biome> biomeKey, Biome biome, Set<Type> types, SpawnReason reason) {
+    public String[] getTypesFor(ResourceKey<Biome> biomeKey, Biome biome, Set<BiomeTypes.Type> types, MobSpawnType reason) {
         if(biomeKey == Biomes.COLD_OCEAN || biomeKey == Biomes.DEEP_COLD_OCEAN) {
             return new String[] { "bottlenose", "pilot" };
         } else if(biomeKey == Biomes.DEEP_FROZEN_OCEAN || biomeKey == Biomes.FROZEN_OCEAN) {

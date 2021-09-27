@@ -1,55 +1,51 @@
 package dev.itsmeow.betteranimalsplus.common.entity;
 
-import dev.itsmeow.imdlib.entity.EntityTypeContainer;
-import dev.itsmeow.imdlib.entity.interfaces.IVariantTypes;
-import dev.itsmeow.imdlib.entity.util.variant.IVariant;
 import dev.itsmeow.betteranimalsplus.common.entity.ai.EntityAIEatBerries;
 import dev.itsmeow.betteranimalsplus.common.entity.ai.HungerNearestAttackableTargetGoal;
 import dev.itsmeow.betteranimalsplus.init.ModEntities;
 import dev.itsmeow.betteranimalsplus.init.ModLootTables;
-import net.minecraft.entity.AgeableEntity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.ILivingEntityData;
-import net.minecraft.entity.SpawnReason;
-import net.minecraft.entity.ai.goal.*;
-import net.minecraft.entity.passive.ChickenEntity;
-import net.minecraft.entity.passive.FoxEntity;
-import net.minecraft.entity.passive.RabbitEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.ResourceLocation;
+import dev.itsmeow.imdlib.entity.EntityTypeContainer;
+import dev.itsmeow.imdlib.entity.interfaces.IVariantTypes;
+import dev.itsmeow.imdlib.entity.util.variant.IVariant;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.DifficultyInstance;
-import net.minecraft.world.IServerWorld;
-import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
-
-import javax.annotation.Nullable;
-
-import dev.itsmeow.imdlib.entity.interfaces.IVariantTypes.AgeableTypeData;
+import net.minecraft.world.entity.AgableMob;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.SpawnGroupData;
+import net.minecraft.world.entity.ai.goal.*;
+import net.minecraft.world.entity.animal.Chicken;
+import net.minecraft.world.entity.animal.Fox;
+import net.minecraft.world.entity.animal.Rabbit;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.ServerLevelAccessor;
 
 public class EntityBearNeutral extends EntityBear implements IVariantTypes<EntityBear> {
 
-    public EntityBearNeutral(EntityType<? extends EntityBearNeutral> entityType, World worldIn) {
+    public EntityBearNeutral(EntityType<? extends EntityBearNeutral> entityType, Level worldIn) {
         super(entityType, worldIn);
     }
 
     @Override
     protected void registerGoals() {
-        this.goalSelector.addGoal(0, new SwimGoal(this));
+        this.goalSelector.addGoal(0, new FloatGoal(this));
         this.goalSelector.addGoal(1, new BearMeleeAttackGoal());
         this.goalSelector.addGoal(2, new BreedGoal(this, 1D));
         this.goalSelector.addGoal(2, new FollowParentGoal(this, 1.25D));
         this.goalSelector.addGoal(2, new EntityAIEatBerries(this, 1.0D, 12, 2));
         this.targetSelector.addGoal(1, new BearHurtByTargetGoal());
         this.targetSelector.addGoal(2, new AttackPlayerGoal());
-        this.goalSelector.addGoal(5, new RandomWalkingGoal(this, 0.5D));
-        this.goalSelector.addGoal(6, new LookAtGoal(this, PlayerEntity.class, 6.0F));
-        this.targetSelector.addGoal(3, new HungerNearestAttackableTargetGoal<>(this, ChickenEntity.class, true));
-        this.targetSelector.addGoal(4, new HungerNearestAttackableTargetGoal<>(this, RabbitEntity.class, true));
+        this.goalSelector.addGoal(5, new RandomStrollGoal(this, 0.5D));
+        this.goalSelector.addGoal(6, new LookAtPlayerGoal(this, Player.class, 6.0F));
+        this.targetSelector.addGoal(3, new HungerNearestAttackableTargetGoal<>(this, Chicken.class, true));
+        this.targetSelector.addGoal(4, new HungerNearestAttackableTargetGoal<>(this, Rabbit.class, true));
         this.targetSelector.addGoal(5, new HungerNearestAttackableTargetGoal<>(this, EntityPheasant.class, 90, true, true, e -> true));
-        this.targetSelector.addGoal(4, new HungerNearestAttackableTargetGoal<>(this, FoxEntity.class, 90, true, true, e -> true));
+        this.targetSelector.addGoal(4, new HungerNearestAttackableTargetGoal<>(this, Fox.class, 90, true, true, e -> true));
     }
 
     @Override
@@ -58,8 +54,7 @@ public class EntityBearNeutral extends EntityBear implements IVariantTypes<Entit
     }
 
     @Override
-    @Nullable
-    public ILivingEntityData finalizeSpawn(IServerWorld world, DifficultyInstance difficulty, SpawnReason reason, @Nullable ILivingEntityData livingdata, CompoundNBT compound) {
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor world, DifficultyInstance difficulty, MobSpawnType reason, SpawnGroupData livingdata, CompoundTag compound) {
         this.setInitialHunger();
         if(livingdata instanceof AgeableTypeData) {
             this.setAge(-24000);
@@ -82,13 +77,13 @@ public class EntityBearNeutral extends EntityBear implements IVariantTypes<Entit
     }
 
     @Override
-    public void addAdditionalSaveData(CompoundNBT compound) {
+    public void addAdditionalSaveData(CompoundTag compound) {
         super.addAdditionalSaveData(compound);
         this.writeType(compound);
     }
 
     @Override
-    public void readAdditionalSaveData(CompoundNBT compound) {
+    public void readAdditionalSaveData(CompoundTag compound) {
         super.readAdditionalSaveData(compound);
         this.readType(compound);
     }
@@ -121,7 +116,7 @@ public class EntityBearNeutral extends EntityBear implements IVariantTypes<Entit
     }
 
     @Override
-    public AgeableEntity getBreedOffspring(ServerWorld world, AgeableEntity ageable) {
+    public AgableMob getBreedOffspring(ServerLevel world, AgableMob ageable) {
         EntityBearNeutral child = getContainer().getEntityType().create(world);
         if(ageable instanceof EntityBearNeutral) {
             if("kermode".equals(((EntityBearNeutral) ageable).getVariantNameOrEmpty()) && "kermode".equals(this.getVariantNameOrEmpty())) {

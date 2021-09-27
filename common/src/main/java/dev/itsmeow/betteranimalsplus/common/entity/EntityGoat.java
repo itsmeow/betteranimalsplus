@@ -1,47 +1,51 @@
 package dev.itsmeow.betteranimalsplus.common.entity;
 
 import com.google.common.collect.Sets;
-import dev.itsmeow.imdlib.entity.EntityTypeContainer;
 import dev.itsmeow.betteranimalsplus.common.entity.util.EntityUtil;
 import dev.itsmeow.betteranimalsplus.common.entity.util.abstracts.EntityAnimalEatsGrassWithTypes;
 import dev.itsmeow.betteranimalsplus.init.ModEntities;
 import dev.itsmeow.betteranimalsplus.init.ModItems;
 import dev.itsmeow.betteranimalsplus.init.ModLootTables;
 import dev.itsmeow.betteranimalsplus.init.ModTriggers;
-import net.minecraft.block.BlockState;
-import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.entity.*;
-import net.minecraft.entity.ai.attributes.Attributes;
-import net.minecraft.entity.ai.goal.*;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.datasync.DataParameter;
-import net.minecraft.network.datasync.DataSerializers;
-import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.util.*;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.vector.Vector3d;
+import dev.itsmeow.imdlib.entity.EntityTypeContainer;
+import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.DifficultyInstance;
-import net.minecraft.world.IServerWorld;
-import net.minecraft.world.World;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.ai.goal.*;
+import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.Vec3;
 
 import java.util.Set;
 import java.util.UUID;
 
 public class EntityGoat extends EntityAnimalEatsGrassWithTypes {
 
-    protected static final DataParameter<Boolean> ATTACKING = EntityDataManager.defineId(EntityGoat.class, DataSerializers.BOOLEAN);
+    protected static final EntityDataAccessor<Boolean> ATTACKING = SynchedEntityData.defineId(EntityGoat.class, EntityDataSerializers.BOOLEAN);
     public UUID friend = null;
     private static final Set<Item> TEMPT_ITEMS = Sets.newHashSet(Items.WHEAT, Items.POTATO, Items.CARROT, Items.BEETROOT);
     public static final String VANILLA_MILK_KEY = "use_vanilla_milk";
 
-    public EntityGoat(EntityType<? extends EntityGoat> entityType, World worldIn) {
+    public EntityGoat(EntityType<? extends EntityGoat> entityType, Level worldIn) {
         super(entityType, worldIn, 5);
     }
 
@@ -55,28 +59,10 @@ public class EntityGoat extends EntityAnimalEatsGrassWithTypes {
 
     @Override
     public boolean doHurtTarget(Entity entityIn) {
-        Vector3d pos = this.position();
-        Vector3d targetPos = entityIn.position();
+        Vec3 pos = this.position();
+        Vec3 targetPos = entityIn.position();
         ((LivingEntity) entityIn).knockback(0.8F, pos.x - targetPos.x, pos.z - targetPos.z);
-        float f = (float) this.getAttribute(Attributes.ATTACK_DAMAGE).getValue();
-        boolean flag = entityIn.hurt(DamageSource.mobAttack(this), f);
-        if(flag) {
-            if(entityIn instanceof PlayerEntity) {
-                PlayerEntity entityplayer = (PlayerEntity) entityIn;
-                ItemStack itemstack = this.getMainHandItem();
-                ItemStack itemstack1 = entityplayer.isUsingItem() ? entityplayer.getUseItem() : ItemStack.EMPTY;
-                if(!itemstack.isEmpty() && !itemstack1.isEmpty() && itemstack.getItem().canDisableShield(itemstack, itemstack1, entityplayer, this) && itemstack1.getItem().isShield(itemstack1, entityplayer)) {
-                    float f1 = 0.25F + EnchantmentHelper.getBlockEfficiency(this) * 0.05F;
-                    if(this.random.nextFloat() < f1) {
-                        entityplayer.getCooldowns().addCooldown(itemstack1.getItem(), 100);
-                        this.level.broadcastEntityEvent(entityplayer, (byte) 30);
-                    }
-                }
-            }
-            this.doEnchantDamageEffects(this, entityIn);
-        }
-
-        return flag;
+        return super.doHurtTarget(entityIn);
     }
 
     @Override
@@ -105,14 +91,14 @@ public class EntityGoat extends EntityAnimalEatsGrassWithTypes {
     @Override
     protected void registerGoals() {
         super.registerGoals();
-        this.goalSelector.addGoal(0, new SwimGoal(this));
+        this.goalSelector.addGoal(0, new FloatGoal(this));
         this.goalSelector.addGoal(1, new PanicGoal(this, 0.8D));
         this.goalSelector.addGoal(2, new BreedGoal(this, 1.0D));
         this.goalSelector.addGoal(2, new MeleeAttackGoal(this, 0.7D, true));
         this.goalSelector.addGoal(3, new TemptGoal(this, 0.6D, false, Ingredient.of(TEMPT_ITEMS.toArray(new Item[0]))));
         this.goalSelector.addGoal(4, new FollowParentGoal(this, 0.6D));
         // Eats grass at priority 5
-        this.goalSelector.addGoal(5, new RandomWalkingGoal(this, 0.6D));
+        this.goalSelector.addGoal(5, new RandomStrollGoal(this, 0.6D));
         this.targetSelector.addGoal(1, new GoatAIAttackForFriend(this));
         this.targetSelector.addGoal(1, new AIHurtByTarget());
     }
@@ -138,7 +124,7 @@ public class EntityGoat extends EntityAnimalEatsGrassWithTypes {
     }
 
     @Override
-    public ActionResultType mobInteract(PlayerEntity player, Hand hand) {
+    public InteractionResult mobInteract(Player player, InteractionHand hand) {
         ItemStack stack = player.getItemInHand(hand);
 
         if(stack.getItem() == Items.BUCKET && !player.isCreative() && !this.isBaby()) {
@@ -152,7 +138,7 @@ public class EntityGoat extends EntityAnimalEatsGrassWithTypes {
             } else if(!player.inventory.add(new ItemStack(milk))) {
                 player.drop(new ItemStack(milk), false);
             }
-            return ActionResultType.SUCCESS;
+            return InteractionResult.SUCCESS;
         } else if(this.isFood(stack) && !this.isBaby()) {
             this.friend = player.getGameProfile().getId();
         }
@@ -171,7 +157,7 @@ public class EntityGoat extends EntityAnimalEatsGrassWithTypes {
     }
 
     @Override
-    public void addAdditionalSaveData(CompoundNBT compound) {
+    public void addAdditionalSaveData(CompoundTag compound) {
         super.addAdditionalSaveData(compound);
         compound.putBoolean("AttackSync", this.isAttackingFromServer());
         if(friend != null) {
@@ -180,7 +166,7 @@ public class EntityGoat extends EntityAnimalEatsGrassWithTypes {
     }
 
     @Override
-    public void readAdditionalSaveData(CompoundNBT compound) {
+    public void readAdditionalSaveData(CompoundTag compound) {
         super.readAdditionalSaveData(compound);
         if(compound.contains("AttackSync")) {
             this.setAttackingOnClient(compound.getBoolean("AttackSync"));
@@ -203,16 +189,16 @@ public class EntityGoat extends EntityAnimalEatsGrassWithTypes {
             if(this.goat.friend == null) {
                 return false;
             }
-            PlayerEntity p = goat.level.getPlayerByUUID(goat.friend);
+            Player p = goat.level.getPlayerByUUID(goat.friend);
             return p != null && p.getKillCredit() != null;
         }
 
         @Override
         public void start() {
-            PlayerEntity p = goat.level.getPlayerByUUID(goat.friend);
+            Player p = goat.level.getPlayerByUUID(goat.friend);
             this.goat.setTarget(p.getKillCredit());
-            if(p instanceof ServerPlayerEntity) {
-                ModTriggers.GOAT_FIGHT_FRIEND.trigger((ServerPlayerEntity) p);
+            if(p instanceof ServerPlayer) {
+                ModTriggers.GOAT_FIGHT_FRIEND.trigger((ServerPlayer) p);
             }
         }
 
@@ -245,7 +231,7 @@ public class EntityGoat extends EntityAnimalEatsGrassWithTypes {
         }
 
         @Override
-        protected void alertOther(MobEntity e, LivingEntity target) {
+        protected void alertOther(Mob e, LivingEntity target) {
             if(e instanceof EntityGoat && !e.isBaby()) {
                 super.alertOther(e, target);
             }
@@ -258,7 +244,7 @@ public class EntityGoat extends EntityAnimalEatsGrassWithTypes {
     }
 
     @Override
-    public ILivingEntityData finalizeSpawn(IServerWorld world, DifficultyInstance difficulty, SpawnReason reason, ILivingEntityData livingdata, CompoundNBT compound) {
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor world, DifficultyInstance difficulty, MobSpawnType reason, SpawnGroupData livingdata, CompoundTag compound) {
         return EntityUtil.childChance(this, reason, super.finalizeSpawn(world, difficulty, reason, livingdata, compound), 0.25F);
     }
 

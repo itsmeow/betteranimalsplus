@@ -1,32 +1,15 @@
 package dev.itsmeow.betteranimalsplus.common.entity.util;
 
-import net.minecraft.entity.AgeableEntity;
-import net.minecraft.entity.AgeableEntity.AgeableData;
-import net.minecraft.entity.ILivingEntityData;
-import net.minecraft.entity.SpawnReason;
-import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
-import org.apache.commons.lang3.reflect.FieldUtils;
-import org.apache.logging.log4j.LogManager;
-
-import java.lang.reflect.Field;
+import net.minecraft.world.entity.AgableMob;
+import net.minecraft.world.entity.AgableMob.AgableMobGroupData;
+import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.SpawnGroupData;
 
 public class EntityUtil {
 
-    private static boolean hasFailed =  false;
-
-    public static ILivingEntityData childChance(AgeableEntity e, SpawnReason reason, ILivingEntityData livingdata, float chance) {
-        if(livingdata instanceof AgeableData) {
-            try {
-                Field babySpawnProbability = ObfuscationReflectionHelper.findField(AgeableData.class, "babySpawnChance");
-                FieldUtils.removeFinalModifier(babySpawnProbability);
-                babySpawnProbability.set(livingdata, chance);
-            } catch(Exception ex) {
-                if(!hasFailed) {
-                    LogManager.getLogger().error("Error setting baby spawn probability! It will now be 5% (default)");
-                    ex.printStackTrace();
-                    hasFailed = true;
-                }
-            }
+    public static SpawnGroupData childChance(AgableMob e, MobSpawnType reason, SpawnGroupData livingdata, float chance) {
+        if(livingdata instanceof AgableMobGroupData) {
+            ((AgableMobGroupData) livingdata).babySpawnChance = chance;
         }
         return livingdata;
     }

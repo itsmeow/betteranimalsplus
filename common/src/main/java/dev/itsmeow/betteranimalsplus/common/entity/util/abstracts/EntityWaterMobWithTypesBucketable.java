@@ -1,17 +1,17 @@
 package dev.itsmeow.betteranimalsplus.common.entity.util.abstracts;
 
 import dev.itsmeow.imdlib.entity.interfaces.IBucketable;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Hand;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.level.Level;
 
 public abstract class EntityWaterMobWithTypesBucketable extends EntityWaterMobWithTypes implements IBucketable {
 
-    public EntityWaterMobWithTypesBucketable(EntityType<? extends EntityWaterMobWithTypesBucketable> entityType, World worldIn) {
+    public EntityWaterMobWithTypesBucketable(EntityType<? extends EntityWaterMobWithTypesBucketable> entityType, Level worldIn) {
         super(entityType, worldIn);
     }
 
@@ -22,13 +22,13 @@ public abstract class EntityWaterMobWithTypesBucketable extends EntityWaterMobWi
     }
 
     @Override
-    public void addAdditionalSaveData(CompoundNBT compound) {
+    public void addAdditionalSaveData(CompoundTag compound) {
         super.addAdditionalSaveData(compound);
         this.writeFromContainerToEntity(compound);
     }
 
     @Override
-    public void readAdditionalSaveData(CompoundNBT compound) {
+    public void readAdditionalSaveData(CompoundTag compound) {
         super.readAdditionalSaveData(compound);
         this.readFromContainerToEntity(compound);
     }
@@ -46,24 +46,24 @@ public abstract class EntityWaterMobWithTypesBucketable extends EntityWaterMobWi
     @Override
     public void setContainerData(ItemStack bucket) {
         IBucketable.super.setContainerData(bucket);
-        CompoundNBT tag = bucket.getTag();
+        CompoundTag tag = bucket.getTag();
         if(bucket.getTag() == null) {
-            tag = new CompoundNBT();
+            tag = new CompoundTag();
         }
         tag.putString("BucketVariantTag", this.getVariantNameOrEmpty());
         bucket.setTag(tag);
     }
 
     @Override
-    protected ActionResultType mobInteract(PlayerEntity player, Hand hand) {
+    protected InteractionResult mobInteract(Player player, InteractionHand hand) {
         if(this.processContainerInteract(player, hand)) {
-            return ActionResultType.SUCCESS;
+            return InteractionResult.SUCCESS;
         }
         return super.mobInteract(player, hand);
     }
 
     @Override
-    public void readFromContainerTag(CompoundNBT tag) {
+    public void readFromContainerTag(CompoundTag tag) {
         if(tag.contains("BucketVariantTag")) {
             this.setType(tag.getString("BucketVariantTag"));
         }

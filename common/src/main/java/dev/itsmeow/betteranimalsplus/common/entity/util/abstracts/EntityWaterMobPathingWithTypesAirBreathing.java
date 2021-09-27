@@ -1,18 +1,18 @@
 package dev.itsmeow.betteranimalsplus.common.entity.util.abstracts;
 
-import net.minecraft.entity.EntityType;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.datasync.DataParameter;
-import net.minecraft.network.datasync.DataSerializers;
-import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.util.DamageSource;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.level.Level;
 
 public abstract class EntityWaterMobPathingWithTypesAirBreathing extends EntityWaterMobPathingWithTypes {
 
-    private static final DataParameter<Integer> MOISTNESS = EntityDataManager.defineId(EntityWaterMobPathingWithTypesAirBreathing.class, DataSerializers.INT);
+    private static final EntityDataAccessor<Integer> MOISTNESS = SynchedEntityData.defineId(EntityWaterMobPathingWithTypesAirBreathing.class, EntityDataSerializers.INT);
 
-    public EntityWaterMobPathingWithTypesAirBreathing(EntityType<? extends EntityWaterMobPathingWithTypesAirBreathing> entityType, World worldIn) {
+    public EntityWaterMobPathingWithTypesAirBreathing(EntityType<? extends EntityWaterMobPathingWithTypesAirBreathing> entityType, Level worldIn) {
         super(entityType, worldIn);
     }
 
@@ -40,13 +40,13 @@ public abstract class EntityWaterMobPathingWithTypesAirBreathing extends EntityW
     }
 
     @Override
-    public void addAdditionalSaveData(CompoundNBT compound) {
+    public void addAdditionalSaveData(CompoundTag compound) {
         super.addAdditionalSaveData(compound);
         compound.putInt("Moistness", this.getMoistness());
     }
 
     @Override
-    public void readAdditionalSaveData(CompoundNBT compound) {
+    public void readAdditionalSaveData(CompoundTag compound) {
         super.readAdditionalSaveData(compound);
         this.setMoistness(compound.getInt("Moistness"));
     }

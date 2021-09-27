@@ -1,21 +1,21 @@
 package dev.itsmeow.betteranimalsplus.common.entity.ai;
 
-import net.minecraft.block.Blocks;
-import net.minecraft.entity.MobEntity;
-import net.minecraft.pathfinding.PathFinder;
-import net.minecraft.pathfinding.SwimmerPathNavigator;
-import net.minecraft.pathfinding.WalkAndSwimNodeProcessor;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.level.pathfinder.PathFinder;
+import net.minecraft.world.entity.ai.navigation.WaterBoundPathNavigation;
+import net.minecraft.world.level.pathfinder.TurtleNodeEvaluator;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.Level;
 
 import java.util.function.Predicate;
 
-public class HybridPathNavigator<T extends MobEntity> extends SwimmerPathNavigator {
+public class HybridPathNavigator<T extends Mob> extends WaterBoundPathNavigation {
 
     private final Predicate<T> shouldPathAsWater;
     private final T entity;
 
-    public HybridPathNavigator(T entity, World world, Predicate<T> shouldPathAsWater) {
+    public HybridPathNavigator(T entity, Level world, Predicate<T> shouldPathAsWater) {
         super(entity, world);
         this.shouldPathAsWater = shouldPathAsWater;
         this.entity = entity;
@@ -28,7 +28,7 @@ public class HybridPathNavigator<T extends MobEntity> extends SwimmerPathNavigat
 
     @Override
     protected PathFinder createPathFinder(int p_179679_1_) {
-        this.nodeEvaluator = new WalkAndSwimNodeProcessor();
+        this.nodeEvaluator = new TurtleNodeEvaluator();
         return new PathFinder(this.nodeEvaluator, p_179679_1_);
     }
 

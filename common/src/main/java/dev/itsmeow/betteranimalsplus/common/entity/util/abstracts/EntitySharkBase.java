@@ -2,29 +2,35 @@ package dev.itsmeow.betteranimalsplus.common.entity.util.abstracts;
 
 import dev.itsmeow.betteranimalsplus.common.entity.util.IHaveHunger;
 import dev.itsmeow.betteranimalsplus.init.ModTriggers;
-import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.entity.*;
-import net.minecraft.entity.ai.attributes.Attributes;
-import net.minecraft.entity.monster.IMob;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.monster.Enemy;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.core.BlockPos;
+import net.minecraft.util.Mth;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.DifficultyInstance;
-import net.minecraft.world.IServerWorld;
-import net.minecraft.world.World;
+import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.Level;
 
 import javax.annotation.Nullable;
 
-public abstract class EntitySharkBase extends EntityWaterMobPathingWithSelectiveTypes implements IMob, IHaveHunger<EntityWaterMobPathing> {
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.SpawnGroupData;
+
+public abstract class EntitySharkBase extends EntityWaterMobPathingWithSelectiveTypes implements Enemy, IHaveHunger<EntityWaterMobPathing> {
 
     private int hunger = 0;
 
-    public EntitySharkBase(EntityType<? extends EntitySharkBase> type, World world) {
+    public EntitySharkBase(EntityType<? extends EntitySharkBase> type, Level world) {
         super(type, world);
     }
 
@@ -76,7 +82,7 @@ public abstract class EntitySharkBase extends EntityWaterMobPathingWithSelective
 
         if (flag) {
             if (i > 0) {
-                ((PlayerEntity) entityIn).knockback(i * 0.5F, MathHelper.sin(this.yRot * 0.017453292F), (-MathHelper.cos(this.yRot * 0.017453292F)));
+                ((Player) entityIn).knockback(i * 0.5F, Mth.sin(this.yRot * 0.017453292F), (-Mth.cos(this.yRot * 0.017453292F)));
             }
 
             int j = EnchantmentHelper.getFireAspect(this);
@@ -85,8 +91,8 @@ public abstract class EntitySharkBase extends EntityWaterMobPathingWithSelective
                 entityIn.setSecondsOnFire(j * 4);
             }
 
-            if (entityIn instanceof PlayerEntity) {
-                PlayerEntity entityplayer = (PlayerEntity) entityIn;
+            if (entityIn instanceof Player) {
+                Player entityplayer = (Player) entityIn;
                 ItemStack itemstack = this.getMainHandItem();
                 ItemStack itemstack1 = entityplayer.isUsingItem() ? entityplayer.getUseItem() : ItemStack.EMPTY;
 
@@ -109,8 +115,8 @@ public abstract class EntitySharkBase extends EntityWaterMobPathingWithSelective
     @Override
     public void setTarget(LivingEntity entitylivingbaseIn) {
         if(!this.isPeaceful()) {
-            if(entitylivingbaseIn instanceof ServerPlayerEntity) {
-                ModTriggers.SHARK_TARGETED.trigger((ServerPlayerEntity) entitylivingbaseIn);
+            if(entitylivingbaseIn instanceof ServerPlayer) {
+                ModTriggers.SHARK_TARGETED.trigger((ServerPlayer) entitylivingbaseIn);
             }
             super.setTarget(entitylivingbaseIn);
         }
@@ -136,19 +142,19 @@ public abstract class EntitySharkBase extends EntityWaterMobPathingWithSelective
 
     @Nullable
     @Override
-    public ILivingEntityData finalizeSpawn(IServerWorld world, DifficultyInstance difficulty, SpawnReason reason, @Nullable ILivingEntityData livingdata, CompoundNBT compound) {
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor world, DifficultyInstance difficulty, MobSpawnType reason, @Nullable SpawnGroupData livingdata, CompoundTag compound) {
         this.setInitialHunger();
         return super.finalizeSpawn(world, difficulty, reason, livingdata, compound);
     }
 
     @Override
-    public void addAdditionalSaveData(CompoundNBT compound) {
+    public void addAdditionalSaveData(CompoundTag compound) {
         super.addAdditionalSaveData(compound);
         this.writeHunger(compound);
     }
 
     @Override
-    public void readAdditionalSaveData(CompoundNBT compound) {
+    public void readAdditionalSaveData(CompoundTag compound) {
         super.readAdditionalSaveData(compound);
         this.readHunger(compound);
     }

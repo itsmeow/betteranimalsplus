@@ -1,14 +1,14 @@
 package dev.itsmeow.betteranimalsplus.common.entity.ai;
 
 import dev.itsmeow.betteranimalsplus.common.entity.util.IHaveHunger;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.ai.goal.NonTamedTargetGoal;
-import net.minecraft.entity.passive.TameableEntity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.goal.target.NonTameRandomTargetGoal;
+import net.minecraft.world.entity.TamableAnimal;
 
 import javax.annotation.Nullable;
 import java.util.function.Predicate;
 
-public class HungerNonTamedTargetGoal<T extends LivingEntity, O extends TameableEntity & IHaveHunger> extends NonTamedTargetGoal<T> {
+public class HungerNonTamedTargetGoal<T extends LivingEntity, O extends TamableAnimal & IHaveHunger> extends NonTameRandomTargetGoal<T> {
 
     private final O hunger;
 

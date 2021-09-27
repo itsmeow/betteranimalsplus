@@ -1,8 +1,5 @@
 package dev.itsmeow.betteranimalsplus.common.entity;
 
-import dev.itsmeow.imdlib.entity.EntityTypeContainer;
-import dev.itsmeow.imdlib.entity.interfaces.IVariantTypes;
-import dev.itsmeow.imdlib.entity.util.variant.IVariant;
 import dev.itsmeow.betteranimalsplus.common.entity.ai.EfficientMoveTowardsTargetGoal;
 import dev.itsmeow.betteranimalsplus.common.entity.ai.HungerNearestAttackableTargetGoal;
 import dev.itsmeow.betteranimalsplus.common.entity.ai.PeacefulNearestAttackableTargetGoal;
@@ -11,25 +8,25 @@ import dev.itsmeow.betteranimalsplus.common.entity.util.abstracts.EntityWaterMob
 import dev.itsmeow.betteranimalsplus.init.ModEntities;
 import dev.itsmeow.betteranimalsplus.init.ModLootTables;
 import dev.itsmeow.betteranimalsplus.util.OceanBiomeHelper;
-import net.minecraft.entity.*;
-import net.minecraft.entity.ai.attributes.Attributes;
-import net.minecraft.entity.ai.goal.LookAtGoal;
-import net.minecraft.entity.ai.goal.LookRandomlyGoal;
-import net.minecraft.entity.ai.goal.RandomSwimmingGoal;
-import net.minecraft.entity.item.BoatEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.RegistryKey;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.registry.Registry;
-import net.minecraft.world.IWorld;
-import net.minecraft.world.World;
-import net.minecraft.world.biome.Biome;
-import net.minecraftforge.common.BiomeDictionary;
-import net.minecraftforge.common.BiomeDictionary.Type;
+import dev.itsmeow.imdlib.entity.EntityTypeContainer;
+import dev.itsmeow.imdlib.entity.interfaces.IVariantTypes;
+import dev.itsmeow.imdlib.entity.util.BiomeTypes;
+import dev.itsmeow.imdlib.entity.util.variant.IVariant;
+import net.minecraft.core.Registry;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
+import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
+import net.minecraft.world.entity.ai.goal.RandomSwimmingGoal;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.vehicle.Boat;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.biome.Biome;
 
-import javax.annotation.CheckForNull;
-import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -42,7 +39,7 @@ public class EntityShark extends EntitySharkBase {
     private float lastTickHealth = 0;
     public float lastBodyRotation = 0;
 
-    public EntityShark(EntityType<? extends EntityShark> entityType, World worldIn) {
+    public EntityShark(EntityType<? extends EntityShark> entityType, Level worldIn) {
         super(entityType, worldIn);
     }
 
@@ -50,18 +47,18 @@ public class EntityShark extends EntitySharkBase {
     protected void registerGoals() {
         super.registerGoals();
         this.goalSelector.addGoal(0, new EfficientMoveTowardsTargetGoal(this, 1D, true));
-        this.goalSelector.addGoal(1, new LookAtGoal(this, LivingEntity.class, 15F));
-        this.goalSelector.addGoal(1, new LookRandomlyGoal(this));
+        this.goalSelector.addGoal(1, new LookAtPlayerGoal(this, LivingEntity.class, 15F));
+        this.goalSelector.addGoal(1, new RandomLookAroundGoal(this));
         this.goalSelector.addGoal(2, new RandomSwimmingGoal(this, 1D, 1));
-        this.targetSelector.addGoal(1, new HungerNearestAttackableTargetGoal<>(this, LivingEntity.class, 5, false, false, e -> !(e instanceof EntitySharkBase || e instanceof EntityBobbitWorm || e instanceof PlayerEntity)));
-        this.targetSelector.addGoal(2, new PeacefulNearestAttackableTargetGoal<>(this, PlayerEntity.class, 5, false, false, e -> shouldAttackForHealth(e.getHealth())));
+        this.targetSelector.addGoal(1, new HungerNearestAttackableTargetGoal<>(this, LivingEntity.class, 5, false, false, e -> !(e instanceof EntitySharkBase || e instanceof EntityBobbitWorm || e instanceof Player)));
+        this.targetSelector.addGoal(2, new PeacefulNearestAttackableTargetGoal<>(this, Player.class, 5, false, false, e -> shouldAttackForHealth(e.getHealth())));
     }
 
     @Override
     public boolean hurt(DamageSource source, float amount) {
         if(super.hurt(source, amount)) {
-            if(source.getDirectEntity() instanceof PlayerEntity && !this.isPeaceful()) {
-                PlayerEntity player = (PlayerEntity) source.getDirectEntity();
+            if(source.getDirectEntity() instanceof Player && !this.isPeaceful()) {
+                Player player = (Player) source.getDirectEntity();
                 if(!player.isCreative() && !player.isInvisible()) {
                     this.setTarget(player);
                 }
@@ -124,7 +121,7 @@ public class EntityShark extends EntitySharkBase {
             this.setTarget(null);
         }
         if(!this.level.isClientSide && this.getTarget() != null && this.getTarget().isAlive() && this.isAlive() && !this.isPeaceful()) {
-            boolean isBoat = this.getTarget() instanceof PlayerEntity && this.getTarget().getVehicle() != null && this.getTarget().getVehicle() instanceof BoatEntity;
+            boolean isBoat = this.getTarget() instanceof Player && this.getTarget().getVehicle() != null && this.getTarget().getVehicle() instanceof Boat;
             float grabDelay = isBoat ? 20F : 60F;
             if(this.getPassengers().contains(this.getTarget())) {
                 float time = 30F * ((float) Math.random() + 1F);
@@ -133,11 +130,11 @@ public class EntityShark extends EntitySharkBase {
                 }
             } else if(lastGrab + grabDelay < this.tickCount && this.distanceToSqr(this.getTarget()) < 5) {
                 if(isBoat) {
-                    BoatEntity boat = (BoatEntity) this.getTarget().getVehicle();
+                    Boat boat = (Boat) this.getTarget().getVehicle();
                     boat.hurt(DamageSource.mobAttack(this), 3F);
                 } else if(!this.getTarget().isInvulnerable() && this.getTarget().getBbWidth() < 2.5 && this.getTarget().getBbHeight() < 2.5) {
-                    if (this.getTarget() instanceof MobEntity) {
-                        MobEntity el = (MobEntity) this.getTarget();
+                    if (this.getTarget() instanceof Mob) {
+                        Mob el = (Mob) this.getTarget();
                         el.setTarget(null);
                         el.setLastHurtByMob(null);
                         el.getNavigation().stop(); 
@@ -151,8 +148,8 @@ public class EntityShark extends EntitySharkBase {
             }
             if(lastTickHealth - 4F > this.getHealth()) {
                 this.getTarget().stopRiding();
-                if (this.getTarget() instanceof MobEntity) {
-                    MobEntity el = (MobEntity) this.getTarget();
+                if (this.getTarget() instanceof Mob) {
+                    Mob el = (Mob) this.getTarget();
                     el.setNoAi(false);
                 }
             }
@@ -180,7 +177,7 @@ public class EntityShark extends EntitySharkBase {
     }
 
     @Override
-    public String[] getTypesFor(RegistryKey<Biome> biomeKey, Biome biome, Set<Type> types, SpawnReason reason) {
+    public String[] getTypesFor(ResourceKey<Biome> biomeKey, Biome biome, Set<BiomeTypes.Type> types, MobSpawnType reason) {
         // types always contains OCEAN
         List<String> list = new ArrayList<>();
         OceanBiomeHelper.Wrapper b = new OceanBiomeHelper.Wrapper(biomeKey);
@@ -208,21 +205,19 @@ public class EntityShark extends EntitySharkBase {
         return list.toArray(new String[0]);
     }
 
-    @Nullable
-    @CheckForNull
     @Override
-    public IVariant getRandomVariantForBiome(IWorld world, SpawnReason reason) {
+    public IVariant getRandomVariantForBiome(LevelAccessor world, MobSpawnType reason) {
         Biome biome = world.getBiome(this.getImplementation().blockPosition());
-        Optional<RegistryKey<Biome>> biomeKey = world.registryAccess().registryOrThrow(Registry.BIOME_REGISTRY).getResourceKey(biome);
+        Optional<ResourceKey<Biome>> biomeKey = world.registryAccess().registryOrThrow(Registry.BIOME_REGISTRY).getResourceKey(biome);
         biomeKey.orElseThrow(() -> new RuntimeException("Biome provided to selective type generation has no ID found."));
-        String[] validTypes = this.getTypesFor(biomeKey.get(), biome, BiomeDictionary.getTypes(biomeKey.get()), reason);
+        String[] validTypes = this.getTypesFor(biomeKey.get(), biome, BiomeTypes.getTypes(biomeKey.get()), reason);
         String varStr = validTypes[this.getImplementation().getRandom().nextInt(validTypes.length)];
         for(int i = 0; i < 2; i++) {
             if("great_white".equals(varStr) || "goblin".equals(varStr)) {
                 varStr = validTypes[this.getImplementation().getRandom().nextInt(validTypes.length)];
             }
         }
-        if(world instanceof World && ((World) world).isDay()) {
+        if(world instanceof Level && ((Level) world).isDay()) {
             if(validTypes.length > 1 && "goblin".equals(varStr)) {
                 for(int i = 0; i < validTypes.length && "goblin".equals(varStr); i++) {
                     varStr = validTypes[i];

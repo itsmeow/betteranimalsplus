@@ -1,20 +1,20 @@
 package dev.itsmeow.betteranimalsplus.common.entity.util;
 
 import dev.itsmeow.imdlib.entity.interfaces.IContainerEntity;
-import net.minecraft.entity.MobEntity;
-import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.nbt.CompoundTag;
 
-public interface IHaveHunger<T extends MobEntity> extends IContainerEntity<T> {
+public interface IHaveHunger<T extends Mob> extends IContainerEntity<T> {
 
     int getHunger();
 
     void setHunger(int hunger);
 
-    default void writeHunger(CompoundNBT nbt) {
+    default void writeHunger(CompoundTag nbt) {
         nbt.putInt("Hunger", getHunger());
     }
 
-    default void readHunger(CompoundNBT nbt) {
+    default void readHunger(CompoundTag nbt) {
         setHunger(nbt.getInt("Hunger"));
     }
 
