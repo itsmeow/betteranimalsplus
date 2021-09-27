@@ -38,7 +38,7 @@ import net.minecraft.world.entity.SpawnGroupData;
 public class EntityPiranha extends EntityWaterMobPathingBucketable implements IHaveHunger<EntityWaterMobPathing> {
 
     // TODO access method
-    public final DamageSource PIRANHA_DAMAGE = (new EntityDamageSource("betteranimalsplus.piranha", this)).bypassArmor();
+    public final DamageSource PIRANHA_DAMAGE = (new EntityDamageSource("betteranimalsplus.piranha", this));//.bypassArmor();
     private int hunger;
 
     public EntityPiranha(EntityType<? extends EntityPiranha> entityType, Level worldIn) {

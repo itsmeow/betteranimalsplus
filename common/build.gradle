@@ -5,8 +5,11 @@ dependencies {
 architectury {
     common()
 }
-java {
-    withSourcesJar()
+configurations {
+    dev
+}
+artifacts {
+    dev(jar)
 }
 loom {
     mixinConfig "mixin.imdlib.json"

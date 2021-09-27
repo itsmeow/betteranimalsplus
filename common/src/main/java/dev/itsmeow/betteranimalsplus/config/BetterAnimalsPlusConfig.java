@@ -1,6 +1,14 @@
 package dev.itsmeow.betteranimalsplus.config;
 
-import dev.itsmeow.imdlib.entity.EntityRegistrarHandler.ClientEntityConfiguration;
+import dev.itsmeow.betteranimalsplus.BetterAnimalsPlusMod;
+import dev.itsmeow.betteranimalsplus.Ref;
+import dev.itsmeow.betteranimalsplus.common.entity.util.EntityTypeContainerBAPTameable;
+import dev.itsmeow.betteranimalsplus.init.ModEntities;
+import dev.itsmeow.imdlib.entity.EntityTypeContainer;
+
+import java.util.HashMap;
+
+/*import dev.itsmeow.imdlib.entity.EntityRegistrarHandler.ClientEntityConfiguration;
 import dev.itsmeow.imdlib.entity.EntityRegistrarHandler.ServerEntityConfiguration;
 import dev.itsmeow.imdlib.entity.EntityTypeContainer;
 import dev.itsmeow.betteranimalsplus.BetterAnimalsPlusMod;
@@ -17,9 +25,9 @@ import org.apache.commons.lang3.tuple.Pair;
 import java.util.HashMap;
 import java.util.Map;
 
-@Mod.EventBusSubscriber(modid = Ref.MOD_ID, bus = EventBusSubscriber.Bus.MOD)
+@Mod.EventBusSubscriber(modid = Ref.MOD_ID, bus = EventBusSubscriber.Bus.MOD)*/
 public class BetterAnimalsPlusConfig {
-
+/*
     private static ServerEntityConfiguration SERVER_CONFIG = null;
     public static ForgeConfigSpec SERVER_CONFIG_SPEC = null;
 
@@ -70,5 +78,5 @@ public class BetterAnimalsPlusConfig {
         }
         return map;
     }
-
+*/
 }

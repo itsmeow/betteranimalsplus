@@ -1,6 +1,5 @@
 package dev.itsmeow.betteranimalsplus.client;
 
-
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.math.Vector3f;
 import dev.itsmeow.betteranimalsplus.BetterAnimalsPlusMod;
@@ -30,8 +29,7 @@ public class ClientLifecycleHandler {
 
     public static final RenderFactory R = IMDLibClient.getRenderRegistry(Ref.MOD_ID);
 
-    // TODO client setup registration
-    public void clientInit() {
+    public static void clientInit() {
         BlockEntityRenderers.registerRenderer(ModBlockEntities.TRILLIUM_TYPE.get(), RenderBlockTrillium::new);
         HeadBlockEntity.registerTypeRender();
         R.addRender(ModEntities.BROWN_BEAR.getEntityType(), 1F, r -> r.tSingle("bear_brown").mSingle(new ModelBear<>()).ageScale(1.3F, 0.65F));

@@ -1,16 +1,14 @@
 package dev.itsmeow.betteranimalsplus.common.entity.util.abstracts;
 
 import dev.itsmeow.imdlib.entity.interfaces.IVariantTypes;
-import net.minecraft.world.entity.PathfinderMob;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.SpawnGroupData;
-import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.DifficultyInstance;
-import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.PathfinderMob;
+import net.minecraft.world.entity.SpawnGroupData;
 import net.minecraft.world.level.Level;
-
-import javax.annotation.Nullable;
+import net.minecraft.world.level.ServerLevelAccessor;
 
 public abstract class EntityCreatureWithTypes extends PathfinderMob implements IVariantTypes<EntityCreatureWithTypes> {
 
@@ -37,8 +35,7 @@ public abstract class EntityCreatureWithTypes extends PathfinderMob implements I
     }
 
     @Override
-    @Nullable
-    public SpawnGroupData finalizeSpawn(ServerLevelAccessor world, DifficultyInstance difficulty, MobSpawnType reason, @Nullable SpawnGroupData livingdata, CompoundTag compound) {
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor world, DifficultyInstance difficulty, MobSpawnType reason, SpawnGroupData livingdata, CompoundTag compound) {
         return this.initData(world, reason, super.finalizeSpawn(world, difficulty, reason, livingdata, compound));
     }
 

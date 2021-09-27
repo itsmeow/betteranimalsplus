@@ -49,7 +49,8 @@ public class EntityAIEatBerries extends MoveToBlockGoal {
     }
 
     protected void eatBerry() {
-        if(net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(this.mob.level, this.mob)) {
+        // TODO mobgrief event
+        //if(net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(this.mob.level, this.mob)) {
             BlockState blockstate = this.mob.level.getBlockState(this.blockPos);
             if(blockstate.getBlock() == Blocks.SWEET_BERRY_BUSH) {
                 int i = blockstate.getValue(SweetBerryBushBlock.AGE);
@@ -61,7 +62,7 @@ public class EntityAIEatBerries extends MoveToBlockGoal {
                 this.mob.playSound(SoundEvents.SWEET_BERRY_BUSH_PICK_BERRIES, 1.0F, 1.0F);
                 this.mob.level.setBlock(this.blockPos, blockstate.setValue(SweetBerryBushBlock.AGE, 1), 2);
             }
-        }
+        //}
     }
 
     @Override

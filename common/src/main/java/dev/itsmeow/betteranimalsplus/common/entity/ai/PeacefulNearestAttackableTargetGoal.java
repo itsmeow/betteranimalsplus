@@ -1,13 +1,11 @@
 package dev.itsmeow.betteranimalsplus.common.entity.ai;
 
-import java.util.function.Predicate;
-
-import javax.annotation.Nullable;
-
+import net.minecraft.world.Difficulty;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
-import net.minecraft.world.Difficulty;
+
+import java.util.function.Predicate;
 
 public class PeacefulNearestAttackableTargetGoal<T extends LivingEntity> extends NearestAttackableTargetGoal<T> {
 
@@ -19,7 +17,7 @@ public class PeacefulNearestAttackableTargetGoal<T extends LivingEntity> extends
         this(goalOwnerIn, targetClassIn, 10, checkSight, nearbyOnlyIn, null);
     }
 
-    public PeacefulNearestAttackableTargetGoal(Mob goalOwnerIn, Class<T> targetClassIn, int targetChanceIn, boolean checkSight, boolean nearbyOnlyIn, @Nullable Predicate<LivingEntity> targetPredicate) {
+    public PeacefulNearestAttackableTargetGoal(Mob goalOwnerIn, Class<T> targetClassIn, int targetChanceIn, boolean checkSight, boolean nearbyOnlyIn, Predicate<LivingEntity> targetPredicate) {
         super(goalOwnerIn, targetClassIn, targetChanceIn, checkSight, nearbyOnlyIn, targetPredicate);
     }
 

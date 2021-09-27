@@ -5,7 +5,6 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 
-import javax.annotation.Nullable;
 import java.util.function.Predicate;
 
 public class HungerNearestAttackableTargetGoal<T extends LivingEntity, O extends Mob & IHaveHunger> extends NearestAttackableTargetGoal<T> {
@@ -20,7 +19,7 @@ public class HungerNearestAttackableTargetGoal<T extends LivingEntity, O extends
         this(goalOwnerIn, targetClassIn, 10, checkSight, nearbyOnlyIn, null);
     }
 
-    public HungerNearestAttackableTargetGoal(O goalOwnerIn, Class<T> targetClassIn, int targetChanceIn, boolean checkSight, boolean nearbyOnlyIn, @Nullable Predicate<LivingEntity> targetPredicate) {
+    public HungerNearestAttackableTargetGoal(O goalOwnerIn, Class<T> targetClassIn, int targetChanceIn, boolean checkSight, boolean nearbyOnlyIn, Predicate<LivingEntity> targetPredicate) {
         super(goalOwnerIn, targetClassIn, targetChanceIn, checkSight, nearbyOnlyIn, targetPredicate);
         this.hunger = goalOwnerIn;
     }

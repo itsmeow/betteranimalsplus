@@ -1,25 +1,14 @@
 package dev.itsmeow.betteranimalsplus.common.entity.util.abstracts;
 
 import dev.itsmeow.imdlib.entity.util.variant.IVariant;
-import net.minecraft.entity.*;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.world.DifficultyInstance;
-import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.level.Level;
-
-import javax.annotation.Nullable;
-
-import dev.itsmeow.imdlib.entity.interfaces.IVariantTypes.AgeableTypeData;
-import net.minecraft.world.entity.AgableMob.AgableMobGroupData;
-
-import net.minecraft.world.entity.EntityDimensions;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.MobSpawnType;
-import net.minecraft.world.entity.Pose;
-import net.minecraft.world.entity.SpawnGroupData;
+import net.minecraft.world.level.ServerLevelAccessor;
 
 public abstract class EntityAnimalWithTypesAndSize extends EntityAnimalWithTypes {
 
@@ -60,8 +49,7 @@ public abstract class EntityAnimalWithTypesAndSize extends EntityAnimalWithTypes
     }
 
     @Override
-    @Nullable
-    public SpawnGroupData finalizeSpawn(ServerLevelAccessor world, DifficultyInstance difficulty, MobSpawnType reason, @Nullable SpawnGroupData livingdata, CompoundTag compound) {
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor world, DifficultyInstance difficulty, MobSpawnType reason, SpawnGroupData livingdata, CompoundTag compound) {
         livingdata = super.finalizeSpawn(world, difficulty, reason, livingdata, compound);
         if(!this.isBaby()) {
             IVariant i = this.getRandomType();

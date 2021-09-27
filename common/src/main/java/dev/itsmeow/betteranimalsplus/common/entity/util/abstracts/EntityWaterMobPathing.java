@@ -1,15 +1,15 @@
 package dev.itsmeow.betteranimalsplus.common.entity.util.abstracts;
 
-import dev.itsmeow.imdlib.entity.interfaces.IContainerEntity;
 import dev.itsmeow.betteranimalsplus.common.entity.ai.WaterMoveHelper;
+import dev.itsmeow.imdlib.entity.interfaces.IContainerEntity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.animal.WaterAnimal;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.ai.navigation.WaterBoundPathNavigation;
-import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.entity.animal.WaterAnimal;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.Vec3;
 
 public abstract class EntityWaterMobPathing extends WaterAnimal implements IContainerEntity<EntityWaterMobPathing> {
 

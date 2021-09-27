@@ -1,5 +1,10 @@
 package dev.itsmeow.betteranimalsplus.network;
 
+import net.minecraft.network.FriendlyByteBuf;
+
+import java.util.HashMap;
+
+/*
 import com.google.common.base.Charsets;
 import dev.itsmeow.imdlib.entity.EntityTypeContainer;
 import dev.itsmeow.betteranimalsplus.common.entity.util.EntityTypeContainerBAPTameable;
@@ -11,9 +16,9 @@ import net.minecraftforge.fml.network.NetworkEvent;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Supplier;
-
+*/
 public class ClientConfigurationPacket {
-
+/*
     public Map<String, String[]> tameItems = new HashMap<>();
 
     public ClientConfigurationPacket() {
@@ -75,5 +80,5 @@ public class ClientConfigurationPacket {
             ctx.get().setPacketHandled(true);
         }
     }
-
+*/
 }

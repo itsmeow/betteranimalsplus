@@ -2,22 +2,16 @@ package dev.itsmeow.betteranimalsplus;
 
 import com.google.common.collect.ImmutableList;
 import dev.architectury.injectables.annotations.ExpectPlatform;
-import dev.itsmeow.betteranimalsplus.compat.curios.CuriosModCompat;
 import dev.itsmeow.betteranimalsplus.init.*;
-import dev.itsmeow.imdlib.util.ClassLoadHacks;
 import me.shedaniel.architectury.utils.PlatformExpectedError;
-import net.minecraft.core.NonNullList;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.item.ItemStack;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.UUID;
 
-//@Mod.EventBusSubscriber(modid = Ref.MOD_ID)
-//@Mod(value = Ref.MOD_ID)
 public class BetterAnimalsPlusMod {
 
     public static final Logger logger = LogManager.getLogger();
@@ -39,12 +33,6 @@ public class BetterAnimalsPlusMod {
     );
 
     public static void init() {
-        /*
-        IEventBus modBus = FMLJavaModLoadingContext.get().getModEventBus();
-        modBus.addListener(this::setup);
-        modBus.addListener(this::loadComplete);
-        modBus.<FMLClientSetupEvent>addListener(e -> new ClientLifecycleHandler().clientSetup(e));
-        */
         ModResources.Tags.Blocks.loadTags();
         ModResources.Tags.Items.loadTags();
         ModEntities.init();
@@ -56,8 +44,6 @@ public class BetterAnimalsPlusMod {
         //ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, BetterAnimalsPlusConfig.getClientSpec());
         BetterAnimalsPlusMod.logger.log(Level.INFO, "Injecting super coyotes...");
         //ClassLoadHacks.runWhenLoaded("curios", () -> () -> CuriosModCompat.subscribe(modBus));
-
-
     }
 
     public static boolean isDev(UUID uuid) {

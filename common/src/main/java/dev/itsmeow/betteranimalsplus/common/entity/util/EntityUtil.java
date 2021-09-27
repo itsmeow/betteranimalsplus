@@ -9,7 +9,8 @@ public class EntityUtil {
 
     public static SpawnGroupData childChance(AgableMob e, MobSpawnType reason, SpawnGroupData livingdata, float chance) {
         if(livingdata instanceof AgableMobGroupData) {
-            ((AgableMobGroupData) livingdata).babySpawnChance = chance;
+            // TODO babySpawnChance access (final removal)
+            //((AgableMobGroupData) livingdata).babySpawnChance = chance;
         }
         return livingdata;
     }

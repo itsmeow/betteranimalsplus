@@ -18,7 +18,10 @@
   "environment": "*",
   "entrypoints": {
     "main": [
-      "dev.itsmeow.betteranimalsplus.FabricMod"
+      "dev.itsmeow.betteranimalsplus.BetterAnimalsPlusModFabric"
+    ],
+    "client": [
+      "dev.itsmeow.betteranimalsplus.client.BetterAnimalsPlusClientFabric"
     ]
   },
   "depends": {

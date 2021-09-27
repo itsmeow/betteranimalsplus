@@ -1,54 +1,18 @@
 package dev.itsmeow.betteranimalsplus.common;
 
-import dev.itsmeow.imdlib.entity.interfaces.IBucketable;
-import dev.itsmeow.imdlib.entity.util.variant.IVariant;
-import dev.itsmeow.betteranimalsplus.Ref;
-import dev.itsmeow.betteranimalsplus.common.entity.*;
-import dev.itsmeow.betteranimalsplus.common.entity.EntityFeralWolf.WolfVariant;
-import dev.itsmeow.betteranimalsplus.common.entity.util.IHaveHunger;
+
+import dev.itsmeow.betteranimalsplus.common.entity.EntityBarracuda;
+import dev.itsmeow.betteranimalsplus.common.entity.EntityLamprey;
+import dev.itsmeow.betteranimalsplus.common.entity.EntityOctopus;
+import dev.itsmeow.betteranimalsplus.common.entity.EntityPiranha;
 import dev.itsmeow.betteranimalsplus.common.entity.util.abstracts.EntitySharkBase;
-import dev.itsmeow.betteranimalsplus.init.ModEntities;
-import dev.itsmeow.betteranimalsplus.init.ModItems;
-import dev.itsmeow.betteranimalsplus.init.ModLootTables;
-import dev.itsmeow.betteranimalsplus.init.ModTriggers;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.ai.goal.GoalSelector;
-import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
-import net.minecraft.world.entity.animal.IronGolem;
-import net.minecraft.world.entity.animal.PolarBear;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.storage.loot.RandomIntGenerator;
-import net.minecraft.world.level.storage.loot.LootPool;
-import net.minecraft.world.level.storage.loot.entries.LootTableReference;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.world.level.block.entity.JukeboxBlockEntity;
-import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.core.BlockPos;
-import net.minecraftforge.common.util.Constants;
-import net.minecraftforge.event.LootTableLoadEvent;
-import net.minecraftforge.event.entity.EntityJoinWorldEvent;
-import net.minecraftforge.event.entity.living.LivingDeathEvent;
-import net.minecraftforge.event.entity.living.LivingDropsEvent;
-import net.minecraftforge.event.entity.player.AttackEntityEvent;
-import net.minecraftforge.event.entity.player.PlayerEvent;
-import net.minecraftforge.event.entity.player.PlayerInteractEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
 
 import java.util.HashSet;
-import java.util.List;
-import java.util.Random;
 import java.util.Set;
 import java.util.function.Predicate;
 
-@Mod.EventBusSubscriber(modid = Ref.MOD_ID)
+//@Mod.EventBusSubscriber(modid = Ref.MOD_ID)
 public class CommonEventHandler {
 
     // TODO port this whole file
@@ -62,7 +26,7 @@ public class CommonEventHandler {
         NO_ATTACKED_DROPS.add(e -> e instanceof EntityOctopus && ((EntityOctopus) e).friend == null);
     }
 
-    @SubscribeEvent
+    /*@SubscribeEvent
     public static void onDeathOfEntity(LivingDeathEvent e) {
         if(e.getSource().getDirectEntity() instanceof EntityBoar && ModEntities.BOAR.getCustomConfiguration().getBoolean("nerf_options/breed_from_kill")) {
             EntityBoar boar = (EntityBoar) e.getSource().getDirectEntity();
@@ -209,6 +173,6 @@ public class CommonEventHandler {
             GoalSelector targetSelector = ((IronGolem) event.getEntity()).targetSelector;
             targetSelector.addGoal(3, new NearestAttackableTargetGoal<>((IronGolem) event.getEntity(), EntityFeralWolf.class, 5, false, false, e -> !((EntityFeralWolf) e).isTame() && (e instanceof EntityCoyote ? !((EntityCoyote) e).isDaytime() : true)));
         }
-    }
+    }*/
 
 }

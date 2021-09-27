@@ -1,15 +1,18 @@
 package dev.itsmeow.betteranimalsplus.network;
 
 import com.google.common.base.Charsets;
-import dev.itsmeow.betteranimalsplus.BetterAnimalsPlusMod;
+
 import dev.itsmeow.betteranimalsplus.client.dumb.SafeSyncThing;
 import net.minecraft.network.FriendlyByteBuf;
+
+import java.util.UUID;
+/*
+import dev.itsmeow.betteranimalsplus.BetterAnimalsPlusMod;
 import net.minecraftforge.fml.network.NetworkDirection;
 import net.minecraftforge.fml.network.NetworkEvent;
 import net.minecraftforge.fml.network.PacketDistributor;
 
-import java.util.UUID;
-import java.util.function.Supplier;
+import java.util.function.Supplier;*/
 
 public class StupidDevPacket {
 
@@ -67,7 +70,7 @@ public class StupidDevPacket {
     }
 
     public static class Handler {
-        public static void handle(StupidDevPacket msg, Supplier<NetworkEvent.Context> ctx) {
+        /*public static void handle(StupidDevPacket msg, Supplier<NetworkEvent.Context> ctx) {
             // from server
             if (ctx.get().getDirection() == NetworkDirection.PLAY_TO_CLIENT) {
                 ctx.get().enqueueWork(() -> {
@@ -89,6 +92,6 @@ public class StupidDevPacket {
                 });
             }
             ctx.get().setPacketHandled(true);
-        }
+        }*/
     }
 }

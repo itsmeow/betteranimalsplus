@@ -1,13 +1,14 @@
 package dev.itsmeow.betteranimalsplus.network;
 
-import dev.itsmeow.betteranimalsplus.BetterAnimalsPlusMod;
+/*import dev.itsmeow.betteranimalsplus.BetterAnimalsPlusMod;
 import dev.itsmeow.betteranimalsplus.client.dumb.SafeSyncThing;
 import dev.itsmeow.betteranimalsplus.init.ModSoundEvents;
-import net.minecraft.network.FriendlyByteBuf;
 import net.minecraftforge.fml.network.NetworkDirection;
 import net.minecraftforge.fml.network.NetworkEvent;
 
-import java.util.function.Supplier;
+import java.util.function.Supplier;*/
+
+import net.minecraft.network.FriendlyByteBuf;
 
 public class HonkPacket {
 
@@ -20,7 +21,7 @@ public class HonkPacket {
     }
 
     public static class Handler {
-        public static void handle(HonkPacket msg, Supplier<NetworkEvent.Context> ctx) {
+        /*public static void handle(HonkPacket msg, Supplier<NetworkEvent.Context> ctx) {
             // from client
             if (ctx.get().getDirection() == NetworkDirection.PLAY_TO_SERVER) {
                 ctx.get().enqueueWork(() -> {
@@ -30,7 +31,7 @@ public class HonkPacket {
                 });
             }
             ctx.get().setPacketHandled(true);
-        }
+        }*/
     }
 
 }

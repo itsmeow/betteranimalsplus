@@ -1,6 +1,6 @@
 package dev.itsmeow.betteranimalsplus.compat.curios;
 
-import dev.itsmeow.betteranimalsplus.common.item.ItemBearCape;
+/*import dev.itsmeow.betteranimalsplus.common.item.ItemBearCape;
 import dev.itsmeow.betteranimalsplus.common.item.ItemCape;
 import dev.itsmeow.betteranimalsplus.common.item.ItemWolfCape;
 import net.minecraft.entity.player.PlayerEntity;
@@ -23,10 +23,10 @@ import top.theillusivec4.curios.api.SlotTypePreset;
 import top.theillusivec4.curios.api.type.capability.ICurio;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import javax.annotation.Nullable;*/
 
 public class CuriosModCompat {
-
+/*
     public static void subscribe(IEventBus modBus) {
         modBus.addListener(CuriosModCompat::interModEnqueue);
         MinecraftForge.EVENT_BUS.register(CuriosModCompat.class);
@@ -53,5 +53,5 @@ public class CuriosModCompat {
             });
         }
     }
-
+*/
 }

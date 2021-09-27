@@ -94,7 +94,7 @@ public class EntityWalrus extends Animal implements IContainerEntity<EntityWalru
     public boolean doHurtTarget(Entity entityIn) {
         // 1/3 chance to pierce armor
         // TODO get access
-        boolean flag = entityIn.hurt(this.getRandom().nextInt(3) == 0 ? DamageSource.mobAttack(this).bypassArmor() : DamageSource.mobAttack(this), (float) this.getAttribute(Attributes.ATTACK_DAMAGE).getValue());
+        boolean flag = entityIn.hurt(this.getRandom().nextInt(3) == 0 ? DamageSource.mobAttack(this)/*.bypassArmor()*/ : DamageSource.mobAttack(this), (float) this.getAttribute(Attributes.ATTACK_DAMAGE).getValue());
         if(flag) {
             Vec3 pos = this.position();
             Vec3 targetPos = entityIn.position();

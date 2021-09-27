@@ -1,6 +1,6 @@
 package dev.itsmeow.betteranimalsplus.compat.curios;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+/*import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 import dev.itsmeow.betteranimalsplus.common.item.ItemCape;
 import net.fabricmc.api.EnvType;
@@ -20,10 +20,10 @@ import top.theillusivec4.curios.api.CuriosApi;
 import top.theillusivec4.curios.api.type.capability.ICurio;
 
 import java.util.HashMap;
-import java.util.Map;
+import java.util.Map;*/
 
-public class CurioCape implements ICurio {
-
+public class CurioCape /*implements ICurio*/ {
+/*
     protected static final Map<String, BipedModel<LivingEntity>> models = new HashMap<>();
     protected final ItemStack stack;
     protected final String modelKey;
@@ -72,5 +72,5 @@ public class CurioCape implements ICurio {
             model.renderToBuffer(matrixStack, ivertexbuilder, light, LivingRenderer.getOverlayCoords(livingEntity, 0.0F), 1F, 1F, 1F, 1F);
         }
     }
-
+*/
 }

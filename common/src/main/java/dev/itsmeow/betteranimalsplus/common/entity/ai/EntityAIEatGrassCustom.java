@@ -72,17 +72,19 @@ public class EntityAIEatGrassCustom extends Goal {
         if(this.eatingGrassTimer == 4) {
             BlockPos blockpos = this.getPosition.apply(eater);
             if(IS_GRASS.test(this.world.getBlockState(blockpos))) {
-                if(net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(this.world, this.eater)) {
+                // TODO mob grief event
+                //if(net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(this.world, this.eater)) {
                     this.world.destroyBlock(blockpos, false);
-                }
+                //}
                 this.eater.ate();
             } else {
                 BlockPos blockpos1 = blockpos.below();
                 if(this.world.getBlockState(blockpos1).getBlock() == Blocks.GRASS_BLOCK) {
-                    if(net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(this.world, this.eater)) {
+                    // TODO mob grief event
+                    //if(net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(this.world, this.eater)) {
                         this.world.levelEvent(2001, blockpos1, Block.getId(Blocks.GRASS_BLOCK.defaultBlockState()));
                         this.world.setBlock(blockpos1, Blocks.DIRT.defaultBlockState(), 2);
-                    }
+                    //}
                     this.eater.ate();
                 }
             }

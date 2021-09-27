@@ -1,35 +1,25 @@
 package dev.itsmeow.betteranimalsplus.common.entity.util.abstracts;
 
-import net.minecraft.world.item.enchantment.EnchantmentHelper;
-import net.minecraft.entity.*;
-import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.ai.goal.Goal;
-import net.minecraft.world.entity.animal.WaterAnimal;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.effect.MobEffects;
-import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
-import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.Difficulty;
-import net.minecraft.world.level.Level;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-
-import java.util.EnumSet;
-
-import net.minecraft.world.entity.ai.goal.Goal.Flag;
-
-import net.minecraft.world.entity.Entity;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Pose;
+import net.minecraft.world.entity.ai.goal.Goal;
+import net.minecraft.world.entity.animal.WaterAnimal;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.Vec3;
+
+import java.util.EnumSet;
 
 public abstract class EntityBAPCephalopod extends EntityWaterMobPathing {
 
@@ -139,42 +129,6 @@ public abstract class EntityBAPCephalopod extends EntityWaterMobPathing {
 
     public boolean isPeaceful() {
         return this.level.getDifficulty() == Difficulty.PEACEFUL;
-    }
-
-    @Override
-    public boolean doHurtTarget(Entity entityIn) {
-        float f = (float) this.getAttribute(Attributes.ATTACK_DAMAGE).getValue();
-        float f1 = (float) this.getAttribute(Attributes.ATTACK_KNOCKBACK).getValue();
-        if(entityIn instanceof LivingEntity) {
-            f += EnchantmentHelper.getDamageBonus(this.getMainHandItem(), ((LivingEntity) entityIn).getMobType());
-            f1 += (float) EnchantmentHelper.getKnockbackBonus(this);
-        }
-        int i = EnchantmentHelper.getFireAspect(this);
-        if(i > 0) {
-            entityIn.setSecondsOnFire(i * 4);
-        }
-        boolean flag = entityIn.hurt(DamageSource.mobAttack(this), f);
-        if(flag) {
-            if(f1 > 0.0F && entityIn instanceof LivingEntity) {
-                ((LivingEntity) entityIn).knockback(f1 * 0.5F, Mth.sin(this.yRot * ((float) Math.PI / 180F)), -Mth.cos(this.yRot * ((float) Math.PI / 180F)));
-                this.setDeltaMovement(this.getDeltaMovement().multiply(0.6D, 1.0D, 0.6D));
-            }
-            if(entityIn instanceof Player) {
-                Player playerentity = (Player) entityIn;
-                playerentity.addEffect(new MobEffectInstance(MobEffects.DIG_SLOWDOWN, 200, 1, false, false));
-                ItemStack itemstack = this.getMainHandItem();
-                ItemStack itemstack1 = playerentity.isUsingItem() ? playerentity.getUseItem() : ItemStack.EMPTY;
-                if(!itemstack.isEmpty() && !itemstack1.isEmpty() && itemstack.canDisableShield(itemstack1, playerentity, this) && itemstack1.isShield(playerentity)) {
-                    float f2 = 0.25F + (float) EnchantmentHelper.getBlockEfficiency(this) * 0.05F;
-                    if(this.random.nextFloat() < f2) {
-                        playerentity.getCooldowns().addCooldown(itemstack.getItem(), 100);
-                        this.level.broadcastEntityEvent(playerentity, (byte) 30);
-                    }
-                }
-            }
-            this.doEnchantDamageEffects(this, entityIn);
-        }
-        return flag;
     }
 
     @Override

@@ -1,15 +1,13 @@
 package dev.itsmeow.betteranimalsplus.common.entity.util.abstracts;
 
 import dev.itsmeow.imdlib.entity.interfaces.IVariantTypes;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.SpawnGroupData;
-import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.DifficultyInstance;
-import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.SpawnGroupData;
 import net.minecraft.world.level.Level;
-
-import javax.annotation.Nullable;
+import net.minecraft.world.level.ServerLevelAccessor;
 
 public abstract class EntityWaterMobPathingWithTypes extends EntityWaterMobPathing implements IVariantTypes<EntityWaterMobPathing> {
 
@@ -36,19 +34,13 @@ public abstract class EntityWaterMobPathingWithTypes extends EntityWaterMobPathi
     }
 
     @Override
-    @Nullable
-    public SpawnGroupData finalizeSpawn(ServerLevelAccessor world, DifficultyInstance difficulty, MobSpawnType reason, @Nullable SpawnGroupData livingdata, CompoundTag compound) {
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor world, DifficultyInstance difficulty, MobSpawnType reason, SpawnGroupData livingdata, CompoundTag compound) {
         return this.initData(world, reason, super.finalizeSpawn(world, difficulty, reason, livingdata, compound));
     }
 
     @Override
     public boolean removeWhenFarAway(double range) {
         return despawn(range);
-    }
-
-    @Override
-    public EntityWaterMobPathingWithTypes getEntity() {
-        return this;
     }
 
 }

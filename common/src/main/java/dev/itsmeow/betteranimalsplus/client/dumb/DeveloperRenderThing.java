@@ -1,34 +1,8 @@
 package dev.itsmeow.betteranimalsplus.client.dumb;
 
-import com.mojang.blaze3d.platform.InputConstants;
-import com.mojang.blaze3d.vertex.PoseStack;
-import dev.itsmeow.betteranimalsplus.BetterAnimalsPlusMod;
-import dev.itsmeow.betteranimalsplus.Ref;
-import dev.itsmeow.betteranimalsplus.client.model.ModelGoose;
-import dev.itsmeow.betteranimalsplus.client.renderer.entity.layers.GooseItemLayerRenderer;
-import dev.itsmeow.betteranimalsplus.network.HonkPacket;
-import dev.itsmeow.betteranimalsplus.network.StupidDevPacket;
-import dev.itsmeow.betteranimalsplus.init.ModEntities;
-import net.minecraft.Util;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.model.EntityModel;
-import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
-import net.minecraft.client.renderer.entity.LivingEntityRenderer;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.event.ClientChatEvent;
-import net.minecraftforge.client.event.ClientPlayerNetworkEvent;
-import net.minecraftforge.client.event.RenderPlayerEvent;
-import net.minecraftforge.event.TickEvent.ClientTickEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
-
-@Mod.EventBusSubscriber(modid = Ref.MOD_ID, value = Dist.CLIENT)
+//@Mod.EventBusSubscriber(modid = Ref.MOD_ID, value = Dist.CLIENT)
 public class DeveloperRenderThing {
-
+/*
     private static StupidRender RENDER_INSTANCE;
     private static int timeSinceLastPacket = 0;
 
@@ -158,5 +132,5 @@ public class DeveloperRenderThing {
         }
 
     }
-
+*/
 }
