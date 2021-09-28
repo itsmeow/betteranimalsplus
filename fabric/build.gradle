@@ -31,10 +31,7 @@ dependencies {
         transitive = false
     }
 
-    modImplementation("dev.itsmeow.imdlib:imdlib:1.16.5-dev") {
-        transitive = false
-    }
-    modImplementation("dev.itsmeow.imdlib:imdlib:1.16.5-dev:dev") {
+    modImplementation("dev.itsmeow.imdlib:imdlib:1.16.5-dev:fabric") {
         transitive = false
     }
 }

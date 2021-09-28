@@ -6,6 +6,7 @@ import dev.itsmeow.betteranimalsplus.init.ModItems;
 import net.minecraft.core.NonNullList;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.ItemLike;
 
 public class BetterAnimalsPlusModImpl {
     public static CreativeModeTab getPlatformTab() {
@@ -18,7 +19,7 @@ public class BetterAnimalsPlusModImpl {
             @Override
             public void fillItemList(NonNullList<ItemStack> toDisplay) {
                 super.fillItemList(toDisplay);
-                ModEntities.getEntities().values().forEach(cont -> toDisplay.add(new ItemStack(cont.getEggItem().get())));
+                ModEntities.getEntities().values().forEach(cont -> toDisplay.add(new ItemStack((ItemLike) cont.getEggItem().get())));
             }
         };
     }
