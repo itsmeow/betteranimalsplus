@@ -3,6 +3,7 @@ package dev.itsmeow.betteranimalsplus;
 import com.google.common.collect.ImmutableList;
 import dev.architectury.injectables.annotations.ExpectPlatform;
 import dev.itsmeow.betteranimalsplus.init.*;
+import dev.itsmeow.imdlib.IMDLib;
 import me.shedaniel.architectury.utils.PlatformExpectedError;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.CreativeModeTab;
@@ -33,6 +34,7 @@ public class BetterAnimalsPlusMod {
     );
 
     public static void init() {
+        IMDLib.setRegistry(Ref.MOD_ID);
         ModResources.Tags.Blocks.loadTags();
         ModResources.Tags.Items.loadTags();
         ModEntities.init();
