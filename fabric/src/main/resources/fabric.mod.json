@@ -29,6 +29,7 @@
     "architectury": ">=1.1.55"
   },
   "mixins": [
-    "mixin.imdlib.json"
+    "mixin.imdlib.json",
+    "mixin.betteranimalsplus.json"
   ]
 }

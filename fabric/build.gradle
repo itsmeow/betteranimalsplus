@@ -4,6 +4,8 @@ plugins {
 
 configurations {
     shadowCommon // Don't use shadow from the shadow plugin because we don't want IDEA to index this.
+    shadowModImplementation
+    modImplementation.extendsFrom shadowModImplementation
 }
 
 architectury {
@@ -31,7 +33,7 @@ dependencies {
         transitive = false
     }
 
-    modImplementation("dev.itsmeow.imdlib:imdlib:1.16.5-dev:fabric") {
+    shadowModImplementation("dev.itsmeow.imdlib:imdlib:1.16.5-dev:fabric") {
         transitive = false
     }
 }
@@ -45,14 +47,54 @@ processResources {
 }
 
 shadowJar {
-    configurations = [project.configurations.shadowCommon]
+    configurations = [project.configurations.shadowCommon, project.configurations.shadowModImplementation]
+    relocate 'dev.itsmeow.imdlib', "${rootProject.maven_group}.imdlib"
     classifier "dev-shadow"
 }
 
 remapJar {
     input.set shadowJar.archiveFile
-    dependsOn shadowJar
+    classifier "remap"
+}
+
+task fixJar(type: Jar) {
+    dependsOn remapJar
+    from remapJar.archiveFile.map { zipTree(it) }
+    manifest {
+        from {
+            zipTree(remapJar.archiveFile).find {
+                it.name == "MANIFEST.MF"
+            }
+        }
+    }
+    filesMatching("**/fabric.mod.json") {
+        filter {
+            line -> line.replaceAll('mixin.imdlib.json', 'mixin.imdlib-betteranimalsplus.json')
+        }
+    }
+    rename("mixin.imdlib.json", "mixin.imdlib-betteranimalsplus.json")
+    rename("imdlib-common-refmap.json", "imdlib-betteranimalsplus-common-refmap.json")
+    filesMatching("mixin.imdlib.json") {
+        filter {
+            line ->
+                {
+                    line = line.replaceAll('dev.itsmeow.imdlib.mixin', 'dev.itsmeow.betteranimalsplus.imdlib.mixin')
+                    line.replaceAll('imdlib-common-refmap.json', 'imdlib-betteranimalsplus-common-refmap.json')
+                }
+        }
+    }
+    filesMatching("imdlib-common-refmap.json") {
+        filter {
+            line -> line.replaceAll('dev/itsmeow/imdlib/mixin/', 'dev/itsmeow/betteranimalsplus/imdlib/mixin/')
+        }
+    }
     classifier "fabric"
+}
+
+sourcesJar.dependsOn fixJar
+
+jar {
+    classifier "dev"
     manifest {
         mainAttributes(
                 "Maven-Artifact": "${rootProject.maven_group}:${rootProject.mod_id}-${project.name}:${rootProject.version}",
@@ -67,10 +109,6 @@ remapJar {
                 "Built-On": "${rootProject.mc_version}-${rootProject.forge_version}"
         )
     }
-}
-
-jar {
-    classifier "dev"
 }
 
 sourcesJar {

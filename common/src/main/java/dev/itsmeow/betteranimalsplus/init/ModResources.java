@@ -1,9 +1,8 @@
 package dev.itsmeow.betteranimalsplus.init;
 
 import dev.itsmeow.betteranimalsplus.Ref;
+import me.shedaniel.architectury.hooks.TagHooks;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.BlockTags;
-import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.Tag;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
@@ -34,9 +33,7 @@ public class ModResources {
             }
 
             private static Tag.Named<Block> tag(String name) {
-                // TODO fix tags
-                return null;
-                //return BlockTags.bind(new ResourceLocation(Ref.MOD_ID, name));
+                return TagHooks.getBlockOptional(new ResourceLocation(Ref.MOD_ID, name));
             }
         }
 
@@ -49,9 +46,7 @@ public class ModResources {
             }
 
             private static Tag.Named<Item> tag(String name) {
-                // TODO fix tags
-                return null;
-                //return ItemTags.bind(new ResourceLocation(Ref.MOD_ID, name));
+                return TagHooks.getItemOptional(new ResourceLocation(Ref.MOD_ID, name));
             }
         }
     }

@@ -345,10 +345,10 @@ public class ModEntities {
             .variants(4)
             .config((holder, builder) -> {
                 builder.push("nerf_options");
-                holder.put("breed_from_kill", Boolean.class, builder.define("breed_from_kill", "Sets boars in breeding mode if they kill something", true));
-                holder.put("breed_from_crops", Boolean.class, builder.define("breed_from_crops", "Sets boars in breeding mode if they eat crops or berries", true));
-                holder.put("eat_crops", Boolean.class, builder.define("eat_crops", "Makes boars eat crops", true));
-                holder.put("target_chance", Integer.class, builder.defineInRange("target_chance", "Chance out of 100 the boar will execute targeting AI: lower number = less common attacks", 100, 0, 100));
+                holder.put("nerf_options/breed_from_kill", Boolean.class, builder.define("nerf_options.breed_from_kill", "Sets boars in breeding mode if they kill something", true));
+                holder.put("nerf_options/breed_from_crops", Boolean.class, builder.define("nerf_options.breed_from_crops", "Sets boars in breeding mode if they eat crops or berries", true));
+                holder.put("nerf_options/eat_crops", Boolean.class, builder.define("nerf_options.eat_crops", "Makes boars eat crops", true));
+                holder.put("nerf_options/target_chance", Integer.class, builder.defineInRange("nerf_options.target_chance", "Chance out of 100 the boar will execute targeting AI: lower number = less common attacks", 100, 0, 100));
                 builder.pop();
             })
             .head().itemGroup(G).mapToNames().setModel(() -> ModelBoarHead::new).done());
