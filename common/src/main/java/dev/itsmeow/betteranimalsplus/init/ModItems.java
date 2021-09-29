@@ -1,5 +1,6 @@
 package dev.itsmeow.betteranimalsplus.init;
 
+import dev.architectury.injectables.annotations.ExpectPlatform;
 import dev.itsmeow.betteranimalsplus.BetterAnimalsPlusMod;
 import dev.itsmeow.betteranimalsplus.Ref;
 import dev.itsmeow.betteranimalsplus.common.entity.projectile.EntityGoldenGooseEgg;
@@ -9,6 +10,7 @@ import dev.itsmeow.betteranimalsplus.common.entity.projectile.EntityTurkeyEgg;
 import dev.itsmeow.betteranimalsplus.common.item.*;
 import me.shedaniel.architectury.registry.DeferredRegister;
 import me.shedaniel.architectury.registry.RegistrySupplier;
+import me.shedaniel.architectury.utils.PlatformExpectedError;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.ChatFormatting;
@@ -73,9 +75,9 @@ public class ModItems {
     public static RegistrySupplier<ItemBearCape> BEAR_CAPE_BLACK = varArg("bear_cape_", "black", s -> new ItemBearCape(s, BEAR_SKIN_BLACK.get()));
     public static RegistrySupplier<ItemBearCape> BEAR_CAPE_KERMODE = varArg("bear_cape_", "kermode", s -> new ItemBearCape(s, BEAR_SKIN_KERMODE.get()));
 
-    public static final RegistrySupplier<ItemModMusicDisc> RECORD_CRAB_RAVE = r("record_crab_rave", () -> new ItemModMusicDisc(ModSoundEvents.CRAB_RAVE.get()));
+    public static RegistrySupplier<RecordItem> RECORD_CRAB_RAVE = null;//r("record_crab_rave", () -> new ItemModMusicDisc(ModSoundEvents.CRAB_RAVE::get));
 
-    public static final RegistrySupplier<ItemModMusicDisc> RECORD_WALRUS = r("record_walrus", () -> new ItemModMusicDisc(ModSoundEvents.WALRUS.get()));
+    public static RegistrySupplier<RecordItem> RECORD_WALRUS = null;//r("record_walrus", () -> new ItemModMusicDisc(ModSoundEvents.WALRUS::get));
 
     public static final RegistrySupplier<ItemThrowableCustomEgg> PHEASANT_EGG = r("pheasant_egg", () -> new ItemThrowableCustomEgg(EntityPheasantEgg::new, EntityPheasantEgg::new));
     public static final RegistrySupplier<ItemThrowableCustomEgg> TURKEY_EGG = r("turkey_egg", () -> new ItemThrowableCustomEgg(EntityTurkeyEgg::new, EntityTurkeyEgg::new));
@@ -105,23 +107,32 @@ public class ModItems {
     public static final RegistrySupplier<BlockItem> TURKEY_COOKED = rIB(ModBlocks.TURKEY_COOKED);
     public static final RegistrySupplier<BlockItem> TRILLIUM = rIB(ModBlocks.TRILLIUM);
 
-    private static RegistrySupplier<Item> r(String name) {
+    static {
+        platformStatic();
+    }
+
+    @ExpectPlatform
+    protected static void platformStatic() {
+        throw new PlatformExpectedError("platformStatic() in ModItems");
+    }
+
+    protected static RegistrySupplier<Item> r(String name) {
         return ITEMS.register(name, () -> new Item(new Item.Properties().tab(BetterAnimalsPlusMod.TAB)));
     }
 
-    private static RegistrySupplier<Item> rH(String name) {
+    protected static RegistrySupplier<Item> rH(String name) {
         return ITEMS.register(name, () -> new Item(new Item.Properties()));
     }
 
-    private static <T extends Item> RegistrySupplier<T> r(String name, Supplier<T> b) {
+    protected static <T extends Item> RegistrySupplier<T> r(String name, Supplier<T> b) {
         return ITEMS.register(name, b);
     }
 
-    private static <T extends Item> RegistrySupplier<T> varArg(String nameBase, String nameExt, Function<String, T> b) {
+    protected static <T extends Item> RegistrySupplier<T> varArg(String nameBase, String nameExt, Function<String, T> b) {
         return ITEMS.register(nameBase + nameExt, () -> b.apply(nameExt));
     }
 
-    private static RegistrySupplier<BlockItem> rIB(RegistrySupplier<? extends Block> parent) {
+    protected static RegistrySupplier<BlockItem> rIB(RegistrySupplier<? extends Block> parent) {
         return ITEMS.register(parent.getId().getPath(), () -> new BlockItem(parent.get(), new Item.Properties().tab(BetterAnimalsPlusMod.TAB)));
     }
 

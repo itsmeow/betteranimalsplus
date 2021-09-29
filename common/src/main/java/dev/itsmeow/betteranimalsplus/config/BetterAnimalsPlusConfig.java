@@ -27,6 +27,15 @@ import java.util.Map;
 
 @Mod.EventBusSubscriber(modid = Ref.MOD_ID, bus = EventBusSubscriber.Bus.MOD)*/
 public class BetterAnimalsPlusConfig {
+
+    public static void init() {
+
+    }
+
+    public static void load() {
+
+    }
+
 /*
     private static ServerEntityConfiguration SERVER_CONFIG = null;
     public static ForgeConfigSpec SERVER_CONFIG_SPEC = null;

@@ -37,10 +37,10 @@ public class BetterAnimalsPlusMod {
         IMDLib.setRegistry(Ref.MOD_ID);
         ModResources.Tags.Blocks.loadTags();
         ModResources.Tags.Items.loadTags();
+        ModSoundEvents.init();
         ModEntities.init();
         ModBlocks.init();
         ModItems.init();
-        ModSoundEvents.init();
         ModBlockEntities.init();
         ModTriggers.register();
         //ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, BetterAnimalsPlusConfig.getClientSpec());
