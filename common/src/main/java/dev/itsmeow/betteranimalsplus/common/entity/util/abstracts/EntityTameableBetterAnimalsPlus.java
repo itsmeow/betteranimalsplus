@@ -3,6 +3,7 @@ package dev.itsmeow.betteranimalsplus.common.entity.util.abstracts;
 import dev.itsmeow.imdlib.entity.EntityTypeContainer;
 import dev.itsmeow.imdlib.entity.interfaces.IContainerEntity;
 import dev.itsmeow.betteranimalsplus.common.entity.util.EntityTypeContainerBAPTameable;
+import net.minecraft.core.Registry;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.TamableAnimal;
@@ -28,7 +29,7 @@ public abstract class EntityTameableBetterAnimalsPlus extends TamableAnimal impl
         EntityTypeContainer<?> container = getContainer();
         if(container instanceof EntityTypeContainerBAPTameable<?>) {
             String[] items = ((EntityTypeContainerBAPTameable<?>) container).getTameItems();
-            String id = item.getDescriptionId();
+            String id = Registry.ITEM.getKey(item).toString();
             for(String itemsId : items) {
                 if(itemsId.startsWith("#")) {
                     // TODO test impl
