@@ -1,6 +1,5 @@
 package dev.itsmeow.betteranimalsplus.common.entity.projectile;
 
-import dev.itsmeow.betteranimalsplus.init.ModEntities;
 import dev.itsmeow.betteranimalsplus.init.ModTriggers;
 import me.shedaniel.architectury.networking.NetworkManager;
 import net.minecraft.core.particles.BlockParticleOption;
@@ -14,7 +13,6 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.ThrowableProjectile;
 import net.minecraft.world.level.Level;
@@ -24,23 +22,16 @@ import net.minecraft.world.phys.HitResult;
 
 public class EntityBadgerDirt extends ThrowableProjectile {
 
-
-    public static final EntityType<EntityBadgerDirt> DIRT_TYPE = ModEntities.H.createEntityType(EntityBadgerDirt::new, "badgerdirt", MobCategory.MISC, 64, 1, true, 1.2F, 1.2F);
-
     protected int stateId = -1;
 
     public LivingEntity thrower;
-
-    public EntityBadgerDirt(Level worldIn) {
-        super(DIRT_TYPE, worldIn);
-    }
 
     public EntityBadgerDirt(EntityType<? extends EntityBadgerDirt> entityType, Level worldIn) {
         super(entityType, worldIn);
     }
 
-    public EntityBadgerDirt(Level worldIn, LivingEntity throwerIn, int stateId) {
-        super(DIRT_TYPE, worldIn);
+    public EntityBadgerDirt(EntityType<? extends EntityBadgerDirt> entityType, Level worldIn, LivingEntity throwerIn, int stateId) {
+        super(entityType, worldIn);
         this.thrower = throwerIn;
         this.stateId = stateId;
     }

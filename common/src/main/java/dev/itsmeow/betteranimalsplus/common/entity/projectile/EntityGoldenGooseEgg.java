@@ -7,31 +7,25 @@ import net.minecraft.core.Position;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.Level;
 
 public class EntityGoldenGooseEgg extends EntityModEgg {
-    public static EntityType<EntityGoldenGooseEgg> GOLDEN_GOOSE_EGG_TYPE = ModEntities.H.createEntityType(EntityGoldenGooseEgg::new, "golden_goose_egg", MobCategory.MISC, 64, 1, true, 0.25F, 0.25F);
-
-    public EntityGoldenGooseEgg(Level world) {
-        super(GOLDEN_GOOSE_EGG_TYPE, world);
-    }
 
     public EntityGoldenGooseEgg(EntityType<? extends EntityGoldenGooseEgg> type, Level world) {
         super(type, world);
     }
 
-    public EntityGoldenGooseEgg(Level world, LivingEntity thrower) {
-        super(GOLDEN_GOOSE_EGG_TYPE, world, thrower);
+    public EntityGoldenGooseEgg(EntityType<? extends EntityGoldenGooseEgg> type,Level world, LivingEntity thrower) {
+        super(type, world, thrower);
     }
 
-    public EntityGoldenGooseEgg(Level world, double x, double y, double z) {
-        super(GOLDEN_GOOSE_EGG_TYPE, world, x, y, z);
+    public EntityGoldenGooseEgg(EntityType<? extends EntityGoldenGooseEgg> type,Level world, double x, double y, double z) {
+        super(type, world, x, y, z);
     }
 
-    public EntityGoldenGooseEgg(Level worldIn, Position pos) {
-        super(GOLDEN_GOOSE_EGG_TYPE, worldIn, pos.x(), pos.y(), pos.z());
+    public EntityGoldenGooseEgg(EntityType<? extends EntityGoldenGooseEgg> type,Level worldIn, Position pos) {
+        super(type, worldIn, pos.x(), pos.y(), pos.z());
     }
 
     @Override

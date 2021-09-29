@@ -79,10 +79,10 @@ public class ModItems {
 
     public static RegistrySupplier<RecordItem> RECORD_WALRUS = null;//r("record_walrus", () -> new ItemModMusicDisc(ModSoundEvents.WALRUS::get));
 
-    public static final RegistrySupplier<ItemThrowableCustomEgg> PHEASANT_EGG = r("pheasant_egg", () -> new ItemThrowableCustomEgg(EntityPheasantEgg::new, EntityPheasantEgg::new));
-    public static final RegistrySupplier<ItemThrowableCustomEgg> TURKEY_EGG = r("turkey_egg", () -> new ItemThrowableCustomEgg(EntityTurkeyEgg::new, EntityTurkeyEgg::new));
-    public static final RegistrySupplier<ItemThrowableCustomEgg> GOOSE_EGG = r("goose_egg", () -> new ItemThrowableCustomEgg(EntityGooseEgg::new, EntityGooseEgg::new));
-    public static final RegistrySupplier<ItemThrowableCustomEgg> GOLDEN_GOOSE_EGG = r("golden_goose_egg", () -> new ItemThrowableCustomEgg(EntityGoldenGooseEgg::new, EntityGoldenGooseEgg::new) {
+    public static final RegistrySupplier<ItemThrowableCustomEgg<EntityPheasantEgg>> PHEASANT_EGG = r("pheasant_egg", () -> new ItemThrowableCustomEgg(ModEntities.PROJECTILE_PHEASANT_EGG::get, EntityPheasantEgg::new, EntityPheasantEgg::new));
+    public static final RegistrySupplier<ItemThrowableCustomEgg<EntityTurkeyEgg>> TURKEY_EGG = r("turkey_egg", () -> new ItemThrowableCustomEgg(ModEntities.PROJECTILE_TURKEY_EGG::get, EntityTurkeyEgg::new, EntityTurkeyEgg::new));
+    public static final RegistrySupplier<ItemThrowableCustomEgg<EntityGooseEgg>> GOOSE_EGG = r("goose_egg", () -> new ItemThrowableCustomEgg(ModEntities.PROJECTILE_GOOSE_EGG::get, EntityGooseEgg::new, EntityGooseEgg::new));
+    public static final RegistrySupplier<ItemThrowableCustomEgg<EntityGoldenGooseEgg>> GOLDEN_GOOSE_EGG = r("golden_goose_egg", () -> new ItemThrowableCustomEgg(ModEntities.PROJECTILE_GOLDEN_GOOSE_EGG::get, EntityGoldenGooseEgg::new, EntityGoldenGooseEgg::new) {
         @Environment(EnvType.CLIENT)
         @Override
         public void appendHoverText(ItemStack stack, Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {

@@ -47,7 +47,7 @@ public class EntityTarantula extends Spider implements RangedAttackMob, IContain
 
     @Override
     public void performRangedAttack(LivingEntity target, float distanceFactor) {
-        EntityTarantulaHair entityhair = new EntityTarantulaHair(this.level, this);
+        EntityTarantulaHair entityhair = new EntityTarantulaHair(ModEntities.PROJECTILE_TARANTULA_HAIR.get(), this.level, this);
         entityhair.moveTo(this.getX(), this.getY() + 1, this.getZ(), 0, 0);
         double d0 = target.getY() + target.getEyeHeight() - 1.100000023841858D;
         double d1 = target.getX() - this.getX();

@@ -124,7 +124,7 @@ public class EntityBadger extends EntityAnimalWithSelectiveTypes implements Enem
 			tick++;
 			LivingEntity t = badger.getTarget();
 			if(tick % 15 == 0) { // Throw dirt every second (20 ticks)
-				EntityBadgerDirt proj = new EntityBadgerDirt(badger.level, badger, stateId);
+				EntityBadgerDirt proj = new EntityBadgerDirt(ModEntities.PROJECTILE_BADGER_DIRT.get(), badger.level, badger, stateId);
 				proj.moveTo(badger.getX(), badger.getY() + 1, badger.getZ(), 0, 0);
 				double d0 = t.getY() + t.getEyeHeight() - 1.100000023841858D;
 				double d1 = t.getX() - badger.getX();

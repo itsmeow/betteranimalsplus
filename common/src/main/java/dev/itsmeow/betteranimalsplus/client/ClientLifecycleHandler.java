@@ -11,7 +11,6 @@ import dev.itsmeow.betteranimalsplus.client.renderer.entity.RenderTarantulaHair;
 import dev.itsmeow.betteranimalsplus.client.renderer.entity.layers.GooseItemLayerRenderer;
 import dev.itsmeow.betteranimalsplus.client.renderer.entity.layers.LayerEyes;
 import dev.itsmeow.betteranimalsplus.client.renderer.entity.layers.LayerEyesCondition;
-import dev.itsmeow.betteranimalsplus.common.entity.projectile.*;
 import dev.itsmeow.betteranimalsplus.init.ModBlockEntities;
 import dev.itsmeow.betteranimalsplus.init.ModEntities;
 import dev.itsmeow.betteranimalsplus.init.ModResources;
@@ -38,7 +37,7 @@ public class ClientLifecycleHandler {
         R.addRender(ModEntities.LAMMERGEIER.getEntityType(), 0.3F, r -> r.tVariant().mSingle(new ModelLammergeier<>()));
         R.addRender(ModEntities.FERAL_WOLF.getEntityType(), 0.5F, r -> r.tVariant().mSingle(new ModelFeralWolf<>()).handleRotation((e, p) -> e.getTailRotation()).childScale(0.5F).layer(t -> new LayerEyesCondition<>(t, ModResources.wolf_eyes, e -> !e.isTame())));
         R.addRender(ModEntities.COYOTE.getEntityType(), 0.5F, r -> r.tMapped(e -> e.isTame() || (e.isDaytime() && !e.isHostileDaytime()) ? "coyote_neutral" : "coyote_hostile").mSingle(new ModelCoyote<>()).handleRotation((e, p) -> e.getTailRotation()).childScale(0.5F).layer(t -> new LayerEyesCondition<>(t, ModResources.coyote_eyes, e -> !e.isTame() && !(e.isDaytime() && !e.isHostileDaytime()))));
-        RenderFactory.addRender(EntityTarantulaHair.HAIR_TYPE, RenderTarantulaHair::new);
+        RenderFactory.addRender(ModEntities.PROJECTILE_TARANTULA_HAIR.get(), RenderTarantulaHair::new);
         R.addRender(ModEntities.TARANTULA.getEntityType(), 1F, r -> r.tSingle("tarantula").mSingle(new ModelTarantula<>()).preRender((e, s, p) -> {
             if(e.isClimbing()) {
                 s.mulPose(Vector3f.XP.rotationDegrees(-90F));
@@ -128,17 +127,17 @@ public class ClientLifecycleHandler {
             }
         }));
         R.addRender(ModEntities.MOOSE.getEntityType(), 0.8F, r -> r.tVariant().mSingle(new ModelMoose<>()).simpleScale(e -> 1.5F));
-        RenderFactory.addRender(EntityPheasantEgg.PHEASANT_EGG_TYPE, RenderFactory.sprite());
+        RenderFactory.addRender(ModEntities.PROJECTILE_PHEASANT_EGG.get(), RenderFactory.sprite());
         R.addRender(ModEntities.TURKEY.getEntityType(), 0.5F, r -> r.tBabyVariant("turkey_baby").mSingle(new ModelTurkey<>()).ageScale(0.8F, 0.5F).handleRotation((e, p) -> {
             float f = e.oFlap + (e.wingRotation - e.oFlap) * p;
             float f1 = e.oFlapSpeed + (e.destPos - e.oFlapSpeed) * p;
             return (Mth.sin(f) + 1.0F) * f1;
         }));
-        RenderFactory.addRender(EntityTurkeyEgg.TURKEY_EGG_TYPE, RenderFactory.sprite());
+        RenderFactory.addRender(ModEntities.PROJECTILE_TURKEY_EGG.get(), RenderFactory.sprite());
         R.addRender(ModEntities.BOBBIT_WORM.getEntityType(), 0.4F, r -> r.tVariant().mSingle(new ModelBobbitWorm<>()));
         R.addRender(ModEntities.GOOSE.getEntityType(), 0.5F, r -> r.tBabyVariant("goose_baby").mSingle(new ModelGoose<>()).ageScale(0.8F, 0.5F).layer(GooseItemLayerRenderer::new));
-        RenderFactory.addRender(EntityGooseEgg.GOOSE_EGG_TYPE, RenderFactory.sprite());
-        RenderFactory.addRender(EntityGoldenGooseEgg.GOLDEN_GOOSE_EGG_TYPE, RenderFactory.sprite());
+        RenderFactory.addRender(ModEntities.PROJECTILE_GOOSE_EGG.get(), RenderFactory.sprite());
+        RenderFactory.addRender(ModEntities.PROJECTILE_GOLDEN_GOOSE_EGG.get(), RenderFactory.sprite());
         R.addRender(ModEntities.EEL_FRESHWATER.getEntityType(), 0.4F, r -> r.tVariant().mSingle(new ModelFreshwaterEel<>()));
         R.addRender(ModEntities.EEL_SALTWATER.getEntityType(), 0.4F, r -> r.tVariant().mSingle(new ModelSaltwaterEel<>()));
         R.addRender(ModEntities.WHALE.getEntityType(), 3F, r -> r.tVariant().mCondition(e -> !"cuviers".equals(e.getVariantNameOrEmpty()) && !"bottlenose".equals(e.getVariantNameOrEmpty()), new ModelSmallWhale<>(), new ModelBeakedWhale<>()).preRender((e, s, p) -> {
@@ -200,7 +199,7 @@ public class ClientLifecycleHandler {
             }
             // s.translate(0.0F, -1.2F, 0.0F);
         }));
-        RenderFactory.addRender(EntityBadgerDirt.DIRT_TYPE, RenderFactory.nothing());
+        RenderFactory.addRender(ModEntities.PROJECTILE_BADGER_DIRT.get(), RenderFactory.nothing());
         BetterAnimalsPlusMod.logger.info("Rendering squirrel physics...");
     }
 

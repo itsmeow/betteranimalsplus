@@ -16,20 +16,14 @@ import net.minecraft.world.phys.HitResult;
 
 public class EntityTarantulaHair extends ThrowableProjectile {
 
-    public static EntityType<EntityTarantulaHair> HAIR_TYPE = ModEntities.H.createEntityType(EntityTarantulaHair::new, "tarantulahair", MobCategory.MISC, 64, 1, true, 0.5F, 0.5F);
-
     public LivingEntity thrower;
-
-    public EntityTarantulaHair(Level worldIn) {
-        super(EntityTarantulaHair.HAIR_TYPE, worldIn);
-    }
 
     public EntityTarantulaHair(EntityType<? extends EntityTarantulaHair> entityType, Level worldIn) {
         super(entityType, worldIn);
     }
 
-    public EntityTarantulaHair(Level worldIn, LivingEntity throwerIn) {
-        super(EntityTarantulaHair.HAIR_TYPE, worldIn);
+    public EntityTarantulaHair(EntityType<? extends EntityTarantulaHair> entityType, Level worldIn, LivingEntity throwerIn) {
+        super(entityType, worldIn);
         this.thrower = throwerIn;
     }
 

@@ -5,23 +5,30 @@ import dev.itsmeow.betteranimalsplus.BetterAnimalsPlusMod;
 import dev.itsmeow.betteranimalsplus.Ref;
 import dev.itsmeow.betteranimalsplus.client.model.*;
 import dev.itsmeow.betteranimalsplus.common.entity.*;
+import dev.itsmeow.betteranimalsplus.common.entity.projectile.*;
 import dev.itsmeow.betteranimalsplus.common.entity.util.EntityTypeContainerBAPTameable;
 import dev.itsmeow.betteranimalsplus.common.entity.util.abstracts.EntityBAPSquid;
 import dev.itsmeow.betteranimalsplus.common.entity.util.abstracts.EntityCrabLikeBase;
 import dev.itsmeow.betteranimalsplus.util.EntityRegistrarHandlerBAP;
 import dev.itsmeow.betteranimalsplus.util.OceanBiomeHelper;
+import dev.itsmeow.imdlib.IMDLib;
 import dev.itsmeow.imdlib.entity.EntityTypeContainer;
 import dev.itsmeow.imdlib.entity.util.BiomeTypes;
 import dev.itsmeow.imdlib.entity.util.EntityTypeContainerContainable;
 import dev.itsmeow.imdlib.entity.util.variant.EntityVariant;
 import dev.itsmeow.imdlib.item.ItemModEntityContainer;
 import dev.itsmeow.imdlib.item.ItemModFishBucket;
+import me.shedaniel.architectury.registry.RegistrySupplier;
+import net.minecraft.core.Registry;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.SpawnPlacements;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.monster.Spider;
+import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.biome.Biomes;
@@ -492,8 +499,18 @@ public class ModEntities {
         return H.ENTITIES;
     }
 
+    public static final RegistrySupplier<EntityType<EntityBadgerDirt>> PROJECTILE_BADGER_DIRT = projectile(EntityBadgerDirt::new, "badgerdirt", 1.2F, 1.2F);
+    public static final RegistrySupplier<EntityType<EntityGoldenGooseEgg>> PROJECTILE_GOLDEN_GOOSE_EGG = projectile(EntityGoldenGooseEgg::new, "golden_goose_egg", 0.25F, 0.25F);
+    public static final RegistrySupplier<EntityType<EntityGooseEgg>> PROJECTILE_GOOSE_EGG = projectile(EntityGooseEgg::new, "goose_egg", 0.25F, 0.25F);
+    public static final RegistrySupplier<EntityType<EntityPheasantEgg>> PROJECTILE_PHEASANT_EGG = projectile(EntityPheasantEgg::new, "pheasant_egg", 0.25F, 0.25F);
+    public static final RegistrySupplier<EntityType<EntityTurkeyEgg>> PROJECTILE_TURKEY_EGG = projectile(EntityTurkeyEgg::new, "turkey_egg", 0.25F, 0.25F);
+    public static final RegistrySupplier<EntityType<EntityTarantulaHair>> PROJECTILE_TARANTULA_HAIR = projectile(EntityTarantulaHair::new, "tarantulahair", 0.5F, 0.5F);
+
     public static void init() {
         H.init();
     }
 
+    private static <T extends Projectile> RegistrySupplier<EntityType<T>> projectile(EntityType.EntityFactory<T> factory, String name, float width, float height) {
+        return IMDLib.getRegistry(Registry.ENTITY_TYPE_REGISTRY).registerSupplied(new ResourceLocation(MODID, name), () -> H.createEntityType(factory, name, MobCategory.MISC, 64, 1, true, width, height));
+    }
 }
