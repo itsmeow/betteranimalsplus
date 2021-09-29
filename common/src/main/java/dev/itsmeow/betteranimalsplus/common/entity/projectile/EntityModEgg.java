@@ -1,10 +1,12 @@
 package dev.itsmeow.betteranimalsplus.common.entity.projectile;
 
+import me.shedaniel.architectury.networking.NetworkManager;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.core.Position;
 import net.minecraft.core.particles.ItemParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.network.protocol.Packet;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -15,7 +17,7 @@ import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 
 public abstract class EntityModEgg extends ThrowableItemProjectile {
-    
+
     public EntityModEgg(EntityType<? extends EntityModEgg> type, Level world) {
         super(type, world);
     }
@@ -27,7 +29,7 @@ public abstract class EntityModEgg extends ThrowableItemProjectile {
     public EntityModEgg(EntityType<? extends EntityModEgg> type, Level worldIn, double x, double y, double z) {
         super(type, x, y, z, worldIn);
     }
-    
+
     public EntityModEgg(EntityType<? extends EntityModEgg> type, Level worldIn, Position pos) {
         this(type, worldIn, pos.x(), pos.y(), pos.z());
     }
@@ -40,7 +42,6 @@ public abstract class EntityModEgg extends ThrowableItemProjectile {
                 this.level.addParticle(new ItemParticleOption(ParticleTypes.ITEM, this.getItem()), this.getX(), this.getY(), this.getZ(), ((double) this.random.nextFloat() - 0.5D) * 0.08D, ((double) this.random.nextFloat() - 0.5D) * 0.08D, ((double) this.random.nextFloat() - 0.5D) * 0.08D);
             }
         }
-
     }
 
     @Override
@@ -66,7 +67,12 @@ public abstract class EntityModEgg extends ThrowableItemProjectile {
         }
 
     }
-    
+
+    @Override
+    public Packet<?> getAddEntityPacket() {
+        return NetworkManager.createAddEntityPacket(this);
+    }
+
     protected abstract Entity createEntity();
 
 }

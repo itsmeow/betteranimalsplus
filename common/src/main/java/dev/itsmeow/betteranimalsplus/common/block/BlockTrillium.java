@@ -1,6 +1,6 @@
 package dev.itsmeow.betteranimalsplus.common.block;
 
-import dev.itsmeow.betteranimalsplus.common.blockentity.BlockEntityTrillium;
+import dev.itsmeow.betteranimalsplus.init.ModBlockEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -15,7 +15,7 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
-public class BlockTrillium extends BushBlock {
+public class BlockTrillium extends BushBlock implements EntityBlock {
 
     private static final VoxelShape SHAPE = Shapes.box(0.15F, 0.0F, 0.15F, 0.85F, 0.9F, 0.85F);
 
@@ -59,15 +59,7 @@ public class BlockTrillium extends BushBlock {
         return RenderShape.ENTITYBLOCK_ANIMATED;
     }
 
-    // TODO block entities relation
-
-    /*@Override
-    public boolean hasTileEntity(BlockState state) {
-        return true;
+    public BlockEntity newBlockEntity(BlockGetter blockGetter) {
+        return ModBlockEntities.TRILLIUM_TYPE.get().create();
     }
-
-    @Override
-    public BlockEntity createTileEntity(BlockState state, BlockGetter world) {
-        return new BlockEntityTrillium();
-    }*/
 }
