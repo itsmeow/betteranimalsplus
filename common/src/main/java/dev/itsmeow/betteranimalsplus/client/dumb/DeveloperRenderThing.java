@@ -2,6 +2,7 @@ package dev.itsmeow.betteranimalsplus.client.dumb;
 
 //@Mod.EventBusSubscriber(modid = Ref.MOD_ID, value = Dist.CLIENT)
 public class DeveloperRenderThing {
+    // TODO render goose
 /*
     private static StupidRender RENDER_INSTANCE;
     private static int timeSinceLastPacket = 0;

@@ -1,18 +1,15 @@
 package dev.itsmeow.betteranimalsplus.network;
 
 import com.google.common.base.Charsets;
-
+import dev.itsmeow.betteranimalsplus.BetterAnimalsPlusMod;
 import dev.itsmeow.betteranimalsplus.client.dumb.SafeSyncThing;
+import me.shedaniel.architectury.networking.NetworkManager;
+import me.shedaniel.architectury.utils.Env;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.server.level.ServerPlayer;
 
 import java.util.UUID;
-/*
-import dev.itsmeow.betteranimalsplus.BetterAnimalsPlusMod;
-import net.minecraftforge.fml.network.NetworkDirection;
-import net.minecraftforge.fml.network.NetworkEvent;
-import net.minecraftforge.fml.network.PacketDistributor;
-
-import java.util.function.Supplier;*/
+import java.util.function.Supplier;
 
 public class StupidDevPacket {
 
@@ -70,28 +67,27 @@ public class StupidDevPacket {
     }
 
     public static class Handler {
-        /*public static void handle(StupidDevPacket msg, Supplier<NetworkEvent.Context> ctx) {
+        public static void handle(StupidDevPacket msg, Supplier<NetworkManager.PacketContext> ctx) {
             // from server
-            if (ctx.get().getDirection() == NetworkDirection.PLAY_TO_CLIENT) {
-                ctx.get().enqueueWork(() -> {
+            if (ctx.get().getEnvironment() == Env.CLIENT) {
+                ctx.get().queue(() -> {
                     SafeSyncThing.put(msg.appliesTo, msg);
                 });
             }
             // from client
-            if (ctx.get().getDirection() == NetworkDirection.PLAY_TO_SERVER) {
-                ctx.get().enqueueWork(() -> {
-                    if (BetterAnimalsPlusMod.isDev(ctx.get().getSender())) {
-                        SafeSyncThing.put(ctx.get().getSender().getGameProfile().getId(), msg);
-                        msg.appliesTo = ctx.get().getSender().getGameProfile().getId();
-                        for (ServerPlayerEntity player : ctx.get().getSender().getServer().getPlayerList().getPlayers()) {
-                            if (player != ctx.get().getSender()) {
-                                BetterAnimalsPlusMod.HANDLER.send(PacketDistributor.PLAYER.with(() -> player), msg);
+            if (ctx.get().getEnvironment() == Env.SERVER) {
+                ctx.get().queue(() -> {
+                    if (BetterAnimalsPlusMod.isDev(ctx.get().getPlayer())) {
+                        SafeSyncThing.put(ctx.get().getPlayer().getGameProfile().getId(), msg);
+                        msg.appliesTo = ctx.get().getPlayer().getGameProfile().getId();
+                        for (ServerPlayer player : ctx.get().getPlayer().getServer().getPlayerList().getPlayers()) {
+                            if (player != ctx.get().getPlayer()) {
+                                BetterAnimalsPlusMod.HANDLER.sendToPlayer(player, msg);
                             }
                         }
                     }
                 });
             }
-            ctx.get().setPacketHandled(true);
-        }*/
+        }
     }
 }

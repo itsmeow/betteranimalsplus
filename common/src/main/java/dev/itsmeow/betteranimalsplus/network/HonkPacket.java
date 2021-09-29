@@ -1,14 +1,14 @@
 package dev.itsmeow.betteranimalsplus.network;
 
-/*import dev.itsmeow.betteranimalsplus.BetterAnimalsPlusMod;
+import dev.itsmeow.betteranimalsplus.BetterAnimalsPlusMod;
 import dev.itsmeow.betteranimalsplus.client.dumb.SafeSyncThing;
 import dev.itsmeow.betteranimalsplus.init.ModSoundEvents;
-import net.minecraftforge.fml.network.NetworkDirection;
-import net.minecraftforge.fml.network.NetworkEvent;
-
-import java.util.function.Supplier;*/
-
+import me.shedaniel.architectury.networking.NetworkManager;
+import me.shedaniel.architectury.utils.Env;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.sounds.SoundSource;
+
+import java.util.function.Supplier;
 
 public class HonkPacket {
 
@@ -21,17 +21,16 @@ public class HonkPacket {
     }
 
     public static class Handler {
-        /*public static void handle(HonkPacket msg, Supplier<NetworkEvent.Context> ctx) {
+        public static void handle(HonkPacket msg, Supplier<NetworkManager.PacketContext> ctx) {
             // from client
-            if (ctx.get().getDirection() == NetworkDirection.PLAY_TO_SERVER) {
-                ctx.get().enqueueWork(() -> {
-                    if (BetterAnimalsPlusMod.isDev(ctx.get().getSender()) && SafeSyncThing.get(ctx.get().getSender().getGameProfile().getId()).on) {
-                        ctx.get().getSender().world.playSound(null, ctx.get().getSender().getPosition(), ModSoundEvents.GOOSE_AMBIENT.get(), SoundCategory.PLAYERS, 2F, 1F);
+            if (ctx.get().getEnvironment() == Env.SERVER) {
+                ctx.get().queue(() -> {
+                    if (BetterAnimalsPlusMod.isDev(ctx.get().getPlayer()) && SafeSyncThing.get(ctx.get().getPlayer().getGameProfile().getId()).on) {
+                        ctx.get().getPlayer().level.playSound(null, ctx.get().getPlayer().blockPosition(), ModSoundEvents.GOOSE_AMBIENT.get(), SoundSource.PLAYERS, 2F, 1F);
                     }
                 });
             }
-            ctx.get().setPacketHandled(true);
-        }*/
+        }
     }
 
 }

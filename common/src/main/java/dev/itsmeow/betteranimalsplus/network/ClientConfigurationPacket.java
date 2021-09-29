@@ -1,28 +1,20 @@
 package dev.itsmeow.betteranimalsplus.network;
 
-import net.minecraft.network.FriendlyByteBuf;
-
-import java.util.HashMap;
-
-/*
 import com.google.common.base.Charsets;
-import dev.itsmeow.imdlib.entity.EntityTypeContainer;
 import dev.itsmeow.betteranimalsplus.common.entity.util.EntityTypeContainerBAPTameable;
 import dev.itsmeow.betteranimalsplus.init.ModEntities;
+import dev.itsmeow.imdlib.entity.EntityTypeContainer;
+import me.shedaniel.architectury.networking.NetworkManager;
+import me.shedaniel.architectury.utils.Env;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraftforge.fml.network.NetworkDirection;
-import net.minecraftforge.fml.network.NetworkEvent;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Supplier;
-*/
-public class ClientConfigurationPacket {
-/*
-    public Map<String, String[]> tameItems = new HashMap<>();
 
-    public ClientConfigurationPacket() {
-    }
+public class ClientConfigurationPacket {
+
+    public Map<String, String[]> tameItems;
 
     public ClientConfigurationPacket(Map<String, String[]> tameItems) {
         this.tameItems = tameItems;
@@ -64,9 +56,9 @@ public class ClientConfigurationPacket {
     }
 
     public static class Handler {
-        public static void handle(ClientConfigurationPacket msg, Supplier<NetworkEvent.Context> ctx) {
-            if (ctx.get().getDirection() == NetworkDirection.PLAY_TO_CLIENT) {
-                ctx.get().enqueueWork(() -> {
+        public static void handle(ClientConfigurationPacket msg, Supplier<NetworkManager.PacketContext> ctx) {
+            if (ctx.get().getEnvironment() == Env.CLIENT) {
+                ctx.get().queue(() -> {
                     for (String key : msg.tameItems.keySet()) {
                         String[] items = msg.tameItems.get(key);
                         EntityTypeContainer<?> container = ModEntities.H.getEntityTypeContainer(key);
@@ -77,8 +69,7 @@ public class ClientConfigurationPacket {
                     }
                 });
             }
-            ctx.get().setPacketHandled(true);
         }
     }
-*/
+
 }
