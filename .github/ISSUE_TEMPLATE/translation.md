@@ -4,8 +4,8 @@ about: Suggest a translation to a language
 
 ---
 
-**Language:**
+## Language
 
-**Are you able to translate to this language?**
+## Are you able to translate to this language?
 
-**If not, do you know anyone that speaks this language?**
+## If not, do you know anyone that is able to?
