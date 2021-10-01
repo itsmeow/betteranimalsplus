@@ -17,17 +17,22 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.core.Registry;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 
 import java.util.List;
+import java.util.Map;
+import java.util.WeakHashMap;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
 public class ModItems {
 
     private static final DeferredRegister<Item> ITEMS = DeferredRegister.create(Ref.MOD_ID, Registry.ITEM_REGISTRY);
+
+    private static final Map<ResourceLocation, RegistrySupplier<? extends ItemModeledArmor>> MODELED_ARMOR = new WeakHashMap<>();
 
     public static final RegistrySupplier<Item> ADVANCEMENT_ICON_JELLYFISH = rH("advancement_icon_jellyfish");
     public static final RegistrySupplier<Item> ADVANCEMENT_ICON_JELLYFISH_CROSS = rH("advancement_icon_jellyfish_cross");
@@ -59,21 +64,21 @@ public class ModItems {
     public static final RegistrySupplier<Item> WOLF_PELT_BROWN = r("wolf_pelt_brown");
     public static final RegistrySupplier<Item> WOLF_PELT_RED = r("wolf_pelt_red");
 
-    public static final RegistrySupplier<ItemWolfCape> WOLF_CAPE_CLASSIC = varArg("wolf_cape_", "classic", s -> new ItemWolfCape(s, WOLF_PELT_SNOWY.get()));
-    public static final RegistrySupplier<ItemWolfCape> WOLF_CAPE_TIMBER = varArg("wolf_cape_", "timber", s -> new ItemWolfCape(s, WOLF_PELT_TIMBER.get()));
-    public static final RegistrySupplier<ItemWolfCape> WOLF_CAPE_BLACK = varArg("wolf_cape_", "black", s -> new ItemWolfCape(s, WOLF_PELT_BLACK.get()));
+    public static final RegistrySupplier<ItemWolfCape> WOLF_CAPE_CLASSIC = modelArmor(varArg("wolf_cape_", "classic", s -> new ItemWolfCape(s, WOLF_PELT_SNOWY.get())));
+    public static final RegistrySupplier<ItemWolfCape> WOLF_CAPE_TIMBER = modelArmor(varArg("wolf_cape_", "timber", s -> new ItemWolfCape(s, WOLF_PELT_TIMBER.get())));
+    public static final RegistrySupplier<ItemWolfCape> WOLF_CAPE_BLACK = modelArmor(varArg("wolf_cape_", "black", s -> new ItemWolfCape(s, WOLF_PELT_BLACK.get())));
 
-    public static final RegistrySupplier<ItemWolfCape> WOLF_CAPE_ARCTIC = varArg("wolf_cape_", "arctic", s -> new ItemWolfCape(s, WOLF_PELT_ARCTIC.get()));
-    public static final RegistrySupplier<ItemWolfCape> WOLF_CAPE_BROWN = varArg("wolf_cape_", "brown", s -> new ItemWolfCape(s, WOLF_PELT_BROWN.get()));
-    public static final RegistrySupplier<ItemWolfCape> WOLF_CAPE_RED = varArg("wolf_cape_", "red", s -> new ItemWolfCape(s, WOLF_PELT_RED.get()));
+    public static final RegistrySupplier<ItemWolfCape> WOLF_CAPE_ARCTIC = modelArmor(varArg("wolf_cape_", "arctic", s -> new ItemWolfCape(s, WOLF_PELT_ARCTIC.get())));
+    public static final RegistrySupplier<ItemWolfCape> WOLF_CAPE_BROWN = modelArmor(varArg("wolf_cape_", "brown", s -> new ItemWolfCape(s, WOLF_PELT_BROWN.get())));
+    public static final RegistrySupplier<ItemWolfCape> WOLF_CAPE_RED = modelArmor(varArg("wolf_cape_", "red", s -> new ItemWolfCape(s, WOLF_PELT_RED.get())));
 
     public static final RegistrySupplier<Item> BEAR_SKIN_BROWN = r("bear_skin_brown");
     public static final RegistrySupplier<Item> BEAR_SKIN_BLACK = r("bear_skin_black");
     public static final RegistrySupplier<Item> BEAR_SKIN_KERMODE = r("bear_skin_kermode");
 
-    public static RegistrySupplier<ItemBearCape> BEAR_CAPE_BROWN = varArg("bear_cape_", "brown", s -> new ItemBearCape(s, BEAR_SKIN_BROWN.get()));
-    public static RegistrySupplier<ItemBearCape> BEAR_CAPE_BLACK = varArg("bear_cape_", "black", s -> new ItemBearCape(s, BEAR_SKIN_BLACK.get()));
-    public static RegistrySupplier<ItemBearCape> BEAR_CAPE_KERMODE = varArg("bear_cape_", "kermode", s -> new ItemBearCape(s, BEAR_SKIN_KERMODE.get()));
+    public static RegistrySupplier<ItemBearCape> BEAR_CAPE_BROWN = modelArmor(varArg("bear_cape_", "brown", s -> new ItemBearCape(s, BEAR_SKIN_BROWN.get())));
+    public static RegistrySupplier<ItemBearCape> BEAR_CAPE_BLACK = modelArmor(varArg("bear_cape_", "black", s -> new ItemBearCape(s, BEAR_SKIN_BLACK.get())));
+    public static RegistrySupplier<ItemBearCape> BEAR_CAPE_KERMODE = modelArmor(varArg("bear_cape_", "kermode", s -> new ItemBearCape(s, BEAR_SKIN_KERMODE.get())));
 
     public static RegistrySupplier<RecordItem> RECORD_CRAB_RAVE = null;//r("record_crab_rave", () -> new ItemModMusicDisc(ModSoundEvents.CRAB_RAVE::get));
 
@@ -134,6 +139,15 @@ public class ModItems {
 
     protected static RegistrySupplier<BlockItem> rIB(RegistrySupplier<? extends Block> parent) {
         return ITEMS.register(parent.getId().getPath(), () -> new BlockItem(parent.get(), new Item.Properties().tab(BetterAnimalsPlusMod.TAB)));
+    }
+
+    protected static <T extends ItemModeledArmor> RegistrySupplier<T> modelArmor(RegistrySupplier<T> armor) {
+        MODELED_ARMOR.put(armor.getId(), armor);
+        return armor;
+    }
+
+    public static Map<ResourceLocation, RegistrySupplier<? extends ItemModeledArmor>> getModeledArmor() {
+        return MODELED_ARMOR;
     }
 
     public static void init() {

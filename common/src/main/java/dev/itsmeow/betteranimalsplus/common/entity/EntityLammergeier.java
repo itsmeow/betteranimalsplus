@@ -8,6 +8,7 @@ import dev.itsmeow.betteranimalsplus.common.entity.util.abstracts.EntityTameable
 import dev.itsmeow.betteranimalsplus.common.entity.util.abstracts.EntityTameableWithTypes;
 import dev.itsmeow.betteranimalsplus.init.ModEntities;
 import dev.itsmeow.betteranimalsplus.init.ModLootTables;
+import dev.itsmeow.betteranimalsplus.util.ModPlatformEvents;
 import dev.itsmeow.imdlib.entity.interfaces.IVariantTypes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
@@ -213,8 +214,7 @@ public class EntityLammergeier extends EntityTameableFlyingWithTypes implements 
             }
 
             if(!this.level.isClientSide) {
-                // TODO tame event
-                //if(!net.minecraftforge.event.ForgeEventFactory.onAnimalTame(this, player)) {
+                if(!ModPlatformEvents.tame(this, player)) {
                     this.tame(player);
                     // this.setOwnerId(player.getUniqueID());
                     this.navigation.stop();
@@ -224,9 +224,9 @@ public class EntityLammergeier extends EntityTameableFlyingWithTypes implements 
                     this.setOrderedToSit(true);
                     this.setHealth(20.0F);
                     this.level.broadcastEntityEvent(this, (byte) 7);
-                /*} else {
+                } else {
                     this.level.broadcastEntityEvent(this, (byte) 6);
-                }*/
+                }
             }
 
             return InteractionResult.SUCCESS;

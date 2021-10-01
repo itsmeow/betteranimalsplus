@@ -12,6 +12,7 @@ import dev.itsmeow.betteranimalsplus.common.entity.util.abstracts.EntityTameable
 import dev.itsmeow.betteranimalsplus.init.ModEntities;
 import dev.itsmeow.betteranimalsplus.init.ModItems;
 import dev.itsmeow.betteranimalsplus.init.ModResources;
+import dev.itsmeow.betteranimalsplus.util.ModPlatformEvents;
 import dev.itsmeow.imdlib.entity.util.BiomeTypes;
 import dev.itsmeow.imdlib.entity.util.variant.EntityVariant;
 import dev.itsmeow.imdlib.entity.util.variant.IVariant;
@@ -252,7 +253,7 @@ public class EntityFeralWolf extends EntityTameableWithSelectiveTypes implements
                     itemstack.shrink(1);
                 }
                 if(!this.level.isClientSide) {
-                    if(this.random.nextInt(100) <= 14) {// TODO tame event && !ForgeEventFactory.onAnimalTame(this, player)) {
+                    if(this.random.nextInt(100) <= 14 && !ModPlatformEvents.tame(this, player)) {
                         this.tame(player);
                         this.navigation.stop();
                         this.setTarget(null);

@@ -1,13 +1,14 @@
 package dev.itsmeow.betteranimalsplus.common.entity.ai;
 
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.state.predicate.BlockStatePredicate;
+import dev.itsmeow.betteranimalsplus.util.ModPlatformEvents;
+import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.goal.Goal;
-import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.predicate.BlockStatePredicate;
 
 import java.util.EnumSet;
 import java.util.function.Function;
@@ -72,19 +73,17 @@ public class EntityAIEatGrassCustom extends Goal {
         if(this.eatingGrassTimer == 4) {
             BlockPos blockpos = this.getPosition.apply(eater);
             if(IS_GRASS.test(this.world.getBlockState(blockpos))) {
-                // TODO mob grief event
-                //if(net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(this.world, this.eater)) {
+                if(ModPlatformEvents.mobGrief(this.world, this.eater)) {
                     this.world.destroyBlock(blockpos, false);
-                //}
+                }
                 this.eater.ate();
             } else {
                 BlockPos blockpos1 = blockpos.below();
                 if(this.world.getBlockState(blockpos1).getBlock() == Blocks.GRASS_BLOCK) {
-                    // TODO mob grief event
-                    //if(net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(this.world, this.eater)) {
+                    if(ModPlatformEvents.mobGrief(this.world, this.eater)) {
                         this.world.levelEvent(2001, blockpos1, Block.getId(Blocks.GRASS_BLOCK.defaultBlockState()));
                         this.world.setBlock(blockpos1, Blocks.DIRT.defaultBlockState(), 2);
-                    //}
+                    }
                     this.eater.ate();
                 }
             }

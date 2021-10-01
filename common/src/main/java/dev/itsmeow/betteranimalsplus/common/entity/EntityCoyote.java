@@ -4,6 +4,9 @@ import dev.itsmeow.betteranimalsplus.common.entity.ai.HungerNearestAttackableTar
 import dev.itsmeow.betteranimalsplus.common.entity.ai.HungerNonTamedTargetGoal;
 import dev.itsmeow.betteranimalsplus.common.entity.util.EntityTypeContainerBAPTameable;
 import dev.itsmeow.betteranimalsplus.init.ModEntities;
+import dev.itsmeow.betteranimalsplus.util.ModPlatformEvents;
+import me.shedaniel.architectury.event.events.EntityEvent;
+import me.shedaniel.architectury.event.events.InteractionEvent;
 import net.minecraft.Util;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.TranslatableComponent;
@@ -150,7 +153,7 @@ public class EntityCoyote extends EntityFeralWolf {
                 }
 
                 if(!this.level.isClientSide) {
-                    if(this.random.nextInt(100) <= 14) {// TODO tame event && !ForgeEventFactory.onAnimalTame(this, player)) {
+                    if(this.random.nextInt(100) <= 14 && !ModPlatformEvents.tame(this, player)) {
                         this.tame(player);
                         this.navigation.stop();
                         this.setTarget(null);

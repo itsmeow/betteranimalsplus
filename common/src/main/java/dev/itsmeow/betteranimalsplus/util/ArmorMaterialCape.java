@@ -1,5 +1,7 @@
 package dev.itsmeow.betteranimalsplus.util;
 
+import dev.itsmeow.betteranimalsplus.Ref;
+import me.shedaniel.architectury.platform.Platform;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -48,7 +50,7 @@ public class ArmorMaterialCape implements ArmorMaterial {
 
     @Override
     public String getName() {
-        return "betteranimalsplus:" + name + variant;
+        return (Platform.isForge() ? Ref.MOD_ID + ":" : "") + name + variant;
     }
 
     @Override

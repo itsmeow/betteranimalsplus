@@ -12,11 +12,6 @@ architectury {
     platformSetupLoomIde()
     forge()
 }
-loom {
-    forge {
-        mixinConfig "mixin.imdlib.json", "mixin.betteranimalsplus.json"
-    }
-}
 
 repositories {
     flatDir {
@@ -56,7 +51,17 @@ shadowJar {
     classifier "dev-shadow"
 }
 
-task changeMixinTarget() {
+task mixinTargetDev() {
+    loom {
+        forge {
+            mixinConfig "mixin.imdlib.json", "mixin.betteranimalsplus.json"
+        }
+    }
+}
+
+project(":common").tasks.compileJava.dependsOn mixinTargetDev
+
+task mixinTargetBuild() {
     loom {
         forge {
             getMixinConfigs().empty()
@@ -66,7 +71,7 @@ task changeMixinTarget() {
 }
 
 remapJar {
-    dependsOn changeMixinTarget
+    dependsOn mixinTargetBuild
     input.set shadowJar.archiveFile
     classifier "remap"
 }

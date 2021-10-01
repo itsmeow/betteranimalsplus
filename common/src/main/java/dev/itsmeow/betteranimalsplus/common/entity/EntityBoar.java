@@ -6,6 +6,7 @@ import dev.itsmeow.betteranimalsplus.common.entity.util.IDropHead;
 import dev.itsmeow.betteranimalsplus.common.entity.util.abstracts.EntityAnimalWithSelectiveTypes;
 import dev.itsmeow.betteranimalsplus.common.entity.util.abstracts.EntityAnimalWithTypes;
 import dev.itsmeow.betteranimalsplus.init.ModEntities;
+import dev.itsmeow.betteranimalsplus.util.ModPlatformEvents;
 import dev.itsmeow.imdlib.entity.EntityTypeContainer;
 import dev.itsmeow.imdlib.entity.util.BiomeTypes;
 import net.minecraft.core.BlockPos;
@@ -255,12 +256,11 @@ public class EntityBoar extends EntityAnimalWithSelectiveTypes implements Enemy,
 
         @Override
         public boolean canUse() {
-            // TODO mob grief event
-            /*if(this.nextStartTick <= 0) {
-                if(!net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(this.boar.level, this.boar)) {
+            if(this.nextStartTick <= 0) {
+                if(!ModPlatformEvents.mobGrief(this.boar.level, this.boar)) {
                     return false;
                 }
-            }*/
+            }
 
             return !this.boar.isInLove() && super.canUse();
         }
