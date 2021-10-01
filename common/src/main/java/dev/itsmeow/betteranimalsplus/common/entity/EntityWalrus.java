@@ -4,6 +4,7 @@ import dev.itsmeow.betteranimalsplus.common.entity.ai.HybridPathNavigator;
 import dev.itsmeow.betteranimalsplus.init.ModEntities;
 import dev.itsmeow.betteranimalsplus.init.ModItems;
 import dev.itsmeow.betteranimalsplus.init.ModLootTables;
+import dev.itsmeow.betteranimalsplus.mixin.DamageSourceInvoker;
 import dev.itsmeow.imdlib.entity.EntityTypeContainer;
 import dev.itsmeow.imdlib.entity.interfaces.IContainerEntity;
 import net.fabricmc.api.EnvType;
@@ -93,8 +94,7 @@ public class EntityWalrus extends Animal implements IContainerEntity<EntityWalru
     @Override
     public boolean doHurtTarget(Entity entityIn) {
         // 1/3 chance to pierce armor
-        // TODO get access
-        boolean flag = entityIn.hurt(this.getRandom().nextInt(3) == 0 ? DamageSource.mobAttack(this)/*.bypassArmor()*/ : DamageSource.mobAttack(this), (float) this.getAttribute(Attributes.ATTACK_DAMAGE).getValue());
+        boolean flag = entityIn.hurt(this.getRandom().nextInt(3) == 0 ? ((DamageSourceInvoker) DamageSource.mobAttack(this)).invokeBypassArmor() : DamageSource.mobAttack(this), (float) this.getAttribute(Attributes.ATTACK_DAMAGE).getValue());
         if(flag) {
             Vec3 pos = this.position();
             Vec3 targetPos = entityIn.position();

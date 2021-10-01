@@ -3,6 +3,7 @@
   "package": "dev.itsmeow.betteranimalsplus.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
+    "DamageSourceInvoker"
   ],
   "client": [
   ],
