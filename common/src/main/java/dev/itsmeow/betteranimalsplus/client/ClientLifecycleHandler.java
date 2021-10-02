@@ -200,7 +200,7 @@ public class ClientLifecycleHandler {
             // s.translate(0.0F, -1.2F, 0.0F);
         }));
         RenderFactory.addRender(ModEntities.PROJECTILE_BADGER_DIRT.get(), RenderFactory.nothing());
-        BetterAnimalsPlusMod.logger.info("Rendering squirrel physics...");
+        BetterAnimalsPlusMod.LOGGER.info("Rendering squirrel physics...");
     }
 
     public static class RenderTypes extends RenderType {

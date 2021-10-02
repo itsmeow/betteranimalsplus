@@ -5,6 +5,7 @@ import net.fabricmc.api.ModInitializer;
 public class BetterAnimalsPlusModFabric implements ModInitializer {
     @Override
     public void onInitialize() {
-        BetterAnimalsPlusMod.init();
+        BetterAnimalsPlusMod.construct();
+        BetterAnimalsPlusMod.init(Runnable::run);
     }
 }

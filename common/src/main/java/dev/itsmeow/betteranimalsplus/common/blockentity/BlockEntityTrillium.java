@@ -4,6 +4,7 @@ package dev.itsmeow.betteranimalsplus.common.blockentity;
 import dev.itsmeow.betteranimalsplus.init.ModBlockEntities;
 import dev.itsmeow.betteranimalsplus.init.ModBlocks;
 import dev.itsmeow.betteranimalsplus.init.ModResources;
+import me.shedaniel.architectury.extensions.BlockEntityExtension;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.core.Direction;
@@ -16,7 +17,7 @@ import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.Random;
 
-public class BlockEntityTrillium extends BlockEntity {
+public class BlockEntityTrillium extends BlockEntity implements BlockEntityExtension {
 
     private final String keyType = "trilliumType";
     private final String keyModel = "trilliumModel";
@@ -25,6 +26,8 @@ public class BlockEntityTrillium extends BlockEntity {
 
     public BlockEntityTrillium() {
         super(ModBlockEntities.TRILLIUM_TYPE.get());
+        this.setType(new Random().nextInt(5));
+        this.setModelNum(new Random().nextInt(3));
     }
 
     public ResourceLocation getTexture() {
@@ -107,4 +110,20 @@ public class BlockEntityTrillium extends BlockEntity {
         this.setChanged();
     }
 
+    @Override
+    public void loadClientData(BlockState blockState, CompoundTag compoundTag) {
+        this.load(blockState, compoundTag);
+    }
+
+    @Override
+    public CompoundTag saveClientData(CompoundTag compoundTag) {
+        return this.save(compoundTag);
+    }
+
+    @Override
+    public void setChanged() {
+        super.setChanged();
+        if (this.hasLevel() && !this.level.isClientSide())
+            this.syncData();
+    }
 }

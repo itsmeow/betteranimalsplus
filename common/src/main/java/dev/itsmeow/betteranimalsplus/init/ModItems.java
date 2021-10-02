@@ -10,6 +10,7 @@ import dev.itsmeow.betteranimalsplus.common.entity.projectile.EntityTurkeyEgg;
 import dev.itsmeow.betteranimalsplus.common.item.*;
 import me.shedaniel.architectury.registry.DeferredRegister;
 import me.shedaniel.architectury.registry.RegistrySupplier;
+import me.shedaniel.architectury.registry.fuel.FuelRegistry;
 import me.shedaniel.architectury.utils.PlatformExpectedError;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -47,7 +48,11 @@ public class ModItems {
     public static final RegistrySupplier<ItemBetterFood> VENISON_RAW = r("venisonraw", () -> new ItemBetterFood(4, 0, 32, true));
     public static final RegistrySupplier<ItemBetterFood> VENISON_COOKED = r("venisoncooked", () -> new ItemBetterFood(8, 1.2F, 32, true));
     public static final RegistrySupplier<Item> ANTLER = r("antler");
-    public static final RegistrySupplier<Item> BLUBBER = r("blubber", () -> new ItemBetterFood(1, 2.0F, 32, false)); // TODO burn time 800 ticks
+    public static final RegistrySupplier<Item> BLUBBER = r("blubber", () -> {
+        ItemBetterFood i = new ItemBetterFood(1, 2.0F, 32, false);
+        FuelRegistry.register(800, i);
+        return i;
+    });
     public static final RegistrySupplier<Item> GOAT_MILK = r("goatmilk", () -> new MilkBucketItem(new Item.Properties().craftRemainder(Items.BUCKET).tab(BetterAnimalsPlusMod.TAB).stacksTo(1)));
     public static final RegistrySupplier<ItemBetterFood> GOAT_CHEESE = r("goatcheese", () -> new ItemBetterFood(3, 1, 15, false));
     public static final RegistrySupplier<ItemBetterFood> PHEASANT_RAW = r("pheasantraw", () -> new ItemBetterFood(3, 0, 32, true));

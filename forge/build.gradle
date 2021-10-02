@@ -8,6 +8,15 @@ configurations {
     modImplementation.extendsFrom shadowModImplementation
 }
 
+loom {
+    launches {
+        all {
+            arg "-mixin.config", "mixin.imdlib.json"
+
+        }
+    }
+}
+
 architectury {
     platformSetupLoomIde()
     forge()
@@ -49,29 +58,17 @@ shadowJar {
     configurations = [project.configurations.shadowCommon, project.configurations.shadowModImplementation]
     relocate 'dev.itsmeow.imdlib', "${rootProject.maven_group}.imdlib"
     classifier "dev-shadow"
+    exclude "mixin.imdlib-betteranimalsplus.json"
 }
 
-task mixinTargetDev() {
-    loom {
-        forge {
-            mixinConfig "mixin.imdlib.json", "mixin.betteranimalsplus.json"
-        }
-    }
-}
-
-project(":common").tasks.compileJava.dependsOn mixinTargetDev
-
-task mixinTargetBuild() {
-    loom {
-        forge {
-            getMixinConfigs().empty()
-            mixinConfig "mixin.imdlib-betteranimalsplus.json", "mixin.betteranimalsplus.json"
-        }
+loom {
+    forge {
+        mixinConfig "mixin.imdlib-betteranimalsplus.json", "mixin.betteranimalsplus.json"
     }
 }
 
 remapJar {
-    dependsOn mixinTargetBuild
+    dependsOn shadowJar
     input.set shadowJar.archiveFile
     classifier "remap"
 }

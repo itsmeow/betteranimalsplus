@@ -8,6 +8,7 @@ import dev.itsmeow.betteranimalsplus.client.model.ModelTrilliumMulti;
 import dev.itsmeow.betteranimalsplus.client.model.ModelTrilliumMulti2;
 import dev.itsmeow.betteranimalsplus.init.ModResources;
 import net.minecraft.client.model.EntityModel;
+import net.minecraft.client.renderer.BiomeColors;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderDispatcher;
@@ -42,7 +43,7 @@ public class RenderBlockTrillium extends BlockEntityRenderer<BlockEntityTrillium
 
             matrixStackIn.pushPose();
             {
-                Color color = new Color(blockEntity.getLevel().getBiome(blockEntity.getBlockPos()).getGrassColor(0, 0));
+                Color color = new Color(BiomeColors.getAverageGrassColor(blockEntity.getLevel(), blockEntity.getBlockPos()));
                 float r = color.getRed() / 255F;
                 float g = color.getGreen() / 255F;
                 float b = color.getBlue() / 255F;

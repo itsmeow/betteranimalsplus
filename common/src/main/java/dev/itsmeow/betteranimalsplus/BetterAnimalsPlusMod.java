@@ -17,16 +17,16 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.CreativeModeTab;
-import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.UUID;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 public class BetterAnimalsPlusMod {
 
-    public static final Logger logger = LogManager.getLogger();
+    public static final Logger LOGGER = LogManager.getLogger();
     // TODO config fabric impl
     public static final NetworkChannel HANDLER = NetworkChannel.create(new ResourceLocation(Ref.MOD_ID, "main_channel"));
     private static final ImmutableList<UUID> DEVS = ImmutableList.of(
@@ -35,7 +35,7 @@ public class BetterAnimalsPlusMod {
     UUID.fromString("4605663e-fb07-4843-98c5-73adbfb2625e") // batman
     );
 
-    public static void init() {
+    public static void construct() {
         IMDLib.setRegistry(Ref.MOD_ID);
         ModResources.Tags.Blocks.loadTags();
         ModResources.Tags.Items.loadTags();
@@ -45,7 +45,7 @@ public class BetterAnimalsPlusMod {
         ModItems.init();
         ModBlockEntities.init();
         ModTriggers.register();
-        BetterAnimalsPlusMod.logger.log(Level.INFO, "Injecting super coyotes...");
+        LOGGER.info("Injecting super coyotes...");
         HANDLER.register(ClientConfigurationPacket.class, ClientConfigurationPacket::encode, ClientConfigurationPacket::decode, ClientConfigurationPacket.Handler::handle);
         HANDLER.register(ServerNoBAMPacket.class, (pkt, buf) -> {}, buf -> new ServerNoBAMPacket(), (pkt, ctx) -> {
             if(ctx.get().getEnvironment() == Env.SERVER) {
@@ -65,7 +65,13 @@ public class BetterAnimalsPlusMod {
         HANDLER.register(HonkPacket.class, HonkPacket::encode, HonkPacket::decode, HonkPacket.Handler::handle);
         PlayerEvent.PLAYER_JOIN.register(BetterAnimalsPlusMod::onPlayerJoin);
         PlayerEvent.PLAYER_QUIT.register(BetterAnimalsPlusMod::onPlayerLeave);
+
         //ClassLoadHacks.runWhenLoaded("curios", () -> () -> CuriosModCompat.subscribe(modBus));
+    }
+
+    public static void init(Consumer<Runnable> enqueue) {
+        ModWorldGen.init(enqueue);
+        LOGGER.info("Overspawning lammergeiers...");
     }
 
     public static boolean isDev(UUID uuid) {
