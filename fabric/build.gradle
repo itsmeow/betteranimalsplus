@@ -17,6 +17,10 @@ repositories {
     flatDir {
         dirs 'libs', '../common/libs'
     }
+    maven {
+        name = 'Ladysnake Mods'
+        url = 'https://ladysnake.jfrog.io/artifactory/mods'
+    }
 }
 dependencies {
     modImplementation "net.fabricmc:fabric-loader:${rootProject.fabric_loader_version}"
@@ -34,6 +38,12 @@ dependencies {
     }
 
     shadowModImplementation("dev.itsmeow.imdlib:imdlib:1.16.5-dev:fabric") {
+        transitive = false
+    }
+    modImplementation("io.github.onyxstudios.Cardinal-Components-API:cardinal-components-base:${rootProject.cardinal_components_version}") {
+        transitive = false
+    }
+    shadowModImplementation("io.github.onyxstudios.Cardinal-Components-API:cardinal-components-entity:${rootProject.cardinal_components_version}") {
         transitive = false
     }
 }

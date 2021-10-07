@@ -22,6 +22,9 @@
     ],
     "client": [
       "dev.itsmeow.betteranimalsplus.client.BetterAnimalsPlusClientFabric"
+    ],
+    "cardinal-components": [
+      "dev.itsmeow.betteranimalsplus.BetterAnimalsPlusModFabric.BetterAnimalsPlusModComponents"
     ]
   },
   "depends": {
@@ -31,5 +34,10 @@
   "mixins": [
     "mixin.imdlib.json",
     "mixin.betteranimalsplus.json"
-  ]
+  ],
+  "custom": {
+    "cardinal-components": [
+      "betteranimalsplus:squirrel_kills"
+    ]
+  }
 }

@@ -1,15 +1,19 @@
 package dev.itsmeow.betteranimalsplus.common;
 
 
+import dev.architectury.injectables.annotations.ExpectPlatform;
 import dev.itsmeow.betteranimalsplus.common.entity.EntityBarracuda;
 import dev.itsmeow.betteranimalsplus.common.entity.EntityLamprey;
 import dev.itsmeow.betteranimalsplus.common.entity.EntityOctopus;
 import dev.itsmeow.betteranimalsplus.common.entity.EntityPiranha;
 import dev.itsmeow.betteranimalsplus.common.entity.util.abstracts.EntitySharkBase;
+import me.shedaniel.architectury.utils.PlatformExpectedError;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Player;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.function.Function;
 import java.util.function.Predicate;
 
 //@Mod.EventBusSubscriber(modid = Ref.MOD_ID)
@@ -175,4 +179,18 @@ public class CommonEventHandler {
         }
     }*/
 
+    @ExpectPlatform
+    public static void setSquirrelKills(Player player, int kills) {
+        throw new PlatformExpectedError();
+    }
+
+    @ExpectPlatform
+    public static void setSquirrelKills(Player player, Function<Integer, Integer> mutator) {
+        throw new PlatformExpectedError();
+    }
+
+    @ExpectPlatform
+    public static int getSquirrelKills(Player player) {
+        throw new PlatformExpectedError();
+    }
 }
