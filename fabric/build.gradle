@@ -21,6 +21,10 @@ repositories {
         name = 'Ladysnake Mods'
         url = 'https://ladysnake.jfrog.io/artifactory/mods'
     }
+    maven {
+        name = "Curse Maven"
+        url = "https://cursemaven.com"
+    }
 }
 dependencies {
     modImplementation "net.fabricmc:fabric-loader:${rootProject.fabric_loader_version}"
@@ -44,6 +48,9 @@ dependencies {
         transitive = false
     }
     shadowModImplementation("io.github.onyxstudios.Cardinal-Components-API:cardinal-components-entity:${rootProject.cardinal_components_version}") {
+        transitive = false
+    }
+    modRuntimeOnly("curse.maven:modmenu-308702:3479748") {
         transitive = false
     }
 }

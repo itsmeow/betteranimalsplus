@@ -1,26 +1,52 @@
 package dev.itsmeow.betteranimalsplus.common;
 
-
 import com.google.common.collect.Multimap;
 import com.google.common.collect.MultimapBuilder;
 import dev.architectury.injectables.annotations.ExpectPlatform;
+import dev.itsmeow.betteranimalsplus.Ref;
 import dev.itsmeow.betteranimalsplus.common.entity.*;
+import dev.itsmeow.betteranimalsplus.common.entity.util.IHaveHunger;
 import dev.itsmeow.betteranimalsplus.common.entity.util.abstracts.EntitySharkBase;
 import dev.itsmeow.betteranimalsplus.init.ModEntities;
+import dev.itsmeow.betteranimalsplus.init.ModItems;
 import dev.itsmeow.betteranimalsplus.init.ModLootTables;
+import dev.itsmeow.betteranimalsplus.init.ModTriggers;
+import dev.itsmeow.betteranimalsplus.mixin.MobAccessor;
 import dev.itsmeow.imdlib.entity.util.variant.IVariant;
+import me.shedaniel.architectury.event.events.EntityEvent;
+import me.shedaniel.architectury.event.events.InteractionEvent;
+import me.shedaniel.architectury.registry.Registries;
 import me.shedaniel.architectury.utils.PlatformExpectedError;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.core.Registry;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
+import net.minecraft.world.entity.animal.IronGolem;
+import net.minecraft.world.entity.animal.PolarBear;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.JukeboxBlockEntity;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
-//@Mod.EventBusSubscriber(modid = Ref.MOD_ID)
 public class CommonEventHandler {
 
     // TODO port this whole file
@@ -43,78 +69,78 @@ public class CommonEventHandler {
         LOOT_TABLE_INJECTIONS.put(EntityType.SQUID.getDefaultLootTable(), ModLootTables.SQUID);
     }
 
-    /*@SubscribeEvent
-    public static void onDeathOfEntity(LivingDeathEvent e) {
-        if(e.getSource().getDirectEntity() instanceof EntityBoar && ModEntities.BOAR.getCustomConfiguration().getBoolean("nerf_options/breed_from_kill")) {
-            EntityBoar boar = (EntityBoar) e.getSource().getDirectEntity();
+    public static void init() {
+        EntityEvent.LIVING_DEATH.register(CommonEventHandler::entityDeath);
+        EntityEvent.LIVING_ATTACK.register(CommonEventHandler::entityAttack);
+        EntityEvent.ADD.register(CommonEventHandler::entityAdd);
+        InteractionEvent.RIGHT_CLICK_BLOCK.register(CommonEventHandler::rightClickBlock);
+        InteractionEvent.RIGHT_CLICK_ITEM.register(CommonEventHandler::rightClickItem);
+        CommonEventHandler.registerPlatformEvents();
+    }
+
+    public static InteractionResult entityDeath(LivingEntity entity, DamageSource source) {
+        if(source.getDirectEntity() instanceof EntityBoar && ModEntities.BOAR.getCustomConfiguration().getBoolean("nerf_options/breed_from_kill")) {
+            EntityBoar boar = (EntityBoar) source.getDirectEntity();
             boar.setInLove(null);
             BlockPos p = boar.blockPosition();
             boar.level.addParticle(ParticleTypes.HEART, p.getX(), p.getY(), p.getZ(), 0.0F, 0.05F, 0.0F);
-        } else if(e.getSource().getDirectEntity() instanceof ServerPlayer) {
-            ServerPlayer player = (ServerPlayer) e.getSource().getDirectEntity();
-            if(e.getEntity() instanceof EntityBear || e.getEntity() instanceof PolarBear) {
+        } else if(source.getDirectEntity() instanceof ServerPlayer) {
+            ServerPlayer player = (ServerPlayer) source.getDirectEntity();
+            if(entity instanceof EntityBear || entity instanceof PolarBear) {
                 if(player.getMainHandItem().isEmpty()) {
                     ModTriggers.PUNCH_BEAR_DEATH.trigger(player);
                 }
-            } else if(e.getEntity() instanceof EntitySquirrel && !player.getAdvancements().getOrStartProgress(player.server.getAdvancements().getAdvancement(new ResourceLocation("betteranimalsplus:squirrel_kill_100"))).isDone()) {
-                CompoundTag pTag = player.getPersistentData();
-                if(!pTag.contains("betteranimalsplus", Constants.NBT.TAG_COMPOUND)) {
-                    pTag.put("betteranimalsplus", new CompoundTag());
-                }
-                CompoundTag bTag = pTag.getCompound("betteranimalsplus");
-                if(bTag.contains("squirrel_kills", Constants.NBT.TAG_INT)) {
-                    int newVal = bTag.getInt("squirrel_kills") + 1;
-                    bTag.putInt("squirrel_kills", newVal);
-                    if(ModTriggers.SQUIRREL_KILL_TRIGGERS.containsKey(newVal)) {
-                        ModTriggers.SQUIRREL_KILL_TRIGGERS.get(newVal).trigger(player);
+            } else if(entity instanceof EntitySquirrel && !player.getAdvancements().getOrStartProgress(player.server.getAdvancements().getAdvancement(new ResourceLocation("betteranimalsplus:squirrel_kill_100"))).isDone()) {
+                CommonEventHandler.setSquirrelKills(player, oldValue -> {
+                    int newValue = oldValue + 1;
+                    if(newValue > 100) {
+                        newValue = 1;
                     }
-                    if(newVal >= 100) {
-                        bTag.remove("squirrel_kills");
+                    if(ModTriggers.SQUIRREL_KILL_TRIGGERS.containsKey(newValue)) {
+                        ModTriggers.SQUIRREL_KILL_TRIGGERS.get(newValue).trigger(player);
                     }
-                } else {
-                    bTag.putInt("squirrel_kills", 1);
-                    if(ModTriggers.SQUIRREL_KILL_TRIGGERS.containsKey(1)) {
-                        ModTriggers.SQUIRREL_KILL_TRIGGERS.get(1).trigger(player);
-                    }
-                }
+                    return newValue;
+                });
             }
-        } else if(e.getSource().getEntity() instanceof EntityOctopus) {
-            EntityOctopus octo = (EntityOctopus) e.getSource().getEntity();
+        } else if(source.getEntity() instanceof EntityOctopus) {
+            EntityOctopus octo = (EntityOctopus) source.getEntity();
             if(octo.friend != null) {
                 Player p = octo.level.getPlayerByUUID(octo.friend);
-                if(p instanceof ServerPlayer && p.getKillCredit() == e.getEntityLiving()) {
+                if(p instanceof ServerPlayer && p.getKillCredit() == entity) {
                     ModTriggers.OCTOPUS_SAVE_PLAYER.trigger((ServerPlayer) octo.level.getPlayerByUUID(octo.friend));
                 }
             }
         }
-        if(e.getSource().getDirectEntity() instanceof IHaveHunger) {
-            ((IHaveHunger<?>) e.getSource().getDirectEntity()).resetHunger();
+        if(source.getDirectEntity() instanceof IHaveHunger) {
+            ((IHaveHunger<?>) source.getDirectEntity()).resetHunger();
         }
-    }
-    
-    @SubscribeEvent
-    public static void onBlockActivate(PlayerInteractEvent.RightClickBlock event) {
-        if(event.getWorld().getBlockState(event.getPos()).getBlock() == Blocks.JUKEBOX && event.getPlayer() instanceof ServerPlayer) {
-            BlockEntity te = event.getWorld().getBlockEntity(event.getPos());
-            if(te instanceof JukeboxBlockEntity) {
-                JukeboxBlockEntity box = (JukeboxBlockEntity) te;
-                Item held = event.getPlayer().getItemInHand(event.getHand()).getItem();
-                Item boxItem = box.getRecord().getItem();
-                boolean added = box.getRecord().isEmpty();
-                onDiskUse(added, (ServerPlayer) event.getPlayer(), added ? held : boxItem);
-            }
-        }
+        return InteractionResult.PASS;
     }
 
-    @SubscribeEvent
-    public static void onItemUsed(PlayerInteractEvent.RightClickItem event) {
-        ResourceLocation reg = event.getItemStack().getItem().getRegistryName();
-        if(reg != null && reg.getPath().equals("portable_jukebox") && event.getPlayer() instanceof ServerPlayer) {
-            if(event.getItemStack().getTagElement("Disc") != null) {
-                Item item = ItemStack.of(event.getItemStack().getTagElement("Disc")).getItem();
-                onDiskUse(event.getPlayer().isCrouching(), (ServerPlayer) event.getPlayer(), item);
+    public static InteractionResult rightClickBlock(Player player, InteractionHand hand, BlockPos pos, Direction direction) {
+        if(player.level.getBlockState(pos).getBlock() == Blocks.JUKEBOX && player instanceof ServerPlayer) {
+            BlockEntity te = player.level.getBlockEntity(pos);
+            if(te instanceof JukeboxBlockEntity) {
+                JukeboxBlockEntity box = (JukeboxBlockEntity) te;
+                Item held = player.getItemInHand(hand).getItem();
+                Item boxItem = box.getRecord().getItem();
+                boolean added = box.getRecord().isEmpty();
+                onDiskUse(added, (ServerPlayer) player, added ? held : boxItem);
             }
         }
+        return InteractionResult.PASS;
+    }
+
+    public static InteractionResultHolder<ItemStack> rightClickItem(Player player, InteractionHand hand) {
+        ItemStack stack = player.getItemInHand(hand);
+        ResourceLocation reg = Registries.get(Ref.MOD_ID).get(Registry.ITEM_REGISTRY).getId(stack.getItem());
+        if(reg != null && reg.getPath().equals("portable_jukebox") && player instanceof ServerPlayer) {
+            if(stack.getTagElement("Disc") != null) {
+                Item item = ItemStack.of(stack.getTagElement("Disc")).getItem();
+                onDiskUse(player.isCrouching(), (ServerPlayer) player, item);
+            }
+        }
+        return InteractionResultHolder.pass(stack);
     }
 
     private static void onDiskUse(boolean added, ServerPlayer player, Item item) {
@@ -136,61 +162,31 @@ public class CommonEventHandler {
             ModTriggers.USE_WALRUS_DISK.trigger(player);
         }
     }
-    
-    @SubscribeEvent
-    public static void onLootLoad(LootTableLoadEvent event) {
-        RandomIntGenerator simple_one = new RandomIntGenerator() {
-            @Override
-            public int getInt(Random rand) {
-                return 1;
-            }
 
-            @Override
-            public ResourceLocation getType() {
-                return RandomIntGenerator.CONSTANT;
-            }
-        };
-        if(event.getName().equals(EntityType.WOLF.getDefaultLootTable())) {
-            IVariant v = ModEntities.FERAL_WOLF.getVariantForName("snowy");
-            if(v instanceof WolfVariant) {
-                WolfVariant variant = (WolfVariant) v;
-                event.getTable().addPool(LootPool.lootPool().setRolls(simple_one).name("snowy_pelt").add(LootTableReference.lootTableReference(variant.getLootTable())).build());
-            }
-        } else if(event.getName().equals(EntityType.SQUID.getDefaultLootTable())) {
-            event.getTable().addPool(LootPool.lootPool().setRolls(simple_one).name("bap_calamari").add(LootTableReference.lootTableReference(ModLootTables.SQUID)).build());
-        }
-    }
-    
-    @SubscribeEvent
-    public static void onPlayerDamage(AttackEntityEvent event) {
-        if(event.getPlayer() instanceof ServerPlayer && (event.getTarget() instanceof EntityBear || event.getTarget() instanceof PolarBear)) {
-            if(event.getPlayer().getMainHandItem().isEmpty()) {
-                ModTriggers.PUNCH_BEAR.trigger((ServerPlayer) event.getPlayer());
+    public static InteractionResult entityAttack(LivingEntity entity, DamageSource source, float damage) {
+        if (source.getEntity() instanceof ServerPlayer && (entity instanceof EntityBear || entity instanceof PolarBear)) {
+            if (((ServerPlayer) source.getEntity()).getMainHandItem().isEmpty()) {
+                ModTriggers.PUNCH_BEAR.trigger((ServerPlayer) entity);
             }
         }
+        return InteractionResult.PASS;
     }
-    
-    @SubscribeEvent
-    public static void onPlayerRespawn(PlayerEvent.Clone event) {
-        if(event.getOriginal().getPersistentData().contains("betteranimalsplus", Constants.NBT.TAG_COMPOUND)) {
-            event.getPlayer().getPersistentData().put("betteranimalsplus", event.getOriginal().getPersistentData().getCompound("betteranimalsplus"));
-        }
-    }
-    
+
+    /*
     @SubscribeEvent
     public static void onLivingDrop(LivingDropsEvent event) {
         if(event.getSource().getEntity() != null && !(event.getEntity() instanceof Player) && NO_ATTACKED_DROPS.stream().anyMatch(predicate -> predicate.test(event.getSource().getEntity())) && (!(event.getSource().getEntity() instanceof IBucketable) || !((IBucketable) event.getSource().getEntity()).isFromContainer())) {
             event.getDrops().clear();
         }
     }
+    */
 
-    @SubscribeEvent
-    public static void onEntitySpawn(EntityJoinWorldEvent event) {
-        if(event.getEntity() instanceof IronGolem) {
-            GoalSelector targetSelector = ((IronGolem) event.getEntity()).targetSelector;
-            targetSelector.addGoal(3, new NearestAttackableTargetGoal<>((IronGolem) event.getEntity(), EntityFeralWolf.class, 5, false, false, e -> !((EntityFeralWolf) e).isTame() && (e instanceof EntityCoyote ? !((EntityCoyote) e).isDaytime() : true)));
+    public static InteractionResult entityAdd(Entity entity, Level level) {
+        if(entity instanceof IronGolem) {
+            ((MobAccessor) entity).getTargetSelector().addGoal(3, new NearestAttackableTargetGoal<>((IronGolem) entity, EntityFeralWolf.class, 5, false, false, e -> !((EntityFeralWolf) e).isTame() && (e instanceof EntityCoyote ? !((EntityCoyote) e).isDaytime() : true)));
         }
-    }*/
+        return InteractionResult.PASS;
+    }
 
     @ExpectPlatform
     public static void registerPlatformEvents() {

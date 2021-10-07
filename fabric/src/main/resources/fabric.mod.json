@@ -24,7 +24,7 @@
       "dev.itsmeow.betteranimalsplus.client.BetterAnimalsPlusClientFabric"
     ],
     "cardinal-components": [
-      "dev.itsmeow.betteranimalsplus.BetterAnimalsPlusModFabric.BetterAnimalsPlusModComponents"
+      "dev.itsmeow.betteranimalsplus.init.BetterAnimalsPlusModComponents"
     ]
   },
   "depends": {

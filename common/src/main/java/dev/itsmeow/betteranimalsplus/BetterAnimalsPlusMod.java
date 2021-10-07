@@ -3,6 +3,7 @@ package dev.itsmeow.betteranimalsplus;
 import com.google.common.collect.ImmutableList;
 import dev.architectury.injectables.annotations.ExpectPlatform;
 import dev.itsmeow.betteranimalsplus.client.dumb.SafeSyncThing;
+import dev.itsmeow.betteranimalsplus.common.CommonEventHandler;
 import dev.itsmeow.betteranimalsplus.common.entity.util.EntityTypeContainerBAPTameable;
 import dev.itsmeow.betteranimalsplus.init.*;
 import dev.itsmeow.betteranimalsplus.network.*;
@@ -65,7 +66,7 @@ public class BetterAnimalsPlusMod {
         HANDLER.register(HonkPacket.class, HonkPacket::encode, HonkPacket::decode, HonkPacket.Handler::handle);
         PlayerEvent.PLAYER_JOIN.register(BetterAnimalsPlusMod::onPlayerJoin);
         PlayerEvent.PLAYER_QUIT.register(BetterAnimalsPlusMod::onPlayerLeave);
-
+        CommonEventHandler.init();
         //ClassLoadHacks.runWhenLoaded("curios", () -> () -> CuriosModCompat.subscribe(modBus));
     }
 
