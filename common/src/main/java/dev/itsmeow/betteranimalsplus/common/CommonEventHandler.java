@@ -1,14 +1,18 @@
 package dev.itsmeow.betteranimalsplus.common;
 
 
+import com.google.common.collect.Multimap;
+import com.google.common.collect.MultimapBuilder;
 import dev.architectury.injectables.annotations.ExpectPlatform;
-import dev.itsmeow.betteranimalsplus.common.entity.EntityBarracuda;
-import dev.itsmeow.betteranimalsplus.common.entity.EntityLamprey;
-import dev.itsmeow.betteranimalsplus.common.entity.EntityOctopus;
-import dev.itsmeow.betteranimalsplus.common.entity.EntityPiranha;
+import dev.itsmeow.betteranimalsplus.common.entity.*;
 import dev.itsmeow.betteranimalsplus.common.entity.util.abstracts.EntitySharkBase;
+import dev.itsmeow.betteranimalsplus.init.ModEntities;
+import dev.itsmeow.betteranimalsplus.init.ModLootTables;
+import dev.itsmeow.imdlib.entity.util.variant.IVariant;
 import me.shedaniel.architectury.utils.PlatformExpectedError;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.player.Player;
 
 import java.util.HashSet;
@@ -28,6 +32,15 @@ public class CommonEventHandler {
         NO_ATTACKED_DROPS.add(e -> e instanceof EntityBarracuda);
         NO_ATTACKED_DROPS.add(e -> e instanceof EntityPiranha);
         NO_ATTACKED_DROPS.add(e -> e instanceof EntityOctopus && ((EntityOctopus) e).friend == null);
+    }
+    public static final Multimap<ResourceLocation, ResourceLocation> LOOT_TABLE_INJECTIONS = MultimapBuilder.hashKeys().hashSetValues().build();
+    static {
+        IVariant v = ModEntities.FERAL_WOLF.getVariantForName("snowy");
+        if (v instanceof EntityFeralWolf.WolfVariant) {
+            EntityFeralWolf.WolfVariant variant = (EntityFeralWolf.WolfVariant) v;
+            LOOT_TABLE_INJECTIONS.put(EntityType.WOLF.getDefaultLootTable(), variant.getLootTable());
+        }
+        LOOT_TABLE_INJECTIONS.put(EntityType.SQUID.getDefaultLootTable(), ModLootTables.SQUID);
     }
 
     /*@SubscribeEvent
@@ -178,6 +191,11 @@ public class CommonEventHandler {
             targetSelector.addGoal(3, new NearestAttackableTargetGoal<>((IronGolem) event.getEntity(), EntityFeralWolf.class, 5, false, false, e -> !((EntityFeralWolf) e).isTame() && (e instanceof EntityCoyote ? !((EntityCoyote) e).isDaytime() : true)));
         }
     }*/
+
+    @ExpectPlatform
+    public static void registerPlatformEvents() {
+        throw new PlatformExpectedError();
+    }
 
     @ExpectPlatform
     public static void setSquirrelKills(Player player, int kills) {
