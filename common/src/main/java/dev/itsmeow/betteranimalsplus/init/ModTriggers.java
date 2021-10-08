@@ -27,7 +27,6 @@ public class ModTriggers {
         for (int i = 1; i <= 100; i++) {
             CustomTrigger trigger = new CustomTrigger(Ref.MOD_ID + ":squirrel_kill" + i);
             SQUIRREL_KILL_TRIGGERS.put(i, trigger);
-            // TODO test
             CriteriaTriggersRegistry.register(trigger);
         }
     }
