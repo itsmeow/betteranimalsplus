@@ -12,6 +12,7 @@ import dev.itsmeow.betteranimalsplus.init.ModItems;
 import dev.itsmeow.betteranimalsplus.init.ModLootTables;
 import dev.itsmeow.betteranimalsplus.init.ModTriggers;
 import dev.itsmeow.betteranimalsplus.mixin.MobAccessor;
+import dev.itsmeow.imdlib.entity.interfaces.IBucketable;
 import dev.itsmeow.imdlib.entity.util.variant.IVariant;
 import me.shedaniel.architectury.event.events.EntityEvent;
 import me.shedaniel.architectury.event.events.InteractionEvent;
@@ -33,6 +34,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.animal.IronGolem;
 import net.minecraft.world.entity.animal.PolarBear;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -41,6 +43,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.JukeboxBlockEntity;
 
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -48,8 +51,6 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 
 public class CommonEventHandler {
-
-    // TODO port this whole file
 
     public static final Set<Predicate<Entity>> NO_ATTACKED_DROPS = new HashSet<>();
     static {
@@ -166,20 +167,17 @@ public class CommonEventHandler {
     public static InteractionResult entityAttack(LivingEntity entity, DamageSource source, float damage) {
         if (source.getEntity() instanceof ServerPlayer && (entity instanceof EntityBear || entity instanceof PolarBear)) {
             if (((ServerPlayer) source.getEntity()).getMainHandItem().isEmpty()) {
-                ModTriggers.PUNCH_BEAR.trigger((ServerPlayer) entity);
+                ModTriggers.PUNCH_BEAR.trigger((ServerPlayer) source.getEntity());
             }
         }
         return InteractionResult.PASS;
     }
 
-    /*
-    @SubscribeEvent
-    public static void onLivingDrop(LivingDropsEvent event) {
-        if(event.getSource().getEntity() != null && !(event.getEntity() instanceof Player) && NO_ATTACKED_DROPS.stream().anyMatch(predicate -> predicate.test(event.getSource().getEntity())) && (!(event.getSource().getEntity() instanceof IBucketable) || !((IBucketable) event.getSource().getEntity()).isFromContainer())) {
-            event.getDrops().clear();
+    public static void modifyDropsList(Collection<ItemEntity> drops, DamageSource source, LivingEntity entity) {
+        if(source.getEntity() != null && !(entity instanceof Player) && NO_ATTACKED_DROPS.stream().anyMatch(predicate -> predicate.test(source.getEntity())) && (!(source.getEntity() instanceof IBucketable) || !((IBucketable) source.getEntity()).isFromContainer())) {
+            drops.clear();
         }
     }
-    */
 
     public static InteractionResult entityAdd(Entity entity, Level level) {
         if(entity instanceof IronGolem) {

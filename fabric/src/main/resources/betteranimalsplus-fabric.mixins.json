@@ -1,0 +1,14 @@
+{
+  "required": true,
+  "package": "dev.itsmeow.betteranimalsplus.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [
+    "EntityMixin",
+    "LivingEntityMixin"
+  ],
+  "client": [
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

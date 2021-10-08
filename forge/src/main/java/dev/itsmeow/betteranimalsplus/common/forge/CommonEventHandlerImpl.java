@@ -11,6 +11,7 @@ import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.entries.LootTableReference;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.LootTableLoadEvent;
+import net.minecraftforge.event.entity.living.LivingDropsEvent;
 
 import java.util.function.Function;
 
@@ -18,6 +19,7 @@ public class CommonEventHandlerImpl {
 
     public static void registerPlatformEvents() {
         MinecraftForge.EVENT_BUS.addListener(CommonEventHandlerImpl::lootLoad);
+        MinecraftForge.EVENT_BUS.addListener(CommonEventHandlerImpl::livingDrops);
     }
 
     public static void lootLoad(LootTableLoadEvent event) {
@@ -29,6 +31,10 @@ public class CommonEventHandlerImpl {
                 break;
             }
         }
+    }
+
+    public static void livingDrops(LivingDropsEvent event) {
+        CommonEventHandler.modifyDropsList(event.getDrops(), event.getSource(), event.getEntityLiving());
     }
 
     public static void setSquirrelKills(Player player, int kills) {

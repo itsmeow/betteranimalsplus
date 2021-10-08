@@ -63,7 +63,7 @@ shadowJar {
 
 loom {
     forge {
-        mixinConfig "mixin.imdlib-betteranimalsplus.json", "mixin.betteranimalsplus.json"
+        mixinConfig "mixin.imdlib-betteranimalsplus.json", "betteranimalsplus.mixins.json"
     }
 }
 

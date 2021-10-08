@@ -33,7 +33,8 @@
   },
   "mixins": [
     "mixin.imdlib.json",
-    "mixin.betteranimalsplus.json"
+    "betteranimalsplus.mixins.json",
+    "betteranimalsplus-fabric.mixins.json"
   ],
   "custom": {
     "cardinal-components": [
