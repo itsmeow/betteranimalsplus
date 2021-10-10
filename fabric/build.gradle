@@ -13,6 +13,10 @@ architectury {
     fabric()
 }
 
+loom {
+    accessWidenerPath = file("src/main/resources/betteranimalsplus.accesswidener")
+}
+
 repositories {
     flatDir {
         dirs 'libs', '../common/libs'
