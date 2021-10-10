@@ -14,6 +14,11 @@ artifacts {
 loom {
     accessWidenerPath = file("src/main/resources/betteranimalsplus.accesswidener")
 }
+afterEvaluate {
+    remapJar {
+        remapAccessWidener = false
+    }
+}
 repositories {
     flatDir {
         dirs 'libs'
