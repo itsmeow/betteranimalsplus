@@ -320,7 +320,7 @@ public class ModEntities {
             .despawn()
             .biomesOverworld(BiomeTypes.OCEAN)
             .variants("little_blue", "big_blue", "pink", "red_stripe", "green", "gray")
-            .containers("%s_bucket", ItemModFishBucket.waterBucket(G), "", c -> Items.BUCKET, EntityJellyfish::bucketTooltip));
+            .containers("%s_bucket", ItemModFishBucket.waterBucket(G), "", c -> Items.WATER_BUCKET, EntityJellyfish::bucketTooltip));
     public static final EntityTypeContainer<EntityReindeer> REINDEER = H.add(EntityReindeer.class, EntityReindeer::new, "reindeer", () -> Mob.createMobAttributes()
             .add(Attributes.JUMP_STRENGTH)
             .add(Attributes.MAX_HEALTH, 53.0D)
@@ -371,7 +371,7 @@ public class ModEntities {
             .despawn()
             .biomesOverworld(BiomeTypes.RIVER, BiomeTypes.SWAMP)
             .variants("yellow", "spotted", "brown")
-            .containers("%s_bucket", ItemModFishBucket.waterBucket(G), "", c -> Items.BUCKET));
+            .containers("%s_bucket", ItemModFishBucket.waterBucket(G), "", c -> Items.WATER_BUCKET));
     public static final EntityTypeContainerContainable<EntityNautilus, ItemModFishBucket<EntityNautilus>> NAUTILUS = H.addContainableB(EntityNautilus.class, EntityNautilus::new, "nautilus", () -> Mob.createMobAttributes()
             .add(Attributes.MAX_HEALTH, 5.0D)
             .add(Attributes.MOVEMENT_SPEED, 0.25D), b -> b
@@ -381,7 +381,7 @@ public class ModEntities {
             .size(0.75F, 0.75F)
             .despawn()
             .biomesOverworld(BiomeTypes.OCEAN)
-            .containers("%s_bucket", ItemModFishBucket.waterBucket(G), "", c -> Items.BUCKET));
+            .containers("%s_bucket", ItemModFishBucket.waterBucket(G), "", c -> Items.WATER_BUCKET));
     public static final EntityTypeContainer<EntityMoose> MOOSE = H.add(EntityMoose.class, EntityMoose::new, "moose", () -> Mob.createMobAttributes()
             .add(Attributes.MAX_HEALTH, 52.0D)
             .add(Attributes.MOVEMENT_SPEED, 0.6D)
@@ -409,7 +409,7 @@ public class ModEntities {
             .despawn()
             .biomesOverworld(BiomeTypes.RIVER, BiomeTypes.SWAMP)
             .variants("longfin", "silver")
-            .containers("%s_bucket", ItemModFishBucket.waterBucket(G), "", c -> Items.BUCKET));
+            .containers("%s_bucket", ItemModFishBucket.waterBucket(G), "", c -> Items.WATER_BUCKET));
     public static final EntityTypeContainerContainable<EntitySaltwaterEel, ItemModFishBucket<EntitySaltwaterEel>> EEL_SALTWATER = H.addContainableB(EntitySaltwaterEel.class, EntitySaltwaterEel::new, "eel_saltwater", () -> Mob.createMobAttributes()
             .add(Attributes.MAX_HEALTH, 5.0D)
             .add(Attributes.MOVEMENT_SPEED, 2D)
@@ -426,7 +426,7 @@ public class ModEntities {
                     .withoutBiomes(Biomes.DEEP_OCEAN, Biomes.DEEP_LUKEWARM_OCEAN, Biomes.DEEP_LUKEWARM_OCEAN)
                     .onlyOverworld())
             .variants("conger", "dragon", "moray", "ribbon", "snowflake")
-            .containers("%s_bucket", ItemModFishBucket.waterBucket(G), "", c -> Items.BUCKET));
+            .containers("%s_bucket", ItemModFishBucket.waterBucket(G), "", c -> Items.WATER_BUCKET));
     public static final EntityTypeContainerContainable<EntityButterfly, ItemModEntityContainer<EntityButterfly>> BUTTERFLY = H.addContainable(EntityButterfly.class, EntityButterfly::new, "butterfly", () -> Mob.createMobAttributes()
             .add(Attributes.MAX_HEALTH, 2.0D), b -> b
             .spawn(MobCategory.AMBIENT, 10, 1, 3)
@@ -470,7 +470,7 @@ public class ModEntities {
             .size(1.5F, 1F)
             .despawn()
             .biomes(OceanBiomeHelper::subtropicalOcean)
-            .containers("%s_bucket", ItemModFishBucket.waterBucket(G), "", c -> Items.BUCKET));
+            .containers("%s_bucket", ItemModFishBucket.waterBucket(G), "", c -> Items.WATER_BUCKET));
     public static final EntityTypeContainerContainable<EntityFlyingFish, ItemModFishBucket<EntityFlyingFish>> FLYING_FISH = H.addContainableB(EntityFlyingFish.class, EntityFlyingFish::new, "flying_fish", () -> Mob.createMobAttributes()
             .add(Attributes.MAX_HEALTH, 4D)
             .add(Attributes.MOVEMENT_SPEED, 1D), b -> b
@@ -481,7 +481,7 @@ public class ModEntities {
             .despawn()
             .variants("purple", "yellow")
             .biomes(OceanBiomeHelper::subtropicalOcean)
-            .containers("%s_bucket", ItemModFishBucket.waterBucket(G), "", c -> Items.BUCKET));
+            .containers("%s_bucket", ItemModFishBucket.waterBucket(G), "", c -> Items.WATER_BUCKET));
     public static final EntityTypeContainerContainable<EntityPiranha, ItemModFishBucket<EntityPiranha>> PIRANHA = H.addContainableB(EntityPiranha.class, EntityPiranha::new, "piranha", () -> Mob.createMobAttributes()
             .add(Attributes.MAX_HEALTH, 5.0D)
             .add(Attributes.MOVEMENT_SPEED, 1D)
@@ -493,7 +493,7 @@ public class ModEntities {
             .size(0.5F, 0.5F)
             .despawn()
             .biomesOverworld(BiomeTypes.JUNGLE)
-            .containers("%s_bucket", ItemModFishBucket.waterBucket(G), "", c -> Items.BUCKET));
+            .containers("%s_bucket", ItemModFishBucket.waterBucket(G), "", c -> Items.WATER_BUCKET));
 
     public static LinkedHashMap<String, EntityTypeContainer<? extends Mob>> getEntities() {
         return H.ENTITIES;
