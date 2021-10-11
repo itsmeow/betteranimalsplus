@@ -3,7 +3,7 @@ plugins {
 }
 
 configurations {
-    shadowCommon // Don't use shadow from the shadow plugin because we don't want IDEA to index this.
+    shadowCommon
     shadowModImplementation
     modImplementation.extendsFrom shadowModImplementation
 }
@@ -111,11 +111,11 @@ jar {
         mainAttributes(
                 "Maven-Artifact": "${rootProject.maven_group}:${rootProject.mod_id}-${project.name}:${rootProject.version}",
                 "Specification-Title": rootProject.mod_id,
-                "Specification-Vendor": "its_meow",
+                "Specification-Vendor": "itsmeow",
                 "Specification-Version": "1",
                 "Implementation-Title": rootProject.mod_id,
                 "Implementation-Version": project.version,
-                "Implementation-Vendor": "its_meow",
+                "Implementation-Vendor": "itsmeow",
                 "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
                 "Built-On-Java": "${System.getProperty('java.vm.version')} (${System.getProperty('java.vm.vendor')})",
                 "Built-On": "${rootProject.mc_version}-${rootProject.forge_version}"
@@ -131,11 +131,11 @@ sourcesJar {
         mainAttributes(
                 "Maven-Artifact": "${rootProject.maven_group}:${rootProject.mod_id}-${project.name}:${rootProject.version}",
                 "Specification-Title": rootProject.mod_id,
-                "Specification-Vendor": "its_meow",
+                "Specification-Vendor": "itsmeow",
                 "Specification-Version": "1",
                 "Implementation-Title": rootProject.mod_id,
                 "Implementation-Version": project.version,
-                "Implementation-Vendor": "its_meow",
+                "Implementation-Vendor": "itsmeow",
                 "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
                 "Built-On-Java": "${System.getProperty('java.vm.version')} (${System.getProperty('java.vm.vendor')})",
                 "Built-On": "${rootProject.mc_version}-${rootProject.forge_version}"
@@ -147,12 +147,6 @@ publishing {
     publications {
         mavenForge(MavenPublication) {
             artifactId = rootProject.mod_id + "-" + project.name
-            artifact(remapJar) {
-                classifier null
-            }
-            artifact(sourcesJar) {
-                builtBy remapSourcesJar
-            }
             pom {
                 name = rootProject.name + "-" + project.name
                 url = rootProject.url
@@ -170,7 +164,35 @@ publishing {
                     name = 'itsmeow Mods'
                     url = 'https://itsmeow.dev/'
                 }
+                developers {
+                    developer {
+                        id = 'itsmeow'
+                        name = 'itsmeowdev'
+                        email = 'itsmeow@itsmeow.dev'
+                    }
+                }
+                withXml {
+                    def dependenciesNode = asNode().appendNode('dependencies')
+                    def configurationNames = ["modImplementation", "modApi"]
+                    configurationNames.each { configurationName ->
+                        configurations[configurationName].allDependencies.each {
+                            if (!(it.name in ["imdlib", "architectury-transformer", "common"]) && !(it.group in ["curse.maven"])) {
+                                def dependencyNode = dependenciesNode.appendNode('dependency')
+                                dependencyNode.appendNode('groupId', it.group)
+                                dependencyNode.appendNode('artifactId', it.name)
+                                dependencyNode.appendNode('version', it.version)
+                            }
+                        }
+                    }
+                }
+            }
+            artifact(fixJar) {
+                classifier null
+            }
+            artifact(sourcesJar) {
+                builtBy remapSourcesJar
             }
         }
+        loom.disableDeprecatedPomGeneration(mavenForge)
     }
 }

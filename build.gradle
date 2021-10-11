@@ -2,6 +2,7 @@
 plugins {
     id "architectury-plugin" version "3.4-SNAPSHOT"
     id "dev.architectury.loom" version "0.10.0-SNAPSHOT" apply false
+    id "org.ajoberstar.grgit" version "3.1.1"
 }
 
 architectury {
@@ -66,6 +67,44 @@ allprojects {
                     url "file:///${project.buildDir}/repo"
                 }
             }
+        }
+    }
+}
+
+task exportAlphaVersions() {
+    def getVersion = {
+        //TAG-offset-hash
+        def raw = grgit.describe(longDescr: true, tags: true, match: ["${rootProject.mc_version}-[0-9].[0-9].[0-9]", "${rootProject.mc_version}-[0-9][0-9].[0-9][0-9].[0-9][0-9]", "${rootProject.mc_version}-[0-9].[0-9][0-9].[0-9][0-9]", "${rootProject.mc_version}-[0-9].[0-9].[0-9][0-9]", "${rootProject.mc_version}-[0-9].[0-9][0-9].[0-9]", "${rootProject.mc_version}-[0-9][0-9].[0-9].[0-9]"])
+        def desc = (raw == null ? '0.0-0-unknown' : grgit.describe(longDescr: true, tags: true, match: ["${rootProject.mc_version}-[0-9].[0-9].[0-9]", "${rootProject.mc_version}-[0-9][0-9].[0-9][0-9].[0-9][0-9]", "${rootProject.mc_version}-[0-9].[0-9][0-9].[0-9][0-9]", "${rootProject.mc_version}-[0-9].[0-9].[0-9][0-9]", "${rootProject.mc_version}-[0-9].[0-9][0-9].[0-9]", "${rootProject.mc_version}-[0-9][0-9].[0-9].[0-9]"])).split('-') as List
+        def hash = desc.remove(desc.size() - 1)
+        def offset = desc.remove(desc.size() - 1)
+        def tag = desc.join('-')
+        return "${tag}.${offset}".toString().replace("${rootProject.mc_version}-", "") //Bake the response instead of making it dynamic
+    }
+    rootProject.mod_version = getVersion();
+    version = rootProject.mc_version + '-' + getVersion();
+    def getLastTag = {
+        def raw = grgit.describe(longDescr: true, tags: true)
+        def desc = (raw == null ? 'HEAD' : grgit.describe(longDescr: true, tags: true)).split('-') as List
+        desc.remove(desc.size() - 1)
+        desc.remove(desc.size() - 1)
+        def tag = desc.join('-')
+        return tag;
+    }
+    def rawLog = grgit.log(includes: ['HEAD'], excludes: [getLastTag()]);
+    def log = "";
+    for (org.ajoberstar.grgit.Commit commit: rawLog) {
+        log = log + "[`" + commit.abbreviatedId + "`](https://github.com/${rootProject.github}/commit/" + commit.id + ") " + commit.shortMessage + " - " + commit.author.name + "\\n";
+    }
+    doLast {
+        exec {
+            commandLine "echo", "##[set-output name=modid;]${rootProject.mod_id}";
+        }
+        exec {
+            commandLine "echo", "##[set-output name=version;]${rootProject.version}";
+        }
+        exec {
+            commandLine "echo", "##[set-output name=commitlog;]" + "{\"content\":\"" + (project.hasProperty('hook_content') ? project.hook_content : "") + "\",\"embeds\":[{\"author\":{\"name\":\"itsmeow\",\"url\":\"https://itsmeow.dev/\",\"icon_url\":\"https://itsmeow.dev/icon.png\"},\"title\":\"${project.mod_id}-alpha-${project.version}\",\"url\":\"https://github.com/${project.github}/releases/tag/alpha-${project.version}\",\"color\":14700288,\"description\":\"" + log + "\"}]}";
         }
     }
 }
