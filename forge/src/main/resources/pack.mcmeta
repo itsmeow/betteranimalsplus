@@ -1,7 +1,6 @@
 {
     "pack": {
-        "description": "BetterAnimalsPlus resources",
-        "pack_format": 4,
-        "_comment": "Format 4 requires JSON lang. 4 also required for all mods"
+        "description": "Better Animals Plus resources",
+        "pack_format": 6
     }
 }
