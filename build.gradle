@@ -85,11 +85,19 @@ task exportAlphaVersions() {
     version = rootProject.mc_version + '-' + getVersion();
     def getLastTag = {
         def raw = grgit.describe(longDescr: true, tags: true)
-        def desc = (raw == null ? 'HEAD' : grgit.describe(longDescr: true, tags: true)).split('-') as List
-        desc.remove(desc.size() - 1)
-        desc.remove(desc.size() - 1)
-        def tag = desc.join('-')
-        return tag;
+        if(raw == null) {
+            return "HEAD"
+        } else {
+            System.out.println(raw.toString());
+            List desc = raw.split('-') as List
+            if(desc.size() > 1) {
+                desc.remove(desc.size() - 1)
+            }
+            if(desc.size() > 1) {
+                desc.remove(desc.size() - 1)
+            }
+            return desc.join('-');
+        }
     }
     def rawLog = grgit.log(includes: ['HEAD'], excludes: [getLastTag()]);
     def log = "";
