@@ -88,7 +88,6 @@ task exportAlphaVersions() {
         if(raw == null) {
             return "HEAD"
         } else {
-            System.out.println(raw.toString());
             List desc = raw.split('-') as List
             if(desc.size() > 1) {
                 desc.remove(desc.size() - 1)
