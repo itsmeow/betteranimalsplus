@@ -236,7 +236,8 @@ public class EntityOctopus extends EntityBAPCephalopod implements IVariantTypes<
         super.readAdditionalSaveData(compound);
         this.readType(compound);
         this.readHunger(compound);
-        this.friend = compound.getUUID("Friend");
+        if (compound.contains("Friend"))
+            this.friend = compound.getUUID("Friend");
     }
 
     @Override
