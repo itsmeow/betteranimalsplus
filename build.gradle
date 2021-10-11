@@ -82,7 +82,9 @@ task exportAlphaVersions() {
         return "${tag}.${offset}".toString().replace("${rootProject.mc_version}-", "") //Bake the response instead of making it dynamic
     }
     rootProject.mod_version = getVersion();
-    version = rootProject.mc_version + '-' + getVersion();
+    allprojects {
+        version = rootProject.mc_version + '-' + getVersion();
+    }
     def getLastTag = {
         def raw = grgit.describe(longDescr: true, tags: true)
         if(raw == null) {
