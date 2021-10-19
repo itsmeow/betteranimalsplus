@@ -1,6 +1,6 @@
 package dev.itsmeow.betteranimalsplus.common.item;
 
-import dev.itsmeow.betteranimalsplus.client.model.ModelBearCape;
+import dev.itsmeow.betteranimalsplus.client.model.armor.ModelBearCape;
 import dev.itsmeow.betteranimalsplus.util.ArmorMaterialCape;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;

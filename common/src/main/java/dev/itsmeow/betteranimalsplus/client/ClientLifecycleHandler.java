@@ -4,8 +4,8 @@ import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.math.Vector3f;
 import dev.itsmeow.betteranimalsplus.BetterAnimalsPlusMod;
 import dev.itsmeow.betteranimalsplus.Ref;
-import dev.itsmeow.betteranimalsplus.client.model.*;
-import dev.itsmeow.betteranimalsplus.client.model.shark.*;
+import dev.itsmeow.betteranimalsplus.client.model.entity.*;
+import dev.itsmeow.betteranimalsplus.client.model.entity.shark.*;
 import dev.itsmeow.betteranimalsplus.client.renderer.blockentity.RenderBlockTrillium;
 import dev.itsmeow.betteranimalsplus.client.renderer.entity.RenderTarantulaHair;
 import dev.itsmeow.betteranimalsplus.client.renderer.entity.layers.GooseItemLayerRenderer;
@@ -22,6 +22,7 @@ import net.minecraft.client.renderer.RenderStateShard;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
+import net.minecraft.world.entity.AgableMob;
 import net.minecraft.world.entity.Pose;
 
 public class ClientLifecycleHandler {
@@ -31,14 +32,14 @@ public class ClientLifecycleHandler {
     public static void clientInit() {
         BlockEntityRenderers.registerRenderer(ModBlockEntities.TRILLIUM_TYPE.get(), RenderBlockTrillium::new);
         HeadBlockEntity.registerTypeRender();
-        R.addRender(ModEntities.BROWN_BEAR.getEntityType(), 1F, r -> r.tSingle("bear_brown").mSingle(new ModelBear<>()).ageScale(1.3F, 0.65F));
-        R.addRender(ModEntities.BLACK_BEAR.getEntityType(), 1F, r -> r.tVariant().mSingle(new ModelBear<>()).childScale(0.5F));
+        R.addRender(ModEntities.BROWN_BEAR.getEntityType(), 1F, r -> r.tCondition(AgableMob::isBaby, "brownbear_baby", "brownbear").mSingle(new ModelBrownBear<>()).childScale(0.5F));
+        R.addRender(ModEntities.BLACK_BEAR.getEntityType(), 1F, r -> r.tVariant().mSingle(new ModelBlackBear<>()).childScale(0.5F));
         R.addRender(ModEntities.DEER.getEntityType(), 1F, r -> r.tBabyVariant("deer_baby").mSingle(new ModelDeer<>()).childScale(0.6F));
         R.addRender(ModEntities.LAMMERGEIER.getEntityType(), 0.3F, r -> r.tVariant().mSingle(new ModelLammergeier<>()));
         R.addRender(ModEntities.FERAL_WOLF.getEntityType(), 0.5F, r -> r.tVariant().mSingle(new ModelFeralWolf<>()).handleRotation((e, p) -> e.getTailRotation()).childScale(0.5F).layer(t -> new LayerEyesCondition<>(t, ModResources.wolf_eyes, e -> !e.isTame())));
-        R.addRender(ModEntities.COYOTE.getEntityType(), 0.5F, r -> r.tMapped(e -> e.isTame() || (e.isDaytime() && !e.isHostileDaytime()) ? "coyote_neutral" : "coyote_hostile").mSingle(new ModelCoyote<>()).handleRotation((e, p) -> e.getTailRotation()).childScale(0.5F).layer(t -> new LayerEyesCondition<>(t, ModResources.coyote_eyes, e -> !e.isTame() && !(e.isDaytime() && !e.isHostileDaytime()))));
+        R.addRender(ModEntities.COYOTE.getEntityType(), 0.5F, r -> r.tMapped(e -> e.isTame() || (e.isDaytime() && !e.isHostileDaytime()) ? "coyote" : "coyote_hostile").mSingle(new ModelCoyote<>()).handleRotation((e, p) -> e.getTailRotation()).childScale(0.5F).layer(t -> new LayerEyesCondition<>(t, ModResources.coyote_eyes, e -> !e.isTame() && !(e.isDaytime() && !e.isHostileDaytime()))));
         RenderFactory.addRender(ModEntities.PROJECTILE_TARANTULA_HAIR.get(), RenderTarantulaHair::new);
-        R.addRender(ModEntities.TARANTULA.getEntityType(), 1F, r -> r.tSingle("tarantula").mSingle(new ModelTarantula<>()).preRender((e, s, p) -> {
+        R.addRender(ModEntities.TARANTULA.getEntityType(), 1F, r -> r.tVariant().mSingle(new ModelTarantula<>()).preRender((e, s, p) -> {
             if(e.isClimbing()) {
                 s.mulPose(Vector3f.XP.rotationDegrees(-90F));
                 s.translate(0.0F, 0.75F, -0.5F);

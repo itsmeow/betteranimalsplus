@@ -3,7 +3,7 @@ package dev.itsmeow.betteranimalsplus.init;
 import com.google.common.collect.Lists;
 import dev.itsmeow.betteranimalsplus.BetterAnimalsPlusMod;
 import dev.itsmeow.betteranimalsplus.Ref;
-import dev.itsmeow.betteranimalsplus.client.model.*;
+import dev.itsmeow.betteranimalsplus.client.model.block.head.*;
 import dev.itsmeow.betteranimalsplus.common.entity.*;
 import dev.itsmeow.betteranimalsplus.common.entity.projectile.*;
 import dev.itsmeow.betteranimalsplus.common.entity.util.EntityTypeContainerBAPTameable;
@@ -65,7 +65,8 @@ public class ModEntities {
             .size(1.4F, 0.9F)
             .defaultPlacement(Monster::checkMonsterSpawnRules)
             .despawn()
-            .biomesOverworld(BiomeTypes.SANDY));
+            .biomesOverworld(BiomeTypes.SANDY, BiomeTypes.JUNGLE)
+            .variants("desert_1", "desert_2", "desert_3", "jungle_1", "jungle_2", "jungle_3"));
     public static final EntityTypeContainer<EntityGoat> GOAT = H.add(EntityGoat.class, EntityGoat::new, "goat", () -> Mob.createMobAttributes()
             .add(Attributes.MAX_HEALTH, 14.0D)
             .add(Attributes.MOVEMENT_SPEED, 0.5D)
@@ -260,7 +261,7 @@ public class ModEntities {
             .egg(0x4F2900, 0x8E500E)
             .size(2F, 2F)
             .biomesOverworld(BiomeTypes.FOREST)
-            .head().itemGroup(G).singleton("1", "bear_brown").setModel(() -> ModelBearHead::new).done());
+            .head().itemGroup(G).singleton("1", "brownbear").setModel(() -> ModelBrownBearHead::new).done());
     public static final EntityTypeContainer<EntityBearNeutral> BLACK_BEAR = H.add(EntityBearNeutral.class, EntityBearNeutral::new, "blackbear", () -> Mob.createMobAttributes()
             .add(Attributes.MAX_HEALTH, 30.0D)
             .add(Attributes.FOLLOW_RANGE, 20.0D)
@@ -274,8 +275,8 @@ public class ModEntities {
             .egg(0x000000, 0x333333)
             .size(2F, 1.5F)
             .biomesOverworld(BiomeTypes.FOREST)
-            .variants("black", "kermode")
-            .head().itemGroup(G).mapToNames().setModel(() -> ModelBearHead::new).done());
+            .variants(EntityBearNeutral.BlackBearVariant::new, "black", "kermode")
+            .head().itemGroup(G).mapToNames().setModel(() -> ModelBlackBearHead::new).done());
     public static final EntityTypeContainer<EntityDeer> DEER = H.add(EntityDeer.class, EntityDeer::new, "deer", () -> Mob.createMobAttributes()
             .add(Attributes.MAX_HEALTH, 15.0D)
             .add(Attributes.MOVEMENT_SPEED, 0.45D), b -> b

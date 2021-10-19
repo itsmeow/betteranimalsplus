@@ -1,20 +1,19 @@
 package dev.itsmeow.betteranimalsplus.common.entity;
 
+import dev.itsmeow.betteranimalsplus.Ref;
 import dev.itsmeow.betteranimalsplus.common.entity.ai.EntityAIEatBerries;
 import dev.itsmeow.betteranimalsplus.common.entity.ai.HungerNearestAttackableTargetGoal;
 import dev.itsmeow.betteranimalsplus.init.ModEntities;
 import dev.itsmeow.betteranimalsplus.init.ModLootTables;
 import dev.itsmeow.imdlib.entity.EntityTypeContainer;
 import dev.itsmeow.imdlib.entity.interfaces.IVariantTypes;
+import dev.itsmeow.imdlib.entity.util.variant.EntityVariant;
 import dev.itsmeow.imdlib.entity.util.variant.IVariant;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.DifficultyInstance;
-import net.minecraft.world.entity.AgableMob;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.MobSpawnType;
-import net.minecraft.world.entity.SpawnGroupData;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.animal.Chicken;
 import net.minecraft.world.entity.animal.Fox;
@@ -128,5 +127,23 @@ public class EntityBearNeutral extends EntityBear implements IVariantTypes<Entit
             child.setType(this.getVariant().orElseGet(this::getRandomType));
         }
         return child;
+    }
+
+    public static class BlackBearVariant extends EntityVariant {
+
+        private final ResourceLocation babyTexture;
+
+        public BlackBearVariant(String nameTexture) {
+            super(Ref.MOD_ID, nameTexture, "blackbear_" + nameTexture);
+            this.babyTexture = new ResourceLocation(Ref.MOD_ID, "textures/entity/blackbear_" + nameTexture + "_baby.png");
+        }
+
+        @Override
+        public ResourceLocation getTexture(Entity entity) {
+            if(entity instanceof EntityBearNeutral && ((EntityBearNeutral) entity).isBaby()) {
+                return babyTexture;
+            }
+            return super.getTexture(entity);
+        }
     }
 }

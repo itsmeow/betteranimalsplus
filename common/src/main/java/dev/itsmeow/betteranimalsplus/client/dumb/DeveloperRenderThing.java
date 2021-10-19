@@ -4,7 +4,7 @@ import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.blaze3d.vertex.PoseStack;
 import dev.architectury.injectables.annotations.ExpectPlatform;
 import dev.itsmeow.betteranimalsplus.BetterAnimalsPlusMod;
-import dev.itsmeow.betteranimalsplus.client.model.ModelGoose;
+import dev.itsmeow.betteranimalsplus.client.model.entity.ModelGoose;
 import dev.itsmeow.betteranimalsplus.client.renderer.entity.layers.GooseItemLayerRenderer;
 import dev.itsmeow.betteranimalsplus.init.ModEntities;
 import dev.itsmeow.betteranimalsplus.network.HonkPacket;

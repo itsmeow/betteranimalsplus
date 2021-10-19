@@ -3,8 +3,10 @@ package dev.itsmeow.betteranimalsplus.common.entity;
 import dev.itsmeow.betteranimalsplus.common.entity.projectile.EntityTarantulaHair;
 import dev.itsmeow.betteranimalsplus.init.ModEntities;
 import dev.itsmeow.imdlib.entity.EntityTypeContainer;
-import dev.itsmeow.imdlib.entity.interfaces.IContainerEntity;
+import dev.itsmeow.imdlib.entity.interfaces.ISelectiveVariantTypes;
+import dev.itsmeow.imdlib.entity.util.BiomeTypes;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
 import net.minecraft.world.DifficultyInstance;
@@ -21,10 +23,12 @@ import net.minecraft.world.entity.monster.Spider;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.biome.Biome;
 
 import java.util.EnumSet;
+import java.util.Set;
 
-public class EntityTarantula extends Spider implements RangedAttackMob, IContainerEntity<EntityTarantula> {
+public class EntityTarantula extends Spider implements RangedAttackMob, ISelectiveVariantTypes<EntityTarantula> {
 
     public EntityTarantula(EntityType<? extends EntityTarantula> entityType, Level worldIn) {
         super(entityType, worldIn);
@@ -63,9 +67,9 @@ public class EntityTarantula extends Spider implements RangedAttackMob, IContain
     @Override
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor world, DifficultyInstance difficulty, MobSpawnType reason, SpawnGroupData entityLivingData, CompoundTag itemNbt) {
         this.moveTo(this.getX(), this.getY(), this.getZ(), this.yRot, 0F);
-        return super.finalizeSpawn(world, difficulty, reason, entityLivingData, itemNbt);
+        return this.initAgeableData(world, reason, super.finalizeSpawn(world, difficulty, reason, entityLivingData, itemNbt));
     }
-    
+
     @Override
     public boolean removeWhenFarAway(double range) {
         return despawn(range);
@@ -79,5 +83,34 @@ public class EntityTarantula extends Spider implements RangedAttackMob, IContain
     @Override
     public EntityTypeContainer<? extends EntityTarantula> getContainer() {
         return ModEntities.TARANTULA;
+    }
+
+    @Override
+    protected void defineSynchedData() {
+        super.defineSynchedData();
+        this.registerTypeKey();
+    }
+
+    @Override
+    public void addAdditionalSaveData(CompoundTag compound) {
+        super.addAdditionalSaveData(compound);
+        this.writeType(compound);
+    }
+
+    @Override
+    public void readAdditionalSaveData(CompoundTag compound) {
+        super.readAdditionalSaveData(compound);
+        this.readType(compound);
+    }
+
+    @Override
+    public String[] getTypesFor(ResourceKey<Biome> biomeKey, Biome biome, Set<BiomeTypes.Type> types, MobSpawnType reason) {
+        if(types.contains(BiomeTypes.JUNGLE)) {
+            return new String[] { "jungle_1", "jungle_2", "jungle_3" };
+        } else if(types.contains(BiomeTypes.SANDY)) {
+            return new String[] { "desert_1", "desert_2", "desert_3" };
+        } else {
+            return new String[] { "desert_1", "desert_2", "desert_3", "jungle_1", "jungle_2", "jungle_3" };
+        }
     }
 }
