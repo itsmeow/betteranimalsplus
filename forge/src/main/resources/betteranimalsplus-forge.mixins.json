@@ -1,5 +1,5 @@
 {
-  "required": true,
+  "required": false,
   "package": "dev.itsmeow.betteranimalsplus.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
