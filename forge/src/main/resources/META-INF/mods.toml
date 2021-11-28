@@ -1,6 +1,6 @@
 modLoader="javafml" #mandatory
 loaderVersion="[34,)" #mandatory
-issueTrackerURL="http://github.com/itsmeow/betteranimalsplus/issues" #optional
+issueTrackerURL="https://github.com/itsmeow/betteranimalsplus/issues" #optional
 displayURL="https://betteranimalsplus.com/" #optional
 logoFile="icon.png" #optional
 credits="Cybercat5555: Design, Modeling, Texturing, Ideas; its_meow: Programming, AI, Functionality, Ideas; Wolverbyte: Design, Modeling, Texturing, Ideas" #optional
@@ -18,5 +18,11 @@ Adds 35+ new animals to your world, with items, food, blocks, and armor to suppl
     modId="forge"
     mandatory=true
     versionRange="[36.2.0,)"
+    ordering="NONE"
+    side="BOTH"
+[[dependencies.betteranimalsplus]]
+    modId="architectury-api"
+    mandatory=true
+    versionRange="[1.20.0,)"
     ordering="NONE"
     side="BOTH"
