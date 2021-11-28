@@ -2,7 +2,6 @@ package dev.itsmeow.betteranimalsplus;
 
 import com.google.common.collect.ImmutableList;
 import dev.architectury.injectables.annotations.ExpectPlatform;
-import dev.itsmeow.betteranimalsplus.client.dumb.DeveloperRenderThing;
 import dev.itsmeow.betteranimalsplus.client.dumb.SafeSyncThing;
 import dev.itsmeow.betteranimalsplus.common.CommonEventHandler;
 import dev.itsmeow.betteranimalsplus.common.entity.util.EntityTypeContainerBAPTameable;
@@ -68,7 +67,6 @@ public class BetterAnimalsPlusMod {
         PlayerEvent.PLAYER_JOIN.register(BetterAnimalsPlusMod::onPlayerJoin);
         PlayerEvent.PLAYER_QUIT.register(BetterAnimalsPlusMod::onPlayerLeave);
         CommonEventHandler.init();
-        DeveloperRenderThing.init();
         //ClassLoadHacks.runWhenLoaded("curios", () -> () -> CuriosModCompat.subscribe(modBus));
     }
 

@@ -4,6 +4,7 @@ import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.math.Vector3f;
 import dev.itsmeow.betteranimalsplus.BetterAnimalsPlusMod;
 import dev.itsmeow.betteranimalsplus.Ref;
+import dev.itsmeow.betteranimalsplus.client.dumb.DeveloperRenderThing;
 import dev.itsmeow.betteranimalsplus.client.model.entity.*;
 import dev.itsmeow.betteranimalsplus.client.model.entity.shark.*;
 import dev.itsmeow.betteranimalsplus.client.renderer.blockentity.RenderBlockTrillium;
@@ -30,6 +31,7 @@ public class ClientLifecycleHandler {
     public static final RenderFactory R = IMDLibClient.getRenderRegistry(Ref.MOD_ID);
 
     public static void clientInit() {
+        DeveloperRenderThing.init();
         BlockEntityRenderers.registerRenderer(ModBlockEntities.TRILLIUM_TYPE.get(), RenderBlockTrillium::new);
         HeadBlockEntity.registerTypeRender();
         R.addRender(ModEntities.BROWN_BEAR.getEntityType(), 1F, r -> r.tCondition(AgableMob::isBaby, "brownbear_baby", "brownbear").mSingle(new ModelBrownBear<>()).childScale(0.5F));
