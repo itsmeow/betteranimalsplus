@@ -1,8 +1,6 @@
 package dev.itsmeow.betteranimalsplus.client.model.block.head;
 
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
-import net.minecraft.client.model.EntityModel;
+import dev.itsmeow.betteranimalsplus.client.model.abstracts.ModelBAPHead;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.world.entity.Entity;
 
@@ -10,7 +8,7 @@ import net.minecraft.world.entity.Entity;
  * wolf_v2_head - cybercat5555
  * Created using Tabula 7.0.1
  */
-public class ModelFeralWolfHead extends EntityModel<Entity> {
+public class ModelFeralWolfHead<T extends Entity> extends ModelBAPHead<T> {
     public ModelPart head;
     public ModelPart jawUpper01;
     public ModelPart jawLower;
@@ -29,6 +27,7 @@ public class ModelFeralWolfHead extends EntityModel<Entity> {
     public ModelPart rEar02;
 
     public ModelFeralWolfHead() {
+        super(false);
         this.texWidth = 128;
         this.texHeight = 64;
         this.upperTeeth03 = new ModelPart(this, 55, 28);
@@ -63,7 +62,7 @@ public class ModelFeralWolfHead extends EntityModel<Entity> {
         this.jawUpper01.addBox(-0.9F, -4.0F, -1.0F, 2, 5, 2, 0.0F);
         this.setRotateAngle(jawUpper01, 0.0F, 0.0F, -0.13962634015954636F);
         this.head = new ModelPart(this, 40, 0);
-        this.head.setPos(0.0F, 23.9F, 0.0F);
+        this.head.setPos(0.0F, 0.0F, 0.0F);
         this.head.addBox(-3.5F, -5.0F, -3.0F, 7, 5, 6, 0.0F);
         this.setRotateAngle(head, 1.5707963267948966F, 0.0F, 0.0F);
         this.upperTeeth02 = new ModelPart(this, 50, 20);
@@ -115,21 +114,7 @@ public class ModelFeralWolfHead extends EntityModel<Entity> {
     }
 
     @Override
-    public void setupAnim(Entity entity, float f, float f1, float f2, float f3, float f4) {
-        this.head.yRot = (float) Math.toRadians(f);
-    }
-
-    @Override
-    public void renderToBuffer(PoseStack matrixStackIn, VertexConsumer bufferIn, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
-        this.head.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn);
-    }
-
-    /**
-     * This is a helper function from Tabula to set the rotation of model parts
-     */
-    public void setRotateAngle(ModelPart ModelRenderer, float x, float y, float z) {
-        ModelRenderer.xRot = x;
-        ModelRenderer.yRot = y;
-        ModelRenderer.zRot = z;
+    public ModelPart basePart() {
+        return head;
     }
 }

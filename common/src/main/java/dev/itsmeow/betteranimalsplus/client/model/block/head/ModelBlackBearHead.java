@@ -1,6 +1,5 @@
 package dev.itsmeow.betteranimalsplus.client.model.block.head;
 
-import com.mojang.blaze3d.vertex.PoseStack;
 import dev.itsmeow.betteranimalsplus.client.model.abstracts.ModelBAPHead;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.world.entity.Entity;
@@ -17,7 +16,7 @@ public class ModelBlackBearHead<T extends Entity> extends ModelBAPHead<T> {
         texHeight = 64;
 
         head = new ModelPart(this);
-        head.setPos(0.0F, 23.9F, 0.0F);
+        head.setPos(0.0F, 24.0F, 0.0F);
         head.texOffs(93, 37).addBox(-4.0F, -5.5F, -8.25F, 8.0F, 8.0F, 8.0F, 0.0F, false);
         head.texOffs(0, 7).addBox(2.25F, -7.5F, -5.25F, 3.0F, 3.0F, 2.0F, 0.0F, false);
         head.texOffs(0, 7).addBox(-4.75F, -7.5F, -5.25F, 3.0F, 3.0F, 2.0F, 0.0F, true);
@@ -44,7 +43,12 @@ public class ModelBlackBearHead<T extends Entity> extends ModelBAPHead<T> {
     }
 
     @Override
-    public void transform(PoseStack stack) {
-        stack.translate(0F, 0.21875F, -0.025F);
+    public float wallOffsetX() {
+        return 4.1F;
+    }
+
+    @Override
+    public float globalOffsetY() {
+        return 3F;
     }
 }

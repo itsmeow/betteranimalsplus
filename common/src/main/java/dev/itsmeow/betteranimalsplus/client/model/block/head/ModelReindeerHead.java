@@ -1,15 +1,13 @@
 package dev.itsmeow.betteranimalsplus.client.model.block.head;
 
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
-import net.minecraft.client.model.EntityModel;
+import dev.itsmeow.betteranimalsplus.client.model.abstracts.ModelBAPHead;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.world.entity.Entity;
 
 /**
  * reindeerhead - cybercat5555 Created using Tabula 5.1.0
  */
-public class ModelReindeerHead extends EntityModel<Entity> {
+public class ModelReindeerHead<T extends Entity> extends ModelBAPHead<T> {
 
     public ModelPart chest;
     public ModelPart neck;
@@ -56,6 +54,7 @@ public class ModelReindeerHead extends EntityModel<Entity> {
     public ModelPart rAntler16;
 
     public ModelReindeerHead() {
+        super(false);
         this.texWidth = 128;
         this.texHeight = 64;
         this.snout = new ModelPart(this, 88, 36);
@@ -87,7 +86,7 @@ public class ModelReindeerHead extends EntityModel<Entity> {
         this.rAntler03.addBox(-0.5F, -0.5F, -2.0F, 1, 1, 2, 0.0F);
         this.setRotateAngle(this.rAntler03, -0.9075712110370513F, -0.22689280275926282F, -0.22689280275926282F);
         this.chest = new ModelPart(this, 0, 0);
-        this.chest.setPos(0.0F, 23.9F, 0.0F);
+        this.chest.setPos(0.0F, 0.0F, 0.0F);
         this.chest.addBox(-3.5F, -3.0F, -5.0F, 7, 6, 5, 0.0F);
         this.mane02 = new ModelPart(this, 20, 50);
         this.mane02.setPos(0.0F, 0.9F, -1.0F);
@@ -289,21 +288,17 @@ public class ModelReindeerHead extends EntityModel<Entity> {
     }
 
     @Override
-    public void setupAnim(Entity entity, float f, float f1, float f2, float f3, float f4) {
-        this.chest.yRot = (float) Math.toRadians(f);
+    public ModelPart basePart() {
+        return chest;
     }
 
     @Override
-    public void renderToBuffer(PoseStack matrixStackIn, VertexConsumer bufferIn, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
-        this.chest.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn);
+    public float wallOffsetX() {
+        return 4F;
     }
 
-    /**
-     * This is a helper function from Tabula to set the rotation of model parts
-     */
-    public void setRotateAngle(ModelPart modelRenderer, float x, float y, float z) {
-        modelRenderer.xRot = x;
-        modelRenderer.yRot = y;
-        modelRenderer.zRot = z;
+    @Override
+    public float globalOffsetY() {
+        return 4.9F;
     }
 }

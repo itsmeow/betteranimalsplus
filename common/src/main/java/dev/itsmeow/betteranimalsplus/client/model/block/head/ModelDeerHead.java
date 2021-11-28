@@ -1,8 +1,6 @@
 package dev.itsmeow.betteranimalsplus.client.model.block.head;
 
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
-import net.minecraft.client.model.EntityModel;
+import dev.itsmeow.betteranimalsplus.client.model.abstracts.ModelBAPHead;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.world.entity.Entity;
 
@@ -10,7 +8,7 @@ import net.minecraft.world.entity.Entity;
  * deer2_head - cybercat5555
  * Created using Tabula 7.0.1
  */
-public class ModelDeerHead extends EntityModel<Entity> {
+public class ModelDeerHead<T extends Entity> extends ModelBAPHead<T> {
     public ModelPart chest;
     public ModelPart neck;
     public ModelPart mane03;
@@ -56,6 +54,7 @@ public class ModelDeerHead extends EntityModel<Entity> {
     public ModelPart rAntler08c;
 
     public ModelDeerHead() {
+        super(false);
         this.texWidth = 64;
         this.texHeight = 64;
         this.mane04 = new ModelPart(this, 36, 54);
@@ -287,21 +286,17 @@ public class ModelDeerHead extends EntityModel<Entity> {
     }
 
     @Override
-    public void setupAnim(Entity entity, float f, float f1, float f2, float f3, float f4) {
-        this.chest.yRot = (float) Math.toRadians(f);
+    public ModelPart basePart() {
+        return chest;
     }
 
     @Override
-    public void renderToBuffer(PoseStack matrixStackIn, VertexConsumer bufferIn, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
-        this.chest.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn);
+    public float wallOffsetX() {
+        return 4F;
     }
 
-    /**
-     * This is a helper function from Tabula to set the rotation of model parts
-     */
-    public void setRotateAngle(ModelPart modelRenderer, float x, float y, float z) {
-        modelRenderer.xRot = x;
-        modelRenderer.yRot = y;
-        modelRenderer.zRot = z;
+    @Override
+    public float globalOffsetY() {
+        return 4.9F;
     }
 }

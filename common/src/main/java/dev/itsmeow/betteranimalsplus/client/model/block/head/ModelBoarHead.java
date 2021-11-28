@@ -1,15 +1,13 @@
 package dev.itsmeow.betteranimalsplus.client.model.block.head;
 
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
-import net.minecraft.client.model.EntityModel;
+import dev.itsmeow.betteranimalsplus.client.model.abstracts.ModelBAPHead;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.world.entity.Entity;
 
 /**
  * boarhead - cybercat5555 Created using Tabula 5.1.0
  */
-public class ModelBoarHead extends EntityModel<Entity> {
+public class ModelBoarHead<T extends Entity> extends ModelBAPHead<T> {
 
     public ModelPart neck;
     public ModelPart neck02;
@@ -33,10 +31,11 @@ public class ModelBoarHead extends EntityModel<Entity> {
     public ModelPart rEar02;
 
     public ModelBoarHead() {
+        super(true);
         this.texWidth = 128;
         this.texHeight = 64;
         this.neck = new ModelPart(this, 0, 34);
-        this.neck.setPos(0.0F, 23.9F, 0.0F);
+        this.neck.setPos(0.0F, 0.0F, 0.0F);
         this.neck.addBox(-3.0F, -3.5F, -4.0F, 6, 7, 4, 0.0F);
         this.lTusk01 = new ModelPart(this, 0, 0);
         this.lTusk01.setPos(1.3F, -0.5F, -2.8F);
@@ -139,22 +138,17 @@ public class ModelBoarHead extends EntityModel<Entity> {
     }
 
     @Override
-    public void setupAnim(Entity entity, float f, float f1, float f2, float f3, float f4) {
-        this.neck.yRot = (float) Math.toRadians(f);
-        this.neck.xRot = (float) Math.toRadians(f1);
+    public ModelPart basePart() {
+        return neck;
     }
 
     @Override
-    public void renderToBuffer(PoseStack matrixStackIn, VertexConsumer bufferIn, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
-        this.neck.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn);
+    public float wallOffsetX() {
+        return 4F;
     }
 
-    /**
-     * This is a helper function from Tabula to set the rotation of model parts
-     */
-    public void setRotateAngle(ModelPart modelRenderer, float x, float y, float z) {
-        modelRenderer.xRot = x;
-        modelRenderer.yRot = y;
-        modelRenderer.zRot = z;
+    @Override
+    public float globalOffsetY() {
+        return 3.9F;
     }
 }

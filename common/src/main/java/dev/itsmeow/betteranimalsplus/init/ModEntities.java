@@ -286,7 +286,7 @@ public class ModEntities {
             .size(1.2F, 1.6F)
             .biomesOverworld(BiomeTypes.FOREST, BiomeTypes.MAGICAL)
             .variants(EntityDeer.EntityDeerVariant::new, "1", "2", "3", "4")
-            .head().itemGroup(G).mapToNames().offset(-1.5F).setModel(() -> ModelDeerHead::new).done());
+            .head().itemGroup(G).mapToNames().setModel(() -> ModelDeerHead::new).done());
     public static final EntityTypeContainerBAPTameable<EntityFeralWolf> FERAL_WOLF = H.addTame(EntityFeralWolf.class, EntityFeralWolf::new, "feralwolf", () -> Mob.createMobAttributes()
             .add(Attributes.MOVEMENT_SPEED, 0.3D)
             .add(Attributes.MAX_HEALTH, 10.0D)
@@ -397,7 +397,7 @@ public class ModEntities {
                     .extra(BiomeTypes.SWAMP)
                     .extra(Biomes.GIANT_SPRUCE_TAIGA, Biomes.GIANT_SPRUCE_TAIGA_HILLS, Biomes.GIANT_TREE_TAIGA, Biomes.GIANT_TREE_TAIGA_HILLS))
             .variants(4)
-            .head().itemGroup(G).mapToNames().offset(-1.35F).setModel(() -> ModelMooseHead::new).done());
+            .head().itemGroup(G).mapToNames().setModel(() -> ModelMooseHead::new).done());
     public static final EntityTypeContainerContainable<EntityFreshwaterEel, ItemModFishBucket<EntityFreshwaterEel>> EEL_FRESHWATER = H.addContainableB(EntityFreshwaterEel.class, EntityFreshwaterEel::new, "eel_freshwater", () -> Mob.createMobAttributes()
             .add(Attributes.MAX_HEALTH, 5.0D)
             .add(Attributes.MOVEMENT_SPEED, 2D)
