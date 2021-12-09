@@ -320,7 +320,7 @@ public class ModEntities {
             .size(0.8F, 0.8F)
             .despawn()
             .biomesOverworld(BiomeTypes.OCEAN)
-            .variants("little_blue", "big_blue", "pink", "red_stripe", "green", "gray")
+            .variants("japanese_sea_nettle", "moon", "barrel", "white_spotted", "crown", "purple_striped")
             .containers("%s_bucket", ItemModFishBucket.waterBucket(G), "", c -> Items.WATER_BUCKET, EntityJellyfish::bucketTooltip));
     public static final EntityTypeContainer<EntityReindeer> REINDEER = H.add(EntityReindeer.class, EntityReindeer::new, "reindeer", () -> Mob.createMobAttributes()
             .add(Attributes.JUMP_STRENGTH)
