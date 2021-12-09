@@ -20,6 +20,8 @@ public class ModResources {
 
     public static final ResourceLocation tarantula_eyes = t("tarantula_eyes");
 
+    public static final ResourceLocation reindeer_christmas_glow = t("reindeer_christmas_glow");
+
     private static ResourceLocation t(String tex) {
         return new ResourceLocation(Ref.MOD_ID, "textures/entity/" + tex + ".png");
     }
