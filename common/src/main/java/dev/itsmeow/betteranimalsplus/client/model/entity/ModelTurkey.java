@@ -2,49 +2,36 @@ package dev.itsmeow.betteranimalsplus.client.model.entity;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import dev.itsmeow.betteranimalsplus.client.model.abstracts.ModelBAP;
 import dev.itsmeow.betteranimalsplus.common.entity.EntityTurkey;
-import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.geom.ModelPart;
-import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
 
-/**
- * turkey - cybercat5555
- * Created using Tabula 7.0.1
- */
-public class ModelTurkey<T extends LivingEntity> extends EntityModel<T> {
+public class ModelTurkey<T extends LivingEntity> extends ModelBAP<T> {
+
+    public ModelPart root;
     public ModelPart body;
     public ModelPart lLeg01;
-    public ModelPart rLeg01;
-    public ModelPart breast;
-    public ModelPart lWing01;
-    public ModelPart rWing01;
-    public ModelPart tail01;
-    public ModelPart tail02;
-    public ModelPart hackles;
     public ModelPart lLeg02;
     public ModelPart lClaw01;
     public ModelPart lClaw02;
     public ModelPart lClaw03;
     public ModelPart lClaw04;
+    public ModelPart box_r1;
+    public ModelPart rLeg01;
     public ModelPart rLeg02;
     public ModelPart rClaw01;
-    public ModelPart lClaw02_1;
+    public ModelPart rClaw02;
     public ModelPart rClaw03;
     public ModelPart rClaw04;
+    public ModelPart breast;
     public ModelPart neck;
-    public ModelPart beard;
     public ModelPart head;
-    public ModelPart waddle;
     public ModelPart beak01;
-    public ModelPart beak03;
     public ModelPart beak02;
-    public ModelPart lWing02;
-    public ModelPart lWing01Feathers;
-    public ModelPart lWing02Feathers;
-    public ModelPart rWing02;
-    public ModelPart rWing01Feathers;
-    public ModelPart rWing02Feathers;
+    public ModelPart waddle;
+    public ModelPart beard;
+    public ModelPart tail01;
     public ModelPart lTailFeather01;
     public ModelPart rTailFeather01;
     public ModelPart lTailFeather02;
@@ -55,228 +42,255 @@ public class ModelTurkey<T extends LivingEntity> extends EntityModel<T> {
     public ModelPart rTailFeather04;
     public ModelPart lTailFeather05;
     public ModelPart rTailFeather05;
+    public ModelPart tail02;
+    public ModelPart hackles;
+    public ModelPart lWing01;
+    public ModelPart lWing02;
+    public ModelPart lWingFeathers;
+    public ModelPart rWing01;
+    public ModelPart rWing02;
+    public ModelPart rWingFeathers;
 
     public ModelTurkey() {
-        this.texWidth = 64;
-        this.texHeight = 64;
-        this.rTailFeather04 = new ModelPart(this, 16, 52);
-        this.rTailFeather04.mirror = true;
-        this.rTailFeather04.setPos(-2.7F, 0.2F, 4.0F);
-        this.rTailFeather04.addBox(-1.0F, -0.5F, -1.7F, 2, 0, 9, 0.0F);
-        this.setRotateAngle(rTailFeather04, 0.0F, -0.17453292519943295F, 0.0F);
-        this.lClaw02_1 = new ModelPart(this, 0, 0);
-        this.lClaw02_1.mirror = true;
-        this.lClaw02_1.setPos(-0.5F, 5.4F, -0.7F);
-        this.lClaw02_1.addBox(-0.5F, -0.5F, -2.5F, 1, 1, 3, 0.0F);
-        this.setRotateAngle(lClaw02_1, 0.24434609527920614F, 0.3490658503988659F, 0.0F);
-        this.head = new ModelPart(this, 0, 52);
-        this.head.setPos(0.0F, -6.8F, 0.0F);
-        this.head.addBox(-1.5F, -4.0F, -1.9F, 3, 4, 4, 0.0F);
-        this.setRotateAngle(head, 0.2617993877991494F, 0.0F, 0.0F);
-        this.rWing01Feathers = new ModelPart(this, 40, 20);
-        this.rWing01Feathers.mirror = true;
-        this.rWing01Feathers.setPos(0.0F, 0.0F, 0.0F);
-        this.rWing01Feathers.addBox(-4.0F, 0.0F, -0.7F, 5, 0, 6, 0.0F);
-        this.rTailFeather03 = new ModelPart(this, 16, 52);
-        this.rTailFeather03.mirror = true;
-        this.rTailFeather03.setPos(-2.6F, 0.1F, 5.1F);
-        this.rTailFeather03.addBox(-1.0F, -0.5F, -1.7F, 2, 0, 9, 0.0F);
-        this.setRotateAngle(rTailFeather03, 0.0F, -0.12217304763960307F, 0.0F);
-        this.tail01 = new ModelPart(this, 24, 32);
-        this.tail01.setPos(0.0F, -3.1F, 5.6F);
-        this.tail01.addBox(-3.5F, -1.0F, 0.0F, 7, 2, 5, 0.0F);
-        this.lWing01 = new ModelPart(this, 45, 11);
-        this.lWing01.setPos(4.3F, -1.4F, -4.1F);
-        this.lWing01.addBox(0.0F, -0.5F, -1.0F, 4, 1, 3, 0.0F);
-        this.setRotateAngle(lWing01, 0.0F, -1.2217304763960306F, 0.7853981633974483F);
-        this.rTailFeather02 = new ModelPart(this, 16, 52);
-        this.rTailFeather02.mirror = true;
-        this.rTailFeather02.setPos(-2.0F, -0.15F, 4.8F);
-        this.rTailFeather02.addBox(-1.0F, -0.5F, -0.7F, 2, 0, 9, 0.0F);
-        this.setRotateAngle(rTailFeather02, 0.0F, -0.05235987755982988F, 0.0F);
-        this.lWing02 = new ModelPart(this, 45, 16);
-        this.lWing02.setPos(3.8F, 0.0F, -0.2F);
-        this.lWing02.addBox(0.0F, -0.51F, -0.7F, 6, 1, 2, 0.0F);
-        this.setRotateAngle(lWing02, 0.0F, -0.5235987755982988F, 0.0F);
-        this.lLeg02 = new ModelPart(this, 46, 0);
-        this.lLeg02.setPos(0.0F, 3.1F, 0.0F);
-        this.lLeg02.addBox(-1.0F, 0.0F, -1.0F, 2, 6, 2, 0.0F);
-        this.setRotateAngle(lLeg02, -0.20943951023931953F, 0.0F, 0.0F);
-        this.breast = new ModelPart(this, 0, 23);
-        this.breast.setPos(0.0F, 0.3F, -4.5F);
-        this.breast.addBox(-3.5F, -3.8F, -3.9F, 7, 6, 7, 0.0F);
-        this.setRotateAngle(breast, 0.7853981633974483F, 0.0F, 0.0F);
-        this.rLeg01 = new ModelPart(this, 33, 0);
-        this.rLeg01.mirror = true;
-        this.rLeg01.setPos(-2.6F, 4.5F, 1.5F);
-        this.rLeg01.addBox(-1.5F, -0.7F, -1.5F, 3, 4, 3, 0.0F);
-        this.setRotateAngle(rLeg01, 0.20943951023931953F, 0.0F, 0.0F);
-        this.waddle = new ModelPart(this, 15, 36);
-        this.waddle.setPos(0.0F, -4.0F, -0.8F);
-        this.waddle.addBox(0.0F, -3.0F, -3.0F, 0, 7, 3, 0.0F);
-        this.setRotateAngle(waddle, 0.40142572795869574F, 0.0F, 0.0F);
-        this.lTailFeather05 = new ModelPart(this, 16, 52);
-        this.lTailFeather05.setPos(2.7F, 0.3F, 2.7F);
-        this.lTailFeather05.addBox(-1.0F, -0.5F, -1.7F, 2, 0, 9, 0.0F);
-        this.setRotateAngle(lTailFeather05, 0.0F, 0.2617993877991494F, 0.0F);
-        this.beak02 = new ModelPart(this, 57, 3);
-        this.beak02.setPos(0.0F, 0.0F, 0.0F);
-        this.beak02.addBox(-0.5F, -0.8F, 0.0F, 1, 3, 1, 0.0F);
-        this.setRotateAngle(beak02, -0.10471975511965977F, 0.0F, 0.0F);
-        this.lClaw03 = new ModelPart(this, 0, 0);
-        this.lClaw03.mirror = true;
-        this.lClaw03.setPos(-0.5F, 5.4F, -0.7F);
-        this.lClaw03.addBox(-0.5F, -0.5F, -2.5F, 1, 1, 3, 0.0F);
-        this.setRotateAngle(lClaw03, 0.24434609527920614F, 0.3490658503988659F, 0.0F);
-        this.rTailFeather05 = new ModelPart(this, 16, 52);
-        this.rTailFeather05.mirror = true;
-        this.rTailFeather05.setPos(-2.7F, 0.3F, 2.7F);
-        this.rTailFeather05.addBox(-1.0F, -0.5F, -1.7F, 2, 0, 9, 0.0F);
-        this.setRotateAngle(rTailFeather05, 0.0F, -0.2617993877991494F, 0.0F);
-        this.rClaw01 = new ModelPart(this, 0, 0);
-        this.rClaw01.mirror = true;
-        this.rClaw01.setPos(0.0F, 5.3F, -1.1F);
-        this.rClaw01.addBox(-0.5F, -0.5F, -2.5F, 1, 1, 3, 0.0F);
-        this.setRotateAngle(rClaw01, 0.24434609527920614F, 0.0F, 0.0F);
-        this.lClaw02 = new ModelPart(this, 0, 0);
-        this.lClaw02.setPos(0.5F, 5.4F, -0.7F);
-        this.lClaw02.addBox(-0.5F, -0.5F, -2.5F, 1, 1, 3, 0.0F);
-        this.setRotateAngle(lClaw02, 0.24434609527920614F, -0.3490658503988659F, 0.0F);
-        this.tail02 = new ModelPart(this, 24, 40);
-        this.tail02.mirror = true;
-        this.tail02.setPos(0.0F, -0.3F, 5.4F);
-        this.tail02.addBox(-3.0F, -2.5F, 0.0F, 6, 5, 6, 0.0F);
-        this.setRotateAngle(tail02, 0.12217304763960307F, 0.0F, 0.0F);
-        this.lTailFeather01 = new ModelPart(this, 16, 52);
-        this.lTailFeather01.setPos(0.9F, -0.3F, 4.9F);
-        this.lTailFeather01.addBox(-1.0F, -0.5F, 0.0F, 2, 0, 9, 0.0F);
-        this.setRotateAngle(lTailFeather01, 0.0F, 0.017453292519943295F, 0.0F);
-        this.beard = new ModelPart(this, 31, 52);
-        this.beard.setPos(0.0F, -1.5F, -3.5F);
-        this.beard.addBox(-1.0F, -0.5F, -1.0F, 2, 6, 2, 0.0F);
-        this.setRotateAngle(beard, -0.7853981633974483F, 0.0F, 0.0F);
-        this.rWing01 = new ModelPart(this, 45, 11);
-        this.rWing01.mirror = true;
-        this.rWing01.setPos(-4.3F, -1.4F, -4.1F);
-        this.rWing01.addBox(-4.0F, -0.5F, -1.0F, 4, 1, 3, 0.0F);
-        this.setRotateAngle(rWing01, 0.0F, 1.2217304763960306F, -0.7853981633974483F);
-        this.lClaw01 = new ModelPart(this, 0, 0);
-        this.lClaw01.setPos(0.0F, 5.3F, -1.1F);
-        this.lClaw01.addBox(-0.5F, -0.5F, -2.5F, 1, 1, 3, 0.0F);
-        this.setRotateAngle(lClaw01, 0.24434609527920614F, 0.0F, 0.0F);
-        this.rLeg02 = new ModelPart(this, 46, 0);
-        this.rLeg02.mirror = true;
-        this.rLeg02.setPos(0.0F, 3.1F, 0.0F);
-        this.rLeg02.addBox(-1.0F, 0.0F, -1.0F, 2, 6, 2, 0.0F);
-        this.setRotateAngle(rLeg02, -0.20943951023931953F, 0.0F, 0.0F);
-        this.lTailFeather02 = new ModelPart(this, 16, 52);
-        this.lTailFeather02.setPos(2.0F, -0.15F, 4.8F);
-        this.lTailFeather02.addBox(-1.0F, -0.5F, -0.7F, 2, 0, 9, 0.0F);
-        this.setRotateAngle(lTailFeather02, 0.0F, 0.05235987755982988F, 0.0F);
-        this.rClaw04 = new ModelPart(this, 0, 7);
-        this.rClaw04.mirror = true;
-        this.rClaw04.setPos(0.0F, 5.5F, 0.9F);
-        this.rClaw04.addBox(-0.5F, -0.5F, -0.5F, 1, 1, 3, 0.0F);
-        this.beak01 = new ModelPart(this, 57, 3);
-        this.beak01.setPos(0.0F, -2.0F, -2.0F);
-        this.beak01.addBox(-0.5F, -0.5F, -0.5F, 1, 3, 1, 0.0F);
-        this.setRotateAngle(beak01, -1.2217304763960306F, 0.0F, 0.0F);
-        this.hackles = new ModelPart(this, 33, 53);
-        this.hackles.mirror = true;
-        this.hackles.setPos(0.0F, -2.3F, 2.2F);
-        this.hackles.addBox(-3.0F, -2.5F, 0.0F, 6, 3, 7, 0.0F);
-        this.setRotateAngle(hackles, 0.17453292519943295F, 0.0F, 0.0F);
-        this.rClaw03 = new ModelPart(this, 0, 0);
-        this.rClaw03.mirror = true;
-        this.rClaw03.setPos(0.5F, 5.4F, -0.7F);
-        this.rClaw03.addBox(-0.5F, -0.5F, -2.5F, 1, 1, 3, 0.0F);
-        this.setRotateAngle(rClaw03, 0.24434609527920614F, -0.3490658503988659F, 0.0F);
-        this.rTailFeather01 = new ModelPart(this, 16, 52);
-        this.rTailFeather01.mirror = true;
-        this.rTailFeather01.setPos(-0.9F, -0.3F, 4.9F);
-        this.rTailFeather01.addBox(-1.0F, -0.5F, 0.0F, 2, 0, 9, 0.0F);
-        this.setRotateAngle(rTailFeather01, 0.0F, -0.017453292519943295F, 0.0F);
-        this.lLeg01 = new ModelPart(this, 33, 0);
-        this.lLeg01.setPos(2.6F, 4.5F, 1.5F);
-        this.lLeg01.addBox(-1.5F, -0.7F, -1.5F, 3, 4, 3, 0.0F);
-        this.setRotateAngle(lLeg01, 0.20943951023931953F, 0.0F, 0.0F);
-        this.lTailFeather04 = new ModelPart(this, 16, 52);
-        this.lTailFeather04.setPos(2.7F, 0.2F, 4.0F);
-        this.lTailFeather04.addBox(-1.0F, -0.5F, -1.7F, 2, 0, 9, 0.0F);
-        this.setRotateAngle(lTailFeather04, 0.0F, 0.17453292519943295F, 0.0F);
-        this.lTailFeather03 = new ModelPart(this, 16, 52);
-        this.lTailFeather03.setPos(2.6F, 0.1F, 5.1F);
-        this.lTailFeather03.addBox(-1.0F, -0.5F, -1.7F, 2, 0, 9, 0.0F);
-        this.setRotateAngle(lTailFeather03, 0.0F, 0.12217304763960307F, 0.0F);
-        this.body = new ModelPart(this, 0, 0);
-        this.body.setPos(0.0F, 10.8F, 0.0F);
-        this.body.addBox(-4.5F, -4.5F, -6.0F, 9, 9, 12, 0.0F);
-        this.beak03 = new ModelPart(this, 57, 0);
-        this.beak03.setPos(0.0F, 0.2F, 0.0F);
-        this.beak03.addBox(-1.0F, -0.7F, -0.7F, 2, 1, 1, 0.0F);
-        this.lWing01Feathers = new ModelPart(this, 40, 20);
-        this.lWing01Feathers.setPos(0.0F, 0.0F, 0.0F);
-        this.lWing01Feathers.addBox(0.0F, 0.0F, -0.7F, 5, 0, 6, 0.0F);
-        this.lWing02Feathers = new ModelPart(this, 37, 27);
-        this.lWing02Feathers.setPos(0.0F, 0.0F, 0.0F);
-        this.lWing02Feathers.addBox(1.0F, -0.1F, -0.4F, 8, 0, 6, 0.0F);
-        this.rWing02Feathers = new ModelPart(this, 37, 27);
-        this.rWing02Feathers.mirror = true;
-        this.rWing02Feathers.setPos(0.0F, 0.0F, 0.0F);
-        this.rWing02Feathers.addBox(-9.0F, -0.1F, -0.4F, 8, 0, 6, 0.0F);
-        this.neck = new ModelPart(this, 0, 38);
-        this.neck.setPos(0.0F, -2.3F, -2.2F);
-        this.neck.addBox(-1.51F, -7.5F, -2.0F, 3, 8, 4, 0.0F);
-        this.setRotateAngle(neck, -1.0471975511965976F, 0.0F, 0.0F);
-        this.rWing02 = new ModelPart(this, 45, 16);
-        this.rWing02.mirror = true;
-        this.rWing02.setPos(-3.8F, 0.0F, -0.3F);
-        this.rWing02.addBox(-6.0F, -0.51F, -0.5F, 6, 1, 2, 0.0F);
-        this.setRotateAngle(rWing02, 0.0F, 0.5235987755982988F, 0.0F);
-        this.lClaw04 = new ModelPart(this, 0, 7);
-        this.lClaw04.setPos(0.0F, 5.5F, 0.9F);
-        this.lClaw04.addBox(-0.5F, -0.5F, -0.5F, 1, 1, 3, 0.0F);
-        this.tail01.addChild(this.rTailFeather04);
-        this.rLeg02.addChild(this.lClaw02_1);
-        this.neck.addChild(this.head);
-        this.rWing01.addChild(this.rWing01Feathers);
-        this.tail01.addChild(this.rTailFeather03);
-        this.body.addChild(this.tail01);
-        this.body.addChild(this.lWing01);
-        this.tail01.addChild(this.rTailFeather02);
-        this.lWing01.addChild(this.lWing02);
-        this.lLeg01.addChild(this.lLeg02);
-        this.body.addChild(this.breast);
-        this.body.addChild(this.rLeg01);
-        this.neck.addChild(this.waddle);
-        this.tail01.addChild(this.lTailFeather05);
-        this.beak01.addChild(this.beak02);
-        this.lLeg02.addChild(this.lClaw03);
-        this.tail01.addChild(this.rTailFeather05);
-        this.rLeg02.addChild(this.rClaw01);
-        this.lLeg02.addChild(this.lClaw02);
-        this.body.addChild(this.tail02);
-        this.tail01.addChild(this.lTailFeather01);
-        this.breast.addChild(this.beard);
-        this.body.addChild(this.rWing01);
-        this.lLeg02.addChild(this.lClaw01);
-        this.rLeg01.addChild(this.rLeg02);
-        this.tail01.addChild(this.lTailFeather02);
-        this.rLeg02.addChild(this.rClaw04);
-        this.head.addChild(this.beak01);
-        this.body.addChild(this.hackles);
-        this.rLeg02.addChild(this.rClaw03);
-        this.tail01.addChild(this.rTailFeather01);
-        this.body.addChild(this.lLeg01);
-        this.tail01.addChild(this.lTailFeather04);
-        this.tail01.addChild(this.lTailFeather03);
-        this.beak01.addChild(this.beak03);
-        this.lWing01.addChild(this.lWing01Feathers);
-        this.lWing02.addChild(this.lWing02Feathers);
-        this.rWing02.addChild(this.rWing02Feathers);
-        this.breast.addChild(this.neck);
-        this.rWing01.addChild(this.rWing02);
-        this.lLeg02.addChild(this.lClaw04);
+        texWidth = 64;
+        texHeight = 64;
+
+        root = new ModelPart(this);
+        root.setPos(0.0F, 0.0F, 0.0F);
+
+
+        body = new ModelPart(this);
+        body.setPos(0.0F, 10.8F, 0.0F);
+        root.addChild(body);
+        body.texOffs(0, 0).addBox(-4.5F, -4.5F, -6.0F, 9.0F, 9.0F, 12.0F, 0.0F, false);
+
+        lLeg01 = new ModelPart(this);
+        lLeg01.setPos(2.6F, 4.5F, 1.5F);
+        body.addChild(lLeg01);
+        setRotationAngle(lLeg01, 0.2094F, 0.0F, 0.0F);
+        lLeg01.texOffs(33, 0).addBox(-1.5F, -0.7F, -1.5F, 3.0F, 4.0F, 3.0F, 0.0F, true);
+
+        lLeg02 = new ModelPart(this);
+        lLeg02.setPos(0.0F, 3.1F, 0.0F);
+        lLeg01.addChild(lLeg02);
+        setRotationAngle(lLeg02, -0.2094F, 0.0F, 0.0F);
+        lLeg02.texOffs(46, 0).addBox(-1.0F, 0.0F, -1.0F, 2.0F, 6.0F, 2.0F, 0.0F, true);
+
+        lClaw01 = new ModelPart(this);
+        lClaw01.setPos(0.0F, 5.3F, -1.1F);
+        lLeg02.addChild(lClaw01);
+        setRotationAngle(lClaw01, 0.2443F, 0.0F, 0.0F);
+        lClaw01.texOffs(0, 0).addBox(-0.5F, 0.0F, -2.5F, 1.0F, 0.0F, 3.0F, 0.0F, true);
+
+        lClaw02 = new ModelPart(this);
+        lClaw02.setPos(0.5F, 4.9F, -0.7F);
+        lLeg02.addChild(lClaw02);
+        setRotationAngle(lClaw02, 0.1571F, -0.3491F, 0.0F);
+        lClaw02.texOffs(0, 0).addBox(-0.5F, 0.5F, -2.5F, 1.0F, 0.0F, 3.0F, 0.0F, true);
+
+        lClaw03 = new ModelPart(this);
+        lClaw03.setPos(-0.5F, 4.9F, -0.7F);
+        lLeg02.addChild(lClaw03);
+        setRotationAngle(lClaw03, 0.1571F, 0.3491F, 0.0F);
+        lClaw03.texOffs(0, 0).addBox(-0.5F, 0.5F, -2.5F, 1.0F, 0.0F, 3.0F, 0.0F, false);
+
+        lClaw04 = new ModelPart(this);
+        lClaw04.setPos(0.0F, 5.5F, 0.9F);
+        lLeg02.addChild(lClaw04);
+
+
+        box_r1 = new ModelPart(this);
+        box_r1.setPos(-2.6F, 0.1F, -2.4F);
+        lClaw04.addChild(box_r1);
+        setRotationAngle(box_r1, -0.0436F, 0.0F, 0.0F);
+        box_r1.texOffs(0, 7).addBox(2.1F, -0.1F, 1.9F, 1.0F, 0.0F, 3.0F, 0.0F, true);
+
+        rLeg01 = new ModelPart(this);
+        rLeg01.setPos(-2.6F, 4.5F, 1.5F);
+        body.addChild(rLeg01);
+        setRotationAngle(rLeg01, 0.2094F, 0.0F, 0.0F);
+        rLeg01.texOffs(33, 0).addBox(-1.5F, -0.7F, -1.5F, 3.0F, 4.0F, 3.0F, 0.0F, false);
+
+        rLeg02 = new ModelPart(this);
+        rLeg02.setPos(0.0F, 3.1F, 0.0F);
+        rLeg01.addChild(rLeg02);
+        setRotationAngle(rLeg02, -0.2094F, 0.0F, 0.0F);
+        rLeg02.texOffs(46, 0).addBox(-1.0F, 0.0F, -1.0F, 2.0F, 6.0F, 2.0F, 0.0F, false);
+
+        rClaw01 = new ModelPart(this);
+        rClaw01.setPos(0.0F, 4.8F, -1.1F);
+        rLeg02.addChild(rClaw01);
+        setRotationAngle(rClaw01, 0.2443F, 0.0F, 0.0F);
+        rClaw01.texOffs(0, 0).addBox(-0.5F, 0.5F, -2.5F, 1.0F, 0.0F, 3.0F, 0.0F, false);
+
+        rClaw02 = new ModelPart(this);
+        rClaw02.setPos(-0.5F, 4.9F, -0.7F);
+        rLeg02.addChild(rClaw02);
+        setRotationAngle(rClaw02, 0.1571F, 0.3491F, 0.0F);
+        rClaw02.texOffs(0, 0).addBox(-0.5F, 0.5F, -2.5F, 1.0F, 0.0F, 3.0F, 0.0F, false);
+
+        rClaw03 = new ModelPart(this);
+        rClaw03.setPos(0.5F, 4.9F, -0.7F);
+        rLeg02.addChild(rClaw03);
+        setRotationAngle(rClaw03, 0.1134F, -0.3491F, 0.0F);
+        rClaw03.texOffs(0, 0).addBox(-0.5F, 0.5F, -2.5F, 1.0F, 0.0F, 3.0F, 0.0F, false);
+
+        rClaw04 = new ModelPart(this);
+        rClaw04.setPos(0.0F, 5.0F, 0.9F);
+        rLeg02.addChild(rClaw04);
+        rClaw04.texOffs(0, 7).addBox(-0.5F, 0.5F, -0.5F, 1.0F, 0.0F, 3.0F, 0.0F, false);
+
+        breast = new ModelPart(this);
+        breast.setPos(0.0F, 0.3F, -4.5F);
+        body.addChild(breast);
+        setRotationAngle(breast, 0.7854F, 0.0F, 0.0F);
+        breast.texOffs(0, 23).addBox(-3.5F, -3.8F, -3.9F, 7.0F, 6.0F, 7.0F, 0.0F, false);
+
+        neck = new ModelPart(this);
+        neck.setPos(0.0F, -2.3F, -2.2F);
+        breast.addChild(neck);
+        setRotationAngle(neck, -1.0472F, 0.0F, 0.0F);
+        neck.texOffs(0, 38).addBox(-1.49F, -7.5F, -2.0F, 3.0F, 8.0F, 4.0F, 0.0F, false);
+
+        head = new ModelPart(this);
+        head.setPos(0.0F, -6.8F, 0.0F);
+        neck.addChild(head);
+        setRotationAngle(head, 0.2618F, 0.0F, 0.0F);
+        head.texOffs(0, 52).addBox(-1.5F, -4.0F, -1.9F, 3.0F, 4.0F, 4.0F, 0.0F, false);
+
+        beak01 = new ModelPart(this);
+        beak01.setPos(0.0F, -2.0F, -2.0F);
+        head.addChild(beak01);
+        setRotationAngle(beak01, -1.2217F, 0.0F, 0.0F);
+        beak01.texOffs(57, 3).addBox(-0.5F, -0.5F, -0.5F, 1.0F, 3.0F, 1.0F, 0.1F, false);
+
+        beak02 = new ModelPart(this);
+        beak02.setPos(0.0F, 0.2F, 0.0F);
+        beak01.addChild(beak02);
+        beak02.texOffs(57, 0).addBox(-1.0F, -0.7F, -0.7F, 2.0F, 1.0F, 1.0F, 0.0F, false);
+
+        waddle = new ModelPart(this);
+        waddle.setPos(0.0F, -4.0F, -0.8F);
+        neck.addChild(waddle);
+        setRotationAngle(waddle, 0.4014F, 0.0F, 0.0F);
+        waddle.texOffs(14, 36).addBox(0.0F, -3.0F, -3.0F, 0.0F, 7.0F, 3.0F, 0.0F, false);
+
+        beard = new ModelPart(this);
+        beard.setPos(0.0F, -1.5F, -3.5F);
+        breast.addChild(beard);
+        setRotationAngle(beard, -0.7854F, 0.0F, 0.0F);
+        beard.texOffs(31, 52).addBox(-1.0F, -0.5F, -1.0F, 2.0F, 6.0F, 2.0F, 0.0F, false);
+
+        tail01 = new ModelPart(this);
+        tail01.setPos(0.0F, -3.1F, 5.6F);
+        body.addChild(tail01);
+        tail01.texOffs(24, 32).addBox(-3.5F, -1.0F, 0.0F, 7.0F, 2.0F, 5.0F, 0.0F, false);
+
+        lTailFeather01 = new ModelPart(this);
+        lTailFeather01.setPos(0.9F, -0.3F, 4.9F);
+        tail01.addChild(lTailFeather01);
+        setRotationAngle(lTailFeather01, 0.0F, 0.0175F, 0.0F);
+        lTailFeather01.texOffs(16, 52).addBox(-1.0F, -0.5F, 0.0F, 2.0F, 0.0F, 9.0F, 0.0F, true);
+
+        rTailFeather01 = new ModelPart(this);
+        rTailFeather01.setPos(-0.9F, -0.3F, 4.9F);
+        tail01.addChild(rTailFeather01);
+        setRotationAngle(rTailFeather01, 0.0F, -0.0175F, 0.0F);
+        rTailFeather01.texOffs(16, 52).addBox(-1.0F, -0.5F, 0.0F, 2.0F, 0.0F, 9.0F, 0.0F, false);
+
+        lTailFeather02 = new ModelPart(this);
+        lTailFeather02.setPos(2.0F, -0.15F, 4.8F);
+        tail01.addChild(lTailFeather02);
+        setRotationAngle(lTailFeather02, 0.0F, 0.0524F, 0.0F);
+        lTailFeather02.texOffs(16, 52).addBox(-1.0F, -0.5F, -0.7F, 2.0F, 0.0F, 9.0F, 0.0F, true);
+
+        rTailFeather02 = new ModelPart(this);
+        rTailFeather02.setPos(-2.0F, -0.15F, 4.8F);
+        tail01.addChild(rTailFeather02);
+        setRotationAngle(rTailFeather02, 0.0F, -0.0524F, 0.0F);
+        rTailFeather02.texOffs(16, 52).addBox(-1.0F, -0.5F, -0.7F, 2.0F, 0.0F, 9.0F, 0.0F, false);
+
+        lTailFeather03 = new ModelPart(this);
+        lTailFeather03.setPos(2.6F, 0.1F, 5.1F);
+        tail01.addChild(lTailFeather03);
+        setRotationAngle(lTailFeather03, 0.0F, 0.1222F, 0.0F);
+        lTailFeather03.texOffs(16, 52).addBox(-1.0F, -0.5F, -1.7F, 2.0F, 0.0F, 9.0F, 0.0F, true);
+
+        rTailFeather03 = new ModelPart(this);
+        rTailFeather03.setPos(-2.6F, 0.1F, 5.1F);
+        tail01.addChild(rTailFeather03);
+        setRotationAngle(rTailFeather03, 0.0F, -0.1222F, 0.0F);
+        rTailFeather03.texOffs(16, 52).addBox(-1.0F, -0.5F, -1.7F, 2.0F, 0.0F, 9.0F, 0.0F, false);
+
+        lTailFeather04 = new ModelPart(this);
+        lTailFeather04.setPos(2.7F, 0.2F, 4.0F);
+        tail01.addChild(lTailFeather04);
+        setRotationAngle(lTailFeather04, 0.0F, 0.1745F, 0.0F);
+        lTailFeather04.texOffs(16, 52).addBox(-1.0F, -0.5F, -1.7F, 2.0F, 0.0F, 9.0F, 0.0F, true);
+
+        rTailFeather04 = new ModelPart(this);
+        rTailFeather04.setPos(-2.7F, 0.2F, 4.0F);
+        tail01.addChild(rTailFeather04);
+        setRotationAngle(rTailFeather04, 0.0F, -0.1745F, 0.0F);
+        rTailFeather04.texOffs(16, 52).addBox(-1.0F, -0.5F, -1.7F, 2.0F, 0.0F, 9.0F, 0.0F, false);
+
+        lTailFeather05 = new ModelPart(this);
+        lTailFeather05.setPos(2.7F, 0.3F, 2.7F);
+        tail01.addChild(lTailFeather05);
+        setRotationAngle(lTailFeather05, 0.0F, 0.2618F, 0.0F);
+        lTailFeather05.texOffs(16, 52).addBox(-1.0F, -0.5F, -1.7F, 2.0F, 0.0F, 9.0F, 0.0F, true);
+
+        rTailFeather05 = new ModelPart(this);
+        rTailFeather05.setPos(-2.7F, 0.3F, 2.7F);
+        tail01.addChild(rTailFeather05);
+        setRotationAngle(rTailFeather05, 0.0F, -0.2618F, 0.0F);
+        rTailFeather05.texOffs(16, 52).addBox(-1.0F, -0.5F, -1.7F, 2.0F, 0.0F, 9.0F, 0.0F, false);
+
+        tail02 = new ModelPart(this);
+        tail02.setPos(0.0F, -0.3F, 5.4F);
+        body.addChild(tail02);
+        setRotationAngle(tail02, 0.1222F, 0.0F, 0.0F);
+        tail02.texOffs(20, 40).addBox(-3.0F, -2.5F, 0.0F, 6.0F, 5.0F, 6.0F, 0.0F, true);
+
+        hackles = new ModelPart(this);
+        hackles.setPos(0.0F, -2.3F, 2.2F);
+        body.addChild(hackles);
+        setRotationAngle(hackles, 0.1745F, 0.0F, 0.0F);
+        hackles.texOffs(33, 53).addBox(-3.0F, -2.5F, 0.0F, 6.0F, 3.0F, 7.0F, 0.0F, true);
+
+        lWing01 = new ModelPart(this);
+        lWing01.setPos(4.0F, -3.5F, -5.1F);
+        body.addChild(lWing01);
+        setRotationAngle(lWing01, 0.0F, -1.1345F, 0.0F);
+        lWing01.texOffs(40, 40).addBox(0.0F, -0.5F, -1.0F, 7.0F, 1.0F, 5.0F, 0.0F, true);
+
+        lWing02 = new ModelPart(this);
+        lWing02.setPos(5.4F, 0.0F, -0.3F);
+        lWing01.addChild(lWing02);
+        setRotationAngle(lWing02, 0.0F, -0.6545F, 0.0F);
+        lWing02.texOffs(46, 32).addBox(-0.25F, -0.51F, -0.5F, 6.0F, 1.0F, 3.0F, 0.0F, true);
+
+        lWingFeathers = new ModelPart(this);
+        lWingFeathers.setPos(0.0F, 0.0F, 0.0F);
+        lWing02.addChild(lWingFeathers);
+        lWingFeathers.texOffs(20, 21).addBox(-5.9F, -0.1F, -0.4F, 17.0F, 0.0F, 10.0F, 0.0F, false);
+
+        rWing01 = new ModelPart(this);
+        rWing01.setPos(-4.0F, -3.5F, -5.1F);
+        body.addChild(rWing01);
+        setRotationAngle(rWing01, 0.0F, 1.1345F, 0.0F);
+        rWing01.texOffs(40, 40).addBox(-7.0F, -0.5F, -1.0F, 7.0F, 1.0F, 5.0F, 0.0F, false);
+
+        rWing02 = new ModelPart(this);
+        rWing02.setPos(-5.4F, 0.0F, -0.3F);
+        rWing01.addChild(rWing02);
+        setRotationAngle(rWing02, 0.0F, 0.6545F, 0.0F);
+        rWing02.texOffs(46, 32).addBox(-5.75F, -0.51F, -0.5F, 6.0F, 1.0F, 3.0F, 0.0F, false);
+
+        rWingFeathers = new ModelPart(this);
+        rWingFeathers.setPos(0.0F, 0.0F, 0.0F);
+        rWing02.addChild(rWingFeathers);
+        rWingFeathers.texOffs(20, 21).addBox(-11.1F, -0.1F, -0.4F, 17.0F, 0.0F, 10.0F, 0.0F, true);
     }
 
     @Override
@@ -286,15 +300,17 @@ public class ModelTurkey<T extends LivingEntity> extends EntityModel<T> {
 
     @Override
     public void setupAnim(T entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
-        this.head.yRot = netHeadYaw * 0.017453292F;
+        this.headYaw(this.head, netHeadYaw);
+        this.headPitch(head, headPitch);
+        this.lWingFeathers.visible = this.rWingFeathers.visible = false;
         if (entityIn instanceof EntityTurkey) {
             EntityTurkey ent = (EntityTurkey) entityIn;
             float peckTime = ent.getPeckTime();
             if (peckTime <= 60) {
-                this.neck.xRot = (float) Math.toRadians((peckTime % (60F / peckTime))) * 6F + (float) Math.toRadians(80);
+                this.neck.xRot = rad((peckTime % (60F / peckTime))) * 6F + rad(80F);
                 this.head.yRot = 0;
             } else {
-                this.neck.xRot = -1.0471975511965976F;
+                this.neck.xRot = rad(-60F);
             }
             if (ent.isTailUp()) {
                 this.setRotateAngle(tail01, 0.9424777960769379F, 0.0F, 0.0F);
@@ -329,22 +345,13 @@ public class ModelTurkey<T extends LivingEntity> extends EntityModel<T> {
                 this.setRotateAngle(rTailFeather01, 0.0F, -0.017453292519943295F, 0.0F);
                 this.setRotateAngle(tail01, 0.0F, 0.0F, 0.0F);
             }
+            this.lWingFeathers.visible = this.rWingFeathers.visible = ageInTicks > 0 || ent.isTailUp();
         }
-        this.head.xRot = headPitch * 0.017453292F + 0.2617993877991494F;
-        this.rLeg01.xRot = Mth.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount;
-        this.lLeg01.xRot = Mth.cos(limbSwing * 0.6662F + (float) Math.PI) * 1.4F * limbSwingAmount;
+        this.biped(lLeg01, rLeg01, limbSwing * 0.6662F, limbSwingAmount * 1.4F);
         this.rWing01.zRot = ageInTicks - 0.4F;
         this.lWing01.zRot = -ageInTicks + 0.4F;
-        this.rWing01.yRot = ageInTicks == 0 ? 1.2217304763960306F : 0;
+        this.rWing01.yRot = ageInTicks == 0 ? 1.1345F : 0;
         this.lWing01.yRot = -this.rWing01.yRot;
     }
 
-    /**
-     * This is a helper function from Tabula to set the rotation of model parts
-     */
-    public void setRotateAngle(ModelPart ModelRenderer, float x, float y, float z) {
-        ModelRenderer.xRot = x;
-        ModelRenderer.yRot = y;
-        ModelRenderer.zRot = z;
-    }
 }
