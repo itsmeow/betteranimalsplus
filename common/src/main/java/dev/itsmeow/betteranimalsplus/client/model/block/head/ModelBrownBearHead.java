@@ -6,9 +6,9 @@ import net.minecraft.world.entity.Entity;
 
 public class ModelBrownBearHead<T extends Entity> extends ModelBAPHead<T> {
 
-    private final ModelPart head;
-    private final ModelPart nose_r1;
-    private final ModelPart lowerJaw;
+    public ModelPart head;
+    public ModelPart nose_r1;
+    public ModelPart lowerJaw;
 
     public ModelBrownBearHead() {
         super(true);

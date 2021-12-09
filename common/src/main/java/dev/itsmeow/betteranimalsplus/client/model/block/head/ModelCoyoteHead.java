@@ -1,28 +1,27 @@
 package dev.itsmeow.betteranimalsplus.client.model.block.head;
 
-import com.mojang.blaze3d.vertex.PoseStack;
 import dev.itsmeow.betteranimalsplus.client.model.abstracts.ModelBAPHead;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.world.entity.Entity;
 
 public class ModelCoyoteHead<T extends Entity> extends ModelBAPHead<T> {
 
-    private final ModelPart head;
-    private final ModelPart rCheekFur_r1;
-    private final ModelPart lCheekFur_r1;
-    private final ModelPart muzzle;
-    private final ModelPart mUpperFang_r1;
-    private final ModelPart rUpperFang_r1;
-    private final ModelPart lUpperFang_r1;
-    private final ModelPart rLip_r1;
-    private final ModelPart lLip_r1;
-    private final ModelPart lowerJaw;
-    private final ModelPart lEar01;
-    private final ModelPart lEar02;
-    private final ModelPart cube_r1;
-    private final ModelPart rEar01;
-    private final ModelPart rEar02;
-    private final ModelPart cube_r2;
+    public ModelPart head;
+    public ModelPart rCheekFur_r1;
+    public ModelPart lCheekFur_r1;
+    public ModelPart muzzle;
+    public ModelPart mUpperFang_r1;
+    public ModelPart rUpperFang_r1;
+    public ModelPart lUpperFang_r1;
+    public ModelPart rLip_r1;
+    public ModelPart lLip_r1;
+    public ModelPart lowerJaw;
+    public ModelPart lEar01;
+    public ModelPart lEar02;
+    public ModelPart cube_r1;
+    public ModelPart rEar01;
+    public ModelPart rEar02;
+    public ModelPart cube_r2;
 
     public ModelCoyoteHead() {
         super(false);
@@ -30,23 +29,23 @@ public class ModelCoyoteHead<T extends Entity> extends ModelBAPHead<T> {
         texHeight = 64;
 
         head = new ModelPart(this);
-        head.setPos(0.0F, 24.0F, 0.0F);
-        head.texOffs(0, 46).addBox(-2.5F, -5.0F, -2.0F, 5.0F, 5.0F, 4.0F, -0.1F, false);
+        head.setPos(0.0F, 0.0F, 0.0F);
+        head.texOffs(0, 46).addBox(-2.5F, 19.0F, -2.0F, 5.0F, 5.0F, 4.0F, -0.1F, false);
 
         rCheekFur_r1 = new ModelPart(this);
-        rCheekFur_r1.setPos(-2.0F, 0.0F, 0.0F);
+        rCheekFur_r1.setPos(-2.0F, 24.0F, 0.0F);
         head.addChild(rCheekFur_r1);
         setRotationAngle(rCheekFur_r1, 0.0F, 0.3927F, -0.4363F);
         rCheekFur_r1.texOffs(0, 56).addBox(-2.5F, -3.75F, 0.0F, 4.0F, 4.0F, 0.0F, 0.0F, true);
 
         lCheekFur_r1 = new ModelPart(this);
-        lCheekFur_r1.setPos(3.0F, 0.0F, 0.0F);
+        lCheekFur_r1.setPos(3.0F, 24.0F, 0.0F);
         head.addChild(lCheekFur_r1);
         setRotationAngle(lCheekFur_r1, 0.0F, -0.3927F, 0.4363F);
         lCheekFur_r1.texOffs(0, 56).addBox(-2.5F, -3.5F, 0.0F, 4.0F, 4.0F, 0.0F, 0.0F, false);
 
         lowerJaw = new ModelPart(this);
-        lowerJaw.setPos(0.25F, -1.25F, -2.0F);
+        lowerJaw.setPos(0.25F, 22.75F, -2.0F);
         head.addChild(lowerJaw);
         setRotationAngle(lowerJaw, 0.7418F, 0.0F, 0.0F);
         lowerJaw.texOffs(19, 59).addBox(-1.0F, 0.0F, -2.5F, 2.0F, 1.0F, 3.0F, -0.2F, false);
@@ -54,7 +53,7 @@ public class ModelCoyoteHead<T extends Entity> extends ModelBAPHead<T> {
         lowerJaw.texOffs(9, 56).addBox(-0.9F, -0.5F, -2.0F, 1.0F, 1.0F, 0.0F, -0.2F, true);
 
         muzzle = new ModelPart(this);
-        muzzle.setPos(0.25F, -2.5F, -2.0F);
+        muzzle.setPos(0.0F, 21.5F, -2.0F);
         head.addChild(muzzle);
         setRotationAngle(muzzle, 0.1745F, 0.0F, 0.0F);
         muzzle.texOffs(19, 49).addBox(-1.0F, -0.5F, -2.5F, 2.0F, 1.0F, 3.0F, 0.0F, false);
@@ -90,7 +89,7 @@ public class ModelCoyoteHead<T extends Entity> extends ModelBAPHead<T> {
         lLip_r1.texOffs(5, 59).addBox(0.4F, 0.25F, -2.35F, 1.0F, 1.0F, 4.0F, 0.0F, false);
 
         lEar01 = new ModelPart(this);
-        lEar01.setPos(1.75F, -4.5F, 0.0F);
+        lEar01.setPos(1.75F, 19.5F, 0.0F);
         head.addChild(lEar01);
         setRotationAngle(lEar01, 0.0F, -0.0873F, 0.2182F);
         lEar01.texOffs(31, 50).addBox(-1.0F, -2.0F, 0.0F, 2.0F, 2.0F, 1.0F, 0.0F, false);
@@ -108,7 +107,7 @@ public class ModelCoyoteHead<T extends Entity> extends ModelBAPHead<T> {
         cube_r1.texOffs(31, 54).addBox(-0.25F, -3.5F, -0.25F, 2.0F, 4.0F, 2.0F, -0.1F, false);
 
         rEar01 = new ModelPart(this);
-        rEar01.setPos(-1.5F, -4.25F, 0.0F);
+        rEar01.setPos(-1.5F, 19.75F, 0.0F);
         head.addChild(rEar01);
         setRotationAngle(rEar01, 0.0F, 0.0873F, -0.2182F);
         rEar01.texOffs(31, 50).addBox(-1.0F, -2.0F, 0.0F, 2.0F, 2.0F, 1.0F, 0.0F, true);
@@ -137,7 +136,7 @@ public class ModelCoyoteHead<T extends Entity> extends ModelBAPHead<T> {
     }
 
     @Override
-    public float wallOffsetZ() {
-        return 2F;
+    public float globalOffsetY() {
+        return 24F;
     }
 }
