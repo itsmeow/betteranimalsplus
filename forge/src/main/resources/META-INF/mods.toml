@@ -21,7 +21,7 @@ Adds 35+ new animals to your world, with items, food, blocks, and armor to suppl
     ordering="NONE"
     side="BOTH"
 [[dependencies.betteranimalsplus]]
-    modId="architectury-api"
+    modId="architectury"
     mandatory=true
     versionRange="[1.20.0,)"
     ordering="NONE"

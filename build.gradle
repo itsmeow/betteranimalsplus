@@ -35,7 +35,7 @@ allprojects {
         }
     }
     architectury {
-        transformerVersion = rootProject.architectury_transformer_version
+       // transformerVersion = rootProject.architectury_transformer_version
     }
     java {
         withSourcesJar()
