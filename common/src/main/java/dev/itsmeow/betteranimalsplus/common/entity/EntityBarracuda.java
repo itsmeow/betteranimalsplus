@@ -6,12 +6,10 @@ import dev.itsmeow.betteranimalsplus.common.entity.util.IHaveHunger;
 import dev.itsmeow.betteranimalsplus.common.entity.util.abstracts.EntityWaterMobPathing;
 import dev.itsmeow.betteranimalsplus.common.entity.util.abstracts.EntityWaterMobPathingBucketable;
 import dev.itsmeow.betteranimalsplus.init.ModEntities;
-import dev.itsmeow.betteranimalsplus.init.ModLootTables;
 import dev.itsmeow.imdlib.entity.EntityTypeContainer;
 import dev.itsmeow.imdlib.entity.util.EntityTypeContainerContainable;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
@@ -125,11 +123,6 @@ public class EntityBarracuda extends EntityWaterMobPathingBucketable implements 
             this.playSound(this.getFlopSound(), this.getSoundVolume(), this.getVoicePitch());
         }
         super.aiStep();
-    }
-
-    @Override
-    protected ResourceLocation getDefaultLootTable() {
-        return ModLootTables.DROPS_COD;
     }
 
     protected SoundEvent getFlopSound() {

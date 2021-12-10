@@ -8,13 +8,11 @@ import dev.itsmeow.betteranimalsplus.common.entity.util.IHaveHunger;
 import dev.itsmeow.betteranimalsplus.common.entity.util.abstracts.EntityBAPCephalopod;
 import dev.itsmeow.betteranimalsplus.common.entity.util.abstracts.EntityWaterMobPathing;
 import dev.itsmeow.betteranimalsplus.init.ModEntities;
-import dev.itsmeow.betteranimalsplus.init.ModLootTables;
 import dev.itsmeow.imdlib.entity.EntityTypeContainer;
 import dev.itsmeow.imdlib.entity.interfaces.IVariantTypes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.Difficulty;
@@ -142,11 +140,6 @@ public class EntityOctopus extends EntityBAPCephalopod implements IVariantTypes<
 
     public boolean isAboveBlock() {
         return level.isLoaded(this.blockPosition().below()) && level.getBlockState(this.blockPosition().below()).canOcclude() && this.getY() - (double) ((int) this.getY()) <= 0.25D;
-    }
-
-    @Override
-    protected ResourceLocation getDefaultLootTable() {
-        return ModLootTables.OCTOPUS;
     }
 
     @Override

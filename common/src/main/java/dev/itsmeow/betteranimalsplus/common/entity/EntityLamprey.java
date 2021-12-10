@@ -3,11 +3,9 @@ package dev.itsmeow.betteranimalsplus.common.entity;
 import dev.itsmeow.betteranimalsplus.common.entity.ai.EfficientMoveTowardsTargetGoal;
 import dev.itsmeow.betteranimalsplus.common.entity.util.abstracts.EntityWaterMobPathingWithTypesBucketable;
 import dev.itsmeow.betteranimalsplus.init.ModEntities;
-import dev.itsmeow.betteranimalsplus.init.ModLootTables;
 import dev.itsmeow.imdlib.entity.EntityTypeContainer;
 import dev.itsmeow.imdlib.entity.util.EntityTypeContainerContainable;
 import net.minecraft.network.protocol.game.ClientboundSetPassengersPacket;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
@@ -123,11 +121,6 @@ public class EntityLamprey extends EntityWaterMobPathingWithTypesBucketable impl
     @Override
     protected boolean isMovementNoisy() {
         return false;
-    }
-
-    @Override
-    protected ResourceLocation getDefaultLootTable() {
-        return ModLootTables.EELY;
     }
 
     @Override

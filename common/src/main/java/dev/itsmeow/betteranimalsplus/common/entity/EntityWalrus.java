@@ -3,7 +3,6 @@ package dev.itsmeow.betteranimalsplus.common.entity;
 import dev.itsmeow.betteranimalsplus.common.entity.ai.HybridPathNavigator;
 import dev.itsmeow.betteranimalsplus.init.ModEntities;
 import dev.itsmeow.betteranimalsplus.init.ModItems;
-import dev.itsmeow.betteranimalsplus.init.ModLootTables;
 import dev.itsmeow.betteranimalsplus.mixin.DamageSourceInvoker;
 import dev.itsmeow.imdlib.entity.EntityTypeContainer;
 import dev.itsmeow.imdlib.entity.interfaces.IContainerEntity;
@@ -15,7 +14,6 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.BlockTags;
@@ -272,11 +270,6 @@ public class EntityWalrus extends Animal implements IContainerEntity<EntityWalru
     @Override
     public boolean canBeLeashed(Player player) {
         return false;
-    }
-
-    @Override
-    protected ResourceLocation getDefaultLootTable() {
-        return ModLootTables.WALRUS;
     }
 
     public static class GoHomeGoal extends Goal {

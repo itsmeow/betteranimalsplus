@@ -1,8 +1,6 @@
 package dev.itsmeow.betteranimalsplus.common.entity.util.abstracts;
 
-import dev.itsmeow.betteranimalsplus.init.ModLootTables;
 import net.minecraft.core.BlockPos;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -74,11 +72,6 @@ public abstract class EntityCrabLikeBase extends EntityAnimalWithTypes {
     @Override
     public boolean isPushedByFluid() {
         return false;
-    }
-    
-    @Override
-    protected ResourceLocation getDefaultLootTable() {
-        return ModLootTables.CRAB;
     }
 
     @Override

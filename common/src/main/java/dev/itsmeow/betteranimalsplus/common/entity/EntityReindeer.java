@@ -2,7 +2,6 @@ package dev.itsmeow.betteranimalsplus.common.entity;
 
 import dev.itsmeow.betteranimalsplus.common.entity.util.IDropHead;
 import dev.itsmeow.betteranimalsplus.init.ModEntities;
-import dev.itsmeow.betteranimalsplus.init.ModLootTables;
 import dev.itsmeow.betteranimalsplus.init.ModTriggers;
 import dev.itsmeow.imdlib.entity.EntityTypeContainer;
 import dev.itsmeow.imdlib.entity.interfaces.IVariantTypes;
@@ -17,7 +16,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
@@ -431,11 +429,6 @@ public class EntityReindeer extends Animal implements PlayerRideableJumping, IVa
     public void die(DamageSource cause) {
         super.die(cause);
         this.doHeadDrop();
-    }
-
-    @Override
-    protected ResourceLocation getDefaultLootTable() {
-        return ModLootTables.reindeer;
     }
 
     protected void mountTo(Player player) {

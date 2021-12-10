@@ -1,10 +1,8 @@
 package dev.itsmeow.betteranimalsplus.common.entity.util.abstracts;
 
 import dev.itsmeow.betteranimalsplus.common.entity.ai.EfficientMoveTowardsTargetGoal;
-import dev.itsmeow.betteranimalsplus.init.ModLootTables;
 import dev.itsmeow.betteranimalsplus.init.ModTriggers;
 import net.minecraft.core.BlockPos;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.damagesource.DamageSource;
@@ -107,11 +105,6 @@ public abstract class EntityBAPSquid extends EntityBAPCephalopod {
             return true;
         }
         return false;
-    }
-
-    @Override
-    protected ResourceLocation getDefaultLootTable() {
-        return ModLootTables.BIG_SQUID;
     }
 
     public static <T extends EntityBAPSquid> boolean placement(EntityType<T> type, LevelAccessor world, MobSpawnType reason, BlockPos pos, Random rng) {

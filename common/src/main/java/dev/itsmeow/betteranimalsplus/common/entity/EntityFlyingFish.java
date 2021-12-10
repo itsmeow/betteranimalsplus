@@ -54,11 +54,6 @@ public class EntityFlyingFish extends EntityWaterMobPathingWithTypesBucketable {
     }
 
     @Override
-    protected ResourceLocation getDefaultLootTable() {
-        return ModLootTables.DROPS_COD;
-    }
-
-    @Override
     public EntityTypeContainer<? extends EntityFlyingFish> getContainer() {
         return ModEntities.FLYING_FISH;
     }

@@ -3,12 +3,10 @@ package dev.itsmeow.betteranimalsplus.common.entity;
 import dev.itsmeow.betteranimalsplus.common.entity.util.abstracts.EntityWaterMobPathing;
 import dev.itsmeow.betteranimalsplus.common.entity.util.abstracts.EntityWaterMobPathingWithTypesAirBreathing;
 import dev.itsmeow.betteranimalsplus.init.ModEntities;
-import dev.itsmeow.betteranimalsplus.init.ModLootTables;
 import dev.itsmeow.imdlib.entity.EntityTypeContainer;
 import dev.itsmeow.imdlib.entity.interfaces.ISelectiveVariantTypes;
 import dev.itsmeow.imdlib.entity.util.BiomeTypes;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.Difficulty;
@@ -111,11 +109,6 @@ public class EntityWhale extends EntityWaterMobPathingWithTypesAirBreathing impl
         } else {
             return new String[] { "cuviers", "pilot", "false_killer" };
         }
-    }
-
-    @Override
-    protected ResourceLocation getDefaultLootTable() {
-        return ModLootTables.WHALE;
     }
 
     @Override

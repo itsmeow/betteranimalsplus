@@ -6,7 +6,6 @@ import dev.itsmeow.betteranimalsplus.common.entity.ai.PeacefulNearestAttackableT
 import dev.itsmeow.betteranimalsplus.common.entity.util.abstracts.EntitySharkBase;
 import dev.itsmeow.betteranimalsplus.common.entity.util.abstracts.EntityWaterMobPathing;
 import dev.itsmeow.betteranimalsplus.init.ModEntities;
-import dev.itsmeow.betteranimalsplus.init.ModLootTables;
 import dev.itsmeow.betteranimalsplus.util.OceanBiomeHelper;
 import dev.itsmeow.imdlib.entity.EntityTypeContainer;
 import dev.itsmeow.imdlib.entity.interfaces.IVariantTypes;
@@ -14,7 +13,6 @@ import dev.itsmeow.imdlib.entity.util.BiomeTypes;
 import dev.itsmeow.imdlib.entity.util.variant.IVariant;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -164,11 +162,6 @@ public class EntityShark extends EntitySharkBase {
             return true;
         }
         return false;
-    }
-
-    @Override
-    protected ResourceLocation getDefaultLootTable() {
-        return ModLootTables.SHARK;
     }
 
     @Override

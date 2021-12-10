@@ -1,12 +1,10 @@
 package dev.itsmeow.betteranimalsplus.common.entity.util.abstracts;
 
 import dev.itsmeow.betteranimalsplus.common.entity.ai.PeacefulNearestAttackableTargetGoal;
-import dev.itsmeow.betteranimalsplus.init.ModLootTables;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.core.particles.ItemParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
@@ -120,11 +118,6 @@ public abstract class EntityEelBase extends EntityWaterMobPathingWithTypesBucket
 
     protected static boolean isHoldingFood(LivingEntity entity) {
         return entity.getMainHandItem().isEdible() || entity.getOffhandItem().isEdible();
-    }
-
-    @Override
-    protected ResourceLocation getDefaultLootTable() {
-        return ModLootTables.EELY;
     }
 
     public class MoveToFoodItemsGoal extends Goal {

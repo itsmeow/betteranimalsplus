@@ -380,7 +380,7 @@ public class EntityFeralWolf extends EntityTameableWithSelectiveTypes implements
         public WolfVariant(String nameTexture) {
             super(Ref.MOD_ID, nameTexture, "feralwolf_" + nameTexture);
             this.neutralTexture = new ResourceLocation(Ref.MOD_ID, "textures/entity/feralwolf_" + nameTexture + "_neutral.png");
-            this.lootTable = new ResourceLocation(Ref.MOD_ID, "feralwolf_" + nameTexture);
+            this.lootTable = new ResourceLocation(Ref.MOD_ID, "entities/feralwolf_" + nameTexture);
         }
 
         @Override

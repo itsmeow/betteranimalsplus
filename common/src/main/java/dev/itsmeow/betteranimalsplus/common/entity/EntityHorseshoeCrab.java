@@ -6,7 +6,6 @@ import dev.itsmeow.betteranimalsplus.init.ModEntities;
 import dev.itsmeow.betteranimalsplus.init.ModItems;
 import dev.itsmeow.imdlib.entity.EntityTypeContainer;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -71,11 +70,6 @@ public class EntityHorseshoeCrab extends EntityCrabLikeBase {
     public void addAdditionalSaveData(CompoundTag compound) {
         super.addAdditionalSaveData(compound);
         compound.putInt("BloodLeft", this.bloodLeft);
-    }
-
-    @Override
-    protected ResourceLocation getDefaultLootTable() {
-        return null;
     }
 
     @Override
