@@ -252,7 +252,6 @@ public class EntityGoose extends EntityAnimalWithTypes {
         String id = item.getDescriptionId();
         for(String itemsId : (List<String>) getContainer().getCustomConfiguration().getAnyHolder(List.class, PICKUP_BLOCK_LIST_KEY).get()) {
             if (itemsId.startsWith("#")) {
-                // TODO test impl
                 if (ItemTags.getAllTags().getMatchingTags(item).contains(new ResourceLocation(itemsId.substring(1)))) {
                     return true;
                 }

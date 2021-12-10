@@ -38,7 +38,6 @@ public abstract class EntityTameableBetterAnimalsPlus extends TamableAnimal impl
             String id = Registry.ITEM.getKey(item).toString();
             for(String itemsId : items) {
                 if(itemsId.startsWith("#")) {
-                    // TODO test impl
                     if(ItemTags.getAllTags().getMatchingTags(item).contains(new ResourceLocation(itemsId.substring(1)))) {
                         return true;
                     }
