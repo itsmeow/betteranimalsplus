@@ -4,7 +4,8 @@
   "compatibilityLevel": "JAVA_8",
   "mixins": [
     "EntityMixin",
-    "LivingEntityMixin"
+    "LivingEntityMixin",
+    "SimpleReloadableResourceManagerMixin"
   ],
   "client": [
     "PlayerRendererMixin",
