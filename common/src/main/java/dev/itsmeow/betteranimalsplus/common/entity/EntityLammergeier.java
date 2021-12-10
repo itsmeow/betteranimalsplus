@@ -35,9 +35,9 @@ import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.OwnerHurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.OwnerHurtTargetGoal;
 import net.minecraft.world.entity.animal.horse.AbstractHorse;
+import net.minecraft.world.entity.monster.AbstractSkeleton;
 import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.monster.Ghast;
-import net.minecraft.world.entity.monster.Skeleton;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.ItemStack;
@@ -126,7 +126,7 @@ public class EntityLammergeier extends EntityTameableFlyingWithTypes implements 
                 return !EntityLammergeier.this.isInSittingPose() && !EntityLammergeier.this.isOrderedToSit() && super.canUse();
             }
         });
-        this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<Skeleton>(this, Skeleton.class, false) {
+        this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<AbstractSkeleton>(this, AbstractSkeleton.class, false) {
             @Override
             public boolean canUse() {
                 return !EntityLammergeier.this.isTame() && super.canUse();
