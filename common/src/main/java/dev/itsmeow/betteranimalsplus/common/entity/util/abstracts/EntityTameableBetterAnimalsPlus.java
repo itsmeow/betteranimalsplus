@@ -6,6 +6,7 @@ import dev.itsmeow.betteranimalsplus.common.entity.util.EntityTypeContainerBAPTa
 import net.minecraft.core.Registry;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.TamableAnimal;
 import net.minecraft.world.item.Item;
 import net.minecraft.resources.ResourceLocation;
@@ -15,6 +16,11 @@ public abstract class EntityTameableBetterAnimalsPlus extends TamableAnimal impl
 
     protected EntityTameableBetterAnimalsPlus(EntityType<? extends EntityTameableBetterAnimalsPlus> type, Level world) {
         super(type, world);
+    }
+
+    @Override
+    public boolean canAttack(LivingEntity livingEntity) {
+        return super.canAttack(livingEntity) && (this.getOwnerUUID() == null || (livingEntity instanceof TamableAnimal && !this.getOwnerUUID().equals(((TamableAnimal) livingEntity).getOwnerUUID())));
     }
 
     @Override
