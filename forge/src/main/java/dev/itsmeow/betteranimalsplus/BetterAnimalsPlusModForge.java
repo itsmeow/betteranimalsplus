@@ -1,6 +1,8 @@
 package dev.itsmeow.betteranimalsplus;
 
 import dev.itsmeow.betteranimalsplus.client.BetterAnimalsPlusClientForge;
+import dev.itsmeow.betteranimalsplus.compat.curios.CuriosModCompat;
+import dev.itsmeow.imdlib.util.ClassLoadHacks;
 import me.shedaniel.architectury.platform.forge.EventBuses;
 import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.event.entity.player.PlayerEvent;
@@ -22,6 +24,7 @@ public class BetterAnimalsPlusModForge {
             BetterAnimalsPlusMod.init(e::enqueueWork);
         });
         modBus.<FMLClientSetupEvent>addListener(e -> new BetterAnimalsPlusClientForge().clientSetup(e));
+        ClassLoadHacks.runWhenLoaded("curios", () -> () -> CuriosModCompat.subscribe(modBus));
     }
 
     @SubscribeEvent

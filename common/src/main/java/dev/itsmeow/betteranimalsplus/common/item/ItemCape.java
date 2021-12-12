@@ -58,6 +58,11 @@ public abstract class ItemCape extends ItemModeledArmor {
         DispenserBlock.registerBehavior(this, DISPENSE_ITEM_BEHAVIOR);
     }
 
+    //@Override on Forge
+    public boolean canEquip(ItemStack stack, EquipmentSlot armorType, Entity entity) {
+        return armorType == EquipmentSlot.CHEST && can_equip.canEquip(stack, armorType, entity);
+    }
+
     @Override
     public boolean isValidRepairItem(ItemStack toRepair, ItemStack repair) {
         return repair.getItem() == repairItem;

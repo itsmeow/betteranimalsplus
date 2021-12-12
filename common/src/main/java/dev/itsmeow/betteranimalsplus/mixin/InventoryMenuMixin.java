@@ -16,7 +16,7 @@ public class InventoryMenuMixin {
 
     @Inject(at = @At("HEAD"), method = "mayPlace(Lnet/minecraft/world/item/ItemStack;)Z", cancellable = true)
     private void mayPlace(ItemStack stack, CallbackInfoReturnable<Boolean> callback) {
-        if (stack.getItem() instanceof ItemCape && ((SlotAccessor) this).getContainer() instanceof Inventory && !((ItemCape) stack.getItem()).can_equip.canEquip(stack, SLOTS[39 - ((SlotAccessor) this).getSlot()], ((Inventory) ((SlotAccessor) this).getContainer()).player)) {
+        if (stack.getItem() instanceof ItemCape && ((SlotAccessor) this).getContainer() instanceof Inventory && !ItemCape.can_equip.canEquip(stack, SLOTS[39 - ((SlotAccessor) this).getSlot()], ((Inventory) ((SlotAccessor) this).getContainer()).player)) {
             callback.setReturnValue(false);
             callback.cancel();
         }

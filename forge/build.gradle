@@ -25,10 +25,16 @@ repositories {
     flatDir {
         dirs 'libs', '../common/libs'
     }
+    maven {
+        url = "https://maven.theillusivec4.top/"
+    }
 }
 dependencies {
     forge "net.minecraftforge:forge:${rootProject.mc_version}-${rootProject.forge_version}"
     modApi "me.shedaniel:architectury-forge:${rootProject.architectury_version}"
+
+    modCompileOnly "top.theillusivec4.curios:curios-forge:1.16.5-4.0.5.3:api"
+    modRuntimeOnly "top.theillusivec4.curios:curios-forge:1.16.5-4.0.5.3"
 
     implementation(project(path: ":common", configuration: "dev")) {
         transitive = false
