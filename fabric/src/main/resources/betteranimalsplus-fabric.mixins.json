@@ -1,11 +1,14 @@
 {
   "required": true,
   "package": "dev.itsmeow.betteranimalsplus.mixin",
+  "plugin": "dev.itsmeow.betteranimalsplus.FabricMixinPlugin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
     "EntityMixin",
     "LivingEntityMixin",
-    "SimpleReloadableResourceManagerMixin"
+    "SimpleReloadableResourceManagerMixin",
+    "ItemCapeMixin",
+    "TrinketSlotMixin"
   ],
   "client": [
     "PlayerRendererMixin",

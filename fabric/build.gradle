@@ -22,6 +22,10 @@ repositories {
         dirs 'libs', '../common/libs'
     }
     maven {
+        name = "TerraformersMC"
+        url = "https://maven.terraformersmc.com/"
+    }
+    maven {
         name = 'Ladysnake Mods'
         url = 'https://ladysnake.jfrog.io/artifactory/mods'
     }
@@ -54,6 +58,7 @@ dependencies {
     shadowModImplementation("io.github.onyxstudios.Cardinal-Components-API:cardinal-components-entity:${rootProject.cardinal_components_version}") {
         transitive = false
     }
+    modImplementation "dev.emi:trinkets:2.6.7"
     modRuntimeOnly("curse.maven:modmenu-308702:3479748") {
         transitive = false
     }
