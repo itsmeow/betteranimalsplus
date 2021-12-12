@@ -187,7 +187,7 @@ public class ModEntities {
                     .withTypes(BiomeTypes.FOREST)
                     .withoutTypes(BiomeTypes.DRY, BiomeTypes.COLD, BiomeTypes.HOT, BiomeTypes.DENSE, BiomeTypes.DEAD, BiomeTypes.SPARSE, BiomeTypes.OCEAN)
                     .extra(BiomeTypes.RIVER).onlyOverworld())
-            .config((holder, builder) -> holder.put("pickup_blacklist", List.class, builder.defineList("pickup_blacklist", "List of blacklisted item IDs that cannot be picked up. Accepts tags by prefixing them with '#'.", Lists.asList("betteranimalsplus:goose_egg", new String[]{"betteranimalsplus:golden_goose_egg"}), input -> input instanceof String)))
+            .config((holder, builder) -> holder.put("pickup_blacklist", List.class, builder.defineList("pickup_blacklist", "List of blacklisted item IDs that cannot be picked up. Accepts tags by prefixing them with '#'.", Lists.newArrayList("betteranimalsplus:goose_egg", "betteranimalsplus:golden_goose_egg"), "", input -> input instanceof String)))
             .variants(3));
     public static final EntityTypeContainer<EntityWhale> WHALE = H.add(EntityWhale.class, EntityWhale::new, "whale", () -> Mob.createMobAttributes()
             .add(Attributes.MAX_HEALTH, 50D)

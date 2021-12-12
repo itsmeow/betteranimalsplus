@@ -43,7 +43,7 @@ public class EntityTypeContainerBAPTameable<T extends TamableAnimal> extends Ent
     @Override
     protected void customConfigurationInit(ConfigBuilder builder) {
         super.customConfigurationInit(builder);
-        this.tameItems = builder.defineList("taming_items", "List of acceptable item IDs to use for taming. Accepts tags by prefixing them with '#'.", Arrays.asList(defaultTameItems), input -> input instanceof String);
+        this.tameItems = builder.defineList("taming_items", "List of acceptable item IDs to use for taming. Accepts tags by prefixing them with '#'.", Arrays.asList(defaultTameItems), "", input -> input instanceof String);
     }
 
     protected static class TameableEntityTypeDefinition<T extends TamableAnimal> extends EntityTypeDefinition<T> {
