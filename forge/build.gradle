@@ -12,6 +12,8 @@ loom {
     launches {
         all {
             arg "-mixin.config", "mixin.imdlib.json"
+            property 'mixin.env.remapRefMap', 'true'
+            property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
         }
     }
 }
