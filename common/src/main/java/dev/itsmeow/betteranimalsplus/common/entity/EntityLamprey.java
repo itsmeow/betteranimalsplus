@@ -123,6 +123,11 @@ public class EntityLamprey extends EntityWaterMobPathingWithTypesBucketable impl
         return false;
     }
 
+    //@Override on Forge
+    public boolean canRiderInteract() {
+        return true;
+    }
+
     @Override
     public EntityTypeContainer<EntityLamprey> getContainer() {
         return ModEntities.LAMPREY;
