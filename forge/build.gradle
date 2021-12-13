@@ -24,13 +24,11 @@ architectury {
 }
 
 repositories {
-    flatDir {
-        dirs 'libs', '../common/libs'
-    }
     maven {
         url = "https://maven.theillusivec4.top/"
     }
 }
+
 dependencies {
     forge "net.minecraftforge:forge:${rootProject.mc_version}-${rootProject.forge_version}"
     modApi "me.shedaniel:architectury-forge:${rootProject.architectury_version}"
@@ -48,7 +46,7 @@ dependencies {
         transitive = false
     }
 
-    shadowModImplementation("dev.itsmeow.imdlib:imdlib:1.16.5-dev:forge") {
+    shadowModImplementation("dev.itsmeow.imdlib:imdlib-forge:${rootProject.imdlib_version}") {
         transitive = false
     }
 }
@@ -166,7 +164,7 @@ publishing {
                 }
                 issueManagement {
                     system = 'github'
-                    url = "https://github.com/" + rootProject.github + ".git/issues"
+                    url = "https://github.com/" + rootProject.github + "/issues"
                 }
                 organization {
                     name = 'itsmeow Mods'

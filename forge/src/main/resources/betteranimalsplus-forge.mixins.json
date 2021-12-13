@@ -2,6 +2,7 @@
   "required": false,
   "package": "dev.itsmeow.betteranimalsplus.mixin",
   "compatibilityLevel": "JAVA_8",
+  "minVersion": "0.8",
   "mixins": [
     "SynchedEntityDataMixin"
   ],

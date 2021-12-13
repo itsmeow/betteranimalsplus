@@ -19,13 +19,8 @@ afterEvaluate {
         remapAccessWidener = false
     }
 }
-repositories {
-    flatDir {
-        dirs 'libs'
-    }
-}
 dependencies {
-    modImplementation("dev.itsmeow.imdlib:imdlib:1.16.5-dev") {
+    modImplementation("dev.itsmeow.imdlib:imdlib-common:${rootProject.imdlib_version}") {
         transitive = false
     }
 }

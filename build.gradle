@@ -34,8 +34,11 @@ allprojects {
             options.release = targetVersion
         }
     }
-    architectury {
-       // transformerVersion = rootProject.architectury_transformer_version
+    repositories {
+        maven {
+            name = "itsmeowdev Maven"
+            url = "https://maven.itsmeow.dev/"
+        }
     }
     java {
         withSourcesJar()

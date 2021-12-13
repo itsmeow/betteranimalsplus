@@ -4,7 +4,7 @@ issueTrackerURL="https://github.com/itsmeow/betteranimalsplus/issues" #optional
 displayURL="https://betteranimalsplus.com/" #optional
 logoFile="icon.png" #optional
 credits="Cybercat5555: Design, Modeling, Texturing, Ideas; its_meow: Programming, AI, Functionality, Ideas; Wolverbyte: Design, Modeling, Texturing, Ideas" #optional
-authors="cybercat5555, itsmeowdev, Dr Foxbat" #optional
+authors="cybercat5555, itsmeowdev, Wolverbyte" #optional
 license="CC BY-NC-SA 4.0 https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode"
 [[mods]] #mandatory
 modId="betteranimalsplus" #mandatory
@@ -23,6 +23,6 @@ Adds 35+ new animals to your world, with items, food, blocks, and armor to suppl
 [[dependencies.betteranimalsplus]]
     modId="architectury"
     mandatory=true
-    versionRange="[1.20.0,)"
+    versionRange="[1.26.0,)"
     ordering="NONE"
     side="BOTH"
