@@ -3,6 +3,8 @@ package dev.itsmeow.betteranimalsplus.common.entity;
 import dev.itsmeow.betteranimalsplus.common.entity.ai.HybridPathNavigator;
 import dev.itsmeow.betteranimalsplus.init.ModEntities;
 import dev.itsmeow.betteranimalsplus.init.ModItems;
+import dev.itsmeow.betteranimalsplus.init.ModSoundEvents;
+import dev.itsmeow.betteranimalsplus.init.ModTriggers;
 import dev.itsmeow.betteranimalsplus.mixin.DamageSourceInvoker;
 import dev.itsmeow.imdlib.entity.EntityTypeContainer;
 import dev.itsmeow.imdlib.entity.interfaces.IContainerEntity;
@@ -15,6 +17,7 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.FluidTags;
@@ -52,7 +55,7 @@ public class EntityWalrus extends Animal implements IContainerEntity<EntityWalru
     private static final EntityDataAccessor<BlockPos> TRAVEL_POS = SynchedEntityData.defineId(EntityWalrus.class, EntityDataSerializers.BLOCK_POS);
     private static final EntityDataAccessor<Boolean> GOING_HOME = SynchedEntityData.defineId(EntityWalrus.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Boolean> TRAVELLING = SynchedEntityData.defineId(EntityWalrus.class, EntityDataSerializers.BOOLEAN);
-    public boolean hasGivenDisc = false;
+    public boolean advancementGiven = false;
 
     public EntityWalrus(EntityType<? extends EntityWalrus> entityType, Level worldIn) {
         super(entityType, worldIn);
@@ -64,11 +67,17 @@ public class EntityWalrus extends Animal implements IContainerEntity<EntityWalru
     @Override
     public InteractionResult mobInteract(Player player, InteractionHand hand) {
         ItemStack stack = player.getItemInHand(hand);
-        if(!hasGivenDisc && stack.getItem() == ModItems.FRIED_EGG.get()) {
+        if(!advancementGiven && stack.getItem() == ModItems.FRIED_EGG.get()) {
             this.usePlayerItem(player, stack);
             this.level.broadcastEntityEvent(this, (byte) 90);
-            this.hasGivenDisc = true;
-            this.spawnAtLocation(new ItemStack(ModItems.RECORD_WALRUS.get()));
+            this.advancementGiven = true;
+            if(player instanceof ServerPlayer) {
+                ModTriggers.WALRUS_EASTER_EGG.trigger((ServerPlayer) player);
+            }
+            this.playSound(ModSoundEvents.WALRUS_TUNE.get(), 1F, 1F);
+            if(level instanceof ServerLevel) {
+                ((ServerLevel) level).sendParticles( ParticleTypes.NOTE, this.getX(), this.getY(), this.getZ(), 10, 1F, 1F, 1F, 0F);
+            }
             return InteractionResult.SUCCESS;
         }
         return super.mobInteract(player, hand);
@@ -151,7 +160,7 @@ public class EntityWalrus extends Animal implements IContainerEntity<EntityWalru
         compound.putInt("TravelPosX", this.getTravelPos().getX());
         compound.putInt("TravelPosY", this.getTravelPos().getY());
         compound.putInt("TravelPosZ", this.getTravelPos().getZ());
-        compound.putBoolean("DiscGiven", hasGivenDisc);
+        compound.putBoolean("DiscGiven", advancementGiven);
     }
 
     @Override
@@ -165,7 +174,7 @@ public class EntityWalrus extends Animal implements IContainerEntity<EntityWalru
         int i1 = compound.getInt("TravelPosY");
         int j1 = compound.getInt("TravelPosZ");
         this.setTravelPos(new BlockPos(l, i1, j1));
-        this.hasGivenDisc = compound.getBoolean("DiscGiven");
+        this.advancementGiven = compound.getBoolean("DiscGiven");
     }
 
     @Override

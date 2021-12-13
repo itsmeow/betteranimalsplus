@@ -6,26 +6,26 @@
         	"bold": true
         },
         "description": [
-            {"text":"Play the secret walrus disk\n","color":"gray"},
+            {"text":"Feed the walrus a fried egg\n","color":"gray"},
             {"text":"Sittin on a corn flake...","color":"yellow"}
         ],
         "icon": {
-            "item": "betteranimalsplus:record_walrus"
+            "item": "betteranimalsplus:fried_egg"
         },
         "frame": "challenge",
         "show_toast": true,
         "announce_to_chat": true,
-        "hidden": false
+        "hidden": true
     },
   "criteria": {
-        "use_disk": {
-            "trigger": "betteranimalsplus:walrus_disk_used"
+        "walrus_easter_egg": {
+            "trigger": "betteranimalsplus:walrus_easter_egg"
         }
     },
     "requirements": [
         [
-            "use_disk"
+            "walrus_easter_egg"
         ]
     ],
-    "parent": "betteranimalsplus:walrus_disk_retrieved"
+    "parent": "betteranimalsplus:root"
 }

@@ -6,26 +6,26 @@
         	"bold": true
         },
         "description": [
-            {"text":"Play the secret crab rave disk\n","color":"gray"},
+            {"text":"Play music for the crabs\n","color":"gray"},
             {"text":"D","italic":true,"color":"red"},{"text":"O","italic":true,"color":"green"},{"text":"D","italic":true,"color":"blue"},{"text":"O","italic":true,"color":"dark_green"},{"text":"D","italic":true,"color":"gold"},{"text":" D","italic":true,"color":"light_purple"},{"text":"O","italic":true,"color":"dark_red"},{"text":"D","italic":true,"color":"dark_purple"},{"text":"O","italic":true,"color":"gold"},{"text":"D","italic":true,"color":"red"},{"text":"O","italic":true,"color":"dark_aqua"},{"text":"O","italic":true,"color":"dark_blue"},{"text":"O","italic":true,"color":"yellow"},{"text":" D","italic":true,"color":"red"},{"text":"O","italic":true,"color":"dark_aqua"},{"text":"O","italic":true,"color":"gold"},{"text":"O","italic":true,"color":"green"},{"text":"O","italic":true,"color":"yellow"},{"text":"D","italic":true,"color":"blue"},{"text":" D","italic":true,"color":"red"},{"text":"O","italic":true,"color":"dark_purple"},{"text":"D","italic":true,"color":"green"},{"text":"D","italic":true,"color":"blue"},{"text":"O","italic":true,"color":"dark_purple"},{"text":"O","italic":true,"color":"dark_aqua"},{"text":"O","italic":true,"color":"yellow"},{"text":"D","italic":true,"color":"light_purple"},{"text":"O","italic":true,"color":"green"},{"text":"D","italic":true,"color":"dark_aqua"},{"text":"O","italic":true,"color":"gold"},{"text":"D","italic":true,"color":"blue"},{"text":"O","italic":true,"color":"dark_blue"},{"text":"O","italic":true,"color":"dark_green"},{"text":"D","italic":true,"color":"yellow"},{"text":"D","italic":true,"color":"aqua"},{"text":"O","italic":true,"color":"gold"},{"text":"O","italic":true,"color":"red"}
         ],
         "icon": {
-            "item": "betteranimalsplus:record_crab_rave"
+            "item": "minecraft:music_disc_cat"
         },
         "frame": "challenge",
         "show_toast": true,
         "announce_to_chat": true,
-        "hidden": false
+        "hidden": true
     },
   "criteria": {
-        "use_disk": {
-            "trigger": "betteranimalsplus:crab_disk_used"
+        "crab_dance": {
+            "trigger": "betteranimalsplus:crab_dance"
         }
     },
     "requirements": [
         [
-            "use_disk"
+            "crab_dance"
         ]
     ],
-    "parent": "betteranimalsplus:crab_disk_retrieved"
+    "parent": "betteranimalsplus:root"
 }

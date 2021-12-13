@@ -1,21 +1,8 @@
 {
-    "record.crabrave": {
-        "replace": false,
-        "category": "record",
+    "walrus.tune": {
         "sounds": [
-        	{
-            	"name": "betteranimalsplus:crabrave",
-            	"stream": true
-            }
-        ]
-    },
-    "record.walrus": {
-        "replace": false,
-        "category": "record",
-        "sounds": [
-        	{
-            	"name": "betteranimalsplus:walrus",
-            	"stream": true
+            {
+                "name": "betteranimalsplus:walrus_tune"
             }
         ]
     },

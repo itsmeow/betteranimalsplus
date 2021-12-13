@@ -8,7 +8,6 @@ import dev.itsmeow.betteranimalsplus.common.entity.*;
 import dev.itsmeow.betteranimalsplus.common.entity.util.IHaveHunger;
 import dev.itsmeow.betteranimalsplus.common.entity.util.abstracts.EntitySharkBase;
 import dev.itsmeow.betteranimalsplus.init.ModEntities;
-import dev.itsmeow.betteranimalsplus.init.ModItems;
 import dev.itsmeow.betteranimalsplus.init.ModLootTables;
 import dev.itsmeow.betteranimalsplus.init.ModTriggers;
 import dev.itsmeow.betteranimalsplus.mixin.MobAccessor;
@@ -38,6 +37,7 @@ import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.RecordItem;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -145,10 +145,12 @@ public class CommonEventHandler {
     }
 
     private static void onDiskUse(boolean added, ServerPlayer player, Item item) {
-        if(item == ModItems.RECORD_CRAB_RAVE.get()) {
+        if(item instanceof RecordItem) {
             if(added) {
                 List<EntityCrab> crabs = player.getCommandSenderWorld().getEntitiesOfClass(EntityCrab.class, player.getBoundingBox().inflate(50));
-                ModTriggers.USE_CRAB_DISK.trigger(player);
+                if(crabs.size() > 0) {
+                    ModTriggers.CRAB_DANCE.trigger(player);
+                }
                 for(EntityCrab crab : crabs) {
                     crab.crabRave();
                 }
@@ -159,8 +161,6 @@ public class CommonEventHandler {
                     crab.unCrabRave();
                 }
             }
-        } else if(item == ModItems.RECORD_WALRUS.get() && added) {
-            ModTriggers.USE_WALRUS_DISK.trigger(player);
         }
     }
 

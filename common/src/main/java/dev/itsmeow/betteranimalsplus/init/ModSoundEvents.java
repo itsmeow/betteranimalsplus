@@ -11,11 +11,10 @@ public class ModSoundEvents {
 
     private static final DeferredRegister<SoundEvent> SOUNDS = DeferredRegister.create(Ref.MOD_ID, Registry.SOUND_EVENT_REGISTRY);
 
-    public static final RegistrySupplier<SoundEvent> CRAB_RAVE = r("record_crabrave");
     public static final RegistrySupplier<SoundEvent> GOOSE_DEATH = r("entity_goose_death");
     public static final RegistrySupplier<SoundEvent> GOOSE_HURT = r("entity_goose_hurt");
     public static final RegistrySupplier<SoundEvent> GOOSE_AMBIENT = r("entity_goose_ambient");
-    public static final RegistrySupplier<SoundEvent> WALRUS = r("record_walrus");
+    public static final RegistrySupplier<SoundEvent> WALRUS_TUNE = r("walrus_tune");
 
     private static RegistrySupplier<SoundEvent> r(String name) {
         return SOUNDS.register(name, () -> new SoundEvent(new ResourceLocation(Ref.MOD_ID, name.replaceAll("_", "."))));
