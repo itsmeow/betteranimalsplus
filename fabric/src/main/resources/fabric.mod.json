@@ -27,6 +27,9 @@
     ],
     "cardinal-components": [
       "dev.itsmeow.betteranimalsplus.init.BetterAnimalsPlusModComponents"
+    ],
+    "modmenu": [
+      "dev.itsmeow.imdlib.compat.modmenu.ModMenuCompat"
     ]
   },
   "depends": {
@@ -37,6 +40,7 @@
   },
   "mixins": [
     "mixin.imdlib.json",
+    "mixin.imdlib-fabric.json",
     "betteranimalsplus.mixins.json",
     "betteranimalsplus-fabric.mixins.json"
   ],

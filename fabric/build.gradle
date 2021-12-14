@@ -30,12 +30,18 @@ repositories {
         name = "Curse Maven"
         url = "https://cursemaven.com"
     }
+    maven {
+        url = "https://maven.shedaniel.me/"
+    }
 }
 
 dependencies {
     modImplementation "net.fabricmc:fabric-loader:${rootProject.fabric_loader_version}"
     modApi "net.fabricmc.fabric-api:fabric-api:${rootProject.fabric_api_version}"
     modApi "me.shedaniel:architectury-fabric:${rootProject.architectury_version}"
+    modApi ("me.shedaniel.cloth:config-2:4.8.3") {
+        exclude(group: "net.fabricmc.fabric-api")
+    }
 
     implementation(project(path: ":common", configuration: "dev")) {
         transitive = false
@@ -91,9 +97,20 @@ task fixJar(type: Jar) {
             }
         }
     }
+    filesMatching("**/FabricMixinPlugin.java") {
+        filter {
+            line -> {
+                line.replaceAll("dev.itsmeow.imdlib.mixin", "dev.itsmeow.betteranimalsplus.imdlib.mixin")
+            }
+        }
+    }
     filesMatching("**/fabric.mod.json") {
         filter {
-            line -> line.replaceAll('mixin.imdlib.json', 'mixin.imdlib-betteranimalsplus.json')
+            line -> {
+                line = line.replaceAll("dev.itsmeow.imdlib", "dev.itsmeow.betteranimalsplus.imdlib")
+                line = line.replaceAll('mixin.imdlib.json', 'mixin.imdlib-betteranimalsplus.json')
+                line.replaceAll('mixin.imdlib-fabric.json', 'mixin.imdlib-betteranimalsplus-fabric.json')
+            }
         }
     }
     rename("mixin.imdlib.json", "mixin.imdlib-betteranimalsplus.json")
@@ -107,7 +124,24 @@ task fixJar(type: Jar) {
                 }
         }
     }
+    rename("mixin.imdlib-fabric.json", "mixin.imdlib-betteranimalsplus-fabric.json")
+    rename("imdlib-fabric-refmap.json", "imdlib-betteranimalsplus-fabric-refmap.json")
+    filesMatching("mixin.imdlib-fabric.json") {
+        filter {
+            line ->
+                {
+                    line = line.replaceAll('dev.itsmeow.imdlib.mixin', 'dev.itsmeow.betteranimalsplus.imdlib.mixin')
+                    line = line.replaceAll('dev.itsmeow.imdlib.FabricMixinPlugin', 'dev.itsmeow.betteranimalsplus.imdlib.FabricMixinPlugin')
+                    line.replaceAll('imdlib-fabric-refmap.json', 'imdlib-betteranimalsplus-fabric-refmap.json')
+                }
+        }
+    }
     filesMatching("imdlib-common-refmap.json") {
+        filter {
+            line -> line.replaceAll('dev/itsmeow/imdlib/mixin/', 'dev/itsmeow/betteranimalsplus/imdlib/mixin/')
+        }
+    }
+    filesMatching("imdlib-fabric-refmap.json") {
         filter {
             line -> line.replaceAll('dev/itsmeow/imdlib/mixin/', 'dev/itsmeow/betteranimalsplus/imdlib/mixin/')
         }
