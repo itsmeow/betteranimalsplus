@@ -2,9 +2,12 @@ package dev.itsmeow.betteranimalsplus.client.model.entity;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import dev.itsmeow.betteranimalsplus.client.model.abstracts.ModelBAP;
 import dev.itsmeow.betteranimalsplus.common.entity.EntityDragonfly;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.client.model.geom.PartPose;
+import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.entity.LivingEntity;
@@ -13,7 +16,8 @@ import net.minecraft.world.entity.Pose;
 /**
  * dragonfly - cybercat5555 Created using Tabula 7.1.0
  */
-public class ModelDragonfly<T extends LivingEntity> extends EntityModel<T> {
+public class ModelDragonfly<T extends LivingEntity> extends ModelBAP<T> {
+
     public ModelPart thorax;
     public ModelPart head;
     public ModelPart abdomin;
@@ -33,88 +37,43 @@ public class ModelDragonfly<T extends LivingEntity> extends EntityModel<T> {
     private double xOff = 0;
     private double zOff = 0;
 
-    public ModelDragonfly() {
-        this.texWidth = 64;
-        this.texHeight = 32;
-        this.rWing01 = new ModelPart(this, 19, 12);
-        this.rWing01.mirror = true;
-        this.rWing01.setPos(-1.2F, -1.2F, -0.6F);
-        this.rWing01.addBox(-16.0F, 0.0F, -2.5F, 16, 0, 6, 0.0F);
-        this.setRotateAngle(rWing01, 0.0F, -0.13962634015954636F, 0.0F);
-        this.abdomin = new ModelPart(this, 0, 16);
-        this.abdomin.setPos(0.0F, 0.2F, 1.8F);
-        this.abdomin.addBox(-1.0F, -1.5F, 0.0F, 2, 2, 13, 0.0F);
-        this.setRotateAngle(abdomin, -0.05235987755982988F, 0.0F, 0.0F);
-        this.rLeg00 = new ModelPart(this, 17, 6);
-        this.rLeg00.mirror = true;
-        this.rLeg00.setPos(-0.9F, 1.2F, -0.5F);
-        this.rLeg00.addBox(-0.5F, 0.0F, -0.0F, 1, 4, 0, 0.0F);
-        this.setRotateAngle(rLeg00, -1.0471975511965976F, 0.8726646259971648F, 0.0F);
-        this.lLeg00 = new ModelPart(this, 17, 6);
-        this.lLeg00.setPos(0.9F, 1.2F, -0.5F);
-        this.lLeg00.addBox(-0.5F, 0.0F, -0.0F, 1, 4, 0, 0.0F);
-        this.setRotateAngle(lLeg00, -1.0471975511965976F, -0.8726646259971648F, 0.0F);
-        this.lLeg02 = new ModelPart(this, 17, 6);
-        this.lLeg02.setPos(0.9F, 1.2F, 0.5F);
-        this.lLeg02.addBox(-0.5F, 0.0F, -0.0F, 1, 4, 0, 0.0F);
-        this.setRotateAngle(lLeg02, 1.0471975511965976F, 0.8726646259971648F, 0.0F);
-        this.lWing01 = new ModelPart(this, 19, 12);
-        this.lWing01.setPos(1.2F, -1.2F, -0.6F);
-        this.lWing01.addBox(0.0F, 0.0F, -2.5F, 16, 0, 6, 0.0F);
-        this.setRotateAngle(lWing01, 0.0F, 0.13962634015954636F, 0.0F);
-        this.rLeg01 = new ModelPart(this, 20, 5);
-        this.rLeg01.mirror = true;
-        this.rLeg01.setPos(-0.9F, 1.2F, 0.0F);
-        this.rLeg01.addBox(-0.0F, 0.0F, -0.5F, 0, 4, 1, 0.0F);
-        this.setRotateAngle(rLeg01, 0.0F, 0.0F, 1.0471975511965976F);
-        this.rLeg02 = new ModelPart(this, 17, 6);
-        this.rLeg02.mirror = true;
-        this.rLeg02.setPos(-0.9F, 1.2F, 0.5F);
-        this.rLeg02.addBox(-0.5F, 0.0F, -0.0F, 1, 4, 0, 0.0F);
-        this.setRotateAngle(rLeg02, 1.0471975511965976F, -0.8726646259971648F, 0.0F);
-        this.rAntenna = new ModelPart(this, 11, 0);
-        this.rAntenna.mirror = true;
-        this.rAntenna.setPos(-0.4F, -3.0F, -2.0F);
-        this.rAntenna.addBox(-1.0F, 0.0F, -5.0F, 1, 0, 5, 0.0F);
-        this.setRotateAngle(rAntenna, -0.7853981633974483F, 0.2792526803190927F, 0.0F);
-        this.rWing02 = new ModelPart(this, 19, 12);
-        this.rWing02.mirror = true;
-        this.rWing02.setPos(-1.2F, -1.0F, 1.1F);
-        this.rWing02.addBox(-16.0F, 0.0F, -1.5F, 16, 0, 6, 0.0F);
-        this.setRotateAngle(rWing02, 0.0F, 0.13962634015954636F, 0.0F);
-        this.head = new ModelPart(this, 0, 0);
-        this.head.setPos(0.0F, 0.2F, -1.4F);
-        this.head.addBox(-1.5F, -3.0F, -3.0F, 3, 3, 3, 0.0F);
-        this.setRotateAngle(head, 0.7853981633974483F, 0.0F, 0.0F);
-        this.thorax = new ModelPart(this, 0, 7);
-        this.thorax.setPos(0.0F, 20.9F, 0.0F);
-        this.thorax.addBox(-1.5F, -1.5F, -2.0F, 3, 3, 4, 0.0F);
-        this.lLeg01 = new ModelPart(this, 20, 5);
-        this.lLeg01.setPos(0.9F, 1.2F, 0.0F);
-        this.lLeg01.addBox(-0.0F, 0.0F, -0.5F, 0, 4, 1, 0.0F);
-        this.setRotateAngle(lLeg01, 0.0F, 0.0F, -1.0471975511965976F);
-        this.lWing02 = new ModelPart(this, 19, 12);
-        this.lWing02.setPos(1.2F, -1.0F, 1.1F);
-        this.lWing02.addBox(0.0F, 0.0F, -1.5F, 16, 0, 6, 0.0F);
-        this.setRotateAngle(lWing02, 0.0F, -0.13962634015954636F, 0.0F);
-        this.lAntenna = new ModelPart(this, 11, 0);
-        this.lAntenna.setPos(0.4F, -3.0F, -2.0F);
-        this.lAntenna.addBox(0.0F, 0.0F, -5.0F, 1, 0, 5, 0.0F);
-        this.setRotateAngle(lAntenna, -0.7853981633974483F, -0.2792526803190927F, 0.0F);
-        this.thorax.addChild(this.rWing01);
-        this.thorax.addChild(this.abdomin);
-        this.thorax.addChild(this.rLeg00);
-        this.thorax.addChild(this.lLeg00);
-        this.thorax.addChild(this.lLeg02);
-        this.thorax.addChild(this.lWing01);
-        this.thorax.addChild(this.rLeg01);
-        this.thorax.addChild(this.rLeg02);
-        this.head.addChild(this.rAntenna);
-        this.thorax.addChild(this.rWing02);
-        this.thorax.addChild(this.head);
-        this.thorax.addChild(this.lLeg01);
-        this.thorax.addChild(this.lWing02);
-        this.head.addChild(this.lAntenna);
+    public ModelDragonfly(ModelPart root) {
+        this.thorax = root.getChild("thorax");
+        this.head = thorax.getChild("head");
+        this.lAntenna = head.getChild("lAntenna");
+        this.rAntenna = head.getChild("rAntenna");
+        this.abdomin = thorax.getChild("abdomin");
+        this.lLeg00 = thorax.getChild("lLeg00");
+        this.lLeg01 = thorax.getChild("lLeg01");
+        this.lLeg02 = thorax.getChild("lLeg02");
+        this.rLeg00 = thorax.getChild("rLeg00");
+        this.rLeg01 = thorax.getChild("rLeg01");
+        this.rLeg02 = thorax.getChild("rLeg02");
+        this.lWing01 = thorax.getChild("lWing01");
+        this.lWing02 = thorax.getChild("lWing02");
+        this.rWing01 = thorax.getChild("rWing01");
+        this.rWing02 = thorax.getChild("rWing02");
+    }
+
+    public static LayerDefinition createBodyLayer() {
+        MeshDefinition meshdefinition = new MeshDefinition();
+        PartDefinition partdefinition = meshdefinition.getRoot();
+        PartDefinition thorax = partdefinition.addOrReplaceChild("thorax", CubeListBuilder.create().texOffs(0, 7).addBox(-1.5F, -1.5F, -2.0F, 3.0F, 3.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 20.9F, 0.0F));
+        PartDefinition head = thorax.addOrReplaceChild("head", CubeListBuilder.create().texOffs(0, 0).addBox(-1.5F, -3.0F, -3.0F, 3.0F, 3.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.2F, -1.4F, 0.7854F, 0.0F, 0.0F));
+        PartDefinition lAntenna = head.addOrReplaceChild("lAntenna", CubeListBuilder.create().texOffs(11, 0).mirror().addBox(0.0F, 0.0F, -5.0F, 1.0F, 0.0F, 5.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(0.4F, -3.0F, -2.0F, -0.7854F, -0.2793F, 0.0F));
+        PartDefinition rAntenna = head.addOrReplaceChild("rAntenna", CubeListBuilder.create().texOffs(11, 0).addBox(-1.0F, 0.0F, -5.0F, 1.0F, 0.0F, 5.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-0.4F, -3.0F, -2.0F, -0.7854F, 0.2793F, 0.0F));
+        PartDefinition abdomin = thorax.addOrReplaceChild("abdomin", CubeListBuilder.create().texOffs(0, 16).addBox(-1.0F, -1.5F, 0.0F, 2.0F, 2.0F, 13.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.2F, 1.8F, -0.0524F, 0.0F, 0.0F));
+        PartDefinition lLeg00 = thorax.addOrReplaceChild("lLeg00", CubeListBuilder.create().texOffs(17, 6).mirror().addBox(-0.5F, 0.0F, 0.0F, 1.0F, 4.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(0.9F, 1.2F, -0.5F, -1.0472F, -0.8727F, 0.0F));
+        PartDefinition lLeg01 = thorax.addOrReplaceChild("lLeg01", CubeListBuilder.create().texOffs(20, 5).mirror().addBox(0.0F, 0.0F, -0.5F, 0.0F, 4.0F, 1.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(0.9F, 1.2F, 0.0F, 0.0F, 0.0F, -1.0472F));
+        PartDefinition lLeg02 = thorax.addOrReplaceChild("lLeg02", CubeListBuilder.create().texOffs(17, 6).mirror().addBox(-0.5F, 0.0F, 0.0F, 1.0F, 4.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(0.9F, 1.2F, 0.5F, 1.0472F, 0.8727F, 0.0F));
+        PartDefinition rLeg00 = thorax.addOrReplaceChild("rLeg00", CubeListBuilder.create().texOffs(17, 6).addBox(-0.5F, 0.0F, 0.0F, 1.0F, 4.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-0.9F, 1.2F, -0.5F, -1.0472F, 0.8727F, 0.0F));
+        PartDefinition rLeg01 = thorax.addOrReplaceChild("rLeg01", CubeListBuilder.create().texOffs(20, 5).addBox(0.0F, 0.0F, -0.5F, 0.0F, 4.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-0.9F, 1.2F, 0.0F, 0.0F, 0.0F, 1.0472F));
+        PartDefinition rLeg02 = thorax.addOrReplaceChild("rLeg02", CubeListBuilder.create().texOffs(17, 6).addBox(-0.5F, 0.0F, 0.0F, 1.0F, 4.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-0.9F, 1.2F, 0.5F, 1.0472F, -0.8727F, 0.0F));
+        PartDefinition lWing01 = thorax.addOrReplaceChild("lWing01", CubeListBuilder.create().texOffs(19, 12).mirror().addBox(0.0F, 0.0F, -2.5F, 16.0F, 0.0F, 6.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(1.2F, -1.2F, -0.6F, 0.0F, 0.1396F, 0.0F));
+        PartDefinition lWing02 = thorax.addOrReplaceChild("lWing02", CubeListBuilder.create().texOffs(19, 12).mirror().addBox(0.0F, 0.0F, -1.5F, 16.0F, 0.0F, 6.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(1.2F, -1.0F, 1.1F, 0.0F, -0.1396F, 0.0F));
+        PartDefinition rWing01 = thorax.addOrReplaceChild("rWing01", CubeListBuilder.create().texOffs(19, 12).addBox(-16.0F, 0.0F, -2.5F, 16.0F, 0.0F, 6.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-1.2F, -1.2F, -0.6F, 0.0F, -0.1396F, 0.0F));
+        PartDefinition rWing02 = thorax.addOrReplaceChild("rWing02", CubeListBuilder.create().texOffs(19, 12).addBox(-16.0F, 0.0F, -1.5F, 16.0F, 0.0F, 6.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-1.2F, -1.0F, 1.1F, 0.0F, 0.1396F, 0.0F));
+        return LayerDefinition.create(meshdefinition, 64, 32);
     }
 
     @Override
@@ -166,11 +125,5 @@ public class ModelDragonfly<T extends LivingEntity> extends EntityModel<T> {
                 this.thorax.yRot = 0;
             }
         }
-    }
-
-    public void setRotateAngle(ModelPart ModelRenderer, float x, float y, float z) {
-        ModelRenderer.xRot = x;
-        ModelRenderer.yRot = y;
-        ModelRenderer.zRot = z;
     }
 }

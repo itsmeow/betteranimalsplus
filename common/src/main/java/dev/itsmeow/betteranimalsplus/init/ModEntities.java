@@ -1,6 +1,7 @@
 package dev.itsmeow.betteranimalsplus.init;
 
 import com.google.common.collect.Lists;
+import dev.architectury.registry.registries.RegistrySupplier;
 import dev.itsmeow.betteranimalsplus.BetterAnimalsPlusMod;
 import dev.itsmeow.betteranimalsplus.Ref;
 import dev.itsmeow.betteranimalsplus.client.model.block.head.*;
@@ -18,7 +19,6 @@ import dev.itsmeow.imdlib.entity.util.EntityTypeContainerContainable;
 import dev.itsmeow.imdlib.entity.util.variant.EntityVariant;
 import dev.itsmeow.imdlib.item.ItemModEntityContainer;
 import dev.itsmeow.imdlib.item.ItemModFishBucket;
-import me.shedaniel.architectury.registry.RegistrySupplier;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
@@ -67,17 +67,6 @@ public class ModEntities {
             .despawn()
             .biomesOverworld(BiomeTypes.SANDY, BiomeTypes.JUNGLE)
             .variants("desert_1", "desert_2", "desert_3", "jungle_1", "jungle_2", "jungle_3"));
-    public static final EntityTypeContainer<EntityGoat> GOAT = H.add(EntityGoat.class, EntityGoat::new, "goat", () -> Mob.createMobAttributes()
-            .add(Attributes.MAX_HEALTH, 14.0D)
-            .add(Attributes.MOVEMENT_SPEED, 0.5D)
-            .add(Attributes.ATTACK_DAMAGE)
-            .add(Attributes.ATTACK_DAMAGE, 0.8D), b -> b
-            .spawn(MobCategory.CREATURE, 9, 1, 4)
-            .defaultPlacement(Mob::checkMobSpawnRules)
-            .egg(0xffffff, 0xeeeeee).size(1.2F, 1.2F)
-            .biomesOverworld(BiomeTypes.HILL, BiomeTypes.MOUNTAIN, BiomeTypes.SAVANNA, BiomeTypes.PLAINS, BiomeTypes.FOREST)
-            .config((holder, builder) -> holder.put(EntityGoat.VANILLA_MILK_KEY, Boolean.class, builder.define(EntityGoat.VANILLA_MILK_KEY, "Enabling this will cause goats to give out vanilla milk instead of goat milk.", false)))
-            .variants(7));
     public static final EntityTypeContainer<EntityPheasant> PHEASANT = H.add(EntityPheasant.class, EntityPheasant::new, "pheasant", () -> Mob.createMobAttributes()
             .add(Attributes.MAX_HEALTH, 4.0D)
             .add(Attributes.MOVEMENT_SPEED, 0.25D), b -> b
@@ -512,6 +501,6 @@ public class ModEntities {
     }
 
     private static <T extends Projectile> RegistrySupplier<EntityType<T>> projectile(EntityType.EntityFactory<T> factory, String name, float width, float height) {
-        return IMDLib.getRegistry(Registry.ENTITY_TYPE_REGISTRY).registerSupplied(new ResourceLocation(MODID, name), () -> H.createEntityType(factory, name, MobCategory.MISC, 64, 1, true, width, height));
+        return IMDLib.getRegistry(Registry.ENTITY_TYPE_REGISTRY).register(new ResourceLocation(MODID, name), () -> H.createEntityType(factory, name, MobCategory.MISC, 64, 1, true, width, height));
     }
 }

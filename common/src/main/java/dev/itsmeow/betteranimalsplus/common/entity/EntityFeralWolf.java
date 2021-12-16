@@ -92,7 +92,6 @@ public class EntityFeralWolf extends EntityTameableWithSelectiveTypes implements
         this.targetSelector.addGoal(4, new HungerNonTamedTargetGoal<>(this, Villager.class, false, e -> true));
         this.targetSelector.addGoal(4, new HungerNonTamedTargetGoal<>(this, AbstractIllager.class, false, e -> true));
         this.targetSelector.addGoal(4, new HungerNonTamedTargetGoal<>(this, Chicken.class, false, e -> true));
-        this.targetSelector.addGoal(4, new HungerNonTamedTargetGoal<>(this, EntityGoat.class, false, e -> true));
         this.targetSelector.addGoal(5, new HungerNearestAttackableTargetGoal<>(this, AbstractSkeleton.class, false));
     }
 
@@ -248,7 +247,7 @@ public class EntityFeralWolf extends EntityTameableWithSelectiveTypes implements
             }
         } else if(this.isTamingItem(itemstack.getItem())) {
             ItemStack stack = player.getItemBySlot(EquipmentSlot.HEAD);
-            if(stack.getItem().is(ModResources.Tags.Items.FERAL_WOLF_TAME_ARMOR)) {
+            if(stack.is(ModResources.Tags.Items.FERAL_WOLF_TAME_ARMOR)) {
                 if(!player.isCreative()) {
                     itemstack.shrink(1);
                 }

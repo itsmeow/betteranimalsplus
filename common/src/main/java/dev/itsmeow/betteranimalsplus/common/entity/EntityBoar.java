@@ -173,7 +173,7 @@ public class EntityBoar extends EntityAnimalWithSelectiveTypes implements Enemy,
         if (!this.level.isClientSide && !this.dead) {
             ZombifiedPiglin entitypigzombie = EntityType.ZOMBIFIED_PIGLIN.create(this.level);
             entitypigzombie.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(Items.GOLDEN_SWORD));
-            entitypigzombie.moveTo(this.getX(), this.getY(), this.getZ(), this.yRot, this.xRot);
+            entitypigzombie.moveTo(this.getX(), this.getY(), this.getZ(), this.getYRot(), this.getXRot());
             entitypigzombie.setNoAi(this.isNoAi());
 
             if(this.hasCustomName()) {
@@ -182,12 +182,12 @@ public class EntityBoar extends EntityAnimalWithSelectiveTypes implements Enemy,
             }
 
             this.level.addFreshEntity(entitypigzombie);
-            this.remove();
+            this.discard();
         }
     }
 
     @Override
-    public AgableMob getBreedOffspring(ServerLevel world, AgableMob ageable) {
+    public AgeableMob getBreedOffspring(ServerLevel world, AgeableMob ageable) {
         if(this.getVariant().isPresent()) {
             if (ageable instanceof EntityBoar) {
                 EntityBoar boar = getContainer().getEntityType().create(world);

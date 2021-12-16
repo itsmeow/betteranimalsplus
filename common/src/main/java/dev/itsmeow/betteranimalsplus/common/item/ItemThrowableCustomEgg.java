@@ -52,20 +52,20 @@ public class ItemThrowableCustomEgg<T extends ThrowableItemProjectile> extends I
     }
 
     @Override
-    public InteractionResultHolder<ItemStack> use(Level worldIn, Player playerIn, InteractionHand handIn) {
+    public InteractionResultHolder<ItemStack> use(Level level, Player playerIn, InteractionHand handIn) {
         ItemStack itemstack = playerIn.getItemInHand(handIn);
 
-        if (!playerIn.abilities.instabuild) {
+        if (!playerIn.getAbilities().instabuild) {
             itemstack.shrink(1);
         }
 
-        worldIn.playSound(null, playerIn.getX(), playerIn.getY(), playerIn.getZ(), SoundEvents.EGG_THROW, SoundSource.PLAYERS, 0.5F, 0.4F / (random.nextFloat() * 0.4F + 0.8F));
+        level.playSound(null, playerIn.getX(), playerIn.getY(), playerIn.getZ(), SoundEvents.EGG_THROW, SoundSource.PLAYERS, 0.5F, 0.4F / (level.getRandom().nextFloat() * 0.4F + 0.8F));
 
-        if (!worldIn.isClientSide) {
+        if (!level.isClientSide) {
             ThrowableItemProjectile ent = eggSupplier2.create(typeSupplier.get(), playerIn.level, playerIn);
             ent.setItem(itemstack);
-            ent.shootFromRotation(playerIn, playerIn.xRot, playerIn.yRot, 0.0F, 1.5F, 1.0F);
-            worldIn.addFreshEntity(ent);
+            ent.shootFromRotation(playerIn, playerIn.getXRot(), playerIn.getYRot(), 0.0F, 1.5F, 1.0F);
+            level.addFreshEntity(ent);
         }
 
         playerIn.awardStat(Stats.ITEM_USED.get(this));

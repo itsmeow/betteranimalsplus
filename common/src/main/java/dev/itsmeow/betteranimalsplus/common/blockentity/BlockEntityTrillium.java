@@ -4,9 +4,10 @@ package dev.itsmeow.betteranimalsplus.common.blockentity;
 import dev.itsmeow.betteranimalsplus.init.ModBlockEntities;
 import dev.itsmeow.betteranimalsplus.init.ModBlocks;
 import dev.itsmeow.betteranimalsplus.init.ModResources;
-import me.shedaniel.architectury.extensions.BlockEntityExtension;
+import dev.architectury.extensions.BlockEntityExtension;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
@@ -24,8 +25,8 @@ public class BlockEntityTrillium extends BlockEntity implements BlockEntityExten
     private int typeNum;
     private int modelNum;
 
-    public BlockEntityTrillium() {
-        super(ModBlockEntities.TRILLIUM_TYPE.get());
+    public BlockEntityTrillium(BlockPos pos, BlockState state) {
+        super(ModBlockEntities.TRILLIUM_TYPE.get(), pos, state);
         this.setType(new Random().nextInt(5));
         this.setModelNum(new Random().nextInt(3));
     }
@@ -44,8 +45,8 @@ public class BlockEntityTrillium extends BlockEntity implements BlockEntityExten
     }
 
     @Override
-    public void load(BlockState state, CompoundTag compound) {
-        super.load(state, compound);
+    public void load(CompoundTag compound) {
+        super.load(compound);
         if (compound.contains(this.keyType)) {
             this.typeNum = compound.getInt(this.keyType);
         } else {
@@ -112,7 +113,7 @@ public class BlockEntityTrillium extends BlockEntity implements BlockEntityExten
 
     @Override
     public void loadClientData(BlockState blockState, CompoundTag compoundTag) {
-        this.load(blockState, compoundTag);
+        this.load(compoundTag);
     }
 
     @Override

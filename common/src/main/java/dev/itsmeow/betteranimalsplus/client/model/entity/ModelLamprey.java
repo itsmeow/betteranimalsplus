@@ -3,8 +3,10 @@ package dev.itsmeow.betteranimalsplus.client.model.entity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Vector3f;
-import net.minecraft.client.model.EntityModel;
+import dev.itsmeow.betteranimalsplus.client.model.abstracts.ModelBAP;
 import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.client.model.geom.PartPose;
+import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
 
@@ -12,7 +14,7 @@ import net.minecraft.world.entity.LivingEntity;
  * Lamprey - Batman
  * Created using Tabula 5.1.0
  */
-public class ModelLamprey<T extends LivingEntity> extends EntityModel<T> {
+public class ModelLamprey<T extends LivingEntity> extends ModelBAP<T> {
     public ModelPart body01;
     public ModelPart body02;
     public ModelPart head;
@@ -29,71 +31,41 @@ public class ModelLamprey<T extends LivingEntity> extends EntityModel<T> {
     public ModelPart fTeeth;
     private boolean putOnSide = false;
 
-    public ModelLamprey() {
-        this.texWidth = 40;
-        this.texHeight = 120;
-        this.body01 = new ModelPart(this, 0, 0);
-        this.body01.setPos(0.0F, 21.3F, 0.0F);
-        this.body01.addBox(-2.0F, -2.0F, -10.0F, 4, 4, 10, 0.0F);
-        this.setRotateAngle(body01, 0.017453292519943295F, 0.0F, 0.0F);
-        this.fin03 = new ModelPart(this, 0, 100);
-        this.fin03.setPos(0.0F, 0.0F, 0.5F);
-        this.fin03.addBox(0.0F, -3.5F, 0.0F, 0, 6, 5, 0.0F);
-        this.head = new ModelPart(this, 0, 54);
-        this.head.setPos(0.0F, -0.4F, -9.7F);
-        this.head.addBox(-2.0F, -1.5F, -6.0F, 4, 3, 6, 0.0F);
-        this.setRotateAngle(head, 0.08726646259971647F, 0.0F, 0.0F);
-        this.body02 = new ModelPart(this, 0, 16);
-        this.body02.setPos(0.0F, 0.0F, -0.3F);
-        this.body02.addBox(-1.5F, -2.0F, 0.0F, 3, 4, 10, 0.0F);
-        this.setRotateAngle(body02, -0.045553093477052F, 0.0F, 0.0F);
-        this.fin01 = new ModelPart(this, 0, 91);
-        this.fin01.setPos(0.0F, -1.5F, 5.4F);
-        this.fin01.addBox(0.0F, -3.0F, 0.0F, 0, 3, 4, 0.0F);
-        this.fTeeth = new ModelPart(this, 0, 90);
-        this.fTeeth.setPos(-0.5F, 0.5F, 0.0F);
-        this.fTeeth.addBox(0.0F, 0.0F, 0.1F, 1, 1, 3, 0.0F);
-        this.snout = new ModelPart(this, 0, 71);
-        this.snout.setPos(0.0F, -1.0F, -4.0F);
-        this.snout.addBox(-1.0F, 0.0F, 0.0F, 2, 1, 4, 0.0F);
-        this.setRotateAngle(snout, 0.22689280275926282F, 0.0F, 0.0F);
-        this.tail02 = new ModelPart(this, 0, 45);
-        this.tail02.setPos(0.0F, -0.4F, 8.0F);
-        this.tail02.addBox(-0.5F, -1.0F, 0.0F, 1, 2, 6, 0.0F);
-        this.fin02 = new ModelPart(this, 0, 91);
-        this.fin02.setPos(0.0F, -1.2F, 0.0F);
-        this.fin02.addBox(0.0F, -4.0F, 0.0F, 0, 4, 8, 0.0F);
-        this.jaw = new ModelPart(this, 0, 77);
-        this.jaw.setPos(0.0F, 0.4F, -4.0F);
-        this.jaw.addBox(-1.0F, 0.0F, 0.0F, 2, 1, 3, 0.0F);
-        this.setRotateAngle(jaw, -0.045553093477052F, 0.0F, 0.0F);
-        this.lTeeth = new ModelPart(this, 0, 82);
-        this.lTeeth.setPos(-0.1F, 0.5F, 0.5F);
-        this.lTeeth.addBox(0.0F, 0.0F, 0.0F, 1, 1, 2, 0.0F);
-        this.rTeeth = new ModelPart(this, 0, 86);
-        this.rTeeth.setPos(-0.9F, 0.5F, 0.5F);
-        this.rTeeth.addBox(0.0F, 0.0F, 0.0F, 1, 1, 2, 0.0F);
-        this.tail01 = new ModelPart(this, 0, 32);
-        this.tail01.setPos(0.0F, -0.4F, 9.6F);
-        this.tail01.addBox(-1.0F, -1.5F, 0.0F, 2, 3, 8, 0.0F);
-        this.setRotateAngle(tail01, -0.03490658503988659F, 0.0F, 0.0F);
-        this.mouth = new ModelPart(this, 0, 64);
-        this.mouth.setPos(0.0F, 0.5F, -5.5F);
-        this.mouth.addBox(-1.5F, -1.0F, -4.0F, 3, 2, 4, 0.0F);
-        this.setRotateAngle(mouth, -0.17453292519943295F, 0.0F, 0.0F);
-        this.tail02.addChild(this.fin03);
-        this.body01.addChild(this.head);
-        this.body01.addChild(this.body02);
-        this.body02.addChild(this.fin01);
-        this.jaw.addChild(this.fTeeth);
-        this.mouth.addChild(this.snout);
-        this.tail01.addChild(this.tail02);
-        this.tail01.addChild(this.fin02);
-        this.mouth.addChild(this.jaw);
-        this.jaw.addChild(this.lTeeth);
-        this.jaw.addChild(this.rTeeth);
-        this.body02.addChild(this.tail01);
-        this.head.addChild(this.mouth);
+    public ModelLamprey(ModelPart root) {
+        this.body01 = root.getChild("body01");
+        this.body02 = body01.getChild("body02");
+        this.tail01 = body02.getChild("tail01");
+        this.tail02 = tail01.getChild("tail02");
+        this.fin03 = tail02.getChild("fin03");
+        this.fin02 = tail01.getChild("fin02");
+        this.fin01 = body02.getChild("fin01");
+        this.head = body01.getChild("head");
+        this.mouth = head.getChild("mouth");
+        this.snout = mouth.getChild("snout");
+        this.jaw = mouth.getChild("jaw");
+        this.lTeeth = jaw.getChild("lTeeth");
+        this.rTeeth = jaw.getChild("rTeeth");
+        this.fTeeth = jaw.getChild("fTeeth");
+    }
+
+    public static LayerDefinition createBodyLayer() {
+        MeshDefinition meshdefinition = new MeshDefinition();
+        PartDefinition partdefinition = meshdefinition.getRoot();
+        PartDefinition body01 = partdefinition.addOrReplaceChild("body01", CubeListBuilder.create().texOffs(0, 0).addBox(-2.0F, -2.0F, -10.0F, 4.0F, 4.0F, 10.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 21.3F, 0.0F, 0.0175F, 0.0F, 0.0F));
+        PartDefinition body02 = body01.addOrReplaceChild("body02", CubeListBuilder.create().texOffs(0, 16).addBox(-1.5F, -2.0F, 0.0F, 3.0F, 4.0F, 10.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, -0.3F, -0.0456F, 0.0F, 0.0F));
+        PartDefinition tail01 = body02.addOrReplaceChild("tail01", CubeListBuilder.create().texOffs(0, 32).addBox(-1.0F, -1.5F, 0.0F, 2.0F, 3.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -0.4F, 9.6F, -0.0349F, 0.0F, 0.0F));
+        PartDefinition tail02 = tail01.addOrReplaceChild("tail02", CubeListBuilder.create().texOffs(0, 45).addBox(-0.5F, -1.0F, 0.0F, 1.0F, 2.0F, 6.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, -0.4F, 8.0F));
+        PartDefinition fin03 = tail02.addOrReplaceChild("fin03", CubeListBuilder.create().texOffs(0, 100).addBox(0.0F, -3.5F, 0.0F, 0.0F, 6.0F, 5.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, 0.5F));
+        PartDefinition fin02 = tail01.addOrReplaceChild("fin02", CubeListBuilder.create().texOffs(0, 91).addBox(0.0F, -4.0F, 0.0F, 0.0F, 4.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, -1.2F, 0.0F));
+        PartDefinition fin01 = body02.addOrReplaceChild("fin01", CubeListBuilder.create().texOffs(0, 91).addBox(0.0F, -3.0F, 0.0F, 0.0F, 3.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, -1.5F, 5.4F));
+        PartDefinition head = body01.addOrReplaceChild("head", CubeListBuilder.create().texOffs(0, 54).addBox(-2.0F, -1.5F, -6.0F, 4.0F, 3.0F, 6.0F, new CubeDeformation(-0.1F)), PartPose.offsetAndRotation(0.0F, -0.4F, -9.7F, 0.0873F, 0.0F, 0.0F));
+        PartDefinition mouth = head.addOrReplaceChild("mouth", CubeListBuilder.create().texOffs(0, 64).addBox(-1.5F, -1.0F, -4.0F, 3.0F, 2.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.5F, -5.5F, -0.1745F, 0.0F, 0.0F));
+        PartDefinition snout = mouth.addOrReplaceChild("snout", CubeListBuilder.create().texOffs(0, 71).addBox(-1.0F, 0.0F, 0.0F, 2.0F, 1.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -1.0F, -4.0F, 0.2269F, 0.0F, 0.0F));
+        PartDefinition jaw = mouth.addOrReplaceChild("jaw", CubeListBuilder.create().texOffs(0, 77).addBox(-1.0F, 0.0F, 0.0F, 2.0F, 1.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.4F, -4.0F, -0.0456F, 0.0F, 0.0F));
+        PartDefinition lTeeth = jaw.addOrReplaceChild("lTeeth", CubeListBuilder.create().texOffs(0, 82).addBox(-1.0F, 0.0F, 0.0F, 1.0F, 1.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offset(0.1F, 0.5F, 0.5F));
+        PartDefinition rTeeth = jaw.addOrReplaceChild("rTeeth", CubeListBuilder.create().texOffs(0, 86).addBox(-1.0F, 0.0F, 0.0F, 1.0F, 1.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offset(0.9F, 0.5F, 0.5F));
+        PartDefinition fTeeth = jaw.addOrReplaceChild("fTeeth", CubeListBuilder.create().texOffs(0, 90).addBox(-1.0F, 0.0F, 0.1F, 1.0F, 1.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offset(0.5F, 0.5F, 0.0F));
+        return LayerDefinition.create(meshdefinition, 40, 120);
     }
 
     @Override
@@ -115,12 +87,4 @@ public class ModelLamprey<T extends LivingEntity> extends EntityModel<T> {
         this.putOnSide = !entityIn.isInWater() && !entityIn.isPassenger();
     }
 
-    /**
-     * This is a helper function from Tabula to set the rotation of model parts
-     */
-    public void setRotateAngle(ModelPart modelRenderer, float x, float y, float z) {
-        modelRenderer.xRot = x;
-        modelRenderer.yRot = y;
-        modelRenderer.zRot = z;
-    }
 }

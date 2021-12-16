@@ -1,8 +1,8 @@
 package dev.itsmeow.betteranimalsplus.init;
 
+import dev.architectury.registry.level.advancement.CriteriaTriggersRegistry;
 import dev.itsmeow.betteranimalsplus.Ref;
 import dev.itsmeow.betteranimalsplus.common.advancements.CustomTrigger;
-import me.shedaniel.architectury.registry.CriteriaTriggersRegistry;
 
 import java.util.HashMap;
 import java.util.Map;

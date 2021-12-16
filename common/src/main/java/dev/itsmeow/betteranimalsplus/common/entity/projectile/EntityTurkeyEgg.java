@@ -37,7 +37,7 @@ public class EntityTurkeyEgg extends EntityModEgg {
     protected Entity createEntity() {
         EntityTurkey turkey = ModEntities.TURKEY.getEntityType().create(this.level);
         turkey.setAge(-24000);
-        turkey.moveTo(this.getX(), this.getY(), this.getZ(), this.yRot, 0.0F);
+        turkey.moveTo(this.getX(), this.getY(), this.getZ(), this.getYRot(), 0.0F);
         turkey.setType(turkey.getRandomType());
         return turkey;
     }

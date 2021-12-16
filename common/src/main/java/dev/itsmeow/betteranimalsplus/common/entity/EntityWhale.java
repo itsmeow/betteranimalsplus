@@ -18,7 +18,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.ai.control.DolphinLookControl;
+import net.minecraft.world.entity.ai.control.SmoothSwimmingLookControl;
 import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.player.Player;
@@ -35,7 +35,7 @@ public class EntityWhale extends EntityWaterMobPathingWithTypesAirBreathing impl
 
     public EntityWhale(EntityType<? extends EntityWhale> entityType, Level worldIn) {
         super(entityType, worldIn);
-        this.lookControl = new DolphinLookControl(this, 10);
+        this.lookControl = new SmoothSwimmingLookControl(this, 10);
     }
 
     @Override

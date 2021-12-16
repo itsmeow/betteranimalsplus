@@ -1,6 +1,6 @@
 package dev.itsmeow.betteranimalsplus.common.entity.projectile;
 
-import me.shedaniel.architectury.networking.NetworkManager;
+import dev.architectury.networking.NetworkManager;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.core.Position;
@@ -63,7 +63,7 @@ public abstract class EntityModEgg extends ThrowableItemProjectile {
             }
 
             this.level.broadcastEntityEvent(this, (byte) 3);
-            this.remove();
+            this.discard();
         }
 
     }

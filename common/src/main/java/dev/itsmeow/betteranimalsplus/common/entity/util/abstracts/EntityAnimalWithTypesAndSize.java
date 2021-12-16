@@ -79,7 +79,7 @@ public abstract class EntityAnimalWithTypesAndSize extends EntityAnimalWithTypes
             this.size = size;
         }
 
-        public AgeableSizeTypeData(AgableMobGroupData ageable, IVariant type, float size) {
+        public AgeableSizeTypeData(AgeableMobGroupData ageable, IVariant type, float size) {
             super(ageable, type);
             this.size = size;
         }

@@ -15,6 +15,7 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.DifficultyInstance;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
@@ -28,6 +29,7 @@ import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.Random;
 import java.util.Set;
@@ -120,7 +122,7 @@ public class EntitySquirrel extends EntityAnimalWithSelectiveTypes {
     }
 
     @Override
-    public AgableMob getBreedOffspring(ServerLevel world, AgableMob ageable) {
+    public AgeableMob getBreedOffspring(ServerLevel world, AgeableMob ageable) {
         EntitySquirrel squirrel = getContainer().getEntityType().create(world);
         if (ageable instanceof EntitySquirrel) {
             EntitySquirrel other = (EntitySquirrel) ageable;
@@ -140,7 +142,7 @@ public class EntitySquirrel extends EntityAnimalWithSelectiveTypes {
     }
     
     @Override
-    public boolean causeFallDamage(float distance, float damageMultiplier) {
+    public boolean causeFallDamage(float distance, float damageMultiplier, DamageSource source) {
         return false;
     }
 
@@ -175,7 +177,7 @@ public class EntitySquirrel extends EntityAnimalWithSelectiveTypes {
     }
 
     public static boolean canSquirrelSpawn(EntityType<EntitySquirrel> type, ServerLevelAccessor world, MobSpawnType reason, BlockPos pos, Random rand) {
-        Block below = world.getBlockState(pos.below()).getBlock();
+        BlockState below = world.getBlockState(pos.below());
         return Mob.checkMobSpawnRules(type, world, reason, pos, rand) || below.is(BlockTags.LEAVES) || below.is(BlockTags.LOGS);
     }
 }

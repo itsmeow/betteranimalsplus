@@ -1,9 +1,9 @@
 package dev.itsmeow.betteranimalsplus.init;
 
+import dev.architectury.registry.registries.DeferredRegister;
+import dev.architectury.registry.registries.RegistrySupplier;
 import dev.itsmeow.betteranimalsplus.Ref;
 import dev.itsmeow.betteranimalsplus.common.blockentity.BlockEntityTrillium;
-import me.shedaniel.architectury.registry.DeferredRegister;
-import me.shedaniel.architectury.registry.RegistrySupplier;
 import net.minecraft.core.Registry;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;

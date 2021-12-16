@@ -9,16 +9,16 @@ import dev.itsmeow.betteranimalsplus.common.entity.projectile.EntityTarantulaHai
 import dev.itsmeow.betteranimalsplus.init.ModResources;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.client.renderer.entity.EntityRenderer;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 
 public class RenderTarantulaHair extends EntityRenderer<EntityTarantulaHair> {
 
-    public RenderTarantulaHair(EntityRenderDispatcher renderManager) {
-        super(renderManager);
+    public RenderTarantulaHair(EntityRendererProvider.Context ctx) {
+        super(ctx);
     }
 
     @Override

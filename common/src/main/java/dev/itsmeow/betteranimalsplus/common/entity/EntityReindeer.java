@@ -51,7 +51,7 @@ import java.util.Calendar;
 public class EntityReindeer extends Animal implements PlayerRideableJumping, IVariantTypes<EntityReindeer>, IDropHead<EntityReindeer> {
 
     protected static final java.util.function.Predicate<LivingEntity> IS_REINDEER_BREEDING = (entity) -> entity instanceof EntityReindeer && ((EntityReindeer)entity).isBreeding();
-    private static final TargetingConditions PARENT_TARGETING = (new TargetingConditions()).range(16.0D).allowInvulnerable().allowSameTeam().allowUnseeable().selector(IS_REINDEER_BREEDING);
+    private static final TargetingConditions PARENT_TARGETING = TargetingConditions.forNonCombat().range(16.0D).ignoreLineOfSight().selector(IS_REINDEER_BREEDING);
     protected static final EntityDataAccessor<Byte> STATUS = SynchedEntityData.defineId(EntityReindeer.class, EntityDataSerializers.BYTE);
     private int eatingCounter;
     private int openMouthCounter;
@@ -155,7 +155,7 @@ public class EntityReindeer extends Animal implements PlayerRideableJumping, IVa
     }
 
     @Override
-    public AgableMob getBreedOffspring(ServerLevel world, AgableMob ageable) {
+    public AgeableMob getBreedOffspring(ServerLevel world, AgeableMob ageable) {
         EntityReindeer reindeer = getContainer().getEntityType().create(world);
         this.setOffspringAttributes(ageable, reindeer);
         if(ageable instanceof EntityReindeer) {
@@ -256,7 +256,7 @@ public class EntityReindeer extends Animal implements PlayerRideableJumping, IVa
     }
 
     @Override
-    public boolean causeFallDamage(float distance, float damageMultiplier) {
+    public boolean causeFallDamage(float distance, float damageMultiplier, DamageSource src) {
         if (distance > 1.0F) {
             this.playSound(SoundEvents.HORSE_LAND, 0.4F, 1.0F);
         }
@@ -432,8 +432,8 @@ public class EntityReindeer extends Animal implements PlayerRideableJumping, IVa
     }
 
     protected void mountTo(Player player) {
-        player.yRot = this.yRot;
-        player.xRot = this.xRot;
+        player.setYRot(this.getYRot());
+        player.setXRot(this.getXRot());
         this.setEatingHaystack(false);
         this.setRearing(false);
         if(player instanceof ServerPlayer) {
@@ -630,11 +630,11 @@ public class EntityReindeer extends Animal implements PlayerRideableJumping, IVa
     public void travel(Vec3 vec) {
         if (this.isVehicle() && this.canBeControlledByRider()) {
             LivingEntity entitylivingbase = (LivingEntity) this.getControllingPassenger();
-            this.yRot = entitylivingbase.yRot;
-            this.yRotO = this.yRot;
-            this.xRot = entitylivingbase.xRot * 0.5F;
-            this.setRot(this.yRot, this.xRot);
-            this.yBodyRot = this.yRot;
+            this.setYRot(entitylivingbase.getYRot());
+            this.yRotO = this.getYRot();
+            this.setXRot(entitylivingbase.getXRot() * 0.5F);
+            this.setRot(this.getYRot(), this.getXRot());
+            this.yBodyRot = this.getYRot();
             this.yHeadRot = this.yBodyRot;
             vec = vec.add(entitylivingbase.xxa * 0.5F - vec.x, vec.y, vec.z);
             vec = vec.add(vec.x, vec.y, entitylivingbase.zza - vec.z);
@@ -659,8 +659,8 @@ public class EntityReindeer extends Animal implements PlayerRideableJumping, IVa
                 this.hasImpulse = true;
 
                 if (vec.z > 0.0F) {
-                    float f = Mth.sin(this.yRot * 0.017453292F);
-                    float f1 = Mth.cos(this.yRot * 0.017453292F);
+                    float f = Mth.sin(this.getYRot() * 0.017453292F);
+                    float f1 = Mth.cos(this.getXRot() * 0.017453292F);
                     this.setDeltaMovement(this.getDeltaMovement().add(-0.4F * f * this.jumpPower, 0, 0.4F * f1 * this.jumpPower));
                     this.playSound(SoundEvents.HORSE_JUMP, 0.4F, 1.0F);
                 }
@@ -685,10 +685,10 @@ public class EntityReindeer extends Animal implements PlayerRideableJumping, IVa
             this.animationSpeedOld = this.animationSpeed;
             double d1 = this.getX() - this.xo;
             double d0 = this.getZ() - this.zo;
-            float f2 = Mth.sqrt(d1 * d1 + d0 * d0) * 4.0F;
+            double f2 = Math.sqrt(d1 * d1 + d0 * d0) * 4.0F;
 
-            if (f2 > 1.0F) {
-                f2 = 1.0F;
+            if (f2 > 1.0D) {
+                f2 = 1.0D;
             }
 
             this.animationSpeed += (f2 - this.animationSpeed) * 0.4F;
@@ -744,7 +744,7 @@ public class EntityReindeer extends Animal implements PlayerRideableJumping, IVa
                 && this.getHealth() >= this.getMaxHealth() && this.isInLove();
     }
 
-    protected void setOffspringAttributes(AgableMob p_190681_1_, EntityReindeer p_190681_2_) {
+    protected void setOffspringAttributes(AgeableMob p_190681_1_, EntityReindeer p_190681_2_) {
         double d0 = this.getAttributeBaseValue(Attributes.MAX_HEALTH) + p_190681_1_.getAttributeBaseValue(Attributes.MAX_HEALTH) + (double) this.getModifiedMaxHealth();
         p_190681_2_.getAttribute(Attributes.MAX_HEALTH).setBaseValue(d0 / 3.0D);
         double d1 = this.getAttributeBaseValue(Attributes.JUMP_STRENGTH) + p_190681_1_.getAttributeBaseValue(Attributes.JUMP_STRENGTH) + this.getModifiedJumpStrength();

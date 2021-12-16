@@ -68,10 +68,10 @@ public class EntityNautilus extends EntityWaterMobBucketable {
     protected SoundEvent getDeathSound() {
         return SoundEvents.SQUID_DEATH;
     }
-    
+
     @Override
-    protected boolean isMovementNoisy() {
-        return false;
+    protected MovementEmission getMovementEmission() {
+        return MovementEmission.EVENTS;
     }
 
     @Override

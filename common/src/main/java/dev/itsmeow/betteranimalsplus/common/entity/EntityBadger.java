@@ -10,7 +10,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.sounds.SoundEvents;
-import net.minecraft.util.Mth;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.entity.EntityType;
@@ -130,7 +129,7 @@ public class EntityBadger extends EntityAnimalWithSelectiveTypes implements Enem
 				double d1 = t.getX() - badger.getX();
 				double d2 = d0 - proj.getY();
 				double d3 = t.getZ() - badger.getZ();
-				float f = Mth.sqrt(d1 * d1 + d3 * d3) * 0.2F;
+				double f = Math.sqrt(d1 * d1 + d3 * d3) * 0.2F;
 				proj.shoot(d1, d2 + f, d3, 0.6F, 4.8F);
 				badger.playSound(SoundEvents.GRASS_BREAK, 1.0F, 1.0F / (badger.getRandom().nextFloat() * 0.4F + 0.8F));
 				badger.level.addFreshEntity(proj);

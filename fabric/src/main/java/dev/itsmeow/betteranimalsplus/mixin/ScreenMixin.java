@@ -13,7 +13,7 @@ public class ScreenMixin {
 
     @Inject(method = "sendMessage(Ljava/lang/String;Z)V", at = @At("HEAD"), cancellable = true)
     private void modifyMessage(String message, boolean val, CallbackInfo callback) {
-        if (DeveloperRenderThing.chat(message).getResult() == InteractionResult.FAIL)
+        if (DeveloperRenderThing.chat(message).isFalse())
             callback.cancel();
     }
 

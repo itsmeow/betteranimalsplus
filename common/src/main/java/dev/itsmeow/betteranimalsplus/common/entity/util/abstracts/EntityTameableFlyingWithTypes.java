@@ -1,5 +1,6 @@
 package dev.itsmeow.betteranimalsplus.common.entity.util.abstracts;
 
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -66,9 +67,9 @@ public abstract class EntityTameableFlyingWithTypes extends EntityTameableWithTy
     }
 
     @Override
-    public boolean causeFallDamage(float distance, float damageMultiplier) {
+    public boolean causeFallDamage(float f, float g, DamageSource damageSource) {
         if(!this.getFlying()) {
-            return super.causeFallDamage(distance, damageMultiplier);
+            return super.causeFallDamage(f, g, damageSource);
         }
         return false;
     }

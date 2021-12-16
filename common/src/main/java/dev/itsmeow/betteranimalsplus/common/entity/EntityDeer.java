@@ -86,7 +86,7 @@ public class EntityDeer extends EntityAnimalEatsGrassWithTypes implements IDropH
         this.goalSelector.addGoal(1, new BreedGoal(this, 0.45D));
         this.goalSelector.addGoal(2, new PanicGoal(this, 0.65D));
         ItemLike[] temptItems = new ItemLike[] {Items.APPLE, Items.GOLDEN_APPLE, Items.CARROT, Items.CARROT_ON_A_STICK, Items.GOLDEN_CARROT, Items.WHEAT};
-        this.goalSelector.addGoal(3, new TemptGoal(this, 0.45D, false, Ingredient.of(temptItems)));
+        this.goalSelector.addGoal(3, new TemptGoal(this, 0.45D, Ingredient.of(temptItems), false));
         this.goalSelector.addGoal(4, new AvoidEntityGoal<>(this, Player.class, 20, 0.55D, 0.7D));
         this.goalSelector.addGoal(5, new FollowParentGoal(this, 1D));
         // Eat Grass at Priority 6

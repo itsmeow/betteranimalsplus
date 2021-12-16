@@ -151,7 +151,7 @@ public class EntityLammergeier extends EntityTameableFlyingWithTypes implements 
     }
 
     @Override
-    protected float getVoicePitch() {
+    public float getVoicePitch() {
         return 0.4F; // Lower pitch
     }
 
@@ -364,8 +364,8 @@ public class EntityLammergeier extends EntityTameableFlyingWithTypes implements 
             {
                 double d1 = entitylivingbase.getX() - this.attacker.getX();
                 double d2 = entitylivingbase.getZ() - this.attacker.getZ();
-                this.attacker.yRot = -((float) Mth.atan2(d1, d2)) * (180F / (float) Math.PI);
-                this.attacker.yBodyRot = this.attacker.yRot;
+                this.attacker.setYRot(-((float) Mth.atan2(d1, d2)) * (180F / (float) Math.PI));
+                this.attacker.yBodyRot = this.attacker.getYRot();
             }
 
             double distanceToTarget = this.attacker.distanceToSqr(entitylivingbase.getX(), entitylivingbase.getY(),
@@ -397,7 +397,7 @@ public class EntityLammergeier extends EntityTameableFlyingWithTypes implements 
             if(distanceToTarget <= reachToTarget && attacker.getPassengers().size() == 0 && entitylivingbase.getBbHeight() <= 3 && this.attackTick == 15) {
                 // Move the entity upwards to avoid being stuck in the ground
                 this.attacker.moveTo(this.attacker.getX(), this.attacker.getY() + entitylivingbase.getBbHeight() + 2,
-                this.attacker.getZ(), this.attacker.yRot, this.attacker.xRot);
+                this.attacker.getZ(), this.attacker.getYRot(), this.attacker.getXRot());
                 // Grab the target
                 entitylivingbase.startRiding(this.attacker, true);
                 // Set liftY so entity can continue moving up from the spot

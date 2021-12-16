@@ -24,11 +24,11 @@ public class WaterMoveHelper extends MoveControl {
             double d0 = this.wantedX - this.entity.getX();
             double d1 = this.wantedY - this.entity.getY();
             double d2 = this.wantedZ - this.entity.getZ();
-            double d3 = Mth.sqrt(d0 * d0 + d1 * d1 + d2 * d2);
+            double d3 = Math.sqrt(d0 * d0 + d1 * d1 + d2 * d2);
             d1 = d1 / d3;
             float f = (float) (Mth.atan2(d2, d0) * (double) (180F / (float) Math.PI)) - 90.0F;
-            this.entity.yRot = this.rotlerp(this.entity.yRot, f, 90.0F);
-            this.entity.yBodyRot = this.entity.yRot;
+            this.entity.setYRot(this.rotlerp(this.entity.getYRot(), f, 90.0F));
+            this.entity.yBodyRot = this.entity.getYRot();
             float f1 = (float) (this.speedModifier * this.entity.getAttribute(Attributes.MOVEMENT_SPEED).getValue());
             this.entity.setSpeed(Mth.lerp(0.125F, this.entity.getSpeed(), f1));
             this.entity.setDeltaMovement(this.entity.getDeltaMovement().add(0.0D, (double) this.entity.getSpeed() * d1 * 0.1D, 0.0D));

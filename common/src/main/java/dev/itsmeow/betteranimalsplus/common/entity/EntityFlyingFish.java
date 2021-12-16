@@ -128,7 +128,7 @@ public class EntityFlyingFish extends EntityWaterMobPathingWithTypesBucketable {
 
         @Override
         public void stop() {
-            this.fish.xRot = 0.0F;
+            this.fish.setXRot(0.0F);
             this.ticks = 0;
         }
 
@@ -144,12 +144,12 @@ public class EntityFlyingFish extends EntityWaterMobPathingWithTypesBucketable {
                 this.fish.playSound(SoundEvents.DOLPHIN_JUMP, 1.0F, 1.0F);
             }
             Vec3 vec3d = this.fish.getDeltaMovement();
-            if(vec3d.y * vec3d.y < (double) 0.03F && this.fish.xRot != 0.0F) {
-                this.fish.xRot = Mth.rotlerp(this.fish.xRot, 0.0F, 0.2F);
+            if(vec3d.y * vec3d.y < (double) 0.03F && this.fish.getXRot() != 0.0F) {
+                this.fish.setXRot(Mth.rotlerp(this.fish.getXRot(), 0.0F, 0.2F));
             } else {
-                double d0 = Math.sqrt(Entity.getHorizontalDistanceSqr(vec3d));
+                double d0 = Math.sqrt(vec3d.x * vec3d.x + vec3d.z * vec3d.z);
                 double d1 = Math.signum(-vec3d.y) * Math.acos(d0 / vec3d.length()) * (double) (180F / (float) Math.PI);
-                this.fish.xRot = (float) d1;
+                this.fish.setXRot((float) d1);
             }
             Direction direction = this.fish.getMotionDirection();
             this.fish.setDeltaMovement(this.fish.getDeltaMovement().add((double) direction.getStepX() * 0.03D, 0.04D, (double) direction.getStepZ() * 0.03D));

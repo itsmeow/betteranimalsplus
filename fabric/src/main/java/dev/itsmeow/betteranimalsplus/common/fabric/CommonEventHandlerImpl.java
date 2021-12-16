@@ -7,9 +7,9 @@ import net.fabricmc.fabric.api.loot.v1.event.LootTableLoadingCallback;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.level.storage.loot.ConstantIntValue;
 import net.minecraft.world.level.storage.loot.LootTables;
 import net.minecraft.world.level.storage.loot.entries.LootTableReference;
+import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 
 import java.util.function.Function;
 
@@ -22,7 +22,7 @@ public class CommonEventHandlerImpl {
             for (ResourceLocation rl : CommonEventHandler.LOOT_TABLE_INJECTIONS.keys()) {
                 if (id.equals(rl)) {
                     for (ResourceLocation ref : CommonEventHandler.LOOT_TABLE_INJECTIONS.get(rl)) {
-                        table.pool(FabricLootPoolBuilder.builder().setRolls(ConstantIntValue.exactly(1)).add(LootTableReference.lootTableReference(ref)));
+                        table.pool(FabricLootPoolBuilder.builder().setRolls(ConstantValue.exactly(1)).add(LootTableReference.lootTableReference(ref)));
                     }
                     break;
                 }

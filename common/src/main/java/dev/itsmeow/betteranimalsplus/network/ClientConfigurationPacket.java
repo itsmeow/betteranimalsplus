@@ -4,8 +4,8 @@ import com.google.common.base.Charsets;
 import dev.itsmeow.betteranimalsplus.common.entity.util.EntityTypeContainerBAPTameable;
 import dev.itsmeow.betteranimalsplus.init.ModEntities;
 import dev.itsmeow.imdlib.entity.EntityTypeContainer;
-import me.shedaniel.architectury.networking.NetworkManager;
-import me.shedaniel.architectury.utils.Env;
+import dev.architectury.networking.NetworkManager;
+import dev.architectury.utils.Env;
 import net.minecraft.network.FriendlyByteBuf;
 
 import java.util.HashMap;

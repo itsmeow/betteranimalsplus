@@ -1,7 +1,7 @@
 package dev.itsmeow.betteranimalsplus.mixin;
 
 import dev.itsmeow.betteranimalsplus.Ref;
-import me.shedaniel.architectury.platform.Platform;
+import dev.architectury.platform.Platform;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ReloadableResourceManager;
 import net.minecraft.server.packs.resources.SimpleReloadableResourceManager;

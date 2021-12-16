@@ -33,7 +33,7 @@ import net.minecraft.world.entity.ai.control.MoveControl;
 import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
-import net.minecraft.world.entity.ai.util.RandomPos;
+import net.minecraft.world.entity.ai.util.DefaultRandomPos;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -68,7 +68,7 @@ public class EntityWalrus extends Animal implements IContainerEntity<EntityWalru
     public InteractionResult mobInteract(Player player, InteractionHand hand) {
         ItemStack stack = player.getItemInHand(hand);
         if(!advancementGiven && stack.getItem() == ModItems.FRIED_EGG.get()) {
-            this.usePlayerItem(player, stack);
+            this.usePlayerItem(player, hand, stack);
             this.level.broadcastEntityEvent(this, (byte) 90);
             this.advancementGiven = true;
             if(player instanceof ServerPlayer) {
@@ -257,7 +257,7 @@ public class EntityWalrus extends Animal implements IContainerEntity<EntityWalru
         if(!this.isGoingHome() && worldIn.getFluidState(pos).is(FluidTags.WATER)) {
             return 10.0F;
         } else {
-            return worldIn.getBlockState(pos.below()).getBlock().is(BlockTags.ICE) ? 10.0F : worldIn.getBrightness(pos) - 0.5F;
+            return worldIn.getBlockState(pos.below()).is(BlockTags.ICE) ? 10.0F : worldIn.getBrightness(pos) - 0.5F;
         }
     }
 
@@ -329,13 +329,13 @@ public class EntityWalrus extends Animal implements IContainerEntity<EntityWalru
             }
 
             if(this.walrus.getNavigation().isDone()) {
-                Vec3 vec3d = RandomPos.getPosTowards(this.walrus, 16, 3, new Vec3(blockpos.getX(), blockpos.getY(), blockpos.getZ()), (float) Math.PI / 10F);
+                Vec3 vec3d = DefaultRandomPos.getPosTowards(this.walrus, 16, 3, new Vec3(blockpos.getX(), blockpos.getY(), blockpos.getZ()), Math.PI / 10D);
                 if(vec3d == null) {
-                    vec3d = RandomPos.getPosTowards(this.walrus, 8, 7, new Vec3(blockpos.getX(), blockpos.getY(), blockpos.getZ()));
+                    vec3d = DefaultRandomPos.getPosTowards(this.walrus, 8, 7, new Vec3(blockpos.getX(), blockpos.getY(), blockpos.getZ()), Math.PI / 2D);
                 }
 
                 if(vec3d != null && !nearHome && this.walrus.level.getBlockState(new BlockPos(vec3d)).getBlock() != Blocks.WATER) {
-                    vec3d = RandomPos.getPosTowards(this.walrus, 16, 5, new Vec3(blockpos.getX(), blockpos.getY(), blockpos.getZ()));
+                    vec3d = DefaultRandomPos.getPosTowards(this.walrus, 16, 5, new Vec3(blockpos.getX(), blockpos.getY(), blockpos.getZ()), Math.PI / 2D);
                 }
 
                 if(vec3d == null) {
@@ -411,11 +411,11 @@ public class EntityWalrus extends Animal implements IContainerEntity<EntityWalru
                 double d0 = this.wantedX - this.walrus.getX();
                 double d1 = this.wantedY - this.walrus.getY();
                 double d2 = this.wantedZ - this.walrus.getZ();
-                double d3 = Mth.sqrt(d0 * d0 + d1 * d1 + d2 * d2);
+                double d3 = Math.sqrt(d0 * d0 + d1 * d1 + d2 * d2);
                 d1 = d1 / d3;
                 float f = (float) (Mth.atan2(d2, d0) * (double) (180F / (float) Math.PI)) - 90.0F;
-                this.walrus.yRot = this.rotlerp(this.walrus.yRot, f, 90.0F);
-                this.walrus.yBodyRot = this.walrus.yRot;
+                this.walrus.setYRot(this.rotlerp(this.walrus.getYRot(), f, 90.0F));
+                this.walrus.yBodyRot = this.walrus.getYRot();
                 float f1 = (float) (this.speedModifier * this.walrus.getAttribute(Attributes.MOVEMENT_SPEED).getValue());
                 this.walrus.setSpeed(Mth.lerp(0.125F, this.walrus.getSpeed(), f1));
                 this.walrus.setDeltaMovement(this.walrus.getDeltaMovement().add(0.0D, (double) this.walrus.getSpeed() * d1 * 0.1D, 0.0D));
@@ -463,9 +463,9 @@ public class EntityWalrus extends Animal implements IContainerEntity<EntityWalru
         public void tick() {
             if(this.walrus.getNavigation().isDone()) {
                 BlockPos blockpos = this.walrus.getTravelPos();
-                Vec3 dest = RandomPos.getPosTowards(this.walrus, 16, 3, new Vec3(blockpos.getX(), blockpos.getY(), blockpos.getZ()), Math.PI / 10D);
+                Vec3 dest = DefaultRandomPos.getPosTowards(this.walrus, 16, 3, new Vec3(blockpos.getX(), blockpos.getY(), blockpos.getZ()), Math.PI / 10D);
                 if(dest == null) {
-                    dest = RandomPos.getPosTowards(this.walrus, 8, 7, new Vec3(blockpos.getX(), blockpos.getY(), blockpos.getZ()));
+                    dest = DefaultRandomPos.getPosTowards(this.walrus, 8, 7, new Vec3(blockpos.getX(), blockpos.getY(), blockpos.getZ()), Math.PI / 2D);
                 }
 
                 if(dest != null) {
@@ -514,7 +514,7 @@ public class EntityWalrus extends Animal implements IContainerEntity<EntityWalru
     }
 
     @Override
-    public AgableMob getBreedOffspring(ServerLevel world, AgableMob ageable) {
+    public AgeableMob getBreedOffspring(ServerLevel world, AgeableMob ageable) {
         return null;
     }
 

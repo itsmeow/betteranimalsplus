@@ -2,7 +2,13 @@ package dev.itsmeow.betteranimalsplus.common;
 
 import com.google.common.collect.Multimap;
 import com.google.common.collect.MultimapBuilder;
+import dev.architectury.event.CompoundEventResult;
+import dev.architectury.event.EventResult;
+import dev.architectury.event.events.common.EntityEvent;
+import dev.architectury.event.events.common.InteractionEvent;
 import dev.architectury.injectables.annotations.ExpectPlatform;
+import dev.architectury.registry.registries.Registries;
+import dev.architectury.utils.PlatformExpectedError;
 import dev.itsmeow.betteranimalsplus.Ref;
 import dev.itsmeow.betteranimalsplus.common.entity.*;
 import dev.itsmeow.betteranimalsplus.common.entity.util.IHaveHunger;
@@ -13,10 +19,6 @@ import dev.itsmeow.betteranimalsplus.init.ModTriggers;
 import dev.itsmeow.betteranimalsplus.mixin.MobAccessor;
 import dev.itsmeow.imdlib.entity.interfaces.IBucketable;
 import dev.itsmeow.imdlib.entity.util.variant.IVariant;
-import me.shedaniel.architectury.event.events.EntityEvent;
-import me.shedaniel.architectury.event.events.InteractionEvent;
-import me.shedaniel.architectury.registry.Registries;
-import me.shedaniel.architectury.utils.PlatformExpectedError;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Registry;
@@ -24,8 +26,6 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
-import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -72,14 +72,14 @@ public class CommonEventHandler {
 
     public static void init() {
         EntityEvent.LIVING_DEATH.register(CommonEventHandler::entityDeath);
-        EntityEvent.LIVING_ATTACK.register(CommonEventHandler::entityAttack);
+        EntityEvent.LIVING_HURT.register(CommonEventHandler::entityAttack);
         EntityEvent.ADD.register(CommonEventHandler::entityAdd);
         InteractionEvent.RIGHT_CLICK_BLOCK.register(CommonEventHandler::rightClickBlock);
         InteractionEvent.RIGHT_CLICK_ITEM.register(CommonEventHandler::rightClickItem);
         CommonEventHandler.registerPlatformEvents();
     }
 
-    public static InteractionResult entityDeath(LivingEntity entity, DamageSource source) {
+    public static EventResult entityDeath(LivingEntity entity, DamageSource source) {
         if(source.getDirectEntity() instanceof EntityBoar && ModEntities.BOAR.getCustomConfiguration().getBoolean("nerf_options/breed_from_kill")) {
             EntityBoar boar = (EntityBoar) source.getDirectEntity();
             boar.setInLove(null);
@@ -115,10 +115,10 @@ public class CommonEventHandler {
         if(source.getDirectEntity() instanceof IHaveHunger) {
             ((IHaveHunger<?>) source.getDirectEntity()).resetHunger();
         }
-        return InteractionResult.PASS;
+        return EventResult.pass();
     }
 
-    public static InteractionResult rightClickBlock(Player player, InteractionHand hand, BlockPos pos, Direction direction) {
+    public static EventResult rightClickBlock(Player player, InteractionHand hand, BlockPos pos, Direction direction) {
         if(player.level.getBlockState(pos).getBlock() == Blocks.JUKEBOX && player instanceof ServerPlayer) {
             BlockEntity te = player.level.getBlockEntity(pos);
             if(te instanceof JukeboxBlockEntity) {
@@ -129,10 +129,10 @@ public class CommonEventHandler {
                 onDiskUse(added, (ServerPlayer) player, added ? held : boxItem);
             }
         }
-        return InteractionResult.PASS;
+        return EventResult.pass();
     }
 
-    public static InteractionResultHolder<ItemStack> rightClickItem(Player player, InteractionHand hand) {
+    public static CompoundEventResult<ItemStack> rightClickItem(Player player, InteractionHand hand) {
         ItemStack stack = player.getItemInHand(hand);
         ResourceLocation reg = Registries.get(Ref.MOD_ID).get(Registry.ITEM_REGISTRY).getId(stack.getItem());
         if(reg != null && reg.getPath().equals("portable_jukebox") && player instanceof ServerPlayer) {
@@ -141,7 +141,7 @@ public class CommonEventHandler {
                 onDiskUse(player.isCrouching(), (ServerPlayer) player, item);
             }
         }
-        return InteractionResultHolder.pass(stack);
+        return CompoundEventResult.pass();
     }
 
     private static void onDiskUse(boolean added, ServerPlayer player, Item item) {
@@ -164,13 +164,13 @@ public class CommonEventHandler {
         }
     }
 
-    public static InteractionResult entityAttack(LivingEntity entity, DamageSource source, float damage) {
+    public static EventResult entityAttack(LivingEntity entity, DamageSource source, float damage) {
         if (source.getEntity() instanceof ServerPlayer && (entity instanceof EntityBear || entity instanceof PolarBear)) {
             if (((ServerPlayer) source.getEntity()).getMainHandItem().isEmpty()) {
                 ModTriggers.PUNCH_BEAR.trigger((ServerPlayer) source.getEntity());
             }
         }
-        return InteractionResult.PASS;
+        return EventResult.pass();
     }
 
     public static void modifyDropsList(Collection<ItemEntity> drops, DamageSource source, LivingEntity entity) {
@@ -179,11 +179,11 @@ public class CommonEventHandler {
         }
     }
 
-    public static InteractionResult entityAdd(Entity entity, Level level) {
+    public static EventResult entityAdd(Entity entity, Level level) {
         if(entity instanceof IronGolem) {
             ((MobAccessor) entity).getTargetSelector().addGoal(3, new NearestAttackableTargetGoal<>((IronGolem) entity, EntityFeralWolf.class, 5, false, false, e -> !((EntityFeralWolf) e).isTame() && (e instanceof EntityCoyote ? !((EntityCoyote) e).isDaytime() : true)));
         }
-        return InteractionResult.PASS;
+        return EventResult.pass();
     }
 
     @ExpectPlatform

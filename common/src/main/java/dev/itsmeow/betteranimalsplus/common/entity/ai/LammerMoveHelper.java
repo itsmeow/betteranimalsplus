@@ -30,10 +30,10 @@ public class LammerMoveHelper extends MoveControl {
                 this.operation = Operation.WAIT;
             }
             float yawAngle = (float)(Mth.atan2(diffZ, diffX) * (double)(180F / (float)Math.PI)) - 90.0F;
-            this.parentEntity.yRot = this.rotlerp(this.parentEntity.yRot, yawAngle, 35.0F);
-            double xZDist = Mth.sqrt(diffX * diffX + diffZ * diffZ);
+            this.parentEntity.setYRot(this.rotlerp(this.parentEntity.getYRot(), yawAngle, 35.0F));
+            double xZDist = Math.sqrt(diffX * diffX + diffZ * diffZ);
             float pitchAngle = (float)(-(Mth.atan2(diffY, xZDist) * (double)(180F / (float)Math.PI)));
-            this.parentEntity.xRot = this.rotlerp(this.parentEntity.xRot, pitchAngle, 35.0F);
+            this.parentEntity.setXRot(this.rotlerp(this.parentEntity.getXRot(), pitchAngle, 35.0F));
         }
     }
 

@@ -1,19 +1,18 @@
 package dev.itsmeow.betteranimalsplus.common.entity.ai;
 
-import java.util.EnumSet;
-import java.util.Set;
-
 import com.google.common.collect.Sets;
-
 import net.minecraft.world.entity.PathfinderMob;
-import net.minecraft.world.entity.ai.targeting.TargetingConditions;
 import net.minecraft.world.entity.ai.goal.Goal;
+import net.minecraft.world.entity.ai.targeting.TargetingConditions;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
+import java.util.EnumSet;
+import java.util.Set;
+
 public class EntityAITemptAnyNav extends Goal {
-    private static final TargetingConditions selector = (new TargetingConditions()).range(10.0D).allowSameTeam().allowInvulnerable();
+    private static final TargetingConditions selector = TargetingConditions.forNonCombat().range(10.0D).ignoreLineOfSight();
     private final PathfinderMob entity;
     private final double speed;
     private Player tempter;

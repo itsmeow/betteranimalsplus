@@ -1,7 +1,12 @@
 package dev.itsmeow.betteranimalsplus;
 
 import com.google.common.collect.ImmutableList;
+import dev.architectury.event.events.common.PlayerEvent;
 import dev.architectury.injectables.annotations.ExpectPlatform;
+import dev.architectury.networking.NetworkChannel;
+import dev.architectury.platform.Platform;
+import dev.architectury.utils.Env;
+import dev.architectury.utils.PlatformExpectedError;
 import dev.itsmeow.betteranimalsplus.client.dumb.SafeSyncThing;
 import dev.itsmeow.betteranimalsplus.common.CommonEventHandler;
 import dev.itsmeow.betteranimalsplus.common.entity.util.EntityTypeContainerBAPTameable;
@@ -9,11 +14,6 @@ import dev.itsmeow.betteranimalsplus.init.*;
 import dev.itsmeow.betteranimalsplus.network.*;
 import dev.itsmeow.imdlib.IMDLib;
 import dev.itsmeow.imdlib.entity.EntityTypeContainer;
-import me.shedaniel.architectury.event.events.PlayerEvent;
-import me.shedaniel.architectury.networking.NetworkChannel;
-import me.shedaniel.architectury.platform.Platform;
-import me.shedaniel.architectury.utils.Env;
-import me.shedaniel.architectury.utils.PlatformExpectedError;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
@@ -28,7 +28,6 @@ import java.util.stream.Collectors;
 public class BetterAnimalsPlusMod {
 
     public static final Logger LOGGER = LogManager.getLogger();
-    // TODO config fabric impl
     public static final NetworkChannel HANDLER = NetworkChannel.create(new ResourceLocation(Ref.MOD_ID, "main_channel"));
     private static final ImmutableList<UUID> DEVS = ImmutableList.of(
             UUID.fromString("81d9726a-56d4-4419-9a2a-be1d7f7f7ef1"),

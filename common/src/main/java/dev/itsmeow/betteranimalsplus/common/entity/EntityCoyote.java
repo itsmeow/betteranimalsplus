@@ -5,8 +5,6 @@ import dev.itsmeow.betteranimalsplus.common.entity.ai.HungerNonTamedTargetGoal;
 import dev.itsmeow.betteranimalsplus.common.entity.util.EntityTypeContainerBAPTameable;
 import dev.itsmeow.betteranimalsplus.init.ModEntities;
 import dev.itsmeow.betteranimalsplus.util.ModPlatformEvents;
-import me.shedaniel.architectury.event.events.EntityEvent;
-import me.shedaniel.architectury.event.events.InteractionEvent;
 import net.minecraft.Util;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.TranslatableComponent;
@@ -175,12 +173,12 @@ public class EntityCoyote extends EntityFeralWolf {
         }
         if(this.isFood(itemstack)) {
             if(this.getAge() == 0 && this.canBreed()) {
-                this.usePlayerItem(player, itemstack);
+                this.usePlayerItem(player, hand, itemstack);
                 this.setInLove(player);
                 return InteractionResult.CONSUME;
             }
             if(this.isBaby()) {
-                this.usePlayerItem(player, itemstack);
+                this.usePlayerItem(player, hand, itemstack);
                 this.ageUp((int) ((float) (-this.getAge() / 20) * 0.1F), true);
                 return InteractionResult.CONSUME;
             }
@@ -189,7 +187,7 @@ public class EntityCoyote extends EntityFeralWolf {
         Item item = itemstack.getItem();
         if(item instanceof SpawnEggItem && ((SpawnEggItem) item).spawnsEntity(itemstack.getTag(), this.getType())) {
             if(!this.level.isClientSide && level instanceof ServerLevel) {
-                AgableMob ageableentity = this.getBreedOffspring((ServerLevel) this.level, this);
+                AgeableMob ageableentity = this.getBreedOffspring((ServerLevel) this.level, this);
                 if(ageableentity != null) {
                     ageableentity.setAge(-24000);
                     ageableentity.moveTo(this.getX(), this.getY(), this.getZ(), 0.0F, 0.0F);
@@ -199,7 +197,7 @@ public class EntityCoyote extends EntityFeralWolf {
                     }
 
                     this.onOffspringSpawnedFromEgg(player, ageableentity);
-                    if(!player.abilities.instabuild) {
+                    if(!player.getAbilities().instabuild) {
                         itemstack.shrink(1);
                     }
                 }
@@ -247,7 +245,7 @@ public class EntityCoyote extends EntityFeralWolf {
     }
 
     @Override
-    public AgableMob getBreedOffspring(ServerLevel world, AgableMob ageable) {
+    public AgeableMob getBreedOffspring(ServerLevel world, AgeableMob ageable) {
         EntityCoyote coyote = this.getBaseChild();
         if(this.isTame()) {
             coyote.setTame(true);

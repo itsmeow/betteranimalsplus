@@ -5,11 +5,12 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import dev.itsmeow.betteranimalsplus.client.model.abstracts.ModelBAP;
 import dev.itsmeow.betteranimalsplus.common.entity.EntityPheasant;
 import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.client.model.geom.PartPose;
+import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.world.entity.LivingEntity;
 
 public class ModelPheasant<T extends LivingEntity> extends ModelBAP<T> {
 
-    public ModelPart root;
     public ModelPart body;
     public ModelPart tail01;
     public ModelPart tail01Feathers;
@@ -47,229 +48,89 @@ public class ModelPheasant<T extends LivingEntity> extends ModelBAP<T> {
     public ModelPart rWing02;
     public ModelPart rWingFeathers;
 
-    public ModelPheasant() {
-        texWidth = 64;
-        texHeight = 32;
+    public ModelPheasant(ModelPart root) {
+        this.body = root.getChild("body");
+        this.tail01 = body.getChild("tail01");
+        this.tail01Feathers = tail01.getChild("tail01Feathers");
+        this.lTailFeather01 = tail01.getChild("lTailFeather01");
+        this.lTailFeather01b = lTailFeather01.getChild("lTailFeather01b");
+        this.rTailFeather01 = tail01.getChild("rTailFeather01");
+        this.rTailFeather01b = rTailFeather01.getChild("rTailFeather01b");
+        this.lTailFeather02 = tail01.getChild("lTailFeather02");
+        this.rTailFeather02 = tail01.getChild("rTailFeather02");
+        this.lTailFeather03 = tail01.getChild("lTailFeather03");
+        this.rTailFeather03 = tail01.getChild("rTailFeather03");
+        this.lTailFeather04 = tail01.getChild("lTailFeather04");
+        this.rTailFeather04 = tail01.getChild("rTailFeather04");
+        this.lLeg01 = body.getChild("lLeg01");
+        this.lLeg02 = lLeg01.getChild("lLeg02");
+        this.lClaw01 = lLeg02.getChild("lClaw01");
+        this.lClaw02 = lLeg02.getChild("lClaw02");
+        this.lClaw03 = lLeg02.getChild("lClaw03");
+        this.lClaw04 = lLeg02.getChild("lClaw04");
+        this.rLeg01 = body.getChild("rLeg01");
+        this.rLeg02 = rLeg01.getChild("rLeg02");
+        this.rClaw01 = rLeg02.getChild("rClaw01");
+        this.rClaw02 = rLeg02.getChild("rClaw02");
+        this.rClaw04 = rLeg02.getChild("rClaw04");
+        this.neck01 = body.getChild("neck01");
+        this.neck02 = neck01.getChild("neck02");
+        this.head = neck02.getChild("head");
+        this.beak01 = head.getChild("beak01");
+        this.beak02 = beak01.getChild("beak02");
+        this.lWing01 = body.getChild("lWing01");
+        this.lWing02 = lWing01.getChild("lWing02");
+        this.lWingFeathers = lWing02.getChild("lWingFeathers");
+        this.rWing01 = body.getChild("rWing01");
+        this.rWing02 = rWing01.getChild("rWing02");
+        this.rWingFeathers = rWing02.getChild("rWingFeathers");
+    }
 
-        root = new ModelPart(this);
-        root.setPos(0.0F, 0.0F, 0.0F);
-
-
-        body = new ModelPart(this);
-        body.setPos(0.0F, 15.7F, 0.0F);
-        root.addChild(body);
-        setRotationAngle(body, -0.1396F, 0.0F, 0.0F);
-        body.texOffs(0, 0).addBox(-2.5F, -3.0F, -4.0F, 5.0F, 6.0F, 8.0F, 0.0F, false);
-
-        tail01 = new ModelPart(this);
-        tail01.setPos(0.0F, -1.8F, 3.6F);
-        body.addChild(tail01);
-        setRotationAngle(tail01, 0.0524F, 0.0F, 0.0F);
-        tail01.texOffs(19, 0).addBox(-2.5F, -1.0F, 0.0F, 5.0F, 2.0F, 5.0F, -0.1F, false);
-
-        tail01Feathers = new ModelPart(this);
-        tail01Feathers.setPos(0.0F, 2.7F, -0.1F);
-        tail01.addChild(tail01Feathers);
-        setRotationAngle(tail01Feathers, 0.1222F, 0.0F, 0.0F);
-        tail01Feathers.texOffs(44, 1).addBox(-2.0F, -2.0F, -1.0F, 4.0F, 4.0F, 6.0F, 0.0F, false);
-
-        lTailFeather01 = new ModelPart(this);
-        lTailFeather01.setPos(0.9F, -0.6F, 4.3F);
-        tail01.addChild(lTailFeather01);
-        setRotationAngle(lTailFeather01, 0.0F, 0.0698F, 0.0F);
-        lTailFeather01.texOffs(42, 25).addBox(-1.2F, 0.0F, 0.0F, 3.0F, 0.0F, 7.0F, 0.0F, false);
-
-        lTailFeather01b = new ModelPart(this);
-        lTailFeather01b.setPos(0.0F, 0.0F, 6.8F);
-        lTailFeather01.addChild(lTailFeather01b);
-        setRotationAngle(lTailFeather01b, 0.0873F, 0.0F, 0.0F);
-        lTailFeather01b.texOffs(42, 18).addBox(-1.25F, 0.0F, 0.0F, 2.0F, 0.0F, 7.0F, 0.0F, false);
-
-        rTailFeather01 = new ModelPart(this);
-        rTailFeather01.setPos(-0.9F, -0.6F, 4.3F);
-        tail01.addChild(rTailFeather01);
-        setRotationAngle(rTailFeather01, 0.0F, -0.0698F, 0.0F);
-        rTailFeather01.texOffs(42, 25).addBox(-1.8F, 0.0F, 0.0F, 3.0F, 0.0F, 7.0F, 0.0F, true);
-
-        rTailFeather01b = new ModelPart(this);
-        rTailFeather01b.setPos(1.0F, 0.0F, 6.8F);
-        rTailFeather01.addChild(rTailFeather01b);
-        setRotationAngle(rTailFeather01b, 0.0873F, 0.0F, 0.0F);
-        rTailFeather01b.texOffs(42, 18).addBox(-1.75F, 0.0F, 0.0F, 2.0F, 0.0F, 7.0F, 0.0F, true);
-
-        lTailFeather02 = new ModelPart(this);
-        lTailFeather02.setPos(2.0F, -0.3F, 4.4F);
-        tail01.addChild(lTailFeather02);
-        setRotationAngle(lTailFeather02, 0.0F, 0.2618F, 0.0F);
-        lTailFeather02.texOffs(50, 25).addBox(-1.0F, 0.0F, 0.0F, 2.0F, 0.0F, 7.0F, 0.0F, false);
-
-        rTailFeather02 = new ModelPart(this);
-        rTailFeather02.setPos(-2.0F, -0.3F, 4.4F);
-        tail01.addChild(rTailFeather02);
-        setRotationAngle(rTailFeather02, 0.0F, -0.2618F, 0.0F);
-        rTailFeather02.texOffs(50, 25).addBox(-1.0F, 0.0F, 0.0F, 2.0F, 0.0F, 7.0F, 0.0F, true);
-
-        lTailFeather03 = new ModelPart(this);
-        lTailFeather03.setPos(1.8F, 0.1F, 3.5F);
-        tail01.addChild(lTailFeather03);
-        setRotationAngle(lTailFeather03, 0.0F, 0.5236F, 0.0F);
-        lTailFeather03.texOffs(51, 18).addBox(-1.0F, 0.0F, 0.0F, 2.0F, 0.0F, 6.0F, 0.0F, false);
-
-        rTailFeather03 = new ModelPart(this);
-        rTailFeather03.setPos(-1.8F, 0.1F, 3.5F);
-        tail01.addChild(rTailFeather03);
-        setRotationAngle(rTailFeather03, 0.0F, -0.5236F, 0.0F);
-        rTailFeather03.texOffs(51, 18).addBox(-1.0F, 0.0F, 0.0F, 2.0F, 0.0F, 6.0F, 0.0F, true);
-
-        lTailFeather04 = new ModelPart(this);
-        lTailFeather04.setPos(2.0F, 0.3F, 2.7F);
-        tail01.addChild(lTailFeather04);
-        setRotationAngle(lTailFeather04, 0.0F, 0.6283F, 0.0F);
-        lTailFeather04.texOffs(51, 18).addBox(-1.0F, 0.0F, 0.0F, 2.0F, 0.0F, 6.0F, 0.0F, false);
-
-        rTailFeather04 = new ModelPart(this);
-        rTailFeather04.setPos(-2.0F, 0.3F, 2.7F);
-        tail01.addChild(rTailFeather04);
-        setRotationAngle(rTailFeather04, 0.0F, -0.6283F, 0.0F);
-        rTailFeather04.texOffs(51, 18).addBox(-1.0F, 0.0F, 0.0F, 2.0F, 0.0F, 6.0F, 0.0F, true);
-
-        lLeg01 = new ModelPart(this);
-        lLeg01.setPos(1.8F, 2.6F, 2.7F);
-        body.addChild(lLeg01);
-        setRotationAngle(lLeg01, 0.2094F, 0.0F, 0.0F);
-        lLeg01.texOffs(0, 15).addBox(-1.0F, 0.0F, -1.0F, 2.0F, 2.0F, 2.0F, 0.0F, false);
-
-        lLeg02 = new ModelPart(this);
-        lLeg02.setPos(0.0F, 1.6F, 0.0F);
-        lLeg01.addChild(lLeg02);
-        setRotationAngle(lLeg02, -0.2094F, 0.0F, 0.0F);
-        lLeg02.texOffs(9, 14).addBox(-0.5F, 0.0F, -0.5F, 1.0F, 4.0F, 1.0F, 0.0F, false);
-
-        lClaw01 = new ModelPart(this);
-        lClaw01.setPos(0.0F, 3.1F, -0.5F);
-        lLeg02.addChild(lClaw01);
-        setRotationAngle(lClaw01, 0.2443F, 0.0F, 0.0F);
-        lClaw01.texOffs(0, 0).addBox(-0.5F, 0.5F, -2.5F, 1.0F, 0.0F, 3.0F, 0.0F, false);
-
-        lClaw02 = new ModelPart(this);
-        lClaw02.setPos(0.5F, 3.2F, -0.2F);
-        lLeg02.addChild(lClaw02);
-        setRotationAngle(lClaw02, 0.1571F, -0.3491F, 0.0F);
-        lClaw02.texOffs(0, 0).addBox(-0.5F, 0.5F, -2.5F, 1.0F, 0.0F, 3.0F, 0.0F, false);
-
-        lClaw03 = new ModelPart(this);
-        lClaw03.setPos(-0.5F, 3.2F, -0.2F);
-        lLeg02.addChild(lClaw03);
-        setRotationAngle(lClaw03, 0.1571F, 0.3491F, 0.0F);
-        lClaw03.texOffs(0, 0).addBox(-0.5F, 0.5F, -2.5F, 1.0F, 0.0F, 3.0F, 0.0F, false);
-
-        lClaw04 = new ModelPart(this);
-        lClaw04.setPos(0.0F, 3.0F, 0.2F);
-        lLeg02.addChild(lClaw04);
-        lClaw04.texOffs(0, 19).addBox(-0.5F, 0.5F, -0.5F, 1.0F, 0.0F, 3.0F, 0.0F, false);
-
-        rLeg01 = new ModelPart(this);
-        rLeg01.setPos(-1.8F, 2.6F, 2.7F);
-        body.addChild(rLeg01);
-        setRotationAngle(rLeg01, 0.2094F, 0.0F, 0.0F);
-        rLeg01.texOffs(0, 15).addBox(-1.0F, 0.0F, -1.0F, 2.0F, 2.0F, 2.0F, 0.0F, true);
-
-        rLeg02 = new ModelPart(this);
-        rLeg02.setPos(0.0F, 1.6F, 0.0F);
-        rLeg01.addChild(rLeg02);
-        setRotationAngle(rLeg02, -0.2094F, 0.0F, 0.0F);
-        rLeg02.texOffs(9, 14).addBox(-0.5F, 0.0F, -0.5F, 1.0F, 4.0F, 1.0F, 0.0F, true);
-
-        rClaw01 = new ModelPart(this);
-        rClaw01.setPos(0.0F, 3.1F, -0.5F);
-        rLeg02.addChild(rClaw01);
-        setRotationAngle(rClaw01, 0.2443F, 0.0F, 0.0F);
-        rClaw01.texOffs(0, 0).addBox(-0.5F, 0.5F, -2.5F, 1.0F, 0.0F, 3.0F, 0.0F, true);
-
-        rClaw02 = new ModelPart(this);
-        rClaw02.setPos(-0.5F, 3.2F, -0.2F);
-        rLeg02.addChild(rClaw02);
-        setRotationAngle(rClaw02, 0.1571F, 0.3491F, 0.0F);
-        rClaw02.texOffs(0, 0).addBox(-0.5F, 0.5F, -2.5F, 1.0F, 0.0F, 3.0F, 0.0F, true);
-
-        rClaw03 = new ModelPart(this);
-        rClaw03.setPos(0.5F, 3.2F, -0.2F);
-        rLeg02.addChild(rClaw03);
-        setRotationAngle(rClaw03, 0.1571F, -0.3491F, 0.0F);
-        rClaw03.texOffs(0, 0).addBox(-0.5F, 0.5F, -2.5F, 1.0F, 0.0F, 3.0F, 0.0F, true);
-
-        rClaw04 = new ModelPart(this);
-        rClaw04.setPos(0.0F, 3.0F, 0.2F);
-        rLeg02.addChild(rClaw04);
-        rClaw04.texOffs(0, 19).addBox(-0.5F, 0.5F, -0.5F, 1.0F, 0.0F, 3.0F, 0.0F, true);
-
-        neck01 = new ModelPart(this);
-        neck01.setPos(0.0F, -0.6F, -2.7F);
-        body.addChild(neck01);
-        setRotationAngle(neck01, -0.9076F, 0.0F, 0.0F);
-        neck01.texOffs(13, 15).addBox(-2.0F, -2.0F, -3.2F, 4.0F, 4.0F, 4.0F, 0.0F, false);
-
-        neck02 = new ModelPart(this);
-        neck02.setPos(0.0F, 0.1F, -2.7F);
-        neck01.addChild(neck02);
-        setRotationAngle(neck02, -0.0349F, 0.0F, 0.0F);
-        neck02.texOffs(0, 24).addBox(-1.5F, -1.5F, -2.5F, 3.0F, 3.0F, 3.0F, 0.0F, false);
-
-        head = new ModelPart(this);
-        head.setPos(0.0F, 0.3F, -3.1F);
-        neck02.addChild(head);
-        setRotationAngle(head, -0.4538F, 0.0F, 0.0F);
-        head.texOffs(27, 7).addBox(-1.5F, -2.1F, -1.5F, 3.0F, 4.0F, 3.0F, 0.01F, false);
-
-        beak01 = new ModelPart(this);
-        beak01.setPos(0.0F, 1.7F, 0.0F);
-        head.addChild(beak01);
-        setRotationAngle(beak01, 0.2094F, 0.0F, 0.0F);
-        beak01.texOffs(53, 12).addBox(-0.5F, 0.0F, -0.5F, 1.0F, 2.0F, 1.0F, 0.1F, false);
-
-        beak02 = new ModelPart(this);
-        beak02.setPos(0.0F, 0.2F, 0.0F);
-        beak01.addChild(beak02);
-        beak02.texOffs(58, 0).addBox(-1.0F, -0.7F, -0.7F, 2.0F, 1.0F, 1.0F, 0.0F, false);
-
-        lWing01 = new ModelPart(this);
-        lWing01.setPos(2.0F, -1.4F, -2.1F);
-        body.addChild(lWing01);
-        setRotationAngle(lWing01, 0.0F, -1.3526F, 0.0F);
-        lWing01.texOffs(25, 18).addBox(0.0F, -0.5F, -1.0F, 7.0F, 1.0F, 5.0F, 0.0F, true);
-
-        lWing02 = new ModelPart(this);
-        lWing02.setPos(5.4F, 0.0F, -0.3F);
-        lWing01.addChild(lWing02);
-        setRotationAngle(lWing02, 0.0F, -0.5672F, 0.0F);
-        lWing02.texOffs(30, 14).addBox(-0.25F, -0.51F, -0.5F, 6.0F, 1.0F, 3.0F, 0.0F, true);
-
-        lWingFeathers = new ModelPart(this);
-        lWingFeathers.setPos(0.0F, 0.0F, 0.0F);
-        lWing02.addChild(lWingFeathers);
-        lWingFeathers.texOffs(4, 24).addBox(-5.9F, -0.1F, -0.4F, 18.0F, 0.0F, 8.0F, 0.0F, false);
-
-        rWing01 = new ModelPart(this);
-        rWing01.setPos(-2.0F, -1.4F, -2.1F);
-        body.addChild(rWing01);
-        setRotationAngle(rWing01, 0.0F, 1.3526F, 0.0F);
-        rWing01.texOffs(25, 18).addBox(-7.0F, -0.5F, -1.0F, 7.0F, 1.0F, 5.0F, 0.0F, false);
-
-        rWing02 = new ModelPart(this);
-        rWing02.setPos(-5.4F, 0.0F, -0.3F);
-        rWing01.addChild(rWing02);
-        setRotationAngle(rWing02, 0.0F, 0.5672F, 0.0F);
-        rWing02.texOffs(30, 14).addBox(-5.75F, -0.51F, -0.5F, 6.0F, 1.0F, 3.0F, 0.0F, false);
-
-        rWingFeathers = new ModelPart(this);
-        rWingFeathers.setPos(0.0F, 0.0F, 0.0F);
-        rWing02.addChild(rWingFeathers);
-        rWingFeathers.texOffs(4, 24).addBox(-12.1F, -0.1F, -0.4F, 18.0F, 0.0F, 8.0F, 0.0F, true);
+    public static LayerDefinition createBodyLayer() {
+        MeshDefinition meshdefinition = new MeshDefinition();
+        PartDefinition partdefinition = meshdefinition.getRoot();
+        PartDefinition body = partdefinition.addOrReplaceChild("body", CubeListBuilder.create().texOffs(0, 0).addBox(-2.5F, -3.0F, -4.0F, 5.0F, 6.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 15.7F, 0.0F, -0.1396F, 0.0F, 0.0F));
+        PartDefinition tail01 = body.addOrReplaceChild("tail01", CubeListBuilder.create().texOffs(19, 0).addBox(-2.5F, -1.0F, 0.0F, 5.0F, 2.0F, 5.0F, new CubeDeformation(-0.1F)), PartPose.offsetAndRotation(0.0F, -1.8F, 3.6F, 0.0524F, 0.0F, 0.0F));
+        PartDefinition tail01Feathers = tail01.addOrReplaceChild("tail01Feathers", CubeListBuilder.create().texOffs(44, 1).addBox(-2.0F, -2.0F, -1.0F, 4.0F, 4.0F, 6.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 2.7F, -0.1F, 0.1222F, 0.0F, 0.0F));
+        PartDefinition lTailFeather01 = tail01.addOrReplaceChild("lTailFeather01", CubeListBuilder.create().texOffs(42, 25).addBox(-1.2F, 0.0F, 0.0F, 3.0F, 0.0F, 7.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.9F, -0.6F, 4.3F, 0.0F, 0.0698F, 0.0F));
+        PartDefinition lTailFeather01b = lTailFeather01.addOrReplaceChild("lTailFeather01b", CubeListBuilder.create().texOffs(42, 18).addBox(-1.25F, 0.0F, 0.0F, 2.0F, 0.0F, 7.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, 6.8F, 0.0873F, 0.0F, 0.0F));
+        PartDefinition rTailFeather01 = tail01.addOrReplaceChild("rTailFeather01", CubeListBuilder.create().texOffs(42, 25).mirror().addBox(-1.8F, 0.0F, 0.0F, 3.0F, 0.0F, 7.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(-0.9F, -0.6F, 4.3F, 0.0F, -0.0698F, 0.0F));
+        PartDefinition rTailFeather01b = rTailFeather01.addOrReplaceChild("rTailFeather01b", CubeListBuilder.create().texOffs(42, 18).mirror().addBox(-1.75F, 0.0F, 0.0F, 2.0F, 0.0F, 7.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(1.0F, 0.0F, 6.8F, 0.0873F, 0.0F, 0.0F));
+        PartDefinition lTailFeather02 = tail01.addOrReplaceChild("lTailFeather02", CubeListBuilder.create().texOffs(50, 25).addBox(-1.0F, 0.0F, 0.0F, 2.0F, 0.0F, 7.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(2.0F, -0.3F, 4.4F, 0.0F, 0.2618F, 0.0F));
+        PartDefinition rTailFeather02 = tail01.addOrReplaceChild("rTailFeather02", CubeListBuilder.create().texOffs(50, 25).mirror().addBox(-1.0F, 0.0F, 0.0F, 2.0F, 0.0F, 7.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(-2.0F, -0.3F, 4.4F, 0.0F, -0.2618F, 0.0F));
+        PartDefinition lTailFeather03 = tail01.addOrReplaceChild("lTailFeather03", CubeListBuilder.create().texOffs(51, 18).addBox(-1.0F, 0.0F, 0.0F, 2.0F, 0.0F, 6.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(1.8F, 0.1F, 3.5F, 0.0F, 0.5236F, 0.0F));
+        PartDefinition rTailFeather03 = tail01.addOrReplaceChild("rTailFeather03", CubeListBuilder.create().texOffs(51, 18).mirror().addBox(-1.0F, 0.0F, 0.0F, 2.0F, 0.0F, 6.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(-1.8F, 0.1F, 3.5F, 0.0F, -0.5236F, 0.0F));
+        PartDefinition lTailFeather04 = tail01.addOrReplaceChild("lTailFeather04", CubeListBuilder.create().texOffs(51, 18).addBox(-1.0F, 0.0F, 0.0F, 2.0F, 0.0F, 6.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(2.0F, 0.3F, 2.7F, 0.0F, 0.6283F, 0.0F));
+        PartDefinition rTailFeather04 = tail01.addOrReplaceChild("rTailFeather04", CubeListBuilder.create().texOffs(51, 18).mirror().addBox(-1.0F, 0.0F, 0.0F, 2.0F, 0.0F, 6.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(-2.0F, 0.3F, 2.7F, 0.0F, -0.6283F, 0.0F));
+        PartDefinition lLeg01 = body.addOrReplaceChild("lLeg01", CubeListBuilder.create().texOffs(0, 15).addBox(-1.0F, 0.0F, -1.0F, 2.0F, 2.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(1.8F, 2.6F, 2.7F, 0.2094F, 0.0F, 0.0F));
+        PartDefinition lLeg02 = lLeg01.addOrReplaceChild("lLeg02", CubeListBuilder.create().texOffs(9, 14).addBox(-0.5F, 0.0F, -0.5F, 1.0F, 4.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 1.6F, 0.0F, -0.2094F, 0.0F, 0.0F));
+        PartDefinition lClaw01 = lLeg02.addOrReplaceChild("lClaw01", CubeListBuilder.create().texOffs(0, 0).addBox(-0.5F, 0.5F, -2.5F, 1.0F, 0.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.1F, -0.5F, 0.2443F, 0.0F, 0.0F));
+        PartDefinition lClaw02 = lLeg02.addOrReplaceChild("lClaw02", CubeListBuilder.create().texOffs(0, 0).addBox(-0.5F, 0.5F, -2.5F, 1.0F, 0.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.5F, 3.2F, -0.2F, 0.1571F, -0.3491F, 0.0F));
+        PartDefinition lClaw03 = lLeg02.addOrReplaceChild("lClaw03", CubeListBuilder.create().texOffs(0, 0).addBox(-0.5F, 0.5F, -2.5F, 1.0F, 0.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-0.5F, 3.2F, -0.2F, 0.1571F, 0.3491F, 0.0F));
+        PartDefinition lClaw04 = lLeg02.addOrReplaceChild("lClaw04", CubeListBuilder.create().texOffs(0, 19).addBox(-0.5F, 0.5F, -0.5F, 1.0F, 0.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 3.0F, 0.2F));
+        PartDefinition rLeg01 = body.addOrReplaceChild("rLeg01", CubeListBuilder.create().texOffs(0, 15).mirror().addBox(-1.0F, 0.0F, -1.0F, 2.0F, 2.0F, 2.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(-1.8F, 2.6F, 2.7F, 0.2094F, 0.0F, 0.0F));
+        PartDefinition rLeg02 = rLeg01.addOrReplaceChild("rLeg02", CubeListBuilder.create().texOffs(9, 14).mirror().addBox(-0.5F, 0.0F, -0.5F, 1.0F, 4.0F, 1.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(0.0F, 1.6F, 0.0F, -0.2094F, 0.0F, 0.0F));
+        PartDefinition rClaw01 = rLeg02.addOrReplaceChild("rClaw01", CubeListBuilder.create().texOffs(0, 0).mirror().addBox(-0.5F, 0.5F, -2.5F, 1.0F, 0.0F, 3.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(0.0F, 3.1F, -0.5F, 0.2443F, 0.0F, 0.0F));
+        PartDefinition rClaw02 = rLeg02.addOrReplaceChild("rClaw02", CubeListBuilder.create().texOffs(0, 0).mirror().addBox(-0.5F, 0.5F, -2.5F, 1.0F, 0.0F, 3.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(-0.5F, 3.2F, -0.2F, 0.1571F, 0.3491F, 0.0F));
+        PartDefinition rClaw02 = rLeg02.addOrReplaceChild("rClaw02", CubeListBuilder.create().texOffs(0, 0).mirror().addBox(-0.5F, 0.5F, -2.5F, 1.0F, 0.0F, 3.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(0.5F, 3.2F, -0.2F, 0.1571F, -0.3491F, 0.0F));
+        PartDefinition rClaw04 = rLeg02.addOrReplaceChild("rClaw04", CubeListBuilder.create().texOffs(0, 19).mirror().addBox(-0.5F, 0.5F, -0.5F, 1.0F, 0.0F, 3.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(0.0F, 3.0F, 0.2F));
+        PartDefinition neck01 = body.addOrReplaceChild("neck01", CubeListBuilder.create().texOffs(13, 15).addBox(-2.0F, -2.0F, -3.2F, 4.0F, 4.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -0.6F, -2.7F, -0.9076F, 0.0F, 0.0F));
+        PartDefinition neck02 = neck01.addOrReplaceChild("neck02", CubeListBuilder.create().texOffs(0, 24).addBox(-1.5F, -1.5F, -2.5F, 3.0F, 3.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.1F, -2.7F, -0.0349F, 0.0F, 0.0F));
+        PartDefinition head = neck02.addOrReplaceChild("head", CubeListBuilder.create().texOffs(27, 7).addBox(-1.5F, -2.1F, -1.5F, 3.0F, 4.0F, 3.0F, new CubeDeformation(0.01F)), PartPose.offsetAndRotation(0.0F, 0.3F, -3.1F, -0.4538F, 0.0F, 0.0F));
+        PartDefinition beak01 = head.addOrReplaceChild("beak01", CubeListBuilder.create().texOffs(53, 12).addBox(-0.5F, 0.0F, -0.5F, 1.0F, 2.0F, 1.0F, new CubeDeformation(0.1F)), PartPose.offsetAndRotation(0.0F, 1.7F, 0.0F, 0.2094F, 0.0F, 0.0F));
+        PartDefinition beak02 = beak01.addOrReplaceChild("beak02", CubeListBuilder.create().texOffs(58, 0).addBox(-1.0F, -0.7F, -0.7F, 2.0F, 1.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.2F, 0.0F));
+        PartDefinition lWing01 = body.addOrReplaceChild("lWing01", CubeListBuilder.create().texOffs(25, 18).mirror().addBox(0.0F, -0.5F, -1.0F, 7.0F, 1.0F, 5.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(2.0F, -1.4F, -2.1F, 0.0F, -1.3526F, 0.0F));
+        PartDefinition lWing02 = lWing01.addOrReplaceChild("lWing02", CubeListBuilder.create().texOffs(30, 14).mirror().addBox(-0.25F, -0.51F, -0.5F, 6.0F, 1.0F, 3.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(5.4F, 0.0F, -0.3F, 0.0F, -0.5672F, 0.0F));
+        PartDefinition lWingFeathers = lWing02.addOrReplaceChild("lWingFeathers", CubeListBuilder.create().texOffs(4, 24).addBox(-5.9F, -0.1F, -0.4F, 18.0F, 0.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, 0.0F));
+        PartDefinition rWing01 = body.addOrReplaceChild("rWing01", CubeListBuilder.create().texOffs(25, 18).addBox(-7.0F, -0.5F, -1.0F, 7.0F, 1.0F, 5.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-2.0F, -1.4F, -2.1F, 0.0F, 1.3526F, 0.0F));
+        PartDefinition rWing02 = rWing01.addOrReplaceChild("rWing02", CubeListBuilder.create().texOffs(30, 14).addBox(-5.75F, -0.51F, -0.5F, 6.0F, 1.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-5.4F, 0.0F, -0.3F, 0.0F, 0.5672F, 0.0F));
+        PartDefinition rWingFeathers = rWing02.addOrReplaceChild("rWingFeathers", CubeListBuilder.create().texOffs(4, 24).mirror().addBox(-12.1F, -0.1F, -0.4F, 18.0F, 0.0F, 8.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(0.0F, 0.0F, 0.0F));
+        return LayerDefinition.create(meshdefinition, 64, 32);
     }
 
     @Override
     public void renderToBuffer(PoseStack matrixStackIn, VertexConsumer bufferIn, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
-        this.root.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn);
+        this.body.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn);
     }
 
     @Override

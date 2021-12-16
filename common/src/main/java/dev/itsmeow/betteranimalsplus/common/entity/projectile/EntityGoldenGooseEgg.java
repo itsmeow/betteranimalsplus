@@ -37,7 +37,7 @@ public class EntityGoldenGooseEgg extends EntityModEgg {
     protected Entity createEntity() {
         EntityGoose goose = ModEntities.GOOSE.getEntityType().create(this.level);
         goose.setAge(-24000);
-        goose.moveTo(this.getX(), this.getY(), this.getZ(), this.yRot, 0.0F);
+        goose.moveTo(this.getX(), this.getY(), this.getZ(), this.getYRot(), 0.0F);
         goose.setType("1");
         return goose;
     }

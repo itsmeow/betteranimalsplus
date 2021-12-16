@@ -6,6 +6,8 @@ import dev.itsmeow.betteranimalsplus.client.model.abstracts.ModelBAP;
 import dev.itsmeow.betteranimalsplus.common.entity.EntityCoyote;
 import dev.itsmeow.betteranimalsplus.common.entity.EntityFeralWolf;
 import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.client.model.geom.PartPose;
+import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
 
@@ -56,280 +58,106 @@ public class ModelCoyote<T extends LivingEntity> extends ModelBAP<T> {
     public ModelPart cube_r6;
     public ModelPart rForePaw;
 
-    public ModelCoyote() {
-        texWidth = 64;
-        texHeight = 64;
+    public ModelCoyote(ModelPart root) {
+        this.body = root.getChild("body");
+        this.stomach = body.getChild("stomach");
+        this.tail01 = stomach.getChild("tail01");
+        this.tail02 = tail01.getChild("tail02");
+        this.tail03 = tail02.getChild("tail03");
+        this.tail04 = tail03.getChild("tail04");
+        this.lHindLeg01 = stomach.getChild("lHindLeg01");
+        this.lHindLeg02 = lHindLeg01.getChild("lHindLeg02");
+        this.lHindLeg03 = lHindLeg02.getChild("lHindLeg03");
+        this.lHindPaw = lHindLeg03.getChild("lHindPaw");
+        this.rHindLeg01 = stomach.getChild("rHindLeg01");
+        this.rHindLeg02 = rHindLeg01.getChild("rHindLeg02");
+        this.rHindLeg03 = rHindLeg02.getChild("rHindLeg03");
+        this.rHindPaw = rHindLeg03.getChild("rHindPaw");
+        this.neck = body.getChild("neck");
+        this.neckFur03_r1 = neck.getChild("neckFur03_r1");
+        this.neckFur02_r1 = neck.getChild("neckFur02_r1");
+        this.neckFur01_r1 = neck.getChild("neckFur01_r1");
+        this.head = neck.getChild("head");
+        this.rCheekFur_r1 = head.getChild("rCheekFur_r1");
+        this.lCheekFur_r1 = head.getChild("lCheekFur_r1");
+        this.muzzle = head.getChild("muzzle");
+        this.mUpperFang_r1 = muzzle.getChild("mUpperFang_r1");
+        this.rUpperFang_r1 = muzzle.getChild("rUpperFang_r1");
+        this.lUpperFang_r1 = muzzle.getChild("lUpperFang_r1");
+        this.rLip_r1 = muzzle.getChild("rLip_r1");
+        this.lLip_r1 = muzzle.getChild("lLip_r1");
+        this.lowerJaw = head.getChild("lowerJaw");
+        this.lEar01 = head.getChild("lEar01");
+        this.lEar02 = lEar01.getChild("lEar02");
+        this.cube_r1 = lEar02.getChild("cube_r1");
+        this.rEar01 = head.getChild("rEar01");
+        this.rEar02 = rEar01.getChild("rEar02");
+        this.cube_r2 = rEar02.getChild("cube_r2");
+        this.lArm01 = body.getChild("lArm01");
+        this.cube_r3 = lArm01.getChild("cube_r3");
+        this.lArm02 = lArm01.getChild("lArm02");
+        this.cube_r4 = lArm02.getChild("cube_r4");
+        this.lForePaw = lArm02.getChild("lForePaw");
+        this.rArm01 = body.getChild("rArm01");
+        this.cube_r5 = rArm01.getChild("cube_r5");
+        this.rArm02 = rArm01.getChild("rArm02");
+        this.cube_r6 = rArm02.getChild("cube_r6");
+        this.rForePaw = rArm02.getChild("rForePaw");
+    }
 
-        body = new ModelPart(this);
-        body.setPos(0.0F, 13.25F, -2.0F);
-        body.texOffs(0, 0).addBox(-3.0F, -2.5F, -5.0F, 6.0F, 6.0F, 8.0F, 0.0F, false);
-
-        stomach = new ModelPart(this);
-        stomach.setPos(0.0F, -0.25F, 3.0F);
-        body.addChild(stomach);
-        stomach.texOffs(0, 14).addBox(-2.5F, -2.0F, -0.5F, 5.0F, 5.0F, 7.0F, 0.0F, false);
-
-        tail01 = new ModelPart(this);
-        tail01.setPos(0.0F, -0.7F, 5.25F);
-        stomach.addChild(tail01);
-        this.setRotateAngle(tail01, 0.6981F, 0.0F, 0.0F);
-        tail01.texOffs(0, 27).addBox(-1.0F, 0.0F, -1.5F, 2.0F, 3.0F, 3.0F, 0.0F, false);
-
-        tail02 = new ModelPart(this);
-        tail02.setPos(0.0F, 2.5F, 0.25F);
-        tail01.addChild(tail02);
-        this.setRotateAngle(tail02, -0.3142F, 0.0F, 0.0F);
-        tail02.texOffs(0, 34).addBox(-1.5F, 0.0F, -1.5F, 3.0F, 6.0F, 3.0F, 0.1F, false);
-
-        tail03 = new ModelPart(this);
-        tail03.setPos(0.0F, 4.75F, -0.4F);
-        tail02.addChild(tail03);
-        this.setRotateAngle(tail03, 0.2269F, 0.0F, 0.0F);
-        tail03.texOffs(12, 27).addBox(-1.5F, 0.2F, -1.5F, 3.0F, 3.0F, 3.0F, -0.2F, false);
-
-        tail04 = new ModelPart(this);
-        tail04.setPos(0.0F, 0.0F, 0.4F);
-        tail03.addChild(tail04);
-        this.setRotateAngle(tail04, 0.0698F, 0.0F, 0.0F);
-        tail04.texOffs(13, 35).addBox(-1.0F, 0.0F, -1.0F, 2.0F, 5.0F, 2.0F, 0.0F, false);
-
-        lHindLeg01 = new ModelPart(this);
-        lHindLeg01.setPos(1.5F, 2.0F, 4.5F);
-        stomach.addChild(lHindLeg01);
-        this.setRotateAngle(lHindLeg01, -0.384F, -0.0436F, -0.096F);
-        lHindLeg01.texOffs(28, 12).addBox(-0.95F, -3.2F, -2.95F, 3.0F, 7.0F, 4.0F, 0.0F, false);
-
-        lHindLeg02 = new ModelPart(this);
-        lHindLeg02.setPos(0.25F, 2.0F, -2.3F);
-        lHindLeg01.addChild(lHindLeg02);
-        this.setRotateAngle(lHindLeg02, -0.2618F, 0.0F, 0.0F);
-        lHindLeg02.texOffs(28, 24).addBox(-0.75F, 0.4F, 0.0F, 2.0F, 2.0F, 5.0F, 0.0F, false);
-
-        lHindLeg03 = new ModelPart(this);
-        lHindLeg03.setPos(0.3F, 1.0F, 4.8F);
-        lHindLeg02.addChild(lHindLeg03);
-        this.setRotateAngle(lHindLeg03, 0.5236F, 0.0F, 0.096F);
-        lHindLeg03.texOffs(29, 32).addBox(-1.0F, -0.4F, -1.5F, 2.0F, 5.0F, 2.0F, -0.1F, false);
-
-        lHindPaw = new ModelPart(this);
-        lHindPaw.setPos(-0.05F, 4.0F, -0.5F);
-        lHindLeg03.addChild(lHindPaw);
-        this.setRotateAngle(lHindPaw, 0.1222F, 0.0F, 0.0F);
-        lHindPaw.texOffs(27, 40).addBox(-1.45F, -0.2F, -2.2F, 3.0F, 1.0F, 3.0F, 0.0F, false);
-
-        rHindLeg01 = new ModelPart(this);
-        rHindLeg01.setPos(-1.5F, 2.0F, 4.5F);
-        stomach.addChild(rHindLeg01);
-        this.setRotateAngle(rHindLeg01, -0.384F, 0.0436F, 0.096F);
-        rHindLeg01.texOffs(28, 12).addBox(-2.05F, -3.2F, -2.95F, 3.0F, 7.0F, 4.0F, 0.0F, true);
-
-        rHindLeg02 = new ModelPart(this);
-        rHindLeg02.setPos(-0.25F, 2.0F, -2.3F);
-        rHindLeg01.addChild(rHindLeg02);
-        this.setRotateAngle(rHindLeg02, -0.2618F, 0.0F, 0.0F);
-        rHindLeg02.texOffs(28, 24).addBox(-1.25F, 0.4F, 0.0F, 2.0F, 2.0F, 5.0F, 0.0F, true);
-
-        rHindLeg03 = new ModelPart(this);
-        rHindLeg03.setPos(-0.3F, 1.0F, 4.8F);
-        rHindLeg02.addChild(rHindLeg03);
-        this.setRotateAngle(rHindLeg03, 0.5236F, 0.0F, -0.096F);
-        rHindLeg03.texOffs(29, 32).addBox(-1.0F, -0.4F, -1.5F, 2.0F, 5.0F, 2.0F, -0.1F, true);
-
-        rHindPaw = new ModelPart(this);
-        rHindPaw.setPos(0.05F, 4.0F, -0.5F);
-        rHindLeg03.addChild(rHindPaw);
-        this.setRotateAngle(rHindPaw, 0.1222F, 0.0F, 0.0F);
-        rHindPaw.texOffs(27, 40).addBox(-1.55F, -0.2F, -2.2F, 3.0F, 1.0F, 3.0F, 0.0F, true);
-
-        neck = new ModelPart(this);
-        neck.setPos(-0.5F, -1.0F, -5.0F);
-        body.addChild(neck);
-        this.setRotateAngle(neck, -0.1309F, 0.0F, 0.0F);
-        neck.texOffs(29, 0).addBox(-1.5F, -1.65F, -4.5F, 4.0F, 5.0F, 6.0F, 0.0F, false);
-
-        neckFur03_r1 = new ModelPart(this);
-        neckFur03_r1.setPos(0.0F, -1.75F, -1.0F);
-        neck.addChild(neckFur03_r1);
-        this.setRotateAngle(neckFur03_r1, 0.3491F, 0.0F, 0.0F);
-        neckFur03_r1.texOffs(41, 49).addBox(-1.0F, -0.25F, -1.5F, 3.0F, 2.0F, 5.0F, 0.0F, false);
-
-        neckFur02_r1 = new ModelPart(this);
-        neckFur02_r1.setPos(0.0F, -1.75F, -1.0F);
-        neck.addChild(neckFur02_r1);
-        this.setRotateAngle(neckFur02_r1, 0.2182F, 0.0F, 0.0F);
-        neckFur02_r1.texOffs(41, 41).addBox(-1.5F, -0.25F, -0.5F, 4.0F, 2.0F, 5.0F, -0.1F, false);
-
-        neckFur01_r1 = new ModelPart(this);
-        neckFur01_r1.setPos(0.0F, 0.0F, 0.0F);
-        neck.addChild(neckFur01_r1);
-        this.setRotateAngle(neckFur01_r1, -0.2182F, 0.0F, 0.0F);
-        neckFur01_r1.texOffs(42, 32).addBox(-1.5F, 2.5F, -4.0F, 4.0F, 2.0F, 6.0F, -0.1F, false);
-
-        head = new ModelPart(this);
-        head.setPos(0.0F, 0.25F, -4.0F);
-        neck.addChild(head);
-        this.setRotateAngle(head, 0.1309F, 0.0F, 0.0F);
-        head.texOffs(0, 46).addBox(-2.0F, -2.25F, -2.0F, 5.0F, 5.0F, 4.0F, -0.1F, false);
-
-        rCheekFur_r1 = new ModelPart(this);
-        rCheekFur_r1.setPos(-2.0F, 0.0F, 0.0F);
-        head.addChild(rCheekFur_r1);
-        this.setRotateAngle(rCheekFur_r1, 0.0F, 0.3927F, -0.4363F);
-        rCheekFur_r1.texOffs(0, 56).addBox(-3.25F, -0.75F, 0.0F, 4.0F, 4.0F, 0.0F, 0.0F, true);
-
-        lCheekFur_r1 = new ModelPart(this);
-        lCheekFur_r1.setPos(3.0F, 0.0F, 0.0F);
-        head.addChild(lCheekFur_r1);
-        this.setRotateAngle(lCheekFur_r1, 0.0F, -0.3927F, 0.4363F);
-        lCheekFur_r1.texOffs(0, 56).addBox(-0.75F, -0.75F, 0.0F, 4.0F, 4.0F, 0.0F, 0.0F, false);
-
-        muzzle = new ModelPart(this);
-        muzzle.setPos(0.5F, 0.25F, -2.0F);
-        head.addChild(muzzle);
-        this.setRotateAngle(muzzle, 0.1745F, 0.0F, 0.0F);
-        muzzle.texOffs(19, 49).addBox(-1.0F, -0.5F, -2.5F, 2.0F, 1.0F, 3.0F, 0.0F, false);
-
-        mUpperFang_r1 = new ModelPart(this);
-        mUpperFang_r1.setPos(-0.5F, 1.0F, -2.25F);
-        muzzle.addChild(mUpperFang_r1);
-        this.setRotateAngle(mUpperFang_r1, -0.0873F, 0.0F, 0.0F);
-        mUpperFang_r1.texOffs(13, 56).addBox(-0.5F, -0.5F, 0.05F, 2.0F, 1.0F, 0.0F, -0.1F, true);
-
-        rUpperFang_r1 = new ModelPart(this);
-        rUpperFang_r1.setPos(-0.5F, 1.0F, -2.25F);
-        muzzle.addChild(rUpperFang_r1);
-        this.setRotateAngle(rUpperFang_r1, 0.0F, 1.5708F, 0.0F);
-        rUpperFang_r1.texOffs(9, 56).addBox(-0.5F, -0.25F, 0.0F, 1.0F, 1.0F, 0.0F, -0.1F, true);
-
-        lUpperFang_r1 = new ModelPart(this);
-        lUpperFang_r1.setPos(0.5F, 1.0F, -2.25F);
-        muzzle.addChild(lUpperFang_r1);
-        this.setRotateAngle(lUpperFang_r1, 0.0F, -1.5708F, 0.0F);
-        lUpperFang_r1.texOffs(9, 56).addBox(-0.5F, -0.25F, 0.0F, 1.0F, 1.0F, 0.0F, -0.1F, false);
-
-        rLip_r1 = new ModelPart(this);
-        rLip_r1.setPos(0.0F, 0.0F, 0.0F);
-        muzzle.addChild(rLip_r1);
-        this.setRotateAngle(rLip_r1, -0.1309F, -0.1745F, 0.0F);
-        rLip_r1.texOffs(5, 59).addBox(-1.4F, 0.25F, -2.35F, 1.0F, 1.0F, 4.0F, 0.0F, true);
-
-        lLip_r1 = new ModelPart(this);
-        lLip_r1.setPos(0.0F, 0.0F, 0.0F);
-        muzzle.addChild(lLip_r1);
-        this.setRotateAngle(lLip_r1, -0.1309F, 0.1745F, 0.0F);
-        lLip_r1.texOffs(5, 59).addBox(0.4F, 0.25F, -2.35F, 1.0F, 1.0F, 4.0F, 0.0F, false);
-
-        lowerJaw = new ModelPart(this);
-        lowerJaw.setPos(0.5F, 1.25F, -2.0F);
-        head.addChild(lowerJaw);
-        lowerJaw.texOffs(19, 59).addBox(-1.0F, 0.0F, -2.5F, 2.0F, 1.0F, 3.0F, -0.2F, false);
-        lowerJaw.texOffs(9, 56).addBox(-0.1F, -0.5F, -2.0F, 1.0F, 1.0F, 0.0F, -0.2F, false);
-        lowerJaw.texOffs(9, 56).addBox(-0.9F, -0.5F, -2.0F, 1.0F, 1.0F, 0.0F, -0.2F, true);
-
-        lEar01 = new ModelPart(this);
-        lEar01.setPos(2.25F, -1.5F, 0.0F);
-        head.addChild(lEar01);
-        this.setRotateAngle(lEar01, 0.0F, -0.0873F, 0.2182F);
-        lEar01.texOffs(31, 50).addBox(-1.0F, -2.0F, 0.0F, 2.0F, 2.0F, 1.0F, 0.0F, false);
-
-        lEar02 = new ModelPart(this);
-        lEar02.setPos(0.0F, 0.0F, -0.75F);
-        lEar01.addChild(lEar02);
-        this.setRotateAngle(lEar02, 0.1745F, 0.0F, 0.0F);
-
-
-        cube_r1 = new ModelPart(this);
-        cube_r1.setPos(0.0F, 0.0F, 0.0F);
-        lEar02.addChild(cube_r1);
-        this.setRotateAngle(cube_r1, 0.0F, -0.829F, 0.0F);
-        cube_r1.texOffs(31, 54).addBox(-0.25F, -3.5F, -0.25F, 2.0F, 4.0F, 2.0F, -0.1F, false);
-
-        rEar01 = new ModelPart(this);
-        rEar01.setPos(-1.25F, -1.5F, 0.0F);
-        head.addChild(rEar01);
-        this.setRotateAngle(rEar01, 0.0F, 0.0873F, -0.2182F);
-        rEar01.texOffs(31, 50).addBox(-1.0F, -2.0F, 0.0F, 2.0F, 2.0F, 1.0F, 0.0F, true);
-
-        rEar02 = new ModelPart(this);
-        rEar02.setPos(0.0F, 0.0F, -0.75F);
-        rEar01.addChild(rEar02);
-        this.setRotateAngle(rEar02, 0.2182F, 0.0F, 0.0F);
-
-
-        cube_r2 = new ModelPart(this);
-        cube_r2.setPos(0.0F, 0.0F, 0.0F);
-        rEar02.addChild(cube_r2);
-        this.setRotateAngle(cube_r2, 0.0F, 0.829F, 0.0F);
-        cube_r2.texOffs(31, 54).addBox(-1.75F, -3.5F, -0.25F, 2.0F, 4.0F, 2.0F, -0.1F, true);
-
-        lArm01 = new ModelPart(this);
-        lArm01.setPos(3.0F, 0.0F, -2.0F);
-        body.addChild(lArm01);
-
-
-        cube_r3 = new ModelPart(this);
-        cube_r3.setPos(0.0F, 0.0F, 0.0F);
-        lArm01.addChild(cube_r3);
-        this.setRotateAngle(cube_r3, 0.1309F, 0.0F, 0.0F);
-        cube_r3.texOffs(46, 12).addBox(-1.5F, -1.5F, -2.0F, 3.0F, 6.0F, 3.0F, 0.0F, false);
-
-        lArm02 = new ModelPart(this);
-        lArm02.setPos(0.0F, 4.5F, 0.0F);
-        lArm01.addChild(lArm02);
-
-
-        cube_r4 = new ModelPart(this);
-        cube_r4.setPos(0.0F, 0.0F, 0.0F);
-        lArm02.addChild(cube_r4);
-        this.setRotateAngle(cube_r4, -0.0873F, 0.0F, 0.0F);
-        cube_r4.texOffs(46, 22).addBox(-1.0F, -1.0F, -1.0F, 2.0F, 7.0F, 2.0F, 0.0F, false);
-
-        lForePaw = new ModelPart(this);
-        lForePaw.setPos(0.0F, 5.75F, -0.25F);
-        lArm02.addChild(lForePaw);
-        this.setRotateAngle(lForePaw, -0.0087F, 0.0F, 0.0F);
-        lForePaw.texOffs(27, 40).addBox(-1.45F, -0.2F, -2.2F, 3.0F, 1.0F, 3.0F, 0.0F, false);
-
-        rArm01 = new ModelPart(this);
-        rArm01.setPos(-3.0F, 0.0F, -2.0F);
-        body.addChild(rArm01);
-
-
-        cube_r5 = new ModelPart(this);
-        cube_r5.setPos(0.0F, 0.0F, 0.0F);
-        rArm01.addChild(cube_r5);
-        this.setRotateAngle(cube_r5, 0.1309F, 0.0F, 0.0F);
-        cube_r5.texOffs(46, 12).addBox(-1.5F, -1.5F, -2.0F, 3.0F, 6.0F, 3.0F, 0.0F, true);
-
-        rArm02 = new ModelPart(this);
-        rArm02.setPos(0.0F, 4.5F, 0.0F);
-        rArm01.addChild(rArm02);
-
-
-        cube_r6 = new ModelPart(this);
-        cube_r6.setPos(0.0F, 0.0F, 0.0F);
-        rArm02.addChild(cube_r6);
-        this.setRotateAngle(cube_r6, -0.0873F, 0.0F, 0.0F);
-        cube_r6.texOffs(46, 22).addBox(-1.0F, -1.0F, -1.0F, 2.0F, 7.0F, 2.0F, 0.0F, true);
-
-        rForePaw = new ModelPart(this);
-        rForePaw.setPos(0.0F, 5.75F, -0.25F);
-        rArm02.addChild(rForePaw);
-        this.setRotateAngle(rForePaw, -0.0087F, 0.0F, 0.0F);
-        rForePaw.texOffs(27, 40).addBox(-1.55F, -0.2F, -2.2F, 3.0F, 1.0F, 3.0F, 0.0F, true);
+    public static LayerDefinition createBodyLayer() {
+        MeshDefinition meshdefinition = new MeshDefinition();
+        PartDefinition partdefinition = meshdefinition.getRoot();
+        PartDefinition body = partdefinition.addOrReplaceChild("body", CubeListBuilder.create().texOffs(0, 0).addBox(-3.0F, -2.5F, -5.0F, 6.0F, 6.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 13.25F, -2.0F));
+        PartDefinition stomach = body.addOrReplaceChild("stomach", CubeListBuilder.create().texOffs(0, 14).addBox(-2.5F, -2.0F, -0.5F, 5.0F, 5.0F, 7.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, -0.25F, 3.0F));
+        PartDefinition tail01 = stomach.addOrReplaceChild("tail01", CubeListBuilder.create().texOffs(0, 27).addBox(-1.0F, 0.0F, -1.5F, 2.0F, 3.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -0.7F, 5.25F, 0.6981F, 0.0F, 0.0F));
+        PartDefinition tail02 = tail01.addOrReplaceChild("tail02", CubeListBuilder.create().texOffs(0, 34).addBox(-1.5F, 0.0F, -1.5F, 3.0F, 6.0F, 3.0F, new CubeDeformation(0.1F)), PartPose.offsetAndRotation(0.0F, 2.5F, 0.25F, -0.3142F, 0.0F, 0.0F));
+        PartDefinition tail03 = tail02.addOrReplaceChild("tail03", CubeListBuilder.create().texOffs(12, 27).addBox(-1.5F, 0.2F, -1.5F, 3.0F, 3.0F, 3.0F, new CubeDeformation(-0.2F)), PartPose.offsetAndRotation(0.0F, 4.75F, -0.4F, 0.2269F, 0.0F, 0.0F));
+        PartDefinition tail04 = tail03.addOrReplaceChild("tail04", CubeListBuilder.create().texOffs(13, 35).addBox(-1.0F, 0.0F, -1.0F, 2.0F, 5.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, 0.4F, 0.0698F, 0.0F, 0.0F));
+        PartDefinition lHindLeg01 = stomach.addOrReplaceChild("lHindLeg01", CubeListBuilder.create().texOffs(28, 12).addBox(-0.95F, -3.2F, -2.95F, 3.0F, 7.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(1.5F, 2.0F, 4.5F, -0.384F, -0.0436F, -0.096F));
+        PartDefinition lHindLeg02 = lHindLeg01.addOrReplaceChild("lHindLeg02", CubeListBuilder.create().texOffs(28, 24).addBox(-0.75F, 0.4F, 0.0F, 2.0F, 2.0F, 5.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.25F, 2.0F, -2.3F, -0.2618F, 0.0F, 0.0F));
+        PartDefinition lHindLeg03 = lHindLeg02.addOrReplaceChild("lHindLeg03", CubeListBuilder.create().texOffs(29, 32).addBox(-1.0F, -0.4F, -1.5F, 2.0F, 5.0F, 2.0F, new CubeDeformation(-0.1F)), PartPose.offsetAndRotation(0.3F, 1.0F, 4.8F, 0.5236F, 0.0F, 0.096F));
+        PartDefinition lHindPaw = lHindLeg03.addOrReplaceChild("lHindPaw", CubeListBuilder.create().texOffs(27, 40).addBox(-1.45F, -0.2F, -2.2F, 3.0F, 1.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-0.05F, 4.0F, -0.5F, 0.1222F, 0.0F, 0.0F));
+        PartDefinition rHindLeg01 = stomach.addOrReplaceChild("rHindLeg01", CubeListBuilder.create().texOffs(28, 12).mirror().addBox(-2.05F, -3.2F, -2.95F, 3.0F, 7.0F, 4.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(-1.5F, 2.0F, 4.5F, -0.384F, 0.0436F, 0.096F));
+        PartDefinition rHindLeg02 = rHindLeg01.addOrReplaceChild("rHindLeg02", CubeListBuilder.create().texOffs(28, 24).mirror().addBox(-1.25F, 0.4F, 0.0F, 2.0F, 2.0F, 5.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(-0.25F, 2.0F, -2.3F, -0.2618F, 0.0F, 0.0F));
+        PartDefinition rHindLeg03 = rHindLeg02.addOrReplaceChild("rHindLeg03", CubeListBuilder.create().texOffs(29, 32).mirror().addBox(-1.0F, -0.4F, -1.5F, 2.0F, 5.0F, 2.0F, new CubeDeformation(-0.1F)).mirror(false), PartPose.offsetAndRotation(-0.3F, 1.0F, 4.8F, 0.5236F, 0.0F, -0.096F));
+        PartDefinition rHindPaw = rHindLeg03.addOrReplaceChild("rHindPaw", CubeListBuilder.create().texOffs(27, 40).mirror().addBox(-1.55F, -0.2F, -2.2F, 3.0F, 1.0F, 3.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(0.05F, 4.0F, -0.5F, 0.1222F, 0.0F, 0.0F));
+        PartDefinition neck = body.addOrReplaceChild("neck", CubeListBuilder.create().texOffs(29, 0).addBox(-1.5F, -1.65F, -4.5F, 4.0F, 5.0F, 6.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-0.5F, -1.0F, -5.0F, -0.1309F, 0.0F, 0.0F));
+        PartDefinition neckFur03_r1 = neck.addOrReplaceChild("neckFur03_r1", CubeListBuilder.create().texOffs(41, 49).addBox(-1.0F, -0.25F, -1.5F, 3.0F, 2.0F, 5.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -1.75F, -1.0F, 0.3491F, 0.0F, 0.0F));
+        PartDefinition neckFur02_r1 = neck.addOrReplaceChild("neckFur02_r1", CubeListBuilder.create().texOffs(41, 41).addBox(-1.5F, -0.25F, -0.5F, 4.0F, 2.0F, 5.0F, new CubeDeformation(-0.1F)), PartPose.offsetAndRotation(0.0F, -1.75F, -1.0F, 0.2182F, 0.0F, 0.0F));
+        PartDefinition neckFur01_r1 = neck.addOrReplaceChild("neckFur01_r1", CubeListBuilder.create().texOffs(42, 32).addBox(-1.5F, 2.5F, -4.0F, 4.0F, 2.0F, 6.0F, new CubeDeformation(-0.1F)), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, -0.2182F, 0.0F, 0.0F));
+        PartDefinition head = neck.addOrReplaceChild("head", CubeListBuilder.create().texOffs(0, 46).addBox(-2.0F, -2.25F, -2.0F, 5.0F, 5.0F, 4.0F, new CubeDeformation(-0.1F)), PartPose.offsetAndRotation(0.0F, 0.25F, -4.0F, 0.1309F, 0.0F, 0.0F));
+        PartDefinition rCheekFur_r1 = head.addOrReplaceChild("rCheekFur_r1", CubeListBuilder.create().texOffs(0, 56).mirror().addBox(-3.25F, -0.75F, 0.0F, 4.0F, 4.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(-2.0F, 0.0F, 0.0F, 0.0F, 0.3927F, -0.4363F));
+        PartDefinition lCheekFur_r1 = head.addOrReplaceChild("lCheekFur_r1", CubeListBuilder.create().texOffs(0, 56).addBox(-0.75F, -0.75F, 0.0F, 4.0F, 4.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(3.0F, 0.0F, 0.0F, 0.0F, -0.3927F, 0.4363F));
+        PartDefinition muzzle = head.addOrReplaceChild("muzzle", CubeListBuilder.create().texOffs(19, 49).addBox(-1.0F, -0.5F, -2.5F, 2.0F, 1.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.5F, 0.25F, -2.0F, 0.1745F, 0.0F, 0.0F));
+        PartDefinition mUpperFang_r1 = muzzle.addOrReplaceChild("mUpperFang_r1", CubeListBuilder.create().texOffs(13, 56).mirror().addBox(-0.5F, -0.5F, 0.05F, 2.0F, 1.0F, 0.0F, new CubeDeformation(-0.1F)).mirror(false), PartPose.offsetAndRotation(-0.5F, 1.0F, -2.25F, -0.0873F, 0.0F, 0.0F));
+        PartDefinition rUpperFang_r1 = muzzle.addOrReplaceChild("rUpperFang_r1", CubeListBuilder.create().texOffs(9, 56).mirror().addBox(-0.5F, -0.25F, 0.0F, 1.0F, 1.0F, 0.0F, new CubeDeformation(-0.1F)).mirror(false), PartPose.offsetAndRotation(-0.5F, 1.0F, -2.25F, 0.0F, 1.5708F, 0.0F));
+        PartDefinition lUpperFang_r1 = muzzle.addOrReplaceChild("lUpperFang_r1", CubeListBuilder.create().texOffs(9, 56).addBox(-0.5F, -0.25F, 0.0F, 1.0F, 1.0F, 0.0F, new CubeDeformation(-0.1F)), PartPose.offsetAndRotation(0.5F, 1.0F, -2.25F, 0.0F, -1.5708F, 0.0F));
+        PartDefinition rLip_r1 = muzzle.addOrReplaceChild("rLip_r1", CubeListBuilder.create().texOffs(5, 59).mirror().addBox(-1.4F, 0.25F, -2.35F, 1.0F, 1.0F, 4.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, -0.1309F, -0.1745F, 0.0F));
+        PartDefinition lLip_r1 = muzzle.addOrReplaceChild("lLip_r1", CubeListBuilder.create().texOffs(5, 59).addBox(0.4F, 0.25F, -2.35F, 1.0F, 1.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, -0.1309F, 0.1745F, 0.0F));
+        PartDefinition lowerJaw = head.addOrReplaceChild("lowerJaw", CubeListBuilder.create().texOffs(19, 59).addBox(-1.0F, 0.0F, -2.5F, 2.0F, 1.0F, 3.0F, new CubeDeformation(-0.2F)).texOffs(9, 56).addBox(-0.1F, -0.5F, -2.0F, 1.0F, 1.0F, 0.0F, new CubeDeformation(-0.2F)).texOffs(9, 56).mirror().addBox(-0.9F, -0.5F, -2.0F, 1.0F, 1.0F, 0.0F, new CubeDeformation(-0.2F)).mirror(false), PartPose.offset(0.5F, 1.25F, -2.0F));
+        PartDefinition lEar01 = head.addOrReplaceChild("lEar01", CubeListBuilder.create().texOffs(31, 50).addBox(-1.0F, -2.0F, 0.0F, 2.0F, 2.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(2.25F, -1.5F, 0.0F, 0.0F, -0.0873F, 0.2182F));
+        PartDefinition lEar02 = lEar01.addOrReplaceChild("lEar02", CubeListBuilder.create(), PartPose.offsetAndRotation(0.0F, 0.0F, -0.75F, 0.1745F, 0.0F, 0.0F));
+        PartDefinition cube_r1 = lEar02.addOrReplaceChild("cube_r1", CubeListBuilder.create().texOffs(31, 54).addBox(-0.25F, -3.5F, -0.25F, 2.0F, 4.0F, 2.0F, new CubeDeformation(-0.1F)), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, 0.0F, -0.829F, 0.0F));
+        PartDefinition rEar01 = head.addOrReplaceChild("rEar01", CubeListBuilder.create().texOffs(31, 50).mirror().addBox(-1.0F, -2.0F, 0.0F, 2.0F, 2.0F, 1.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(-1.25F, -1.5F, 0.0F, 0.0F, 0.0873F, -0.2182F));
+        PartDefinition rEar02 = rEar01.addOrReplaceChild("rEar02", CubeListBuilder.create(), PartPose.offsetAndRotation(0.0F, 0.0F, -0.75F, 0.2182F, 0.0F, 0.0F));
+        PartDefinition cube_r2 = rEar02.addOrReplaceChild("cube_r2", CubeListBuilder.create().texOffs(31, 54).mirror().addBox(-1.75F, -3.5F, -0.25F, 2.0F, 4.0F, 2.0F, new CubeDeformation(-0.1F)).mirror(false), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, 0.0F, 0.829F, 0.0F));
+        PartDefinition lArm01 = body.addOrReplaceChild("lArm01", CubeListBuilder.create(), PartPose.offset(3.0F, 0.0F, -2.0F));
+        PartDefinition cube_r3 = lArm01.addOrReplaceChild("cube_r3", CubeListBuilder.create().texOffs(46, 12).addBox(-1.5F, -1.5F, -2.0F, 3.0F, 6.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, 0.1309F, 0.0F, 0.0F));
+        PartDefinition lArm02 = lArm01.addOrReplaceChild("lArm02", CubeListBuilder.create(), PartPose.offset(0.0F, 4.5F, 0.0F));
+        PartDefinition cube_r4 = lArm02.addOrReplaceChild("cube_r4", CubeListBuilder.create().texOffs(46, 22).addBox(-1.0F, -1.0F, -1.0F, 2.0F, 7.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, -0.0873F, 0.0F, 0.0F));
+        PartDefinition lForePaw = lArm02.addOrReplaceChild("lForePaw", CubeListBuilder.create().texOffs(27, 40).addBox(-1.45F, -0.2F, -2.2F, 3.0F, 1.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 5.75F, -0.25F, -0.0087F, 0.0F, 0.0F));
+        PartDefinition rArm01 = body.addOrReplaceChild("rArm01", CubeListBuilder.create(), PartPose.offset(-3.0F, 0.0F, -2.0F));
+        PartDefinition cube_r5 = rArm01.addOrReplaceChild("cube_r5", CubeListBuilder.create().texOffs(46, 12).mirror().addBox(-1.5F, -1.5F, -2.0F, 3.0F, 6.0F, 3.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, 0.1309F, 0.0F, 0.0F));
+        PartDefinition rArm02 = rArm01.addOrReplaceChild("rArm02", CubeListBuilder.create(), PartPose.offset(0.0F, 4.5F, 0.0F));
+        PartDefinition cube_r6 = rArm02.addOrReplaceChild("cube_r6", CubeListBuilder.create().texOffs(46, 22).mirror().addBox(-1.0F, -1.0F, -1.0F, 2.0F, 7.0F, 2.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, -0.0873F, 0.0F, 0.0F));
+        PartDefinition rForePaw = rArm02.addOrReplaceChild("rForePaw", CubeListBuilder.create().texOffs(27, 40).mirror().addBox(-1.55F, -0.2F, -2.2F, 3.0F, 1.0F, 3.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(0.0F, 5.75F, -0.25F, -0.0087F, 0.0F, 0.0F));
+        return LayerDefinition.create(meshdefinition, 64, 64);
     }
 
     @Override
     public void renderToBuffer(PoseStack matrixStackIn, VertexConsumer bufferIn, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
         this.body.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
-    }
-
-    @Override
-    public void prepareMobModel(T entity, float limbSwing, float limbSwingAmount, float partialTickTime) {
-        if (entity instanceof EntityFeralWolf) {
-            EntityFeralWolf entityferalwolf = (EntityFeralWolf) entity;
-
-        }
     }
 
     @Override

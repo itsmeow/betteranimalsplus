@@ -3,8 +3,8 @@ package dev.itsmeow.betteranimalsplus.network;
 import dev.itsmeow.betteranimalsplus.BetterAnimalsPlusMod;
 import dev.itsmeow.betteranimalsplus.client.dumb.SafeSyncThing;
 import dev.itsmeow.betteranimalsplus.init.ModSoundEvents;
-import me.shedaniel.architectury.networking.NetworkManager;
-import me.shedaniel.architectury.utils.Env;
+import dev.architectury.networking.NetworkManager;
+import dev.architectury.utils.Env;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.sounds.SoundSource;
 

@@ -25,7 +25,7 @@ public class FollowParentGoalButNotStupid extends Goal {
         if (this.childAnimal.getAge() >= 0) {
             return false;
         } else {
-            List<Animal> list = this.childAnimal.level.getEntitiesOfClass(this.childAnimal.getClass(), this.childAnimal.getBoundingBox().inflate(8.0D, 4.0D, 8.0D), filter);
+            List<? extends Animal> list = this.childAnimal.level.getEntitiesOfClass(this.childAnimal.getClass(), this.childAnimal.getBoundingBox().inflate(8.0D, 4.0D, 8.0D), filter);
             Animal animalentity = null;
             double d0 = Double.MAX_VALUE;
 

@@ -14,6 +14,7 @@ import net.minecraft.world.level.material.Material;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import org.jetbrains.annotations.Nullable;
 
 public class BlockTrillium extends BushBlock implements EntityBlock {
 
@@ -59,7 +60,9 @@ public class BlockTrillium extends BushBlock implements EntityBlock {
         return RenderShape.ENTITYBLOCK_ANIMATED;
     }
 
-    public BlockEntity newBlockEntity(BlockGetter blockGetter) {
-        return ModBlockEntities.TRILLIUM_TYPE.get().create();
+    @Nullable
+    @Override
+    public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
+        return ModBlockEntities.TRILLIUM_TYPE.get().create(pos, state);
     }
 }

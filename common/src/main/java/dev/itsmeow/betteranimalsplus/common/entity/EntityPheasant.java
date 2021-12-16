@@ -103,7 +103,7 @@ public class EntityPheasant extends EntityAnimalWithTypes {
     }
 
     @Override
-    public boolean causeFallDamage(float distance, float damageMultiplier) {
+    public boolean causeFallDamage(float f, float g, DamageSource damageSource) {
         return false;
     }
 

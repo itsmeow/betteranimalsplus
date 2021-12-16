@@ -115,7 +115,7 @@ public class EntityBearNeutral extends EntityBear implements IVariantTypes<Entit
     }
 
     @Override
-    public AgableMob getBreedOffspring(ServerLevel world, AgableMob ageable) {
+    public AgeableMob getBreedOffspring(ServerLevel world, AgeableMob ageable) {
         EntityBearNeutral child = getContainer().getEntityType().create(world);
         if(ageable instanceof EntityBearNeutral) {
             if("kermode".equals(((EntityBearNeutral) ageable).getVariantNameOrEmpty()) && "kermode".equals(this.getVariantNameOrEmpty())) {

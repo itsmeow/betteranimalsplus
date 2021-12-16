@@ -119,8 +119,8 @@ public class EntityLamprey extends EntityWaterMobPathingWithTypesBucketable impl
     }
 
     @Override
-    protected boolean isMovementNoisy() {
-        return false;
+    protected MovementEmission getMovementEmission() {
+        return MovementEmission.EVENTS;
     }
 
     //@Override on Forge

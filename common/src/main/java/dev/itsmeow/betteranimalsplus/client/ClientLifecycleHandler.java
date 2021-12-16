@@ -1,7 +1,8 @@
 package dev.itsmeow.betteranimalsplus.client;
 
-import com.mojang.blaze3d.vertex.DefaultVertexFormat;
+import com.google.common.collect.ImmutableMap;
 import com.mojang.math.Vector3f;
+import dev.architectury.registry.client.rendering.BlockEntityRendererRegistry;
 import dev.itsmeow.betteranimalsplus.BetterAnimalsPlusMod;
 import dev.itsmeow.betteranimalsplus.Ref;
 import dev.itsmeow.betteranimalsplus.client.dumb.DeveloperRenderThing;
@@ -12,20 +13,21 @@ import dev.itsmeow.betteranimalsplus.client.renderer.entity.RenderTarantulaHair;
 import dev.itsmeow.betteranimalsplus.client.renderer.entity.layers.GooseItemLayerRenderer;
 import dev.itsmeow.betteranimalsplus.client.renderer.entity.layers.LayerEyes;
 import dev.itsmeow.betteranimalsplus.client.renderer.entity.layers.LayerEyesCondition;
-import dev.itsmeow.betteranimalsplus.common.entity.EntityReindeer;
 import dev.itsmeow.betteranimalsplus.init.ModBlockEntities;
 import dev.itsmeow.betteranimalsplus.init.ModEntities;
 import dev.itsmeow.betteranimalsplus.init.ModResources;
 import dev.itsmeow.imdlib.blockentity.HeadBlockEntity;
 import dev.itsmeow.imdlib.client.IMDLibClient;
 import dev.itsmeow.imdlib.client.render.RenderFactory;
-import me.shedaniel.architectury.registry.BlockEntityRenderers;
-import net.minecraft.client.renderer.RenderStateShard;
+import net.minecraft.client.model.geom.ModelLayerLocation;
+import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
-import net.minecraft.world.entity.AgableMob;
+import net.minecraft.world.entity.AgeableMob;
 import net.minecraft.world.entity.Pose;
+
+import java.util.function.BiConsumer;
 
 public class ClientLifecycleHandler {
 
@@ -33,71 +35,79 @@ public class ClientLifecycleHandler {
 
     public static void clientInit() {
         DeveloperRenderThing.init();
-        BlockEntityRenderers.registerRenderer(ModBlockEntities.TRILLIUM_TYPE.get(), RenderBlockTrillium::new);
+        BlockEntityRendererRegistry.register(ModBlockEntities.TRILLIUM_TYPE.get(), RenderBlockTrillium::new);
         HeadBlockEntity.registerTypeRender();
-        R.addRender(ModEntities.BROWN_BEAR.getEntityType(), 1F, r -> r.tCondition(AgableMob::isBaby, "brownbear_baby", "brownbear").mSingle(new ModelBrownBear<>()).childScale(0.5F));
-        R.addRender(ModEntities.BLACK_BEAR.getEntityType(), 1F, r -> r.tVariant().mSingle(new ModelBlackBear<>()).childScale(0.5F));
-        R.addRender(ModEntities.DEER.getEntityType(), 1F, r -> r.tBabyVariant("deer_baby").mSingle(new ModelDeer<>()).childScale(0.6F));
-        R.addRender(ModEntities.LAMMERGEIER.getEntityType(), 0.3F, r -> r.tVariant().mSingle(new ModelLammergeier<>()));
-        R.addRender(ModEntities.FERAL_WOLF.getEntityType(), 0.5F, r -> r.tVariant().mSingle(new ModelFeralWolf<>()).handleRotation((e, p) -> e.getTailRotation()).childScale(0.5F).layer(t -> new LayerEyesCondition<>(t, ModResources.wolf_eyes, e -> !e.isTame())));
-        R.addRender(ModEntities.COYOTE.getEntityType(), 0.5F, r -> r.tMapped(e -> e.isTame() || (e.isDaytime() && !e.isHostileDaytime()) ? "coyote" : "coyote_hostile").mSingle(new ModelCoyote<>()).handleRotation((e, p) -> e.getTailRotation()).childScale(0.5F).layer(t -> new LayerEyesCondition<>(t, ModResources.coyote_eyes, e -> !e.isTame() && !(e.isDaytime() && !e.isHostileDaytime()))));
+        R.addRender(ModEntities.BROWN_BEAR.getEntityType(), 1F, r -> r.tCondition(AgeableMob::isBaby, "brownbear_baby", "brownbear").mSingle(ModelBrownBear::new, "brown_bear").childScale(0.5F));
+        R.addRender(ModEntities.BLACK_BEAR.getEntityType(), 1F, r -> r.tVariant().mSingle(ModelBlackBear::new, "black_bear").childScale(0.5F));
+        R.addRender(ModEntities.DEER.getEntityType(), 1F, r -> r.tBabyVariant("deer_baby").mSingle(ModelDeer::new, "deer").childScale(0.6F));
+        R.addRender(ModEntities.LAMMERGEIER.getEntityType(), 0.3F, r -> r.tVariant().mSingle(ModelLammergeier::new, "lammergeier"));
+        R.addRender(ModEntities.FERAL_WOLF.getEntityType(), 0.5F, r -> r.tVariant().mSingle(ModelFeralWolf::new, "feral_wolf").handleRotation((e, p) -> e.getTailRotation()).childScale(0.5F).layer(t -> new LayerEyesCondition<>(t, ModResources.wolf_eyes, e -> !e.isTame())));
+        R.addRender(ModEntities.COYOTE.getEntityType(), 0.5F, r -> r.tMapped(e -> e.isTame() || (e.isDaytime() && !e.isHostileDaytime()) ? "coyote" : "coyote_hostile").mSingle(ModelCoyote::new, "coyote").handleRotation((e, p) -> e.getTailRotation()).childScale(0.5F).layer(t -> new LayerEyesCondition<>(t, ModResources.coyote_eyes, e -> !e.isTame() && !(e.isDaytime() && !e.isHostileDaytime()))));
         RenderFactory.addRender(ModEntities.PROJECTILE_TARANTULA_HAIR.get(), RenderTarantulaHair::new);
-        R.addRender(ModEntities.TARANTULA.getEntityType(), 1F, r -> r.tVariant().mSingle(new ModelTarantula<>()).preRender((e, s, p) -> {
+        R.addRender(ModEntities.TARANTULA.getEntityType(), 1F, r -> r.tVariant().mSingle(ModelTarantula::new, "tarantula").preRender((e, s, p) -> {
             if(e.isClimbing()) {
                 s.mulPose(Vector3f.XP.rotationDegrees(-90F));
                 s.translate(0.0F, 0.75F, -0.5F);
             }
         }).layer(t -> new LayerEyes<>(t, ModResources.tarantula_eyes)));
-        R.addRender(ModEntities.GOAT.getEntityType(), 0.5F, r -> r.tVariant().mSingle(new ModelGoat<>()).childScale(0.5F));
-        R.addRender(ModEntities.JELLYFISH.getEntityType(), 0.5F, r -> r.tVariant().mSingle(new ModelJellyfish<>()).preRender((e, s, p) -> {
+        R.addRender(ModEntities.JELLYFISH.getEntityType(), 0.5F, r -> r.tVariant().mSingle(ModelJellyfish::new, "jellyfish").preRender((e, s, p) -> {
             float a = e.getDimensions(Pose.STANDING).width;
             s.scale(a, a, a);
             s.translate(0F, 1F, 0F);
         }));
-        R.addRender(ModEntities.PHEASANT.getEntityType(), 0.5F, r -> r.tBabyVariant("pheasant_baby").mSingle(new ModelPheasant<>()).childScale(0.5F).handleRotation((e, p) -> {
+        R.addRender(ModEntities.PHEASANT.getEntityType(), 0.5F, r -> r.tBabyVariant("pheasant_baby").mSingle(ModelPheasant::new, "pheasant").childScale(0.5F).handleRotation((e, p) -> {
             float f = e.oFlap + (e.wingRotation - e.oFlap) * p;
             float f1 = e.oFlapSpeed + (e.destPos - e.oFlapSpeed) * p;
             return (Mth.sin(f) + 1.0F) * f1;
         }));
-        R.addRender(ModEntities.REINDEER.getEntityType(), 1F, r -> r.tVariant().mSingle(new ModelReindeer<>()).ageScale(1.3F, 0.7F).layer(t -> new LayerEyesCondition<>(t, ModResources.reindeer_christmas_glow, e -> e.getVariantNameOrEmpty().endsWith("_christmas"))));
-        R.addRender(ModEntities.BOAR.getEntityType(), 0.6F, r -> r.tBabyVariant("boar_baby").mSingle(new ModelBoar<>()).childScale(0.6F));
-        R.addRender(ModEntities.SQUIRREL.getEntityType(), 0.3F, r -> r.tVariant().mSingle(new ModelSquirrel<>()).ageScale(0.5F, 0.35F));
-        R.addRender(ModEntities.SONGBIRD.getEntityType(), 0.3F, r -> r.tVariant().mCondition(e -> e.getVariantNameOrEmpty().isEmpty() || !e.getVariantNameOrEmpty().startsWith("small"), new ModelSongbird<>(), new ModelSongbirdSmall<>()).ageScale(0.5F, 0.3F));
-        R.addRender(ModEntities.BADGER.getEntityType(), 0.4F, r -> r.tVariant().mSingle(new ModelBadger<>()).renderLayer((e, a, b, c, t) -> RenderType.entityTranslucent(t)).ageScale(0.7F, 0.35F));
-        R.addRender(ModEntities.LAMPREY.getEntityType(), 0.4F, r -> r.tVariant().mSingle(new ModelLamprey<>()).preRender((e, s, p) -> {
+        R.addRender(ModEntities.REINDEER.getEntityType(), 1F, r -> r.tVariant().mSingle(ModelReindeer::new, "reindeer").ageScale(1.3F, 0.7F).layer(t -> new LayerEyesCondition<>(t, ModResources.reindeer_christmas_glow, e -> e.getVariantNameOrEmpty().endsWith("_christmas"))));
+        R.addRender(ModEntities.BOAR.getEntityType(), 0.6F, r -> r.tBabyVariant("boar_baby").mSingle(ModelBoar::new, "boar").childScale(0.6F));
+        R.addRender(ModEntities.SQUIRREL.getEntityType(), 0.3F, r -> r.tVariant().mSingle(ModelSquirrel::new, "squirrel").ageScale(0.5F, 0.35F));
+        R.addRender(ModEntities.SONGBIRD.getEntityType(), 0.3F, r -> r.tVariant().mCondition(e -> e.getVariantNameOrEmpty().isEmpty() || !e.getVariantNameOrEmpty().startsWith("small"), ModelSongbird::new, "songbird", ModelSongbirdSmall::new, "songbird_small").ageScale(0.5F, 0.3F));
+        R.addRender(ModEntities.BADGER.getEntityType(), 0.4F, r -> r.tVariant().mSingle(ModelBadger::new, "badger").renderLayer((e, a, b, c, t) -> RenderType.entityTranslucent(t)).ageScale(0.7F, 0.35F));
+        R.addRender(ModEntities.LAMPREY.getEntityType(), 0.4F, r -> r.tVariant().mSingle(ModelLamprey::new, "lamprey").preRender((e, s, p) -> {
             s.scale(0.5F, 0.5F, 0.5F);
             if(e.getVehicle() != null) {
                 s.mulPose(Vector3f.YP.rotationDegrees(180F));
                 s.translate(0, 0, 0.5F);
             }
         }));
-        R.addRender(ModEntities.NAUTILUS.getEntityType(), 0.4F, r -> r.tSingle("nautilus").mSingle(new ModelNautilus<>()));
-        R.addRender(ModEntities.CRAB.getEntityType(), 0.4F, r -> r.tVariant().mSingle(new ModelCrab<>()).childScale(0.45F));
-        R.addRender(ModEntities.HORSESHOE_CRAB.getEntityType(), 0.4F, r -> r.tVariant().mSingle(new ModelHorseshoeCrab<>()).childScale(0.45F));
+        R.addRender(ModEntities.NAUTILUS.getEntityType(), 0.4F, r -> r.tSingle("nautilus").mSingle(ModelNautilus::new, "nautilus"));
+        R.addRender(ModEntities.CRAB.getEntityType(), 0.4F, r -> r.tVariant().mSingle(ModelCrab::new, "crab").childScale(0.45F));
+        R.addRender(ModEntities.HORSESHOE_CRAB.getEntityType(), 0.4F, r -> r.tVariant().mSingle(ModelHorseshoeCrab::new, "horseshoe_crab").childScale(0.45F));
         R.addRender(ModEntities.SHARK.getEntityType(), 2F, r -> r.tVariant().mMapped(e -> {
             switch(e.getVariantNameOrEmpty()) {
             case "blue":
-                return ModelBlueShark.class;
+                return "blue_shark";
             case "bull":
-                return ModelBullShark.class;
+                return "bull_shark";
             case "tiger":
-                return ModelTigerShark.class;
+                return "tiger_shark";
             case "whitetip":
-                return ModelWhiteTipShark.class;
+                return "white_tip_shark";
             case "greenland":
-                return ModelGreenlandShark.class;
+                return "greenland_shark";
             case "hammerhead":
-                return ModelHammerheadShark.class;
+                return "hammerhead_shark";
             case "goblin":
-                return ModelGoblinShark.class;
+                return "goblin_shark";
             case "mako":
-                return ModelMakoShark.class;
+                return "mako_shark";
             case "great_white":
-                return ModelGreatWhiteShark.class;
+                return "great_white_shark";
             default:
-                return ModelBullShark.class;
+                return "bull_shark";
             }
-        }, new ModelBullShark()).preRender((e, s, p) -> {
+        }, ModelBullShark::new, "bull_shark")
+        .mEntry(ModelBlueShark::new, "blue_shark")
+        .mEntry(ModelTigerShark::new, "tiger_shark")
+        .mEntry(ModelWhiteTipShark::new, "whitetip_shark")
+        .mEntry(ModelGreenlandShark::new, "greenland_shark")
+        .mEntry(ModelHammerheadShark::new, "hammerhead_shark")
+        .mEntry(ModelGoblinShark::new, "goblin_shark")
+        .mEntry(ModelMakoShark::new, "mako_shark")
+        .mEntry(ModelGreatWhiteShark::new, "great_white_shark")
+        .preRender((e, s, p) -> {
             switch(e.getVariantNameOrEmpty()) {
             case "blue":
                 s.scale(0.8F, 0.8F, 0.8F);
@@ -130,21 +140,21 @@ public class ClientLifecycleHandler {
                 break;
             }
         }));
-        R.addRender(ModEntities.MOOSE.getEntityType(), 0.8F, r -> r.tVariant().mSingle(new ModelMoose<>()).simpleScale(e -> 1.5F));
+        R.addRender(ModEntities.MOOSE.getEntityType(), 0.8F, r -> r.tVariant().mSingle(ModelMoose::new, "moose").simpleScale(e -> 1.5F));
         RenderFactory.addRender(ModEntities.PROJECTILE_PHEASANT_EGG.get(), RenderFactory.sprite());
-        R.addRender(ModEntities.TURKEY.getEntityType(), 0.5F, r -> r.tBabyVariant("turkey_baby").mSingle(new ModelTurkey<>()).ageScale(0.8F, 0.5F).handleRotation((e, p) -> {
+        R.addRender(ModEntities.TURKEY.getEntityType(), 0.5F, r -> r.tBabyVariant("turkey_baby").mSingle(ModelTurkey::new, "turkey").ageScale(0.8F, 0.5F).handleRotation((e, p) -> {
             float f = e.oFlap + (e.wingRotation - e.oFlap) * p;
             float f1 = e.oFlapSpeed + (e.destPos - e.oFlapSpeed) * p;
             return (Mth.sin(f) + 1.0F) * f1;
         }));
         RenderFactory.addRender(ModEntities.PROJECTILE_TURKEY_EGG.get(), RenderFactory.sprite());
-        R.addRender(ModEntities.BOBBIT_WORM.getEntityType(), 0.4F, r -> r.tVariant().mSingle(new ModelBobbitWorm<>()));
-        R.addRender(ModEntities.GOOSE.getEntityType(), 0.5F, r -> r.tBabyVariant("goose_baby").mSingle(new ModelGoose<>()).ageScale(0.8F, 0.5F).layer(GooseItemLayerRenderer::new));
+        R.addRender(ModEntities.BOBBIT_WORM.getEntityType(), 0.4F, r -> r.tVariant().mSingle(ModelBobbitWorm::new, "bobbit_worm"));
+        R.addRender(ModEntities.GOOSE.getEntityType(), 0.5F, r -> r.tBabyVariant("goose_baby").mSingle(ModelGoose::new, "goose").ageScale(0.8F, 0.5F).layer(GooseItemLayerRenderer::new));
         RenderFactory.addRender(ModEntities.PROJECTILE_GOOSE_EGG.get(), RenderFactory.sprite());
         RenderFactory.addRender(ModEntities.PROJECTILE_GOLDEN_GOOSE_EGG.get(), RenderFactory.sprite());
-        R.addRender(ModEntities.EEL_FRESHWATER.getEntityType(), 0.4F, r -> r.tVariant().mSingle(new ModelFreshwaterEel<>()));
-        R.addRender(ModEntities.EEL_SALTWATER.getEntityType(), 0.4F, r -> r.tVariant().mSingle(new ModelSaltwaterEel<>()));
-        R.addRender(ModEntities.WHALE.getEntityType(), 3F, r -> r.tVariant().mCondition(e -> !"cuviers".equals(e.getVariantNameOrEmpty()) && !"bottlenose".equals(e.getVariantNameOrEmpty()), new ModelSmallWhale<>(), new ModelBeakedWhale<>()).preRender((e, s, p) -> {
+        R.addRender(ModEntities.EEL_FRESHWATER.getEntityType(), 0.4F, r -> r.tVariant().mSingle(ModelFreshwaterEel::new, "freshwater_eel"));
+        R.addRender(ModEntities.EEL_SALTWATER.getEntityType(), 0.4F, r -> r.tVariant().mSingle(ModelSaltwaterEel::new, "saltwater_eel"));
+        R.addRender(ModEntities.WHALE.getEntityType(), 3F, r -> r.tVariant().mCondition(e -> !"cuviers".equals(e.getVariantNameOrEmpty()) && !"bottlenose".equals(e.getVariantNameOrEmpty()), ModelSmallWhale::new, "small_whale", ModelBeakedWhale::new, "beaked_whale").preRender((e, s, p) -> {
             switch(e.getVariantNameOrEmpty()) {
             case "cuviers":
                 s.scale(1.7F, 1.7F, 1.7F);
@@ -168,12 +178,12 @@ public class ClientLifecycleHandler {
                 break;
             }
         }));
-        R.addRender(ModEntities.WALRUS.getEntityType(), 1.5F, r -> r.tSingle("walrus").mSingle(new ModelWalrus<>()));
-        R.addRender(ModEntities.BUTTERFLY.getEntityType(), 0.1F, r -> r.tVariant().mSingle(new ModelButterfly<>()).simpleScale(e -> e.getDimensions(Pose.STANDING).width));
-        R.addRender(ModEntities.DRAGONFLY.getEntityType(), 0.1F, r -> r.tVariant().mSingle(new ModelDragonfly<>()).simpleScale(e -> (e.getDimensions(Pose.STANDING).width / 2F)));
-        R.addRender(ModEntities.BARRACUDA.getEntityType(), 1F, r -> r.tSingle("barracuda").mSingle(new ModelBarracuda<>()).simpleScale(e -> 0.6F));
-        R.addRender(ModEntities.FLYING_FISH.getEntityType(), 1F, r -> r.tVariant().mSingle(new ModelFlyingFish<>()).simpleScale(e -> 0.4F));
-        R.addRender(ModEntities.SQUID_COLOSSAL.getEntityType(), 5F, r -> r.tSingle("squid_colossal").mSingle(new ModelColossalSquid<>()).simpleScale(e -> 1.9F).handleRotation((e, p) -> Mth.lerp(p, e.lastTentacleAngle, e.tentacleAngle)).applyRotations((e, s, a, y, p) -> {
+        R.addRender(ModEntities.WALRUS.getEntityType(), 1.5F, r -> r.tSingle("walrus").mSingle(ModelWalrus::new, "walrus"));
+        R.addRender(ModEntities.BUTTERFLY.getEntityType(), 0.1F, r -> r.tVariant().mSingle(ModelButterfly::new, "butterfly").simpleScale(e -> e.getDimensions(Pose.STANDING).width));
+        R.addRender(ModEntities.DRAGONFLY.getEntityType(), 0.1F, r -> r.tVariant().mSingle(ModelDragonfly::new, "dragonfly").simpleScale(e -> (e.getDimensions(Pose.STANDING).width / 2F)));
+        R.addRender(ModEntities.BARRACUDA.getEntityType(), 1F, r -> r.tSingle("barracuda").mSingle(ModelBarracuda::new, "barracuda").simpleScale(e -> 0.6F));
+        R.addRender(ModEntities.FLYING_FISH.getEntityType(), 1F, r -> r.tVariant().mSingle(ModelFlyingFish::new, "flying_fish").simpleScale(e -> 0.4F));
+        R.addRender(ModEntities.SQUID_COLOSSAL.getEntityType(), 5F, r -> r.tSingle("squid_colossal").mSingle(ModelColossalSquid::new, "colossal_squid").simpleScale(e -> 1.9F).handleRotation((e, p) -> Mth.lerp(p, e.lastTentacleAngle, e.tentacleAngle)).applyRotations((e, s, a, y, p) -> {
             float f = Mth.lerp(p, e.prevSquidPitch, e.squidPitch);
             float f1 = Mth.lerp(p, e.prevSquidYaw, e.squidYaw);
             s.translate(0.0F, 0.5F, 0.0F);
@@ -182,7 +192,7 @@ public class ClientLifecycleHandler {
             s.mulPose(Vector3f.YP.rotationDegrees(f1));
             s.translate(0.0F, -1.2F, 0.0F);
         }));
-        R.addRender(ModEntities.SQUID_GIANT.getEntityType(), 3F, r -> r.tSingle("squid_giant").mSingle(new ModelGiantSquid<>()).simpleScale(e -> 2.2F).handleRotation((e, p) -> Mth.lerp(p, e.lastTentacleAngle, e.tentacleAngle)).applyRotations((e, s, a, y, p) -> {
+        R.addRender(ModEntities.SQUID_GIANT.getEntityType(), 3F, r -> r.tSingle("squid_giant").mSingle(ModelGiantSquid::new, "giant_squid").simpleScale(e -> 2.2F).handleRotation((e, p) -> Mth.lerp(p, e.lastTentacleAngle, e.tentacleAngle)).applyRotations((e, s, a, y, p) -> {
             float f = Mth.lerp(p, e.prevSquidPitch, e.squidPitch);
             float f1 = Mth.lerp(p, e.prevSquidYaw, e.squidYaw);
             s.translate(0.0F, 0.5F, 0.0F);
@@ -191,8 +201,8 @@ public class ClientLifecycleHandler {
             s.mulPose(Vector3f.YP.rotationDegrees(f1));
             s.translate(0.0F, -1.2F, 0.0F);
         }));
-        R.addRender(ModEntities.PIRANHA.getEntityType(), 0.4F, r -> r.tSingle("piranha").mSingle(new ModelPiranha<>()).simpleScale(e -> 0.3F));
-        R.addRender(ModEntities.OCTOPUS.getEntityType(), 1F, r -> r.tVariant().mSingle(new ModelOctopus<>()).handleRotation((e, p) -> Mth.lerp(p, e.lastTentacleAngle, e.tentacleAngle)).applyRotations((e, s, a, y, p) -> {
+        R.addRender(ModEntities.PIRANHA.getEntityType(), 0.4F, r -> r.tSingle("piranha").mSingle(ModelPiranha::new, "piranha").simpleScale(e -> 0.3F));
+        R.addRender(ModEntities.OCTOPUS.getEntityType(), 1F, r -> r.tVariant().mSingle(ModelOctopus::new, "octopus").handleRotation((e, p) -> Mth.lerp(p, e.lastTentacleAngle, e.tentacleAngle)).applyRotations((e, s, a, y, p) -> {
             // s.translate(0.0F, 0.5F, 0.0F);
             s.mulPose(Vector3f.YP.rotationDegrees(180.0F - y));
             if(e.isInWaterOrBubble() && (!e.isAboveBlock() || e.getDeltaMovement().length() > 0.01)) {
@@ -207,16 +217,52 @@ public class ClientLifecycleHandler {
         BetterAnimalsPlusMod.LOGGER.info("Rendering squirrel physics...");
     }
 
-    public static class RenderTypes extends RenderType {
-
-        public RenderTypes() {
-            super(null, null, 0, 0, false, false, null, null);
-        }
-
-        public static RenderType getEyesEntityCutoutNoCullDepthMaskOff(ResourceLocation locationIn) {
-            RenderStateShard.TextureStateShard renderstate$texturestate = new RenderStateShard.TextureStateShard(locationIn, false, false);
-            return create("eyes_entity_cutout_no_cull_depth_mask_off", DefaultVertexFormat.NEW_ENTITY, 7, 256, false, true, RenderType.CompositeState.builder().setTextureState(renderstate$texturestate).setCullState(NO_CULL).setTransparencyState(ADDITIVE_TRANSPARENCY).setWriteMaskState(COLOR_WRITE).setFogState(BLACK_FOG).setDiffuseLightingState(DIFFUSE_LIGHTING).setAlphaState(DEFAULT_ALPHA).setLightmapState(NO_LIGHTMAP).setOverlayState(OVERLAY).createCompositeState(false));
-        }
-
+    public static void layerDefinitions(ImmutableMap.Builder<ModelLayerLocation, LayerDefinition> b) {
+        BiConsumer<String, LayerDefinition> r = (k, l) -> b.put(new ModelLayerLocation(new ResourceLocation(Ref.MOD_ID, k), "main"), l);
+        r.accept("badger", ModelBadger.createBodyLayer());
+        r.accept("barracuda", ModelBarracuda.createBodyLayer());
+        r.accept("beaked_whale", ModelBeakedWhale.createBodyLayer());
+        r.accept("black_bear", ModelBlackBear.createBodyLayer());
+        r.accept("boar", ModelBoar.createBodyLayer());;
+        r.accept("bobbit_worm", ModelBobbitWorm.createBodyLayer());;
+        r.accept("brown_bear", ModelBrownBear.createBodyLayer());;
+        r.accept("butterfly", ModelButterfly.createBodyLayer());;
+        r.accept("colossal_squid", ModelColossalSquid.createBodyLayer());;
+        r.accept("coyote", ModelCoyote.createBodyLayer());;
+        r.accept("crab", ModelCrab.createBodyLayer());;
+        r.accept("deer", ModelDeer.createBodyLayer());;
+        r.accept("dragonfly", ModelDragonfly.createBodyLayer());;
+        r.accept("feral_wolf", ModelFeralWolf.createBodyLayer());;
+        r.accept("flying_fish", ModelFlyingFish.createBodyLayer());;
+        r.accept("freshwater_eel", ModelFreshwaterEel.createBodyLayer());;
+        r.accept("giant_squid", ModelGiantSquid.createBodyLayer());;
+        r.accept("goose", ModelGoose.createBodyLayer());;
+        r.accept("horseshoe_crab", ModelHorseshoeCrab.createBodyLayer());;
+        r.accept("jellyfish", ModelJellyfish.createBodyLayer());;
+        r.accept("lammergeier", ModelLammergeier.createBodyLayer());;
+        r.accept("lamprey", ModelLamprey.createBodyLayer());;
+        r.accept("moose", ModelMoose.createBodyLayer());;
+        r.accept("nautilus", ModelNautilus.createBodyLayer());;
+        r.accept("octopus", ModelOctopus.createBodyLayer());;
+        r.accept("pheasant", ModelPheasant.createBodyLayer());;
+        r.accept("piranha", ModelPiranha.createBodyLayer());;
+        r.accept("reindeer", ModelReindeer.createBodyLayer());;
+        r.accept("saltwater_eel", ModelSaltwaterEel.createBodyLayer());;
+        r.accept("small_whale", ModelSmallWhale.createBodyLayer());;
+        r.accept("songbird", ModelSongbird.createBodyLayer());;
+        r.accept("songbird_small", ModelSongbirdSmall.createBodyLayer());;
+        r.accept("squirrel", ModelSquirrel.createBodyLayer());;
+        r.accept("tarantula", ModelTarantula.createBodyLayer());;
+        r.accept("turkey", ModelTurkey.createBodyLayer());;
+        r.accept("walrus", ModelWalrus.createBodyLayer());;
+        r.accept("blue_shark", ModelBlueShark.createBodyLayer());;
+        r.accept("bull_shark", ModelBullShark.createBodyLayer());;
+        r.accept("goblin_shark", ModelGoblinShark.createBodyLayer());;
+        r.accept("great_white_shark", ModelGreatWhiteShark.createBodyLayer());;
+        r.accept("greenland_shark", ModelGreenlandShark.createBodyLayer());;
+        r.accept("hammerhead_shark", ModelHammerheadShark.createBodyLayer());;
+        r.accept("mako_shark", ModelMakoShark.createBodyLayer());;
+        r.accept("tiger_shark", ModelTigerShark.createBodyLayer());;
+        r.accept("white_tip_shark", ModelWhiteTipShark.createBodyLayer());;
     }
 }

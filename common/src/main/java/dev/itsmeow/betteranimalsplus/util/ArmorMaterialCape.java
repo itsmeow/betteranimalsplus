@@ -1,7 +1,7 @@
 package dev.itsmeow.betteranimalsplus.util;
 
 import dev.itsmeow.betteranimalsplus.Ref;
-import me.shedaniel.architectury.platform.Platform;
+import dev.architectury.platform.Platform;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.EquipmentSlot;

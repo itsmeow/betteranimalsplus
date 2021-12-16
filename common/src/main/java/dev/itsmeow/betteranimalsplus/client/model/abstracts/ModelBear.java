@@ -42,6 +42,41 @@ public abstract class ModelBear<T extends EntityBear> extends ModelBAP<T> {
     private boolean chestInit = false;
     private float chestYInit = 0F;
 
+    public ModelBear(ModelPart root) {
+        this.chest = root.getChild("chest");
+        this.neck = chest.getChild("neck");
+        this.head = neck.getChild("head");
+        this.nose_r1 = head.getChild("nose_r1");
+        this.lowerJaw = head.getChild("lowerJaw");
+        this.snout = head.getChild("snout");
+        this.upperTeeth = snout.getChild("upperTeeth");
+        this.ass = chest.getChild("ass");
+        this.lArm01 = chest.getChild("lArm01");
+        this.lArm02 = lArm01.getChild("lArm02");
+        this.lPaw = lArm02.getChild("lPaw");
+        this.lFClaw04_r1 = lPaw.getChild("lFClaw04_r1");
+        this.lFClaw03_r1 = lPaw.getChild("lFClaw03_r1");
+        this.lFClaw02_r1 = lPaw.getChild("lFClaw02_r1");
+        this.rArm01 = chest.getChild("rArm01");
+        this.rArm02 = rArm01.getChild("rArm02");
+        this.rPaw = rArm02.getChild("rPaw");
+        this.rFClaw04_r1 = rPaw.getChild("rFClaw04_r1");
+        this.rFClaw03_r1 = rPaw.getChild("rFClaw03_r1");
+        this.rFClaw02_r1 = rPaw.getChild("rFClaw02_r1");
+        this.lLeg01 = root.getChild("lLeg01");
+        this.lLeg02 = lLeg01.getChild("lLeg02");
+        this.lFoot = lLeg02.getChild("lFoot");
+        this.lHClaw04_r1 = lFoot.getChild("lHClaw04_r1");
+        this.lHClaw03_r1 = lFoot.getChild("lHClaw03_r1");
+        this.lHClaw02_r1 = lFoot.getChild("lHClaw02_r1");
+        this.rLeg01 = root.getChild("rLeg01");
+        this.rLeg02 = rLeg01.getChild("rLeg02");
+        this.rFoot = rLeg02.getChild("rFoot");
+        this.rHClaw04_r1 = rFoot.getChild("rHClaw04_r1");
+        this.rHClaw03_r1 = rFoot.getChild("rHClaw03_r1");
+        this.rHClaw02_r1 = rFoot.getChild("rHClaw02_r1");
+    }
+
     @Override
     public void renderToBuffer(PoseStack matrixStackIn, VertexConsumer bufferIn, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
         this.chest.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn);

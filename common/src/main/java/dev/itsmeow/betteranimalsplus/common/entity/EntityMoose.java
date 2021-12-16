@@ -85,7 +85,7 @@ public class EntityMoose extends EntityAnimalEatsGrassWithTypes implements IDrop
                         } catch(Throwable throwable) {
                             CrashReport crashreport = CrashReport.forThrowable(throwable, "Colliding entity with block");
                             CrashReportCategory crashreportcategory = crashreport.addCategory("Block being collided with");
-                            CrashReportCategory.populateBlockDetails(crashreportcategory, blockpos$mutable, blockstate);
+                            CrashReportCategory.populateBlockDetails(crashreportcategory, level, blockpos$mutable.immutable(), blockstate);
                             throw new ReportedException(crashreport);
                         }
                     }

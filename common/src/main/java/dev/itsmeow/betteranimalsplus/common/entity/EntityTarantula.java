@@ -8,7 +8,6 @@ import dev.itsmeow.imdlib.entity.util.BiomeTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.sounds.SoundEvents;
-import net.minecraft.util.Mth;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -57,7 +56,7 @@ public class EntityTarantula extends Spider implements RangedAttackMob, ISelecti
         double d1 = target.getX() - this.getX();
         double d2 = d0 - entityhair.getY();
         double d3 = target.getZ() - this.getZ();
-        float f = Mth.sqrt(d1 * d1 + d3 * d3) * 0.2F;
+        double f = Math.sqrt(d1 * d1 + d3 * d3) * 0.2F;
         entityhair.shoot(d1, d2 + f, d3, 1.5F, 8.0F);
         this.playSound(SoundEvents.WOOL_PLACE, 1.0F, 1.0F / (this.getRandom().nextFloat() * 0.4F + 0.8F));
         this.level.addFreshEntity(entityhair);
@@ -66,7 +65,7 @@ public class EntityTarantula extends Spider implements RangedAttackMob, ISelecti
 
     @Override
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor world, DifficultyInstance difficulty, MobSpawnType reason, SpawnGroupData entityLivingData, CompoundTag itemNbt) {
-        this.moveTo(this.getX(), this.getY(), this.getZ(), this.yRot, 0F);
+        this.moveTo(this.getX(), this.getY(), this.getZ(), this.getYRot(), 0F);
         return this.initAgeableData(world, reason, super.finalizeSpawn(world, difficulty, reason, entityLivingData, itemNbt));
     }
 

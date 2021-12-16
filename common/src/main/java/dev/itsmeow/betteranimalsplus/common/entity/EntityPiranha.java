@@ -90,12 +90,12 @@ public class EntityPiranha extends EntityWaterMobPathingBucketable implements IH
                     Skeleton skele = EntityType.SKELETON.create(player.level);
                     skele.setCustomName(player.getName());
                     skele.setCustomNameVisible(true);
-                    skele.absMoveTo(player.getX(), player.getY(), player.getZ(), player.yRot, player.xRot);
+                    skele.absMoveTo(player.getX(), player.getY(), player.getZ(), player.getYRot(), player.getXRot());
                     player.level.addFreshEntity(skele);
                 }
             } else if(entityIn instanceof Horse && !entityIn.isAlive() && entityIn.level instanceof ServerLevelAccessor) {
                 SkeletonHorse skele = EntityType.SKELETON_HORSE.create(entityIn.level);
-                skele.absMoveTo(entityIn.getX(), entityIn.getY(), entityIn.getZ(), entityIn.yRot, entityIn.xRot);
+                skele.absMoveTo(entityIn.getX(), entityIn.getY(), entityIn.getZ(), entityIn.getYRot(), entityIn.getXRot());
                 skele.finalizeSpawn((ServerLevelAccessor) entityIn.level, entityIn.level.getCurrentDifficultyAt(entityIn.blockPosition()), MobSpawnType.MOB_SUMMONED, null, null);
                 skele.invulnerableTime = 60;
                 skele.setPersistenceRequired();

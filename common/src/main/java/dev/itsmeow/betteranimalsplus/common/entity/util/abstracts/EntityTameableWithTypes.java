@@ -4,7 +4,7 @@ import dev.itsmeow.imdlib.entity.interfaces.IVariantTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.DifficultyInstance;
-import net.minecraft.world.entity.AgableMob;
+import net.minecraft.world.entity.AgeableMob;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.SpawnGroupData;
@@ -41,13 +41,13 @@ public abstract class EntityTameableWithTypes extends EntityTameableBetterAnimal
     }
 
     @Override
-    public AgableMob getBreedOffspring(ServerLevel world, AgableMob ageable) {
+    public AgeableMob getBreedOffspring(ServerLevel world, AgeableMob ageable) {
         if (!(ageable instanceof IVariantTypes))
             return null;
         IVariantTypes<?> child = getBaseChild();
         if (child == null)
             return null;
-        return (AgableMob) child.setType(this.getOffspringType(this, (IVariantTypes<?>) ageable));
+        return (AgeableMob) child.setType(this.getOffspringType(this, (IVariantTypes<?>) ageable));
     }
 
     protected abstract EntityTameableWithTypes getBaseChild();

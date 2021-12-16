@@ -1,5 +1,8 @@
 package dev.itsmeow.betteranimalsplus.init;
 
+import dev.architectury.registry.fuel.FuelRegistry;
+import dev.architectury.registry.registries.DeferredRegister;
+import dev.architectury.registry.registries.RegistrySupplier;
 import dev.itsmeow.betteranimalsplus.BetterAnimalsPlusMod;
 import dev.itsmeow.betteranimalsplus.Ref;
 import dev.itsmeow.betteranimalsplus.common.entity.projectile.EntityGoldenGooseEgg;
@@ -7,9 +10,6 @@ import dev.itsmeow.betteranimalsplus.common.entity.projectile.EntityGooseEgg;
 import dev.itsmeow.betteranimalsplus.common.entity.projectile.EntityPheasantEgg;
 import dev.itsmeow.betteranimalsplus.common.entity.projectile.EntityTurkeyEgg;
 import dev.itsmeow.betteranimalsplus.common.item.*;
-import me.shedaniel.architectury.registry.DeferredRegister;
-import me.shedaniel.architectury.registry.RegistrySupplier;
-import me.shedaniel.architectury.registry.fuel.FuelRegistry;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.ChatFormatting;
@@ -35,7 +35,6 @@ public class ModItems {
 
     public static final RegistrySupplier<Item> ADVANCEMENT_ICON_JELLYFISH = rH("advancement_icon_jellyfish");
     public static final RegistrySupplier<Item> ADVANCEMENT_ICON_JELLYFISH_CROSS = rH("advancement_icon_jellyfish_cross");
-    public static final RegistrySupplier<Item> ADVANCEMENT_ICON_GOAT = rH("advancement_icon_goat");
     public static final RegistrySupplier<Item> ADVANCEMENT_ICON_SHARK = rH("advancement_icon_shark");
     public static final RegistrySupplier<Item> ADVANCEMENT_ICON_LAMPREY = rH("advancement_icon_lamprey");
     public static final RegistrySupplier<Item> ADVANCEMENT_ICON_SQUIRREL = rH("advancement_icon_squirrel");
@@ -51,8 +50,6 @@ public class ModItems {
         FuelRegistry.register(800, i);
         return i;
     });
-    public static final RegistrySupplier<Item> GOAT_MILK = r("goatmilk", () -> new MilkBucketItem(new Item.Properties().craftRemainder(Items.BUCKET).tab(BetterAnimalsPlusMod.TAB).stacksTo(1)));
-    public static final RegistrySupplier<ItemBetterFood> GOAT_CHEESE = r("goatcheese", () -> new ItemBetterFood(3, 1, 15, false));
     public static final RegistrySupplier<ItemBetterFood> PHEASANT_RAW = r("pheasantraw", () -> new ItemBetterFood(3, 0, 32, true));
     public static final RegistrySupplier<ItemBetterFood> PHEASANT_COOKED = r("pheasantcooked", () -> new ItemBetterFood(7, 1.2F, 32, true));
 

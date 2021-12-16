@@ -383,7 +383,7 @@ public class EntityBear extends Animal implements IDropHead<EntityBear>, IHaveHu
     }
 
     @Override
-    public AgableMob getBreedOffspring(ServerLevel world, AgableMob ageable) {
+    public AgeableMob getBreedOffspring(ServerLevel world, AgeableMob ageable) {
         return getContainer().getEntityType().create(world);
     }
 

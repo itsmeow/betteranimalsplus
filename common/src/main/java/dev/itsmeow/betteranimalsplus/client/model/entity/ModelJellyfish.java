@@ -4,6 +4,8 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import dev.itsmeow.betteranimalsplus.client.model.abstracts.ModelBAP;
 import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.client.model.geom.PartPose;
+import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.world.entity.LivingEntity;
 
 public class ModelJellyfish<T extends LivingEntity> extends ModelBAP<T> {
@@ -100,513 +102,229 @@ public class ModelJellyfish<T extends LivingEntity> extends ModelBAP<T> {
     public ModelPart middleTentacle4_2;
     public ModelPart middleTentacle4_3;
 
-    public ModelJellyfish() {
-        texWidth = 128;
-        texHeight = 80;
-
-        base = new ModelPart(this);
-        base.setPos(0.0F, 17.75F, -1.0F);
-        base.texOffs(0, 0).addBox(-5.0F, -2.0F, -4.0F, 10.0F, 2.0F, 10.0F, 0.0F, false);
-        base.texOffs(41, 0).addBox(-5.0F, -3.0F, -4.0F, 10.0F, 3.0F, 10.0F, 0.0F, false);
-        base.texOffs(82, 0).addBox(-4.5F, -3.75F, -3.5F, 9.0F, 2.0F, 9.0F, 0.0F, false);
-        base.texOffs(0, 13).addBox(-4.0F, -4.25F, -3.0F, 8.0F, 1.0F, 8.0F, 0.0F, false);
-        base.texOffs(33, 13).addBox(-4.0F, -5.25F, -3.0F, 8.0F, 2.0F, 8.0F, 0.0F, false);
-        base.texOffs(0, 35).addBox(-2.5F, -4.0F, -1.5F, 5.0F, 1.0F, 5.0F, 0.0F, false);
-        base.texOffs(20, 36).addBox(-2.0F, -4.5F, -1.0F, 4.0F, 1.0F, 4.0F, 0.0F, false);
-
-        crown = new ModelPart(this);
-        crown.setPos(0.0F, -3.0F, 1.0F);
-        base.addChild(crown);
-        crown.texOffs(0, 41).addBox(-4.5F, -1.0F, -4.5F, 9.0F, 1.0F, 9.0F, 0.0F, false);
-        crown.texOffs(27, 42).addBox(-3.0F, -2.25F, -3.0F, 6.0F, 2.0F, 6.0F, 0.0F, false);
-
-        cube_r1 = new ModelPart(this);
-        cube_r1.setPos(-2.5F, -2.0F, 2.25F);
-        crown.addChild(cube_r1);
-        setRotationAngle(cube_r1, -0.5236F, 0.0F, -0.5236F);
-        cube_r1.texOffs(47, 37).addBox(-0.75F, -1.5F, -0.25F, 1.0F, 2.0F, 1.0F, 0.0F, false);
-
-        cube_r2 = new ModelPart(this);
-        cube_r2.setPos(-2.25F, -2.0F, -0.75F);
-        crown.addChild(cube_r2);
-        setRotationAngle(cube_r2, 0.1309F, 0.0F, -0.6545F);
-        cube_r2.texOffs(47, 37).addBox(-0.75F, -1.5F, -0.5F, 1.0F, 2.0F, 1.0F, 0.0F, false);
-
-        cube_r3 = new ModelPart(this);
-        cube_r3.setPos(-0.75F, -2.0F, 2.25F);
-        crown.addChild(cube_r3);
-        setRotationAngle(cube_r3, -0.6981F, 0.0F, -0.0873F);
-        cube_r3.texOffs(47, 37).addBox(-0.5F, -1.5F, -0.25F, 1.0F, 2.0F, 1.0F, 0.0F, false);
-
-        cube_r4 = new ModelPart(this);
-        cube_r4.setPos(-0.75F, -2.0F, -0.75F);
-        crown.addChild(cube_r4);
-        setRotationAngle(cube_r4, 0.1745F, 0.0F, -0.3491F);
-        cube_r4.texOffs(47, 37).addBox(-0.5F, -1.75F, -0.5F, 1.0F, 2.0F, 1.0F, 0.0F, false);
-
-        cube_r5 = new ModelPart(this);
-        cube_r5.setPos(0.75F, -2.0F, -0.75F);
-        crown.addChild(cube_r5);
-        setRotationAngle(cube_r5, 0.1745F, 0.0F, 0.3491F);
-        cube_r5.texOffs(47, 37).addBox(-0.5F, -1.75F, -0.5F, 1.0F, 2.0F, 1.0F, 0.0F, false);
-
-        cube_r6 = new ModelPart(this);
-        cube_r6.setPos(2.25F, -2.0F, -0.75F);
-        crown.addChild(cube_r6);
-        setRotationAngle(cube_r6, 0.1309F, 0.0F, 0.6545F);
-        cube_r6.texOffs(47, 37).addBox(-0.25F, -1.75F, -0.5F, 1.0F, 2.0F, 1.0F, 0.0F, false);
-
-        cube_r7 = new ModelPart(this);
-        cube_r7.setPos(2.25F, -2.0F, 2.25F);
-        crown.addChild(cube_r7);
-        setRotationAngle(cube_r7, -0.5236F, 0.0F, 0.5236F);
-        cube_r7.texOffs(47, 37).addBox(-0.25F, -1.75F, -0.75F, 1.0F, 2.0F, 1.0F, 0.0F, false);
-
-        cube_r8 = new ModelPart(this);
-        cube_r8.setPos(2.25F, -2.0F, 0.75F);
-        crown.addChild(cube_r8);
-        setRotationAngle(cube_r8, -0.1745F, 0.0F, 0.6545F);
-        cube_r8.texOffs(47, 37).addBox(-0.25F, -1.75F, -0.5F, 1.0F, 2.0F, 1.0F, 0.0F, false);
-
-        cube_r9 = new ModelPart(this);
-        cube_r9.setPos(2.0F, -2.0F, -2.0F);
-        crown.addChild(cube_r9);
-        setRotationAngle(cube_r9, 0.5236F, 0.0F, 0.5236F);
-        cube_r9.texOffs(47, 37).addBox(0.0F, -1.75F, -0.5F, 1.0F, 2.0F, 1.0F, 0.0F, false);
-
-        cube_r10 = new ModelPart(this);
-        cube_r10.setPos(0.75F, -2.0F, 2.25F);
-        crown.addChild(cube_r10);
-        setRotationAngle(cube_r10, -0.6981F, 0.0F, 0.0873F);
-        cube_r10.texOffs(47, 37).addBox(-0.5F, -1.75F, -0.25F, 1.0F, 2.0F, 1.0F, 0.0F, false);
-
-        cube_r11 = new ModelPart(this);
-        cube_r11.setPos(0.75F, -2.0F, 0.75F);
-        crown.addChild(cube_r11);
-        setRotationAngle(cube_r11, -0.1745F, 0.0F, 0.2182F);
-        cube_r11.texOffs(47, 37).addBox(-0.5F, -1.75F, -0.5F, 1.0F, 2.0F, 1.0F, 0.0F, false);
-
-        cube_r12 = new ModelPart(this);
-        cube_r12.setPos(0.75F, -2.0F, -2.0F);
-        crown.addChild(cube_r12);
-        setRotationAngle(cube_r12, 0.4363F, 0.0F, 0.2618F);
-        cube_r12.texOffs(47, 37).addBox(-0.5F, -1.75F, -1.0F, 1.0F, 2.0F, 1.0F, 0.0F, false);
-
-        cube_r13 = new ModelPart(this);
-        cube_r13.setPos(-0.75F, -2.0F, 0.75F);
-        crown.addChild(cube_r13);
-        setRotationAngle(cube_r13, -0.1745F, 0.0F, -0.2182F);
-        cube_r13.texOffs(47, 37).addBox(-0.5F, -1.75F, -0.5F, 1.0F, 2.0F, 1.0F, 0.0F, false);
-
-        cube_r14 = new ModelPart(this);
-        cube_r14.setPos(-0.75F, -2.0F, -2.0F);
-        crown.addChild(cube_r14);
-        setRotationAngle(cube_r14, 0.4363F, 0.0F, -0.2618F);
-        cube_r14.texOffs(47, 37).addBox(-0.5F, -1.5F, -1.0F, 1.0F, 2.0F, 1.0F, 0.0F, false);
-
-        cube_r15 = new ModelPart(this);
-        cube_r15.setPos(-2.0F, -2.0F, 0.75F);
-        crown.addChild(cube_r15);
-        setRotationAngle(cube_r15, -0.1745F, 0.0F, -0.6545F);
-        cube_r15.texOffs(47, 37).addBox(-1.0F, -1.75F, -0.5F, 1.0F, 2.0F, 1.0F, 0.0F, false);
-
-        cube_r16 = new ModelPart(this);
-        cube_r16.setPos(-2.0F, -2.0F, -2.0F);
-        crown.addChild(cube_r16);
-        setRotationAngle(cube_r16, 0.5236F, 0.0F, -0.5236F);
-        cube_r16.texOffs(47, 37).addBox(-1.25F, -1.75F, -1.0F, 1.0F, 2.0F, 1.0F, 0.0F, false);
-
-        outerTentacleF1_1 = new ModelPart(this);
-        outerTentacleF1_1.setPos(-3.25F, 0.0F, -3.25F);
-        base.addChild(outerTentacleF1_1);
-        outerTentacleF1_1.texOffs(65, 16).addBox(-0.5F, 0.0F, 0.0F, 1.0F, 7.0F, 0.0F, 0.0F, false);
-
-        outerTentacleF1_2 = new ModelPart(this);
-        outerTentacleF1_2.setPos(0.0F, 7.0F, 0.0F);
-        outerTentacleF1_1.addChild(outerTentacleF1_2);
-        outerTentacleF1_2.texOffs(68, 16).addBox(-0.5F, 0.0F, 0.0F, 1.0F, 7.0F, 0.0F, 0.0F, false);
-
-        outerTentacleF1_3 = new ModelPart(this);
-        outerTentacleF1_3.setPos(0.0F, 7.0F, 0.0F);
-        outerTentacleF1_2.addChild(outerTentacleF1_3);
-        outerTentacleF1_3.texOffs(71, 16).addBox(-0.5F, 0.0F, 0.0F, 1.0F, 7.0F, 0.0F, 0.0F, false);
-
-        outerTentacleB1_1 = new ModelPart(this);
-        outerTentacleB1_1.setPos(-3.25F, 0.0F, 5.25F);
-        base.addChild(outerTentacleB1_1);
-        outerTentacleB1_1.texOffs(65, 16).addBox(-0.5F, 0.0F, 0.0F, 1.0F, 7.0F, 0.0F, 0.0F, false);
-
-        outerTentacleB1_2 = new ModelPart(this);
-        outerTentacleB1_2.setPos(0.0F, 7.0F, 0.0F);
-        outerTentacleB1_1.addChild(outerTentacleB1_2);
-        outerTentacleB1_2.texOffs(68, 16).addBox(-0.5F, 0.0F, 0.0F, 1.0F, 7.0F, 0.0F, 0.0F, false);
-
-        outerTentacleB1_3 = new ModelPart(this);
-        outerTentacleB1_3.setPos(0.0F, 7.0F, 0.0F);
-        outerTentacleB1_2.addChild(outerTentacleB1_3);
-        outerTentacleB1_3.texOffs(71, 16).addBox(-0.5F, 0.0F, 0.0F, 1.0F, 7.0F, 0.0F, 0.0F, false);
-
-        outerTentacleF2_1 = new ModelPart(this);
-        outerTentacleF2_1.setPos(-1.5F, 0.0F, -3.25F);
-        base.addChild(outerTentacleF2_1);
-        outerTentacleF2_1.texOffs(65, 16).addBox(-0.5F, 0.0F, 0.0F, 1.0F, 7.0F, 0.0F, 0.0F, false);
-
-        outerTentacleF2_2 = new ModelPart(this);
-        outerTentacleF2_2.setPos(0.0F, 7.0F, 0.0F);
-        outerTentacleF2_1.addChild(outerTentacleF2_2);
-        outerTentacleF2_2.texOffs(68, 16).addBox(-0.5F, 0.0F, 0.0F, 1.0F, 7.0F, 0.0F, 0.0F, false);
-
-        outerTentacleF2_3 = new ModelPart(this);
-        outerTentacleF2_3.setPos(0.0F, 7.0F, 0.0F);
-        outerTentacleF2_2.addChild(outerTentacleF2_3);
-        outerTentacleF2_3.texOffs(71, 16).addBox(-0.5F, 0.0F, 0.0F, 1.0F, 7.0F, 0.0F, 0.0F, false);
-
-        outerTentacleB2_1 = new ModelPart(this);
-        outerTentacleB2_1.setPos(-1.5F, 0.0F, 5.25F);
-        base.addChild(outerTentacleB2_1);
-        outerTentacleB2_1.texOffs(65, 16).addBox(-0.5F, 0.0F, 0.0F, 1.0F, 7.0F, 0.0F, 0.0F, false);
-
-        outerTentacleB2_2 = new ModelPart(this);
-        outerTentacleB2_2.setPos(0.0F, 7.0F, 0.0F);
-        outerTentacleB2_1.addChild(outerTentacleB2_2);
-        outerTentacleB2_2.texOffs(68, 16).addBox(-0.5F, 0.0F, 0.0F, 1.0F, 7.0F, 0.0F, 0.0F, false);
-
-        outerTentacleB2_3 = new ModelPart(this);
-        outerTentacleB2_3.setPos(0.0F, 7.0F, 0.0F);
-        outerTentacleB2_2.addChild(outerTentacleB2_3);
-        outerTentacleB2_3.texOffs(71, 16).addBox(-0.5F, 0.0F, 0.0F, 1.0F, 7.0F, 0.0F, 0.0F, false);
-
-        outerTentacleF3_1 = new ModelPart(this);
-        outerTentacleF3_1.setPos(0.0F, 0.0F, -3.45F);
-        base.addChild(outerTentacleF3_1);
-        outerTentacleF3_1.texOffs(65, 16).addBox(-0.5F, 0.0F, 0.0F, 1.0F, 7.0F, 0.0F, 0.0F, false);
-
-        outerTentacleF3_2 = new ModelPart(this);
-        outerTentacleF3_2.setPos(0.0F, 7.0F, 0.0F);
-        outerTentacleF3_1.addChild(outerTentacleF3_2);
-        outerTentacleF3_2.texOffs(68, 16).addBox(-0.5F, 0.0F, 0.0F, 1.0F, 7.0F, 0.0F, 0.0F, false);
-
-        outerTentacleF3_3 = new ModelPart(this);
-        outerTentacleF3_3.setPos(0.0F, 7.0F, 0.0F);
-        outerTentacleF3_2.addChild(outerTentacleF3_3);
-        outerTentacleF3_3.texOffs(71, 16).addBox(-0.5F, 0.0F, 0.0F, 1.0F, 7.0F, 0.0F, 0.0F, false);
-
-        outerTentacleB3_1 = new ModelPart(this);
-        outerTentacleB3_1.setPos(0.0F, 0.0F, 5.35F);
-        base.addChild(outerTentacleB3_1);
-        outerTentacleB3_1.texOffs(65, 16).addBox(-0.5F, 0.0F, 0.0F, 1.0F, 7.0F, 0.0F, 0.0F, false);
-
-        outerTentacleB3_2 = new ModelPart(this);
-        outerTentacleB3_2.setPos(0.0F, 7.0F, 0.0F);
-        outerTentacleB3_1.addChild(outerTentacleB3_2);
-        outerTentacleB3_2.texOffs(68, 16).addBox(-0.5F, 0.0F, 0.0F, 1.0F, 7.0F, 0.0F, 0.0F, false);
-
-        outerTentacleB3_3 = new ModelPart(this);
-        outerTentacleB3_3.setPos(0.0F, 7.0F, 0.0F);
-        outerTentacleB3_2.addChild(outerTentacleB3_3);
-        outerTentacleB3_3.texOffs(71, 16).addBox(-0.5F, 0.0F, 0.0F, 1.0F, 7.0F, 0.0F, 0.0F, false);
-
-        outerTentacleF4_1 = new ModelPart(this);
-        outerTentacleF4_1.setPos(1.5F, 0.0F, -3.25F);
-        base.addChild(outerTentacleF4_1);
-        outerTentacleF4_1.texOffs(65, 16).addBox(-0.5F, 0.0F, 0.0F, 1.0F, 7.0F, 0.0F, 0.0F, false);
-
-        outerTentacleF4_2 = new ModelPart(this);
-        outerTentacleF4_2.setPos(0.0F, 7.0F, 0.0F);
-        outerTentacleF4_1.addChild(outerTentacleF4_2);
-        outerTentacleF4_2.texOffs(68, 16).addBox(-0.5F, 0.0F, 0.0F, 1.0F, 7.0F, 0.0F, 0.0F, false);
-
-        outerTentacleF4_3 = new ModelPart(this);
-        outerTentacleF4_3.setPos(0.0F, 7.0F, 0.0F);
-        outerTentacleF4_2.addChild(outerTentacleF4_3);
-        outerTentacleF4_3.texOffs(71, 16).addBox(-0.5F, 0.0F, 0.0F, 1.0F, 7.0F, 0.0F, 0.0F, false);
-
-        outerTentacleB4_1 = new ModelPart(this);
-        outerTentacleB4_1.setPos(1.5F, 0.0F, 5.25F);
-        base.addChild(outerTentacleB4_1);
-        outerTentacleB4_1.texOffs(65, 16).addBox(-0.5F, 0.0F, 0.0F, 1.0F, 7.0F, 0.0F, 0.0F, false);
-
-        outerTentacleB4_2 = new ModelPart(this);
-        outerTentacleB4_2.setPos(0.0F, 7.0F, 0.0F);
-        outerTentacleB4_1.addChild(outerTentacleB4_2);
-        outerTentacleB4_2.texOffs(68, 16).addBox(-0.5F, 0.0F, 0.0F, 1.0F, 7.0F, 0.0F, 0.0F, false);
-
-        outerTentacleB4_3 = new ModelPart(this);
-        outerTentacleB4_3.setPos(0.0F, 7.0F, 0.0F);
-        outerTentacleB4_2.addChild(outerTentacleB4_3);
-        outerTentacleB4_3.texOffs(71, 16).addBox(-0.5F, 0.0F, 0.0F, 1.0F, 7.0F, 0.0F, 0.0F, false);
-
-        outerTentacleF5_1 = new ModelPart(this);
-        outerTentacleF5_1.setPos(3.25F, 0.0F, -3.25F);
-        base.addChild(outerTentacleF5_1);
-        outerTentacleF5_1.texOffs(65, 16).addBox(-0.5F, 0.0F, 0.0F, 1.0F, 7.0F, 0.0F, 0.0F, false);
-
-        outerTentacleF5_2 = new ModelPart(this);
-        outerTentacleF5_2.setPos(0.0F, 7.0F, 0.0F);
-        outerTentacleF5_1.addChild(outerTentacleF5_2);
-        outerTentacleF5_2.texOffs(68, 16).addBox(-0.5F, 0.0F, 0.0F, 1.0F, 7.0F, 0.0F, 0.0F, false);
-
-        outerTentacleF5_3 = new ModelPart(this);
-        outerTentacleF5_3.setPos(0.0F, 7.0F, 0.0F);
-        outerTentacleF5_2.addChild(outerTentacleF5_3);
-        outerTentacleF5_3.texOffs(71, 16).addBox(-0.5F, 0.0F, 0.0F, 1.0F, 7.0F, 0.0F, 0.0F, false);
-
-        outerTentacleB5_1 = new ModelPart(this);
-        outerTentacleB5_1.setPos(3.25F, 0.0F, 5.25F);
-        base.addChild(outerTentacleB5_1);
-        outerTentacleB5_1.texOffs(65, 16).addBox(-0.5F, 0.0F, 0.0F, 1.0F, 7.0F, 0.0F, 0.0F, false);
-
-        outerTentacleB5_2 = new ModelPart(this);
-        outerTentacleB5_2.setPos(0.0F, 7.0F, 0.0F);
-        outerTentacleB5_1.addChild(outerTentacleB5_2);
-        outerTentacleB5_2.texOffs(68, 16).addBox(-0.5F, 0.0F, 0.0F, 1.0F, 7.0F, 0.0F, 0.0F, false);
-
-        outerTentacleB5_3 = new ModelPart(this);
-        outerTentacleB5_3.setPos(0.0F, 7.0F, 0.0F);
-        outerTentacleB5_2.addChild(outerTentacleB5_3);
-        outerTentacleB5_3.texOffs(71, 16).addBox(-0.5F, 0.0F, 0.0F, 1.0F, 7.0F, 0.0F, 0.0F, false);
-
-        lTentacle1_1 = new ModelPart(this);
-        lTentacle1_1.setPos(4.0F, 0.0F, -2.25F);
-        base.addChild(lTentacle1_1);
-        lTentacle1_1.texOffs(65, 15).addBox(0.0F, 0.0F, -0.5F, 0.0F, 7.0F, 1.0F, 0.0F, false);
-
-        lTentacle1_2 = new ModelPart(this);
-        lTentacle1_2.setPos(0.0F, 7.0F, 0.0F);
-        lTentacle1_1.addChild(lTentacle1_2);
-        lTentacle1_2.texOffs(68, 15).addBox(0.0F, 0.0F, -0.5F, 0.0F, 7.0F, 1.0F, 0.0F, false);
-
-        lTentacle1_3 = new ModelPart(this);
-        lTentacle1_3.setPos(0.0F, 7.0F, 0.0F);
-        lTentacle1_2.addChild(lTentacle1_3);
-        lTentacle1_3.texOffs(71, 15).addBox(0.0F, 0.0F, -0.5F, 0.0F, 7.0F, 1.0F, 0.0F, false);
-
-        rTentacle1_1 = new ModelPart(this);
-        rTentacle1_1.setPos(-4.0F, 0.0F, -2.25F);
-        base.addChild(rTentacle1_1);
-        rTentacle1_1.texOffs(65, 15).addBox(0.0F, 0.0F, -0.5F, 0.0F, 7.0F, 1.0F, 0.0F, false);
-
-        rTentacle1_2 = new ModelPart(this);
-        rTentacle1_2.setPos(0.0F, 7.0F, 0.0F);
-        rTentacle1_1.addChild(rTentacle1_2);
-        rTentacle1_2.texOffs(68, 15).addBox(0.0F, 0.0F, -0.5F, 0.0F, 7.0F, 1.0F, 0.0F, false);
-
-        lTenracle1_3 = new ModelPart(this);
-        lTenracle1_3.setPos(0.0F, 7.0F, 0.0F);
-        rTentacle1_2.addChild(lTenracle1_3);
-        lTenracle1_3.texOffs(71, 15).addBox(0.0F, 0.0F, -0.5F, 0.0F, 7.0F, 1.0F, 0.0F, false);
-
-        lTentacle2_1 = new ModelPart(this);
-        lTentacle2_1.setPos(4.0F, 0.0F, -0.5F);
-        base.addChild(lTentacle2_1);
-        lTentacle2_1.texOffs(65, 15).addBox(0.0F, 0.0F, -0.5F, 0.0F, 7.0F, 1.0F, 0.0F, false);
-
-        lTentacle2_2 = new ModelPart(this);
-        lTentacle2_2.setPos(0.0F, 7.0F, 0.0F);
-        lTentacle2_1.addChild(lTentacle2_2);
-        lTentacle2_2.texOffs(68, 15).addBox(0.0F, 0.0F, -0.5F, 0.0F, 7.0F, 1.0F, 0.0F, false);
-
-        lTentacle2_3 = new ModelPart(this);
-        lTentacle2_3.setPos(0.0F, 7.0F, 0.0F);
-        lTentacle2_2.addChild(lTentacle2_3);
-        lTentacle2_3.texOffs(71, 15).addBox(0.0F, 0.0F, -0.5F, 0.0F, 7.0F, 1.0F, 0.0F, false);
-
-        rTentacle2_1 = new ModelPart(this);
-        rTentacle2_1.setPos(-4.0F, 0.0F, -0.5F);
-        base.addChild(rTentacle2_1);
-        rTentacle2_1.texOffs(65, 15).addBox(0.0F, 0.0F, -0.5F, 0.0F, 7.0F, 1.0F, 0.0F, false);
-
-        rTentacle2_2 = new ModelPart(this);
-        rTentacle2_2.setPos(0.0F, 7.0F, 0.0F);
-        rTentacle2_1.addChild(rTentacle2_2);
-        rTentacle2_2.texOffs(68, 15).addBox(0.0F, 0.0F, -0.5F, 0.0F, 7.0F, 1.0F, 0.0F, false);
-
-        rTentacle2_3 = new ModelPart(this);
-        rTentacle2_3.setPos(0.0F, 7.0F, 0.0F);
-        rTentacle2_2.addChild(rTentacle2_3);
-        rTentacle2_3.texOffs(71, 15).addBox(0.0F, 0.0F, -0.5F, 0.0F, 7.0F, 1.0F, 0.0F, false);
-
-        lTentacle3_1 = new ModelPart(this);
-        lTentacle3_1.setPos(4.0F, 0.0F, 1.0F);
-        base.addChild(lTentacle3_1);
-        lTentacle3_1.texOffs(65, 15).addBox(0.0F, 0.0F, -0.5F, 0.0F, 7.0F, 1.0F, 0.0F, false);
-
-        lTentacle3_2 = new ModelPart(this);
-        lTentacle3_2.setPos(0.0F, 7.0F, 0.0F);
-        lTentacle3_1.addChild(lTentacle3_2);
-        lTentacle3_2.texOffs(68, 15).addBox(0.0F, 0.0F, -0.5F, 0.0F, 7.0F, 1.0F, 0.0F, false);
-
-        lTentacle3_3 = new ModelPart(this);
-        lTentacle3_3.setPos(0.0F, 7.0F, 0.0F);
-        lTentacle3_2.addChild(lTentacle3_3);
-        lTentacle3_3.texOffs(71, 15).addBox(0.0F, 0.0F, -0.5F, 0.0F, 7.0F, 1.0F, 0.0F, false);
-
-        rTentacle3_1 = new ModelPart(this);
-        rTentacle3_1.setPos(-4.0F, 0.0F, 1.0F);
-        base.addChild(rTentacle3_1);
-        rTentacle3_1.texOffs(65, 15).addBox(0.0F, 0.0F, -0.5F, 0.0F, 7.0F, 1.0F, 0.0F, false);
-
-        rTentacle3_2 = new ModelPart(this);
-        rTentacle3_2.setPos(0.0F, 7.0F, 0.0F);
-        rTentacle3_1.addChild(rTentacle3_2);
-        rTentacle3_2.texOffs(68, 15).addBox(0.0F, 0.0F, -0.5F, 0.0F, 7.0F, 1.0F, 0.0F, false);
-
-        rTentacle3_3 = new ModelPart(this);
-        rTentacle3_3.setPos(0.0F, 7.0F, 0.0F);
-        rTentacle3_2.addChild(rTentacle3_3);
-        rTentacle3_3.texOffs(71, 15).addBox(0.0F, 0.0F, -0.5F, 0.0F, 7.0F, 1.0F, 0.0F, false);
-
-        lTentacle4_1 = new ModelPart(this);
-        lTentacle4_1.setPos(4.0F, 0.0F, 2.5F);
-        base.addChild(lTentacle4_1);
-        lTentacle4_1.texOffs(65, 15).addBox(0.0F, 0.0F, -0.5F, 0.0F, 7.0F, 1.0F, 0.0F, false);
-
-        lTentacle4_2 = new ModelPart(this);
-        lTentacle4_2.setPos(0.0F, 7.0F, 0.0F);
-        lTentacle4_1.addChild(lTentacle4_2);
-        lTentacle4_2.texOffs(68, 15).addBox(0.0F, 0.0F, -0.5F, 0.0F, 7.0F, 1.0F, 0.0F, false);
-
-        lTentacle4_3 = new ModelPart(this);
-        lTentacle4_3.setPos(0.0F, 7.0F, 0.0F);
-        lTentacle4_2.addChild(lTentacle4_3);
-        lTentacle4_3.texOffs(71, 15).addBox(0.0F, 0.0F, -0.5F, 0.0F, 7.0F, 1.0F, 0.0F, false);
-
-        rTentacle4_1 = new ModelPart(this);
-        rTentacle4_1.setPos(-4.0F, 0.0F, 2.5F);
-        base.addChild(rTentacle4_1);
-        rTentacle4_1.texOffs(65, 15).addBox(0.0F, 0.0F, -0.5F, 0.0F, 7.0F, 1.0F, 0.0F, false);
-
-        rTentacle4_2 = new ModelPart(this);
-        rTentacle4_2.setPos(0.0F, 7.0F, 0.0F);
-        rTentacle4_1.addChild(rTentacle4_2);
-        rTentacle4_2.texOffs(68, 15).addBox(0.0F, 0.0F, -0.5F, 0.0F, 7.0F, 1.0F, 0.0F, false);
-
-        rTentacle4_3 = new ModelPart(this);
-        rTentacle4_3.setPos(0.0F, 7.0F, 0.0F);
-        rTentacle4_2.addChild(rTentacle4_3);
-        rTentacle4_3.texOffs(71, 15).addBox(0.0F, 0.0F, -0.5F, 0.0F, 7.0F, 1.0F, 0.0F, false);
-
-        lTentacle5_1 = new ModelPart(this);
-        lTentacle5_1.setPos(4.0F, 0.0F, 4.25F);
-        base.addChild(lTentacle5_1);
-        lTentacle5_1.texOffs(65, 15).addBox(0.0F, 0.0F, -0.5F, 0.0F, 7.0F, 1.0F, 0.0F, false);
-
-        lTentacle5_2 = new ModelPart(this);
-        lTentacle5_2.setPos(0.0F, 7.0F, 0.0F);
-        lTentacle5_1.addChild(lTentacle5_2);
-        lTentacle5_2.texOffs(68, 15).addBox(0.0F, 0.0F, -0.5F, 0.0F, 7.0F, 1.0F, 0.0F, false);
-
-        lTentacle5_3 = new ModelPart(this);
-        lTentacle5_3.setPos(0.0F, 7.0F, 0.0F);
-        lTentacle5_2.addChild(lTentacle5_3);
-        lTentacle5_3.texOffs(71, 15).addBox(0.0F, 0.0F, -0.5F, 0.0F, 7.0F, 1.0F, 0.0F, false);
-
-        rTentacle5_1 = new ModelPart(this);
-        rTentacle5_1.setPos(-4.0F, 0.0F, 4.25F);
-        base.addChild(rTentacle5_1);
-        rTentacle5_1.texOffs(65, 15).addBox(0.0F, 0.0F, -0.5F, 0.0F, 7.0F, 1.0F, 0.0F, false);
-
-        rTentacle5_2 = new ModelPart(this);
-        rTentacle5_2.setPos(0.0F, 7.0F, 0.0F);
-        rTentacle5_1.addChild(rTentacle5_2);
-        rTentacle5_2.texOffs(68, 15).addBox(0.0F, 0.0F, -0.5F, 0.0F, 7.0F, 1.0F, 0.0F, false);
-
-        rTentacle5_3 = new ModelPart(this);
-        rTentacle5_3.setPos(0.0F, 7.0F, 0.0F);
-        rTentacle5_2.addChild(rTentacle5_3);
-        rTentacle5_3.texOffs(71, 15).addBox(0.0F, 0.0F, -0.5F, 0.0F, 7.0F, 1.0F, 0.0F, false);
-
-        pulsator = new ModelPart(this);
-        pulsator.setPos(-0.5F, -0.75F, 1.0F);
-        base.addChild(pulsator);
-        pulsator.texOffs(0, 22).addBox(-2.0F, 0.0F, -2.5F, 5.0F, 2.0F, 5.0F, 0.0F, false);
-        pulsator.texOffs(11, 23).addBox(-4.0F, 1.25F, -4.5F, 9.0F, 3.0F, 9.0F, 0.0F, false);
-        pulsator.texOffs(38, 23).addBox(-2.5F, 1.0F, -3.5F, 6.0F, 2.0F, 7.0F, 0.0F, false);
-        pulsator.texOffs(74, 13).addBox(-2.5F, 1.0F, -3.5F, 6.0F, 5.0F, 7.0F, 0.0F, false);
-        pulsator.texOffs(30, 0).addBox(-2.75F, 0.5F, 1.25F, 1.0F, 6.0F, 2.0F, 0.0F, false);
-        pulsator.texOffs(30, 0).addBox(2.75F, 0.25F, 1.25F, 1.0F, 6.0F, 2.0F, 0.0F, false);
-        pulsator.texOffs(30, 0).addBox(-2.75F, 0.5F, -1.0F, 1.0F, 6.0F, 2.0F, 0.0F, false);
-        pulsator.texOffs(30, 0).addBox(2.75F, 0.5F, -1.0F, 1.0F, 6.0F, 2.0F, 0.0F, false);
-        pulsator.texOffs(30, 0).addBox(-2.75F, 0.5F, -3.25F, 1.0F, 6.0F, 2.0F, 0.0F, false);
-        pulsator.texOffs(30, 0).addBox(2.75F, 0.5F, -3.25F, 1.0F, 6.0F, 2.0F, 0.0F, false);
-        pulsator.texOffs(37, 1).addBox(-2.25F, 0.25F, -3.75F, 2.0F, 6.0F, 1.0F, 0.0F, false);
-        pulsator.texOffs(37, 1).addBox(-2.25F, 0.25F, 2.75F, 2.0F, 6.0F, 1.0F, 0.0F, false);
-        pulsator.texOffs(37, 1).addBox(1.25F, 0.25F, -3.75F, 2.0F, 6.0F, 1.0F, 0.0F, false);
-        pulsator.texOffs(37, 1).addBox(1.25F, 0.5F, 2.75F, 2.0F, 6.0F, 1.0F, 0.0F, false);
-        pulsator.texOffs(44, 1).addBox(-0.5F, 0.25F, -4.25F, 2.0F, 6.0F, 1.0F, 0.0F, false);
-        pulsator.texOffs(44, 1).addBox(-0.5F, 0.25F, 3.25F, 2.0F, 6.0F, 1.0F, 0.0F, false);
-        pulsator.texOffs(0, 14).addBox(0.0F, 6.25F, 3.5F, 1.0F, 5.0F, 0.0F, 0.0F, false);
-        pulsator.texOffs(0, 14).addBox(0.0F, 6.25F, -3.5F, 1.0F, 5.0F, 0.0F, 0.0F, false);
-        pulsator.texOffs(0, 14).addBox(1.75F, 6.25F, 3.25F, 1.0F, 5.0F, 0.0F, 0.0F, false);
-        pulsator.texOffs(0, 14).addBox(1.75F, 6.25F, -3.25F, 1.0F, 5.0F, 0.0F, 0.0F, false);
-        pulsator.texOffs(0, 14).addBox(-1.5F, 6.25F, 3.25F, 1.0F, 5.0F, 0.0F, 0.0F, false);
-        pulsator.texOffs(0, 14).addBox(-1.5F, 6.25F, -3.25F, 1.0F, 5.0F, 0.0F, 0.0F, false);
-        pulsator.texOffs(0, 13).addBox(3.0F, 6.5F, -0.5F, 0.0F, 5.0F, 1.0F, 0.0F, false);
-        pulsator.texOffs(0, 13).addBox(3.0F, 6.5F, 1.5F, 0.0F, 5.0F, 1.0F, 0.0F, false);
-        pulsator.texOffs(0, 13).addBox(3.0F, 6.5F, -2.5F, 0.0F, 5.0F, 1.0F, 0.0F, false);
-        pulsator.texOffs(0, 13).addBox(-2.25F, 6.5F, -2.5F, 0.0F, 5.0F, 1.0F, 0.0F, false);
-        pulsator.texOffs(0, 13).addBox(-2.25F, 6.5F, -0.5F, 0.0F, 5.0F, 1.0F, 0.0F, false);
-        pulsator.texOffs(0, 13).addBox(-2.25F, 6.5F, 1.75F, 0.0F, 5.0F, 1.0F, 0.0F, false);
-
-        middleTentacle1_1 = new ModelPart(this);
-        middleTentacle1_1.setPos(0.5F, -1.25F, 3.0F);
-        base.addChild(middleTentacle1_1);
-        middleTentacle1_1.texOffs(65, 27).addBox(-2.0F, 0.0F, 0.0F, 3.0F, 7.0F, 0.0F, 0.0F, false);
-
-        middleTentacle1_2 = new ModelPart(this);
-        middleTentacle1_2.setPos(0.0F, 7.0F, 0.0F);
-        middleTentacle1_1.addChild(middleTentacle1_2);
-        middleTentacle1_2.texOffs(72, 27).addBox(-2.0F, 0.0F, 0.0F, 3.0F, 7.0F, 0.0F, 0.0F, false);
-
-        middleTentacle1_3 = new ModelPart(this);
-        middleTentacle1_3.setPos(0.0F, 7.0F, 0.0F);
-        middleTentacle1_2.addChild(middleTentacle1_3);
-        middleTentacle1_3.texOffs(79, 27).addBox(-2.0F, 0.0F, 0.0F, 3.0F, 7.0F, 0.0F, 0.0F, false);
-
-        middleTentacle2_1 = new ModelPart(this);
-        middleTentacle2_1.setPos(0.5F, -0.75F, -1.0F);
-        base.addChild(middleTentacle2_1);
-        middleTentacle2_1.texOffs(65, 27).addBox(-2.0F, 0.0F, 0.0F, 3.0F, 7.0F, 0.0F, 0.0F, false);
-
-        middleTentacle2_2 = new ModelPart(this);
-        middleTentacle2_2.setPos(0.0F, 7.0F, 0.0F);
-        middleTentacle2_1.addChild(middleTentacle2_2);
-        middleTentacle2_2.texOffs(72, 27).addBox(-2.0F, 0.0F, 0.0F, 3.0F, 7.0F, 0.0F, 0.0F, false);
-
-        middleTentacle2_3 = new ModelPart(this);
-        middleTentacle2_3.setPos(0.0F, 7.0F, 0.0F);
-        middleTentacle2_2.addChild(middleTentacle2_3);
-        middleTentacle2_3.texOffs(79, 27).addBox(-2.0F, 0.0F, 0.0F, 3.0F, 7.0F, 0.0F, 0.0F, false);
-
-        middleTentacle3_1 = new ModelPart(this);
-        middleTentacle3_1.setPos(-2.5F, 0.0F, 2.0F);
-        middleTentacle2_1.addChild(middleTentacle3_1);
-        middleTentacle3_1.texOffs(65, 24).addBox(0.0F, 0.0F, -1.5F, 0.0F, 7.0F, 3.0F, 0.0F, false);
-
-        middleTentacle3_2 = new ModelPart(this);
-        middleTentacle3_2.setPos(0.0F, 7.0F, 0.0F);
-        middleTentacle3_1.addChild(middleTentacle3_2);
-        middleTentacle3_2.texOffs(72, 24).addBox(0.0F, 0.0F, -1.5F, 0.0F, 7.0F, 3.0F, 0.0F, false);
-
-        middleTentacle3_3 = new ModelPart(this);
-        middleTentacle3_3.setPos(0.0F, 7.0F, 0.0F);
-        middleTentacle3_2.addChild(middleTentacle3_3);
-        middleTentacle3_3.texOffs(79, 24).addBox(0.0F, 0.0F, -1.5F, 0.0F, 7.0F, 3.0F, 0.0F, false);
-
-        middleTentacle4_1 = new ModelPart(this);
-        middleTentacle4_1.setPos(1.5F, -0.5F, 2.0F);
-        middleTentacle2_1.addChild(middleTentacle4_1);
-        middleTentacle4_1.texOffs(65, 24).addBox(0.0F, 0.0F, -1.5F, 0.0F, 7.0F, 3.0F, 0.0F, false);
-
-        middleTentacle4_2 = new ModelPart(this);
-        middleTentacle4_2.setPos(0.0F, 7.0F, 0.0F);
-        middleTentacle4_1.addChild(middleTentacle4_2);
-        middleTentacle4_2.texOffs(72, 24).addBox(0.0F, 0.0F, -1.5F, 0.0F, 7.0F, 3.0F, 0.0F, false);
-
-        middleTentacle4_3 = new ModelPart(this);
-        middleTentacle4_3.setPos(0.0F, 7.0F, 0.0F);
-        middleTentacle4_2.addChild(middleTentacle4_3);
-        middleTentacle4_3.texOffs(79, 24).addBox(0.0F, 0.0F, -1.5F, 0.0F, 7.0F, 3.0F, 0.0F, false);
+    public ModelJellyfish(ModelPart root) {
+        this.base = root.getChild("base");
+        this.crown = base.getChild("crown");
+        this.cube_r1 = crown.getChild("cube_r1");
+        this.cube_r2 = crown.getChild("cube_r2");
+        this.cube_r3 = crown.getChild("cube_r3");
+        this.cube_r4 = crown.getChild("cube_r4");
+        this.cube_r5 = crown.getChild("cube_r5");
+        this.cube_r6 = crown.getChild("cube_r6");
+        this.cube_r7 = crown.getChild("cube_r7");
+        this.cube_r8 = crown.getChild("cube_r8");
+        this.cube_r9 = crown.getChild("cube_r9");
+        this.cube_r10 = crown.getChild("cube_r10");
+        this.cube_r11 = crown.getChild("cube_r11");
+        this.cube_r12 = crown.getChild("cube_r12");
+        this.cube_r13 = crown.getChild("cube_r13");
+        this.cube_r14 = crown.getChild("cube_r14");
+        this.cube_r15 = crown.getChild("cube_r15");
+        this.cube_r16 = crown.getChild("cube_r16");
+        this.outerTentacleF1_1 = base.getChild("outerTentacleF1_1");
+        this.outerTentacleF1_2 = outerTentacleF1_1.getChild("outerTentacleF1_2");
+        this.outerTentacleF1_3 = outerTentacleF1_2.getChild("outerTentacleF1_3");
+        this.outerTentacleB1_1 = base.getChild("outerTentacleB1_1");
+        this.outerTentacleB1_2 = outerTentacleB1_1.getChild("outerTentacleB1_2");
+        this.outerTentacleB1_3 = outerTentacleB1_2.getChild("outerTentacleB1_3");
+        this.outerTentacleF2_1 = base.getChild("outerTentacleF2_1");
+        this.outerTentacleF2_2 = outerTentacleF2_1.getChild("outerTentacleF2_2");
+        this.outerTentacleF2_3 = outerTentacleF2_2.getChild("outerTentacleF2_3");
+        this.outerTentacleB2_1 = base.getChild("outerTentacleB2_1");
+        this.outerTentacleB2_2 = outerTentacleB2_1.getChild("outerTentacleB2_2");
+        this.outerTentacleB2_3 = outerTentacleB2_2.getChild("outerTentacleB2_3");
+        this.outerTentacleF3_1 = base.getChild("outerTentacleF3_1");
+        this.outerTentacleF3_2 = outerTentacleF3_1.getChild("outerTentacleF3_2");
+        this.outerTentacleF3_3 = outerTentacleF3_2.getChild("outerTentacleF3_3");
+        this.outerTentacleB3_1 = base.getChild("outerTentacleB3_1");
+        this.outerTentacleB3_2 = outerTentacleB3_1.getChild("outerTentacleB3_2");
+        this.outerTentacleB3_3 = outerTentacleB3_2.getChild("outerTentacleB3_3");
+        this.outerTentacleF4_1 = base.getChild("outerTentacleF4_1");
+        this.outerTentacleF4_2 = outerTentacleF4_1.getChild("outerTentacleF4_2");
+        this.outerTentacleF4_3 = outerTentacleF4_2.getChild("outerTentacleF4_3");
+        this.outerTentacleB4_1 = base.getChild("outerTentacleB4_1");
+        this.outerTentacleB4_2 = outerTentacleB4_1.getChild("outerTentacleB4_2");
+        this.outerTentacleB4_3 = outerTentacleB4_2.getChild("outerTentacleB4_3");
+        this.outerTentacleF5_1 = base.getChild("outerTentacleF5_1");
+        this.outerTentacleF5_2 = outerTentacleF5_1.getChild("outerTentacleF5_2");
+        this.outerTentacleF5_3 = outerTentacleF5_2.getChild("outerTentacleF5_3");
+        this.outerTentacleB5_1 = base.getChild("outerTentacleB5_1");
+        this.outerTentacleB5_2 = outerTentacleB5_1.getChild("outerTentacleB5_2");
+        this.outerTentacleB5_3 = outerTentacleB5_2.getChild("outerTentacleB5_3");
+        this.lTentacle1_1 = base.getChild("lTentacle1_1");
+        this.lTentacle1_2 = lTentacle1_1.getChild("lTentacle1_2");
+        this.lTentacle1_3 = lTentacle1_2.getChild("lTentacle1_3");
+        this.rTentacle1_1 = base.getChild("rTentacle1_1");
+        this.rTentacle1_2 = rTentacle1_1.getChild("rTentacle1_2");
+        this.lTenracle1_3 = rTentacle1_2.getChild("lTenracle1_3");
+        this.lTentacle2_1 = base.getChild("lTentacle2_1");
+        this.lTentacle2_2 = lTentacle2_1.getChild("lTentacle2_2");
+        this.lTentacle2_3 = lTentacle2_2.getChild("lTentacle2_3");
+        this.rTentacle2_1 = base.getChild("rTentacle2_1");
+        this.rTentacle2_2 = rTentacle2_1.getChild("rTentacle2_2");
+        this.rTentacle2_3 = rTentacle2_2.getChild("rTentacle2_3");
+        this.lTentacle3_1 = base.getChild("lTentacle3_1");
+        this.lTentacle3_2 = lTentacle3_1.getChild("lTentacle3_2");
+        this.lTentacle3_3 = lTentacle3_2.getChild("lTentacle3_3");
+        this.rTentacle3_1 = base.getChild("rTentacle3_1");
+        this.rTentacle3_2 = rTentacle3_1.getChild("rTentacle3_2");
+        this.rTentacle3_3 = rTentacle3_2.getChild("rTentacle3_3");
+        this.lTentacle4_1 = base.getChild("lTentacle4_1");
+        this.lTentacle4_2 = lTentacle4_1.getChild("lTentacle4_2");
+        this.lTentacle4_3 = lTentacle4_2.getChild("lTentacle4_3");
+        this.rTentacle4_1 = base.getChild("rTentacle4_1");
+        this.rTentacle4_2 = rTentacle4_1.getChild("rTentacle4_2");
+        this.rTentacle4_3 = rTentacle4_2.getChild("rTentacle4_3");
+        this.lTentacle5_1 = base.getChild("lTentacle5_1");
+        this.lTentacle5_2 = lTentacle5_1.getChild("lTentacle5_2");
+        this.lTentacle5_3 = lTentacle5_2.getChild("lTentacle5_3");
+        this.rTentacle5_1 = base.getChild("rTentacle5_1");
+        this.rTentacle5_2 = rTentacle5_1.getChild("rTentacle5_2");
+        this.rTentacle5_3 = rTentacle5_2.getChild("rTentacle5_3");
+        this.pulsator = base.getChild("pulsator");
+        this.middleTentacle1_1 = base.getChild("middleTentacle1_1");
+        this.middleTentacle1_2 = middleTentacle1_1.getChild("middleTentacle1_2");
+        this.middleTentacle1_3 = middleTentacle1_2.getChild("middleTentacle1_3");
+        this.middleTentacle2_1 = base.getChild("middleTentacle2_1");
+        this.middleTentacle2_2 = middleTentacle2_1.getChild("middleTentacle2_2");
+        this.middleTentacle2_3 = middleTentacle2_2.getChild("middleTentacle2_3");
+        this.middleTentacle3_1 = base.getChild("middleTentacle3_1");
+        this.middleTentacle3_2 = middleTentacle3_1.getChild("middleTentacle3_2");
+        this.middleTentacle3_3 = middleTentacle3_2.getChild("middleTentacle3_3");
+        this.middleTentacle4_1 = base.getChild("middleTentacle4_1");
+        this.middleTentacle4_2 = middleTentacle4_1.getChild("middleTentacle4_2");
+        this.middleTentacle4_3 = middleTentacle4_2.getChild("middleTentacle4_3");
+    }
+
+    public static LayerDefinition createBodyLayer() {
+        MeshDefinition meshdefinition = new MeshDefinition();
+        PartDefinition partdefinition = meshdefinition.getRoot();
+        PartDefinition base = partdefinition.addOrReplaceChild("base", CubeListBuilder.create().texOffs(0, 0).addBox(-5.0F, -2.0F, -4.0F, 10.0F, 2.0F, 10.0F, new CubeDeformation(0.0F))
+                .texOffs(41, 0).addBox(-5.0F, -3.0F, -4.0F, 10.0F, 3.0F, 10.0F, new CubeDeformation(0.0F))
+                .texOffs(82, 0).addBox(-4.5F, -3.75F, -3.5F, 9.0F, 2.0F, 9.0F, new CubeDeformation(0.0F))
+                .texOffs(0, 13).addBox(-4.0F, -4.25F, -3.0F, 8.0F, 1.0F, 8.0F, new CubeDeformation(0.0F))
+                .texOffs(33, 13).addBox(-4.0F, -5.25F, -3.0F, 8.0F, 2.0F, 8.0F, new CubeDeformation(0.0F))
+                .texOffs(0, 35).addBox(-2.5F, -4.0F, -1.5F, 5.0F, 1.0F, 5.0F, new CubeDeformation(0.0F))
+                .texOffs(20, 36).addBox(-2.0F, -4.5F, -1.0F, 4.0F, 1.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 17.75F, -1.0F));
+        PartDefinition crown = base.addOrReplaceChild("crown", CubeListBuilder.create().texOffs(0, 41).addBox(-4.5F, -1.0F, -4.5F, 9.0F, 1.0F, 9.0F, new CubeDeformation(0.0F))
+                .texOffs(27, 42).addBox(-3.0F, -2.25F, -3.0F, 6.0F, 2.0F, 6.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, -3.0F, 1.0F));
+        PartDefinition cube_r1 = crown.addOrReplaceChild("cube_r1", CubeListBuilder.create().texOffs(47, 37).addBox(-0.75F, -1.5F, -0.25F, 1.0F, 2.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-2.5F, -2.0F, 2.25F, -0.5236F, 0.0F, -0.5236F));
+        PartDefinition cube_r2 = crown.addOrReplaceChild("cube_r2", CubeListBuilder.create().texOffs(47, 37).addBox(-0.75F, -1.5F, -0.5F, 1.0F, 2.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-2.25F, -2.0F, -0.75F, 0.1309F, 0.0F, -0.6545F));
+        PartDefinition cube_r3 = crown.addOrReplaceChild("cube_r3", CubeListBuilder.create().texOffs(47, 37).addBox(-0.5F, -1.5F, -0.25F, 1.0F, 2.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-0.75F, -2.0F, 2.25F, -0.6981F, 0.0F, -0.0873F));
+        PartDefinition cube_r4 = crown.addOrReplaceChild("cube_r4", CubeListBuilder.create().texOffs(47, 37).addBox(-0.5F, -1.75F, -0.5F, 1.0F, 2.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-0.75F, -2.0F, -0.75F, 0.1745F, 0.0F, -0.3491F));
+        PartDefinition cube_r5 = crown.addOrReplaceChild("cube_r5", CubeListBuilder.create().texOffs(47, 37).addBox(-0.5F, -1.75F, -0.5F, 1.0F, 2.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.75F, -2.0F, -0.75F, 0.1745F, 0.0F, 0.3491F));
+        PartDefinition cube_r6 = crown.addOrReplaceChild("cube_r6", CubeListBuilder.create().texOffs(47, 37).addBox(-0.25F, -1.75F, -0.5F, 1.0F, 2.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(2.25F, -2.0F, -0.75F, 0.1309F, 0.0F, 0.6545F));
+        PartDefinition cube_r7 = crown.addOrReplaceChild("cube_r7", CubeListBuilder.create().texOffs(47, 37).addBox(-0.25F, -1.75F, -0.75F, 1.0F, 2.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(2.25F, -2.0F, 2.25F, -0.5236F, 0.0F, 0.5236F));
+        PartDefinition cube_r8 = crown.addOrReplaceChild("cube_r8", CubeListBuilder.create().texOffs(47, 37).addBox(-0.25F, -1.75F, -0.5F, 1.0F, 2.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(2.25F, -2.0F, 0.75F, -0.1745F, 0.0F, 0.6545F));
+        PartDefinition cube_r9 = crown.addOrReplaceChild("cube_r9", CubeListBuilder.create().texOffs(47, 37).addBox(0.0F, -1.75F, -0.5F, 1.0F, 2.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(2.0F, -2.0F, -2.0F, 0.5236F, 0.0F, 0.5236F));
+        PartDefinition cube_r10 = crown.addOrReplaceChild("cube_r10", CubeListBuilder.create().texOffs(47, 37).addBox(-0.5F, -1.75F, -0.25F, 1.0F, 2.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.75F, -2.0F, 2.25F, -0.6981F, 0.0F, 0.0873F));
+        PartDefinition cube_r11 = crown.addOrReplaceChild("cube_r11", CubeListBuilder.create().texOffs(47, 37).addBox(-0.5F, -1.75F, -0.5F, 1.0F, 2.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.75F, -2.0F, 0.75F, -0.1745F, 0.0F, 0.2182F));
+        PartDefinition cube_r12 = crown.addOrReplaceChild("cube_r12", CubeListBuilder.create().texOffs(47, 37).addBox(-0.5F, -1.75F, -1.0F, 1.0F, 2.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.75F, -2.0F, -2.0F, 0.4363F, 0.0F, 0.2618F));
+        PartDefinition cube_r13 = crown.addOrReplaceChild("cube_r13", CubeListBuilder.create().texOffs(47, 37).addBox(-0.5F, -1.75F, -0.5F, 1.0F, 2.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-0.75F, -2.0F, 0.75F, -0.1745F, 0.0F, -0.2182F));
+        PartDefinition cube_r14 = crown.addOrReplaceChild("cube_r14", CubeListBuilder.create().texOffs(47, 37).addBox(-0.5F, -1.5F, -1.0F, 1.0F, 2.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-0.75F, -2.0F, -2.0F, 0.4363F, 0.0F, -0.2618F));
+        PartDefinition cube_r15 = crown.addOrReplaceChild("cube_r15", CubeListBuilder.create().texOffs(47, 37).addBox(-1.0F, -1.75F, -0.5F, 1.0F, 2.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-2.0F, -2.0F, 0.75F, -0.1745F, 0.0F, -0.6545F));
+        PartDefinition cube_r16 = crown.addOrReplaceChild("cube_r16", CubeListBuilder.create().texOffs(47, 37).addBox(-1.25F, -1.75F, -1.0F, 1.0F, 2.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-2.0F, -2.0F, -2.0F, 0.5236F, 0.0F, -0.5236F));
+        PartDefinition outerTentacleF1_1 = base.addOrReplaceChild("outerTentacleF1_1", CubeListBuilder.create().texOffs(65, 16).addBox(-0.5F, 0.0F, 0.0F, 1.0F, 7.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offset(-3.25F, 0.0F, -3.25F));
+        PartDefinition outerTentacleF1_2 = outerTentacleF1_1.addOrReplaceChild("outerTentacleF1_2", CubeListBuilder.create().texOffs(68, 16).addBox(-0.5F, 0.0F, 0.0F, 1.0F, 7.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 7.0F, 0.0F));
+        PartDefinition outerTentacleF1_3 = outerTentacleF1_2.addOrReplaceChild("outerTentacleF1_3", CubeListBuilder.create().texOffs(71, 16).addBox(-0.5F, 0.0F, 0.0F, 1.0F, 7.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 7.0F, 0.0F));
+        PartDefinition outerTentacleB1_1 = base.addOrReplaceChild("outerTentacleB1_1", CubeListBuilder.create().texOffs(65, 16).addBox(-0.5F, 0.0F, 0.0F, 1.0F, 7.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offset(-3.25F, 0.0F, 5.25F));
+        PartDefinition outerTentacleB1_2 = outerTentacleB1_1.addOrReplaceChild("outerTentacleB1_2", CubeListBuilder.create().texOffs(68, 16).addBox(-0.5F, 0.0F, 0.0F, 1.0F, 7.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 7.0F, 0.0F));
+        PartDefinition outerTentacleB1_3 = outerTentacleB1_2.addOrReplaceChild("outerTentacleB1_3", CubeListBuilder.create().texOffs(71, 16).addBox(-0.5F, 0.0F, 0.0F, 1.0F, 7.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 7.0F, 0.0F));
+        PartDefinition outerTentacleF2_1 = base.addOrReplaceChild("outerTentacleF2_1", CubeListBuilder.create().texOffs(65, 16).addBox(-0.5F, 0.0F, 0.0F, 1.0F, 7.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offset(-1.5F, 0.0F, -3.25F));
+        PartDefinition outerTentacleF2_2 = outerTentacleF2_1.addOrReplaceChild("outerTentacleF2_2", CubeListBuilder.create().texOffs(68, 16).addBox(-0.5F, 0.0F, 0.0F, 1.0F, 7.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 7.0F, 0.0F));
+        PartDefinition outerTentacleF2_3 = outerTentacleF2_2.addOrReplaceChild("outerTentacleF2_3", CubeListBuilder.create().texOffs(71, 16).addBox(-0.5F, 0.0F, 0.0F, 1.0F, 7.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 7.0F, 0.0F));
+        PartDefinition outerTentacleB2_1 = base.addOrReplaceChild("outerTentacleB2_1", CubeListBuilder.create().texOffs(65, 16).addBox(-0.5F, 0.0F, 0.0F, 1.0F, 7.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offset(-1.5F, 0.0F, 5.25F));
+        PartDefinition outerTentacleB2_2 = outerTentacleB2_1.addOrReplaceChild("outerTentacleB2_2", CubeListBuilder.create().texOffs(68, 16).addBox(-0.5F, 0.0F, 0.0F, 1.0F, 7.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 7.0F, 0.0F));
+        PartDefinition outerTentacleB2_3 = outerTentacleB2_2.addOrReplaceChild("outerTentacleB2_3", CubeListBuilder.create().texOffs(71, 16).addBox(-0.5F, 0.0F, 0.0F, 1.0F, 7.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 7.0F, 0.0F));
+        PartDefinition outerTentacleF3_1 = base.addOrReplaceChild("outerTentacleF3_1", CubeListBuilder.create().texOffs(65, 16).addBox(-0.5F, 0.0F, 0.0F, 1.0F, 7.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, -3.45F));
+        PartDefinition outerTentacleF3_2 = outerTentacleF3_1.addOrReplaceChild("outerTentacleF3_2", CubeListBuilder.create().texOffs(68, 16).addBox(-0.5F, 0.0F, 0.0F, 1.0F, 7.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 7.0F, 0.0F));
+        PartDefinition outerTentacleF3_3 = outerTentacleF3_2.addOrReplaceChild("outerTentacleF3_3", CubeListBuilder.create().texOffs(71, 16).addBox(-0.5F, 0.0F, 0.0F, 1.0F, 7.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 7.0F, 0.0F));
+        PartDefinition outerTentacleB3_1 = base.addOrReplaceChild("outerTentacleB3_1", CubeListBuilder.create().texOffs(65, 16).addBox(-0.5F, 0.0F, 0.0F, 1.0F, 7.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, 5.35F));
+        PartDefinition outerTentacleB3_2 = outerTentacleB3_1.addOrReplaceChild("outerTentacleB3_2", CubeListBuilder.create().texOffs(68, 16).addBox(-0.5F, 0.0F, 0.0F, 1.0F, 7.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 7.0F, 0.0F));
+        PartDefinition outerTentacleB3_3 = outerTentacleB3_2.addOrReplaceChild("outerTentacleB3_3", CubeListBuilder.create().texOffs(71, 16).addBox(-0.5F, 0.0F, 0.0F, 1.0F, 7.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 7.0F, 0.0F));
+        PartDefinition outerTentacleF4_1 = base.addOrReplaceChild("outerTentacleF4_1", CubeListBuilder.create().texOffs(65, 16).addBox(-0.5F, 0.0F, 0.0F, 1.0F, 7.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offset(1.5F, 0.0F, -3.25F));
+        PartDefinition outerTentacleF4_2 = outerTentacleF4_1.addOrReplaceChild("outerTentacleF4_2", CubeListBuilder.create().texOffs(68, 16).addBox(-0.5F, 0.0F, 0.0F, 1.0F, 7.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 7.0F, 0.0F));
+        PartDefinition outerTentacleF4_3 = outerTentacleF4_2.addOrReplaceChild("outerTentacleF4_3", CubeListBuilder.create().texOffs(71, 16).addBox(-0.5F, 0.0F, 0.0F, 1.0F, 7.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 7.0F, 0.0F));
+        PartDefinition outerTentacleB4_1 = base.addOrReplaceChild("outerTentacleB4_1", CubeListBuilder.create().texOffs(65, 16).addBox(-0.5F, 0.0F, 0.0F, 1.0F, 7.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offset(1.5F, 0.0F, 5.25F));
+        PartDefinition outerTentacleB4_2 = outerTentacleB4_1.addOrReplaceChild("outerTentacleB4_2", CubeListBuilder.create().texOffs(68, 16).addBox(-0.5F, 0.0F, 0.0F, 1.0F, 7.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 7.0F, 0.0F));
+        PartDefinition outerTentacleB4_3 = outerTentacleB4_2.addOrReplaceChild("outerTentacleB4_3", CubeListBuilder.create().texOffs(71, 16).addBox(-0.5F, 0.0F, 0.0F, 1.0F, 7.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 7.0F, 0.0F));
+        PartDefinition outerTentacleF5_1 = base.addOrReplaceChild("outerTentacleF5_1", CubeListBuilder.create().texOffs(65, 16).addBox(-0.5F, 0.0F, 0.0F, 1.0F, 7.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offset(3.25F, 0.0F, -3.25F));
+        PartDefinition outerTentacleF5_2 = outerTentacleF5_1.addOrReplaceChild("outerTentacleF5_2", CubeListBuilder.create().texOffs(68, 16).addBox(-0.5F, 0.0F, 0.0F, 1.0F, 7.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 7.0F, 0.0F));
+        PartDefinition outerTentacleF5_3 = outerTentacleF5_2.addOrReplaceChild("outerTentacleF5_3", CubeListBuilder.create().texOffs(71, 16).addBox(-0.5F, 0.0F, 0.0F, 1.0F, 7.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 7.0F, 0.0F));
+        PartDefinition outerTentacleB5_1 = base.addOrReplaceChild("outerTentacleB5_1", CubeListBuilder.create().texOffs(65, 16).addBox(-0.5F, 0.0F, 0.0F, 1.0F, 7.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offset(3.25F, 0.0F, 5.25F));
+        PartDefinition outerTentacleB5_2 = outerTentacleB5_1.addOrReplaceChild("outerTentacleB5_2", CubeListBuilder.create().texOffs(68, 16).addBox(-0.5F, 0.0F, 0.0F, 1.0F, 7.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 7.0F, 0.0F));
+        PartDefinition outerTentacleB5_3 = outerTentacleB5_2.addOrReplaceChild("outerTentacleB5_3", CubeListBuilder.create().texOffs(71, 16).addBox(-0.5F, 0.0F, 0.0F, 1.0F, 7.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 7.0F, 0.0F));
+        PartDefinition lTentacle1_1 = base.addOrReplaceChild("lTentacle1_1", CubeListBuilder.create().texOffs(65, 15).addBox(0.0F, 0.0F, -0.5F, 0.0F, 7.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offset(4.0F, 0.0F, -2.25F));
+        PartDefinition lTentacle1_2 = lTentacle1_1.addOrReplaceChild("lTentacle1_2", CubeListBuilder.create().texOffs(68, 15).addBox(0.0F, 0.0F, -0.5F, 0.0F, 7.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 7.0F, 0.0F));
+        PartDefinition lTentacle1_3 = lTentacle1_2.addOrReplaceChild("lTentacle1_3", CubeListBuilder.create().texOffs(71, 15).addBox(0.0F, 0.0F, -0.5F, 0.0F, 7.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 7.0F, 0.0F));
+        PartDefinition rTentacle1_1 = base.addOrReplaceChild("rTentacle1_1", CubeListBuilder.create().texOffs(65, 15).addBox(0.0F, 0.0F, -0.5F, 0.0F, 7.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offset(-4.0F, 0.0F, -2.25F));
+        PartDefinition rTentacle1_2 = rTentacle1_1.addOrReplaceChild("rTentacle1_2", CubeListBuilder.create().texOffs(68, 15).addBox(0.0F, 0.0F, -0.5F, 0.0F, 7.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 7.0F, 0.0F));
+        PartDefinition lTenracle1_3 = rTentacle1_2.addOrReplaceChild("lTenracle1_3", CubeListBuilder.create().texOffs(71, 15).addBox(0.0F, 0.0F, -0.5F, 0.0F, 7.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 7.0F, 0.0F));
+        PartDefinition lTentacle2_1 = base.addOrReplaceChild("lTentacle2_1", CubeListBuilder.create().texOffs(65, 15).addBox(0.0F, 0.0F, -0.5F, 0.0F, 7.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offset(4.0F, 0.0F, -0.5F));
+        PartDefinition lTentacle2_2 = lTentacle2_1.addOrReplaceChild("lTentacle2_2", CubeListBuilder.create().texOffs(68, 15).addBox(0.0F, 0.0F, -0.5F, 0.0F, 7.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 7.0F, 0.0F));
+        PartDefinition lTentacle2_3 = lTentacle2_2.addOrReplaceChild("lTentacle2_3", CubeListBuilder.create().texOffs(71, 15).addBox(0.0F, 0.0F, -0.5F, 0.0F, 7.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 7.0F, 0.0F));
+        PartDefinition rTentacle2_1 = base.addOrReplaceChild("rTentacle2_1", CubeListBuilder.create().texOffs(65, 15).addBox(0.0F, 0.0F, -0.5F, 0.0F, 7.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offset(-4.0F, 0.0F, -0.5F));
+        PartDefinition rTentacle2_2 = rTentacle2_1.addOrReplaceChild("rTentacle2_2", CubeListBuilder.create().texOffs(68, 15).addBox(0.0F, 0.0F, -0.5F, 0.0F, 7.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 7.0F, 0.0F));
+        PartDefinition rTentacle2_3 = rTentacle2_2.addOrReplaceChild("rTentacle2_3", CubeListBuilder.create().texOffs(71, 15).addBox(0.0F, 0.0F, -0.5F, 0.0F, 7.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 7.0F, 0.0F));
+        PartDefinition lTentacle3_1 = base.addOrReplaceChild("lTentacle3_1", CubeListBuilder.create().texOffs(65, 15).addBox(0.0F, 0.0F, -0.5F, 0.0F, 7.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offset(4.0F, 0.0F, 1.0F));
+        PartDefinition lTentacle3_2 = lTentacle3_1.addOrReplaceChild("lTentacle3_2", CubeListBuilder.create().texOffs(68, 15).addBox(0.0F, 0.0F, -0.5F, 0.0F, 7.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 7.0F, 0.0F));
+        PartDefinition lTentacle3_3 = lTentacle3_2.addOrReplaceChild("lTentacle3_3", CubeListBuilder.create().texOffs(71, 15).addBox(0.0F, 0.0F, -0.5F, 0.0F, 7.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 7.0F, 0.0F));
+        PartDefinition rTentacle3_1 = base.addOrReplaceChild("rTentacle3_1", CubeListBuilder.create().texOffs(65, 15).addBox(0.0F, 0.0F, -0.5F, 0.0F, 7.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offset(-4.0F, 0.0F, 1.0F));
+        PartDefinition rTentacle3_2 = rTentacle3_1.addOrReplaceChild("rTentacle3_2", CubeListBuilder.create().texOffs(68, 15).addBox(0.0F, 0.0F, -0.5F, 0.0F, 7.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 7.0F, 0.0F));
+        PartDefinition rTentacle3_3 = rTentacle3_2.addOrReplaceChild("rTentacle3_3", CubeListBuilder.create().texOffs(71, 15).addBox(0.0F, 0.0F, -0.5F, 0.0F, 7.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 7.0F, 0.0F));
+        PartDefinition lTentacle4_1 = base.addOrReplaceChild("lTentacle4_1", CubeListBuilder.create().texOffs(65, 15).addBox(0.0F, 0.0F, -0.5F, 0.0F, 7.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offset(4.0F, 0.0F, 2.5F));
+        PartDefinition lTentacle4_2 = lTentacle4_1.addOrReplaceChild("lTentacle4_2", CubeListBuilder.create().texOffs(68, 15).addBox(0.0F, 0.0F, -0.5F, 0.0F, 7.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 7.0F, 0.0F));
+        PartDefinition lTentacle4_3 = lTentacle4_2.addOrReplaceChild("lTentacle4_3", CubeListBuilder.create().texOffs(71, 15).addBox(0.0F, 0.0F, -0.5F, 0.0F, 7.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 7.0F, 0.0F));
+        PartDefinition rTentacle4_1 = base.addOrReplaceChild("rTentacle4_1", CubeListBuilder.create().texOffs(65, 15).addBox(0.0F, 0.0F, -0.5F, 0.0F, 7.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offset(-4.0F, 0.0F, 2.5F));
+        PartDefinition rTentacle4_2 = rTentacle4_1.addOrReplaceChild("rTentacle4_2", CubeListBuilder.create().texOffs(68, 15).addBox(0.0F, 0.0F, -0.5F, 0.0F, 7.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 7.0F, 0.0F));
+        PartDefinition rTentacle4_3 = rTentacle4_2.addOrReplaceChild("rTentacle4_3", CubeListBuilder.create().texOffs(71, 15).addBox(0.0F, 0.0F, -0.5F, 0.0F, 7.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 7.0F, 0.0F));
+        PartDefinition lTentacle5_1 = base.addOrReplaceChild("lTentacle5_1", CubeListBuilder.create().texOffs(65, 15).addBox(0.0F, 0.0F, -0.5F, 0.0F, 7.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offset(4.0F, 0.0F, 4.25F));
+        PartDefinition lTentacle5_2 = lTentacle5_1.addOrReplaceChild("lTentacle5_2", CubeListBuilder.create().texOffs(68, 15).addBox(0.0F, 0.0F, -0.5F, 0.0F, 7.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 7.0F, 0.0F));
+        PartDefinition lTentacle5_3 = lTentacle5_2.addOrReplaceChild("lTentacle5_3", CubeListBuilder.create().texOffs(71, 15).addBox(0.0F, 0.0F, -0.5F, 0.0F, 7.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 7.0F, 0.0F));
+        PartDefinition rTentacle5_1 = base.addOrReplaceChild("rTentacle5_1", CubeListBuilder.create().texOffs(65, 15).addBox(0.0F, 0.0F, -0.5F, 0.0F, 7.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offset(-4.0F, 0.0F, 4.25F));
+        PartDefinition rTentacle5_2 = rTentacle5_1.addOrReplaceChild("rTentacle5_2", CubeListBuilder.create().texOffs(68, 15).addBox(0.0F, 0.0F, -0.5F, 0.0F, 7.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 7.0F, 0.0F));
+        PartDefinition rTentacle5_3 = rTentacle5_2.addOrReplaceChild("rTentacle5_3", CubeListBuilder.create().texOffs(71, 15).addBox(0.0F, 0.0F, -0.5F, 0.0F, 7.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 7.0F, 0.0F));
+        PartDefinition pulsator = base.addOrReplaceChild("pulsator", CubeListBuilder.create().texOffs(0, 22).addBox(-2.0F, 0.0F, -2.5F, 5.0F, 2.0F, 5.0F, new CubeDeformation(0.0F))
+                .texOffs(11, 23).addBox(-4.0F, 1.25F, -4.5F, 9.0F, 3.0F, 9.0F, new CubeDeformation(0.0F))
+                .texOffs(38, 23).addBox(-2.5F, 1.0F, -3.5F, 6.0F, 2.0F, 7.0F, new CubeDeformation(0.0F))
+                .texOffs(74, 13).addBox(-2.5F, 1.0F, -3.5F, 6.0F, 5.0F, 7.0F, new CubeDeformation(0.0F))
+                .texOffs(30, 0).addBox(-2.75F, 0.5F, 1.25F, 1.0F, 6.0F, 2.0F, new CubeDeformation(0.0F))
+                .texOffs(30, 0).addBox(2.75F, 0.25F, 1.25F, 1.0F, 6.0F, 2.0F, new CubeDeformation(0.0F))
+                .texOffs(30, 0).addBox(-2.75F, 0.5F, -1.0F, 1.0F, 6.0F, 2.0F, new CubeDeformation(0.0F))
+                .texOffs(30, 0).addBox(2.75F, 0.5F, -1.0F, 1.0F, 6.0F, 2.0F, new CubeDeformation(0.0F))
+                .texOffs(30, 0).addBox(-2.75F, 0.5F, -3.25F, 1.0F, 6.0F, 2.0F, new CubeDeformation(0.0F))
+                .texOffs(30, 0).addBox(2.75F, 0.5F, -3.25F, 1.0F, 6.0F, 2.0F, new CubeDeformation(0.0F))
+                .texOffs(37, 1).addBox(-2.25F, 0.25F, -3.75F, 2.0F, 6.0F, 1.0F, new CubeDeformation(0.0F))
+                .texOffs(37, 1).addBox(-2.25F, 0.25F, 2.75F, 2.0F, 6.0F, 1.0F, new CubeDeformation(0.0F))
+                .texOffs(37, 1).addBox(1.25F, 0.25F, -3.75F, 2.0F, 6.0F, 1.0F, new CubeDeformation(0.0F))
+                .texOffs(37, 1).addBox(1.25F, 0.5F, 2.75F, 2.0F, 6.0F, 1.0F, new CubeDeformation(0.0F))
+                .texOffs(44, 1).addBox(-0.5F, 0.25F, -4.25F, 2.0F, 6.0F, 1.0F, new CubeDeformation(0.0F))
+                .texOffs(44, 1).addBox(-0.5F, 0.25F, 3.25F, 2.0F, 6.0F, 1.0F, new CubeDeformation(0.0F))
+                .texOffs(0, 14).addBox(0.0F, 6.25F, 3.5F, 1.0F, 5.0F, 0.0F, new CubeDeformation(0.0F))
+                .texOffs(0, 14).addBox(0.0F, 6.25F, -3.5F, 1.0F, 5.0F, 0.0F, new CubeDeformation(0.0F))
+                .texOffs(0, 14).addBox(1.75F, 6.25F, 3.25F, 1.0F, 5.0F, 0.0F, new CubeDeformation(0.0F))
+                .texOffs(0, 14).addBox(1.75F, 6.25F, -3.25F, 1.0F, 5.0F, 0.0F, new CubeDeformation(0.0F))
+                .texOffs(0, 14).addBox(-1.5F, 6.25F, 3.25F, 1.0F, 5.0F, 0.0F, new CubeDeformation(0.0F))
+                .texOffs(0, 14).addBox(-1.5F, 6.25F, -3.25F, 1.0F, 5.0F, 0.0F, new CubeDeformation(0.0F))
+                .texOffs(0, 13).addBox(3.0F, 6.5F, -0.5F, 0.0F, 5.0F, 1.0F, new CubeDeformation(0.0F))
+                .texOffs(0, 13).addBox(3.0F, 6.5F, 1.5F, 0.0F, 5.0F, 1.0F, new CubeDeformation(0.0F))
+                .texOffs(0, 13).addBox(3.0F, 6.5F, -2.5F, 0.0F, 5.0F, 1.0F, new CubeDeformation(0.0F))
+                .texOffs(0, 13).addBox(-2.25F, 6.5F, -2.5F, 0.0F, 5.0F, 1.0F, new CubeDeformation(0.0F))
+                .texOffs(0, 13).addBox(-2.25F, 6.5F, -0.5F, 0.0F, 5.0F, 1.0F, new CubeDeformation(0.0F))
+                .texOffs(0, 13).addBox(-2.25F, 6.5F, 1.75F, 0.0F, 5.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offset(-0.5F, -0.75F, 1.0F));
+        PartDefinition middleTentacle1_1 = base.addOrReplaceChild("middleTentacle1_1", CubeListBuilder.create().texOffs(65, 27).addBox(-2.0F, 0.0F, 0.0F, 3.0F, 7.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offset(0.5F, -1.25F, 3.0F));
+        PartDefinition middleTentacle1_2 = middleTentacle1_1.addOrReplaceChild("middleTentacle1_2", CubeListBuilder.create().texOffs(72, 27).addBox(-2.0F, 0.0F, 0.0F, 3.0F, 7.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 7.0F, 0.0F));
+        PartDefinition middleTentacle1_3 = middleTentacle1_2.addOrReplaceChild("middleTentacle1_3", CubeListBuilder.create().texOffs(79, 27).addBox(-2.0F, 0.0F, 0.0F, 3.0F, 7.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 7.0F, 0.0F));
+        PartDefinition middleTentacle2_1 = base.addOrReplaceChild("middleTentacle2_1", CubeListBuilder.create().texOffs(65, 27).addBox(-2.0F, 0.0F, 0.0F, 3.0F, 7.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offset(0.5F, -0.75F, -1.0F));
+        PartDefinition middleTentacle2_2 = middleTentacle2_1.addOrReplaceChild("middleTentacle2_2", CubeListBuilder.create().texOffs(72, 27).addBox(-2.0F, 0.0F, 0.0F, 3.0F, 7.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 7.0F, 0.0F));
+        PartDefinition middleTentacle2_3 = middleTentacle2_2.addOrReplaceChild("middleTentacle2_3", CubeListBuilder.create().texOffs(79, 27).addBox(-2.0F, 0.0F, 0.0F, 3.0F, 7.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 7.0F, 0.0F));
+        PartDefinition middleTentacle3_1 = base.addOrReplaceChild("middleTentacle3_1", CubeListBuilder.create().texOffs(65, 24).addBox(0.0F, 0.0F, -1.5F, 0.0F, 7.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offset(-2.0F, -0.75F, 1.0F));
+        PartDefinition middleTentacle3_2 = middleTentacle3_1.addOrReplaceChild("middleTentacle3_2", CubeListBuilder.create().texOffs(72, 24).addBox(0.0F, 0.0F, -1.5F, 0.0F, 7.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 7.0F, 0.0F));
+        PartDefinition middleTentacle3_3 = middleTentacle3_2.addOrReplaceChild("middleTentacle3_3", CubeListBuilder.create().texOffs(79, 24).addBox(0.0F, 0.0F, -1.5F, 0.0F, 7.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 7.0F, 0.0F));
+        PartDefinition middleTentacle4_1 = base.addOrReplaceChild("middleTentacle4_1", CubeListBuilder.create().texOffs(65, 24).addBox(0.0F, 0.0F, -1.5F, 0.0F, 7.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offset(2.0F, -1.25F, 1.0F));
+        PartDefinition middleTentacle4_2 = middleTentacle4_1.addOrReplaceChild("middleTentacle4_2", CubeListBuilder.create().texOffs(72, 24).addBox(0.0F, 0.0F, -1.5F, 0.0F, 7.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 7.0F, 0.0F));
+        PartDefinition middleTentacle4_3 = middleTentacle4_2.addOrReplaceChild("middleTentacle4_3", CubeListBuilder.create().texOffs(79, 24).addBox(0.0F, 0.0F, -1.5F, 0.0F, 7.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 7.0F, 0.0F));
+        return LayerDefinition.create(meshdefinition, 128, 80);
     }
 
     @Override

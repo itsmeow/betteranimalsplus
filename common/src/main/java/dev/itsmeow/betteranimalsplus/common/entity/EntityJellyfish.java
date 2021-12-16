@@ -4,7 +4,7 @@ import dev.itsmeow.betteranimalsplus.common.entity.util.abstracts.EntityWaterMob
 import dev.itsmeow.betteranimalsplus.init.ModEntities;
 import dev.itsmeow.imdlib.entity.EntityTypeContainer;
 import dev.itsmeow.imdlib.entity.util.EntityTypeContainerContainable;
-import me.shedaniel.architectury.utils.NbtType;
+import dev.architectury.utils.NbtType;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.ChatFormatting;
@@ -55,8 +55,8 @@ public class EntityJellyfish extends EntityWaterMobWithTypesBucketable {
     }
 
     @Override
-    protected boolean isMovementNoisy() {
-        return false;
+    protected MovementEmission getMovementEmission() {
+        return MovementEmission.EVENTS;
     }
 
     @Override
@@ -108,7 +108,7 @@ public class EntityJellyfish extends EntityWaterMobWithTypesBucketable {
                 this.setDeltaMovement((randomMotionVecX * randomMotionSpeed), (randomMotionVecY * randomMotionSpeed), (randomMotionVecZ * randomMotionSpeed));
             }
             yBodyRot += (-(float) Mth.atan2(this.getDeltaMovement().x(), this.getDeltaMovement().z()) * 57.295776F - yBodyRot) * 0.1F;
-            yRot = yBodyRot;
+            this.setYRot(yBodyRot);
             jellyYaw = ((float) (jellyYaw + 3.141592653589793D * rotateSpeed * 1.5D));
         } else {
             if(!level.isClientSide) {

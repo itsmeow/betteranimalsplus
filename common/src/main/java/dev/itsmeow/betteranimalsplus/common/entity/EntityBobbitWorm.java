@@ -16,7 +16,7 @@ import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.ai.navigation.WaterBoundPathNavigation;
-import net.minecraft.world.entity.ai.util.RandomPos;
+import net.minecraft.world.entity.ai.util.DefaultRandomPos;
 import net.minecraft.world.entity.monster.EnderMan;
 import net.minecraft.world.entity.monster.Enemy;
 import net.minecraft.world.entity.monster.Skeleton;
@@ -75,14 +75,14 @@ public class EntityBobbitWorm extends EntityAnimalWithTypes {
     }
 
     protected Vec3 getNewTargetPosition() {
-        Vec3 pos = RandomPos.getPos(this, 20, 5);
+        Vec3 pos = DefaultRandomPos.getPos(this, 20, 5);
         if(pos != null) {
             if(isGoodBurrowingPosition(new BlockPos(pos))) {
                 return pos;
             }
         }
         if(level.getBlockState(this.blockPosition().below()).getBlock() == Blocks.WATER) {
-            return new Vec3(this.getX(), this.getY() - 1D, this.getZ());
+            return new Vec3(this.getX(), this.getY() - 1, this.getZ());
         }
         return null;
     }

@@ -1,17 +1,23 @@
 package dev.itsmeow.betteranimalsplus.client;
 
+import com.mojang.blaze3d.vertex.PoseStack;
 import dev.itsmeow.betteranimalsplus.Ref;
 import dev.itsmeow.betteranimalsplus.common.item.ItemModeledArmor;
 import dev.itsmeow.betteranimalsplus.init.ModItems;
 import net.fabricmc.api.ClientModInitializer;
-import net.fabricmc.fabric.api.client.rendering.v1.ArmorRenderingRegistry;
+import net.fabricmc.fabric.api.client.rendering.v1.ArmorRenderer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.HumanoidModel;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Pose;
+import net.minecraft.world.item.ItemStack;
 
 public class BetterAnimalsPlusClientFabric implements ClientModInitializer {
     @Override
@@ -19,7 +25,8 @@ public class BetterAnimalsPlusClientFabric implements ClientModInitializer {
         ClientLifecycleHandler.clientInit();
         ModItems.getModeledArmor().values().forEach(registrySupplier -> {
             ItemModeledArmor armor = registrySupplier.get();
-            ArmorRenderingRegistry.registerModel((entity, stack, slot, defaultModel) -> {
+            ResourceLocation tex =  new ResourceLocation(Ref.MOD_ID, armor.getMaterial().getName());
+            ArmorRenderer.register((PoseStack matrices, MultiBufferSource vertexConsumers, ItemStack stack, LivingEntity entity, EquipmentSlot slot, int light, HumanoidModel<LivingEntity> defaultModel) -> {
                 HumanoidModel<LivingEntity> model = armor.getArmorModel(entity, stack, slot, defaultModel);
                 if(!Minecraft.getInstance().isPaused()) {
                     float g = Minecraft.getInstance().getFrameTime();
@@ -48,7 +55,7 @@ public class BetterAnimalsPlusClientFabric implements ClientModInitializer {
                         k = j - h;
                     }
 
-                    float m = Mth.lerp(g, entity.xRotO, entity.xRot);
+                    float m = Mth.lerp(g, entity.xRotO, entity.getXRot());
                     float p;
                     if (entity.getPose() == Pose.SLEEPING) {
                         Direction direction = entity.getBedOrientation();
@@ -73,9 +80,8 @@ public class BetterAnimalsPlusClientFabric implements ClientModInitializer {
                     }
                     model.setupAnim(entity, q, p, o, k, m);
                 }
-                return model;
+                model.renderToBuffer(matrices, vertexConsumers.getBuffer(RenderType.entityCutoutNoCull(tex)), light, LivingEntityRenderer.getOverlayCoords(entity, 0.0F), 1F, 1F, 1F, 1F);
             }, armor);
-            ArmorRenderingRegistry.registerSimpleTexture(new ResourceLocation(Ref.MOD_ID, armor.getMaterial().getName()), armor);
         });
     }
 }

@@ -3,7 +3,7 @@ package dev.itsmeow.betteranimalsplus;
 import dev.itsmeow.betteranimalsplus.client.BetterAnimalsPlusClientForge;
 import dev.itsmeow.betteranimalsplus.compat.curios.CuriosModCompat;
 import dev.itsmeow.imdlib.util.ClassLoadHacks;
-import me.shedaniel.architectury.platform.forge.EventBuses;
+import dev.architectury.platform.forge.EventBuses;
 import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.IEventBus;

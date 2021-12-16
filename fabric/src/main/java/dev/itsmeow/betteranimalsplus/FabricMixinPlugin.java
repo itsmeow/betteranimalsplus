@@ -1,6 +1,6 @@
 package dev.itsmeow.betteranimalsplus;
 
-import me.shedaniel.architectury.platform.Platform;
+import dev.architectury.platform.Platform;
 import org.objectweb.asm.tree.ClassNode;
 import org.spongepowered.asm.mixin.extensibility.IMixinConfigPlugin;
 import org.spongepowered.asm.mixin.extensibility.IMixinInfo;

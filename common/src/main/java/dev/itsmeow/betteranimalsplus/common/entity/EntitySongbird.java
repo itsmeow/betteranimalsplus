@@ -19,6 +19,7 @@ import net.minecraft.tags.BlockTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.control.FlyingMoveControl;
 import net.minecraft.world.entity.ai.goal.*;
@@ -48,6 +49,8 @@ public class EntitySongbird extends EntityAnimalWithSelectiveTypes implements Fl
 
     protected static final EntityDataAccessor<Boolean> LANDED = SynchedEntityData.defineId(EntitySongbird.class, EntityDataSerializers.BOOLEAN);
     protected static final Set<Item> SEEDS = Sets.newHashSet(Items.WHEAT_SEEDS, Items.MELON_SEEDS, Items.PUMPKIN_SEEDS, Items.BEETROOT_SEEDS);
+    public float flapSpeed = 1.0F;
+    private float nextFlap = 1.0F;
 
     public EntitySongbird(EntityType<? extends EntitySongbird> entityType, Level worldIn) {
         super(entityType, worldIn);
@@ -78,8 +81,9 @@ public class EntitySongbird extends EntityAnimalWithSelectiveTypes implements Fl
         int k = Mth.floor(this.getZ());
         BlockPos blockpos = new BlockPos(i, j, k);
         if(world instanceof Level && !((Level) world).isLoaded(new BlockPos(blockpos))) {
-            Block block = this.level.getBlockState(blockpos.below()).getBlock();
-            return block instanceof LeavesBlock || block == Blocks.GRASS || block.is(BlockTags.LOGS)
+            BlockState state = this.level.getBlockState(blockpos.below());
+            Block block = state.getBlock();
+            return block instanceof LeavesBlock || block == Blocks.GRASS || state.is(BlockTags.LOGS)
                     || block == Blocks.AIR && this.level.getMaxLocalRawBrightness(blockpos) > 8 && super.checkSpawnRules(world, reason);
         } else {
             return super.checkSpawnRules(world, reason);
@@ -116,7 +120,7 @@ public class EntitySongbird extends EntityAnimalWithSelectiveTypes implements Fl
     }
 
     @Override
-    public boolean causeFallDamage(float distance, float damageMultiplier) {
+    public boolean causeFallDamage(float distance, float damageMultiplier, DamageSource source) {
         return false;
     }
 
@@ -130,14 +134,14 @@ public class EntitySongbird extends EntityAnimalWithSelectiveTypes implements Fl
     }
 
     @Override
-    protected float playFlySound(float p_191954_1_) {
+    protected void onFlap() {
         this.playSound(SoundEvents.PARROT_FLY, 0.15F, 1.0F);
-        return p_191954_1_;
+        this.nextFlap = this.flyDist + this.flapSpeed / 2.0F;
     }
 
     @Override
-    protected boolean makeFlySound() {
-        return true;
+    protected boolean isFlapping() {
+        return this.flyDist > this.nextFlap;
     }
 
     @Override
@@ -150,6 +154,7 @@ public class EntitySongbird extends EntityAnimalWithSelectiveTypes implements Fl
         return true;
     }
 
+    @Override
     public boolean isFlying() {
         return !this.entityData.get(LANDED);
     }
@@ -194,7 +199,7 @@ public class EntitySongbird extends EntityAnimalWithSelectiveTypes implements Fl
     }
 
     public static boolean canSongbirdSpawn(EntityType<EntitySongbird> type, ServerLevelAccessor world, MobSpawnType reason, BlockPos pos, Random rand) {
-        Block below = world.getBlockState(pos.below()).getBlock();
+        BlockState below = world.getBlockState(pos.below());
         return Mob.checkMobSpawnRules(type, world, reason, pos, rand) || below.is(BlockTags.LEAVES) || below.is(BlockTags.LOGS);
     }
 }

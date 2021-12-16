@@ -2,17 +2,18 @@ package dev.itsmeow.betteranimalsplus.client.model.entity;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.math.Vector3f;
-import dev.itsmeow.imdlib.client.util.RenderUtil;
-import net.minecraft.client.model.EntityModel;
+import dev.itsmeow.betteranimalsplus.client.model.abstracts.ModelBAP;
 import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.client.model.geom.PartPose;
+import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.world.entity.LivingEntity;
 
 /**
  * nautilus - cybercat5555
  * Created using Tabula 5.1.0
  */
-public class ModelNautilus<T extends LivingEntity> extends EntityModel<T> {
+public class ModelNautilus<T extends LivingEntity> extends ModelBAP<T> {
+
     public ModelPart shell;
     public ModelPart lTentacle01a;
     public ModelPart lTentacle02a;
@@ -28,184 +29,78 @@ public class ModelNautilus<T extends LivingEntity> extends EntityModel<T> {
     public ModelPart lEye;
     public ModelPart rEye;
     public ModelPart lTentacle01b;
+    public ModelPart lTentacle02b;
     public ModelPart lTentacle03b;
     public ModelPart lTentacle04b;
-    public ModelPart lTentacle03b_1;
     public ModelPart rTentacle01b;
     public ModelPart rTentacle02b;
     public ModelPart rTentacle04b;
     public ModelPart rTentacle03b;
 
-    public ModelNautilus() {
-        this.texWidth = 64;
-        this.texHeight = 32;
-        this.rTentacle01a = new ModelPart(this, 29, 19);
-        this.rTentacle01a.mirror = true;
-        this.rTentacle01a.setPos(-1.6F, 14.9F, -6.0F);
-        this.rTentacle01a.addBox(-0.5F, -0.5F, -3.0F, 1, 1, 3, 0.0F);
-        this.setRotateAngle(rTentacle01a, 0.27314402793711257F, 0.22759093446006054F, 0.0F);
-        this.shellEdge = new ModelPart(this, 0, 19);
-        this.shellEdge.setPos(0.0F, 3.6F, -3.6F);
-        this.shellEdge.addBox(-2.5F, -1.0F, -4.8F, 5, 2, 4, 0.0F);
-        this.setRotateAngle(shellEdge, -0.091106186954104F, 0.0F, 0.0F);
-        this.lTentacle04b = new ModelPart(this, 29, 19);
-        this.lTentacle04b.setPos(0.0F, 0.0F, -2.9F);
-        this.lTentacle04b.addBox(-0.5F, -0.5F, -3.0F, 1, 1, 3, 0.0F);
-        this.setRotateAngle(lTentacle04b, 0.18203784098300857F, 0.0F, 0.0F);
-        this.rEye = new ModelPart(this, 44, 9);
-        this.rEye.mirror = true;
-        this.rEye.setPos(-1.3F, 0.2F, -1.1F);
-        this.rEye.addBox(-1.0F, -1.0F, -1.0F, 1, 2, 2, 0.0F);
-        this.setRotateAngle(rEye, 0.7853981633974483F, 0.0F, 0.0F);
-        this.lTentacle02a = new ModelPart(this, 29, 19);
-        this.lTentacle02a.setPos(1.6F, 16.5F, -6.0F);
-        this.lTentacle02a.addBox(-0.5F, -0.5F, -3.0F, 1, 1, 3, 0.0F);
-        this.setRotateAngle(lTentacle02a, 0.4553564018453205F, -0.18203784098300857F, 0.0F);
-        this.lTentacle03b = new ModelPart(this, 29, 19);
-        this.lTentacle03b.setPos(0.0F, 0.0F, -2.9F);
-        this.lTentacle03b.addBox(-0.5F, -0.5F, -3.0F, 1, 1, 3, 0.0F);
-        this.setRotateAngle(lTentacle03b, 0.18203784098300857F, 0.0F, 0.0F);
-        this.lTentacle03b_1 = new ModelPart(this, 29, 19);
-        this.lTentacle03b_1.setPos(0.0F, 0.0F, -2.9F);
-        this.lTentacle03b_1.addBox(-0.5F, -0.5F, -3.0F, 1, 1, 3, 0.0F);
-        this.setRotateAngle(lTentacle03b_1, 0.18203784098300857F, 0.0F, 0.0F);
-        this.lTentacle01b = new ModelPart(this, 29, 19);
-        this.lTentacle01b.setPos(0.0F, 0.0F, -2.9F);
-        this.lTentacle01b.addBox(-0.5F, -0.5F, -3.0F, 1, 1, 3, 0.0F);
-        this.setRotateAngle(lTentacle01b, 0.18203784098300857F, 0.0F, 0.0F);
-        this.rTentacle03b = new ModelPart(this, 29, 19);
-        this.rTentacle03b.mirror = true;
-        this.rTentacle03b.setPos(0.0F, 0.0F, -2.9F);
-        this.rTentacle03b.addBox(-0.5F, -0.5F, -3.0F, 1, 1, 3, 0.0F);
-        this.setRotateAngle(rTentacle03b, 0.18203784098300857F, 0.0F, 0.0F);
-        this.rTentacle04b = new ModelPart(this, 29, 19);
-        this.rTentacle04b.mirror = true;
-        this.rTentacle04b.setPos(0.0F, 0.0F, -2.9F);
-        this.rTentacle04b.addBox(-0.5F, -0.5F, -3.0F, 1, 1, 3, 0.0F);
-        this.setRotateAngle(rTentacle04b, 0.18203784098300857F, 0.0F, 0.0F);
-        this.rTentacle02b = new ModelPart(this, 29, 19);
-        this.rTentacle02b.mirror = true;
-        this.rTentacle02b.setPos(0.0F, 0.0F, -2.9F);
-        this.rTentacle02b.addBox(-0.5F, -0.5F, -3.0F, 1, 1, 3, 0.0F);
-        this.setRotateAngle(rTentacle02b, 0.18203784098300857F, 0.0F, 0.0F);
-        this.rTentacle04a = new ModelPart(this, 29, 19);
-        this.rTentacle04a.mirror = true;
-        this.rTentacle04a.setPos(-0.6F, 15.0F, -6.0F);
-        this.rTentacle04a.addBox(-0.5F, -0.5F, -3.0F, 1, 1, 3, 0.0F);
-        this.setRotateAngle(rTentacle04a, 0.31869712141416456F, 0.18203784098300857F, 0.0F);
-        this.lTentacle04a = new ModelPart(this, 29, 19);
-        this.lTentacle04a.setPos(0.6F, 15.0F, -6.0F);
-        this.lTentacle04a.addBox(-0.5F, -0.5F, -3.0F, 1, 1, 3, 0.0F);
-        this.setRotateAngle(lTentacle04a, 0.31869712141416456F, -0.18203784098300857F, 0.0F);
-        this.rTentacle02a = new ModelPart(this, 29, 19);
-        this.rTentacle02a.mirror = true;
-        this.rTentacle02a.setPos(-1.6F, 16.5F, -6.0F);
-        this.rTentacle02a.addBox(-0.5F, -0.5F, -3.0F, 1, 1, 3, 0.0F);
-        this.setRotateAngle(rTentacle02a, 0.4553564018453205F, 0.18203784098300857F, 0.0F);
-        this.lEye = new ModelPart(this, 44, 9);
-        this.lEye.setPos(1.3F, 0.2F, -1.1F);
-        this.lEye.addBox(0.0F, -1.0F, -1.0F, 1, 2, 2, 0.0F);
-        this.setRotateAngle(lEye, 0.7853981633974483F, 0.0F, 0.0F);
-        this.rTentacle01b = new ModelPart(this, 29, 19);
-        this.rTentacle01b.mirror = true;
-        this.rTentacle01b.setPos(0.0F, 0.0F, -2.9F);
-        this.rTentacle01b.addBox(-0.5F, -0.5F, -3.0F, 1, 1, 3, 0.0F);
-        this.setRotateAngle(rTentacle01b, 0.18203784098300857F, 0.0F, 0.0F);
-        this.rTentacle03a = new ModelPart(this, 29, 19);
-        this.rTentacle03a.mirror = true;
-        this.rTentacle03a.setPos(-0.6F, 16.2F, -6.0F);
-        this.rTentacle03a.addBox(-0.5F, -0.5F, -3.0F, 1, 1, 3, 0.0F);
-        this.setRotateAngle(rTentacle03a, 0.36425021489121656F, 0.136659280431156F, 0.0F);
-        this.lTentacle01a = new ModelPart(this, 29, 19);
-        this.lTentacle01a.setPos(1.6F, 14.9F, -6.0F);
-        this.lTentacle01a.addBox(-0.5F, -0.5F, -3.0F, 1, 1, 3, 0.0F);
-        this.setRotateAngle(lTentacle01a, 0.27314402793711257F, -0.22759093446006054F, 0.0F);
-        this.headShield = new ModelPart(this, 21, 0);
-        this.headShield.setPos(0.0F, -2.1F, -3.6F);
-        this.headShield.addBox(-3.0F, -1.0F, -5.0F, 6, 2, 5, 0.0F);
-        this.setRotateAngle(headShield, 0.18203784098300857F, 0.0F, 0.0F);
-        this.shell = new ModelPart(this, 0, 0);
-        this.shell.setPos(0.0F, 15.0F, 1.0F);
-        this.shell.addBox(-2.5F, -4.5F, -4.5F, 5, 9, 9, 0.0F);
-        this.lTentacle03a = new ModelPart(this, 29, 19);
-        this.lTentacle03a.setPos(0.6F, 16.2F, -6.0F);
-        this.lTentacle03a.addBox(-0.5F, -0.5F, -3.0F, 1, 1, 3, 0.0F);
-        this.setRotateAngle(lTentacle03a, 0.36425021489121656F, -0.136659280431156F, 0.0F);
-        this.head = new ModelPart(this, 29, 9);
-        this.head.setPos(0.0F, 1.0F, -4.4F);
-        this.head.addBox(-2.0F, -2.0F, -3.0F, 4, 4, 3, 0.0F);
-        this.shell.addChild(this.shellEdge);
-        this.lTentacle04a.addChild(this.lTentacle04b);
-        this.head.addChild(this.rEye);
-        this.lTentacle02a.addChild(this.lTentacle03b);
-        this.lTentacle03a.addChild(this.lTentacle03b_1);
-        this.lTentacle01a.addChild(this.lTentacle01b);
-        this.rTentacle03a.addChild(this.rTentacle03b);
-        this.rTentacle04a.addChild(this.rTentacle04b);
-        this.rTentacle02a.addChild(this.rTentacle02b);
-        this.head.addChild(this.lEye);
-        this.rTentacle01a.addChild(this.rTentacle01b);
-        this.shell.addChild(this.headShield);
-        this.shell.addChild(this.head);
+    public ModelNautilus(ModelPart root) {
+        this.shell = root.getChild("shell");
+        this.shellEdge = shell.getChild("shellEdge");
+        this.headShield = shell.getChild("headShield");
+        this.head = shell.getChild("head");
+        this.lEye = head.getChild("lEye");
+        this.rEye = head.getChild("rEye");
+        this.lTentacle01a = root.getChild("lTentacle01a");
+        this.lTentacle01b = lTentacle01a.getChild("lTentacle01b");
+        this.lTentacle02a = root.getChild("lTentacle02a");
+        this.lTentacle02b = lTentacle02a.getChild("lTentacle02b");
+        this.lTentacle04a = root.getChild("lTentacle04a");
+        this.lTentacle04b = lTentacle04a.getChild("lTentacle04b");
+        this.lTentacle03a = root.getChild("lTentacle03a");
+        this.lTentacle03b = lTentacle03a.getChild("lTentacle03b");
+        this.rTentacle01a = root.getChild("rTentacle01a");
+        this.rTentacle01b = rTentacle01a.getChild("rTentacle01b");
+        this.rTentacle02a = root.getChild("rTentacle02a");
+        this.rTentacle02b = rTentacle02a.getChild("rTentacle02b");
+        this.rTentacle04a = root.getChild("rTentacle04a");
+        this.rTentacle04b = rTentacle04a.getChild("rTentacle04b");
+        this.rTentacle03a = root.getChild("rTentacle03a");
+        this.rTentacle03b = rTentacle03a.getChild("rTentacle03b");
+    }
+
+    public static LayerDefinition createBodyLayer() {
+        MeshDefinition meshdefinition = new MeshDefinition();
+        PartDefinition partdefinition = meshdefinition.getRoot();
+        PartDefinition shell = partdefinition.addOrReplaceChild("shell", CubeListBuilder.create().texOffs(0, 0).addBox(-2.5F, -4.5F, -4.5F, 5.0F, 9.0F, 9.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 15.0F, 1.0F));
+        PartDefinition shellEdge = shell.addOrReplaceChild("shellEdge", CubeListBuilder.create().texOffs(0, 19).addBox(-2.5F, -1.0F, -4.8F, 5.0F, 2.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.6F, -3.6F, -0.0911F, 0.0F, 0.0F));
+        PartDefinition headShield = shell.addOrReplaceChild("headShield", CubeListBuilder.create().texOffs(21, 0).addBox(-3.0F, -1.0F, -5.0F, 6.0F, 2.0F, 5.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -2.1F, -3.6F, 0.182F, 0.0F, 0.0F));
+        PartDefinition head = shell.addOrReplaceChild("head", CubeListBuilder.create().texOffs(29, 9).addBox(-2.0F, -2.0F, -3.0F, 4.0F, 4.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 1.0F, -4.4F));
+        PartDefinition lEye = head.addOrReplaceChild("lEye", CubeListBuilder.create().texOffs(44, 9).addBox(-1.0F, -1.0F, -1.0F, 1.0F, 2.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-1.3F, 0.2F, -1.1F, 0.7854F, 0.0F, 0.0F));
+        PartDefinition rEye = head.addOrReplaceChild("rEye", CubeListBuilder.create().texOffs(44, 9).mirror().addBox(0.0F, -1.0F, -1.0F, 1.0F, 2.0F, 2.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(1.3F, 0.2F, -1.1F, 0.7854F, 0.0F, 0.0F));
+        PartDefinition lTentacle01a = partdefinition.addOrReplaceChild("lTentacle01a", CubeListBuilder.create().texOffs(29, 19).mirror().addBox(-0.5F, -0.5F, -3.0F, 1.0F, 1.0F, 3.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(1.6F, 14.9F, -6.0F, 0.2731F, -0.2276F, 0.0F));
+        PartDefinition lTentacle01b = lTentacle01a.addOrReplaceChild("lTentacle01b", CubeListBuilder.create().texOffs(29, 19).mirror().addBox(-0.5F, -0.5F, -3.0F, 1.0F, 1.0F, 3.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(0.0F, 0.0F, -2.9F, 0.182F, 0.0F, 0.0F));
+        PartDefinition lTentacle02a = partdefinition.addOrReplaceChild("lTentacle02a", CubeListBuilder.create().texOffs(29, 19).mirror().addBox(-0.5F, -0.5F, -3.0F, 1.0F, 1.0F, 3.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(1.6F, 16.5F, -6.0F, 0.4554F, -0.182F, 0.0F));
+        PartDefinition lTentacle02b = lTentacle02a.addOrReplaceChild("lTentacle02b", CubeListBuilder.create().texOffs(29, 19).mirror().addBox(-0.5F, -0.5F, -3.0F, 1.0F, 1.0F, 3.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(0.0F, 0.0F, -2.9F, 0.182F, 0.0F, 0.0F));
+        PartDefinition lTentacle04a = partdefinition.addOrReplaceChild("lTentacle04a", CubeListBuilder.create().texOffs(29, 19).mirror().addBox(-0.5F, -0.5F, -3.0F, 1.0F, 1.0F, 3.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(0.6F, 15.0F, -6.0F, 0.3187F, -0.182F, 0.0F));
+        PartDefinition lTentacle04b = lTentacle04a.addOrReplaceChild("lTentacle04b", CubeListBuilder.create().texOffs(29, 19).mirror().addBox(-0.5F, -0.5F, -3.0F, 1.0F, 1.0F, 3.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(0.0F, 0.0F, -2.9F, 0.182F, 0.0F, 0.0F));
+        PartDefinition lTentacle03a = partdefinition.addOrReplaceChild("lTentacle03a", CubeListBuilder.create().texOffs(29, 19).mirror().addBox(-0.5F, -0.5F, -3.0F, 1.0F, 1.0F, 3.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(0.6F, 16.2F, -6.0F, 0.3643F, -0.1367F, 0.0F));
+        PartDefinition lTentacle03b = lTentacle03a.addOrReplaceChild("lTentacle03b", CubeListBuilder.create().texOffs(29, 19).mirror().addBox(-0.5F, -0.5F, -3.0F, 1.0F, 1.0F, 3.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(0.0F, 0.0F, -2.9F, 0.182F, 0.0F, 0.0F));
+        PartDefinition rTentacle01a = partdefinition.addOrReplaceChild("rTentacle01a", CubeListBuilder.create().texOffs(29, 19).addBox(-0.5F, -0.5F, -3.0F, 1.0F, 1.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-1.6F, 14.9F, -6.0F, 0.2731F, 0.2276F, 0.0F));
+        PartDefinition rTentacle01b = rTentacle01a.addOrReplaceChild("rTentacle01b", CubeListBuilder.create().texOffs(29, 19).addBox(-0.5F, -0.5F, -3.0F, 1.0F, 1.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, -2.9F, 0.182F, 0.0F, 0.0F));
+        PartDefinition rTentacle02a = partdefinition.addOrReplaceChild("rTentacle02a", CubeListBuilder.create().texOffs(29, 19).addBox(-0.5F, -0.5F, -3.0F, 1.0F, 1.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-1.6F, 16.5F, -6.0F, 0.4554F, 0.182F, 0.0F));
+        PartDefinition rTentacle02b = rTentacle02a.addOrReplaceChild("rTentacle02b", CubeListBuilder.create().texOffs(29, 19).addBox(-0.5F, -0.5F, -3.0F, 1.0F, 1.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, -2.9F, 0.182F, 0.0F, 0.0F));
+        PartDefinition rTentacle04a = partdefinition.addOrReplaceChild("rTentacle04a", CubeListBuilder.create().texOffs(29, 19).addBox(-0.5F, -0.5F, -3.0F, 1.0F, 1.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-0.6F, 15.0F, -6.0F, 0.3187F, 0.182F, 0.0F));
+        PartDefinition rTentacle04b = rTentacle04a.addOrReplaceChild("rTentacle04b", CubeListBuilder.create().texOffs(29, 19).addBox(-0.5F, -0.5F, -3.0F, 1.0F, 1.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, -2.9F, 0.182F, 0.0F, 0.0F));
+        PartDefinition rTentacle03a = partdefinition.addOrReplaceChild("rTentacle03a", CubeListBuilder.create().texOffs(29, 19).addBox(-0.5F, -0.5F, -3.0F, 1.0F, 1.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-0.6F, 16.2F, -6.0F, 0.3643F, 0.1367F, 0.0F));
+        PartDefinition rTentacle03b = rTentacle03a.addOrReplaceChild("rTentacle03b", CubeListBuilder.create().texOffs(29, 19).addBox(-0.5F, -0.5F, -3.0F, 1.0F, 1.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, -2.9F, 0.182F, 0.0F, 0.0F));
+        return LayerDefinition.create(meshdefinition, 64, 32);
     }
 
     @Override
-    public void renderToBuffer(PoseStack matrixStackIn, VertexConsumer bufferIn, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
-        matrixStackIn.pushPose();
-        {
-            matrixStackIn.mulPose(Vector3f.YP.rotationDegrees(180F));
-            matrixStackIn.translate(0, 0.1, 0);
-            matrixStackIn.pushPose();
-            {
-                RenderUtil.partScaleTranslate(matrixStackIn, rTentacle01a, 0.8F);
-                this.rTentacle01a.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn);
-            }
-            matrixStackIn.popPose();
-            matrixStackIn.pushPose();
-            {
-                RenderUtil.partScaleTranslate(matrixStackIn, lTentacle02a, 0.9F);
-                this.lTentacle02a.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn);
-            }
-            matrixStackIn.popPose();
-            matrixStackIn.pushPose();
-            {
-                RenderUtil.partScaleTranslate(matrixStackIn, rTentacle04a, 0.9F);
-                this.rTentacle04a.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn);
-            }
-            matrixStackIn.popPose();
-            matrixStackIn.pushPose();
-            {
-                RenderUtil.partScaleTranslate(matrixStackIn, lTentacle04a, 0.9F);
-                this.lTentacle04a.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn);
-            }
-            matrixStackIn.popPose();
-            matrixStackIn.pushPose();
-            {
-                RenderUtil.partScaleTranslate(matrixStackIn, rTentacle02a, 0.9F);
-                this.rTentacle02a.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn);
-            }
-            matrixStackIn.popPose();
-            matrixStackIn.pushPose();
-            {
-                RenderUtil.partScaleTranslate(matrixStackIn, rTentacle03a, 0.9F);
-                this.rTentacle03a.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn);
-            }
-            matrixStackIn.popPose();
-            matrixStackIn.pushPose();
-            {
-                RenderUtil.partScaleTranslate(matrixStackIn, lTentacle01a, 0.8F);
-                this.lTentacle01a.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn);
-            }
-            matrixStackIn.popPose();
-            this.shell.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn);
-            matrixStackIn.pushPose();
-            {
-                RenderUtil.partScaleTranslate(matrixStackIn, lTentacle03a, 0.9F);
-                this.lTentacle03a.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn);
-            }
-            matrixStackIn.popPose();
-        }
-        matrixStackIn.popPose();
+    public void renderToBuffer(PoseStack poseStack, VertexConsumer buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
+        shell.render(poseStack, buffer, packedLight, packedOverlay);
+        lTentacle01a.render(poseStack, buffer, packedLight, packedOverlay);
+        lTentacle02a.render(poseStack, buffer, packedLight, packedOverlay);
+        lTentacle04a.render(poseStack, buffer, packedLight, packedOverlay);
+        lTentacle03a.render(poseStack, buffer, packedLight, packedOverlay);
+        rTentacle01a.render(poseStack, buffer, packedLight, packedOverlay);
+        rTentacle02a.render(poseStack, buffer, packedLight, packedOverlay);
+        rTentacle04a.render(poseStack, buffer, packedLight, packedOverlay);
+        rTentacle03a.render(poseStack, buffer, packedLight, packedOverlay);
     }
 
     @Override
@@ -223,12 +118,4 @@ public class ModelNautilus<T extends LivingEntity> extends EntityModel<T> {
         rTentacle03a.xRot = (float) Math.sin(ageInTicks * (mul + 0.15F) + add) / div;
     }
 
-    /**
-     * This is a helper function from Tabula to set the rotation of model parts
-     */
-    public void setRotateAngle(ModelPart ModelRenderer, float x, float y, float z) {
-        ModelRenderer.xRot = x;
-        ModelRenderer.yRot = y;
-        ModelRenderer.zRot = z;
-    }
 }

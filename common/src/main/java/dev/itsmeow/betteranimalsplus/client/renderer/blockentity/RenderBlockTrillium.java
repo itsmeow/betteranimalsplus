@@ -2,29 +2,28 @@ package dev.itsmeow.betteranimalsplus.client.renderer.blockentity;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Vector3f;
-import dev.itsmeow.betteranimalsplus.common.blockentity.BlockEntityTrillium;
 import dev.itsmeow.betteranimalsplus.client.model.block.ModelTrillium;
 import dev.itsmeow.betteranimalsplus.client.model.block.ModelTrilliumMulti;
 import dev.itsmeow.betteranimalsplus.client.model.block.ModelTrilliumMulti2;
+import dev.itsmeow.betteranimalsplus.common.blockentity.BlockEntityTrillium;
 import dev.itsmeow.betteranimalsplus.init.ModResources;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.renderer.BiomeColors;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.blockentity.BlockEntityRenderDispatcher;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
+import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.world.entity.Entity;
 
-import java.awt.*;
+import java.awt.Color;
 
-public class RenderBlockTrillium extends BlockEntityRenderer<BlockEntityTrillium> {
+public class RenderBlockTrillium implements BlockEntityRenderer<BlockEntityTrillium> {
 
     public static ModelTrillium<Entity> singleT = new ModelTrillium<>();
     public static ModelTrilliumMulti<Entity> doubleT = new ModelTrilliumMulti<>();
     public static ModelTrilliumMulti2<Entity> tripleT = new ModelTrilliumMulti2<>();
 
-    public RenderBlockTrillium(BlockEntityRenderDispatcher dispatcher) {
-        super(dispatcher);
+    public RenderBlockTrillium(BlockEntityRendererProvider.Context ctx) {
     }
 
     @Override

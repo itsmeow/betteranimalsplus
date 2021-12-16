@@ -7,7 +7,7 @@ import dev.itsmeow.betteranimalsplus.init.ModResources;
 import dev.itsmeow.imdlib.entity.EntityTypeContainer;
 import dev.itsmeow.imdlib.entity.util.BiomeTypes;
 import dev.itsmeow.imdlib.entity.util.EntityTypeContainerContainable;
-import me.shedaniel.architectury.utils.NbtType;
+import dev.architectury.utils.NbtType;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -49,7 +49,7 @@ public class EntityButterfly extends EntityAnimalWithTypesAndSizeContainable {
 
     private static final EntityDataAccessor<Boolean> HAS_NECTAR = SynchedEntityData.defineId(EntityButterfly.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Integer> LANDED = SynchedEntityData.defineId(EntityButterfly.class, EntityDataSerializers.INT);
-    private static final TargetingConditions playerPredicate = (new TargetingConditions()).range(4.0D).allowSameTeam().allowInvulnerable();
+    private static final TargetingConditions playerPredicate = TargetingConditions.forNonCombat().range(4.0D).ignoreLineOfSight();
     private BlockPos targetPosition;
     private int rainTicks = 0;
     private int ticksUntilNextGrow = 0;
@@ -128,7 +128,7 @@ public class EntityButterfly extends EntityAnimalWithTypesAndSizeContainable {
                 BlockPos offset = pos.relative(Direction.from3DDataValue(this.getLandedInteger()));
                 BlockPos diff = pos.subtract(offset);
                 this.teleportTo(x - ((double) diff.getX()) / 2.778D, Math.floor(this.getY()) + 0.5D, z - ((double) diff.getZ()) / 2.778D);
-                this.yRot = 0;
+                this.setYRot(0);
                 this.yHeadRot = 0;
             } else {
                 this.teleportTo(this.getX(), Math.floor(this.getY()), this.getZ());
@@ -299,9 +299,9 @@ public class EntityButterfly extends EntityAnimalWithTypesAndSizeContainable {
                 Vec3 vec3d1 = vec3d.add((Math.signum(d0) * 0.5D - vec3d.x) * (double) 0.1F, (Math.signum(d1) * (double) 0.7F - vec3d.y) * (double) 0.1F, (Math.signum(d2) * 0.5D - vec3d.z) * (double) 0.1F);
                 this.setDeltaMovement(vec3d1);
                 float f = (float) (Mth.atan2(vec3d1.z, vec3d1.x) * (double) (180F / (float) Math.PI)) - 90.0F;
-                float f1 = Mth.wrapDegrees(f - this.yRot);
+                float f1 = Mth.wrapDegrees(f - this.getYRot());
                 this.zza = 0.5F;
-                this.yRot += f1;
+                this.setYRot(this.getYRot() + f1);
             }
         }
     }
@@ -329,7 +329,7 @@ public class EntityButterfly extends EntityAnimalWithTypesAndSizeContainable {
         BlockState blockstate = this.level.getBlockState(blockpos);
         Block block = blockstate.getBlock();
         boolean flag = false;
-        if(block.is(ModResources.Tags.Blocks.BUTTERFLY_GROWABLES)) {
+        if(blockstate.is(ModResources.Tags.Blocks.BUTTERFLY_GROWABLES)) {
             if(block instanceof CropBlock) {
                 CropBlock cropsblock = (CropBlock) block;
                 if(!cropsblock.isMaxAge(blockstate)) {
@@ -355,7 +355,7 @@ public class EntityButterfly extends EntityAnimalWithTypesAndSizeContainable {
 
     private boolean isFlowers(BlockPos pos) {
         BlockState state = this.level.getBlockState(pos);
-        boolean isFlower = this.level.isLoaded(pos) && state.getBlock().is(BlockTags.FLOWERS);
+        boolean isFlower = this.level.isLoaded(pos) && state.is(BlockTags.FLOWERS);
         if(isFlower) {
             if(state.is(BlockTags.TALL_FLOWERS)) {
                 if(state.getBlock() == Blocks.SUNFLOWER) {
@@ -371,12 +371,12 @@ public class EntityButterfly extends EntityAnimalWithTypesAndSizeContainable {
     }
 
     @Override
-    protected boolean isMovementNoisy() {
-        return false;
+    protected MovementEmission getMovementEmission() {
+        return MovementEmission.NONE;
     }
 
     @Override
-    public boolean causeFallDamage(float distance, float damageMultiplier) {
+    public boolean causeFallDamage(float f, float g, DamageSource damageSource) {
         return false;
     }
 

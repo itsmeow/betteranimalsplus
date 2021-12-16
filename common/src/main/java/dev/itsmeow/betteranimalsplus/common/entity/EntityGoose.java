@@ -8,7 +8,7 @@ import dev.itsmeow.betteranimalsplus.init.ModItems;
 import dev.itsmeow.betteranimalsplus.init.ModSoundEvents;
 import dev.itsmeow.imdlib.entity.EntityTypeContainer;
 import dev.itsmeow.imdlib.entity.util.variant.IVariant;
-import me.shedaniel.architectury.utils.NbtType;
+import dev.architectury.utils.NbtType;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.core.BlockPos;
@@ -186,7 +186,7 @@ public class EntityGoose extends EntityAnimalWithTypes {
             ItemStack stack = this.getItemBySlot(EquipmentSlot.MAINHAND);
             if(!stack.isEmpty()) {
                 for(int i = 0; i < 8; ++i) {
-                    Vec3 vec3d = (new Vec3(((double) this.random.nextFloat() - 0.5D) * 0.1D, Math.random() * 0.1D + 0.1D, 0.0D)).xRot(-this.xRot * ((float) Math.PI / 180F)).yRot(-this.yRot * ((float) Math.PI / 180F));
+                    Vec3 vec3d = (new Vec3(((double) this.random.nextFloat() - 0.5D) * 0.1D, Math.random() * 0.1D + 0.1D, 0.0D)).xRot(-this.getXRot() * ((float) Math.PI / 180F)).yRot(-this.getYRot() * ((float) Math.PI / 180F));
                     this.level.addParticle(new ItemParticleOption(ParticleTypes.ITEM, stack), this.getX() + this.getLookAngle().x / 2.0D, this.getY(), this.getZ() + this.getLookAngle().z / 2.0D, vec3d.x, vec3d.y + 0.05D, vec3d.z);
                 }
             }
@@ -304,7 +304,7 @@ public class EntityGoose extends EntityAnimalWithTypes {
             this.setItemSlot(EquipmentSlot.MAINHAND, stack.split(1));
             this.handDropChances[EquipmentSlot.MAINHAND.getIndex()] = 2.0F;
             this.take(itemEntity, stack.getCount());
-            itemEntity.remove();
+            itemEntity.discard();
             this.eatTicks = 0;
         }
     }
@@ -350,8 +350,8 @@ public class EntityGoose extends EntityAnimalWithTypes {
         IVariant variant = this.getContainer().getVariantForName(types[this.getRandom().nextInt(types.length)]);
         if (livingdata instanceof AgeableTypeData) {
             variant = ((AgeableTypeData) livingdata).typeData;
-        } else if (livingdata instanceof AgableMobGroupData) {
-            livingdata = new AgeableTypeData((AgableMobGroupData) livingdata, variant);
+        } else if (livingdata instanceof AgeableMobGroupData) {
+            livingdata = new AgeableTypeData((AgeableMobGroupData) livingdata, variant);
         } else {
             livingdata = new AgeableTypeData(variant);
         }

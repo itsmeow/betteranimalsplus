@@ -6,6 +6,8 @@ import com.mojang.math.Vector3f;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.client.model.geom.PartPose;
+import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -16,7 +18,7 @@ import net.minecraft.world.entity.player.Player;
  */
 public class ModelBearCape<T extends LivingEntity> extends HumanoidModel<T> {
 
-    public static final ModelBearCape<LivingEntity> INSTANCE = new ModelBearCape<>();
+    public static final ModelBearCape<LivingEntity> INSTANCE = null;
 
     public ModelPart baseCube;
     public ModelPart bearCapeArmR1;
@@ -38,83 +40,44 @@ public class ModelBearCape<T extends LivingEntity> extends HumanoidModel<T> {
     private float f3_r;
     private boolean isPlayer;
 
-    public ModelBearCape() {
-        super(1F, 0.0F, 128, 64);
-        this.lClaw02 = new ModelPart(this, 109, 8);
-        this.lClaw02.setPos(0.0F, 2.4F, 0.0F);
-        this.lClaw02.addBox(-0.5F, 0.0F, -0.5F, 1, 3, 1, 0.0F);
-        this.setRotateAngle(lClaw02, 0.13962634015954636F, 0.0F, 0.0F);
-        this.bearCapeArmR2 = new ModelPart(this, 97, 8);
-        this.bearCapeArmR2.mirror = true;
-        this.bearCapeArmR2.setPos(0.0F, 0.5F, -4.9F);
-        this.bearCapeArmR2.addBox(-2.0F, -0.8F, -0.5F, 4, 4, 1, 0.0F);
-        this.setRotateAngle(bearCapeArmR2, -0.10471975511965977F, 0.0F, 0.0F);
-        this.rClaw03 = new ModelPart(this, 109, 8);
-        this.rClaw03.mirror = true;
-        this.rClaw03.setPos(-1.4F, 2.4F, 0.0F);
-        this.rClaw03.addBox(-0.5F, 0.0F, -0.5F, 1, 3, 1, 0.0F);
-        this.setRotateAngle(rClaw03, 0.13962634015954636F, 0.0F, 0.10471975511965977F);
-        this.rClaw02 = new ModelPart(this, 109, 8);
-        this.rClaw02.mirror = true;
-        this.rClaw02.setPos(0.0F, 2.4F, 0.0F);
-        this.rClaw02.addBox(-0.5F, 0.0F, -0.5F, 1, 3, 1, 0.0F);
-        this.setRotateAngle(rClaw02, 0.13962634015954636F, 0.0F, 0.0F);
-        this.baseCube = new ModelPart(this, 0, 0);
-        this.baseCube.setPos(0.0F, 0.0F, 0.0F);
-        this.baseCube.addBox(0.0F, 0.0F, 0.0F, 1, 1, 1, 0.0F);
-        this.lClaw03 = new ModelPart(this, 109, 8);
-        this.lClaw03.mirror = true;
-        this.lClaw03.setPos(1.4F, 2.4F, 0.0F);
-        this.lClaw03.addBox(-0.5F, 0.0F, -0.5F, 1, 3, 1, 0.0F);
-        this.setRotateAngle(lClaw03, 0.13962634015954636F, 0.0F, -0.10471975511965977F);
-        this.bearCapeArmL2 = new ModelPart(this, 97, 8);
-        this.bearCapeArmL2.setPos(0.0F, 0.5F, -4.9F);
-        this.bearCapeArmL2.addBox(-2.0F, -0.8F, -0.5F, 4, 4, 1, 0.0F);
-        this.setRotateAngle(bearCapeArmL2, -0.10471975511965977F, 0.0F, 0.0F);
-        this.bearCapeArmR1 = new ModelPart(this, 97, 0);
-        this.bearCapeArmR1.mirror = true;
-        this.bearCapeArmR1.setPos(-3.0F, 0.0F, 2.4F);
-        this.bearCapeArmR1.addBox(-2.0F, -0.5F, -5.0F, 4, 1, 5, 0.0F);
-        this.setRotateAngle(bearCapeArmR1, -0.05235987755982988F, 0.06981317007977318F, -0.17453292519943295F);
-        this.rClaw01 = new ModelPart(this, 109, 8);
-        this.rClaw01.mirror = true;
-        this.rClaw01.setPos(1.4F, 2.4F, 0.0F);
-        this.rClaw01.addBox(-0.5F, 0.0F, -0.5F, 1, 3, 1, 0.0F);
-        this.setRotateAngle(rClaw01, 0.13962634015954636F, 0.0F, -0.10471975511965977F);
-        this.bearCapeArmL1 = new ModelPart(this, 97, 0);
-        this.bearCapeArmL1.setPos(3.0F, 0.0F, 2.4F);
-        this.bearCapeArmL1.addBox(-2.0F, -0.5F, -5.0F, 4, 1, 5, 0.0F);
-        this.setRotateAngle(bearCapeArmL1, -0.05235987755982988F, -0.06981317007977318F, 0.17453292519943295F);
-        this.bearCapeMain = new ModelPart(this, 71, 0);
-        this.bearCapeMain.setPos(0.0F, 0.0F, 0.0F);
-        this.bearCapeMain.addBox(-5.0F, 0.0F, 1.6F, 10, 9, 1, 0.0F);
-        this.setRotateAngle(bearCapeMain, 0.10471975511965977F, 0.0F, 0.0F);
-        this.lClaw01 = new ModelPart(this, 109, 8);
-        this.lClaw01.setPos(-1.4F, 2.4F, 0.0F);
-        this.lClaw01.addBox(-0.5F, 0.0F, -0.5F, 1, 3, 1, 0.0F);
-        this.setRotateAngle(lClaw01, 0.13962634015954636F, 0.0F, 0.10471975511965977F);
-        this.bearCapeLower = new ModelPart(this, 71, 11);
-        this.bearCapeLower.setPos(0.0F, 8.9F, 2.1F);
-        this.bearCapeLower.addBox(-4.5F, 0.0F, -0.5F, 9, 7, 1, 0.0F);
-        this.setRotateAngle(bearCapeLower, -0.08726646259971647F, 0.0F, 0.0F);
-        this.bearCapeTatter = new ModelPart(this, 71, 21);
-        this.bearCapeTatter.setPos(0.0F, 6.9F, 0.0F);
-        this.bearCapeTatter.addBox(-4.0F, 0.0F, -0.5F, 8, 4, 1, 0.0F);
-        this.setRotateAngle(bearCapeTatter, 0.08726646259971647F, 0.0F, 0.0F);
-        this.bearCapeArmL2.addChild(this.lClaw02);
-        this.bearCapeArmR1.addChild(this.bearCapeArmR2);
-        this.bearCapeArmR2.addChild(this.rClaw03);
-        this.bearCapeArmR2.addChild(this.rClaw02);
-        this.body.addChild(this.baseCube);
-        this.bearCapeArmL2.addChild(this.lClaw03);
-        this.bearCapeArmL1.addChild(this.bearCapeArmL2);
-        this.bearCapeArmR2.addChild(this.rClaw01);
-        this.baseCube.addChild(this.bearCapeArmL1);
-        this.baseCube.addChild(this.bearCapeArmR1);
-        this.baseCube.addChild(this.bearCapeMain);
-        this.bearCapeArmL2.addChild(this.lClaw01);
-        this.bearCapeMain.addChild(this.bearCapeLower);
-        this.bearCapeLower.addChild(this.bearCapeTatter);
+    public ModelBearCape(ModelPart root) {
+        super(root);
+        this.baseCube = body.getChild("baseCube");
+        this.bearCapeArmL1 = baseCube.getChild("bearCapeArmL1");
+        this.bearCapeArmL2 = bearCapeArmL1.getChild("bearCapeArmL2");
+        this.lClaw01 = bearCapeArmL2.getChild("lClaw01");
+        this.lClaw02 = bearCapeArmL2.getChild("lClaw02");
+        this.lClaw03 = bearCapeArmL2.getChild("lClaw03");
+        this.bearCapeMain = baseCube.getChild("bearCapeMain");
+        this.bearCapeLower = bearCapeMain.getChild("bearCapeLower");
+        this.bearCapeTatter = bearCapeLower.getChild("bearCapeTatter");
+        this.bearCapeArmR1 = baseCube.getChild("bearCapeArmR1");
+        this.bearCapeArmR2 = bearCapeArmR1.getChild("bearCapeArmR2");
+        this.rClaw01 = bearCapeArmR2.getChild("rClaw01");
+        this.rClaw02 = bearCapeArmR2.getChild("rClaw02");
+        this.rClaw03 = bearCapeArmR2.getChild("rClaw03");
+    }
+
+    public static LayerDefinition createBodyLayer() {
+        MeshDefinition meshdefinition = HumanoidModel.createMesh(new CubeDeformation(0F), 0F);
+        PartDefinition partdefinition = meshdefinition.getRoot();
+        PartDefinition baseCube = partdefinition.getChild("body").addOrReplaceChild("baseCube", CubeListBuilder.create().texOffs(0, 0).addBox(-1.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, 0.0F));
+        PartDefinition bearCapeArmL1 = baseCube.addOrReplaceChild("bearCapeArmL1", CubeListBuilder.create().texOffs(97, 0).mirror().addBox(-2.0F, -0.5F, -5.0F, 4.0F, 1.0F, 5.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(3.0F, 0.0F, 2.4F, -0.0524F, -0.0698F, 0.1745F));
+        PartDefinition bearCapeArmL2 = bearCapeArmL1.addOrReplaceChild("bearCapeArmL2", CubeListBuilder.create().texOffs(97, 8).mirror().addBox(-2.0F, -0.8F, -0.5F, 4.0F, 4.0F, 1.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(0.0F, 0.5F, -4.9F, -0.1047F, 0.0F, 0.0F));
+        PartDefinition lClaw01 = bearCapeArmL2.addOrReplaceChild("lClaw01", CubeListBuilder.create().texOffs(109, 8).mirror().addBox(-0.5F, 0.0F, -0.5F, 1.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(-1.4F, 2.4F, 0.0F, 0.1396F, 0.0F, 0.1047F));
+        PartDefinition lClaw02 = bearCapeArmL2.addOrReplaceChild("lClaw02", CubeListBuilder.create().texOffs(109, 8).mirror().addBox(-0.5F, 0.0F, -0.5F, 1.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(0.0F, 2.4F, 0.0F, 0.1396F, 0.0F, 0.0F));
+        PartDefinition lClaw03 = bearCapeArmL2.addOrReplaceChild("lClaw03", CubeListBuilder.create().texOffs(109, 8).addBox(-0.5F, 0.0F, -0.5F, 1.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(1.4F, 2.4F, 0.0F, 0.1396F, 0.0F, -0.1047F));
+        PartDefinition bearCapeMain = baseCube.addOrReplaceChild("bearCapeMain", CubeListBuilder.create().texOffs(71, 0).addBox(-5.0F, 0.0F, 1.6F, 10.0F, 9.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, 0.1047F, 0.0F, 0.0F));
+        PartDefinition bearCapeLower = bearCapeMain.addOrReplaceChild("bearCapeLower", CubeListBuilder.create().texOffs(71, 11).addBox(-4.5F, 0.0F, -0.5F, 9.0F, 7.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 8.9F, 2.1F, -0.0873F, 0.0F, 0.0F));
+        PartDefinition bearCapeTatter = bearCapeLower.addOrReplaceChild("bearCapeTatter", CubeListBuilder.create().texOffs(71, 21).addBox(-4.0F, 0.0F, -0.5F, 8.0F, 4.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 6.9F, 0.0F, 0.0873F, 0.0F, 0.0F));
+        PartDefinition bearCapeArmR1 = baseCube.addOrReplaceChild("bearCapeArmR1", CubeListBuilder.create().texOffs(97, 0).addBox(-2.0F, -0.5F, -5.0F, 4.0F, 1.0F, 5.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-3.0F, 0.0F, 2.4F, -0.0524F, 0.0698F, -0.1745F));
+        PartDefinition bearCapeArmR2 = bearCapeArmR1.addOrReplaceChild("bearCapeArmR2", CubeListBuilder.create().texOffs(97, 8).addBox(-2.0F, -0.8F, -0.5F, 4.0F, 4.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.5F, -4.9F, -0.1047F, 0.0F, 0.0F));
+        PartDefinition rClaw01 = bearCapeArmR2.addOrReplaceChild("rClaw01", CubeListBuilder.create().texOffs(109, 8).addBox(-0.5F, 0.0F, -0.5F, 1.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(1.4F, 2.4F, 0.0F, 0.1396F, 0.0F, -0.1047F));
+        PartDefinition rClaw02 = bearCapeArmR2.addOrReplaceChild("rClaw02", CubeListBuilder.create().texOffs(109, 8).addBox(-0.5F, 0.0F, -0.5F, 1.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 2.4F, 0.0F, 0.1396F, 0.0F, 0.0F));
+        PartDefinition rClaw03 = bearCapeArmR2.addOrReplaceChild("rClaw03", CubeListBuilder.create().texOffs(109, 8).addBox(-0.5F, 0.0F, -0.5F, 1.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-1.4F, 2.4F, 0.0F, 0.1396F, 0.0F, 0.1047F));
+        PartDefinition bipedLeftArm = partdefinition.addOrReplaceChild("bipedLeftArm", CubeListBuilder.create().texOffs(40, 16).addBox(-1.0F, -2.0F, -2.0F, 4.0F, 12.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(5.0F, 2.0F, 0.0F, 0.0F, 0.0F, -0.1F));
+        PartDefinition bipedLeftLeg = partdefinition.addOrReplaceChild("bipedLeftLeg", CubeListBuilder.create().texOffs(0, 16).addBox(-2.0F, 0.0F, -2.0F, 4.0F, 12.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offset(1.9F, 12.0F, 0.0F));
+        return LayerDefinition.create(meshdefinition, 128, 64);
     }
 
     @Override
@@ -173,12 +136,4 @@ public class ModelBearCape<T extends LivingEntity> extends HumanoidModel<T> {
         }
     }
 
-    /**
-     * This is a helper function from Tabula to set the rotation of model parts
-     */
-    public void setRotateAngle(ModelPart ModelRenderer, float x, float y, float z) {
-        ModelRenderer.xRot = x;
-        ModelRenderer.yRot = y;
-        ModelRenderer.zRot = z;
-    }
 }

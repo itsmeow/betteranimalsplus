@@ -1,7 +1,7 @@
 package dev.itsmeow.betteranimalsplus.common.entity.projectile;
 
 import dev.itsmeow.betteranimalsplus.init.ModTriggers;
-import me.shedaniel.architectury.networking.NetworkManager;
+import dev.architectury.networking.NetworkManager;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.protocol.Packet;
@@ -75,7 +75,7 @@ public class EntityBadgerDirt extends ThrowableProjectile {
 
         if (!this.level.isClientSide) {
             this.level.broadcastEntityEvent(this, (byte) 3);
-            this.remove();
+            this.discard();
         }
     }
 

@@ -37,7 +37,7 @@ public class EntityPheasantEgg extends EntityModEgg {
     protected Entity createEntity() {
         EntityPheasant pheasant = ModEntities.PHEASANT.getEntityType().create(this.level);
         pheasant.setAge(-24000);
-        pheasant.moveTo(this.getX(), this.getY(), this.getZ(), this.yRot, 0.0F);
+        pheasant.moveTo(this.getX(), this.getY(), this.getZ(), this.getYRot(), 0.0F);
         pheasant.setType(pheasant.getRandomType());
         return pheasant;
     }
