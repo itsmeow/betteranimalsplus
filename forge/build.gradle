@@ -2,25 +2,19 @@ plugins {
     id "com.github.johnrengelman.shadow" version "7.0.0"
 }
 
-configurations {
-    shadowCommon
-    shadowModImplementation
-    modImplementation.extendsFrom shadowModImplementation
-}
-
-loom {
-    launches {
-        all {
-            arg "-mixin.config", "mixin.imdlib.json"
-            property 'mixin.env.remapRefMap', 'true'
-            property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
-        }
-    }
-}
-
 architectury {
     platformSetupLoomIde()
     forge()
+}
+
+configurations {
+    common
+    shadowCommon
+    compileClasspath.extendsFrom common
+    runtimeClasspath.extendsFrom common
+    developmentForge.extendsFrom common
+    shadowModImplementation
+    modImplementation.extendsFrom shadowModImplementation
 }
 
 repositories {
@@ -31,23 +25,24 @@ repositories {
 
 dependencies {
     forge "net.minecraftforge:forge:${rootProject.mc_version}-${rootProject.forge_version}"
-    modApi "me.shedaniel:architectury-forge:${rootProject.architectury_version}"
+    modApi "dev.architectury:architectury-forge:${rootProject.architectury_version}"
+    common(project(path: ":common", configuration: "namedElements")) { transitive false }
+    shadowCommon(project(path: ":common", configuration: "transformProductionForge")) { transitive = false }
 
     modCompileOnly "top.theillusivec4.curios:curios-forge:1.16.5-4.0.5.3:api"
     modRuntimeOnly "top.theillusivec4.curios:curios-forge:1.16.5-4.0.5.3"
-
-    implementation(project(path: ":common", configuration: "dev")) {
-        transitive = false
-    }
-    developmentForge(project(path: ":common", configuration: "dev")) {
-        transitive = false
-    }
-    shadowCommon(project(path: ":common", configuration: "transformProductionForge")) {
-        transitive = false
-    }
-
     shadowModImplementation("dev.itsmeow.imdlib:imdlib-forge:${rootProject.imdlib_version}") {
         transitive = false
+    }
+}
+
+loom {
+    launches {
+        all {
+            arg "-mixin.config", "mixin.imdlib.json"
+            property 'mixin.env.remapRefMap', 'true'
+            property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
+        }
     }
 }
 
@@ -146,6 +141,12 @@ sourcesJar {
                 "Built-On-Java": "${System.getProperty('java.vm.version')} (${System.getProperty('java.vm.vendor')})",
                 "Built-On": "${rootProject.mc_version}-${rootProject.forge_version}"
         )
+    }
+}
+
+components.java {
+    withVariantsFromConfiguration(project.configurations.shadowRuntimeElements) {
+        skip()
     }
 }
 

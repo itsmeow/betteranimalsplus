@@ -2,15 +2,19 @@ plugins {
     id "com.github.johnrengelman.shadow" version "7.0.0"
 }
 
-configurations {
-    shadowCommon
-    shadowModImplementation
-    modImplementation.extendsFrom shadowModImplementation
-}
-
 architectury {
     platformSetupLoomIde()
     fabric()
+}
+
+configurations {
+    common
+    shadowCommon
+    compileClasspath.extendsFrom common
+    runtimeClasspath.extendsFrom common
+    developmentFabric.extendsFrom common
+    shadowModImplementation
+    modImplementation.extendsFrom shadowModImplementation
 }
 
 loom {
@@ -38,21 +42,9 @@ repositories {
 dependencies {
     modImplementation "net.fabricmc:fabric-loader:${rootProject.fabric_loader_version}"
     modApi "net.fabricmc.fabric-api:fabric-api:${rootProject.fabric_api_version}"
-    modApi "me.shedaniel:architectury-fabric:${rootProject.architectury_version}"
-    modApi ("curse.maven:cloth-config-319057:${rootProject.cloth_config_version}") {
-        exclude(group: "net.fabricmc.fabric-api")
-    }
-    runtimeOnly("me.shedaniel.cloth:basic-math:0.6.0")
-
-    implementation(project(path: ":common", configuration: "dev")) {
-        transitive = false
-    }
-    developmentFabric(project(path: ":common", configuration: "dev")) {
-        transitive = false
-    }
-    shadowCommon(project(path: ":common", configuration: "transformProductionFabric")) {
-        transitive = false
-    }
+    modApi "dev.architectury:architectury-fabric:${rootProject.architectury_version}"
+    common(project(path: ":common", configuration: "namedElements")) { transitive false }
+    shadowCommon(project(path: ":common", configuration: "transformProductionFabric")) { transitive false }
 
     shadowModImplementation("dev.itsmeow.imdlib:imdlib-fabric:${rootProject.imdlib_version}") {
         transitive = false
@@ -67,6 +59,10 @@ dependencies {
     modRuntimeOnly("curse.maven:modmenu-308702:3479748") {
         transitive = false
     }
+    modApi ("curse.maven:cloth-config-319057:${rootProject.cloth_config_version}") {
+        exclude(group: "net.fabricmc.fabric-api")
+    }
+    runtimeOnly("me.shedaniel.cloth:basic-math:0.6.0")
 }
 
 processResources {
@@ -188,6 +184,12 @@ sourcesJar {
                 "Built-On-Java": "${System.getProperty('java.vm.version')} (${System.getProperty('java.vm.vendor')})",
                 "Built-On": "${rootProject.mc_version}-${rootProject.fabric_api_version}"
         )
+    }
+}
+
+components.java {
+    withVariantsFromConfiguration(project.configurations.shadowRuntimeElements) {
+        skip()
     }
 }
 

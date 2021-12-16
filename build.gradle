@@ -29,7 +29,7 @@ allprojects {
     group = rootProject.maven_group
     tasks.withType(JavaCompile) {
         options.encoding = "UTF-8"
-        def targetVersion = 8
+        def targetVersion = 16
         if (JavaVersion.current().isJava9Compatible()) {
             options.release = targetVersion
         }
