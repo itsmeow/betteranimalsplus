@@ -57,8 +57,8 @@ public abstract class EntityEelBase extends EntityWaterMobPathingWithTypesBucket
     }
 
     @Override
-    protected boolean isMovementNoisy() {
-        return false;
+    protected MovementEmission getMovementEmission() {
+        return MovementEmission.EVENTS;
     }
 
     @Override
@@ -81,7 +81,7 @@ public abstract class EntityEelBase extends EntityWaterMobPathingWithTypesBucket
                     ItemStack stack = item.getItem();
                     if(stack.isEdible()) {
                         this.heal(stack.getItem().getFoodProperties().getSaturationModifier());
-                        item.remove();
+                        item.discard();
                         collidedItem = null;
                         collideWithItemTicks = 0;
                     }
@@ -101,7 +101,7 @@ public abstract class EntityEelBase extends EntityWaterMobPathingWithTypesBucket
                 ItemStack stack = collidedItem.getItem();
                 if(!stack.isEmpty()) {
                     for(int i = 0; i < 8; ++i) {
-                        Vec3 vec3d = (new Vec3(((double) this.random.nextFloat() - 0.5D) * 0.1D, Math.random() * 0.1D + 0.1D, 0.0D)).xRot(-this.xRot * ((float) Math.PI / 180F)).yRot(-this.yRot * ((float) Math.PI / 180F));
+                        Vec3 vec3d = (new Vec3(((double) this.random.nextFloat() - 0.5D) * 0.1D, Math.random() * 0.1D + 0.1D, 0.0D)).xRot(-this.getXRot() * ((float) Math.PI / 180F)).yRot(-this.getYRot() * ((float) Math.PI / 180F));
                         this.level.addParticle(new ItemParticleOption(ParticleTypes.ITEM, stack), this.getX() + this.getLookAngle().x / 2.0D, this.getY(), this.getZ() + this.getLookAngle().z / 2.0D, vec3d.x, vec3d.y + 0.05D, vec3d.z);
                     }
                 }

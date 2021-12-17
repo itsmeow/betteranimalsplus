@@ -22,6 +22,9 @@ loom {
 }
 
 repositories {
+    flatDir {
+        dir 'libs'
+    }
     maven {
         name = "TerraformersMC"
         url = "https://maven.terraformersmc.com/"
@@ -55,8 +58,10 @@ dependencies {
     shadowModImplementation("io.github.onyxstudios.Cardinal-Components-API:cardinal-components-entity:${rootProject.cardinal_components_version}") {
         transitive = false
     }
-    modImplementation "dev.emi:trinkets:2.6.7"
-    modRuntimeOnly("curse.maven:modmenu-308702:3479748") {
+    modImplementation("dev.emi:trinkets:${rootProject.trinkets_version}") {
+        transitive = false
+    }
+    modRuntimeOnly("curse.maven:modmenu-308702:${rootProject.modmenu_version}") {
         transitive = false
     }
     modApi ("curse.maven:cloth-config-319057:${rootProject.cloth_config_version}") {

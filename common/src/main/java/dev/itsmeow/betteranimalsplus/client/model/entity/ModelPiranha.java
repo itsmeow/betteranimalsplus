@@ -3,8 +3,10 @@ package dev.itsmeow.betteranimalsplus.client.model.entity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Vector3f;
-import net.minecraft.client.model.EntityModel;
+import dev.itsmeow.betteranimalsplus.client.model.abstracts.ModelBAP;
 import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.client.model.geom.PartPose;
+import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 
@@ -12,12 +14,13 @@ import net.minecraft.world.entity.Entity;
  * Piranha - Batman
  * Created using Tabula 8.0.0
  */
-public class ModelPiranha<T extends Entity> extends EntityModel<T> {
+public class ModelPiranha<T extends Entity> extends ModelBAP<T> {
+
     public ModelPart body;
     public ModelPart neck;
     public ModelPart rear;
     public ModelPart TopFin;
-    public ModelPart leftFin;
+    public ModelPart LeftFin;
     public ModelPart RightFin;
     public ModelPart throat;
     public ModelPart TopJaw;
@@ -36,101 +39,55 @@ public class ModelPiranha<T extends Entity> extends EntityModel<T> {
     public ModelPart LowFin03;
     private boolean isInWater;
 
-    public ModelPiranha() {
-        this.texWidth = 36;
-        this.texHeight = 160;
-        this.rear = new ModelPart(this, 0, 63);
-        this.rear.setPos(0.0F, 0.0F, 0.0F);
-        this.rear.addBox(-2.0F, -4.5F, 0.0F, 4, 8, 3, 0.0F);
-        this.throat = new ModelPart(this, 0, 34);
-        this.throat.setPos(0.0F, -0.9F, -3.9F);
-        this.throat.addBox(-2.5F, 0.0F, 0.0F, 5, 4, 5, 0.0F);
-        this.setRotateAngle(throat, -0.5462880558742251F, 0.0F, 0.0F);
-        this.TopTeeth01 = new ModelPart(this, 0, 139);
-        this.TopTeeth01.setPos(-1.8F, 1.3F, -2.6F);
-        this.TopTeeth01.addBox(0.0F, 0.0F, 0.0F, 0, 1, 3, 0.0F);
-        this.body = new ModelPart(this, 0, 0);
-        this.body.setPos(0.0F, 13.0F, 4.0F);
-        this.body.addBox(-2.5F, -5.0F, -9.0F, 5, 10, 9, 0.0F);
-        this.leftFin = new ModelPart(this, 26, 20);
-        this.leftFin.setPos(2.0F, 3.5F, -7.0F);
-        this.leftFin.addBox(0.0F, 0.0F, -1.5F, 0, 6, 3, 0.0F);
-        this.setRotateAngle(leftFin, 0.6373942428283291F, 0.0F, -2.1399481958702475F);
-        this.TopJaw = new ModelPart(this, 0, 44);
-        this.TopJaw.setPos(0.0F, -1.0F, -5.5F);
-        this.TopJaw.addBox(-2.5F, -1.5F, -3.0F, 5, 3, 3, 0.0F);
-        this.setRotateAngle(TopJaw, -0.18203784098300857F, 0.0F, 0.0F);
-        this.snout = new ModelPart(this, 0, 51);
-        this.snout.setPos(0.0F, -1.5F, -3.0F);
-        this.snout.addBox(-2.0F, 0.0F, 0.0F, 4, 2, 3, 0.0F);
-        this.setRotateAngle(snout, 0.6829473363053812F, 0.0F, 0.0F);
-        this.LowFin01 = new ModelPart(this, 0, 92);
-        this.LowFin01.setPos(0.0F, 3.0F, 0.0F);
-        this.LowFin01.addBox(0.0F, 0.0F, 0.0F, 0, 5, 3, 0.0F);
-        this.LowFin03 = new ModelPart(this, 0, 105);
-        this.LowFin03.setPos(0.0F, 2.0F, 0.0F);
-        this.LowFin03.addBox(0.0F, 0.0F, 0.0F, 0, 6, 3, 0.0F);
-        this.TopTeeth03 = new ModelPart(this, 7, 138);
-        this.TopTeeth03.setPos(0.0F, 1.3F, -2.5F);
-        this.TopTeeth03.addBox(-1.5F, 0.0F, 0.0F, 3, 1, 0, 0.0F);
-        this.TopFin = new ModelPart(this, 0, 125);
-        this.TopFin.setPos(0.0F, -4.8F, -5.0F);
-        this.TopFin.addBox(0.0F, -4.0F, -1.0F, 0, 4, 7, 0.0F);
-        this.setRotateAngle(TopFin, -0.091106186954104F, 0.0F, 0.0F);
-        this.LowTeeth = new ModelPart(this, 0, 145);
-        this.LowTeeth.setPos(0.0F, -1.5F, -2.5F);
-        this.LowTeeth.addBox(-1.5F, 0.0F, 0.0F, 3, 1, 3, 0.0F);
-        this.LowFin02 = new ModelPart(this, 0, 98);
-        this.LowFin02.setPos(0.0F, 2.0F, 0.0F);
-        this.LowFin02.addBox(0.0F, 0.0F, 0.0F, 0, 6, 3, 0.0F);
-        this.tail02 = new ModelPart(this, 0, 86);
-        this.tail02.setPos(0.0F, -1.0F, 3.0F);
-        this.tail02.addBox(-1.0F, -2.0F, 0.0F, 2, 4, 3, 0.0F);
-        this.RightFin = new ModelPart(this, 26, 20);
-        this.RightFin.setPos(-2.0F, 3.5F, -7.0F);
-        this.RightFin.addBox(0.0F, 0.0F, -1.5F, 0, 6, 3, 0.0F);
-        this.setRotateAngle(RightFin, 0.6373942428283291F, 0.0F, 2.1399481958702475F);
-        this.neck = new ModelPart(this, 0, 20);
-        this.neck.setPos(0.0F, -0.5F, -8.0F);
-        this.neck.addBox(-3.0F, -4.5F, -6.0F, 6, 7, 6, 0.0F);
-        this.setRotateAngle(neck, 0.136659280431156F, 0.0F, 0.0F);
-        this.tail01 = new ModelPart(this, 0, 76);
-        this.tail01.setPos(0.0F, -0.5F, 3.0F);
-        this.tail01.addBox(-1.5F, -3.5F, 0.0F, 3, 6, 3, 0.0F);
-        this.SmallTopFin = new ModelPart(this, 0, 135);
-        this.SmallTopFin.setPos(0.0F, -5.3F, 1.7F);
-        this.SmallTopFin.addBox(0.0F, 0.0F, 0.0F, 0, 2, 2, 0.0F);
-        this.setRotateAngle(SmallTopFin, -0.27314402793711257F, 0.0F, 0.0F);
-        this.TopTeeth02 = new ModelPart(this, 0, 139);
-        this.TopTeeth02.setPos(1.8F, 1.3F, -2.6F);
-        this.TopTeeth02.addBox(0.0F, 0.0F, 0.0F, 0, 1, 3, 0.0F);
-        this.LowerJaw = new ModelPart(this, 0, 57);
-        this.LowerJaw.setPos(0.0F, 1.4F, -5.5F);
-        this.LowerJaw.addBox(-2.0F, -1.0F, -3.0F, 4, 2, 3, 0.0F);
-        this.setRotateAngle(LowerJaw, -0.22759093446006054F, 0.0F, 0.0F);
-        this.TailFin = new ModelPart(this, 0, 106);
-        this.TailFin.setPos(0.0F, 0.5F, 2.5F);
-        this.TailFin.addBox(0.0F, -8.5F, 0.0F, 0, 16, 9, 0.0F);
-        this.body.addChild(this.rear);
-        this.neck.addChild(this.throat);
-        this.TopJaw.addChild(this.TopTeeth01);
-        this.body.addChild(this.leftFin);
-        this.neck.addChild(this.TopJaw);
-        this.TopJaw.addChild(this.snout);
-        this.rear.addChild(this.LowFin01);
-        this.tail02.addChild(this.LowFin03);
-        this.TopJaw.addChild(this.TopTeeth03);
-        this.body.addChild(this.TopFin);
-        this.LowerJaw.addChild(this.LowTeeth);
-        this.tail01.addChild(this.LowFin02);
-        this.tail01.addChild(this.tail02);
-        this.body.addChild(this.RightFin);
-        this.body.addChild(this.neck);
-        this.rear.addChild(this.tail01);
-        this.tail01.addChild(this.SmallTopFin);
-        this.TopJaw.addChild(this.TopTeeth02);
-        this.neck.addChild(this.LowerJaw);
-        this.tail02.addChild(this.TailFin);
+    public ModelPiranha(ModelPart root) {
+        this.body = root.getChild("body");
+        this.rear = body.getChild("rear");
+        this.LowFin01 = rear.getChild("LowFin01");
+        this.tail01 = rear.getChild("tail01");
+        this.LowFin02 = tail01.getChild("LowFin02");
+        this.tail02 = tail01.getChild("tail02");
+        this.LowFin03 = tail02.getChild("LowFin03");
+        this.TailFin = tail02.getChild("TailFin");
+        this.SmallTopFin = tail01.getChild("SmallTopFin");
+        this.LeftFin = body.getChild("LeftFin");
+        this.TopFin = body.getChild("TopFin");
+        this.RightFin = body.getChild("RightFin");
+        this.neck = body.getChild("neck");
+        this.throat = neck.getChild("throat");
+        this.TopJaw = neck.getChild("TopJaw");
+        this.TopTeeth01 = TopJaw.getChild("TopTeeth01");
+        this.snout = TopJaw.getChild("snout");
+        this.TopTeeth03 = TopJaw.getChild("TopTeeth03");
+        this.TopTeeth02 = TopJaw.getChild("TopTeeth02");
+        this.LowerJaw = neck.getChild("LowerJaw");
+        this.LowTeeth = LowerJaw.getChild("LowTeeth");
+    }
+
+    public static LayerDefinition createBodyLayer() {
+        MeshDefinition meshdefinition = new MeshDefinition();
+        PartDefinition partdefinition = meshdefinition.getRoot();
+        PartDefinition body = partdefinition.addOrReplaceChild("body", CubeListBuilder.create().texOffs(0, 0).addBox(-2.5F, -5.0F, -9.0F, 5.0F, 10.0F, 9.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 13.0F, 4.0F));
+        PartDefinition rear = body.addOrReplaceChild("rear", CubeListBuilder.create().texOffs(0, 63).addBox(-2.0F, -4.5F, 0.0F, 4.0F, 8.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, 0.0F));
+        PartDefinition LowFin01 = rear.addOrReplaceChild("LowFin01", CubeListBuilder.create().texOffs(0, 92).addBox(0.0F, 0.0F, 0.0F, 0.0F, 5.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 3.0F, 0.0F));
+        PartDefinition tail01 = rear.addOrReplaceChild("tail01", CubeListBuilder.create().texOffs(0, 76).addBox(-1.5F, -3.5F, 0.0F, 3.0F, 6.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, -0.5F, 3.0F));
+        PartDefinition LowFin02 = tail01.addOrReplaceChild("LowFin02", CubeListBuilder.create().texOffs(0, 98).addBox(0.0F, 0.0F, 0.0F, 0.0F, 6.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 2.0F, 0.0F));
+        PartDefinition tail02 = tail01.addOrReplaceChild("tail02", CubeListBuilder.create().texOffs(0, 86).addBox(-1.0F, -2.0F, 0.0F, 2.0F, 4.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, -1.0F, 3.0F));
+        PartDefinition LowFin03 = tail02.addOrReplaceChild("LowFin03", CubeListBuilder.create().texOffs(0, 105).addBox(0.0F, 0.0F, 0.0F, 0.0F, 6.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 2.0F, 0.0F));
+        PartDefinition TailFin = tail02.addOrReplaceChild("TailFin", CubeListBuilder.create().texOffs(0, 106).addBox(0.0F, -8.5F, 0.0F, 0.0F, 16.0F, 9.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.5F, 2.5F));
+        PartDefinition SmallTopFin = tail01.addOrReplaceChild("SmallTopFin", CubeListBuilder.create().texOffs(0, 135).addBox(0.0F, 0.0F, 0.0F, 0.0F, 2.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -5.3F, 1.7F, -0.2731F, 0.0F, 0.0F));
+        PartDefinition LeftFin = body.addOrReplaceChild("LeftFin", CubeListBuilder.create().texOffs(26, 20).mirror().addBox(0.0F, 0.0F, -1.5F, 0.0F, 6.0F, 3.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(2.0F, 3.5F, -7.0F, 0.6374F, 0.0F, -2.1399F));
+        PartDefinition TopFin = body.addOrReplaceChild("TopFin", CubeListBuilder.create().texOffs(0, 125).addBox(0.0F, -4.0F, -1.0F, 0.0F, 4.0F, 7.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -4.8F, -5.0F, -0.0911F, 0.0F, 0.0F));
+        PartDefinition RightFin = body.addOrReplaceChild("RightFin", CubeListBuilder.create().texOffs(26, 20).mirror().addBox(0.0F, 0.0F, -1.5F, 0.0F, 6.0F, 3.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(-2.0F, 3.5F, -7.0F, 0.6374F, 0.0F, 2.1399F));
+        PartDefinition neck = body.addOrReplaceChild("neck", CubeListBuilder.create().texOffs(0, 20).addBox(-3.0F, -4.5F, -6.0F, 6.0F, 7.0F, 6.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -0.5F, -8.0F, 0.1367F, 0.0F, 0.0F));
+        PartDefinition throat = neck.addOrReplaceChild("throat", CubeListBuilder.create().texOffs(0, 34).addBox(-2.5F, 0.0F, 0.0F, 5.0F, 4.0F, 5.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -0.9F, -3.9F, -0.5463F, 0.0F, 0.0F));
+        PartDefinition TopJaw = neck.addOrReplaceChild("TopJaw", CubeListBuilder.create().texOffs(0, 44).addBox(-2.5F, -1.5F, -3.0F, 5.0F, 3.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -1.0F, -5.5F, -0.182F, 0.0F, 0.0F));
+        PartDefinition TopTeeth01 = TopJaw.addOrReplaceChild("TopTeeth01", CubeListBuilder.create().texOffs(0, 139).addBox(0.0F, 0.0F, 0.0F, 0.0F, 1.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offset(1.8F, 1.3F, -2.6F));
+        PartDefinition snout = TopJaw.addOrReplaceChild("snout", CubeListBuilder.create().texOffs(0, 51).addBox(-2.0F, 0.0F, 0.0F, 4.0F, 2.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -1.5F, -3.0F, 0.6829F, 0.0F, 0.0F));
+        PartDefinition TopTeeth03 = TopJaw.addOrReplaceChild("TopTeeth03", CubeListBuilder.create().texOffs(7, 138).addBox(-1.5F, 0.0F, 0.0F, 3.0F, 1.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 1.3F, -2.5F));
+        PartDefinition TopTeeth02 = TopJaw.addOrReplaceChild("TopTeeth02", CubeListBuilder.create().texOffs(0, 139).addBox(0.0F, 0.0F, 0.0F, 0.0F, 1.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offset(-1.8F, 1.3F, -2.6F));
+        PartDefinition LowerJaw = neck.addOrReplaceChild("LowerJaw", CubeListBuilder.create().texOffs(0, 57).addBox(-2.0F, -1.0F, -3.0F, 4.0F, 2.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 1.4F, -5.5F, -0.2276F, 0.0F, 0.0F));
+        PartDefinition LowTeeth = LowerJaw.addOrReplaceChild("LowTeeth", CubeListBuilder.create().texOffs(0, 145).addBox(-1.5F, 0.0F, 0.0F, 3.0F, 1.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, -1.5F, -2.5F));
+        return LayerDefinition.create(meshdefinition, 36, 160);
     }
 
     @Override
@@ -154,9 +111,4 @@ public class ModelPiranha<T extends Entity> extends EntityModel<T> {
         this.isInWater = entityIn.isInWater();
     }
 
-    public void setRotateAngle(ModelPart ModelRenderer, float x, float y, float z) {
-        ModelRenderer.xRot = x;
-        ModelRenderer.yRot = y;
-        ModelRenderer.zRot = z;
-    }
 }

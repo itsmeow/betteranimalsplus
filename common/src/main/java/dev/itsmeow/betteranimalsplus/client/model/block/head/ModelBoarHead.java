@@ -2,6 +2,8 @@ package dev.itsmeow.betteranimalsplus.client.model.block.head;
 
 import dev.itsmeow.betteranimalsplus.client.model.abstracts.ModelBAPHead;
 import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.client.model.geom.PartPose;
+import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.world.entity.Entity;
 
 /**
@@ -30,111 +32,54 @@ public class ModelBoarHead<T extends Entity> extends ModelBAPHead<T> {
     public ModelPart lEar02;
     public ModelPart rEar02;
 
-    public ModelBoarHead() {
+    public ModelBoarHead(ModelPart root) {
         super(true);
-        this.texWidth = 128;
-        this.texHeight = 64;
-        this.neck = new ModelPart(this, 0, 34);
-        this.neck.setPos(0.0F, 0.0F, 0.0F);
-        this.neck.addBox(-3.0F, -3.5F, -4.0F, 6, 7, 4, 0.0F);
-        this.lTusk01 = new ModelPart(this, 0, 0);
-        this.lTusk01.setPos(1.3F, -0.5F, -2.8F);
-        this.lTusk01.addBox(-0.5F, -0.8F, -0.5F, 1, 1, 1, 0.0F);
-        this.setRotateAngle(this.lTusk01, 0.24434609527920614F, 0.0F, 0.6981317007977318F);
-        this.rTusk03 = new ModelPart(this, 0, 0);
-        this.rTusk03.mirror = true;
-        this.rTusk03.setPos(0.1F, -0.8F, 0.0F);
-        this.rTusk03.addBox(-0.4F, -1.7F, -0.5F, 1, 2, 1, 0.0F);
-        this.setRotateAngle(this.rTusk03, 0.0F, 0.0F, 0.4363323129985824F);
-        this.lEar02 = new ModelPart(this, 78, 37);
-        this.lEar02.setPos(0.6F, 0.0F, 0.7F);
-        this.lEar02.addBox(-1.0F, -4.0F, -0.5F, 2, 5, 1, 0.0F);
-        this.setRotateAngle(this.lEar02, 0.22689280275926282F, 0.0F, 0.0F);
-        this.lowerJaw = new ModelPart(this, 99, 25);
-        this.lowerJaw.setPos(0.0F, 2.1F, -4.1F);
-        this.lowerJaw.addBox(-1.5F, -0.5F, -4.7F, 3, 1, 5, 0.0F);
-        this.setRotateAngle(this.lowerJaw, 0.2617993877991494F, 0.0F, 0.0F);
-        this.rTusk02 = new ModelPart(this, 0, 0);
-        this.rTusk02.mirror = true;
-        this.rTusk02.setPos(0.0F, -1.0F, 0.0F);
-        this.rTusk02.addBox(-0.45F, -0.7F, -0.5F, 1, 1, 1, 0.0F);
-        this.setRotateAngle(this.rTusk02, 0.0F, 0.0F, 0.2617993877991494F);
-        this.lEar01 = new ModelPart(this, 69, 37);
-        this.lEar01.setPos(1.2F, -2.7F, -1.7F);
-        this.lEar01.addBox(-0.8F, -3.0F, -0.5F, 3, 3, 1, 0.0F);
-        this.setRotateAngle(this.lEar01, -0.22689280275926282F, -0.7853981633974483F, 0.7853981633974483F);
-        this.rEar01 = new ModelPart(this, 69, 37);
-        this.rEar01.mirror = true;
-        this.rEar01.setPos(-1.2F, -2.7F, -1.7F);
-        this.rEar01.addBox(-2.2F, -3.0F, -0.5F, 3, 3, 1, 0.0F);
-        this.setRotateAngle(this.rEar01, -0.22689280275926282F, 0.7853981633974483F, -0.7853981633974483F);
-        this.upperJaw = new ModelPart(this, 84, 25);
-        this.upperJaw.setPos(0.0F, 0.7F, -4.4F);
-        this.upperJaw.addBox(-1.5F, -1.0F, -4.0F, 3, 2, 4, 0.0F);
-        this.snoot02 = new ModelPart(this, 101, 16);
-        this.snoot02.setPos(0.0F, 0.0F, 0.0F);
-        this.snoot02.addBox(0.7F, -1.5F, -4.7F, 1, 2, 5, 0.0F);
-        this.chestFur01 = new ModelPart(this, 108, 50);
-        this.chestFur01.setPos(0.0F, 2.9F, -1.6F);
-        this.chestFur01.addBox(-2.5F, 0.0F, -1.0F, 5, 4, 2, 0.0F);
-        this.setRotateAngle(this.chestFur01, 0.2792526803190927F, 0.0F, 0.0F);
-        this.head = new ModelPart(this, 84, 0);
-        this.head.setPos(0.0F, -0.3F, -1.2F);
-        this.head.addBox(-2.5F, -3.5F, -5.0F, 5, 6, 5, 0.0F);
-        this.setRotateAngle(this.head, 0.33161255787892263F, 0.0F, 0.0F);
-        this.mane01 = new ModelPart(this, 86, 35);
-        this.mane01.setPos(0.0F, -2.7F, -1.8F);
-        this.mane01.addBox(-2.0F, -1.2F, 0.0F, 4, 2, 5, 0.0F);
-        this.setRotateAngle(this.mane01, 0.5235987755982988F, 0.0F, 0.0F);
-        this.lTusk03 = new ModelPart(this, 0, 0);
-        this.lTusk03.setPos(-0.1F, -0.8F, 0.0F);
-        this.lTusk03.addBox(-0.6F, -1.7F, -0.5F, 1, 2, 1, 0.0F);
-        this.setRotateAngle(this.lTusk03, 0.0F, 0.0F, -0.4363323129985824F);
-        this.snoot01 = new ModelPart(this, 84, 16);
-        this.snoot01.setPos(0.0F, -0.6F, -4.4F);
-        this.snoot01.addBox(-1.7F, -1.5F, -4.7F, 3, 2, 5, 0.0F);
-        this.setRotateAngle(this.snoot01, 0.27314402793711257F, 0.0F, 0.0F);
-        this.rEar02 = new ModelPart(this, 78, 37);
-        this.rEar02.mirror = true;
-        this.rEar02.setPos(-0.6F, 0.0F, 0.7F);
-        this.rEar02.addBox(-1.0F, -4.0F, -0.5F, 2, 5, 1, 0.0F);
-        this.setRotateAngle(this.rEar02, 0.22689280275926282F, 0.0F, 0.0F);
-        this.snoot = new ModelPart(this, 112, 16);
-        this.snoot.setPos(0.0F, -0.4F, -4.3F);
-        this.snoot.addBox(-1.5F, -1.5F, -0.8F, 3, 3, 1, 0.0F);
-        this.setRotateAngle(this.snoot, -0.136659280431156F, 0.0F, 0.0F);
-        this.neck02 = new ModelPart(this, 0, 48);
-        this.neck02.setPos(0.0F, 0.1F, -3.8F);
-        this.neck02.addBox(-2.0F, -3.0F, -3.0F, 4, 6, 3, 0.0F);
-        this.setRotateAngle(this.neck02, -0.136659280431156F, 0.0F, 0.0F);
-        this.rTusk01 = new ModelPart(this, 0, 0);
-        this.rTusk01.mirror = true;
-        this.rTusk01.setPos(-1.3F, -0.5F, -2.8F);
-        this.rTusk01.addBox(-0.5F, -0.8F, -0.5F, 1, 1, 1, 0.0F);
-        this.setRotateAngle(this.rTusk01, 0.24434609527920614F, 0.0F, -0.6981317007977318F);
-        this.lTusk02 = new ModelPart(this, 0, 0);
-        this.lTusk02.setPos(0.0F, -1.0F, 0.0F);
-        this.lTusk02.addBox(-0.55F, -0.7F, -0.5F, 1, 1, 1, 0.0F);
-        this.setRotateAngle(this.lTusk02, 0.0F, 0.0F, -0.2617993877991494F);
-        this.lowerJaw.addChild(this.lTusk01);
-        this.rTusk02.addChild(this.rTusk03);
-        this.lEar01.addChild(this.lEar02);
-        this.head.addChild(this.lowerJaw);
-        this.rTusk01.addChild(this.rTusk02);
-        this.head.addChild(this.lEar01);
-        this.head.addChild(this.rEar01);
-        this.head.addChild(this.upperJaw);
-        this.snoot01.addChild(this.snoot02);
-        this.neck.addChild(this.chestFur01);
-        this.neck02.addChild(this.head);
-        this.neck02.addChild(this.mane01);
-        this.lTusk02.addChild(this.lTusk03);
-        this.head.addChild(this.snoot01);
-        this.rEar01.addChild(this.rEar02);
-        this.snoot01.addChild(this.snoot);
-        this.neck.addChild(this.neck02);
-        this.lowerJaw.addChild(this.rTusk01);
-        this.lTusk01.addChild(this.lTusk02);
+        this.neck = root.getChild("neck");
+        this.neck02 = neck.getChild("neck02");
+        this.head = neck02.getChild("head");
+        this.snoot01 = head.getChild("snoot01");
+        this.snoot02 = snoot01.getChild("snoot02");
+        this.snoot = snoot01.getChild("snoot");
+        this.upperJaw = head.getChild("upperJaw");
+        this.lowerJaw = head.getChild("lowerJaw");
+        this.lTusk01 = lowerJaw.getChild("lTusk01");
+        this.lTusk02 = lTusk01.getChild("lTusk02");
+        this.lTusk03 = lTusk02.getChild("lTusk03");
+        this.rTusk01 = lowerJaw.getChild("rTusk01");
+        this.rTusk02 = rTusk01.getChild("rTusk02");
+        this.rTusk03 = rTusk02.getChild("rTusk03");
+        this.lEar01 = head.getChild("lEar01");
+        this.lEar02 = lEar01.getChild("lEar02");
+        this.rEar01 = head.getChild("rEar01");
+        this.rEar02 = rEar01.getChild("rEar02");
+        this.mane01 = neck02.getChild("mane01");
+        this.chestFur01 = neck.getChild("chestFur01");
+    }
+
+    public static LayerDefinition createBodyLayer() {
+        MeshDefinition meshdefinition = new MeshDefinition();
+        PartDefinition partdefinition = meshdefinition.getRoot();
+        PartDefinition neck = partdefinition.addOrReplaceChild("neck", CubeListBuilder.create().texOffs(0, 34).addBox(-3.0F, -7.1F, -3.9F, 6.0F, 7.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, 0.0F));
+        PartDefinition neck02 = neck.addOrReplaceChild("neck02", CubeListBuilder.create().texOffs(0, 48).addBox(-2.0F, -3.0F, -3.0F, 4.0F, 6.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -3.5F, -3.0F, -0.1367F, 0.0F, 0.0F));
+        PartDefinition head = neck02.addOrReplaceChild("head", CubeListBuilder.create().texOffs(84, 0).addBox(-2.5F, -3.5F, -5.0F, 5.0F, 6.0F, 5.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -0.3F, -1.2F, 0.3316F, 0.0F, 0.0F));
+        PartDefinition snoot01 = head.addOrReplaceChild("snoot01", CubeListBuilder.create().texOffs(84, 16).mirror().addBox(-1.3F, -1.5F, -4.7F, 3.0F, 2.0F, 5.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(0.0F, -0.6F, -4.4F, 0.2731F, 0.0F, 0.0F));
+        PartDefinition snoot02 = snoot01.addOrReplaceChild("snoot02", CubeListBuilder.create().texOffs(101, 16).addBox(-1.7F, -1.5F, -4.7F, 1.0F, 2.0F, 5.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, 0.0F));
+        PartDefinition snoot = snoot01.addOrReplaceChild("snoot", CubeListBuilder.create().texOffs(112, 16).addBox(-1.5F, -1.5F, -0.8F, 3.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -0.4F, -4.3F, -0.1367F, 0.0F, 0.0F));
+        PartDefinition upperJaw = head.addOrReplaceChild("upperJaw", CubeListBuilder.create().texOffs(84, 25).addBox(-1.5F, -1.0F, -4.0F, 3.0F, 2.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.7F, -4.4F));
+        PartDefinition lowerJaw = head.addOrReplaceChild("lowerJaw", CubeListBuilder.create().texOffs(99, 25).addBox(-1.5F, -0.5F, -4.7F, 3.0F, 1.0F, 5.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 2.2F, -4.1F, 0.5672F, 0.0F, 0.0F));
+        PartDefinition lTusk01 = lowerJaw.addOrReplaceChild("lTusk01", CubeListBuilder.create().texOffs(0, 1).mirror().addBox(-0.5F, -0.8F, -0.5F, 1.0F, 1.0F, 1.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(1.3F, -0.5F, -2.8F, 0.2443F, 0.0F, 0.6981F));
+        PartDefinition lTusk02 = lTusk01.addOrReplaceChild("lTusk02", CubeListBuilder.create().texOffs(0, 1).mirror().addBox(-0.55F, -0.7F, -0.5F, 1.0F, 1.0F, 1.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(0.0F, -1.0F, 0.0F, 0.0F, 0.0F, -0.2618F));
+        PartDefinition lTusk03 = lTusk02.addOrReplaceChild("lTusk03", CubeListBuilder.create().texOffs(0, 0).mirror().addBox(-0.6F, -1.7F, -0.5F, 1.0F, 2.0F, 1.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(-0.1F, -0.8F, 0.0F, 0.0F, 0.0F, -0.4363F));
+        PartDefinition rTusk01 = lowerJaw.addOrReplaceChild("rTusk01", CubeListBuilder.create().texOffs(0, 1).addBox(-0.5F, -0.8F, -0.5F, 1.0F, 1.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-1.3F, -0.5F, -2.8F, 0.2443F, 0.0F, -0.6981F));
+        PartDefinition rTusk02 = rTusk01.addOrReplaceChild("rTusk02", CubeListBuilder.create().texOffs(0, 1).addBox(-0.45F, -0.7F, -0.5F, 1.0F, 1.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -1.0F, 0.0F, 0.0F, 0.0F, 0.2618F));
+        PartDefinition rTusk03 = rTusk02.addOrReplaceChild("rTusk03", CubeListBuilder.create().texOffs(0, 0).addBox(-0.4F, -1.7F, -0.5F, 1.0F, 2.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.1F, -0.8F, 0.0F, 0.0F, 0.0F, 0.4363F));
+        PartDefinition lEar01 = head.addOrReplaceChild("lEar01", CubeListBuilder.create().texOffs(69, 37).mirror().addBox(-0.8F, -3.0F, -0.5F, 3.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(1.2F, -2.7F, -1.7F, -0.2269F, -0.7854F, 0.7854F));
+        PartDefinition lEar02 = lEar01.addOrReplaceChild("lEar02", CubeListBuilder.create().texOffs(78, 37).mirror().addBox(-1.0F, -4.0F, -0.5F, 2.0F, 5.0F, 1.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(0.6F, 0.0F, 0.7F, 0.2269F, 0.0F, 0.0F));
+        PartDefinition rEar01 = head.addOrReplaceChild("rEar01", CubeListBuilder.create().texOffs(69, 37).addBox(-2.2F, -3.0F, -0.5F, 3.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-1.2F, -2.7F, -1.7F, -0.2269F, 0.7854F, -0.7854F));
+        PartDefinition rEar02 = rEar01.addOrReplaceChild("rEar02", CubeListBuilder.create().texOffs(78, 37).addBox(-1.0F, -4.0F, -0.5F, 2.0F, 5.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-0.6F, 0.0F, 0.7F, 0.2269F, 0.0F, 0.0F));
+        PartDefinition mane01 = neck02.addOrReplaceChild("mane01", CubeListBuilder.create().texOffs(86, 35).addBox(-2.0F, -1.2F, 0.0F, 4.0F, 2.0F, 5.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -2.7F, -1.8F, 0.6981F, 0.0F, 0.0F));
+        PartDefinition chestFur01 = neck.addOrReplaceChild("chestFur01", CubeListBuilder.create().texOffs(108, 50).addBox(-2.5F, 0.0F, -1.0F, 5.0F, 4.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -1.0F, -3.3F, 0.1745F, 0.0F, 0.0F));
+        return LayerDefinition.create(meshdefinition, 128, 64);
     }
 
     @Override
@@ -147,8 +92,4 @@ public class ModelBoarHead<T extends Entity> extends ModelBAPHead<T> {
         return 4F;
     }
 
-    @Override
-    public float globalOffsetY() {
-        return 3.9F;
-    }
 }

@@ -47,8 +47,8 @@ public class ModelColossalSquid<T extends Entity> extends ModelBAP<T> {
     public ModelPart tentacleRT2;
     public ModelPart tentacleRM1;
     public ModelPart tentacleRM2;
-    public ModelPart tentacleLM0_1;
-    public ModelPart tentacleLM0_2;
+    public ModelPart tentacleLM1;
+    public ModelPart tentacleLM2;
     public ModelPart tentacleLB1;
     public ModelPart tentacleLB2;
     public ModelPart tentacleRB1;
@@ -98,6 +98,8 @@ public class ModelColossalSquid<T extends Entity> extends ModelBAP<T> {
         this.tentacleRM1 = tentacleRM0.getChild("tentacleRM1");
         this.tentacleRM2 = tentacleRM1.getChild("tentacleRM2");
         this.tentacleLM0 = head.getChild("tentacleLM0");
+        this.tentacleLM1 = tentacleLM0.getChild("tentacleLM1");
+        this.tentacleLM2 = tentacleLM1.getChild("tentacleLM2");
         this.tentacleLB0 = head.getChild("tentacleLB0");
         this.tentacleLB1 = tentacleLB0.getChild("tentacleLB1");
         this.tentacleLB2 = tentacleLB1.getChild("tentacleLB2");
@@ -168,8 +170,8 @@ public class ModelColossalSquid<T extends Entity> extends ModelBAP<T> {
         PartDefinition tentacleRM1 = tentacleRM0.addOrReplaceChild("tentacleRM1", CubeListBuilder.create().texOffs(105, 0).mirror().addBox(-1.0F, -1.0F, -7.0F, 2.0F, 2.0F, 7.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(0.0F, 0.0F, -6.7F));
         PartDefinition tentacleRM2 = tentacleRM1.addOrReplaceChild("tentacleRM2", CubeListBuilder.create().texOffs(105, 0).mirror().addBox(-1.0F, -1.0F, -7.0F, 2.0F, 2.0F, 7.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(0.0F, 0.0F, -6.7F));
         PartDefinition tentacleLM0 = head.addOrReplaceChild("tentacleLM0", CubeListBuilder.create().texOffs(105, 0).addBox(-1.0F, -1.0F, -7.0F, 2.0F, 2.0F, 7.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(3.9F, 0.0F, -8.7F, 0.0F, 0.0F, 1.5708F));
-        PartDefinition tentacleLM0 = tentacleLM0.addOrReplaceChild("tentacleLM0", CubeListBuilder.create().texOffs(105, 0).addBox(-1.0F, -1.0F, -7.0F, 2.0F, 2.0F, 7.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, -6.7F));
-        PartDefinition tentacleLM0 = tentacleLM0.addOrReplaceChild("tentacleLM0", CubeListBuilder.create().texOffs(105, 0).addBox(-1.0F, -1.0F, -7.0F, 2.0F, 2.0F, 7.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, -6.7F));
+        PartDefinition tentacleLM1 = tentacleLM0.addOrReplaceChild("tentacleLM1", CubeListBuilder.create().texOffs(105, 0).addBox(-1.0F, -1.0F, -7.0F, 2.0F, 2.0F, 7.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, -6.7F));
+        PartDefinition tentacleLM2 = tentacleLM1.addOrReplaceChild("tentacleLM2", CubeListBuilder.create().texOffs(105, 0).addBox(-1.0F, -1.0F, -7.0F, 2.0F, 2.0F, 7.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, -6.7F));
         PartDefinition tentacleLB0 = head.addOrReplaceChild("tentacleLB0", CubeListBuilder.create().texOffs(105, 0).addBox(-1.0F, -1.0F, -7.0F, 2.0F, 2.0F, 7.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(3.0F, 2.3F, -8.7F, 0.0F, 0.0F, 2.2689F));
         PartDefinition tentacleLB1 = tentacleLB0.addOrReplaceChild("tentacleLB1", CubeListBuilder.create().texOffs(105, 0).addBox(-1.0F, -1.0F, -7.0F, 2.0F, 2.0F, 7.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, -6.7F));
         PartDefinition tentacleLB2 = tentacleLB1.addOrReplaceChild("tentacleLB2", CubeListBuilder.create().texOffs(105, 0).addBox(-1.0F, -1.0F, -7.0F, 2.0F, 2.0F, 7.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, -6.7F));

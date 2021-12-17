@@ -6,6 +6,12 @@ import dev.architectury.registry.client.rendering.BlockEntityRendererRegistry;
 import dev.itsmeow.betteranimalsplus.BetterAnimalsPlusMod;
 import dev.itsmeow.betteranimalsplus.Ref;
 import dev.itsmeow.betteranimalsplus.client.dumb.DeveloperRenderThing;
+import dev.itsmeow.betteranimalsplus.client.model.armor.ModelBearCape;
+import dev.itsmeow.betteranimalsplus.client.model.armor.ModelWolfCape;
+import dev.itsmeow.betteranimalsplus.client.model.block.ModelTrillium;
+import dev.itsmeow.betteranimalsplus.client.model.block.ModelTrilliumMulti;
+import dev.itsmeow.betteranimalsplus.client.model.block.ModelTrilliumMulti2;
+import dev.itsmeow.betteranimalsplus.client.model.block.head.*;
 import dev.itsmeow.betteranimalsplus.client.model.entity.*;
 import dev.itsmeow.betteranimalsplus.client.model.entity.shark.*;
 import dev.itsmeow.betteranimalsplus.client.renderer.blockentity.RenderBlockTrillium;
@@ -76,32 +82,15 @@ public class ClientLifecycleHandler {
         R.addRender(ModEntities.CRAB.getEntityType(), 0.4F, r -> r.tVariant().mSingle(ModelCrab::new, "crab").childScale(0.45F));
         R.addRender(ModEntities.HORSESHOE_CRAB.getEntityType(), 0.4F, r -> r.tVariant().mSingle(ModelHorseshoeCrab::new, "horseshoe_crab").childScale(0.45F));
         R.addRender(ModEntities.SHARK.getEntityType(), 2F, r -> r.tVariant().mMapped(e -> {
-            switch(e.getVariantNameOrEmpty()) {
-            case "blue":
-                return "blue_shark";
-            case "bull":
-                return "bull_shark";
-            case "tiger":
-                return "tiger_shark";
-            case "whitetip":
+            String v = e.getVariantNameOrEmpty();
+            if(v.equals("whitetip")) {
                 return "white_tip_shark";
-            case "greenland":
-                return "greenland_shark";
-            case "hammerhead":
-                return "hammerhead_shark";
-            case "goblin":
-                return "goblin_shark";
-            case "mako":
-                return "mako_shark";
-            case "great_white":
-                return "great_white_shark";
-            default:
-                return "bull_shark";
             }
+            return v.isEmpty() ? "bull_shark" : v + "_shark";
         }, ModelBullShark::new, "bull_shark")
         .mEntry(ModelBlueShark::new, "blue_shark")
         .mEntry(ModelTigerShark::new, "tiger_shark")
-        .mEntry(ModelWhiteTipShark::new, "whitetip_shark")
+        .mEntry(ModelWhiteTipShark::new, "white_tip_shark")
         .mEntry(ModelGreenlandShark::new, "greenland_shark")
         .mEntry(ModelHammerheadShark::new, "hammerhead_shark")
         .mEntry(ModelGoblinShark::new, "goblin_shark")
@@ -223,46 +212,63 @@ public class ClientLifecycleHandler {
         r.accept("barracuda", ModelBarracuda.createBodyLayer());
         r.accept("beaked_whale", ModelBeakedWhale.createBodyLayer());
         r.accept("black_bear", ModelBlackBear.createBodyLayer());
-        r.accept("boar", ModelBoar.createBodyLayer());;
-        r.accept("bobbit_worm", ModelBobbitWorm.createBodyLayer());;
-        r.accept("brown_bear", ModelBrownBear.createBodyLayer());;
-        r.accept("butterfly", ModelButterfly.createBodyLayer());;
-        r.accept("colossal_squid", ModelColossalSquid.createBodyLayer());;
-        r.accept("coyote", ModelCoyote.createBodyLayer());;
-        r.accept("crab", ModelCrab.createBodyLayer());;
-        r.accept("deer", ModelDeer.createBodyLayer());;
-        r.accept("dragonfly", ModelDragonfly.createBodyLayer());;
-        r.accept("feral_wolf", ModelFeralWolf.createBodyLayer());;
-        r.accept("flying_fish", ModelFlyingFish.createBodyLayer());;
-        r.accept("freshwater_eel", ModelFreshwaterEel.createBodyLayer());;
-        r.accept("giant_squid", ModelGiantSquid.createBodyLayer());;
-        r.accept("goose", ModelGoose.createBodyLayer());;
-        r.accept("horseshoe_crab", ModelHorseshoeCrab.createBodyLayer());;
-        r.accept("jellyfish", ModelJellyfish.createBodyLayer());;
-        r.accept("lammergeier", ModelLammergeier.createBodyLayer());;
-        r.accept("lamprey", ModelLamprey.createBodyLayer());;
-        r.accept("moose", ModelMoose.createBodyLayer());;
-        r.accept("nautilus", ModelNautilus.createBodyLayer());;
-        r.accept("octopus", ModelOctopus.createBodyLayer());;
-        r.accept("pheasant", ModelPheasant.createBodyLayer());;
-        r.accept("piranha", ModelPiranha.createBodyLayer());;
-        r.accept("reindeer", ModelReindeer.createBodyLayer());;
-        r.accept("saltwater_eel", ModelSaltwaterEel.createBodyLayer());;
-        r.accept("small_whale", ModelSmallWhale.createBodyLayer());;
-        r.accept("songbird", ModelSongbird.createBodyLayer());;
-        r.accept("songbird_small", ModelSongbirdSmall.createBodyLayer());;
-        r.accept("squirrel", ModelSquirrel.createBodyLayer());;
-        r.accept("tarantula", ModelTarantula.createBodyLayer());;
-        r.accept("turkey", ModelTurkey.createBodyLayer());;
-        r.accept("walrus", ModelWalrus.createBodyLayer());;
-        r.accept("blue_shark", ModelBlueShark.createBodyLayer());;
-        r.accept("bull_shark", ModelBullShark.createBodyLayer());;
-        r.accept("goblin_shark", ModelGoblinShark.createBodyLayer());;
-        r.accept("great_white_shark", ModelGreatWhiteShark.createBodyLayer());;
-        r.accept("greenland_shark", ModelGreenlandShark.createBodyLayer());;
-        r.accept("hammerhead_shark", ModelHammerheadShark.createBodyLayer());;
-        r.accept("mako_shark", ModelMakoShark.createBodyLayer());;
-        r.accept("tiger_shark", ModelTigerShark.createBodyLayer());;
-        r.accept("white_tip_shark", ModelWhiteTipShark.createBodyLayer());;
+        r.accept("boar", ModelBoar.createBodyLayer());
+        r.accept("bobbit_worm", ModelBobbitWorm.createBodyLayer());
+        r.accept("brown_bear", ModelBrownBear.createBodyLayer());
+        r.accept("butterfly", ModelButterfly.createBodyLayer());
+        r.accept("colossal_squid", ModelColossalSquid.createBodyLayer());
+        r.accept("coyote", ModelCoyote.createBodyLayer());
+        r.accept("crab", ModelCrab.createBodyLayer());
+        r.accept("deer", ModelDeer.createBodyLayer());
+        r.accept("dragonfly", ModelDragonfly.createBodyLayer());
+        r.accept("feral_wolf", ModelFeralWolf.createBodyLayer());
+        r.accept("flying_fish", ModelFlyingFish.createBodyLayer());
+        r.accept("freshwater_eel", ModelFreshwaterEel.createBodyLayer());
+        r.accept("giant_squid", ModelGiantSquid.createBodyLayer());
+        r.accept("goose", ModelGoose.createBodyLayer());
+        r.accept("horseshoe_crab", ModelHorseshoeCrab.createBodyLayer());
+        r.accept("jellyfish", ModelJellyfish.createBodyLayer());
+        r.accept("lammergeier", ModelLammergeier.createBodyLayer());
+        r.accept("lamprey", ModelLamprey.createBodyLayer());
+        r.accept("moose", ModelMoose.createBodyLayer());
+        r.accept("nautilus", ModelNautilus.createBodyLayer());
+        r.accept("octopus", ModelOctopus.createBodyLayer());
+        r.accept("pheasant", ModelPheasant.createBodyLayer());
+        r.accept("piranha", ModelPiranha.createBodyLayer());
+        r.accept("reindeer", ModelReindeer.createBodyLayer());
+        r.accept("saltwater_eel", ModelSaltwaterEel.createBodyLayer());
+        r.accept("small_whale", ModelSmallWhale.createBodyLayer());
+        r.accept("songbird", ModelSongbird.createBodyLayer());
+        r.accept("songbird_small", ModelSongbirdSmall.createBodyLayer());
+        r.accept("squirrel", ModelSquirrel.createBodyLayer());
+        r.accept("tarantula", ModelTarantula.createBodyLayer());
+        r.accept("turkey", ModelTurkey.createBodyLayer());
+        r.accept("walrus", ModelWalrus.createBodyLayer());
+
+        r.accept("blue_shark", ModelBlueShark.createBodyLayer());
+        r.accept("bull_shark", ModelBullShark.createBodyLayer());
+        r.accept("goblin_shark", ModelGoblinShark.createBodyLayer());
+        r.accept("great_white_shark", ModelGreatWhiteShark.createBodyLayer());
+        r.accept("greenland_shark", ModelGreenlandShark.createBodyLayer());
+        r.accept("hammerhead_shark", ModelHammerheadShark.createBodyLayer());
+        r.accept("mako_shark", ModelMakoShark.createBodyLayer());
+        r.accept("tiger_shark", ModelTigerShark.createBodyLayer());
+        r.accept("white_tip_shark", ModelWhiteTipShark.createBodyLayer());
+
+        r.accept("bear_cape", ModelBearCape.createBodyLayer());
+        r.accept("wolf_cape", ModelWolfCape.createBodyLayer());
+
+        r.accept("black_bear_head", ModelBlackBearHead.createBodyLayer());
+        r.accept("boar_head", ModelBoarHead.createBodyLayer());
+        r.accept("brown_bear_head", ModelBrownBearHead.createBodyLayer());
+        r.accept("coyote_head", ModelCoyoteHead.createBodyLayer());
+        r.accept("deer_head", ModelDeerHead.createBodyLayer());
+        r.accept("feral_wolf_head", ModelFeralWolfHead.createBodyLayer());
+        r.accept("moose_head", ModelMooseHead.createBodyLayer());
+        r.accept("reindeer_head", ModelReindeerHead.createBodyLayer());
+
+        r.accept("trillium_single", ModelTrillium.createBodyLayer());
+        r.accept("trillium_double", ModelTrilliumMulti.createBodyLayer());
+        r.accept("trillium_triple", ModelTrilliumMulti2.createBodyLayer());
     }
 }

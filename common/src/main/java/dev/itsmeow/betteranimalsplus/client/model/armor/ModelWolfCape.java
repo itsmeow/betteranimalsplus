@@ -18,7 +18,7 @@ import net.minecraft.world.entity.player.Player;
  */
 public class ModelWolfCape<T extends LivingEntity> extends HumanoidModel<T> {
 
-    public static final ModelWolfCape<LivingEntity> INSTANCE = null;
+    public static ModelWolfCape<LivingEntity> INSTANCE = null;
 
     public ModelPart wolfCapeMain;
     public ModelPart wolfCapeLower;

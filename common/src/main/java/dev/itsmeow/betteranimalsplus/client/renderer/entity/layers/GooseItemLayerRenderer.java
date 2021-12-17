@@ -29,7 +29,7 @@ public class GooseItemLayerRenderer<T extends LivingEntity> extends RenderLayer<
                 RenderUtil.partTranslateRotate(stack, this.model().body, this.model().neck00, this.model().neck01, this.model().neck02, this.model().neck03, this.model().head, this.model().billUpper);
                 stack.translate(0F, 0.15F, 0F);
                 stack.scale(0.75F, 0.75F, 0.75F);
-                Minecraft.getInstance().getItemRenderer().renderStatic(goose, itemstack, TransformType.GROUND, false, stack, bufferIn, goose.getCommandSenderWorld(), packedLightIn, LivingEntityRenderer.getOverlayCoords(goose, 0.0F));
+                Minecraft.getInstance().getItemRenderer().renderStatic(goose, itemstack, TransformType.GROUND, false, stack, bufferIn, goose.getCommandSenderWorld(), packedLightIn, LivingEntityRenderer.getOverlayCoords(goose, 0.0F), 0);
             }
             stack.popPose();
         }

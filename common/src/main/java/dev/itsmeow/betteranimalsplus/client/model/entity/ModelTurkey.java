@@ -11,7 +11,6 @@ import net.minecraft.world.entity.LivingEntity;
 
 public class ModelTurkey<T extends LivingEntity> extends ModelBAP<T> {
 
-    public ModelPart root;
     public ModelPart body;
     public ModelPart lLeg01;
     public ModelPart lLeg02;
@@ -54,7 +53,6 @@ public class ModelTurkey<T extends LivingEntity> extends ModelBAP<T> {
     public ModelPart rWingFeathers;
 
     public ModelTurkey(ModelPart root) {
-        this.root = root.getChild("root");
         this.body = root.getChild("body");
         this.lLeg01 = body.getChild("lLeg01");
         this.lLeg02 = lLeg01.getChild("lLeg02");
@@ -100,8 +98,7 @@ public class ModelTurkey<T extends LivingEntity> extends ModelBAP<T> {
     public static LayerDefinition createBodyLayer() {
         MeshDefinition meshdefinition = new MeshDefinition();
         PartDefinition partdefinition = meshdefinition.getRoot();
-        PartDefinition root = partdefinition.addOrReplaceChild("root", CubeListBuilder.create(), PartPose.offset(0.0F, 0.0F, 0.0F));
-        PartDefinition body = root.addOrReplaceChild("body", CubeListBuilder.create().texOffs(0, 0).addBox(-4.5F, -4.5F, -6.0F, 9.0F, 9.0F, 12.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 10.8F, 0.0F));
+        PartDefinition body = partdefinition.addOrReplaceChild("body", CubeListBuilder.create().texOffs(0, 0).addBox(-4.5F, -4.5F, -6.0F, 9.0F, 9.0F, 12.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 10.8F, 0.0F));
         PartDefinition lLeg01 = body.addOrReplaceChild("lLeg01", CubeListBuilder.create().texOffs(33, 0).mirror().addBox(-1.5F, -0.7F, -1.5F, 3.0F, 4.0F, 3.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(2.6F, 4.5F, 1.5F, 0.2094F, 0.0F, 0.0F));
         PartDefinition lLeg02 = lLeg01.addOrReplaceChild("lLeg02", CubeListBuilder.create().texOffs(46, 0).mirror().addBox(-1.0F, 0.0F, -1.0F, 2.0F, 6.0F, 2.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(0.0F, 3.1F, 0.0F, -0.2094F, 0.0F, 0.0F));
         PartDefinition lClaw01 = lLeg02.addOrReplaceChild("lClaw01", CubeListBuilder.create().texOffs(0, 0).mirror().addBox(-0.5F, 0.0F, -2.5F, 1.0F, 0.0F, 3.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(0.0F, 5.3F, -1.1F, 0.2443F, 0.0F, 0.0F));

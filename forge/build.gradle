@@ -37,6 +37,11 @@ dependencies {
 }
 
 loom {
+    mixinConfig "mixin.imdlib.json", "betteranimalsplus-forge.mixins.json", "betteranimalsplus.mixins.json"
+}
+
+
+/*loom {
     launches {
         all {
             arg "-mixin.config", "mixin.imdlib.json"
@@ -44,7 +49,7 @@ loom {
             property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
         }
     }
-}
+}*/
 
 processResources {
     inputs.property "version", project.version

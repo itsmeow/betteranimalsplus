@@ -16,7 +16,7 @@ public abstract class ItemModeledArmor extends ArmorItem {
         super(material, slot, properties);
     }
 
-    //@Override (FORGE)
+    // Referenced by ItemModeledArmorMixin and Fabric
     @Environment(EnvType.CLIENT)
     public <A extends HumanoidModel<?>> A getArmorModel(LivingEntity entityLiving, ItemStack itemStack, EquipmentSlot armorSlot, A defaultModel) {
         if (itemStack != null) {

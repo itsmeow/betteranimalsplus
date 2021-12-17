@@ -1,12 +1,13 @@
 {
-  "required": false,
-  "package": "dev.itsmeow.betteranimalsplus.mixin",
-  "compatibilityLevel": "JAVA_8",
+  "required": true,
+  "package": "dev.itsmeow.betteranimalsplus.mixin.forge",
+  "compatibilityLevel": "JAVA_16",
   "minVersion": "0.8",
   "mixins": [
     "SynchedEntityDataMixin"
   ],
   "client": [
+    "ItemModeledArmorMixin"
   ],
   "injectors": {
     "defaultRequire": 1

@@ -18,7 +18,7 @@ import net.minecraft.world.entity.player.Player;
  */
 public class ModelBearCape<T extends LivingEntity> extends HumanoidModel<T> {
 
-    public static final ModelBearCape<LivingEntity> INSTANCE = null;
+    public static ModelBearCape<LivingEntity> INSTANCE = null;
 
     public ModelPart baseCube;
     public ModelPart bearCapeArmR1;

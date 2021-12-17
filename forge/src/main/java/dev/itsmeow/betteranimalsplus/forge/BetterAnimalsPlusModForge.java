@@ -1,6 +1,8 @@
-package dev.itsmeow.betteranimalsplus;
+package dev.itsmeow.betteranimalsplus.forge;
 
-import dev.itsmeow.betteranimalsplus.client.BetterAnimalsPlusClientForge;
+import dev.itsmeow.betteranimalsplus.BetterAnimalsPlusMod;
+import dev.itsmeow.betteranimalsplus.Ref;
+import dev.itsmeow.betteranimalsplus.client.forge.BetterAnimalsPlusClientForge;
 import dev.itsmeow.betteranimalsplus.compat.curios.CuriosModCompat;
 import dev.itsmeow.imdlib.util.ClassLoadHacks;
 import dev.architectury.platform.forge.EventBuses;

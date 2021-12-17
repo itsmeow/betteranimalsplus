@@ -33,6 +33,7 @@ allprojects {
         if (JavaVersion.current().isJava9Compatible()) {
             options.release = targetVersion
         }
+        options.compilerArgs << "-Xmaxerrs" << "2000"
     }
     repositories {
         maven {

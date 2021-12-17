@@ -1,5 +1,6 @@
-package dev.itsmeow.betteranimalsplus.client;
+package dev.itsmeow.betteranimalsplus.client.forge;
 
+import dev.itsmeow.betteranimalsplus.client.ClientLifecycleHandler;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 
 public class BetterAnimalsPlusClientForge {

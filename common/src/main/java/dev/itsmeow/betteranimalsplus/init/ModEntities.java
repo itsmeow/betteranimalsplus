@@ -250,7 +250,7 @@ public class ModEntities {
             .egg(0x4F2900, 0x8E500E)
             .size(2F, 2F)
             .biomesOverworld(BiomeTypes.FOREST)
-            .head().itemGroup(G).singleton("1", "brownbear").setModel(() -> ModelBrownBearHead::new).done());
+            .head().itemGroup(G).singleton("1", "brownbear").setModel(() -> ModelBrownBearHead::new, "brown_bear_head").done());
     public static final EntityTypeContainer<EntityBearNeutral> BLACK_BEAR = H.add(EntityBearNeutral.class, EntityBearNeutral::new, "blackbear", () -> Mob.createMobAttributes()
             .add(Attributes.MAX_HEALTH, 30.0D)
             .add(Attributes.FOLLOW_RANGE, 20.0D)
@@ -265,7 +265,7 @@ public class ModEntities {
             .size(2F, 1.5F)
             .biomesOverworld(BiomeTypes.FOREST)
             .variants(EntityBearNeutral.BlackBearVariant::new, "black", "kermode")
-            .head().itemGroup(G).mapToNames().setModel(() -> ModelBlackBearHead::new).done());
+            .head().itemGroup(G).mapToNames().setModel(() -> ModelBlackBearHead::new, "black_bear_head").done());
     public static final EntityTypeContainer<EntityDeer> DEER = H.add(EntityDeer.class, EntityDeer::new, "deer", () -> Mob.createMobAttributes()
             .add(Attributes.MAX_HEALTH, 15.0D)
             .add(Attributes.MOVEMENT_SPEED, 0.45D), b -> b
@@ -275,7 +275,7 @@ public class ModEntities {
             .size(1.2F, 1.6F)
             .biomesOverworld(BiomeTypes.FOREST, BiomeTypes.MAGICAL)
             .variants(EntityDeer.EntityDeerVariant::new, "1", "2", "3", "4")
-            .head().itemGroup(G).mapToNames().setModel(() -> ModelDeerHead::new).done());
+            .head().itemGroup(G).mapToNames().setModel(() -> ModelDeerHead::new, "deer_head").done());
     public static final EntityTypeContainerBAPTameable<EntityFeralWolf> FERAL_WOLF = H.addTame(EntityFeralWolf.class, EntityFeralWolf::new, "feralwolf", () -> Mob.createMobAttributes()
             .add(Attributes.MOVEMENT_SPEED, 0.3D)
             .add(Attributes.MAX_HEALTH, 10.0D)
@@ -288,7 +288,7 @@ public class ModEntities {
             .tameItems("minecraft:bone")
             .biomesOverworld(BiomeTypes.FOREST, BiomeTypes.MAGICAL, BiomeTypes.SPOOKY)
             .variants(EntityFeralWolf.WolfVariant::new, "black", "snowy", "timber", "arctic", "brown", "red")
-            .head().itemGroup(G).mapToNames().allowFloor().setModel(() -> ModelFeralWolfHead::new).done());
+            .head().itemGroup(G).mapToNames().allowFloor().setModel(() -> ModelFeralWolfHead::new, "feral_wolf_head").done());
     public static final EntityTypeContainerBAPTameable<EntityCoyote> COYOTE = H.addTame(EntityCoyote.class, EntityCoyote::new, "coyote", () -> Mob.createMobAttributes()
             .add(Attributes.MOVEMENT_SPEED, 0.3D)
             .add(Attributes.MAX_HEALTH, 10.0D)
@@ -300,7 +300,7 @@ public class ModEntities {
             .size(0.8F, 0.9F)
             .tameItems("minecraft:rabbit", "minecraft:chicken", "betteranimalsplus:pheasantraw", "minecraft:cooked_rabbit", "minecraft:cooked_chicken", "betteranimalsplus:pheasantcooked")
             .biomesOverworld(BiomeTypes.SANDY, BiomeTypes.PLAINS)
-            .config((holder, builder) -> holder.put(EntityCoyote.HOSTILE_DAYTIME_KEY, Boolean.class, builder.define(EntityCoyote.HOSTILE_DAYTIME_KEY, "Makes coyote always hostile (removes ability to tame!)", false))).head().itemGroup(G).allowFloor().singleton("1", "coyote_hostile").setModel(() -> ModelCoyoteHead::new).done());
+            .config((holder, builder) -> holder.put(EntityCoyote.HOSTILE_DAYTIME_KEY, Boolean.class, builder.define(EntityCoyote.HOSTILE_DAYTIME_KEY, "Makes coyote always hostile (removes ability to tame!)", false))).head().itemGroup(G).allowFloor().singleton("1", "coyote_hostile").setModel(() -> ModelCoyoteHead::new, "coyote_head").done());
     public static final EntityTypeContainerContainable<EntityJellyfish, ItemModFishBucket<EntityJellyfish>> JELLYFISH = H.addContainableB(EntityJellyfish.class, EntityJellyfish::new, "jellyfish", () -> Mob.createMobAttributes()
             .add(Attributes.MAX_HEALTH, 10.0D), b -> b
             .spawn(MobCategory.WATER_CREATURE, 10, 1, 1)
@@ -328,7 +328,7 @@ public class ModEntities {
                     new EntityVariant(MODID, "2_christmas", "reindeer_2_christmas", false),
                     new EntityVariant(MODID, "3_christmas", "reindeer_3_christmas", false),
                     new EntityVariant(MODID, "4_christmas", "reindeer_4_christmas", false))
-            .head("reindeerhead").itemGroup(G).mapToNames().setModel(() -> ModelReindeerHead::new).done()
+            .head("reindeerhead").itemGroup(G).mapToNames().setModel(() -> ModelReindeerHead::new, "reindeer_head").done()
             .clientConfig((holder, builder) -> holder.put("create_snow", Boolean.class, builder.define("create_snow", "Generates snow particles around reindeer.", true))));
     public static final EntityTypeContainer<EntityBoar> BOAR = H.add(EntityBoar.class, EntityBoar::new, "boar", () -> Mob.createMobAttributes()
             .add(Attributes.MAX_HEALTH, 12.0D)
@@ -348,7 +348,7 @@ public class ModEntities {
                 holder.put("nerf_options/target_chance", Integer.class, builder.defineInRange("target_chance", "Chance out of 100 the boar will execute targeting AI: lower number = less common attacks", 100, 0, 100));
                 builder.pop();
             })
-            .head().itemGroup(G).mapToNames().setModel(() -> ModelBoarHead::new).done());
+            .head().itemGroup(G).mapToNames().setModel(() -> ModelBoarHead::new, "boar_head").done());
     public static final EntityTypeContainerContainable<EntityLamprey, ItemModFishBucket<EntityLamprey>> LAMPREY = H.addContainableB(EntityLamprey.class, EntityLamprey::new, "lamprey", () -> Mob.createMobAttributes()
             .add(Attributes.MAX_HEALTH, 3.0D)
             .add(Attributes.MOVEMENT_SPEED, 0.8D)
@@ -386,7 +386,7 @@ public class ModEntities {
                     .extra(BiomeTypes.SWAMP)
                     .extra(Biomes.GIANT_SPRUCE_TAIGA, Biomes.GIANT_SPRUCE_TAIGA_HILLS, Biomes.GIANT_TREE_TAIGA, Biomes.GIANT_TREE_TAIGA_HILLS))
             .variants(4)
-            .head().itemGroup(G).mapToNames().setModel(() -> ModelMooseHead::new).done());
+            .head().itemGroup(G).mapToNames().setModel(() -> ModelMooseHead::new, "moose_head").done());
     public static final EntityTypeContainerContainable<EntityFreshwaterEel, ItemModFishBucket<EntityFreshwaterEel>> EEL_FRESHWATER = H.addContainableB(EntityFreshwaterEel.class, EntityFreshwaterEel::new, "eel_freshwater", () -> Mob.createMobAttributes()
             .add(Attributes.MAX_HEALTH, 5.0D)
             .add(Attributes.MOVEMENT_SPEED, 2D)

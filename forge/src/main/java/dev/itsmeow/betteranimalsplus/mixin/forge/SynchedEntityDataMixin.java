@@ -1,4 +1,4 @@
-package dev.itsmeow.betteranimalsplus.mixin;
+package dev.itsmeow.betteranimalsplus.mixin.forge;
 
 import dev.itsmeow.imdlib.entity.interfaces.IContainerEntity;
 import net.minecraft.network.syncher.EntityDataAccessor;

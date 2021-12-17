@@ -88,9 +88,9 @@ public abstract class EntityBAPCephalopod extends EntityWaterMobPathing {
                 this.setDeltaMovement(this.randomMotionVecX * this.randomMotionSpeed, this.randomMotionVecY * this.randomMotionSpeed, this.randomMotionVecZ * this.randomMotionSpeed);
             }
             Vec3 vec3d = this.getDeltaMovement();
-            float f1 = Mth.sqrt(getHorizontalDistanceSqr(vec3d));
+            double f1 = Math.sqrt(vec3d.x * vec3d.x + vec3d.z * vec3d.z);
             this.yBodyRot += (-((float) Mth.atan2(vec3d.x, vec3d.z)) * (180F / (float) Math.PI) - this.yBodyRot) * 0.1F;
-            this.yRot = this.yBodyRot;
+            this.setYRot(this.yBodyRot);
             this.squidYaw = (float) ((double) this.squidYaw + Math.PI * (double) this.rotateSpeed * 1.5D);
             this.squidPitch += (-((float) Mth.atan2(f1, vec3d.y)) * (180F / (float) Math.PI) - this.squidPitch) * 0.1F;
         } else {

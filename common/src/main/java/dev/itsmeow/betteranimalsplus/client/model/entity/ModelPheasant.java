@@ -72,6 +72,7 @@ public class ModelPheasant<T extends LivingEntity> extends ModelBAP<T> {
         this.rLeg02 = rLeg01.getChild("rLeg02");
         this.rClaw01 = rLeg02.getChild("rClaw01");
         this.rClaw02 = rLeg02.getChild("rClaw02");
+        this.rClaw03 = rLeg02.getChild("rClaw03");
         this.rClaw04 = rLeg02.getChild("rClaw04");
         this.neck01 = body.getChild("neck01");
         this.neck02 = neck01.getChild("neck02");
@@ -112,7 +113,7 @@ public class ModelPheasant<T extends LivingEntity> extends ModelBAP<T> {
         PartDefinition rLeg02 = rLeg01.addOrReplaceChild("rLeg02", CubeListBuilder.create().texOffs(9, 14).mirror().addBox(-0.5F, 0.0F, -0.5F, 1.0F, 4.0F, 1.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(0.0F, 1.6F, 0.0F, -0.2094F, 0.0F, 0.0F));
         PartDefinition rClaw01 = rLeg02.addOrReplaceChild("rClaw01", CubeListBuilder.create().texOffs(0, 0).mirror().addBox(-0.5F, 0.5F, -2.5F, 1.0F, 0.0F, 3.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(0.0F, 3.1F, -0.5F, 0.2443F, 0.0F, 0.0F));
         PartDefinition rClaw02 = rLeg02.addOrReplaceChild("rClaw02", CubeListBuilder.create().texOffs(0, 0).mirror().addBox(-0.5F, 0.5F, -2.5F, 1.0F, 0.0F, 3.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(-0.5F, 3.2F, -0.2F, 0.1571F, 0.3491F, 0.0F));
-        PartDefinition rClaw02 = rLeg02.addOrReplaceChild("rClaw02", CubeListBuilder.create().texOffs(0, 0).mirror().addBox(-0.5F, 0.5F, -2.5F, 1.0F, 0.0F, 3.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(0.5F, 3.2F, -0.2F, 0.1571F, -0.3491F, 0.0F));
+        PartDefinition rClaw03 = rLeg02.addOrReplaceChild("rClaw03", CubeListBuilder.create().texOffs(0, 0).mirror().addBox(-0.5F, 0.5F, -2.5F, 1.0F, 0.0F, 3.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(0.5F, 3.2F, -0.2F, 0.1571F, -0.3491F, 0.0F));
         PartDefinition rClaw04 = rLeg02.addOrReplaceChild("rClaw04", CubeListBuilder.create().texOffs(0, 19).mirror().addBox(-0.5F, 0.5F, -0.5F, 1.0F, 0.0F, 3.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(0.0F, 3.0F, 0.2F));
         PartDefinition neck01 = body.addOrReplaceChild("neck01", CubeListBuilder.create().texOffs(13, 15).addBox(-2.0F, -2.0F, -3.2F, 4.0F, 4.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -0.6F, -2.7F, -0.9076F, 0.0F, 0.0F));
         PartDefinition neck02 = neck01.addOrReplaceChild("neck02", CubeListBuilder.create().texOffs(0, 24).addBox(-1.5F, -1.5F, -2.5F, 3.0F, 3.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.1F, -2.7F, -0.0349F, 0.0F, 0.0F));

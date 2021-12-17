@@ -17,7 +17,7 @@ public class LayerEyes<T extends Mob, A extends EntityModel<T>> extends RenderLa
 
     public LayerEyes(MobRenderer<T, A> baseRenderer, ResourceLocation texture) {
         super(baseRenderer);
-        this.GLOW_STATE = ClientLifecycleHandler.RenderTypes.getEyesEntityCutoutNoCullDepthMaskOff(texture);
+        this.GLOW_STATE = RenderType.eyes(texture);
     }
 
     @Override

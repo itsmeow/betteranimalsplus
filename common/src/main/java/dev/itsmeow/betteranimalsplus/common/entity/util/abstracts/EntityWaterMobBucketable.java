@@ -84,10 +84,10 @@ public abstract class EntityWaterMobBucketable extends WaterAnimal implements IB
             }
             if(itemstack.isEmpty()) {
                 player.setItemInHand(hand, itemstack1);
-            } else if(!player.inventory.add(itemstack1)) {
+            } else if(!player.getInventory().add(itemstack1)) {
                 player.drop(itemstack1, false);
             }
-            this.remove();
+            this.discard();
             return InteractionResult.SUCCESS;
         } else {
             return super.mobInteract(player, hand);

@@ -3,6 +3,7 @@ package dev.itsmeow.betteranimalsplus.compat.curios;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import dev.itsmeow.betteranimalsplus.common.item.ItemCape;
+import dev.itsmeow.betteranimalsplus.common.item.ItemModeledArmor;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -49,10 +50,11 @@ public record CurioCape(ItemStack stack) implements ICurio {
 
         @Override
         public <T extends LivingEntity, M extends EntityModel<T>> void render(ItemStack stack, SlotContext slotContext, PoseStack matrixStack, RenderLayerParent<T, M> renderLayerParent, MultiBufferSource renderTypeBuffer, int light, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
-            if (stack.getItem() instanceof ArmorItem) {
+            if (stack.getItem() instanceof ItemModeledArmor item) {
+                HumanoidModel<LivingEntity> parentModel = (renderLayerParent.getModel() instanceof HumanoidModel) ? (HumanoidModel<LivingEntity>) renderLayerParent.getModel() : null;
                 HumanoidModel<LivingEntity> model;
                 if (!models.containsKey(modelKey)) {
-                    model = stack.getItem().getArmorModel(slotContext.entity(), stack, EquipmentSlot.CHEST, null);
+                    model = item.getArmorModel(slotContext.entity(), stack, EquipmentSlot.CHEST, parentModel);
                     models.put(modelKey, model);
                 } else {
                     model = models.get(modelKey);

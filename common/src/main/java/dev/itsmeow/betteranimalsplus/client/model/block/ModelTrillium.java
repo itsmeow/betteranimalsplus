@@ -3,15 +3,16 @@ package dev.itsmeow.betteranimalsplus.client.model.block;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Vector3f;
-import dev.itsmeow.imdlib.client.util.RenderUtil;
-import net.minecraft.client.model.EntityModel;
+import dev.itsmeow.betteranimalsplus.client.model.abstracts.ModelBAP;
 import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.client.model.geom.PartPose;
+import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.world.entity.Entity;
 
 /**
  * trillium - cybercat5555 Created using Tabula 5.1.0
  */
-public class ModelTrillium<T extends Entity> extends EntityModel<T> {
+public class ModelTrillium<T extends Entity> extends ModelBAP<T> {
 
     public ModelPart stem01;
     public ModelPart stem02;
@@ -39,114 +40,59 @@ public class ModelTrillium<T extends Entity> extends EntityModel<T> {
 
     private float rotation = 0;
 
-    public ModelTrillium() {
-        this.texWidth = 64;
-        this.texHeight = 32;
-        this.petal02a = new ModelPart(this, 18, 19);
-        this.petal02a.setPos(0.0F, -0.3F, 0.0F);
-        this.petal02a.addBox(-2.5F, -5.6F, -0.7F, 5, 5, 0, 0.0F);
-        this.setRotateAngle(this.petal02a, 0.6373942428283291F, 2.0943951023931953F, 0.0F);
-        this.petal02b = new ModelPart(this, 19, 24);
-        this.petal02b.setPos(0.0F, -5.6F, -0.7F);
-        this.petal02b.addBox(-1.5F, -3.0F, 0.0F, 3, 3, 0, 0.0F);
-        this.setRotateAngle(this.petal02b, -0.22759093446006054F, 0.0F, 0.0F);
-        this.largeLeaf03b = new ModelPart(this, 11, 10);
-        this.largeLeaf03b.setPos(10.0F, 0.0F, 0.0F);
-        this.largeLeaf03b.addBox(0.0F, 0.0F, -3.0F, 8, 0, 6, 0.0F);
-        this.setRotateAngle(this.largeLeaf03b, 0.0F, 0.0F, 0.136659280431156F);
-        this.largeLeaf02b = new ModelPart(this, 11, 10);
-        this.largeLeaf02b.setPos(10.0F, 0.0F, 0.0F);
-        this.largeLeaf02b.addBox(0.0F, 0.0F, -3.0F, 8, 0, 6, 0.0F);
-        this.setRotateAngle(this.largeLeaf02b, 0.0F, 0.0F, 0.136659280431156F);
-        this.largeLeaf03a = new ModelPart(this, 7, 0);
-        this.largeLeaf03a.setPos(0.0F, -1.5F, 0.0F);
-        this.largeLeaf03a.addBox(0.0F, 0.0F, -5.0F, 10, 0, 10, 0.0F);
-        this.setRotateAngle(this.largeLeaf03a, 0.36425021489121656F, -2.0943951023931953F, -0.4553564018453205F);
-        this.smallLeaf03a = new ModelPart(this, 31, 0);
-        this.smallLeaf03a.setPos(0.5F, -0.3F, 0.0F);
-        this.smallLeaf03a.addBox(0.0F, 0.0F, -4.5F, 9, 0, 9, 0.0F);
-        this.setRotateAngle(this.smallLeaf03a, 0.091106186954104F, -1.0471975511965976F, -0.091106186954104F);
-        this.largeLeaf01a = new ModelPart(this, 7, 0);
-        this.largeLeaf01a.setPos(0.0F, -1.5F, 0.0F);
-        this.largeLeaf01a.addBox(0.0F, 0.0F, -5.0F, 10, 0, 10, 0.0F);
-        this.setRotateAngle(this.largeLeaf01a, 0.0F, 0.0F, 0.27314402793711257F);
-        this.smallLeaf01a = new ModelPart(this, 31, 0);
-        this.smallLeaf01a.setPos(0.5F, -0.3F, 0.0F);
-        this.smallLeaf01a.addBox(0.0F, 0.0F, -4.5F, 9, 0, 9, 0.0F);
-        this.setRotateAngle(this.smallLeaf01a, 0.0F, 3.141592653589793F, 0.091106186954104F);
-        this.stem05 = new ModelPart(this, 0, 25);
-        this.stem05.setPos(0.0F, 12.0F, 0.0F);
-        this.stem05.addBox(-1.0F, -1.0F, -1.0F, 2, 1, 2, 0.0F);
-        this.largeLeaf01b = new ModelPart(this, 11, 10);
-        this.largeLeaf01b.setPos(10.0F, 0.0F, 0.0F);
-        this.largeLeaf01b.addBox(0.0F, 0.0F, -3.0F, 8, 0, 6, 0.0F);
-        this.setRotateAngle(this.largeLeaf01b, 0.0F, 0.0F, 0.136659280431156F);
-        this.largeLeaf02a = new ModelPart(this, 7, 0);
-        this.largeLeaf02a.setPos(0.0F, -1.5F, 0.0F);
-        this.largeLeaf02a.addBox(0.0F, 0.0F, -5.0F, 10, 0, 10, 0.0F);
-        this.setRotateAngle(this.largeLeaf02a, -0.36425021489121656F, 2.0943951023931953F, -0.4553564018453205F);
-        this.petal01a = new ModelPart(this, 18, 19);
-        this.petal01a.setPos(0.0F, -0.3F, 0.0F);
-        this.petal01a.addBox(-2.5F, -5.6F, -0.7F, 5, 5, 0, 0.0F);
-        this.setRotateAngle(this.petal01a, 0.6373942428283291F, 0.0F, 0.0F);
-        this.stem01 = new ModelPart(this, 0, 0);
-        this.stem01.setPos(0.0F, 24.0F, 0.0F);
-        this.stem01.addBox(-1.0F, -2.0F, -1.0F, 2, 2, 2, 0.0F);
-        this.stem02 = new ModelPart(this, 0, 5);
-        this.stem02.setPos(0.0F, 22.1F, 0.0F);
-        this.stem02.addBox(-1.0F, -3.0F, -1.0F, 2, 3, 2, 0.0F);
-        this.stem04 = new ModelPart(this, 0, 19);
-        this.stem04.setPos(0.0F, 13.4F, 0.0F);
-        this.stem04.addBox(-1.0F, -1.7F, -1.0F, 2, 2, 2, 0.0F);
-        this.smallLeaf03b = new ModelPart(this, 35, 9);
-        this.smallLeaf03b.setPos(9.0F, 0.0F, 0.0F);
-        this.smallLeaf03b.addBox(0.0F, 0.0F, -2.5F, 7, 0, 5, 0.0F);
-        this.setRotateAngle(this.smallLeaf03b, 0.0F, 0.0F, 0.091106186954104F);
-        this.stem03 = new ModelPart(this, 0, 11);
-        this.stem03.setPos(0.0F, 19.4F, 0.0F);
-        this.stem03.addBox(-0.5F, -6.1F, -0.5F, 1, 6, 1, 0.0F);
-        this.smallLeaf01b = new ModelPart(this, 35, 9);
-        this.smallLeaf01b.setPos(9.0F, 0.0F, 0.0F);
-        this.smallLeaf01b.addBox(0.0F, 0.0F, -2.5F, 7, 0, 5, 0.0F);
-        this.setRotateAngle(this.smallLeaf01b, 0.0F, 0.0F, 0.091106186954104F);
-        this.petal01b = new ModelPart(this, 19, 24);
-        this.petal01b.setPos(0.0F, -5.6F, -0.7F);
-        this.petal01b.addBox(-1.5F, -3.0F, 0.0F, 3, 3, 0, 0.0F);
-        this.setRotateAngle(this.petal01b, -0.22759093446006054F, 0.0F, 0.0F);
-        this.petal03a = new ModelPart(this, 18, 19);
-        this.petal03a.setPos(0.0F, -0.3F, 0.0F);
-        this.petal03a.addBox(-2.5F, -5.6F, -0.7F, 5, 5, 0, 0.0F);
-        this.setRotateAngle(this.petal03a, 0.6373942428283291F, -2.0943951023931953F, 0.0F);
-        this.smallLeaf02a = new ModelPart(this, 31, 0);
-        this.smallLeaf02a.setPos(0.5F, -0.3F, 0.0F);
-        this.smallLeaf02a.addBox(0.0F, 0.0F, -4.5F, 9, 0, 9, 0.0F);
-        this.setRotateAngle(this.smallLeaf02a, -0.091106186954104F, 1.0471975511965976F, -0.091106186954104F);
-        this.smallLeaf02b = new ModelPart(this, 35, 9);
-        this.smallLeaf02b.setPos(9.0F, 0.0F, 0.0F);
-        this.smallLeaf02b.addBox(0.0F, 0.0F, -2.5F, 7, 0, 5, 0.0F);
-        this.setRotateAngle(this.smallLeaf02b, 0.0F, 0.0F, 0.091106186954104F);
-        this.petal03b = new ModelPart(this, 19, 24);
-        this.petal03b.setPos(0.0F, -5.6F, -0.7F);
-        this.petal03b.addBox(-1.5F, -3.0F, 0.0F, 3, 3, 0, 0.0F);
-        this.setRotateAngle(this.petal03b, -0.22759093446006054F, 0.0F, 0.0F);
-        this.stem05.addChild(this.petal02a);
-        this.petal02a.addChild(this.petal02b);
-        this.largeLeaf03a.addChild(this.largeLeaf03b);
-        this.largeLeaf02a.addChild(this.largeLeaf02b);
-        this.stem04.addChild(this.largeLeaf03a);
-        this.stem05.addChild(this.smallLeaf03a);
-        this.stem04.addChild(this.largeLeaf01a);
-        this.stem05.addChild(this.smallLeaf01a);
-        this.largeLeaf01a.addChild(this.largeLeaf01b);
-        this.stem04.addChild(this.largeLeaf02a);
-        this.stem05.addChild(this.petal01a);
-        this.smallLeaf03a.addChild(this.smallLeaf03b);
-        this.smallLeaf01a.addChild(this.smallLeaf01b);
-        this.petal01a.addChild(this.petal01b);
-        this.stem05.addChild(this.petal03a);
-        this.stem05.addChild(this.smallLeaf02a);
-        this.smallLeaf02a.addChild(this.smallLeaf02b);
-        this.petal03a.addChild(this.petal03b);
+    public ModelTrillium(ModelPart root) {
+        this.stem01 = root.getChild("stem01");
+        this.stem02 = root.getChild("stem02");
+        this.stem03 = root.getChild("stem03");
+        this.stem04 = root.getChild("stem04");
+        this.largeLeaf01a = stem04.getChild("largeLeaf01a");
+        this.largeLeaf01b = largeLeaf01a.getChild("largeLeaf01b");
+        this.largeLeaf02a = stem04.getChild("largeLeaf02a");
+        this.largeLeaf02b = largeLeaf02a.getChild("largeLeaf02b");
+        this.largeLeaf03a = stem04.getChild("largeLeaf03a");
+        this.largeLeaf03b = largeLeaf03a.getChild("largeLeaf03b");
+        this.stem05 = root.getChild("stem05");
+        this.smallLeaf01a = stem05.getChild("smallLeaf01a");
+        this.smallLeaf01b = smallLeaf01a.getChild("smallLeaf01b");
+        this.smallLeaf02a = stem05.getChild("smallLeaf02a");
+        this.smallLeaf02b = smallLeaf02a.getChild("smallLeaf02b");
+        this.smallLeaf03a = stem05.getChild("smallLeaf03a");
+        this.smallLeaf03b = smallLeaf03a.getChild("smallLeaf03b");
+        this.petal01a = stem05.getChild("petal01a");
+        this.petal01b = petal01a.getChild("petal01b");
+        this.petal02a = stem05.getChild("petal02a");
+        this.petal02b = petal02a.getChild("petal02b");
+        this.petal03a = stem05.getChild("petal03a");
+        this.petal03b = petal03a.getChild("petal03b");
+    }
+
+    public static LayerDefinition createBodyLayer() {
+        MeshDefinition meshdefinition = new MeshDefinition();
+        PartDefinition partdefinition = meshdefinition.getRoot();
+        PartDefinition stem01 = partdefinition.addOrReplaceChild("stem01", CubeListBuilder.create().texOffs(0, 0).addBox(-1.0F, -2.0F, -1.0F, 2.0F, 2.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 24.0F, 0.0F));
+        PartDefinition stem02 = partdefinition.addOrReplaceChild("stem02", CubeListBuilder.create().texOffs(0, 5).addBox(-1.0F, -3.0F, -1.0F, 2.0F, 3.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 22.1F, 0.0F));
+        PartDefinition stem03 = partdefinition.addOrReplaceChild("stem03", CubeListBuilder.create().texOffs(0, 11).addBox(-0.5F, -6.1F, -0.5F, 1.0F, 6.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 19.4F, 0.0F));
+        PartDefinition stem04 = partdefinition.addOrReplaceChild("stem04", CubeListBuilder.create().texOffs(0, 19).addBox(-1.0F, -1.7F, -1.0F, 2.0F, 2.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 13.4F, 0.0F));
+        PartDefinition largeLeaf01a = stem04.addOrReplaceChild("largeLeaf01a", CubeListBuilder.create().texOffs(7, 0).mirror().addBox(-10.0F, 0.0F, -5.0F, 10.0F, 0.0F, 10.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(0.0F, -1.5F, 0.0F, 0.0F, 0.0F, -0.2731F));
+        PartDefinition largeLeaf01b = largeLeaf01a.addOrReplaceChild("largeLeaf01b", CubeListBuilder.create().texOffs(11, 10).mirror().addBox(-8.0F, 0.0F, -3.0F, 8.0F, 0.0F, 6.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(-10.0F, 0.0F, 0.0F, 0.0F, 0.0F, -0.1367F));
+        PartDefinition largeLeaf02a = stem04.addOrReplaceChild("largeLeaf02a", CubeListBuilder.create().texOffs(7, 0).mirror().addBox(-10.0F, 0.0F, -5.0F, 10.0F, 0.0F, 10.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(0.0F, -1.5F, 0.0F, -0.3643F, -2.0944F, 0.4554F));
+        PartDefinition largeLeaf02b = largeLeaf02a.addOrReplaceChild("largeLeaf02b", CubeListBuilder.create().texOffs(11, 10).mirror().addBox(-8.0F, 0.0F, -3.0F, 8.0F, 0.0F, 6.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(-10.0F, 0.0F, 0.0F, 0.0F, 0.0F, -0.1367F));
+        PartDefinition largeLeaf03a = stem04.addOrReplaceChild("largeLeaf03a", CubeListBuilder.create().texOffs(7, 0).mirror().addBox(-10.0F, 0.0F, -5.0F, 10.0F, 0.0F, 10.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(0.0F, -1.5F, 0.0F, 0.3643F, 2.0944F, 0.4554F));
+        PartDefinition largeLeaf03b = largeLeaf03a.addOrReplaceChild("largeLeaf03b", CubeListBuilder.create().texOffs(11, 10).mirror().addBox(-8.0F, 0.0F, -3.0F, 8.0F, 0.0F, 6.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(-10.0F, 0.0F, 0.0F, 0.0F, 0.0F, -0.1367F));
+        PartDefinition stem05 = partdefinition.addOrReplaceChild("stem05", CubeListBuilder.create().texOffs(0, 25).addBox(-1.0F, -1.0F, -1.0F, 2.0F, 1.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 12.0F, 0.0F));
+        PartDefinition smallLeaf01a = stem05.addOrReplaceChild("smallLeaf01a", CubeListBuilder.create().texOffs(31, 0).mirror().addBox(-9.0F, 0.0F, -4.5F, 9.0F, 0.0F, 9.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(-0.5F, -0.3F, 0.0F, 0.0F, -3.1416F, -0.0911F));
+        PartDefinition smallLeaf01b = smallLeaf01a.addOrReplaceChild("smallLeaf01b", CubeListBuilder.create().texOffs(35, 9).mirror().addBox(-7.0F, 0.0F, -2.5F, 7.0F, 0.0F, 5.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(-9.0F, 0.0F, 0.0F, 0.0F, 0.0F, -0.0911F));
+        PartDefinition smallLeaf02a = stem05.addOrReplaceChild("smallLeaf02a", CubeListBuilder.create().texOffs(31, 0).mirror().addBox(-9.0F, 0.0F, -4.5F, 9.0F, 0.0F, 9.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(-0.5F, -0.3F, 0.0F, -0.0911F, -1.0472F, 0.0911F));
+        PartDefinition smallLeaf02b = smallLeaf02a.addOrReplaceChild("smallLeaf02b", CubeListBuilder.create().texOffs(35, 9).mirror().addBox(-7.0F, 0.0F, -2.5F, 7.0F, 0.0F, 5.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(-9.0F, 0.0F, 0.0F, 0.0F, 0.0F, -0.0911F));
+        PartDefinition smallLeaf03a = stem05.addOrReplaceChild("smallLeaf03a", CubeListBuilder.create().texOffs(31, 0).mirror().addBox(-9.0F, 0.0F, -4.5F, 9.0F, 0.0F, 9.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(-0.5F, -0.3F, 0.0F, 0.0911F, 1.0472F, 0.0911F));
+        PartDefinition smallLeaf03b = smallLeaf03a.addOrReplaceChild("smallLeaf03b", CubeListBuilder.create().texOffs(35, 9).mirror().addBox(-7.0F, 0.0F, -2.5F, 7.0F, 0.0F, 5.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(-9.0F, 0.0F, 0.0F, 0.0F, 0.0F, -0.0911F));
+        PartDefinition petal01a = stem05.addOrReplaceChild("petal01a", CubeListBuilder.create().texOffs(18, 19).addBox(-2.5F, -5.6F, -0.7F, 5.0F, 5.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -0.3F, 0.0F, 0.6374F, 0.0F, 0.0F));
+        PartDefinition petal01b = petal01a.addOrReplaceChild("petal01b", CubeListBuilder.create().texOffs(19, 24).addBox(-1.5F, -3.0F, 0.0F, 3.0F, 3.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -5.6F, -0.7F, -0.2276F, 0.0F, 0.0F));
+        PartDefinition petal02a = stem05.addOrReplaceChild("petal02a", CubeListBuilder.create().texOffs(18, 19).addBox(-2.5F, -5.6F, -0.7F, 5.0F, 5.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -0.3F, 0.0F, 0.6374F, -2.0944F, 0.0F));
+        PartDefinition petal02b = petal02a.addOrReplaceChild("petal02b", CubeListBuilder.create().texOffs(19, 24).addBox(-1.5F, -3.0F, 0.0F, 3.0F, 3.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -5.6F, -0.7F, -0.2276F, 0.0F, 0.0F));
+        PartDefinition petal03a = stem05.addOrReplaceChild("petal03a", CubeListBuilder.create().texOffs(18, 19).addBox(-2.5F, -5.6F, -0.7F, 5.0F, 5.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -0.3F, 0.0F, 0.6374F, 2.0944F, 0.0F));
+        PartDefinition petal03b = petal03a.addOrReplaceChild("petal03b", CubeListBuilder.create().texOffs(19, 24).addBox(-1.5F, -3.0F, 0.0F, 3.0F, 3.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -5.6F, -0.7F, -0.2276F, 0.0F, 0.0F));
+        return LayerDefinition.create(meshdefinition, 64, 32);
     }
 
     @Override
@@ -155,41 +101,13 @@ public class ModelTrillium<T extends Entity> extends EntityModel<T> {
     }
 
     @Override
-    public void renderToBuffer(PoseStack matrixStackIn, VertexConsumer bufferIn, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
-        matrixStackIn.mulPose(Vector3f.YP.rotationDegrees(rotation)); // Yaw
-        matrixStackIn.pushPose();
-        {
-            RenderUtil.partScaleTranslate(matrixStackIn, stem05, 0.4F, 0.7F, 0.4F);
-            this.stem05.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
-        }
-        matrixStackIn.popPose();
-        matrixStackIn.pushPose();
-        {
-            RenderUtil.partScaleTranslate(matrixStackIn, stem01, 0.8F, 1.0F, 0.8F);
-            this.stem01.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
-        }
-        matrixStackIn.popPose();
-        matrixStackIn.pushPose();
-        {
-            RenderUtil.partScaleTranslate(matrixStackIn, stem02, 0.7F, 1.0F, 0.7F);
-            this.stem02.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
-        }
-        matrixStackIn.popPose();
-        matrixStackIn.pushPose();
-        {
-            RenderUtil.partScaleTranslate(matrixStackIn, stem04, 0.8F, 1.0F, 0.8F);
-            this.stem04.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
-        }
-        matrixStackIn.popPose();
-        this.stem03.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+    public void renderToBuffer(PoseStack poseStack, VertexConsumer buffer, int packedLight, int packedOverlay, float r, float g, float b, float a) {
+        poseStack.mulPose(Vector3f.YP.rotationDegrees(rotation)); // Yaw
+        stem01.render(poseStack, buffer, packedLight, packedOverlay, r, g, b, a);
+        stem02.render(poseStack, buffer, packedLight, packedOverlay, r, g, b, a);
+        stem03.render(poseStack, buffer, packedLight, packedOverlay, r, g, b, a);
+        stem04.render(poseStack, buffer, packedLight, packedOverlay, r, g, b, a);
+        stem05.render(poseStack, buffer, packedLight, packedOverlay, r, g, b, a);
     }
 
-    /**
-     * This is a helper function from Tabula to set the rotation of model parts
-     */
-    public void setRotateAngle(ModelPart modelRenderer, float x, float y, float z) {
-        modelRenderer.xRot = x;
-        modelRenderer.yRot = y;
-        modelRenderer.zRot = z;
-    }
 }

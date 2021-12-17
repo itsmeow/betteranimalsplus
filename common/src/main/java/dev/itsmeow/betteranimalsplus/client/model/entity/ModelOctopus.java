@@ -94,7 +94,7 @@ public class ModelOctopus<T extends EntityOctopus> extends ModelBAP<T> {
         this.rTentacle04a = head.getChild("rTentacle04a");
         this.rTentacle04b = rTentacle04a.getChild("rTentacle04b");
         this.rTentacle04c = rTentacle04b.getChild("rTentacle04c");
-        this.rTentacle04d = lTentacle04c.getChild("rTentacle04d");
+        this.rTentacle04d = rTentacle04c.getChild("rTentacle04d");
         this.mantle00 = head.getChild("mantle00");
         this.mantle01 = mantle00.getChild("mantle01");
         this.mainTentacles = new ModelPart[]{
