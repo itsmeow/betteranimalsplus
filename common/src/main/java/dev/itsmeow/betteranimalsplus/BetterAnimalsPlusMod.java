@@ -66,7 +66,6 @@ public class BetterAnimalsPlusMod {
         PlayerEvent.PLAYER_JOIN.register(BetterAnimalsPlusMod::onPlayerJoin);
         PlayerEvent.PLAYER_QUIT.register(BetterAnimalsPlusMod::onPlayerLeave);
         CommonEventHandler.init();
-        //ClassLoadHacks.runWhenLoaded("curios", () -> () -> CuriosModCompat.subscribe(modBus));
     }
 
     public static void init(Consumer<Runnable> enqueue) {

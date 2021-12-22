@@ -1,4 +1,4 @@
-package dev.itsmeow.betteranimalsplus.util;
+package dev.itsmeow.betteranimalsplus.util.fabric;
 
 import dev.onyxstudios.cca.api.v3.entity.PlayerComponent;
 import net.minecraft.nbt.CompoundTag;

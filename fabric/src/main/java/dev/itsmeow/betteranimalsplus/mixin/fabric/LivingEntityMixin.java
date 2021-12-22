@@ -1,4 +1,4 @@
-package dev.itsmeow.betteranimalsplus.mixin;
+package dev.itsmeow.betteranimalsplus.mixin.fabric;
 
 import dev.itsmeow.betteranimalsplus.common.CommonEventHandler;
 import net.minecraft.world.damagesource.DamageSource;

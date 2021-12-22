@@ -1,4 +1,4 @@
-package dev.itsmeow.betteranimalsplus.mixin;
+package dev.itsmeow.betteranimalsplus.mixin.fabric;
 
 import dev.itsmeow.betteranimalsplus.client.dumb.DeveloperRenderThing;
 import net.minecraft.client.gui.screens.Screen;

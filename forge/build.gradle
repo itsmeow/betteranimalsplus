@@ -26,30 +26,25 @@ repositories {
 dependencies {
     forge "net.minecraftforge:forge:${rootProject.mc_version}-${rootProject.forge_version}"
     modApi "dev.architectury:architectury-forge:${rootProject.architectury_version}"
-    common(project(path: ":common", configuration: "namedElements")) { transitive false }
+    common(project(path: ":common", configuration: "namedElements")) { transitive = false }
     shadowCommon(project(path: ":common", configuration: "transformProductionForge")) { transitive = false }
 
-    modCompileOnly "top.theillusivec4.curios:curios-forge:1.17.1-5.0.2.5:api"
-    modRuntimeOnly "top.theillusivec4.curios:curios-forge:1.17.1-5.0.2.5"
+    modCompileOnly "top.theillusivec4.curios:curios-forge:${rootProject.curios_version}:api"
+    modRuntimeOnly "top.theillusivec4.curios:curios-forge:${rootProject.curios_version}"
     shadowModImplementation("dev.itsmeow.imdlib:imdlib-forge:${rootProject.imdlib_version}") {
         transitive = false
     }
 }
 
 loom {
-    mixinConfig "mixin.imdlib.json", "betteranimalsplus-forge.mixins.json", "betteranimalsplus.mixins.json"
-}
-
-
-/*loom {
     launches {
         all {
             arg "-mixin.config", "mixin.imdlib.json"
-            property 'mixin.env.remapRefMap', 'true'
-            property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
+            /*property 'mixin.env.remapRefMap', 'true'
+            property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"*/
         }
     }
-}*/
+}
 
 processResources {
     inputs.property "version", project.version
@@ -90,6 +85,7 @@ task fixJar(type: Jar) {
             }
         }
     }
+    delete("mixin.imdlib-betteranimalsplus.json")
     rename("mixin.imdlib.json", "mixin.imdlib-betteranimalsplus.json")
     rename("imdlib-common-refmap.json", "imdlib-betteranimalsplus-common-refmap.json")
     filesMatching("mixin.imdlib.json") {

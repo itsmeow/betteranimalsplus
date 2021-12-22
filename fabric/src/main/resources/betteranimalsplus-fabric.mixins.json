@@ -1,7 +1,7 @@
 {
   "required": true,
-  "package": "dev.itsmeow.betteranimalsplus.mixin",
-  "plugin": "dev.itsmeow.betteranimalsplus.FabricMixinPlugin",
+  "package": "dev.itsmeow.betteranimalsplus.mixin.fabric",
+  "plugin": "dev.itsmeow.betteranimalsplus.fabric.FabricMixinPlugin",
   "compatibilityLevel": "JAVA_16",
   "minVersion": "0.8",
   "mixins": [

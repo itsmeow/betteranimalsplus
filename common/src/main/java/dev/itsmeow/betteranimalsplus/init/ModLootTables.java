@@ -5,9 +5,9 @@ import net.minecraft.resources.ResourceLocation;
 
 public class ModLootTables {
 
-    public static final ResourceLocation BEAR_BROWN = new ResourceLocation(Ref.MOD_ID, "entities/bear_brown");
-    public static final ResourceLocation BEAR_BLACK = new ResourceLocation(Ref.MOD_ID, "entities/bear_black");
-    public static final ResourceLocation BEAR_KERMODE = new ResourceLocation(Ref.MOD_ID, "entities/bear_kermode");
-    public static final ResourceLocation SQUID = new ResourceLocation(Ref.MOD_ID, "entities/squid");
+    public static final ResourceLocation BEAR_BROWN = new ResourceLocation(Ref.MOD_ID, "data/trinkets/entities/bear_brown");
+    public static final ResourceLocation BEAR_BLACK = new ResourceLocation(Ref.MOD_ID, "data/trinkets/entities/bear_black");
+    public static final ResourceLocation BEAR_KERMODE = new ResourceLocation(Ref.MOD_ID, "data/trinkets/entities/bear_kermode");
+    public static final ResourceLocation SQUID = new ResourceLocation(Ref.MOD_ID, "data/trinkets/entities/squid");
 
 }

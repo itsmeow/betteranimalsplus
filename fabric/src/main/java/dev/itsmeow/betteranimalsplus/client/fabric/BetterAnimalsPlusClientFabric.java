@@ -1,4 +1,4 @@
-package dev.itsmeow.betteranimalsplus.client;
+package dev.itsmeow.betteranimalsplus.client.fabric;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
@@ -8,6 +8,7 @@ import dev.emi.trinkets.api.TrinketsApi;
 import dev.emi.trinkets.api.client.TrinketRenderer;
 import dev.emi.trinkets.api.client.TrinketRendererRegistry;
 import dev.itsmeow.betteranimalsplus.Ref;
+import dev.itsmeow.betteranimalsplus.client.ClientLifecycleHandler;
 import dev.itsmeow.betteranimalsplus.common.item.ItemModeledArmor;
 import dev.itsmeow.betteranimalsplus.init.ModItems;
 import dev.itsmeow.imdlib.util.ClassLoadHacks;

@@ -1,4 +1,4 @@
-package dev.itsmeow.betteranimalsplus;
+package dev.itsmeow.betteranimalsplus.fabric;
 
 import dev.architectury.platform.Platform;
 import org.objectweb.asm.tree.ClassNode;

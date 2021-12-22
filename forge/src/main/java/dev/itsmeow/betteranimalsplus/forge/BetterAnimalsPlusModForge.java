@@ -1,11 +1,14 @@
 package dev.itsmeow.betteranimalsplus.forge;
 
+import dev.architectury.platform.Platform;
+import dev.architectury.platform.forge.EventBuses;
 import dev.itsmeow.betteranimalsplus.BetterAnimalsPlusMod;
 import dev.itsmeow.betteranimalsplus.Ref;
+import dev.itsmeow.betteranimalsplus.client.ClientLifecycleHandler;
 import dev.itsmeow.betteranimalsplus.client.forge.BetterAnimalsPlusClientForge;
 import dev.itsmeow.betteranimalsplus.compat.curios.CuriosModCompat;
 import dev.itsmeow.imdlib.util.ClassLoadHacks;
-import dev.architectury.platform.forge.EventBuses;
+import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -26,6 +29,7 @@ public class BetterAnimalsPlusModForge {
             BetterAnimalsPlusMod.init(e::enqueueWork);
         });
         modBus.<FMLClientSetupEvent>addListener(e -> new BetterAnimalsPlusClientForge().clientSetup(e));
+        ClassLoadHacks.runIf(Platform.getEnv() == Dist.CLIENT, () -> ClientLifecycleHandler::registerEntityRenders);
         ClassLoadHacks.runWhenLoaded("curios", () -> () -> CuriosModCompat.subscribe(modBus));
     }
 

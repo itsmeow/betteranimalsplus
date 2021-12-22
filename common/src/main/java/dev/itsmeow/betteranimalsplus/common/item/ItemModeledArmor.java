@@ -3,8 +3,12 @@ package dev.itsmeow.betteranimalsplus.common.item;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.model.HumanoidModel;
+import net.minecraft.client.renderer.entity.LivingEntityRenderer;
+import net.minecraft.core.Direction;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Pose;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ArmorMaterial;
 import net.minecraft.world.item.Item;
@@ -18,20 +22,15 @@ public abstract class ItemModeledArmor extends ArmorItem {
 
     // Referenced by ItemModeledArmorMixin and Fabric
     @Environment(EnvType.CLIENT)
-    public <A extends HumanoidModel<?>> A getArmorModel(LivingEntity entityLiving, ItemStack itemStack, EquipmentSlot armorSlot, A defaultModel) {
+    public <T extends LivingEntity, A extends HumanoidModel<T>> A getArmorModel(T entityLiving, ItemStack itemStack, EquipmentSlot armorSlot, A defaultModel) {
         if (itemStack != null) {
             if (itemStack.getItem() instanceof ArmorItem && armorSlot != null) {
                 A armorModel = this.getBaseModelInstance();
                 armorModel = displays(armorModel, armorSlot);
-
                 if (defaultModel != null) {
-                    armorModel.crouching = defaultModel.crouching;
-                    armorModel.riding = defaultModel.riding;
-                    armorModel.young = defaultModel.young;
-                    armorModel.rightArmPose = defaultModel.rightArmPose;
-                    armorModel.leftArmPose = defaultModel.leftArmPose;
+                    defaultModel.copyPropertiesTo(armorModel);
                 }
-
+                armorModel.setupAnim(entityLiving, 0, 0, 0, 0, 0);
                 return armorModel;
             }
         }

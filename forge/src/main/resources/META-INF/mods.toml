@@ -1,5 +1,5 @@
 modLoader="javafml" #mandatory
-loaderVersion="[34,)" #mandatory
+loaderVersion="[37,)" #mandatory
 issueTrackerURL="https://github.com/itsmeow/betteranimalsplus/issues" #optional
 displayURL="https://betteranimalsplus.com/" #optional
 logoFile="icon.png" #optional

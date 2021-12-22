@@ -1,4 +1,4 @@
-package dev.itsmeow.betteranimalsplus.mixin;
+package dev.itsmeow.betteranimalsplus.mixin.fabric;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import dev.itsmeow.betteranimalsplus.client.dumb.DeveloperRenderThing;

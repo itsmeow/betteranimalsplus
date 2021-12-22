@@ -1,7 +1,7 @@
-package dev.itsmeow.betteranimalsplus.init;
+package dev.itsmeow.betteranimalsplus.init.fabric;
 
 import dev.itsmeow.betteranimalsplus.Ref;
-import dev.itsmeow.betteranimalsplus.util.SquirrelKillsComponent;
+import dev.itsmeow.betteranimalsplus.util.fabric.SquirrelKillsComponent;
 import dev.onyxstudios.cca.api.v3.component.ComponentKey;
 import dev.onyxstudios.cca.api.v3.component.ComponentRegistry;
 import dev.onyxstudios.cca.api.v3.entity.EntityComponentFactoryRegistry;

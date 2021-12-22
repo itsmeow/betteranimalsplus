@@ -20,13 +20,13 @@
   "accessWidener": "betteranimalsplus.accesswidener",
   "entrypoints": {
     "main": [
-      "dev.itsmeow.betteranimalsplus.BetterAnimalsPlusModFabric"
+      "dev.itsmeow.betteranimalsplus.fabric.BetterAnimalsPlusModFabric"
     ],
     "client": [
-      "dev.itsmeow.betteranimalsplus.client.BetterAnimalsPlusClientFabric"
+      "dev.itsmeow.betteranimalsplus.client.fabric.BetterAnimalsPlusClientFabric"
     ],
     "cardinal-components": [
-      "dev.itsmeow.betteranimalsplus.init.BetterAnimalsPlusModComponents"
+      "dev.itsmeow.betteranimalsplus.init.fabric.BetterAnimalsPlusModComponents"
     ],
     "modmenu": [
       "dev.itsmeow.imdlib.compat.modmenu.ModMenuCompat"

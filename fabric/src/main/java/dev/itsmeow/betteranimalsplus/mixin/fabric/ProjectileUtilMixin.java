@@ -1,4 +1,4 @@
-package dev.itsmeow.betteranimalsplus.mixin;
+package dev.itsmeow.betteranimalsplus.mixin.fabric;
 
 import dev.itsmeow.betteranimalsplus.common.entity.EntityLamprey;
 import net.minecraft.world.entity.Entity;

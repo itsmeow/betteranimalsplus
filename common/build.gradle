@@ -14,7 +14,7 @@ afterEvaluate {
     }
 }
 dependencies {
-    modImplementation("dev.itsmeow.imdlib:imdlib-common:${rootProject.imdlib_version}") {
+    modCompileOnlyApi("dev.itsmeow.imdlib:imdlib-common:${rootProject.imdlib_version}") {
         transitive = false
     }
 }

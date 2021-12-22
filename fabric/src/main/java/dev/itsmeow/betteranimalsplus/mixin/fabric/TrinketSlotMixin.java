@@ -1,8 +1,9 @@
-package dev.itsmeow.betteranimalsplus.mixin;
+package dev.itsmeow.betteranimalsplus.mixin.fabric;
 
 import dev.emi.trinkets.TrinketSlot;
 import dev.emi.trinkets.api.TrinketInventory;
 import dev.itsmeow.betteranimalsplus.common.item.ItemCape;
+import dev.itsmeow.betteranimalsplus.mixin.SlotAccessor;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;

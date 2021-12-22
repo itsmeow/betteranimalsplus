@@ -13,7 +13,7 @@ import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 
 import java.util.function.Function;
 
-import static dev.itsmeow.betteranimalsplus.init.BetterAnimalsPlusModComponents.SQUIRREL_KILLS_COMPONENT;
+import static dev.itsmeow.betteranimalsplus.init.fabric.BetterAnimalsPlusModComponents.SQUIRREL_KILLS_COMPONENT;
 
 public class CommonEventHandlerImpl {
 
