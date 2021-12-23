@@ -77,7 +77,7 @@ allprojects {
     }
 }
 
-task exportAlphaVersions() {
+tasks.register('exportAlphaVersions') {
     def getVersion = {
         //TAG-offset-hash
         def raw = grgit.describe(longDescr: true, tags: true, match: ["${rootProject.mc_version}-[0-9].[0-9].[0-9]", "${rootProject.mc_version}-[0-9][0-9].[0-9][0-9].[0-9][0-9]", "${rootProject.mc_version}-[0-9].[0-9][0-9].[0-9][0-9]", "${rootProject.mc_version}-[0-9].[0-9].[0-9][0-9]", "${rootProject.mc_version}-[0-9].[0-9][0-9].[0-9]", "${rootProject.mc_version}-[0-9][0-9].[0-9].[0-9]"])
@@ -120,6 +120,41 @@ task exportAlphaVersions() {
         }
         exec {
             commandLine "echo", "##[set-output name=commitlog;]" + "{\"content\":\"" + (project.hasProperty('hook_content') ? project.hook_content : "") + "\",\"embeds\":[{\"author\":{\"name\":\"itsmeow\",\"url\":\"https://itsmeow.dev/\",\"icon_url\":\"https://itsmeow.dev/icon.png\"},\"title\":\"${project.mod_id}-alpha-${project.version}\",\"url\":\"https://github.com/${project.github}/releases/tag/alpha-${project.version}\",\"color\":14700288,\"description\":\"" + log + "\"}]}";
+        }
+    }
+}
+
+tasks.register('exportCFAttributes') {
+    doLast {
+        exec {
+            commandLine "echo", "##[set-output name=modid;]${rootProject.mod_id}";
+        }
+        if(rootProject.hasProperty('curse_project_id')) {
+            exec {
+                commandLine "echo", "##[set-output name=project_id;]${rootProject.curse_project_id}";
+            }
+            exec {
+                commandLine "echo", "##[set-output name=curse_title;]${rootProject.curse_title}";
+            }
+            exec {
+                commandLine "echo", "##[set-output name=curse_versions_fabric;]${rootProject.curse_versions_fabric}";
+            }
+            exec {
+                commandLine "echo", "##[set-output name=curse_versions_forge;]${rootProject.curse_versions_forge}";
+            }
+            if(rootProject.hasProperty('curse_relations_fabric')) {
+                exec {
+                    commandLine "echo", "##[set-output name=curse_relations_fabric;]${rootProject.curse_relations_fabric}";
+                }
+            }
+            if(rootProject.hasProperty('curse_relations_forge')) {
+                exec {
+                    commandLine "echo", "##[set-output name=curse_relations_forge;]${rootProject.curse_relations_forge}";
+                }
+            }
+        }
+        exec {
+            commandLine "echo", "##[set-output name=version;]${rootProject.version}";
         }
     }
 }
