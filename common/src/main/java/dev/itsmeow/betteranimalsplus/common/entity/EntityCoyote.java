@@ -42,6 +42,7 @@ import net.minecraft.world.level.LevelAccessor;
 public class EntityCoyote extends EntityFeralWolf {
 
     public static final String HOSTILE_DAYTIME_KEY = "hostile_during_daytime";
+    public static boolean client_hostile_override = false;
 
     public EntityCoyote(EntityType<? extends EntityCoyote> entityType, Level worldIn) {
         super(entityType, worldIn);
@@ -236,7 +237,7 @@ public class EntityCoyote extends EntityFeralWolf {
     }
 
     public boolean isHostileDaytime() {
-        return getContainer().getCustomConfiguration().getBoolean(HOSTILE_DAYTIME_KEY);
+        return this.level.isClientSide() ? EntityCoyote.client_hostile_override : getContainer().getCustomConfiguration().getBoolean(HOSTILE_DAYTIME_KEY);
     }
 
     @Override

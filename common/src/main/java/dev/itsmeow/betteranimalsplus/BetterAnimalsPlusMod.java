@@ -9,6 +9,7 @@ import dev.architectury.utils.Env;
 import dev.architectury.utils.PlatformExpectedError;
 import dev.itsmeow.betteranimalsplus.client.dumb.SafeSyncThing;
 import dev.itsmeow.betteranimalsplus.common.CommonEventHandler;
+import dev.itsmeow.betteranimalsplus.common.entity.EntityCoyote;
 import dev.itsmeow.betteranimalsplus.common.entity.util.EntityTypeContainerBAPTameable;
 import dev.itsmeow.betteranimalsplus.init.*;
 import dev.itsmeow.betteranimalsplus.network.*;
@@ -89,7 +90,7 @@ public class BetterAnimalsPlusMod {
     }
 
     public static void onPlayerJoin(ServerPlayer player) {
-        HANDLER.sendToPlayer(player, new ClientConfigurationPacket(ModEntities.getEntities().values().stream()
+        HANDLER.sendToPlayer(player, new ClientConfigurationPacket(ModEntities.COYOTE.getCustomConfiguration().getBoolean(EntityCoyote.HOSTILE_DAYTIME_KEY), ModEntities.getEntities().values().stream()
                 .filter(c -> c instanceof EntityTypeContainerBAPTameable).map(c -> (EntityTypeContainerBAPTameable) c)
                 .collect(Collectors.toMap(EntityTypeContainer::getEntityName, EntityTypeContainerBAPTameable::getTameItems))));
         HANDLER.sendToPlayer(player, new ClientRequestBAMPacket());
