@@ -139,7 +139,7 @@ public class ModEntities {
             .egg(0xba1111, 0x520807)
             .size(1F, 0.65F)
             .biomesOverworld(BiomeTypes.BEACH)
-            .variants(3));
+            .variants("brown", "dark_brown", "green", "orange"));
     public static final EntityTypeContainer<EntityShark> SHARK = H.add(EntityShark.class, EntityShark::new, "shark", () -> Mob.createMobAttributes()
             .add(Attributes.MAX_HEALTH, 30D)
             .add(Attributes.MOVEMENT_SPEED, 1.5D)
