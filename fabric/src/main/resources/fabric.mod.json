@@ -34,7 +34,7 @@
   },
   "depends": {
     "minecraft": "1.16.5",
-    "architectury": ">=1.26.0",
+    "architectury": ">=1.26.42",
     "fabricloader": ">=0.12.0",
     "fabric": ">=0.32.0"
   },
