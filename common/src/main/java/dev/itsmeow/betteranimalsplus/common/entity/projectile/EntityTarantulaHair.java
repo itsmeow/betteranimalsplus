@@ -1,13 +1,11 @@
 package dev.itsmeow.betteranimalsplus.common.entity.projectile;
 
-import dev.itsmeow.betteranimalsplus.init.ModEntities;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.ThrowableProjectile;
 import net.minecraft.world.level.Level;
@@ -27,9 +25,6 @@ public class EntityTarantulaHair extends ThrowableProjectile {
         this.thrower = throwerIn;
     }
 
-    /**
-     * Called when this EntityThrowable hits a block or entity.
-     */
     @Override
     protected void onHit(HitResult result) {
         if(result instanceof EntityHitResult) {
