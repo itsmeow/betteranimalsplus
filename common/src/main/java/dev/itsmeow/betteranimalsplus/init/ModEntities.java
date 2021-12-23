@@ -339,7 +339,7 @@ public class ModEntities {
             .defaultPlacement(Mob::checkMobSpawnRules)
             .egg(0x3d3c3b, 0xbca895).size(0.9F, 0.9F)
             .biomesOverworld(BiomeTypes.FOREST, BiomeTypes.JUNGLE, BiomeTypes.PLAINS, BiomeTypes.SAVANNA)
-            .variants(4)
+            .variants("gray", "light_brown", "dark_brown")
             .config((holder, builder) -> {
                 builder.push("nerf_options");
                 holder.put("nerf_options/breed_from_kill", Boolean.class, builder.define("breed_from_kill", "Sets boars in breeding mode if they kill something", true));

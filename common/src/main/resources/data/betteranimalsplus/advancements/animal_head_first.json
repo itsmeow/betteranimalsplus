@@ -183,7 +183,7 @@
             "conditions": {
                 "items": [
                     {
-                        "item": "betteranimalsplus:boarhead_1"
+                        "item": "betteranimalsplus:boarhead_light_brown"
                     }
                 ]
             }
@@ -193,7 +193,7 @@
             "conditions": {
                 "items": [
                     {
-                        "item": "betteranimalsplus:boarhead_2"
+                        "item": "betteranimalsplus:boarhead_dark_brown"
                     }
                 ]
             }
@@ -203,7 +203,7 @@
             "conditions": {
                 "items": [
                     {
-                        "item": "betteranimalsplus:boarhead_3"
+                        "item": "betteranimalsplus:boarhead_gray"
                     }
                 ]
             }
@@ -213,22 +213,12 @@
             "conditions": {
                 "items": [
                     {
-                        "item": "betteranimalsplus:boarhead_4"
-                    }
-                ]
-            }
-        },
-        "head19": {
-            "trigger": "minecraft:inventory_changed",
-            "conditions": {
-                "items": [
-                    {
                         "item": "betteranimalsplus:moosehead_1"
                     }
                 ]
             }
         },
-        "head20": {
+        "head18": {
             "trigger": "minecraft:inventory_changed",
             "conditions": {
                 "items": [
@@ -238,7 +228,7 @@
                 ]
             }
         },
-        "head21": {
+        "head19": {
             "trigger": "minecraft:inventory_changed",
             "conditions": {
                 "items": [
@@ -248,7 +238,7 @@
                 ]
             }
         },
-        "head22": {
+        "head20": {
             "trigger": "minecraft:inventory_changed",
             "conditions": {
                 "items": [
@@ -258,7 +248,7 @@
                 ]
             }
         },
-        "head23": {
+        "head21": {
             "trigger": "minecraft:inventory_changed",
             "conditions": {
                 "items": [
@@ -268,7 +258,7 @@
                 ]
             }
         },
-        "head24": {
+        "head22": {
             "trigger": "minecraft:inventory_changed",
             "conditions": {
                 "items": [
@@ -298,12 +288,11 @@
             "head15",
             "head16",
             "head17",
+            "head18",
             "head19",
             "head20",
             "head21",
             "head22",
-            "head23",
-            "head24",
             "feralwolfhead_arctic",
             "feralwolfhead_brown",
             "feralwolfhead_red"

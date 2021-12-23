@@ -226,18 +226,12 @@ public class EntityBoar extends EntityAnimalWithSelectiveTypes implements Enemy,
 
     @Override
     public String[] getTypesFor(ResourceKey<Biome> biomeKey, Biome biome, Set<BiomeTypes.Type> types, MobSpawnType reason) {
-        if(types.contains(BiomeTypes.FOREST) && !types.contains(BiomeTypes.CONIFEROUS)) {
-            return new String[] { "1", "2", "3" };
-        } else if(types.contains(BiomeTypes.CONIFEROUS) && !types.contains(BiomeTypes.SNOWY)) {
-            return new String[] { "1", "2", "3" };
-        } else if(types.contains(BiomeTypes.CONIFEROUS) && types.contains(BiomeTypes.SNOWY)) {
-            return new String[] { "1", "4" };
-        } else if(types.contains(BiomeTypes.SNOWY) && !types.contains(BiomeTypes.CONIFEROUS)) {
-            return new String[] { "4" };
-        } else if(types.contains(BiomeTypes.SAVANNA) || types.contains(BiomeTypes.PLAINS)) {
-            return new String[] { "1", "2", "3" };
+       if(types.contains(BiomeTypes.CONIFEROUS) && types.contains(BiomeTypes.SNOWY)) {
+            return new String[] { "dark_brown", "gray" };
+        } else if(types.contains(BiomeTypes.SNOWY) && !types.contains(BiomeTypes.CONIFEROUS) && !types.contains(BiomeTypes.FOREST)) {
+            return new String[] { "gray" };
         } else {
-            return new String[] { "1", "2", "3", "4" };
+            return new String[] { "dark_brown", "light_brown", "gray" };
         }
     }
 

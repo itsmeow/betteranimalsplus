@@ -10,7 +10,7 @@
             {"text":"Bacon has had its revenge.","italic":true,"color":"white"}
         ],
         "icon": {
-            "item": "betteranimalsplus:boarhead_1"
+            "item": "betteranimalsplus:boarhead_dark_brown"
         },
         "frame": "task",
         "show_toast": true,
