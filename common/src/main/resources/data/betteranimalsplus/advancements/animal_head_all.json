@@ -19,7 +19,7 @@
             {"text":"... are you okay? You have like 17 animal heads on your wall..","italic":true,"color":"white"}
         ],
         "icon": {
-            "item": "betteranimalsplus:boarhead_4"
+            "item": "betteranimalsplus:boarhead_light_gray"
         },
         "frame": "challenge",
         "show_toast": true,
@@ -192,7 +192,7 @@
             "conditions": {
                 "items": [
                     {
-                        "item": "betteranimalsplus:boarhead_1"
+                        "item": "betteranimalsplus:boarhead_light_brown"
                     }
                 ]
             }
@@ -202,7 +202,7 @@
             "conditions": {
                 "items": [
                     {
-                        "item": "betteranimalsplus:boarhead_2"
+                        "item": "betteranimalsplus:boarhead_dark_brown"
                     }
                 ]
             }
@@ -212,7 +212,7 @@
             "conditions": {
                 "items": [
                     {
-                        "item": "betteranimalsplus:boarhead_3"
+                        "item": "betteranimalsplus:boarhead_gray"
                     }
                 ]
             }
@@ -222,7 +222,7 @@
             "conditions": {
                 "items": [
                     {
-                        "item": "betteranimalsplus:boarhead_4"
+                        "item": "betteranimalsplus:moosehead_1"
                     }
                 ]
             }
@@ -232,7 +232,7 @@
             "conditions": {
                 "items": [
                     {
-                        "item": "betteranimalsplus:moosehead_1"
+                        "item": "betteranimalsplus:moosehead_2"
                     }
                 ]
             }
@@ -242,7 +242,7 @@
             "conditions": {
                 "items": [
                     {
-                        "item": "betteranimalsplus:moosehead_2"
+                        "item": "betteranimalsplus:moosehead_3"
                     }
                 ]
             }
@@ -252,7 +252,7 @@
             "conditions": {
                 "items": [
                     {
-                        "item": "betteranimalsplus:moosehead_3"
+                        "item": "betteranimalsplus:moosehead_4"
                     }
                 ]
             }
@@ -262,22 +262,12 @@
             "conditions": {
                 "items": [
                     {
-                        "item": "betteranimalsplus:moosehead_4"
-                    }
-                ]
-            }
-        },
-        "head22": {
-            "trigger": "minecraft:inventory_changed",
-            "conditions": {
-                "items": [
-                    {
                         "item": "betteranimalsplus:deerhead_3"
                     }
                 ]
             }
         },
-        "head23": {
+        "head22": {
             "trigger": "minecraft:inventory_changed",
             "conditions": {
                 "items": [
@@ -354,9 +344,6 @@
         ],
         [
             "head22"
-        ],
-        [
-            "head23"
         ],
         [
             "feralwolfhead_arctic"

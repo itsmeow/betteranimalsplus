@@ -178,42 +178,32 @@
                 ]
             }
         },
-        "head14": {
+        "boarhead_light_brown": {
             "trigger": "minecraft:inventory_changed",
             "conditions": {
                 "items": [
                     {
-                        "item": "betteranimalsplus:boarhead_1"
+                        "item": "betteranimalsplus:boarhead_light_brown"
                     }
                 ]
             }
         },
-        "head15": {
+        "boarhead_dark_brown": {
             "trigger": "minecraft:inventory_changed",
             "conditions": {
                 "items": [
                     {
-                        "item": "betteranimalsplus:boarhead_2"
+                        "item": "betteranimalsplus:boarhead_dark_brown"
                     }
                 ]
             }
         },
-        "head16": {
+        "boarhead_gray": {
             "trigger": "minecraft:inventory_changed",
             "conditions": {
                 "items": [
                     {
-                        "item": "betteranimalsplus:boarhead_3"
-                    }
-                ]
-            }
-        },
-        "head17": {
-            "trigger": "minecraft:inventory_changed",
-            "conditions": {
-                "items": [
-                    {
-                        "item": "betteranimalsplus:boarhead_4"
+                        "item": "betteranimalsplus:boarhead_gray"
                     }
                 ]
             }
@@ -309,10 +299,9 @@
             "head13"
         ],
         [
-            "head14",
-            "head15",
-            "head16",
-            "head17"
+            "boarhead_gray",
+            "boarhead_light_brown",
+            "boarhead_dark_brown"
         ],
         [
             "head18",

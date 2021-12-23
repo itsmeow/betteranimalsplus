@@ -4,151 +4,127 @@ import dev.itsmeow.betteranimalsplus.client.model.abstracts.ModelBAPHead;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.world.entity.Entity;
 
-/**
- * boarhead - cybercat5555 Created using Tabula 5.1.0
- */
 public class ModelBoarHead<T extends Entity> extends ModelBAPHead<T> {
 
-    public ModelPart neck;
-    public ModelPart neck02;
-    public ModelPart chestFur01;
     public ModelPart head;
-    public ModelPart mane01;
-    public ModelPart snoot01;
-    public ModelPart upperJaw;
-    public ModelPart lowerJaw;
-    public ModelPart lEar01;
-    public ModelPart rEar01;
-    public ModelPart snoot02;
     public ModelPart snoot;
+    public ModelPart nose;
+    public ModelPart upperJaw;
+    public ModelPart lUpperTusk;
+    public ModelPart rUpperTusk;
+    public ModelPart lowerJaw;
     public ModelPart lTusk01;
-    public ModelPart rTusk01;
     public ModelPart lTusk02;
-    public ModelPart lTusk03;
+    public ModelPart rTusk01;
     public ModelPart rTusk02;
-    public ModelPart rTusk03;
+    public ModelPart lEar01;
     public ModelPart lEar02;
+    public ModelPart rEar01;
     public ModelPart rEar02;
 
     public ModelBoarHead() {
         super(true);
-        this.texWidth = 128;
-        this.texHeight = 64;
-        this.neck = new ModelPart(this, 0, 34);
-        this.neck.setPos(0.0F, 0.0F, 0.0F);
-        this.neck.addBox(-3.0F, -3.5F, -4.0F, 6, 7, 4, 0.0F);
-        this.lTusk01 = new ModelPart(this, 0, 0);
-        this.lTusk01.setPos(1.3F, -0.5F, -2.8F);
-        this.lTusk01.addBox(-0.5F, -0.8F, -0.5F, 1, 1, 1, 0.0F);
-        this.setRotateAngle(this.lTusk01, 0.24434609527920614F, 0.0F, 0.6981317007977318F);
-        this.rTusk03 = new ModelPart(this, 0, 0);
-        this.rTusk03.mirror = true;
-        this.rTusk03.setPos(0.1F, -0.8F, 0.0F);
-        this.rTusk03.addBox(-0.4F, -1.7F, -0.5F, 1, 2, 1, 0.0F);
-        this.setRotateAngle(this.rTusk03, 0.0F, 0.0F, 0.4363323129985824F);
-        this.lEar02 = new ModelPart(this, 78, 37);
-        this.lEar02.setPos(0.6F, 0.0F, 0.7F);
-        this.lEar02.addBox(-1.0F, -4.0F, -0.5F, 2, 5, 1, 0.0F);
-        this.setRotateAngle(this.lEar02, 0.22689280275926282F, 0.0F, 0.0F);
-        this.lowerJaw = new ModelPart(this, 99, 25);
-        this.lowerJaw.setPos(0.0F, 2.1F, -4.1F);
-        this.lowerJaw.addBox(-1.5F, -0.5F, -4.7F, 3, 1, 5, 0.0F);
-        this.setRotateAngle(this.lowerJaw, 0.2617993877991494F, 0.0F, 0.0F);
-        this.rTusk02 = new ModelPart(this, 0, 0);
-        this.rTusk02.mirror = true;
-        this.rTusk02.setPos(0.0F, -1.0F, 0.0F);
-        this.rTusk02.addBox(-0.45F, -0.7F, -0.5F, 1, 1, 1, 0.0F);
-        this.setRotateAngle(this.rTusk02, 0.0F, 0.0F, 0.2617993877991494F);
-        this.lEar01 = new ModelPart(this, 69, 37);
-        this.lEar01.setPos(1.2F, -2.7F, -1.7F);
-        this.lEar01.addBox(-0.8F, -3.0F, -0.5F, 3, 3, 1, 0.0F);
-        this.setRotateAngle(this.lEar01, -0.22689280275926282F, -0.7853981633974483F, 0.7853981633974483F);
-        this.rEar01 = new ModelPart(this, 69, 37);
-        this.rEar01.mirror = true;
-        this.rEar01.setPos(-1.2F, -2.7F, -1.7F);
-        this.rEar01.addBox(-2.2F, -3.0F, -0.5F, 3, 3, 1, 0.0F);
-        this.setRotateAngle(this.rEar01, -0.22689280275926282F, 0.7853981633974483F, -0.7853981633974483F);
-        this.upperJaw = new ModelPart(this, 84, 25);
-        this.upperJaw.setPos(0.0F, 0.7F, -4.4F);
-        this.upperJaw.addBox(-1.5F, -1.0F, -4.0F, 3, 2, 4, 0.0F);
-        this.snoot02 = new ModelPart(this, 101, 16);
-        this.snoot02.setPos(0.0F, 0.0F, 0.0F);
-        this.snoot02.addBox(0.7F, -1.5F, -4.7F, 1, 2, 5, 0.0F);
-        this.chestFur01 = new ModelPart(this, 108, 50);
-        this.chestFur01.setPos(0.0F, 2.9F, -1.6F);
-        this.chestFur01.addBox(-2.5F, 0.0F, -1.0F, 5, 4, 2, 0.0F);
-        this.setRotateAngle(this.chestFur01, 0.2792526803190927F, 0.0F, 0.0F);
-        this.head = new ModelPart(this, 84, 0);
-        this.head.setPos(0.0F, -0.3F, -1.2F);
-        this.head.addBox(-2.5F, -3.5F, -5.0F, 5, 6, 5, 0.0F);
-        this.setRotateAngle(this.head, 0.33161255787892263F, 0.0F, 0.0F);
-        this.mane01 = new ModelPart(this, 86, 35);
-        this.mane01.setPos(0.0F, -2.7F, -1.8F);
-        this.mane01.addBox(-2.0F, -1.2F, 0.0F, 4, 2, 5, 0.0F);
-        this.setRotateAngle(this.mane01, 0.5235987755982988F, 0.0F, 0.0F);
-        this.lTusk03 = new ModelPart(this, 0, 0);
-        this.lTusk03.setPos(-0.1F, -0.8F, 0.0F);
-        this.lTusk03.addBox(-0.6F, -1.7F, -0.5F, 1, 2, 1, 0.0F);
-        this.setRotateAngle(this.lTusk03, 0.0F, 0.0F, -0.4363323129985824F);
-        this.snoot01 = new ModelPart(this, 84, 16);
-        this.snoot01.setPos(0.0F, -0.6F, -4.4F);
-        this.snoot01.addBox(-1.7F, -1.5F, -4.7F, 3, 2, 5, 0.0F);
-        this.setRotateAngle(this.snoot01, 0.27314402793711257F, 0.0F, 0.0F);
-        this.rEar02 = new ModelPart(this, 78, 37);
-        this.rEar02.mirror = true;
-        this.rEar02.setPos(-0.6F, 0.0F, 0.7F);
-        this.rEar02.addBox(-1.0F, -4.0F, -0.5F, 2, 5, 1, 0.0F);
-        this.setRotateAngle(this.rEar02, 0.22689280275926282F, 0.0F, 0.0F);
-        this.snoot = new ModelPart(this, 112, 16);
-        this.snoot.setPos(0.0F, -0.4F, -4.3F);
-        this.snoot.addBox(-1.5F, -1.5F, -0.8F, 3, 3, 1, 0.0F);
-        this.setRotateAngle(this.snoot, -0.136659280431156F, 0.0F, 0.0F);
-        this.neck02 = new ModelPart(this, 0, 48);
-        this.neck02.setPos(0.0F, 0.1F, -3.8F);
-        this.neck02.addBox(-2.0F, -3.0F, -3.0F, 4, 6, 3, 0.0F);
-        this.setRotateAngle(this.neck02, -0.136659280431156F, 0.0F, 0.0F);
-        this.rTusk01 = new ModelPart(this, 0, 0);
-        this.rTusk01.mirror = true;
-        this.rTusk01.setPos(-1.3F, -0.5F, -2.8F);
-        this.rTusk01.addBox(-0.5F, -0.8F, -0.5F, 1, 1, 1, 0.0F);
-        this.setRotateAngle(this.rTusk01, 0.24434609527920614F, 0.0F, -0.6981317007977318F);
-        this.lTusk02 = new ModelPart(this, 0, 0);
-        this.lTusk02.setPos(0.0F, -1.0F, 0.0F);
-        this.lTusk02.addBox(-0.55F, -0.7F, -0.5F, 1, 1, 1, 0.0F);
-        this.setRotateAngle(this.lTusk02, 0.0F, 0.0F, -0.2617993877991494F);
-        this.lowerJaw.addChild(this.lTusk01);
-        this.rTusk02.addChild(this.rTusk03);
-        this.lEar01.addChild(this.lEar02);
-        this.head.addChild(this.lowerJaw);
-        this.rTusk01.addChild(this.rTusk02);
-        this.head.addChild(this.lEar01);
-        this.head.addChild(this.rEar01);
-        this.head.addChild(this.upperJaw);
-        this.snoot01.addChild(this.snoot02);
-        this.neck.addChild(this.chestFur01);
-        this.neck02.addChild(this.head);
-        this.neck02.addChild(this.mane01);
-        this.lTusk02.addChild(this.lTusk03);
-        this.head.addChild(this.snoot01);
-        this.rEar01.addChild(this.rEar02);
-        this.snoot01.addChild(this.snoot);
-        this.neck.addChild(this.neck02);
-        this.lowerJaw.addChild(this.rTusk01);
-        this.lTusk01.addChild(this.lTusk02);
+        texWidth = 64;
+        texHeight = 64;
+
+        head = new ModelPart(this);
+        head.setPos(0.0F, 0.0F, 0.0F);
+        head.texOffs(23, 38).addBox(-2.5F, -6.0F, -2.2F, 5.0F, 6.0F, 5.0F, 0.0F, false);
+
+        snoot = new ModelPart(this);
+        snoot.setPos(0.0F, -3.15F, -1.6F);
+        head.addChild(snoot);
+        setRotationAngle(snoot, 0.2731F, 0.0F, 0.0F);
+        snoot.texOffs(42, 36).addBox(-1.5F, -1.5F, -4.7F, 3.0F, 2.0F, 5.0F, 0.0F, false);
+
+        nose = new ModelPart(this);
+        nose.setPos(0.0F, -0.4F, -4.3F);
+        snoot.addChild(nose);
+        setRotationAngle(nose, -0.1367F, 0.0F, 0.0F);
+        nose.texOffs(56, 50).addBox(-1.5F, -1.5F, -0.8F, 3.0F, 3.0F, 1.0F, 0.01F, false);
+
+        upperJaw = new ModelPart(this);
+        upperJaw.setPos(0.0F, -1.85F, -1.6F);
+        head.addChild(upperJaw);
+        upperJaw.texOffs(44, 43).addBox(-1.5F, -1.0F, -4.0F, 3.0F, 2.0F, 4.0F, -0.01F, false);
+
+        lUpperTusk = new ModelPart(this);
+        lUpperTusk.setPos(1.3F, 1.0F, -1.75F);
+        upperJaw.addChild(lUpperTusk);
+        setRotationAngle(lUpperTusk, 0.0F, 0.0F, 0.3054F);
+        lUpperTusk.texOffs(0, 1).addBox(-0.55F, -2.7F, -0.5F, 1.0F, 3.0F, 1.0F, -0.15F, true);
+
+        rUpperTusk = new ModelPart(this);
+        rUpperTusk.setPos(-1.3F, 1.0F, -1.75F);
+        upperJaw.addChild(rUpperTusk);
+        setRotationAngle(rUpperTusk, 0.0F, 0.0F, -0.3054F);
+        rUpperTusk.texOffs(0, 1).addBox(-0.45F, -2.7F, -0.5F, 1.0F, 3.0F, 1.0F, -0.15F, false);
+
+        lowerJaw = new ModelPart(this);
+        lowerJaw.setPos(0.0F, -0.35F, -1.3F);
+        head.addChild(lowerJaw);
+        setRotationAngle(lowerJaw, 0.5236F, 0.0F, 0.0F);
+        lowerJaw.texOffs(44, 49).addBox(-1.5F, -0.5F, -4.7F, 3.0F, 1.0F, 5.0F, -0.1F, false);
+
+        lTusk01 = new ModelPart(this);
+        lTusk01.setPos(1.3F, 0.0F, -2.8F);
+        lowerJaw.addChild(lTusk01);
+        setRotationAngle(lTusk01, 0.2443F, 0.0F, 0.3054F);
+        lTusk01.texOffs(0, 1).addBox(-0.5F, -1.8F, -0.5F, 1.0F, 2.0F, 1.0F, 0.0F, true);
+
+        lTusk02 = new ModelPart(this);
+        lTusk02.setPos(0.0F, -1.75F, 0.0F);
+        lTusk01.addChild(lTusk02);
+        setRotationAngle(lTusk02, 0.0F, 0.0F, -0.1745F);
+        lTusk02.texOffs(0, 1).addBox(-0.55F, -1.7F, -0.5F, 1.0F, 2.0F, 1.0F, -0.1F, true);
+
+        rTusk01 = new ModelPart(this);
+        rTusk01.setPos(-1.3F, 0.0F, -2.8F);
+        lowerJaw.addChild(rTusk01);
+        setRotationAngle(rTusk01, 0.2443F, 0.0F, -0.3054F);
+        rTusk01.texOffs(0, 1).addBox(-0.5F, -1.8F, -0.5F, 1.0F, 2.0F, 1.0F, 0.0F, false);
+
+        rTusk02 = new ModelPart(this);
+        rTusk02.setPos(0.0F, -1.75F, 0.0F);
+        rTusk01.addChild(rTusk02);
+        setRotationAngle(rTusk02, 0.0F, 0.0F, 0.1745F);
+        rTusk02.texOffs(0, 1).addBox(-0.45F, -1.7F, -0.5F, 1.0F, 2.0F, 1.0F, -0.1F, false);
+
+        lEar01 = new ModelPart(this);
+        lEar01.setPos(0.7F, -5.25F, 0.1F);
+        head.addChild(lEar01);
+        setRotationAngle(lEar01, 0.0F, -0.3927F, 0.3927F);
+        lEar01.texOffs(56, 17).addBox(0.2F, -3.0F, -0.5F, 2.0F, 3.0F, 1.0F, 0.0F, true);
+
+        lEar02 = new ModelPart(this);
+        lEar02.setPos(0.6F, 0.0F, 0.7F);
+        lEar01.addChild(lEar02);
+        lEar02.texOffs(58, 9).addBox(-1.25F, -4.25F, -0.5F, 2.0F, 5.0F, 0.0F, 0.0F, true);
+
+        rEar01 = new ModelPart(this);
+        rEar01.setPos(-0.7F, -5.25F, 0.1F);
+        head.addChild(rEar01);
+        setRotationAngle(rEar01, 0.0F, 0.3927F, -0.3927F);
+        rEar01.texOffs(56, 17).addBox(-2.2F, -3.0F, -0.5F, 2.0F, 3.0F, 1.0F, 0.0F, false);
+
+        rEar02 = new ModelPart(this);
+        rEar02.setPos(-0.35F, -0.25F, 0.7F);
+        rEar01.addChild(rEar02);
+        rEar02.texOffs(58, 9).addBox(-1.0F, -4.0F, -0.5F, 2.0F, 5.0F, 0.0F, 0.0F, false);
     }
 
     @Override
     public ModelPart basePart() {
-        return neck;
+        return head;
     }
 
     @Override
     public float wallOffsetX() {
-        return 4F;
+        return 1F;
     }
 
     @Override
     public float globalOffsetY() {
-        return 3.9F;
+        return 1.9F;
     }
 }
