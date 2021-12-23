@@ -1,5 +1,7 @@
 package dev.itsmeow.betteranimalsplus.common.entity.projectile;
 
+import me.shedaniel.architectury.networking.NetworkManager;
+import net.minecraft.network.protocol.Packet;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -51,6 +53,11 @@ public class EntityTarantulaHair extends ThrowableProjectile {
             this.level.broadcastEntityEvent(this, (byte) 3);
             this.remove();
         }
+    }
+
+    @Override
+    public Packet<?> getAddEntityPacket() {
+        return NetworkManager.createAddEntityPacket(this);
     }
 
     @Override
