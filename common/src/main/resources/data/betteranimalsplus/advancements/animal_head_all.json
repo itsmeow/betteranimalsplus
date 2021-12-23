@@ -19,7 +19,7 @@
             {"text":"... are you okay? You have like 17 animal heads on your wall..","italic":true,"color":"white"}
         ],
         "icon": {
-            "item": "betteranimalsplus:boarhead_light_gray"
+            "item": "betteranimalsplus:boarhead_gray"
         },
         "frame": "challenge",
         "show_toast": true,
