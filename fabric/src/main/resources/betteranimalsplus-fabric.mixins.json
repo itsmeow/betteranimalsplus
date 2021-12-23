@@ -14,7 +14,8 @@
   "client": [
     "PlayerRendererMixin",
     "ScreenMixin",
-    "ProjectileUtilMixin"
+    "ProjectileUtilMixin",
+    "ItemCapeClientMixin"
   ],
   "injectors": {
     "defaultRequire": 1
