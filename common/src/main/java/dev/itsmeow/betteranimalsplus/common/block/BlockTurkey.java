@@ -10,6 +10,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.HorizontalDirectionalBlock;
@@ -98,18 +99,18 @@ public class BlockTurkey extends Block implements SimpleWaterloggedBlock {
     }
 
     @Override
-    public void onPlace(BlockState state1, Level world, BlockPos pos, BlockState state2, boolean unknown) {
-        if (!world.getBlockState(pos.below()).isRedstoneConductor(world, pos)) {
-            world.destroyBlock(pos, true);
+    public void onPlace(BlockState state1, Level level, BlockPos pos, BlockState state2, boolean unknown) {
+        if (!level.getBlockState(pos.below()).isFaceSturdy(level, pos, Direction.UP)) {
+            level.destroyBlock(pos, true);
         }
     }
 
     @Override
-    public void neighborChanged(BlockState state, Level level, BlockPos pos, Block block, BlockPos neighbor, boolean bl) {
-        super.neighborChanged(state, level, pos, block, neighbor, bl);
-        if (!level.getBlockState(neighbor).isRedstoneConductor(level, pos) && pos.below() == neighbor) {
-            level.destroyBlock(pos, true);
+    public BlockState updateShape(BlockState blockState, Direction direction, BlockState blockState2, LevelAccessor level, BlockPos blockPos, BlockPos blockPos2) {
+        if(!level.getBlockState(blockPos.below()).isFaceSturdy(level, blockPos.below(), Direction.UP)) {
+            return  Blocks.AIR.defaultBlockState();
         }
+        return super.updateShape(blockState, direction, blockState2, level, blockPos, blockPos2);
     }
 
     @Override

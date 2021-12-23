@@ -32,7 +32,7 @@ public class BlockTrillium extends BushBlock implements EntityBlock {
     @Override
     public void neighborChanged(BlockState state, Level level, BlockPos pos, Block block, BlockPos neighbor, boolean bl) {
         super.neighborChanged(state, level, pos, block, neighbor, bl);
-        if (!level.getBlockState(neighbor).isRedstoneConductor(level, pos) && pos.below() == neighbor) {
+        if (!level.getBlockState(neighbor).isFaceSturdy(level, neighbor, Direction.UP) && pos.below() == neighbor) {
             level.destroyBlock(pos, true);
         }
     }
@@ -44,7 +44,7 @@ public class BlockTrillium extends BushBlock implements EntityBlock {
 
     @Override
     public void onPlace(BlockState state1, Level world, BlockPos pos, BlockState state2, boolean unknown) {
-        if (!world.getBlockState(pos.below()).isRedstoneConductor(world, pos)) {
+        if (!world.getBlockState(pos.below()).isFaceSturdy(world, pos, Direction.UP)) {
             world.destroyBlock(pos, true);
         }
     }
