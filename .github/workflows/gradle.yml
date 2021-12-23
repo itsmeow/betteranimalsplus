@@ -26,3 +26,4 @@ jobs:
           arguments: "setupGithubActions build"
           gradle-version: "wrapper"
       - { name: 'Create a Release', id: create_release, uses: meeDamian/github-release@2.0, with: { token: '${{ secrets.GITHUB_TOKEN }}', tag: 'alpha-${{ steps.build.outputs.version }}', name: '${{ steps.build.outputs.modid }}-alpha-${{ steps.build.outputs.version }}', draft: false, prerelease: true, commitish: '${{ github.sha }}', files: 'fabric/build/libs/${{ steps.build.outputs.modid }}-${{ steps.build.outputs.version }}-fabric.jar forge/build/libs/${{ steps.build.outputs.modid }}-${{ steps.build.outputs.version }}-forge.jar', gzip: false } }
+      - { name: 'Push Changelog to Discord', id: changelog-webhook, uses: itsmeow/webhook-action@master, env: { WEBHOOK_URL: '${{ secrets.DISCORD_WEBHOOK_URL }}', data: '${{ steps.build.outputs.commitlog }}' } }
