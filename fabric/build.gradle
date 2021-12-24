@@ -30,10 +30,6 @@ repositories {
         url = 'https://ladysnake.jfrog.io/artifactory/mods'
     }
     maven {
-        name = "Curse Maven"
-        url = "https://cursemaven.com"
-    }
-    maven {
         url = "https://maven.shedaniel.me/"
     }
 }
@@ -57,10 +53,10 @@ dependencies {
     modImplementation("dev.emi:trinkets:${rootProject.trinkets_version}") {
         transitive = false
     }
-    modRuntimeOnly("curse.maven:modmenu-308702:${rootProject.modmenu_version}") {
+    modRuntimeOnly("com.terraformersmc:modmenu:2.0.14") {
         transitive = false
     }
-    modApi ("curse.maven:cloth-config-319057:${rootProject.cloth_config_version}") {
+    modApi ("me.shedaniel.cloth:cloth-config:5.2.47") {
         exclude(group: "net.fabricmc.fabric-api")
     }
     runtimeOnly("me.shedaniel.cloth:basic-math:0.6.0")
@@ -106,8 +102,7 @@ task fixJar(type: Jar) {
         filter {
             line -> {
                 line = line.replaceAll("dev.itsmeow.imdlib", "dev.itsmeow.betteranimalsplus.imdlib")
-                line = line.replaceAll('mixin.imdlib.json', 'mixin.imdlib-betteranimalsplus.json')
-                line.replaceAll('mixin.imdlib-fabric.json', 'mixin.imdlib-betteranimalsplus-fabric.json')
+                line = line.replaceAll('mixin.imdlib.json', 'mixin.imdlib-betteranimalsplus.json","mixin.imdlib-betteranimalsplus-fabric.json')
             }
         }
     }
@@ -227,7 +222,7 @@ publishing {
                     def configurationNames = ["modImplementation", "modApi"]
                     configurationNames.each { configurationName ->
                         configurations[configurationName].allDependencies.each {
-                            if (!(it.name in ["imdlib", "architectury-transformer", "common", "basic-math"]) && !(it.group in ["curse.maven"])) {
+                            if (!(it.name in ["imdlib", "architectury-transformer", "common", "basic-math", "modmenu", "cloth-config"]) && !(it.group in ["curse.maven"])) {
                                 def dependencyNode = dependenciesNode.appendNode('dependency')
                                 dependencyNode.appendNode('groupId', it.group)
                                 dependencyNode.appendNode('artifactId', it.name)

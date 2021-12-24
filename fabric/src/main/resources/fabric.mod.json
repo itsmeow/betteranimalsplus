@@ -39,7 +39,6 @@
   },
   "mixins": [
     "mixin.imdlib.json",
-    "mixin.imdlib-fabric.json",
     "betteranimalsplus.mixins.json",
     "betteranimalsplus-fabric.mixins.json"
   ],
