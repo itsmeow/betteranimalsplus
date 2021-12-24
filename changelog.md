@@ -1,3 +1,60 @@
+# 11.0.0
+
+**Architectury is now REQUIRED for Forge and Fabric versions of the mod.**
+
+## Feature Additions
+
+- Remade turkey model and textures
+- Remade tarantula model and textures + new variants
+- Remade reindeer (+ head) model and textures
+- Remade pheasant model and textures
+- Remade lammergeier model and textures
+- Remade jellyfish model and textures + new variants
+- Remade coyote (+ head) model and textures
+- Remade bear (+ head) model and textures
+- Remade badger model and textures
+- Remade boar (+ head) model and textures + new variants
+- Remade squirrel model and textures
+- Remade horseshoe crab model and textures + new variants
+- Updated wolf and bear cape textures
+- Updated venison texture
+- Generally cleaned up and improve some animations (more sensible leg swing and timing)
+- Made lammergeiers attack other types of skeleton (wither, stray)
+- Make geese and pheasants drop feathers
+- Improved tag compatibility with other mods (Pam's HC, Farmer's Delight) - now with Fabric tags
+- Fabric: Added Trinkets compatibility
+- Fabric: Added Cloth Config API and Mod Menu compatibility
+- Removed large easter egg audios (Crab: now use any disk, Walrus: plays a shorter audio immediately)
+
+## Bugfixes
+
+- Forge: Removed "defineId called from" warnings in the console.
+- Fixed pack format being incorrect
+- Fixed jellyfish, lamprey, eels, barracuda, flying fish, and piranha using empty buckets instead of water buckets to be "bucketed"
+- Fixed possible crash with Octopus loading
+- Fixed some models shaking when the game is 
+- Fixed tamed animals attacking other tamed animals from the same owner
+- All entities now have their own loot table and can be replaced by datapacks as expected
+- Fixed raw language keys when killed by a tarantula hair or badger dirt
+- Fixed turkey being unable to place on some blocks with solid tops
+- Fixed turkey not breaking when neighbors update to remove support
+
+## Fabric Notes
+
+Fabric is mostly equivalent to Forge, however there are a few key differences.
+
+The configuration is is "json5" format, which is also known as HJSON. It's a modified JSON specification with comment support. There are TOML <-> HJSON converters online that can convert a Forge config for you.
+
+Otherwise, the config is basically equivalent. The Mod Menu compat allows editing of the config through Mod Menu, but you won't be able to edit the config of a currently loaded world, it must be done from the main menu.
+
+Fabric uses Trinkets instead of Curios for the capes, which works basically the same as Curios.
+
+A key problem when using the Fabric version with Trinkets is a crash can occur because of a Cardinal Components incompatibility. I have reported the issue, but as a workaround you can install the standalone Cardinal Components mod from CurseForge.
+
+The last key difference is the default spawn biomes used by the spawning configuration - what biomes will be chosen to spawn an entity in. On Forge, we use the Biome Dictionary, which maps biomes to a set of 'types', like forest, snowy, etc. This does not exist on Fabric, so we made a nearly equivalent API that attempts to guess these based on a variety of attributes.
+
+It is accurate for all vanilla biomes, but may encounter issues with modded biomes. You are always able to correct this in the configuration.
+
 # 10.2.0
 
 ## Feature Additions
