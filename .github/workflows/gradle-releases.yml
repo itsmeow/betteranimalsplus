@@ -1,39 +1,60 @@
-name: 'Build Release'
+name: "Build Release"
 on:
   push:
     tags:
-      - '[0-9]+.[0-9]+.[0-9]+-[0-9]+.[0-9]+.[0-9]+'
-      - '[0-9]+.[0-9]+-[0-9]+.[0-9]+.[0-9]+'
+      - "[0-9]+.[0-9]+.[0-9]+-[0-9]+.[0-9]+.[0-9]+"
+      - "[0-9]+.[0-9]+-[0-9]+.[0-9]+.[0-9]+"
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - { uses: actions/checkout@v2, with: { fetch-depth: 0 } }
-      - { name: 'Set up JDK 16', uses: actions/setup-java@v2, with: { distribution: 'adopt', java-version: '16' } }
-      - { name: 'Build with Gradle', id: build, env: {
-        MAVEN_PASSWORD: "${{secrets.MAVEN_PASSWORD}}",
-        MAVEN_URL: "${{secrets.MAVEN_URL}}",
-        MAVEN_USER: "${{secrets.MAVEN_USER}}",
-        USE_ALPHAS: false
-      },  run: 'chmod +x gradlew && ./gradlew setupGithubActions build publish' }
+      - {
+        name: "Set up JDK 16",
+        uses: actions/setup-java@v2,
+        with: { distribution: "adopt", java-version: "16" },
+      }
+      - {
+        name: "Build with Gradle",
+        id: build,
+        env:
+          {
+            MAVEN_PASSWORD: "${{secrets.MAVEN_PASSWORD}}",
+            MAVEN_URL: "${{secrets.MAVEN_URL}}",
+            MAVEN_USER: "${{secrets.MAVEN_USER}}",
+            USE_ALPHAS: false,
+          },
+        run: "chmod +x gradlew && ./gradlew setupGithubActions build publish",
+      }
       - name: "Create a Release"
         id: create_release
-        uses: meeDamian/github-release@v1.0.1
+        uses: meeDamian/github-release@2.0
         with:
-          draft: false
-          files: "build/libs/${{ steps.build.outputs.modid }}-${{ steps.build.outputs.version }}.jar"
+          files: "fabric/build/libs/${{ steps.build.outputs.modid }}-${{ steps.build.outputs.version }}-fabric.jar forge/build/libs/${{ steps.build.outputs.modid }}-${{ steps.build.outputs.version }}-forge.jar"
           gzip: false
           name: "${{ steps.build.outputs.modid }}-${{ steps.build.outputs.version }}"
-          prerelease: false
           token: "${{ secrets.GITHUB_TOKEN }}"
-      - name: "CF upload"
+      - name: "Upload Fabric to CurseForge"
         uses: itsmeow/curseforge-upload@master
         with:
           changelog: "Changelog not added yet..."
-          display_name: "${{ steps.build.outputs.curse_title }}"
-          file_path: "build/libs/${{ steps.build.outputs.modid }}-${{ steps.build.outputs.version }}.jar"
+          display_name: "${{ steps.build.outputs.curse_title }} ${{ steps.build.outputs.version }} [Fabric]"
+          file_path: "fabric/build/libs/${{ steps.build.outputs.modid }}-${{ steps.build.outputs.version }}-fabric.jar"
           game_endpoint: minecraft
-          game_versions: "${{ steps.build.outputs.curse_versions }}"
+          relations: "${{ steps.build.outputs.curse_relations_fabric }}"
+          game_versions: "${{ steps.build.outputs.curse_versions_fabric }}"
+          project_id: "${{ steps.build.outputs.project_id }}"
+          release_type: release
+          token: "${{ secrets.CF_API_TOKEN }}"
+      - name: "Upload Forge to CurseForge"
+        uses: itsmeow/curseforge-upload@master
+        with:
+          changelog: "Changelog not added yet..."
+          display_name: "${{ steps.build.outputs.curse_title }} ${{ steps.build.outputs.version }} [Forge]"
+          file_path: "forge/build/libs/${{ steps.build.outputs.modid }}-${{ steps.build.outputs.version }}-forge.jar"
+          game_endpoint: minecraft
+          relations: "${{ steps.build.outputs.curse_relations_forge }}"
+          game_versions: "${{ steps.build.outputs.curse_versions_forge }}"
           project_id: "${{ steps.build.outputs.project_id }}"
           release_type: release
           token: "${{ secrets.CF_API_TOKEN }}"
