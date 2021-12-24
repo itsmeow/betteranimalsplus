@@ -21,7 +21,7 @@ public class FabricMixinPlugin implements IMixinConfigPlugin {
 
     @Override
     public boolean shouldApplyMixin(String targetClassName, String mixinClassName) {
-        return (!mixinClassName.equals("dev.itsmeow.betteranimalsplus.mixin.ItemCapeMixin") && !mixinClassName.equals("dev.itsmeow.betteranimalsplus.mixin.TrinketSlotMixin")) || Platform.isModLoaded("trinkets");
+        return (!mixinClassName.equals("dev.itsmeow.betteranimalsplus.mixin.fabric.ItemCapeMixin") && !mixinClassName.equals("dev.itsmeow.betteranimalsplus.mixin.fabric.TrinketSlotMixin")) || Platform.isModLoaded("trinkets");
     }
 
     @Override

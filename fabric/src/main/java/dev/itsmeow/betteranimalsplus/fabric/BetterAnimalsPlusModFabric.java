@@ -9,6 +9,7 @@ public class BetterAnimalsPlusModFabric implements ModInitializer {
 
     @Override
     public void onInitialize() {
+
         BetterAnimalsPlusMod.construct();
         BetterAnimalsPlusMod.init(Runnable::run);
         ClassLoadHacks.runWhenLoaded("trinkets", () -> () -> TrinketsModCompat.init());
