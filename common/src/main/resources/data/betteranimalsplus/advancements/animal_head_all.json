@@ -32,7 +32,7 @@
             "conditions": {
                 "items": [
                     {
-                        "item": "betteranimalsplus:feralwolfhead_black"
+                        "items": ["betteranimalsplus:feralwolfhead_black"]
                     }
                 ]
             }
@@ -42,7 +42,7 @@
             "conditions": {
                 "items": [
                     {
-                        "item": "betteranimalsplus:feralwolfhead_snowy"
+                        "items": ["betteranimalsplus:feralwolfhead_snowy"]
                     }
                 ]
             }
@@ -52,7 +52,7 @@
             "conditions": {
                 "items": [
                     {
-                        "item": "betteranimalsplus:feralwolfhead_timber"
+                        "items": ["betteranimalsplus:feralwolfhead_timber"]
                     }
                 ]
             }
@@ -62,7 +62,7 @@
             "conditions": {
                 "items": [
                     {
-                        "item": "betteranimalsplus:feralwolfhead_arctic"
+                        "items": ["betteranimalsplus:feralwolfhead_arctic"]
                     }
                 ]
             }
@@ -72,7 +72,7 @@
             "conditions": {
                 "items": [
                     {
-                        "item": "betteranimalsplus:feralwolfhead_brown"
+                        "items": ["betteranimalsplus:feralwolfhead_brown"]
                     }
                 ]
             }
@@ -82,7 +82,7 @@
             "conditions": {
                 "items": [
                     {
-                        "item": "betteranimalsplus:feralwolfhead_red"
+                        "items": ["betteranimalsplus:feralwolfhead_red"]
                     }
                 ]
             }
@@ -92,7 +92,7 @@
             "conditions": {
                 "items": [
                     {
-                        "item": "betteranimalsplus:coyotehead_1"
+                        "items": ["betteranimalsplus:coyotehead_1"]
                     }
                 ]
             }
@@ -102,7 +102,7 @@
             "conditions": {
                 "items": [
                     {
-                        "item": "betteranimalsplus:brownbearhead_1"
+                        "items": ["betteranimalsplus:brownbearhead_1"]
                     }
                 ]
             }
@@ -112,7 +112,7 @@
             "conditions": {
                 "items": [
                     {
-                        "item": "betteranimalsplus:blackbearhead_black"
+                        "items": ["betteranimalsplus:blackbearhead_black"]
                     }
                 ]
             }
@@ -122,7 +122,7 @@
             "conditions": {
                 "items": [
                     {
-                        "item": "betteranimalsplus:blackbearhead_kermode"
+                        "items": ["betteranimalsplus:blackbearhead_kermode"]
                     }
                 ]
             }
@@ -132,7 +132,7 @@
             "conditions": {
                 "items": [
                     {
-                        "item": "betteranimalsplus:deerhead_1"
+                        "items": ["betteranimalsplus:deerhead_1"]
                     }
                 ]
             }
@@ -142,7 +142,7 @@
             "conditions": {
                 "items": [
                     {
-                        "item": "betteranimalsplus:deerhead_2"
+                        "items": ["betteranimalsplus:deerhead_2"]
                     }
                 ]
             }
@@ -152,7 +152,7 @@
             "conditions": {
                 "items": [
                     {
-                        "item": "betteranimalsplus:reindeerhead_1"
+                        "items": ["betteranimalsplus:reindeerhead_1"]
                     }
                 ]
             }
@@ -162,7 +162,7 @@
             "conditions": {
                 "items": [
                     {
-                        "item": "betteranimalsplus:reindeerhead_2"
+                        "items": ["betteranimalsplus:reindeerhead_2"]
                     }
                 ]
             }
@@ -172,7 +172,7 @@
             "conditions": {
                 "items": [
                     {
-                        "item": "betteranimalsplus:reindeerhead_3"
+                        "items": ["betteranimalsplus:reindeerhead_3"]
                     }
                 ]
             }
@@ -182,7 +182,7 @@
             "conditions": {
                 "items": [
                     {
-                        "item": "betteranimalsplus:reindeerhead_4"
+                        "items": ["betteranimalsplus:reindeerhead_4"]
                     }
                 ]
             }
@@ -192,7 +192,7 @@
             "conditions": {
                 "items": [
                     {
-                        "item": "betteranimalsplus:boarhead_light_brown"
+                        "items": ["betteranimalsplus:boarhead_light_brown"]
                     }
                 ]
             }
@@ -202,7 +202,7 @@
             "conditions": {
                 "items": [
                     {
-                        "item": "betteranimalsplus:boarhead_dark_brown"
+                        "items": ["betteranimalsplus:boarhead_dark_brown"]
                     }
                 ]
             }
@@ -212,7 +212,7 @@
             "conditions": {
                 "items": [
                     {
-                        "item": "betteranimalsplus:boarhead_gray"
+                        "items": ["betteranimalsplus:boarhead_gray"]
                     }
                 ]
             }
@@ -222,7 +222,7 @@
             "conditions": {
                 "items": [
                     {
-                        "item": "betteranimalsplus:moosehead_1"
+                        "items": ["betteranimalsplus:moosehead_1"]
                     }
                 ]
             }
@@ -232,7 +232,7 @@
             "conditions": {
                 "items": [
                     {
-                        "item": "betteranimalsplus:moosehead_2"
+                        "items": ["betteranimalsplus:moosehead_2"]
                     }
                 ]
             }
@@ -242,7 +242,7 @@
             "conditions": {
                 "items": [
                     {
-                        "item": "betteranimalsplus:moosehead_3"
+                        "items": ["betteranimalsplus:moosehead_3"]
                     }
                 ]
             }
@@ -252,7 +252,7 @@
             "conditions": {
                 "items": [
                     {
-                        "item": "betteranimalsplus:moosehead_4"
+                        "items": ["betteranimalsplus:moosehead_4"]
                     }
                 ]
             }
@@ -262,7 +262,7 @@
             "conditions": {
                 "items": [
                     {
-                        "item": "betteranimalsplus:deerhead_3"
+                        "items": ["betteranimalsplus:deerhead_3"]
                     }
                 ]
             }
@@ -272,7 +272,7 @@
             "conditions": {
                 "items": [
                     {
-                        "item": "betteranimalsplus:deerhead_4"
+                        "items": ["betteranimalsplus:deerhead_4"]
                     }
                 ]
             }

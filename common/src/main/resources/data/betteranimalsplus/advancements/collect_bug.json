@@ -30,7 +30,7 @@
 			"conditions": {
 				"items": [
 					{
-						"item": "betteranimalsplus:bottled_butterfly"
+						"items": ["betteranimalsplus:bottled_butterfly"]
 					}
 				]
 			}
@@ -40,7 +40,7 @@
 			"conditions": {
 				"items": [
 					{
-						"item": "betteranimalsplus:bottled_dragonfly"
+						"items": ["betteranimalsplus:bottled_dragonfly"]
 					}
 				]
 			}
