@@ -109,8 +109,7 @@ task fixJar(type: Jar) {
         filter {
             line -> {
                 line = line.replaceAll("dev.itsmeow.imdlib", "dev.itsmeow.betteranimalsplus.imdlib")
-                line = line.replaceAll('mixin.imdlib.json', 'mixin.imdlib-betteranimalsplus.json')
-                line.replaceAll('mixin.imdlib-fabric.json', 'mixin.imdlib-betteranimalsplus-fabric.json')
+                line = line.replaceAll('mixin.imdlib.json', 'mixin.imdlib-betteranimalsplus.json","mixin.imdlib-betteranimalsplus-fabric.json')
             }
         }
     }
