@@ -28,7 +28,6 @@
 
 ## Bugfixes
 
-- Forge: Removed "defineId called from" warnings in the console.
 - Fixed pack format being incorrect
 - Fixed jellyfish, lamprey, eels, barracuda, flying fish, and piranha using empty buckets instead of water buckets to be "bucketed"
 - Fixed possible crash with Octopus loading
