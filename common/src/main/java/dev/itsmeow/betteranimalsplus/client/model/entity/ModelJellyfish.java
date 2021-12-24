@@ -105,7 +105,7 @@ public class ModelJellyfish<T extends LivingEntity> extends ModelBAP<T> {
         texHeight = 80;
 
         base = new ModelPart(this);
-        base.setPos(0.0F, 17.75F, -1.0F);
+        base.setPos(0.0F, 0F, -1.0F);
         base.texOffs(0, 0).addBox(-5.0F, -2.0F, -4.0F, 10.0F, 2.0F, 10.0F, 0.0F, false);
         base.texOffs(41, 0).addBox(-5.0F, -3.0F, -4.0F, 10.0F, 3.0F, 10.0F, 0.0F, false);
         base.texOffs(82, 0).addBox(-4.5F, -3.75F, -3.5F, 9.0F, 2.0F, 9.0F, 0.0F, false);
@@ -610,8 +610,8 @@ public class ModelJellyfish<T extends LivingEntity> extends ModelBAP<T> {
     }
 
     @Override
-    public void renderToBuffer(PoseStack matrixStackIn, VertexConsumer bufferIn, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
-        this.base.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn);
+    public void renderToBuffer(PoseStack poseStack, VertexConsumer bufferIn, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
+        this.base.render(poseStack, bufferIn, packedLightIn, packedOverlayIn);
     }
 
     @Override
