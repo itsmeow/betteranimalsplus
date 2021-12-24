@@ -9,12 +9,12 @@
     "LivingEntityMixin",
     "SimpleReloadableResourceManagerMixin",
     "ItemCapeMixin",
-    "TrinketSlotMixin",
-    "ProjectileUtilMixin"
+    "TrinketSlotMixin"
   ],
   "client": [
     "PlayerRendererMixin",
-    "ScreenMixin"
+    "ScreenMixin",
+    "ProjectileUtilMixin"
   ],
   "injectors": {
     "defaultRequire": 1
