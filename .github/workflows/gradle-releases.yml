@@ -38,7 +38,7 @@ jobs:
         uses: itsmeow/curseforge-upload@master
         with:
           changelog: "Changelog not added yet..."
-          display_name: "${{ steps.build.outputs.curse_title }} [Fabric]"
+          display_name: "${{ steps.build.outputs.curse_title }} ${{ steps.build.outputs.version }} [Fabric]"
           file_path: "fabric/build/libs/${{ steps.build.outputs.modid }}-${{ steps.build.outputs.version }}-fabric.jar"
           game_endpoint: minecraft
           relations: "${{ steps.build.outputs.curse_relations_fabric }}"
@@ -50,7 +50,7 @@ jobs:
         uses: itsmeow/curseforge-upload@master
         with:
           changelog: "Changelog not added yet..."
-          display_name: "${{ steps.build.outputs.curse_title }} [Forge]"
+          display_name: "${{ steps.build.outputs.curse_title }} ${{ steps.build.outputs.version }} [Forge]"
           file_path: "forge/build/libs/${{ steps.build.outputs.modid }}-${{ steps.build.outputs.version }}-forge.jar"
           game_endpoint: minecraft
           relations: "${{ steps.build.outputs.curse_relations_forge }}"
