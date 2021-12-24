@@ -205,7 +205,7 @@ public class ModelJellyfish<T extends LivingEntity> extends ModelBAP<T> {
                 .texOffs(0, 13).addBox(-4.0F, -4.25F, -3.0F, 8.0F, 1.0F, 8.0F, new CubeDeformation(0.0F))
                 .texOffs(33, 13).addBox(-4.0F, -5.25F, -3.0F, 8.0F, 2.0F, 8.0F, new CubeDeformation(0.0F))
                 .texOffs(0, 35).addBox(-2.5F, -4.0F, -1.5F, 5.0F, 1.0F, 5.0F, new CubeDeformation(0.0F))
-                .texOffs(20, 36).addBox(-2.0F, -4.5F, -1.0F, 4.0F, 1.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 17.75F, -1.0F));
+                .texOffs(20, 36).addBox(-2.0F, -4.5F, -1.0F, 4.0F, 1.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, -1.0F));
         PartDefinition crown = base.addOrReplaceChild("crown", CubeListBuilder.create().texOffs(0, 41).addBox(-4.5F, -1.0F, -4.5F, 9.0F, 1.0F, 9.0F, new CubeDeformation(0.0F))
                 .texOffs(27, 42).addBox(-3.0F, -2.25F, -3.0F, 6.0F, 2.0F, 6.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, -3.0F, 1.0F));
         PartDefinition cube_r1 = crown.addOrReplaceChild("cube_r1", CubeListBuilder.create().texOffs(47, 37).addBox(-0.75F, -1.5F, -0.25F, 1.0F, 2.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-2.5F, -2.0F, 2.25F, -0.5236F, 0.0F, -0.5236F));
