@@ -3,9 +3,7 @@
   "package": "dev.itsmeow.betteranimalsplus.mixin.forge",
   "compatibilityLevel": "JAVA_16",
   "minVersion": "0.8",
-  "mixins": [
-    "SynchedEntityDataMixin"
-  ],
+  "mixins": [],
   "client": [
     "ItemModeledArmorMixin"
   ],
