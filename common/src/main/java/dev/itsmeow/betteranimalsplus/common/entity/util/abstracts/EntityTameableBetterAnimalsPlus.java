@@ -20,7 +20,7 @@ public abstract class EntityTameableBetterAnimalsPlus extends TamableAnimal impl
 
     @Override
     public boolean canAttack(LivingEntity livingEntity) {
-        return super.canAttack(livingEntity) && (this.getOwnerUUID() == null || (livingEntity instanceof TamableAnimal && !this.getOwnerUUID().equals(((TamableAnimal) livingEntity).getOwnerUUID())));
+        return super.canAttack(livingEntity) && (this.getOwnerUUID() == null || (!(livingEntity instanceof TamableAnimal) || !this.getOwnerUUID().equals(((TamableAnimal) livingEntity).getOwnerUUID())));
     }
 
     @Override
