@@ -65,7 +65,6 @@ shadowJar {
 loom {
     forge {
         mixinConfig "mixin.imdlib-betteranimalsplus.json", "betteranimalsplus.mixins.json", "betteranimalsplus-forge.mixins.json"
-        accessTransformer file("src/main/resources/META-INF/accesstransformer.cfg")
     }
 }
 

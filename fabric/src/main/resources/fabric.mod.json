@@ -17,7 +17,6 @@
   "license": "CC BY-NC-SA 4.0 https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode",
   "icon": "icon.png",
   "environment": "*",
-  "accessWidener": "betteranimalsplus.accesswidener",
   "entrypoints": {
     "main": [
       "dev.itsmeow.betteranimalsplus.fabric.BetterAnimalsPlusModFabric"

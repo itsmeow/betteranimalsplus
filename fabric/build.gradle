@@ -17,10 +17,6 @@ configurations {
     modImplementation.extendsFrom shadowModImplementation
 }
 
-loom {
-    accessWidenerPath = file("src/main/resources/betteranimalsplus.accesswidener")
-}
-
 repositories {
     flatDir {
         dir 'libs'
