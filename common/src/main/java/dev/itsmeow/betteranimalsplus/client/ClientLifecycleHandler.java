@@ -53,7 +53,7 @@ public class ClientLifecycleHandler {
     public static void registerEntityRenders() {
         R.addRender(ModEntities.BROWN_BEAR::getEntityType, 1F, r -> r.tCondition(AgeableMob::isBaby, "brownbear_baby", "brownbear").mSingle(ModelBrownBear::new, "brown_bear").childScale(0.5F));
         R.addRender(ModEntities.BLACK_BEAR::getEntityType, 1F, r -> r.tVariant().mSingle(ModelBlackBear::new, "black_bear").childScale(0.5F));
-        R.addRender(ModEntities.DEER::getEntityType, 1F, r -> r.tBabyVariant("deer_baby").mSingle(ModelDeer::new, "deer").childScale(0.6F));
+        R.addRender(ModEntities.DEER::getEntityType, 1F, r -> r.tBabyVariant("deer_baby").mSingle(ModelDeer::new, "deer").childScale(0.6F).layer(t -> new LayerEyes<>(t, ModResources.deer_christmas_glow)));
         R.addRender(ModEntities.LAMMERGEIER::getEntityType, 0.3F, r -> r.tVariant().mSingle(ModelLammergeier::new, "lammergeier"));
         R.addRender(ModEntities.FERAL_WOLF::getEntityType, 0.5F, r -> r.tVariant().mSingle(ModelFeralWolf::new, "feral_wolf").handleRotation((e, p) -> e.getTailRotation()).childScale(0.5F).layer(t -> new LayerEyesCondition<>(t, ModResources.wolf_eyes, e -> !e.isTame())));
         R.addRender(ModEntities.COYOTE::getEntityType, 0.5F, r -> r.tMapped(e -> e.isTame() || (e.isDaytime() && !e.isHostileDaytime()) ? "coyote" : "coyote_hostile").mSingle(ModelCoyote::new, "coyote").handleRotation((e, p) -> e.getTailRotation()).childScale(0.5F).layer(t -> new LayerEyesCondition<>(t, ModResources.coyote_eyes, e -> !e.isTame() && !(e.isDaytime() && !e.isHostileDaytime()))));
