@@ -92,37 +92,41 @@ public class BetterAnimalsPlusClientFabric implements ClientModInitializer {
                 }
                 model.renderToBuffer(matrices, vertexConsumers.getBuffer(RenderType.entityCutoutNoCull(tex)), light, LivingEntityRenderer.getOverlayCoords(entity, 0.0F), 1F, 1F, 1F, 1F);
             }, armor);
-            ClassLoadHacks.runWhenLoaded("trinkets", () -> () -> {
-                TrinketRendererRegistry.registerRenderer(armor, new TrinketRenderer() {
-                    protected HumanoidModel<LivingEntity> model = null;
-
-                    @Override
-                    public void render(ItemStack stack, SlotReference slotReference, EntityModel<? extends LivingEntity> contextModel, PoseStack matrixStack, MultiBufferSource multiBufferSource, int light, LivingEntity player, float limbAngle, float limbDistance, float tickDelta, float animationProgress, float headYaw, float headPitch) {
-                        if(stack.getItem() instanceof ItemModeledArmor a) {
-                            if (model == null) {
-                                model = a.getArmorModel(player, stack, EquipmentSlot.CHEST, contextModel instanceof HumanoidModel ? (HumanoidModel<LivingEntity>) contextModel : null);
-                            }
-                            if (player.isCrouching()) {
-                                matrixStack.translate(0.0F, 0.2F, 0.0F);
-                                matrixStack.mulPose(Vector3f.XP.rotationDegrees(90.0F / (float) Math.PI));
-                            }
-                            EntityRenderer<? super LivingEntity> render = Minecraft.getInstance().getEntityRenderDispatcher().getRenderer(player);
-                            if (render instanceof LivingEntityRenderer) {
-                                EntityModel<LivingEntity> entityModel = ((LivingEntityRenderer<LivingEntity, EntityModel<LivingEntity>>) render).getModel();
-                                if (entityModel instanceof HumanoidModel) {
-                                    HumanoidModel<LivingEntity> bipedModel = (HumanoidModel<LivingEntity>) entityModel;
-                                    bipedModel.copyPropertiesTo(model);
-                                }
-                            }
-                            String texture = a.getMaterial().getName();
-                            String tex = String.format("%s:textures/models/armor/%s_layer_%d.png", Ref.MOD_ID, texture, 1);
-                            VertexConsumer vertexConsumer = multiBufferSource.getBuffer(RenderType.entityTranslucent(new ResourceLocation(tex)));
-                            model.setupAnim(player, 0F, 0F, player.tickCount, headYaw, headPitch);
-                            model.renderToBuffer(matrixStack, vertexConsumer, light, LivingEntityRenderer.getOverlayCoords(player, 0.0F), 1F, 1F, 1F, 1F);
-                        }
-                    }
-                });
-            });
+            ClassLoadHacks.runWhenLoaded("trinkets", () -> () -> TrinketsSafeClassHack.registerRenderer(armor));
         });
+    }
+
+    public static class TrinketsSafeClassHack {
+        public static void registerRenderer(ItemModeledArmor armor) {
+            TrinketRendererRegistry.registerRenderer(armor, new TrinketRenderer() {
+                protected HumanoidModel<LivingEntity> model = null;
+
+                @Override
+                public void render(ItemStack stack, SlotReference slotReference, EntityModel<? extends LivingEntity> contextModel, PoseStack matrixStack, MultiBufferSource multiBufferSource, int light, LivingEntity player, float limbAngle, float limbDistance, float tickDelta, float animationProgress, float headYaw, float headPitch) {
+                    if(stack.getItem() instanceof ItemModeledArmor a) {
+                        if (model == null) {
+                            model = a.getArmorModel(player, stack, EquipmentSlot.CHEST, contextModel instanceof HumanoidModel ? (HumanoidModel<LivingEntity>) contextModel : null);
+                        }
+                        if (player.isCrouching()) {
+                            matrixStack.translate(0.0F, 0.2F, 0.0F);
+                            matrixStack.mulPose(Vector3f.XP.rotationDegrees(90.0F / (float) Math.PI));
+                        }
+                        EntityRenderer<? super LivingEntity> render = Minecraft.getInstance().getEntityRenderDispatcher().getRenderer(player);
+                        if (render instanceof LivingEntityRenderer) {
+                            EntityModel<LivingEntity> entityModel = ((LivingEntityRenderer<LivingEntity, EntityModel<LivingEntity>>) render).getModel();
+                            if (entityModel instanceof HumanoidModel) {
+                                HumanoidModel<LivingEntity> bipedModel = (HumanoidModel<LivingEntity>) entityModel;
+                                bipedModel.copyPropertiesTo(model);
+                            }
+                        }
+                        String texture = a.getMaterial().getName();
+                        String tex = String.format("%s:textures/models/armor/%s_layer_%d.png", Ref.MOD_ID, texture, 1);
+                        VertexConsumer vertexConsumer = multiBufferSource.getBuffer(RenderType.entityTranslucent(new ResourceLocation(tex)));
+                        model.setupAnim(player, 0F, 0F, player.tickCount, headYaw, headPitch);
+                        model.renderToBuffer(matrixStack, vertexConsumer, light, LivingEntityRenderer.getOverlayCoords(player, 0.0F), 1F, 1F, 1F, 1F);
+                    }
+                }
+            });
+        }
     }
 }

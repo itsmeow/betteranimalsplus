@@ -45,9 +45,10 @@ dependencies {
         transitive = false
     }
     modImplementation("io.github.onyxstudios.Cardinal-Components-API:cardinal-components-base:${rootProject.cardinal_components_version}") {
-        exclude(group: "net.fabricmc.fabric-api")
+        transitive = false
     }
     shadowModImplementation("io.github.onyxstudios.Cardinal-Components-API:cardinal-components-entity:${rootProject.cardinal_components_version}") {
+        exclude(group: "net.fabricmc")
         exclude(group: "net.fabricmc.fabric-api")
     }
     modImplementation("dev.emi:trinkets:${rootProject.trinkets_version}") {
