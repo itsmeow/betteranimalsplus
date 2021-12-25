@@ -8,8 +8,8 @@ import dev.itsmeow.betteranimalsplus.client.ClientLifecycleHandler;
 import dev.itsmeow.betteranimalsplus.client.forge.BetterAnimalsPlusClientForge;
 import dev.itsmeow.betteranimalsplus.compat.curios.CuriosModCompat;
 import dev.itsmeow.imdlib.util.ClassLoadHacks;
+import net.minecraft.nbt.Tag;
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -35,7 +35,7 @@ public class BetterAnimalsPlusModForge {
 
     @SubscribeEvent
     public static void onPlayerRespawn(PlayerEvent.Clone event) {
-        if(event.getOriginal().getPersistentData().contains("betteranimalsplus", Constants.NBT.TAG_COMPOUND)) {
+        if(event.getOriginal().getPersistentData().contains("betteranimalsplus", Tag.TAG_COMPOUND)) {
             event.getPlayer().getPersistentData().put("betteranimalsplus", event.getOriginal().getPersistentData().getCompound("betteranimalsplus"));
         }
     }

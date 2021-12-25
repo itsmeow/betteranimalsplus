@@ -202,7 +202,7 @@ public class ModEntities {
             .defaultPlacement(EntityWalrus::canSpawn)
             .egg(0x854c03, 0x42300f)
             .size(3F, 1.25F)
-            .biomes(c -> c.extra(Biomes.FROZEN_OCEAN, Biomes.DEEP_FROZEN_OCEAN, Biomes.SNOWY_BEACH, Biomes.STONE_SHORE)));
+            .biomes(c -> c.extra(Biomes.FROZEN_OCEAN, Biomes.DEEP_FROZEN_OCEAN, Biomes.SNOWY_BEACH, Biomes.STONY_SHORE)));
     public static final EntityTypeContainer<EntityColossalSquid> SQUID_COLOSSAL = H.add(EntityColossalSquid.class, EntityColossalSquid::new, "squid_colossal", () -> Mob.createMobAttributes()
             .add(Attributes.MAX_HEALTH, 30D)
             .add(Attributes.MOVEMENT_SPEED, 1D)
@@ -384,7 +384,7 @@ public class ModEntities {
             .size(2.25F, 3F)
             .biomes(c -> c
                     .extra(BiomeTypes.SWAMP)
-                    .extra(Biomes.GIANT_SPRUCE_TAIGA, Biomes.GIANT_SPRUCE_TAIGA_HILLS, Biomes.GIANT_TREE_TAIGA, Biomes.GIANT_TREE_TAIGA_HILLS))
+                    .extra(Biomes.OLD_GROWTH_SPRUCE_TAIGA, Biomes.OLD_GROWTH_PINE_TAIGA))
             .variants(4)
             .head().itemGroup(G).mapToNames().setModel(() -> ModelMooseHead::new, "moose_head").done());
     public static final EntityTypeContainerContainable<EntityFreshwaterEel, ItemModFishBucket<EntityFreshwaterEel>> EEL_FRESHWATER = H.addContainableB(EntityFreshwaterEel.class, EntityFreshwaterEel::new, "eel_freshwater", () -> Mob.createMobAttributes()

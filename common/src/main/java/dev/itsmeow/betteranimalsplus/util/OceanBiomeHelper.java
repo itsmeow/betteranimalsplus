@@ -18,7 +18,7 @@ public class OceanBiomeHelper {
 
     public static boolean isDeepOcean(ResourceKey<Biome> biome) {
         Set<BiomeTypes.Type> types = BiomeTypes.getTypes(biome);
-        return types.contains(BiomeTypes.OCEAN) && (biome == Biomes.DEEP_FROZEN_OCEAN || biome == Biomes.DEEP_COLD_OCEAN || biome == Biomes.DEEP_LUKEWARM_OCEAN || biome == Biomes.DEEP_OCEAN || biome == Biomes.DEEP_WARM_OCEAN || biome.location().getPath().contains("deep"));
+        return types.contains(BiomeTypes.OCEAN) && (biome == Biomes.DEEP_FROZEN_OCEAN || biome == Biomes.DEEP_COLD_OCEAN || biome == Biomes.DEEP_LUKEWARM_OCEAN || biome == Biomes.DEEP_OCEAN || biome.location().getPath().contains("deep"));
     }
 
     public static boolean isFrozenOcean(ResourceKey<Biome> biome) {
@@ -28,7 +28,7 @@ public class OceanBiomeHelper {
 
     public static boolean isWarmOcean(ResourceKey<Biome> biome) {
         Set<BiomeTypes.Type> types = BiomeTypes.getTypes(biome);
-        return types.contains(BiomeTypes.OCEAN) && (biome == Biomes.DEEP_WARM_OCEAN || biome == Biomes.WARM_OCEAN || (biome.location().getPath().contains("warm") && !biome.location().getPath().contains("lukewarm")));
+        return types.contains(BiomeTypes.OCEAN) && (biome == Biomes.WARM_OCEAN || (biome.location().getPath().contains("warm") && !biome.location().getPath().contains("lukewarm")));
     }
 
     public static boolean isLukewarmOcean(ResourceKey<Biome> biome) {

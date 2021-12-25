@@ -104,7 +104,7 @@ public class EntityWhale extends EntityWaterMobPathingWithTypesAirBreathing impl
             return new String[] { "bottlenose", "pilot" };
         } else if(biomeKey == Biomes.DEEP_FROZEN_OCEAN || biomeKey == Biomes.FROZEN_OCEAN) {
             return new String[] { "narwhal", "beluga" };
-        } else if(biomeKey == Biomes.DEEP_LUKEWARM_OCEAN || biomeKey == Biomes.DEEP_OCEAN || biomeKey == Biomes.DEEP_WARM_OCEAN) {
+        } else if(biomeKey == Biomes.DEEP_LUKEWARM_OCEAN || biomeKey == Biomes.DEEP_OCEAN) {
             return new String[] { "cuviers", "pilot" };
         } else {
             return new String[] { "cuviers", "pilot", "false_killer" };

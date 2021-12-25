@@ -1,5 +1,5 @@
 plugins {
-    id "com.github.johnrengelman.shadow" version "7.0.0"
+    id "com.github.johnrengelman.shadow" version "7.1.1"
 }
 
 architectury {
@@ -54,13 +54,12 @@ dependencies {
     modImplementation("dev.emi:trinkets:${rootProject.trinkets_version}") {
         transitive = false
     }
-    modRuntimeOnly("com.terraformersmc:modmenu:2.0.14") {
+    modRuntimeOnly("com.terraformersmc:modmenu:3.0.1") {
         transitive = false
     }
-    modApi ("me.shedaniel.cloth:cloth-config:5.2.47") {
-        exclude(group: "net.fabricmc.fabric-api")
+    modRuntimeOnly ("me.shedaniel.cloth:cloth-config:6.1.48") {
+        transitive = false
     }
-    runtimeOnly("me.shedaniel.cloth:basic-math:0.6.0")
 }
 
 processResources {

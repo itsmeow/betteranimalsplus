@@ -4,21 +4,23 @@ package dev.itsmeow.betteranimalsplus.common.blockentity;
 import dev.itsmeow.betteranimalsplus.init.ModBlockEntities;
 import dev.itsmeow.betteranimalsplus.init.ModBlocks;
 import dev.itsmeow.betteranimalsplus.init.ModResources;
-import dev.architectury.extensions.BlockEntityExtension;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.HorizontalDirectionalBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.Random;
 
-public class BlockEntityTrillium extends BlockEntity implements BlockEntityExtension {
+public class BlockEntityTrillium extends BlockEntity {
 
     private final String keyType = "trilliumType";
     private final String keyModel = "trilliumModel";
@@ -60,25 +62,10 @@ public class BlockEntityTrillium extends BlockEntity implements BlockEntityExten
     }
 
     @Override
-    public CompoundTag save(CompoundTag compound) {
-        super.save(compound);
-        compound.putInt(this.keyType, this.typeNum);
-        compound.putInt(this.keyModel, this.modelNum);
-        return compound;
-    }
-
-    @Override
-    public ClientboundBlockEntityDataPacket getUpdatePacket() {
-        CompoundTag tag = new CompoundTag();
-        this.save(tag);
-        return new ClientboundBlockEntityDataPacket(this.worldPosition, 1, tag);
-    }
-
-    @Override
-    public CompoundTag getUpdateTag() {
-        CompoundTag tag = new CompoundTag();
-        this.save(tag);
-        return tag;
+    protected void saveAdditional(CompoundTag compoundTag) {
+        super.saveAdditional(compoundTag);
+        compoundTag.putInt(this.keyType, this.typeNum);
+        compoundTag.putInt(this.keyModel, this.modelNum);
     }
 
     @Environment(EnvType.CLIENT)
@@ -112,19 +99,26 @@ public class BlockEntityTrillium extends BlockEntity implements BlockEntityExten
     }
 
     @Override
-    public void loadClientData(BlockState blockState, CompoundTag compoundTag) {
-        this.load(compoundTag);
-    }
-
-    @Override
-    public CompoundTag saveClientData(CompoundTag compoundTag) {
-        return this.save(compoundTag);
-    }
-
-    @Override
     public void setChanged() {
         super.setChanged();
-        if (this.hasLevel() && !this.level.isClientSide())
-            this.syncData();
+        this.sync();
+    }
+
+    @Override
+    public CompoundTag getUpdateTag() {
+        CompoundTag nbt = super.getUpdateTag();
+        saveAdditional(nbt);
+        return nbt;
+    }
+
+    @Override
+    public Packet<ClientGamePacketListener> getUpdatePacket() {
+        return ClientboundBlockEntityDataPacket.create(this);
+    }
+
+    public void sync() {
+        if (level != null && !level.isClientSide()) {
+            level.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), Block.UPDATE_CLIENTS);
+        }
     }
 }

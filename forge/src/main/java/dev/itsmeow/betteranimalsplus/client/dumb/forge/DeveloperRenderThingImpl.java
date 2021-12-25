@@ -12,7 +12,7 @@ public class DeveloperRenderThingImpl {
 
     public static void renderPlayer(RenderPlayerEvent.Pre event) {
         if (DeveloperRenderThing.shouldRender(event.getPlayer())) {
-            DeveloperRenderThing.playerRender(event.getPlayer(), event.getRenderer(), event.getPartialRenderTick(), event.getMatrixStack(), event.getBuffers(), event.getLight());
+            DeveloperRenderThing.playerRender(event.getPlayer(), event.getRenderer(), event.getPartialTick(), event.getPoseStack(), event.getMultiBufferSource(), event.getPackedLight());
             event.setCanceled(true);
         }
     }

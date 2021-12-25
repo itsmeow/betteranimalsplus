@@ -1,4 +1,4 @@
-// BEFORE SYNCING, YOU MUST GO TO Settings -> Build, Execution, Deployment -> Build Tools -> Gradle and change "Gradle JVM" to Java 11 or higher
+// BEFORE SYNCING, YOU MUST GO TO Settings -> Build, Execution, Deployment -> Build Tools -> Gradle and change "Gradle JVM" to Java 17 or higher
 plugins {
     id "architectury-plugin" version "$architectury_plugin_version"
     id "dev.architectury.loom" version "$loom_version" apply false
@@ -29,10 +29,7 @@ allprojects {
     group = rootProject.maven_group
     tasks.withType(JavaCompile) {
         options.encoding = "UTF-8"
-        def targetVersion = 16
-        if (JavaVersion.current().isJava9Compatible()) {
-            options.release = targetVersion
-        }
+        options.release = 17
         options.compilerArgs << "-Xmaxerrs" << "2000"
     }
     repositories {
