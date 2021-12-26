@@ -18,9 +18,6 @@ configurations {
 }
 
 repositories {
-    flatDir {
-        dir 'libs'
-    }
     maven {
         name = "TerraformersMC"
         url = "https://maven.terraformersmc.com/"
@@ -31,6 +28,9 @@ repositories {
     }
     maven {
         url = "https://maven.shedaniel.me/"
+    }
+    maven {
+        url = "https://cursemaven.com/"
     }
 }
 
@@ -57,9 +57,11 @@ dependencies {
     modRuntimeOnly("com.terraformersmc:modmenu:3.0.1") {
         transitive = false
     }
-    modRuntimeOnly ("me.shedaniel.cloth:cloth-config:6.1.48") {
-        transitive = false
+    modRuntimeOnly("curse.maven:cloth-config-319057:3559638") {
+        exclude(group: "net.fabricmc")
+        exclude(group: "net.fabricmc.fabric-api")
     }
+    runtimeOnly("me.shedaniel.cloth:basic-math:0.6.0")
 }
 
 processResources {
