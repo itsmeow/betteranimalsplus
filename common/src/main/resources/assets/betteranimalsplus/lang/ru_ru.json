@@ -68,6 +68,9 @@
     "block.betteranimalsplus.turkey_raw": "Сырая индейка",
     "block.betteranimalsplus.turkey_cooked": "Приготовленная индейка",
 
+    "entity.betteranimalsplus.tarantulahair": "Волос тарантула",
+    "entity.betteranimalsplus.badgerdirt": "Барсучья грязь",
+
     "entity.betteranimalsplus.brownbear": "Бурый медведь",
     "entity.betteranimalsplus.blackbear": "Чёрный медведь",
     "entity.betteranimalsplus.deer": "Олень",
@@ -142,5 +145,29 @@
 	
     "misc.betteranimalsplus.eggorder": "Яйцо призыва %s",
     "tooltip.betteranimalsplus.nectar": "Имеет нектар",
-    "tooltip.betteranimalsplus.cures_wither": "Лечит иссушение"
+    "tooltip.betteranimalsplus.cures_wither": "Лечит иссушение",
+
+    "config.betteranimalsplus": "Better Animals Plus конфигурация",
+    "config.betteranimalsplus.can_despawn": "Может исчезнуть",
+    "config.betteranimalsplus.spawn_naturally": "Появляется естественным путём",
+    "config.betteranimalsplus.spawn_weight": "Вес появления",
+    "config.betteranimalsplus.minimum_group_size": "Минимальный размер группы",
+    "config.betteranimalsplus.maximum_group_size": "Максимальный размер группы",
+    "config.betteranimalsplus.spawn_biomes": "Биомы появления",
+    "config.betteranimalsplus.use_spawn_costs": "Использовать стоимости появления",
+    "config.betteranimalsplus.cost_per_spawn": "Стоимость за появление",
+    "config.betteranimalsplus.maximum_cost_per_biome": "Максимальная стоимость на биом",
+    "config.betteranimalsplus.betteranimalsplus-client": "Настройки клиента",
+    "config.betteranimalsplus.betteranimalsplus-server-default": "Настройки сервера по умолчанию",
+    "config.betteranimalsplus.entities": "Сущности",
+    "config.betteranimalsplus.biome_based_variants": "Варианты на основе биома",
+    "config.betteranimalsplus.spawning": "Настройки появления",
+    "config.betteranimalsplus.spawning.spawn_costs": "Стоимость появления",
+    "config.betteranimalsplus.nerf_options": "Параметры ослабления",
+
+    "config.betteranimalsplus.breed_from_kill": "Размножается от убийства",
+    "config.betteranimalsplus.breed_from_crops": "Размножается от урожая",
+    "config.betteranimalsplus.eat_crops": "Ест урожай",
+    "config.betteranimalsplus.taming_items": "Предметы для приручения",
+    "config.betteranimalsplus.hostile_during_daytime": "Враждебен в дневное время"
 }
