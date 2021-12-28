@@ -264,13 +264,12 @@ public class ModelDeer<T extends LivingEntity> extends ModelBAP<T> {
                 this.head.xRot = rad(-65F);
                 this.lowerJaw.xRot = rad(eatTime % 20F) + 0.1F;
             } else {
-                this.chest.xRot = -0.6829473363053812F;
-                this.neck.xRot = headPitch * 0.017453292F - 0.31869712141416456F;
-                this.head.xRot = -0.31869712141416456F;
+                this.chest.xRot = -0.8378F;
+                this.neck.xRot = -0.3142F;
                 this.lowerJaw.xRot = 0F;
+                this.headPitch(head, headPitch, 1F, 0F);
             }
         }
-        this.headPitch(head, headPitch, 1F, -13F);
     }
 
 }

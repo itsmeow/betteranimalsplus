@@ -53,6 +53,8 @@
     "item.betteranimalsplus.calamari_cooked": "Cooked Calamari",
     "item.betteranimalsplus.piranha_bucket": "Bucket of Piranha",
     "item.betteranimalsplus.horseshoe_crab_blood": "Horseshoe Crab Blood",
+    "item.betteranimalsplus.crab_bucket": "Bucket of Crab",
+    "item.betteranimalsplus.horseshoecrab_bucket": "Bucket of Horseshoe Crab",
 
     "block.betteranimalsplus.trillium": "Trillium",
     "block.betteranimalsplus.feralwolfhead": "Feral Wolf Head",
@@ -133,6 +135,14 @@
     "entity.betteranimalsplus.dragonfly.type.yellow_winged_darter": "Yellow Winged Darter",
     "entity.betteranimalsplus.flying_fish.type.yellow": "Yellow",
     "entity.betteranimalsplus.flying_fish.type.purple": "Purple",
+    "entity.betteranimalsplus.crab.type.red": "Red",
+    "entity.betteranimalsplus.crab.type.pink": "Pink",
+    "entity.betteranimalsplus.crab.type.brown": "Brown",
+    "entity.betteranimalsplus.crab.type.blue": "Blue",
+    "entity.betteranimalsplus.horseshoecrab.type.brown": "Brown",
+    "entity.betteranimalsplus.horseshoecrab.type.dark_brown": "Dark Brown",
+    "entity.betteranimalsplus.horseshoecrab.type.green": "Green",
+    "entity.betteranimalsplus.horseshoecrab.type.orange": "Orange",
 
     "entity.betteranimalsplus.coyote.message.currently_hostile": "This coyote is currently hostile. Perhaps it could be tamed outside of its hunting hours?",
     "entity.betteranimalsplus.coyote.message.always_hostile": "This coyote is always hostile. It cannot be tamed (server configuration)",
@@ -169,5 +179,6 @@
     "config.betteranimalsplus.target_chance": "Target Chance",
     "config.betteranimalsplus.pickup_blacklist": "Pickup Blacklist",
     "config.betteranimalsplus.create_snow": "Create Snow",
-    "config.betteranimalsplus.taming_items": "Taming Items"
+    "config.betteranimalsplus.taming_items": "Taming Items",
+    "config.betteranimalsplus.hostile_during_daytime": "Hostile During Daytime"
 }
