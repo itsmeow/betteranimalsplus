@@ -12,6 +12,7 @@ import dev.itsmeow.betteranimalsplus.client.renderer.entity.RenderTarantulaHair;
 import dev.itsmeow.betteranimalsplus.client.renderer.entity.layers.GooseItemLayerRenderer;
 import dev.itsmeow.betteranimalsplus.client.renderer.entity.layers.LayerEyes;
 import dev.itsmeow.betteranimalsplus.client.renderer.entity.layers.LayerEyesCondition;
+import dev.itsmeow.betteranimalsplus.common.entity.EntityDeer;
 import dev.itsmeow.betteranimalsplus.common.entity.EntityReindeer;
 import dev.itsmeow.betteranimalsplus.init.ModBlockEntities;
 import dev.itsmeow.betteranimalsplus.init.ModEntities;
@@ -35,7 +36,7 @@ public class ClientLifecycleHandler {
         DeveloperRenderThing.init();
         BlockEntityRenderers.registerRenderer(ModBlockEntities.TRILLIUM_TYPE.get(), RenderBlockTrillium::new);
         HeadBlockEntity.registerTypeRender();
-        R.addRender(ModEntities.BROWN_BEAR.getEntityType(), 1F, r -> r.tCondition(AgableMob::isBaby, "brownbear_baby", "brownbear").mSingle(new ModelBrownBear<>()).childScale(0.5F));
+        R.addRender(ModEntities.BROWN_BEAR.getEntityType(), 1F, r -> r.tCondition(AgableMob::isBaby, "brownbear_baby", "brownbear").mSingle(new ModelBrownBear<>()).childScale(0.5F).layer(t -> new LayerEyesCondition<>(t, ModResources.deer_christmas_glow, e -> EntityDeer.EntityDeerVariant.isChristmas)));
         R.addRender(ModEntities.BLACK_BEAR.getEntityType(), 1F, r -> r.tVariant().mSingle(new ModelBlackBear<>()).childScale(0.5F));
         R.addRender(ModEntities.DEER.getEntityType(), 1F, r -> r.tBabyVariant("deer_baby").mSingle(new ModelDeer<>()).childScale(0.6F));
         R.addRender(ModEntities.LAMMERGEIER.getEntityType(), 0.3F, r -> r.tVariant().mSingle(new ModelLammergeier<>()));

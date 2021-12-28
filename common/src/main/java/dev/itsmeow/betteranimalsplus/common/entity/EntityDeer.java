@@ -136,7 +136,7 @@ public class EntityDeer extends EntityAnimalEatsGrassWithTypes implements IDropH
 
     public static class EntityDeerVariant extends EntityVariant {
 
-        private static boolean isChristmas = false;
+        public static boolean isChristmas = false;
 
         static {
             Calendar calendar = Calendar.getInstance();

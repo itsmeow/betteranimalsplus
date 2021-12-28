@@ -7,401 +7,531 @@ import dev.itsmeow.betteranimalsplus.common.entity.EntityDeer;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.world.entity.LivingEntity;
 
-/**
- * deer_2 - cybercat5555 Created using Tabula 7.0.1
- */
 public class ModelDeer<T extends LivingEntity> extends ModelBAP<T> {
+
     public ModelPart body;
     public ModelPart ass;
-    public ModelPart chest;
-    public ModelPart lForeleg01;
-    public ModelPart rForeleg01;
     public ModelPart lHindLeg01;
-    public ModelPart rHindLeg01;
-    public ModelPart tail;
     public ModelPart lHindLeg02;
     public ModelPart lHindLeg03;
-    public ModelPart lHindHoof;
+    public ModelPart lHindHoofClaw01a;
+    public ModelPart lHindHoofClaw01b;
+    public ModelPart lHindHoofClaw02a;
+    public ModelPart lHindHoofClaw02b2;
+    public ModelPart rHindLeg01;
     public ModelPart rHindLeg02;
     public ModelPart rHindLeg03;
-    public ModelPart rHindHoof;
+    public ModelPart rHindHoofClaw01a;
+    public ModelPart rHindHoofClaw01b;
+    public ModelPart rHindHoofClaw02a;
+    public ModelPart rHindHoofClaw02b;
+    public ModelPart tail;
+    public ModelPart chest;
     public ModelPart neck;
-    public ModelPart mane03;
-    public ModelPart mane04;
     public ModelPart head;
-    public ModelPart mane01;
-    public ModelPart mane02;
     public ModelPart snout;
+    public ModelPart christmas_nose;
     public ModelPart upperJaw;
     public ModelPart lEar;
     public ModelPart rEar;
     public ModelPart throat;
-    public ModelPart lAntler01;
-    public ModelPart rAntler01;
     public ModelPart lowerJaw;
+    public ModelPart lAntler01;
     public ModelPart lAntler02;
-    public ModelPart lAntler01b;
     public ModelPart lAntler03;
     public ModelPart lAntler04;
-    public ModelPart lAntler03b;
     public ModelPart lAntler04b;
     public ModelPart lAntler05;
     public ModelPart lAntler06;
-    public ModelPart lAntler07;
     public ModelPart lAntler06b;
+    public ModelPart lAntler07;
     public ModelPart lAntler08;
-    public ModelPart lAntler07b;
     public ModelPart lAntler08b;
     public ModelPart lAntler08c;
+    public ModelPart lAntler07b;
+    public ModelPart lAntler03b;
+    public ModelPart lAntler01b;
+    public ModelPart rAntler01;
     public ModelPart rAntler02;
-    public ModelPart rAntler01b;
     public ModelPart rAntler03;
     public ModelPart rAntler04;
-    public ModelPart rAntler03b;
     public ModelPart rAntler04b;
     public ModelPart rAntler05;
     public ModelPart rAntler06;
-    public ModelPart rAntler07;
     public ModelPart rAntler06b;
+    public ModelPart rAntler07;
     public ModelPart rAntler08;
-    public ModelPart rAntler07b;
     public ModelPart rAntler08b;
     public ModelPart rAntler08c;
+    public ModelPart rAntler07b;
+    public ModelPart rAntler03b;
+    public ModelPart rAntler01b;
+    public ModelPart mane01;
+    public ModelPart mane02;
+    public ModelPart mane03;
+    public ModelPart mane04;
+    public ModelPart lForeleg01;
     public ModelPart lForeleg02;
     public ModelPart lForeleg03;
-    public ModelPart lForeHoof;
+    public ModelPart lFrontHoofClaw01a;
+    public ModelPart lFrontHoofClaw01b;
+    public ModelPart lFrontHoofClaw02a;
+    public ModelPart lFrontHoofClaw02b;
+    public ModelPart rForeleg01;
     public ModelPart rForeleg02;
     public ModelPart rForeleg03;
-    public ModelPart rForeHoof;
+    public ModelPart rFrontHoofClaw01a;
+    public ModelPart rFrontHoofClaw01b;
+    public ModelPart rFrontHoofClaw02a;
+    public ModelPart rFrontHoofClaw02b;
 
     public ModelDeer() {
-        this.texWidth = 64;
-        this.texHeight = 64;
-        this.throat = new ModelPart(this, 41, 48);
-        this.throat.setPos(0.0F, 1.2F, -0.49F);
-        this.throat.addBox(-2.0F, 0.0F, -0.5F, 4, 2, 1, 0.0F);
-        this.snout = new ModelPart(this, 54, 31);
-        this.snout.setPos(0.0F, 1.7F, -3.1F);
-        this.snout.addBox(-1.5F, 0.0F, -1.0F, 3, 4, 2, 0.0F);
-        this.setRotateAngle(snout, 0.3490658503988659F, 0.0F, 0.0F);
-        this.rAntler04b = new ModelPart(this, 0, 20);
-        this.rAntler04b.mirror = true;
-        this.rAntler04b.setPos(0.0F, 0.0F, -2.8F);
-        this.rAntler04b.addBox(-0.5F, -0.5F, -2.0F, 1, 1, 2, 0.0F);
-        this.setRotateAngle(rAntler04b, 0.40142572795869574F, -0.3490658503988659F, 0.0F);
-        this.lAntler02 = new ModelPart(this, 0, 13);
-        this.lAntler02.setPos(-0.1F, 0.1F, 0.0F);
-        this.lAntler02.addBox(-0.5F, -0.4F, -2.3F, 1, 1, 3, 0.0F);
-        this.setRotateAngle(lAntler02, -0.5235987755982988F, 0.0F, 0.0F);
-        this.lAntler04b = new ModelPart(this, 0, 20);
-        this.lAntler04b.setPos(0.0F, 0.0F, -2.8F);
-        this.lAntler04b.addBox(-0.5F, -0.5F, -2.0F, 1, 1, 2, 0.0F);
-        this.setRotateAngle(lAntler04b, 0.40142572795869574F, 0.3490658503988659F, 0.0F);
-        this.lAntler08b = new ModelPart(this, 0, 19);
-        this.lAntler08b.setPos(0.0F, 0.0F, -0.7F);
-        this.lAntler08b.addBox(-0.5F, -0.5F, -2.0F, 1, 1, 2, 0.0F);
-        this.setRotateAngle(lAntler08b, 0.7853981633974483F, 0.40142572795869574F, 0.0F);
-        this.lHindLeg03 = new ModelPart(this, 45, 26);
-        this.lHindLeg03.setPos(0.1F, 5.8F, 0.3F);
-        this.lHindLeg03.addBox(-1.0F, -0.3F, -1.0F, 2, 7, 2, 0.0F);
-        this.setRotateAngle(lHindLeg03, -0.4886921905584123F, 0.0F, 0.0F);
-        this.lAntler07 = new ModelPart(this, 0, 19);
-        this.lAntler07.setPos(0.0F, 0.0F, -3.8F);
-        this.lAntler07.addBox(-0.5F, -0.5F, -3.0F, 1, 1, 3, 0.0F);
-        this.setRotateAngle(lAntler07, 0.0F, 0.4886921905584123F, 0.0F);
-        this.rAntler08 = new ModelPart(this, 0, 19);
-        this.rAntler08.mirror = true;
-        this.rAntler08.setPos(0.0F, 0.0F, -2.8F);
-        this.rAntler08.addBox(-0.5F, -0.5F, -3.0F, 1, 1, 3, 0.0F);
-        this.setRotateAngle(rAntler08, -0.3141592653589793F, -0.6108652381980153F, 0.0F);
-        this.tail = new ModelPart(this, 54, 25);
-        this.tail.setPos(0.0F, -2.7F, 5.4F);
-        this.tail.addBox(-1.5F, 0.0F, -1.0F, 3, 4, 2, 0.0F);
-        this.setRotateAngle(tail, 0.5759586531581287F, 0.0F, 0.0F);
-        this.lAntler06 = new ModelPart(this, 0, 19);
-        this.lAntler06.setPos(0.0F, 0.0F, -3.0F);
-        this.lAntler06.addBox(-0.5F, -0.5F, -3.1F, 1, 1, 3, 0.0F);
-        this.setRotateAngle(lAntler06, 0.8726646259971648F, 0.22689280275926282F, 0.0F);
-        this.rForeleg01 = new ModelPart(this, 29, 0);
-        this.rForeleg01.mirror = true;
-        this.rForeleg01.setPos(-3.1F, 0.9F, 2.3F);
-        this.rForeleg01.addBox(-2.0F, -2.4F, -2.5F, 3, 7, 5, 0.0F);
-        this.setRotateAngle(rForeleg01, 0.13962634015954636F, 0.0F, 0.08726646259971647F);
-        this.lAntler08c = new ModelPart(this, 0, 19);
-        this.lAntler08c.setPos(0.0F, -0.2F, 0.2F);
-        this.lAntler08c.addBox(-0.5F, -0.5F, -2.0F, 1, 1, 2, 0.0F);
-        this.setRotateAngle(lAntler08c, -0.3490658503988659F, -0.6108652381980153F, -1.2217304763960306F);
-        this.rForeleg03 = new ModelPart(this, 45, 26);
-        this.rForeleg03.mirror = true;
-        this.rForeleg03.setPos(0.4F, 2.7F, 0.0F);
-        this.rForeleg03.addBox(-1.0F, 0.0F, -1.0F, 2, 8, 2, 0.0F);
-        this.setRotateAngle(rForeleg03, -0.13962634015954636F, 0.0F, 0.0F);
-        this.mane01 = new ModelPart(this, 0, 48);
-        this.mane01.setPos(0.0F, 1.6F, -4.0F);
-        this.mane01.addBox(-2.0F, 0.0F, 0.0F, 4, 1, 6, 0.0F);
-        this.setRotateAngle(mane01, -0.5410520681182421F, 0.0F, 0.0F);
-        this.rAntler06 = new ModelPart(this, 0, 19);
-        this.rAntler06.mirror = true;
-        this.rAntler06.setPos(0.0F, 0.0F, -3.0F);
-        this.rAntler06.addBox(-0.5F, -0.5F, -3.1F, 1, 1, 3, 0.0F);
-        this.setRotateAngle(rAntler06, 0.8726646259971648F, -0.22689280275926282F, 0.0F);
-        this.chest = new ModelPart(this, 0, 0);
-        this.chest.setPos(0.0F, 0.8F, 2.4F);
-        this.chest.addBox(-3.5F, -3.0F, -5.0F, 7, 6, 5, 0.0F);
-        this.setRotateAngle(chest, -0.8377580409572781F, 0.0F, 0.0F);
-        this.upperJaw = new ModelPart(this, 19, 57);
-        this.upperJaw.setPos(0.0F, 1.3F, -1.0F);
-        this.upperJaw.addBox(-2.0F, 0.0F, -1.0F, 4, 4, 1, 0.0F);
-        this.rHindHoof = new ModelPart(this, 32, 20);
-        this.rHindHoof.mirror = true;
-        this.rHindHoof.setPos(-0.0F, 6.2F, 0.39F);
-        this.rHindHoof.addBox(-1.5F, 0.0F, -2.4F, 3, 2, 3, 0.0F);
-        this.lowerJaw = new ModelPart(this, 52, 48);
-        this.lowerJaw.setPos(0.0F, 2.0F, 0.0F);
-        this.lowerJaw.addBox(-2.0F, 0.0F, -0.5F, 4, 2, 1, 0.0F);
-        this.lForeleg01 = new ModelPart(this, 29, 0);
-        this.lForeleg01.setPos(3.1F, 0.9F, 2.3F);
-        this.lForeleg01.addBox(-1.0F, -2.4F, -2.5F, 3, 7, 5, 0.0F);
-        this.setRotateAngle(lForeleg01, 0.13962634015954636F, 0.0F, -0.08726646259971647F);
-        this.rAntler04 = new ModelPart(this, 0, 13);
-        this.rAntler04.mirror = true;
-        this.rAntler04.setPos(0.0F, -0.1F, -2.6F);
-        this.rAntler04.addBox(-0.5F, -0.5F, -3.1F, 1, 1, 3, 0.0F);
-        this.setRotateAngle(rAntler04, 0.45378560551852565F, -0.22689280275926282F, 0.0F);
-        this.lHindLeg01 = new ModelPart(this, 46, 0);
-        this.lHindLeg01.setPos(2.3F, -0.4F, 2.9F);
-        this.lHindLeg01.addBox(0.0F, -1.9F, -2.0F, 3, 8, 5, 0.0F);
-        this.setRotateAngle(lHindLeg01, -0.22689280275926282F, 0.0F, 0.0F);
-        this.rAntler03b = new ModelPart(this, 0, 12);
-        this.rAntler03b.mirror = true;
-        this.rAntler03b.setPos(0.0F, 0.0F, -1.3F);
-        this.rAntler03b.addBox(-0.5F, -0.5F, -2.7F, 1, 1, 3, 0.0F);
-        this.setRotateAngle(rAntler03b, 1.3962634015954636F, 0.9599310885968813F, 0.0F);
-        this.rAntler06b = new ModelPart(this, 2, 21);
-        this.rAntler06b.mirror = true;
-        this.rAntler06b.setPos(0.0F, 0.0F, -2.8F);
-        this.rAntler06b.addBox(-0.5F, -0.5F, -2.0F, 1, 1, 2, 0.0F);
-        this.setRotateAngle(rAntler06b, 0.3141592653589793F, -0.45378560551852565F, 0.0F);
-        this.mane03 = new ModelPart(this, 17, 48);
-        this.mane03.setPos(0.0F, 1.8F, -4.7F);
-        this.mane03.addBox(-3.0F, -0.1F, -0.1F, 6, 1, 8, 0.0F);
-        this.setRotateAngle(mane03, -0.6981317007977318F, 0.0F, 0.0F);
-        this.mane04 = new ModelPart(this, 36, 54);
-        this.mane04.setPos(0.0F, 2.0F, -3.1F);
-        this.mane04.addBox(-3.0F, -1.0F, 0.0F, 6, 2, 8, 0.0F);
-        this.setRotateAngle(mane04, -0.6108652381980153F, 0.0F, 0.0F);
-        this.lAntler01 = new ModelPart(this, 0, 13);
-        this.lAntler01.setPos(1.5F, -0.5F, -3.9F);
-        this.lAntler01.addBox(-0.5F, -0.5F, -2.0F, 1, 1, 2, 0.0F);
-        this.setRotateAngle(lAntler01, 0.0F, -0.2617993877991494F, 0.2617993877991494F);
-        this.lAntler03 = new ModelPart(this, 0, 13);
-        this.lAntler03.setPos(0.0F, 0.5F, -1.4F);
-        this.lAntler03.addBox(-0.5F, -0.5F, -3.1F, 1, 1, 3, 0.0F);
-        this.setRotateAngle(lAntler03, -0.4886921905584123F, -0.22689280275926282F, 0.0F);
-        this.lEar = new ModelPart(this, 21, 0);
-        this.lEar.setPos(2.1F, -1.0F, -3.0F);
-        this.lEar.addBox(-1.0F, -0.7F, -3.1F, 2, 1, 3, 0.0F);
-        this.setRotateAngle(lEar, 0.2792526803190927F, -1.0821041362364843F, 0.0F);
-        this.head = new ModelPart(this, 46, 39);
-        this.head.setPos(0.0F, 1.1F, -5.0F);
-        this.head.addBox(-2.5F, -3.0F, -4.0F, 5, 5, 4, 0.0F);
-        this.setRotateAngle(head, -0.3141592653589793F, 0.0F, 0.0F);
-        this.lForeleg03 = new ModelPart(this, 45, 26);
-        this.lForeleg03.setPos(-0.4F, 2.7F, 0.0F);
-        this.lForeleg03.addBox(-1.0F, 0.0F, -1.0F, 2, 8, 2, 0.0F);
-        this.setRotateAngle(lForeleg03, -0.13962634015954636F, 0.0F, 0.0F);
-        this.rHindLeg03 = new ModelPart(this, 45, 26);
-        this.rHindLeg03.mirror = true;
-        this.rHindLeg03.setPos(-0.1F, 5.8F, 0.3F);
-        this.rHindLeg03.addBox(-1.0F, -0.3F, -1.0F, 2, 7, 2, 0.0F);
-        this.setRotateAngle(rHindLeg03, -0.4886921905584123F, 0.0F, 0.0F);
-        this.lForeHoof = new ModelPart(this, 32, 20);
-        this.lForeHoof.setPos(-0.0F, 7.3F, 0.4F);
-        this.lForeHoof.addBox(-1.5F, 0.0F, -2.4F, 3, 2, 3, 0.0F);
-        this.lHindHoof = new ModelPart(this, 32, 20);
-        this.lHindHoof.setPos(-0.0F, 6.2F, 0.39F);
-        this.lHindHoof.addBox(-1.5F, 0.0F, -2.4F, 3, 2, 3, 0.0F);
-        this.mane02 = new ModelPart(this, 0, 56);
-        this.mane02.setPos(0.0F, 1.7F, -2.2F);
-        this.mane02.addBox(-2.5F, 0.0F, 0.0F, 5, 1, 7, 0.0F);
-        this.setRotateAngle(mane02, -0.5410520681182421F, 0.0F, 0.0F);
-        this.rForeHoof = new ModelPart(this, 32, 20);
-        this.rForeHoof.mirror = true;
-        this.rForeHoof.setPos(-0.0F, 7.3F, 0.4F);
-        this.rForeHoof.addBox(-1.5F, 0.0F, -2.4F, 3, 2, 3, 0.0F);
-        this.body = new ModelPart(this, 0, 13);
-        this.body.setPos(0.0F, 7.0F, -9.0F);
-        this.body.addBox(-4.0F, -3.5F, 0.0F, 8, 8, 13, 0.0F);
-        this.rAntler01b = new ModelPart(this, 0, 12);
-        this.rAntler01b.mirror = true;
-        this.rAntler01b.setPos(0.0F, 0.0F, -1.2F);
-        this.rAntler01b.addBox(-0.5F, -0.5F, -2.5F, 1, 1, 3, 0.0F);
-        this.setRotateAngle(rAntler01b, 0.9599310885968813F, 0.6981317007977318F, -0.3141592653589793F);
-        this.ass = new ModelPart(this, 0, 34);
-        this.ass.setPos(0.0F, -0.4F, 12.3F);
-        this.ass.addBox(-3.5F, -3.5F, 0.0F, 7, 7, 6, 0.0F);
-        this.setRotateAngle(ass, -0.17453292519943295F, 0.0F, 0.0F);
-        this.rAntler08c = new ModelPart(this, 0, 19);
-        this.rAntler08c.mirror = true;
-        this.rAntler08c.setPos(0.0F, -0.3F, 0.2F);
-        this.rAntler08c.addBox(-0.5F, -0.5F, -2.0F, 1, 1, 2, 0.0F);
-        this.setRotateAngle(rAntler08c, -0.3490658503988659F, 0.6108652381980153F, 1.2217304763960306F);
-        this.rHindLeg01 = new ModelPart(this, 46, 0);
-        this.rHindLeg01.mirror = true;
-        this.rHindLeg01.setPos(-2.3F, -0.5F, 2.9F);
-        this.rHindLeg01.addBox(-3.0F, -1.9F, -2.0F, 3, 8, 5, 0.0F);
-        this.setRotateAngle(rHindLeg01, -0.22689280275926282F, 0.0F, 0.0F);
-        this.lAntler03b = new ModelPart(this, 0, 12);
-        this.lAntler03b.setPos(0.0F, 0.0F, -1.3F);
-        this.lAntler03b.addBox(-0.5F, -0.5F, -2.7F, 1, 1, 3, 0.0F);
-        this.setRotateAngle(lAntler03b, 1.3962634015954636F, -0.9599310885968813F, 0.0F);
-        this.rAntler01 = new ModelPart(this, 0, 13);
-        this.rAntler01.mirror = true;
-        this.rAntler01.setPos(-1.5F, -0.5F, -3.9F);
-        this.rAntler01.addBox(-0.5F, -0.5F, -2.0F, 1, 1, 2, 0.0F);
-        this.setRotateAngle(rAntler01, 0.0F, 0.2617993877991494F, -0.2617993877991494F);
-        this.rAntler05 = new ModelPart(this, 0, 19);
-        this.rAntler05.mirror = true;
-        this.rAntler05.setPos(0.0F, -0.1F, -0.3F);
-        this.rAntler05.addBox(-0.5F, -0.5F, -4.0F, 1, 1, 4, 0.0F);
-        this.setRotateAngle(rAntler05, -0.8028514559173915F, 0.22689280275926282F, 0.0F);
-        this.rEar = new ModelPart(this, 21, 0);
-        this.rEar.mirror = true;
-        this.rEar.setPos(-2.1F, -1.0F, -3.0F);
-        this.rEar.addBox(-1.0F, -0.7F, -3.1F, 2, 1, 3, 0.0F);
-        this.setRotateAngle(rEar, 0.2792526803190927F, 1.0821041362364843F, 0.0F);
-        this.lAntler07b = new ModelPart(this, 0, 19);
-        this.lAntler07b.setPos(0.0F, 0.0F, -1.0F);
-        this.lAntler07b.addBox(-0.5F, -0.5F, -3.1F, 1, 1, 3, 0.0F);
-        this.setRotateAngle(lAntler07b, 0.8726646259971648F, 0.0F, 0.7853981633974483F);
-        this.rAntler02 = new ModelPart(this, 0, 13);
-        this.rAntler02.mirror = true;
-        this.rAntler02.setPos(0.1F, 0.1F, 0.0F);
-        this.rAntler02.addBox(-0.5F, -0.4F, -2.3F, 1, 1, 3, 0.0F);
-        this.setRotateAngle(rAntler02, -0.5235987755982988F, 0.0F, 0.0F);
-        this.rAntler07 = new ModelPart(this, 0, 19);
-        this.rAntler07.mirror = true;
-        this.rAntler07.setPos(0.0F, 0.0F, -3.8F);
-        this.rAntler07.addBox(-0.5F, -0.5F, -3.0F, 1, 1, 3, 0.0F);
-        this.setRotateAngle(rAntler07, 0.0F, -0.4886921905584123F, 0.0F);
-        this.lForeleg02 = new ModelPart(this, 31, 13);
-        this.lForeleg02.setPos(0.8F, 4.4F, 0.1F);
-        this.lForeleg02.addBox(-2.0F, 0.0F, -2.0F, 3, 3, 4, 0.0F);
-        this.setRotateAngle(lForeleg02, 0.0F, 0.0F, 0.08726646259971647F);
-        this.rAntler08b = new ModelPart(this, 0, 19);
-        this.rAntler08b.mirror = true;
-        this.rAntler08b.setPos(0.0F, 0.0F, -0.7F);
-        this.rAntler08b.addBox(-0.5F, -0.5F, -2.0F, 1, 1, 2, 0.0F);
-        this.setRotateAngle(rAntler08b, 0.7853981633974483F, -0.40142572795869574F, 0.0F);
-        this.rAntler03 = new ModelPart(this, 0, 13);
-        this.rAntler03.mirror = true;
-        this.rAntler03.setPos(0.0F, 0.5F, -1.4F);
-        this.rAntler03.addBox(-0.5F, -0.5F, -3.1F, 1, 1, 3, 0.0F);
-        this.setRotateAngle(rAntler03, -0.4886921905584123F, 0.22689280275926282F, 0.0F);
-        this.rHindLeg02 = new ModelPart(this, 48, 15);
-        this.rHindLeg02.mirror = true;
-        this.rHindLeg02.setPos(-1.4F, 5.0F, -1.1F);
-        this.rHindLeg02.addBox(-1.5F, 0.0F, -1.5F, 3, 6, 3, 0.0F);
-        this.setRotateAngle(rHindLeg02, 0.9075712110370513F, 0.0F, 0.0F);
-        this.rAntler07b = new ModelPart(this, 0, 19);
-        this.rAntler07b.mirror = true;
-        this.rAntler07b.setPos(0.0F, 0.0F, -1.0F);
-        this.rAntler07b.addBox(-0.5F, -0.5F, -3.1F, 1, 1, 3, 0.0F);
-        this.setRotateAngle(rAntler07b, 0.8726646259971648F, 0.0F, -0.7853981633974483F);
-        this.lAntler01b = new ModelPart(this, 0, 12);
-        this.lAntler01b.setPos(0.0F, 0.0F, -1.2F);
-        this.lAntler01b.addBox(-0.5F, -0.5F, -2.5F, 1, 1, 3, 0.0F);
-        this.setRotateAngle(lAntler01b, 0.9599310885968813F, -0.6981317007977318F, 0.3141592653589793F);
-        this.rForeleg02 = new ModelPart(this, 31, 13);
-        this.rForeleg02.mirror = true;
-        this.rForeleg02.setPos(-0.8F, 4.4F, 0.1F);
-        this.rForeleg02.addBox(-1.0F, 0.0F, -2.0F, 3, 3, 4, 0.0F);
-        this.setRotateAngle(rForeleg02, 0.0F, 0.0F, -0.08726646259971647F);
-        this.lAntler06b = new ModelPart(this, 2, 21);
-        this.lAntler06b.setPos(0.0F, 0.0F, -2.8F);
-        this.lAntler06b.addBox(-0.5F, -0.5F, -2.0F, 1, 1, 2, 0.0F);
-        this.setRotateAngle(lAntler06b, 0.3141592653589793F, 0.45378560551852565F, 0.0F);
-        this.lAntler04 = new ModelPart(this, 0, 13);
-        this.lAntler04.setPos(0.0F, -0.1F, -2.6F);
-        this.lAntler04.addBox(-0.5F, -0.5F, -3.1F, 1, 1, 3, 0.0F);
-        this.setRotateAngle(lAntler04, 0.45378560551852565F, 0.22689280275926282F, 0.0F);
-        this.lAntler05 = new ModelPart(this, 0, 19);
-        this.lAntler05.setPos(0.0F, -0.1F, -0.3F);
-        this.lAntler05.addBox(-0.5F, -0.5F, -4.0F, 1, 1, 4, 0.0F);
-        this.setRotateAngle(lAntler05, -0.8028514559173915F, -0.22689280275926282F, 0.0F);
-        this.lAntler08 = new ModelPart(this, 0, 19);
-        this.lAntler08.setPos(0.0F, 0.0F, -2.8F);
-        this.lAntler08.addBox(-0.5F, -0.5F, -3.0F, 1, 1, 3, 0.0F);
-        this.setRotateAngle(lAntler08, -0.3141592653589793F, 0.6108652381980153F, 0.0F);
-        this.lHindLeg02 = new ModelPart(this, 48, 15);
-        this.lHindLeg02.setPos(1.4F, 5.0F, -1.1F);
-        this.lHindLeg02.addBox(-1.5F, 0.0F, -1.5F, 3, 6, 3, 0.0F);
-        this.setRotateAngle(lHindLeg02, 0.9075712110370513F, 0.0F, 0.0F);
-        this.neck = new ModelPart(this, 26, 37);
-        this.neck.setPos(0.0F, 0.4F, -3.0F);
-        this.neck.addBox(-2.51F, -2.5F, -6.0F, 5, 5, 5, 0.0F);
-        this.setRotateAngle(neck, -0.3141592653589793F, 0.0F, 0.0F);
-        this.head.addChild(this.throat);
-        this.head.addChild(this.snout);
-        this.rAntler04.addChild(this.rAntler04b);
-        this.lAntler01.addChild(this.lAntler02);
-        this.lAntler04.addChild(this.lAntler04b);
-        this.lAntler08.addChild(this.lAntler08b);
-        this.lHindLeg02.addChild(this.lHindLeg03);
-        this.lAntler05.addChild(this.lAntler07);
-        this.rAntler07.addChild(this.rAntler08);
-        this.ass.addChild(this.tail);
-        this.lAntler05.addChild(this.lAntler06);
-        this.body.addChild(this.rForeleg01);
-        this.lAntler08.addChild(this.lAntler08c);
-        this.rForeleg02.addChild(this.rForeleg03);
-        this.neck.addChild(this.mane01);
-        this.rAntler05.addChild(this.rAntler06);
-        this.body.addChild(this.chest);
-        this.head.addChild(this.upperJaw);
-        this.rHindLeg03.addChild(this.rHindHoof);
-        this.throat.addChild(this.lowerJaw);
-        this.body.addChild(this.lForeleg01);
-        this.rAntler03.addChild(this.rAntler04);
-        this.ass.addChild(this.lHindLeg01);
-        this.rAntler03.addChild(this.rAntler03b);
-        this.rAntler06.addChild(this.rAntler06b);
-        this.chest.addChild(this.mane03);
-        this.chest.addChild(this.mane04);
-        this.head.addChild(this.lAntler01);
-        this.lAntler02.addChild(this.lAntler03);
-        this.head.addChild(this.lEar);
-        this.neck.addChild(this.head);
-        this.lForeleg02.addChild(this.lForeleg03);
-        this.rHindLeg02.addChild(this.rHindLeg03);
-        this.lForeleg03.addChild(this.lForeHoof);
-        this.lHindLeg03.addChild(this.lHindHoof);
-        this.neck.addChild(this.mane02);
-        this.rForeleg03.addChild(this.rForeHoof);
-        this.rAntler01.addChild(this.rAntler01b);
-        this.body.addChild(this.ass);
-        this.rAntler08.addChild(this.rAntler08c);
-        this.ass.addChild(this.rHindLeg01);
-        this.lAntler03.addChild(this.lAntler03b);
-        this.head.addChild(this.rAntler01);
-        this.rAntler04.addChild(this.rAntler05);
-        this.head.addChild(this.rEar);
-        this.lAntler07.addChild(this.lAntler07b);
-        this.rAntler01.addChild(this.rAntler02);
-        this.rAntler05.addChild(this.rAntler07);
-        this.lForeleg01.addChild(this.lForeleg02);
-        this.rAntler08.addChild(this.rAntler08b);
-        this.rAntler02.addChild(this.rAntler03);
-        this.rHindLeg01.addChild(this.rHindLeg02);
-        this.rAntler07.addChild(this.rAntler07b);
-        this.lAntler01.addChild(this.lAntler01b);
-        this.rForeleg01.addChild(this.rForeleg02);
-        this.lAntler06.addChild(this.lAntler06b);
-        this.lAntler03.addChild(this.lAntler04);
-        this.lAntler04.addChild(this.lAntler05);
-        this.lAntler07.addChild(this.lAntler08);
-        this.lHindLeg01.addChild(this.lHindLeg02);
-        this.chest.addChild(this.neck);
+        texWidth = 64;
+        texHeight = 64;
+
+        body = new ModelPart(this);
+        body.setPos(0.0F, 7.0F, -9.0F);
+        body.texOffs(0, 13).addBox(-4.0F, -3.5F, 0.0F, 8.0F, 8.0F, 13.0F, 0.0F, false);
+
+        ass = new ModelPart(this);
+        ass.setPos(0.0F, -0.4F, 12.3F);
+        body.addChild(ass);
+        setRotationAngle(ass, -0.1745F, 0.0F, 0.0F);
+        ass.texOffs(0, 34).addBox(-3.5F, -3.5F, 0.0F, 7.0F, 7.0F, 6.0F, 0.0F, false);
+
+        lHindLeg01 = new ModelPart(this);
+        lHindLeg01.setPos(2.3F, -0.4F, 2.9F);
+        ass.addChild(lHindLeg01);
+        setRotationAngle(lHindLeg01, -0.2269F, 0.0F, 0.0F);
+        lHindLeg01.texOffs(46, 0).addBox(0.0F, -1.9F, -2.0F, 3.0F, 8.0F, 5.0F, 0.0F, false);
+
+        lHindLeg02 = new ModelPart(this);
+        lHindLeg02.setPos(1.4F, 5.0F, -1.1F);
+        lHindLeg01.addChild(lHindLeg02);
+        setRotationAngle(lHindLeg02, 0.9076F, 0.0F, 0.0F);
+        lHindLeg02.texOffs(48, 15).addBox(-1.5F, 0.0F, -1.5F, 3.0F, 6.0F, 3.0F, 0.0F, false);
+
+        lHindLeg03 = new ModelPart(this);
+        lHindLeg03.setPos(0.1F, 5.8F, 0.3F);
+        lHindLeg02.addChild(lHindLeg03);
+        setRotationAngle(lHindLeg03, -0.4887F, 0.0F, 0.0F);
+        lHindLeg03.texOffs(45, 26).addBox(-1.0F, -0.55F, -1.0F, 2.0F, 9.0F, 2.0F, 0.0F, false);
+
+        lHindHoofClaw01a = new ModelPart(this);
+        lHindHoofClaw01a.setPos(0.5F, 7.9F, -0.35F);
+        lHindLeg03.addChild(lHindHoofClaw01a);
+        setRotationAngle(lHindHoofClaw01a, 0.0F, -0.0524F, 0.0F);
+        lHindHoofClaw01a.texOffs(39, 23).addBox(-0.5F, -0.5F, -2.0F, 1.0F, 1.0F, 2.0F, 0.0F, true);
+
+        lHindHoofClaw01b = new ModelPart(this);
+        lHindHoofClaw01b.setPos(0.0F, 0.0F, -1.0F);
+        lHindHoofClaw01a.addChild(lHindHoofClaw01b);
+        setRotationAngle(lHindHoofClaw01b, 0.4363F, 0.0F, 0.0F);
+        lHindHoofClaw01b.texOffs(31, 23).addBox(-0.49F, -1.1F, -0.7F, 1.0F, 1.0F, 2.0F, 0.0F, true);
+
+        lHindHoofClaw02a = new ModelPart(this);
+        lHindHoofClaw02a.setPos(-0.5F, 7.9F, -0.35F);
+        lHindLeg03.addChild(lHindHoofClaw02a);
+        setRotationAngle(lHindHoofClaw02a, 0.0F, 0.0873F, 0.0F);
+        lHindHoofClaw02a.texOffs(39, 23).addBox(-0.5F, -0.5F, -2.0F, 1.0F, 1.0F, 2.0F, 0.0F, true);
+
+        lHindHoofClaw02b2 = new ModelPart(this);
+        lHindHoofClaw02b2.setPos(0.0F, 0.0F, -1.0F);
+        lHindHoofClaw02a.addChild(lHindHoofClaw02b2);
+        setRotationAngle(lHindHoofClaw02b2, 0.4363F, 0.0F, 0.0F);
+        lHindHoofClaw02b2.texOffs(30, 22).addBox(-0.49F, -1.1F, -0.7F, 1.0F, 1.0F, 3.0F, 0.0F, true);
+
+        rHindLeg01 = new ModelPart(this);
+        rHindLeg01.setPos(-2.3F, -0.4F, 2.9F);
+        ass.addChild(rHindLeg01);
+        setRotationAngle(rHindLeg01, -0.2269F, 0.0F, 0.0F);
+        rHindLeg01.texOffs(46, 0).addBox(-3.0F, -1.9F, -2.0F, 3.0F, 8.0F, 5.0F, 0.0F, true);
+
+        rHindLeg02 = new ModelPart(this);
+        rHindLeg02.setPos(-1.4F, 5.0F, -1.1F);
+        rHindLeg01.addChild(rHindLeg02);
+        setRotationAngle(rHindLeg02, 0.9076F, 0.0F, 0.0F);
+        rHindLeg02.texOffs(48, 15).addBox(-1.5F, 0.0F, -1.5F, 3.0F, 6.0F, 3.0F, 0.0F, true);
+
+        rHindLeg03 = new ModelPart(this);
+        rHindLeg03.setPos(-0.1F, 5.8F, 0.3F);
+        rHindLeg02.addChild(rHindLeg03);
+        setRotationAngle(rHindLeg03, -0.4887F, 0.0F, 0.0F);
+        rHindLeg03.texOffs(45, 26).addBox(-1.0F, -0.55F, -1.0F, 2.0F, 9.0F, 2.0F, 0.0F, true);
+
+        rHindHoofClaw01a = new ModelPart(this);
+        rHindHoofClaw01a.setPos(-0.5F, 7.9F, -0.35F);
+        rHindLeg03.addChild(rHindHoofClaw01a);
+        setRotationAngle(rHindHoofClaw01a, 0.0F, 0.0524F, 0.0F);
+        rHindHoofClaw01a.texOffs(39, 23).addBox(-0.5F, -0.5F, -2.0F, 1.0F, 1.0F, 2.0F, 0.0F, false);
+
+        rHindHoofClaw01b = new ModelPart(this);
+        rHindHoofClaw01b.setPos(0.0F, 0.0F, -1.0F);
+        rHindHoofClaw01a.addChild(rHindHoofClaw01b);
+        setRotationAngle(rHindHoofClaw01b, 0.4363F, 0.0F, 0.0F);
+        rHindHoofClaw01b.texOffs(31, 23).addBox(-0.51F, -1.1F, -0.7F, 1.0F, 1.0F, 2.0F, 0.0F, false);
+
+        rHindHoofClaw02a = new ModelPart(this);
+        rHindHoofClaw02a.setPos(0.5F, 7.9F, -0.35F);
+        rHindLeg03.addChild(rHindHoofClaw02a);
+        setRotationAngle(rHindHoofClaw02a, 0.0F, -0.0873F, 0.0F);
+        rHindHoofClaw02a.texOffs(39, 23).addBox(-0.5F, -0.5F, -2.0F, 1.0F, 1.0F, 2.0F, 0.0F, false);
+
+        rHindHoofClaw02b = new ModelPart(this);
+        rHindHoofClaw02b.setPos(0.0F, 0.0F, -1.0F);
+        rHindHoofClaw02a.addChild(rHindHoofClaw02b);
+        setRotationAngle(rHindHoofClaw02b, 0.4363F, 0.0F, 0.0F);
+        rHindHoofClaw02b.texOffs(30, 22).addBox(-0.51F, -1.1F, -0.7F, 1.0F, 1.0F, 3.0F, 0.0F, false);
+
+        tail = new ModelPart(this);
+        tail.setPos(0.0F, -2.7F, 5.4F);
+        ass.addChild(tail);
+        setRotationAngle(tail, 0.576F, 0.0F, 0.0F);
+        tail.texOffs(54, 25).addBox(-1.5F, 0.0F, -1.0F, 3.0F, 4.0F, 2.0F, 0.0F, false);
+
+        chest = new ModelPart(this);
+        chest.setPos(0.0F, 0.8F, 2.4F);
+        body.addChild(chest);
+        setRotationAngle(chest, -0.8378F, 0.0F, 0.0F);
+        chest.texOffs(0, 0).addBox(-3.5F, -3.0F, -5.0F, 7.0F, 6.0F, 5.0F, 0.0F, false);
+
+        neck = new ModelPart(this);
+        neck.setPos(0.0F, 0.4F, -3.0F);
+        chest.addChild(neck);
+        setRotationAngle(neck, -0.3142F, 0.0F, 0.0F);
+        neck.texOffs(26, 37).addBox(-2.5F, -2.5F, -6.0F, 5.0F, 5.0F, 5.0F, -0.1F, false);
+
+        head = new ModelPart(this);
+        head.setPos(0.0F, 1.1F, -5.0F);
+        neck.addChild(head);
+        setRotationAngle(head, -0.3142F, 0.0F, 0.0F);
+        head.texOffs(46, 39).addBox(-2.5F, -3.0F, -4.0F, 5.0F, 5.0F, 4.0F, 0.0F, false);
+
+        snout = new ModelPart(this);
+        snout.setPos(0.0F, 1.7F, -3.1F);
+        head.addChild(snout);
+        setRotationAngle(snout, 0.3491F, 0.0F, 0.0F);
+        snout.texOffs(54, 31).addBox(-1.5F, 0.0F, -1.0F, 3.0F, 4.0F, 2.0F, 0.0F, false);
+
+        christmas_nose = new ModelPart(this);
+        christmas_nose.setPos(0.0F, 3.95F, -1.4F);
+        snout.addChild(christmas_nose);
+        christmas_nose.texOffs(56, 53).addBox(-1.0F, -0.75F, -0.15F, 2.0F, 2.0F, 2.0F, 0.0F, false);
+
+        upperJaw = new ModelPart(this);
+        upperJaw.setPos(0.0F, 1.3F, -1.0F);
+        head.addChild(upperJaw);
+        upperJaw.texOffs(19, 57).addBox(-2.0F, 0.0F, -1.0F, 4.0F, 4.0F, 1.0F, 0.0F, false);
+
+        lEar = new ModelPart(this);
+        lEar.setPos(2.1F, -1.0F, -3.0F);
+        head.addChild(lEar);
+        setRotationAngle(lEar, 0.2793F, -1.0821F, 0.0F);
+        lEar.texOffs(21, 0).addBox(-1.0F, -0.7F, -3.1F, 2.0F, 1.0F, 3.0F, 0.0F, true);
+
+        rEar = new ModelPart(this);
+        rEar.setPos(-2.1F, -1.0F, -3.0F);
+        head.addChild(rEar);
+        setRotationAngle(rEar, 0.2793F, 1.0821F, 0.0F);
+        rEar.texOffs(21, 0).addBox(-1.0F, -0.7F, -3.1F, 2.0F, 1.0F, 3.0F, 0.0F, false);
+
+        throat = new ModelPart(this);
+        throat.setPos(0.0F, 1.2F, -0.49F);
+        head.addChild(throat);
+        throat.texOffs(41, 48).addBox(-2.0F, 0.0F, -0.5F, 4.0F, 2.0F, 1.0F, 0.0F, false);
+
+        lowerJaw = new ModelPart(this);
+        lowerJaw.setPos(0.0F, 2.0F, 0.0F);
+        throat.addChild(lowerJaw);
+        lowerJaw.texOffs(52, 48).addBox(-2.0F, 0.0F, -0.5F, 4.0F, 2.0F, 1.0F, 0.0F, false);
+
+        lAntler01 = new ModelPart(this);
+        lAntler01.setPos(1.5F, -0.5F, -3.9F);
+        head.addChild(lAntler01);
+        setRotationAngle(lAntler01, 0.0F, -0.2618F, 0.2618F);
+        lAntler01.texOffs(0, 13).addBox(-0.5F, -0.5F, -2.0F, 1.0F, 1.0F, 2.0F, 0.0F, true);
+
+        lAntler02 = new ModelPart(this);
+        lAntler02.setPos(-0.1F, 0.1F, 0.0F);
+        lAntler01.addChild(lAntler02);
+        setRotationAngle(lAntler02, -0.5236F, 0.0F, 0.0F);
+        lAntler02.texOffs(0, 13).addBox(-0.5F, -0.4F, -2.3F, 1.0F, 1.0F, 3.0F, 0.0F, true);
+
+        lAntler03 = new ModelPart(this);
+        lAntler03.setPos(0.0F, 0.5F, -1.4F);
+        lAntler02.addChild(lAntler03);
+        setRotationAngle(lAntler03, -0.4887F, -0.2269F, 0.0F);
+        lAntler03.texOffs(0, 13).addBox(-0.5F, -0.5F, -3.1F, 1.0F, 1.0F, 3.0F, 0.0F, true);
+
+        lAntler04 = new ModelPart(this);
+        lAntler04.setPos(0.0F, -0.1F, -2.6F);
+        lAntler03.addChild(lAntler04);
+        setRotationAngle(lAntler04, 0.4538F, 0.2269F, 0.0F);
+        lAntler04.texOffs(0, 13).addBox(-0.5F, -0.5F, -3.1F, 1.0F, 1.0F, 3.0F, 0.0F, true);
+
+        lAntler04b = new ModelPart(this);
+        lAntler04b.setPos(0.0F, 0.0F, -2.8F);
+        lAntler04.addChild(lAntler04b);
+        setRotationAngle(lAntler04b, 0.4014F, 0.3491F, 0.0F);
+        lAntler04b.texOffs(0, 20).addBox(-0.5F, -0.5F, -2.0F, 1.0F, 1.0F, 2.0F, 0.0F, true);
+
+        lAntler05 = new ModelPart(this);
+        lAntler05.setPos(0.0F, -0.1F, -0.3F);
+        lAntler04.addChild(lAntler05);
+        setRotationAngle(lAntler05, -0.8029F, -0.2269F, 0.0F);
+        lAntler05.texOffs(0, 19).addBox(-0.5F, -0.5F, -4.0F, 1.0F, 1.0F, 4.0F, 0.0F, true);
+
+        lAntler06 = new ModelPart(this);
+        lAntler06.setPos(0.0F, 0.0F, -3.0F);
+        lAntler05.addChild(lAntler06);
+        setRotationAngle(lAntler06, 0.8727F, 0.2269F, 0.0F);
+        lAntler06.texOffs(0, 19).addBox(-0.5F, -0.5F, -3.1F, 1.0F, 1.0F, 3.0F, 0.0F, true);
+
+        lAntler06b = new ModelPart(this);
+        lAntler06b.setPos(0.0F, 0.0F, -2.8F);
+        lAntler06.addChild(lAntler06b);
+        setRotationAngle(lAntler06b, 0.3142F, 0.4538F, 0.0F);
+        lAntler06b.texOffs(2, 21).addBox(-0.5F, -0.5F, -2.0F, 1.0F, 1.0F, 2.0F, 0.0F, true);
+
+        lAntler07 = new ModelPart(this);
+        lAntler07.setPos(0.0F, 0.0F, -3.8F);
+        lAntler05.addChild(lAntler07);
+        setRotationAngle(lAntler07, 0.0F, 0.4887F, 0.0F);
+        lAntler07.texOffs(0, 19).addBox(-0.5F, -0.5F, -3.0F, 1.0F, 1.0F, 3.0F, 0.0F, true);
+
+        lAntler08 = new ModelPart(this);
+        lAntler08.setPos(0.0F, 0.0F, -2.8F);
+        lAntler07.addChild(lAntler08);
+        setRotationAngle(lAntler08, -0.3142F, 0.6109F, 0.0F);
+        lAntler08.texOffs(0, 19).addBox(-0.5F, -0.5F, -3.0F, 1.0F, 1.0F, 3.0F, 0.0F, true);
+
+        lAntler08b = new ModelPart(this);
+        lAntler08b.setPos(0.0F, 0.0F, -0.7F);
+        lAntler08.addChild(lAntler08b);
+        setRotationAngle(lAntler08b, 0.7854F, 0.4014F, 0.0F);
+        lAntler08b.texOffs(0, 19).addBox(-0.5F, -0.5F, -2.0F, 1.0F, 1.0F, 2.0F, 0.0F, true);
+
+        lAntler08c = new ModelPart(this);
+        lAntler08c.setPos(0.0F, -0.2F, 0.2F);
+        lAntler08.addChild(lAntler08c);
+        setRotationAngle(lAntler08c, -0.3491F, -0.6109F, -1.2217F);
+        lAntler08c.texOffs(0, 19).addBox(-0.5F, -0.5F, -2.0F, 1.0F, 1.0F, 2.0F, 0.0F, true);
+
+        lAntler07b = new ModelPart(this);
+        lAntler07b.setPos(0.0F, 0.0F, -1.0F);
+        lAntler07.addChild(lAntler07b);
+        setRotationAngle(lAntler07b, 0.8727F, 0.0F, 0.7854F);
+        lAntler07b.texOffs(0, 19).addBox(-0.5F, -0.5F, -3.1F, 1.0F, 1.0F, 3.0F, 0.0F, true);
+
+        lAntler03b = new ModelPart(this);
+        lAntler03b.setPos(0.0F, 0.0F, -1.3F);
+        lAntler03.addChild(lAntler03b);
+        setRotationAngle(lAntler03b, 1.3963F, -0.9599F, 0.0F);
+        lAntler03b.texOffs(0, 12).addBox(-0.5F, -0.5F, -2.7F, 1.0F, 1.0F, 3.0F, 0.0F, true);
+
+        lAntler01b = new ModelPart(this);
+        lAntler01b.setPos(0.0F, 0.0F, -1.2F);
+        lAntler01.addChild(lAntler01b);
+        setRotationAngle(lAntler01b, 0.9599F, -0.6981F, 0.3142F);
+        lAntler01b.texOffs(0, 12).addBox(-0.5F, -0.5F, -2.5F, 1.0F, 1.0F, 3.0F, 0.0F, true);
+
+        rAntler01 = new ModelPart(this);
+        rAntler01.setPos(-1.5F, -0.5F, -3.9F);
+        head.addChild(rAntler01);
+        setRotationAngle(rAntler01, 0.0F, 0.2618F, -0.2618F);
+        rAntler01.texOffs(0, 13).addBox(-0.5F, -0.5F, -2.0F, 1.0F, 1.0F, 2.0F, 0.0F, false);
+
+        rAntler02 = new ModelPart(this);
+        rAntler02.setPos(0.1F, 0.1F, 0.0F);
+        rAntler01.addChild(rAntler02);
+        setRotationAngle(rAntler02, -0.5236F, 0.0F, 0.0F);
+        rAntler02.texOffs(0, 13).addBox(-0.5F, -0.4F, -2.3F, 1.0F, 1.0F, 3.0F, 0.0F, false);
+
+        rAntler03 = new ModelPart(this);
+        rAntler03.setPos(0.0F, 0.5F, -1.4F);
+        rAntler02.addChild(rAntler03);
+        setRotationAngle(rAntler03, -0.4887F, 0.2269F, 0.0F);
+        rAntler03.texOffs(0, 13).addBox(-0.5F, -0.5F, -3.1F, 1.0F, 1.0F, 3.0F, 0.0F, false);
+
+        rAntler04 = new ModelPart(this);
+        rAntler04.setPos(0.0F, -0.1F, -2.6F);
+        rAntler03.addChild(rAntler04);
+        setRotationAngle(rAntler04, 0.4538F, -0.2269F, 0.0F);
+        rAntler04.texOffs(0, 13).addBox(-0.5F, -0.5F, -3.1F, 1.0F, 1.0F, 3.0F, 0.0F, false);
+
+        rAntler04b = new ModelPart(this);
+        rAntler04b.setPos(0.0F, 0.0F, -2.8F);
+        rAntler04.addChild(rAntler04b);
+        setRotationAngle(rAntler04b, 0.4014F, -0.3491F, 0.0F);
+        rAntler04b.texOffs(0, 20).addBox(-0.5F, -0.5F, -2.0F, 1.0F, 1.0F, 2.0F, 0.0F, false);
+
+        rAntler05 = new ModelPart(this);
+        rAntler05.setPos(0.0F, -0.1F, -0.3F);
+        rAntler04.addChild(rAntler05);
+        setRotationAngle(rAntler05, -0.8029F, 0.2269F, 0.0F);
+        rAntler05.texOffs(0, 19).addBox(-0.5F, -0.5F, -4.0F, 1.0F, 1.0F, 4.0F, 0.0F, false);
+
+        rAntler06 = new ModelPart(this);
+        rAntler06.setPos(0.0F, 0.0F, -3.0F);
+        rAntler05.addChild(rAntler06);
+        setRotationAngle(rAntler06, 0.8727F, -0.2269F, 0.0F);
+        rAntler06.texOffs(0, 19).addBox(-0.5F, -0.5F, -3.1F, 1.0F, 1.0F, 3.0F, 0.0F, false);
+
+        rAntler06b = new ModelPart(this);
+        rAntler06b.setPos(0.0F, 0.0F, -2.8F);
+        rAntler06.addChild(rAntler06b);
+        setRotationAngle(rAntler06b, 0.3142F, -0.4538F, 0.0F);
+        rAntler06b.texOffs(2, 21).addBox(-0.5F, -0.5F, -2.0F, 1.0F, 1.0F, 2.0F, 0.0F, false);
+
+        rAntler07 = new ModelPart(this);
+        rAntler07.setPos(0.0F, 0.0F, -3.8F);
+        rAntler05.addChild(rAntler07);
+        setRotationAngle(rAntler07, 0.0F, -0.4887F, 0.0F);
+        rAntler07.texOffs(0, 19).addBox(-0.5F, -0.5F, -3.0F, 1.0F, 1.0F, 3.0F, 0.0F, false);
+
+        rAntler08 = new ModelPart(this);
+        rAntler08.setPos(0.0F, 0.0F, -2.8F);
+        rAntler07.addChild(rAntler08);
+        setRotationAngle(rAntler08, -0.3142F, -0.6109F, 0.0F);
+        rAntler08.texOffs(0, 19).addBox(-0.5F, -0.5F, -3.0F, 1.0F, 1.0F, 3.0F, 0.0F, false);
+
+        rAntler08b = new ModelPart(this);
+        rAntler08b.setPos(0.0F, 0.0F, -0.7F);
+        rAntler08.addChild(rAntler08b);
+        setRotationAngle(rAntler08b, 0.7854F, -0.4014F, 0.0F);
+        rAntler08b.texOffs(0, 19).addBox(-0.5F, -0.5F, -2.0F, 1.0F, 1.0F, 2.0F, 0.0F, false);
+
+        rAntler08c = new ModelPart(this);
+        rAntler08c.setPos(0.0F, -0.3F, 0.2F);
+        rAntler08.addChild(rAntler08c);
+        setRotationAngle(rAntler08c, -0.3491F, 0.6109F, 1.2217F);
+        rAntler08c.texOffs(0, 19).addBox(-0.5F, -0.5F, -2.0F, 1.0F, 1.0F, 2.0F, 0.0F, false);
+
+        rAntler07b = new ModelPart(this);
+        rAntler07b.setPos(0.0F, 0.0F, -1.0F);
+        rAntler07.addChild(rAntler07b);
+        setRotationAngle(rAntler07b, 0.8727F, 0.0F, -0.7854F);
+        rAntler07b.texOffs(0, 19).addBox(-0.5F, -0.5F, -3.1F, 1.0F, 1.0F, 3.0F, 0.0F, false);
+
+        rAntler03b = new ModelPart(this);
+        rAntler03b.setPos(0.0F, 0.0F, -1.3F);
+        rAntler03.addChild(rAntler03b);
+        setRotationAngle(rAntler03b, 1.3963F, 0.9599F, 0.0F);
+        rAntler03b.texOffs(0, 12).addBox(-0.5F, -0.5F, -2.7F, 1.0F, 1.0F, 3.0F, 0.0F, false);
+
+        rAntler01b = new ModelPart(this);
+        rAntler01b.setPos(0.0F, 0.0F, -1.2F);
+        rAntler01.addChild(rAntler01b);
+        setRotationAngle(rAntler01b, 0.9599F, 0.6981F, -0.3142F);
+        rAntler01b.texOffs(0, 12).addBox(-0.5F, -0.5F, -2.5F, 1.0F, 1.0F, 3.0F, 0.0F, false);
+
+        mane01 = new ModelPart(this);
+        mane01.setPos(0.0F, 1.6F, -4.0F);
+        neck.addChild(mane01);
+        setRotationAngle(mane01, -0.5411F, 0.0F, 0.0F);
+        mane01.texOffs(0, 48).addBox(-2.0F, 0.0F, 0.0F, 4.0F, 1.0F, 6.0F, 0.0F, false);
+
+        mane02 = new ModelPart(this);
+        mane02.setPos(0.0F, 1.7F, -2.2F);
+        neck.addChild(mane02);
+        setRotationAngle(mane02, -0.5411F, 0.0F, 0.0F);
+        mane02.texOffs(0, 56).addBox(-2.5F, 0.0F, 0.0F, 5.0F, 1.0F, 7.0F, 0.0F, false);
+
+        mane03 = new ModelPart(this);
+        mane03.setPos(0.0F, 1.8F, -4.7F);
+        chest.addChild(mane03);
+        setRotationAngle(mane03, -0.6981F, 0.0F, 0.0F);
+        mane03.texOffs(17, 48).addBox(-3.0F, -0.1F, -0.1F, 6.0F, 1.0F, 8.0F, 0.0F, false);
+
+        mane04 = new ModelPart(this);
+        mane04.setPos(0.0F, 2.0F, -3.1F);
+        chest.addChild(mane04);
+        setRotationAngle(mane04, -0.6109F, 0.0F, 0.0F);
+        mane04.texOffs(36, 54).addBox(-3.0F, -1.0F, 0.0F, 6.0F, 2.0F, 8.0F, 0.0F, false);
+
+        lForeleg01 = new ModelPart(this);
+        lForeleg01.setPos(3.1F, 0.9F, 2.3F);
+        body.addChild(lForeleg01);
+        setRotationAngle(lForeleg01, 0.1396F, 0.0F, -0.0873F);
+        lForeleg01.texOffs(29, 0).addBox(-1.0F, -2.4F, -2.5F, 3.0F, 7.0F, 5.0F, 0.0F, false);
+
+        lForeleg02 = new ModelPart(this);
+        lForeleg02.setPos(0.8F, 4.4F, 0.1F);
+        lForeleg01.addChild(lForeleg02);
+        setRotationAngle(lForeleg02, 0.0F, 0.0F, 0.0873F);
+        lForeleg02.texOffs(31, 13).addBox(-2.0F, 0.0F, -2.0F, 3.0F, 3.0F, 4.0F, 0.0F, false);
+
+        lForeleg03 = new ModelPart(this);
+        lForeleg03.setPos(-0.4F, 2.7F, 0.0F);
+        lForeleg02.addChild(lForeleg03);
+        setRotationAngle(lForeleg03, -0.1396F, 0.0F, 0.0F);
+        lForeleg03.texOffs(45, 26).addBox(-1.0F, 0.0F, -1.0F, 2.0F, 9.0F, 2.0F, 0.0F, false);
+
+        lFrontHoofClaw01a = new ModelPart(this);
+        lFrontHoofClaw01a.setPos(0.55F, 8.65F, -0.35F);
+        lForeleg03.addChild(lFrontHoofClaw01a);
+        setRotationAngle(lFrontHoofClaw01a, 0.0F, -0.0524F, 0.0F);
+        lFrontHoofClaw01a.texOffs(39, 23).addBox(-0.5F, -0.5F, -2.0F, 1.0F, 1.0F, 2.0F, 0.0F, true);
+
+        lFrontHoofClaw01b = new ModelPart(this);
+        lFrontHoofClaw01b.setPos(0.0F, 0.0F, -1.0F);
+        lFrontHoofClaw01a.addChild(lFrontHoofClaw01b);
+        setRotationAngle(lFrontHoofClaw01b, 0.4363F, 0.0F, 0.0F);
+        lFrontHoofClaw01b.texOffs(31, 23).addBox(-0.49F, -1.1F, -0.7F, 1.0F, 1.0F, 2.0F, 0.0F, true);
+
+        lFrontHoofClaw02a = new ModelPart(this);
+        lFrontHoofClaw02a.setPos(-0.45F, 8.65F, -0.35F);
+        lForeleg03.addChild(lFrontHoofClaw02a);
+        setRotationAngle(lFrontHoofClaw02a, 0.0F, 0.0873F, 0.0F);
+        lFrontHoofClaw02a.texOffs(39, 23).addBox(-0.5F, -0.5F, -2.0F, 1.0F, 1.0F, 2.0F, 0.0F, true);
+
+        lFrontHoofClaw02b = new ModelPart(this);
+        lFrontHoofClaw02b.setPos(0.0F, 0.0F, -1.0F);
+        lFrontHoofClaw02a.addChild(lFrontHoofClaw02b);
+        setRotationAngle(lFrontHoofClaw02b, 0.4363F, 0.0F, 0.0F);
+        lFrontHoofClaw02b.texOffs(30, 22).addBox(-0.49F, -1.1F, -0.7F, 1.0F, 1.0F, 3.0F, 0.0F, true);
+
+        rForeleg01 = new ModelPart(this);
+        rForeleg01.setPos(-3.1F, 0.9F, 2.3F);
+        body.addChild(rForeleg01);
+        setRotationAngle(rForeleg01, 0.1396F, 0.0F, 0.0873F);
+        rForeleg01.texOffs(29, 0).addBox(-2.0F, -2.4F, -2.5F, 3.0F, 7.0F, 5.0F, 0.0F, true);
+
+        rForeleg02 = new ModelPart(this);
+        rForeleg02.setPos(-0.8F, 4.4F, 0.1F);
+        rForeleg01.addChild(rForeleg02);
+        setRotationAngle(rForeleg02, 0.0F, 0.0F, -0.0873F);
+        rForeleg02.texOffs(31, 13).addBox(-1.0F, 0.0F, -2.0F, 3.0F, 3.0F, 4.0F, 0.0F, true);
+
+        rForeleg03 = new ModelPart(this);
+        rForeleg03.setPos(0.4F, 2.7F, 0.0F);
+        rForeleg02.addChild(rForeleg03);
+        setRotationAngle(rForeleg03, -0.1396F, 0.0F, 0.0F);
+        rForeleg03.texOffs(45, 26).addBox(-1.0F, 0.0F, -1.0F, 2.0F, 9.0F, 2.0F, 0.0F, true);
+
+        rFrontHoofClaw01a = new ModelPart(this);
+        rFrontHoofClaw01a.setPos(-0.55F, 8.65F, -0.35F);
+        rForeleg03.addChild(rFrontHoofClaw01a);
+        setRotationAngle(rFrontHoofClaw01a, 0.0F, 0.0524F, 0.0F);
+        rFrontHoofClaw01a.texOffs(39, 23).addBox(-0.5F, -0.5F, -2.0F, 1.0F, 1.0F, 2.0F, 0.0F, false);
+
+        rFrontHoofClaw01b = new ModelPart(this);
+        rFrontHoofClaw01b.setPos(0.0F, 0.0F, -1.0F);
+        rFrontHoofClaw01a.addChild(rFrontHoofClaw01b);
+        setRotationAngle(rFrontHoofClaw01b, 0.4363F, 0.0F, 0.0F);
+        rFrontHoofClaw01b.texOffs(31, 23).addBox(-0.51F, -1.1F, -0.7F, 1.0F, 1.0F, 2.0F, 0.0F, false);
+
+        rFrontHoofClaw02a = new ModelPart(this);
+        rFrontHoofClaw02a.setPos(0.45F, 8.65F, -0.35F);
+        rForeleg03.addChild(rFrontHoofClaw02a);
+        setRotationAngle(rFrontHoofClaw02a, 0.0F, -0.0873F, 0.0F);
+        rFrontHoofClaw02a.texOffs(39, 23).addBox(-0.5F, -0.5F, -2.0F, 1.0F, 1.0F, 2.0F, 0.0F, false);
+
+        rFrontHoofClaw02b = new ModelPart(this);
+        rFrontHoofClaw02b.setPos(0.0F, 0.0F, -1.0F);
+        rFrontHoofClaw02a.addChild(rFrontHoofClaw02b);
+        setRotationAngle(rFrontHoofClaw02b, 0.4363F, 0.0F, 0.0F);
+        rFrontHoofClaw02b.texOffs(30, 22).addBox(-0.51F, -1.1F, -0.7F, 1.0F, 1.0F, 3.0F, 0.0F, false);
     }
 
     @Override
@@ -422,13 +552,12 @@ public class ModelDeer<T extends LivingEntity> extends ModelBAP<T> {
                 this.head.xRot = rad(-65F);
                 this.lowerJaw.xRot = rad(eatTime % 20F) + 0.1F;
             } else {
-                this.chest.xRot = -0.6829473363053812F;
-                this.neck.xRot = headPitch * 0.017453292F - 0.31869712141416456F;
-                this.head.xRot = -0.31869712141416456F;
+                this.chest.xRot = -0.8378F;
+                this.neck.xRot = -0.3142F;
                 this.lowerJaw.xRot = 0F;
+                this.headPitch(head, headPitch, 1F, 0F);
             }
         }
-        this.headPitch(head, headPitch, 1F, -13F);
     }
 
 }
