@@ -15,7 +15,7 @@ import net.minecraft.world.phys.Vec3;
 
 import java.util.Random;
 
-public abstract class EntityCrabLikeBase extends EntityAnimalWithTypes {
+public abstract class EntityCrabLikeBase extends EntityAnimalWithTypesContainable {
 
     public int snipTime = 0;
 

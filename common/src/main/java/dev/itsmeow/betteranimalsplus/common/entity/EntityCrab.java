@@ -4,6 +4,7 @@ import dev.itsmeow.betteranimalsplus.common.entity.util.EntityUtil;
 import dev.itsmeow.betteranimalsplus.common.entity.util.abstracts.EntityCrabLikeBase;
 import dev.itsmeow.betteranimalsplus.init.ModEntities;
 import dev.itsmeow.imdlib.entity.EntityTypeContainer;
+import dev.itsmeow.imdlib.entity.util.EntityTypeContainerContainable;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -143,4 +144,8 @@ public class EntityCrab extends EntityCrabLikeBase {
         return ModEntities.CRAB;
     }
 
+    @Override
+    public EntityTypeContainerContainable<?, ?> getContainableContainer() {
+        return ModEntities.CRAB;
+    }
 }

@@ -5,6 +5,8 @@ import dev.itsmeow.betteranimalsplus.common.entity.util.abstracts.EntityCrabLike
 import dev.itsmeow.betteranimalsplus.init.ModEntities;
 import dev.itsmeow.betteranimalsplus.init.ModItems;
 import dev.itsmeow.imdlib.entity.EntityTypeContainer;
+import dev.itsmeow.imdlib.entity.interfaces.IContainable;
+import dev.itsmeow.imdlib.entity.util.EntityTypeContainerContainable;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.InteractionHand;
@@ -73,8 +75,31 @@ public class EntityHorseshoeCrab extends EntityCrabLikeBase {
     }
 
     @Override
+    public void setContainerData(ItemStack bucket) {
+        super.setContainerData(bucket);
+        CompoundTag tag = bucket.getTag();
+        if(bucket.getTag() == null) {
+            tag = new CompoundTag();
+        }
+        tag.putInt("HorseshoeCrabBloodLeft", this.bloodLeft);
+        bucket.setTag(tag);
+    }
+
+    @Override
+    public void readFromContainerTag(CompoundTag tag) {
+        super.readFromContainerTag(tag);
+        if(tag.contains("HorseshoeCrabBloodLeft")) {
+            this.bloodLeft = tag.getInt("HorseshoeCrabBloodLeft");
+        }
+    }
+
+    @Override
     public EntityTypeContainer<EntityHorseshoeCrab> getContainer() {
         return ModEntities.HORSESHOE_CRAB;
     }
 
+    @Override
+    public EntityTypeContainerContainable<?, ?> getContainableContainer() {
+        return ModEntities.HORSESHOE_CRAB;
+    }
 }
