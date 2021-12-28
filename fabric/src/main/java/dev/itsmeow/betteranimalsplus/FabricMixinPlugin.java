@@ -1,6 +1,6 @@
 package dev.itsmeow.betteranimalsplus;
 
-import me.shedaniel.architectury.platform.Platform;
+import net.fabricmc.loader.api.FabricLoader;
 import org.objectweb.asm.tree.ClassNode;
 import org.spongepowered.asm.mixin.extensibility.IMixinConfigPlugin;
 import org.spongepowered.asm.mixin.extensibility.IMixinInfo;
@@ -21,7 +21,7 @@ public class FabricMixinPlugin implements IMixinConfigPlugin {
 
     @Override
     public boolean shouldApplyMixin(String targetClassName, String mixinClassName) {
-        return (!mixinClassName.equals("dev.itsmeow.betteranimalsplus.mixin.ItemCapeMixin") && !mixinClassName.equals("dev.itsmeow.betteranimalsplus.mixin.ItemCapeClientMixin") && !mixinClassName.equals("dev.itsmeow.betteranimalsplus.mixin.TrinketSlotMixin")) || Platform.isModLoaded("trinkets");
+        return (!mixinClassName.equals("dev.itsmeow.betteranimalsplus.mixin.ItemCapeMixin") && !mixinClassName.equals("dev.itsmeow.betteranimalsplus.mixin.ItemCapeClientMixin") && !mixinClassName.equals("dev.itsmeow.betteranimalsplus.mixin.TrinketSlotMixin")) || FabricLoader.getInstance().isModLoaded("trinkets");
     }
 
     @Override
