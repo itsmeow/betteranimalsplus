@@ -107,7 +107,7 @@ public class ModEntities {
             .size(0.8F, 0.8F)
             .biomesOverworld(BiomeTypes.FOREST, BiomeTypes.PLAINS, BiomeTypes.SAVANNA)
             .variants("american", "european", "honey"));
-    public static final EntityTypeContainer<EntityCrab> CRAB = H.add(EntityCrab.class, EntityCrab::new, "crab", () -> Mob.createMobAttributes()
+    public static final EntityTypeContainerContainable<EntityCrab, ItemModFishBucket<EntityCrab>> CRAB = H.addContainableB(EntityCrab.class, EntityCrab::new, "crab", () -> Mob.createMobAttributes()
             .add(Attributes.MAX_HEALTH, 6.5D)
             .add(Attributes.MOVEMENT_SPEED, 0.3D)
             .add(Attributes.ATTACK_DAMAGE)
@@ -117,8 +117,9 @@ public class ModEntities {
             .egg(0xe21d16, 0x2d0504)
             .size(1F, 0.65F)
             .biomesOverworld(BiomeTypes.BEACH, BiomeTypes.SWAMP)
-            .variants(4));
-    public static final EntityTypeContainer<EntityHorseshoeCrab> HORSESHOE_CRAB = H.add(EntityHorseshoeCrab.class, EntityHorseshoeCrab::new, "horseshoecrab", () -> Mob.createMobAttributes()
+            .variants("red", "pink", "brown", "blue")
+            .containers("%s_bucket", ItemModFishBucket.waterBucket(G), "", c -> Items.WATER_BUCKET));
+    public static final EntityTypeContainerContainable<EntityHorseshoeCrab, ItemModFishBucket<EntityHorseshoeCrab>> HORSESHOE_CRAB = H.addContainableB(EntityHorseshoeCrab.class, EntityHorseshoeCrab::new, "horseshoecrab", () -> Mob.createMobAttributes()
             .add(Attributes.MAX_HEALTH, 6.5D)
             .add(Attributes.MOVEMENT_SPEED, 0.3D)
             .add(Attributes.ATTACK_DAMAGE)
@@ -128,7 +129,8 @@ public class ModEntities {
             .egg(0xba1111, 0x520807)
             .size(1F, 0.65F)
             .biomesOverworld(BiomeTypes.BEACH)
-            .variants("brown", "dark_brown", "green", "orange"));
+            .variants("brown", "dark_brown", "green", "orange")
+            .containers("%s_bucket", ItemModFishBucket.waterBucket(G), "", c -> Items.WATER_BUCKET));
     public static final EntityTypeContainer<EntityShark> SHARK = H.add(EntityShark.class, EntityShark::new, "shark", () -> Mob.createMobAttributes()
             .add(Attributes.MAX_HEALTH, 30D)
             .add(Attributes.MOVEMENT_SPEED, 1.5D)
