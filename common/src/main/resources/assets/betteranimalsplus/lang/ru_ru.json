@@ -55,6 +55,8 @@
     "item.betteranimalsplus.calamari_cooked": "Приготовленное щупальце",
     "item.betteranimalsplus.piranha_bucket": "Пиранья в ведре",
     "item.betteranimalsplus.horseshoe_crab_blood": "Кровь мечехвоста",
+    "item.betteranimalsplus.crab_bucket": "Краб в ведре",
+    "item.betteranimalsplus.horseshoecrab_bucket": "Мечехвост в ведре",
 
     "block.betteranimalsplus.trillium": "Триллиум",
     "block.betteranimalsplus.feralwolfhead": "Голова дикого волка",
@@ -136,6 +138,14 @@
     "entity.betteranimalsplus.dragonfly.type.yellow_winged_darter": "Жёлтая",
     "entity.betteranimalsplus.flying_fish.type.yellow": "Жёлтая",
     "entity.betteranimalsplus.flying_fish.type.purple": "Фиолетовая",
+    "entity.betteranimalsplus.crab.type.red": "Красный",
+    "entity.betteranimalsplus.crab.type.pink": "Розовый",
+    "entity.betteranimalsplus.crab.type.brown": "Коричневый",
+    "entity.betteranimalsplus.crab.type.blue": "Синий",
+    "entity.betteranimalsplus.horseshoecrab.type.brown": "Коричневый",
+    "entity.betteranimalsplus.horseshoecrab.type.dark_brown": "Тёмно-коричневый",
+    "entity.betteranimalsplus.horseshoecrab.type.green": "Зелёный",
+    "entity.betteranimalsplus.horseshoecrab.type.orange": "Оранжевый",
     
     "entity.betteranimalsplus.coyote.message.currently_hostile": "Этот койот сейчас враждебен. Возможно, его можно приручить вне часов его охоты?",
     "entity.betteranimalsplus.coyote.message.always_hostile": "Этот койот всегда враждебен. Он не может быть приручен (конфигурация сервера)",
