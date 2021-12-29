@@ -25,9 +25,6 @@
     "client": [
       "dev.itsmeow.betteranimalsplus.client.BetterAnimalsPlusClientFabric"
     ],
-    "cardinal-components": [
-      "dev.itsmeow.betteranimalsplus.init.BetterAnimalsPlusModComponents"
-    ],
     "modmenu": [
       "dev.itsmeow.imdlib.compat.modmenu.ModMenuCompat"
     ]
@@ -44,9 +41,6 @@
     "betteranimalsplus-fabric.mixins.json"
   ],
   "custom": {
-    "cardinal-components": [
-      "betteranimalsplus:squirrel_kills"
-    ],
     "modmenu": {
       "links": {
         "modmenu.discord": "https://discord.betteranimalsplus.com/"

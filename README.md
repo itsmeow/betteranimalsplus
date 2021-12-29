@@ -12,12 +12,6 @@ For planned features and development, join our [Discord](https://discord.bettera
 
 These are legally required statements regarding software used by the mod.
 
-### Cardinal Components API
-
-Better Animals Plus depends on and includes [Cardinal Components API](https://github.com/OnyxStudios/Cardinal-Components-API), a modular data component API, which is licensed under the [MIT License](https://github.com/OnyxStudios/Cardinal-Components-API/blob/master/LICENSE.md).
-
-Cardinal Components API is Copyright OnyxStudios.
-
 ### IMDLib
 
 Better Animals Plus depends on and includes [IMDLib](https://github.com/itsmeow/IMDLib), an entity management and configuration library, which is licensed under the [MIT License](https://github.com/itsmeow/IMDLib/blob/1.16/LICENSE).

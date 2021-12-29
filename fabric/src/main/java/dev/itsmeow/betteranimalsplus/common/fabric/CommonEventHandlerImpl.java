@@ -1,6 +1,7 @@
 package dev.itsmeow.betteranimalsplus.common.fabric;
 
 import dev.itsmeow.betteranimalsplus.common.CommonEventHandler;
+import dev.itsmeow.betteranimalsplus.util.ISquirrelData;
 import net.fabricmc.fabric.api.loot.v1.FabricLootPoolBuilder;
 import net.fabricmc.fabric.api.loot.v1.FabricLootSupplierBuilder;
 import net.fabricmc.fabric.api.loot.v1.event.LootTableLoadingCallback;
@@ -12,8 +13,6 @@ import net.minecraft.world.level.storage.loot.LootTables;
 import net.minecraft.world.level.storage.loot.entries.LootTableReference;
 
 import java.util.function.Function;
-
-import static dev.itsmeow.betteranimalsplus.init.BetterAnimalsPlusModComponents.SQUIRREL_KILLS_COMPONENT;
 
 public class CommonEventHandlerImpl {
 
@@ -31,15 +30,19 @@ public class CommonEventHandlerImpl {
     }
 
     public static void setSquirrelKills(Player player, int kills) {
-        SQUIRREL_KILLS_COMPONENT.get().get(player).setKills(kills);
+        if(player instanceof ISquirrelData)
+            ((ISquirrelData) player).setSquirrelKills(kills);
     }
 
     public static void setSquirrelKills(Player player, Function<Integer, Integer> mutator) {
-        SQUIRREL_KILLS_COMPONENT.get().get(player).setKills(mutator);
+        if(player instanceof ISquirrelData)
+            ((ISquirrelData) player).setSquirrelKills(mutator);
     }
 
     public static int getSquirrelKills(Player player) {
-        return SQUIRREL_KILLS_COMPONENT.get().get(player).getKills();
+        if(player instanceof ISquirrelData)
+            return ((ISquirrelData) player).getSquirrelKills();
+        return 0;
     }
 
 }
