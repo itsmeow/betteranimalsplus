@@ -1,3 +1,19 @@
+# 11.0.2
+
+- Updated Russian Translation (Thanks Smollet777)
+- Made crabs and horseshoe crabs bucketable
+- 1.16: Tweaked deer model and texture to match 1.17/1.18
+- Fixed deer looking up slightly all the time
+- Fixed development-time dependencies on the mod
+- Added missing language entry for config menu - `config.betteranimalsplus.coyote_hostile_daytime`
+- Fabric: Fixed crash during mixin-plugin-time if Architectury was not present preventing Fabric from informing the user of missing dependencies
+- Fabric: Fixed crash when connecting to dedicated servers
+
+# 11.0.1
+
+- 1.17: Removed goats (including associated items and advancements) due to vanilla adding goats
+- 1.17: Tweaked deer model and texture
+
 # 11.0.0
 
 **Architectury is now REQUIRED for Forge and Fabric versions of the mod.**
