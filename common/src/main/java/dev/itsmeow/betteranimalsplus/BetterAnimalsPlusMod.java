@@ -103,7 +103,6 @@ public class BetterAnimalsPlusMod {
 
     public static void onPlayerLeave(ServerPlayer player) {
         for (UUID devId : DEVS) {
-            SafeSyncThing.put(devId, SafeSyncThing.DumbOptions.OFF);
             HANDLER.sendToPlayer(player, new StupidDevPacket(SafeSyncThing.DumbOptions.OFF, devId));
         }
     }
