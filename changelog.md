@@ -1,3 +1,16 @@
+# 11.0.3
+
+- Updated Chinese Translation (Thanks chen_index)
+- Coyotes can now be bred with antlers
+- Fixed butterfly and dragonfly suffocating in farmland
+- Fixed variants not re-generating when not found (errored textures on entities when variants are renamed)
+- Fixed selective variant config not actually doing anything
+- Made coyotes internally no longer extend the Feral Wolf
+- Fixed possible desync with internal feature
+- Forge 1.17: Fixed pack format version being incorrect
+- 1.17&1.18: Fixed rendering crash with internal feature
+- Forge 1.17&1.18: Fixed crash at mixin-time without Architectury installed preventing Forge from informing the user Architectury is missing
+
 # 11.0.2
 
 - Updated Russian Translation (Thanks Smollet777)
