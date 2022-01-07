@@ -142,7 +142,7 @@ public class EntityMoose extends EntityAnimalEatsGrassWithTypes implements IDrop
         if(r > 2) {
             r = validTypes[this.getRandom().nextInt(validTypes.length)];
         }
-        return this.getContainer().getVariantForName(String.valueOf(r));
+        return this.getContainer().getVariantForName(String.valueOf(r)).orElse(super.getRandomType());
     }
 
 }

@@ -3,11 +3,21 @@ package dev.itsmeow.betteranimalsplus.common.entity;
 import dev.itsmeow.betteranimalsplus.common.entity.ai.HungerNearestAttackableTargetGoal;
 import dev.itsmeow.betteranimalsplus.common.entity.ai.HungerNonTamedTargetGoal;
 import dev.itsmeow.betteranimalsplus.common.entity.util.EntityTypeContainerBAPTameable;
+import dev.itsmeow.betteranimalsplus.common.entity.util.IDropHead;
+import dev.itsmeow.betteranimalsplus.common.entity.util.IHaveHunger;
+import dev.itsmeow.betteranimalsplus.common.entity.util.abstracts.EntityTameableBetterAnimalsPlus;
 import dev.itsmeow.betteranimalsplus.init.ModEntities;
+import dev.itsmeow.betteranimalsplus.init.ModItems;
 import dev.itsmeow.betteranimalsplus.util.ModPlatformEvents;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.Util;
+import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
@@ -15,7 +25,12 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.entity.*;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.AgeableMob;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NonTameRandomTargetGoal;
@@ -32,17 +47,23 @@ import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.monster.Ghast;
 import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.SpawnEggItem;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.block.state.BlockState;
 
-public class EntityCoyote extends EntityFeralWolf {
+public class EntityCoyote extends EntityTameableBetterAnimalsPlus implements IDropHead<EntityTameableBetterAnimalsPlus>, IHaveHunger<EntityTameableBetterAnimalsPlus> {
 
     public static final String HOSTILE_DAYTIME_KEY = "hostile_during_daytime";
     public static boolean client_hostile_override = false;
+    public static final double TAMED_HEALTH = 30D;
+    public static final double UNTAMED_HEALTH = 10D;
+    protected static final EntityDataAccessor<Float> DATA_HEALTH_ID = SynchedEntityData.defineId(EntityFeralWolf.class, EntityDataSerializers.FLOAT);
+
+    private int hunger;
 
     public EntityCoyote(EntityType<? extends EntityCoyote> entityType, Level worldIn) {
         super(entityType, worldIn);
@@ -67,19 +88,6 @@ public class EntityCoyote extends EntityFeralWolf {
         this.targetSelector.addGoal(4, new HungerNonTamedTargetGoal<>(this, AbstractIllager.class, false, e -> true));
         this.targetSelector.addGoal(4, new HungerNonTamedTargetGoal<>(this, Chicken.class, false, e -> true));
         this.targetSelector.addGoal(5, new HungerNearestAttackableTargetGoal<>(this, AbstractSkeleton.class, false));
-    }
-
-    @Override
-    public SpawnGroupData initAgeableData(LevelAccessor world, MobSpawnType reason, SpawnGroupData livingdata) {
-        return livingdata;
-    }
-
-    @Override
-    public void writeType(CompoundTag nbt) {
-    }
-
-    @Override
-    public void readType(CompoundTag nbt) {
     }
 
     public boolean isDaytime() {
@@ -116,14 +124,11 @@ public class EntityCoyote extends EntityFeralWolf {
     @Override
     public InteractionResult mobInteract(Player player, InteractionHand hand) {
         ItemStack itemstack = player.getItemInHand(hand);
-
         if(this.isTame()) {
             if(!itemstack.isEmpty()) {
                 if(itemstack.getItem().isEdible()) {
                     FoodProperties food = itemstack.getItem().getFoodProperties();
-
-                    if(food.isMeat()
-                    && this.entityData.get(DATA_HEALTH_ID) < TAMED_HEALTH) {
+                    if(food.isMeat() && this.entityData.get(DATA_HEALTH_ID) < TAMED_HEALTH) {
                         if(!player.isCreative()) {
                             itemstack.shrink(1);
                         }
@@ -134,8 +139,7 @@ public class EntityCoyote extends EntityFeralWolf {
                 }
             }
 
-            if (this.isOwnedBy(player) && !this.level.isClientSide && !this.isFood(itemstack)
-                    && (!(itemstack.getItem().isEdible()) || !itemstack.getItem().getFoodProperties().isMeat())) {
+            if (this.isOwnedBy(player) && !this.level.isClientSide && !this.isFood(itemstack) && (!(itemstack.getItem().isEdible()) || !itemstack.getItem().getFoodProperties().isMeat())) {
                 this.setOrderedToSit(!this.isInSittingPose());
                 this.jumping = false;
                 this.navigation.stop();
@@ -150,7 +154,6 @@ public class EntityCoyote extends EntityFeralWolf {
                 if(!player.isCreative()) {
                     itemstack.shrink(1);
                 }
-
                 if(!this.level.isClientSide) {
                     if(this.random.nextInt(100) <= 14 && !ModPlatformEvents.tame(this, player)) {
                         this.tame(player);
@@ -169,45 +172,9 @@ public class EntityCoyote extends EntityFeralWolf {
                 if(!this.level.isClientSide) {
                     player.sendMessage(new TranslatableComponent("entity.betteranimalsplus.coyote.message.currently_hostile"), Util.NIL_UUID);
                 }
-                return InteractionResult.PASS;
             }
         }
-        if(this.isFood(itemstack)) {
-            if(this.getAge() == 0 && this.canBreed()) {
-                this.usePlayerItem(player, hand, itemstack);
-                this.setInLove(player);
-                return InteractionResult.CONSUME;
-            }
-            if(this.isBaby()) {
-                this.usePlayerItem(player, hand, itemstack);
-                this.ageUp((int) ((float) (-this.getAge() / 20) * 0.1F), true);
-                return InteractionResult.CONSUME;
-            }
-        }
-
-        Item item = itemstack.getItem();
-        if(item instanceof SpawnEggItem && ((SpawnEggItem) item).spawnsEntity(itemstack.getTag(), this.getType())) {
-            if(!this.level.isClientSide && level instanceof ServerLevel) {
-                AgeableMob ageableentity = this.getBreedOffspring((ServerLevel) this.level, this);
-                if(ageableentity != null) {
-                    ageableentity.setAge(-24000);
-                    ageableentity.moveTo(this.getX(), this.getY(), this.getZ(), 0.0F, 0.0F);
-                    this.level.addFreshEntity(ageableentity);
-                    if(itemstack.hasCustomHoverName()) {
-                        ageableentity.setCustomName(itemstack.getHoverName());
-                    }
-
-                    this.onOffspringSpawnedFromEgg(player, ageableentity);
-                    if(!player.getAbilities().instabuild) {
-                        itemstack.shrink(1);
-                    }
-                }
-            }
-
-            return InteractionResult.SUCCESS;
-        } else {
-            return InteractionResult.PASS;
-        }
+        return super.mobInteract(player, hand);
     }
 
     @Override
@@ -219,9 +186,9 @@ public class EntityCoyote extends EntityFeralWolf {
     public boolean wantsToAttack(LivingEntity target, LivingEntity owner) {
         if(!(target instanceof Creeper) && !(target instanceof Ghast) && (this.isTame() || !this.isDaytime() || isHostileDaytime())) {
             if(target instanceof EntityCoyote) {
-                EntityCoyote entityferalwolf = (EntityCoyote) target;
+                EntityCoyote coyote = (EntityCoyote) target;
 
-                if(entityferalwolf.isTame() && entityferalwolf.getOwner() == owner) {
+                if(coyote.isTame() && coyote.getOwner() == owner) {
                     return false;
                 }
             }
@@ -241,13 +208,9 @@ public class EntityCoyote extends EntityFeralWolf {
     }
 
     @Override
-    protected ResourceLocation getDefaultLootTable() {
-        return null;
-    }
-
-    @Override
     public AgeableMob getBreedOffspring(ServerLevel world, AgeableMob ageable) {
-        EntityCoyote coyote = this.getBaseChild();
+        EntityCoyote coyote = getContainer().getEntityType().create(world);
+
         if(this.isTame()) {
             coyote.setTame(true);
             coyote.setOwnerUUID(this.getOwnerUUID());
@@ -256,7 +219,129 @@ public class EntityCoyote extends EntityFeralWolf {
     }
 
     @Override
-    protected EntityCoyote getBaseChild() {
-        return getContainer().getEntityType().create(level);
+    public int getHunger() {
+        return hunger;
     }
+
+    @Override
+    public void setHunger(int hunger) {
+        this.hunger = hunger;
+    }
+
+    @Override
+    public void addAdditionalSaveData(CompoundTag compound) {
+        super.addAdditionalSaveData(compound);
+        this.writeHunger(compound);
+    }
+
+    @Override
+    public void readAdditionalSaveData(CompoundTag compound) {
+        super.readAdditionalSaveData(compound);
+        this.readHunger(compound);
+    }
+
+    @Override
+    public void die(DamageSource cause) {
+        super.die(cause);
+        this.doHeadDrop();
+    }
+
+    @Override
+    protected void customServerAiStep() {
+        super.customServerAiStep();
+        this.entityData.set(EntityCoyote.DATA_HEALTH_ID, this.getHealth());
+    }
+
+    @Override
+    protected void defineSynchedData() {
+        super.defineSynchedData();
+        this.entityData.define(DATA_HEALTH_ID, this.getHealth());
+    }
+
+    @Override
+    protected void playStepSound(BlockPos pos, BlockState blockStateIn) {
+        this.playSound(SoundEvents.WOLF_STEP, 0.15F, 1.0F);
+    }
+
+    @Override
+    protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
+        return SoundEvents.WOLF_HURT;
+    }
+
+    @Override
+    protected SoundEvent getDeathSound() {
+        return SoundEvents.WOLF_DEATH;
+    }
+
+    @Override
+    protected float getSoundVolume() {
+        return 0.4F;
+    }
+
+    @Override
+    public void tick() {
+        super.tick();
+        if (this.tickCount % 20 == 0) {
+            this.incrementHunger();
+        }
+    }
+
+    @Override
+    public int getMaxHeadXRot() {
+        return this.isInSittingPose() ? 20 : super.getMaxHeadXRot();
+    }
+
+    @Override
+    public boolean hurt(DamageSource source, float amount) {
+        if(this.isInvulnerableTo(source)) {
+            return false;
+        } else {
+            Entity entity = source.getEntity();
+
+            if(this.isInSittingPose()) { // sitting
+                this.setOrderedToSit(false);
+            }
+
+            if(entity != null && !(entity instanceof Player) && !(entity instanceof AbstractArrow)) {
+                amount = (amount + 1.0F) / 2.0F;
+            }
+
+            return super.hurt(source, amount);
+        }
+    }
+
+    @Override
+    public void setTame(boolean tamed) {
+        super.setTame(tamed);
+        if(tamed) {
+            this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(TAMED_HEALTH);
+        } else {
+            this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(UNTAMED_HEALTH);
+        }
+    }
+
+    @Override
+    public boolean canBreed() {
+        return this.isTame() && super.canBreed();
+    }
+
+    @Environment(EnvType.CLIENT)
+    public float getTailRotation() {
+        if(!this.isTame()) {
+            return -0.15F;
+        } else {
+            return this.isTame() ? 0.25F - (this.getMaxHealth() - this.getEntityData().get(EntityCoyote.DATA_HEALTH_ID)) * 0.04F : -0.85F;
+        }
+    }
+
+    @Override
+    public boolean isFood(ItemStack stack) {
+        return stack.getItem() == ModItems.ANTLER.get();
+    }
+
+    @Override
+    public boolean canBeLeashed(Player player) {
+        return this.isTame() && super.canBeLeashed(player);
+    }
+
 }

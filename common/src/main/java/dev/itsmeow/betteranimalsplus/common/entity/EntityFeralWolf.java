@@ -199,18 +199,6 @@ public class EntityFeralWolf extends EntityTameableWithSelectiveTypes implements
     }
 
     @Override
-    public boolean doHurtTarget(Entity entityIn) {
-        boolean flag = entityIn.hurt(DamageSource.mobAttack(this),
-        (int) this.getAttribute(Attributes.ATTACK_DAMAGE).getValue());
-
-        if(flag) {
-            this.doEnchantDamageEffects(this, entityIn);
-        }
-
-        return flag;
-    }
-
-    @Override
     public void setTame(boolean tamed) {
         super.setTame(tamed);
 
@@ -238,8 +226,7 @@ public class EntityFeralWolf extends EntityTameableWithSelectiveTypes implements
                 }
             }
 
-            if(this.isOwnedBy(player) && !this.level.isClientSide && !this.isFood(itemstack)
-            && (!(itemstack.getItem().isEdible()) || !(itemstack.getItem().getFoodProperties().isMeat()))) {
+            if(this.isOwnedBy(player) && !this.level.isClientSide && !this.isFood(itemstack) && (!(itemstack.getItem().isEdible()) || !(itemstack.getItem().getFoodProperties().isMeat()))) {
                 this.setOrderedToSit(!this.isInSittingPose());
                 this.jumping = false;
                 this.navigation.stop();
