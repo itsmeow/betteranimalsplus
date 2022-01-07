@@ -29,7 +29,6 @@ import java.util.stream.Collectors;
 public class BetterAnimalsPlusMod {
 
     public static final Logger LOGGER = LogManager.getLogger();
-    // TODO config fabric impl
     public static final NetworkChannel HANDLER = NetworkChannel.create(new ResourceLocation(Ref.MOD_ID, "main_channel"));
     private static final ImmutableList<UUID> DEVS = ImmutableList.of(
             UUID.fromString("81d9726a-56d4-4419-9a2a-be1d7f7f7ef1"),
@@ -68,7 +67,6 @@ public class BetterAnimalsPlusMod {
         PlayerEvent.PLAYER_JOIN.register(BetterAnimalsPlusMod::onPlayerJoin);
         PlayerEvent.PLAYER_QUIT.register(BetterAnimalsPlusMod::onPlayerLeave);
         CommonEventHandler.init();
-        //ClassLoadHacks.runWhenLoaded("curios", () -> () -> CuriosModCompat.subscribe(modBus));
     }
 
     public static void init(Consumer<Runnable> enqueue) {
