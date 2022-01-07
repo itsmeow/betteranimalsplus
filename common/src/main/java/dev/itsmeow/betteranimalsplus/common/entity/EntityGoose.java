@@ -347,7 +347,7 @@ public class EntityGoose extends EntityAnimalWithTypes {
             break;
         }
         livingdata = EntityUtil.childChance(this, reason, livingdata, 0.25F);
-        IVariant variant = this.getContainer().getVariantForName(types[this.getRandom().nextInt(types.length)]);
+        IVariant variant = this.getContainer().getVariantForName(types[this.getRandom().nextInt(types.length)]).get();
         if (livingdata instanceof AgeableTypeData) {
             variant = ((AgeableTypeData) livingdata).typeData;
         } else if (livingdata instanceof AgableMobGroupData) {

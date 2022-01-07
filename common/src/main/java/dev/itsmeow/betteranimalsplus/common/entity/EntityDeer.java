@@ -131,7 +131,7 @@ public class EntityDeer extends EntityAnimalEatsGrassWithTypes implements IDropH
         if(r > 2) {
             r = validTypes[this.getRandom().nextInt(validTypes.length)];
         }
-        return this.getContainer().getVariantForName(String.valueOf(r));
+        return this.getContainer().getVariantForName(String.valueOf(r)).orElse(super.getRandomType());
     }
 
     public static class EntityDeerVariant extends EntityVariant {

@@ -66,7 +66,7 @@ public class EntityBearNeutral extends EntityBear implements IVariantTypes<Entit
 
     @Override
     public IVariant getRandomType() {
-        return this.getContainer().getVariantForName(this.getRandom().nextFloat() <= 0.125F ? "kermode" : "black");
+        return this.getContainer().getVariantForName(this.getRandom().nextFloat() <= 0.125F ? "kermode" : "black").orElse(IVariantTypes.super.getRandomType());
     }
 
     @Override

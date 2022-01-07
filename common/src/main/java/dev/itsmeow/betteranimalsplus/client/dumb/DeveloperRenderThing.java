@@ -9,6 +9,7 @@ import dev.itsmeow.betteranimalsplus.client.renderer.entity.layers.GooseItemLaye
 import dev.itsmeow.betteranimalsplus.init.ModEntities;
 import dev.itsmeow.betteranimalsplus.network.HonkPacket;
 import dev.itsmeow.betteranimalsplus.network.StupidDevPacket;
+import dev.itsmeow.imdlib.entity.util.variant.IVariant;
 import me.shedaniel.architectury.event.events.client.ClientChatEvent;
 import me.shedaniel.architectury.event.events.client.ClientPlayerEvent;
 import me.shedaniel.architectury.event.events.client.ClientTickEvent;
@@ -149,7 +150,8 @@ public class DeveloperRenderThing {
 
         @Override
         public ResourceLocation getTextureLocation(Player player) {
-            return ModEntities.GOOSE.getVariantForName(SafeSyncThing.get(player.getGameProfile().getId()).variant).getTexture(null);
+            IVariant v = ModEntities.GOOSE.getVariantForName(SafeSyncThing.get(player.getGameProfile().getId()).variant).orElse(null);
+            return v != null ? v.getTexture(null) : null;
         }
 
     }

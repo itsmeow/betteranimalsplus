@@ -899,7 +899,7 @@ public class EntityReindeer extends Animal implements PlayerRideableJumping, IVa
         Calendar calendar = Calendar.getInstance();
         boolean isChristmasSeason = calendar.get(Calendar.MONTH) + 1 == 12 && calendar.get(Calendar.DATE) >= 22 && calendar.get(Calendar.DATE) <= 28;
         boolean redNosed = this.random.nextInt(9) == 0;
-        return this.getContainer().getVariantForName((this.random.nextInt(4) + 1) + (isChristmasSeason && redNosed ? "_christmas" : ""));
+        return this.getContainer().getVariantForName((this.random.nextInt(4) + 1) + (isChristmasSeason && redNosed ? "_christmas" : "")).orElse(IVariantTypes.super.getRandomType());
     }
 
     @Override
@@ -919,7 +919,7 @@ public class EntityReindeer extends Animal implements PlayerRideableJumping, IVa
 
     @Override
     public void doHeadDrop() {
-        this.getHeadType().drop(this, 12, this.getContainer().getVariantForName(this.getVariantNameOrEmpty().substring(0, 1)));
+        this.getHeadType().drop(this, 12, this.getContainer().getVariantForName(this.getVariantNameOrEmpty().substring(0, 1)).get());
     }
 
 }

@@ -4,7 +4,6 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import dev.itsmeow.betteranimalsplus.client.model.abstracts.ModelBAP;
 import dev.itsmeow.betteranimalsplus.common.entity.EntityCoyote;
-import dev.itsmeow.betteranimalsplus.common.entity.EntityFeralWolf;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
@@ -322,14 +321,6 @@ public class ModelCoyote<T extends LivingEntity> extends ModelBAP<T> {
     @Override
     public void renderToBuffer(PoseStack matrixStackIn, VertexConsumer bufferIn, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
         this.body.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
-    }
-
-    @Override
-    public void prepareMobModel(T entity, float limbSwing, float limbSwingAmount, float partialTickTime) {
-        if (entity instanceof EntityFeralWolf) {
-            EntityFeralWolf entityferalwolf = (EntityFeralWolf) entity;
-
-        }
     }
 
     @Override
