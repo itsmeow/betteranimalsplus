@@ -91,7 +91,7 @@ task fixJar(type: Jar) {
         filter {
             line ->
                 {
-                    line = line.replaceAll('dev.itsmeow.imdlib.mixin', 'dev.itsmeow.betteranimalsplus.imdlib.mixin')
+                    line = line.replaceAll('dev.itsmeow.imdlib', 'dev.itsmeow.betteranimalsplus.imdlib')
                     line.replaceAll('imdlib-common-refmap.json', 'imdlib-betteranimalsplus-common-refmap.json')
                 }
         }
