@@ -48,7 +48,7 @@ public class DeveloperRenderThing {
         }
         if (timeSinceLastPacket <= 0) {
             long handle = Minecraft.getInstance().getWindow().getWindow();
-            if (InputConstants.isKeyDown(handle, 72) && InputConstants.isKeyDown(handle, 341)) { // ctrl + h
+            if (InputConstants.isKeyDown(handle, InputConstants.KEY_H) && InputConstants.isKeyDown(handle, InputConstants.KEY_LCONTROL)) {
                 timeSinceLastPacket = 10;
                 BetterAnimalsPlusMod.HANDLER.sendToServer(new HonkPacket());
             }
@@ -61,7 +61,7 @@ public class DeveloperRenderThing {
 
     public static void playerRender(Player player, PlayerRenderer renderer, float partialTicks, PoseStack stack, MultiBufferSource buffers, int packedLight) {
         if (RENDER_INSTANCE == null) {
-            RENDER_INSTANCE = new StupidRender(new EntityRendererProvider.Context(((EntityRendererAccessor) renderer).getEntityRenderDispatcher(), null, null, null, renderer.getFont()));
+            RENDER_INSTANCE = new StupidRender(new EntityRendererProvider.Context(((EntityRendererAccessor) renderer).getEntityRenderDispatcher(), Minecraft.getInstance().getItemRenderer(), Minecraft.getInstance().getResourceManager(), Minecraft.getInstance().getEntityModels(), renderer.getFont()));
         }
         float rot = interpolateRotation(player.yRotO, player.getYRot(), partialTicks);
         RENDER_INSTANCE.render(player, rot, partialTicks, stack, buffers, packedLight);
