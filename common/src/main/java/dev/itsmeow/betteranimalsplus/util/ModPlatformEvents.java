@@ -26,4 +26,12 @@ public class ModPlatformEvents {
         throw new PlatformExpectedError("ExpectPlatform failed: ModPlatformEvents.mobGrief()");
     }
 
+    /**
+     * @return True if "modid" is loaded.
+     */
+    @ExpectPlatform
+    public static boolean isLoaded(String modid) {
+        throw new PlatformExpectedError("ExpectPlatform failed: ModPlatformEvents.isLoaded()");
+    }
+
 }

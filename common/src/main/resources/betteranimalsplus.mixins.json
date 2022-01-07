@@ -1,6 +1,7 @@
 {
   "required": true,
   "package": "dev.itsmeow.betteranimalsplus.mixin",
+  "plugin": "dev.itsmeow.betteranimalsplus.BetterAnimalsPlusMixinPlugin",
   "compatibilityLevel": "JAVA_17",
   "minVersion": "0.8",
   "mixins": [

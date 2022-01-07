@@ -13,6 +13,7 @@ import dev.itsmeow.betteranimalsplus.common.entity.EntityCoyote;
 import dev.itsmeow.betteranimalsplus.common.entity.util.EntityTypeContainerBAPTameable;
 import dev.itsmeow.betteranimalsplus.init.*;
 import dev.itsmeow.betteranimalsplus.network.*;
+import dev.itsmeow.betteranimalsplus.util.ModPlatformEvents;
 import dev.itsmeow.imdlib.IMDLib;
 import dev.itsmeow.imdlib.entity.EntityTypeContainer;
 import net.minecraft.resources.ResourceLocation;
@@ -56,7 +57,7 @@ public class BetterAnimalsPlusMod {
         HANDLER.register(ClientRequestBAMPacket.class, (pkt, buf) -> {}, buf -> new ClientRequestBAMPacket(), (pkt, ctx) -> {
             if(ctx.get().getEnvironment() == Env.CLIENT) {
                 ctx.get().queue(() -> {
-                    if (!Platform.isModLoaded("betteranimals")) {
+                    if (!ModPlatformEvents.isLoaded("betteranimals")) {
                         HANDLER.sendToServer(new ServerNoBAMPacket());
                     }
                 });

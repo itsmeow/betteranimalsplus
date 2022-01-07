@@ -104,7 +104,7 @@ task fixJar(type: Jar) {
         filter {
             line -> {
                 line = line.replaceAll("dev.itsmeow.imdlib", "dev.itsmeow.betteranimalsplus.imdlib")
-                line = line.replaceAll('mixin.imdlib.json', 'mixin.imdlib-betteranimalsplus.json","mixin.imdlib-betteranimalsplus-fabric.json')
+                line.replaceAll('mixin.imdlib.json', 'mixin.imdlib-betteranimalsplus.json","mixin.imdlib-betteranimalsplus-fabric.json')
             }
         }
     }
@@ -114,7 +114,7 @@ task fixJar(type: Jar) {
         filter {
             line ->
                 {
-                    line = line.replaceAll('dev.itsmeow.imdlib.mixin', 'dev.itsmeow.betteranimalsplus.imdlib.mixin')
+                    line = line.replaceAll('dev.itsmeow.imdlib', 'dev.itsmeow.betteranimalsplus.imdlib')
                     line.replaceAll('imdlib-common-refmap.json', 'imdlib-betteranimalsplus-common-refmap.json')
                 }
         }
@@ -125,8 +125,7 @@ task fixJar(type: Jar) {
         filter {
             line ->
                 {
-                    line = line.replaceAll('dev.itsmeow.imdlib.mixin', 'dev.itsmeow.betteranimalsplus.imdlib.mixin')
-                    line = line.replaceAll('dev.itsmeow.imdlib.FabricMixinPlugin', 'dev.itsmeow.betteranimalsplus.imdlib.FabricMixinPlugin')
+                    line = line.replaceAll('dev.itsmeow.imdlib', 'dev.itsmeow.betteranimalsplus.imdlib')
                     line.replaceAll('imdlib-fabric-refmap.json', 'imdlib-betteranimalsplus-fabric-refmap.json')
                 }
         }
