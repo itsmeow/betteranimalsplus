@@ -62,7 +62,7 @@ public class CommonEventHandler {
     }
     public static final Multimap<ResourceLocation, ResourceLocation> LOOT_TABLE_INJECTIONS = MultimapBuilder.hashKeys().hashSetValues().build();
     static {
-        IVariant v = ModEntities.FERAL_WOLF.getVariantForName("snowy");
+        IVariant v = ModEntities.FERAL_WOLF.getVariantForName("snowy").orElse(null);
         if (v instanceof EntityFeralWolf.WolfVariant) {
             EntityFeralWolf.WolfVariant variant = (EntityFeralWolf.WolfVariant) v;
             LOOT_TABLE_INJECTIONS.put(EntityType.WOLF.getDefaultLootTable(), variant.getLootTable());
@@ -181,7 +181,8 @@ public class CommonEventHandler {
 
     public static EventResult entityAdd(Entity entity, Level level) {
         if(entity instanceof IronGolem) {
-            ((MobAccessor) entity).getTargetSelector().addGoal(3, new NearestAttackableTargetGoal<>((IronGolem) entity, EntityFeralWolf.class, 5, false, false, e -> !((EntityFeralWolf) e).isTame() && (e instanceof EntityCoyote ? !((EntityCoyote) e).isDaytime() : true)));
+            ((MobAccessor) entity).getTargetSelector().addGoal(3, new NearestAttackableTargetGoal<>((IronGolem) entity, EntityFeralWolf.class, 5, false, false, e -> !((EntityFeralWolf) e).isTame()));
+            ((MobAccessor) entity).getTargetSelector().addGoal(3, new NearestAttackableTargetGoal<>((IronGolem) entity, EntityCoyote.class, 5, false, false, e -> !((EntityCoyote) e).isTame() && !((EntityCoyote) e).isDaytime()));
         }
         return EventResult.pass();
     }
