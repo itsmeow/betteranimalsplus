@@ -38,6 +38,7 @@ import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
 import java.util.HashSet;
@@ -289,20 +290,31 @@ public class EntityButterfly extends EntityAnimalWithTypesAndSizeContainable {
         }
         if(!this.isLanded() && targetPosition != null) {
             if(this.isInWall()) {
-                this.targetPosition = null;
-                this.setDeltaMovement(0, 0, 0);
-            } else {
-                double d0 = (double) this.targetPosition.getX() + 0.5D - this.getX();
-                double d1 = (double) this.targetPosition.getY() + 0.1D - this.getY();
-                double d2 = (double) this.targetPosition.getZ() + 0.5D - this.getZ();
-                Vec3 vec3d = this.getDeltaMovement();
-                Vec3 vec3d1 = vec3d.add((Math.signum(d0) * 0.5D - vec3d.x) * (double) 0.1F, (Math.signum(d1) * (double) 0.7F - vec3d.y) * (double) 0.1F, (Math.signum(d2) * 0.5D - vec3d.z) * (double) 0.1F);
-                this.setDeltaMovement(vec3d1);
-                float f = (float) (Mth.atan2(vec3d1.z, vec3d1.x) * (double) (180F / (float) Math.PI)) - 90.0F;
-                float f1 = Mth.wrapDegrees(f - this.getYRot());
-                this.zza = 0.5F;
-                this.setYRot(this.getYRot() + f1);
+                this.targetPosition = this.tryToFindPosition(pos -> {
+                    AABB abb = this.getBoundingBox();
+                    Vec3 diff = new Vec3(pos.getX() + 0.5D, pos.getY() + 0.1D, pos.getZ() + 0.5D).subtract(this.position());
+                    double length = diff.length();
+                    diff = diff.normalize();
+                    for(int i = 1; i < length; ++i) {
+                        abb = abb.move(diff);
+                        if (!this.level.noCollision(this, abb)) {
+                            return false;
+                        }
+                    }
+                    return true;
+                });
+
             }
+            double d0 = (double) this.targetPosition.getX() + 0.5D - this.getX();
+            double d1 = (double) this.targetPosition.getY() + 0.1D - this.getY();
+            double d2 = (double) this.targetPosition.getZ() + 0.5D - this.getZ();
+            Vec3 vec3d = this.getDeltaMovement();
+            Vec3 vec3d1 = vec3d.add((Math.signum(d0) * 0.5D - vec3d.x) * (double) 0.1F, (Math.signum(d1) * (double) 0.7F - vec3d.y) * (double) 0.1F, (Math.signum(d2) * 0.5D - vec3d.z) * (double) 0.1F);
+            this.setDeltaMovement(vec3d1);
+            float f = (float) (Mth.atan2(vec3d1.z, vec3d1.x) * (double) (180F / (float) Math.PI)) - 90.0F;
+            float f1 = Mth.wrapDegrees(f - this.getYRot());
+            this.zza = 0.5F;
+            this.setYRot(this.getYRot() + f1);
         }
     }
 
@@ -310,17 +322,21 @@ public class EntityButterfly extends EntityAnimalWithTypesAndSizeContainable {
         BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos();
         int i = 12;
         int j = 2;
-        for(int k = 0; k <= j; k = k > 0 ? -k : 1 - k) {
-            for(int l = 0; l < i; ++l) {
-                for(int i1 = 0; i1 <= l; i1 = i1 > 0 ? -i1 : 1 - i1) {
-                    for(int j1 = i1 < l && i1 > -l ? l : 0; j1 <= l; j1 = j1 > 0 ? -j1 : 1 - j1) {
-                        pos.set(this.blockPosition()).move(i1, k - 1, j1);
-                        if(condition.test(pos.immutable())) {
-                            return pos.immutable();
+        boolean down = false;
+        while (!down) {
+            for (int k = down ? -1 : 0; down ? k >= -j : k <= j; k += down ? -1 : 1) {
+                for (int l = 0; l < i; ++l) {
+                    for (int i1 = 0; i1 <= l; i1 = i1 > 0 ? -i1 : 1 - i1) {
+                        for (int j1 = i1 < l && i1 > -l ? l : 0; j1 <= l; j1 = j1 > 0 ? -j1 : 1 - j1) {
+                            pos.set(this.blockPosition()).move(i1, k, j1);
+                            if (condition.test(pos.immutable())) {
+                                return pos.immutable();
+                            }
                         }
                     }
                 }
             }
+            down = true;
         }
         return null;
     }
