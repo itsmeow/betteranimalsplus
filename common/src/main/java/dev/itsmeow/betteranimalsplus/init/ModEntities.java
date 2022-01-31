@@ -21,6 +21,7 @@ import dev.itsmeow.imdlib.item.ItemModFishBucket;
 import me.shedaniel.architectury.registry.RegistrySupplier;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MobCategory;
@@ -32,6 +33,7 @@ import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.biome.Biomes;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.levelgen.Heightmap;
 
 import java.util.LinkedHashMap;
@@ -147,7 +149,7 @@ public class ModEntities {
             .add(Attributes.MOVEMENT_SPEED, 1.5D)
             .add(Attributes.ATTACK_DAMAGE)
             .add(Attributes.ATTACK_DAMAGE, 6D), b -> b
-            .spawn(MobCategory.WATER_CREATURE, 4, 1, 1)
+            .spawn(MobCategory.WATER_CREATURE, 4, 1, 3)
             .waterPlacement()
             .egg(0x787878, 0xbdbdbd)
             .size(2.5F, 1.2F)
@@ -169,7 +171,7 @@ public class ModEntities {
             .add(Attributes.ATTACK_DAMAGE)
             .add(Attributes.ATTACK_DAMAGE, 4D)
             .add(Attributes.KNOCKBACK_RESISTANCE, 10D), b -> b
-            .spawn(MobCategory.WATER_CREATURE, 2, 1, 1)
+            .spawn(MobCategory.WATER_AMBIENT, 2, 1, 1)
             .waterPlacement()
             .egg(0xffe38f, 0x0f27bf)
             .size(1F, 1F)
@@ -221,7 +223,7 @@ public class ModEntities {
             .add(Attributes.MOVEMENT_SPEED, 1D)
             .add(Attributes.ATTACK_DAMAGE)
             .add(Attributes.ATTACK_DAMAGE, 5D), b -> b
-            .spawn(MobCategory.WATER_CREATURE, 2, 1, 1)
+            .spawn(MobCategory.WATER_CREATURE, 1, 1, 1)
             .waterPlacement(EntityBAPSquid::placement)
             .egg(0x8C354A, 0xFAD64A)
             .size(5F, 5F)
@@ -232,7 +234,7 @@ public class ModEntities {
             .add(Attributes.MOVEMENT_SPEED, 1D)
             .add(Attributes.ATTACK_DAMAGE)
             .add(Attributes.ATTACK_DAMAGE, 5D), b -> b
-            .spawn(MobCategory.WATER_CREATURE, 4, 1, 1)
+            .spawn(MobCategory.WATER_CREATURE, 1, 1, 1)
             .waterPlacement(EntityBAPSquid::placement)
             .egg(0x741921, 0xFAD64A)
             .size(3F, 3F)
@@ -243,7 +245,7 @@ public class ModEntities {
             .add(Attributes.MOVEMENT_SPEED, 1D)
             .add(Attributes.ATTACK_DAMAGE)
             .add(Attributes.ATTACK_DAMAGE, 3D), b -> b
-            .spawn(MobCategory.WATER_CREATURE, 8, 1, 3)
+            .spawn(MobCategory.WATER_CREATURE, 5, 1, 3)
             .waterPlacement()
             .egg(0xE09226, 0xA23420)
             .size(1F, 1F)
@@ -316,7 +318,7 @@ public class ModEntities {
             .config((holder, builder) -> holder.put(EntityCoyote.HOSTILE_DAYTIME_KEY, Boolean.class, builder.define(EntityCoyote.HOSTILE_DAYTIME_KEY, "Makes coyote always hostile (removes ability to tame!)", false))).head().itemGroup(G).allowFloor().singleton("1", "coyote_hostile").setModel(() -> ModelCoyoteHead::new).done());
     public static final EntityTypeContainerContainable<EntityJellyfish, ItemModFishBucket<EntityJellyfish>> JELLYFISH = H.addContainableB(EntityJellyfish.class, EntityJellyfish::new, "jellyfish", () -> Mob.createMobAttributes()
             .add(Attributes.MAX_HEALTH, 10.0D), b -> b
-            .spawn(MobCategory.WATER_CREATURE, 10, 1, 1)
+            .spawn(MobCategory.WATER_AMBIENT, 10, 1, 5)
             .waterPlacement()
             .egg(0x226fe2, 0xf2b3b3)
             .size(0.8F, 0.8F)
@@ -367,7 +369,7 @@ public class ModEntities {
             .add(Attributes.MOVEMENT_SPEED, 0.8D)
             .add(Attributes.ATTACK_DAMAGE)
             .add(Attributes.ATTACK_DAMAGE, 0.5D), b -> b
-            .spawn(MobCategory.WATER_CREATURE, 7, 1, 1)
+            .spawn(MobCategory.WATER_AMBIENT, 7, 1, 3)
             .waterPlacement()
             .egg(0x0000ad, 0x0a0a0a)
             .size(1.0F, 0.7F)
@@ -378,7 +380,7 @@ public class ModEntities {
     public static final EntityTypeContainerContainable<EntityNautilus, ItemModFishBucket<EntityNautilus>> NAUTILUS = H.addContainableB(EntityNautilus.class, EntityNautilus::new, "nautilus", () -> Mob.createMobAttributes()
             .add(Attributes.MAX_HEALTH, 5.0D)
             .add(Attributes.MOVEMENT_SPEED, 0.25D), b -> b
-            .spawn(MobCategory.WATER_CREATURE, 4, 1, 1)
+            .spawn(MobCategory.WATER_AMBIENT, 2, 1, 1)
             .waterPlacement()
             .egg(0xFF9659, 0x241682)
             .size(0.75F, 0.75F)
@@ -405,7 +407,7 @@ public class ModEntities {
             .add(Attributes.MOVEMENT_SPEED, 2D)
             .add(Attributes.ATTACK_DAMAGE)
             .add(Attributes.ATTACK_DAMAGE, 2.5D), b -> b
-            .spawn(MobCategory.WATER_CREATURE, 7, 1, 2)
+            .spawn(MobCategory.WATER_AMBIENT, 7, 1, 3)
             .waterPlacement()
             .egg(0x818077, 0x726c4f)
             .size(1F, 1F)
@@ -418,7 +420,7 @@ public class ModEntities {
             .add(Attributes.MOVEMENT_SPEED, 2D)
             .add(Attributes.ATTACK_DAMAGE)
             .add(Attributes.ATTACK_DAMAGE, 2.5D), b -> b
-            .spawn(MobCategory.WATER_CREATURE, 4, 1, 2)
+            .spawn(MobCategory.WATER_AMBIENT, 4, 1, 3)
             .waterPlacement()
             .egg(0xa5a5a5, 0x515168)
             .size(1F, 1F)
@@ -433,7 +435,7 @@ public class ModEntities {
     public static final EntityTypeContainerContainable<EntityButterfly, ItemModEntityContainer<EntityButterfly>> BUTTERFLY = H.addContainable(EntityButterfly.class, EntityButterfly::new, "butterfly", () -> Mob.createMobAttributes()
             .add(Attributes.MAX_HEALTH, 2.0D), b -> b
             .spawn(MobCategory.AMBIENT, 10, 1, 3)
-            .defaultPlacement((t, w, r, p, rng) -> p.getY() > w.getSeaLevel())
+            .placement(SpawnPlacements.Type.NO_RESTRICTIONS, Heightmap.Types.MOTION_BLOCKING, (t, w, r, p, rng) -> p.getY() > w.getSeaLevel() && w.getBlockState(p).isAir() && (w.getBlockState(p.below()).is(BlockTags.LEAVES) || w.getBlockState(p.below()).getBlock() == Blocks.GRASS_BLOCK))
             .egg(0x161d27, 0xb42d10)
             .size(0.35F, 0.35F)
             .despawn()
@@ -450,7 +452,7 @@ public class ModEntities {
     public static final EntityTypeContainerContainable<EntityDragonfly, ItemModEntityContainer<EntityDragonfly>> DRAGONFLY = H.addContainable(EntityDragonfly.class, EntityDragonfly::new, "dragonfly", () -> Mob.createMobAttributes()
             .add(Attributes.MAX_HEALTH, 2.0D), b -> b
             .spawn(MobCategory.AMBIENT, 10, 1, 3)
-            .defaultPlacement((t, w, r, p, rng) -> p.getY() > w.getSeaLevel())
+            .placement(SpawnPlacements.Type.NO_RESTRICTIONS, Heightmap.Types.MOTION_BLOCKING, (t, w, r, p, rng) -> p.getY() > w.getSeaLevel() && w.getBlockState(p).isAir() && (w.getBlockState(p.below()).is(BlockTags.LEAVES) || w.getBlockState(p.below()).getBlock() == Blocks.GRASS_BLOCK))
             .egg(0x40a605, 0x522601)
             .size(0.35F, 0.35F)
             .despawn()
@@ -467,7 +469,7 @@ public class ModEntities {
             .add(Attributes.MOVEMENT_SPEED, 2D)
             .add(Attributes.ATTACK_DAMAGE)
             .add(Attributes.ATTACK_DAMAGE, 2D), b -> b
-            .spawn(MobCategory.WATER_CREATURE, 8, 1, 1)
+            .spawn(MobCategory.WATER_AMBIENT, 3, 1, 1)
             .waterPlacement()
             .egg(0x575963, 0xCFCFCF)
             .size(1.5F, 1F)
@@ -477,7 +479,7 @@ public class ModEntities {
     public static final EntityTypeContainerContainable<EntityFlyingFish, ItemModFishBucket<EntityFlyingFish>> FLYING_FISH = H.addContainableB(EntityFlyingFish.class, EntityFlyingFish::new, "flying_fish", () -> Mob.createMobAttributes()
             .add(Attributes.MAX_HEALTH, 4D)
             .add(Attributes.MOVEMENT_SPEED, 1D), b -> b
-            .spawn(MobCategory.WATER_CREATURE, 10, 1, 5)
+            .spawn(MobCategory.WATER_AMBIENT, 10, 1, 5)
             .waterPlacement()
             .egg(0x0D3563, 0xEBC90E)
             .size(1F, 0.8F)
@@ -490,7 +492,7 @@ public class ModEntities {
             .add(Attributes.MOVEMENT_SPEED, 1D)
             .add(Attributes.ATTACK_DAMAGE)
             .add(Attributes.ATTACK_DAMAGE, 4D), b -> b
-            .spawn(MobCategory.WATER_CREATURE, 7, 1, 5)
+            .spawn(MobCategory.WATER_AMBIENT, 7, 1, 5)
             .waterPlacement()
             .egg(0x545454, 0xB51B15)
             .size(0.5F, 0.5F)
