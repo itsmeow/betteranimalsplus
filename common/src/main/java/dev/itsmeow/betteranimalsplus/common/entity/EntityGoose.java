@@ -1,5 +1,6 @@
 package dev.itsmeow.betteranimalsplus.common.entity;
 
+import com.google.common.collect.Sets;
 import dev.itsmeow.betteranimalsplus.common.entity.ai.WaterfowlNavigator;
 import dev.itsmeow.betteranimalsplus.common.entity.util.EntityUtil;
 import dev.itsmeow.betteranimalsplus.common.entity.util.abstracts.EntityAnimalWithTypes;
@@ -58,6 +59,7 @@ public class EntityGoose extends EntityAnimalWithTypes {
     private static final Predicate<ItemEntity> ITEM_SELECTOR = (item) -> !item.hasPickUpDelay() && item.isAlive();
     public int timeUntilNextEgg;
     public static final String PICKUP_BLOCK_LIST_KEY = "pickup_blacklist";
+    private static final Set<Item> BREEDING_ITEMS = Sets.newHashSet(Items.PUMPKIN_SEEDS, Items.WHEAT_SEEDS, Items.BEETROOT_SEEDS, Items.MELON_SEEDS, Items.SEAGRASS);
 
     public EntityGoose(EntityType<? extends EntityGoose> entityType, Level worldIn) {
         super(entityType, worldIn);
@@ -86,7 +88,7 @@ public class EntityGoose extends EntityAnimalWithTypes {
             }
         });
         this.goalSelector.addGoal(3, new BreedGoal(this, 1.0D));
-        this.goalSelector.addGoal(4, new TemptGoal(this, 1.0D, Ingredient.of(Items.PUMPKIN_SEEDS, Items.WHEAT_SEEDS, Items.BEETROOT_SEEDS, Items.MELON_SEEDS, Items.BREAD), false));
+        this.goalSelector.addGoal(4, new TemptGoal(this, 1.0D, Ingredient.of(Items.PUMPKIN_SEEDS, Items.WHEAT_SEEDS, Items.BEETROOT_SEEDS, Items.MELON_SEEDS, Items.SEAGRASS, Items.BREAD), false));
         this.goalSelector.addGoal(5, new FollowParentGoal(this, 1.1D));
         this.goalSelector.addGoal(6, new RandomStrollGoal(this, 1.0D));
         this.goalSelector.addGoal(7, new FindItemsGoal());
@@ -138,6 +140,11 @@ public class EntityGoose extends EntityAnimalWithTypes {
                 return super.canUse() && !EntityGoose.this.isPassive();
             }
         });
+    }
+
+    @Override
+    public boolean isFood(ItemStack itemStack) {
+        return BREEDING_ITEMS.contains(itemStack.getItem());
     }
 
     @Override
