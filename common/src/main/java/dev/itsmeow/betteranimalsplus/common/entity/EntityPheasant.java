@@ -1,5 +1,6 @@
 package dev.itsmeow.betteranimalsplus.common.entity;
 
+import dev.itsmeow.betteranimalsplus.api.ModEventBus;
 import dev.itsmeow.betteranimalsplus.common.entity.util.EntityUtil;
 import dev.itsmeow.betteranimalsplus.common.entity.util.abstracts.EntityAnimalWithTypes;
 import dev.itsmeow.betteranimalsplus.init.ModEntities;
@@ -90,7 +91,7 @@ public class EntityPheasant extends EntityAnimalWithTypes {
             this.setPeckTime(this.getNewPeck());
         }
 
-        if(!this.level.isClientSide && !this.isBaby() && --this.timeUntilNextEgg <= 0) {
+        if(!this.level.isClientSide && !this.isBaby() && ModEventBus.LayEggTickEvent.emit(this) && --this.timeUntilNextEgg <= 0) {
             this.playSound(SoundEvents.CHICKEN_EGG, 1.0F, (this.random.nextFloat() - this.random.nextFloat()) * 0.2F + 1.0F);
             this.spawnAtLocation(ModItems.PHEASANT_EGG.get(), 1);
             this.timeUntilNextEgg = this.random.nextInt(6000) + 6000;

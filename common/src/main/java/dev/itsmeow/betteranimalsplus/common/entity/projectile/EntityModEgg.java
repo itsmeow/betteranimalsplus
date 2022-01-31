@@ -1,5 +1,6 @@
 package dev.itsmeow.betteranimalsplus.common.entity.projectile;
 
+import dev.itsmeow.betteranimalsplus.api.ModEventBus;
 import me.shedaniel.architectury.networking.NetworkManager;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -51,11 +52,12 @@ public abstract class EntityModEgg extends ThrowableItemProjectile {
         }
 
         if(!this.level.isClientSide) {
-            if(this.random.nextInt(8) == 0) {
+            if(ModEventBus.ShouldEggSpawnEntitiesEvent.emit(this, this.random.nextInt(8) == 0)) {
                 int i = 1;
                 if(this.random.nextInt(32) == 0) {
                     i = 4;
                 }
+                i = ModEventBus.EggThrowSpawnCountEvent.emit(this, i);
 
                 for(int j = 0; j < i; ++j) {
                     this.level.addFreshEntity(createEntity());
