@@ -29,7 +29,6 @@ import dev.itsmeow.imdlib.client.IMDLibClient;
 import dev.itsmeow.imdlib.client.render.RenderFactory;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.builders.LayerDefinition;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.AgeableMob;
@@ -79,7 +78,7 @@ public class ClientLifecycleHandler {
         R.addRender(ModEntities.BOAR::getEntityType, 0.6F, r -> r.tBabyVariant("boar_baby").mSingle(ModelBoar::new, "boar").childScale(0.6F));
         R.addRender(ModEntities.SQUIRREL::getEntityType, 0.3F, r -> r.tVariant().mSingle(ModelSquirrel::new, "squirrel").ageScale(0.5F, 0.35F));
         R.addRender(ModEntities.SONGBIRD::getEntityType, 0.3F, r -> r.tVariant().mCondition(e -> e.getVariantNameOrEmpty().isEmpty() || !e.getVariantNameOrEmpty().startsWith("small"), ModelSongbird::new, "songbird", ModelSongbirdSmall::new, "songbird_small").ageScale(0.5F, 0.3F));
-        R.addRender(ModEntities.BADGER::getEntityType, 0.4F, r -> r.tVariant().mSingle(ModelBadger::new, "badger").renderLayer((e, a, b, c, t) -> RenderType.entityTranslucent(t)).ageScale(0.7F, 0.35F));
+        R.addRender(ModEntities.BADGER::getEntityType, 0.4F, r -> r.tVariant().mSingle(ModelBadger::new, "badger").ageScale(0.7F, 0.35F));
         R.addRender(ModEntities.LAMPREY::getEntityType, 0.4F, r -> r.tVariant().mSingle(ModelLamprey::new, "lamprey").preRender((e, s, p) -> {
             s.scale(0.5F, 0.5F, 0.5F);
             if(e.getVehicle() != null) {
