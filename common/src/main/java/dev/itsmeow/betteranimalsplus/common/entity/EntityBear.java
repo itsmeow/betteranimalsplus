@@ -155,6 +155,11 @@ public class EntityBear extends Animal implements IDropHead<EntityBear>, IHaveHu
     }
 
     @Override
+    protected void dropFromLootTable(DamageSource damageSource, boolean bl) {
+        super.dropFromLootTable(damageSource, bl);
+    }
+
+    @Override
     public void tick() {
         super.tick();
         if(this.tickCount % 20 == 0) {
