@@ -165,8 +165,9 @@ public class EntityButterfly extends EntityAnimalWithTypesAndSizeContainable {
         super.customServerAiStep();
         BlockPos blockpos = this.blockPosition();
         if(this.isLanded()) {
-            BlockPos offset = blockpos.relative(Direction.from3DDataValue(this.getLandedInteger()));
-            if(this.level.getBlockState(offset).isRedstoneConductor(this.level, offset)) {
+            Direction direction = Direction.from3DDataValue(this.getLandedInteger());
+            BlockPos offset = blockpos.relative(direction);
+            if(this.level.getBlockState(offset).isFaceSturdy(level, offset, direction.getOpposite(), SupportType.CENTER)) {
                 if(this.level.getNearestPlayer(playerPredicate, this) != null || this.getRandom().nextInt(500) == 0) {
                     this.setNotLanded();
                 }
@@ -180,18 +181,17 @@ public class EntityButterfly extends EntityAnimalWithTypesAndSizeContainable {
                 this.setNotLanded();
             }
             if(this.targetPosition == null || isRainingAt(this.targetPosition)) {
-                this.targetPosition = tryToFindPosition(pos -> {
+                this.targetPosition = tryToFindPositionBlock(pos -> {
                     if(pos != null && !isRainingAt(pos) && level.isEmptyBlock(pos)) {
-                        boolean found = false;
                         for(Direction direction : Direction.values()) {
                             if(direction != Direction.UP) {
                                 BlockPos offset = pos.relative(direction);
-                                if(level.getBlockState(offset).isRedstoneConductor(level, offset)) {
-                                    found = true;
+                                if(this.level.getBlockState(offset).isFaceSturdy(level, offset, direction.getOpposite(), SupportType.CENTER)) {
+                                    return true;
                                 }
                             }
                         }
-                        return found;
+                        return false;
                     }
                     return false;
                 });
@@ -208,10 +208,11 @@ public class EntityButterfly extends EntityAnimalWithTypesAndSizeContainable {
                     for(Direction direction : Direction.values()) {
                         if(direction != Direction.UP) {
                             BlockPos offset = blockpos.relative(direction);
-                            if(level.getBlockState(offset).isRedstoneConductor(level, offset) && level.isEmptyBlock(blockpos)) {
+                            if(level.getBlockState(offset).isFaceSturdy(level, offset, direction.getOpposite(), SupportType.CENTER) && level.isEmptyBlock(blockpos)) {
                                 this.setLanded(direction);
                                 this.targetPosition = null;
                                 found = true;
+                                break;
                             }
                         }
                     }
@@ -226,9 +227,9 @@ public class EntityButterfly extends EntityAnimalWithTypesAndSizeContainable {
                     boolean ranGrowable = false;
                     if(this.ticksUntilNextGrow <= 0) {
                         if(!this.hasNectar()) {
-                            destinationBlock = tryToFindPosition(this::isFlowers);
+                            destinationBlock = tryToFindPositionBlock(this::isFlowers);
                         } else {
-                            destinationBlock = tryToFindPosition(this::isGrowable);
+                            destinationBlock = tryToFindPositionBlock(this::isGrowable);
                             ranGrowable = true;
                         }
                     } else {
@@ -243,10 +244,11 @@ public class EntityButterfly extends EntityAnimalWithTypesAndSizeContainable {
                             for(Direction direction : Direction.values()) {
                                 if(direction != Direction.UP) {
                                     BlockPos offset = blockpos.relative(direction);
-                                    if(level.getBlockState(offset).isRedstoneConductor(level, offset) && level.isEmptyBlock(blockpos)) {
+                                    if(level.getBlockState(offset).isFaceSturdy(level, offset, direction.getOpposite(), SupportType.CENTER) && level.isEmptyBlock(blockpos)) {
                                         this.setLanded(direction);
                                         this.targetPosition = null;
                                         found = true;
+                                        break;
                                     }
                                 }
                             }
@@ -290,7 +292,7 @@ public class EntityButterfly extends EntityAnimalWithTypesAndSizeContainable {
         }
         if(!this.isLanded() && targetPosition != null) {
             if(this.isInWall()) {
-                this.targetPosition = this.tryToFindPosition(pos -> {
+                this.targetPosition = this.tryToFindPositionSlow(pos -> {
                     AABB abb = this.getBoundingBox();
                     Vec3 diff = new Vec3(pos.getX() + 0.5D, pos.getY() + 0.1D, pos.getZ() + 0.5D).subtract(this.position());
                     double length = diff.length();
@@ -317,7 +319,26 @@ public class EntityButterfly extends EntityAnimalWithTypesAndSizeContainable {
         }
     }
 
-    private BlockPos tryToFindPosition(Predicate<BlockPos> condition) {
+    private BlockPos tryToFindPositionBlock(Predicate<BlockPos> condition) {
+        BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos();
+        int i = 12;
+        int j = 2;
+        for(int k = 0; k <= j; k = k > 0 ? -k : 1 - k) {
+            for(int l = 0; l < i; ++l) {
+                for(int i1 = 0; i1 <= l; i1 = i1 > 0 ? -i1 : 1 - i1) {
+                    for(int j1 = i1 < l && i1 > -l ? l : 0; j1 <= l; j1 = j1 > 0 ? -j1 : 1 - j1) {
+                        pos.set(this.blockPosition()).move(i1, k - 1, j1);
+                        if(condition.test(pos.immutable())) {
+                            return pos.immutable();
+                        }
+                    }
+                }
+            }
+        }
+        return null;
+    }
+
+    private BlockPos tryToFindPositionSlow(Predicate<BlockPos> condition) {
         BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos();
         int i = 12;
         int j = 2;
@@ -343,44 +364,32 @@ public class EntityButterfly extends EntityAnimalWithTypesAndSizeContainable {
     private boolean isGrowable(BlockPos blockpos) {
         BlockState blockstate = this.level.getBlockState(blockpos);
         Block block = blockstate.getBlock();
-        boolean flag = false;
-        if(block.is(ModResources.Tags.Blocks.BUTTERFLY_GROWABLES)) {
-            if(block instanceof CropBlock) {
-                CropBlock cropsblock = (CropBlock) block;
-                if(!cropsblock.isMaxAge(blockstate)) {
-                    flag = true;
-
-                }
-            } else if(block instanceof StemBlock) {
-                int j = blockstate.getValue(StemBlock.AGE);
-                if(j < 7) {
-                    flag = true;
-
-                }
-            } else if(block == Blocks.SWEET_BERRY_BUSH) {
-                int k = blockstate.getValue(SweetBerryBushBlock.AGE);
-                if(k < 3) {
-                    flag = true;
-
-                }
+        if(block instanceof CropBlock) {
+            CropBlock cropsblock = (CropBlock) block;
+            if(!cropsblock.isMaxAge(blockstate)) {
+                return block.is(ModResources.Tags.Blocks.BUTTERFLY_GROWABLES);
+            }
+        } else if(block instanceof StemBlock) {
+            int j = blockstate.getValue(StemBlock.AGE);
+            if(j < 7) {
+                return block.is(ModResources.Tags.Blocks.BUTTERFLY_GROWABLES);
+            }
+        } else if(block == Blocks.SWEET_BERRY_BUSH) {
+            int k = blockstate.getValue(SweetBerryBushBlock.AGE);
+            if(k < 3) {
+                return block.is(ModResources.Tags.Blocks.BUTTERFLY_GROWABLES);
             }
         }
-        return flag;
+        return false;
     }
 
     private boolean isFlowers(BlockPos pos) {
         BlockState state = this.level.getBlockState(pos);
-        boolean isFlower = this.level.isLoaded(pos) && state.getBlock().is(BlockTags.FLOWERS);
-        if(isFlower) {
-            if(state.is(BlockTags.TALL_FLOWERS)) {
-                if(state.getBlock() == Blocks.SUNFLOWER) {
-                    return state.getValue(DoublePlantBlock.HALF) == DoubleBlockHalf.UPPER;
-                } else {
-                    return true;
-                }
-            } else {
-                return state.is(BlockTags.SMALL_FLOWERS);
+        if(state.is(BlockTags.FLOWERS)) {
+            if(state.getBlock() == Blocks.SUNFLOWER) {
+                return state.getValue(DoublePlantBlock.HALF) == DoubleBlockHalf.UPPER;
             }
+            return true;
         }
         return false;
     }

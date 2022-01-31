@@ -26,6 +26,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.block.SupportType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
@@ -132,8 +133,9 @@ public class EntityDragonfly extends EntityAnimalWithTypesAndSizeContainable {
         super.customServerAiStep();
         BlockPos blockpos = this.blockPosition();
         if(this.isLanded()) {
-            BlockPos offset = blockpos.relative(Direction.from3DDataValue(this.getLandedInteger()));
-            if(this.level.getBlockState(offset).isRedstoneConductor(this.level, offset)) {
+            Direction direction = Direction.from3DDataValue(this.getLandedInteger());
+            BlockPos offset = blockpos.relative(direction);
+            if(this.level.getBlockState(offset).isFaceSturdy(level, offset, direction.getOpposite(), SupportType.CENTER)) {
                 if(this.level.getNearestPlayer(playerPredicate, this) != null || this.getRandom().nextInt(500) == 0) {
                     this.setNotLanded();
                 }
@@ -147,18 +149,17 @@ public class EntityDragonfly extends EntityAnimalWithTypesAndSizeContainable {
                 this.setNotLanded();
             }
             if(this.targetPosition == null || isRainingAt(this.targetPosition)) {
-                this.targetPosition = tryToFindPosition(pos -> {
+                this.targetPosition = tryToFindPositionBlock(pos -> {
                     if(pos != null && !isRainingAt(pos) && level.isEmptyBlock(pos)) {
-                        boolean found = false;
                         for(Direction direction : Direction.values()) {
                             if(direction != Direction.UP) {
                                 BlockPos offset = pos.relative(direction);
-                                if(level.getBlockState(offset).isRedstoneConductor(level, offset)) {
-                                    found = true;
+                                if(this.level.getBlockState(offset).isFaceSturdy(level, offset, direction.getOpposite(), SupportType.CENTER)) {
+                                    return true;
                                 }
                             }
                         }
-                        return found;
+                        return false;
                     }
                     return false;
                 });
@@ -175,10 +176,11 @@ public class EntityDragonfly extends EntityAnimalWithTypesAndSizeContainable {
                     for(Direction direction : Direction.values()) {
                         if(direction != Direction.UP) {
                             BlockPos offset = blockpos.relative(direction);
-                            if(level.getBlockState(offset).isRedstoneConductor(level, offset) && level.isEmptyBlock(blockpos)) {
+                            if(level.getBlockState(offset).isFaceSturdy(level, offset, direction.getOpposite(), SupportType.CENTER) && level.isEmptyBlock(blockpos)) {
                                 this.setLanded(direction);
                                 this.targetPosition = null;
                                 found = true;
+                                break;
                             }
                         }
                     }
@@ -194,10 +196,11 @@ public class EntityDragonfly extends EntityAnimalWithTypesAndSizeContainable {
                         for(Direction direction : Direction.values()) {
                             if(direction != Direction.UP) {
                                 BlockPos offset = blockpos.relative(direction);
-                                if(level.getBlockState(offset).isRedstoneConductor(level, offset) && level.isEmptyBlock(blockpos)) {
+                                if(level.getBlockState(offset).isFaceSturdy(level, offset, direction.getOpposite(), SupportType.CENTER) && level.isEmptyBlock(blockpos)) {
                                     this.setLanded(direction);
                                     this.targetPosition = null;
                                     found = true;
+                                    break;
                                 }
                             }
                         }
@@ -217,7 +220,7 @@ public class EntityDragonfly extends EntityAnimalWithTypesAndSizeContainable {
         }
         if(!this.isLanded() && targetPosition != null) {
             if(this.isInWall()) {
-                this.targetPosition = this.tryToFindPosition(pos -> {
+                this.targetPosition = this.tryToFindPositionSlow(pos -> {
                     AABB abb = this.getBoundingBox();
                     Vec3 diff = new Vec3(pos.getX() + 0.5D, pos.getY() + 0.1D, pos.getZ() + 0.5D).subtract(this.position());
                     double length = diff.length();
@@ -244,7 +247,26 @@ public class EntityDragonfly extends EntityAnimalWithTypesAndSizeContainable {
         }
     }
 
-    private BlockPos tryToFindPosition(Predicate<BlockPos> condition) {
+    private BlockPos tryToFindPositionBlock(Predicate<BlockPos> condition) {
+        BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos();
+        int i = 12;
+        int j = 2;
+        for(int k = 0; k <= j; k = k > 0 ? -k : 1 - k) {
+            for(int l = 0; l < i; ++l) {
+                for(int i1 = 0; i1 <= l; i1 = i1 > 0 ? -i1 : 1 - i1) {
+                    for(int j1 = i1 < l && i1 > -l ? l : 0; j1 <= l; j1 = j1 > 0 ? -j1 : 1 - j1) {
+                        pos.set(this.blockPosition()).move(i1, k - 1, j1);
+                        if(condition.test(pos.immutable())) {
+                            return pos.immutable();
+                        }
+                    }
+                }
+            }
+        }
+        return null;
+    }
+
+    private BlockPos tryToFindPositionSlow(Predicate<BlockPos> condition) {
         BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos();
         int i = 12;
         int j = 2;
