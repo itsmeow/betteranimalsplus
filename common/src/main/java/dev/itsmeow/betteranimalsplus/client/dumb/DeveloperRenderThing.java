@@ -44,11 +44,13 @@ public class DeveloperRenderThing {
         if (timeSinceLastPacket > 0) {
             timeSinceLastPacket--;
         }
-        if (timeSinceLastPacket <= 0) {
+        if (timeSinceLastPacket <= 0 && minecraft.player != null && BetterAnimalsPlusMod.isDev(minecraft.player) && SafeSyncThing.get(minecraft.player.getGameProfile().getId()).on) {
             long handle = Minecraft.getInstance().getWindow().getWindow();
             if (InputConstants.isKeyDown(handle, 72) && InputConstants.isKeyDown(handle, 341)) { // ctrl + h
                 timeSinceLastPacket = 10;
-                BetterAnimalsPlusMod.HANDLER.sendToServer(new HonkPacket());
+                if(minecraft.getInstance().getConnection() != null) {
+                    BetterAnimalsPlusMod.HANDLER.sendToServer(new HonkPacket());
+                }
             }
         }
     }
