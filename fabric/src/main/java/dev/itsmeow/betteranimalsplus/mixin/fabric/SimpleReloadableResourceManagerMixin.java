@@ -23,8 +23,10 @@ public abstract class SimpleReloadableResourceManagerMixin implements Reloadable
     @Inject(method = "listResources(Ljava/lang/String;Ljava/util/function/Predicate;)Ljava/util/Collection;", at = @At("RETURN"), locals = LocalCapture.CAPTURE_FAILSOFT)
     private void listResources(String parent, Predicate<String> loadFilter, CallbackInfoReturnable<Collection<ResourceLocation>> callback, Set<ResourceLocation> foundResources, List<ResourceLocation> sortedResources) {
         for (ResourceLocation id : new ArrayList<>(sortedResources)) {
-            if(Ref.MOD_ID.equals(id.getNamespace()) && "advancements/ultimate_succening.json".equals(id.getPath()) && !FabricLoader.getInstance().isModLoaded("whisperwoods")) {
-                sortedResources.remove(id);
+            if(Ref.MOD_ID.equals(id.getNamespace())) {
+                if(("advancements/ultimate_succening.json".equals(id.getPath()) && !FabricLoader.getInstance().isModLoaded("whisperwoods")) || (("trinkets/entities/betteranimalsplus.json".equals(id.getPath()) || "trinkets/tags/items/chest/cape.json".equals(id.getPath())) && !FabricLoader.getInstance().isModLoaded("trinkets"))) {
+                    sortedResources.remove(id);
+                }
             }
         }
     }
