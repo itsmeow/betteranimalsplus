@@ -9,7 +9,8 @@
     "LivingEntityMixin",
     "SimpleReloadableResourceManagerMixin",
     "ItemCapeMixin",
-    "TrinketSlotMixin"
+    "TrinketSlotMixin",
+    "ServerPlayerMixin"
   ],
   "client": [
     "PlayerRendererMixin",

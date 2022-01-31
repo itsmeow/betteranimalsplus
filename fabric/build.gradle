@@ -44,10 +44,10 @@ dependencies {
     shadowModImplementation("dev.itsmeow.imdlib:imdlib-fabric:${rootProject.imdlib_version}") {
         transitive = false
     }
-    modImplementation("io.github.onyxstudios.Cardinal-Components-API:cardinal-components-base:${rootProject.cardinal_components_version}") {
+    modImplementation("io.github.onyxstudios.Cardinal-Components-API:cardinal-components-base:2.8.3") {
         transitive = false
     }
-    shadowModImplementation("io.github.onyxstudios.Cardinal-Components-API:cardinal-components-entity:${rootProject.cardinal_components_version}") {
+    modImplementation("io.github.onyxstudios.Cardinal-Components-API:cardinal-components-entity:2.8.3") {
         exclude(group: "net.fabricmc")
         exclude(group: "net.fabricmc.fabric-api")
     }
