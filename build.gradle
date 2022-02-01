@@ -113,6 +113,7 @@ if(System.getenv('USE_ALPHAS').equals('true')) {
         for (org.ajoberstar.grgit.Commit commit : rawLog) {
             log = log + "[`" + commit.abbreviatedId + "`](https://github.com/${rootProject.github}/commit/" + commit.id + ") " + commit.shortMessage + " - " + commit.author.name + "\\n";
         }
+        log = log + "\\n**-----Download-----**\\n**[__Fabric__](https://github.com/${rootProject.github}/releases/tag/alpha-${project.version}/${rootProject.mod_id}-${project.version}-fabric.jar) | [__Forge__](https://github.com/${rootProject.github}/releases/tag/alpha-${project.version}/${rootProject.mod_id}-${project.version}-forge.jar)**"
         doLast {
             exec {
                 commandLine "echo", "##[set-output name=modid;]${rootProject.mod_id}";
