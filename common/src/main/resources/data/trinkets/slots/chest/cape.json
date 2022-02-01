@@ -1,6 +1,7 @@
 {
     "replace": false,
     "validator_predicates": [
+        "trinkets:tag",
         "betteranimalsplus:cape_allowed"
     ]
 }
