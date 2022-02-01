@@ -8,6 +8,7 @@ import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ArmorMaterial;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.client.IItemRenderProperties;
+import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 
@@ -25,8 +26,8 @@ public abstract class ItemModeledArmorMixin extends ArmorItem {
     public void initializeClient(java.util.function.Consumer<net.minecraftforge.client.IItemRenderProperties> consumer) {
         consumer.accept(new IItemRenderProperties() {
             @Override
-            public <A extends HumanoidModel<?>> A getArmorModel(LivingEntity entityLiving, ItemStack itemStack, EquipmentSlot armorSlot, A defaultModel) {
-                return (A) ItemModeledArmorMixin.this.getArmorModel(entityLiving, itemStack, armorSlot, (HumanoidModel<? super LivingEntity>) defaultModel);
+            public HumanoidModel<?> getArmorModel(LivingEntity entityLiving, ItemStack itemStack, EquipmentSlot armorSlot, HumanoidModel<?> defaultModel) {
+                return ItemModeledArmorMixin.this.getArmorModel(entityLiving, itemStack, armorSlot, (HumanoidModel<? super LivingEntity>) defaultModel);
             }
         });
     }
