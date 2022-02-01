@@ -24,7 +24,7 @@ public abstract class SimpleReloadableResourceManagerMixin implements Reloadable
     private void listResources(String parent, Predicate<String> loadFilter, CallbackInfoReturnable<Collection<ResourceLocation>> callback, Set<ResourceLocation> foundResources, List<ResourceLocation> sortedResources) {
         for (ResourceLocation id : new ArrayList<>(sortedResources)) {
             if(Ref.MOD_ID.equals(id.getNamespace())) {
-                if(("advancements/ultimate_succening.json".equals(id.getPath()) && !FabricLoader.getInstance().isModLoaded("whisperwoods")) || (("trinkets/entities/betteranimalsplus.json".equals(id.getPath()) || "trinkets/tags/items/chest/cape.json".equals(id.getPath())) && !FabricLoader.getInstance().isModLoaded("trinkets"))) {
+                if(("advancements/ultimate_succening.json".equals(id.getPath()) && !FabricLoader.getInstance().isModLoaded("whisperwoods")) || (id.getPath().startsWith("trinkets") && !FabricLoader.getInstance().isModLoaded("trinkets"))) {
                     sortedResources.remove(id);
                 }
             }

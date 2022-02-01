@@ -1,0 +1,6 @@
+{
+    "replace": false,
+    "validator_predicates": [
+        "betteranimalsplus:cape_allowed"
+    ]
+}
