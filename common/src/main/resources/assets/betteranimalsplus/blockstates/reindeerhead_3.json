@@ -1,5 +1,4 @@
 {
-    "forge_marker": 1,
     "variants": {
         "facing=east,top=east":  { "model": "minecraft:block/soul_sand" },
         "facing=west,top=east":  { "model": "minecraft:block/soul_sand" },
