@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
+    "minecraft:egg",
     "betteranimalsplus:pheasant_egg",
     "betteranimalsplus:turkey_egg",
     "betteranimalsplus:goose_egg"
