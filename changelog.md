@@ -1,3 +1,25 @@
+# 11.0.4
+
+- Added Korean translation (Thanks KaitheBlackCat)
+- Removed Cardinal Components (fixes crash with Trinkets when CC is not installed separately)
+- Fixed crash when pressing Ctrl+H while in Controls menu
+- Changed goose breeding item from wheat to any seed or seagrass
+- Added egg laying API to Turkey, Pheasant, and Goose for compatibility with Chicken Nerf
+- Optimized butterfly and dragonfly pathing (reduces server lag)
+- Butterflies and dragonflies will now only spawn on grass or leaves, instead of everywhere
+- Reworked water spawning to use more ambient-type spawns - squids are no longer impossibly rare, more variety in water spawns
+- Tweaked default spawn weights of water creatures for balance
+- Added a comment to the top of client configs stating where server configs are located
+- Removed useless forge_marker field from blockstate JSONs
+- Fabric: Fixed fried egg recipe not working
+- Fabric: Fixed crash when looking at badgers with Iris installed
+- 1.17&1.18: Updated Chinese Translation (previously only on 1.16 accidentally)
+- 1.17&1.18: Fixed wolf pelts and bear skins not dropping at all
+- 1.17&1.18: Fixed error with squid loot table and wolf loot table additions
+- 1.18: Added default spawning support for new biomes and biome types
+- 1.18: Fixed mixin crash with Trinkets 3.2.0
+- 1.18 Forge: Now require Forge 39.0.57 or higher
+
 # 11.0.3
 
 - Updated Chinese Translation (Thanks chen_index)
