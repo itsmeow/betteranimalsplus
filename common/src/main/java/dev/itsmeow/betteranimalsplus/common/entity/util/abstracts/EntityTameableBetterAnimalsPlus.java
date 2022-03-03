@@ -1,15 +1,15 @@
 package dev.itsmeow.betteranimalsplus.common.entity.util.abstracts;
 
+import dev.itsmeow.betteranimalsplus.common.entity.util.EntityTypeContainerBAPTameable;
 import dev.itsmeow.imdlib.entity.EntityTypeContainer;
 import dev.itsmeow.imdlib.entity.interfaces.IContainerEntity;
-import dev.itsmeow.betteranimalsplus.common.entity.util.EntityTypeContainerBAPTameable;
 import net.minecraft.core.Registry;
-import net.minecraft.tags.ItemTags;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.TamableAnimal;
 import net.minecraft.world.item.Item;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.Level;
 
 public abstract class EntityTameableBetterAnimalsPlus extends TamableAnimal implements IContainerEntity<EntityTameableBetterAnimalsPlus> {
@@ -38,7 +38,7 @@ public abstract class EntityTameableBetterAnimalsPlus extends TamableAnimal impl
             String id = Registry.ITEM.getKey(item).toString();
             for(String itemsId : items) {
                 if(itemsId.startsWith("#")) {
-                    if(ItemTags.getAllTags().getMatchingTags(item).contains(new ResourceLocation(itemsId.substring(1)))) {
+                    if(item.builtInRegistryHolder().is(TagKey.create(Registry.ITEM_REGISTRY, new ResourceLocation(itemsId.substring(1))))) {
                         return true;
                     }
                 } else if(id.equals(itemsId)) {

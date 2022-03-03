@@ -1,3 +1,8 @@
+# 11.0.5
+
+- 1.18: Ported to 1.18.2
+- 1.18: Fixed bug where the goose pickup blocklist did not work (issue still present on 1.16/1.17)
+
 # 11.0.4
 
 - Added Korean translation (Thanks KaitheBlackCat)

@@ -10,19 +10,20 @@ import dev.itsmeow.betteranimalsplus.init.ModItems;
 import dev.itsmeow.betteranimalsplus.init.ModSoundEvents;
 import dev.itsmeow.imdlib.entity.EntityTypeContainer;
 import dev.itsmeow.imdlib.entity.util.variant.IVariant;
-import dev.architectury.utils.NbtType;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Registry;
 import net.minecraft.core.particles.ItemParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
+import net.minecraft.nbt.Tag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
-import net.minecraft.tags.ItemTags;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.damagesource.DamageSource;
@@ -257,13 +258,12 @@ public class EntityGoose extends EntityAnimalWithTypes {
     }
 
     public boolean isPickupBlacklisted(Item item) {
-        String id = item.getDescriptionId();
         for(String itemsId : (List<String>) getContainer().getCustomConfiguration().getAnyHolder(List.class, PICKUP_BLOCK_LIST_KEY).get()) {
             if (itemsId.startsWith("#")) {
-                if (ItemTags.getAllTags().getMatchingTags(item).contains(new ResourceLocation(itemsId.substring(1)))) {
+                if(item.builtInRegistryHolder().is(TagKey.create(Registry.ITEM_REGISTRY, new ResourceLocation(itemsId.substring(1))))) {
                     return true;
                 }
-            } else if(id.equals(itemsId)) {
+            } else if(itemsId.equals(Registry.ITEM.getKey(item).toString())) {
                 return true;
             }
         }
@@ -330,7 +330,7 @@ public class EntityGoose extends EntityAnimalWithTypes {
     @Override
     public void readAdditionalSaveData(CompoundTag compound) {
         super.readAdditionalSaveData(compound);
-        compound.getList("disliked_players", NbtType.STRING).forEach(nbt -> dislikedPlayers.add(UUID.fromString(nbt.getAsString())));
+        compound.getList("disliked_players", Tag.TAG_STRING).forEach(nbt -> dislikedPlayers.add(UUID.fromString(nbt.getAsString())));
     }
 
     @Override

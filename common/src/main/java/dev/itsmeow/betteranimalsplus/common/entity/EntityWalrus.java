@@ -267,7 +267,7 @@ public class EntityWalrus extends Animal implements IContainerEntity<EntityWalru
             this.moveRelative(0.1F, p_213352_1_);
             this.move(MoverType.SELF, this.getDeltaMovement());
             this.setDeltaMovement(this.getDeltaMovement().scale(0.9D));
-            if(this.getTarget() == null && (!this.isGoingHome() || !this.getHome().closerThan(this.position(), 20.0D))) {
+            if(this.getTarget() == null && (!this.isGoingHome() || !this.getHome().closerThan(this.blockPosition(), 20.0D))) {
                 this.setDeltaMovement(this.getDeltaMovement().add(0.0D, -0.005D, 0.0D));
             }
         } else {
@@ -299,7 +299,7 @@ public class EntityWalrus extends Animal implements IContainerEntity<EntityWalru
             } else if(this.walrus.getRandom().nextInt(700) != 0) {
                 return false;
             } else {
-                return !this.walrus.getHome().closerThan(this.walrus.position(), 64.0D);
+                return !this.walrus.getHome().closerThan(this.walrus.blockPosition(), 64.0D);
             }
         }
 
@@ -317,13 +317,13 @@ public class EntityWalrus extends Animal implements IContainerEntity<EntityWalru
 
         @Override
         public boolean canContinueToUse() {
-            return !this.walrus.getHome().closerThan(this.walrus.position(), 7.0D) && !this.noPosition && this.ticksRan <= 600;
+            return !this.walrus.getHome().closerThan(this.walrus.blockPosition(), 7.0D) && !this.noPosition && this.ticksRan <= 600;
         }
 
         @Override
         public void tick() {
             BlockPos blockpos = this.walrus.getHome();
-            boolean nearHome = blockpos.closerThan(this.walrus.position(), 16.0D);
+            boolean nearHome = blockpos.closerThan(this.walrus.blockPosition(), 16.0D);
             if(nearHome) {
                 ++this.ticksRan;
             }
@@ -395,7 +395,7 @@ public class EntityWalrus extends Animal implements IContainerEntity<EntityWalru
         private void updateSpeed() {
             if(this.walrus.isInWater()) {
                 this.walrus.setDeltaMovement(this.walrus.getDeltaMovement().add(0.0D, 0.005D, 0.0D));
-                if(!this.walrus.getHome().closerThan(this.walrus.position(), 16.0D)) {
+                if(!this.walrus.getHome().closerThan(this.walrus.blockPosition(), 16.0D)) {
                     this.walrus.setSpeed(Math.max(this.walrus.getSpeed() / 2.0F, 0.2F));
                 }
             } else if(this.walrus.onGround) {

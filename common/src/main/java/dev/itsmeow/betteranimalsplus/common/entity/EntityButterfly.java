@@ -7,7 +7,6 @@ import dev.itsmeow.betteranimalsplus.init.ModResources;
 import dev.itsmeow.imdlib.entity.EntityTypeContainer;
 import dev.itsmeow.imdlib.entity.util.BiomeTypes;
 import dev.itsmeow.imdlib.entity.util.EntityTypeContainerContainable;
-import dev.architectury.utils.NbtType;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -15,6 +14,7 @@ import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
@@ -156,7 +156,7 @@ public class EntityButterfly extends EntityAnimalWithTypesAndSizeContainable {
         } else if (!level.isLoaded(position) || !level.canSeeSkyFromBelowWater(position)) {
            return false;
         } else {
-           return level.getBiome(position).getPrecipitation() == Biome.Precipitation.RAIN;
+           return level.getBiome(position).value().getPrecipitation() == Biome.Precipitation.RAIN;
         }
      }
 
@@ -201,8 +201,8 @@ public class EntityButterfly extends EntityAnimalWithTypesAndSizeContainable {
             }
         } else {
             rainTicks = 0;
-            if(this.targetPosition == null || this.random.nextInt(30) == 0 || (this.targetPosition.closerThan(this.position(), 1.0D) && !isFlowers(this.targetPosition) && !isGrowable(this.targetPosition))) {
-                if(level.isRaining() && level.getBiome(this.blockPosition()).getPrecipitation() == Biome.Precipitation.RAIN) {
+            if(this.targetPosition == null || this.random.nextInt(30) == 0 || (this.targetPosition.closerThan(this.blockPosition(), 1.0D) && !isFlowers(this.targetPosition) && !isGrowable(this.targetPosition))) {
+                if(level.isRaining() && level.getBiome(this.blockPosition()).value().getPrecipitation() == Biome.Precipitation.RAIN) {
                     // attempt to land
                     boolean found = false;
                     for(Direction direction : Direction.values()) {
@@ -263,7 +263,7 @@ public class EntityButterfly extends EntityAnimalWithTypesAndSizeContainable {
                     }
                 }
             }
-            if(this.targetPosition != null && this.targetPosition.closerThan(this.position(), 1.0D)) {
+            if(this.targetPosition != null && this.targetPosition.closerThan(this.blockPosition(), 1.0D)) {
                 if(this.isFlowers(targetPosition) && !this.hasNectar()) {
                     this.setHasNectar(true);
                     this.targetPosition = null;
@@ -488,7 +488,7 @@ public class EntityButterfly extends EntityAnimalWithTypesAndSizeContainable {
     public static void bottleTooltip(EntityTypeContainer<? extends Mob> container, ItemStack stack, Level worldIn, List<Component> tooltip) {
         CompoundTag tag = stack.getTag();
         if(tag != null) {
-            if(tag.contains("SizeTag", NbtType.FLOAT)) {
+            if(tag.contains("SizeTag", Tag.TAG_FLOAT)) {
                 tooltip.add(new TextComponent("Size: " + tag.getFloat("SizeTag")).withStyle(ChatFormatting.ITALIC).withStyle(ChatFormatting.GRAY));
             }
             if(tag.contains("HasNectar") && tag.getBoolean("HasNectar")) {

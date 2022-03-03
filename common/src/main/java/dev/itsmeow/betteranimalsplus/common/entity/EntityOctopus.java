@@ -125,7 +125,7 @@ public class EntityOctopus extends EntityBAPCephalopod implements IVariantTypes<
 
     @Override
     public InteractionResult mobInteract(Player player, InteractionHand hand) {
-        if(!"blue_ringed".equals(this.getVariantNameOrEmpty()) && ItemTags.FISHES.contains(player.getItemInHand(hand).getItem()) && !this.isBaby()) {
+        if(!"blue_ringed".equals(this.getVariantNameOrEmpty()) && player.getItemInHand(hand).is(ItemTags.FISHES) && !this.isBaby()) {
             this.friend = player.getGameProfile().getId();
             if(!player.isCreative()) {
                 player.getItemInHand(hand).shrink(1);

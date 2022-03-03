@@ -29,7 +29,7 @@ dependencies {
     common(project(path: ":common", configuration: "namedElements")) { transitive = false }
     shadowCommon(project(path: ":common", configuration: "transformProductionForge")) { transitive = false }
 
-    modCompileOnly "top.theillusivec4.curios:curios-forge:${rootProject.curios_version}:api"
+    modCompileOnlyApi "top.theillusivec4.curios:curios-forge:${rootProject.curios_version}:api"
     modRuntimeOnly "top.theillusivec4.curios:curios-forge:${rootProject.curios_version}"
     shadowModImplementation("dev.itsmeow.imdlib:imdlib-forge:${rootProject.imdlib_version}") {
         transitive = false
@@ -40,8 +40,6 @@ loom {
     launches {
         all {
             arg "-mixin.config", "mixin.imdlib.json"
-            /*property 'mixin.env.remapRefMap', 'true'
-            property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"*/
         }
     }
 }

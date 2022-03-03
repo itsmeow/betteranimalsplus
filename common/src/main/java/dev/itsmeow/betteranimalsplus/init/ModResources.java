@@ -1,9 +1,9 @@
 package dev.itsmeow.betteranimalsplus.init;
 
-import dev.architectury.hooks.tags.TagHooks;
 import dev.itsmeow.betteranimalsplus.Ref;
+import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.Tag;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 
@@ -29,27 +29,27 @@ public class ModResources {
 
     public static final class Tags {
         public static final class Blocks {
-            public static final Tag.Named<Block> BUTTERFLY_GROWABLES = tag("butterfly_growables");
+            public static final TagKey<Block> BUTTERFLY_GROWABLES = tag("butterfly_growables");
 
             public static void loadTags() {
                 // This is a classloading dummy.
             }
 
-            private static Tag.Named<Block> tag(String name) {
-                return TagHooks.optionalBlock(new ResourceLocation(Ref.MOD_ID, name));
+            private static TagKey<Block> tag(String name) {
+                return TagKey.create(Registry.BLOCK_REGISTRY, new ResourceLocation(Ref.MOD_ID, name));
             }
         }
 
         public static final class Items {
-            public static final Tag.Named<Item> PELTS = tag("pelts");
-            public static final Tag.Named<Item> FERAL_WOLF_TAME_ARMOR = tag("feral_wolf_tame_armor");
+            public static final TagKey<Item> PELTS = tag("pelts");
+            public static final TagKey<Item> FERAL_WOLF_TAME_ARMOR = tag("feral_wolf_tame_armor");
 
             public static void loadTags() {
                 // This is a classloading dummy.
             }
 
-            private static Tag.Named<Item> tag(String name) {
-                return TagHooks.optionalItem(new ResourceLocation(Ref.MOD_ID, name));
+            private static TagKey<Item> tag(String name) {
+                return TagKey.create(Registry.ITEM_REGISTRY, new ResourceLocation(Ref.MOD_ID, name));
             }
         }
     }

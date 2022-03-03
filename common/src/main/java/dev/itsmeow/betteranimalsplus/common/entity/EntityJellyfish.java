@@ -4,11 +4,11 @@ import dev.itsmeow.betteranimalsplus.common.entity.util.abstracts.EntityWaterMob
 import dev.itsmeow.betteranimalsplus.init.ModEntities;
 import dev.itsmeow.imdlib.entity.EntityTypeContainer;
 import dev.itsmeow.imdlib.entity.util.EntityTypeContainerContainable;
-import dev.architectury.utils.NbtType;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -284,7 +284,7 @@ public class EntityJellyfish extends EntityWaterMobWithTypesBucketable {
 
     public static void bucketTooltip(EntityTypeContainer<? extends Mob> container, ItemStack stack, Level worldIn, List<Component> tooltip) {
         CompoundTag tag = stack.getTag();
-        if(tag != null && tag.contains("JellyfishSizeTag", NbtType.FLOAT)) {
+        if(tag != null && tag.contains("JellyfishSizeTag", Tag.TAG_FLOAT)) {
             tooltip.add(new TextComponent("Size: " + tag.getFloat("JellyfishSizeTag")).withStyle(ChatFormatting.ITALIC).withStyle(ChatFormatting.GRAY));
         }
     }

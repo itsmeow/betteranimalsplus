@@ -69,7 +69,7 @@ public abstract class MoveIntoBlockGoal extends Goal {
 
     @Override
     public void tick() {
-       if (!this.destinationBlock.closerThan(this.creature.position(), this.getTargetDistanceSq())) {
+       if (!this.destinationBlock.closerThan(this.creature.blockPosition(), this.getTargetDistanceSq())) {
           this.isAtDestination = false;
           ++this.timeoutCounter;
           if (this.shouldMove()) {

@@ -7,7 +7,7 @@
   "mixins": [
     "EntityMixin",
     "LivingEntityMixin",
-    "SimpleReloadableResourceManagerMixin",
+    "MultiPackResourceManagerMixin",
     "ItemCapeMixin",
     "ServerPlayerMixin"
   ],

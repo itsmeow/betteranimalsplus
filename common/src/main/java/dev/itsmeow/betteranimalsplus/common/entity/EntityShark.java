@@ -11,6 +11,7 @@ import dev.itsmeow.imdlib.entity.EntityTypeContainer;
 import dev.itsmeow.imdlib.entity.interfaces.IVariantTypes;
 import dev.itsmeow.imdlib.entity.util.BiomeTypes;
 import dev.itsmeow.imdlib.entity.util.variant.IVariant;
+import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.damagesource.DamageSource;
@@ -200,10 +201,10 @@ public class EntityShark extends EntitySharkBase {
 
     @Override
     public IVariant getRandomVariantForBiome(LevelAccessor world, MobSpawnType reason) {
-        Biome biome = world.getBiome(this.getImplementation().blockPosition());
-        Optional<ResourceKey<Biome>> biomeKey = world.registryAccess().registryOrThrow(Registry.BIOME_REGISTRY).getResourceKey(biome);
+        Holder<Biome> biome = world.getBiome(this.getImplementation().blockPosition());
+        Optional<ResourceKey<Biome>> biomeKey = biome.unwrapKey();
         biomeKey.orElseThrow(() -> new RuntimeException("Biome provided to selective type generation has no ID found."));
-        String[] validTypes = this.getTypesFor(biomeKey.get(), biome, BiomeTypes.getTypes(biomeKey.get()), reason);
+        String[] validTypes = this.getTypesFor(biomeKey.get(), biome.value(), BiomeTypes.getTypes(biomeKey.get()), reason);
         String varStr = validTypes[this.getImplementation().getRandom().nextInt(validTypes.length)];
         for(int i = 0; i < 2; i++) {
             if("great_white".equals(varStr) || "goblin".equals(varStr)) {

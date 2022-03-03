@@ -266,7 +266,7 @@ public class EntityBoar extends EntityAnimalWithSelectiveTypes implements Enemy,
 
         @Override
         public void tick() {
-            if(!this.blockPos.closerThan(this.mob.position(), this.acceptedDistance())) {
+            if(!this.blockPos.closerThan(this.mob.blockPosition(), this.acceptedDistance())) {
                 this.boar.getMoveControl().setWantedPosition((double) this.blockPos.getX() + 0.5D, this.blockPos.getY(), (double) this.blockPos.getZ() + 0.5D, this.speedModifier);
             } else {
                 Level world = this.boar.level;

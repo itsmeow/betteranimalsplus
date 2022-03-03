@@ -136,7 +136,7 @@ public class EntityBear extends Animal implements IDropHead<EntityBear>, IHaveHu
 
     @Override
     public boolean isFood(ItemStack stack) {
-        return ItemTags.FISHES.contains(stack.getItem()) || (stack.getItem().isEdible() && stack.getItem().getFoodProperties().isMeat());
+        return stack.is(ItemTags.FISHES) || (stack.getItem().isEdible() && stack.getItem().getFoodProperties().isMeat());
     }
 
     public boolean isPeaceful() {

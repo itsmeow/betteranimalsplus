@@ -1,9 +1,9 @@
 package dev.itsmeow.betteranimalsplus.mixin.fabric;
 
-import dev.architectury.utils.NbtType;
 import dev.itsmeow.betteranimalsplus.Ref;
 import dev.itsmeow.betteranimalsplus.util.ISquirrelData;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.Tag;
 import net.minecraft.server.level.ServerPlayer;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
@@ -22,7 +22,7 @@ public class ServerPlayerMixin implements ISquirrelData {
     @Inject(at = @At("RETURN"), method = "readAdditionalSaveData(Lnet/minecraft/nbt/CompoundTag;)V")
     public void readAdditionalSaveData(CompoundTag tag, CallbackInfo c) {
         CompoundTag data = tag.getCompound(Ref.MOD_ID);
-        if(data.contains("squirrel_kills", NbtType.INT)) {
+        if(data.contains("squirrel_kills", Tag.TAG_INT)) {
             betteranimalsplus_squirrelKills = data.getInt("squirrel_kills");
         }
     }

@@ -133,7 +133,7 @@ public class EntityBobbitWorm extends EntityAnimalWithTypes {
             if(this.targetPosition != null) {
                 this.setDeltaMovement((this.targetPosition.x - this.getX()) * 0.05F, (this.targetPosition.y - this.getY()) * 0.05F, (this.targetPosition.z - this.getZ()) * 0.05F);
             }
-            if(targetPosition != null && Math.sqrt(this.blockPosition().distSqr(this.targetPosition.x, this.targetPosition.y, this.targetPosition.z, false)) < 1) {
+            if(targetPosition != null && this.targetPosition.distanceToSqr(this.position()) < 1) {
                 this.setDeltaMovement(this.getDeltaMovement().x() * 0.2F, this.getDeltaMovement().y(), this.getDeltaMovement().z() * 0.2F);
             }
         }
@@ -147,7 +147,7 @@ public class EntityBobbitWorm extends EntityAnimalWithTypes {
                 this.targetPosition = pos;
             }
         }
-        if(targetPosition != null && Math.sqrt(this.blockPosition().distSqr(this.targetPosition.x, this.targetPosition.y, this.targetPosition.z, false)) < 1 && !goodPos) {
+        if(targetPosition != null && this.targetPosition.distanceToSqr(this.position()) < 1 && !goodPos) {
             this.targetPosition = null;
         }
         if(this.getAttackState() > 0) {

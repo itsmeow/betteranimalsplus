@@ -44,20 +44,20 @@ dependencies {
     shadowModImplementation("dev.itsmeow.imdlib:imdlib-fabric:${rootProject.imdlib_version}") {
         transitive = false
     }
-    modImplementation("dev.onyxstudios.cardinal-components-api:cardinal-components-base:4.1.0") {
+    modImplementation("dev.onyxstudios.cardinal-components-api:cardinal-components-base:4.1.3") {
         transitive = false
     }
-    modImplementation("dev.onyxstudios.cardinal-components-api:cardinal-components-entity:4.1.0") {
+    modImplementation("dev.onyxstudios.cardinal-components-api:cardinal-components-entity:4.1.3") {
         exclude(group: "net.fabricmc")
         exclude(group: "net.fabricmc.fabric-api")
     }
     modImplementation("curse.maven:341284-trinkets:${rootProject.trinkets_version}") {
         transitive = false
     }
-    modRuntimeOnly("com.terraformersmc:modmenu:3.0.1") {
+    modRuntimeOnly("com.terraformersmc:modmenu:3.1.0") {
         transitive = false
     }
-    modRuntimeOnly("curse.maven:cloth-config-319057:3559638") {
+    modRuntimeOnly("curse.maven:cloth-config-319057:3641132") {
         exclude(group: "net.fabricmc")
         exclude(group: "net.fabricmc.fabric-api")
     }
