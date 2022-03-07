@@ -23,15 +23,10 @@ public abstract class ItemModeledArmor extends ArmorItem {
             if (itemStack.getItem() instanceof ArmorItem && armorSlot != null) {
                 A armorModel = this.getBaseModelInstance();
                 armorModel = displays(armorModel, armorSlot);
-
                 if (defaultModel != null) {
-                    armorModel.crouching = defaultModel.crouching;
-                    armorModel.riding = defaultModel.riding;
-                    armorModel.young = defaultModel.young;
-                    armorModel.rightArmPose = defaultModel.rightArmPose;
-                    armorModel.leftArmPose = defaultModel.leftArmPose;
+                    defaultModel.copyPropertiesTo((HumanoidModel) armorModel);
                 }
-
+                ((HumanoidModel) armorModel).setupAnim(entityLiving, 0, 0, 0, 0, 0);
                 return armorModel;
             }
         }
