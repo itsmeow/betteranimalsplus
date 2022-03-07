@@ -1,13 +1,13 @@
 {
     "display": {
         "title": {
-            "text": "More Macho than Putin",
+            "text": "A Very Bearable Death",
             "color": "gold",
             "bold": true
         },
         "description": [
             {"text":"Punch a bear... to death!\n","color":"gray"},
-            {"text":"He only rides them, you kill them! With your fists!","italic":true,"color":"white"}
+            {"text":"It's about drive, it's about power.","italic":true,"color":"white"}
         ],
         "icon": {
             "item": "betteranimalsplus:blackbearhead_black"
