@@ -1,3 +1,9 @@
+# 11.0.5
+
+- Fixed bug where the goose pickup blocklist did not work
+- Revised text for punch a bear to death advancement in light of recent world events
+- 1.16 Forge: Fixed capes not animating when worn in the back slot
+
 # 11.0.4
 
 - Added Korean translation (Thanks KaitheBlackCat)
