@@ -14,6 +14,7 @@ import me.shedaniel.architectury.utils.NbtType;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Registry;
 import net.minecraft.core.particles.ItemParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
@@ -257,7 +258,7 @@ public class EntityGoose extends EntityAnimalWithTypes {
     }
 
     public boolean isPickupBlacklisted(Item item) {
-        String id = item.getDescriptionId();
+        String id = Registry.ITEM.getKey(item).toString();
         for(String itemsId : (List<String>) getContainer().getCustomConfiguration().getAnyHolder(List.class, PICKUP_BLOCK_LIST_KEY).get()) {
             if (itemsId.startsWith("#")) {
                 if (ItemTags.getAllTags().getMatchingTags(item).contains(new ResourceLocation(itemsId.substring(1)))) {
