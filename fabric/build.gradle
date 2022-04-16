@@ -1,18 +1,6 @@
-plugins {
-    id "com.github.johnrengelman.shadow" version "7.0.0"
-}
-
-architectury {
-    platformSetupLoomIde()
-    fabric()
-}
+apply from: "https://maven.itsmeow.dev/scripts/architectury-fabric.gradle"
 
 configurations {
-    common
-    shadowCommon
-    compileClasspath.extendsFrom common
-    runtimeClasspath.extendsFrom common
-    developmentFabric.extendsFrom common
     shadowModImplementation
     modImplementation.extendsFrom shadowModImplementation
 }
@@ -35,19 +23,13 @@ repositories {
 }
 
 dependencies {
-    modImplementation "net.fabricmc:fabric-loader:${rootProject.fabric_loader_version}"
-    modApi "net.fabricmc.fabric-api:fabric-api:${rootProject.fabric_api_version}"
-    modApi "dev.architectury:architectury-fabric:${rootProject.architectury_version}"
-    common(project(path: ":common", configuration: "namedElements")) { transitive = false }
-    shadowCommon(project(path: ":common", configuration: "transformProductionFabric")) { transitive = false }
-
     shadowModImplementation("dev.itsmeow.imdlib:imdlib-fabric:${rootProject.imdlib_version}") {
         transitive = false
     }
-    modImplementation("io.github.onyxstudios.Cardinal-Components-API:cardinal-components-base:2.8.3") {
+    modImplementation("io.github.onyxstudios.Cardinal-Components-API:cardinal-components-base:3.0.0") {
         transitive = false
     }
-    modImplementation("io.github.onyxstudios.Cardinal-Components-API:cardinal-components-entity:2.8.3") {
+    modImplementation("io.github.onyxstudios.Cardinal-Components-API:cardinal-components-entity:3.0.0") {
         exclude(group: "net.fabricmc")
         exclude(group: "net.fabricmc.fabric-api")
     }
@@ -63,14 +45,6 @@ dependencies {
     runtimeOnly("me.shedaniel.cloth:basic-math:0.6.0")
 }
 
-processResources {
-    inputs.property "version", project.version
-
-    filesMatching("fabric.mod.json") {
-        expand "version": project.version
-    }
-}
-
 shadowJar {
     configurations = [project.configurations.shadowCommon, project.configurations.shadowModImplementation]
     relocate 'dev.itsmeow.imdlib', "${rootProject.maven_group}.imdlib"
@@ -78,7 +52,6 @@ shadowJar {
 }
 
 remapJar {
-    input.set shadowJar.archiveFile
     classifier "remap"
 }
 
@@ -143,102 +116,3 @@ task fixJar(type: Jar) {
 }
 
 sourcesJar.dependsOn fixJar
-
-jar {
-    classifier "dev"
-    manifest {
-        mainAttributes(
-                "Maven-Artifact": "${rootProject.maven_group}:${rootProject.mod_id}-${project.name}:${rootProject.version}",
-                "Specification-Title": rootProject.mod_id,
-                "Specification-Vendor": "itsmeow",
-                "Specification-Version": "1",
-                "Implementation-Title": rootProject.mod_id,
-                "Implementation-Version": project.version,
-                "Implementation-Vendor": "itsmeow",
-                "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
-                "Built-On-Java": "${System.getProperty('java.vm.version')} (${System.getProperty('java.vm.vendor')})",
-                "Built-On": "${rootProject.mc_version}-${rootProject.fabric_api_version}"
-        )
-    }
-}
-
-sourcesJar {
-    def commonSources = project(":common").sourcesJar
-    dependsOn commonSources
-    from commonSources.archiveFile.map { zipTree(it) }
-    duplicatesStrategy DuplicatesStrategy.EXCLUDE
-    manifest {
-        mainAttributes(
-                "Maven-Artifact": "${rootProject.maven_group}:${rootProject.mod_id}-${project.name}:${rootProject.version}",
-                "Specification-Title": rootProject.mod_id,
-                "Specification-Vendor": "itsmeow",
-                "Specification-Version": "1",
-                "Implementation-Title": rootProject.mod_id,
-                "Implementation-Version": project.version,
-                "Implementation-Vendor": "itsmeow",
-                "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
-                "Built-On-Java": "${System.getProperty('java.vm.version')} (${System.getProperty('java.vm.vendor')})",
-                "Built-On": "${rootProject.mc_version}-${rootProject.fabric_api_version}"
-        )
-    }
-}
-
-components.java {
-    withVariantsFromConfiguration(project.configurations.shadowRuntimeElements) {
-        skip()
-    }
-}
-
-publishing {
-    publications {
-        mavenFabric(MavenPublication) {
-            artifactId = rootProject.mod_id + "-" + project.name
-            pom {
-                name = rootProject.name + "-" + project.name
-                url = rootProject.url
-                packaging = 'jar'
-                scm {
-                    connection = "scm:git:git://github.com/" + rootProject.github + ".git"
-                    developerConnection = "scm:git:git@github.com:" + rootProject.github + ".git"
-                    url = "https://github.com/" + rootProject.github
-                }
-                issueManagement {
-                    system = 'github'
-                    url = "https://github.com/" + rootProject.github + "/issues"
-                }
-                organization {
-                    name = 'itsmeow Mods'
-                    url = 'https://itsmeow.dev/'
-                }
-                developers {
-                    developer {
-                        id = 'itsmeow'
-                        name = 'itsmeowdev'
-                        email = 'itsmeow@itsmeow.dev'
-                    }
-                }
-                withXml {
-                    def dependenciesNode = asNode().appendNode('dependencies')
-                    def configurationNames = ["modImplementation", "modApi"]
-                    configurationNames.each { configurationName ->
-                        configurations[configurationName].allDependencies.each {
-                            if (!(it.name in ["imdlib", "architectury-transformer", "common", "basic-math", "modmenu", "cloth-config"]) && !(it.group in ["curse.maven"])) {
-                                def dependencyNode = dependenciesNode.appendNode('dependency')
-                                dependencyNode.appendNode('groupId', it.group)
-                                dependencyNode.appendNode('artifactId', it.name)
-                                dependencyNode.appendNode('version', it.version)
-                            }
-                        }
-                    }
-                }
-            }
-            artifact(fixJar) {
-                classifier null
-            }
-            artifact(sourcesJar) {
-                builtBy remapSourcesJar
-            }
-        }
-        loom.disableDeprecatedPomGeneration(mavenFabric)
-    }
-}

@@ -1,18 +1,6 @@
-plugins {
-    id "com.github.johnrengelman.shadow" version "7.0.0"
-}
-
-architectury {
-    platformSetupLoomIde()
-    forge()
-}
+apply from: "https://maven.itsmeow.dev/scripts/architectury-forge.gradle"
 
 configurations {
-    common
-    shadowCommon
-    compileClasspath.extendsFrom common
-    runtimeClasspath.extendsFrom common
-    developmentForge.extendsFrom common
     shadowModImplementation
     modImplementation.extendsFrom shadowModImplementation
 }
@@ -24,11 +12,6 @@ repositories {
 }
 
 dependencies {
-    forge "net.minecraftforge:forge:${rootProject.mc_version}-${rootProject.forge_version}"
-    modApi "dev.architectury:architectury-forge:${rootProject.architectury_version}"
-    common(project(path: ":common", configuration: "namedElements")) { transitive = false }
-    shadowCommon(project(path: ":common", configuration: "transformProductionForge")) { transitive = false }
-
     modCompileOnly "top.theillusivec4.curios:curios-forge:${rootProject.curios_version}:api"
     modRuntimeOnly "top.theillusivec4.curios:curios-forge:${rootProject.curios_version}"
     shadowModImplementation("dev.itsmeow.imdlib:imdlib-forge:${rootProject.imdlib_version}") {
@@ -44,15 +27,11 @@ loom {
             property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"*/
         }
     }
-}
-
-processResources {
-    inputs.property "version", project.version
-
-    filesMatching("META-INF/mods.toml") {
-        expand "version": project.version
+    forge {
+        mixinConfig "mixin.imdlib-betteranimalsplus.json", "betteranimalsplus.mixins.json", "betteranimalsplus-forge.mixins.json"
     }
 }
+
 
 shadowJar {
     configurations = [project.configurations.shadowCommon, project.configurations.shadowModImplementation]
@@ -62,15 +41,7 @@ shadowJar {
     exclude "architectury-common.accessWidener"
 }
 
-loom {
-    forge {
-        mixinConfig "mixin.imdlib-betteranimalsplus.json", "betteranimalsplus.mixins.json", "betteranimalsplus-forge.mixins.json"
-    }
-}
-
 remapJar {
-    dependsOn shadowJar
-    input.set shadowJar.archiveFile
     classifier "remap"
 }
 
@@ -105,101 +76,3 @@ task fixJar(type: Jar) {
 }
 
 sourcesJar.dependsOn fixJar
-
-jar {
-    classifier "dev"
-    manifest {
-        mainAttributes(
-                "Maven-Artifact": "${rootProject.maven_group}:${rootProject.mod_id}-${project.name}:${rootProject.version}",
-                "Specification-Title": rootProject.mod_id,
-                "Specification-Vendor": "itsmeow",
-                "Specification-Version": "1",
-                "Implementation-Title": rootProject.mod_id,
-                "Implementation-Version": project.version,
-                "Implementation-Vendor": "itsmeow",
-                "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
-                "Built-On-Java": "${System.getProperty('java.vm.version')} (${System.getProperty('java.vm.vendor')})",
-                "Built-On": "${rootProject.mc_version}-${rootProject.forge_version}"
-        )
-    }
-}
-
-sourcesJar {
-    def commonSources = project(":common").sourcesJar
-    dependsOn commonSources
-    from commonSources.archiveFile.map { zipTree(it) }
-    manifest {
-        mainAttributes(
-                "Maven-Artifact": "${rootProject.maven_group}:${rootProject.mod_id}-${project.name}:${rootProject.version}",
-                "Specification-Title": rootProject.mod_id,
-                "Specification-Vendor": "itsmeow",
-                "Specification-Version": "1",
-                "Implementation-Title": rootProject.mod_id,
-                "Implementation-Version": project.version,
-                "Implementation-Vendor": "itsmeow",
-                "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
-                "Built-On-Java": "${System.getProperty('java.vm.version')} (${System.getProperty('java.vm.vendor')})",
-                "Built-On": "${rootProject.mc_version}-${rootProject.forge_version}"
-        )
-    }
-}
-
-components.java {
-    withVariantsFromConfiguration(project.configurations.shadowRuntimeElements) {
-        skip()
-    }
-}
-
-publishing {
-    publications {
-        mavenForge(MavenPublication) {
-            artifactId = rootProject.mod_id + "-" + project.name
-            pom {
-                name = rootProject.name + "-" + project.name
-                url = rootProject.url
-                packaging = 'jar'
-                scm {
-                    connection = "scm:git:git://github.com/" + rootProject.github + ".git"
-                    developerConnection = "scm:git:git@github.com:" + rootProject.github + ".git"
-                    url = "https://github.com/" + rootProject.github
-                }
-                issueManagement {
-                    system = 'github'
-                    url = "https://github.com/" + rootProject.github + "/issues"
-                }
-                organization {
-                    name = 'itsmeow Mods'
-                    url = 'https://itsmeow.dev/'
-                }
-                developers {
-                    developer {
-                        id = 'itsmeow'
-                        name = 'itsmeowdev'
-                        email = 'itsmeow@itsmeow.dev'
-                    }
-                }
-                withXml {
-                    def dependenciesNode = asNode().appendNode('dependencies')
-                    def configurationNames = ["modImplementation", "modApi"]
-                    configurationNames.each { configurationName ->
-                        configurations[configurationName].allDependencies.each {
-                            if (!(it.name in ["imdlib", "architectury-transformer", "common"]) && !(it.group in ["curse.maven"])) {
-                                def dependencyNode = dependenciesNode.appendNode('dependency')
-                                dependencyNode.appendNode('groupId', it.group)
-                                dependencyNode.appendNode('artifactId', it.name)
-                                dependencyNode.appendNode('version', it.version)
-                            }
-                        }
-                    }
-                }
-            }
-            artifact(fixJar) {
-                classifier null
-            }
-            artifact(sourcesJar) {
-                builtBy remapSourcesJar
-            }
-        }
-        loom.disableDeprecatedPomGeneration(mavenForge)
-    }
-}

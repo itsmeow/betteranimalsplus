@@ -1,10 +1,4 @@
-dependencies {
-    modImplementation "net.fabricmc:fabric-loader:${rootProject.fabric_loader_version}"
-    modApi "dev.architectury:architectury:${rootProject.architectury_version}"
-}
-architectury {
-    common()
-}
+apply from: "https://maven.itsmeow.dev/scripts/architectury-common.gradle"
 dependencies {
     modCompileOnlyApi("dev.itsmeow.imdlib:imdlib-common:${rootProject.imdlib_version}") {
         transitive = false
