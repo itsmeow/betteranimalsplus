@@ -51,8 +51,7 @@ public class EntityBadgerDirt extends ThrowableProjectile {
     protected void onHit(HitResult result) {
         if(result instanceof EntityHitResult) {
             EntityHitResult rayR = (EntityHitResult) result;
-            int i = 2;
-            rayR.getEntity().hurt(DamageSource.thrown(this, this.getOwner()), i);
+            rayR.getEntity().hurt(DamageSource.thrown(this, this.getOwner()), 2);
             if(!this.level.isClientSide && Math.random() >= 0.5) {
                 if(rayR.getEntity() instanceof Player) {
                     Player player = (Player) rayR.getEntity();

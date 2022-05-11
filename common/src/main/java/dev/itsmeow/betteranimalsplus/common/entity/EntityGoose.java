@@ -62,6 +62,9 @@ public class EntityGoose extends EntityAnimalWithTypes {
     public int timeUntilNextEgg;
     public static final String PICKUP_BLOCK_LIST_KEY = "pickup_blacklist";
     private static final Set<Item> BREEDING_ITEMS = Sets.newHashSet(Items.PUMPKIN_SEEDS, Items.WHEAT_SEEDS, Items.BEETROOT_SEEDS, Items.MELON_SEEDS, Items.SEAGRASS);
+    private static final String[] ONE_STR = new String[] { "1" };
+    private static final String[] TWO_THREE_STR = new String[] { "2", "3" };
+    private static final String[] ONE_TWO_THREE_STR = new String[] { "1", "2", "3" };
 
     public EntityGoose(EntityType<? extends EntityGoose> entityType, Level worldIn) {
         super(entityType, worldIn);
@@ -343,13 +346,13 @@ public class EntityGoose extends EntityAnimalWithTypes {
         case NATURAL:
         case CHUNK_GENERATION:
         case STRUCTURE:
-            types = new String[] {"2","3"};
+            types = TWO_THREE_STR; // ["2", "3"]
             break;
         case BREEDING:
-            types = new String[] {"1"};
+            types = ONE_STR; // ["1"]
             break;
         default:
-            types = new String[] {"1","2","3"};
+            types = ONE_TWO_THREE_STR; // ["1", "2", "3"]
             break;
         }
         livingdata = EntityUtil.childChance(this, reason, livingdata, 0.25F);

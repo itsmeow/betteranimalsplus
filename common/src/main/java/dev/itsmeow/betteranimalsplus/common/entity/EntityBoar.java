@@ -47,6 +47,9 @@ import java.util.Set;
 
 public class EntityBoar extends EntityAnimalWithSelectiveTypes implements Enemy, IDropHead<EntityAnimalWithTypes> {
 
+    private static final String[] SNOWY_CONIFEROUS_TYPES = new String[] { "dark_brown", "gray" };
+    private static final String[] ALL_BOAR_TYPES = new String[] { "dark_brown", "light_brown", "gray" };
+
     public EntityBoar(EntityType<? extends EntityBoar> entityType, Level worldIn) {
         super(entityType, worldIn);
         this.setPathfindingMalus(BlockPathTypes.DANGER_OTHER, 0.0F);
@@ -227,11 +230,11 @@ public class EntityBoar extends EntityAnimalWithSelectiveTypes implements Enemy,
     @Override
     public String[] getTypesFor(ResourceKey<Biome> biomeKey, Biome biome, Set<BiomeTypes.Type> types, MobSpawnType reason) {
        if(types.contains(BiomeTypes.CONIFEROUS) && types.contains(BiomeTypes.SNOWY)) {
-            return new String[] { "dark_brown", "gray" };
+            return SNOWY_CONIFEROUS_TYPES;
         } else if(types.contains(BiomeTypes.SNOWY) && !types.contains(BiomeTypes.CONIFEROUS) && !types.contains(BiomeTypes.FOREST)) {
             return new String[] { "gray" };
         } else {
-            return new String[] { "dark_brown", "light_brown", "gray" };
+            return ALL_BOAR_TYPES;
         }
     }
 
