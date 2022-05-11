@@ -161,30 +161,32 @@ public class EntityGoose extends EntityAnimalWithTypes {
     @Override
     public void aiStep() {
         super.aiStep();
-        if(!this.level.isClientSide && this.isAlive() && this.isEffectiveAi()) {
-            ItemStack itemstack = this.getItemBySlot(EquipmentSlot.MAINHAND);
-            if(itemstack.getItem().isEdible() && this.getTarget() == null) {
-                ++this.eatTicks;
-                if(this.eatTicks > 200) {
-                    if(itemstack.getItem() == Items.BREAD) {
-                        this.addEffect(new MobEffectInstance(MobEffects.POISON, 900));
-                    }
-                    ItemStack itemstack1 = itemstack.finishUsingItem(this.level, this);
+        if(!this.level.isClientSide) {
+            if(this.isAlive() && this.isEffectiveAi()) {
+                ItemStack itemstack = this.getItemBySlot(EquipmentSlot.MAINHAND);
+                if(itemstack.getItem().isEdible() && this.getTarget() == null) {
+                    ++this.eatTicks;
+                    if(this.eatTicks > 200) {
+                        if(itemstack.getItem() == Items.BREAD) {
+                            this.addEffect(new MobEffectInstance(MobEffects.POISON, 900));
+                        }
+                        ItemStack itemstack1 = itemstack.finishUsingItem(this.level, this);
 
-                    if(!itemstack1.isEmpty()) {
-                        this.setItemSlot(EquipmentSlot.MAINHAND, itemstack1);
+                        if(!itemstack1.isEmpty()) {
+                            this.setItemSlot(EquipmentSlot.MAINHAND, itemstack1);
+                        }
+                        this.eatTicks = 0;
+                    } else if(this.eatTicks > 160 && this.random.nextFloat() < 0.1F) {
+                        this.playSound(this.getEatingSound(itemstack), 1.0F, 1.0F);
+                        this.level.broadcastEntityEvent(this, (byte) 45); // calls handleStatusUpdate((byte) 45);
                     }
-                    this.eatTicks = 0;
-                } else if(this.eatTicks > 160 && this.random.nextFloat() < 0.1F) {
-                    this.playSound(this.getEatingSound(itemstack), 1.0F, 1.0F);
-                    this.level.broadcastEntityEvent(this, (byte) 45); // calls handleStatusUpdate((byte) 45);
                 }
             }
-        }
-        if(!this.level.isClientSide && !this.isBaby() && ModEventBus.LayEggTickEvent.emit(this) && --this.timeUntilNextEgg <= 0) {
-            this.playSound(SoundEvents.CHICKEN_EGG, 1.0F, (this.random.nextFloat() - this.random.nextFloat()) * 0.2F + 1.0F);
-            this.spawnAtLocation(this.getRandom().nextInt(128) == 0 ? ModItems.GOLDEN_GOOSE_EGG.get() : ModItems.GOOSE_EGG.get(), 1);
-            this.timeUntilNextEgg = this.random.nextInt(6000) + 6000;
+            if(!this.isBaby() && ModEventBus.LayEggTickEvent.emit(this) && --this.timeUntilNextEgg <= 0) {
+                this.playSound(SoundEvents.CHICKEN_EGG, 1.0F, (this.random.nextFloat() - this.random.nextFloat()) * 0.2F + 1.0F);
+                this.spawnAtLocation(this.getRandom().nextInt(128) == 0 ? ModItems.GOLDEN_GOOSE_EGG.get() : ModItems.GOOSE_EGG.get(), 1);
+                this.timeUntilNextEgg = this.random.nextInt(6000) + 6000;
+            }
         }
     }
 
@@ -339,11 +341,7 @@ public class EntityGoose extends EntityAnimalWithTypes {
         String[] types;
         switch (reason) {
         case NATURAL:
-            types = new String[] {"2","3"};
-            break;
         case CHUNK_GENERATION:
-            types = new String[] {"2","3"};
-            break;
         case STRUCTURE:
             types = new String[] {"2","3"};
             break;

@@ -362,8 +362,8 @@ public class EntityLammergeier extends EntityTameableFlyingWithTypes implements 
 
             if(entitylivingbase.distanceToSqr(this.attacker) < 4096.0D) // If the distance is less than 4096 square blocks rotate towards them
             {
-                double d1 = entitylivingbase.getX() - this.attacker.getX();
-                double d2 = entitylivingbase.getZ() - this.attacker.getZ();
+                double d1 = targetX - this.attacker.getX();
+                double d2 = targetZ - this.attacker.getZ();
                 this.attacker.setYRot(-((float) Mth.atan2(d1, d2)) * (180F / (float) Math.PI));
                 this.attacker.yBodyRot = this.attacker.getYRot();
             }

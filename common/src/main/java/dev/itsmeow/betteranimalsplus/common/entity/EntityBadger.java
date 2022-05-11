@@ -152,9 +152,7 @@ public class EntityBadger extends EntityAnimalWithSelectiveTypes implements Enem
             return new String[] { "honey" };
         } else if(types.contains(BiomeTypes.FOREST) && !types.contains(BiomeTypes.CONIFEROUS)) {
             return new String[] { "european" };
-        } else if(types.contains(BiomeTypes.CONIFEROUS) && !types.contains(BiomeTypes.SNOWY)) {
-            return new String[] { "american" };
-        } else if(types.contains(BiomeTypes.CONIFEROUS) && types.contains(BiomeTypes.SNOWY)) {
+        } else if(types.contains(BiomeTypes.CONIFEROUS)) {
             return new String[] { "american" };
         } else {
             return new String[] { "american", "european", "honey" };

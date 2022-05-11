@@ -37,12 +37,16 @@ public class EntityTarantulaHair extends ThrowableProjectile {
                 if(rayR.getEntity() instanceof Player) {
                     Player player = (Player) rayR.getEntity();
                     int blindnessTicks = 0;
-                    if(player.getCommandSenderWorld().getDifficulty() == Difficulty.EASY) {
-                        blindnessTicks = 40;
-                    } else if(player.getCommandSenderWorld().getDifficulty() == Difficulty.NORMAL) {
-                        blindnessTicks = 60;
-                    } else if(player.getCommandSenderWorld().getDifficulty() == Difficulty.HARD) {
-                        blindnessTicks = 80;
+                    switch (player.getCommandSenderWorld().getDifficulty()) {
+                        case EASY:
+                            blindnessTicks = 40;
+                            break;
+                        case NORMAL:
+                            blindnessTicks = 60;
+                            break;
+                        case HARD:
+                            blindnessTicks = 80;
+                            break;
                     }
                     player.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, blindnessTicks, 10, false, false));
                 }
