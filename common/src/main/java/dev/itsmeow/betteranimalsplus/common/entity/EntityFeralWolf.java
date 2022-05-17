@@ -67,6 +67,9 @@ public class EntityFeralWolf extends EntityTameableWithSelectiveTypes implements
     public static final double TAMED_HEALTH = 30D;
     public static final double UNTAMED_HEALTH = 10D;
     protected static final EntityDataAccessor<Float> DATA_HEALTH_ID = SynchedEntityData.defineId(EntityFeralWolf.class, EntityDataSerializers.FLOAT);
+    private static final String[] SNOWY_CONIFEROUS_TYPES = new String[] {"snowy", "timber"};
+    private static final String[] CONIFEROUS_FOREST_TYPES = new String[] {"brown", "red", "timber", "black"};
+    private static final String[] ALL_TYPES = new String[] {"black", "snowy", "timber", "arctic", "brown", "red"};
 
     private int hunger;
 
@@ -329,16 +332,18 @@ public class EntityFeralWolf extends EntityTameableWithSelectiveTypes implements
     public String[] getTypesFor(ResourceKey<Biome> biomeKey, Biome biome, Set<BiomeTypes.Type> types, MobSpawnType reason) {
         if(types.contains(BiomeTypes.FOREST) && !types.contains(BiomeTypes.CONIFEROUS)) {
             return new String[] {"timber", "red"};
-        } else if(types.contains(BiomeTypes.CONIFEROUS) && !types.contains(BiomeTypes.SNOWY)) {
-            return new String[] {"black", "timber", "red"};
-        } else if(types.contains(BiomeTypes.CONIFEROUS) && types.contains(BiomeTypes.SNOWY)) {
-            return new String[] {"snowy", "timber"};
+        } else if(types.contains(BiomeTypes.CONIFEROUS)) {
+            if(types.contains(BiomeTypes.SNOWY)) {
+                return SNOWY_CONIFEROUS_TYPES;
+            } else {
+                return new String[] {"black", "timber", "red"};
+            }
         } else if(types.contains(BiomeTypes.SNOWY) && !types.contains(BiomeTypes.FOREST)) {
             return new String[] {"snowy", "arctic"};
         } else if(types.contains(BiomeTypes.FOREST) && types.contains(BiomeTypes.CONIFEROUS) && !types.contains(BiomeTypes.SNOWY)) {
-            return new String[] {"brown", "red", "timber", "black"};
+            return CONIFEROUS_FOREST_TYPES;
         } else {
-            return new String[] {"black", "snowy", "timber", "arctic", "brown", "red"};
+            return ALL_TYPES;
         }
     }
 

@@ -273,9 +273,9 @@ public class EntityReindeer extends Animal implements PlayerRideableJumping, IVa
             }
             BlockPos pos = new BlockPos(this.getX(), this.getY() - 0.2D - this.yRotO, this.getZ());
             BlockState iblockstate = this.level.getBlockState(pos);
-            Block block = iblockstate.getBlock();
 
             if (iblockstate.getMaterial() != Material.AIR && !this.isSilent()) {
+                Block block = iblockstate.getBlock();
                 SoundType soundtype = block.getSoundType(block.defaultBlockState());
                 this.level.playSound(null, this.getX(), this.getY(), this.getZ(), soundtype.getStepSound(),
                         this.getSoundSource(), soundtype.getVolume() * 0.5F, soundtype.getPitch() * 0.75F);

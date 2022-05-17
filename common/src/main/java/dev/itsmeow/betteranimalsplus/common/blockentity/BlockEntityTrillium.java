@@ -73,17 +73,11 @@ public class BlockEntityTrillium extends BlockEntity {
         BlockState state = this.level.getBlockState(this.worldPosition);
         if (state.getBlock() == ModBlocks.TRILLIUM.get()) {
             Direction facing = state.getValue(HorizontalDirectionalBlock.FACING).getOpposite();
-            if (facing == Direction.NORTH) {
-                return 0F;
-            }
-            if (facing == Direction.EAST) {
-                return 90F;
-            }
-            if (facing == Direction.SOUTH) {
-                return 180F;
-            }
-            if (facing == Direction.WEST) {
-                return 270F;
+            switch (facing) {
+                case NORTH: return 0F;
+                case EAST: return 90F;
+                case SOUTH: return 180F;
+                case WEST: return 270F;
             }
         }
         return 0F;

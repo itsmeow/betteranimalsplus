@@ -37,6 +37,7 @@ import java.util.Set;
 public class EntitySquirrel extends EntityAnimalWithSelectiveTypes {
 
     protected static final EntityDataAccessor<Byte> CLIMBING = SynchedEntityData.defineId(EntitySquirrel.class, EntityDataSerializers.BYTE);
+    private static final String[] ALL_TYPES = new String[] { "gray", "red", "albino" };
 
     private int climbTimeWithoutLog = 0;
 
@@ -163,7 +164,7 @@ public class EntitySquirrel extends EntityAnimalWithSelectiveTypes {
         } else if(types.contains(BiomeTypes.CONIFEROUS) && !types.contains(BiomeTypes.SNOWY)) {
             return new String[] { "red" };
         } else {
-            return new String[] { "gray", "red", "albino" };
+            return ALL_TYPES;
         }
     }
 

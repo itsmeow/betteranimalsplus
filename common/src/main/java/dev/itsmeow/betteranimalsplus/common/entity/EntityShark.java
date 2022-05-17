@@ -100,16 +100,21 @@ public class EntityShark extends EntitySharkBase {
 
     public boolean shouldAttackForHealth(float health) {
         switch(this.getVariantNameOrEmpty()) {
-        case "blue": return health <= 8F;
-        case "bull": return health <= 13F;
-        case "tiger": return health <= 10F;
-        case "whitetip": return health <= 16F;
-        case "greenland": return health <= 8F;
-        case "hammerhead": return health <= 8F;
-        case "goblin": return health <= 8F;
-        case "mako": return health <= 13F;
-        case "great_white": return health <= 13F;
-        default: return false;
+            case "blue":
+            case "greenland":
+            case "hammerhead":
+            case "goblin":
+                return health <= 8F;
+            case "bull":
+            case "mako":
+            case "great_white":
+                return health <= 13F;
+            case "tiger":
+                return health <= 10F;
+            case "whitetip":
+                return health <= 16F;
+            default:
+                return false;
         }
     }
 
@@ -219,7 +224,7 @@ public class EntityShark extends EntitySharkBase {
             }
         }
         Optional<IVariant> variant = this.getContainer().getVariantForName(varStr);
-        if(!variant.isPresent() || !varStr.equals(variant.get().getName())) {
+        if(variant.isEmpty() || !varStr.equals(variant.get().getName())) {
             throw new RuntimeException("Received invalid variant \"" + varStr + "\" from selective type on entity " + this.getContainer().getEntityName());
         }
         return variant.get();

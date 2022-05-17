@@ -87,7 +87,7 @@ public class EntityCrab extends EntityCrabLikeBase {
         if(!level.isClientSide()) {
             if (this.raveTicks > 0) {
                 this.raveTicks--;
-            } else if (this.raveTicks <= 0 && this.getIsCrabRave() > 0) {
+            } else if (this.getIsCrabRave() > 0) {
                 this.unCrabRave();
             }
         }

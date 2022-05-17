@@ -35,6 +35,11 @@ import java.util.Set;
 
 public class EntityBadger extends EntityAnimalWithSelectiveTypes implements Enemy {
 
+	private static final String[] SAVANNA_TYPES = new String[] { "honey" };
+	private static final String[] FOREST_TYPES = new String[] { "european" };
+	private static final String[] CONIFEROUS_TYPES = new String[] { "american" };
+	private static final String[] ALL_TYPES = new String[] { "american", "european", "honey" };
+
     public EntityBadger(EntityType<? extends EntityBadger> entityType, Level worldIn) {
         super(entityType, worldIn);
     }
@@ -121,8 +126,8 @@ public class EntityBadger extends EntityAnimalWithSelectiveTypes implements Enem
 		@Override
 		public void tick() {
 			tick++;
-			LivingEntity t = badger.getTarget();
 			if(tick % 15 == 0) { // Throw dirt every second (20 ticks)
+				LivingEntity t = badger.getTarget();
 				EntityBadgerDirt proj = new EntityBadgerDirt(ModEntities.PROJECTILE_BADGER_DIRT.get(), badger.level, badger, stateId);
 				proj.moveTo(badger.getX(), badger.getY() + 1, badger.getZ(), 0, 0);
 				double d0 = t.getY() + t.getEyeHeight() - 1.100000023841858D;
@@ -149,15 +154,13 @@ public class EntityBadger extends EntityAnimalWithSelectiveTypes implements Enem
     @Override
     public String[] getTypesFor(ResourceKey<Biome> biomeKey, Biome biome, Set<BiomeTypes.Type> types, MobSpawnType reason) {
         if(types.contains(BiomeTypes.SAVANNA)) {
-            return new String[] { "honey" };
+            return SAVANNA_TYPES;
         } else if(types.contains(BiomeTypes.FOREST) && !types.contains(BiomeTypes.CONIFEROUS)) {
-            return new String[] { "european" };
-        } else if(types.contains(BiomeTypes.CONIFEROUS) && !types.contains(BiomeTypes.SNOWY)) {
-            return new String[] { "american" };
-        } else if(types.contains(BiomeTypes.CONIFEROUS) && types.contains(BiomeTypes.SNOWY)) {
-            return new String[] { "american" };
+            return FOREST_TYPES;
+        } else if(types.contains(BiomeTypes.CONIFEROUS)) {
+            return CONIFEROUS_TYPES;
         } else {
-            return new String[] { "american", "european", "honey" };
+            return ALL_TYPES;
         }
     }
 

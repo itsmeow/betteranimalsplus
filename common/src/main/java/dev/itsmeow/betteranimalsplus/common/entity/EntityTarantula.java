@@ -29,6 +29,10 @@ import java.util.Set;
 
 public class EntityTarantula extends Spider implements RangedAttackMob, ISelectiveVariantTypes<EntityTarantula> {
 
+    private static final String[] JUNGLE_TYPES = new String[] { "jungle_1", "jungle_2", "jungle_3" };
+    private static final String[] SANDY_TYPES = new String[] { "desert_1", "desert_2", "desert_3" };
+    private static final String[] ALL_TYPES = new String[] { "desert_1", "desert_2", "desert_3", "jungle_1", "jungle_2", "jungle_3" };
+
     public EntityTarantula(EntityType<? extends EntityTarantula> entityType, Level worldIn) {
         super(entityType, worldIn);
     }
@@ -105,11 +109,11 @@ public class EntityTarantula extends Spider implements RangedAttackMob, ISelecti
     @Override
     public String[] getTypesFor(ResourceKey<Biome> biomeKey, Biome biome, Set<BiomeTypes.Type> types, MobSpawnType reason) {
         if(types.contains(BiomeTypes.JUNGLE)) {
-            return new String[] { "jungle_1", "jungle_2", "jungle_3" };
+            return JUNGLE_TYPES;
         } else if(types.contains(BiomeTypes.SANDY)) {
-            return new String[] { "desert_1", "desert_2", "desert_3" };
+            return SANDY_TYPES;
         } else {
-            return new String[] { "desert_1", "desert_2", "desert_3", "jungle_1", "jungle_2", "jungle_3" };
+            return ALL_TYPES;
         }
     }
 }

@@ -51,7 +51,7 @@ dependencies {
         exclude(group: "net.fabricmc")
         exclude(group: "net.fabricmc.fabric-api")
     }
-    modImplementation("curse.maven:341284-trinkets:${rootProject.trinkets_version}") {
+    modImplementation("curse.maven:trinkets-341284:${rootProject.trinkets_version}") {
         transitive = false
     }
     modRuntimeOnly("com.terraformersmc:modmenu:3.1.0") {

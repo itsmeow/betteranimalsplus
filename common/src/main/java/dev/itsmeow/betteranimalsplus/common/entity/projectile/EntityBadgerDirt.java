@@ -51,18 +51,21 @@ public class EntityBadgerDirt extends ThrowableProjectile {
     protected void onHit(HitResult result) {
         if(result instanceof EntityHitResult) {
             EntityHitResult rayR = (EntityHitResult) result;
-            int i = 2;
-            rayR.getEntity().hurt(DamageSource.thrown(this, this.getOwner()), i);
-            if(Math.random() >= 0.5 && !this.level.isClientSide) {
+            rayR.getEntity().hurt(DamageSource.thrown(this, this.getOwner()), 2);
+            if(!this.level.isClientSide && Math.random() >= 0.5) {
                 if(rayR.getEntity() instanceof Player) {
                     Player player = (Player) rayR.getEntity();
                     int blindnessTicks = 0;
-                    if(player.getCommandSenderWorld().getDifficulty() == Difficulty.EASY) {
-                        blindnessTicks = 10;
-                    } else if(player.getCommandSenderWorld().getDifficulty() == Difficulty.NORMAL) {
-                        blindnessTicks = 20;
-                    } else if(player.getCommandSenderWorld().getDifficulty() == Difficulty.HARD) {
-                        blindnessTicks = 35;
+                    switch (player.getCommandSenderWorld().getDifficulty()) {
+                        case EASY:
+                            blindnessTicks = 10;
+                            break;
+                        case NORMAL:
+                            blindnessTicks = 20;
+                            break;
+                        case HARD:
+                            blindnessTicks = 35;
+                            break;
                     }
                     player.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, blindnessTicks, 2, false, false));
                 }

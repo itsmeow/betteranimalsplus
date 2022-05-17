@@ -67,8 +67,8 @@ public class EntityMoose extends EntityAnimalEatsGrassWithTypes implements IDrop
         AABB axisalignedbb = this.getBoundingBox();
         BlockPos blockpos = new BlockPos(axisalignedbb.minX + 0.001D, axisalignedbb.minY + 0.001D, axisalignedbb.minZ + 0.001D);
         BlockPos blockpos1 = new BlockPos(axisalignedbb.maxX - 0.001D, axisalignedbb.maxY - 0.001D, axisalignedbb.maxZ - 0.001D);
-        BlockPos.MutableBlockPos blockpos$mutable = new BlockPos.MutableBlockPos();
         if(this.level.hasChunksAt(blockpos, blockpos1)) {
+            BlockPos.MutableBlockPos blockpos$mutable = new BlockPos.MutableBlockPos();
             for(int i = blockpos.getX(); i <= blockpos1.getX(); ++i) {
                 for(int j = blockpos.getY(); j <= blockpos1.getY(); ++j) {
                     for(int k = blockpos.getZ(); k <= blockpos1.getZ(); ++k) {

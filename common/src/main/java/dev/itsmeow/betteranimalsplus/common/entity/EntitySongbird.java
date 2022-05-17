@@ -51,6 +51,9 @@ public class EntitySongbird extends EntityAnimalWithSelectiveTypes implements Fl
     protected static final Set<Item> SEEDS = Sets.newHashSet(Items.WHEAT_SEEDS, Items.MELON_SEEDS, Items.PUMPKIN_SEEDS, Items.BEETROOT_SEEDS);
     public float flapSpeed = 1.0F;
     private float nextFlap = 1.0F;
+    private static final String[] CONIFEROUS_TYPES = new String[] { "1", "small_5", "small_6" };
+    private static final String[] SNOWY_CONIFEROUS_TYPES = new String[] { "3", "4", "small_1" };
+    private static final String[] ALL_TYPES = new String[] { "1", "2", "3", "4", "small_1", "small_2", "small_3", "small_4", "small_5", "small_6" };
 
     public EntitySongbird(EntityType<? extends EntitySongbird> entityType, Level worldIn) {
         super(entityType, worldIn);
@@ -179,12 +182,14 @@ public class EntitySongbird extends EntityAnimalWithSelectiveTypes implements Fl
     public String[] getTypesFor(ResourceKey<Biome> biomeKey, Biome biome, Set<BiomeTypes.Type> types, MobSpawnType reason) {
         if(types.contains(BiomeTypes.FOREST) && !types.contains(BiomeTypes.CONIFEROUS)) {
             return new String[] { "2", "small_2", "small_3", "small_4" };
-        } else if(types.contains(BiomeTypes.CONIFEROUS) && !types.contains(BiomeTypes.SNOWY)) {
-            return new String[] { "1", "small_5", "small_6" };
-        } else if(types.contains(BiomeTypes.CONIFEROUS) && types.contains(BiomeTypes.SNOWY)) {
-            return new String[] { "3", "4", "small_1" };
+        } else if(types.contains(BiomeTypes.CONIFEROUS)) {
+            if (types.contains(BiomeTypes.SNOWY)) {
+                return SNOWY_CONIFEROUS_TYPES;
+            } else {
+                return CONIFEROUS_TYPES;
+            }
         } else {
-            return new String[] { "1", "2", "3", "4", "small_1", "small_2", "small_3", "small_4", "small_5", "small_6" };
+            return ALL_TYPES;
         }
     }
 

@@ -80,13 +80,17 @@ public class EntityWhale extends EntityWaterMobPathingWithTypesAirBreathing impl
                 if(entityIn instanceof Player) {
                     Player player = (Player) entityIn;
                     int ticks = 0;
-                    if (this.level.getDifficulty() == Difficulty.EASY) {
-                        ticks = 50;
-                    } else if (this.level.getDifficulty() == Difficulty.NORMAL) {
-                        ticks = 100;
-                    } else if (this.level.getDifficulty() == Difficulty.HARD) {
-                        ticks = 140;
-                    }
+                    switch (this.level.getDifficulty()) {
+                        case EASY:
+                            ticks = 50;
+                            break;
+                        case NORMAL:
+                            ticks = 100;
+                            break;
+                        case HARD:
+                            ticks = 140;
+                            break;
+                    };
                     player.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, ticks, 1, false, false));
                     player.addEffect(new MobEffectInstance(MobEffects.CONFUSION, ticks + 40, 1, false, false));
                 }

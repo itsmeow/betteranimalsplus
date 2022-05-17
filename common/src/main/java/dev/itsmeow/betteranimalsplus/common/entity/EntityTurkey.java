@@ -155,16 +155,17 @@ public class EntityTurkey extends EntityAnimalWithTypes {
             }
         }
 
-        if(!this.level.isClientSide && this.setPeckTime(this.getPeckTime() - 1) <= 0) {
-            this.setPeckTime(this.getNewPeck());
-        }
+        if(!this.level.isClientSide) {
+            if(this.setPeckTime(this.getPeckTime() - 1) <= 0) {
+                this.setPeckTime(this.getNewPeck());
+            }
 
-        if(!this.level.isClientSide && !this.isBaby() && ModEventBus.LayEggTickEvent.emit(this) && --this.timeUntilNextEgg <= 0) {
-            this.playSound(SoundEvents.CHICKEN_EGG, 1.0F, (this.random.nextFloat() - this.random.nextFloat()) * 0.2F + 1.0F);
-            this.spawnAtLocation(ModItems.TURKEY_EGG.get(), 1);
-            this.timeUntilNextEgg = this.random.nextInt(6000) + 6000;
-        }
-        if(!level.isClientSide) {
+            if(!this.isBaby() && ModEventBus.LayEggTickEvent.emit(this) && --this.timeUntilNextEgg <= 0) {
+                this.playSound(SoundEvents.CHICKEN_EGG, 1.0F, (this.random.nextFloat() - this.random.nextFloat()) * 0.2F + 1.0F);
+                this.spawnAtLocation(ModItems.TURKEY_EGG.get(), 1);
+                this.timeUntilNextEgg = this.random.nextInt(6000) + 6000;
+            }
+
             if(this.isInLove() && !this.isTailUp()) {
                 this.setTailUp(true);
             }
