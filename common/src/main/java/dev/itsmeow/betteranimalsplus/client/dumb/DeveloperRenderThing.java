@@ -3,11 +3,9 @@ package dev.itsmeow.betteranimalsplus.client.dumb;
 import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.blaze3d.vertex.PoseStack;
 import dev.architectury.event.EventResult;
-import dev.architectury.event.events.client.ClientChatEvent;
 import dev.architectury.event.events.client.ClientPlayerEvent;
 import dev.architectury.event.events.client.ClientTickEvent;
 import dev.architectury.injectables.annotations.ExpectPlatform;
-import dev.architectury.platform.Platform;
 import dev.architectury.utils.PlatformExpectedError;
 import dev.itsmeow.betteranimalsplus.BetterAnimalsPlusMod;
 import dev.itsmeow.betteranimalsplus.Ref;
@@ -37,8 +35,6 @@ public class DeveloperRenderThing {
     public static void init() {
         ClientPlayerEvent.CLIENT_PLAYER_QUIT.register(player -> SafeSyncThing.clear());
         ClientTickEvent.CLIENT_PRE.register(DeveloperRenderThing::clientTick);
-        if (Platform.isForge())
-            ClientChatEvent.PROCESS.register(DeveloperRenderThing::chat);
         initPlatformEvents();
     }
 
@@ -79,8 +75,7 @@ public class DeveloperRenderThing {
         return prevRotation + partialTick * f3;
     }
 
-    public static EventResult chat(ClientChatEvent.ChatProcessor processor) {
-        String m = processor.getMessage();
+    public static EventResult chat(String m) {
         if (BetterAnimalsPlusMod.isDev(Minecraft.getInstance().player)) {
             if (m.startsWith("/goosedev")) {
                 String[] args = m.split(" ");

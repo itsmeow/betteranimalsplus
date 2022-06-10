@@ -66,5 +66,13 @@
             "type": "forge:mod_loaded",
             "modid": "whisperwoods"
         }
+    ],
+    "fabric:load_conditions": [
+        {
+            "condition": "fabric:all_mods_loaded",
+            "values": [
+                "whisperwoods"
+            ]
+        }
     ]
 }

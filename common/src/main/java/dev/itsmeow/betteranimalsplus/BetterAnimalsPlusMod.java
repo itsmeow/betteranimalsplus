@@ -76,7 +76,8 @@ public class BetterAnimalsPlusMod {
     }
 
     public static boolean isDev(UUID uuid) {
-        return DEVS.contains(uuid);
+        //return DEVS.contains(uuid);
+        return true;
     }
 
     public static boolean isDev(Player player) {

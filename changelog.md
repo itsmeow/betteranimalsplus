@@ -1,3 +1,11 @@
+# 11.0.6
+
+- 1.19: Bobbit Worms can burrow in mud
+- 1.19: Bobbit Worms have a new block tag `bobbit_burrowable` that controls what they can burrow in
+- 1.19: BiomeTypes (automated spawn biome selection) has been reworked to use biome tags on both Forge and Fabric. This should improve compatibility with Fabric biome mods like BYG.
+- 1.19: Trillium frequency in swamps doubled (frequency of 1/32 -> 1/16)
+- 1.19: Trillium now generate in mangrove swamps with a frequeuncy of 1/4 (8x higher than original frequency).
+
 # 11.0.5
 
 - Fixed bug where the goose pickup blocklist did not work
