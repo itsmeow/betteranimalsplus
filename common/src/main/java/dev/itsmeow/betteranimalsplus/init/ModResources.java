@@ -30,6 +30,7 @@ public class ModResources {
     public static final class Tags {
         public static final class Blocks {
             public static final TagKey<Block> BUTTERFLY_GROWABLES = tag("butterfly_growables");
+            public static final TagKey<Block> BOBBIT_BURROWABLE = tag("bobbit_burrowable");
 
             public static void loadTags() {
                 // This is a classloading dummy.

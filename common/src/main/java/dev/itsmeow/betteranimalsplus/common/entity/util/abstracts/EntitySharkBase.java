@@ -40,8 +40,8 @@ public abstract class EntitySharkBase extends EntityWaterMobPathingWithSelective
     }
 
     @Override
-    public boolean canBeControlledByRider() {
-        return false;
+    public Entity getControllingPassenger() {
+        return null;
     }
 
     @Override

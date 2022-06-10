@@ -11,14 +11,12 @@ import dev.itsmeow.betteranimalsplus.init.ModItems;
 import dev.itsmeow.betteranimalsplus.util.ModPlatformEvents;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
@@ -49,9 +47,7 @@ import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.food.FoodProperties;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.SpawnEggItem;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 
@@ -148,7 +144,7 @@ public class EntityCoyote extends EntityTameableBetterAnimalsPlus implements IDr
         } else if(this.isTamingItem(itemstack.getItem())) {
             if(isHostileDaytime()) {
                 if(!this.level.isClientSide) {
-                    player.sendMessage(new TranslatableComponent("entity.betteranimalsplus.coyote.message.always_hostile"), Util.NIL_UUID);
+                    player.sendSystemMessage(Component.translatable("entity.betteranimalsplus.coyote.message.always_hostile"));
                 }
             } else if(this.isDaytime()) {
                 if(!player.isCreative()) {
@@ -170,7 +166,7 @@ public class EntityCoyote extends EntityTameableBetterAnimalsPlus implements IDr
                 return InteractionResult.SUCCESS;
             } else {
                 if(!this.level.isClientSide) {
-                    player.sendMessage(new TranslatableComponent("entity.betteranimalsplus.coyote.message.currently_hostile"), Util.NIL_UUID);
+                    player.sendSystemMessage(Component.translatable("entity.betteranimalsplus.coyote.message.currently_hostile"));
                 }
             }
         }

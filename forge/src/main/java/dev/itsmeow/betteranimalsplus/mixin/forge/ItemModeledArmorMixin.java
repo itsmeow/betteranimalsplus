@@ -19,7 +19,7 @@ public abstract class ItemModeledArmorMixin extends ArmorItem {
         super(arg, arg2, arg3);
     }
 
-    @Shadow
+    @Shadow(remap = false)
     public abstract <T extends LivingEntity, A extends HumanoidModel<T>> A getArmorModel(T entityLiving, ItemStack itemStack, EquipmentSlot armorSlot, A defaultModel);
 
     @Override

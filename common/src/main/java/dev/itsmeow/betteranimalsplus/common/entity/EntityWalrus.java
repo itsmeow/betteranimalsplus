@@ -22,6 +22,7 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.InteractionHand;
@@ -37,10 +38,7 @@ import net.minecraft.world.entity.ai.util.DefaultRandomPos;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LevelAccessor;
-import net.minecraft.world.level.LevelReader;
-import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.*;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
@@ -185,7 +183,7 @@ public class EntityWalrus extends Animal implements IContainerEntity<EntityWalru
     }
 
     @SuppressWarnings("deprecation")
-    public static boolean canSpawn(EntityType<EntityWalrus> walrus, LevelAccessor world, MobSpawnType reason, BlockPos pos, Random rand) {
+    public static boolean canSpawn(EntityType<EntityWalrus> walrus, LevelAccessor world, MobSpawnType reason, BlockPos pos, RandomSource rand) {
         return pos.getY() < world.getSeaLevel() + 4 && world.getRawBrightness(pos, 0) > 8;
     }
 
@@ -257,7 +255,7 @@ public class EntityWalrus extends Animal implements IContainerEntity<EntityWalru
         if(!this.isGoingHome() && worldIn.getFluidState(pos).is(FluidTags.WATER)) {
             return 10.0F;
         } else {
-            return worldIn.getBlockState(pos.below()).is(BlockTags.ICE) ? 10.0F : worldIn.getBrightness(pos) - 0.5F;
+            return worldIn.getBlockState(pos.below()).is(BlockTags.ICE) ? 10.0F : worldIn.getBrightness(LightLayer.SKY, pos) - 0.5F;
         }
     }
 
@@ -444,7 +442,7 @@ public class EntityWalrus extends Animal implements IContainerEntity<EntityWalru
         public void start() {
             int xzRange = 512;
             int yRange = 4;
-            Random random = this.walrus.random;
+            RandomSource random = this.walrus.getRandom();
             int xOff = random.nextInt(xzRange * 2 + 1) - xzRange;
             int yOff = random.nextInt(yRange * 2 + 1) - yRange;
             int zOff = random.nextInt(xzRange * 2 + 1) - xzRange;

@@ -18,10 +18,9 @@ import dev.itsmeow.imdlib.entity.util.variant.EntityVariant;
 import dev.itsmeow.imdlib.entity.util.variant.IVariant;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -257,7 +256,7 @@ public class EntityFeralWolf extends EntityTameableWithSelectiveTypes implements
                 return InteractionResult.SUCCESS;
             } else {
                 if(!this.level.isClientSide) {
-                    player.sendMessage(new TranslatableComponent("entity.betteranimalsplus.feralwolf.message.wear_head"), Util.NIL_UUID);
+                    player.sendSystemMessage(Component.translatable("entity.betteranimalsplus.feralwolf.message.wear_head"));
                 }
             }
         }

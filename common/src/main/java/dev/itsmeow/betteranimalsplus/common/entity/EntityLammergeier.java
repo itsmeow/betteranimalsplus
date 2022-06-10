@@ -17,6 +17,7 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
@@ -44,7 +45,6 @@ import net.minecraft.world.level.block.LeavesBlock;
 import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.EnumSet;
-import java.util.Random;
 
 public class EntityLammergeier extends EntityTameableFlyingWithTypes implements IVariantTypes<EntityTameableBetterAnimalsPlus> {
 
@@ -613,7 +613,7 @@ public class EntityLammergeier extends EntityTameableFlyingWithTypes implements 
         if(this.isValidLandingPosition(level, this.blockPosition())) {
             return this.blockPosition();
         }
-        Random random = this.getRandom();
+        RandomSource random = this.getRandom();
         BlockPos top;
         for(int i = 0; i < 10; i++) {
             float x = this.blockPosition().getX() + (readyToSit ? random.nextInt(4) - 2 : random.nextInt(16) - 8F) + 0.5F;

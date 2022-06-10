@@ -3,7 +3,6 @@ package dev.itsmeow.betteranimalsplus.common.item;
 import dev.itsmeow.betteranimalsplus.BetterAnimalsPlusMod;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
@@ -17,7 +16,7 @@ import java.util.List;
 
 public class ItemHorseshoeCrabBlood extends Item {
 
-    public static final Component CURES_WITHER = new TranslatableComponent("tooltip.betteranimalsplus.cures_wither").withStyle(ChatFormatting.GREEN);
+    public static final Component CURES_WITHER = Component.translatable("tooltip.betteranimalsplus.cures_wither").withStyle(ChatFormatting.GREEN);
 
     public ItemHorseshoeCrabBlood() {
         super(new Properties().stacksTo(1).craftRemainder(Items.GLASS_BOTTLE).tab(BetterAnimalsPlusMod.TAB));

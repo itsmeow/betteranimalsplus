@@ -17,6 +17,7 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
@@ -41,7 +42,6 @@ import net.minecraft.world.level.block.LeavesBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 
-import java.util.Random;
 import java.util.Set;
 import java.util.function.Predicate;
 
@@ -203,7 +203,7 @@ public class EntitySongbird extends EntityAnimalWithSelectiveTypes implements Fl
         return ModEntities.SONGBIRD;
     }
 
-    public static boolean canSongbirdSpawn(EntityType<EntitySongbird> type, ServerLevelAccessor world, MobSpawnType reason, BlockPos pos, Random rand) {
+    public static boolean canSongbirdSpawn(EntityType<EntitySongbird> type, ServerLevelAccessor world, MobSpawnType reason, BlockPos pos, RandomSource rand) {
         BlockState below = world.getBlockState(pos.below());
         return Mob.checkMobSpawnRules(type, world, reason, pos, rand) || below.is(BlockTags.LEAVES) || below.is(BlockTags.LOGS);
     }

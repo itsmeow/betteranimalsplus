@@ -628,7 +628,7 @@ public class EntityReindeer extends Animal implements PlayerRideableJumping, IVa
 
     @Override
     public void travel(Vec3 vec) {
-        if (this.isVehicle() && this.canBeControlledByRider()) {
+        if (this.isVehicle() && this.getControllingPassenger() != null) {
             LivingEntity entitylivingbase = (LivingEntity) this.getControllingPassenger();
             this.setYRot(entitylivingbase.getYRot());
             this.yRotO = this.getYRot();
@@ -753,14 +753,10 @@ public class EntityReindeer extends Animal implements PlayerRideableJumping, IVa
         p_190681_2_.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(d2 / 3.0D);
     }
 
-    /**
-     * returns true if all the conditions for steering the entity are met. For pigs,
-     * this is true if it is being ridden by a player and the player is holding a
-     * carrot-on-a-stick
-     */
     @Override
-    public boolean canBeControlledByRider() {
-        return this.getControllingPassenger() instanceof LivingEntity;
+    public Entity getControllingPassenger() {
+        Entity entity = this.getFirstPassenger();
+        return entity != null && entity instanceof LivingEntity ? entity : null;
     }
 
     @Environment(EnvType.CLIENT)
@@ -879,11 +875,6 @@ public class EntityReindeer extends Animal implements PlayerRideableJumping, IVa
     @Override
     public boolean onClimbable() {
         return false;
-    }
-
-    @Override
-    public Entity getControllingPassenger() {
-        return this.getPassengers().isEmpty() ? null : this.getPassengers().get(0);
     }
 
     @Override

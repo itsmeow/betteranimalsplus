@@ -23,7 +23,7 @@ public class ItemWolfCape extends ItemCape {
     @Override
     protected <A extends HumanoidModel<?>> A getBaseModelInstance() {
         if(ModelWolfCape.INSTANCE == null) {
-            ModelWolfCape.INSTANCE = new ModelWolfCape<>(new EntityRendererProvider.Context(Minecraft.getInstance().getEntityRenderDispatcher(), Minecraft.getInstance().getItemRenderer(), Minecraft.getInstance().getResourceManager(), Minecraft.getInstance().getEntityModels(), Minecraft.getInstance().font).bakeLayer(new ModelLayerLocation(new ResourceLocation(Ref.MOD_ID, "wolf_cape"), "main")));
+            ModelWolfCape.INSTANCE = new ModelWolfCape<>(new EntityRendererProvider.Context(Minecraft.getInstance().getEntityRenderDispatcher(), Minecraft.getInstance().getItemRenderer(), Minecraft.getInstance().getBlockRenderer(), Minecraft.getInstance().getEntityRenderDispatcher().getItemInHandRenderer(), Minecraft.getInstance().getResourceManager(), Minecraft.getInstance().getEntityModels(), Minecraft.getInstance().font).bakeLayer(new ModelLayerLocation(new ResourceLocation(Ref.MOD_ID, "wolf_cape"), "main")));
         }
         return (A) ModelWolfCape.INSTANCE;
     }

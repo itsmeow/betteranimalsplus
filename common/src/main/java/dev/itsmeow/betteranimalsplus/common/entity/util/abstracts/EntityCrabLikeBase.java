@@ -1,19 +1,17 @@
 package dev.itsmeow.betteranimalsplus.common.entity.util.abstracts;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MobSpawnType;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.pathfinder.BlockPathTypes;
 import net.minecraft.world.level.pathfinder.PathComputationType;
 import net.minecraft.world.phys.Vec3;
-
-import java.util.Random;
 
 public abstract class EntityCrabLikeBase extends EntityAnimalWithTypesContainable {
 
@@ -65,7 +63,7 @@ public abstract class EntityCrabLikeBase extends EntityAnimalWithTypesContainabl
     }
 
     @Override
-    protected int getExperienceReward(Player player) {
+    public int getExperienceReward() {
         return 1 + this.level.random.nextInt(3);
     }
 
@@ -79,7 +77,7 @@ public abstract class EntityCrabLikeBase extends EntityAnimalWithTypesContainabl
         return !this.hasCustomName() && super.removeWhenFarAway(range);
     }
 
-    public static <T extends EntityCrabLikeBase> boolean canCrabSpawn(EntityType<T> type, ServerLevelAccessor world, MobSpawnType reason, BlockPos pos, Random rand) {
+    public static <T extends EntityCrabLikeBase> boolean canCrabSpawn(EntityType<T> type, ServerLevelAccessor world, MobSpawnType reason, BlockPos pos, RandomSource rand) {
         return (world.getBlockState(pos).isPathfindable(world, pos, PathComputationType.WATER) || world.getBlockState(pos).isPathfindable(world, pos, PathComputationType.LAND)) && !world.getBlockState(pos.below()).isPathfindable(world, pos.below(), PathComputationType.LAND) && !world.getBlockState(pos.below()).isPathfindable(world, pos.below(), PathComputationType.WATER);
     }
 }

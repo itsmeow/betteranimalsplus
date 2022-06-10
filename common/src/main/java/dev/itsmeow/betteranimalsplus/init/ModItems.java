@@ -15,9 +15,11 @@ import net.fabricmc.api.Environment;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.Registry;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.*;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 
@@ -87,7 +89,7 @@ public class ModItems {
         @Environment(EnvType.CLIENT)
         @Override
         public void appendHoverText(ItemStack stack, Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
-            tooltip.add(new TextComponent("Golden! Maybe you can melt this down for resources?").withStyle(ChatFormatting.YELLOW).withStyle(ChatFormatting.BOLD));
+            tooltip.add(Component.literal("Golden! Maybe you can melt this down for resources?").withStyle(ChatFormatting.YELLOW).withStyle(ChatFormatting.BOLD));
         }
     });
 

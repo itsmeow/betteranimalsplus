@@ -4,6 +4,7 @@ import dev.itsmeow.betteranimalsplus.common.entity.ai.EfficientMoveTowardsTarget
 import dev.itsmeow.betteranimalsplus.init.ModTriggers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
@@ -16,8 +17,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.AABB;
-
-import java.util.Random;
 
 public abstract class EntityBAPSquid extends EntityBAPCephalopod {
 
@@ -107,7 +106,7 @@ public abstract class EntityBAPSquid extends EntityBAPCephalopod {
         return false;
     }
 
-    public static <T extends EntityBAPSquid> boolean placement(EntityType<T> type, LevelAccessor world, MobSpawnType reason, BlockPos pos, Random rng) {
+    public static <T extends EntityBAPSquid> boolean placement(EntityType<T> type, LevelAccessor world, MobSpawnType reason, BlockPos pos, RandomSource rng) {
         return pos.getY() < (world.getSeaLevel() - 31) && world.getBlockState(pos).getBlock() == Blocks.WATER && world.getEntitiesOfClass(EntityBAPSquid.class, new AABB(pos).inflate(100D)).size() == 0;
     }
 }

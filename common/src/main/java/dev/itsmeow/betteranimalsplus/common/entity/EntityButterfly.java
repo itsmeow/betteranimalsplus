@@ -16,8 +16,6 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -489,10 +487,10 @@ public class EntityButterfly extends EntityAnimalWithTypesAndSizeContainable {
         CompoundTag tag = stack.getTag();
         if(tag != null) {
             if(tag.contains("SizeTag", Tag.TAG_FLOAT)) {
-                tooltip.add(new TextComponent("Size: " + tag.getFloat("SizeTag")).withStyle(ChatFormatting.ITALIC).withStyle(ChatFormatting.GRAY));
+                tooltip.add(Component.literal("Size: " + tag.getFloat("SizeTag")).withStyle(ChatFormatting.ITALIC).withStyle(ChatFormatting.GRAY));
             }
             if(tag.contains("HasNectar") && tag.getBoolean("HasNectar")) {
-                tooltip.add(new TranslatableComponent("tooltip.betteranimalsplus.nectar").withStyle(ChatFormatting.ITALIC).withStyle(ChatFormatting.YELLOW));
+                tooltip.add(Component.translatable("tooltip.betteranimalsplus.nectar").withStyle(ChatFormatting.ITALIC).withStyle(ChatFormatting.YELLOW));
             }
         }
     }

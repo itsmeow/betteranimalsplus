@@ -2,6 +2,7 @@ package dev.itsmeow.betteranimalsplus.common.entity;
 
 import dev.itsmeow.betteranimalsplus.common.entity.util.abstracts.EntityAnimalWithTypes;
 import dev.itsmeow.betteranimalsplus.init.ModEntities;
+import dev.itsmeow.betteranimalsplus.init.ModResources;
 import dev.itsmeow.imdlib.entity.EntityTypeContainer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -23,7 +24,6 @@ import net.minecraft.world.entity.monster.Skeleton;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.pathfinder.BlockPathTypes;
@@ -88,9 +88,13 @@ public class EntityBobbitWorm extends EntityAnimalWithTypes {
     }
 
     public boolean isGoodBurrowingPosition(BlockPos pos) {
-        Block below = level.getBlockState(pos.below()).getBlock();
+        BlockState below = level.getBlockState(pos.below());
         BlockState here = this.level.getBlockState(pos);
-        return (below == Blocks.CLAY || below == Blocks.SAND || below == Blocks.GRAVEL || below == Blocks.DIRT) && here.isPathfindable(level, pos, PathComputationType.WATER) && here.getFluidState().is(FluidTags.WATER);
+        if(here.getBlock() == Blocks.MUD) {
+            below = here;
+            here = this.level.getBlockState(pos.above());
+        }
+        return below.is(ModResources.Tags.Blocks.BOBBIT_BURROWABLE) && here.isPathfindable(level, pos, PathComputationType.WATER) && here.getFluidState().is(FluidTags.WATER);
     }
 
     @Override
@@ -111,8 +115,8 @@ public class EntityBobbitWorm extends EntityAnimalWithTypes {
     }
 
     @Override
-    public boolean canBeControlledByRider() {
-        return false;
+    public Entity getControllingPassenger() {
+        return null;
     }
 
     @Override
@@ -204,7 +208,7 @@ public class EntityBobbitWorm extends EntityAnimalWithTypes {
     }
 
     @Override
-    protected int getExperienceReward(Player player) {
+    public int getExperienceReward() {
         return 1 + this.level.random.nextInt(3);
     }
 

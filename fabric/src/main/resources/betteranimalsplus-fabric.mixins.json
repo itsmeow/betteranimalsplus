@@ -7,13 +7,11 @@
   "mixins": [
     "EntityMixin",
     "LivingEntityMixin",
-    "MultiPackResourceManagerMixin",
     "ItemCapeMixin",
     "ServerPlayerMixin"
   ],
   "client": [
     "PlayerRendererMixin",
-    "ScreenMixin",
     "ProjectileUtilMixin"
   ],
   "injectors": {

@@ -24,6 +24,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.TagKey;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.damagesource.DamageSource;
@@ -368,7 +369,7 @@ public class EntityGoose extends EntityAnimalWithTypes {
         return livingdata;
     }
 
-    public static boolean canGooseSpawn(EntityType<EntityGoose> type, LevelAccessor world, MobSpawnType reason, BlockPos pos, Random rand) {
+    public static boolean canGooseSpawn(EntityType<EntityGoose> type, LevelAccessor world, MobSpawnType reason, BlockPos pos, RandomSource rand) {
         Block downBlock = world.getBlockState(pos.below()).getBlock();
         return ((downBlock == Blocks.GRASS_BLOCK && nearWater(world, pos)) || downBlock == Blocks.WATER) && world.getRawBrightness(pos, 0) > 8 && world.isEmptyBlock(pos);
     }

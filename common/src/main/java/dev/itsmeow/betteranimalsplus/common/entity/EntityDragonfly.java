@@ -11,7 +11,6 @@ import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -378,7 +377,7 @@ public class EntityDragonfly extends EntityAnimalWithTypesAndSizeContainable {
         CompoundTag tag = stack.getTag();
         if(tag != null) {
             if(tag.contains("SizeTag", Tag.TAG_FLOAT)) {
-                tooltip.add(new TextComponent("Size: " + tag.getFloat("SizeTag")).withStyle(ChatFormatting.ITALIC).withStyle(ChatFormatting.GRAY));
+                tooltip.add(Component.literal("Size: " + tag.getFloat("SizeTag")).withStyle(ChatFormatting.ITALIC).withStyle(ChatFormatting.GRAY));
             }
         }
     }

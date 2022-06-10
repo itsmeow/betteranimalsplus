@@ -10,7 +10,6 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -285,7 +284,7 @@ public class EntityJellyfish extends EntityWaterMobWithTypesBucketable {
     public static void bucketTooltip(EntityTypeContainer<? extends Mob> container, ItemStack stack, Level worldIn, List<Component> tooltip) {
         CompoundTag tag = stack.getTag();
         if(tag != null && tag.contains("JellyfishSizeTag", Tag.TAG_FLOAT)) {
-            tooltip.add(new TextComponent("Size: " + tag.getFloat("JellyfishSizeTag")).withStyle(ChatFormatting.ITALIC).withStyle(ChatFormatting.GRAY));
+            tooltip.add(Component.literal("Size: " + tag.getFloat("JellyfishSizeTag")).withStyle(ChatFormatting.ITALIC).withStyle(ChatFormatting.GRAY));
         }
     }
 

@@ -26,7 +26,7 @@ Fiber is Copyright FabLabsMC. No modifications were made to the original source.
 
 ### Jankson
 
-Better Animals Plus, IMDLIB, and Fiber include [Jankson](https://github.com/falkreon/Jankson), an HJSON parser and processor, which is licensed under the [MIT License](https://github.com/falkreon/Jankson/blob/main/LICENSE)
+Better Animals Plus, IMDLib, and Fiber include [Jankson](https://github.com/falkreon/Jankson), an HJSON parser and processor, which is licensed under the [MIT License](https://github.com/falkreon/Jankson/blob/main/LICENSE)
 
 Jankson is Copyright Falkreon.
 

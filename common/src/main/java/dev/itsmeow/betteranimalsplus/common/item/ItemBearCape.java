@@ -23,7 +23,7 @@ public class ItemBearCape extends ItemCape {
     @Override
     protected <A extends HumanoidModel<?>> A getBaseModelInstance() {
         if(ModelBearCape.INSTANCE == null) {
-            ModelBearCape.INSTANCE = new ModelBearCape<>(new EntityRendererProvider.Context(Minecraft.getInstance().getEntityRenderDispatcher(), Minecraft.getInstance().getItemRenderer(), Minecraft.getInstance().getResourceManager(), Minecraft.getInstance().getEntityModels(), Minecraft.getInstance().font).bakeLayer(new ModelLayerLocation(new ResourceLocation(Ref.MOD_ID, "bear_cape"), "main")));
+            ModelBearCape.INSTANCE = new ModelBearCape<>(new EntityRendererProvider.Context(Minecraft.getInstance().getEntityRenderDispatcher(), Minecraft.getInstance().getItemRenderer(), Minecraft.getInstance().getBlockRenderer(), Minecraft.getInstance().getEntityRenderDispatcher().getItemInHandRenderer(), Minecraft.getInstance().getResourceManager(), Minecraft.getInstance().getEntityModels(), Minecraft.getInstance().font).bakeLayer(new ModelLayerLocation(new ResourceLocation(Ref.MOD_ID, "bear_cape"), "main")));
         }
         return (A) ModelBearCape.INSTANCE;
     }
