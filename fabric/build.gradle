@@ -36,5 +36,5 @@ dependencies {
         exclude(group: "net.fabricmc")
         exclude(group: "net.fabricmc.fabric-api")
     }
-    runtimeOnly("me.shedaniel.cloth:basic-math:0.6.0")
+    runtimeOnly("me.shedaniel.cloth:basic-math:0.6.1")
 }
