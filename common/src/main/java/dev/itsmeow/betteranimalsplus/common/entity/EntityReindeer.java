@@ -701,9 +701,11 @@ public class EntityReindeer extends Animal implements PlayerRideableJumping, IVa
 
     @Override
     public void setCustomName(Component comp) {
-        if(comp.getString().equalsIgnoreCase("rudolph")) {
-            if(this.getVariant().isPresent() && !this.getVariantNameOrEmpty().endsWith("_christmas")) {
-                this.setType(this.getVariantNameOrEmpty() + "_christmas");
+        if (comp != null) {
+            if (comp.getString().equalsIgnoreCase("rudolph")) {
+                if (this.getVariant().isPresent() && !this.getVariantNameOrEmpty().endsWith("_christmas")) {
+                    this.setType(this.getVariantNameOrEmpty() + "_christmas");
+                }
             }
         }
         super.setCustomName(comp);
