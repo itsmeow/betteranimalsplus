@@ -1,6 +1,7 @@
 {
     "parent": "minecraft:item/generated",
     "textures": {
-        "layer0": "betteranimalsplus:items/horseshoecrab_bucket"
+        "layer0": "betteranimalsplus:items/lower_bucket",
+        "layer1": "betteranimalsplus:items/bucket_content/horseshoecrab"
     }
 }
