@@ -1,6 +1,7 @@
 {
     "parent": "minecraft:item/generated",
     "textures": {
-        "layer0": "betteranimalsplus:items/flying_fish_bucket_yellow"
+        "layer0": "betteranimalsplus:items/lower_bucket",
+        "layer1": "betteranimalsplus:items/bucket_content/flying_fish_yellow"
     }
 }
