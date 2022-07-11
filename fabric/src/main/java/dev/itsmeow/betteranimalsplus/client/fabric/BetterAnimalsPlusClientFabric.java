@@ -4,7 +4,6 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Vector3f;
 import dev.emi.trinkets.api.SlotReference;
-import dev.emi.trinkets.api.TrinketsApi;
 import dev.emi.trinkets.api.client.TrinketRenderer;
 import dev.emi.trinkets.api.client.TrinketRendererRegistry;
 import dev.itsmeow.betteranimalsplus.Ref;
