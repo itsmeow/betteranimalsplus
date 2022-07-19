@@ -29,7 +29,7 @@ public abstract class ItemModeledArmorMixin extends ArmorItem {
         consumer.accept(new IClientItemExtensions() {
             @Override
             public @NotNull HumanoidModel<?> getHumanoidArmorModel(LivingEntity livingEntity, ItemStack itemStack, EquipmentSlot equipmentSlot, HumanoidModel<?> original) {
-                return IClientItemExtensions.super.getHumanoidArmorModel(livingEntity, itemStack, equipmentSlot, original);
+                return ItemModeledArmorMixin.this.getArmorModel(livingEntity, itemStack, equipmentSlot, (HumanoidModel<? super LivingEntity>) original);
             }
         });
     }
