@@ -1,3 +1,7 @@
+# 11.0.7
+
+- 1.19 Forge: Fix for Forge 41.0.94
+
 # 11.0.6
 
 - 1.19: Bobbit Worms can burrow in mud

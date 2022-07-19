@@ -34,7 +34,7 @@ public class CommonEventHandlerImpl {
     }
 
     public static void livingDrops(LivingDropsEvent event) {
-        CommonEventHandler.modifyDropsList(event.getDrops(), event.getSource(), event.getEntityLiving());
+        CommonEventHandler.modifyDropsList(event.getDrops(), event.getSource(), event.getEntity());
     }
 
     public static void setSquirrelKills(Player player, int kills) {

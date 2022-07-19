@@ -36,7 +36,7 @@ public class BetterAnimalsPlusModForge {
     @SubscribeEvent
     public static void onPlayerRespawn(PlayerEvent.Clone event) {
         if(event.getOriginal().getPersistentData().contains("betteranimalsplus", Tag.TAG_COMPOUND)) {
-            event.getPlayer().getPersistentData().put("betteranimalsplus", event.getOriginal().getPersistentData().getCompound("betteranimalsplus"));
+            event.getEntity().getPersistentData().put("betteranimalsplus", event.getOriginal().getPersistentData().getCompound("betteranimalsplus"));
         }
     }
 }

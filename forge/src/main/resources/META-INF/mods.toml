@@ -17,12 +17,12 @@ Adds 35+ new animals to your world, with items, food, blocks, and armor to suppl
 [[dependencies.betteranimalsplus]]
     modId="forge"
     mandatory=true
-    versionRange="[41.0.80,)"
+    versionRange="[41.0.94,)"
     ordering="NONE"
     side="BOTH"
 [[dependencies.betteranimalsplus]]
     modId="architectury"
     mandatory=true
-    versionRange="[5.8.29,)"
+    versionRange="[5.9.30,)"
     ordering="NONE"
     side="BOTH"
