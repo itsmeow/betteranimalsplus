@@ -356,6 +356,9 @@ public class EntityLammergeier extends EntityTameableFlyingWithTypes implements 
                 attacker.setFlying(true);
             }
             LivingEntity entitylivingbase = this.attacker.getTarget();
+            if(entitylivingbase == null) {
+                return;
+            }
 
             double targetX = entitylivingbase.getX();
             double targetZ = entitylivingbase.getZ();
