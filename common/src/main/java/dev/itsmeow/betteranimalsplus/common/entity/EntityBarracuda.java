@@ -181,6 +181,9 @@ public class EntityBarracuda extends EntityWaterMobPathingBucketable implements 
 
         @Override
         public void tick() {
+            if(e.getTarget() == null) {
+                return;
+            }
             e.getNavigation().moveTo(e.getTarget(), 10D);
             e.setDeltaMovement(e.getDeltaMovement().add(0, -0.005D, 0));
             // attack 5HP when close and then move to regular attack
