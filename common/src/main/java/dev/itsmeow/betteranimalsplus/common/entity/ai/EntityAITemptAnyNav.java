@@ -64,6 +64,9 @@ public class EntityAITemptAnyNav extends Goal {
 
     @Override
     public void tick() {
+        if(this.tempter == null) {
+            return;
+        }
         this.entity.getLookControl().setLookAt(this.tempter, (float) (this.entity.getMaxHeadYRot() + 20), (float) this.entity.getMaxHeadXRot());
         if(this.entity.distanceToSqr(this.tempter) < 6.25D) {
             this.entity.getNavigation().stop();

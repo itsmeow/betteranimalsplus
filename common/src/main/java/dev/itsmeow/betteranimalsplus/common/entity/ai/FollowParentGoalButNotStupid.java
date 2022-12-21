@@ -74,6 +74,9 @@ public class FollowParentGoalButNotStupid extends Goal {
 
     @Override
     public void tick() {
+        if(this.parentAnimal == null) {
+            return;
+        }
         if (--this.delayCounter <= 0) {
             this.delayCounter = 10;
             this.childAnimal.getNavigation().moveTo(this.parentAnimal, this.moveSpeed);

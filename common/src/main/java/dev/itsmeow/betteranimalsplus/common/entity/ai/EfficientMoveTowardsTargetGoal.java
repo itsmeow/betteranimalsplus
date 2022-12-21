@@ -86,6 +86,9 @@ public class EfficientMoveTowardsTargetGoal extends Goal {
     @Override
     public void tick() {
         LivingEntity livingentity = this.attacker.getTarget();
+        if(livingentity == null) {
+            return;
+        }
         this.attacker.getLookControl().setLookAt(livingentity, 30.0F, 30.0F);
         double d0 = this.attacker.distanceToSqr(livingentity.getX(), livingentity.getY(), livingentity.getZ());
         --this.delayCounter;
