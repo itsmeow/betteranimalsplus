@@ -60,7 +60,7 @@ public class EntityCoyote extends EntityTameableBetterAnimalsPlus implements IDr
     public static boolean client_hostile_override = false;
     public static final double TAMED_HEALTH = 30D;
     public static final double UNTAMED_HEALTH = 10D;
-    protected static final EntityDataAccessor<Float> DATA_HEALTH_ID = SynchedEntityData.defineId(EntityFeralWolf.class, EntityDataSerializers.FLOAT);
+    protected static final EntityDataAccessor<Float> DATA_HEALTH_ID = SynchedEntityData.defineId(EntityCoyote.class, EntityDataSerializers.FLOAT);
 
     private int hunger;
 
