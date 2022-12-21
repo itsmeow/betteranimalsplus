@@ -34,7 +34,7 @@ public class CuriosModCompat {
     public static void subscribe(IEventBus modBus) {
         modBus.addListener(CuriosModCompat::interModEnqueue);
         MinecraftForge.EVENT_BUS.register(CuriosModCompat.class);
-        ItemCape.can_equip = (stack, armorType, entity) -> !CuriosApi.getCuriosHelper().findEquippedCurio(s -> s.getItem() instanceof ItemCape, (Player) entity).isPresent();
+        ItemCape.can_equip = (stack, armorType, entity) -> !(entity instanceof Player) || !CuriosApi.getCuriosHelper().findEquippedCurio(s -> s.getItem() instanceof ItemCape, (Player) entity).isPresent();
         ClassLoadHacks.runIf(Platform.getEnv() == Dist.CLIENT, () -> () -> {
             modBus.addListener((FMLClientSetupEvent event) -> {
                 ModItems.getModeledArmor().forEach((k, item) -> {
