@@ -276,7 +276,7 @@ public class EntityButterfly extends EntityAnimalWithTypesAndSizeContainable {
                     } else if(block == Blocks.SWEET_BERRY_BUSH) {
                         age = SweetBerryBushBlock.AGE;
                     }
-                    if(age != null) {
+                    if(age != null && age.getPossibleValues().contains(blockstate.getValue(age) + 1)) {
                         level.levelEvent(2005, targetPosition, 0);
                         level.setBlockAndUpdate(targetPosition, blockstate.setValue(age, blockstate.getValue(age) + 1));
                         this.setHasNectar(false);
