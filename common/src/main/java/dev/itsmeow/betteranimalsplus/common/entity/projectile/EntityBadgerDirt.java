@@ -45,6 +45,9 @@ public class EntityBadgerDirt extends ThrowableProjectile {
                 worldS.sendParticles(new BlockParticleOption(ParticleTypes.BLOCK, Block.stateById(stateId)), this.getX() + Math.random(), this.getY() + Math.random(), this.getZ() + Math.random(), 1, 0D, 0D, 0D, 0D);
             }
         }
+        if(this.tickCount > 240) {
+            this.discard();
+        }
     }
 
     @Override
