@@ -46,7 +46,7 @@ public class EntityBadgerDirt extends ThrowableProjectile {
             }
         }
         if(this.tickCount > 240) {
-            this.discard();
+            this.remove();
         }
     }
 
