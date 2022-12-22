@@ -1,164 +1,16 @@
-// BEFORE SYNCING, YOU MUST GO TO Settings -> Build, Execution, Deployment -> Build Tools -> Gradle and change "Gradle JVM" to Java 11 or higher
 plugins {
     id "architectury-plugin" version "$architectury_plugin_version"
     id "dev.architectury.loom" version "$loom_version" apply false
-    id "org.ajoberstar.grgit" version "3.1.1"
 }
-
-architectury {
-    minecraft = rootProject.mc_version
-}
-
 subprojects {
     apply plugin: "dev.architectury.loom"
-    loom {
-        silentMojangMappingsLicense()
-    }
-    dependencies {
-        minecraft "com.mojang:minecraft:${rootProject.mc_version}"
-        mappings loom.officialMojangMappings()
-    }
 }
-
 allprojects {
-    apply plugin: "java"
     apply plugin: "architectury-plugin"
-    apply plugin: "maven-publish"
-    archivesBaseName = rootProject.mod_id
-    version = rootProject.mc_version+ "-" + rootProject.mod_version
-    group = rootProject.maven_group
     tasks.withType(JavaCompile) {
-        options.encoding = "UTF-8"
-        def targetVersion = 8
-        if (JavaVersion.current().isJava9Compatible()) {
-            options.release = targetVersion
-        }
-    }
-    repositories {
-        maven {
-            name = "itsmeowdev Maven"
-            url = "https://maven.itsmeow.dev/"
-        }
-    }
-    java {
-        withSourcesJar()
-    }
-    processResources {
-        doLast {
-            def jsonMinifyStart = System.currentTimeMillis()
-            def jsonMinified = 0
-            def jsonBytesSaved = 0
-            fileTree(dir: outputs.files.asPath, include: '**/*.json').each {
-                File file = it
-                jsonMinified++
-                def oldLength = file.length()
-                file.text = groovy.json.JsonOutput.toJson(new groovy.json.JsonSlurper().parse(file))
-                jsonBytesSaved += oldLength - file.length()
-            }
-            println('Minified ' + jsonMinified + ' json files. Saved ' + jsonBytesSaved + ' bytes. Took ' + (System.currentTimeMillis() - jsonMinifyStart) + 'ms.')
-        }
-    }
-    publishing {
-        repositories {
-            maven {
-                if ((System.getenv("MAVEN_USER") != '') && (System.getenv("MAVEN_PASSWORD") != '')) {
-                    credentials {
-                        username System.getenv("MAVEN_USER")
-                        password System.getenv("MAVEN_PASSWORD")
-                    }
-                }
-                if (System.getenv("MAVEN_URL") != '') {
-                    url System.getenv("MAVEN_URL")
-                } else {
-                    url "file:///${project.buildDir}/repo"
-                }
-            }
-        }
+        options.release = 8
+        options.compilerArgs << "-Xmaxerrs" << "2000"
     }
 }
-
-if(System.getenv('USE_ALPHAS').equals('true')) {
-    task setupGithubActions() {
-        def getVersion = {
-            //TAG-offset-hash
-            def raw = grgit.describe(longDescr: true, tags: true, match: ["${rootProject.mc_version}-[0-9].[0-9].[0-9]", "${rootProject.mc_version}-[0-9][0-9].[0-9][0-9].[0-9][0-9]", "${rootProject.mc_version}-[0-9].[0-9][0-9].[0-9][0-9]", "${rootProject.mc_version}-[0-9].[0-9].[0-9][0-9]", "${rootProject.mc_version}-[0-9].[0-9][0-9].[0-9]", "${rootProject.mc_version}-[0-9][0-9].[0-9].[0-9]"])
-            def desc = (raw == null ? '0.0-0-unknown' : grgit.describe(longDescr: true, tags: true, match: ["${rootProject.mc_version}-[0-9].[0-9].[0-9]", "${rootProject.mc_version}-[0-9][0-9].[0-9][0-9].[0-9][0-9]", "${rootProject.mc_version}-[0-9].[0-9][0-9].[0-9][0-9]", "${rootProject.mc_version}-[0-9].[0-9].[0-9][0-9]", "${rootProject.mc_version}-[0-9].[0-9][0-9].[0-9]", "${rootProject.mc_version}-[0-9][0-9].[0-9].[0-9]"])).split('-') as List
-            def hash = desc.remove(desc.size() - 1)
-            def offset = desc.remove(desc.size() - 1)
-            def tag = desc.join('-')
-            return "${tag}.${offset}".toString().replace("${rootProject.mc_version}-", "")
-            //Bake the response instead of making it dynamic
-        }
-        rootProject.mod_version = getVersion();
-        allprojects {
-            version = rootProject.mc_version + '-' + getVersion();
-        }
-        def getLastTag = {
-            def raw = grgit.describe(longDescr: true, tags: true)
-            if (raw == null) {
-                return "HEAD"
-            } else {
-                List desc = raw.split('-') as List
-                if (desc.size() > 1) {
-                    desc.remove(desc.size() - 1)
-                }
-                if (desc.size() > 1) {
-                    desc.remove(desc.size() - 1)
-                }
-                return desc.join('-');
-            }
-        }
-        def rawLog = grgit.log(includes: ['HEAD'], excludes: [getLastTag()]);
-        def log = "";
-        for (org.ajoberstar.grgit.Commit commit : rawLog) {
-            log = log + "[`" + commit.abbreviatedId + "`](https://github.com/${rootProject.github}/commit/" + commit.id + ") " + commit.shortMessage + " - " + commit.author.name + "\\n";
-        }
-        log = log + "\\n**-----Download-----**\\n**[__Fabric__](https://github.com/${rootProject.github}/releases/tag/alpha-${project.version}/${rootProject.mod_id}-${project.version}-fabric.jar) | [__Forge__](https://github.com/${rootProject.github}/releases/tag/alpha-${project.version}/${rootProject.mod_id}-${project.version}-forge.jar)**"
-        doLast {
-            exec {
-                commandLine "echo", "##[set-output name=modid;]${rootProject.mod_id}";
-            }
-            exec {
-                commandLine "echo", "##[set-output name=version;]${rootProject.version}";
-            }
-            exec {
-                commandLine "echo", "##[set-output name=commitlog;]" + "{\"content\":\"" + (project.hasProperty('hook_content') ? project.hook_content : "") + "\",\"embeds\":[{\"author\":{\"name\":\"itsmeow\",\"url\":\"https://itsmeow.dev/\",\"icon_url\":\"https://itsmeow.dev/icon.png\"},\"title\":\"${project.mod_id}-alpha-${project.version}\",\"url\":\"https://github.com/${project.github}/releases/tag/alpha-${project.version}\",\"color\":14700288,\"description\":\"" + log + "\"}]}";
-            }
-        }
-    }
-} else {
-    task setupGithubActions() {
-        doLast {
-            exec {
-                commandLine "echo", "##[set-output name=modid;]${rootProject.mod_id}";
-            }
-            if (rootProject.hasProperty('curse_project_id')) {
-                exec {
-                    commandLine "echo", "##[set-output name=project_id;]${rootProject.curse_project_id}";
-                }
-                exec {
-                    commandLine "echo", "##[set-output name=curse_title;]${rootProject.curse_title}";
-                }
-                exec {
-                    commandLine "echo", "##[set-output name=curse_versions_fabric;]${rootProject.curse_versions_fabric}";
-                }
-                exec {
-                    commandLine "echo", "##[set-output name=curse_versions_forge;]${rootProject.curse_versions_forge}";
-                }
-                if (rootProject.hasProperty('curse_relations_fabric')) {
-                    exec {
-                        commandLine "echo", "##[set-output name=curse_relations_fabric;]${rootProject.curse_relations_fabric}";
-                    }
-                }
-                if (rootProject.hasProperty('curse_relations_forge')) {
-                    exec {
-                        commandLine "echo", "##[set-output name=curse_relations_forge;]${rootProject.curse_relations_forge}";
-                    }
-                }
-            }
-            exec {
-                commandLine "echo", "##[set-output name=version;]${rootProject.version}";
-            }
-        }
-    }
-}
+apply from: 'https://maven.itsmeow.dev/scripts/architectury-base.gradle'
+apply from: 'https://maven.itsmeow.dev/scripts/architectury-alphas.gradle'
