@@ -1,3 +1,29 @@
+# 11.0.8
+
+- Updated Spanish Localization (Thanks angelapuzzle)
+- Added Vietnamese Localization (Thanks baooduy)
+- Added Czech Localization (Thanks marekVandik)
+- Fixed bug causing Feral Wolves to render incorrectly sometimes.
+- Fixed bug where coyotes would not render their tail health properly
+- Fixed a duplication placement glitch with animal heads at an extreme angle
+- Fixed a crash conflicting with other mods using shadowed Jankson (e.g. BYG)
+- Fixed a crash with setting a null name on reindeer
+- Fixed a crash when putting a cape on a non-player with Curios installed.
+- Fixed a crash with butterfly pollination and unconvential plants (e.g. Supplementaries Flax)
+- Fixed a bug where if badger dirt never landed it would stay in the air and cause lag.
+- Improved bucket texture re-usability and compat with other mods
+- Fixed various crashes caused by missing targets during entity targeting AI ticks
+- 1.17+: Added freeze immunity to:
+  - Feral Wolves
+  - Walrus
+  - Whales
+  - Reindeer
+  - Boars
+  - Sharks
+  - Moose
+  - Lammergeiers
+- 1.18: Internal optimizations and cleanup
+
 # 11.0.5
 
 - Fixed bug where the goose pickup blocklist did not work
