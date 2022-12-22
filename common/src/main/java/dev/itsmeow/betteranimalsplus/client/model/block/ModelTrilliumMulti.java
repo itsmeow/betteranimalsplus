@@ -2,7 +2,7 @@ package dev.itsmeow.betteranimalsplus.client.model.block;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.math.Vector3f;
+import com.mojang.math.Axis;
 import dev.itsmeow.betteranimalsplus.client.model.abstracts.ModelBAP;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
@@ -96,7 +96,7 @@ public class ModelTrilliumMulti<T extends Entity> extends ModelBAP<T> {
 
     @Override
     public void renderToBuffer(PoseStack poseStack, VertexConsumer buffer, int packedLight, int packedOverlay, float r, float g, float b, float a) {
-        poseStack.mulPose(Vector3f.YP.rotationDegrees(rotation)); // Yaw
+        poseStack.mulPose(Axis.YP.rotationDegrees(rotation)); // Yaw
         stem01.render(poseStack, buffer, packedLight, packedOverlay, r, g, b, a);
         stem02.render(poseStack, buffer, packedLight, packedOverlay, r, g, b, a);
         stem03.render(poseStack, buffer, packedLight, packedOverlay, r, g, b, a);

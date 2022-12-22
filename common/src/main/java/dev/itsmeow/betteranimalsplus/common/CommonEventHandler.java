@@ -7,9 +7,7 @@ import dev.architectury.event.EventResult;
 import dev.architectury.event.events.common.EntityEvent;
 import dev.architectury.event.events.common.InteractionEvent;
 import dev.architectury.injectables.annotations.ExpectPlatform;
-import dev.architectury.registry.registries.Registries;
 import dev.architectury.utils.PlatformExpectedError;
-import dev.itsmeow.betteranimalsplus.Ref;
 import dev.itsmeow.betteranimalsplus.common.entity.*;
 import dev.itsmeow.betteranimalsplus.common.entity.util.IHaveHunger;
 import dev.itsmeow.betteranimalsplus.common.entity.util.abstracts.EntitySharkBase;
@@ -17,12 +15,13 @@ import dev.itsmeow.betteranimalsplus.init.ModEntities;
 import dev.itsmeow.betteranimalsplus.init.ModLootTables;
 import dev.itsmeow.betteranimalsplus.init.ModTriggers;
 import dev.itsmeow.betteranimalsplus.mixin.MobAccessor;
+import dev.itsmeow.imdlib.IMDLib;
 import dev.itsmeow.imdlib.entity.interfaces.IBucketable;
 import dev.itsmeow.imdlib.entity.util.variant.IVariant;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.Registry;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
@@ -134,7 +133,7 @@ public class CommonEventHandler {
 
     public static CompoundEventResult<ItemStack> rightClickItem(Player player, InteractionHand hand) {
         ItemStack stack = player.getItemInHand(hand);
-        ResourceLocation reg = Registries.get(Ref.MOD_ID).get(Registry.ITEM_REGISTRY).getId(stack.getItem());
+        ResourceLocation reg = IMDLib.getRegistry(Registries.ITEM).getId(stack.getItem());
         if(reg != null && reg.getPath().equals("portable_jukebox") && player instanceof ServerPlayer) {
             if(stack.getTagElement("Disc") != null) {
                 Item item = ItemStack.of(stack.getTagElement("Disc")).getItem();

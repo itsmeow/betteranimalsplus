@@ -53,7 +53,7 @@ public abstract class ItemCape extends ItemModeledArmor {
     }
 
     public ItemCape(Item repairItem, ArmorMaterial material) {
-        super(material, EquipmentSlot.CHEST, new Properties().tab(BetterAnimalsPlusMod.TAB));
+        super(material, EquipmentSlot.CHEST, new Properties().arch$tab(BetterAnimalsPlusMod.TAB));
         this.repairItem = repairItem;
         DispenserBlock.registerBehavior(this, DISPENSE_ITEM_BEHAVIOR);
     }

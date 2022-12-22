@@ -2,7 +2,7 @@ package dev.itsmeow.betteranimalsplus.client.model.entity;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.math.Vector3f;
+import com.mojang.math.Axis;
 import dev.itsmeow.betteranimalsplus.client.model.abstracts.ModelBAP;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
@@ -95,7 +95,7 @@ public class ModelPiranha<T extends Entity> extends ModelBAP<T> {
         stack.pushPose();
         {
             if (!this.isInWater) {
-                stack.mulPose(Vector3f.ZP.rotationDegrees(90F));
+                stack.mulPose(Axis.ZP.rotationDegrees(90F));
                 stack.translate(2F, -1F, 0F);
             }
             this.body.render(stack, bufferIn, packedLightIn, packedOverlayIn);

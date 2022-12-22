@@ -1,6 +1,6 @@
 {
     "parent": "minecraft:item/generated",
     "textures": {
-        "layer0": "betteranimalsplus:items/venison_raw"
+        "layer0": "betteranimalsplus:item/venison_raw"
     }
 }

@@ -10,7 +10,7 @@ public class ItemBetterFood extends Item {
     public final int itemUseDuration;
 
     public ItemBetterFood(int foodToFill, float saturationMultiplier, int eatLength, boolean isMeat) {
-        super(new Item.Properties().tab(BetterAnimalsPlusMod.TAB).food(createFood(foodToFill, saturationMultiplier, isMeat)));
+        super(new Item.Properties().arch$tab(BetterAnimalsPlusMod.TAB).food(createFood(foodToFill, saturationMultiplier, isMeat)));
         this.itemUseDuration = eatLength;
     }
 

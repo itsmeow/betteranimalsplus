@@ -2,7 +2,7 @@ package dev.itsmeow.betteranimalsplus.client.model.armor;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.math.Vector3f;
+import com.mojang.math.Axis;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.geom.ModelPart;
@@ -89,8 +89,8 @@ public class ModelBearCape<T extends LivingEntity> extends HumanoidModel<T> {
             matrixStackIn.translate(0.0F, 0.05F, 0.025F);
             float angle = 6.0F + f2_r / 2.0F + f1_r;
             angle = Math.min(angle, 90F);
-            matrixStackIn.mulPose(Vector3f.XP.rotationDegrees(angle));
-            matrixStackIn.mulPose(Vector3f.ZP.rotationDegrees(f3_r / 2.0F));
+            matrixStackIn.mulPose(Axis.XP.rotationDegrees(angle));
+            matrixStackIn.mulPose(Axis.ZP.rotationDegrees(f3_r / 2.0F));
             super.renderToBuffer(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
             matrixStackIn.popPose();
             this.bearCapeArmL1.visible = true;

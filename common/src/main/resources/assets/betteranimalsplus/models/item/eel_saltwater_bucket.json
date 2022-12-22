@@ -1,7 +1,7 @@
 {
     "parent": "minecraft:item/generated",
     "textures": {
-        "layer0": "betteranimalsplus:items/lower_bucket",
-        "layer1": "betteranimalsplus:items/bucket_content/eel_saltwater"
+        "layer0": "betteranimalsplus:item/lower_bucket",
+        "layer1": "betteranimalsplus:item/bucket_content/eel_saltwater"
     }
 }

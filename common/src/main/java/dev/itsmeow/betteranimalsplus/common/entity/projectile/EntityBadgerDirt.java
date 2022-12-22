@@ -1,13 +1,13 @@
 package dev.itsmeow.betteranimalsplus.common.entity.projectile;
 
-import dev.itsmeow.betteranimalsplus.init.ModTriggers;
 import dev.architectury.networking.NetworkManager;
+import dev.itsmeow.betteranimalsplus.init.ModTriggers;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.Difficulty;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -86,7 +86,7 @@ public class EntityBadgerDirt extends ThrowableProjectile {
     }
 
     @Override
-    public Packet<?> getAddEntityPacket() {
+    public Packet<ClientGamePacketListener> getAddEntityPacket() {
         return NetworkManager.createAddEntityPacket(this);
     }
 

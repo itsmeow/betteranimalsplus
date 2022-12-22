@@ -1,6 +1,6 @@
 {
     "parent": "minecraft:item/generated",
     "textures": {
-        "layer0": "betteranimalsplus:items/advancement_icon_jellyfish"
+        "layer0": "betteranimalsplus:item/advancement_icon_jellyfish"
     }
 }

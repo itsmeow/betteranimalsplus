@@ -39,7 +39,7 @@ public class ItemThrowableCustomEgg<T extends ThrowableItemProjectile> extends I
     private final EggConstructorThrower eggSupplier2;
 
     public ItemThrowableCustomEgg(Supplier<EntityType<? extends T>> typeSupplier, EggConstructorPosition<T> egg, EggConstructorThrower<T> egg2) {
-        super(new Item.Properties().stacksTo(16).tab(BetterAnimalsPlusMod.TAB));
+        super(new Item.Properties().stacksTo(16).arch$tab(BetterAnimalsPlusMod.TAB));
         this.typeSupplier = typeSupplier;
         this.eggSupplier = egg;
         this.eggSupplier2 = egg2;

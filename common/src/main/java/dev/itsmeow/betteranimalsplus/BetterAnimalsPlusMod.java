@@ -2,11 +2,9 @@ package dev.itsmeow.betteranimalsplus;
 
 import com.google.common.collect.ImmutableList;
 import dev.architectury.event.events.common.PlayerEvent;
-import dev.architectury.injectables.annotations.ExpectPlatform;
 import dev.architectury.networking.NetworkChannel;
-import dev.architectury.platform.Platform;
+import dev.architectury.registry.CreativeTabRegistry;
 import dev.architectury.utils.Env;
-import dev.architectury.utils.PlatformExpectedError;
 import dev.itsmeow.betteranimalsplus.client.dumb.SafeSyncThing;
 import dev.itsmeow.betteranimalsplus.common.CommonEventHandler;
 import dev.itsmeow.betteranimalsplus.common.entity.EntityCoyote;
@@ -19,7 +17,8 @@ import dev.itsmeow.imdlib.entity.EntityTypeContainer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.ItemLike;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -71,24 +70,23 @@ public class BetterAnimalsPlusMod {
     }
 
     public static void init(Consumer<Runnable> enqueue) {
+        BetterAnimalsPlusMod.addEggItems();
         ModWorldGen.init(enqueue);
         LOGGER.info("Overspawning lammergeiers...");
     }
 
     public static boolean isDev(UUID uuid) {
-        //return DEVS.contains(uuid);
-        return true;
+        return DEVS.contains(uuid);
     }
 
     public static boolean isDev(Player player) {
         return isDev(player.getGameProfile().getId());
     }
 
-    public static final CreativeModeTab TAB = getPlatformTab();
+    public static final CreativeTabRegistry.TabSupplier TAB = CreativeTabRegistry.create(new ResourceLocation(Ref.MOD_ID, "main"), () -> new ItemStack(ModItems.ANTLER.get()));
 
-    @ExpectPlatform
-    public static CreativeModeTab getPlatformTab() {
-        throw new PlatformExpectedError("getPlatformTab(): Expected Platform");
+    public static void addEggItems() {
+        CreativeTabRegistry.append(TAB, ModEntities.getEntities().values().stream().map(cont -> cont.getEggItem().get()).collect(Collectors.toList()).toArray(new ItemLike[0]));
     }
 
     public static void onPlayerJoin(ServerPlayer player) {

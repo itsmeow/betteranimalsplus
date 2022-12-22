@@ -3,7 +3,7 @@
 	"parent": "minecraft:block/block",
 	"ambientocclusion": false,
 	"textures": {
-		"particle": "betteranimalsplus:blocks/turkey_block_slice_2_raw"
+		"particle": "betteranimalsplus:block/turkey_block_slice_2_raw"
 	},
 	"elements": [
 		{

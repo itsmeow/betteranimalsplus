@@ -794,7 +794,7 @@ public class EntityReindeer extends Animal implements PlayerRideableJumping, IVa
     }
 
     @Override
-    public boolean canJump() {
+    public boolean canJump(Player player) {
         return true;
     }
 

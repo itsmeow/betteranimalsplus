@@ -1,6 +1,6 @@
 {
 	"parent": "item/generated",
 	"textures": {
-		"layer0": "betteranimalsplus:items/boarhead_light_brown"
+		"layer0": "betteranimalsplus:item/boarhead_light_brown"
 	}
 }

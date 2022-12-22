@@ -1,6 +1,6 @@
 {
     "parent": "minecraft:item/generated",
     "textures": {
-        "layer0": "betteranimalsplus:items/lamprey_bucket"
+        "layer0": "betteranimalsplus:item/lamprey_bucket"
     }
 }

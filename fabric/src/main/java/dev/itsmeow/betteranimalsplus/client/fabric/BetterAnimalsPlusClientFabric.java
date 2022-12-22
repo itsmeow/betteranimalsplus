@@ -2,7 +2,7 @@ package dev.itsmeow.betteranimalsplus.client.fabric;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.math.Vector3f;
+import com.mojang.math.Axis;
 import dev.emi.trinkets.api.SlotReference;
 import dev.emi.trinkets.api.client.TrinketRenderer;
 import dev.emi.trinkets.api.client.TrinketRendererRegistry;
@@ -108,7 +108,7 @@ public class BetterAnimalsPlusClientFabric implements ClientModInitializer {
                         }
                         if (player.isCrouching()) {
                             matrixStack.translate(0.0F, 0.2F, 0.0F);
-                            matrixStack.mulPose(Vector3f.XP.rotationDegrees(90.0F / (float) Math.PI));
+                            matrixStack.mulPose(Axis.XP.rotationDegrees(90.0F / (float) Math.PI));
                         }
                         EntityRenderer<? super LivingEntity> render = Minecraft.getInstance().getEntityRenderDispatcher().getRenderer(player);
                         if (render instanceof LivingEntityRenderer) {

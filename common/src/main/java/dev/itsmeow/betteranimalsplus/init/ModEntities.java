@@ -1,6 +1,7 @@
 package dev.itsmeow.betteranimalsplus.init;
 
 import com.google.common.collect.Lists;
+import dev.architectury.registry.CreativeTabRegistry;
 import dev.architectury.registry.registries.RegistrySupplier;
 import dev.itsmeow.betteranimalsplus.BetterAnimalsPlusMod;
 import dev.itsmeow.betteranimalsplus.Ref;
@@ -19,7 +20,7 @@ import dev.itsmeow.imdlib.entity.util.EntityTypeContainerContainable;
 import dev.itsmeow.imdlib.entity.util.variant.EntityVariant;
 import dev.itsmeow.imdlib.item.ItemModEntityContainer;
 import dev.itsmeow.imdlib.item.ItemModFishBucket;
-import net.minecraft.core.Registry;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.entity.EntityType;
@@ -30,7 +31,6 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.monster.Spider;
 import net.minecraft.world.entity.projectile.Projectile;
-import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.biome.Biomes;
 import net.minecraft.world.level.block.Blocks;
@@ -43,7 +43,7 @@ public class ModEntities {
 
     public static final EntityRegistrarHandlerBAP H = new EntityRegistrarHandlerBAP();
     private static final String MODID = Ref.MOD_ID;
-    private static final CreativeModeTab G = BetterAnimalsPlusMod.TAB;
+    private static final CreativeTabRegistry.TabSupplier G = BetterAnimalsPlusMod.TAB;
     public static final EntityTypeContainerBAPTameable<EntityLammergeier> LAMMERGEIER = H.addTame(EntityLammergeier.class, EntityLammergeier::new, "lammergeier", () -> Mob.createMobAttributes()
             .add(Attributes.ATTACK_SPEED)
             .add(Attributes.ATTACK_DAMAGE)
@@ -505,6 +505,6 @@ public class ModEntities {
     }
 
     private static <T extends Projectile> RegistrySupplier<EntityType<T>> projectile(EntityType.EntityFactory<T> factory, String name, float width, float height) {
-        return IMDLib.getRegistry(Registry.ENTITY_TYPE_REGISTRY).register(new ResourceLocation(MODID, name), () -> H.createEntityType(factory, name, MobCategory.MISC, 64, 1, true, width, height));
+        return IMDLib.getRegistry(Registries.ENTITY_TYPE).register(new ResourceLocation(MODID, name), () -> H.createEntityType(factory, name, MobCategory.MISC, 64, 1, true, width, height));
     }
 }

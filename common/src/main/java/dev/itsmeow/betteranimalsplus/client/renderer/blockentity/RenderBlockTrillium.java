@@ -1,7 +1,7 @@
 package dev.itsmeow.betteranimalsplus.client.renderer.blockentity;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Vector3f;
+import com.mojang.math.Axis;
 import dev.itsmeow.betteranimalsplus.Ref;
 import dev.itsmeow.betteranimalsplus.client.model.block.ModelTrillium;
 import dev.itsmeow.betteranimalsplus.client.model.block.ModelTrilliumMulti;
@@ -46,7 +46,7 @@ public class RenderBlockTrillium implements BlockEntityRenderer<BlockEntityTrill
         matrixStackIn.pushPose();
         {
             matrixStackIn.translate(0.5F, 1.5F, 0.5F);
-            matrixStackIn.mulPose(Vector3f.ZP.rotationDegrees(180F));
+            matrixStackIn.mulPose(Axis.ZP.rotationDegrees(180F));
 
             matrixStackIn.pushPose();
             {

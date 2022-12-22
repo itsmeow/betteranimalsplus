@@ -8,14 +8,15 @@ import dev.itsmeow.betteranimalsplus.common.entity.util.abstracts.EntityAnimalWi
 import dev.itsmeow.betteranimalsplus.init.ModEntities;
 import dev.itsmeow.betteranimalsplus.init.ModItems;
 import dev.itsmeow.betteranimalsplus.init.ModSoundEvents;
+import dev.itsmeow.imdlib.IMDLib;
 import dev.itsmeow.imdlib.entity.EntityTypeContainer;
 import dev.itsmeow.imdlib.entity.util.variant.IVariant;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Registry;
 import net.minecraft.core.particles.ItemParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
@@ -266,10 +267,10 @@ public class EntityGoose extends EntityAnimalWithTypes {
     public boolean isPickupBlacklisted(Item item) {
         for(String itemsId : (List<String>) getContainer().getCustomConfiguration().getAnyHolder(List.class, PICKUP_BLOCK_LIST_KEY).get()) {
             if (itemsId.startsWith("#")) {
-                if(item.builtInRegistryHolder().is(TagKey.create(Registry.ITEM_REGISTRY, new ResourceLocation(itemsId.substring(1))))) {
+                if(item.builtInRegistryHolder().is(TagKey.create(Registries.ITEM, new ResourceLocation(itemsId.substring(1))))) {
                     return true;
                 }
-            } else if(itemsId.equals(Registry.ITEM.getKey(item).toString())) {
+            } else if(itemsId.equals(IMDLib.getRegistry(Registries.ITEM).getKey(item).toString())) {
                 return true;
             }
         }

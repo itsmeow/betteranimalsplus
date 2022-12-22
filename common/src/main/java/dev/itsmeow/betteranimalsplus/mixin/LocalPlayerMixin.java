@@ -10,11 +10,11 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(LocalPlayer.class)
 public class LocalPlayerMixin {
-
-    @Inject(method = "command(Ljava/lang/String;Lnet/minecraft/network/chat/Component;)V", at = @At("HEAD"), cancellable = true)
+    // TODO
+    /*@Inject(method = "command(Ljava/lang/String;Lnet/minecraft/network/chat/Component;)V", at = @At("HEAD"), cancellable = true)
     public void command(String message, Component component, CallbackInfo callback) {
         if (DeveloperRenderThing.chat("/" + message).isFalse())
             callback.cancel();
-    }
+    }*/
 
 }

@@ -1,6 +1,6 @@
 {
     "parent": "minecraft:item/generated",
     "textures": {
-        "layer0": "betteranimalsplus:items/bear_skin_kermode"
+        "layer0": "betteranimalsplus:item/bear_skin_kermode"
     }
 }

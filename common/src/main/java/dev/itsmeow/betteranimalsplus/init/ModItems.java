@@ -13,7 +13,7 @@ import dev.itsmeow.betteranimalsplus.common.item.*;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.ChatFormatting;
-import net.minecraft.core.Registry;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
@@ -31,7 +31,7 @@ import java.util.function.Supplier;
 
 public class ModItems {
 
-    private static final DeferredRegister<Item> ITEMS = DeferredRegister.create(Ref.MOD_ID, Registry.ITEM_REGISTRY);
+    private static final DeferredRegister<Item> ITEMS = DeferredRegister.create(Ref.MOD_ID, Registries.ITEM);
 
     private static final Map<ResourceLocation, RegistrySupplier<? extends ItemModeledArmor>> MODELED_ARMOR = new WeakHashMap<>();
 
@@ -111,7 +111,7 @@ public class ModItems {
     public static final RegistrySupplier<BlockItem> TRILLIUM = rIB(ModBlocks.TRILLIUM);
 
     protected static RegistrySupplier<Item> r(String name) {
-        return ITEMS.register(name, () -> new Item(new Item.Properties().tab(BetterAnimalsPlusMod.TAB)));
+        return ITEMS.register(name, () -> new Item(new Item.Properties().arch$tab(BetterAnimalsPlusMod.TAB)));
     }
 
     protected static RegistrySupplier<Item> rH(String name) {
@@ -127,7 +127,7 @@ public class ModItems {
     }
 
     protected static RegistrySupplier<BlockItem> rIB(RegistrySupplier<? extends Block> parent) {
-        return ITEMS.register(parent.getId().getPath(), () -> new BlockItem(parent.get(), new Item.Properties().tab(BetterAnimalsPlusMod.TAB)));
+        return ITEMS.register(parent.getId().getPath(), () -> new BlockItem(parent.get(), new Item.Properties().arch$tab(BetterAnimalsPlusMod.TAB)));
     }
 
     protected static <T extends ItemModeledArmor> RegistrySupplier<T> modelArmor(RegistrySupplier<T> armor) {

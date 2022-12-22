@@ -1,6 +1,6 @@
 {
     "parent": "minecraft:item/handheld_rod",
     "textures": {
-        "layer0": "betteranimalsplus:items/turkey_leg_cooked"
+        "layer0": "betteranimalsplus:item/turkey_leg_cooked"
     }
 }

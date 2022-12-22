@@ -19,7 +19,7 @@ public class ItemHorseshoeCrabBlood extends Item {
     public static final Component CURES_WITHER = Component.translatable("tooltip.betteranimalsplus.cures_wither").withStyle(ChatFormatting.GREEN);
 
     public ItemHorseshoeCrabBlood() {
-        super(new Properties().stacksTo(1).craftRemainder(Items.GLASS_BOTTLE).tab(BetterAnimalsPlusMod.TAB));
+        super(new Properties().stacksTo(1).craftRemainder(Items.GLASS_BOTTLE).arch$tab(BetterAnimalsPlusMod.TAB));
     }
 
     private static boolean cure(LivingEntity entityLiving) {

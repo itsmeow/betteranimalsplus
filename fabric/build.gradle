@@ -29,10 +29,10 @@ dependencies {
     modImplementation("curse.maven:trinkets-341284:${rootProject.trinkets_version}") {
         transitive = false
     }
-    modRuntimeOnly("com.terraformersmc:modmenu:4.0.4") {
+    modRuntimeOnly("com.terraformersmc:modmenu:5.0.2") {
         transitive = false
     }
-    modRuntimeOnly("curse.maven:cloth-config-348521:3871534") {
+    modRuntimeOnly("curse.maven:cloth-config-348521:4147099") {
         exclude(group: "net.fabricmc")
         exclude(group: "net.fabricmc.fabric-api")
     }

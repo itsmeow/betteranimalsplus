@@ -1,7 +1,7 @@
 package dev.itsmeow.betteranimalsplus.client;
 
 import com.google.common.collect.ImmutableMap;
-import com.mojang.math.Vector3f;
+import com.mojang.math.Axis;
 import dev.architectury.platform.Platform;
 import dev.architectury.registry.client.rendering.BlockEntityRendererRegistry;
 import dev.itsmeow.betteranimalsplus.BetterAnimalsPlusMod;
@@ -60,7 +60,7 @@ public class ClientLifecycleHandler {
         RenderFactory.addRender(ModEntities.PROJECTILE_TARANTULA_HAIR::get, RenderTarantulaHair::new);
         R.addRender(ModEntities.TARANTULA::getEntityType, 1F, r -> r.tVariant().mSingle(ModelTarantula::new, "tarantula").preRender((e, s, p) -> {
             if(e.isClimbing()) {
-                s.mulPose(Vector3f.XP.rotationDegrees(-90F));
+                s.mulPose(Axis.XP.rotationDegrees(-90F));
                 s.translate(0.0F, 0.75F, -0.5F);
             }
         }).layer(t -> new LayerEyes<>(t, ModResources.tarantula_eyes)));
@@ -82,7 +82,7 @@ public class ClientLifecycleHandler {
         R.addRender(ModEntities.LAMPREY::getEntityType, 0.4F, r -> r.tVariant().mSingle(ModelLamprey::new, "lamprey").preRender((e, s, p) -> {
             s.scale(0.5F, 0.5F, 0.5F);
             if(e.getVehicle() != null) {
-                s.mulPose(Vector3f.YP.rotationDegrees(180F));
+                s.mulPose(Axis.YP.rotationDegrees(180F));
                 s.translate(0, 0, 0.5F);
             }
         }));
@@ -184,29 +184,29 @@ public class ClientLifecycleHandler {
             float f = Mth.lerp(p, e.prevSquidPitch, e.squidPitch);
             float f1 = Mth.lerp(p, e.prevSquidYaw, e.squidYaw);
             s.translate(0.0F, 0.5F, 0.0F);
-            s.mulPose(Vector3f.YP.rotationDegrees(180.0F - y));
-            s.mulPose(Vector3f.XP.rotationDegrees(f));
-            s.mulPose(Vector3f.YP.rotationDegrees(f1));
+            s.mulPose(Axis.YP.rotationDegrees(180.0F - y));
+            s.mulPose(Axis.XP.rotationDegrees(f));
+            s.mulPose(Axis.YP.rotationDegrees(f1));
             s.translate(0.0F, -1.2F, 0.0F);
         }));
         R.addRender(ModEntities.SQUID_GIANT::getEntityType, 3F, r -> r.tSingle("squid_giant").mSingle(ModelGiantSquid::new, "giant_squid").simpleScale(e -> 2.2F).handleRotation((e, p) -> Mth.lerp(p, e.lastTentacleAngle, e.tentacleAngle)).applyRotations((e, s, a, y, p) -> {
             float f = Mth.lerp(p, e.prevSquidPitch, e.squidPitch);
             float f1 = Mth.lerp(p, e.prevSquidYaw, e.squidYaw);
             s.translate(0.0F, 0.5F, 0.0F);
-            s.mulPose(Vector3f.YP.rotationDegrees(180.0F - y));
-            s.mulPose(Vector3f.XP.rotationDegrees(f));
-            s.mulPose(Vector3f.YP.rotationDegrees(f1));
+            s.mulPose(Axis.YP.rotationDegrees(180.0F - y));
+            s.mulPose(Axis.XP.rotationDegrees(f));
+            s.mulPose(Axis.YP.rotationDegrees(f1));
             s.translate(0.0F, -1.2F, 0.0F);
         }));
         R.addRender(ModEntities.PIRANHA::getEntityType, 0.4F, r -> r.tSingle("piranha").mSingle(ModelPiranha::new, "piranha").simpleScale(e -> 0.3F));
         R.addRender(ModEntities.OCTOPUS::getEntityType, 1F, r -> r.tVariant().mSingle(ModelOctopus::new, "octopus").handleRotation((e, p) -> Mth.lerp(p, e.lastTentacleAngle, e.tentacleAngle)).applyRotations((e, s, a, y, p) -> {
             // s.translate(0.0F, 0.5F, 0.0F);
-            s.mulPose(Vector3f.YP.rotationDegrees(180.0F - y));
+            s.mulPose(Axis.YP.rotationDegrees(180.0F - y));
             if(e.isInWaterOrBubble() && (!e.isAboveBlock() || e.getDeltaMovement().length() > 0.01)) {
                 float f = Mth.lerp(p, e.prevSquidPitch, e.squidPitch);
                 float f1 = Mth.lerp(p, e.prevSquidYaw, e.squidYaw);
-                s.mulPose(Vector3f.XP.rotationDegrees(f));
-                s.mulPose(Vector3f.YP.rotationDegrees(f1));
+                s.mulPose(Axis.XP.rotationDegrees(f));
+                s.mulPose(Axis.YP.rotationDegrees(f1));
             }
             // s.translate(0.0F, -1.2F, 0.0F);
         }));

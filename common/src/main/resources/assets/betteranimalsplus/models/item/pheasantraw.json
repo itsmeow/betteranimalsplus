@@ -1,6 +1,6 @@
 {
     "parent": "minecraft:item/generated",
     "textures": {
-        "layer0": "betteranimalsplus:items/pheasant_raw"
+        "layer0": "betteranimalsplus:item/pheasant_raw"
     }
 }

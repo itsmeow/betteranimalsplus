@@ -1,6 +1,6 @@
 {
 	"parent": "item/generated",
 	"textures": {
-		"layer0": "betteranimalsplus:items/feralwolfhead_red"
+		"layer0": "betteranimalsplus:item/feralwolfhead_red"
 	}
 }

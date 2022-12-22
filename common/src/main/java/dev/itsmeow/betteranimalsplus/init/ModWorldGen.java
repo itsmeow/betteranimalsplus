@@ -5,10 +5,9 @@ import dev.itsmeow.betteranimalsplus.Ref;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
-import net.minecraft.data.BuiltinRegistries;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.features.FeatureUtils;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.BiomeTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.random.SimpleWeightedRandomList;
 import net.minecraft.world.level.biome.Biome;
@@ -33,7 +32,9 @@ public class ModWorldGen {
     public static PlacedFeature TRILLIUM_DENSE_PF = null;
 
     public static void init(Consumer<Runnable> enqueue) {
-        TRILLIUM_CF = new ConfiguredFeature(Feature.RANDOM_PATCH, FeatureUtils.simplePatchConfiguration(Feature.SIMPLE_BLOCK, new SimpleBlockConfiguration(
+        // TODO
+        // Mojang don't break worldgen code challenge (impossible)
+        /*TRILLIUM_CF = new ConfiguredFeature(Feature.RANDOM_PATCH, FeatureUtils.simplePatchConfiguration(Feature.SIMPLE_BLOCK, new SimpleBlockConfiguration(
                         new WeightedStateProvider(SimpleWeightedRandomList.<BlockState>builder()
                                 .add(ModBlocks.TRILLIUM.get().defaultBlockState().setValue(HorizontalDirectionalBlock.FACING, Direction.NORTH), 1)
                                 .add(ModBlocks.TRILLIUM.get().defaultBlockState().setValue(HorizontalDirectionalBlock.FACING, Direction.EAST), 1)
@@ -51,9 +52,9 @@ public class ModWorldGen {
                 HeightmapPlacement.onHeightmap(Heightmap.Types.MOTION_BLOCKING),
                 BiomeFilter.biome()));
         enqueue.accept(() -> {
-            Registry.register(BuiltinRegistries.CONFIGURED_FEATURE, new ResourceLocation(Ref.MOD_ID, "trillium"), TRILLIUM_CF);
-            Registry.register(BuiltinRegistries.PLACED_FEATURE, new ResourceLocation(Ref.MOD_ID, "trillium"), TRILLIUM_PF);
-            Registry.register(BuiltinRegistries.PLACED_FEATURE, new ResourceLocation(Ref.MOD_ID, "trillium_dense"), TRILLIUM_DENSE_PF);
+            Registry.register(Registries.CONFIGURED_FEATURE, new ResourceLocation(Ref.MOD_ID, "trillium"), TRILLIUM_CF);
+            Registry.register(Registries.PLACED_FEATURE, new ResourceLocation(Ref.MOD_ID, "trillium"), TRILLIUM_PF);
+            Registry.register(Registries.PLACED_FEATURE, new ResourceLocation(Ref.MOD_ID, "trillium_dense"), TRILLIUM_DENSE_PF);
         });
         BiomeModifications.addProperties(
                 ctx -> isSwamp(ctx) && !isDenseSwamp(ctx),
@@ -62,7 +63,7 @@ public class ModWorldGen {
         BiomeModifications.addProperties(
                 ctx -> isSwamp(ctx) && isDenseSwamp(ctx),
                 (ctx, mutable) -> mutable.getGenerationProperties().addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, TRILLIUM_DENSE_PF)
-        );
+        );*/
     }
 
     private static boolean isSwamp(BiomeModifications.BiomeContext ctx) {
@@ -74,6 +75,6 @@ public class ModWorldGen {
     }
 
     private static TagKey<Biome> key(String space, String key) {
-        return TagKey.create(Registry.BIOME_REGISTRY, new ResourceLocation(space, key));
+        return TagKey.create(Registries.BIOME, new ResourceLocation(space, key));
     }
 }

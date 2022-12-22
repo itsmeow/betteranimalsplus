@@ -1,6 +1,6 @@
 {
     "parent": "minecraft:item/generated",
     "textures": {
-        "layer0": "betteranimalsplus:items/turkey_egg"
+        "layer0": "betteranimalsplus:item/turkey_egg"
     }
 }

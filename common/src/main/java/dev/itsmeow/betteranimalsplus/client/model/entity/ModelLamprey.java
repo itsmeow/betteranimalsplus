@@ -2,7 +2,7 @@ package dev.itsmeow.betteranimalsplus.client.model.entity;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.math.Vector3f;
+import com.mojang.math.Axis;
 import dev.itsmeow.betteranimalsplus.client.model.abstracts.ModelBAP;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
@@ -71,7 +71,7 @@ public class ModelLamprey<T extends LivingEntity> extends ModelBAP<T> {
     @Override
     public void renderToBuffer(PoseStack matrixStackIn, VertexConsumer bufferIn, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
         if (putOnSide) {
-            matrixStackIn.mulPose(Vector3f.ZP.rotationDegrees(90F));
+            matrixStackIn.mulPose(Axis.ZP.rotationDegrees(90F));
             matrixStackIn.translate(1.5F, -1.75F, 0F);
         }
         this.body01.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn);

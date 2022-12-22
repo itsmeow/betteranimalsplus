@@ -1,6 +1,6 @@
 {
     "parent": "minecraft:item/generated",
     "textures": {
-        "layer0": "betteranimalsplus:items/calamari_raw"
+        "layer0": "betteranimalsplus:item/calamari_raw"
     }
 }
