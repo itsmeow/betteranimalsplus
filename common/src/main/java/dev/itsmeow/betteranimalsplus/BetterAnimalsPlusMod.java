@@ -31,7 +31,7 @@ public class BetterAnimalsPlusMod {
     public static final Logger LOGGER = LogManager.getLogger();
     public static final NetworkChannel HANDLER = NetworkChannel.create(new ResourceLocation(Ref.MOD_ID, "main_channel"));
     private static final ImmutableList<UUID> DEVS = ImmutableList.of(
-            UUID.fromString("81d9726a-56d4-4419-9a2a-be1d7f7f7ef1"),
+             UUID.fromString("81d9726a-56d4-4419-9a2a-be1d7f7f7ef1"),
             UUID.fromString("403f2fd4-f8a2-4608-a0b8-534da4184735"),
             UUID.fromString("4605663e-fb07-4843-98c5-73adbfb2625e")
     );
