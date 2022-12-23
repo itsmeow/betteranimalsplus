@@ -1,3 +1,7 @@
+# 11.0.9
+
+- 1.19: Fixed mixin crash
+
 # 11.0.8
 
 - Updated Spanish Localization (Thanks angelapuzzle)
