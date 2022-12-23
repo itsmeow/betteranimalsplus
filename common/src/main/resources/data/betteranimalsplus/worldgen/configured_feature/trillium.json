@@ -1,0 +1,63 @@
+{
+    "type": "random_patch",
+    "config": {
+        "tries": 64,
+        "feature": {
+            "feature": {
+                "type": "minecraft:simple_block",
+                "config": {
+                    "to_place": {
+                        "type": "minecraft:weighted_state_provider",
+                        "entries": [
+                            {
+                                "data": {
+                                    "Name": "betteranimalsplus:trillium",
+                                    "Properties": {
+                                        "facing": "north"
+                                    }
+                                },
+                                "weight": 1
+                            },
+                            {
+                                "data": {
+                                    "Name": "betteranimalsplus:trillium",
+                                    "Properties": {
+                                        "facing": "east"
+                                    }
+                                },
+                                "weight": 1
+                            },
+                            {
+                                "data": {
+                                    "Name": "betteranimalsplus:trillium",
+                                    "Properties": {
+                                        "facing": "south"
+                                    }
+                                },
+                                "weight": 1
+                            },
+                            {
+                                "data": {
+                                    "Name": "betteranimalsplus:trillium",
+                                    "Properties": {
+                                        "facing": "west"
+                                    }
+                                },
+                                "weight": 1
+                            }
+                        ]
+                    }
+                }
+            },
+            "placement": [
+                {
+                    "type": "minecraft:block_predicate_filter",
+                    "predicate": {
+                        "type": "minecraft:matching_blocks",
+                        "blocks": "minecraft:air"
+                    }
+                }
+            ]
+        }
+    }
+}

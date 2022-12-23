@@ -13,7 +13,7 @@
   ],
   "client": [
     "LayerDefinitionsMixin",
-    "LocalPlayerMixin",
+    "ClientPacketListenerMixin",
     "EntityRendererAccessor"
   ],
   "injectors": {
