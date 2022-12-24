@@ -1,10 +1,10 @@
 package dev.itsmeow.betteranimalsplus.network;
 
 import com.google.common.base.Charsets;
-import dev.itsmeow.betteranimalsplus.BetterAnimalsPlusMod;
-import dev.itsmeow.betteranimalsplus.client.dumb.SafeSyncThing;
 import dev.architectury.networking.NetworkManager;
 import dev.architectury.utils.Env;
+import dev.itsmeow.betteranimalsplus.BetterAnimalsPlusMod;
+import dev.itsmeow.betteranimalsplus.client.dumb.SafeSyncThing;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
 

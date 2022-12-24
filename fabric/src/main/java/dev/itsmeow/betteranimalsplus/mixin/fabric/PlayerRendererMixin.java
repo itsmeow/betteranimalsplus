@@ -2,7 +2,6 @@ package dev.itsmeow.betteranimalsplus.mixin.fabric;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import dev.itsmeow.betteranimalsplus.client.dumb.DeveloperRenderThing;
-import dev.itsmeow.betteranimalsplus.client.dumb.SafeSyncThing;
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.player.PlayerRenderer;

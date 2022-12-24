@@ -45,8 +45,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.pathfinder.BlockPathTypes;
 import net.minecraft.world.phys.Vec3;
 
-import java.util.Random;
-
 public class EntityWalrus extends Animal implements IContainerEntity<EntityWalrus> {
 
     private static final EntityDataAccessor<BlockPos> HOME_POS = SynchedEntityData.defineId(EntityWalrus.class, EntityDataSerializers.BLOCK_POS);

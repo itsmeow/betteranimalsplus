@@ -1,13 +1,11 @@
 package dev.itsmeow.betteranimalsplus;
 
-import com.mojang.bridge.launcher.Launcher;
 import dev.architectury.injectables.annotations.ExpectPlatform;
 import org.objectweb.asm.tree.ClassNode;
 import org.spongepowered.asm.mixin.extensibility.IMixinConfigPlugin;
 import org.spongepowered.asm.mixin.extensibility.IMixinInfo;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 
 public class BetterAnimalsPlusMixinPlugin implements IMixinConfigPlugin {

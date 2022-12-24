@@ -1,9 +1,9 @@
 package dev.itsmeow.betteranimalsplus.common.entity;
 
-import dev.itsmeow.imdlib.entity.EntityTypeContainer;
 import dev.itsmeow.betteranimalsplus.common.entity.ai.PeacefulNearestAttackableTargetGoal;
 import dev.itsmeow.betteranimalsplus.common.entity.util.abstracts.EntityBAPSquid;
 import dev.itsmeow.betteranimalsplus.init.ModEntities;
+import dev.itsmeow.imdlib.entity.EntityTypeContainer;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;

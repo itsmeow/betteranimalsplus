@@ -1,11 +1,11 @@
 package dev.itsmeow.betteranimalsplus.common.entity.ai;
 
-import net.minecraft.world.entity.PathfinderMob;
+import net.minecraft.world.entity.EntitySelector;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.pathfinder.Path;
-import net.minecraft.world.entity.EntitySelector;
 
 import java.util.EnumSet;
 

@@ -1,9 +1,9 @@
 package dev.itsmeow.betteranimalsplus.common.entity.ai;
 
 import dev.itsmeow.betteranimalsplus.common.entity.EntityLammergeier;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.ai.control.MoveControl;
 import net.minecraft.world.phys.AABB;
-import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec3;
 
 public class LammerMoveHelper extends MoveControl {

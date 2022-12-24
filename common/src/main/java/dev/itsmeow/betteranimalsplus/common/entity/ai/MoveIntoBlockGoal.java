@@ -1,8 +1,8 @@
 package dev.itsmeow.betteranimalsplus.common.entity.ai;
 
+import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.goal.Goal;
-import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.LevelReader;
 
 import java.util.EnumSet;

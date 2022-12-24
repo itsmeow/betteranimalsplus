@@ -1,12 +1,12 @@
 package dev.itsmeow.betteranimalsplus.network;
 
 import com.google.common.base.Charsets;
+import dev.architectury.networking.NetworkManager;
+import dev.architectury.utils.Env;
 import dev.itsmeow.betteranimalsplus.common.entity.EntityCoyote;
 import dev.itsmeow.betteranimalsplus.common.entity.util.EntityTypeContainerBAPTameable;
 import dev.itsmeow.betteranimalsplus.init.ModEntities;
 import dev.itsmeow.imdlib.entity.EntityTypeContainer;
-import dev.architectury.networking.NetworkManager;
-import dev.architectury.utils.Env;
 import net.minecraft.network.FriendlyByteBuf;
 
 import java.util.HashMap;

@@ -1,8 +1,8 @@
 package dev.itsmeow.betteranimalsplus.common.entity.util;
 
 import dev.itsmeow.imdlib.entity.interfaces.IContainerEntity;
-import net.minecraft.world.entity.Mob;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.entity.Mob;
 
 public interface IHaveHunger<T extends Mob> extends IContainerEntity<T> {
 

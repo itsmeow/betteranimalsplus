@@ -1,8 +1,8 @@
 package dev.itsmeow.betteranimalsplus.client.renderer.entity.layers;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import dev.itsmeow.imdlib.client.util.RenderUtil;
 import dev.itsmeow.betteranimalsplus.client.model.entity.ModelGoose;
+import dev.itsmeow.imdlib.client.util.RenderUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.renderer.MultiBufferSource;

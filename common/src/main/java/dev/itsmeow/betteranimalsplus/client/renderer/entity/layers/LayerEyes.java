@@ -1,7 +1,6 @@
 package dev.itsmeow.betteranimalsplus.client.renderer.entity.layers;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import dev.itsmeow.betteranimalsplus.client.ClientLifecycleHandler;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
