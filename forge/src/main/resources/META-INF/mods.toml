@@ -23,6 +23,6 @@ Adds 35+ new animals to your world, with items, food, blocks, and armor to suppl
 [[dependencies.betteranimalsplus]]
     modId="architectury"
     mandatory=true
-    versionRange="[7.0.0,)"
+    versionRange="[7.0.66,)"
     ordering="NONE"
     side="BOTH"

@@ -30,7 +30,7 @@
   },
   "depends": {
     "minecraft": "1.19.x",
-    "architectury": ">=7.0.0",
+    "architectury": ">=7.0.66",
     "fabricloader": ">=0.12.0",
     "fabric-api": ">=0.32.0"
   },
