@@ -194,7 +194,7 @@ public class ModEntities {
             .size(5F, 3F)
             .despawn()
             .biomesOverworld(BiomeTypes.OCEAN)
-            .variants("beluga", "bottlenose", "cuviers", "false_killer", "narwhal", "pilot"));
+            .variants("beluga", "bottlenose", "cuviers", "false_killer", "narwhal", "pilot", "sperm", "sperm_albino"));
     public static final EntityTypeContainer<EntityWalrus> WALRUS = H.add(EntityWalrus.class, EntityWalrus::new, "walrus", () -> Mob.createMobAttributes()
             .add(Attributes.MAX_HEALTH, 30.0D)
             .add(Attributes.ARMOR, 5D)

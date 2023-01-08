@@ -19,6 +19,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.control.SmoothSwimmingLookControl;
+import net.minecraft.world.entity.ai.control.SmoothSwimmingMoveControl;
 import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.player.Player;
@@ -31,10 +32,17 @@ import java.util.Set;
 
 public class EntityWhale extends EntityWaterMobPathingWithTypesAirBreathing implements ISelectiveVariantTypes<EntityWaterMobPathing> {
 
+    private static final String[] COLD_TYPES = new String[] { "bottlenose", "pilot" };
+    private static final String[] FROZEN_TYPES = new String[] { "narwhal", "beluga" };
+    private static final String[] DEEP_TYPES = new String[] { "cuviers", "pilot", "sperm", "sperm_albino" };
+    private static final String[] WARM_OTHER_TYPES = new String[] { "cuviers", "pilot", "false_killer", "sperm", "sperm_albino" };
+
     public int attacksLeft = 0;
 
     public EntityWhale(EntityType<? extends EntityWhale> entityType, Level worldIn) {
         super(entityType, worldIn);
+        // this 4 is very important for making sure they don't break the laws of fluid by dynamics by doing a 360 noscope in 0.2sec
+        this.moveControl = new SmoothSwimmingMoveControl(this, 15, 4, 0.02F, 0.005F, true);
         this.lookControl = new SmoothSwimmingLookControl(this, 10);
     }
 
@@ -45,8 +53,6 @@ public class EntityWhale extends EntityWaterMobPathingWithTypesAirBreathing impl
         this.goalSelector.addGoal(0, new TryFindWaterGoal(this));
         this.goalSelector.addGoal(2, new WhaleMeleeAttackGoal(this));
         this.goalSelector.addGoal(3, new RandomSwimmingGoal(this, 1.0D, 10));
-        this.goalSelector.addGoal(4, new LookAtPlayerGoal(this, Player.class, 6.0F));
-        this.goalSelector.addGoal(5, new RandomLookAroundGoal(this));
         this.targetSelector.addGoal(0, new HurtByTargetGoal(this) {
             @Override
             public boolean canUse() {
@@ -67,6 +73,21 @@ public class EntityWhale extends EntityWaterMobPathingWithTypesAirBreathing impl
 
     private boolean isNarwhal() {
         return "narwhal".equals(this.getVariantNameOrEmpty());
+    }
+
+    @Override
+    public int getHeadRotSpeed() {
+        return 1;
+    }
+
+    @Override
+    public int getMaxHeadXRot() {
+        return 1;
+    }
+
+    @Override
+    public int getMaxHeadYRot() {
+        return 1;
     }
 
     @Override
@@ -105,13 +126,13 @@ public class EntityWhale extends EntityWaterMobPathingWithTypesAirBreathing impl
     @Override
     public String[] getTypesFor(ResourceKey<Biome> biomeKey, Biome biome, Set<BiomeTypes.Type> types, MobSpawnType reason) {
         if(biomeKey == Biomes.COLD_OCEAN || biomeKey == Biomes.DEEP_COLD_OCEAN) {
-            return new String[] { "bottlenose", "pilot" };
+            return COLD_TYPES;
         } else if(biomeKey == Biomes.DEEP_FROZEN_OCEAN || biomeKey == Biomes.FROZEN_OCEAN) {
-            return new String[] { "narwhal", "beluga" };
+            return FROZEN_TYPES;
         } else if(biomeKey == Biomes.DEEP_LUKEWARM_OCEAN || biomeKey == Biomes.DEEP_OCEAN) {
-            return new String[] { "cuviers", "pilot" };
+            return DEEP_TYPES;
         } else {
-            return new String[] { "cuviers", "pilot", "false_killer" };
+            return WARM_OTHER_TYPES;
         }
     }
 
