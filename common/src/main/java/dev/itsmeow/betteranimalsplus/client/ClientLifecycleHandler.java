@@ -15,6 +15,7 @@ import dev.itsmeow.betteranimalsplus.client.model.block.ModelTrilliumMulti2;
 import dev.itsmeow.betteranimalsplus.client.model.block.head.*;
 import dev.itsmeow.betteranimalsplus.client.model.entity.*;
 import dev.itsmeow.betteranimalsplus.client.model.entity.shark.*;
+import dev.itsmeow.betteranimalsplus.client.model.entity.whale.*;
 import dev.itsmeow.betteranimalsplus.client.renderer.blockentity.RenderBlockTrillium;
 import dev.itsmeow.betteranimalsplus.client.renderer.entity.RenderTarantulaHair;
 import dev.itsmeow.betteranimalsplus.client.renderer.entity.layers.GooseItemLayerRenderer;
@@ -151,30 +152,21 @@ public class ClientLifecycleHandler {
         RenderFactory.addRender(ModEntities.PROJECTILE_GOLDEN_GOOSE_EGG::get, RenderFactory.sprite());
         R.addRender(ModEntities.EEL_FRESHWATER::getEntityType, 0.4F, r -> r.tVariant().mSingle(ModelFreshwaterEel::new, "freshwater_eel"));
         R.addRender(ModEntities.EEL_SALTWATER::getEntityType, 0.4F, r -> r.tVariant().mSingle(ModelSaltwaterEel::new, "saltwater_eel"));
-        R.addRender(ModEntities.WHALE::getEntityType, 3F, r -> r.tVariant().mCondition(e -> !"cuviers".equals(e.getVariantNameOrEmpty()) && !"bottlenose".equals(e.getVariantNameOrEmpty()), ModelSmallWhale::new, "small_whale", ModelBeakedWhale::new, "beaked_whale").preRender((e, s, p) -> {
-            switch(e.getVariantNameOrEmpty()) {
-                case "cuviers":
-                    s.scale(1.7F, 1.7F, 1.7F);
-                    break;
-                case "bottlenose":
-                    s.scale(2.5F, 2.5F, 2.5F);
-                    break;
-                case "false_killer":
-                    s.scale(1.8F, 1.8F, 1.8F);
-                    break;
-                case "beluga":
-                    s.scale(1.5F, 1.5F, 1.5F);
-                    break;
-                case "pilot":
-                    s.scale(2.0F, 2.0F, 2.0F);
-                    break;
-                case "narwhal":
-                    s.scale(1.6F, 1.6F, 1.6F);
-                    break;
-                default:
-                    break;
-            }
-        }));
+        R.addRender(ModEntities.WHALE::getEntityType, 3F, r -> r.tVariant()
+                .mMapped(e -> {
+                    String v = e.getVariantNameOrEmpty();
+                    if(v.equals("sperm_albino")) {
+                        return "sperm_whale";
+                    }
+                    return v.isEmpty() ? "beluga_whale" : v + "_whale";
+                }, ModelWhaleBeluga::new, "beluga_whale")
+                .mEntry(ModelWhaleCuviers::new, "cuviers_whale")
+                .mEntry(ModelWhaleFalseKiller::new, "false_killer_whale")
+                .mEntry(ModelWhaleNarwhal::new, "narwhal_whale")
+                .mEntry(ModelWhaleNorthernBottlenose::new, "bottlenose_whale")
+                .mEntry(ModelWhalePilot::new, "pilot_whale")
+                .mEntry(ModelWhaleSperm::new, "sperm_whale")
+                );
         R.addRender(ModEntities.WALRUS::getEntityType, 1.5F, r -> r.tSingle("walrus").mSingle(ModelWalrus::new, "walrus"));
         R.addRender(ModEntities.BUTTERFLY::getEntityType, 0.1F, r -> r.tVariant().mSingle(ModelButterfly::new, "butterfly").simpleScale(e -> e.getDimensions(Pose.STANDING).width));
         R.addRender(ModEntities.DRAGONFLY::getEntityType, 0.1F, r -> r.tVariant().mSingle(ModelDragonfly::new, "dragonfly").simpleScale(e -> (e.getDimensions(Pose.STANDING).width / 2F)));
@@ -261,6 +253,14 @@ public class ClientLifecycleHandler {
         r.accept("mako_shark", ModelMakoShark.createBodyLayer());
         r.accept("tiger_shark", ModelTigerShark.createBodyLayer());
         r.accept("white_tip_shark", ModelWhiteTipShark.createBodyLayer());
+
+        r.accept("beluga_whale", ModelWhaleBeluga.createBodyLayer());
+        r.accept("cuviers_whale", ModelWhaleCuviers.createBodyLayer());
+        r.accept("false_killer_whale", ModelWhaleFalseKiller.createBodyLayer());
+        r.accept("narwhal_whale", ModelWhaleNarwhal.createBodyLayer());
+        r.accept("bottlenose_whale", ModelWhaleNorthernBottlenose.createBodyLayer());
+        r.accept("pilot_whale", ModelWhalePilot.createBodyLayer());
+        r.accept("sperm_whale", ModelWhaleSperm.createBodyLayer());
 
         r.accept("bear_cape", ModelBearCape.createBodyLayer());
         r.accept("wolf_cape", ModelWolfCape.createBodyLayer());

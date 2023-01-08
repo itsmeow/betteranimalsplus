@@ -47,6 +47,7 @@ public class EntityLamprey extends EntityWaterMobPathingWithTypesBucketable impl
         blackList.add(EnderMan.class);
         blackList.add(EntityJellyfish.class);
         blackList.add(EntityBobbitWorm.class);
+        blackList.add(EntityWhale.class); // they are simply too large
         this.targetSelector.addGoal(0, new NearestAttackableTargetGoal<>(this, LivingEntity.class, 100, true, true, e -> !(e instanceof Enemy) && !(e.level.getDifficulty() == Difficulty.PEACEFUL && e instanceof Player) && !blackList.contains(e.getClass())));
     }
 
