@@ -1,3 +1,10 @@
+# 11.0.10
+- Fixed crash with Whisperwoods
+
+# 11.0.9
+
+- 1.19: Fixed mixin crash
+
 # 11.0.8
 
 - Updated Spanish Localization (Thanks angelapuzzle)
@@ -23,6 +30,18 @@
   - Moose
   - Lammergeiers
 - 1.18: Internal optimizations and cleanup
+
+# 11.0.7
+
+- 1.19 Forge: Fix for Forge 41.0.94
+
+# 11.0.6
+
+- 1.19: Bobbit Worms can burrow in mud
+- 1.19: Bobbit Worms have a new block tag `bobbit_burrowable` that controls what they can burrow in
+- 1.19: BiomeTypes (automated spawn biome selection) has been reworked to use biome tags on both Forge and Fabric. This should improve compatibility with Fabric biome mods like BYG.
+- 1.19: Trillium frequency in swamps doubled (frequency of 1/32 -> 1/16)
+- 1.19: Trillium now generate in mangrove swamps with a frequeuncy of 1/4 (8x higher than original frequency).
 
 # 11.0.5
 
@@ -168,7 +187,7 @@ It is accurate for all vanilla biomes, but may encounter issues with modded biom
 - Fixed serializable errors on newer Java versions (Java 11+)
 - Fixed configuration using last loaded biomes as defaults instead of the actual defaults
 - 1.15: Fixed duplicate spawn entries when the world is reloaded
-- 1.16: Fixed GlobalEntityTypeAttributes.put warnings on newer Forge versions 
+- 1.16: Fixed GlobalEntityTypeAttributes.put warnings on newer Forge versions
 - 1.16: Fixed moose heads and brown bear heads not appearing in the creative menu or JEI
 - 1.16: Essential Features portable jukebox compat now works with standalone version
 - 1.16: Fixed config loading issues
@@ -618,28 +637,28 @@ It is accurate for all vanilla biomes, but may encounter issues with modded biom
 - Added baby deer
 - Added Translation: Hungarian
 - Updated Translations:
- -  German
- -  Esperanto
- -  English
- -  Spanish
- -  French
- -  Japanese
- -  Portuguese
- -  Russian
+-  German
+-  Esperanto
+-  English
+-  Spanish
+-  French
+-  Japanese
+-  Portuguese
+-  Russian
 
 3.0.1
 -
 - Fixed Hand of Fate breaking bug
 - Added a secret :D
 - Updated Translations:
- -  German
- -  Esperanto
- -  English
- -  Spanish
- -  French
- -  Japanese
- -  Portuguese
- -  Russian
+-  German
+-  Esperanto
+-  English
+-  Spanish
+-  French
+-  Japanese
+-  Portuguese
+-  Russian
 
 3.0.0
 -
