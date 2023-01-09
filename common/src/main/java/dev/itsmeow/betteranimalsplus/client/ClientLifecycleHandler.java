@@ -204,6 +204,16 @@ public class ClientLifecycleHandler {
             }
             // s.translate(0.0F, -1.2F, 0.0F);
         }));
+        R.addRender(ModEntities.GAZELLE::getEntityType, 0.8F, r -> r.tVariant().childScale(0.6F).mMapped(e -> {
+                    String v = e.getVariantNameOrEmpty();
+                    if(v.equals("blackbuck_2")) {
+                        return "blackbuck_gazelle";
+                    }
+                    return v.isEmpty() ? "blackbuck_gazelle" : v + "_gazelle";
+                }, ModelGazelle::new, "blackbuck_gazelle")
+                .mEntry(ModelGazelle::new, "chinkara_gazelle")
+                .mEntry(ModelGazelle::new, "erlanger_gazelle")
+                .mEntry(ModelGazelle::new, "springbok_gazelle"));
         RenderFactory.addRender(ModEntities.PROJECTILE_BADGER_DIRT::get, RenderFactory.nothing());
     }
 
@@ -263,6 +273,11 @@ public class ClientLifecycleHandler {
         r.accept("sperm_whale", ModelWhaleSperm.createBodyLayer());
         r.accept("blue_whale", ModelWhaleBlue.createBodyLayer());
         r.accept("right_whale", ModelWhaleRight.createBodyLayer());
+
+        r.accept("blackbuck_gazelle", ModelGazelle.createBlackbuck());
+        r.accept("chinkara_gazelle", ModelGazelle.createChinkara());
+        r.accept("erlanger_gazelle", ModelGazelle.createErlanger());
+        r.accept("springbok_gazelle", ModelGazelle.createSpringbok());
 
         r.accept("bear_cape", ModelBearCape.createBodyLayer());
         r.accept("wolf_cape", ModelWolfCape.createBodyLayer());
