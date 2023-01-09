@@ -166,6 +166,8 @@ public class ClientLifecycleHandler {
                 .mEntry(ModelWhaleNorthernBottlenose::new, "bottlenose_whale")
                 .mEntry(ModelWhalePilot::new, "pilot_whale")
                 .mEntry(ModelWhaleSperm::new, "sperm_whale")
+                .mEntry(ModelWhaleBlue::new, "blue_whale")
+                .mEntry(ModelWhaleRight::new, "right_whale")
                 );
         R.addRender(ModEntities.WALRUS::getEntityType, 1.5F, r -> r.tSingle("walrus").mSingle(ModelWalrus::new, "walrus"));
         R.addRender(ModEntities.BUTTERFLY::getEntityType, 0.1F, r -> r.tVariant().mSingle(ModelButterfly::new, "butterfly").simpleScale(e -> e.getDimensions(Pose.STANDING).width));
@@ -209,7 +211,6 @@ public class ClientLifecycleHandler {
         BiConsumer<String, LayerDefinition> r = (k, l) -> b.put(new ModelLayerLocation(new ResourceLocation(Ref.MOD_ID, k), "main"), l);
         r.accept("badger", ModelBadger.createBodyLayer());
         r.accept("barracuda", ModelBarracuda.createBodyLayer());
-        r.accept("beaked_whale", ModelBeakedWhale.createBodyLayer());
         r.accept("black_bear", ModelBlackBear.createBodyLayer());
         r.accept("boar", ModelBoar.createBodyLayer());
         r.accept("bobbit_worm", ModelBobbitWorm.createBodyLayer());
@@ -236,7 +237,6 @@ public class ClientLifecycleHandler {
         r.accept("piranha", ModelPiranha.createBodyLayer());
         r.accept("reindeer", ModelReindeer.createBodyLayer());
         r.accept("saltwater_eel", ModelSaltwaterEel.createBodyLayer());
-        r.accept("small_whale", ModelSmallWhale.createBodyLayer());
         r.accept("songbird", ModelSongbird.createBodyLayer());
         r.accept("songbird_small", ModelSongbirdSmall.createBodyLayer());
         r.accept("squirrel", ModelSquirrel.createBodyLayer());
@@ -261,6 +261,8 @@ public class ClientLifecycleHandler {
         r.accept("bottlenose_whale", ModelWhaleNorthernBottlenose.createBodyLayer());
         r.accept("pilot_whale", ModelWhalePilot.createBodyLayer());
         r.accept("sperm_whale", ModelWhaleSperm.createBodyLayer());
+        r.accept("blue_whale", ModelWhaleBlue.createBodyLayer());
+        r.accept("right_whale", ModelWhaleRight.createBodyLayer());
 
         r.accept("bear_cape", ModelBearCape.createBodyLayer());
         r.accept("wolf_cape", ModelWolfCape.createBodyLayer());
