@@ -20,7 +20,10 @@ import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.control.SmoothSwimmingLookControl;
 import net.minecraft.world.entity.ai.control.SmoothSwimmingMoveControl;
-import net.minecraft.world.entity.ai.goal.*;
+import net.minecraft.world.entity.ai.goal.BreathAirGoal;
+import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
+import net.minecraft.world.entity.ai.goal.RandomSwimmingGoal;
+import net.minecraft.world.entity.ai.goal.TryFindWaterGoal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
@@ -44,7 +47,6 @@ public class EntityWhale extends EntityWaterMobPathingWithTypesAirBreathing impl
 
     public EntityWhale(EntityType<? extends EntityWhale> entityType, Level worldIn) {
         super(entityType, worldIn);
-        this.fixupDimensions();
         // this 4 is very important for making sure they don't break the laws of fluid by dynamics by doing a 360 noscope in 0.2sec
         this.moveControl = new SmoothSwimmingMoveControl(this, 15, 4, 0.02F, 0.005F, true);
         this.lookControl = new SmoothSwimmingLookControl(this, 10);
