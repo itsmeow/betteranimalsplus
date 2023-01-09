@@ -191,10 +191,10 @@ public class ModEntities {
             .spawn(MobCategory.WATER_CREATURE, 2, 1, 3)
             .waterPlacement()
             .egg(0x328da8, 0x001c4f)
-            .size(5F, 3F)
+            .size(5F, 2.7F)
             .despawn()
             .biomesOverworld(BiomeTypes.OCEAN)
-            .variants("beluga", "bottlenose", "cuviers", "false_killer", "narwhal", "pilot", "sperm", "sperm_albino"));
+            .variants("beluga", "bottlenose", "cuviers", "false_killer", "narwhal", "pilot", "sperm", "sperm_albino", "right", "blue"));
     public static final EntityTypeContainer<EntityWalrus> WALRUS = H.add(EntityWalrus.class, EntityWalrus::new, "walrus", () -> Mob.createMobAttributes()
             .add(Attributes.MAX_HEALTH, 30.0D)
             .add(Attributes.ARMOR, 5D)

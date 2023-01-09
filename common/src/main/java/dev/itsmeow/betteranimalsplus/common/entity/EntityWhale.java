@@ -5,7 +5,10 @@ import dev.itsmeow.betteranimalsplus.common.entity.util.abstracts.EntityWaterMob
 import dev.itsmeow.betteranimalsplus.init.ModEntities;
 import dev.itsmeow.imdlib.entity.EntityTypeContainer;
 import dev.itsmeow.imdlib.entity.interfaces.ISelectiveVariantTypes;
+import dev.itsmeow.imdlib.entity.interfaces.IVariantTypes;
 import dev.itsmeow.imdlib.entity.util.BiomeTypes;
+import dev.itsmeow.imdlib.entity.util.variant.IVariant;
+import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
@@ -13,10 +16,7 @@ import net.minecraft.world.Difficulty;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.control.SmoothSwimmingLookControl;
 import net.minecraft.world.entity.ai.control.SmoothSwimmingMoveControl;
@@ -32,15 +32,19 @@ import java.util.Set;
 
 public class EntityWhale extends EntityWaterMobPathingWithTypesAirBreathing implements ISelectiveVariantTypes<EntityWaterMobPathing> {
 
-    private static final String[] COLD_TYPES = new String[] { "bottlenose", "pilot" };
+    private static final String[] COLD_TYPES = new String[] { "bottlenose", "pilot", "right", "blue" };
     private static final String[] FROZEN_TYPES = new String[] { "narwhal", "beluga" };
-    private static final String[] DEEP_TYPES = new String[] { "cuviers", "pilot", "sperm", "sperm_albino" };
-    private static final String[] WARM_OTHER_TYPES = new String[] { "cuviers", "pilot", "false_killer", "sperm", "sperm_albino" };
+    private static final String[] DEEP_TYPES = new String[] { "cuviers", "pilot", "sperm", "sperm_albino", "right", "blue" };
+    private static final String[] WARM_OTHER_TYPES = new String[] { "cuviers", "pilot", "false_killer", "sperm", "sperm_albino", "blue" };
+
+    private static final EntityDimensions BLUE_DIMENSIONS = EntityDimensions.scalable(16F, 4F);
+    private static final EntityDimensions SPERM_AND_RIGHT_DIMENSIONS = EntityDimensions.scalable(12F, 3.5F);
 
     public int attacksLeft = 0;
 
     public EntityWhale(EntityType<? extends EntityWhale> entityType, Level worldIn) {
         super(entityType, worldIn);
+        this.fixupDimensions();
         // this 4 is very important for making sure they don't break the laws of fluid by dynamics by doing a 360 noscope in 0.2sec
         this.moveControl = new SmoothSwimmingMoveControl(this, 15, 4, 0.02F, 0.005F, true);
         this.lookControl = new SmoothSwimmingLookControl(this, 10);
@@ -59,6 +63,49 @@ public class EntityWhale extends EntityWaterMobPathingWithTypesAirBreathing impl
                 return EntityWhale.this.level.getDifficulty() != Difficulty.PEACEFUL && super.canUse();
             }
         });
+    }
+
+    @Override
+    public IVariantTypes<EntityWaterMobPathing> setType(String variantKey) {
+        IVariantTypes<EntityWaterMobPathing> result = super.setType(variantKey);
+        this.refreshDimensions();
+        return result;
+    }
+
+    @Override
+    public IVariantTypes<EntityWaterMobPathing> setType(IVariant variant) {
+        IVariantTypes<EntityWaterMobPathing> result = super.setType(variant);
+        this.refreshDimensions();
+        return result;
+    }
+
+    @Override
+    public void onSyncedDataUpdated(EntityDataAccessor<?> entityDataAccessor) {
+        // Update on variant change for the client
+        if (this.getContainer().getVariantDataKey().equals(entityDataAccessor)) {
+            this.refreshDimensions();
+        }
+        super.onSyncedDataUpdated(entityDataAccessor);
+    }
+
+    @Override
+    public boolean isPushable() {
+        return false;
+    }
+
+    @Override
+    public EntityDimensions getDimensions(Pose pose) {
+        String variantName = this.getVariantNameOrEmpty();
+        switch(variantName) {
+            case "sperm":
+            case "sperm_albino":
+            case "right":
+                return SPERM_AND_RIGHT_DIMENSIONS.scale(this.getScale());
+            case "blue":
+                return BLUE_DIMENSIONS.scale(this.getScale());
+            default:
+                return this.getType().getDimensions().scale(this.getScale());
+        }
     }
 
     @Override
