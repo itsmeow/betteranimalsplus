@@ -488,6 +488,16 @@ public class ModEntities {
             .despawn()
             .biomesOverworld(BiomeTypes.JUNGLE)
             .containers("%s_bucket", ItemModFishBucket.waterBucket(G), "", c -> Items.WATER_BUCKET));
+    public static final EntityTypeContainer<EntityGazelle> GAZELLE = H.add(EntityGazelle.class, EntityGazelle::new, "gazelle", () -> Mob.createMobAttributes()
+            .add(Attributes.MAX_HEALTH, 15.0D)
+            .add(Attributes.MOVEMENT_SPEED, 0.45D), b -> b
+            .spawn(MobCategory.CREATURE, 14, 1, 4)
+            .defaultPlacement(Mob::checkMobSpawnRules)
+            .egg(0x593306, 0xedc391)
+            .size(1F, 1.5F)
+            .biomesOverworld(BiomeTypes.SAVANNA)
+            .variants("blackbuck", "blackbuck_2", "chinkara", "erlanger", "springbok")
+            /*.head().itemGroup(G).mapToNames().setModel(() -> ModelGazelleHead::new, "gazelle_head").done()*/);
 
     public static LinkedHashMap<String, EntityTypeContainer<? extends Mob>> getEntities() {
         return H.ENTITIES;
