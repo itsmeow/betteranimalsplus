@@ -182,6 +182,7 @@ public class EntityGazelle extends EntityAnimalEatsGrassWithTypes implements IDr
         @Override
         public void start() {
             super.start();
+            mob.setDiscardFriction(false);
             this.chosenJump = null;
             this.chosenPos = null;
             this.findJumpTries = 20;
@@ -222,6 +223,7 @@ public class EntityGazelle extends EntityAnimalEatsGrassWithTypes implements IDr
         public void stop() {
             super.stop();
             this.ticksRan = 0;
+            mob.setDiscardFriction(false);
         }
 
 
