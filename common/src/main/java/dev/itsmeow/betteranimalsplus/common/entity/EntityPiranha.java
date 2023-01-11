@@ -42,7 +42,7 @@ public class EntityPiranha extends EntityWaterMobPathingBucketable implements IH
         this.goalSelector.addGoal(1, new RandomSwimmingGoal(this, 1D, 1));
         Predicate<LivingEntity> eP = e -> e.getHealth() < e.getMaxHealth();
         this.targetSelector.addGoal(0, new HungerNearestAttackableTargetGoal<>(this, LivingEntity.class, 0, true, false, e -> eP.test(e) && !(e instanceof EntityPiranha) && !(e instanceof Skeleton) && !(e instanceof SkeletonHorse) && !(e instanceof Player)));
-        this.targetSelector.addGoal(1, new PeacefulNearestAttackableTargetGoal<>(this, Player.class, true, false));
+        this.targetSelector.addGoal(1, new PeacefulNearestAttackableTargetGoal<>(this, Player.class, 10, true, false, e -> !e.isPassenger()));
     }
 
     @Override
