@@ -132,18 +132,7 @@ public class ModelBullShark extends ModelBAP<EntityShark> {
     }
 
     public static void animate(EntityShark entity, float ageInTicks, ModelPart body, ModelPart tail00, ModelPart tail01, ModelPart tail02, ModelPart lowerJaw) {
-        if((Math.abs(entity.getDeltaMovement().y()) > 0.01 && (Math.abs(entity.getDeltaMovement().x()) > 0.01 || Math.abs(entity.getDeltaMovement().z()) > 0.01)) || Math.abs(entity.getDeltaMovement().y()) > 0.03) {
-            float rotX = -((float) Math.atan2(entity.getDeltaMovement().y(), Math.sqrt(Math.pow(entity.getDeltaMovement().x(), 2) + Math.pow(entity.getDeltaMovement().z(), 2))) / 1.5F);
-            if(rotX < 0) {
-                rotX /= 2;
-            }
-            rotX += 0.022863813201125717F;
-            rotX = ModMathHelper.interpolateRotation(entity.lastBodyRotation, rotX, Minecraft.getInstance().getFrameTime());
-            body.xRot = rotX;
-            entity.lastBodyRotation = rotX;
-        } else {
-            body.xRot = 0.022863813201125717F;
-        }
+        body.xRot = Mth.clampedLerp(entity.lastRotX, entity.rotX, Minecraft.getInstance().getFrameTime());
         float motionFactor = Math.min((float) entity.getDeltaMovement().length() * 25F, 75);
         tail00.yRot = Mth.cos(ageInTicks * 0.25F) * 0.05F * motionFactor;
         tail01.yRot = Mth.cos(ageInTicks * 0.25F) * 0.05F * motionFactor;
@@ -152,9 +141,9 @@ public class ModelBullShark extends ModelBAP<EntityShark> {
             float mul = 0.05F;
             float div = 20F;
             float add = entity.getUUID().hashCode() * 0.0001F;
-            lowerJaw.xRot = (float) Math.cos(ageInTicks * (mul + 0.05F) + add) / div;
+            lowerJaw.xRot = Mth.cos(ageInTicks * (mul + 0.05F) + add) / div;
         } else {
-            lowerJaw.xRot = (float) Math.PI / 4F;
+            lowerJaw.xRot = Mth.PI / 4F;
         }
     }
 

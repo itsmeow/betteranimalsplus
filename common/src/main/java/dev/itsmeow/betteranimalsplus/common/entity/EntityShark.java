@@ -12,10 +12,13 @@ import dev.itsmeow.imdlib.entity.interfaces.IVariantTypes;
 import dev.itsmeow.imdlib.entity.util.BiomeTypes;
 import dev.itsmeow.imdlib.entity.util.variant.IVariant;
 import net.minecraft.core.Holder;
+import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.control.SmoothSwimmingLookControl;
+import net.minecraft.world.entity.ai.control.SmoothSwimmingMoveControl;
 import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 import net.minecraft.world.entity.ai.goal.RandomSwimmingGoal;
@@ -35,10 +38,16 @@ public class EntityShark extends EntitySharkBase {
     private float lastAttack = 0;
     private float lastGrab = 0;
     private float lastTickHealth = 0;
-    public float lastBodyRotation = 0;
+    private static final EntityDimensions BASKING_DIMENSIONS = EntityDimensions.scalable(8.5F, 3F);
+    private boolean isPeaceful = false;
+    public float lastRotX = 0F;
+    public float rotX = 0F;
 
     public EntityShark(EntityType<? extends EntityShark> entityType, Level worldIn) {
         super(entityType, worldIn);
+        this.fixupDimensions();
+        this.moveControl = new SmoothSwimmingMoveControl(this, 15, 6, 0.02F, 0.005F, true);
+        this.lookControl = new SmoothSwimmingLookControl(this, 10);
     }
 
     @Override
@@ -53,6 +62,26 @@ public class EntityShark extends EntitySharkBase {
     }
 
     @Override
+    public void tick() {
+        if((Math.abs(this.getDeltaMovement().y()) > 0 && (Math.abs(this.getDeltaMovement().x()) > 0.05 || Math.abs(this.getDeltaMovement().z()) > 0.05)) || Math.abs(this.getDeltaMovement().y()) > 0.25) {
+            float x = -((float) Math.atan2(this.getDeltaMovement().y(), Math.sqrt(Math.pow(this.getDeltaMovement().x(), 2) + Math.pow(this.getDeltaMovement().z(), 2))) / 1.5F);
+            if(x < 0) {
+                x /= 2;
+            }
+            rotX = x + 0.022863813201125717F;
+        } else {
+            rotX = 0.022863813201125717F;
+        }
+        super.tick();
+        lastRotX = rotX;
+    }
+
+    @Override
+    public boolean isPeaceful() {
+        return super.isPeaceful() || this.isPeaceful;
+    }
+
+    @Override
     public boolean hurt(DamageSource source, float amount) {
         if(super.hurt(source, amount)) {
             if(source.getDirectEntity() instanceof Player && !this.isPeaceful()) {
@@ -64,20 +93,6 @@ public class EntityShark extends EntitySharkBase {
             return true;
         }
         return false;
-    }
-
-    @Override
-    public IVariantTypes<EntityWaterMobPathing> setType(IVariant variant) {
-        super.setType(variant);
-        updateAttributes(this.getVariantNameOrEmpty());
-        return this;
-    }
-
-    @Override
-    public IVariantTypes<EntityWaterMobPathing> setType(String variantKey) {
-        super.setType(variantKey);
-        updateAttributes(this.getVariantNameOrEmpty());
-        return this;
     }
 
     private void updateAttributes(String name) {
@@ -95,6 +110,7 @@ public class EntityShark extends EntitySharkBase {
             this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(1.5D);
         }
         this.setHealth(this.getMaxHealth());
+        this.isPeaceful = "basking".equals(name);
     }
 
     public boolean shouldAttackForHealth(float health) {
@@ -112,6 +128,7 @@ public class EntityShark extends EntitySharkBase {
                 return health <= 10F;
             case "whitetip":
                 return health <= 16F;
+            case "basking":
             default:
                 return false;
         }
@@ -170,6 +187,47 @@ public class EntityShark extends EntitySharkBase {
     }
 
     @Override
+    public IVariantTypes<EntityWaterMobPathing> setType(String variantKey) {
+        IVariantTypes<EntityWaterMobPathing> result = super.setType(variantKey);
+        this.refreshDimensions();
+        updateAttributes(this.getVariantNameOrEmpty());
+        return result;
+    }
+
+    @Override
+    public IVariantTypes<EntityWaterMobPathing> setType(IVariant variant) {
+        IVariantTypes<EntityWaterMobPathing> result = super.setType(variant);
+        this.refreshDimensions();
+        updateAttributes(this.getVariantNameOrEmpty());
+        return result;
+    }
+
+    @Override
+    public void onSyncedDataUpdated(EntityDataAccessor<?> entityDataAccessor) {
+        // Update on variant change for the client
+        if (this.getContainer().getVariantDataKey().equals(entityDataAccessor)) {
+            this.refreshDimensions();
+        }
+        super.onSyncedDataUpdated(entityDataAccessor);
+    }
+
+    @Override
+    public EntityDimensions getDimensions(Pose pose) {
+        String variantName = this.getVariantNameOrEmpty();
+        switch(variantName) {
+            case "basking":
+                return BASKING_DIMENSIONS.scale(this.getScale());
+            default:
+                return this.getType().getDimensions().scale(this.getScale());
+        }
+    }
+
+    @Override
+    public boolean isPushable() {
+        return this.getDimensions(Pose.STANDING).width < 3F;
+    }
+
+    @Override
     public EntityTypeContainer<EntityShark> getContainer() {
         return ModEntities.SHARK;
     }
@@ -195,6 +253,8 @@ public class EntityShark extends EntitySharkBase {
             if(!b.isFrozen()) {
                 list.add("mako");
             }
+        } else if(b.isLukewarm() || b.isColdOrFrozen()) {
+            list.add("basking");
         }
         if(b.isWarm()) {
             list.add("mako");

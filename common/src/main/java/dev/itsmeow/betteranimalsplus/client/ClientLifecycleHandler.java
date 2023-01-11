@@ -105,11 +105,10 @@ public class ClientLifecycleHandler {
                 .mEntry(ModelGoblinShark::new, "goblin_shark")
                 .mEntry(ModelMakoShark::new, "mako_shark")
                 .mEntry(ModelGreatWhiteShark::new, "great_white_shark")
+                .mEntry(ModelBaskingShark::new, "basking_shark")
                 .preRender((e, s, p) -> {
                     switch(e.getVariantNameOrEmpty()) {
                         case "blue":
-                            s.scale(0.8F, 0.8F, 0.8F);
-                            break;
                         case "bull":
                             s.scale(0.8F, 0.8F, 0.8F);
                             break;
@@ -129,13 +128,12 @@ public class ClientLifecycleHandler {
                         case "goblin":
                             s.scale(0.7F, 0.7F, 0.7F);
                             break;
-                        case "mako":
-                            break;
                         case "great_white":
                             s.scale(1.2F, 1.2F, 1.2F);
                             break;
+                        case "basking":
+                        case "mako":
                         default:
-                            break;
                     }
                 }));
         R.addRender(ModEntities.MOOSE::getEntityType, 0.8F, r -> r.tVariant().mSingle(ModelMoose::new, "moose").simpleScale(e -> 1.5F));
@@ -254,6 +252,7 @@ public class ClientLifecycleHandler {
         r.accept("turkey", ModelTurkey.createBodyLayer());
         r.accept("walrus", ModelWalrus.createBodyLayer());
 
+        r.accept("basking_shark", ModelBaskingShark.createBodyLayer());
         r.accept("blue_shark", ModelBlueShark.createBodyLayer());
         r.accept("bull_shark", ModelBullShark.createBodyLayer());
         r.accept("goblin_shark", ModelGoblinShark.createBodyLayer());
