@@ -18,16 +18,6 @@ import java.util.function.Function;
 public class CommonEventHandlerImpl {
 
     public static void registerPlatformEvents() {
-        LootTableEvents.MODIFY.register((ResourceManager resourceManager, LootTables lootManager, ResourceLocation id, LootTable.Builder tableBuilder, LootTableSource source) -> {
-            for (ResourceLocation rl : CommonEventHandler.LOOT_TABLE_INJECTIONS.keys()) {
-                if (id.equals(rl)) {
-                    for (ResourceLocation ref : CommonEventHandler.LOOT_TABLE_INJECTIONS.get(rl)) {
-                        tableBuilder.withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1)).add(LootTableReference.lootTableReference(ref)));
-                    }
-                    break;
-                }
-            }
-        });
     }
 
     public static void setSquirrelKills(Player player, int kills) {

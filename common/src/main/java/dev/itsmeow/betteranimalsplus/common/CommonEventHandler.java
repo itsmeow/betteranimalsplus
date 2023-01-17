@@ -6,6 +6,7 @@ import dev.architectury.event.CompoundEventResult;
 import dev.architectury.event.EventResult;
 import dev.architectury.event.events.common.EntityEvent;
 import dev.architectury.event.events.common.InteractionEvent;
+import dev.architectury.event.events.common.LootEvent;
 import dev.architectury.injectables.annotations.ExpectPlatform;
 import dev.architectury.utils.PlatformExpectedError;
 import dev.itsmeow.betteranimalsplus.common.entity.*;
@@ -41,6 +42,10 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.JukeboxBlockEntity;
+import net.minecraft.world.level.storage.loot.LootPool;
+import net.minecraft.world.level.storage.loot.LootTables;
+import net.minecraft.world.level.storage.loot.entries.LootTableReference;
+import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -75,6 +80,7 @@ public class CommonEventHandler {
         EntityEvent.ADD.register(CommonEventHandler::entityAdd);
         InteractionEvent.RIGHT_CLICK_BLOCK.register(CommonEventHandler::rightClickBlock);
         InteractionEvent.RIGHT_CLICK_ITEM.register(CommonEventHandler::rightClickItem);
+        LootEvent.MODIFY_LOOT_TABLE.register(CommonEventHandler::modifyLootTable);
         CommonEventHandler.registerPlatformEvents();
     }
 
@@ -170,6 +176,17 @@ public class CommonEventHandler {
             }
         }
         return EventResult.pass();
+    }
+
+    public static void modifyLootTable(LootTables lootTables, ResourceLocation id, LootEvent.LootTableModificationContext context, boolean builtin) {
+        for (ResourceLocation rl : CommonEventHandler.LOOT_TABLE_INJECTIONS.keys()) {
+            if (id.equals(rl)) {
+                for (ResourceLocation ref : CommonEventHandler.LOOT_TABLE_INJECTIONS.get(rl)) {
+                    context.addPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1)).add(LootTableReference.lootTableReference(ref)));
+                }
+                break;
+            }
+        }
     }
 
     public static void modifyDropsList(Collection<ItemEntity> drops, DamageSource source, LivingEntity entity) {

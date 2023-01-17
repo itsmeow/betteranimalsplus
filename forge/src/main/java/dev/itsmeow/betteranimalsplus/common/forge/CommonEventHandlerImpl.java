@@ -18,19 +18,7 @@ import java.util.function.Function;
 public class CommonEventHandlerImpl {
 
     public static void registerPlatformEvents() {
-        MinecraftForge.EVENT_BUS.addListener(CommonEventHandlerImpl::lootLoad);
         MinecraftForge.EVENT_BUS.addListener(CommonEventHandlerImpl::livingDrops);
-    }
-
-    public static void lootLoad(LootTableLoadEvent event) {
-        for (ResourceLocation rl : CommonEventHandler.LOOT_TABLE_INJECTIONS.keys()) {
-            if (event.getName().equals(rl)) {
-                for (ResourceLocation ref : CommonEventHandler.LOOT_TABLE_INJECTIONS.get(rl)) {
-                    event.getTable().addPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1)).add(LootTableReference.lootTableReference(ref)).build());
-                }
-                break;
-            }
-        }
     }
 
     public static void livingDrops(LivingDropsEvent event) {
