@@ -106,6 +106,7 @@ public class ClientLifecycleHandler {
                 .mEntry(ModelMakoShark::new, "mako_shark")
                 .mEntry(ModelGreatWhiteShark::new, "great_white_shark")
                 .mEntry(ModelBaskingShark::new, "basking_shark")
+                .mEntry(ModelWhaleShark::new, "whale_shark")
                 .preRender((e, s, p) -> {
                     switch(e.getVariantNameOrEmpty()) {
                         case "blue":
@@ -133,6 +134,7 @@ public class ClientLifecycleHandler {
                             break;
                         case "basking":
                         case "mako":
+                        case "whale":
                         default:
                     }
                 }));
@@ -261,6 +263,7 @@ public class ClientLifecycleHandler {
         r.accept("hammerhead_shark", ModelHammerheadShark.createBodyLayer());
         r.accept("mako_shark", ModelMakoShark.createBodyLayer());
         r.accept("tiger_shark", ModelTigerShark.createBodyLayer());
+        r.accept("whale_shark", ModelWhaleShark.createBodyLayer());
         r.accept("white_tip_shark", ModelWhiteTipShark.createBodyLayer());
 
         r.accept("beluga_whale", ModelWhaleBeluga.createBodyLayer());

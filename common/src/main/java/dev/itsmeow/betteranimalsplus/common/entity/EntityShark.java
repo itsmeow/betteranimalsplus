@@ -6,6 +6,7 @@ import dev.itsmeow.betteranimalsplus.common.entity.ai.PeacefulNearestAttackableT
 import dev.itsmeow.betteranimalsplus.common.entity.util.abstracts.EntitySharkBase;
 import dev.itsmeow.betteranimalsplus.common.entity.util.abstracts.EntityWaterMobPathing;
 import dev.itsmeow.betteranimalsplus.init.ModEntities;
+import dev.itsmeow.betteranimalsplus.common.entity.util.IPeacefulAware;
 import dev.itsmeow.betteranimalsplus.util.OceanBiomeHelper;
 import dev.itsmeow.imdlib.entity.EntityTypeContainer;
 import dev.itsmeow.imdlib.entity.interfaces.IVariantTypes;
@@ -33,7 +34,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-public class EntityShark extends EntitySharkBase {
+public class EntityShark extends EntitySharkBase implements IPeacefulAware {
 
     private float lastAttack = 0;
     private float lastGrab = 0;
@@ -110,7 +111,7 @@ public class EntityShark extends EntitySharkBase {
             this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(1.5D);
         }
         this.setHealth(this.getMaxHealth());
-        this.isPeaceful = "basking".equals(name);
+        this.isPeaceful = "basking".equals(name) || "whale".equals(name);
     }
 
     public boolean shouldAttackForHealth(float health) {
@@ -129,6 +130,7 @@ public class EntityShark extends EntitySharkBase {
             case "whitetip":
                 return health <= 16F;
             case "basking":
+            case "whale":
             default:
                 return false;
         }
@@ -215,6 +217,7 @@ public class EntityShark extends EntitySharkBase {
     public EntityDimensions getDimensions(Pose pose) {
         String variantName = this.getVariantNameOrEmpty();
         switch(variantName) {
+            case "whale":
             case "basking":
                 return BASKING_DIMENSIONS.scale(this.getScale());
             default:
@@ -259,6 +262,7 @@ public class EntityShark extends EntitySharkBase {
         if(b.isWarm()) {
             list.add("mako");
             list.add("hammerhead");
+            list.add("whale");
         }
         return list.toArray(new String[0]);
     }

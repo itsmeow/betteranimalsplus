@@ -2,6 +2,7 @@ package dev.itsmeow.betteranimalsplus.common.entity.util.abstracts;
 
 import dev.itsmeow.betteranimalsplus.common.entity.util.IHaveHunger;
 import dev.itsmeow.betteranimalsplus.init.ModTriggers;
+import dev.itsmeow.betteranimalsplus.common.entity.util.IPeacefulAware;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerPlayer;
@@ -12,7 +13,7 @@ import net.minecraft.world.entity.monster.Enemy;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 
-public abstract class EntitySharkBase extends EntityWaterMobPathingWithSelectiveTypes implements Enemy, IHaveHunger<EntityWaterMobPathing> {
+public abstract class EntitySharkBase extends EntityWaterMobPathingWithSelectiveTypes implements Enemy, IHaveHunger<EntityWaterMobPathing>, IPeacefulAware {
 
     private int hunger = 0;
 

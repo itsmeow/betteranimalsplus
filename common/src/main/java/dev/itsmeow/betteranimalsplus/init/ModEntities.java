@@ -144,7 +144,7 @@ public class ModEntities {
             .size(2.5F, 1.2F)
             .despawn()
             .biomesOverworld(BiomeTypes.OCEAN)
-            .variants("blue", "bull", "tiger", "whitetip", "greenland", "hammerhead", "goblin", "mako", "great_white", "basking"));
+            .variants("blue", "bull", "tiger", "whitetip", "greenland", "hammerhead", "goblin", "mako", "great_white", "basking", "whale"));
     public static final EntityTypeContainer<EntityTurkey> TURKEY = H.add(EntityTurkey.class, EntityTurkey::new, "turkey", () -> Mob.createMobAttributes()
             .add(Attributes.MAX_HEALTH, 6.5D)
             .add(Attributes.MOVEMENT_SPEED, 0.25D)

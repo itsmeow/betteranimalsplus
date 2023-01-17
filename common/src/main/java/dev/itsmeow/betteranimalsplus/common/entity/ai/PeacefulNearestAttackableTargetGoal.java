@@ -1,5 +1,6 @@
 package dev.itsmeow.betteranimalsplus.common.entity.ai;
 
+import dev.itsmeow.betteranimalsplus.common.entity.util.IPeacefulAware;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
@@ -23,7 +24,7 @@ public class PeacefulNearestAttackableTargetGoal<T extends LivingEntity> extends
 
     @Override
     public boolean canUse() {
-        return this.mob.level.getDifficulty() != Difficulty.PEACEFUL && super.canUse();
+        return (this.mob instanceof IPeacefulAware) ? !((IPeacefulAware) this.mob).isPeaceful() : this.mob.level.getDifficulty() != Difficulty.PEACEFUL && super.canUse();
     }
 
 }
