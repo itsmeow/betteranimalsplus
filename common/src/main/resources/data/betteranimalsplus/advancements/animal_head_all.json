@@ -334,25 +334,25 @@
                 ]
             }
         },
-        "gazelle_blackbuck": {
+        "gazelle_blackbuck_dark": {
             "trigger": "minecraft:inventory_changed",
             "conditions": {
                 "items": [
                     {
                         "items": [
-                            "betteranimalsplus:gazellehead_blackbuck"
+                            "betteranimalsplus:gazellehead_blackbuck_dark"
                         ]
                     }
                 ]
             }
         },
-        "gazelle_blackbuck_2": {
+        "gazelle_blackbuck_light": {
             "trigger": "minecraft:inventory_changed",
             "conditions": {
                 "items": [
                     {
                         "items": [
-                            "betteranimalsplus:gazellehead_blackbuck_2"
+                            "betteranimalsplus:gazellehead_blackbuck_light"
                         ]
                     }
                 ]
@@ -466,10 +466,10 @@
             "feralwolfhead_red"
         ],
         [
-            "gazelle_blackbuck"
+            "gazelle_blackbuck_dark"
         ],
         [
-            "gazelle_blackbuck_2"
+            "gazelle_blackbuck_light"
         ],
         [
             "gazelle_chinkara"

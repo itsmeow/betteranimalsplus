@@ -496,9 +496,9 @@ public class ModEntities {
             .egg(0x593306, 0xedc391)
             .size(1F, 1.5F)
             .biomesOverworld(BiomeTypes.SAVANNA)
-            .variants("blackbuck", "blackbuck_2", "chinkara", "erlanger", "springbok")
+            .variants("blackbuck_dark", "blackbuck_light", "chinkara", "erlanger", "springbok")
             .head().itemGroup(G).mapToNames().setModelMapped(() -> headTypeName -> ModelGazelleHead::new,
-                    headTypeName -> headTypeName.equals("blackbuck_2") ? "blackbuck_gazelle_head" : headTypeName + "_gazelle_head")
+                    headTypeName -> headTypeName.startsWith("blackbuck") ? "blackbuck_gazelle_head" : headTypeName + "_gazelle_head")
                 .done());
     public static final EntityTypeContainer<EntityCrocodile> CROCODILE = H.add(EntityCrocodile.class, EntityCrocodile::new, "crocodile", () -> Mob.createMobAttributes()
             .add(Attributes.MAX_HEALTH, 25.0D)
@@ -509,7 +509,7 @@ public class ModEntities {
             .waterPlacement()
             .egg(0x4d4732, 0x404a42)
             .size(2.2F, 0.8F)
-            .biomesOverworld(BiomeTypes.SWAMP, BiomeTypes.RIVER)
+            .biomesOverworld(BiomeTypes.SWAMP, BiomeTypes.SAVANNA)
             .variants("american", "nile"));
 
     public static LinkedHashMap<String, EntityTypeContainer<? extends Mob>> getEntities() {

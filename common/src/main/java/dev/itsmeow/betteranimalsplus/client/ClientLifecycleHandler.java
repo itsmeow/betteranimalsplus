@@ -206,7 +206,7 @@ public class ClientLifecycleHandler {
         }));
         R.addRender(ModEntities.GAZELLE::getEntityType, 0.8F, r -> r.tVariant().childScale(0.6F).mMapped(e -> {
                     String v = e.getVariantNameOrEmpty();
-                    if(v.equals("blackbuck_2")) {
+                    if(v.equals("blackbuck_light") || v.equals("blackbuck_dark")) {
                         return "blackbuck_gazelle";
                     }
                     return v.isEmpty() ? "blackbuck_gazelle" : v + "_gazelle";
