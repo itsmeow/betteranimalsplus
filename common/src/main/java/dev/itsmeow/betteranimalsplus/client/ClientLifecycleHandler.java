@@ -214,6 +214,7 @@ public class ClientLifecycleHandler {
                 .mEntry(ModelGazelle::new, "chinkara_gazelle")
                 .mEntry(ModelGazelle::new, "erlanger_gazelle")
                 .mEntry(ModelGazelle::new, "springbok_gazelle"));
+        R.addRender(ModEntities.CROCODILE::getEntityType, 0.8F, r -> r.tVariant().mSingle(ModelCrocodile::new, "crocodile").childScale(0.6F));
         RenderFactory.addRender(ModEntities.PROJECTILE_BADGER_DIRT::get, RenderFactory.nothing());
     }
 
@@ -253,6 +254,7 @@ public class ClientLifecycleHandler {
         r.accept("tarantula", ModelTarantula.createBodyLayer());
         r.accept("turkey", ModelTurkey.createBodyLayer());
         r.accept("walrus", ModelWalrus.createBodyLayer());
+        r.accept("crocodile", ModelCrocodile.createBodyLayer());
 
         r.accept("basking_shark", ModelBaskingShark.createBodyLayer());
         r.accept("blue_shark", ModelBlueShark.createBodyLayer());

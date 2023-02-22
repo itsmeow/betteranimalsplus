@@ -500,6 +500,17 @@ public class ModEntities {
             .head().itemGroup(G).mapToNames().setModelMapped(() -> headTypeName -> ModelGazelleHead::new,
                     headTypeName -> headTypeName.equals("blackbuck_2") ? "blackbuck_gazelle_head" : headTypeName + "_gazelle_head")
                 .done());
+    public static final EntityTypeContainer<EntityCrocodile> CROCODILE = H.add(EntityCrocodile.class, EntityCrocodile::new, "crocodile", () -> Mob.createMobAttributes()
+            .add(Attributes.MAX_HEALTH, 25.0D)
+            .add(Attributes.MOVEMENT_SPEED, 1.2D)
+            .add(Attributes.ATTACK_DAMAGE)
+            .add(Attributes.ATTACK_DAMAGE, 3D), b -> b
+            .spawn(MobCategory.WATER_CREATURE, 3, 1, 3)
+            .waterPlacement()
+            .egg(0x4d4732, 0x404a42)
+            .size(2.2F, 0.8F)
+            .biomesOverworld(BiomeTypes.SWAMP, BiomeTypes.RIVER)
+            .variants("american", "nile"));
 
     public static LinkedHashMap<String, EntityTypeContainer<? extends Mob>> getEntities() {
         return H.ENTITIES;
