@@ -1,0 +1,24 @@
+{
+    "variants": {
+        "facing=east,top=east":  { "model": "minecraft:block/soul_sand" },
+        "facing=west,top=east":  { "model": "minecraft:block/soul_sand" },
+        "facing=north,top=east":  { "model": "minecraft:block/soul_sand" },
+        "facing=south,top=east":  { "model": "minecraft:block/soul_sand" },
+        "facing=up,top=east":  { "model": "minecraft:block/soul_sand" },
+        "facing=east,top=west":  { "model": "minecraft:block/soul_sand" },
+        "facing=west,top=west":  { "model": "minecraft:block/soul_sand" },
+        "facing=north,top=west":  { "model": "minecraft:block/soul_sand" },
+        "facing=south,top=west":  { "model": "minecraft:block/soul_sand" },
+        "facing=up,top=west":  { "model": "minecraft:block/soul_sand" },
+        "facing=east,top=north":  { "model": "minecraft:block/soul_sand" },
+        "facing=west,top=north":  { "model": "minecraft:block/soul_sand" },
+        "facing=north,top=north":  { "model": "minecraft:block/soul_sand" },
+        "facing=south,top=north":  { "model": "minecraft:block/soul_sand" },
+        "facing=up,top=north":  { "model": "minecraft:block/soul_sand" },
+        "facing=east,top=south":  { "model": "minecraft:block/soul_sand" },
+        "facing=west,top=south":  { "model": "minecraft:block/soul_sand" },
+        "facing=north,top=south":  { "model": "minecraft:block/soul_sand" },
+        "facing=south,top=south":  { "model": "minecraft:block/soul_sand" },
+        "facing=up,top=south":  { "model": "minecraft:block/soul_sand" }
+    }
+}

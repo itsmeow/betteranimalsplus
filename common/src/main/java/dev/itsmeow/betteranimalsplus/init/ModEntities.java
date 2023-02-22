@@ -497,7 +497,9 @@ public class ModEntities {
             .size(1F, 1.5F)
             .biomesOverworld(BiomeTypes.SAVANNA)
             .variants("blackbuck", "blackbuck_2", "chinkara", "erlanger", "springbok")
-            /*.head().itemGroup(G).mapToNames().setModel(() -> ModelGazelleHead::new, "gazelle_head").done()*/);
+            .head().itemGroup(G).mapToNames().setModelMapped(() -> headTypeName -> ModelGazelleHead::new,
+                    headTypeName -> headTypeName.equals("blackbuck_2") ? "blackbuck_gazelle_head" : headTypeName + "_gazelle_head")
+                .done());
 
     public static LinkedHashMap<String, EntityTypeContainer<? extends Mob>> getEntities() {
         return H.ENTITIES;

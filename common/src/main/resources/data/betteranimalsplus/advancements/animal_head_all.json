@@ -2,21 +2,28 @@
     "display": {
         "title": [
             {
-        	    "text": "Really",
-        	    "color": "dark_red",
-             	"bold": true,
-             	"underline": true
-        	},
-        	{
-        	    "text": " Big Game Hunter",
-        	    "color": "gold",
-             	"bold": true,
-             	"underline": false
-        	}
+                "text": "Really",
+                "color": "dark_red",
+                "bold": true,
+                "underline": true
+            },
+            {
+                "text": " Big Game Hunter",
+                "color": "gold",
+                "bold": true,
+                "underline": false
+            }
         ],
         "description": [
-            {"text":"Collect each variant of each animal head\n","color":"gray"},
-            {"text":"... are you okay? You have like 17 animal heads on your wall..","italic":true,"color":"white"}
+            {
+                "text": "Collect each variant of each animal head\n",
+                "color": "gray"
+            },
+            {
+                "text": "... are you okay? You have like 30 animal heads on your wall..",
+                "italic": true,
+                "color": "white"
+            }
         ],
         "icon": {
             "item": "betteranimalsplus:boarhead_gray"
@@ -26,13 +33,15 @@
         "announce_to_chat": true,
         "hidden": false
     },
-  "criteria": {
+    "criteria": {
         "head1": {
             "trigger": "minecraft:inventory_changed",
             "conditions": {
                 "items": [
                     {
-                        "items": ["betteranimalsplus:feralwolfhead_black"]
+                        "items": [
+                            "betteranimalsplus:feralwolfhead_black"
+                        ]
                     }
                 ]
             }
@@ -42,7 +51,9 @@
             "conditions": {
                 "items": [
                     {
-                        "items": ["betteranimalsplus:feralwolfhead_snowy"]
+                        "items": [
+                            "betteranimalsplus:feralwolfhead_snowy"
+                        ]
                     }
                 ]
             }
@@ -52,7 +63,9 @@
             "conditions": {
                 "items": [
                     {
-                        "items": ["betteranimalsplus:feralwolfhead_timber"]
+                        "items": [
+                            "betteranimalsplus:feralwolfhead_timber"
+                        ]
                     }
                 ]
             }
@@ -62,7 +75,9 @@
             "conditions": {
                 "items": [
                     {
-                        "items": ["betteranimalsplus:feralwolfhead_arctic"]
+                        "items": [
+                            "betteranimalsplus:feralwolfhead_arctic"
+                        ]
                     }
                 ]
             }
@@ -72,7 +87,9 @@
             "conditions": {
                 "items": [
                     {
-                        "items": ["betteranimalsplus:feralwolfhead_brown"]
+                        "items": [
+                            "betteranimalsplus:feralwolfhead_brown"
+                        ]
                     }
                 ]
             }
@@ -82,7 +99,9 @@
             "conditions": {
                 "items": [
                     {
-                        "items": ["betteranimalsplus:feralwolfhead_red"]
+                        "items": [
+                            "betteranimalsplus:feralwolfhead_red"
+                        ]
                     }
                 ]
             }
@@ -92,7 +111,9 @@
             "conditions": {
                 "items": [
                     {
-                        "items": ["betteranimalsplus:coyotehead_1"]
+                        "items": [
+                            "betteranimalsplus:coyotehead_1"
+                        ]
                     }
                 ]
             }
@@ -102,7 +123,9 @@
             "conditions": {
                 "items": [
                     {
-                        "items": ["betteranimalsplus:brownbearhead_1"]
+                        "items": [
+                            "betteranimalsplus:brownbearhead_1"
+                        ]
                     }
                 ]
             }
@@ -112,7 +135,9 @@
             "conditions": {
                 "items": [
                     {
-                        "items": ["betteranimalsplus:blackbearhead_black"]
+                        "items": [
+                            "betteranimalsplus:blackbearhead_black"
+                        ]
                     }
                 ]
             }
@@ -122,7 +147,9 @@
             "conditions": {
                 "items": [
                     {
-                        "items": ["betteranimalsplus:blackbearhead_kermode"]
+                        "items": [
+                            "betteranimalsplus:blackbearhead_kermode"
+                        ]
                     }
                 ]
             }
@@ -132,7 +159,9 @@
             "conditions": {
                 "items": [
                     {
-                        "items": ["betteranimalsplus:deerhead_1"]
+                        "items": [
+                            "betteranimalsplus:deerhead_1"
+                        ]
                     }
                 ]
             }
@@ -142,7 +171,9 @@
             "conditions": {
                 "items": [
                     {
-                        "items": ["betteranimalsplus:deerhead_2"]
+                        "items": [
+                            "betteranimalsplus:deerhead_2"
+                        ]
                     }
                 ]
             }
@@ -152,7 +183,9 @@
             "conditions": {
                 "items": [
                     {
-                        "items": ["betteranimalsplus:reindeerhead_1"]
+                        "items": [
+                            "betteranimalsplus:reindeerhead_1"
+                        ]
                     }
                 ]
             }
@@ -162,7 +195,9 @@
             "conditions": {
                 "items": [
                     {
-                        "items": ["betteranimalsplus:reindeerhead_2"]
+                        "items": [
+                            "betteranimalsplus:reindeerhead_2"
+                        ]
                     }
                 ]
             }
@@ -172,7 +207,9 @@
             "conditions": {
                 "items": [
                     {
-                        "items": ["betteranimalsplus:reindeerhead_3"]
+                        "items": [
+                            "betteranimalsplus:reindeerhead_3"
+                        ]
                     }
                 ]
             }
@@ -182,7 +219,9 @@
             "conditions": {
                 "items": [
                     {
-                        "items": ["betteranimalsplus:reindeerhead_4"]
+                        "items": [
+                            "betteranimalsplus:reindeerhead_4"
+                        ]
                     }
                 ]
             }
@@ -192,7 +231,9 @@
             "conditions": {
                 "items": [
                     {
-                        "items": ["betteranimalsplus:boarhead_light_brown"]
+                        "items": [
+                            "betteranimalsplus:boarhead_light_brown"
+                        ]
                     }
                 ]
             }
@@ -202,7 +243,9 @@
             "conditions": {
                 "items": [
                     {
-                        "items": ["betteranimalsplus:boarhead_dark_brown"]
+                        "items": [
+                            "betteranimalsplus:boarhead_dark_brown"
+                        ]
                     }
                 ]
             }
@@ -212,7 +255,9 @@
             "conditions": {
                 "items": [
                     {
-                        "items": ["betteranimalsplus:boarhead_gray"]
+                        "items": [
+                            "betteranimalsplus:boarhead_gray"
+                        ]
                     }
                 ]
             }
@@ -222,7 +267,9 @@
             "conditions": {
                 "items": [
                     {
-                        "items": ["betteranimalsplus:moosehead_1"]
+                        "items": [
+                            "betteranimalsplus:moosehead_1"
+                        ]
                     }
                 ]
             }
@@ -232,7 +279,9 @@
             "conditions": {
                 "items": [
                     {
-                        "items": ["betteranimalsplus:moosehead_2"]
+                        "items": [
+                            "betteranimalsplus:moosehead_2"
+                        ]
                     }
                 ]
             }
@@ -242,7 +291,9 @@
             "conditions": {
                 "items": [
                     {
-                        "items": ["betteranimalsplus:moosehead_3"]
+                        "items": [
+                            "betteranimalsplus:moosehead_3"
+                        ]
                     }
                 ]
             }
@@ -252,7 +303,9 @@
             "conditions": {
                 "items": [
                     {
-                        "items": ["betteranimalsplus:moosehead_4"]
+                        "items": [
+                            "betteranimalsplus:moosehead_4"
+                        ]
                     }
                 ]
             }
@@ -262,7 +315,9 @@
             "conditions": {
                 "items": [
                     {
-                        "items": ["betteranimalsplus:deerhead_3"]
+                        "items": [
+                            "betteranimalsplus:deerhead_3"
+                        ]
                     }
                 ]
             }
@@ -272,7 +327,63 @@
             "conditions": {
                 "items": [
                     {
-                        "items": ["betteranimalsplus:deerhead_4"]
+                        "items": [
+                            "betteranimalsplus:deerhead_4"
+                        ]
+                    }
+                ]
+            }
+        },
+        "gazelle_blackbuck": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "items": [
+                            "betteranimalsplus:gazellehead_blackbuck"
+                        ]
+                    }
+                ]
+            }
+        },
+        "gazelle_blackbuck_2": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "items": [
+                            "betteranimalsplus:gazellehead_blackbuck_2"
+                        ]
+                    }
+                ]
+            }
+        },
+        "gazelle_chinkara": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "items": ["betteranimalsplus:gazellehead_chinkara"]
+                    }
+                ]
+            }
+        },
+        "gazelle_erlanger": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "items": ["betteranimalsplus:gazellehead_erlanger"]
+                    }
+                ]
+            }
+        },
+        "gazelle_springbok": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "items": ["betteranimalsplus:gazellehead_springbok"]
                     }
                 ]
             }
@@ -284,7 +395,7 @@
         ],
         [
             "head2"
-		],
+        ],
         [
             "head3"
         ],
@@ -353,6 +464,21 @@
         ],
         [
             "feralwolfhead_red"
+        ],
+        [
+            "gazelle_blackbuck"
+        ],
+        [
+            "gazelle_blackbuck_2"
+        ],
+        [
+            "gazelle_chinkara"
+        ],
+        [
+            "gazelle_erlanger"
+        ],
+        [
+            "gazelle_springbok"
         ]
     ],
     "parent": "betteranimalsplus:animal_head_variants"

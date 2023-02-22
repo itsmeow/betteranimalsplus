@@ -292,6 +292,10 @@ public class ClientLifecycleHandler {
         r.accept("feral_wolf_head", ModelFeralWolfHead.createBodyLayer());
         r.accept("moose_head", ModelMooseHead.createBodyLayer());
         r.accept("reindeer_head", ModelReindeerHead.createBodyLayer());
+        r.accept("blackbuck_gazelle_head", ModelGazelleHead.createBlackbuckLayer());
+        r.accept("chinkara_gazelle_head", ModelGazelleHead.createChinkaraLayer());
+        r.accept("erlanger_gazelle_head", ModelGazelleHead.createErlangerLayer());
+        r.accept("springbok_gazelle_head", ModelGazelleHead.createSpringbokLayer());
 
         r.accept("trillium_single", ModelTrillium.createBodyLayer());
         r.accept("trillium_double", ModelTrilliumMulti.createBodyLayer());
