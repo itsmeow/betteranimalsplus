@@ -1,7 +1,7 @@
 package dev.itsmeow.betteranimalsplus.common.entity;
 
+import dev.itsmeow.betteranimalsplus.common.entity.util.abstracts.EntityAnimalWithTypes;
 import dev.itsmeow.betteranimalsplus.common.entity.util.abstracts.EntityCrocidilian;
-import dev.itsmeow.betteranimalsplus.common.entity.util.abstracts.EntityWaterMobPathing;
 import dev.itsmeow.betteranimalsplus.init.ModEntities;
 import dev.itsmeow.imdlib.entity.EntityTypeContainer;
 import dev.itsmeow.imdlib.entity.interfaces.ISelectiveVariantTypes;
@@ -14,17 +14,17 @@ import net.minecraft.world.level.biome.Biome;
 
 import java.util.Set;
 
-public class EntityCrocodile extends EntityCrocidilian implements ISelectiveVariantTypes<EntityWaterMobPathing> {
+public class EntityCrocodile extends EntityCrocidilian implements ISelectiveVariantTypes<EntityAnimalWithTypes> {
 
     private static final String[] ALL_TYPE = {"american", "nile"};
     private static final String[] SAVANNA_TYPE = {"nile"};
 
-    public EntityCrocodile(EntityType<? extends EntityCrocidilian> entityType, Level level) {
+    public EntityCrocodile(EntityType<? extends EntityCrocodile> entityType, Level level) {
         super(entityType, level);
     }
 
     @Override
-    public EntityTypeContainer<? extends EntityWaterMobPathing> getContainer() {
+    public EntityTypeContainer<? extends EntityAnimalWithTypes> getContainer() {
         return ModEntities.CROCODILE;
     }
 

@@ -511,6 +511,17 @@ public class ModEntities {
             .size(2.2F, 0.8F)
             .biomesOverworld(BiomeTypes.SWAMP, BiomeTypes.SAVANNA)
             .variants("american", "nile"));
+    public static final EntityTypeContainer<EntityAlligator> ALLIGATOR = H.add(EntityAlligator.class, EntityAlligator::new, "alligator", () -> Mob.createMobAttributes()
+            .add(Attributes.MAX_HEALTH, 25.0D)
+            .add(Attributes.MOVEMENT_SPEED, 1.2D)
+            .add(Attributes.ATTACK_DAMAGE)
+            .add(Attributes.ATTACK_DAMAGE, 3D), b -> b
+            .spawn(MobCategory.WATER_CREATURE, 3, 1, 3)
+            .waterPlacement()
+            .egg(0x113d0c, 0x362f21)
+            .size(2.2F, 0.8F)
+            .biomesOverworld(BiomeTypes.SWAMP)
+            .variants("american", "albino"));
 
     public static LinkedHashMap<String, EntityTypeContainer<? extends Mob>> getEntities() {
         return H.ENTITIES;
