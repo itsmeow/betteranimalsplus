@@ -55,6 +55,10 @@
     "item.betteranimalsplus.horseshoe_crab_blood": "Horseshoe Crab Blood",
     "item.betteranimalsplus.crab_bucket": "Bucket of Crab",
     "item.betteranimalsplus.horseshoecrab_bucket": "Bucket of Horseshoe Crab",
+    "item.betteranimalsplus.quetzal_feather": "Quetzal Feather",
+    "item.betteranimalsplus.crayfish_raw": "Crayfish",
+    "item.betteranimalsplus.crayfish_blue": "Blue Crayfish",
+    "item.betteranimalsplus.crayfish_cooked": "Cooked Crayfish",
 
     "block.betteranimalsplus.trillium": "Trillium",
     "block.betteranimalsplus.feralwolfhead": "Feral Wolf Head",
@@ -110,6 +114,10 @@
     "entity.betteranimalsplus.gazelle": "Gazelle",
     "entity.betteranimalsplus.crocodile": "Crocodile",
     "entity.betteranimalsplus.alligator": "Alligator",
+    "entity.betteranimalsplus.quetzal": "Quetzal",
+    "entity.betteranimalsplus.hoatzin": "Hoatzin",
+    "entity.betteranimalsplus.crayfish": "Crayfish",
+    "entity.betteranimalsplus.arapaima": "Arapaima",
 
     "entity.betteranimalsplus.eel_saltwater.type.conger": "Conger",
     "entity.betteranimalsplus.eel_saltwater.type.dragon": "Dragon",

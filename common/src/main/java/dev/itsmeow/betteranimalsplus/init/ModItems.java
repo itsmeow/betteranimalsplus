@@ -58,6 +58,10 @@ public class ModItems {
     public static final RegistrySupplier<ItemBetterFood> CRAB_MEAT_RAW = r("crab_meat_raw", () -> new ItemBetterFood(2, 1, 16, true));
     public static final RegistrySupplier<ItemBetterFood> CRAB_MEAT_COOKED = r("crab_meat_cooked", () -> new ItemBetterFood(5, 1.2F, 16, true));
 
+    public static final RegistrySupplier<ItemBetterFood> CRAYFISH_RAW = r("crayfish_raw", () -> new ItemBetterFood(1, 1, 16, true));
+    public static final RegistrySupplier<ItemBetterFood> CRAYFISH_COOKED = r("crayfish_cooked", () -> new ItemBetterFood(3, 1.2F, 16, true));
+    public static final RegistrySupplier<ItemBetterFood> CRAYFISH_BLUE = r("crayfish_blue", () -> new ItemBetterFood(1, 1, 16, true));
+
     public static final RegistrySupplier<Item> WOLF_PELT_SNOWY = r("wolf_pelt_snowy");
     public static final RegistrySupplier<Item> WOLF_PELT_TIMBER = r("wolf_pelt_timber");
     public static final RegistrySupplier<Item> WOLF_PELT_BLACK = r("wolf_pelt_black");
@@ -81,6 +85,7 @@ public class ModItems {
     public static RegistrySupplier<ItemBearCape> BEAR_CAPE_BROWN = modelArmor(varArg("bear_cape_", "brown", s -> new ItemBearCape(s, BEAR_SKIN_BROWN.get())));
     public static RegistrySupplier<ItemBearCape> BEAR_CAPE_BLACK = modelArmor(varArg("bear_cape_", "black", s -> new ItemBearCape(s, BEAR_SKIN_BLACK.get())));
     public static RegistrySupplier<ItemBearCape> BEAR_CAPE_KERMODE = modelArmor(varArg("bear_cape_", "kermode", s -> new ItemBearCape(s, BEAR_SKIN_KERMODE.get())));
+    public static final RegistrySupplier<Item> QUETZAL_FEATHER = r("quetzal_feather");
 
     public static final RegistrySupplier<ItemThrowableCustomEgg<EntityPheasantEgg>> PHEASANT_EGG = r("pheasant_egg", () -> new ItemThrowableCustomEgg(ModEntities.PROJECTILE_PHEASANT_EGG::get, EntityPheasantEgg::new, EntityPheasantEgg::new));
     public static final RegistrySupplier<ItemThrowableCustomEgg<EntityTurkeyEgg>> TURKEY_EGG = r("turkey_egg", () -> new ItemThrowableCustomEgg(ModEntities.PROJECTILE_TURKEY_EGG::get, EntityTurkeyEgg::new, EntityTurkeyEgg::new));

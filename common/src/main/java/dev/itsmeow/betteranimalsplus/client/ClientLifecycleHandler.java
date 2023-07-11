@@ -217,6 +217,12 @@ public class ClientLifecycleHandler {
         R.addRender(ModEntities.CROCODILE::getEntityType, 0.8F, r -> r.tVariant().mSingle(ModelCrocodile::new, "crocodile").childScale(0.6F));
         R.addRender(ModEntities.ALLIGATOR::getEntityType, 0.8F, r -> r.tVariant().mSingle(ModelAlligator::new, "alligator").childScale(0.6F));
         RenderFactory.addRender(ModEntities.PROJECTILE_BADGER_DIRT::get, RenderFactory.nothing());
+
+        R.addRender(ModEntities.QUETZAL::getEntityType, 0.4F, r -> r.tSingle("quetzal").mSingle(ModelQuetzal::new, "quetzal"));
+
+        R.addRender(ModEntities.HOATZIN::getEntityType, 0.4F, r -> r.tSingle("hoatzin").mSingle(ModelHoatzin::new, "hoatzin"));
+
+        R.addRender(ModEntities.CRAYFISH::getEntityType, 0.4F, r -> r.tSingle("crayfish").mSingle(ModelCrayfish::new, "crayfish"));
     }
 
     public static void layerDefinitions(ImmutableMap.Builder<ModelLayerLocation, LayerDefinition> b) {
@@ -257,6 +263,9 @@ public class ClientLifecycleHandler {
         r.accept("walrus", ModelWalrus.createBodyLayer());
         r.accept("crocodile", ModelCrocodile.createBodyLayer());
         r.accept("alligator", ModelAlligator.createBodyLayer());
+        r.accept("quetzal", ModelQuetzal.createBodyLayer());
+        r.accept("hoatzin", ModelHoatzin.createBodyLayer());
+        r.accept("crayfish", ModelCrayfish.createBodyLayer());
 
         r.accept("basking_shark", ModelBaskingShark.createBodyLayer());
         r.accept("blue_shark", ModelBlueShark.createBodyLayer());

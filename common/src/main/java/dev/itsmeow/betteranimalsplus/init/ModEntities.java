@@ -114,7 +114,7 @@ public class ModEntities {
             .add(Attributes.MOVEMENT_SPEED, 0.3D)
             .add(Attributes.ATTACK_DAMAGE)
             .add(Attributes.ATTACK_DAMAGE, 3D), b -> b
-            .spawn(MobCategory.CREATURE, 10, 1, 3)
+            .spawn(MobCategory.AMBIENT, 10, 1, 3)
             .placement(SpawnPlacements.Type.NO_RESTRICTIONS, Heightmap.Types.OCEAN_FLOOR, EntityCrabLikeBase::canCrabSpawn)
             .egg(0xe21d16, 0x2d0504)
             .size(1F, 0.65F)
@@ -126,7 +126,7 @@ public class ModEntities {
             .add(Attributes.MOVEMENT_SPEED, 0.3D)
             .add(Attributes.ATTACK_DAMAGE)
             .add(Attributes.ATTACK_DAMAGE, 3D), b -> b
-            .spawn(MobCategory.CREATURE, 8, 1, 3)
+            .spawn(MobCategory.AMBIENT, 8, 1, 3)
             .placement(SpawnPlacements.Type.NO_RESTRICTIONS, Heightmap.Types.OCEAN_FLOOR, EntityCrabLikeBase::canCrabSpawn)
             .egg(0xba1111, 0x520807)
             .size(1F, 0.65F)
@@ -522,6 +522,51 @@ public class ModEntities {
             .size(2.2F, 0.8F)
             .biomesOverworld(BiomeTypes.SWAMP)
             .variants("american", "albino"));
+
+    public static final EntityTypeContainer<EntityQuetzal> QUETZAL = H.add(EntityQuetzal.class, EntityQuetzal::new, "quetzal", () -> Mob.createMobAttributes()
+            .add(Attributes.FLYING_SPEED)
+            .add(Attributes.MAX_HEALTH, 6.0D)
+            .add(Attributes.FLYING_SPEED, 0.4D)
+            .add(Attributes.MOVEMENT_SPEED, 0.2D), b -> b
+            .spawn(MobCategory.AMBIENT, 11, 1, 4)
+            .placement(SpawnPlacements.Type.NO_RESTRICTIONS, Heightmap.Types.MOTION_BLOCKING, EntityQuetzal::canQuetzalSpawn)
+            .egg(0x00A55F, 0x940E0E)
+            .size(0.5F, 0.5F)
+            .biomesOverworld(BiomeTypes.JUNGLE));
+
+    public static final EntityTypeContainer<EntityHoatzin> HOATZIN = H.add(EntityHoatzin.class, EntityHoatzin::new, "hoatzin", () -> Mob.createMobAttributes()
+            .add(Attributes.FLYING_SPEED)
+            .add(Attributes.MAX_HEALTH, 6.0D)
+            .add(Attributes.FLYING_SPEED, 0.4D)
+            .add(Attributes.MOVEMENT_SPEED, 0.2D), b -> b
+            .spawn(MobCategory.AMBIENT, 11, 1, 4)
+            .placement(SpawnPlacements.Type.NO_RESTRICTIONS, Heightmap.Types.MOTION_BLOCKING, EntityHoatzin::canHoatzinSpawn)
+            .egg(0x7A3518, 0xE1B886)
+            .size(0.5F, 0.5F)
+            .biomesOverworld(BiomeTypes.JUNGLE));
+
+    public static final EntityTypeContainer<EntityCrayfish> CRAYFISH = H.add(EntityCrayfish.class, EntityCrayfish::new, "crayfish", () -> Mob.createMobAttributes()
+            .add(Attributes.MAX_HEALTH, 3.0D)
+            .add(Attributes.MOVEMENT_SPEED, 0.5D), b -> b
+            .spawn(MobCategory.AMBIENT, 11, 1, 4)
+            .placement(SpawnPlacements.Type.NO_RESTRICTIONS, Heightmap.Types.MOTION_BLOCKING, EntityCrayfish::canCrayfishSpawn)
+            .egg(0x54481E, 0xBBA893)
+            .size(0.5F, 0.5F)
+            .biomesOverworld(BiomeTypes.SWAMP, BiomeTypes.RIVER)
+            .variants("common", "blue"));
+
+    public static final EntityTypeContainerContainable<EntityArapaima, ItemModFishBucket<EntityArapaima>> ARAPAIMA = H.addContainableB(EntityArapaima.class, EntityArapaima::new, "arapaima", () -> Mob.createMobAttributes()
+            .add(Attributes.MAX_HEALTH, 10D)
+            .add(Attributes.MOVEMENT_SPEED, 2D)
+            .add(Attributes.ATTACK_DAMAGE)
+            .add(Attributes.ATTACK_DAMAGE, 2D), b -> b
+            .spawn(MobCategory.WATER_AMBIENT, 3, 1, 1)
+            .waterPlacement()
+            .egg(0x575556, 0x9A2C23)
+            .size(1.5F, 1F)
+            .despawn()
+            .biomesOverworld(BiomeTypes.SWAMP)
+            .containers("%s_bucket", ItemModFishBucket.waterBucket(G), "", c -> Items.WATER_BUCKET));
 
     public static LinkedHashMap<String, EntityTypeContainer<? extends Mob>> getEntities() {
         return H.ENTITIES;

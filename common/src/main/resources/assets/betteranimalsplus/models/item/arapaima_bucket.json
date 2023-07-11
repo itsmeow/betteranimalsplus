@@ -1,0 +1,7 @@
+{
+    "parent": "minecraft:item/generated",
+    "textures": {
+        "layer0": "betteranimalsplus:item/lower_bucket",
+        "layer1": "betteranimalsplus:item/bucket_content/arapaima"
+    }
+}
