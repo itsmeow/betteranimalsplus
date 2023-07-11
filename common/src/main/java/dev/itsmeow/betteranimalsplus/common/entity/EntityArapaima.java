@@ -164,6 +164,11 @@ public class EntityArapaima extends EntityWaterMobPathingBucketable implements I
         }
 
         @Override
+        public boolean canContinueToUse() {
+            return !done && e.getTarget() != null && e.getTarget().isAlive() && EntityArapaima.isWearingShiny(e);
+        }
+
+        @Override
         public void start() {
             // rush!
             e.getNavigation().moveTo(e.getTarget(), 10D);

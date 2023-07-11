@@ -560,7 +560,7 @@ public class ModEntities {
             .add(Attributes.MOVEMENT_SPEED, 2D)
             .add(Attributes.ATTACK_DAMAGE)
             .add(Attributes.ATTACK_DAMAGE, 2D), b -> b
-            .spawn(MobCategory.WATER_AMBIENT, 3, 1, 1)
+            .spawn(MobCategory.WATER_AMBIENT, 3, 1, 2)
             .waterPlacement()
             .egg(0x575556, 0x9A2C23)
             .size(1.5F, 1F)
